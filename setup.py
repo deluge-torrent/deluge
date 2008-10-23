@@ -155,24 +155,24 @@ else:
         'z'
         ]
 
+    if not windows_check():
+        dynamic_lib_extension = ".so"
+        if osx_check():
+            dynamic_lib_extension = ".dylib"
 
-    dynamic_lib_extension = ".so"
-    if osx_check():
-        dynamic_lib_extension = ".dylib"
+        _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
+        _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
 
-    _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
-    _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
-
-    # Modify the libs if necessary for systems with only -mt boost libs    
-    for lib in _libraries:
-        if lib[:6] == "boost_":
-            for lib_prefix in _library_dirs:
-                for lib_suffix in _lib_extensions:
-                    # If there is a -mt version use that
-                    if os.path.exists(os.path.join(lib_prefix, "lib" + lib + lib_suffix + dynamic_lib_extension)):
-                        _libraries[_libraries.index(lib)] = lib + lib_suffix
-                        lib = lib + lib_suffix
-                        break
+        # Modify the libs if necessary for systems with only -mt boost libs    
+        for lib in _libraries:
+            if lib[:6] == "boost_":
+                for lib_prefix in _library_dirs:
+                    for lib_suffix in _lib_extensions:
+                        # If there is a -mt version use that
+                        if os.path.exists(os.path.join(lib_prefix, "lib" + lib + lib_suffix + dynamic_lib_extension)):
+                            _libraries[_libraries.index(lib)] = lib + lib_suffix
+                            lib = lib + lib_suffix
+                            break
 
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/*.c") + \
@@ -189,7 +189,7 @@ for source in _sources:
             break
 
 _ext_modules = []
-if not os.path.exists(os.path.join(sysconfig.get_config_var("LIBDIR"), "libtorrent-rasterbar.so.1")):
+if windows_check() or not os.path.exists(os.path.join(sysconfig.get_config_var("LIBDIR"), "libtorrent-rasterbar.so.1")):
     # There isn't a system libtorrent library, so let's build the one included with deluge
     libtorrent = Extension(
         'libtorrent',
