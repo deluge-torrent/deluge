@@ -36,6 +36,53 @@ from sha import sha
 from deluge import bencode
 from deluge.log import LOG as log
 
+class TorrentInfo(object):
+    def __init__(self, filename):
+        # Get the torrent data from the torrent file
+        try:
+            log.debug("Attempting to open %s.", filename)
+            self.__m_metadata = bencode.bdecode(open(filename, "rb").read())
+        except Exception, e:
+            log.warning("Unable to open %s: %s", filename, e)
+        
+        self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
+        
+        # Get list of files from torrent info
+        self.__m_files = []
+        if self.__m_metadata["info"].has_key("files"):
+            prefix = ""
+            if len(self.__m_metadata["info"]["files"]) > 1:
+                prefix = self.__m_metadata["info"]["name"]
+                
+            for f in self.__m_metadata["info"]["files"]:
+                self.__m_files.append({
+                    'path': os.path.join(prefix, *f["path"]),
+                    'size': f["length"],
+                    'download': True
+                })
+        else:
+            self.__m_files.append({
+                "path": self.__m_metadata["info"]["name"],
+                "size": self.__m_metadata["info"]["length"],
+                "download": True
+        })
+
+    @property
+    def name(self):
+        return self.__m_metadata["info"]["name"]
+
+    @property
+    def info_hash(self):
+        return self.__m_info_hash
+
+    @property
+    def files(self):
+        return self.__m_files
+
+    @property
+    def metadata(self):
+        return self.__m_metadata
+    
 def get_torrent_info(filename):
     """
     Return the metadata of a torrent file 

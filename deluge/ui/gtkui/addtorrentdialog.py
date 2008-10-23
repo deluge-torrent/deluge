@@ -45,6 +45,7 @@ import deluge.ui.gtkui.listview as listview
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common
+import deluge.ui.common
 
 class AddTorrentDialog(component.Component):
     def __init__(self):
@@ -179,51 +180,18 @@ class AddTorrentDialog(component.Component):
                 break
 
     def add_from_files(self, filenames):
-        import deluge.bencode
         import os.path
         new_row = None
 
         for filename in filenames:
             # Get the torrent data from the torrent file
-            try:
-                log.debug("Attempting to open %s for add.", filename)
-                metadata = deluge.bencode.bdecode(open(filename, "rb").read())
-            except Exception, e:
-                log.warning("Unable to open %s: %s", filename, e)
-                continue
+            info = deluge.ui.common.TorrentInfo(filename)
 
-            from sha import sha
-            info_hash = sha(deluge.bencode.bencode(metadata["info"])).hexdigest()
-
-            if info_hash in self.infos:
-                log.debug("Torrent already in list!")
-                continue
-
-            # Get list of files from torrent info
-            files = []
-            if metadata["info"].has_key("files"):
-                prefix = ""
-                if len(metadata["info"]["files"]) > 1:
-                    prefix = metadata["info"]["name"]
-                    
-                for f in metadata["info"]["files"]:
-                    files.append({
-                        'path': os.path.join(prefix, *f["path"]),
-                        'size': f["length"],
-                        'download': True
-                    })
-            else:
-                files.append({
-                    "path": metadata["info"]["name"],
-                    "size": metadata["info"]["length"],
-                    "download": True
-                })
-
-            name = "%s (%s)" % (metadata["info"]["name"], os.path.split(filename)[-1])
+            name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
             new_row = self.torrent_liststore.append(
-                [info_hash, name, filename])
-            self.files[info_hash] = files
-            self.infos[info_hash] = metadata
+                [info.info_hash, info.name, filename])
+            self.files[info.info_hash] = info.files
+            self.infos[info.info_hash] = info.metadata
 
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if not row and new_row:
