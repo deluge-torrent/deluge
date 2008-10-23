@@ -234,6 +234,7 @@ class CreateTorrentDialog:
             file_filter.add_pattern("*")
             chooser.add_filter(file_filter)
             
+            chooser.set_current_name(os.path.split(self.files_treestore[0][0])[-1] + ".torrent")
             # Run the dialog
             response = chooser.run()
 
@@ -242,6 +243,7 @@ class CreateTorrentDialog:
             else:
                 chooser.destroy()
                 return
+            chooser.destroy()
 
         # Fix up torrent filename
         if len(result) < 9:
@@ -254,6 +256,7 @@ class CreateTorrentDialog:
         # Get a list of trackers
         trackers = [t[1] for t in self.trackers_liststore]
         if len(trackers) == 0:
+            self.dialog.destroy()
             return
         # Get a list of webseeds
         webseeds = []
