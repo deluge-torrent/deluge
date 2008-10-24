@@ -194,7 +194,7 @@ class FilterTreeView(component.Component):
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
 
-            if cat == "tracker_host":
+            if cat == "tracker_host" or cat == "label":
                 self.tracker_icons.get_async(value, lambda filename: self.set_row_image(cat, value, filename))
 
         self.treestore.set_value(row, FILTER_COLUMN, True)

@@ -95,7 +95,8 @@ class TrackerIcons(object):
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
             callback(self.images[tracker_host])
-        else:
+        elif "." in tracker_host:
+            #only find icon if there's a dot in the name.
             self.images[tracker_host] = None
             threading.Thread(target=self. _fetch_icon_thread,
                 args=(tracker_host, callback)).start()
