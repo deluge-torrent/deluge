@@ -3,6 +3,9 @@ Deluge 1.0.4 (In Development)
   * Fix #560 force an int value for global max connections
   * Fix #545 use proper values in ratio calculation
 
+ GtkUI:
+  * Fix #565 wait for the deluged process to start to prevent defunct processes
+
 Deluge 1.0.3 (18 October 2008)
  Core:
   * Fix upnp - it should work on more routers now too
