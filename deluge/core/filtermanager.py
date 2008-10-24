@@ -43,8 +43,13 @@ def filter_keyword(torrent_ids, values):
     #filter:
     for keyword in keywords:
         for torrent_id in torrent_ids:
-            if keyword in all_torrents[torrent_id].filename.lower():
+            torrent = all_torrents[torrent_id]
+            if keyword in torrent.filename.lower():
                 yield torrent_id
+            #i want to find broken torrents.
+            elif keyword in torrent.tracker_status.lower():
+                yield torrent_id
+
 
 class FilterManager(component.Component):
     """FilterManager
