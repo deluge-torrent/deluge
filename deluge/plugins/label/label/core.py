@@ -43,8 +43,7 @@ from urlparse import urlparse
 import traceback
 import re
 
-RE_VALID = re.compile("[a-z0-9_-]*\Z")
-RE_VALID = re.compile("[a-z0-9_-]*\Z")
+RE_VALID = re.compile("[a-z0-9_\-\.]*\Z")
 
 KNOWN_STATES = ['Downloading','Seeding','Paused','Checking','Queued','Error']
 STATE = "state"

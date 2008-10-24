@@ -6,12 +6,12 @@ from deluge.tracker_icons import TrackerIcons
 from deluge.common import get_default_config_dir
 
 def del_old():
-    filename = os.path.join(get_default_config_dir("trackers"),"legaltorrents.com.ico")
+    filename = os.path.join(get_default_config_dir("icons"),"legaltorrents.com.ico")
     if os.path.exists(filename):
         os.remove(filename)
 
 def test_get():
-    #del_old()
+    del_old()
     trackericons  = TrackerIcons()
     print trackericons.images
     print trackericons.get("unknown2")

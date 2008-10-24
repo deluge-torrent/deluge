@@ -40,13 +40,17 @@ from deluge.common import get_default_config_dir, get_pixmap
 import os
 
 #some servers don't have their favicon at the expected location
-RENAMES = {"legaltorrents.com":"beta.legaltorrents.com"}
+RENAMES = {
+    "legaltorrents.com":"beta.legaltorrents.com",
+    "aelitis.com":"www.vuze.com"
+    }
+
 VALID_TYPES = ["octet-stream","x-icon"]
 
 class TrackerIcons(object):
     def __init__(self):
         #set image cache dir
-        self.image_dir = get_default_config_dir("trackers")
+        self.image_dir = get_default_config_dir("icons")
         if not os.path.exists(self.image_dir):
             os.mkdir(self.image_dir)
 
@@ -79,7 +83,7 @@ class TrackerIcons(object):
             log.debug("%s %s %s" % (tracker_host, e, e.message))
             return False
 
-        filename = os.path.join(get_default_config_dir("trackers"),"%s.ico" % tracker_host)
+        filename = os.path.join(get_default_config_dir("icons"),"%s.ico" % tracker_host)
 
         f = open(filename,"wb")
         f.write(icon_data)
