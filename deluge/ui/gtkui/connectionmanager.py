@@ -127,11 +127,7 @@ class ConnectionManager(component.Component):
         # If classic mode is set, we just start up a localhost daemon and connect to it
         if self.gtkui_config["classic_mode"]:
             uri = "http://localhost:58846"
-            if deluge.common.windows_check():
-                win32api.WinExec("deluged -p 58846")
-            else:
-                subprocess.call(["deluged", "-p 58846"])
-            time.sleep(0.1)
+            self.start_localhost(58846)
             # We need to wait for the host to start before connecting
             while not self.test_online_status(uri):
                 time.sleep(0.01)
@@ -162,10 +158,7 @@ class ConnectionManager(component.Component):
                     port = uri[7:].split(":")[1]
                     # First add it to the list
                     self.add_host("localhost", port)
-                    if deluge.common.windows_check():
-                        win32api.WinExec("deluged -p %s" % port)
-                    else:
-                        subprocess.call(["deluged", "-p %s" % port])
+                    self.start_localhost(port)
                     # We need to wait for the host to start before connecting
                     while not self.test_online_status(uri):
                         time.sleep(0.01)
