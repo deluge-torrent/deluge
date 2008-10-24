@@ -68,7 +68,7 @@ html, body {
 	text-decoration: none;
 }
 
-#labels .all { background-image: url('/pixmaps/dht16.png'); }
+#labels .all { background-image: url('/pixmaps/all16.png'); }
 #labels .active { background-image: url('/pixmaps/active16.png'); }
 #labels .downloading { background-image: url('/pixmaps/downloading16.png'); }
 #labels .seeding { background-image: url('/pixmaps/seeding16.png'); }
