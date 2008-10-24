@@ -263,7 +263,7 @@ Deluge.Widgets.LabelSection = new Class({
                 el.store('filterName', name)
                 el.addEvent('click', this.bound.clicked);
                 if (this.name == 'tracker_host') {
-                    var icon = 'url(http://' + name + '/favicon.ico)';
+                    var icon = 'url(/tracker/icon/' + name + ')';
                     el.setStyle('background-image', icon);
                 };
                 this.list.grab(el);
