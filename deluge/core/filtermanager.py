@@ -37,18 +37,42 @@ from deluge.log import LOG as log
 STATE_SORT = ["All", "Downloading", "Seeding", "Active", "Paused", "Queued"]
 
 #special purpose filters:
-def filter_keyword(torrent_ids, values):
-    keywords = [v.lower() for v in values] #cleanup.
+def filter_keywords(torrent_ids, values):
+    #cleanup.
+    keywords = ",".join([v.lower() for v in values])
+    keywords = keywords.split(",")
+
+
+    for keyword in keywords:
+        torrent_ids = filter_one_keyword(torrent_ids, keyword)
+    return torrent_ids
+
+def filter_one_keyword(torrent_ids, keyword):
+    """
+    search torrent on keyword.
+    searches title,state,tracker-status,tracker,files
+    """
     all_torrents = component.get("TorrentManager").torrents
     #filter:
-    for keyword in keywords:
-        for torrent_id in torrent_ids:
-            torrent = all_torrents[torrent_id]
-            if keyword in torrent.filename.lower():
-                yield torrent_id
-            #i want to find broken torrents.
-            elif keyword in torrent.tracker_status.lower():
-                yield torrent_id
+    found = False
+    for torrent_id in torrent_ids:
+        torrent = all_torrents[torrent_id]
+        if keyword in torrent.filename.lower():
+            yield torrent_id
+        elif keyword in torrent.state.lower():
+            yield torrent_id
+        elif torrent.trackers and keyword in torrent.trackers[0]["url"]:
+            yield torrent_id
+        elif keyword in torrent_id:
+            yield torrent_id
+        #i want to find broken torrents (search on "error", or "unregistered")
+        elif keyword in torrent.tracker_status.lower():
+            yield torrent_id
+        else:
+            for t_file in torrent.get_files():
+                if keyword in t_file["path"].lower():
+                    yield torrent_id
+                    break
 
 
 class FilterManager(component.Component):
@@ -61,7 +85,7 @@ class FilterManager(component.Component):
         self.core = core
         self.torrents = core.torrents
         self.registered_filters = {}
-        self.register_filter("keyword", filter_keyword)
+        self.register_filter("keyword", filter_keywords)
         self.tree_fields = {}
 
         self.register_tree_field("state", self._init_state_tree)
