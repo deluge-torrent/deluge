@@ -98,15 +98,13 @@ config_page.register('network','encryption', NetworkEnc)
 class Proxy(config_forms.CfgForm):
     title = _("Proxy")
     _type_choices = list(enumerate(
-        ["None", _("Socksv4"), _("Socksv5"), _("Socksv5 W/ Auth"),_("HTTP"), _("HTTP W/ Auth")]))
+        [_("None"), _("Socksv4"), _("Socksv5"), _("Socksv5 W/ Auth"),_("HTTP"), _("HTTP W/ Auth")]))
 
     proxy_type =  forms.IntChoiceField(_("Type"), _type_choices)
     proxy_server =forms.CharField(label= _("Host"),required=False)
     proxy_port = forms.IntegerField(label= _("Port"),min_value = 0, max_value=65535 , required=False)
     proxy_username = forms.CharField(label= _("Username"), required=False)
     proxy_password = forms.Password(label= _("Password"), required=False)
-
-
 
 config_page.register('network','proxy', Proxy)
 
@@ -180,7 +178,7 @@ class Queue(config_forms.CfgForm):
 config_page.register('deluge','queue', Queue)
 
 """
-Will be should be a plugin, saved for later use.
+Will become a plugin, saved for later use.
 class Notification(config_forms.CfgForm):
     title = _("Notification")
     _security_choices =  [(t,t) for t in [None,"SSL","TLS"]]
