@@ -113,7 +113,7 @@ def queue_column_sort(model, iter1, iter2, data):
         return 1
     if v2 > v1:
         return -1
-        
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -130,7 +130,7 @@ class TorrentView(listview.ListView, component.Component):
 
         # We keep a copy of the previous status to compare for changes
         self.prev_status = {}
-        
+
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(
@@ -196,7 +196,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
-        
+
     def start(self):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
@@ -297,12 +297,12 @@ class TorrentView(listview.ListView, component.Component):
                             if row[column_index[i]] != row_value:
                                 row[column_index[i]] = row_value
                         except Exception, e:
-                            log.debug("%s", e)                   
-            
+                            log.debug("%s", e)
+
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
-        
+
         self.prev_status = status
 
     def _on_get_torrents_status(self, status):

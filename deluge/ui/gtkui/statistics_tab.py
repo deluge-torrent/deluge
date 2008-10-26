@@ -46,6 +46,8 @@ def fpeer_size_second(first, second):
     return "%s (%s)" % (first, deluge.common.fsize(second))
 
 def fratio(value):
+    if value < 0:
+        return "∞"
     return "%.3f" % value
 
 def fpcnt(value):
