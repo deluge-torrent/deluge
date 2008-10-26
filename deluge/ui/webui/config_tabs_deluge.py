@@ -101,11 +101,12 @@ class Proxy(config_forms.CfgForm):
         ["None", _("Socksv4"), _("Socksv5"), _("Socksv5 W/ Auth"),_("HTTP"), _("HTTP W/ Auth")]))
 
     proxy_type =  forms.IntChoiceField(_("Type"), _type_choices)
-    proxy_port = forms.IntegerField(label= _("Port"),min_value = 0, max_value=65535)
-    proxy_username = forms.CharField(label= _("Username"))
-    proxy_password = forms.Password(label= _("Password"))
+    proxy_server =forms.CharField(label= _("Host"),required=False)
+    proxy_port = forms.IntegerField(label= _("Port"),min_value = 0, max_value=65535 , required=False)
+    proxy_username = forms.CharField(label= _("Username"), required=False)
+    proxy_password = forms.Password(label= _("Password"), required=False)
 
-    proxy_server =forms.CharField(label= _("Server"))
+
 
 config_page.register('network','proxy', Proxy)
 
@@ -178,6 +179,19 @@ class Queue(config_forms.CfgForm):
 
 config_page.register('deluge','queue', Queue)
 
+"""
+Will be should be a plugin, saved for later use.
+class Notification(config_forms.CfgForm):
+    title = _("Notification")
+    _security_choices =  [(t,t) for t in [None,"SSL","TLS"]]
+    ntf_email = forms.EmailField(label=_("Email"), required=False)
+    ntf_server =forms.CharField(label= _("Server"), required=False)
+    ntf_username = forms.CharField(label= _("Username"), required=False)
+    ntf_password = forms.CharField(label= _("Password"), required=False)
+    ntf_security = forms.ChoiceField( label=_("Security"), choices = _security_choices )
+
+config_page.register('deluge','notification', Notification)
+"""
 
 class Plugins(forms.Form):
     title = _("Enabled Plugins")
