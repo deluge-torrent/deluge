@@ -12,7 +12,7 @@ import shlex
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
     def exit(self, status=0, msg=None):
-        self.values._exit = True 
+        self.values._exit = True
         if msg:
             print msg
 
@@ -37,7 +37,7 @@ class BaseCommand(object):
         return []
     def handle(self, *args, **options):
         pass
-    
+
     @property
     def name(self):
         return 'base'
@@ -76,7 +76,7 @@ def load_commands(command_dir, exclude=[]):
     def get_command(name):
         return getattr(__import__('deluge.ui.null2.commands.%s' % name, {}, {}, ['Command']), 'Command')()
 
-    try:    
+    try:
         commands = []
         for filename in os.listdir(command_dir):
             if filename.split('.')[0] in exclude or filename.startswith('_') or not filename.endswith('.py'):
@@ -96,14 +96,18 @@ class NullUI(object):
     def __init__(self, args=None):
         client.set_core_uri("http://localhost:58846")
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
-
+        if args:
+            self.precmd()
+            self.onecmd(args)
+            self.postcmd()
+            sys.exit(0)
 
     def completedefault(self, *ignored):
         """Method called to complete an input line when no command-specific
         method is available.
-    
+
         By default, it returns an empty list.
-   
+
         """
         return []
 
@@ -138,7 +142,7 @@ class NullUI(object):
             return self.completion_matches[state]
         except IndexError:
             return None
-                                                                                                                                                                                                                                                                                                                                                                            
+
     def preloop(self):
         pass
 
@@ -169,7 +173,7 @@ class NullUI(object):
 
     def postcmd(self):
         client.force_call()
-        
+
     def cmdloop(self):
         self.preloop()
         try:
