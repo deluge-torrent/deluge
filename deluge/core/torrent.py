@@ -314,19 +314,11 @@ class Torrent:
         else:
             status = self.status
 
-        up = status.all_time_upload
-        down = status.all_time_download
+        # Return -1.0 if the downloaded bytes is 0, this is to represent infinity
+        if status.all_time_download == 0:
+            return -1.0
 
-        # Convert 'up' and 'down' to floats for proper calculation
-        up = float(up)
-        down = float(down)
-
-        try:
-            ratio = up / down
-        except ZeroDivisionError:
-            return 0.0
-
-        return ratio
+        return float(status.all_time_upload) / float(status.all_time_download)
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
