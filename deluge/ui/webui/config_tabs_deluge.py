@@ -95,6 +95,19 @@ class NetworkEnc(config_forms.CfgForm ):
 
 config_page.register('network','encryption', NetworkEnc)
 
+class Proxy(config_forms.CfgForm):
+    title = _("Proxy")
+    _type_choices = list(enumerate(
+        ["None", _("Socksv4"), _("Socksv5"), _("Socksv5 W/ Auth"),_("HTTP"), _("HTTP W/ Auth")]))
+
+    proxy_type =  forms.IntChoiceField(_("Type"), _type_choices)
+    proxy_port = forms.IntegerField(label= _("Port"),min_value = 0, max_value=65535)
+    proxy_username = forms.CharField(label= _("Username"))
+    proxy_password = forms.Password(label= _("Password"))
+
+    proxy_server =forms.CharField(label= _("Server"))
+
+config_page.register('network','proxy', Proxy)
 
 class BandwithGlobal(config_forms.CfgForm):
     title = _("Global")
@@ -192,7 +205,6 @@ class Plugins(forms.Form):
         for p in disable:
             sclient.disable_plugin(p)
             plugin_manager.disable_plugin(p)
-
 
 config_page.register('deluge','plugins', Plugins)
 
