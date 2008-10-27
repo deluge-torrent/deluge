@@ -1845,8 +1845,11 @@ namespace aux {
 #ifndef NDEBUG
 			sha1_hash i_hash = t.torrent_file().info_hash();
 #endif
-			i->second->set_queue_position(-1);
+			t.set_queue_position(-1);
 			m_torrents.erase(i);
+			std::list<boost::shared_ptr<torrent> >::iterator k
+				= std::find(m_queued_for_checking.begin(), m_queued_for_checking.end(), tptr);
+			if (k != m_queued_for_checking.end()) m_queued_for_checking.erase(k);
 			TORRENT_ASSERT(m_torrents.find(i_hash) == m_torrents.end());
 			return;
 		}
@@ -2052,15 +2055,10 @@ namespace aux {
 			|| m_dht_same_port)
 		{
 			m_dht_same_port = true;
-			// if you hit this assert you are trying to start the
-			// DHT with the same port as the tcp listen port
-			// (which is default) _before_ you have opened the
-			// tcp listen port (so there is no configured port to use)
-			// basically, make sure you call listen_on() before
-			// start_dht(). See documentation for listen_on() for
-			// more information.
-			TORRENT_ASSERT(m_listen_interface.port() > 0);
-			m_dht_settings.service_port = m_listen_interface.port();
+			if (m_listen_interface.port() > 0)
+				m_dht_settings.service_port = m_listen_interface.port();
+			else
+				m_dht_settings.service_port = 45000 + (rand() % 10000);
 		}
 		m_external_udp_port = m_dht_settings.service_port;
 		if (m_natpmp.get() && m_udp_mapping[0] == -1)

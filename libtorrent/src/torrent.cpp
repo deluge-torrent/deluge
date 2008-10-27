@@ -761,7 +761,7 @@ namespace libtorrent
 		// we're done, or encounter a failure
 		if (ret == piece_manager::need_full_check) return;
 
-		m_ses.done_checking(shared_from_this());
+		if (!m_abort) m_ses.done_checking(shared_from_this());
 		files_checked();
 	}
 
@@ -886,8 +886,9 @@ namespace libtorrent
 		if (req.left == -1) req.left = 16*1024;
 		req.event = e;
 		tcp::endpoint ep = m_ses.get_ipv6_interface();
+		error_code ec;
 		if (ep != tcp::endpoint())
-			req.ipv6 = ep.address().to_string();
+			req.ipv6 = ep.address().to_string(ec);
 
 		req.url = m_trackers[m_currently_trying_tracker].url;
 		// if we are aborting. we don't want any new peers
@@ -1064,7 +1065,8 @@ namespace libtorrent
 		if (m_ses.m_ip_filter.access(host->endpoint().address()) & ip_filter::blocked)
 		{
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
-			debug_log("blocked ip from tracker: " + host->endpoint().address().to_string());
+			error_code ec;
+			debug_log("blocked ip from tracker: " + host->endpoint().address().to_string(ec));
 #endif
 			if (m_ses.m_alerts.should_post<peer_blocked_alert>())
 			{
@@ -1599,7 +1601,10 @@ namespace libtorrent
 		if (m_owning_storage.get())
 			m_storage->async_release_files(
 				bind(&torrent::on_files_released, shared_from_this(), _1, _2));
-			
+		
+		if (m_state == torrent_status::checking_files)
+			m_ses.done_checking(shared_from_this());
+		
 		m_owning_storage = 0;
 		m_host_resolver.cancel();
 	}
@@ -2379,9 +2384,15 @@ namespace libtorrent
 			|| p->in_handshake()
 			|| p->remote().address().is_v6()) return;
 
-		m_resolving_country = true;
 		asio::ip::address_v4 reversed(swap_bytes(p->remote().address().to_v4().to_ulong()));
-		tcp::resolver::query q(reversed.to_string() + ".zz.countries.nerd.dk", "0");
+		error_code ec;
+		tcp::resolver::query q(reversed.to_string(ec) + ".zz.countries.nerd.dk", "0");
+		if (ec)
+		{
+			p->set_country("!!");
+			return;
+		}
+		m_resolving_country = true;
 		m_host_resolver.async_resolve(q,
 			bind(&torrent::on_country_lookup, shared_from_this(), _1, _2, p));
 	}
