@@ -41,6 +41,18 @@ import deluge.common
 import deluge.configmanager
 from deluge.log import LOG as log
 
+METADATA_KEYS = [
+    "Name",
+    "License",
+    "Author",
+    "Home-page",
+    "Summary",
+    "Platform",
+    "Version",
+    "Author-email",
+    "Description",
+]
+
 class PluginManagerBase:
     """PluginManagerBase is a base class for PluginManagers to inherit"""
 
@@ -52,7 +64,7 @@ class PluginManagerBase:
         # Create the plugins folder if it doesn't exist
         if not os.path.exists(os.path.join(deluge.configmanager.get_config_dir(), "plugins")):
             os.mkdir(os.path.join(deluge.configmanager.get_config_dir(), "plugins"))
-            
+
         # This is the entry we want to load..
         self.entry_name = entry_name
 
@@ -94,10 +106,10 @@ class PluginManagerBase:
 
         self.available_plugins = []
         for name in self.pkg_env:
-            pkg_name = str(self.pkg_env[name][0]).split()[0].replace("-", " ")
-            pkg_version = str(self.pkg_env[name][0]).split()[1]
-            log.debug("Found plugin: %s %s", pkg_name, pkg_version)
-            self.available_plugins.append(pkg_name)
+            log.debug("Found plugin: %s %s",
+                self.pkg_env[name][0].project_name,
+                self.pkg_env[name][0].version)
+            self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
         """Enables a plugin"""
@@ -131,3 +143,24 @@ class PluginManagerBase:
             log.warning("Plugin %s is not enabled..", name)
 
         log.info("Plugin %s disabled..", name)
+
+    def get_plugin_info(self, name):
+        """Returns a dictionary of plugin info from the metadata"""
+        info = {}.fromkeys(METADATA_KEYS)
+        last_header = ""
+        cont_lines = []
+        for line in self.pkg_env[name][0].get_metadata("PKG-INFO").splitlines():
+            if not line:
+                continue
+            if line[0] in ' \t' and (len(line.split(":", 1)) == 1 or line.split(":", 1)[0] not in info.keys()):
+                # This is a continuation
+                cont_lines.append(line.strip())
+            else:
+                if cont_lines:
+                    info[last_header] = "\n".join(cont_lines).strip()
+                    cont_lines = []
+                if line.split(":", 1)[0] in info.keys():
+                    last_header = line.split(":", 1)[0]
+                    info[last_header] = line.split(":", 1)[1].strip()
+
+        return info
