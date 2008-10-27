@@ -237,12 +237,17 @@ class FilterTreeView(component.Component):
         return None
 
     def set_row_image(self, cat, value, filename):
+        pix = None
         try: #assume we could get trashed images here..
-            pix = gtk.gdk.pixbuf_new_from_file(filename)
-            row = self.filters[(cat, value)]
-            self.treestore.set_value(row, 4, pix)
+            pix = gtk.gdk.pixbuf_new_from_file_at_size(filename, 16, 16)
         except Exception, e:
             log.debug(e.message)
+
+        if not pix:
+            pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
+            pix.fill(0x00000000)
+        row = self.filters[(cat, value)]
+        self.treestore.set_value(row, 4, pix)
         return False
 
 

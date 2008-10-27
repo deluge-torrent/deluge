@@ -45,10 +45,10 @@ RENAMES = {
     "aelitis.com":"www.vuze.com"
     }
 
-VALID_ICO_TYPES = ["octet-stream","x-icon"]
-VALID_PNG_TYPES = ["octet-stream","png"]
+VALID_ICO_TYPES = ["octet-stream", "x-icon", "image/vnd.microsoft.icon"]
+VALID_PNG_TYPES = ["octet-stream", "png"]
 
-def fetch_url(url, valid_subtypes = None):
+def fetch_url(url, valid_subtypes=None):
     """
     returns: data or None
     """
@@ -90,13 +90,32 @@ class TrackerIcons(object):
         """
         host_name = RENAMES.get(tracker_host, tracker_host) #HACK!
 
-        ico =  fetch_url("http://%s/favicon.ico" % host_name, VALID_ICO_TYPES)
+        ico = fetch_url("http://%s/favicon.ico" % host_name, VALID_ICO_TYPES)
         if ico:
             return ("ico", ico)
 
-        png =  fetch_url("http://%s/favicon.png" % host_name, VALID_PNG_TYPES)
+        png = fetch_url("http://%s/favicon.png" % host_name, VALID_PNG_TYPES)
         if png:
             return ("png", png)
+
+        # FIXME: This should be cleaned up and not copy the top code
+        html = urlopen("http://%s/" % (host_name,))
+        if html:
+            icon_path = ""
+            line = html.readline()
+            while line:
+                if '<link rel="icon"' in line or '<link rel="shortcut icon"' in line:
+                    log.debug("line: %s", line)
+                    icon_path = line[line.find("href"):].split("\"")[1]
+                    break
+                line = html.readline()
+            if icon_path:
+                ico = fetch_url(("http://%s/" + icon_path) % host_name, VALID_ICO_TYPES)
+                if ico:
+                    return ("ico", ico)
+                png = fetch_url(("http://%s/" + icon_path) % host_name, VALID_PNG_TYPES)
+                if png:
+                    return ("png", png)
 
         """
         TODO: need a test-site first...
@@ -166,4 +185,3 @@ if __name__ == "__main__":
 
     test_get()
     #test_async()
-
