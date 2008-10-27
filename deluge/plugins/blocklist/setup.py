@@ -1,8 +1,6 @@
 # setup.py
 #
-# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
-
+# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,27 +28,37 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-"""
-Download and import IP Blocklists
-"""
-
 from setuptools import setup
 
+__plugin_name__ = "Blocklist"
 __author__ = "Andrew Resch"
+__author_email__ = "andrew.resch@gmail.com"
+__version__ = "1.0"
+__url__ = "http://deluge-torrent.org"
+__license__ = "GPL3"
+__description__ = "Download and import IP blocklists"
+__long_description__ = __description__
+__pkg_data__ = {__plugin_name__.lower(): ["data/*"]}
 
 setup(
-    name="Blocklist",
-    version="1.0",
-    description=__doc__,
+    name=__plugin_name__,
+    version=__version__,
+    description=__description__,
     author=__author__,
-    packages=["blocklist"],
-    package_data = {"blocklist": ["data/*"]},
+    author_email=__author_email__,
+    url=__url__,
+    license=__license__,
+    long_description=__long_description__,
+
+    packages=[__plugin_name__.lower()],
+    package_data = __pkg_data__,
+
     entry_points="""
     [deluge.plugin.core]
-    Blocklist = blocklist:CorePlugin
+    %s = %s:CorePlugin
     [deluge.plugin.gtkui]
-    Blocklist = blocklist:GtkUIPlugin
+    %s = %s:GtkUIPlugin
     [deluge.plugin.webui]
-    Blocklist = blocklist:WebUIPlugin
-    """
+    %s = %s:WebUIPlugin
+    """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
