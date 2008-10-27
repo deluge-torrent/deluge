@@ -45,7 +45,27 @@ RENAMES = {
     "aelitis.com":"www.vuze.com"
     }
 
-VALID_TYPES = ["octet-stream","x-icon"]
+VALID_ICO_TYPES = ["octet-stream","x-icon"]
+VALID_PNG_TYPES = ["octet-stream","png"]
+
+def fetch_url(url, valid_subtypes = None):
+    """
+    returns: data or None
+    """
+    try:
+        url_file = urlopen(url)
+        data = url_file.read()
+
+        #validate:
+        if valid_subtypes and (url_file.info().getsubtype() not in valid_subtypes):
+            raise Exception("Unexpected type for %s : %s" % (url, url_file.info().getsubtype()))
+        if not data:
+            raise Exception("No data")
+    except Exception, e:
+        log.debug("%s %s %s" % (url, e, e.message))
+        return None
+
+    return data
 
 class TrackerIcons(object):
     def __init__(self):
@@ -61,6 +81,31 @@ class TrackerIcons(object):
         for icon in os.listdir(self.image_dir):
             if icon.endswith(".ico"):
                 self.images[icon[:-4]] = os.path.join(self.image_dir, icon)
+            if icon.endswith(".png"):
+                self.images[icon[:-4]] = os.path.join(self.image_dir, icon)
+
+    def _fetch_icon(self, tracker_host):
+        """
+        returns (ext, data)
+        """
+        host_name = RENAMES.get(tracker_host, tracker_host) #HACK!
+
+        ico =  fetch_url("http://%s/favicon.ico" % host_name, VALID_ICO_TYPES)
+        if ico:
+            return ("ico", ico)
+
+        png =  fetch_url("http://%s/favicon.png" % host_name, VALID_PNG_TYPES)
+        if png:
+            return ("png", png)
+
+        """
+        TODO: need a test-site first...
+        html = fetch_url("http://%s/" % (host_name,))
+        if html:
+            for line in html:
+                print line
+        """
+        return (None, None)
 
     def _fetch_icon_thread(self, tracker_host, callback):
         """
@@ -69,28 +114,18 @@ class TrackerIcons(object):
         calls callback on sucess
         assumes dicts,urllib and logging are threadsafe.
         """
-        try:
-            host_name = RENAMES.get(tracker_host, tracker_host)
-            icon = urlopen("http://%s/favicon.ico" % host_name)
-            icon_data = icon.read()
 
-            #validate icon:
-            if icon.info().getsubtype() not in VALID_TYPES:
-                raise Exception("Unexpected type: %s" % icon.info().getsubtype())
-            if not icon_data:
-                raise Exception("No data")
-        except Exception, e:
-            log.debug("%s %s %s" % (tracker_host, e, e.message))
-            return False
+        ext, icon_data  = self._fetch_icon(tracker_host)
 
-        filename = os.path.join(get_default_config_dir("icons"),"%s.ico" % tracker_host)
-
-        f = open(filename,"wb")
-        f.write(icon_data)
-        f.close()
-        self.images[tracker_host] = filename
-        if callback:
-            gobject.idle_add(callback, filename)
+        if icon_data:
+            filename = os.path.join(get_default_config_dir("icons"),"%s.%s" % (tracker_host, ext))
+            print filename
+            f = open(filename,"wb")
+            f.write(icon_data)
+            f.close()
+            self.images[tracker_host] = filename
+            if callback:
+                gobject.idle_add(callback, filename)
 
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
@@ -111,4 +146,24 @@ class TrackerIcons(object):
             self.get_async(tracker_host, None)
             return None
 
+if __name__ == "__main__":
+    import time
+    def del_old():
+        filename = os.path.join(get_default_config_dir("icons"),"legaltorrents.com.ico")
+        if os.path.exists(filename):
+            os.remove(filename)
+
+    def test_get():
+        del_old()
+        trackericons  = TrackerIcons()
+        print trackericons.images
+        print trackericons.get("unknown2")
+        print trackericons.get("ntorrents.net")
+        print trackericons.get("google.com")
+        print trackericons.get("legaltorrents.com")
+        time.sleep(5.0)
+        print trackericons.get("legaltorrents.com")
+
+    test_get()
+    #test_async()
 
