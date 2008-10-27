@@ -51,7 +51,7 @@ import os
 from deluge import component
 from deluge.ui.client import sclient as proxy
 from deluge.configmanager import ConfigManager
-from deluge.tracker_icons import TrackerIcons
+from deluge.ui.tracker_icons import TrackerIcons
 
 page_manager = component.get("PageManager")
 config = ConfigManager("webui06.conf")
@@ -456,7 +456,10 @@ class tracker_icon:
         if filename:
             log.debug("file-name=%s" %  name)
             web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
-            web.header("Content-Type", "image/x-icon")
+            if filename.endswith(".ico"):
+                web.header("Content-Type", "image/x-icon")
+            elif filename.endswith(".png"):
+                web.header("Content-Type", "image/png")
             data = open(filename, "rb").read()
             print data
         else:

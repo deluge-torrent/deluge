@@ -38,7 +38,7 @@ import pkg_resources
 
 import deluge.component as component
 import deluge.common
-from deluge.tracker_icons import TrackerIcons
+from deluge.ui.tracker_icons import TrackerIcons
 from deluge.log import LOG as log
 from deluge.ui.client import aclient
 from deluge.configmanager import ConfigManager
