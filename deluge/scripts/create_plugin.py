@@ -14,6 +14,7 @@ parser.add_option("-n", "--name", dest="name",help="plugin name")
 parser.add_option("-p", "--basepath", dest="path",help="base path")
 parser.add_option("-a", "--author-name", dest="author_name",help="author name,for the GPL header")
 parser.add_option("-e", "--author-email", dest="author_email",help="author email,for the GPL header")
+parser.add_option("-u", "--url", dest="url", help="Homepage URL")
 
 
 (options, args) = parser.parse_args()
@@ -32,6 +33,9 @@ def create_plugin():
     if not options.author_email:
         print "--author-name is mandatory , use -h for more info"
         return
+
+    if not options.url:
+        options.url = ""
 
     if not os.path.exists(options.path):
         print "basepath does not exist"
@@ -54,6 +58,7 @@ def create_plugin():
             "safe_name":safe_name,
             "filename":filename,
             "plugin_base":plugin_base,
+            "url": options.url
         }
 
         filename = os.path.join(path, filename)
@@ -153,23 +158,37 @@ class GtkUIPlugin(PluginBase):
 SETUP = """
 from setuptools import setup
 
-__author__ = "%(author_name)s <%(author_email)s>"
+__plugin_name__ = "%(name)s"
+__author__ = "%(author_name)s"
+__author_email__ = "%(author_email)s"
+__version__ = "0.1"
+__url__ = "%(url)s"
+__license__ = "GPLv3"
+__description__ = ""
+__long_description__ = \"\"\"\"\"\"
+__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
-    name="%(name)s",
-    version="0.1",
-    description=__doc__,
+    name=__plugin_name__,
+    version=__version__,
+    description=__description__,
     author=__author__,
-    packages=["%(safe_name)s"],
-    package_data = {"%(safe_name)s": ["template/*","data/*"]},
+    author_email=__author_email__,
+    url=__url__,
+    license=__license__,
+    long_description=__long_description__,
+
+    packages=[__plugin_name__.lower()],
+    package_data = __pkg_data__,
+
     entry_points=\"\"\"
     [deluge.plugin.core]
-    %(name)s = %(safe_name)s:CorePlugin
-    [deluge.plugin.webui]
-    %(name)s = %(safe_name)s:WebUIPlugin
+    %%s = %%s:CorePlugin
     [deluge.plugin.gtkui]
-    %(name)s = %(safe_name)s:GtkUIPlugin
-    \"\"\"
+    %%s = %%s:GtkUIPlugin
+    [deluge.plugin.webui]
+    %%s = %%s:WebUIPlugin
+    \"\"\" %% ((__plugin_name__, __plugin_name__.lower())*3)
 )
 """
 
@@ -344,7 +363,3 @@ rm -fr ./temp
 """
 
 create_plugin()
-
-
-
-

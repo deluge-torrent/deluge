@@ -28,7 +28,16 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-"""
+from setuptools import setup
+
+__plugin_name__ = "Label"
+__author__ = "Martijn Voncken"
+__author_email__ = "mvoncken@gmail.com"
+__version__ = "0.1"
+__url__ = "http://deluge-torrent.org"
+__license__ = "GPLv3"
+__description__ = "Label plugin."
+__long_description__ = """
 Label plugin.
 
 Offers filters on state,tracker and keyword.
@@ -37,24 +46,27 @@ adds a tracker column.
 future: Real labels.
 
 """
-
-from setuptools import setup
-
-__author__ = "Martijn Voncken <mvoncken@gmail.com>"
+__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
-    name="Label",
-    version="0.1",
-    description=__doc__,
+    name=__plugin_name__,
+    version=__version__,
+    description=__description__,
     author=__author__,
-    packages=["label","label.gtkui","label.webui"],
-    package_data = {"label": ["template/*","data/*"]},
+    author_email=__author_email__,
+    url=__url__,
+    license=__license__,
+    long_description=__long_description__,
+
+    packages=[__plugin_name__.lower()],
+    package_data = __pkg_data__,
+
     entry_points="""
     [deluge.plugin.core]
-    Label = label:CorePlugin
-    [deluge.plugin.webui]
-    Label = label:WebUIPlugin
+    %s = %s:CorePlugin
     [deluge.plugin.gtkui]
-    Label = label:GtkUIPlugin
-    """
+    %s = %s:GtkUIPlugin
+    [deluge.plugin.webui]
+    %s = %s:WebUIPlugin
+    """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )

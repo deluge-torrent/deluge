@@ -36,21 +36,35 @@
 
 from setuptools import setup
 
-__author__ = "Martijn Voncken <mvoncken@gmail.com>"
+__plugin_name__ = "Stats"
+__author__ = "Martijn Voncken"
+__author_email__ = "mvoncken@gmail.com"
+__version__ = "0.1"
+__url__ = "http://deluge-torrent.org"
+__license__ = "GPLv3"
+__description__ = ""
+__long_description__ = """"""
+__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
-    name="Stats",
-    version="0.1",
-    description=__doc__,
+    name=__plugin_name__,
+    version=__version__,
+    description=__description__,
     author=__author__,
-    packages=["stats"],
-    package_data = {"stats": ["template/*","data/*"]},
+    author_email=__author_email__,
+    url=__url__,
+    license=__license__,
+    long_description=__long_description__,
+
+    packages=[__plugin_name__.lower()],
+    package_data = __pkg_data__,
+
     entry_points="""
     [deluge.plugin.core]
-    Stats = stats:CorePlugin
-    [deluge.plugin.webui]
-    Stats = stats:WebUIPlugin
+    %s = %s:CorePlugin
     [deluge.plugin.gtkui]
-    Stats = stats:GtkUIPlugin
-    """
+    %s = %s:GtkUIPlugin
+    [deluge.plugin.webui]
+    %s = %s:WebUIPlugin
+    """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
