@@ -49,7 +49,7 @@ extern char const* session_set_max_half_open_connections_doc;
 extern char const* session_num_connections_doc;
 extern char const* session_set_settings_doc;
 extern char const* session_set_pe_settings_doc;
-extern char const* session_get_pe_settings_doc; 
+extern char const* session_get_pe_settings_doc;
 extern char const* session_set_severity_level_doc;
 extern char const* session_pop_alert_doc;
 extern char const* session_start_upnp_doc;
@@ -105,6 +105,16 @@ namespace
       s.add_extension(invoke_extension_factory(e));
   }
 
+#ifndef TORRENT_NO_DEPRECATE
+  torrent_handle add_torrent_depr(session& s, torrent_info const& ti
+    , boost::filesystem::path const& save, entry const& resume
+    , storage_mode_t storage_mode, bool paused)
+  {
+      allow_threading_guard guard;
+      return s.add_torrent(ti, save, resume, storage_mode, paused, default_storage_constructor);
+  }
+#endif
+
   torrent_handle add_torrent(session& s, dict params)
   {
     add_torrent_params p;
@@ -136,10 +146,14 @@ namespace
       std::memcpy(&resume_buf[0], &resume[0], resume.size());
       p.resume_data = &resume_buf;
     }
-    p.storage_mode = extract<storage_mode_t>(params["storage_mode"]);
-    p.paused = params["paused"];
-    p.auto_managed = params["auto_managed"];
-    p.duplicate_is_error = params["duplicate_is_error"];
+    if (params.has_key("storage_mode"))
+        p.storage_mode = extract<storage_mode_t>(params["storage_mode"]);
+    if (params.has_key("paused"))
+       p.paused = params["paused"];
+    if (params.has_key("auto_managed"))
+       p.auto_managed = params["auto_managed"];
+    if (params.has_key("duplicate_is_error"))
+       p.duplicate_is_error = params["duplicate_is_error"];
 
     return s.add_torrent(p);
   }
@@ -169,7 +183,7 @@ namespace
      }
      return ret;
   }
-  
+
 #ifndef TORRENT_DISABLE_GEO_IP
   bool load_asnum_db(session& s, std::string file)
   {
@@ -259,7 +273,7 @@ void bind_session()
         .value("add_default_plugins", session::add_default_plugins)
         .value("start_default_features", session::start_default_features)
     ;
-    
+
     class_<session, boost::noncopyable>("session", session_doc, no_init)
         .def(
             init<fingerprint, int>((
@@ -288,7 +302,18 @@ void bind_session()
         .def("set_dht_proxy", allow_threads(&session::set_dht_proxy))
 #endif
         .def("add_torrent", &add_torrent, session_add_torrent_doc)
+#ifndef TORRENT_NO_DEPRECATE
+        .def(
+            "add_torrent", &add_torrent_depr
+          , (
+                arg("resume_data") = entry(), arg("storage_mode") = storage_mode_sparse,
+                arg("paused") = false
+            )
+          , session_add_torrent_doc
+        )
+#endif
         .def("remove_torrent", allow_threads(&session::remove_torrent), arg("option") = session::none
+
 			  , session_remove_torrent_doc)
         .def(
             "set_download_rate_limit", allow_threads(&session::set_download_rate_limit)
@@ -336,10 +361,12 @@ void bind_session()
 #endif
         .def("load_state", allow_threads(&session::load_state))
         .def("state", allow_threads(&session::state))
+#ifndef TORRENT_NO_DEPRECATE
         .def(
             "set_severity_level", allow_threads(&session::set_severity_level)
           , session_set_severity_level_doc
         )
+#endif
         .def("set_alert_mask", allow_threads(&session::set_alert_mask))
         .def("pop_alert", allow_threads(&session::pop_alert), session_pop_alert_doc)
         .def("add_extension", &add_extension)
@@ -362,5 +389,3 @@ void bind_session()
 
     register_ptr_to_python<std::auto_ptr<alert> >();
 }
-
-
