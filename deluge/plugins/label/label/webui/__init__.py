@@ -40,19 +40,20 @@ import ui
 
 import config
 import pages
+from deluge.plugins.webuipluginbase import WebUIPluginBase
 
-class WebUI(ui.UI):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("Calling UI init")
-        # Call UI constructor
-        ui.UI.__init__(self, plugin_api, plugin_name)
-        log.debug("Label WebUI plugin initalized..")
+
+#TODO: use more additions to WebUIPluginBase, thish whould be and example -lougin.
+class WebUI(WebUIPluginBase):
+    include_javascript = ["/label/data/test1.js"]
 
     def enable(self):
+        log.debug("**HERE**")
         pages.register()
         config.register()
 
     def disable(self):
+        log.debug("**HERE**")
         pages.deregister()
         config.deregister()
 

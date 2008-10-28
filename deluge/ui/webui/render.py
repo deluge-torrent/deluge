@@ -35,11 +35,14 @@ from utils import *
 import utils
 #/relative
 from deluge import common
+from deluge import component
 from web import template, Storage
 import os
-
 from deluge.configmanager import ConfigManager
+
 config = ConfigManager("webui06.conf")
+page_manager = component.get("PageManager")
+
 
 class subclassed_render(object):
     """
@@ -212,7 +215,9 @@ template.Template.globals.update({
     'forms':web.Storage(),
     'enumerate':enumerate,
     'base':'', #updated when running within apache.
-    'id_to_label':id_to_label
+    'id_to_label':id_to_label,
+    'include_javascript':page_manager.include_javascript,
+    'ajax_javascript':page_manager.include_javascript
 })
 #/template-defs
 

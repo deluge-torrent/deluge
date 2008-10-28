@@ -58,7 +58,7 @@ setup(
     license=__license__,
     long_description=__long_description__,
 
-    packages=[__plugin_name__.lower()],
+    packages=[__plugin_name__.lower(), "label.gtkui", "label.webui"],
     package_data = __pkg_data__,
 
     entry_points="""

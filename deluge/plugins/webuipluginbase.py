@@ -45,23 +45,50 @@ class WebUIPluginBase:
     * templates: /template are added to api.render.plugin-name.
     * pages: urls attribute registers pages : urls = [(url, class), ..]
     """
-    urls= []
+    include_javascript = []
+    ajax_javascript = []
+    urls = []
+
     def __init__(self, plugin_api, plugin_name):
         log.debug("%s plugin : start initalize.." % plugin_name)
+
         self.plugin = plugin_api
         self.plugin_name = plugin_name
-        clean_plugin_name = plugin_name.lower().replace(" ","_")
+        self.clean_plugin_name = plugin_name.lower().replace(" ","_")
 
+
+    def base_enable(self):
+        """
+        enable plugin.
+        """
         for url , klass in self.urls:
-                api.page_manager.register_page(url, klass)
+            api.page_manager.register_page(url, klass)
+
+        for js in self.include_javascript:
+            api.page_manager.include_javascript.append(js)
 
         class egg_data_static(api.egg_handler): #serves files in /data from egg
-            resource = clean_plugin_name
+            resource = self.clean_plugin_name
             base_path = "data"
 
         #use as : api.render.plugin-name.template-name[excluding.html](parameters)
-        setattr(api.render, clean_plugin_name, api.egg_render(clean_plugin_name, "template"))
+        setattr(api.render, self.clean_plugin_name, api.egg_render(self.clean_plugin_name, "template"))
 
-        api.page_manager.register_page("/%s/data/(.*)" % clean_plugin_name , egg_data_static)
+        api.page_manager.register_page("/%s/data/(.*)" % self.clean_plugin_name , egg_data_static)
 
-        log.debug("%s plugin : end initalize.." % plugin_name)
+        log.debug("%s plugin : end base_enable().." % self.plugin_name)
+
+    def base_disable(self):
+        """
+        disable plugin.
+        """
+        for url , klass in self.urls:
+            api.page_manager.deregister_page(url, klass)
+
+        for js in self.include_javascript:
+            api.page_manager.include_javascript.remove(js)
+
+        log.debug("%s plugin : end base_disable().." % self.plugin_name)
+
+
+

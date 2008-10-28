@@ -2,7 +2,7 @@ import time
 import gobject
 import os
 
-from deluge.tracker_icons import TrackerIcons
+from deluge.ui.tracker_icons import TrackerIcons
 from deluge.common import get_default_config_dir
 
 def del_old():

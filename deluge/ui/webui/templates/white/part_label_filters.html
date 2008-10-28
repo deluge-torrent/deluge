@@ -26,13 +26,15 @@ $if get_config("show_keyword_search"):
 $filter_items
 -->
 $for cat in filter_items.keys():
-    <div class="title">$id_to_label(cat)</div>
+    <div class="title" id="label_cat_$cat">$id_to_label(cat)</div>
     <ul>
     $for value, count in filter_items[cat]:
-        <li
+        <li id="label_$(cat)_$(value)"
         $if cat == get('filter_cat'):
             $if value == get('filter_value'):
-                class="selected"
+                class="selected label_$cat"
+            $else:
+                class="label_$cat"
         $# I hate this, special case for All
         $# templetor sucks with multiple conditions in 1 if-statement, i need to find a better way,
         $if cat == "state":

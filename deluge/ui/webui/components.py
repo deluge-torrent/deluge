@@ -112,6 +112,8 @@ class PageManager(component.Component):
         component.Component.__init__(self, "PageManager")
         self.page_classes = {}
         self.urls = []
+        self.include_javascript = []
+        self.ajax_javascript = []
 
     def register_pages(self, url_list, class_list):
         self.urls += url_list
@@ -200,14 +202,15 @@ class PluginApi(component.Component):
         self.utils = utils
 
 def register():
+    __page_manager = PageManager()
     __plugin_manager = PluginManager()
     __menu_manager = MenuManager()
-    __page_manager = PageManager()
     __config_page_manager =  ConfigPageManager()
     __plugin_api =  PluginApi()
 
 
-
+if __name__ == "__main__":
+    register()
 
 
 
