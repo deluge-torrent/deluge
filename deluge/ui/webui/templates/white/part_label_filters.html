@@ -21,27 +21,30 @@ $if get_config("show_keyword_search"):
             >
     </form>
     <br /><br />
-
 <!--
 $filter_items
 -->
 $for cat in filter_items.keys():
-    <div class="title" id="label_cat_$cat">$id_to_label(cat)</div>
+    <div class="title" id="filter_cat_$cat">$id_to_label(cat)</div>
     <ul>
     $for value, count in filter_items[cat]:
-        <li id="label_$(cat)_$(value)"
+        <li id="filter_$(cat)_$(value)"
         $if cat == get('filter_cat'):
             $if value == get('filter_value'):
-                class="selected label_$cat"
+                class="selected filter_$cat"
             $else:
-                class="label_$cat"
-        $# I hate this, special case for All
-        $# templetor sucks with multiple conditions in 1 if-statement, i need to find a better way,
+                class="filter_$cat"
+        $else:
+            class="filter_$cat"
+        /*BROKEN, todo: fix this!!
+        I hate this, special case for All
+        templetor sucks with multiple conditions in 1 if-statement, i need to find a better way,
+        */
         $if cat == "state":
             $if value == "All":
                 $if not get('filter_value'):
                     $if not get('filter_cat'):
-                        class="selected"
+                        class="selected filter_$cat"
         >
         <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
         $if cat == "state":
