@@ -15,26 +15,34 @@ function _(str)  {
 Plugins.Label = {
 	/*onload:*/
 	initialize: function() {
-		$$('.filter_label').each(Plugins.Label.addPopup);
+		this.bound = {
+			addPopup: this.addPopup.bind(this),
+			labelAction: this.labelAction.bindWithEvent(this)
+		};
 
-		var menu = new Widgets.PopupMenu()
+		$$('.filter_label').each(this.bound.addPopup);
+
+		var menu = new Widgets.PopupMenu();
 		menu.add(this.menu);
-		menu.addEvent('action', function(e) {
-		    Plugins.Label.labelAction(e.action, e.value)
-		}.bind(this));
-
+		menu.addEvent('action', this.bound.labelAction);
 	},
+
 	/*add menu to html-ui*/
 	addPopup: function (el) {
-		var label_id = el.id.substring(13) /*crop of "filter_label_"*/
-		el.innerHTML = "<img src='" + popup_icon + "' onclick=alert('popup:" + label_id + "')>" + el.innerHTML;
+		var label_id = el.id.substring(13); /*crop of "filter_label_"*/
+		el.addEvent('click', function(el) {
+			alert('popup:' + label_id);
+		});
 	},
 
 	/*callback handler*/
 	labelAction:  function(action, label_id) {
-		func = Plugins.Label[action];
+		// We use $empty here to ensure that there is some form of a
+		// function to call
+		func = ($defined(this[action])) ? this[action] : $empty;
 		func(label_id);
 	},
+	
 	/*menu callbacks:*/
 	add: function(label_id) {
 		alert("Add Label:" + label_id);

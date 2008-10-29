@@ -65,3 +65,4 @@ Deluge.Strings.add('Files', '$_('Files')');
 Deluge.Strings.add('Peers', '$_('Peers')');
 Deluge.Strings.add('Options', '$_('Options')');
 
+_ = Deluge.Strings.get;
