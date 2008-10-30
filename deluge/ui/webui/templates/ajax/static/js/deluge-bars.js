@@ -3,7 +3,7 @@
  *  Contains the various bars (Sidebar, Toolbar, Statusbar) used within deluge
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 Deluge.Widgets.Toolbar = new Class({

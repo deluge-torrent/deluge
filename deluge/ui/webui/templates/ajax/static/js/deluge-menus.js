@@ -3,7 +3,7 @@
  *  Contains the layout for all the popup menus used within the ajax ui.
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 Deluge.Menus = {

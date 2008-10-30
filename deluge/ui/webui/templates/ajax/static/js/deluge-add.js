@@ -1,9 +1,9 @@
 /*
  * Script: deluge-add.js
- *  Contains the add torrent window and (eventually) the torrent creator
+ *  Contains the add torrent window and the torrent creator window.
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 Deluge.Widgets.AddWindow = new Class({

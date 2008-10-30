@@ -3,7 +3,7 @@
  *  The class for controlling the main torrent grid.
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 Deluge.Widgets.TorrentGrid = new Class({

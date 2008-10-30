@@ -3,7 +3,7 @@
  *  Contains the tabs for the torrent details
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 Deluge.Widgets.Details = new Class({
