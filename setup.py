@@ -156,7 +156,7 @@ else:
         _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
         _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
 
-        # Modify the libs if necessary for systems with only -mt boost libs    
+        # Modify the libs if necessary for systems with only -mt boost libs
         for lib in _libraries:
             if lib[:6] == "boost_":
                 for lib_prefix in _library_dirs:
@@ -192,7 +192,7 @@ if windows_check() or not os.path.exists(os.path.join(sysconfig.get_config_var("
         library_dirs = _library_dirs,
         sources = _sources
     )
-    
+
     _ext_modules = [libtorrent]
 
 class build_trans(cmd.Command):
@@ -329,5 +329,5 @@ setup(
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
-    version = "1.0.3",
+    version = "1.0.4",
 )

@@ -1,10 +1,17 @@
-Deluge 1.0.4 (In Development)
+Deluge 1.0.4 (31 October 2008)
  Core:
   * Fix #560 force an int value for global max connections
   * Fix #545 use proper values in ratio calculation
+  * Fix UPnP again..
 
  GtkUI:
   * Fix #565 wait for the deluged process to start to prevent defunct processes
+
+ OS X:
+  * Fix issues with gettext
+
+ Windows:
+  * Fix starting on non-English versions of Windows
 
 Deluge 1.0.3 (18 October 2008)
  Core:
