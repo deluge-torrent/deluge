@@ -160,7 +160,7 @@ int upnp::add_mapping(upnp::protocol_type p, int external_port, int local_port)
 	m_log << time_now_string()
 		<< " *** add mapping [ proto: " << (p == tcp?"tcp":"udp")
 		<< " ext_port: " << external_port
-		<< " local_port:" << local_port << " ]";
+		<< " local_port :" << local_port << " ]";
 	if (m_disabled) m_log << " DISABLED";
 	m_log << std::endl;
 #endif
