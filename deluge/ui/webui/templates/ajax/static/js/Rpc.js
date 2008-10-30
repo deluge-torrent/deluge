@@ -1,14 +1,36 @@
 /*
  * Script: Rpc.js
- *  A JSON-RPC proxy
+ *  A JSON-RPC proxy built ontop of mootools.
  *
  * Copyright:
- *   Damien Churchill (c) 2008
+ *   Damien Churchill (c) 2008 <damoxc@gmail.com>
  */
 
 /*
  * A class that creates a proxy for sending remote procedure calls over JSON
  */
+ 
+/*
+    Class: JSON.RPC
+        Class to create a proxy to a json-rpc interface on a server.
+    
+    Example:
+        client = new JSON.RPC('/json/rpc');
+        client.hello_world({
+            onSuccess: function(result) {
+                alert(result);
+            }
+        });
+        alert(client.hello_world({async: true;}));
+        client.add_name('Damien', {
+            onSuccess: function(result) {
+                alert(result);
+            }
+        });
+    
+    Returns:
+        The proxy that can be used to directly call methods on the server.
+*/
 JSON.RPC = new Class({
 	Implements: Options,
 	
