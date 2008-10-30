@@ -24,7 +24,7 @@ Deluge.Widgets.Toolbar = new Class({
 
 
 /*
-    Class: Deluge.Wdigets.StatusBar
+    Class: Deluge.Widgets.StatusBar
         Class to manage the bottom status bar
     
     Example:
