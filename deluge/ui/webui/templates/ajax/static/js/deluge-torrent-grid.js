@@ -1,11 +1,25 @@
 /*
- * Script: deluge-torrent-grid.js
- *  The class for controlling the main torrent grid.
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: deluge-torrent-grid.js
+    Contains the Deluge torrent grid.
 
+License:
+    General Public License v3
+
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+*/
+
+/*
+    Class: Deluge.Widgets.TorrentGrid
+        Extending Widgest.DataGrid to manage the torrents in the main
+        grid.
+
+    Example:
+        grid = new Deluge.Widgets.TorrentGrid('torrentGrid');
+
+    Returns:
+        An instance of the class wrapped about the torrent grid.
+*/
 Deluge.Widgets.TorrentGrid = new Class({
     Extends: Widgets.DataGrid,
     
@@ -31,10 +45,25 @@ Deluge.Widgets.TorrentGrid = new Class({
         'Queued': '/pixmaps/queued16.png',
         'Paused': '/pixmaps/inactive16.png',
         'Error': '/pixmaps/alert16.png',
-        'Checking': '/pixmaps/inactive16.png'
+        'Checking': '/pixmaps/checking16.png'
     },
     
-    getSelectedTorrents: function() {
+    /*
+        Property: getSelectedTorrentIds
+            Helper function to quickly return the torrent ids of the currently
+            selected torrents in the grid.
+        
+        Example:
+            var ids = '';
+            grid.getSelectedTorrentIds.each(function(id) {
+                ids += id + '\n';
+            });
+            alert(ids);
+        
+        Returns:
+            A list containing the currently selected torrent ids.
+    */
+    getSelectedTorrentIds: function() {
         var torrentIds = [];
         this.getSelected().each(function(row) {
             torrentIds.include(row.id);
@@ -42,14 +71,16 @@ Deluge.Widgets.TorrentGrid = new Class({
         return torrentIds;
     },
     
-    setTorrentFilter: function(state) {
-        state = state.replace(' ', '');
-        this.filterer = function (r) {
-            if (r.torrent.state == state) { return true } else { return false };
-        };
-        this.render();
-    },
-    
+    /*
+        Property: updateTorrents
+            Event handler for when a list item is clicked
+        
+        Arguments:
+            e - The event args
+        
+        Example:
+            listItem.addEvent('click', this.clicked.bindWithEvent(this));
+    */
     updateTorrents: function(torrents) {
         torrents.each(function(torrent, id) {
             torrent.queue = (torrent.queue > -1) ? torrent.queue + 1 : '';
@@ -77,6 +108,8 @@ Deluge.Widgets.TorrentGrid = new Class({
                 this.addRow(row, true);
             };
         }, this);
+        
+        // remove any torrents no longer in the grid.
         this.rows.each(function(row) {
             if (!torrents.has(row.id)) {
                 if (this.selectedRow && this.selectedRow.id == row.id) {
