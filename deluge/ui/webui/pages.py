@@ -479,5 +479,15 @@ class close:
         """
 route("/close", close)
 
+class gettext:
+    """"
+    gettext.js
+    """
+    def GET(self):
+        web.header("Content-Type", "text/javascript")
+        print render.gettext()
+route("/gettext.js", gettext)
+
+
 
 
