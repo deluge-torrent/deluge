@@ -624,9 +624,6 @@ class Torrent:
                 elif key in fns:
                     status_dict[key] = fns[key]()
 
-        self.status = None
-        self.torrent_info = None
-
         return status_dict
 
     def apply_options(self):
