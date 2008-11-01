@@ -320,7 +320,7 @@ def ftime(seconds):
 def is_url(url):
     """A simple regex test to check if the URL is valid."""
     import re
-    return bool(re.search('^(https?|ftp)://', url))
+    return bool(re.search('^(https?|ftp|udp)://', url))
 
 def fetch_url(url):
     """Downloads a torrent file from a given 
