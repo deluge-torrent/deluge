@@ -17,6 +17,7 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #28 Create Torrent Dialog
   * Redesiged sidebar with filters for Active and Tracker (see FilterManager)
   * Implement #428 the ability to rename files and directories
+  * Implement #229 add date added column
 
  WebUi
   * All details tabs have the same features as in gtk-ui.
@@ -27,8 +28,3 @@ Deluge 1.1.0 - "" (In Development)
 Plugins
  * Stats plugin for graphs.
  * Label plugin for grouping torrents and per torrent settings.
-
-
-
-
-
