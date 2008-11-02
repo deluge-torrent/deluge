@@ -11,7 +11,7 @@ Deluge.Widgets.AddWindow = new Class({
     options: {
         width: 550,
         height: 500,
-        title: Deluge.Strings.get('Add Torrents'),
+        title: _('Add Torrents'),
         url: '/template/render/html/window_add_torrent.html'
     },
     
@@ -93,7 +93,7 @@ Deluge.Widgets.AddTorrent.Url = new Class({
     options: {
         width: 300,
         height: 100,
-        title: Deluge.Strings.get('From Url')
+        title: _('From Url')
     },
     
     initialize: function() {
@@ -110,9 +110,9 @@ Deluge.Widgets.AddTorrent.Url = new Class({
             type: 'text'
         });
         this.okButton = new Element('button');
-        this.okButton.set('text', Deluge.Strings.get('Ok'));
+        this.okButton.set('text', _('Ok'));
         this.cancelButton = new Element('button');
-        this.cancelButton.set('text', Deluge.Strings.get('Cancel'));
+        this.cancelButton.set('text', _('Cancel'));
         this.form.grab(new Element('label').set('text', 'Url').addClass('fluid'));
         this.form.grab(this.urlInput).grab(new Element('br'));
         this.form.grab(this.okButton).grab(this.cancelButton);
@@ -182,7 +182,7 @@ Deluge.Widgets.CreateTorrent = new Class({
     options: {
         width: 400,
         height: 400,
-        title: Deluge.Strings.get('Create Torrent'),
+        title: _('Create Torrent'),
         url: '/template/render/html/window_create_torrent.html'
     },
     

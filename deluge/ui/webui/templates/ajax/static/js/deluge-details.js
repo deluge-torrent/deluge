@@ -92,7 +92,7 @@ Deluge.Widgets.StatisticsPage = new Class({
     },
     
     initialize: function() {
-        this.parent(Deluge.Strings.get('Statistics'));
+        this.parent(_('Statistics'));
         this.addEvent('loaded', this.onLoad.bindWithEvent(this));
     },
     
@@ -155,7 +155,7 @@ Deluge.Widgets.DetailsPage = new Class({
     },
     
     initialize: function() {
-        this.parent(Deluge.Strings.get('Details'));
+        this.parent(_('Details'));
     },
     
     clear: function() {
@@ -278,7 +278,7 @@ Deluge.Widgets.FilesPage = new Class({
     },
     
     initialize: function(el) {
-        this.parent(Deluge.Strings.get('Files'));
+        this.parent(_('Files'));
         this.torrentId = -1;
         this.addEvent('loaded', this.loaded.bindWithEvent(this));
         this.addEvent('resize', this.resized.bindWithEvent(this));
@@ -333,7 +333,7 @@ Deluge.Widgets.PeersPage = new Class({
     },
     
     initialize: function(el) {
-        this.parent(Deluge.Strings.get('Peers'));
+        this.parent(_('Peers'));
         this.addEvent('resize', this.resized.bindWithEvent(this));
         this.addEvent('loaded', this.loaded.bindWithEvent(this));
     },
@@ -422,7 +422,7 @@ Deluge.Widgets.OptionsPage = new Class({
     
     initialize: function() {
         if (!this.element)
-            this.parent(Deluge.Strings.get('Options'));
+            this.parent(_('Options'));
         this.addEvent('loaded', function(event) {
             this.loaded(event);
         }.bindWithEvent(this));

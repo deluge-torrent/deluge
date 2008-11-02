@@ -11,24 +11,24 @@ Deluge.Menus = {
         {
             type:'text',
             action:'pause',
-            text: Deluge.Strings.get('Pause'),
+            text: _('Pause'),
             icon:'/static/images/tango/pause.png'
         },
         {
             type: 'text',
             action: 'resume',
-            text: Deluge.Strings.get('Resume'),
+            text: _('Resume'),
             icon: '/static/images/tango/start.png'
         },
         { type: 'seperator' },
         {
             type:'submenu',
-            text: Deluge.Strings.get('Options'),
+            text: _('Options'),
             icon:'/static/images/tango/preferences-system.png',
             items: [
                 {
                     type: 'submenu',
-                    text: Deluge.Strings.get('D/L Speed Limit'),
+                    text: _('D/L Speed Limit'),
                     icon: '/pixmaps/downloading16.png',
                     items: [
                         {
@@ -65,13 +65,13 @@ Deluge.Menus = {
                             type: 'text',
                             action: 'max_download_speed',
                             value: -1,
-                            text: Deluge.Strings.get('Unlimited')
+                            text: _('Unlimited')
                         }
                     ]
                 },
                 {
                     type: 'submenu',
-                    text: Deluge.Strings.get('U/L Speed Limit'),
+                    text: _('U/L Speed Limit'),
                     icon: '/pixmaps/seeding16.png',
                     items: [
                         {
@@ -108,13 +108,13 @@ Deluge.Menus = {
                             type: 'text',
                             action: 'max_upload_speed',
                             value: -1,
-                            text: Deluge.Strings.get('Unlimited')
+                            text: _('Unlimited')
                         }
                     ]
                 },
                 {
                     type: 'submenu',
-                    text: Deluge.Strings.get('Connection Limit'),
+                    text: _('Connection Limit'),
                     icon: '/static/images/tango/connections.png',
                     items: [
                         {
@@ -151,13 +151,13 @@ Deluge.Menus = {
                             type: 'text',
                             action: 'max_connections',
                             value: -1,
-                            text: Deluge.Strings.get('Unlimited')
+                            text: _('Unlimited')
                         }
                     ]
                 },
                 {
                     type: 'submenu',
-                    text: Deluge.Strings.get('Upload Slot Limit'),
+                    text: _('Upload Slot Limit'),
                     icon: '/template/static/icons/16/view-sort-ascending.png',
                     items: [
                         {
@@ -194,45 +194,45 @@ Deluge.Menus = {
                             type: 'text',
                             action: 'max_upload_slots',
                             value: -1,
-                            text: Deluge.Strings.get('Unlimited')}
+                            text: _('Unlimited')}
                     ]
                 },
                 {
                     type: 'toggle',
                     action: 'auto_managed',
                     value: false,
-                    text: Deluge.Strings.get('Auto Managed')
+                    text: _('Auto Managed')
                 }
             ]
         },
         {type:'seperator'},
         {
             type: 'submenu',
-            text: Deluge.Strings.get('Queue'),
+            text: _('Queue'),
             icon: '/template/static/icons/16/view-sort-descending.png',
             items: [
                 {
                     type: 'text',
                     action: 'top',
-                    text: Deluge.Strings.get('Top'),
+                    text: _('Top'),
                     icon: '/static/images/tango/go-top.png'
                 },
                 {
                     type: 'text',
                     action: 'up',
-                    text: Deluge.Strings.get('Up'),
+                    text: _('Up'),
                     icon: '/static/images/tango/queue-up.png'
                 },
                 {
                     type: 'text',
                     action: 'down',
-                    text: Deluge.Strings.get('Down'),
+                    text: _('Down'),
                     icon: '/static/images/tango/queue-down.png'
                 },
                 {
                     type: 'text',
                     action: 'bottom',
-                    text: Deluge.Strings.get('Bottom'),
+                    text: _('Bottom'),
                     icon: '/static/images/tango/go-bottom.png'
                 }
             ]
@@ -241,13 +241,13 @@ Deluge.Menus = {
         {
             type: 'text',
             action: 'update_tracker',
-            text: Deluge.Strings.get('Update Tracker'),
+            text: _('Update Tracker'),
             icon: '/template/static/icons/16/view-refresh.png'
         },
         {
             type: 'text',
             action: 'edit_trackers',
-            text: Deluge.Strings.get('Edit Trackers'),
+            text: _('Edit Trackers'),
             icon: '/template/static/icons/16/gtk-edit.png'
         },
         {type:'seperator'},
@@ -255,32 +255,32 @@ Deluge.Menus = {
             type: 'submenu',
             action: 'remove',
             value: 0,
-            text: Deluge.Strings.get('Remove Torrent'),
+            text: _('Remove Torrent'),
             icon: '/static/images/tango/list-remove.png',
             items: [
                 {
                     type: 'text',
                     action: 'remove',
                     value: 0,
-                    text: Deluge.Strings.get('From Session')
+                    text: _('From Session')
                 },
                 {
                     type: 'text',
                     action: 'remove',
                     value: 1,
-                    text: Deluge.Strings.get('... and delete Torrent file')
+                    text: _('... and delete Torrent file')
                 },
                 {
                     type: 'text',
                     action: 'remove',
                     value: 2,
-                    text: Deluge.Strings.get('... and delete Downloaded files')
+                    text: _('... and delete Downloaded files')
                 },
                 {
                     type: 'text',
                     action: 'remove',
                     value: 3,
-                    text: Deluge.Strings.get('... and delete All files')
+                    text: _('... and delete All files')
                 }
             ]
         },
@@ -288,13 +288,13 @@ Deluge.Menus = {
         {
             type: 'text',
             action: 'force_recheck',
-            text: Deluge.Strings.get('Force Recheck'),
+            text: _('Force Recheck'),
             icon: '/static/images/tango/edit-redo.png'
         },
         {
             type: 'text',
             action: 'move_storage',
-            text: Deluge.Strings.get('Move Storage'),
+            text: _('Move Storage'),
             icon: '/static/images/tango/move.png'
         }
     ],
@@ -334,7 +334,7 @@ Deluge.Menus = {
             type: 'text',
             action: 'max_connections',
             value: -1,
-            text: Deluge.Strings.get('Unlimited')
+            text: _('Unlimited')
         }
     ],
     
@@ -373,7 +373,7 @@ Deluge.Menus = {
             type: 'text',
             action: 'max_download_speed',
             value: -1,
-            text: Deluge.Strings.get('Unlimited')
+            text: _('Unlimited')
         }
     ],
     
@@ -412,7 +412,7 @@ Deluge.Menus = {
             type: 'text',
             action: 'max_upload_speed',
             value: -1,
-            text: Deluge.Strings.get('Unlimited')
+            text: _('Unlimited')
         }
     ]
 };
