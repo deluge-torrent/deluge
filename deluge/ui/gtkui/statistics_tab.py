@@ -33,6 +33,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import gtk, gtk.glade
+import time
 
 from deluge.ui.client import aclient as client
 import deluge.component as component
@@ -59,6 +60,11 @@ def fspeed(value, max_value=-1):
         return "%s [%s KiB/s]" % (deluge.common.fspeed(value), max_value)
     else:
         return deluge.common.fspeed(value)
+
+def fdate(value):
+    if value < 0:
+        return ""
+    return time.strftime("%d/%m/%y", time.localtime(value))
 
 class StatisticsTab(Tab):
     def __init__(self):
@@ -88,7 +94,8 @@ class StatisticsTab(Tab):
             (glade.get_widget("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),
             (glade.get_widget("summary_seed_rank"), str, ("seed_rank",)),
             (glade.get_widget("summary_auto_managed"), str, ("is_auto_managed",)),
-            (glade.get_widget("progressbar"), fpcnt, ("progress",))
+            (glade.get_widget("progressbar"), fpcnt, ("progress",)),
+            (glade.get_widget("summary_date_added"), fdate, ("time_added",))
         ]
 
     def update(self):
@@ -110,7 +117,7 @@ class StatisticsTab(Tab):
             "total_seeds", "eta", "ratio", "next_announce",
             "tracker_status", "max_connections", "max_upload_slots",
             "max_upload_speed", "max_download_speed", "active_time",
-            "seeding_time", "seed_rank", "is_auto_managed"]
+            "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
 
         client.get_torrent_status(
             self._on_get_torrent_status, selected, status_keys)

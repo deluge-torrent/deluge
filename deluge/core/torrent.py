@@ -34,6 +34,7 @@
 """Internal Torrent class"""
 
 import os
+import time
 from urlparse import urlparse
 
 try:
@@ -197,6 +198,11 @@ class Torrent:
 
         # The tracker status
         self.tracker_status = ""
+
+        if state:
+            self.time_added = state.time_added
+        else:
+            self.time_added = time.time()
 
         log.debug("Torrent object created.")
 
@@ -566,7 +572,8 @@ class Torrent:
             "stop_at_ratio": self.options["stop_at_ratio"],
             "remove_at_ratio": self.options["remove_at_ratio"],
             "move_on_completed": self.options["move_completed"],
-            "move_on_completed_path": self.options["move_completed_path"]
+            "move_on_completed_path": self.options["move_completed_path"],
+            "time_added": self.time_added
         }
 
         def ti_name():

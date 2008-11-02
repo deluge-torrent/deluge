@@ -68,7 +68,7 @@ STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload
     'move_on_completed_path', 'name', 'next_announce', 'num_files', 'num_peers', 'num_pieces',
     'num_seeds', 'paused', 'peers', 'piece_length', 'prioritize_first_last', 'private', 'progress',
     'queue', 'ratio', 'remove_at_ratio', 'save_path', 'seed_rank', 'seeding_time', 'state', 'stop_at_ratio',
-    'stop_ratio', 'total_done', 'total_payload_download', 'total_payload_upload', 'total_peers',
+    'stop_ratio', 'time_added', 'total_done', 'total_payload_download', 'total_payload_upload', 'total_peers',
     'total_seeds', 'total_size', 'total_uploaded', 'total_wanted', 'tracker', 'tracker_host',
     'tracker_status', 'trackers', 'upload_payload_rate']
 

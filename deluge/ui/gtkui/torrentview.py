@@ -180,6 +180,10 @@ class TorrentView(listview.ListView, component.Component):
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["distributed_copies"])
+        self.add_func_column(_("Added"),
+                                            listview.cell_data_date,
+                                            [float],
+                                            status_field=["time_added"])
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
 
         # Set filter to None for now
