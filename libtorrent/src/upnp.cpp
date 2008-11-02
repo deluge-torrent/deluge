@@ -753,14 +753,17 @@ namespace
 
 struct parse_state
 {
-	parse_state(): found_service(false) {}
+	parse_state(): in_service(false) {}
 	void reset(char const* st)
 	{
-		found_service = false;
+		in_service = false;
 		service_type = st;
 		tag_stack.clear();
+		control_url.clear();
+		model.clear();
+		url_base.clear();
 	}
-	bool found_service;
+	bool in_service;
 	std::list<std::string> tag_stack;
 	std::string control_url;
 	char const* service_type;
@@ -791,22 +794,26 @@ void find_control_url(int type, char const* string, parse_state& state)
 	else if (type == xml_end_tag)
 	{
 		if (!state.tag_stack.empty())
+		{
+			if (state.in_service && state.tag_stack.back() == "service")
+				state.in_service = false;
 			state.tag_stack.pop_back();
+		}
 	}
 	else if (type == xml_string)
 	{
 		if (state.tag_stack.empty()) return;
 //		std::cout << " " << string << std::endl;
-		if (!state.found_service && state.top_tags("service", "servicetype"))
+		if (!state.in_service && state.top_tags("service", "servicetype"))
 		{
 			if (string_equal_nocase(string, state.service_type))
-				state.found_service = true;
+				state.in_service = true;
 		}
-		else if (state.found_service && state.top_tags("service", "controlurl"))
+		else if (state.in_service && state.top_tags("service", "controlurl"))
 		{
 			state.control_url = string;
 		}
-		else if (state.tag_stack.back() == "modelname")
+		else if (state.model.empty() && state.top_tags("device", "modelname"))
 		{
 			state.model = string;
 		}
@@ -865,7 +872,7 @@ void upnp::on_upnp_xml(error_code const& e
 	s.reset("urn:schemas-upnp-org:service:WANIPConnection:1");
 	xml_parse((char*)p.get_body().begin, (char*)p.get_body().end
 		, bind(&find_control_url, _1, _2, boost::ref(s)));
-	if (s.found_service)
+	if (!s.control_url.empty())
 	{
 		d.service_namespace = s.service_type;
 		if (!s.model.empty()) m_model = s.model;
@@ -877,7 +884,7 @@ void upnp::on_upnp_xml(error_code const& e
 		s.reset("urn:schemas-upnp-org:service:WANPPPConnection:1");
 		xml_parse((char*)p.get_body().begin, (char*)p.get_body().end
 			, bind(&find_control_url, _1, _2, boost::ref(s)));
-		if (s.found_service)
+		if (!s.control_url.empty())
 		{
 			d.service_namespace = s.service_type;
 			if (!s.model.empty()) m_model = s.model;
@@ -894,6 +901,9 @@ void upnp::on_upnp_xml(error_code const& e
 		}
 	}
 	
+	if (s.url_base.empty()) d.control_url = s.control_url;
+	else d.control_url = s.url_base + s.control_url;
+
 	std::string protocol;
 	std::string auth;
 	char const* error;
@@ -910,9 +920,6 @@ void upnp::on_upnp_xml(error_code const& e
 		<< " <== (" << d.url << ") Rootdevice response, found control URL: " << d.control_url
 		<< " urlbase: " << s.url_base << " namespace: " << d.service_namespace << std::endl;
 #endif
-
-	if (s.url_base.empty()) d.control_url = s.control_url;
-	else d.control_url = s.url_base + s.control_url;
 
 	boost::tie(protocol, auth, d.hostname, d.port, d.path, error)
 		= parse_url_components(d.control_url);

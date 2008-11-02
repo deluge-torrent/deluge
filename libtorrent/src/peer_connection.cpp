@@ -1397,13 +1397,19 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		TORRENT_ASSERT(t);
 		if (m_upload_only && t->is_finished())
+		{
 			disconnect("seed to seed");
+			return;
+		}
 
 		if (m_upload_only
 			&& !m_interesting
 			&& m_bitfield_received
 			&& t->are_files_checked())
+		{
 			disconnect("uninteresting upload-only peer");
+			return;
+		}
 	}
 
 	// -----------------------------
@@ -2531,7 +2537,7 @@ namespace libtorrent
 			m_torrent.reset();
 		}
 
-#ifndef NDEBUG
+#if !defined NDEBUG && defined TORRENT_EXPENSIVE_INVARIANT_CHECKS
 		// since this connection doesn't have a torrent reference
 		// no torrent should have a reference to this connection either
 		for (aux::session_impl::torrent_map::const_iterator i = m_ses.m_torrents.begin()
