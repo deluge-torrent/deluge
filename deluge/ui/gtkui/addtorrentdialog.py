@@ -2,19 +2,19 @@
 # addtorrentdialog.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -52,7 +52,7 @@ class AddTorrentDialog(component.Component):
         self.glade = gtk.glade.XML(
             pkg_resources.resource_filename(
                 "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
-        
+
         self.dialog = self.glade.get_widget("dialog_add_torrent")
 
         self.dialog.connect("delete-event", self._on_delete_event)
@@ -81,8 +81,8 @@ class AddTorrentDialog(component.Component):
         self.core_config = {}
         self.options = {}
         self.previous_selected_torrent = None
-        
-        
+
+
         self.listview_torrents = self.glade.get_widget("listview_torrents")
         self.listview_files = self.glade.get_widget("listview_files")
 
@@ -110,12 +110,12 @@ class AddTorrentDialog(component.Component):
         column.pack_start(render)
         column.set_cell_data_func(render, listview.cell_data_size, 2)
         self.listview_files.append_column(column)
-        
+
         self.listview_torrents.set_model(self.torrent_liststore)
         self.listview_files.set_model(self.files_treestore)
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        self.listview_torrents.get_selection().connect("changed", 
+        self.listview_torrents.get_selection().connect("changed",
                                     self._on_torrent_changed)
 
         # Get default config values from the core
@@ -130,10 +130,10 @@ class AddTorrentDialog(component.Component):
             "add_paused"
         ]
         self.core_config = {}
-            
+
     def start(self):
         self.update_core_config()
-        
+
     def show(self, focus=False):
         self.update_core_config()
 
@@ -142,15 +142,15 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("entry_download_path").hide()
         else:
             self.glade.get_widget("button_location").hide()
-            self.glade.get_widget("entry_download_path").show()       
-        
-        self.dialog.set_transient_for(component.get("MainWindow").window)  
+            self.glade.get_widget("entry_download_path").show()
+
+        self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.present()
         if focus:
             self.dialog.window.focus()
-        
+
         return None
-    
+
     def hide(self):
         self.dialog.hide()
         self.files = {}
@@ -159,9 +159,9 @@ class AddTorrentDialog(component.Component):
         self.previous_selected_torrent = None
         self.torrent_liststore.clear()
         self.files_treestore.clear()
-        self.dialog.set_transient_for(component.get("MainWindow").window)    
+        self.dialog.set_transient_for(component.get("MainWindow").window)
         return None
-    
+
     def update_core_config(self):
         self.core_config = {}
         # Send requests to the core for these config values
@@ -171,13 +171,13 @@ class AddTorrentDialog(component.Component):
         # Force a call to the core because we need this data now
         client.force_call()
         self.set_default_options()
-                
+
     def _on_config_value(self, value):
         for key in self.core_keys:
             if not self.core_config.has_key(key):
                 self.core_config[key] = value
                 break
-                
+
     def add_from_files(self, filenames):
         try:
             import libtorrent as lt
@@ -185,7 +185,7 @@ class AddTorrentDialog(component.Component):
             import deluge.libtorrent as lt
         import os.path
         new_row = None
-        
+
         for filename in filenames:
             # Get the torrent data from the torrent file
             try:
@@ -198,7 +198,7 @@ class AddTorrentDialog(component.Component):
                 filedump = lt.bdecode(filedump)
                 _file.close()
             except Exception, e:
-                log.warning("Unable to open %s: e", filename, e)
+                log.warning("Unable to open %s: %s", filename, e)
                 continue
 
             try:
@@ -210,7 +210,7 @@ class AddTorrentDialog(component.Component):
             if str(info.info_hash()) in self.infos:
                 log.debug("Torrent already in list!")
                 continue
-                
+
             # Get list of files from torrent info
             files = []
             for f in info.files():
@@ -229,22 +229,22 @@ class AddTorrentDialog(component.Component):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if not row and new_row:
             self.listview_torrents.get_selection().select_iter(new_row)
-               
+
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
         self.files_treestore.clear()
-        
+
         if row is None:
             return
-        
-        # Update files list    
+
+        # Update files list
         files_list = self.files[model.get_value(row, 0)]
 
         self.prepare_file_store(files_list)
 
         if self.core_config == {}:
             self.update_core_config()
-            
+
         # Save the previous torrents options
         self.save_torrent_options()
         # Update the options frame
@@ -290,16 +290,16 @@ class AddTorrentDialog(component.Component):
         if torrent_id not in self.options:
             self.set_default_options()
             return
-        
+
         options = self.options[torrent_id]
-        
+
         if client.is_localhost():
             self.glade.get_widget("button_location").set_current_folder(
                 options["download_location"])
         else:
             self.glade.get_widget("entry_download_path").set_text(
                 options["download_location"])
-                
+
         self.glade.get_widget("radio_compact").set_active(
             options["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
@@ -314,7 +314,7 @@ class AddTorrentDialog(component.Component):
             options["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             options["prioritize_first_last_pieces"])
-            
+
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
         # selected.
@@ -322,10 +322,10 @@ class AddTorrentDialog(component.Component):
             row = self.previous_selected_torrent
         if row is None or not self.torrent_liststore.iter_is_valid(row):
             return
-            
+
         torrent_id = self.torrent_liststore.get_value(row, 0)
- 
-        options = {}       
+
+        options = {}
         if client.is_localhost():
             options["download_location"] = \
                 self.glade.get_widget("button_location").get_current_folder()
@@ -348,16 +348,16 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("chk_prioritize").get_active()
         options["default_private"] = \
             self.glade.get_widget("chk_private").get_active()
-            
+
         self.options[torrent_id] = options
-        
+
         # Save the file priorities
         files_priorities = self.build_priorities(
                             self.files_treestore.get_iter_first(), {})
-        
+
         for i, file_dict in enumerate(self.files[torrent_id]):
             file_dict["download"] = files_priorities[i]
-        
+
     def build_priorities(self, iter, priorities):
         while iter is not None:
             if self.files_treestore.iter_has_child(iter):
@@ -375,7 +375,7 @@ class AddTorrentDialog(component.Component):
         else:
             self.glade.get_widget("entry_download_path").set_text(
                 self.core_config["download_location"])
-               
+
         self.glade.get_widget("radio_compact").set_active(
             self.core_config["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
@@ -390,7 +390,7 @@ class AddTorrentDialog(component.Component):
             self.core_config["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             self.core_config["prioritize_first_last_pieces"])
-    
+
     def get_file_priorities(self, torrent_id):
         # A list of priorities
         files_list = []
@@ -400,9 +400,9 @@ class AddTorrentDialog(component.Component):
                 files_list.append(0)
             else:
                 files_list.append(1)
-        
+
         return files_list
-        
+
     def _on_file_toggled(self, render, path):
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
@@ -452,13 +452,13 @@ class AddTorrentDialog(component.Component):
         chooser = gtk.FileChooserDialog(_("Choose a .torrent file"),
             None,
             gtk.FILE_CHOOSER_ACTION_OPEN,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, 
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
                         gtk.RESPONSE_OK))
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(True)
         chooser.set_property("skip-taskbar-hint", True)
-        
+
         # Add .torrent and * file filters
         file_filter = gtk.FileFilter()
         file_filter.set_name(_("Torrent files"))
@@ -486,7 +486,7 @@ class AddTorrentDialog(component.Component):
 
         chooser.destroy()
         self.add_from_files(result)
-                                        
+
     def _on_button_url_clicked(self, widget):
         log.debug("_on_button_url_clicked")
         dialog = self.glade.get_widget("url_dialog")
@@ -495,13 +495,13 @@ class AddTorrentDialog(component.Component):
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
-        
+
         if deluge.common.windows_check():
-            import win32clipboard as clip 
+            import win32clipboard as clip
             import win32con
-            clip.OpenClipboard() 
-            text = clip.GetClipboardData(win32con.CF_UNICODETEXT) 
-            clip.CloseClipboard() 
+            clip.OpenClipboard()
+            text = clip.GetClipboardData(win32con.CF_UNICODETEXT)
+            clip.CloseClipboard()
         else:
             clip = gtk.clipboard_get(selection='PRIMARY')
             text = clip.wait_for_text()
@@ -523,7 +523,7 @@ class AddTorrentDialog(component.Component):
         log.debug("url: %s", url)
         if url != None:
             self.add_from_url(url)
-        
+
         entry.set_text("")
         dialog.hide()
 
@@ -538,7 +538,7 @@ class AddTorrentDialog(component.Component):
         filename, headers = urllib.urlretrieve(url, tmp_file)
         log.debug("filename: %s", filename)
         self.add_from_files([filename])
-    
+
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
 
@@ -547,9 +547,9 @@ class AddTorrentDialog(component.Component):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
-            
+
         torrent_id = model.get_value(row, 0)
-        
+
         model.remove(row)
         del self.files[torrent_id]
         del self.infos[torrent_id]
@@ -570,7 +570,7 @@ class AddTorrentDialog(component.Component):
 
         torrent_filenames = []
         torrent_options = []
-        
+
         row = self.torrent_liststore.get_iter_first()
         while row != None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
@@ -579,16 +579,16 @@ class AddTorrentDialog(component.Component):
                 options = self.options[torrent_id]
             except:
                 options = None
-            
+
             file_priorities = self.get_file_priorities(torrent_id)
             if options != None:
                 options["file_priorities"] = file_priorities
-                
+
             torrent_filenames.append(filename)
             torrent_options.append(options)
-            
+
             row = self.torrent_liststore.iter_next(row)
-            
+
         client.add_torrent_file(torrent_filenames, torrent_options)
         client.force_call()
         self.hide()
@@ -598,25 +598,25 @@ class AddTorrentDialog(component.Component):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
-        
+
         self.save_torrent_options(row)
-        
+
         # The options we want all the torrents to have
         options = self.options[model.get_value(row, 0)]
-        
+
         # Set all the torrent options
         row = model.get_iter_first()
         while row != None:
             torrent_id = model.get_value(row, 0)
             self.options[torrent_id] = options
             row = model.iter_next(row)
-            
+
     def _on_button_revert_clicked(self, widget):
         log.debug("_on_button_revert_clicked")
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is None:
             return
-        
+
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
 

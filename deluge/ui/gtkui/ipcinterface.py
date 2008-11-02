@@ -2,19 +2,19 @@
 # ipcinterface.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -43,7 +43,7 @@ from deluge.log import LOG as log
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
-        
+
         if deluge.common.windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
@@ -72,7 +72,7 @@ class IPCInterface(component.Component):
         if deluge.common.windows_check():
             import win32api
             win32api.CloseHandle(self.mutex)
-                            
+
 def process_args(args):
     """Process arguments sent to already running Deluge"""
     # Pythonize the values from Dbus
@@ -86,8 +86,10 @@ def process_args(args):
         log.debug("Not connected to host.. Adding to queue.")
         component.get("QueuedTorrents").add_to_queue(args)
         return
-    config = ConfigManager("gtkui.conf")        
+    config = ConfigManager("gtkui.conf")
     for arg in args:
+        if not arg:
+            continue
         if deluge.common.is_url(arg):
             log.debug("Attempting to add %s from external source..",
                 arg)
@@ -98,11 +100,10 @@ def process_args(args):
                 client.add_torrent_url(arg)
         else:
             # Just a file
-            log.debug("Attempting to add %s from external source..", 
+            log.debug("Attempting to add %s from external source..",
                 os.path.abspath(arg))
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
                 client.add_torrent_file([os.path.abspath(arg)])
-        

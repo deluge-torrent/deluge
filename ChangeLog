@@ -1,3 +1,7 @@
+Deluge 1.0.5 (In Development)
+ Windows:
+  * Fix #577 adding torrents by drag n' drop
+
 Deluge 1.0.4 (31 October 2008)
  Core:
   * Fix #560 force an int value for global max connections
