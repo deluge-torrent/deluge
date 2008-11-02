@@ -34,6 +34,7 @@
 """Common functions for various parts of Deluge to use."""
 
 import os
+import time
 import subprocess
 import platform
 
@@ -210,6 +211,12 @@ def ftime(seconds):
     if weeks < 10:
         return '%dw %dd' % (weeks, days)
     return 'unknown'
+
+def fdate(value):
+    """Returns a date string, eg 05/05/08, given a time in seconds since the Epoch"""
+    if value < 0:
+        return ""
+    return time.strftime("%d/%m/%y", time.localtime(value))
 
 def is_url(url):
     """A simple regex test to check if the URL is valid."""

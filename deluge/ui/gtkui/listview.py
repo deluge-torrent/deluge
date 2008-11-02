@@ -34,7 +34,6 @@
 
 import cPickle
 import os.path
-import time
 
 import pygtk
 pygtk.require('2.0')
@@ -90,12 +89,8 @@ def cell_data_ratio(column, cell, model, row, data):
     cell.set_property('text', ratio_str)
 
 def cell_data_date(column, cell, model, row, data):
-    """Display value as date, eg 2008/05/05"""
-    time_val = model.get_value(row, data)
-    time_str = ""
-    if time_val > -1:
-        time_str = time.strftime("%d/%m/%y", time.localtime(time_val))
-    cell.set_property('text', time_str)
+    """Display value as date, eg 05/05/08"""
+    cell.set_property('text', deluge.common.fdate(model.get_value(row, data)))
 
 class ListViewColumnState:
     """Used for saving/loading column state"""
