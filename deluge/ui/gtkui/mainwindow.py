@@ -2,19 +2,19 @@
 # mainwindow.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -55,23 +55,23 @@ class MainWindow(component.Component):
         self.config = ConfigManager("gtkui.conf")
         # Get the glade file for the main window
         self.main_glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui", 
+                    pkg_resources.resource_filename("deluge.ui.gtkui",
                                                     "glade/main_window.glade"))
 
         self.window = self.main_glade.get_widget("main_window")
         self.window.set_icon(common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
-        
+
         # Load the window state
         self.load_window_state()
-        
+
         # Keep track of window's minimization state so that we don't update the
         # UI when it is minimized.
         self.is_minimized = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0,
             80)], gtk.gdk.ACTION_COPY)
-        
+
         # Connect events
         self.window.connect("window-state-event", self.on_window_state_event)
         self.window.connect("configure-event", self.on_window_configure_event)
@@ -95,7 +95,7 @@ class MainWindow(component.Component):
             pass
 
         self.window.show()
-    
+
     def hide(self):
         component.pause("TorrentView")
         component.pause("StatusBar")
@@ -104,7 +104,7 @@ class MainWindow(component.Component):
         self.window_x_pos = self.window.get_position()[0]
         self.window_y_pos = self.window.get_position()[1]
         self.window.hide()
-            
+
     def present(self):
         # Restore the proper x,y coords for the window prior to showing it
         try:
@@ -121,23 +121,23 @@ class MainWindow(component.Component):
 
         self.window.present()
         self.load_window_state()
-    
+
     def active(self):
         """Returns True if the window is active, False if not."""
         return self.window.is_active()
-        
+
     def visible(self):
         """Returns True if window is visible, False if not."""
         return self.window.get_property("visible")
-    
+
     def get_glade(self):
         """Returns a reference to the main window glade object."""
         return self.main_glade
-                   
+
     def quit(self):
         del self.config
         gtk.main_quit()
-    
+
     def load_window_state(self):
         x = self.config["window_x_pos"]
         y = self.config["window_y_pos"]
@@ -149,7 +149,7 @@ class MainWindow(component.Component):
             self.window.maximize()
         self.vpaned.set_position(
             self.config["window_height"] - self.config["window_pane_position"])
-            
+
     def on_window_configure_event(self, widget, event):
         if not self.config["window_maximized"] and self.visible:
             self.config.set("window_x_pos", self.window.get_position()[0])
@@ -185,20 +185,20 @@ class MainWindow(component.Component):
             self.hide()
         else:
             self.quit()
-            
+
         return True
-        
+
     def on_vpaned_position_event(self, obj, param):
-        self.config.set("window_pane_position", 
+        self.config.set("window_pane_position",
             self.config["window_height"] - self.vpaned.get_position())
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
         args = []
         for uri in selection_data.data.split():
             if deluge.common.windows_check():
-                uri = uri[7:]
-                uri = urllib.url2pathname(uri).strip("\r\n\x00")
-            args.append(urllib.unquote(urlparse(uri).path))
+                args.append(urllib.url2pathname(uri[7:]))
+            else:
+                args.append(urllib.unquote(urlparse(uri).path))
         process_args(args)
         drag_context.finish(True, True)
 
