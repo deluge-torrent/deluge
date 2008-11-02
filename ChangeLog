@@ -19,12 +19,12 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #428 the ability to rename files and directories
   * Implement #229 add date added column
 
- WebUi
+ WebUi:
   * All details tabs have the same features as in gtk-ui.
   * Persistent sessions #486
   * Plugin improvements for easy use of templates and images in eggs. #497
   * Classic template takes over some style elements from white template.
 
-Plugins
- * Stats plugin for graphs.
- * Label plugin for grouping torrents and per torrent settings.
+ Plugins:
+  * Stats plugin for graphs.
+  * Label plugin for grouping torrents and per torrent settings.
