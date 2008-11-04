@@ -34,6 +34,7 @@
 from deluge.ui.client import sclient as proxy
 from deluge.log import LOG as log
 
+
 import utils
 import lib.newforms_plus as forms
 import config_forms
@@ -61,12 +62,28 @@ class Template(config_forms.WebCfgForm):
 
 class Server(config_forms.WebCfgForm):
     title = _("Server")
+    info = _("Manually restart webui to apply changes.")
+
     port = forms.IntegerField(label = _("Port"),min_value=80)
+    https =  forms.CheckBox(_("Https"))
+
+    def validate(self, data):
+        import os
+        from deluge.common import get_default_config_dir
+
+        if data.https:
+            cert_path = os.path.join(get_default_config_dir("ssl") ,"deluge.cert.pem" )
+            if not os.path.exists (cert_path):
+                raise forms.ValidationError(_("Certificate not found at '%s'" % cert_path))
+            key_path = os.path.join(get_default_config_dir("ssl") ,"deluge.key.pem" )
+            if not os.path.exists (key_path):
+                raise forms.ValidationError(_("Key not found at '%s'" % key_path))
+
 
     def post_save(self):
         pass
         #raise forms.ValidationError(
-        #       _("Manually restart server to apply these changes."))
+        #       )
 
 class Password(forms.Form):
     title = _("Password")

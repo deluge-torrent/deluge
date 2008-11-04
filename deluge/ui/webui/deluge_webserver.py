@@ -38,6 +38,7 @@ from deluge.ui.client import sclient
 import components
 from deluge.log import LOG as log
 
+
 # Initialize gettext
 if deluge.common.windows_check() or deluge.common.osx_check():
     locale.setlocale(locale.LC_ALL, '')
@@ -121,7 +122,21 @@ def create_webserver(debug = False, base_url =None):
     server_address=("0.0.0.0", int(config.get('port')))
     server = CherryPyWSGIServer(server_address, wsgi_app, server_name="localhost")
 
-    log.info("http://%s:%d/" % server_address)
+    https = False
+    if config.get("https"):
+        import os
+        from deluge.common import get_default_config_dir
+        cert_path = os.path.join(get_default_config_dir("ssl") ,"deluge.cert.pem" )
+        key_path = os.path.join(get_default_config_dir("ssl") ,"deluge.key.pem" )
+        if os.path.exists (key_path) and os.path.exists (cert_path):
+            server.ssl_certificate = cert_path
+            server.ssl_private_key = key_path
+            https = True
+
+    if https:
+        log.info("https://%s:%d/" %  server_address)
+    else:
+        log.info("http://%s:%d/" % server_address)
     return server
 
 def run(debug = False, base_url = ""):
