@@ -101,14 +101,14 @@ class Core(CorePluginBase):
 
         #__init__
         core = self.plugin.get_core()
-        self.config = ConfigManager("label.conf")
+        self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
-        self.set_config_defaults()
+        #self.set_config_defaults()
 
         #reduce typing, assigning some values to self...
         self.torrents = core.torrents.torrents
-        self.labels = self.config.get("labels")
-        self.torrent_labels = self.config.get("torrent_labels")
+        self.labels = self.config["labels"]
+        self.torrent_labels = self.config["torrent_labels"]
 
         self.clean_initial_config()
         #todo: register to torrent_added event.
@@ -176,7 +176,7 @@ class Core(CorePluginBase):
         changed = False
         for key, value in CONFIG_DEFAULTS.iteritems():
             if not key in self.config.config:
-                self.config.config[key] = value
+                self.config[key] = value
                 changed = True
         if changed:
             self.config.save()
@@ -298,13 +298,13 @@ class Core(CorePluginBase):
 
     def export_get_global_options(self):
         "see : label_set_global_options"
-        return dict ( (k,self.config.get(k) )  for k in CORE_OPTIONS)
+        return dict ( (k,self.config[k] )  for k in CORE_OPTIONS)
 
     def export_set_global_options(self, options):
         """global_options:"""
         for key in CORE_OPTIONS:
             if options.has_key(key):
-                self.config.set(key, options[key])
+                self.config[key] = options[key]
         self.config.save()
 
     def _status_get_label(self, torrent_id):
@@ -312,4 +312,3 @@ class Core(CorePluginBase):
 
 if __name__ == "__main__":
     import test
-

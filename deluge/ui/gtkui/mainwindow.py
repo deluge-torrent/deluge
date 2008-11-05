@@ -152,18 +152,18 @@ class MainWindow(component.Component):
 
     def on_window_configure_event(self, widget, event):
         if not self.config["window_maximized"] and self.visible:
-            self.config.set("window_x_pos", self.window.get_position()[0])
-            self.config.set("window_y_pos", self.window.get_position()[1])
-            self.config.set("window_width", event.width)
-            self.config.set("window_height", event.height)
+            self.config["window_x_pos"] = self.window.get_position()[0]
+            self.config["window_y_pos"] = self.window.get_position()[1]
+            self.config["window_width"] = event.width
+            self.config["window_height"] = event.height
 
     def on_window_state_event(self, widget, event):
         if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
                 log.debug("pos: %s", self.window.get_position())
-                self.config.set("window_maximized", True)
+                self.config["window_maximized"] = True
             else:
-                self.config.set("window_maximized", False)
+                self.config["window_maximized"] = False
         if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
                 log.debug("MainWindow is minimized..")
@@ -189,8 +189,7 @@ class MainWindow(component.Component):
         return True
 
     def on_vpaned_position_event(self, obj, param):
-        self.config.set("window_pane_position",
-            self.config["window_height"] - self.vpaned.get_position())
+        self.config["window_pane_position"] = self.config["window_height"] - self.vpaned.get_position()
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
         args = []

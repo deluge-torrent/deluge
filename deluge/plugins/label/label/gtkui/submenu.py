@@ -42,7 +42,6 @@ from deluge.ui.client import aclient
 
 from deluge.configmanager import ConfigManager
 config  = ConfigManager("label.conf")
-GTK_ALFA = config.get("gtk_alfa")
 NO_LABEL = "No Label"
 
 class LabelMenu(gtk.MenuItem):
@@ -85,8 +84,3 @@ class LabelMenu(gtk.MenuItem):
         for torrent_id in self.get_torrent_ids():
             aclient.label_set_torrent(None, torrent_id, label_id)
         #aclient.force_call(block=True)
-
-
-
-
-
