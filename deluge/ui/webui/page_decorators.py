@@ -20,10 +20,11 @@ def deluge_page_noauth(func):
     add http headers;print result of func
     """
     def deco(self, name = None):
-            web.header("Content-Type", "text/html; charset=utf-8")
-            web.header("Cache-Control", "no-cache, must-revalidate")
-            res = func(self, name) #deluge_page_noauth
-            print res
+        render.set_global("is_auto_refreshed", False);
+        web.header("Content-Type", "text/html; charset=utf-8")
+        web.header("Cache-Control", "no-cache, must-revalidate")
+        res = func(self, name) #deluge_page_noauth
+        print res
     deco.__name__ = func.__name__
     return deco
 
@@ -112,11 +113,12 @@ def torrent(func):
     return deco
 
 def auto_refreshed(func):
-    "adds a refresh header"
+    """"
+    sets 'is_auto_refreshed' global for templates
+    note : decorate AFTER deluge_page_*
+    """
     def deco(self, name = None):
-        if getcookie('auto_refresh') == '1':
-            web.header("Refresh", "%i ; url=%s" %
-                (int(getcookie('auto_refresh_secs',10)),self_url()))
+        render.set_global("is_auto_refreshed", True);
         return func(self, name) #auto_refreshed
     deco.__name__ = func.__name__
     return deco

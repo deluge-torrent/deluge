@@ -205,7 +205,8 @@ template.Template.globals.update({
     #'env':'0.6',
     'forms':web.Storage(),
     'enumerate':enumerate,
-    'base':'' #updated when running within apache.
+    'base':'', #updated when running within apache.
+    'is_auto_refreshed':False
 })
 #/template-defs
 

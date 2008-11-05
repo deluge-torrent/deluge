@@ -17,6 +17,9 @@ Deluge 1.0.4 (31 October 2008)
  Windows:
   * Fix starting on non-English versions of Windows
 
+WebUi:
+  * Javascript auto refresh for both templates.
+
 Deluge 1.0.3 (18 October 2008)
  Core:
   * Fix upnp - it should work on more routers now too

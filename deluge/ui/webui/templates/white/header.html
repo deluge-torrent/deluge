@@ -38,8 +38,9 @@ $for id, title, url in admin_pages:
 <a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>
 </div>
 
-</td><td align="right">
-    $#:render.part_auto_refresh()
+</td><td align="left">
+$if is_auto_refreshed:
+    $:render.part_auto_refresh()
 
 </td><td>
 

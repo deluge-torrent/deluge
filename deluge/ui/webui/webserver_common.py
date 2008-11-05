@@ -60,5 +60,6 @@ CONFIG_DEFAULTS = {
     "cache_templates":True,
     "daemon":"http://localhost:58846",
     "base":"",
-    "disallow":{}
+    "disallow":{},
+    "refresh_secs":10
 }
