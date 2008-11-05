@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>:mod:&#8217;deluge.config&#8217; &mdash; deluge v1.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '../',
+          VERSION:     '1.1.0',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: ''
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/interface.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="contents" title="Global table of contents" href="../contents.html" />
+    <link rel="index" title="Global index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="deluge v1.1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Welcome to deluge&#8217;s documentation!" href="../index.html" />
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to deluge&#8217;s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section">
+<h1 id="module-deluge.config">:mod:&#8217;deluge.config&#8217;<a class="headerlink" href="#module-deluge.config" title="Permalink to this headline">¶</a></h1>
+<p>Configuration class used to access/create/modify configuration files.</p>
+<dl class="class">
+<dt id="deluge.config.Config">
+<!--[deluge.config.Config]-->class <tt class="descclassname">deluge.config.</tt><tt class="descname">Config</tt><big>(</big><em>filename</em>, <em>defaults=None</em>, <em>config_dir=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is used to access configuration files.</p>
+<dl class="method">
+<dt id="deluge.config.Config.apply_all">
+<!--[deluge.config.Config.apply_all]--><tt class="descname">apply_all</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.config.Config.apply_all" title="Permalink to this definition">¶</a></dt>
+<dd>Runs all set functions</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.get">
+<!--[deluge.config.Config.get]--><tt class="descname">get</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge.config.Config.get" title="Permalink to this definition">¶</a></dt>
+<dd>Get the value of &#8216;key&#8217;.  If it is an invalid key then get() will
+return None.</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.get_config">
+<!--[deluge.config.Config.get_config]--><tt class="descname">get_config</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.config.Config.get_config" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the entire configuration as a dictionary.</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.get_previous_config">
+<!--[deluge.config.Config.get_previous_config]--><tt class="descname">get_previous_config</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.config.Config.get_previous_config" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the config prior to the last set()</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.load">
+<!--[deluge.config.Config.load]--><tt class="descname">load</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config.load" title="Permalink to this definition">¶</a></dt>
+<dd>Load a config file either by &#8216;filename&#8217; or the filename set during
+construction of this object.</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.register_change_callback">
+<!--[deluge.config.Config.register_change_callback]--><tt class="descname">register_change_callback</tt><big>(</big><em>callback</em><big>)</big><a class="headerlink" href="#deluge.config.Config.register_change_callback" title="Permalink to this definition">¶</a></dt>
+<dd>Registers a callback that will be called when a value is changed</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.register_set_function">
+<!--[deluge.config.Config.register_set_function]--><tt class="descname">register_set_function</tt><big>(</big><em>key</em>, <em>function</em>, <em>apply_now=True</em><big>)</big><a class="headerlink" href="#deluge.config.Config.register_set_function" title="Permalink to this definition">¶</a></dt>
+<dd>Register a function to be run when a config value changes.</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.save">
+<!--[deluge.config.Config.save]--><tt class="descname">save</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config.save" title="Permalink to this definition">¶</a></dt>
+<dd>Save configuration to either &#8216;filename&#8217; or the filename set during
+construction of this object.</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.set">
+<!--[deluge.config.Config.set]--><tt class="descname">set</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.config.Config.set" title="Permalink to this definition">¶</a></dt>
+<dd>Set the &#8216;key&#8217; with &#8216;value&#8217;.</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html" title="previous chapter">Welcome to deluge&#8217;s documentation!</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/modules/config.txt">Show Source</a></li>
+            </ul>
+            <h3>Quick search</h3>
+            <form class="search" action="../search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to deluge&#8217;s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Andrew Resch.
+      Last updated on Nov 04, 2008.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>
