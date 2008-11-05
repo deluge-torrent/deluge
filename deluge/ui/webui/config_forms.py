@@ -58,16 +58,6 @@ class WebCfgForm(forms.Form):
             config.set(key, value)
         config.save()
 
-class CookieCfgForm(forms.Form):
-    "config base for webui"
-    def initial_data(self):
-        return dict(config)
-
-    def save(self, data):
-        config.update(data)
-        config.save_config()
-
-
 class CfgForm(forms.Form):
     "config base for deluge-cfg"
     def initial_data(self):

@@ -1,0 +1,24 @@
+<script language="javascript" src="$base/static/refresh.js"></script>
+<div class="progress_bar_outer"
+    id = "timer_outer"
+    style="width:100px;background-color:#EEE;margin-top:3px;"
+    title="$_('Auto Refresh')"
+    onclick="toggle_timer()"
+    >
+
+    <div id="timer_bar" class="progress_bar" style="width:0%" style="text-align:left">
+    <img src="$base/static/images/tango/pause.png" id="timer_pause" >
+    <img src="$base/static/images/tango/view-refresh.png" id="timer_start" style="display:none">
+    &nbsp;
+    </div>
+</div>
+<script language="javascript">
+
+refresh_secs = $get_config("refresh_secs")
+if (getCookie('auto_refresh') == "1") {
+    start_timer();
+}
+else {
+    stop_timer();
+}
+</script>

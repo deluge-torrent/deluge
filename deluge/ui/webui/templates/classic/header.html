@@ -8,6 +8,7 @@ $def with (title, active_tab="NONE")
         <!--javascript is only used for plugins in the classic-ui
         classic ui should function without  js.
         -->
+        <script language="javascript" src="$base/static/deluge.js"></script>
         <script language="javascript" src="$base/gettext.js"></script>
         <script language="javascript" src="$base/static/mootools-1.2-core.js"></script>
         <script language="javascript" src="$base/static/mootools-1.2-more.js"></script>
@@ -46,9 +47,13 @@ $for id, title, url in admin_pages:
         class="tab_button"
     href='$base$url'>$title</a>
 <a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>
-
-
+$if is_auto_refreshed:
+    <div style="position:absolute;right:20px;top:10px;width:120px;height:20px;overflow:hidden">
+    $:render.part_auto_refresh()
+    </div>
 </div>
+
+
             <div id="main_content">
                 <div id="main">
                     <center>

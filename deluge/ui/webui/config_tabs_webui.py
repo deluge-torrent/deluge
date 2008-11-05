@@ -54,6 +54,7 @@ class Template(config_forms.WebCfgForm):
 
     template = forms.ChoiceField( label=_("Template"), choices = _templates)
     button_style = forms.IntChoiceField(_("Button style"),_button_choices)
+    refresh_secs =  forms.IntegerField(label= _("Auto refresh (seconds)"), min_value=2, max_value=60*60)
     cache_templates = forms.CheckBox(_("Cache templates"))
 
     def post_save(self):

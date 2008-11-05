@@ -217,7 +217,8 @@ template.Template.globals.update({
     'base':'', #updated when running within apache.
     'id_to_label':id_to_label,
     'include_javascript':page_manager.include_javascript,
-    'ajax_javascript':page_manager.include_javascript
+    'ajax_javascript':page_manager.include_javascript,
+    'is_auto_refreshed':False
 })
 #/template-defs
 

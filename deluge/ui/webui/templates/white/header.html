@@ -47,8 +47,8 @@ $for id, title, url in admin_pages:
 </div>
 
 </td><td align="left">
-$:render.part_auto_refresh()
-
+$if is_auto_refreshed:
+    $:render.part_auto_refresh()
 </td><td>
 
 </td><td align="right">

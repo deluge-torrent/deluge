@@ -66,5 +66,6 @@ CONFIG_DEFAULTS = {
     "sidebar_show_trackers":False,
     "show_keyword_search":False,
     "show_sidebar":True,
-    "https":False
+    "https":False,
+    "refresh_secs":10
 }
