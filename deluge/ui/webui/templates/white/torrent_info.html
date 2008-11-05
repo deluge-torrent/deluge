@@ -2,8 +2,10 @@ $def with (torrent)
 
 $:(render.header(_(torrent.state) + '/' + torrent.name))
 <div class="panel" id="torrent_info">
-<div style="width:120px;height:20px;overflow:hidden;align:left;text-align:left;padding-left:20px;">
-$:render.part_auto_refresh()
+<div class="button_bar">
+$for id, title, image, flag, method, url, important in toolbar_items:
+    $if (flag > 0) and (id != 'details'):
+        $:render.part_button(method, (url + str(torrent.id)), title, 'tango/' + image)
 </div>
 $for id, title, tab in detail_tabs:
     <h3>$title</h3>
