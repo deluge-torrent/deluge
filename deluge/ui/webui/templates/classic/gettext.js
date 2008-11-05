@@ -1,5 +1,5 @@
 /*
- * Script: deluge-strings.js
+ * Script: gettext.js
  *  A script file that is run through the template renderer in order for
  *  translated strings to be retrieved.
  *
@@ -22,40 +22,49 @@ GetText = {
 }
 
 // Torrent Menu Strings //
+GetText.add('Pause', '$_('Pause')');
+GetText.add('Resume', '$_('Resume')');
+GetText.add('Options', '$_('Options')');
+GetText.add('D/L Speed Limit', '$_('D/L Speed Limit')');
+GetText.add('U/L Speed Limit', '$_('U/L Speed Limit')');
+GetText.add('Unlimited', '$_('Unlimited')');
+GetText.add('Connection Limit', '$_('Connection Limit')');
+GetText.add('Upload Slot Limit', '$_('Upload Slot Limit')');
+GetText.add('Auto Managed', '$_('Auto Managed')');
+GetText.add('Queue', '$_('Queue')');
+GetText.add('Top', '$_('Top')');
+GetText.add('Up', '$_('Up')');
+GetText.add('Down', '$_('Down')');
+GetText.add('Bottom', '$_('Bottom')');
+GetText.add('Update Tracker', '$_('Update Tracker')');
+GetText.add('Edit Trackers', '$_('Edit Trackers')');
+GetText.add('Remove Torrent', '$_('Remove Torrent')');
+GetText.add('From Session', '$_('From Session')');
+GetText.add('... and delete Torrent file',
+    '$_('... and delete Torrent file')');
+GetText.add('... and delete Downloaded files',
+    '$_('... and delete Downloaded files')');
+GetText.add('... and delete All files',
+    '$_('... and delete All files')');
+GetText.add('Force Recheck', '$_('Force Recheck')');
+GetText.add('Move Storage', '$_('Move Storage')');
 
-/*generated code:*/
-GetText.add("... and delete All files","$_("... and delete All files")");
-GetText.add("... and delete Downloaded files","$_("... and delete Downloaded files")");
-GetText.add("... and delete Torrent file","$_("... and delete Torrent file")");
-GetText.add("Add Torrents","$_("Add Torrents")");
-GetText.add("Auto Managed","$_("Auto Managed")");
-GetText.add("Bottom","$_("Bottom")");
-GetText.add("Cancel","$_("Cancel")");
-GetText.add("Connection Limit","$_("Connection Limit")");
-GetText.add("Create Torrent","$_("Create Torrent")");
-GetText.add("D/L Speed Limit","$_("D/L Speed Limit")");
-GetText.add("Details","$_("Details")");
-GetText.add("Down","$_("Down")");
-GetText.add("Edit Trackers","$_("Edit Trackers")");
-GetText.add("Files","$_("Files")");
-GetText.add("Force Recheck","$_("Force Recheck")");
-GetText.add("From Session","$_("From Session")");
-GetText.add("From Url","$_("From Url")");
-GetText.add("Move Storage","$_("Move Storage")");
-GetText.add("Ok","$_("Ok")");
-GetText.add("Options","$_("Options")");
-GetText.add("Pause","$_("Pause")");
-GetText.add("Peers","$_("Peers")");
-GetText.add("Queue","$_("Queue")");
-GetText.add("Remove Torrent","$_("Remove Torrent")");
-GetText.add("Resume","$_("Resume")");
-GetText.add("Statistics","$_("Statistics")");
-GetText.add("Top","$_("Top")");
-GetText.add("U/L Speed Limit","$_("U/L Speed Limit")");
-GetText.add("Unlimited","$_("Unlimited")");
-GetText.add("Up","$_("Up")");
-GetText.add("Update Tracker","$_("Update Tracker")");
-GetText.add("Upload Slot Limit","$_("Upload Slot Limit")");
-/*end generated code.*/
+// Add Torrents Window //
+GetText.add('Add Torrents', '$_('Add Torrents')');
+GetText.add('Create Torrent', '$_('Create Torrent')');
+GetText.add('Torrents Window', '$_('Torrents Window')');
+GetText.add('From Url', '$_('From Url')');
+GetText.add('Ok', '$_('Ok')');
+GetText.add('Cancel', '$_('Cancel')');
 
-_ = GetText.get;
+
+// Details //
+GetText.add('Statistics', '$_('Statistics')');
+GetText.add('Details', '$_('Details')');
+GetText.add('Files', '$_('Files')');
+GetText.add('Peers', '$_('Peers')');
+GetText.add('Options', '$_('Options')');
+
+function _(string) {
+	return GetText.get(string);
+}
