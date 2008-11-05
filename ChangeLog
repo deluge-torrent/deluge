@@ -7,6 +7,7 @@ Deluge 1.1.0 - "" (In Development)
   * FilterManager with torrent filtering in get_torrents_status , for sidebar and plugins.
   * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
   * Remove remaining gtk functions in common
+  * Tracker icons.
 
  GtkUI:
   * Add peer progress to the peers tab
@@ -20,11 +21,24 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #229 add date added column
 
  WebUi:
-  * All details tabs have the same features as in gtk-ui.
+  * Lots of smaller tweaks.
+  * All details tabs have the same features as in gtk-ui 1.0.x
   * Persistent sessions #486
   * Plugin improvements for easy use of templates and images in eggs. #497
   * Classic template takes over some style elements from white template.
+  * Javascript Auto Refresh
+  * https (for users that know how to create certificates)
+  * easyer apache mod_proxy use.
+  * Redesigned sidebar
+
+ AjaxUI:
+  * hosted in a webui template.
+
+ ConsoleUI (previously null-ui):
+   * colors and enhancements by idoa01
+   * callable from command-line for scripts.
 
  Plugins:
   * Stats plugin for graphs.
   * Label plugin for grouping torrents and per torrent settings.
+
