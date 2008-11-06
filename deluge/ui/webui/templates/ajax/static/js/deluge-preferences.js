@@ -1,12 +1,14 @@
 /*
- * Script: deluge-preferences.js
- *  Contains the classes that provides the preferences window with
- *  functionality
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: deluge-preferences.js
+    Contains the classes that provides the preferences window with
+    functionality
 
+License:
+    General Public License v3
+
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+*/
 
 Deluge.Widgets.PreferencesCategory = new Class({
     Extends: Widgets.TabPage

@@ -7,9 +7,8 @@ License:
 
 Copyright:
     Damien Churchill (c) 2008 <damoxc@gmail.com>
-*/
 
-/*
+
     Class: Deluge.Widgets.TorrentGrid
         Extending Widgest.DataGrid to manage the torrents in the main
         grid.

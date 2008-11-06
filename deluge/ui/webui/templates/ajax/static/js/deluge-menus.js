@@ -1,10 +1,13 @@
 /*
- * Script: deluge-menus.js
- *  Contains the layout for all the popup menus used within the ajax ui.
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: deluge-menus.js
+    Contains the layout for all the popup menus used within the ajax ui.
+
+License:
+    General Public License v3
+
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+*/
 
 Deluge.Menus = {
     Torrents: [

@@ -1,10 +1,13 @@
 /*
- * Script: deluge-details.js
- *  Contains the tabs for the torrent details
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: deluge-details.js
+    Contains the tabs for the torrent details.
+
+License:
+    General Public License v3
+
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+*/
 
 Deluge.Widgets.Details = new Class({
     Extends: Widgets.Tabs,

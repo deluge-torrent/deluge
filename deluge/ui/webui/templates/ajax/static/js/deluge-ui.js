@@ -7,9 +7,8 @@ License:
 
 Copyright:
     Damien Churchill (c) 2008 <damoxc@gmail.com>
-*/
 
-/*
+
     Object: Deluge.UI
         The object that manages 
 

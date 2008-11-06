@@ -1,10 +1,23 @@
 /*
- * Script: deluge-bars.js
- *  Contains the various bars (Sidebar, Toolbar, Statusbar) used within deluge
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: deluge-bars.js
+    Contains the various bars (Sidebar, Toolbar, Statusbar) used within Deluge.
+
+License:
+    General Public License v3
+
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+
+
+    Class: Deluge.Widgets.Toolbar
+        Manages the top toolbar handling clicks and actions.
+
+    Example:
+        toolbar = new Deluge.Widgets.Toolbar();
+
+    Returns:
+        An instance of the class wrapped about the toolbar.
+*/
 
 Deluge.Widgets.Toolbar = new Class({
     Implements: Events,
