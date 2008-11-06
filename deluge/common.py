@@ -80,10 +80,23 @@ FILE_PRIORITY = {
 }
 
 def get_version():
-    """Returns the program version from the egg metadata"""
+    """
+    Returns the program version from the egg metadata
+
+    :returns: the version of Deluge
+    :rtype: string
+
+    """
     return pkg_resources.require("Deluge")[0].version.split("r")[0]
 
 def get_revision():
+    """
+    The svn revision of the build if available
+
+    :returns: the svn revision, or ""
+    :rtype: string
+
+    """
     revision = ""
     try:
         f = open(pkg_resources.resource_filename("deluge", os.path.join("data", "revision")))
@@ -95,8 +108,11 @@ def get_revision():
     return revision
 
 def get_default_config_dir(filename=None):
-    """ Returns the config path if no filename is specified
-    Returns the config directory + filename as a path if filename is specified
+    """
+    :param filename: if None, only the config path is returned, if provided, a path including the filename will be returned
+    :returns: a file path to the config directory and optional filename
+    :rtype: string
+
     """
     if windows_check():
         if filename:
@@ -110,37 +126,76 @@ def get_default_config_dir(filename=None):
             return xdg.BaseDirectory.save_config_path("deluge")
 
 def get_default_download_dir():
-    """Returns the default download directory"""
+    """
+    :returns: the default download directory
+    :rtype: string
+
+    """
     if windows_check():
         return os.path.expanduser("~")
     else:
         return os.environ.get("HOME")
 
 def windows_check():
-    """Checks if the current platform is Windows.  Returns True if it is Windows
-        and False if not."""
+    """
+    Checks if the current platform is Windows
+
+    :returns: True or False
+    :rtype: bool
+
+    """
     return platform.system() in ('Windows', 'Microsoft')
 
 def vista_check():
+    """
+    Checks if the current platform is Windows Vista
+
+    :returns: True or False
+    :rtype: bool
+
+    """
     return platform.release() == "Vista"
 
 def osx_check():
+    """
+    Checks if the current platform is Mac OS X
+
+    :returns: True or False
+    :rtype: bool
+
+    """
     return platform.system() == "Darwin"
 
 def get_pixmap(fname):
-    """Returns a pixmap file included with deluge"""
+    """
+    Provides easy access to files in the deluge/data/pixmaps folder within the Deluge egg
+
+    :param fname: the filename to look for
+    :returns: a path to a pixmap file included with Deluge
+    :rtype: string
+
+    """
     return pkg_resources.resource_filename("deluge", os.path.join("data", \
                                            "pixmaps", fname))
 
 def open_file(path):
-    """Opens a file or folder."""
+    """
+    Opens a file or folder using the system configured program
+
+    :param path: the path to the file or folder to open
+
+    """
     if windows_check():
         os.startfile("%s" % path)
     else:
         subprocess.Popen(["xdg-open", "%s" % path])
 
 def open_url_in_browser(url):
-    """Opens link in the desktop's default browser"""
+    """
+    Opens a url in the desktop's default browser
+
+    :param url: the url to open
+    """
     def start_browser():
         import threading
         import webbrowser
@@ -153,16 +208,21 @@ def open_url_in_browser(url):
         BrowserThread(url).start()
         return False
 
-    import gobject
-    gobject.idle_add(start_browser)
-
-
 ## Formatting text functions
 
 def fsize(fsize_b):
-    """Returns formatted string describing filesize
-       fsize_b should be in bytes
-       Returned value will be in either KiB, MiB, or GiB
+    """
+    Formats the bytes value into a string with KiB, MiB or GiB units
+
+    :param fsize_b: int, the filesize in bytes
+    :returns: formatted string in KiB, MiB or GiB units
+    :rtype: string
+
+    ** Usage **
+
+    >>> fsize(112245)
+    '109.6 KiB'
+
     """
     fsize_kb = fsize_b / 1024.0
     if fsize_kb < 1024:
@@ -174,22 +234,73 @@ def fsize(fsize_b):
     return "%.1f GiB" % fsize_gb
 
 def fpcnt(dec):
-    """Returns a formatted string representing a percentage"""
+    """
+    Formats a string to display a percentage with two decimal places
+
+    :param dec: float, the ratio in the range [0.0, 1.0]
+    :returns: a formatted string representing a percentage
+    :rtype: string
+
+    ** Usage **
+
+    >>> fpcnt(0.9311)
+    '93.11%'
+
+    """
     return '%.2f%%' % (dec * 100)
 
 def fspeed(bps):
-    """Returns a formatted string representing transfer speed"""
+    """
+    Formats a string to display a transfer speed utilizing :func:`fsize`
+
+    :param bps: int, bytes per second
+    :returns: a formatted string representing transfer speed
+    :rtype: string
+
+    ** Usage **
+
+    >>> fspeed(43134)
+    '42.1 KiB/s'
+
+    """
     return '%s/s' % (fsize(bps))
 
 def fpeer(num_peers, total_peers):
-    """Returns a formatted string num_peers (total_peers)"""
+    """
+    Formats a string to show 'num_peers' ('total_peers')
+
+    :param num_peers: int, the number of connected peers
+    :param total_peers: int, the total number of peers
+    :returns: a formatted string: num_peers (total_peers), if total_peers < 0, then it will not be shown
+    :rtype: string
+
+    ** Usage **
+
+    >>> fpeer(10, 20)
+    '10 (20)'
+    >>> fpeer(10, -1)
+    '10'
+
+    """
     if total_peers > -1:
         return "%d (%d)" % (num_peers, total_peers)
     else:
         return "%d" % num_peers
 
 def ftime(seconds):
-    """Returns a formatted time string"""
+    """
+    Formats a string to show time in a human readable form
+
+    :param seconds: int, the number of seconds
+    :returns: a formatted time string, will return 'unknown' for values greater than 10 weeks and 'Infinity' if seconds == 0
+    :rtype: string
+
+    ** Usage **
+
+    >>> ftime(23011)
+    '6h 23m'
+
+    """
     if seconds == 0:
         return "Infinity"
     if seconds < 60:
@@ -212,26 +323,63 @@ def ftime(seconds):
         return '%dw %dd' % (weeks, days)
     return 'unknown'
 
-def fdate(value):
-    """Returns a date string, eg 05/05/08, given a time in seconds since the Epoch"""
-    if value < 0:
+def fdate(seconds):
+    """
+    Formats a date string in the form of DD/MM/YY based on the systems timezone
+
+    :param seconds: float, time in seconds since the Epoch
+    :returns: a string in the form of DD/MM/YY or "" if seconds < 0
+    :rtype: string
+
+    """
+    if seconds < 0:
         return ""
-    return time.strftime("%d/%m/%y", time.localtime(value))
+    return time.strftime("%d/%m/%y", time.localtime(seconds))
 
 def is_url(url):
-    """A simple regex test to check if the URL is valid."""
+    """
+    A simple regex test to check if the URL is valid
+
+    :param url: string, the url to test
+    :returns: True or False
+    :rtype: bool
+
+    ** Usage **
+
+    >>> is_url("http://deluge-torrent.org")
+    True
+
+    """
     import re
     return bool(re.search('^(https?|ftp|udp)://', url))
 
 def is_magnet(uri):
-    """Returns True if uri is a valid bittorrent magnet uri."""
+    """
+    A check to determine if a uri is a valid bittorrent magnet uri
+
+    :param uri: string, the uri to check
+    :returns: True or False
+    :rtype: bool
+
+    ** Usage **
+
+    >>> is_magnet("magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN")
+    True
+
+    """
     if uri[:20] == "magnet:?xt=urn:btih:":
         return True
     return False
-    
+
 def fetch_url(url):
-    """Downloads a torrent file from a given
-    URL and checks the file's validity."""
+    """
+    Downloads a torrent file from a given URL and checks the file's validity
+
+    :param url: string, the url of the .torrent file to fetch
+    :returns: the filepath to the downloaded file
+    :rtype: string
+
+    """
     import urllib
     from deluge.log import LOG as log
     try:
@@ -246,23 +394,18 @@ def fetch_url(url):
             log.debug("URL doesn't appear to be a valid torrent file: %s", url)
             return None
 
-def pythonize(var):
-    """Translates DBUS types back to basic Python types."""
-    if isinstance(var, list):
-        return [pythonize(value) for value in var]
-    if isinstance(var, tuple):
-        return tuple([pythonize(value) for value in var])
-    if isinstance(var, dict):
-        return dict(
-        [(pythonize(key), pythonize(value)) for key, value in var.iteritems()]
-        )
-
-    for klass in [unicode, str, bool, int, float, long]:
-        if isinstance(var, klass):
-            return klass(var)
-    return var
-
 def create_magnet_uri(infohash, name=None, trackers=[]):
+    """
+    Creates a magnet uri
+
+    :param infohash: string, the info-hash of the torrent
+    :param name: string, the name of the torrent (optional)
+    :param trackers: list of strings, the trackers to announce to (optional)
+
+    :returns: a magnet uri string
+    :rtype: string
+
+    """
     from base64 import b32encode
     uri = "magnet:?xt=urn:btih:" + b32encode(infohash.decode("hex"))
     if name:
@@ -274,8 +417,14 @@ def create_magnet_uri(infohash, name=None, trackers=[]):
     return uri
 
 def get_path_size(path):
-    """Returns the size in bytes of 'path'.  If path does not exist, then -1 is
-    returned."""
+    """
+    Gets the size in bytes of 'path'
+
+    :param path: string, the path to check for size
+    :returns: the size in bytes of the path or -1 if the path does not exist
+    :rtype: int
+
+    """
     if not os.path.exists(path):
         return -1
 
@@ -290,7 +439,14 @@ def get_path_size(path):
     return dir_size
 
 def free_space(path):
-    """returns free space"""
+    """
+    Gets the free space available at 'path'
+
+    :param path: string, the path to check
+    :returns: the free space at path in bytes
+    :rtype: int
+
+    """
     if windows_check():
         import win32api
         drive = path.split(":")[0]
@@ -302,7 +458,19 @@ def free_space(path):
         return disk_data.f_bavail * block_size
 
 def is_ip(ip):
-    """a simple test to see if we're given a valid ip"""
+    """
+    A simple test to see if 'ip' is valid
+
+    :param ip: string, the ip to check
+    :returns: True or False
+    :rtype: bool
+
+    ** Usage **
+
+    >>> is_ip("127.0.0.1")
+    True
+
+    """
     import socket
     #first we test ipv4
     try:

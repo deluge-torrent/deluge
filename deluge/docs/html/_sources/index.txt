@@ -23,4 +23,5 @@ Modules
 .. toctree::
    :maxdepth: 2
 
+   modules/common
    modules/config

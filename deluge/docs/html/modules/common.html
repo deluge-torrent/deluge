@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>deluge.common &mdash; deluge v1.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '../',
+          VERSION:     '1.1.0',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: ''
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/interface.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="contents" title="Global table of contents" href="../contents.html" />
+    <link rel="index" title="Global index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="deluge v1.1.0 documentation" href="../index.html" />
+    <link rel="next" title="deluge.config" href="config.html" />
+    <link rel="prev" title="Welcome to deluge&#8217;s documentation!" href="../index.html" />
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="deluge.config"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to deluge&#8217;s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section">
+<h1 id="module-deluge.common"><tt class="xref docutils literal"><span class="pre">deluge.common</span></tt><a class="headerlink" href="#module-deluge.common" title="Permalink to this headline">¶</a></h1>
+<p>Common functions for various parts of Deluge to use.</p>
+<dl class="function">
+<dt id="deluge.common.create_magnet_uri">
+<!--[deluge.common.create_magnet_uri]--><tt class="descclassname">deluge.common.</tt><tt class="descname">create_magnet_uri</tt><big>(</big><em>infohash</em>, <em>name=None</em>, <em>trackers=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#deluge.common.create_magnet_uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a magnet uri</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>infohash</em> &#8211; string, the info-hash of the torrent</li>
+<li><em>name</em> &#8211; string, the name of the torrent (optional)</li>
+<li><em>trackers</em> &#8211; list of strings, the trackers to announce to (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a magnet uri string</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fdate">
+<!--[deluge.common.fdate]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fdate</tt><big>(</big><em>seconds</em><big>)</big><a class="headerlink" href="#deluge.common.fdate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats a date string in the form of DD/MM/YY based on the systems timezone</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>seconds</em> &#8211; float, time in seconds since the Epoch</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a string in the form of DD/MM/YY or &#8220;&#8221; if seconds &lt; 0</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fetch_url">
+<!--[deluge.common.fetch_url]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fetch_url</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#deluge.common.fetch_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a torrent file from a given URL and checks the file&#8217;s validity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>url</em> &#8211; string, the url of the .torrent file to fetch</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the filepath to the downloaded file</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fpcnt">
+<!--[deluge.common.fpcnt]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fpcnt</tt><big>(</big><em>dec</em><big>)</big><a class="headerlink" href="#deluge.common.fpcnt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats a string to display a percentage with two decimal places</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>dec</em> &#8211; float, the ratio in the range [0.0, 1.0]</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a formatted string representing a percentage</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fpcnt</span><span class="p">(</span><span class="mf">0.9311</span><span class="p">)</span>
+<span class="go">&#39;93.11%&#39;</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fpeer">
+<!--[deluge.common.fpeer]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fpeer</tt><big>(</big><em>num_peers</em>, <em>total_peers</em><big>)</big><a class="headerlink" href="#deluge.common.fpeer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats a string to show &#8216;num_peers&#8217; (&#8216;total_peers&#8217;)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>num_peers</em> &#8211; int, the number of connected peers</li>
+<li><em>total_peers</em> &#8211; int, the total number of peers</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a formatted string: num_peers (total_peers), if total_peers &lt; 0, then it will not be shown</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fpeer</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span> <span class="mf">20</span><span class="p">)</span>
+<span class="go">&#39;10 (20)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fpeer</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span> <span class="o">-</span><span class="mf">1</span><span class="p">)</span>
+<span class="go">&#39;10&#39;</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.free_space">
+<!--[deluge.common.free_space]--><tt class="descclassname">deluge.common.</tt><tt class="descname">free_space</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#deluge.common.free_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the free space available at &#8216;path&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>path</em> &#8211; string, the path to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the free space at path in bytes</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fsize">
+<!--[deluge.common.fsize]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fsize</tt><big>(</big><em>fsize_b</em><big>)</big><a class="headerlink" href="#deluge.common.fsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats the bytes value into a string with KiB, MiB or GiB units</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>fsize_b</em> &#8211; int, the filesize in bytes</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">formatted string in KiB, MiB or GiB units</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fsize</span><span class="p">(</span><span class="mf">112245</span><span class="p">)</span>
+<span class="go">&#39;109.6 KiB&#39;</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.fspeed">
+<!--[deluge.common.fspeed]--><tt class="descclassname">deluge.common.</tt><tt class="descname">fspeed</tt><big>(</big><em>bps</em><big>)</big><a class="headerlink" href="#deluge.common.fspeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats a string to display a transfer speed utilizing <a title="deluge.common.fsize" class="reference" href="#deluge.common.fsize"><tt class="xref docutils literal"><span class="pre">fsize()</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>bps</em> &#8211; int, bytes per second</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a formatted string representing transfer speed</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fspeed</span><span class="p">(</span><span class="mf">43134</span><span class="p">)</span>
+<span class="go">&#39;42.1 KiB/s&#39;</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.ftime">
+<!--[deluge.common.ftime]--><tt class="descclassname">deluge.common.</tt><tt class="descname">ftime</tt><big>(</big><em>seconds</em><big>)</big><a class="headerlink" href="#deluge.common.ftime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats a string to show time in a human readable form</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>seconds</em> &#8211; int, the number of seconds</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a formatted time string, will return &#8216;unknown&#8217; for values greater than 10 weeks and &#8216;Infinity&#8217; if seconds == 0</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ftime</span><span class="p">(</span><span class="mf">23011</span><span class="p">)</span>
+<span class="go">&#39;6h 23m&#39;</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_default_config_dir">
+<!--[deluge.common.get_default_config_dir]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_default_config_dir</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#deluge.common.get_default_config_dir" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>filename</em> &#8211; if None, only the config path is returned, if provided, a path including the filename will be returned</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a file path to the config directory and optional filename</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_default_download_dir">
+<!--[deluge.common.get_default_download_dir]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_default_download_dir</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.get_default_download_dir" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the default download directory</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_path_size">
+<!--[deluge.common.get_path_size]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_path_size</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#deluge.common.get_path_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the size in bytes of &#8216;path&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>path</em> &#8211; string, the path to check for size</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the size in bytes of the path or -1 if the path does not exist</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_pixmap">
+<!--[deluge.common.get_pixmap]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_pixmap</tt><big>(</big><em>fname</em><big>)</big><a class="headerlink" href="#deluge.common.get_pixmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides easy access to files in the deluge/data/pixmaps folder within the Deluge egg</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>fname</em> &#8211; the filename to look for</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a path to a pixmap file included with Deluge</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_revision">
+<!--[deluge.common.get_revision]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_revision</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.get_revision" title="Permalink to this definition">¶</a></dt>
+<dd><p>The svn revision of the build if available</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the svn revision, or &#8220;&#8221;</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.get_version">
+<!--[deluge.common.get_version]--><tt class="descclassname">deluge.common.</tt><tt class="descname">get_version</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.get_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the program version from the egg metadata</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the version of Deluge</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.is_ip">
+<!--[deluge.common.is_ip]--><tt class="descclassname">deluge.common.</tt><tt class="descname">is_ip</tt><big>(</big><em>ip</em><big>)</big><a class="headerlink" href="#deluge.common.is_ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple test to see if &#8216;ip&#8217; is valid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>ip</em> &#8211; string, the ip to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True or False</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">is_ip</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.is_magnet">
+<!--[deluge.common.is_magnet]--><tt class="descclassname">deluge.common.</tt><tt class="descname">is_magnet</tt><big>(</big><em>uri</em><big>)</big><a class="headerlink" href="#deluge.common.is_magnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A check to determine if a uri is a valid bittorrent magnet uri</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>uri</em> &#8211; string, the uri to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True or False</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">is_magnet</span><span class="p">(</span><span class="s">&quot;magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.is_url">
+<!--[deluge.common.is_url]--><tt class="descclassname">deluge.common.</tt><tt class="descname">is_url</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#deluge.common.is_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple regex test to check if the URL is valid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>url</em> &#8211; string, the url to test</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True or False</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>** Usage **</p>
+<div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">is_url</span><span class="p">(</span><span class="s">&quot;http://deluge-torrent.org&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.open_file">
+<!--[deluge.common.open_file]--><tt class="descclassname">deluge.common.</tt><tt class="descname">open_file</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#deluge.common.open_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a file or folder using the system configured program</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>path</em> &#8211; the path to the file or folder to open</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.open_url_in_browser">
+<!--[deluge.common.open_url_in_browser]--><tt class="descclassname">deluge.common.</tt><tt class="descname">open_url_in_browser</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#deluge.common.open_url_in_browser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a url in the desktop&#8217;s default browser</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>url</em> &#8211; the url to open</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.osx_check">
+<!--[deluge.common.osx_check]--><tt class="descclassname">deluge.common.</tt><tt class="descname">osx_check</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.osx_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the current platform is Mac OS X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True or False</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.vista_check">
+<!--[deluge.common.vista_check]--><tt class="descclassname">deluge.common.</tt><tt class="descname">vista_check</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.vista_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the current platform is Windows Vista</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True or False</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="deluge.common.windows_check">
+<!--[deluge.common.windows_check]--><tt class="descclassname">deluge.common.</tt><tt class="descname">windows_check</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.common.windows_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the current platform is Windows</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True or False</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html" title="previous chapter">Welcome to deluge&#8217;s documentation!</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="config.html" title="next chapter"><tt class="docutils literal"><span class="pre">deluge.config</span></tt></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/modules/common.txt">Show Source</a></li>
+            </ul>
+            <h3>Quick search</h3>
+            <form class="search" action="../search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="deluge.config"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to deluge&#8217;s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Andrew Resch.
+      Last updated on Nov 05, 2008.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>
