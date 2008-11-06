@@ -88,7 +88,6 @@ _extra_compile_args = [
     "-DNDEBUG",
     "-DTORRENT_USE_OPENSSL=1",
     "-O2",
-    "-DTORRENT_UPNP_LOGGING",
     ]
 
 if windows_check():
