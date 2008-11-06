@@ -176,7 +176,7 @@ class Config(object):
 
         **Usage**
 
-        >>> config = Config("test.conf", default={"test": 5})
+        >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
         >>>     print key, value
         >>> config.register_change_callback(cb)
@@ -196,7 +196,7 @@ class Config(object):
 
         **Usage**
 
-        >>> config = Config("test.conf", default={"test": 5})
+        >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
         >>>     print key, value
         >>> config.register_set_function("test", cb)
@@ -217,7 +217,7 @@ class Config(object):
 
         **Usage**
 
-        >>> config = Config("test.conf", default={"test": 5})
+        >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
         >>>     print key, value
         >>> config.register_set_function("test", cb)
