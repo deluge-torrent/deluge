@@ -111,6 +111,11 @@ class Config(object):
         5
 
         """
+        if not self.__config.has_key(key):
+            self.__config[key] = value
+            log.debug("Setting '%s' to %s of %s", key, value, type(value))
+            return
+
         if self.__config[key] == value:
             return
 
@@ -178,10 +183,9 @@ class Config(object):
 
         >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
-        >>>     print key, value
+        ...     print key, value
+        ...
         >>> config.register_change_callback(cb)
-        >>> config["test"] = 4
-        test 4
 
         """
         self.__change_callback = callback
@@ -198,10 +202,10 @@ class Config(object):
 
         >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
-        >>>     print key, value
-        >>> config.register_set_function("test", cb)
-        >>> config["test"] = 4
-        test 4
+        ...     print key, value
+        ...
+        >>> config.register_set_function("test", cb, apply_now=True)
+        test 5
 
         """
         log.debug("Registering function for %s key..", key)
@@ -219,8 +223,9 @@ class Config(object):
 
         >>> config = Config("test.conf", defaults={"test": 5})
         >>> def cb(key, value):
-        >>>     print key, value
-        >>> config.register_set_function("test", cb)
+        ...     print key, value
+        ...
+        >>> config.register_set_function("test", cb, apply_now=False)
         >>> config.apply_all()
         test 5
 
