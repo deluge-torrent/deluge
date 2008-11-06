@@ -11,14 +11,14 @@ Deluge.Widgets.Toolbar = new Class({
     Extends: Widgets.Base,
     
     initialize: function() {
-        this.parent($('toolbar'))
-        this.buttons = this.element.getFirst()
+        this.parent($('toolbar'));
+        this.buttons = this.element.getFirst();
         this.buttons.getElements('li').each(function(el) {
             el.addEvent('click', function(e) {
-                e.action = el.id
-                this.fireEvent('buttonClick', e)
-            }.bind(this))
-        }, this)
+                e.action = el.id;
+                this.fireEvent('buttonClick', e);
+            }.bind(this));
+        }, this);
     }
 });
 
