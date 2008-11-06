@@ -7,13 +7,11 @@
 popup_icon = "/static/images/tango/emblem-symbolic-link.png" /*the best i could find in 15 minutes, i still hate it.*/
 
 Plugins = {}
-
 Plugins.Label = {
-	/*onload:*/
-	initialize: function() {
+	initialize : function() {
 		this.bound = {
 			addPopup: this.addPopup.bind(this),
-			labelAction: this.labelAction.bindWithEvent(this)
+			labelAction: this.labelAction.bindWithEvent(this),
 		};
 
 		$$('.filter_label').each(this.bound.addPopup);
@@ -21,13 +19,16 @@ Plugins.Label = {
 		var menu = new Widgets.PopupMenu();
 		menu.add(this.menu);
 		menu.addEvent('action', this.bound.labelAction);
+
 	},
 
 	/*add menu to html-ui*/
 	addPopup: function (el) {
+
 		var label_id = el.id.substring(13); /*crop of "filter_label_"*/
-		el.addEvent('click', function(el) {
-			alert('popup:' + label_id);
+		el.addEvent('contextmenu', function(el) {
+			alert('popup menu here : [label="' + label_id + '"] (using this.menu definitions)');
+			return false;
 		});
 	},
 
@@ -73,4 +74,7 @@ Plugins.Label = {
 	]
 };
 
-window.addEvent('domready', Plugins.Label.initialize);
+window.addEvent('domready', function(e) {
+	Plugins.Label.initialize();
+});
+
