@@ -65,7 +65,7 @@ if 0: #plugin-manager
 
 if 0: #possible config-values
     print "=== config-values ==="
-    cfg = sclient.get_config()
+    cfg = sclient.get_sconfig()
     for key in sorted(cfg.keys()):
         print "%s:%s()" % (key, type(cfg[key]).__name__)
 

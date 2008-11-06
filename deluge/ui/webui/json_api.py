@@ -180,7 +180,7 @@ class json_rpc:
             utils.update_pwd(pwd)
             del data["pwd"]
         for key, value in data.iteritems():
-            utils.config.set(key, value)
+            utils.config[key] = value
         utils.config.save()
         utils.apply_config()
 

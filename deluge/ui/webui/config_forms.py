@@ -55,7 +55,7 @@ class WebCfgForm(forms.Form):
     def save(self, data):
         utils.validate_config(data)
         for key, value in data.iteritems():
-            config.set(key, value)
+            config[key] = value
         config.save()
 
 class CfgForm(forms.Form):
