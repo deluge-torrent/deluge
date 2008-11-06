@@ -49,7 +49,7 @@ def check_session(func):
         #check session:
         vars = web.input(redir_after_login = None)
         ck = cookies()
-        if ck.has_key("session_id") and ck["session_id"] in utils.config.get("sessions"):
+        if ck.has_key("session_id") and ck["session_id"] in utils.config["sessions"]:
             return func(self, name) #check_session:ok
         elif vars.redir_after_login:
             utils.seeother(url("/login",redir=self_url()))
@@ -135,16 +135,3 @@ def remote(func):
             print  traceback.format_exc()
     deco.__name__ = func.__name__
     return deco
-
-"""
-obsolete: -> using check-session.
-def check_allowed(capability):
-    def check_allowed_inner(func):
-        def deco(self, name = None): #check allowed (capablity)
-            if capability in config.get("disallow"):
-                return error_page("Not allowed to: '%s' , because:'%s'"
-                    % (capability , config.get("disallow")[capability]))
-            return func(self, name)
-        return deco
-    return check_allowed_inner
-"""

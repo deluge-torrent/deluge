@@ -98,7 +98,7 @@ class json_rpc:
         web.header("Content-Type", "application/x-json")
         ck = cookies()
         id = 0
-        if not(ck.has_key("session_id") and ck["session_id"] in utils.config.get("sessions")):
+        if not(ck.has_key("session_id") and ck["session_id"] in utils.config["sessions"]):
             return json_error("not authenticated", id)
 
         try:
@@ -172,7 +172,7 @@ class json_rpc:
         }
 
     def get_webui_config(self):
-        return dict([x for x in utils.config.get_config().iteritems() if not x[0].startswith("pwd")])
+        return dict([x for x in utils.config.config().iteritems() if not x[0].startswith("pwd")])
 
     def set_webui_config(self, data):
         utils.validate_config(data)
@@ -188,10 +188,10 @@ class json_rpc:
         return render.get_templates()
 
     def download_torrent_from_url(self, url):
-        """        
+        """
         input:
             url: the url of the torrent to download
-        
+
         returns:
             filename: the temporary file name of the torrent file
         """
@@ -202,15 +202,15 @@ class json_rpc:
         filename, headers = urllib.urlretrieve(url, tmp_file)
         log.debug("filename: %s", filename)
         return filename
-    
+
     def get_torrent_info(self, filename):
         """
         Goal:
             allow the webui to retrieve data about the torrent
-        
+
         input:
             filename: the filename of the torrent to gather info about
-        
+
         returns:
         {
             "filename": the torrent file
@@ -231,7 +231,7 @@ class json_rpc:
             }]
         """
         import os
-        
+
         for torrent in torrents:
             filename = os.path.basename(torrent['path'])
             fdump = open(torrent['path'], 'r').read()

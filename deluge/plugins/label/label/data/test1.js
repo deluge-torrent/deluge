@@ -8,10 +8,6 @@ popup_icon = "/static/images/tango/emblem-symbolic-link.png" /*the best i could 
 
 Plugins = {}
 
-function _(str)  {
-	return str /*#todo : translations; see Deluge.Strings.get*/
-}
-
 Plugins.Label = {
 	/*onload:*/
 	initialize: function() {
@@ -42,7 +38,7 @@ Plugins.Label = {
 		func = ($defined(this[action])) ? this[action] : $empty;
 		func(label_id);
 	},
-	
+
 	/*menu callbacks:*/
 	add: function(label_id) {
 		alert("Add Label:" + label_id);

@@ -88,6 +88,7 @@ _extra_compile_args = [
     "-DNDEBUG",
     "-DTORRENT_USE_OPENSSL=1",
     "-O2",
+    "-DTORRENT_UPNP_LOGGING",
     ]
 
 if windows_check():
@@ -169,15 +170,15 @@ else:
         'ssl',
         'z'
         ]
-    
+
     if not windows_check():
         dynamic_lib_extension = ".so"
         if osx_check():
             dynamic_lib_extension = ".dylib"
 
         _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
-        
-        # Modify the libs if necessary for systems with only -mt boost libs    
+
+        # Modify the libs if necessary for systems with only -mt boost libs
         for lib in _libraries:
             if lib[:6] == "boost_":
                 for lib_prefix in _library_dirs:
@@ -187,7 +188,7 @@ else:
                             _libraries[_libraries.index(lib)] = lib + lib_suffix
                             lib = lib + lib_suffix
                             break
-                        
+
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/*.c") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
@@ -213,7 +214,7 @@ if windows_check() or not os.path.exists(os.path.join(sysconfig.get_config_var("
         library_dirs = _library_dirs,
         sources = _sources
     )
-    
+
     _ext_modules = [libtorrent]
 
 class build_trans(cmd.Command):

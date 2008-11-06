@@ -37,7 +37,9 @@ import pkg_resources
 from deluge.ui.client import sclient
 import components
 from deluge.log import LOG as log
+from webserver_common import  CONFIG_DEFAULTS
 
+config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
 
 # Initialize gettext
 if deluge.common.windows_check() or deluge.common.osx_check():
@@ -65,7 +67,6 @@ import utils
 
 
 ## Init ##
-config = ConfigManager("webui06.conf")
 random.seed()
 web.webapi.internalerror = deluge_debugerror
 
@@ -104,10 +105,10 @@ def create_webserver(debug = False, base_url =None):
 
     utils.set_config_defaults()
     if base_url:
-        config.set('base', base_url)
+        config['base'] = base_url
     else:
-        config.set('base','')
-    config.set('disallow',{})
+        config['base'] = ''
+    config['disallow'] = {}
     utils.apply_config()
 
 
@@ -119,11 +120,11 @@ def create_webserver(debug = False, base_url =None):
 
     wsgi_app = WsgiApplication(middleware)
 
-    server_address=("0.0.0.0", int(config.get('port')))
+    server_address=("0.0.0.0", int(config['port']))
     server = CherryPyWSGIServer(server_address, wsgi_app, server_name="localhost")
 
     https = False
-    if config.get("https"):
+    if config["https"]:
         import os
         from deluge.common import get_default_config_dir
         cert_path = os.path.join(get_default_config_dir("ssl") ,"deluge.cert.pem" )

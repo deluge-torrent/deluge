@@ -54,7 +54,7 @@ from webserver_common import  TORRENT_KEYS, CONFIG_DEFAULTS
 from deluge.ui.client import sclient, aclient
 
 webui_plugin_manager = component.get("WebPluginManager")
-config = ConfigManager("webui06.conf")
+config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
 
 #async-proxy: map callback to a a dict-setter
 def dict_cb(key,d):
@@ -70,18 +70,18 @@ def setcookie(key, val):
 #really simple sessions, to bad i had to implement them myself.
 def start_session():
     session_id = str(random.random())
-    config.set("sessions", config.get("sessions") + [session_id])
-    if len(config.get("sessions")) > 30: #store a max of 20 sessions.
-        config.set("sessions",config["sessions"][:-20])
+    config["sessions"] = config["sessions"] + [session_id]
+    if len(config["sessions"]) > 30: #store a max of 20 sessions.
+        config["sessions"] = config["sessions"][:-20]
     setcookie("session_id", session_id)
     config.save()
 
 def end_session():
     session_id = getcookie("session_id")
     setcookie("session_id","")
-    if session_id in config.get("sessions"):
+    if session_id in config["sessions"]:
         config["sessions"].remove(session_id)
-        config.set("sessions", config["sessions"])
+        config["sessions"] = config["sessions"]
 #/sessions
 
 def seeother(url, *args, **kwargs):
@@ -206,8 +206,8 @@ def daemon_start_localhost(port):
     subprocess.Popen(["deluged", "-p %s" % port])
 
 def daemon_connect(uri):
-    if config.get('daemon') <> uri:
-        config.set('daemon', uri)
+    if config['daemon'] <> uri:
+        config['daemon'] = uri
         config.save()
 
     sclient.set_core_uri(uri)
@@ -231,15 +231,15 @@ def update_pwd(pwd):
     m.update(salt)
     m.update(pwd)
     #
-    config.set("pwd_salt", salt)
-    config.set("pwd_md5", m.digest())
+    config["pwd_salt"] = salt
+    config["pwd_md5"] = m.digest()
     config.save()
 
 def check_pwd(pwd):
     m = md5()
-    m.update(config.get('pwd_salt'))
+    m.update(config['pwd_salt'])
     m.update(pwd)
-    return (m.digest() == config.get('pwd_md5'))
+    return (m.digest() == config['pwd_md5'])
 
 def validate_config(cfg_dict):
     """
@@ -254,6 +254,9 @@ def validate_config(cfg_dict):
 
 
 def set_config_defaults():
+    """
+    OBSOLETE, TODO REMOVE THIS !!
+    """
     changed = False
     for key, value in CONFIG_DEFAULTS.iteritems():
         if not key in config.config:
@@ -261,8 +264,8 @@ def set_config_defaults():
             changed = True
 
     from render import render
-    if not config.get("template") in render.get_templates():
-        config.set("template", CONFIG_DEFAULTS["template"])
+    if not config["template"] in render.get_templates():
+        config["template"] = CONFIG_DEFAULTS["template"]
         changed = True
 
     if changed:
@@ -272,11 +275,10 @@ def apply_config():
     #etc, mostly for apache:
     from render import render
     try:
-        #sclient.set_core_uri(config.get('daemon'))
-        daemon_connect(config.get('daemon'))
+        daemon_connect(config['daemon'])
     except Exception,e:
-        log.debug("error setting core uri:%s:%s:%s" % (config.get('daemon'),e,e.message))
-    render.set_global('base', config.get('base'))
+        log.debug("error setting core uri:%s:%s:%s" % (config['daemon'], e, e.message))
+    render.set_global('base', config['base'])
     render.apply_cfg()
 
 #exceptions:

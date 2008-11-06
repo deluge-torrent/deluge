@@ -54,13 +54,13 @@ class subclassed_render(object):
         self.plugin_renderers = []
 
     def apply_cfg(self):
-        self.cache = config.get('cache_templates')
+        self.cache = config['cache_templates']
         self.renderers = []
         self.template_cache = {}
         self.webui_path = os.path.dirname(__file__)
 
         #load template-meta-data
-        self.cfg_template = config.get('template')
+        self.cfg_template = config['template']
         template_path = os.path.join(self.webui_path, 'templates/%s/' % self.cfg_template)
         if not os.path.exists(template_path):
             template_path = os.path.join(self.webui_path, 'templates/white/')
@@ -155,7 +155,7 @@ def template_part_stats():
         return '[not connected]'
 
 def get_config(var):
-    return config.get(var)
+    return config[var]
 
 irow = 0
 def altrow(reset = False):

@@ -119,7 +119,7 @@ class Core(CorePluginBase):
 
     def export_get_config(self):
         "returns the config dictionary"
-        return self.config.get_config()
+        return self.config.config
 """
 
 INIT = """

@@ -24,11 +24,11 @@ def get_wsgi_application(base_url, config_dir):
 
     utils.set_config_defaults()
 
-    config.set('base','/deluge')
-    config.set('disallow',{
+    config['base'] = '/deluge'
+    config['disallow'] = {
         '/daemon/control':'running as an apache user',
         '/config/server':'running as an apache-user'
-        })
+        }
 
     utils.apply_config()
 

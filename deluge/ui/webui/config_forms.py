@@ -50,7 +50,7 @@ config_page_manager = component.get("ConfigPageManager")
 class WebCfgForm(forms.Form):
     "config base for webui"
     def initial_data(self):
-        return config.get_config()
+        return config.config
 
     def save(self, data):
         utils.validate_config(data)

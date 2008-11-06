@@ -310,8 +310,8 @@ class connect:
             connected = None
 
         connect_list = ["http://localhost:58846"]
-        if config.get('daemon') <> "http://localhost:58846":
-            connect_list = [config.get('daemon')] + connect_list
+        if config['daemon'] <> "http://localhost:58846":
+            connect_list = [config['daemon']] + connect_list
 
         return render.connect(connect_list, connected ,restart)
 
@@ -390,7 +390,7 @@ route("/static/(.*)", static)
 class template_static(static_handler):
     def get_base_dir(self):
         return os.path.join(os.path.dirname(__file__),
-                'templates/%s/static' % config.get('template'))
+                'templates/%s/static' % config['template'])
 route("/template/static/(.*)", template_static)
 
 class template_render:
@@ -398,9 +398,9 @@ class template_render:
 
     def GET(self, name):
         web.header("Content-type",utils.guess_mime_type(name))
-        #security : assumes config.get('template') returns a safe subdir.
+        #security : assumes config['template'] returns a safe subdir.
         basepath = os.path.normpath(os.path.join(os.path.dirname(__file__),
-                'templates/%s/render' % config.get('template')))
+                'templates/%s/render' % config['template']))
         filename =  os.path.normpath(os.path.join(basepath,name))
         if not filename.startswith(basepath):
             #hack detected?
