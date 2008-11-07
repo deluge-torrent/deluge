@@ -495,7 +495,7 @@ class AddTorrentDialog(component.Component):
 
         if response == gtk.RESPONSE_OK:
             result = chooser.get_filenames()
-            self.config.set["default_load_path"] = chooser.get_current_folder()
+            self.config["default_load_path"] = chooser.get_current_folder()
         else:
             chooser.destroy()
             return
