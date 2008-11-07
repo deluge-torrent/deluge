@@ -541,7 +541,6 @@ class Core(
 
     def export_set_config(self, config):
         """Set the config with values from dictionary"""
-        #config = deluge.common.pythonize(config)
         # Load all the values into the configuration
         for key in config.keys():
             if isinstance(config[key], unicode) or isinstance(config[key], str):
