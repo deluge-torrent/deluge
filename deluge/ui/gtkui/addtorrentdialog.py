@@ -200,12 +200,12 @@ class AddTorrentDialog(component.Component):
     def add_from_magnets(self, uris):
         import base64
         new_row = None
-        
+
         for uri in uris:
             info_hash = base64.b32decode(uri.split("&")[0][20:]).encode("hex")
             if info_hash in self.infos:
                 log.debug("Torrent already in list!")
-                continue           
+                continue
             name = None
             for i in uri.split("&"):
                 if i[:3] == "dn=":
@@ -229,7 +229,7 @@ class AddTorrentDialog(component.Component):
 
         # Save the previous torrents options
         self.save_torrent_options()
-        
+
         # Update files list
         files_list = self.files[model.get_value(row, 0)]
 
@@ -254,7 +254,7 @@ class AddTorrentDialog(component.Component):
         self.add_files(None, split_files)
         self.listview_files.set_model(self.files_treestore)
         self.listview_files.expand_row("0", False)
-        
+
     def prepare_file(self, file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find("/")
         if first_slash_index == -1:
@@ -289,17 +289,17 @@ class AddTorrentDialog(component.Component):
                     while itr:
                         download.append(self.files_treestore.get_value(itr, 0))
                         itr = self.files_treestore.iter_next(itr)
-                        
+
                     if sum(download) == len(download):
                         download_value = True
                     elif sum(download) == 0:
                         download_value = False
                     else:
                         inconsistent = True
-                        
+
                     self.files_treestore.set_value(parent_iter, 0, download_value)
                     self.files_treestore.set_value(parent_iter, 4, inconsistent)
-                
+
                 ret += value[1]["size"]
         return ret
 
@@ -369,8 +369,8 @@ class AddTorrentDialog(component.Component):
         # Save the file priorities
         files_priorities = self.build_priorities(
                             self.files_treestore.get_iter_first(), {})
-        
-        if len(files_priorities) > 0:            
+
+        if len(files_priorities) > 0:
             for i, file_dict in enumerate(self.files[torrent_id]):
                 file_dict["download"] = files_priorities[i]
 
@@ -487,8 +487,8 @@ class AddTorrentDialog(component.Component):
 
         # Load the 'default_load_path' from the config
         self.config = ConfigManager("gtkui.conf")
-        if self.config.get("default_load_path") is not None:
-            chooser.set_current_folder(self.config.get("default_load_path"))
+        if self.config["default_load_path"] is not None:
+            chooser.set_current_folder(self.config["default_load_path"])
 
         # Run the dialog
         response = chooser.run()
@@ -589,7 +589,7 @@ class AddTorrentDialog(component.Component):
         entry.set_text("")
         textview.get_buffer().set_text("")
         dialog.hide()
-        
+
     def _on_button_remove_clicked(self, widget):
         log.debug("_on_button_remove_clicked")
         (model, row) = self.listview_torrents.get_selection().get_selected()
@@ -633,22 +633,22 @@ class AddTorrentDialog(component.Component):
             file_priorities = self.get_file_priorities(torrent_id)
             if options != None:
                 options["file_priorities"] = file_priorities
-            
+
             if deluge.common.is_magnet(filename):
                 torrent_magnets.append(filename)
                 del options["file_priorities"]
                 torrent_magnet_options.append(options)
-            else:    
+            else:
                 torrent_filenames.append(filename)
                 torrent_options.append(options)
 
             row = self.torrent_liststore.iter_next(row)
-        
+
         if torrent_filenames:
             client.add_torrent_file(torrent_filenames, torrent_options)
         if torrent_magnets:
             client.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
-            
+
         client.force_call(False)
         self.hide()
 
