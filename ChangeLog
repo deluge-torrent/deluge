@@ -1,6 +1,7 @@
 Deluge 1.0.5 (In Development)
  GtkUI:
   * Increase the per-torrent stop share ratio max to 99999.0
+  * Fix #528 make sure gtkui config file is written before exiting
 
  WebUi:
   * Javascript auto refresh for both templates.
