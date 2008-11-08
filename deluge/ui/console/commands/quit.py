@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from deluge.ui.client import aclient as client
-from deluge.ui.null2.main import BaseCommand
+from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
     """Exit from the client."""

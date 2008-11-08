@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from deluge.ui.client import aclient as client
-from deluge.ui.null2.main import match_torrents
+from deluge.ui.console.main import match_torrents
 import re
 import logging
 
@@ -10,7 +10,7 @@ _mapping = {}
 
 def _arg_is_id(arg):
     return bool(_idregex.match(arg))
-    
+
 def get_names(torrents):
     global names
     names = []

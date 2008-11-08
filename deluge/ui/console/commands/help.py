@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from deluge.ui.null2 import UI_PATH
-from deluge.ui.null2.main import BaseCommand, load_commands
-from deluge.ui.null2.colors import templates
+from deluge.ui.console import UI_PATH
+from deluge.ui.console.main import BaseCommand, load_commands
+from deluge.ui.console.colors import templates
 import os
 
 class Command(BaseCommand):

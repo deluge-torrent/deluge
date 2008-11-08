@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from deluge.ui.null2.main import BaseCommand, match_torrents
-from deluge.ui.null2 import mapping
-from deluge.ui.null2.colors import templates
+from deluge.ui.console.main import BaseCommand, match_torrents
+from deluge.ui.console import mapping
+from deluge.ui.console.colors import templates
 from deluge.ui.client import aclient as client
 from optparse import make_option
 import os

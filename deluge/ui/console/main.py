@@ -3,8 +3,8 @@ import logging
 logging.disable(logging.ERROR)
 import os, sys
 import optparse
-from deluge.ui.null2 import UI_PATH
-from deluge.ui.null2.colors import Template, make_style, templates, default_style as style
+from deluge.ui.console import UI_PATH
+from deluge.ui.console.colors import Template, make_style, templates, default_style as style
 from deluge.ui.client import aclient as client
 import shlex
 
@@ -74,7 +74,7 @@ def match_torrents(array=None):
 
 def load_commands(command_dir, exclude=[]):
     def get_command(name):
-        return getattr(__import__('deluge.ui.null2.commands.%s' % name, {}, {}, ['Command']), 'Command')()
+        return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
 
     try:
         commands = []
@@ -90,7 +90,7 @@ def load_commands(command_dir, exclude=[]):
     except OSError, e:
         return {}
 
-class NullUI(object):
+class ConsoleUI(object):
     prompt = '>>> '
 
     def __init__(self, args=None):
@@ -203,7 +203,7 @@ class NullUI(object):
     run = cmdloop
 
 if __name__ == '__main__':
-    ui = NullUI()
+    ui = ConsoleUI()
     ui.precmd()
     ui.onecmd(' '.join(sys.argv[1:]))
     ui.postcmd()
