@@ -7,1530 +7,519 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-10-16 21:53-0500\n"
-"PO-Revision-Date: 2008-10-17 10:57+0000\n"
-"Last-Translator: Leo <Unknown>\n"
+"POT-Creation-Date: 2008-10-27 18:19-0500\n"
+"PO-Revision-Date: 2008-11-03 01:48+0000\n"
+"Last-Translator: Vadim Gusev <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-10-27 08:53+0000\n"
+"X-Launchpad-Export-Date: 2008-11-08 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Bookmarks: 175,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
-#: deluge/core/torrentmanager.py:666
-msgid "Announce OK"
-msgstr "Анонс успешен"
+#: deluge/plugins/label/label/data/label_pref.glade:22
+#: deluge/plugins/label/build/lib/label/data/label_pref.glade:22
+msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
+msgstr ""
+"<i>Используйте боковую панель для добавления, редактирования и удаления "
+"меток. </i>\n"
+
+#: deluge/plugins/label/label/data/label_pref.glade:32
+#: deluge/plugins/label/build/lib/label/data/label_pref.glade:32
+msgid "<b>Labels</b>"
+msgstr "<b>Метки</b>"
+
+#: deluge/plugins/label/label/data/label_options.glade:7
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:7
+msgid "Label Options"
+msgstr "Опции метки"
+
+#: deluge/plugins/label/label/data/label_options.glade:87
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:87
+msgid "Connections:"
+msgstr "Соединения:"
+
+#: deluge/plugins/label/label/data/label_options.glade:115
+#: deluge/plugins/label/label/data/label_options.glade:180
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:115
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:180
+msgid "Kib/s"
+msgstr "Kib/s"
+
+#: deluge/plugins/label/label/data/label_options.glade:130
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:130
+msgid "Download Speed:"
+msgstr "Скорость загрузки:"
+
+#: deluge/plugins/label/label/data/label_options.glade:142
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:142
+msgid "Upload Speed:"
+msgstr "Скорость раздачи:"
+
+#: deluge/plugins/label/label/data/label_options.glade:155
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:155
+msgid "Upload Slots:\t"
+msgstr "Слоты отдачи:\t"
+
+#: deluge/plugins/label/label/data/label_options.glade:222
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:222
+msgid "Apply per torrent max settings:"
+msgstr "Применить максимальные настройки для каждого торрента"
+
+#: deluge/plugins/label/label/data/label_options.glade:235
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:235
+msgid "Maximum"
+msgstr "Максимум"
 
-#: deluge/core/torrentmanager.py:687
-msgid "Announce Sent"
-msgstr "Анонс отправлен"
-
-#: deluge/core/torrentmanager.py:696
-msgid "Alert"
-msgstr "Предупреждение"
-
-#: deluge/core/torrentmanager.py:707
-msgid "Warning"
-msgstr "Внимание"
-
-#: deluge/core/torrentmanager.py:717
-#: deluge/ui/webui/scripts/template_strings.py:32
-msgid "Error"
-msgstr "Ошибка"
-
-#: deluge/ui/webui/scripts/template_strings.py:1
-msgid "# Of Files"
-msgstr "Количество файлов"
-
-#: deluge/ui/webui/scripts/template_strings.py:2
-msgid "+"
-msgstr "+"
-
-#: deluge/ui/webui/scripts/template_strings.py:3
-msgid "++"
-msgstr "++"
-
-#: deluge/ui/webui/scripts/template_strings.py:4
-#: deluge/ui/webui/register_menu.py:41
-msgid "About"
-msgstr "О программе"
-
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "Active time"
-msgstr "Время работы"
-
-#: deluge/ui/webui/scripts/template_strings.py:6
-#: deluge/ui/gtkui/glade/main_window.glade:314
-msgid "Add Torrent"
-msgstr "Добавить торрент"
-
-#: deluge/ui/webui/scripts/template_strings.py:7
-#: deluge/ui/gtkui/glade/main_window.glade:313
-msgid "Add torrent"
-msgstr "Добавить торрент"
-
-#: deluge/ui/webui/scripts/template_strings.py:8
-#: deluge/ui/gtkui/peers_tab.py:96
-msgid "Address"
-msgstr "Адрес"
-
-#: deluge/ui/webui/scripts/template_strings.py:9
-msgid "Admin"
-msgstr "Администратор"
-
-#: deluge/ui/webui/scripts/template_strings.py:10
-#: deluge/ui/webui/torrent_options.py:26
-#: deluge/ui/gtkui/glade/main_window.glade:1846
-#: deluge/plugins/label/label/data/label_options.glade:332
-msgid "Auto Managed"
-msgstr "Автоматический режим"
-
-#: deluge/ui/webui/scripts/template_strings.py:11
-msgid "Auto refresh:"
-msgstr "Автообновление:"
-
-#: deluge/ui/webui/scripts/template_strings.py:12
-msgid "Ava"
-msgstr "Дост"
-
-#: deluge/ui/webui/scripts/template_strings.py:13
-msgid "Availability"
-msgstr "Доступность"
-
-#: deluge/ui/webui/scripts/template_strings.py:14
-msgid "Clear"
-msgstr "Очистить"
-
-#: deluge/ui/webui/scripts/template_strings.py:15
-#: deluge/ui/gtkui/peers_tab.py:112
-msgid "Client"
-msgstr "Клиент"
-
-#: deluge/ui/webui/scripts/template_strings.py:16
-#: deluge/ui/webui/register_menu.py:39
-msgid "Config"
-msgstr "Настройка"
-
-#: deluge/ui/webui/scripts/template_strings.py:17
-#: deluge/ui/webui/register_menu.py:40
-msgid "Connect"
-msgstr "Соединиться"
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Connect to Daemon"
-msgstr "Подключить к процессу"
-
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Connected to"
-msgstr "Подключено к"
-
-#: deluge/ui/webui/scripts/template_strings.py:20
-#: deluge/ui/gtkui/statusbar.py:149
-msgid "Connections"
-msgstr "Соединения"
-
-#: deluge/ui/webui/scripts/template_strings.py:21
-msgid "DHT Nodes"
-msgstr "Узлы DHT"
-
-#: deluge/ui/webui/scripts/template_strings.py:22
-msgid "Delete .torrent file"
-msgstr "Удалить .torrent файл"
-
-#: deluge/ui/webui/scripts/template_strings.py:23
-msgid "Delete downloaded files."
-msgstr "Удалить загруженные файлы."
-
-#: deluge/ui/webui/scripts/template_strings.py:24
-msgid "Deluge : Torrent List"
-msgstr "Deluge : список торрентов"
-
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Deluge Login"
-msgstr "Вход в Deluge"
-
-#: deluge/ui/webui/scripts/template_strings.py:26
-msgid "Disable"
-msgstr "Отключить"
-
-#: deluge/ui/webui/scripts/template_strings.py:27
-#: deluge/ui/gtkui/peers_tab.py:138 deluge/ui/gtkui/torrentview.py:160
-msgid "Down Speed"
-msgstr "Приём"
-
-#: deluge/ui/webui/scripts/template_strings.py:28
-#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:324
-msgid "Download"
-msgstr "Загрузка"
-
-#: deluge/ui/webui/scripts/template_strings.py:29
-msgid "Downloaded"
-msgstr "Загружено"
-
-#: deluge/ui/webui/scripts/template_strings.py:30
-#: deluge/ui/gtkui/torrentview.py:168
-msgid "ETA"
-msgstr "Осталось"
-
-#: deluge/ui/webui/scripts/template_strings.py:31
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1903
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3213
-msgid "Enable"
-msgstr "Включить"
-
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Eta"
-msgstr "Осталось"
-
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "False"
-msgstr "Ложно"
-
-#: deluge/ui/webui/scripts/template_strings.py:35
-msgid "File"
-msgstr "Файл"
-
-#: deluge/ui/webui/scripts/template_strings.py:36
-msgid "Filter on a keyword"
-msgstr "Фильтрация по ключевому слову"
-
-#: deluge/ui/webui/scripts/template_strings.py:37
-#: deluge/plugins/label/label/webui/config.py:117
-msgid "General"
-msgstr "Общее"
-
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Keyword"
-msgstr "Ключевое слово"
-
-#: deluge/ui/webui/scripts/template_strings.py:39
-#: deluge/plugins/label/label/webui/pages.py:62
-#: deluge/plugins/label/label/webui/config.py:110
-#: deluge/plugins/label/label/gtkui/submenu.py:54
-#: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-msgid "Label"
-msgstr "Название"
-
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Label torrent"
-msgstr "Метка торрента"
-
-#: deluge/ui/webui/scripts/template_strings.py:41
-msgid "Login"
-msgstr "Войти"
-
-#: deluge/ui/webui/scripts/template_strings.py:42
-#: deluge/ui/webui/register_menu.py:42
-msgid "Logout"
-msgstr "Выйти"
-
-#: deluge/ui/webui/scripts/template_strings.py:43
-#: deluge/ui/webui/register_menu.py:60
-msgid "Move"
-msgstr "Переместить"
-
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Move torrent"
-msgstr "Переместить торрент"
-
-#: deluge/ui/webui/scripts/template_strings.py:45
-msgid "N"
-msgstr "N"
-
-#: deluge/ui/webui/scripts/template_strings.py:46
-#: deluge/ui/gtkui/torrentview.py:140
-msgid "Name"
-msgstr "Название"
-
-#: deluge/ui/webui/scripts/template_strings.py:47
-msgid "Next Announce"
-msgstr "Следующий анонс"
-
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Not Connected to a daemon"
-msgstr "Не подключён к процессу"
-
-#: deluge/ui/webui/scripts/template_strings.py:49
-#: deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "Выкл"
-
-#: deluge/ui/webui/scripts/template_strings.py:50
-#: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
-#: deluge/ui/gtkui/glade/connection_manager.glade:246
-msgid "Options"
-msgstr "Параметры"
-
-#: deluge/ui/webui/scripts/template_strings.py:51
-msgid "Other"
-msgstr "Прочее"
-
-#: deluge/ui/webui/scripts/template_strings.py:52
-#: deluge/ui/webui/config_tabs_webui.py:72
-msgid "Password"
-msgstr "Пароль"
-
-#: deluge/ui/webui/scripts/template_strings.py:53
-msgid "Password is invalid,try again"
-msgstr "Неверный пароль, попробуйте снова"
-
-#: deluge/ui/webui/scripts/template_strings.py:54
-msgid "Pause all"
-msgstr "Приостановить все"
-
-#: deluge/ui/webui/scripts/template_strings.py:55
-#: deluge/ui/webui/register_menu.py:48 deluge/ui/gtkui/torrentview.py:155
-msgid "Peers"
-msgstr "Узлы"
-
-#: deluge/ui/webui/scripts/template_strings.py:56
-msgid "Pieces"
-msgstr "Части"
-
-#: deluge/ui/webui/scripts/template_strings.py:57
-#: deluge/ui/gtkui/glade/main_window.glade:2014
-msgid "Private"
-msgstr "Приватный"
-
-#: deluge/ui/webui/scripts/template_strings.py:58
-#: deluge/ui/gtkui/peers_tab.py:125 deluge/ui/gtkui/torrentview.py:146
-#: deluge/ui/gtkui/files_tab.py:140
-msgid "Progress"
-msgstr "Выполнено"
-
-#: deluge/ui/webui/scripts/template_strings.py:59
-#: deluge/ui/webui/config_tabs_deluge.py:145
-#: deluge/plugins/label/label/data/label_options.glade:377
-msgid "Queue"
-msgstr "Очередь"
-
-#: deluge/ui/webui/scripts/template_strings.py:60
-msgid "Queue Position"
-msgstr "Позиция в очереди"
-
-#: deluge/ui/webui/scripts/template_strings.py:61
-#: deluge/ui/gtkui/torrentview.py:172
-msgid "Ratio"
-msgstr "Рейтинг"
-
-#: deluge/ui/webui/scripts/template_strings.py:62
-msgid "Refresh page every:"
-msgstr "Обновлять страницу каждые:"
-
-#: deluge/ui/webui/scripts/template_strings.py:63
-msgid "Remove"
-msgstr "Удалить"
-
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Remove torrent"
-msgstr "Удалить торрент"
-
-#: deluge/ui/webui/scripts/template_strings.py:65
-msgid "Restart"
-msgstr "Перезапустить"
-
-#: deluge/ui/webui/scripts/template_strings.py:66
-msgid "Resume all"
-msgstr "Продолжить все"
-
-#: deluge/ui/webui/scripts/template_strings.py:67
-msgid "Save"
-msgstr "Сохранить"
-
-#: deluge/ui/webui/scripts/template_strings.py:68
-msgid "Seed rank"
-msgstr "Соотношение раздач"
-
-#: deluge/ui/webui/scripts/template_strings.py:69
-#: deluge/ui/gtkui/torrentview.py:150
-msgid "Seeders"
-msgstr "Сиды"
-
-#: deluge/ui/webui/scripts/template_strings.py:70
-msgid "Seeding time"
-msgstr "Общее время раздач"
-
-#: deluge/ui/webui/scripts/template_strings.py:71
-msgid "Set"
-msgstr "Установить"
-
-#: deluge/ui/webui/scripts/template_strings.py:72
-msgid "Set Timeout"
-msgstr "Установить таймаут"
-
-#: deluge/ui/webui/scripts/template_strings.py:73
-msgid "Settings"
-msgstr "Настройки"
-
-#: deluge/ui/webui/scripts/template_strings.py:74
-msgid "Share Ratio"
-msgstr "Рейтинг"
-
-#: deluge/ui/webui/scripts/template_strings.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:109 deluge/ui/gtkui/torrentview.py:142
-#: deluge/ui/gtkui/files_tab.py:127 deluge/ui/gtkui/createtorrentdialog.py:83
-msgid "Size"
-msgstr "Размер"
-
-#: deluge/ui/webui/scripts/template_strings.py:76
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:9
-msgid "Speed"
-msgstr "Скорость"
-
-#: deluge/ui/webui/scripts/template_strings.py:77
-#: deluge/ui/webui/register_menu.py:54
-msgid "Start"
-msgstr "Запустить"
-
-#: deluge/ui/webui/scripts/template_strings.py:78
-#: deluge/ui/webui/register_menu.py:53
-msgid "Stop"
-msgstr "Остановить"
-
-#: deluge/ui/webui/scripts/template_strings.py:79
-msgid "Submit"
-msgstr "Отправить"
-
-#: deluge/ui/webui/scripts/template_strings.py:80
-msgid "Torrent list"
-msgstr "Список торрентов"
-
-#: deluge/ui/webui/scripts/template_strings.py:81
-msgid "Total Size"
-msgstr "Общий размер"
-
-#: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:180
-#: deluge/ui/gtkui/createtorrentdialog.py:98
-#: deluge/ui/gtkui/edittrackersdialog.py:83
-msgid "Tracker"
-msgstr "Трекер"
-
-#: deluge/ui/webui/scripts/template_strings.py:83
-msgid "Tracker Status"
-msgstr "Состояние трекера"
-
-#: deluge/ui/webui/scripts/template_strings.py:84
-msgid "True"
-msgstr "Истина"
-
-#: deluge/ui/webui/scripts/template_strings.py:85
-#: deluge/ui/gtkui/peers_tab.py:151 deluge/ui/gtkui/torrentview.py:164
-msgid "Up Speed"
-msgstr "Скорость отдачи"
-
-#: deluge/ui/webui/scripts/template_strings.py:86
-msgid "Update"
-msgstr "Обновить"
-
-#: deluge/ui/webui/scripts/template_strings.py:87
-#: deluge/ui/gtkui/systemtray.py:328
-msgid "Upload"
-msgstr "Раздача"
-
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Uploaded"
-msgstr "Роздано"
-
-#: deluge/ui/webui/scripts/template_strings.py:89
-msgid "X"
-msgstr "X"
-
-#: deluge/ui/webui/scripts/template_strings.py:90
-msgid "seconds"
-msgstr "секунд(ы)"
-
-#: deluge/ui/webui/pages.py:267
-msgid "refresh must be > 0"
-msgstr "интервал должен быть > 0"
-
-#: deluge/ui/webui/pages.py:318
-msgid "no uri"
-msgstr "Интернет-ресурс отсутствует"
-
-#: deluge/ui/webui/torrent_add.py:43
-msgid "Download Location"
-msgstr "Путь закачки"
-
-#: deluge/ui/webui/torrent_add.py:44
-msgid "Compact Allocation"
-msgstr "Зарезервировать место"
-
-#: deluge/ui/webui/torrent_add.py:48 deluge/ui/webui/torrent_options.py:16
-msgid "Maximum Down Speed"
-msgstr "Максимальная скорость приема"
-
-#: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
-msgid "Maximum Up Speed"
-msgstr "Максимальная скорость отдачи"
-
-#: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
-#: deluge/ui/webui/config_tabs_deluge.py:117
-#: deluge/ui/webui/torrent_options.py:19
-#: deluge/plugins/label/label/webui/config.py:84
-msgid "Maximum Connections"
-msgstr "Максимум соединений"
-
-#: deluge/ui/webui/torrent_add.py:52 deluge/ui/webui/config_tabs_deluge.py:105
-#: deluge/ui/webui/config_tabs_deluge.py:120
-#: deluge/ui/webui/torrent_options.py:20
-#: deluge/plugins/label/label/webui/config.py:87
-msgid "Maximum Upload Slots"
-msgstr "Максимум слотов отдачи"
-
-#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:131
-msgid "Prioritize first and last pieces"
-msgstr "Приоритет на первые и последние части"
-
-#: deluge/ui/webui/torrent_add.py:56
-msgid "Add In Paused State"
-msgstr "Поставить на паузу"
-
-#: deluge/ui/webui/torrent_add.py:57
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
-msgid "Set Private Flag"
-msgstr "Установить флаг приватности"
-
-#: deluge/ui/webui/torrent_add.py:65
-#: deluge/plugins/blocklist/blocklist/webui.py:78
-msgid "Url"
-msgstr "Url"
-
-#: deluge/ui/webui/torrent_add.py:67
-msgid "Upload torrent"
-msgstr "Раздать торрент"
-
-#: deluge/ui/webui/torrent_add.py:73
-msgid "Choose Files"
-msgstr "Выберите файлы"
-
-#: deluge/ui/webui/torrent_add.py:104 deluge/ui/webui/torrent_options.py:41
-msgid "Error in torrent options."
-msgstr "Ошибкам в настройках торрента"
-
-#: deluge/ui/webui/torrent_add.py:118
-msgid "Choose an url or a torrent, not both."
-msgstr "Выберите или URL, или торрент, что-то одно."
-
-#: deluge/ui/webui/torrent_add.py:130
-msgid "No data"
-msgstr "Нет данных"
-
-#: deluge/ui/webui/config_tabs_deluge.py:45
-msgid "Ports"
-msgstr "Порты"
-
-#: deluge/ui/webui/config_tabs_deluge.py:46
-msgid "From"
-msgstr "От"
-
-#: deluge/ui/webui/config_tabs_deluge.py:47
-msgid "To"
-msgstr "До"
-
-#: deluge/ui/webui/config_tabs_deluge.py:48
-msgid "Random"
-msgstr "Случайно"
-
-#: deluge/ui/webui/config_tabs_deluge.py:76
-msgid "Extra's"
-msgstr "Дополнения"
-
-#: deluge/ui/webui/config_tabs_deluge.py:77
-msgid "Mainline DHT"
-msgstr "Основной DHT"
-
-#: deluge/ui/webui/config_tabs_deluge.py:78
-msgid "UpNP"
-msgstr "UpNP"
-
-#: deluge/ui/webui/config_tabs_deluge.py:79
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1001
-msgid "NAT-PMP"
-msgstr "NAT-PMP"
-
-#: deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Peer-Exchange"
-msgstr "Обмен узлами"
-
-#: deluge/ui/webui/config_tabs_deluge.py:81
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:969
-msgid "LSD"
-msgstr "LSD"
-
-#: deluge/ui/webui/config_tabs_deluge.py:86
-msgid "Encryption"
-msgstr "Шифрование"
-
-#: deluge/ui/webui/config_tabs_deluge.py:88
-msgid "Forced"
-msgstr "Форсированный"
-
-#: deluge/ui/webui/config_tabs_deluge.py:88 deluge/ui/gtkui/preferences.py:79
-msgid "Enabled"
-msgstr "Включён"
-
-#: deluge/ui/webui/config_tabs_deluge.py:88
-msgid "Disabled"
-msgstr "Откл."
-
-#: deluge/ui/webui/config_tabs_deluge.py:89
-msgid "Handshake"
-msgstr "Рукопожатие"
-
-#: deluge/ui/webui/config_tabs_deluge.py:89
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
-msgid "Full"
-msgstr "Полное"
-
-#: deluge/ui/webui/config_tabs_deluge.py:89
-msgid "Either"
-msgstr "Оба"
-
-#: deluge/ui/webui/config_tabs_deluge.py:91
-msgid "Inbound"
-msgstr "Входящий"
-
-#: deluge/ui/webui/config_tabs_deluge.py:92
-msgid "Outbound"
-msgstr "Исходящиц"
-
-#: deluge/ui/webui/config_tabs_deluge.py:93
-msgid "Level"
-msgstr "Уровень"
-
-#: deluge/ui/webui/config_tabs_deluge.py:100
-msgid "Global"
-msgstr "Общий"
-
-#: deluge/ui/webui/config_tabs_deluge.py:101
-#: deluge/ui/webui/config_tabs_deluge.py:116
-msgid "-1 = Unlimited"
-msgstr "-1 = Неограниченно"
-
-#: deluge/ui/webui/config_tabs_deluge.py:103
-#: deluge/ui/webui/config_tabs_deluge.py:118
-#: deluge/plugins/label/label/webui/config.py:85
-msgid "Maximum Download Speed (Kib/s)"
-msgstr "Максимальная скорость приема (Кб/с)"
-
-#: deluge/ui/webui/config_tabs_deluge.py:104
-#: deluge/ui/webui/config_tabs_deluge.py:119
-#: deluge/plugins/label/label/webui/config.py:86
-msgid "Maximum Upload Speed (Kib/s)"
-msgstr "Максимальная скорость отдачи (Кб/с)"
-
-#: deluge/ui/webui/config_tabs_deluge.py:107
-msgid "Maximum Half-Open Connections"
-msgstr "Максимум полуоткрытых соеденений"
-
-#: deluge/ui/webui/config_tabs_deluge.py:108
-msgid "Maximum Connection Attempts per Second"
-msgstr "Максимум попыток соеденения в сек."
-
-#: deluge/ui/webui/config_tabs_deluge.py:115
-msgid "Per Torrent"
-msgstr "За торрент"
-
-#: deluge/ui/webui/config_tabs_deluge.py:126
-msgid "Store all downoads in"
-msgstr "Сохранять все загрузки в"
-
-#: deluge/ui/webui/config_tabs_deluge.py:127
-msgid "Save .torrent files to"
-msgstr "Сохранять .torrent файлы в"
-
-#: deluge/ui/webui/config_tabs_deluge.py:128
-msgid "Auto Add folder"
-msgstr "Каталог автодобавления"
-
-#: deluge/ui/webui/config_tabs_deluge.py:129
-msgid "Auto Add enabled"
-msgstr "Разрешить автоматическое добавление"
-
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:425
-msgid "Use Compact Allocation"
-msgstr "Компактное"
-
-#: deluge/ui/webui/config_tabs_deluge.py:137
-msgid "Daemon"
-msgstr "Служба"
-
-#: deluge/ui/webui/config_tabs_deluge.py:138
-msgid "Restart daemon and webui after changing these settings"
-msgstr "Перезапустите программу и интерфейс после изменения этих настроек"
-
-#: deluge/ui/webui/config_tabs_deluge.py:139
-#: deluge/ui/webui/config_tabs_webui.py:64
-msgid "Port"
-msgstr "Порт"
-
-#: deluge/ui/webui/config_tabs_deluge.py:140
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2274
-msgid "Allow Remote Connections"
-msgstr "Разрешить удалённое соединение"
-
-#: deluge/ui/webui/config_tabs_deluge.py:146
-msgid "-1 = unlimited"
-msgstr "-1 = без ограничений"
-
-#: deluge/ui/webui/config_tabs_deluge.py:148
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2429
-msgid "Queue new torrents to top"
-msgstr "Добавлять новые торренты в начало очереди"
-
-#: deluge/ui/webui/config_tabs_deluge.py:152
-msgid "Total active torrents"
-msgstr "Всего активных торрентов"
-
-#: deluge/ui/webui/config_tabs_deluge.py:153
-msgid "Total active downloading"
-msgstr "Всего активных загрузок"
-
-#: deluge/ui/webui/config_tabs_deluge.py:154
-msgid "Total active seeding"
-msgstr "Всего активных раздач"
-
-#: deluge/ui/webui/config_tabs_deluge.py:161
-msgid "Stop seeding when ratio reaches"
-msgstr "Прекратить раздачу когда соотношение достигнуто"
-
-#: deluge/ui/webui/config_tabs_deluge.py:163
-msgid "Remove torrent when ratio reached"
-msgstr "Удалить торрент при рейтинге"
-
-#: deluge/ui/webui/config_tabs_deluge.py:170
-msgid "Enabled Plugins"
-msgstr "Включённые модули"
-
-#: deluge/ui/webui/config_tabs_webui.py:48
-#: deluge/ui/webui/config_tabs_webui.py:54
-msgid "Template"
-msgstr "Шаблон"
-
-#: deluge/ui/webui/config_tabs_webui.py:51
-msgid "Text and image"
-msgstr "Текст и изображения"
-
-#: deluge/ui/webui/config_tabs_webui.py:51
-msgid "Image Only"
-msgstr "Только изображения"
-
-#: deluge/ui/webui/config_tabs_webui.py:52
-msgid "Text Only"
-msgstr "Только текст"
-
-#: deluge/ui/webui/config_tabs_webui.py:55
-msgid "Button style"
-msgstr "Стиль кнопок"
-
-#: deluge/ui/webui/config_tabs_webui.py:56
-msgid "Cache templates"
-msgstr "Кэшировать шаблоны"
-
-#: deluge/ui/webui/config_tabs_webui.py:63
-msgid "Server"
-msgstr "Сервер"
-
-#: deluge/ui/webui/config_tabs_webui.py:74
-msgid "Current Password"
-msgstr "Текущий пароль"
-
-#: deluge/ui/webui/config_tabs_webui.py:75
-msgid "New Password"
-msgstr "Новый пароль"
-
-#: deluge/ui/webui/config_tabs_webui.py:76
-msgid "New Password (Confirm)"
-msgstr "Новый пароль (Подтверждение)"
-
-#: deluge/ui/webui/config_tabs_webui.py:83
-msgid "Old password is invalid"
-msgstr "Старый пароль неправильный"
-
-#: deluge/ui/webui/config_tabs_webui.py:86
-msgid "New Password is not equal to New Password(confirm)"
-msgstr "Новый пароль не соответствует подтверждению"
-
-#: deluge/ui/webui/torrent_move.py:45
-msgid "Move To"
-msgstr "Переместить в"
-
-#: deluge/ui/webui/torrent_move.py:72
-msgid "Error in Path."
-msgstr "Указанный путь не найден"
-
-#: deluge/ui/webui/config_forms.py:108
-msgid "These changes were saved"
-msgstr "Изменения сохранены"
-
-#: deluge/ui/webui/config_forms.py:114
-msgid "Correct the errors above and try again"
-msgstr "Исправьте ошибки и попробуйте снова"
-
-#: deluge/ui/webui/utils.py:117 deluge/ui/webui/utils.py:122
-#: deluge/ui/webui/render.py:174
-msgid "∞"
-msgstr "∞"
-
-#: deluge/ui/webui/torrent_options.py:23
-#: deluge/ui/gtkui/glade/main_window.glade:2027
-msgid "Prioritize First/Last"
-msgstr "Повысить приоритет первой/последней части"
-
-#: deluge/ui/webui/torrent_options.py:27
-msgid "Stop seed at ratio"
-msgstr "Остановить раздачу при рейтинге"
-
-#: deluge/ui/webui/torrent_options.py:29
-#: deluge/ui/gtkui/glade/main_window.glade:1904
 #: deluge/plugins/label/label/data/label_options.glade:302
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:302
+#: deluge/ui/gtkui/glade/main_window.glade:1905
+#: deluge/ui/webui/torrent_options.py:29
 msgid "Remove at ratio"
 msgstr "Удалить при рейтинге"
 
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-#: deluge/ui/gtkui/listview.py:84
-msgid "Unknown"
-msgstr "Неизвестно"
+#: deluge/plugins/label/label/data/label_options.glade:317
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:317
+#: deluge/ui/gtkui/glade/main_window.glade:1867
+msgid "Stop seed at ratio:"
+msgstr "Остановить раздачу при рейтинге:"
 
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Yes"
-msgstr "Да"
+#: deluge/plugins/label/label/data/label_options.glade:332
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:332
+#: deluge/ui/gtkui/glade/main_window.glade:1847
+#: deluge/ui/webui/torrent_options.py:26
+#: deluge/ui/webui/scripts/template_strings.py:10
+msgid "Auto Managed"
+msgstr "Автоматический режим"
 
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "No"
-msgstr "Нет"
+#: deluge/plugins/label/label/data/label_options.glade:361
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:361
+msgid "Apply Queue settings:"
+msgstr "Применить настройки очереди:"
 
-#: deluge/ui/webui/lib/newforms_portable/django/utils/translation.py:2
-msgid "translate something"
-msgstr "переведите что-нибудь"
+#: deluge/plugins/label/label/data/label_options.glade:377
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:377
+#: deluge/ui/webui/config_tabs_deluge.py:145
+#: deluge/ui/webui/scripts/template_strings.py:59
+msgid "Queue"
+msgstr "Очередь"
 
-#: deluge/ui/webui/lib/newforms_portable/models.py:299
-#: deluge/ui/webui/lib/newforms_portable/fields.py:560
+#: deluge/plugins/label/label/data/label_options.glade:413
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:413
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:219
+msgid "Move completed to:"
+msgstr "Перемещать загруженные файлы в:"
+
+#: deluge/plugins/label/label/data/label_options.glade:443
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:443
+msgid "Apply location settings:"
+msgstr "Применить локальные настройки:"
+
+#: deluge/plugins/label/label/data/label_options.glade:459
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:459
+msgid "Location"
+msgstr "Расположение"
+
+#: deluge/plugins/label/label/data/label_options.glade:483
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:483
 msgid ""
-"Select a valid choice. That choice is not one of the available choices."
-msgstr "Сделайте корректниый выбор. Данная опция недоступна."
-
-#: deluge/ui/webui/lib/newforms_portable/models.py:371
-#: deluge/ui/webui/lib/newforms_portable/fields.py:600
-#: deluge/ui/webui/lib/newforms_portable/fields.py:662
-msgid "Enter a list of values."
-msgstr "Введите перечень значений"
-
-#: deluge/ui/webui/lib/newforms_portable/models.py:372
-#, python-format
-msgid "Select a valid choice. %s is not one of the available choices."
-msgstr "Сделайте корректниый выбор. Выбор %s неверный"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:46
-msgid "This field is required."
-msgstr "Это поле обязательно"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:47
-msgid "Enter a valid value."
-msgstr "Введите правильное значение"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:124
-#, python-format
-msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+"tracker1.org\n"
+"tracker2.com\n"
+"this doesn't do anything yet..\n"
 msgstr ""
-"Убедитесь, что количество символов не превышает %(max)d (в данный момент их "
-"%(length)d)"
+"tracker1.org\n"
+"tracker2.com\n"
+"это пока ничего не делает..\n"
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:125
-#, python-format
-msgid ""
-"Ensure this value has at least %(min)d characters (it has %(length)d)."
-msgstr ""
-"Убедитесь, что количество символов не менее %(min)d (в данный момент их "
-"%(length)d)"
+#: deluge/plugins/label/label/data/label_options.glade:492
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:492
+msgid "<i>(1 line per tracker)</i>"
+msgstr "<i>(каждый трекер на отдельной строке)</i>"
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:152
-msgid "Enter a whole number."
-msgstr "Введите число целиком."
+#: deluge/plugins/label/label/data/label_options.glade:508
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:508
+msgid "Automatically apply label:"
+msgstr "Автоматически применять метку"
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:153
-#: deluge/ui/webui/lib/newforms_portable/fields.py:182
-#: deluge/ui/webui/lib/newforms_portable/fields.py:211
-#, python-format
-msgid "Ensure this value is less than or equal to %s."
-msgstr "Убедитесь, что значение меньше или равно %s."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:154
-#: deluge/ui/webui/lib/newforms_portable/fields.py:183
-#: deluge/ui/webui/lib/newforms_portable/fields.py:212
-#, python-format
-msgid "Ensure this value is greater than or equal to %s."
-msgstr "Убедитесь, что значение больше или равно %s."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:181
-#: deluge/ui/webui/lib/newforms_portable/fields.py:210
-msgid "Enter a number."
-msgstr "Введите число"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:213
-#, python-format
-msgid "Ensure that there are no more than %s digits in total."
-msgstr "Убедитесь, что количество цифр не более %s"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:214
-#, python-format
-msgid "Ensure that there are no more than %s decimal places."
-msgstr "Убедитесь, что здесь не более %s десятичных разрядов"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:215
-#, python-format
-msgid ""
-"Ensure that there are no more than %s digits before the decimal point."
-msgstr "Убедитесь, что число содержит не более %s знаков до запятой"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:263
-#: deluge/ui/webui/lib/newforms_portable/fields.py:751
-msgid "Enter a valid date."
-msgstr "Введите корректную дату"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:296
-#: deluge/ui/webui/lib/newforms_portable/fields.py:752
-msgid "Enter a valid time."
-msgstr "Введите корректное время"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:335
-msgid "Enter a valid date/time."
-msgstr "Введите правильные дату и время"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:403
-msgid "Enter a valid e-mail address."
-msgstr "Введите действующие e-mail"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:433
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr "Не выбран файл. Проверте тип кодировки."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:434
-msgid "No file was submitted."
-msgstr "Файл не выбран."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:435
-msgid "The submitted file is empty."
-msgstr "Выбранный файл пустой"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:459
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-"Загразите корректный файл изображения. Файл, который вы загрузили, испорчен "
-"или не является изображением."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:497
-msgid "Enter a valid URL."
-msgstr "Введите корректный адрес ресурса URL"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:498
-msgid "This URL appears to be a broken link."
-msgstr "Этот URL недействителен."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:599
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr "Сделайте корректный выбор. %(value)s не является корректным"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:780
-msgid "Enter a valid IPv4 address."
-msgstr "Введите корректный IPv4 адрес"
-
-#: deluge/ui/webui/lib/newforms_plus.py:141
-msgid "This folder does not exist."
-msgstr "Такой папки не существует"
-
-#: deluge/ui/webui/lib/newforms_plus.py:193
-#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
-#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:334
-#: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:387
-#: deluge/ui/gtkui/statusbar.py:414 deluge/common.py:181
-msgid "Unlimited"
-msgstr "Без ограничения"
-
-#: deluge/ui/webui/register_menu.py:44
-msgid "Statistics"
-msgstr "Статистика"
-
-#: deluge/ui/webui/register_menu.py:45 deluge/ui/webui/register_menu.py:59
-msgid "Details"
-msgstr "Подробности"
-
-#: deluge/ui/webui/register_menu.py:47
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 #: deluge/plugins/label/label/data/label_options.glade:525
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:525
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#: deluge/ui/webui/register_menu.py:47
 msgid "Trackers"
 msgstr "Трекеры"
 
-#: deluge/ui/webui/register_menu.py:49
-msgid "Files"
-msgstr "Файлы"
-
-#: deluge/ui/webui/register_menu.py:51
-msgid "Add"
-msgstr "Добавить"
-
-#: deluge/ui/webui/register_menu.py:52
-#: deluge/plugins/label/label/webui/config.py:91
-msgid "Delete"
-msgstr "Удалить"
-
-#: deluge/ui/webui/register_menu.py:55
-#: deluge/ui/gtkui/glade/main_window.glade:392
-msgid "Queue Up"
-msgstr "Выше"
-
-#: deluge/ui/webui/register_menu.py:56
-#: deluge/ui/gtkui/glade/main_window.glade:407
-msgid "Queue Down"
-msgstr "Ниже"
-
-#: deluge/ui/webui/register_menu.py:57
-msgid "Queue Top"
-msgstr "Начало списка очереди"
-
-#: deluge/ui/webui/register_menu.py:58
-msgid "Queue Bottom"
-msgstr "Конец списка очереди"
-
-#: deluge/ui/webui/register_menu.py:61
-msgid "Reannounce"
-msgstr "Анонсировать ещё раз"
-
-#: deluge/ui/webui/register_menu.py:62
-msgid "Recheck"
-msgstr "Перепроверка"
-
-#: deluge/ui/gtkui/preferences.py:81
-msgid "Plugin"
-msgstr "Модуль"
-
-#: deluge/ui/gtkui/preferences.py:808
-msgid "Select the Plugin"
-msgstr "Выберите плагин"
-
-#: deluge/ui/gtkui/preferences.py:819
-msgid "Plugin Eggs"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:71
-msgid "Torrent"
-msgstr "Торрент"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:98 deluge/ui/gtkui/files_tab.py:109
-#: deluge/ui/gtkui/createtorrentdialog.py:73
-msgid "Filename"
-msgstr "Имя файла"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:500
-msgid "Choose a .torrent file"
-msgstr "Выберите файл .torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:512
-#: deluge/ui/gtkui/createtorrentdialog.py:229
-msgid "Torrent files"
-msgstr "Файлы .torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:516
-#: deluge/ui/gtkui/createtorrentdialog.py:233
-msgid "All files"
-msgstr "Все файлы"
-
-#: deluge/ui/gtkui/notification.py:74
-msgid "Torrent complete"
-msgstr "Торрент завершён"
-
-#: deluge/ui/gtkui/notification.py:75
-#, python-format
-msgid "Including %i files"
-msgstr "Вложенных файлов %i"
-
-#: deluge/ui/gtkui/notification.py:103
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading %s ,        "
-"     which includes %i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge"
-msgstr ""
-"Этим письмом Deluge уведомляет Вас о том, что процесс загрузки %s, "
-"содержащий %i файлов завершён.\n"
-"Чтобы больше не получать подобные предупреждения, отключите в опциях Deluge "
-"оповещение по email.\n"
-"\n"
-"С уважением,\n"
-"Deluge"
-
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "Неограниченно"
-
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other.."
-msgstr "Другая..."
-
-#: deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "Вкл."
-
-#: deluge/ui/gtkui/menubar.py:342
-msgid "Choose a directory to move files to"
-msgstr "Выберите директорию для переноса файлов"
-
-#: deluge/ui/gtkui/menubar.py:452
-msgid "Set Max Download Speed (KiB/s):"
-msgstr "Установить максимальную скорость закачки (KiB/s):"
-
-#: deluge/ui/gtkui/menubar.py:454
-msgid "Set Max Upload Speed (KiB/s):"
-msgstr "Установить максимальную скорость раздачи (КиБ/с):"
-
-#: deluge/ui/gtkui/menubar.py:456
-msgid "Set Max Connections:"
-msgstr "Установить максимум соединений:"
-
-#: deluge/ui/gtkui/menubar.py:458
-msgid "Set Max Upload Slots:"
-msgstr "Максимум слотов закачки:"
-
-#: deluge/ui/gtkui/systemtray.py:196
-msgid "Deluge"
-msgstr "Deluge"
-
-#: deluge/ui/gtkui/systemtray.py:196
-msgid "Down"
-msgstr "Вниз"
-
-#: deluge/ui/gtkui/systemtray.py:197
-msgid "Up"
-msgstr "Вверх"
-
-#: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
-#: deluge/ui/gtkui/systemtray.py:333 deluge/ui/gtkui/statusbar.py:329
-#: deluge/ui/gtkui/statusbar.py:339 deluge/ui/gtkui/statusbar.py:352
-#: deluge/ui/gtkui/statusbar.py:380
-#: deluge/ui/gtkui/glade/main_window.glade:1756
-#: deluge/ui/gtkui/glade/main_window.glade:1768
-msgid "KiB/s"
-msgstr "KиБ/с"
-
-#: deluge/ui/gtkui/systemtray.py:337 deluge/ui/gtkui/statusbar.py:361
-#: deluge/ui/gtkui/statusbar.py:389 deluge/ui/gtkui/statusbar.py:416
-#: deluge/common.py:238 deluge/common.py:239
-msgid "Other..."
-msgstr "Другое..."
-
-#: deluge/ui/gtkui/systemtray.py:368
-msgid "Deluge is locked"
-msgstr "Deluge заблокирован"
-
-#: deluge/ui/gtkui/systemtray.py:371
-msgid ""
-"Deluge is password protected.\n"
-"To show the Deluge window, please enter your password"
-msgstr ""
-"Deluge защищён паролем.\n"
-"Чтобы открыть главное окно, введите пароль"
-
-#: deluge/ui/gtkui/torrentview.py:176
-msgid "Avail"
-msgstr "Доступ"
-
-#: deluge/ui/gtkui/files_tab.py:153
-msgid "Priority"
-msgstr "Приоритет"
-
-#: deluge/ui/gtkui/signals.py:150
-msgid "Torrent is past stop ratio."
-msgstr "Торрент достиг коэффициента остановки."
-
-#: deluge/ui/gtkui/queuedtorrents.py:131
-msgid " Torrents Queued"
-msgstr " Очередь торрентов"
-
-#: deluge/ui/gtkui/queuedtorrents.py:133
-msgid " Torrent Queued"
-msgstr " Очередь торрента"
-
-#: deluge/ui/gtkui/removetorrentdialog.py:65
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrents?</b></big>"
-msgstr "<big><b>Вы уверены, что хотите удалить Торрент?</b></big>"
-
-#: deluge/ui/gtkui/removetorrentdialog.py:66
-msgid "Remove Selected Torrents"
-msgstr "Удалить выбранный торрент"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:96
-#: deluge/ui/gtkui/edittrackersdialog.py:81
-msgid "Tier"
-msgstr "Порядок"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:125
-msgid "Choose a file"
-msgstr "Выберите файл"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:152
-msgid "Choose a folder"
-msgstr "Выберите папку"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:217
-msgid "Save .torrent file"
-msgstr "Сохранить файл .torrent"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:333
-#, python-format
-msgid "%.2f%%"
-msgstr "%.2f%%"
-
-#: deluge/ui/gtkui/aboutdialog.py:66
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. This program is distributed in the hope that it will be "
-"useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-"Public License for more details. You should have received a copy of the GNU "
-"General Public License along with this program; if not, see "
-"<http://www.gnu.org/licenses>."
-msgstr ""
-"ПОСКОЛЬКУ НАСТОЯЩАЯ ПРОГРАММА РАСПРОСТРАНЯЕТСЯ БЕСПЛАТНО, ГАРАНТИИ НА НЕЕ НЕ "
-"ПРЕДОСТАВЛЯЮТСЯ В ТОЙ СТЕПЕНИ, В КАКОЙ ЭТО ДОПУСКАЕТСЯ ПРИМЕНИМЫМ ПРАВОМ. "
-"НАСТОЯЩАЯ ПРОГРАММА ПОСТАВЛЯЕТСЯ НА УСЛОВИЯХ \"КАК ЕСТЬ\". ЕСЛИ ИНОЕ НЕ "
-"УКАЗАНО В ПИСЬМЕННОЙ ФОРМЕ, АВТОР И/ИЛИ ИНОЙ ПРАВООБЛАДАТЕЛЬ НЕ ПРИНИМАЕТ НА "
-"СЕБЯ НИКАКИХ ГАРАНТИЙНЫХ ОБЯЗАТЕЛЬСТВ, КАК ЯВНО ВЫРАЖЕННЫХ, ТАК И "
-"ПОДРАЗУМЕВАЕМЫХ, В ОТНОШЕНИИ ПРОГРАММЫ, В ТОМ ЧИСЛЕ ПОДРАЗУМЕВАЕМУЮ ГАРАНТИЮ "
-"ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ И ПРИГОДНОСТИ ДЛЯ ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ "
-"ЦЕЛЯХ, А ТАКЖЕ ЛЮБЫЕ ИНЫЕ ГАРАНТИИ. ВСЕ РИСКИ, СВЯЗАННЫЕ С КАЧЕСТВОМ И "
-"ПРОИЗВОДИТЕЛЬНОСТЬЮ ПРОГРАММЫ, НЕСЕТ ЛИЦЕНЗИАТ. В СЛУЧАЕ ЕСЛИ В ПРОГРАММЕ "
-"БУДУТ ОБНАРУЖЕНЫ НЕДОСТАТКИ, ВСЕ РАСХОДЫ, СВЯЗАННЫЕ С ТЕХНИЧЕСКИМ "
-"ОБСЛУЖИВАНИЕМ, РЕМОНТОМ ИЛИ ИСПРАВЛЕНИЕМ ПРОГРАММЫ, НЕСЕТ "
-"ЛИЦЕНЗИАТ.Подробнее см. <http://www.gnu.org/licenses>."
-
-#: deluge/ui/gtkui/statusbar.py:134
-msgid "Not Connected"
-msgstr "Не подключено"
-
-#: deluge/ui/gtkui/statusbar.py:154
-msgid "Download Speed"
-msgstr "Скорость скачивания"
-
-#: deluge/ui/gtkui/statusbar.py:159
-msgid "Upload Speed"
-msgstr "Скорость раздачи"
-
-#: deluge/ui/gtkui/statusbar.py:167
-msgid "No Incoming Connections!"
-msgstr "Входящие подключения отсутствуют"
-
-#: deluge/ui/gtkui/statusbar.py:363
-msgid "Download Speed (KiB/s):"
-msgstr "Скорость приёма (КиБ/с)"
-
-#: deluge/ui/gtkui/statusbar.py:391
-msgid "Upload Speed (KiB/s):"
-msgstr "Скорость раздачи (КиБ/с):"
-
-#: deluge/ui/gtkui/statusbar.py:418
-msgid "Connection Limit:"
-msgstr "Ограничение по подключениям"
-
-#: deluge/common.py:184
-msgid "Activated"
-msgstr "Активно"
-
-#: deluge/common.py:254
-#, python-format
-msgid "%s"
-msgstr "%s"
-
-#: deluge/plugins/label/label/webui/config.py:46
-msgid "Labels"
-msgstr "Метки"
-
-#: deluge/plugins/label/label/webui/config.py:58
-msgid "Select Label"
-msgstr "Выбрать метку"
-
-#: deluge/plugins/label/label/webui/config.py:83
-msgid "Apply Maximum settings on add"
-msgstr "Выставить максимальные параметны при добавлении"
-
-#: deluge/plugins/label/label/webui/config.py:88
-msgid "Move completed to"
-msgstr "Завершено перемещение в"
-
-#: deluge/plugins/label/label/webui/config.py:90
-msgid "Apply"
-msgstr "Применить"
-
-#: deluge/plugins/label/label/webui/config.py:101
 #: deluge/plugins/label/label/data/label_options.glade:578
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:578
+#: deluge/plugins/label/label/webui/config.py:101
 msgid "Add Label"
 msgstr "Добавить метку"
 
-#: deluge/plugins/label/label/webui/config.py:126
-msgid "Hide filter items with 0 hits"
-msgstr "Не показывать  отфильтрованные  элементы с 0 хитов"
+#: deluge/plugins/label/label/data/label_options.glade:593
+#: deluge/plugins/label/build/lib/label/data/label_options.glade:593
+msgid "<b>Label name:</b>"
+msgstr "<b>Имя метки:</b>"
 
-#: deluge/plugins/label/label/core.py:193
-msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Неверный ярлык ,  допустимые символы: [a-z0-9_-]"
+#: deluge/plugins/graph/build/lib/graph/data/config.glade:12
+#: deluge/plugins/stats/build/lib/stats/data/config.glade:12
+#: deluge/plugins/stats/stats/data/config.glade:12
+msgid "Test config value:"
+msgstr ""
 
-#: deluge/plugins/label/label/core.py:194
-msgid "Empty Label"
-msgstr "Пустой ярлык"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:30
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:404
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:404
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2955
+msgid "Type:"
+msgstr "Тип:"
 
-#: deluge/plugins/label/label/core.py:195
-msgid "Label already exists"
-msgstr "Ярлык уже существует"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:60
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:392
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:60
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
+msgid "URL:"
+msgstr "URL:"
 
-#: deluge/plugins/label/label/core.py:201
-#: deluge/plugins/label/label/core.py:253
-#: deluge/plugins/label/label/core.py:286
-msgid "Unknown Label"
-msgstr "Неизвестный ярлык"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:89
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:738
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
+#: deluge/ui/gtkui/glade/main_window.glade:2089
+msgid "<b>General</b>"
+msgstr "<b>Общее</b>"
 
-#: deluge/plugins/label/label/core.py:287
-msgid "Unknown Torrent"
-msgstr "Неизвестный Торрент"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:125
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:125
+msgid "Days"
+msgstr "Дней"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:63
-msgid "Label _Options"
-msgstr "Опции метки"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:151
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
+msgid "Check for new list every:"
+msgstr "Проверять список каждые:"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:64
-msgid "_Remove Label"
-msgstr "Удалить метку"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:168
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:168
+msgid "Import blocklist on startup"
+msgstr "Импортировать блоклист при запуске"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:65
-msgid "_Add Label"
-msgstr "Добавить метку"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:186
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:186
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3025
+msgid "<b>Settings</b>"
+msgstr "<b>Установки</b>"
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "Неверное начало"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:218
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:218
+msgid "Download the blocklist file if necessary and import the file."
+msgstr "Скачать список заблокированных и если необходимо импортировать его."
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "Неверный отпечаток"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:238
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:238
+msgid "Check Download and Import"
+msgstr "Проверить и скачать"
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "Неверная версия"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:259
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:259
+msgid "Download a new blocklist file and import it."
+msgstr "Скачать новый список заблокированных и импортировать его."
 
-#: deluge/plugins/blocklist/blocklist/webui.py:46
-msgid "Emule IP list (GZip)"
-msgstr "Список IP Emule (GZip)"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:279
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:279
+msgid "Force Download and Import"
+msgstr "Принудительно скачать"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:47
-msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer текст (zip)"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:304
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:304
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:493
+msgid "<b>Options</b>"
+msgstr "<b>Параметры</b>"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:48
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian текст (несжатый)"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:416
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:416
+msgid "Date:"
+msgstr "Дата:"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:49
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:428
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:428
+msgid "File Size:"
+msgstr "Размер файла:"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:58
-msgid "BlockList"
-msgstr "Список заблокированных"
+#: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:448
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3601
+msgid "<b>Info</b>"
+msgstr "<b>Информация</b>"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:79
-msgid "Check for every (days)"
-msgstr "Задержа для всех (дни)"
+#: deluge/plugins/stats/build/lib/stats/data/tabs.glade:21
+#: deluge/plugins/stats/stats/data/tabs.glade:21
+msgid "Graphs"
+msgstr "Графики"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:80
-msgid "Timeout (seconds)"
-msgstr "Время ожидания (сек)"
+#: deluge/plugins/stats/build/lib/stats/data/tabs.glade:48
+#: deluge/plugins/stats/stats/data/tabs.glade:48
+msgid "Bandwidth"
+msgstr "Ограничения"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:81
-msgid "Times to attempt download"
-msgstr "Количество попыток скачивания"
+#: deluge/plugins/stats/build/lib/stats/data/tabs.glade:66
+#: deluge/plugins/stats/stats/data/tabs.glade:66
+#: deluge/ui/gtkui/statusbar.py:150
+#: deluge/ui/webui/scripts/template_strings.py:20
+msgid "Connections"
+msgstr "Соединения"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:82
-msgid "Import on daemon startup"
-msgstr "Импортировать при запуске процесса"
+#: deluge/plugins/stats/build/lib/stats/data/tabs.glade:85
+#: deluge/plugins/stats/stats/data/tabs.glade:85
+msgid "Seeds/Peers"
+msgstr ""
 
-#: deluge/plugins/blocklist/blocklist/webui.py:84
-msgid "Download Now"
-msgstr "Скачать сейчас"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
+msgid "Add Torrents"
+msgstr "Добавить торренты"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:85
-msgid "Import Now"
-msgstr "Импортировать сейчас"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
+msgid "<big><b>Add Torrents</b></big>"
+msgstr "<big><b>Добавить торренты</b></big>"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:92
-#, python-format
-msgid "Downloading %.2f%%"
-msgstr "Загрузка %.2f%%"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:94
-#, python-format
-msgid "Importing %s"
-msgstr "Отдано %s"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:96
-#, python-format
-msgid "Blocked Ranges: %s"
-msgstr "Заблокированные:  %s"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:98
-msgid "Inactive"
-msgstr "Неактивный"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:105
-msgid "Refresh status"
-msgstr "Обновить состояние"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "Создать торрент"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>Создать торрент</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/main_window.glade:20
 msgid "_File"
 msgstr "_Файл"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "_Каталог"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
+msgid "_URL"
+msgstr "_URL"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "_Удалить путь"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
+msgid "Info_hash"
+msgstr "хэш_данных"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>Файлы</b>"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
+msgid "_Remove"
+msgstr "_Удалить"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3587
-msgid "Author:"
-msgstr "Автор:"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
+msgid "<b>Torrents</b>"
+msgstr "<b>Торренты</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "Комментарии:"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+msgid "Fi_les"
+msgstr "_Файлы"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "Информация"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:197
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:273
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:308
+#: deluge/ui/gtkui/glade/main_window.glade:1941
+msgid "Select A Folder"
+msgstr "Выберите папку"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "Вебсидеры"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "<b>Download Location</b>"
+msgstr "<b>Место загрузки</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "Размер части:"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
+#: deluge/ui/webui/config_tabs_deluge.py:89
+msgid "Full"
+msgstr "Полное"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:488
+msgid "Compact"
+msgstr "Компактное"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:508
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:443
+msgid "<b>Allocation</b>"
+msgstr "<b>Резервирование</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:560
+msgid "Max Down Speed:"
+msgstr "Максимальная скорость закачки"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:572
+msgid "Max Up Speed:"
+msgstr "Максимальная скорость отдачи"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:586
+#: deluge/ui/gtkui/glade/main_window.glade:1721
+msgid "Max Connections:"
+msgstr "Максимум соединений:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:600
+#: deluge/ui/gtkui/glade/main_window.glade:1784
+msgid "Max Upload Slots:"
+msgstr "Максимальное количество раздач:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:669
+#: deluge/ui/gtkui/glade/main_window.glade:1817
+msgid "<b>Bandwidth</b>"
+msgstr "<b>Ограничения</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+msgid "Add In _Paused State"
+msgstr "Добавить _остановленным"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:720
+msgid "Prioritize First/Last Pieces"
+msgstr "Приоритет перой\\последней части"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:795
+msgid "Revert To Defaults"
+msgstr "Вернуться к настройкам по умолчанию"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:849
+msgid "Apply To All"
+msgstr "Применить ко всем"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:896
+#: deluge/ui/gtkui/glade/main_window.glade:2168
+msgid "_Options"
+msgstr "_Параметры"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
+msgid "Add URL"
+msgstr "Добавить URL"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1008
+msgid "<b>From URL</b>"
+msgstr "<b>Через интернет</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1119
+msgid "Add Infohash"
+msgstr "Добавить хэш данных"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1155
+msgid "<b>From Infohash</b>"
+msgstr "<b>Из хэша данных</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1189
+msgid "Infohash:"
+msgstr "Хэш данных"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1224
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+msgid "Trackers:"
+msgstr "Трекеры:"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+msgid "_Select All"
+msgstr "Выбрать все"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
+#: deluge/ui/gtkui/glade/torrent_menu.glade:48
+msgid "Resume selected torrents."
+msgstr "Возобновить выбранные торренты"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+msgid "Resu_me All"
+msgstr "Возобновить все"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:11
+msgid "_Open Folder"
+msgstr "_Открыть каталог"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:49
+msgid "Resu_me"
+msgstr "_Возобновить"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:71
+msgid "Opt_ions"
+msgstr "_Параметры"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+msgid "_Queue"
+msgstr "_Очередь"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+msgid "_Update Tracker"
+msgstr "_Обновить трекер"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2064
+msgid "_Edit Trackers"
+msgstr "_Изменить трекеры"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+msgid "_Remove Torrent"
+msgstr "_Удалить торрент и"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:173
+msgid "_Force Re-check"
+msgstr "_Форсированная перепроверка"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:190
+msgid "Move _Storage"
+msgstr "Переместить _Хранилище"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:211
+msgid "From Session"
+msgstr "Оставить все файлы"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:220
+msgid ".. And Delete Torrent File"
+msgstr "Удалить .torrent файл"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:229
+msgid ".. And Delete Downloaded Files"
+msgstr "Удалить загруженный файл"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:238
+msgid ".. And Delete All Files"
+msgstr "Удалить все файлы"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:251
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+msgid "_Download Speed Limit"
+msgstr "_Ограничение скорости приёма"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:266
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+msgid "_Upload Speed Limit"
+msgstr "О_граничение скорости раздачи"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:281
+msgid "_Connection Limit"
+msgstr "О_граничение подключения"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:297
+msgid "Upload _Slot Limit"
+msgstr "Ограничение слотов от_дачи"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:312
+msgid "_Auto Managed"
+msgstr "_Автоматическое управление"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
+#: deluge/ui/gtkui/glade/main_window.glade:2188
+msgid "Remove Torrent?"
+msgstr "Удалить торрент?"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
+#: deluge/ui/gtkui/glade/main_window.glade:2224
 msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB"
-msgstr ""
-"32 КиБ\n"
-"64 КиБ\n"
-"128 КиБ\n"
-"256 КиБ\n"
-"512 КиБ"
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>Вы уверены, что хотите удалить выбранный торрент?</b></big>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
-msgid "Add this torrent to the session"
-msgstr "Добавить торрент к этому сеансу"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
+#: deluge/ui/gtkui/glade/main_window.glade:2275
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>Ассоциируемый файл .torrent будет удалён</i>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
-msgid "Enter Remote Path"
-msgstr "Введите удалённый путь"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
+#: deluge/ui/gtkui/glade/main_window.glade:2314
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>Загруженная информация будет удалена!</i>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
-msgid "<b>Remote Path</b>"
-msgstr "<b>Удалённый путь</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:756
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:938
-msgid "Path:"
-msgstr "Путь:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:831
-msgid "Creating Torrent"
-msgstr "Создание торрента"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
-msgid "Save .torrent as"
-msgstr "Сохранить .torrent как"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>Сохранить .torrent файл</b>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:10
-#: deluge/ui/gtkui/glade/main_window.glade:444
-#: deluge/ui/gtkui/glade/main_window.glade:445
-msgid "Connection Manager"
-msgstr "Управление подключениями"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:42
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>Управление подключениями</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:152
-msgid "_Start local daemon"
-msgstr "_Запустить приложение  локально"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Automatically connect to selected host on start-up"
-msgstr "Автоматически подключатся к выбранному узлу при запуске"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:215
-msgid "Automatically start localhost if needed"
-msgstr "При необходимости автоматически подключаться к локальной сети"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:229
-msgid "Do not show this dialog on start-up"
-msgstr "Не показывать это сообщение при запуске"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:285
-msgid "gtk-connect"
-msgstr "Соединение"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:308
-msgid "Add Host"
-msgstr "Добавить сервер"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:327
-msgid "Hostname:"
-msgstr "Имя хоста:"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:349
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2904
-msgid "Port:"
-msgstr "Порт:"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
+#: deluge/ui/gtkui/glade/main_window.glade:2358
+msgid "Remove Selected Torrent"
+msgstr "Удалить выбранный торрент"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:429
@@ -1557,19 +546,6 @@ msgstr "<b>Диалог добавления торрента</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:180
 msgid "Download to:"
 msgstr "Сохранить в:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:197
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:273
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:308
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
-#: deluge/ui/gtkui/glade/main_window.glade:1940
-msgid "Select A Folder"
-msgstr "Выберите папку"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:219
-#: deluge/plugins/label/label/data/label_options.glade:413
-msgid "Move completed to:"
-msgstr "Перемещать загруженные файлы в:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:234
 msgid "Copy of .torrent files to:"
@@ -1600,10 +576,10 @@ msgid "Compact allocation only allocates space as needed"
 msgstr ""
 "Компактное резервирование выделяет место под торрент по необходимости"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:443
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:508
-msgid "<b>Allocation</b>"
-msgstr "<b>Резервирование</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:425
+#: deluge/ui/webui/config_tabs_deluge.py:130
+msgid "Use Compact Allocation"
+msgstr "Компактное"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:477
 msgid "Prioritize first and last pieces of files in torrent"
@@ -1614,11 +590,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:478
 msgid "Prioritize first and last pieces of torrent"
 msgstr "Сделать приоритетными первую и последнюю часть Торрента"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:493
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:304
-msgid "<b>Options</b>"
-msgstr "<b>Параметры</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:518
 msgid "page 6"
@@ -1701,6 +672,11 @@ msgstr "DHT"
 msgid "Local Service Discovery finds local peers on your network."
 msgstr "Локальная служба обнаружения нашла местных пиров в вашей сети."
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:969
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "LSD"
+msgstr "LSD"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:983
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:984
 msgid "Peer Exchange"
@@ -1709,6 +685,11 @@ msgstr "Обмен узлами"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1000
 msgid "NAT Port Mapping Protocol"
 msgstr "Протокол перенаправления портов NAT"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1001
+#: deluge/ui/webui/config_tabs_deluge.py:79
+msgid "NAT-PMP"
+msgstr "NAT-PMP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
 msgid "Universal Plug and Play"
@@ -1901,6 +882,12 @@ msgstr ""
 "случае, если не хотите пользоваться всеми приемуществами Deluge. Для входа в "
 "Классический режим понадобится перезапустить программу."
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1903
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3213
+#: deluge/ui/webui/scripts/template_strings.py:31
+msgid "Enable"
+msgstr "Включить"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1914
 msgid "<b>Classic Mode</b>"
 msgstr "<b>Классический режим</b>"
@@ -1960,6 +947,11 @@ msgstr "Порт сервиса:"
 msgid "<b>Port</b>"
 msgstr "<b>Порт</b>"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2274
+#: deluge/ui/webui/config_tabs_deluge.py:140
+msgid "Allow Remote Connections"
+msgstr "Разрешить удалённое соединение"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2285
 msgid "<b>Connections</b>"
 msgstr "<b>Соединение</b>"
@@ -1976,13 +968,10 @@ msgstr "<b>Прочее</b>"
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr "<i><b><big>Очередь</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:738
-#: deluge/ui/gtkui/glade/main_window.glade:2088
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
-msgid "<b>General</b>"
-msgstr "Общее"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2429
+#: deluge/ui/webui/config_tabs_deluge.py:148
+msgid "Queue new torrents to top"
+msgstr "Добавлять новые торренты в начало очереди"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2483
 msgid "Total active downloading:"
@@ -2036,6 +1025,11 @@ msgstr "страница 12"
 msgid "<i><b><big>Proxy</big></b></i>"
 msgstr "<i><b><big>Прокси</big></b></i>"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2904
+#: deluge/ui/gtkui/glade/connection_manager.glade:349
+msgid "Port:"
+msgstr "Порт:"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2916
 msgid "Host:"
 msgstr "Хост:"
@@ -2044,12 +1038,6 @@ msgstr "Хост:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3289
 msgid "Username:"
 msgstr "Имя пользователя:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2955
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:404
-msgid "Type:"
-msgstr "Тип:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
 msgid ""
@@ -2066,11 +1054,6 @@ msgstr ""
 "Socks v5 (Auth)\n"
 "HTTP\n"
 "HTTP (Auth)"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3025
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:186
-msgid "<b>Settings</b>"
-msgstr "<b>Установки</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3075
 msgid "<b><i><big>Notification</big></i></b>"
@@ -2132,10 +1115,10 @@ msgstr "Подробности:"
 msgid "Version:"
 msgstr "Версия:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3601
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
-msgid "<b>Info</b>"
-msgstr "<b>Информация</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3587
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+msgid "Author:"
+msgstr "Автор:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3649
 msgid "_Install Plugin"
@@ -2144,44 +1127,6 @@ msgstr "_Установить плагин"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3691
 msgid "_Rescan Plugins"
 msgstr "_Обновить плагины"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
-msgid "Queued Torrents"
-msgstr "Торренты в очереди"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>Добавление упорядоченных торрентов</b></big>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
-msgid "Automatically add torrents on connect"
-msgstr "Автоматически подключать торренты при соединении"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:2187
-msgid "Remove Torrent?"
-msgstr "Удалить торрент?"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
-#: deluge/ui/gtkui/glade/main_window.glade:2223
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr "<big><b>Вы уверены, что хотите удалить выбранный торрент?</b></big>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
-#: deluge/ui/gtkui/glade/main_window.glade:2274
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>Ассоциируемый файл .torrent будет удалён</i>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
-#: deluge/ui/gtkui/glade/main_window.glade:2313
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>Загруженная информация будет удалена!</i>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
-#: deluge/ui/gtkui/glade/main_window.glade:2357
-msgid "Remove Selected Torrent"
-msgstr "Удалить выбранный торрент"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -2203,11 +1148,6 @@ msgstr "Добавить трекер"
 msgid "<b>Add Trackers</b>"
 msgstr "<b>Добавить трекер</b>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1224
-msgid "Trackers:"
-msgstr "Трекеры:"
-
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
 msgstr "Изменить трекер"
@@ -2219,6 +1159,18 @@ msgstr "<b>Изменить трекер</b>"
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
 msgstr "Трекер:"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+msgid "Queued Torrents"
+msgstr "Торренты в очереди"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>Добавление упорядоченных торрентов</b></big>"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+msgid "Automatically add torrents on connect"
+msgstr "Автоматически подключать торренты при соединении"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
@@ -2232,190 +1184,164 @@ msgstr "<b>Переместить хранилище</b>"
 msgid "Destination:"
 msgstr "Назначение:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
-msgid "Add Torrents"
-msgstr "Добавить торренты"
+#: deluge/ui/gtkui/glade/connection_manager.glade:10
+#: deluge/ui/gtkui/glade/main_window.glade:444
+#: deluge/ui/gtkui/glade/main_window.glade:445
+msgid "Connection Manager"
+msgstr "Управление подключениями"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
-msgid "<big><b>Add Torrents</b></big>"
-msgstr "<big><b>Добавить торренты</b></big>"
+#: deluge/ui/gtkui/glade/connection_manager.glade:42
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>Управление подключениями</b></big>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
-msgid "_URL"
-msgstr "_URL"
+#: deluge/ui/gtkui/glade/connection_manager.glade:152
+msgid "_Start local daemon"
+msgstr "_Запустить приложение  локально"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
-msgid "Info_hash"
-msgstr "хэш_данных"
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+msgid "Automatically connect to selected host on start-up"
+msgstr "Автоматически подключатся к выбранному узлу при запуске"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
-msgid "_Remove"
-msgstr "_Удалить"
+#: deluge/ui/gtkui/glade/connection_manager.glade:215
+msgid "Automatically start localhost if needed"
+msgstr "При необходимости автоматически подключаться к локальной сети"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
-msgid "<b>Torrents</b>"
-msgstr "<b>Торренты</b>"
+#: deluge/ui/gtkui/glade/connection_manager.glade:229
+msgid "Do not show this dialog on start-up"
+msgstr "Не показывать это сообщение при запуске"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
-msgid "Fi_les"
-msgstr "_Файлы"
+#: deluge/ui/gtkui/glade/connection_manager.glade:246
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
+#: deluge/ui/webui/register_menu.py:46
+#: deluge/ui/webui/scripts/template_strings.py:50
+msgid "Options"
+msgstr "Параметры"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "<b>Download Location</b>"
-msgstr "<b>Место загрузки</b>"
+#: deluge/ui/gtkui/glade/connection_manager.glade:285
+msgid "gtk-connect"
+msgstr "Соединение"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:488
-msgid "Compact"
-msgstr "Компактное"
+#: deluge/ui/gtkui/glade/connection_manager.glade:308
+msgid "Add Host"
+msgstr "Добавить сервер"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:560
-msgid "Max Down Speed:"
-msgstr "Максимальная скорость закачки"
+#: deluge/ui/gtkui/glade/connection_manager.glade:327
+msgid "Hostname:"
+msgstr "Имя хоста:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:572
-msgid "Max Up Speed:"
-msgstr "Максимальная скорость отдачи"
+#: deluge/ui/gtkui/glade/wizard.glade:6
+msgid "Deluge Setup Wizard"
+msgstr "Мастер настройки Deluge"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:586
-#: deluge/ui/gtkui/glade/main_window.glade:1720
-msgid "Max Connections:"
-msgstr "Максимум соединений:"
+#: deluge/ui/gtkui/glade/wizard.glade:10
+msgid "This wizard will help you set up Deluge to your liking."
+msgstr "Этот мастер поможет настроить Deluge"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:600
-#: deluge/ui/gtkui/glade/main_window.glade:1783
-msgid "Max Upload Slots:"
-msgstr "Максимальное количество раздач:"
+#: deluge/ui/gtkui/glade/wizard.glade:25
+msgid "All Finished!"
+msgstr "Все завершено!"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:669
-#: deluge/ui/gtkui/glade/main_window.glade:1816
-msgid "<b>Bandwidth</b>"
-msgstr "<b>Ограничения</b>"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "Создать торрент"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
-msgid "Add In _Paused State"
-msgstr "Добавить _остановленным"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>Создать торрент</b></big>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:720
-msgid "Prioritize First/Last Pieces"
-msgstr "Приоритет перой\\последней части"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "_Каталог"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:795
-msgid "Revert To Defaults"
-msgstr "Вернуться к настройкам по умолчанию"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "_Удалить путь"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:849
-msgid "Apply To All"
-msgstr "Применить ко всем"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>Файлы</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:896
-#: deluge/ui/gtkui/glade/main_window.glade:2167
-msgid "_Options"
-msgstr "_Параметры"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "Комментарии:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
-msgid "Add URL"
-msgstr "Добавить URL"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "Информация"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1008
-msgid "<b>From URL</b>"
-msgstr "<b>Через интернет</b>"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "Вебсидеры"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:60
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
-msgid "URL:"
-msgstr "URL:"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "Размер части:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1119
-msgid "Add Infohash"
-msgstr "Добавить хэш данных"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB"
+msgstr ""
+"32 КиБ\n"
+"64 КиБ\n"
+"128 КиБ\n"
+"256 КиБ\n"
+"512 КиБ"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1155
-msgid "<b>From Infohash</b>"
-msgstr "<b>Из хэша данных</b>"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
+#: deluge/ui/webui/torrent_add.py:57
+msgid "Set Private Flag"
+msgstr "Установить флаг приватности"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1189
-msgid "Infohash:"
-msgstr "Хэш данных"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
+msgid "Add this torrent to the session"
+msgstr "Добавить торрент к этому сеансу"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:11
-msgid "_Open Folder"
-msgstr "_Открыть каталог"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
+msgid "Enter Remote Path"
+msgstr "Введите удалённый путь"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:48
-msgid "Resume selected torrents."
-msgstr "Возобновить выбранные торренты"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
+msgid "<b>Remote Path</b>"
+msgstr "<b>Удалённый путь</b>"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:49
-msgid "Resu_me"
-msgstr "_Возобновить"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:938
+msgid "Path:"
+msgstr "Путь:"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:71
-msgid "Opt_ions"
-msgstr "_Параметры"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:831
+msgid "Creating Torrent"
+msgstr "Создание торрента"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
-msgid "_Queue"
-msgstr "_Очередь"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
+msgid "Save .torrent as"
+msgstr "Сохранить .torrent как"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
-msgid "_Update Tracker"
-msgstr "_Обновить трекер"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>Сохранить .torrent файл</b>"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2063
-msgid "_Edit Trackers"
-msgstr "_Изменить трекеры"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:9
+#: deluge/ui/webui/scripts/template_strings.py:76
+msgid "Speed"
+msgstr "Скорость"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
-msgid "_Remove Torrent"
-msgstr "_Удалить торрент и"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:103
+#: deluge/ui/gtkui/glade/main_window.glade:2570
+msgid "Add Peer"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:173
-msgid "_Force Re-check"
-msgstr "_Форсированная перепроверка"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:136
+msgid "<b>Add Peer</b>"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:190
-msgid "Move _Storage"
-msgstr "Переместить _Хранилище"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:211
-msgid "From Session"
-msgstr "Оставить все файлы"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:220
-msgid ".. And Delete Torrent File"
-msgstr "Удалить .torrent файл"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:229
-msgid ".. And Delete Downloaded Files"
-msgstr "Удалить загруженный файл"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:238
-msgid ".. And Delete All Files"
-msgstr "Удалить все файлы"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:251
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-msgid "_Download Speed Limit"
-msgstr "_Ограничение скорости приёма"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:266
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-msgid "_Upload Speed Limit"
-msgstr "О_граничение скорости раздачи"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:281
-msgid "_Connection Limit"
-msgstr "О_граничение подключения"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:297
-msgid "Upload _Slot Limit"
-msgstr "Ограничение слотов от_дачи"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:312
-msgid "_Auto Managed"
-msgstr "_Автоматическое управление"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:160
+msgid "hostname:port"
+msgstr "адрес:порт"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -2437,7 +1363,7 @@ msgstr "П_родолжить все"
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
-msgstr "Выйти и остановить сервис"
+msgstr "Выйти и остановить демон"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
@@ -2515,6 +1441,16 @@ msgstr "Вопросы и ответы"
 msgid "Community"
 msgstr "Сообщество"
 
+#: deluge/ui/gtkui/glade/main_window.glade:313
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add torrent"
+msgstr "Добавить торрент"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:6
+msgid "Add Torrent"
+msgstr "Добавить торрент"
+
 #: deluge/ui/gtkui/glade/main_window.glade:329
 msgid "Remove Torrent"
 msgstr "Удалить торрент"
@@ -2539,9 +1475,19 @@ msgstr "Продолжить"
 msgid "Queue Torrent Up"
 msgstr "Переместить торрент вверх"
 
+#: deluge/ui/gtkui/glade/main_window.glade:392
+#: deluge/ui/webui/register_menu.py:55
+msgid "Queue Up"
+msgstr "Выше"
+
 #: deluge/ui/gtkui/glade/main_window.glade:406
 msgid "Queue Torrent Down"
 msgstr "Переместить торрент вниз"
+
+#: deluge/ui/gtkui/glade/main_window.glade:407
+#: deluge/ui/webui/register_menu.py:56
+msgid "Queue Down"
+msgstr "Ниже"
 
 #: deluge/ui/gtkui/glade/main_window.glade:561
 msgid "_Expand All"
@@ -2563,23 +1509,23 @@ msgstr "_Высокий приоритет"
 msgid "Hi_ghest Priority"
 msgstr "_Высочайший приоритет"
 
-#: deluge/ui/gtkui/glade/main_window.glade:709
+#: deluge/ui/gtkui/glade/main_window.glade:710
 msgid "<b>Auto Managed:</b>"
 msgstr "<b>Автоматически управляемый:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:748
+#: deluge/ui/gtkui/glade/main_window.glade:749
 msgid "<b>Seed Rank:</b>"
 msgstr "<b>Ранг раздачи:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:763
+#: deluge/ui/gtkui/glade/main_window.glade:764
 msgid "<b>Seeding Time:</b>"
 msgstr "<b>Время раздачи:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:788
+#: deluge/ui/gtkui/glade/main_window.glade:789
 msgid "<b>Active Time:</b>"
 msgstr "<b>Время активности:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:845
+#: deluge/ui/gtkui/glade/main_window.glade:846
 msgid "<b>Tracker Status:</b>"
 msgstr "<b>Состояние трекера:</b>"
 
@@ -2624,206 +1570,1405 @@ msgstr "<b>Роздано:</b>"
 msgid "<b>Downloaded:</b>"
 msgstr "<b>Принято:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1203
+#: deluge/ui/gtkui/glade/main_window.glade:1204
 msgid "_Statistics"
 msgstr "_Статистика"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1274
+#: deluge/ui/gtkui/glade/main_window.glade:1275
 msgid "<b># of files:</b>"
 msgstr "<b>Файлов:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1306
+#: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b>Hash:</b>"
 msgstr "<b>Хеш:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1336
+#: deluge/ui/gtkui/glade/main_window.glade:1337
 msgid "<b>Tracker:</b>"
 msgstr "<b>Трекер:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1356
+#: deluge/ui/gtkui/glade/main_window.glade:1357
 msgid "<b>Total Size:</b>"
 msgstr "<b>Общий размер:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1394
+#: deluge/ui/gtkui/glade/main_window.glade:1395
 msgid "<b>Name:</b>"
 msgstr "<b>Имя:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1414
+#: deluge/ui/gtkui/glade/main_window.glade:1415
 msgid "<b>Path:</b>"
 msgstr "<b>Путь:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1448
+#: deluge/ui/gtkui/glade/main_window.glade:1449
 msgid "<b>Status:</b>"
 msgstr "<b>Состояние:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1514
+#: deluge/ui/gtkui/glade/main_window.glade:1515
 msgid "_Details"
 msgstr "_Подробности"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1564
+#: deluge/ui/gtkui/glade/main_window.glade:1565
 msgid "_Files"
 msgstr "_Файлы"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1614
+#: deluge/ui/gtkui/glade/main_window.glade:1615
 msgid "_Peers"
-msgstr "_Узлы"
+msgstr "_Пиры"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1733
+#: deluge/ui/gtkui/glade/main_window.glade:1734
 msgid "Max Upload Speed:"
 msgstr "Макс. скорость отдачи:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1746
+#: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Download Speed:"
 msgstr "Макс. скорость приёма:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1866
-#: deluge/plugins/label/label/data/label_options.glade:317
-msgid "Stop seed at ratio:"
-msgstr "Остановить раздачу при рейтинге:"
+#: deluge/ui/gtkui/glade/main_window.glade:1757
+#: deluge/ui/gtkui/glade/main_window.glade:1769
+#: deluge/ui/gtkui/statusbar.py:330 deluge/ui/gtkui/statusbar.py:340
+#: deluge/ui/gtkui/statusbar.py:353 deluge/ui/gtkui/statusbar.py:381
+#: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
+#: deluge/ui/gtkui/systemtray.py:334
+msgid "KiB/s"
+msgstr "KиБ/с"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1920
+#: deluge/ui/gtkui/glade/main_window.glade:1921
 msgid "Move completed:"
 msgstr "Переместить завершенные"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1977
+#: deluge/ui/gtkui/glade/main_window.glade:1978
 msgid "<b>Queue</b>"
 msgstr "<b>Очередь</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2375
+#: deluge/ui/gtkui/glade/main_window.glade:2015
+#: deluge/ui/webui/scripts/template_strings.py:57
+msgid "Private"
+msgstr "Приватный"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2028
+#: deluge/ui/webui/torrent_options.py:23
+msgid "Prioritize First/Last"
+msgstr "Повысить приоритет первой/последней части"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2376
 msgid "New Release"
 msgstr "Новая версия"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2406
+#: deluge/ui/gtkui/glade/main_window.glade:2407
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
-"Copy text   \t\n"
-"<b><big>Новая версия доступна!</big></b>"
+msgstr "<b><big>Новая версия доступна!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2457
+#: deluge/ui/gtkui/glade/main_window.glade:2458
 msgid "<i>Available Version:</i>"
 msgstr "<i>Доступная версия:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2480
+#: deluge/ui/gtkui/glade/main_window.glade:2481
 msgid "<i>Current Version:</i>"
 msgstr "<i>Текущая версия:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2502
+#: deluge/ui/gtkui/glade/main_window.glade:2503
 msgid "Do not show this dialog in the future"
 msgstr "Не показывать это окно в будущем"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2542
+#: deluge/ui/gtkui/glade/main_window.glade:2543
 msgid "_Goto Website"
 msgstr "_Перейти на вебсайт"
 
-#: deluge/plugins/label/label/data/label_pref.glade:22
-msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
-"<i>Используйте боковую панель для добавления, редактирования и удаления "
-"меток. </i>\n"
+#: deluge/ui/gtkui/glade/main_window.glade:2569
+msgid "Add a peer by its IP"
+msgstr "Добавить пира по IP"
 
-#: deluge/plugins/label/label/data/label_pref.glade:32
-msgid "<b>Labels</b>"
-msgstr "<b>Метки</b>"
+#: deluge/core/torrentmanager.py:669
+msgid "Announce OK"
+msgstr "Анонс успешен"
 
-#: deluge/plugins/label/label/data/label_options.glade:7
-msgid "Label Options"
+#: deluge/core/torrentmanager.py:690
+msgid "Announce Sent"
+msgstr "Анонс отправлен"
+
+#: deluge/core/torrentmanager.py:699
+msgid "Alert"
+msgstr "Предупреждение"
+
+#: deluge/core/torrentmanager.py:710
+msgid "Warning"
+msgstr "Внимание"
+
+#: deluge/core/torrentmanager.py:720
+#: deluge/ui/webui/scripts/template_strings.py:32
+msgid "Error"
+msgstr "Ошибка"
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:63
+msgid "Label _Options"
 msgstr "Опции метки"
 
-#: deluge/plugins/label/label/data/label_options.glade:87
-msgid "Connections:"
-msgstr "Соединения:"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:64
+msgid "_Remove Label"
+msgstr "Удалить метку"
 
-#: deluge/plugins/label/label/data/label_options.glade:115
-#: deluge/plugins/label/label/data/label_options.glade:180
-msgid "Kib/s"
-msgstr "Kib/s"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:65
+msgid "_Add Label"
+msgstr "Добавить метку"
 
-#: deluge/plugins/label/label/data/label_options.glade:130
-msgid "Download Speed:"
-msgstr "Скорость загрузки:"
+#: deluge/plugins/label/label/gtkui/submenu.py:50
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:116
+#: deluge/plugins/label/label/webui/config.py:110
+#: deluge/plugins/label/label/webui/pages.py:62
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Label"
+msgstr "Название"
 
-#: deluge/plugins/label/label/data/label_options.glade:142
-msgid "Upload Speed:"
-msgstr "Скорость раздачи:"
+#: deluge/plugins/label/label/core.py:194
+msgid "Invalid label, valid characters:[a-z0-9_-]"
+msgstr "Неверный ярлык ,  допустимые символы: [a-z0-9_-]"
 
-#: deluge/plugins/label/label/data/label_options.glade:155
-msgid "Upload Slots:\t"
-msgstr "Слоты отдачи:\t"
+#: deluge/plugins/label/label/core.py:195
+msgid "Empty Label"
+msgstr "Пустой ярлык"
 
-#: deluge/plugins/label/label/data/label_options.glade:222
-msgid "Apply per torrent max settings:"
-msgstr "Применить максимальные настройки для каждого торрента"
+#: deluge/plugins/label/label/core.py:196
+msgid "Label already exists"
+msgstr "Ярлык уже существует"
 
-#: deluge/plugins/label/label/data/label_options.glade:235
-msgid "Maximum"
-msgstr "Максимум"
+#: deluge/plugins/label/label/core.py:202
+#: deluge/plugins/label/label/core.py:254
+#: deluge/plugins/label/label/core.py:287
+msgid "Unknown Label"
+msgstr "Неизвестный ярлык"
 
-#: deluge/plugins/label/label/data/label_options.glade:361
-msgid "Apply Queue settings:"
-msgstr "Применить настройки очереди:"
+#: deluge/plugins/label/label/core.py:288
+msgid "Unknown Torrent"
+msgstr "Неизвестный Торрент"
 
-#: deluge/plugins/label/label/data/label_options.glade:443
-msgid "Apply location settings:"
-msgstr "Применить локальные настройки:"
+#: deluge/plugins/label/label/webui/config.py:46
+msgid "Labels"
+msgstr "Метки"
 
-#: deluge/plugins/label/label/data/label_options.glade:459
-msgid "Location"
-msgstr "Расположение"
+#: deluge/plugins/label/label/webui/config.py:58
+msgid "Select Label"
+msgstr "Выбрать метку"
 
-#: deluge/plugins/label/label/data/label_options.glade:483
-msgid ""
-"tracker1.org\n"
-"tracker2.com\n"
-"this doesn't do anything yet..\n"
+#: deluge/plugins/label/label/webui/config.py:83
+msgid "Apply Maximum settings on add"
+msgstr "Выставить максимальные параметны при добавлении"
+
+#: deluge/plugins/label/label/webui/config.py:84
+#: deluge/ui/webui/config_tabs_deluge.py:102
+#: deluge/ui/webui/config_tabs_deluge.py:117
+#: deluge/ui/webui/torrent_options.py:19 deluge/ui/webui/torrent_add.py:51
+msgid "Maximum Connections"
+msgstr "Максимум соединений"
+
+#: deluge/plugins/label/label/webui/config.py:85
+#: deluge/ui/webui/config_tabs_deluge.py:103
+#: deluge/ui/webui/config_tabs_deluge.py:118
+msgid "Maximum Download Speed (Kib/s)"
+msgstr "Максимальная скорость приема (Кб/с)"
+
+#: deluge/plugins/label/label/webui/config.py:86
+#: deluge/ui/webui/config_tabs_deluge.py:104
+#: deluge/ui/webui/config_tabs_deluge.py:119
+msgid "Maximum Upload Speed (Kib/s)"
+msgstr "Максимальная скорость отдачи (Кб/с)"
+
+#: deluge/plugins/label/label/webui/config.py:87
+#: deluge/ui/webui/config_tabs_deluge.py:105
+#: deluge/ui/webui/config_tabs_deluge.py:120
+#: deluge/ui/webui/torrent_options.py:20 deluge/ui/webui/torrent_add.py:52
+msgid "Maximum Upload Slots"
+msgstr "Максимум слотов отдачи"
+
+#: deluge/plugins/label/label/webui/config.py:88
+msgid "Move completed to"
+msgstr "Завершено перемещение в"
+
+#: deluge/plugins/label/label/webui/config.py:90
+msgid "Apply"
+msgstr "Применить"
+
+#: deluge/plugins/label/label/webui/config.py:91
+#: deluge/ui/webui/register_menu.py:52
+msgid "Delete"
+msgstr "Удалить"
+
+#: deluge/plugins/label/label/webui/config.py:117
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "General"
+msgstr "Общее"
+
+#: deluge/plugins/label/label/webui/config.py:126
+msgid "Hide filter items with 0 hits"
+msgstr "Не показывать  отфильтрованные  элементы с 0 хитов"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:46
+msgid "Emule IP list (GZip)"
+msgstr "Список IP Emule (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:47
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer текст (zip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:48
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian текст (несжатый)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:49
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:58
+msgid "BlockList"
+msgstr "Список заблокированных"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:78
+#: deluge/ui/webui/torrent_add.py:65
+msgid "Url"
+msgstr "Url"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:79
+msgid "Check for every (days)"
+msgstr "Задержа для всех (дни)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:80
+msgid "Timeout (seconds)"
+msgstr "Время ожидания (сек)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:81
+msgid "Times to attempt download"
+msgstr "Количество попыток скачивания"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:82
+msgid "Import on daemon startup"
+msgstr "Импортировать при запуске процесса"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:84
+msgid "Download Now"
+msgstr "Скачать сейчас"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:85
+msgid "Import Now"
+msgstr "Импортировать сейчас"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:92
+#, python-format
+msgid "Downloading %.2f%%"
+msgstr "Загрузка %.2f%%"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:94
+#, python-format
+msgid "Importing %s"
+msgstr "Отдано %s"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:96
+#, python-format
+msgid "Blocked Ranges: %s"
+msgstr "Заблокированные:  %s"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:98
+msgid "Inactive"
+msgstr "Неактивный"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:105
+msgid "Refresh status"
+msgstr "Обновить состояние"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "Неверное начало"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "Неверный отпечаток"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "Неверная версия"
+
+#: deluge/plugins/stats/stats/webui.py:107
+msgid "Stats"
 msgstr ""
-"tracker1.org\n"
-"tracker2.com\n"
-"это пока ничего не делает..\n"
 
-#: deluge/plugins/label/label/data/label_options.glade:492
-msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(каждый трекер на отдельной строке)</i>"
+#: deluge/plugins/stats/stats/webui.py:116
+msgid "Graph"
+msgstr "График"
 
-#: deluge/plugins/label/label/data/label_options.glade:508
-msgid "Automatically apply label:"
-msgstr "Автоматически применять метку"
+#: deluge/plugins/stats/stats/webui.py:127
+msgid "Test config value"
+msgstr "Тестировать значение"
 
-#: deluge/plugins/label/label/data/label_options.glade:593
-msgid "<b>Label name:</b>"
-msgstr "<b>Имя метки:</b>"
+#: deluge/ui/gtkui/listview.py:84
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "Неизвестно"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:125
-msgid "Days"
-msgstr "Дней"
+#: deluge/ui/gtkui/statusbar.py:135
+msgid "Not Connected"
+msgstr "Не подключено"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
-msgid "Check for new list every:"
-msgstr "Проверять список каждые:"
+#: deluge/ui/gtkui/statusbar.py:155
+msgid "Download Speed"
+msgstr "Скорость скачивания"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:168
-msgid "Import blocklist on startup"
-msgstr "Импортировать блоклист при запуске"
+#: deluge/ui/gtkui/statusbar.py:160
+msgid "Upload Speed"
+msgstr "Скорость раздачи"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:218
-msgid "Download the blocklist file if necessary and import the file."
-msgstr "Скачать список заблокированных и если необходимо импортировать его."
+#: deluge/ui/gtkui/statusbar.py:168
+msgid "No Incoming Connections!"
+msgstr "Входящие подключения отсутствуют"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:238
-msgid "Check Download and Import"
-msgstr "Проверить и скачать"
+#: deluge/ui/gtkui/statusbar.py:360 deluge/ui/gtkui/statusbar.py:388
+#: deluge/ui/gtkui/statusbar.py:415 deluge/ui/gtkui/systemtray.py:188
+#: deluge/ui/gtkui/systemtray.py:192 deluge/ui/gtkui/systemtray.py:335
+#: deluge/ui/gtkui/common.py:62 deluge/ui/webui/lib/newforms_plus.py:193
+#: deluge/ui/webui/lib/newforms_plus.py:204
+msgid "Unlimited"
+msgstr "Без ограничения"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:259
-msgid "Download a new blocklist file and import it."
-msgstr "Скачать новый список заблокированных и импортировать его."
+#: deluge/ui/gtkui/statusbar.py:362 deluge/ui/gtkui/statusbar.py:390
+#: deluge/ui/gtkui/statusbar.py:417 deluge/ui/gtkui/systemtray.py:338
+#: deluge/ui/gtkui/common.py:119 deluge/ui/gtkui/common.py:120
+msgid "Other..."
+msgstr "Другое..."
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:279
-msgid "Force Download and Import"
-msgstr "Принудительно скачать"
+#: deluge/ui/gtkui/statusbar.py:364
+msgid "Download Speed (KiB/s):"
+msgstr "Скорость приёма (КиБ/с)"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:416
-msgid "Date:"
-msgstr "Дата:"
+#: deluge/ui/gtkui/statusbar.py:392
+msgid "Upload Speed (KiB/s):"
+msgstr "Скорость раздачи (КиБ/с):"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:428
-msgid "File Size:"
-msgstr "Размер файла:"
+#: deluge/ui/gtkui/statusbar.py:419
+msgid "Connection Limit:"
+msgstr "Ограничение по подключениям"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:72
+msgid "Torrent"
+msgstr "Торрент"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:98 deluge/ui/gtkui/files_tab.py:113
+#: deluge/ui/gtkui/createtorrentdialog.py:73
+msgid "Filename"
+msgstr "Имя файла"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:109 deluge/ui/gtkui/files_tab.py:133
+#: deluge/ui/gtkui/torrentview.py:142
+#: deluge/ui/gtkui/createtorrentdialog.py:83
+#: deluge/ui/webui/scripts/template_strings.py:75
+msgid "Size"
+msgstr "Размер"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:500
+msgid "Choose a .torrent file"
+msgstr "Выберите файл .torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:229
+msgid "Torrent files"
+msgstr "Файлы .torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:516
+#: deluge/ui/gtkui/createtorrentdialog.py:233
+msgid "All files"
+msgstr "Все файлы"
+
+#: deluge/ui/gtkui/aboutdialog.py:67
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. This program is distributed in the hope that it will be "
+"useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
+"Public License for more details. You should have received a copy of the GNU "
+"General Public License along with this program; if not, see "
+"<http://www.gnu.org/licenses>."
+msgstr ""
+"ПОСКОЛЬКУ НАСТОЯЩАЯ ПРОГРАММА РАСПРОСТРАНЯЕТСЯ БЕСПЛАТНО, ГАРАНТИИ НА НЕЕ НЕ "
+"ПРЕДОСТАВЛЯЮТСЯ В ТОЙ СТЕПЕНИ, В КАКОЙ ЭТО ДОПУСКАЕТСЯ ПРИМЕНИМЫМ ПРАВОМ. "
+"НАСТОЯЩАЯ ПРОГРАММА ПОСТАВЛЯЕТСЯ НА УСЛОВИЯХ \"КАК ЕСТЬ\". ЕСЛИ ИНОЕ НЕ "
+"УКАЗАНО В ПИСЬМЕННОЙ ФОРМЕ, АВТОР И/ИЛИ ИНОЙ ПРАВООБЛАДАТЕЛЬ НЕ ПРИНИМАЕТ НА "
+"СЕБЯ НИКАКИХ ГАРАНТИЙНЫХ ОБЯЗАТЕЛЬСТВ, КАК ЯВНО ВЫРАЖЕННЫХ, ТАК И "
+"ПОДРАЗУМЕВАЕМЫХ, В ОТНОШЕНИИ ПРОГРАММЫ, В ТОМ ЧИСЛЕ ПОДРАЗУМЕВАЕМУЮ ГАРАНТИЮ "
+"ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ И ПРИГОДНОСТИ ДЛЯ ИСПОЛЬЗОВАНИЯ В КОНКРЕТНЫХ "
+"ЦЕЛЯХ, А ТАКЖЕ ЛЮБЫЕ ИНЫЕ ГАРАНТИИ. ВСЕ РИСКИ, СВЯЗАННЫЕ С КАЧЕСТВОМ И "
+"ПРОИЗВОДИТЕЛЬНОСТЬЮ ПРОГРАММЫ, НЕСЕТ ЛИЦЕНЗИАТ. В СЛУЧАЕ ЕСЛИ В ПРОГРАММЕ "
+"БУДУТ ОБНАРУЖЕНЫ НЕДОСТАТКИ, ВСЕ РАСХОДЫ, СВЯЗАННЫЕ С ТЕХНИЧЕСКИМ "
+"ОБСЛУЖИВАНИЕМ, РЕМОНТОМ ИЛИ ИСПРАВЛЕНИЕМ ПРОГРАММЫ, НЕСЕТ "
+"ЛИЦЕНЗИАТ.Подробнее см. <http://www.gnu.org/licenses>."
+
+#: deluge/ui/gtkui/systemtray.py:197
+msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtkui/systemtray.py:197
+msgid "Down"
+msgstr "Вниз"
+
+#: deluge/ui/gtkui/systemtray.py:198
+msgid "Up"
+msgstr "Вверх"
+
+#: deluge/ui/gtkui/systemtray.py:325 deluge/ui/webui/config_tabs_deluge.py:125
+#: deluge/ui/webui/scripts/template_strings.py:28
+msgid "Download"
+msgstr "Загрузка"
+
+#: deluge/ui/gtkui/systemtray.py:329
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Upload"
+msgstr "Раздача"
+
+#: deluge/ui/gtkui/systemtray.py:369
+msgid "Deluge is locked"
+msgstr "Deluge заблокирован"
+
+#: deluge/ui/gtkui/systemtray.py:372
+msgid ""
+"Deluge is password protected.\n"
+"To show the Deluge window, please enter your password"
+msgstr ""
+"Deluge защищён паролем.\n"
+"Чтобы открыть главное окно, введите пароль"
+
+#: deluge/ui/gtkui/files_tab.py:146 deluge/ui/gtkui/peers_tab.py:131
+#: deluge/ui/gtkui/torrentview.py:146
+#: deluge/ui/webui/scripts/template_strings.py:58
+msgid "Progress"
+msgstr "Статус"
+
+#: deluge/ui/gtkui/files_tab.py:159
+msgid "Priority"
+msgstr "Приоритет"
+
+#: deluge/ui/gtkui/menubar.py:78
+msgid "Set Unlimited"
+msgstr "Неограниченно"
+
+#: deluge/ui/gtkui/menubar.py:82
+msgid "Other.."
+msgstr "Другая..."
+
+#: deluge/ui/gtkui/menubar.py:90
+msgid "On"
+msgstr "Вкл."
+
+#: deluge/ui/gtkui/menubar.py:93
+#: deluge/ui/webui/scripts/template_strings.py:49
+msgid "Off"
+msgstr "Выкл"
+
+#: deluge/ui/gtkui/menubar.py:343
+msgid "Choose a directory to move files to"
+msgstr "Выберите директорию для переноса файлов"
+
+#: deluge/ui/gtkui/menubar.py:453
+msgid "Set Max Download Speed (KiB/s):"
+msgstr "Установить максимальную скорость закачки (KiB/s):"
+
+#: deluge/ui/gtkui/menubar.py:455
+msgid "Set Max Upload Speed (KiB/s):"
+msgstr "Установить максимальную скорость раздачи (КиБ/с):"
+
+#: deluge/ui/gtkui/menubar.py:457
+msgid "Set Max Connections:"
+msgstr "Установить максимум соединений:"
+
+#: deluge/ui/gtkui/menubar.py:459
+msgid "Set Max Upload Slots:"
+msgstr "Максимум слотов закачки:"
+
+#: deluge/ui/gtkui/peers_tab.py:102
+#: deluge/ui/webui/scripts/template_strings.py:8
+msgid "Address"
+msgstr "Адрес"
+
+#: deluge/ui/gtkui/peers_tab.py:118
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Client"
+msgstr "Клиент"
+
+#: deluge/ui/gtkui/peers_tab.py:144 deluge/ui/gtkui/torrentview.py:160
+#: deluge/ui/webui/scripts/template_strings.py:27
+msgid "Down Speed"
+msgstr "Приём"
+
+#: deluge/ui/gtkui/peers_tab.py:157 deluge/ui/gtkui/torrentview.py:164
+#: deluge/ui/webui/scripts/template_strings.py:85
+msgid "Up Speed"
+msgstr "Отдача"
+
+#: deluge/ui/gtkui/notification.py:75
+msgid "Torrent complete"
+msgstr "Торрент завершён"
+
+#: deluge/ui/gtkui/notification.py:76
+#, python-format
+msgid "Including %i files"
+msgstr "Вложенных файлов %i"
+
+#: deluge/ui/gtkui/notification.py:104
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading %s ,        "
+"     which includes %i files.\n"
+"To stop receiving these alerts, simply turn off             email "
+"notification in Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge"
+msgstr ""
+"Этим письмом Deluge уведомляет Вас о том, что процесс загрузки %s, "
+"содержащий %i файлов завершён.\n"
+"Чтобы больше не получать подобные предупреждения, отключите в опциях Deluge "
+"оповещение по email.\n"
+"\n"
+"С уважением,\n"
+"Deluge"
+
+#: deluge/ui/gtkui/filtertreeview.py:86 deluge/ui/gtkui/filtertreeview.py:111
+msgid "Filters"
+msgstr "Фильтры"
+
+#: deluge/ui/gtkui/filtertreeview.py:140
+msgid "State"
+msgstr "Состояние"
+
+#: deluge/ui/gtkui/filtertreeview.py:208
+msgid "no label"
+msgstr "нет метки"
+
+#: deluge/ui/gtkui/queuedtorrents.py:132
+msgid " Torrents Queued"
+msgstr " Очередь торрентов"
+
+#: deluge/ui/gtkui/queuedtorrents.py:134
+msgid " Torrent Queued"
+msgstr " Очередь торрента"
+
+#: deluge/ui/gtkui/removetorrentdialog.py:66
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrents?</b></big>"
+msgstr "<big><b>Вы уверены, что хотите удалить Торрент?</b></big>"
+
+#: deluge/ui/gtkui/removetorrentdialog.py:67
+msgid "Remove Selected Torrents"
+msgstr "Удалить выбранный торрент"
+
+#: deluge/ui/gtkui/common.py:65
+msgid "Activated"
+msgstr "Активно"
+
+#: deluge/ui/gtkui/common.py:133
+#, python-format
+msgid "%s"
+msgstr "%s"
+
+#: deluge/ui/gtkui/signals.py:150
+msgid "Torrent is past stop ratio."
+msgstr "Торрент достиг коэффициента остановки."
+
+#: deluge/ui/gtkui/edittrackersdialog.py:82
+#: deluge/ui/gtkui/createtorrentdialog.py:96
+msgid "Tier"
+msgstr "Порядок"
+
+#: deluge/ui/gtkui/edittrackersdialog.py:84 deluge/ui/gtkui/torrentview.py:180
+#: deluge/ui/gtkui/createtorrentdialog.py:98
+#: deluge/ui/webui/scripts/template_strings.py:82
+msgid "Tracker"
+msgstr "Трекер"
+
+#: deluge/ui/gtkui/preferences.py:80 deluge/ui/webui/config_tabs_deluge.py:88
+msgid "Enabled"
+msgstr "Включён"
+
+#: deluge/ui/gtkui/preferences.py:82
+msgid "Plugin"
+msgstr "Модуль"
+
+#: deluge/ui/gtkui/preferences.py:809
+msgid "Select the Plugin"
+msgstr "Выберите плагин"
+
+#: deluge/ui/gtkui/preferences.py:820
+msgid "Plugin Eggs"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:140
+#: deluge/ui/webui/scripts/template_strings.py:46
+msgid "Name"
+msgstr "Название"
+
+#: deluge/ui/gtkui/torrentview.py:150
+#: deluge/ui/webui/scripts/template_strings.py:69
+msgid "Seeders"
+msgstr "Сиды"
+
+#: deluge/ui/gtkui/torrentview.py:155 deluge/ui/webui/register_menu.py:48
+#: deluge/ui/webui/scripts/template_strings.py:55
+msgid "Peers"
+msgstr "Пиры"
+
+#: deluge/ui/gtkui/torrentview.py:168
+#: deluge/ui/webui/scripts/template_strings.py:30
+msgid "ETA"
+msgstr "Осталось"
+
+#: deluge/ui/gtkui/torrentview.py:172
+#: deluge/ui/webui/scripts/template_strings.py:61
+msgid "Ratio"
+msgstr "Рейтинг"
+
+#: deluge/ui/gtkui/torrentview.py:176
+msgid "Avail"
+msgstr "Доступ"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:125
+msgid "Choose a file"
+msgstr "Выберите файл"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:152
+msgid "Choose a folder"
+msgstr "Выберите папку"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:217
+msgid "Save .torrent file"
+msgstr "Сохранить файл .torrent"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:333
+#, python-format
+msgid "%.2f%%"
+msgstr "%.2f%%"
+
+#: deluge/ui/webui/render.py:174 deluge/ui/webui/utils.py:117
+#: deluge/ui/webui/utils.py:122
+msgid "∞"
+msgstr "∞"
+
+#: deluge/ui/webui/config_forms.py:108
+msgid "These changes were saved"
+msgstr "Изменения сохранены"
+
+#: deluge/ui/webui/config_forms.py:114
+msgid "Correct the errors above and try again"
+msgstr "Исправьте ошибки и попробуйте снова"
+
+#: deluge/ui/webui/register_menu.py:39
+#: deluge/ui/webui/scripts/template_strings.py:16
+msgid "Config"
+msgstr "Настройка"
+
+#: deluge/ui/webui/register_menu.py:40
+#: deluge/ui/webui/scripts/template_strings.py:17
+msgid "Connect"
+msgstr "Соединиться"
+
+#: deluge/ui/webui/register_menu.py:41
+#: deluge/ui/webui/scripts/template_strings.py:4
+msgid "About"
+msgstr "О программе"
+
+#: deluge/ui/webui/register_menu.py:42
+#: deluge/ui/webui/scripts/template_strings.py:42
+msgid "Logout"
+msgstr "Выйти"
+
+#: deluge/ui/webui/register_menu.py:44
+msgid "Statistics"
+msgstr "Статистика"
+
+#: deluge/ui/webui/register_menu.py:45 deluge/ui/webui/register_menu.py:59
+msgid "Details"
+msgstr "Подробности"
+
+#: deluge/ui/webui/register_menu.py:49
+msgid "Files"
+msgstr "Файлы"
+
+#: deluge/ui/webui/register_menu.py:51
+msgid "Add"
+msgstr "Добавить"
+
+#: deluge/ui/webui/register_menu.py:53
+#: deluge/ui/webui/scripts/template_strings.py:78
+msgid "Stop"
+msgstr "Остановить"
+
+#: deluge/ui/webui/register_menu.py:54
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Start"
+msgstr "Запустить"
+
+#: deluge/ui/webui/register_menu.py:57
+msgid "Queue Top"
+msgstr "Начало списка очереди"
+
+#: deluge/ui/webui/register_menu.py:58
+msgid "Queue Bottom"
+msgstr "Конец списка очереди"
+
+#: deluge/ui/webui/register_menu.py:60
+#: deluge/ui/webui/scripts/template_strings.py:43
+msgid "Move"
+msgstr "Переместить"
+
+#: deluge/ui/webui/register_menu.py:61
+msgid "Reannounce"
+msgstr "Анонсировать ещё раз"
+
+#: deluge/ui/webui/register_menu.py:62
+msgid "Recheck"
+msgstr "Перепроверка"
+
+#: deluge/ui/webui/config_tabs_deluge.py:45
+msgid "Ports"
+msgstr "Порты"
+
+#: deluge/ui/webui/config_tabs_deluge.py:46
+msgid "From"
+msgstr "От"
+
+#: deluge/ui/webui/config_tabs_deluge.py:47
+msgid "To"
+msgstr "До"
+
+#: deluge/ui/webui/config_tabs_deluge.py:48
+msgid "Random"
+msgstr "Случайно"
+
+#: deluge/ui/webui/config_tabs_deluge.py:76
+msgid "Extra's"
+msgstr "Дополнения"
+
+#: deluge/ui/webui/config_tabs_deluge.py:77
+msgid "Mainline DHT"
+msgstr "Основной DHT"
+
+#: deluge/ui/webui/config_tabs_deluge.py:78
+msgid "UpNP"
+msgstr "UpNP"
+
+#: deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Peer-Exchange"
+msgstr "Обмен узлами"
+
+#: deluge/ui/webui/config_tabs_deluge.py:86
+msgid "Encryption"
+msgstr "Шифрование"
+
+#: deluge/ui/webui/config_tabs_deluge.py:88
+msgid "Forced"
+msgstr "Форсированный"
+
+#: deluge/ui/webui/config_tabs_deluge.py:88
+msgid "Disabled"
+msgstr "Откл."
+
+#: deluge/ui/webui/config_tabs_deluge.py:89
+msgid "Handshake"
+msgstr "Рукопожатие"
+
+#: deluge/ui/webui/config_tabs_deluge.py:89
+msgid "Either"
+msgstr "Оба"
+
+#: deluge/ui/webui/config_tabs_deluge.py:91
+msgid "Inbound"
+msgstr "Входящий"
+
+#: deluge/ui/webui/config_tabs_deluge.py:92
+msgid "Outbound"
+msgstr "Исходящиц"
+
+#: deluge/ui/webui/config_tabs_deluge.py:93
+msgid "Level"
+msgstr "Уровень"
+
+#: deluge/ui/webui/config_tabs_deluge.py:100
+msgid "Global"
+msgstr "Общий"
+
+#: deluge/ui/webui/config_tabs_deluge.py:101
+#: deluge/ui/webui/config_tabs_deluge.py:116
+msgid "-1 = Unlimited"
+msgstr "-1 = Неограниченно"
+
+#: deluge/ui/webui/config_tabs_deluge.py:107
+msgid "Maximum Half-Open Connections"
+msgstr "Максимум полуоткрытых соеденений"
+
+#: deluge/ui/webui/config_tabs_deluge.py:108
+msgid "Maximum Connection Attempts per Second"
+msgstr "Максимум попыток соеденения в сек."
+
+#: deluge/ui/webui/config_tabs_deluge.py:115
+msgid "Per Torrent"
+msgstr "За торрент"
+
+#: deluge/ui/webui/config_tabs_deluge.py:126
+msgid "Store all downoads in"
+msgstr "Сохранять все загрузки в"
+
+#: deluge/ui/webui/config_tabs_deluge.py:127
+msgid "Save .torrent files to"
+msgstr "Сохранять .torrent файлы в"
+
+#: deluge/ui/webui/config_tabs_deluge.py:128
+msgid "Auto Add folder"
+msgstr "Каталог автодобавления"
+
+#: deluge/ui/webui/config_tabs_deluge.py:129
+msgid "Auto Add enabled"
+msgstr "Разрешить автоматическое добавление"
+
+#: deluge/ui/webui/config_tabs_deluge.py:131 deluge/ui/webui/torrent_add.py:55
+msgid "Prioritize first and last pieces"
+msgstr "Приоритет на первые и последние части"
+
+#: deluge/ui/webui/config_tabs_deluge.py:137
+msgid "Daemon"
+msgstr "Служба"
+
+#: deluge/ui/webui/config_tabs_deluge.py:138
+msgid "Restart daemon and webui after changing these settings"
+msgstr "Перезапустите программу и интерфейс после изменения этих настроек"
+
+#: deluge/ui/webui/config_tabs_deluge.py:139
+#: deluge/ui/webui/config_tabs_webui.py:64
+msgid "Port"
+msgstr "Порт"
+
+#: deluge/ui/webui/config_tabs_deluge.py:146
+msgid "-1 = unlimited"
+msgstr "-1 = без ограничений"
+
+#: deluge/ui/webui/config_tabs_deluge.py:152
+msgid "Total active torrents"
+msgstr "Всего активных торрентов"
+
+#: deluge/ui/webui/config_tabs_deluge.py:153
+msgid "Total active downloading"
+msgstr "Всего активных загрузок"
+
+#: deluge/ui/webui/config_tabs_deluge.py:154
+msgid "Total active seeding"
+msgstr "Всего активных раздач"
+
+#: deluge/ui/webui/config_tabs_deluge.py:161
+msgid "Stop seeding when ratio reaches"
+msgstr "Прекратить раздачу когда соотношение достигнуто"
+
+#: deluge/ui/webui/config_tabs_deluge.py:163
+msgid "Remove torrent when ratio reached"
+msgstr "Удалить торрент при рейтинге"
+
+#: deluge/ui/webui/config_tabs_deluge.py:170
+msgid "Enabled Plugins"
+msgstr "Включённые модули"
+
+#: deluge/ui/webui/lib/newforms_plus.py:141
+msgid "This folder does not exist."
+msgstr "Такой папки не существует"
+
+#: deluge/ui/webui/lib/newforms_portable/django/utils/translation.py:2
+msgid "translate something"
+msgstr "переведите что-нибудь"
+
+#: deluge/ui/webui/lib/newforms_portable/models.py:299
+#: deluge/ui/webui/lib/newforms_portable/fields.py:560
+msgid ""
+"Select a valid choice. That choice is not one of the available choices."
+msgstr "Сделайте корректниый выбор. Данная опция недоступна."
+
+#: deluge/ui/webui/lib/newforms_portable/models.py:371
+#: deluge/ui/webui/lib/newforms_portable/fields.py:600
+#: deluge/ui/webui/lib/newforms_portable/fields.py:662
+msgid "Enter a list of values."
+msgstr "Введите перечень значений"
+
+#: deluge/ui/webui/lib/newforms_portable/models.py:372
+#, python-format
+msgid "Select a valid choice. %s is not one of the available choices."
+msgstr "Сделайте корректниый выбор. Выбор %s неверный"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Yes"
+msgstr "Да"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "No"
+msgstr "Нет"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:46
+msgid "This field is required."
+msgstr "Это поле обязательно"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:47
+msgid "Enter a valid value."
+msgstr "Введите правильное значение"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:124
+#, python-format
+msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+msgstr ""
+"Убедитесь, что количество символов не превышает %(max)d (в данный момент их "
+"%(length)d)"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:125
+#, python-format
+msgid ""
+"Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr ""
+"Убедитесь, что количество символов не менее %(min)d (в данный момент их "
+"%(length)d)"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:152
+msgid "Enter a whole number."
+msgstr "Введите число целиком."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:153
+#: deluge/ui/webui/lib/newforms_portable/fields.py:182
+#: deluge/ui/webui/lib/newforms_portable/fields.py:211
+#, python-format
+msgid "Ensure this value is less than or equal to %s."
+msgstr "Убедитесь, что значение меньше или равно %s."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:154
+#: deluge/ui/webui/lib/newforms_portable/fields.py:183
+#: deluge/ui/webui/lib/newforms_portable/fields.py:212
+#, python-format
+msgid "Ensure this value is greater than or equal to %s."
+msgstr "Убедитесь, что значение больше или равно %s."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:181
+#: deluge/ui/webui/lib/newforms_portable/fields.py:210
+msgid "Enter a number."
+msgstr "Введите число"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:213
+#, python-format
+msgid "Ensure that there are no more than %s digits in total."
+msgstr "Убедитесь, что количество цифр не более %s"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:214
+#, python-format
+msgid "Ensure that there are no more than %s decimal places."
+msgstr "Убедитесь, что здесь не более %s десятичных разрядов"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:215
+#, python-format
+msgid ""
+"Ensure that there are no more than %s digits before the decimal point."
+msgstr "Убедитесь, что число содержит не более %s знаков до запятой"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:263
+#: deluge/ui/webui/lib/newforms_portable/fields.py:751
+msgid "Enter a valid date."
+msgstr "Введите корректную дату"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:296
+#: deluge/ui/webui/lib/newforms_portable/fields.py:752
+msgid "Enter a valid time."
+msgstr "Введите корректное время"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:335
+msgid "Enter a valid date/time."
+msgstr "Введите правильные дату и время"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:403
+msgid "Enter a valid e-mail address."
+msgstr "Введите действующие e-mail"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:433
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr "Не выбран файл. Проверте тип кодировки."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:434
+msgid "No file was submitted."
+msgstr "Файл не выбран."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:435
+msgid "The submitted file is empty."
+msgstr "Выбранный файл пустой"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:459
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+"Загразите корректный файл изображения. Файл, который вы загрузили, испорчен "
+"или не является изображением."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:497
+msgid "Enter a valid URL."
+msgstr "Введите корректный адрес ресурса URL"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:498
+msgid "This URL appears to be a broken link."
+msgstr "Этот URL недействителен."
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:599
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr "Сделайте корректный выбор. %(value)s не является корректным"
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:780
+msgid "Enter a valid IPv4 address."
+msgstr "Введите корректный IPv4 адрес"
+
+#: deluge/ui/webui/pages.py:272
+msgid "refresh must be > 0"
+msgstr "интервал должен быть > 0"
+
+#: deluge/ui/webui/pages.py:323
+msgid "no uri"
+msgstr "Интернет-ресурс отсутствует"
+
+#: deluge/ui/webui/torrent_move.py:45
+msgid "Move To"
+msgstr "Переместить в"
+
+#: deluge/ui/webui/torrent_move.py:72
+msgid "Error in Path."
+msgstr "Указанный путь не найден"
+
+#: deluge/ui/webui/config_tabs_webui.py:48
+#: deluge/ui/webui/config_tabs_webui.py:54
+msgid "Template"
+msgstr "Шаблон"
+
+#: deluge/ui/webui/config_tabs_webui.py:51
+msgid "Text and image"
+msgstr "Текст и изображения"
+
+#: deluge/ui/webui/config_tabs_webui.py:51
+msgid "Image Only"
+msgstr "Только изображения"
+
+#: deluge/ui/webui/config_tabs_webui.py:52
+msgid "Text Only"
+msgstr "Только текст"
+
+#: deluge/ui/webui/config_tabs_webui.py:55
+msgid "Button style"
+msgstr "Стиль кнопок"
+
+#: deluge/ui/webui/config_tabs_webui.py:56
+msgid "Cache templates"
+msgstr "Кэшировать шаблоны"
+
+#: deluge/ui/webui/config_tabs_webui.py:63
+msgid "Server"
+msgstr "Сервер"
+
+#: deluge/ui/webui/config_tabs_webui.py:72
+#: deluge/ui/webui/scripts/template_strings.py:52
+msgid "Password"
+msgstr "Пароль"
+
+#: deluge/ui/webui/config_tabs_webui.py:74
+msgid "Current Password"
+msgstr "Текущий пароль"
+
+#: deluge/ui/webui/config_tabs_webui.py:75
+msgid "New Password"
+msgstr "Новый пароль"
+
+#: deluge/ui/webui/config_tabs_webui.py:76
+msgid "New Password (Confirm)"
+msgstr "Новый пароль (Подтверждение)"
+
+#: deluge/ui/webui/config_tabs_webui.py:83
+msgid "Old password is invalid"
+msgstr "Старый пароль неправильный"
+
+#: deluge/ui/webui/config_tabs_webui.py:86
+msgid "New Password is not equal to New Password(confirm)"
+msgstr "Новый пароль не соответствует подтверждению"
+
+#: deluge/ui/webui/config_tabs_webui.py:93
+msgid "Sidebar"
+msgstr "Боковая панель"
+
+#: deluge/ui/webui/config_tabs_webui.py:94
+msgid "Show sidebar"
+msgstr "Показывать боковую панель"
+
+#: deluge/ui/webui/config_tabs_webui.py:95
+msgid "Show zero hits"
+msgstr "Показывать нулевые элементы"
+
+#: deluge/ui/webui/config_tabs_webui.py:96
+msgid "Show trackers"
+msgstr "Показывать трекеры"
+
+#: deluge/ui/webui/config_tabs_webui.py:97
+msgid "Show keyword search"
+msgstr ""
+
+#: deluge/ui/webui/torrent_options.py:16 deluge/ui/webui/torrent_add.py:48
+msgid "Maximum Down Speed"
+msgstr "Максимальная скорость приема"
+
+#: deluge/ui/webui/torrent_options.py:18 deluge/ui/webui/torrent_add.py:50
+msgid "Maximum Up Speed"
+msgstr "Максимальная скорость отдачи"
+
+#: deluge/ui/webui/torrent_options.py:27
+msgid "Stop seed at ratio"
+msgstr "Остановить раздачу при рейтинге"
+
+#: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:104
+msgid "Error in torrent options."
+msgstr "Ошибкам в настройках торрента"
+
+#: deluge/ui/webui/torrent_add.py:43
+msgid "Download Location"
+msgstr "Путь закачки"
+
+#: deluge/ui/webui/torrent_add.py:44
+msgid "Compact Allocation"
+msgstr "Зарезервировать место"
+
+#: deluge/ui/webui/torrent_add.py:56
+msgid "Add In Paused State"
+msgstr "Поставить на паузу"
+
+#: deluge/ui/webui/torrent_add.py:67
+msgid "Upload torrent"
+msgstr "Раздать торрент"
+
+#: deluge/ui/webui/torrent_add.py:73
+msgid "Choose Files"
+msgstr "Выберите файлы"
+
+#: deluge/ui/webui/torrent_add.py:118
+msgid "Choose an url or a torrent, not both."
+msgstr "Выберите или URL, или торрент, что-то одно."
+
+#: deluge/ui/webui/torrent_add.py:130
+msgid "No data"
+msgstr "Нет данных"
+
+#: deluge/ui/webui/scripts/template_strings.py:1
+msgid "# Of Files"
+msgstr "Количество файлов"
+
+#: deluge/ui/webui/scripts/template_strings.py:2
+msgid "+"
+msgstr "+"
+
+#: deluge/ui/webui/scripts/template_strings.py:3
+msgid "++"
+msgstr "++"
+
+#: deluge/ui/webui/scripts/template_strings.py:5
+msgid "Active time"
+msgstr "Время работы"
+
+#: deluge/ui/webui/scripts/template_strings.py:9
+msgid "Admin"
+msgstr "Администратор"
+
+#: deluge/ui/webui/scripts/template_strings.py:11
+msgid "Auto refresh:"
+msgstr "Автообновление:"
+
+#: deluge/ui/webui/scripts/template_strings.py:12
+msgid "Ava"
+msgstr "Дост"
+
+#: deluge/ui/webui/scripts/template_strings.py:13
+msgid "Availability"
+msgstr "Доступность"
+
+#: deluge/ui/webui/scripts/template_strings.py:14
+msgid "Clear"
+msgstr "Очистить"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Connect to Daemon"
+msgstr "Подключить к процессу"
+
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Connected to"
+msgstr "Подключено к"
+
+#: deluge/ui/webui/scripts/template_strings.py:21
+msgid "DHT Nodes"
+msgstr "Узлы DHT"
+
+#: deluge/ui/webui/scripts/template_strings.py:22
+msgid "Delete .torrent file"
+msgstr "Удалить .torrent файл"
+
+#: deluge/ui/webui/scripts/template_strings.py:23
+msgid "Delete downloaded files."
+msgstr "Удалить загруженные файлы."
+
+#: deluge/ui/webui/scripts/template_strings.py:24
+msgid "Deluge : Torrent List"
+msgstr "Deluge : список торрентов"
+
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Deluge Login"
+msgstr "Вход в Deluge"
+
+#: deluge/ui/webui/scripts/template_strings.py:26
+msgid "Disable"
+msgstr "Отключить"
+
+#: deluge/ui/webui/scripts/template_strings.py:29
+msgid "Downloaded"
+msgstr "Загружено"
+
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Eta"
+msgstr "Осталось"
+
+#: deluge/ui/webui/scripts/template_strings.py:34
+msgid "False"
+msgstr "Ложно"
+
+#: deluge/ui/webui/scripts/template_strings.py:35
+msgid "File"
+msgstr "Файл"
+
+#: deluge/ui/webui/scripts/template_strings.py:36
+msgid "Filter on a keyword"
+msgstr "Фильтрация по ключевому слову"
+
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Keyword"
+msgstr "Ключевое слово"
+
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Label torrent"
+msgstr "Метка торрента"
+
+#: deluge/ui/webui/scripts/template_strings.py:41
+msgid "Login"
+msgstr "Войти"
+
+#: deluge/ui/webui/scripts/template_strings.py:44
+msgid "Move torrent"
+msgstr "Переместить торрент"
+
+#: deluge/ui/webui/scripts/template_strings.py:45
+msgid "N"
+msgstr "N"
+
+#: deluge/ui/webui/scripts/template_strings.py:47
+msgid "Next Announce"
+msgstr "Следующий анонс"
+
+#: deluge/ui/webui/scripts/template_strings.py:48
+msgid "Not Connected to a daemon"
+msgstr "Не подключён к процессу"
+
+#: deluge/ui/webui/scripts/template_strings.py:51
+msgid "Other"
+msgstr "Прочее"
+
+#: deluge/ui/webui/scripts/template_strings.py:53
+msgid "Password is invalid,try again"
+msgstr "Неверный пароль, попробуйте снова"
+
+#: deluge/ui/webui/scripts/template_strings.py:54
+msgid "Pause all"
+msgstr "Приостановить все"
+
+#: deluge/ui/webui/scripts/template_strings.py:56
+msgid "Pieces"
+msgstr "Части"
+
+#: deluge/ui/webui/scripts/template_strings.py:60
+msgid "Queue Position"
+msgstr "Позиция в очереди"
+
+#: deluge/ui/webui/scripts/template_strings.py:62
+msgid "Refresh page every:"
+msgstr "Обновлять страницу каждые:"
+
+#: deluge/ui/webui/scripts/template_strings.py:63
+msgid "Remove"
+msgstr "Удалить"
+
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Remove torrent"
+msgstr "Удалить торрент"
+
+#: deluge/ui/webui/scripts/template_strings.py:65
+msgid "Restart"
+msgstr "Перезапустить"
+
+#: deluge/ui/webui/scripts/template_strings.py:66
+msgid "Resume all"
+msgstr "Продолжить все"
+
+#: deluge/ui/webui/scripts/template_strings.py:67
+msgid "Save"
+msgstr "Сохранить"
+
+#: deluge/ui/webui/scripts/template_strings.py:68
+msgid "Seed rank"
+msgstr "Соотношение раздач"
+
+#: deluge/ui/webui/scripts/template_strings.py:70
+msgid "Seeding time"
+msgstr "Общее время раздач"
+
+#: deluge/ui/webui/scripts/template_strings.py:71
+msgid "Set"
+msgstr "Установить"
+
+#: deluge/ui/webui/scripts/template_strings.py:72
+msgid "Set Timeout"
+msgstr "Установить таймаут"
+
+#: deluge/ui/webui/scripts/template_strings.py:73
+msgid "Settings"
+msgstr "Настройки"
+
+#: deluge/ui/webui/scripts/template_strings.py:74
+msgid "Share Ratio"
+msgstr "Рейтинг"
+
+#: deluge/ui/webui/scripts/template_strings.py:79
+msgid "Submit"
+msgstr "Отправить"
+
+#: deluge/ui/webui/scripts/template_strings.py:80
+msgid "Torrent list"
+msgstr "Список торрентов"
+
+#: deluge/ui/webui/scripts/template_strings.py:81
+msgid "Total Size"
+msgstr "Общий размер"
+
+#: deluge/ui/webui/scripts/template_strings.py:83
+msgid "Tracker Status"
+msgstr "Состояние трекера"
+
+#: deluge/ui/webui/scripts/template_strings.py:84
+msgid "True"
+msgstr "Истина"
+
+#: deluge/ui/webui/scripts/template_strings.py:86
+msgid "Update"
+msgstr "Обновить"
+
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Uploaded"
+msgstr "Роздано"
+
+#: deluge/ui/webui/scripts/template_strings.py:89
+msgid "X"
+msgstr "X"
+
+#: deluge/ui/webui/scripts/template_strings.py:90
+msgid "seconds"
+msgstr "секунд(ы)"
