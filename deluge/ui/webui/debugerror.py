@@ -155,22 +155,24 @@ $def with (exception_type, exception_value, frames, exception_message, version_i
 </head>
 <body>
 
-<div id="summary">
-    <h1>$exception_type : $exception_value</h2>
-</div>
-<div id="explanation">
+<table width="100%"><tr><td>
+<img src="/static/images/debugerror.png">
+</td><td>
   <p>
     <!--ERROR-MARKER-->
-    Oops, Deluge Broke :-( , You might have found a bug, or you did something really stupid ;-).
+    <h1>Oops, Deluge Broke ...</h1>
+    You might have found a bug, or you did something really stupid ;-).
     <br />If the error persists :<br />
     Read the <a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>.<br />
     Try downloading the latest version at
     <a href="http://deluge-torrent.org">deluge-torrent.org</a>
     <br />Visit the  <a href="http://forum.deluge-torrent.org">forum</a>
     or the <a href="http://dev.deluge-torrent.org/query">buglist</a> for more info.
-  </p>
+  </p><br /><br /><br /><br /><br />
+</td></tr></table>
+<div id="summary">
+    <h1>$exception_type : $exception_value</h2>
 </div>
-
 
 <div id="summary">
 Paste the contents of this text-box when you are asked for a traceback.<br>
@@ -343,12 +345,6 @@ def djangoerror():
         return render.error(pretty_errors_cls[exception_type])
 
     version_info = "WebUi : %sr%s\nPython %s:"   % ( common.get_version() ,common.get_revision(),sys.version)
-
-    try:
-            import dbus
-            version_info += '\ndbus:' + str(dbus.__version__)
-    except:
-        pass
 
     tback_txt = ''.join(format_tb(tback))
 
