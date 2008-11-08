@@ -99,7 +99,13 @@ class TrackerIcons(object):
             return ("png", png)
 
         # FIXME: This should be cleaned up and not copy the top code
-        html = urlopen("http://%s/" % (host_name,))
+
+        try:
+            html = urlopen("http://%s/" % (host_name,))
+        except Exception, e:
+            log.debug(e)
+            html = None
+
         if html:
             icon_path = ""
             line = html.readline()
@@ -138,13 +144,15 @@ class TrackerIcons(object):
 
         if icon_data:
             filename = os.path.join(get_default_config_dir("icons"),"%s.%s" % (tracker_host, ext))
-            print filename
             f = open(filename,"wb")
             f.write(icon_data)
             f.close()
             self.images[tracker_host] = filename
-            if callback:
-                gobject.idle_add(callback, filename)
+        else:
+            filename = None
+
+        if callback:
+            gobject.idle_add(callback, filename)
 
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
