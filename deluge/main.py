@@ -50,7 +50,7 @@ def start_ui():
                                            version=deluge.common.get_version())
 
     parser.add_option("-u", "--ui", dest="ui",
-        help="The UI that you wish to launch", action="store", type="str")
+        help="The UI that you wish to launch (gtk, web, console, null)", action="store", type="str")
     parser.add_option("-c", "--config", dest="config",
         help="Set the config location", action="store", type="str")
     parser.add_option("-l", "--logfile", dest="logfile",

@@ -33,10 +33,13 @@ Deluge 1.1.0 - "" (In Development)
  AjaxUI:
   * Hosted in a webui template.
 
- ConsoleUI (previously null-ui):
+ ConsoleUI:
   * New ConsoleUI written by Idoa01
   * Callable from command-line for scripts.
 
  Plugins:
   * Stats plugin for graphs.
   * Label plugin for grouping torrents and per torrent settings.
+
+ Misc:
+  * Implement #478 display UI options in usage help
