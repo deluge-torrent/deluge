@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-27 18:16-0500\n"
+"POT-Creation-Date: 2008-11-08 14:33-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,11 +225,6 @@ msgstr ""
 msgid "Invalid version"
 msgstr ""
 
-#: deluge/ui/gtkui/listview.py:84
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr ""
-
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
 msgstr ""
@@ -264,13 +259,13 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:414 deluge/ui/gtkui/systemtray.py:187
 #: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:322
 #: deluge/ui/webui/lib/newforms_plus.py:193
-#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:181
+#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:177
 msgid "Unlimited"
 msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:361 deluge/ui/gtkui/statusbar.py:389
 #: deluge/ui/gtkui/statusbar.py:416 deluge/ui/gtkui/systemtray.py:325
-#: deluge/common.py:238 deluge/common.py:239
+#: deluge/common.py:234 deluge/common.py:235
 msgid "Other..."
 msgstr ""
 
@@ -811,6 +806,10 @@ msgid "Select a valid choice. %s is not one of the available choices."
 msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
 msgstr ""
 
@@ -1244,11 +1243,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-#: deluge/common.py:184
+#: deluge/common.py:180
 msgid "Activated"
 msgstr ""
 
-#: deluge/common.py:254
+#: deluge/common.py:250
 #, python-format
 msgid "%s"
 msgstr ""
