@@ -44,16 +44,17 @@ class TorrentInfo(object):
             self.__m_metadata = bencode.bdecode(open(filename, "rb").read())
         except Exception, e:
             log.warning("Unable to open %s: %s", filename, e)
-        
+            raise e
+
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
-        
+
         # Get list of files from torrent info
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
                 prefix = self.__m_metadata["info"]["name"]
-                
+
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
                     'path': os.path.join(prefix, *f["path"]),
@@ -82,28 +83,28 @@ class TorrentInfo(object):
     @property
     def metadata(self):
         return self.__m_metadata
-    
+
 def get_torrent_info(filename):
     """
-    Return the metadata of a torrent file 
+    Return the metadata of a torrent file
     """
-    
+
     # Get the torrent data from the torrent file
     try:
         log.debug("Attempting to open %s.", filename)
         metadata = bencode.bdecode(open(filename, "rb").read())
     except Exception, e:
         log.warning("Unable to open %s: %s", filename, e)
-    
+
     info_hash = sha(bencode.bencode(metadata["info"])).hexdigest()
-    
+
     # Get list of files from torrent info
     files = []
     if metadata["info"].has_key("files"):
         prefix = ""
         if len(metadata["info"]["files"]) > 1:
             prefix = metadata["info"]["name"]
-            
+
         for f in metadata["info"]["files"]:
             files.append({
                 'path': os.path.join(prefix, *f["path"]),
@@ -116,7 +117,7 @@ def get_torrent_info(filename):
             "size": metadata["info"]["length"],
             "download": True
         })
-    
+
     return {
         "filename": filename,
         "name": metadata["info"]["name"],

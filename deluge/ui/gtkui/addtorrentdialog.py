@@ -185,7 +185,11 @@ class AddTorrentDialog(component.Component):
 
         for filename in filenames:
             # Get the torrent data from the torrent file
-            info = deluge.ui.common.TorrentInfo(filename)
+            try:
+                info = deluge.ui.common.TorrentInfo(filename)
+            except Exception, e:
+                log.debug("Unable to open torrent file: %s", e)
+                continue
 
             name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
             new_row = self.torrent_liststore.append(
