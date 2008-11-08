@@ -218,7 +218,7 @@ def fsize(fsize_b):
     :returns: formatted string in KiB, MiB or GiB units
     :rtype: string
 
-    ** Usage **
+    **Usage**
 
     >>> fsize(112245)
     '109.6 KiB'
@@ -241,7 +241,7 @@ def fpcnt(dec):
     :returns: a formatted string representing a percentage
     :rtype: string
 
-    ** Usage **
+    **Usage**
 
     >>> fpcnt(0.9311)
     '93.11%'
@@ -257,7 +257,7 @@ def fspeed(bps):
     :returns: a formatted string representing transfer speed
     :rtype: string
 
-    ** Usage **
+    **Usage**
 
     >>> fspeed(43134)
     '42.1 KiB/s'
@@ -274,7 +274,7 @@ def fpeer(num_peers, total_peers):
     :returns: a formatted string: num_peers (total_peers), if total_peers < 0, then it will not be shown
     :rtype: string
 
-    ** Usage **
+    **Usage**
 
     >>> fpeer(10, 20)
     '10 (20)'
@@ -295,7 +295,7 @@ def ftime(seconds):
     :returns: a formatted time string, will return 'unknown' for values greater than 10 weeks and 'Infinity' if seconds == 0
     :rtype: string
 
-    ** Usage **
+    **Usage**
 
     >>> ftime(23011)
     '6h 23m'
@@ -344,7 +344,7 @@ def is_url(url):
     :returns: True or False
     :rtype: bool
 
-    ** Usage **
+    **Usage**
 
     >>> is_url("http://deluge-torrent.org")
     True
@@ -361,7 +361,7 @@ def is_magnet(uri):
     :returns: True or False
     :rtype: bool
 
-    ** Usage **
+    **Usage**
 
     >>> is_magnet("magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN")
     True
