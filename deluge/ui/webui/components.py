@@ -119,8 +119,11 @@ class PageManager(component.Component):
         self.urls += url_list
         self.page_classes.update(class_list)
 
-    def register_page(self, url, klass):
-        name = klass.__module__ + "." + klass.__name__
+    def register_page(self, url, klass, use_module=False):
+        if use_module:
+            name = klass.__module__ + "." + klass.__name__
+        else:
+            name = klass.__name__
         self.urls.append(url)
         self.urls.append(name)
         self.page_classes[name] = klass
