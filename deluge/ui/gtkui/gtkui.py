@@ -238,9 +238,6 @@ class GtkUI:
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
 
-        # Make sure the config is saved.
-        self.config.save()
-
         # Shutdown all components
         component.shutdown()
         if self.started_in_classic:
@@ -248,8 +245,10 @@ class GtkUI:
                 client.shutdown()
             except:
                 pass
-        
+
+        # Make sure the config is saved.
         self.config.save()
+
         try:
             gtk.main_quit()
         except RuntimeError:
