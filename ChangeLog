@@ -1,4 +1,10 @@
 Deluge 1.0.5 (In Development)
+ GtkUI:
+  * Increase the per-torrent stop share ratio max to 99999.0
+
+ WebUi:
+  * Javascript auto refresh for both templates.
+
  Windows:
   * Fix #577 adding torrents by drag n' drop
 
@@ -16,9 +22,6 @@ Deluge 1.0.4 (31 October 2008)
 
  Windows:
   * Fix starting on non-English versions of Windows
-
-WebUi:
-  * Javascript auto refresh for both templates.
 
 Deluge 1.0.3 (18 October 2008)
  Core:

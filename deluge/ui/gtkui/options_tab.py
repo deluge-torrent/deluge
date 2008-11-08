@@ -2,19 +2,19 @@
 # options_tab.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -39,11 +39,11 @@ class OptionsTab(Tab):
     def __init__(self):
         Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
-        
+
         self._name = "Options"
         self._child_widget = glade.get_widget("options_tab")
         self._tab_label = glade.get_widget("options_tab_label")
-        
+
         self.spin_max_download = glade.get_widget("spin_max_download")
         self.spin_max_upload = glade.get_widget("spin_max_upload")
         self.spin_max_connections = glade.get_widget("spin_max_connections")
@@ -54,15 +54,16 @@ class OptionsTab(Tab):
         self.chk_stop_at_ratio = glade.get_widget("chk_stop_at_ratio")
         self.chk_remove_at_ratio = glade.get_widget("chk_remove_at_ratio")
         self.spin_stop_ratio = glade.get_widget("spin_stop_ratio")
-        
+
         self.prev_torrent_id = None
         self.prev_status = None
-        
+
         glade.signal_autoconnect({
             "on_button_apply_clicked": self._on_button_apply_clicked,
-            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked
+            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
+            "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled
         })
-        
+
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
@@ -75,7 +76,7 @@ class OptionsTab(Tab):
             # No torrent is selected in the torrentview
             self._child_widget.set_sensitive(False)
             return
-        
+
         if torrent_id != self.prev_torrent_id:
             self.prev_status = None
 
@@ -95,13 +96,13 @@ class OptionsTab(Tab):
     def clear(self):
         self.prev_torrent_id = None
         self.prev_status = None
-            
+
     def _on_get_torrent_status(self, status):
         # We only want to update values that have been applied in the core.  This
         # is so we don't overwrite the user changes that haven't been applied yet.
         if self.prev_status == None:
             self.prev_status = {}.fromkeys(status.keys(), None)
-        
+
         if status != self.prev_status:
             if status["max_download_speed"] != self.prev_status["max_download_speed"]:
                 self.spin_max_download.set_value(status["max_download_speed"])
@@ -119,13 +120,15 @@ class OptionsTab(Tab):
                 self.chk_auto_managed.set_active(status["is_auto_managed"])
             if status["stop_at_ratio"] != self.prev_status["stop_at_ratio"]:
                 self.chk_stop_at_ratio.set_active(status["stop_at_ratio"])
+                self.spin_stop_ratio.set_sensitive(status["stop_at_ratio"])
+                self.chk_remove_at_ratio.set_sensitive(status["stop_at_ratio"])
             if status["stop_ratio"] != self.prev_status["stop_ratio"]:
                 self.spin_stop_ratio.set_value(status["stop_ratio"])
             if status["remove_at_ratio"] != self.prev_status["remove_at_ratio"]:
                 self.chk_remove_at_ratio.set_active(status["remove_at_ratio"])
-                
+
             self.prev_status = status
-        
+
     def _on_button_apply_clicked(self, button):
         if self.spin_max_download.get_value() != self.prev_status["max_download_speed"]:
             client.set_torrent_max_download_speed(self.prev_torrent_id, self.spin_max_download.get_value())
@@ -145,11 +148,17 @@ class OptionsTab(Tab):
             client.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
         if self.chk_remove_at_ratio.get_active() != self.prev_status["remove_at_ratio"]:
             client.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
-        
-            
+
+
     def _on_button_edit_trackers_clicked(self, button):
         from edittrackersdialog import EditTrackersDialog
         dialog = EditTrackersDialog(
             self.prev_torrent_id,
             component.get("MainWindow").window)
         dialog.run()
+
+    def _on_chk_stop_at_ratio_toggled(self, widget):
+        value = widget.get_active()
+
+        self.spin_stop_ratio.set_sensitive(value)
+        self.chk_remove_at_ratio.set_sensitive(value)
