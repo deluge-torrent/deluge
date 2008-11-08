@@ -1,16 +1,10 @@
 /*
- * Script: Rpc.js
- *  A JSON-RPC proxy built ontop of mootools.
- *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
- */
+Script: Rpc.js
+    A JSON-RPC proxy built ontop of mootools.
 
-/*
- * A class that creates a proxy for sending remote procedure calls over JSON
- */
- 
-/*
+Copyright:
+    Damien Churchill (c) 2008 <damoxc@gmail.com>
+
     Class: JSON.RPC
         Class to create a proxy to a json-rpc interface on a server.
     
@@ -21,7 +15,7 @@
                 alert(result);
             }
         });
-        alert(client.hello_world({async: true;}));
+        alert(client.hello_world({async: false;}));
         client.add_name('Damien', {
             onSuccess: function(result) {
                 alert(result);
@@ -52,6 +46,17 @@ JSON.RPC = new Class({
 		}
 	},
 	
+	/*
+	    Property: _parseargs
+	        Internal method for parsing the arguments given to the method
+        
+        Arguments:
+            args - A list of the methods arguments
+        
+        Returns:
+            An options object with the arguments set as options.params
+	    
+	*/
 	_parseargs: function(args) {
 		var params = $A(args), options = params.getLast()
 		if ($type(options) == 'object') {
@@ -75,6 +80,21 @@ JSON.RPC = new Class({
 		return options
 	},
 	
+	/*
+	    Property: _execute
+	        An internal method to make the call to the rpc page
+        
+        Arguements:
+            method - the name of the method
+            options - An options dict providing any additional options for the
+                      call.
+        
+        Example:
+            alert(client.hello_world({async: false;}));
+      
+        Returns:
+            If not async returns the json result
+    */
 	_execute: function(method, options) {
 		options = $pick(options, {})
 		options.params = $pick(options.params, [])
