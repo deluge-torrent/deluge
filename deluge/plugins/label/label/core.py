@@ -53,14 +53,10 @@ LABEL = "label"
 CONFIG_DEFAULTS = {
     "torrent_labels":{}, #torrent_id:label_id
     "labels":{}, #label_id:{name:value}
-    "hide_zero_hits":False,
-    "gtk_alfa":False,
-    "show_states":True,
-    "show_trackers":True,
-    "show_labels":True
+    "auto_add_trackers":[]
 }
 
-CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels","auto_add","auto_add_trackers"]
+CORE_OPTIONS = ["auto_add_trackers"]
 
 OPTIONS_DEFAULTS = {
     "apply_max":False,
@@ -77,8 +73,7 @@ OPTIONS_DEFAULTS = {
     "apply_move_completed":False,
     "move_completed":False,
     "move_completed_path":"",
-    "auto_add":False,
-    "auto_add_trackers":[],
+    "auto_add":False
 }
 
 NO_LABEL = "No Label"
@@ -296,11 +291,11 @@ class Core(CorePluginBase):
 
         self.config.save()
 
-    def export_get_global_options(self):
-        "see : label_set_global_options"
+    def export_get_config(self):
+        "see : label_set_config"
         return dict ( (k,self.config[k] )  for k in CORE_OPTIONS)
 
-    def export_set_global_options(self, options):
+    def export_set_config(self, options):
         """global_options:"""
         for key in CORE_OPTIONS:
             if options.has_key(key):

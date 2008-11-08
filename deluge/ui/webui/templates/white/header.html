@@ -1,24 +1,5 @@
 $def with (title, active_tab="NONE")
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html>
-<head>
-    <title>Deluge:$title</title>
-    <link rel="icon" href="$base/static/images/deluge-icon.png" type="image/png" />
-    <link rel="shortcut icon" href="$base/static/images/deluge-icon.png" type="image/png" />
-    <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
-    <script language="javascript" src="$base/static/deluge.js"></script>
-    <script language="javascript" src="$base/static/mootools-1.2-core.js"></script>
-    <script language="javascript" src="$base/static/mootools-1.2-more.js"></script>
-    <script language="javascript" src="$base/static/mooui.js"></script>
-    <script language="javascript" src="$base/gettext.js"></script>
-    $for js in include_javascript:
-        <script language="javascript" src="$base$js"></script>
-</head>
-
-<body>
-<div id="page">
-
+$:render.basic_header(title)
 
 <table width="100%"><tr>
 <td>

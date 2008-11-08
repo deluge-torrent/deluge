@@ -1,0 +1,19 @@
+$def with (labels)
+<table style="padding-left:20px;">
+$for label in labels:
+    <tr>
+    <td><a href="$base/label/options/$label"
+    title="$_('Options')"
+    >$label</a></td>
+    </td>
+    <td><a href="$base/label/remove/$label"><img
+    src="$base/static/images/tango/list-remove.png"
+    title="$_('Remove')"
+    ></a></td>
+    </tr>
+</table>
+
+<h2>Options</h2>
+<ul>
+<li><a href="$base/label/add">$_("Add label")</a></li>
+</ul>

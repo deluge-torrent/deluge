@@ -16,3 +16,8 @@ print_totals(sclient.stats_get_totals())
 
 print "==session totals=="
 print_totals(sclient.stats_get_session_totals())
+
+
+
+
+
