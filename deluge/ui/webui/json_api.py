@@ -172,7 +172,7 @@ class json_rpc:
         }
 
     def get_webui_config(self):
-        return dict([x for x in utils.config.config().iteritems() if not x[0].startswith("pwd")])
+        return dict([x for x in utils.config.config.iteritems() if not x[0].startswith("pwd")])
 
     def set_webui_config(self, data):
         utils.validate_config(data)
