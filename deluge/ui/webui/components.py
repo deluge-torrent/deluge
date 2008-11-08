@@ -120,9 +120,10 @@ class PageManager(component.Component):
         self.page_classes.update(class_list)
 
     def register_page(self, url, klass):
+        name = klass.__module__ + "." + klass.__name__
         self.urls.append(url)
-        self.urls.append(klass.__name__)
-        self.page_classes[klass.__name__] = klass
+        self.urls.append(name)
+        self.page_classes[name] = klass
 
     def deregister_page(self, url):
         raise NotImplemenetedError()
