@@ -48,7 +48,10 @@ forms = api.forms
 class options:
     @api.deco.deluge_page
     def GET(self, label_id):
-        return api.render.label.options(label_id)
+
+        options_form = OptionsForm()
+
+        return api.render.label.options(label_id, options_form)
 
 class add:
     @api.deco.deluge_page
@@ -60,13 +63,21 @@ class remove:
     def GET(self, label_id):
         return api.render.label.options(label_id)
 
+class config_page:
+    """for ajaxui."""
+    @api.deco.deluge_page
+    def GET(self, args):
+        labels = sclient.label_get_labels()
+        return api.render.label.config_page(labels)
+
 
 class WebUI(WebUIPluginBase):
     include_javascript = ["/label/data/label.js"]
     urls = [
         ('/label/options/(.*)', options),
         ('/label/add', add),
-        ('/label/remove/(.*)', remove)
+        ('/label/remove/(.*)', remove),
+        ('/label/config', config_page)
     ]
 
     def enable(self):
@@ -108,8 +119,8 @@ class OptionsForm(forms.Form):
     move_completed_path = forms.CharField(label=_("move_completed_path"))
 
     #tracker:
-    auto_add_trackers = forms.CharField(label=_("auto_add_trackers"), widget=forms.Textarea)
     auto_add = forms.CheckBox(_("auto_add"))
+    auto_add_trackers = forms.CharField(label=_("auto_add_trackers"), widget=forms.Textarea)
 
 
 

@@ -1,10 +1,34 @@
-$def with (label_id)
+$def with (label_id, options_form)
 $:render.basic_header(_("Label Options"))
+<script language="javascript" src="/label/data/apply_sensitivity.js"></script>
 <h2>$label_id Options.</h2>
 <div class="panel">
 <form method="POST" action='$base/label/options/$label_id'>
     label= $label_id
+    <h3>max</h3>
+    <table>
+    $:(options_form.as_table(["apply_max", "max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]))
+    </table>
+
+    <h3>queue</h3>
+    <table>
+    $:(options_form.as_table(["apply_queue", "is_auto_managed", "stop_at_ratio", "stop_ratio", "remove_at_ratio"]))
+    </table>
+
+
+    <h3>location</h3>
+    <table>
+    $:(options_form.as_table(["apply_move_completed", "move_completed", "move_completed_path"]))
+    </table>
+
+    <h3>tracker</h3>
+    <table>
+    $:(options_form.as_table(["auto_add", "auto_add_trackers"]))
+    </table>
+
+    <input type="submit" value="$_("Save")">
 </form>
 </div>
+
 
 $:render.footer()

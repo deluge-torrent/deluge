@@ -74,7 +74,7 @@ class WebUIPluginBase:
         #use as : api.render.plugin-name.template-name[excluding.html](parameters)
         setattr(api.render, self.clean_plugin_name, api.egg_render(self.clean_plugin_name, "template"))
 
-        api.page_manager.register_page("/%s/data/(.*)" % self.clean_plugin_name , egg_data_static)
+        api.page_manager.register_page("/%s/data/(.*)" % self.clean_plugin_name , egg_data_static, use_module=False)
 
         log.debug("%s plugin : end base_enable().." % self.plugin_name)
 
