@@ -26,19 +26,17 @@ Deluge 1.1.0 - "" (In Development)
   * Persistent sessions #486
   * Plugin improvements for easy use of templates and images in eggs. #497
   * Classic template takes over some style elements from white template.
-  * Javascript Auto Refresh
   * https (for users that know how to create certificates)
-  * easyer apache mod_proxy use.
+  * Easier apache mod_proxy use.
   * Redesigned sidebar
 
  AjaxUI:
-  * hosted in a webui template.
+  * Hosted in a webui template.
 
  ConsoleUI (previously null-ui):
-   * colors and enhancements by idoa01
-   * callable from command-line for scripts.
+  * New ConsoleUI written by Idoa01
+  * Callable from command-line for scripts.
 
  Plugins:
   * Stats plugin for graphs.
   * Label plugin for grouping torrents and per torrent settings.
-
