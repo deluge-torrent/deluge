@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.4 on Sat Jun 14 00:48:37 2008 -->
+<!--Generated with glade3 3.4.5 on Fri Nov  7 23:39:07 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="connection_manager">
     <property name="has_focus">True</property>
@@ -76,7 +76,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="headers_clickable">True</property>
                       </widget>
                     </child>
                   </widget>
@@ -98,7 +97,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="no">gtk-add</property>
+                        <property name="label">gtk-add</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
                         <signal name="clicked" handler="on_button_addhost_clicked"/>
@@ -110,7 +109,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="no">gtk-remove</property>
+                        <property name="label">gtk-remove</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
                         <signal name="clicked" handler="on_button_removehost_clicked"/>
@@ -266,7 +265,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="no">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_button_close_clicked"/>
@@ -362,7 +361,8 @@
                 <property name="max_length">5</property>
                 <property name="width_chars">5</property>
                 <property name="xalign">1</property>
-                <property name="adjustment">58846 1 65535 1 10 10</property>
+                <property name="adjustment">58846 0 65535 1 10 0</property>
+                <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
               </widget>
               <packing>
@@ -389,7 +389,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="no">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
               </widget>
@@ -402,7 +402,7 @@
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="no">gtk-add</property>
+                <property name="label">gtk-add</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
