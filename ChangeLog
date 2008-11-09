@@ -1,13 +1,16 @@
-Deluge 1.0.5 (In Development)
+Deluge 1.0.5 (09 November 2008)
  GtkUI:
   * Increase the per-torrent stop share ratio max to 99999.0
   * Fix #528 make sure gtkui config file is written before exiting
+  * Fix UDP tracker support
 
  WebUi:
   * Javascript auto refresh for both templates.
 
  Windows:
   * Fix #577 adding torrents by drag n' drop
+  * Fix association in Vista
+  * Fix WebUI launch
 
 Deluge 1.0.4 (31 October 2008)
  Core:
