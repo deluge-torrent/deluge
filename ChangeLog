@@ -12,6 +12,12 @@ Deluge 1.0.5 (09 November 2008)
   * Fix association in Vista
   * Fix WebUI launch
 
+ Debian:
+  * SID packages now requires Boost 1.36
+
+ Ubuntu:
+  * Jaunty packages are now provided
+
 Deluge 1.0.4 (31 October 2008)
  Core:
   * Fix #560 force an int value for global max connections
