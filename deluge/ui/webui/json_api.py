@@ -238,8 +238,16 @@ class json_rpc:
             aclient.add_torrent_file_binary(filename, fdump, torrent['options'])
             aclient.force_call()
 
+class json_upload:
+    def GET(self):
+        pass
+    
+    def POST(self, name=None):
+        pass
+
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
+    component.get("PageManager").register_page("/json/upload",json_upload)
 
 if __name__ == '__main__':
     print "todo: tests"

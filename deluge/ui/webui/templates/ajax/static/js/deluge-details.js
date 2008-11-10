@@ -114,7 +114,7 @@ Deluge.Widgets.StatisticsPage = new Class({
     },
     
     clear: function() {
-        this.bar.update('', 0);
+        if (this.bar) this.bar.update('', 0);
         this.element.getElements('dd').each(function(item) {
             item.set('text', '');
         }, this);
@@ -298,7 +298,7 @@ Deluge.Widgets.FilesPage = new Class({
     },
     
     clear: function() {
-        this.grid.clear();
+        if (this.grid) this.grid.clear();
     },
     
     resized: function(e) {
@@ -371,6 +371,7 @@ Deluge.Widgets.PeersPage = new Class({
     },
     
     clear: function() {
+        if (!this.grid) return;
         this.grid.rows.empty();
         this.grid.body.empty();
     },
@@ -517,6 +518,7 @@ Deluge.Widgets.OptionsPage = new Class({
     },
     
     clear: function() {
+        if (!this.form) return;
         $$W(this.form.max_download_speed).setValue(0);
         $$W(this.form.max_upload_speed).setValue(0);
         $$W(this.form.max_connections).setValue(0);
