@@ -361,6 +361,12 @@ label.fluid {
     float: right;
 }
 
+#urlInput {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 225px;
+}
+
 #createTorrent h3 {
     margin-bottom: 0px;
 }
