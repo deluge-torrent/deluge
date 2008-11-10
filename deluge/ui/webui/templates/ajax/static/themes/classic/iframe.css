@@ -1,0 +1,60 @@
+body {
+    font-family: trebuchet ms;
+	font-size: 0.7em;
+	color: White;
+}
+
+/* forms */
+form fieldset {
+	border: none;
+	float: left;
+}
+
+form legend {
+	font-weight: bold;
+}
+
+form label {
+	width: 150px;
+	line-height: 20px;
+	float: left;
+}
+
+form input, form select {
+	float: left;
+	margin-right: 5px;
+	border:1px solid #23344b;
+	background: #99acc3;
+	color: #000;
+	line-height: 20px;
+}
+
+form textarea {
+	border:1px solid #23344b;
+	background: #99acc3;
+	width:480px;
+}
+
+form .disabled {
+	color: Gray;
+}
+
+form .deluge_button, button  {
+	background-color: #37506f;
+	border:1px solid #68a;
+	cursor: pointer;
+	background: #99acc3;
+	color: #000;
+	vertical-align:middle;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+	margin: 2px;
+}
+
+form .deluge_button:hover, button:hover {
+	background-color:#68a;
+}
+
+form br {
+	clear: left;
+}

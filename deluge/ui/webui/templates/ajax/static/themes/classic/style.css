@@ -17,6 +17,10 @@ body {
 	color: White;
 }
 
+iframe {
+    border: none;
+}
+
 #toolbar {
 	background: url(/static/images/simple_line.jpg) repeat-x 0px 69px;
 	height: 75px;

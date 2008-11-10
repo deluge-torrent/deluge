@@ -42,6 +42,13 @@ Deluge.Widgets.AddWindow = new Class({
             url: '/template/render/html/add_torrent_options.html'
         }));
         
+        this.fileWindow = new Deluge.Widgets.AddTorrent.File();
+        this.fileWindow.addEvent('torrentAdded', this.bound.onTorrentAdded);
+        this.fileButton = this.content.getElement('button.file');
+        this.fileButton.addEvent('click', function(e) {
+            this.fileWindow.show();
+        }.bindWithEvent(this));
+        
         this.urlWindow = new Deluge.Widgets.AddTorrent.Url();
         this.urlWindow.addEvent('torrentAdded', this.bound.onTorrentAdded);     
         this.urlButton = this.content.getElement('button.url');
@@ -88,6 +95,26 @@ Deluge.Widgets.AddWindow = new Class({
 });
 
 Deluge.Widgets.AddTorrent = {}
+
+Deluge.Widgets.AddTorrent.File = new Class({
+    Extends: Widgets.Window,
+    
+    options: {
+        width: 300,
+        height: 100,
+        title: _('From File')
+    },
+    
+    initialize: function() {
+        this.parent();
+        this.iframe = new Element('iframe', {
+            src: '/template/render/html/window_add_torrent_file.html',
+            height: 100,
+            width: 300
+        });
+        this.content.grab(this.iframe);
+    }
+});
 
 Deluge.Widgets.AddTorrent.Url = new Class({
     Extends: Widgets.Window,
