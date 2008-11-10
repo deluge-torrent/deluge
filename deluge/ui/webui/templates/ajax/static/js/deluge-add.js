@@ -35,7 +35,6 @@ Deluge.Widgets.AddWindow = new Class({
         this.torrents = this.content.getElement('select');
         this.torrents.addEvent('change', this.bound.onTorrentChanged);
         this.torrentInfo = new Hash();
-        
         this.tabs = new Widgets.Tabs(this.content.getElement('div.moouiTabs'));
         this.filesTab = new Deluge.Widgets.AddTorrent.FilesTab();
         this.tabs.addPage(this.filesTab);
