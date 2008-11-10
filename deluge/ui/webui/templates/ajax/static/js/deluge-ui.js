@@ -88,6 +88,7 @@ Deluge.UI = {
             this.details.expand();
         }.bindWithEvent(this));
         
+        this.initialized = true;
         window.addEvent('resize', this.bound.onResize);
         Deluge.UI.update();
         this.overlay = $('overlay').dispose();
@@ -201,7 +202,8 @@ Deluge.UI = {
     */
     update: function() {
         filter = {};
-        var type = this.labels.filterType, name = this.labels.filterName
+        if (!this.initialized) return;
+        var type = this.labels.filterType, name = this.labels.filterName        
         if (type && !(type == 'state' && name == 'All')) {
             filter[this.labels.filterType] = this.labels.filterName;
         }
