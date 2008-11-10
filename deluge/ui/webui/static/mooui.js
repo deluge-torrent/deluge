@@ -78,7 +78,7 @@ return menu},build:function(){var self=this
 if($defined(this.element)){this.element.destroy();}
 this.element=this._build(this.items)},hide:function(force){if(!this.no_close){this.element.dispose()
 this.fireEvent('closed')}else if(force){this.element.dispose()
-this.fireEvent('closed')}},show:function(e){x=e.client.x,y=e.client.y-10;this.element.inject(document.body);this.fixSize();this.fixLeft();var menuSize=this.element.getSize(),windowSize=window.getSize();if((menuSize.y+y)>=windowSize.y){y=windowSize.y-menuSize.y-(windowSize.y-y);};this.element.setStyles({'left':x,'top':y-2});this.element.addEvent('mouseleave',function(e){this.hide();}.bind(this));},fixSize:function(el){var widest=0;el.getElements('li').each(function(item){var text=item.getElement('span');var width=text.getSize().x;if(width>widest){widest=width};});el.setStyle('width',widest+32);},fixLeft:function(el){var widest=0
+this.fireEvent('closed')}},show:function(e){x=e.client.x,y=e.client.y-10;this.element.inject(document.body);var menuSize=this.element.getSize(),windowSize=window.getSize();if((menuSize.y+y)>=windowSize.y){y=windowSize.y-menuSize.y-(windowSize.y-y);};this.element.setStyles({'left':x,'top':y-2});this.element.addEvent('mouseleave',function(e){this.hide();}.bind(this));},fixSize:function(el){var widest=0;el.getElements('li').each(function(item){var text=item.getElement('span');var width=text.getSize().x;if(width>widest){widest=width};});el.setStyle('width',widest+32);},fixLeft:function(el){var widest=0
 el.getElements('li').each(function(item){var width=item.getSize().x
 if(width>widest){widest=width}});el.setStyle('width',widest+2)
 el.getElements('li ul').each(function(item){item.setStyle('left',widest-20)});},showPos:function(x,y){}})
