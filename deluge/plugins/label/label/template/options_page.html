@@ -1,0 +1,10 @@
+$def with (label_id)
+$:render.basic_header(_("Label Options"))
+<h2>$label_id Options.</h2>
+<div class="panel">
+<form method="POST" action='$base/label/options/$label_id'>
+    label= $label_id
+</form>
+</div>
+
+$:render.footer()

@@ -1,6 +1,5 @@
 $def with (label_id, options_form)
 $:render.basic_header(_("Label Options"))
-<script language="javascript" src="/label/data/apply_sensitivity.js"></script>
 <h2>$label_id Options.</h2>
 <div class="panel">
 <form method="POST" action='$base/label/options/$label_id'>
@@ -14,7 +13,6 @@ $:render.basic_header(_("Label Options"))
     <table>
     $:(options_form.as_table(["apply_queue", "is_auto_managed", "stop_at_ratio", "stop_ratio", "remove_at_ratio"]))
     </table>
-
 
     <h3>location</h3>
     <table>
@@ -30,5 +28,15 @@ $:render.basic_header(_("Label Options"))
 </form>
 </div>
 
+<script language="javascript">
+new InputSensitivitySetter({prefix:"id_",groups:[
+    ["apply_max", ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]],
+    ["apply_queue", ["is_auto_managed", "stop_at_ratio"]],
+    ["stop_at_ratio", ["remove_at_ratio", "stop_ratio"]], /*#nested*/
+    ["apply_move_completed", ["move_completed"]],
+    ["move_completed", ["move_completed_path"]], /*#nested*/
+    ["auto_add", ["auto_add_trackers"]]
+]});
+</script>
 
 $:render.footer()
