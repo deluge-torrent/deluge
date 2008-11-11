@@ -1,3 +1,8 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     font-family: trebuchet ms;
 	font-size: 0.7em;
@@ -29,6 +34,11 @@ form input, form select {
 	line-height: 20px;
 }
 
+form torrentFileDiv {
+    position: relative;
+    opacity: 0;
+}
+
 form textarea {
 	border:1px solid #23344b;
 	background: #99acc3;
@@ -39,7 +49,7 @@ form .disabled {
 	color: Gray;
 }
 
-form .deluge_button, button  {
+form button  {
 	background-color: #37506f;
 	border:1px solid #68a;
 	cursor: pointer;
@@ -51,7 +61,7 @@ form .deluge_button, button  {
 	margin: 2px;
 }
 
-form .deluge_button:hover, button:hover {
+form button:hover {
 	background-color:#68a;
 }
 

@@ -220,7 +220,7 @@ class json_rpc:
             "info_hash" the torrents info_hash
         }
         """
-        return common.get_torrent_info(filename)
+        return common.get_torrent_info(filename.strip())
 
     def add_torrents(self, torrents):
         """
@@ -242,8 +242,19 @@ class json_upload:
     def GET(self):
         pass
     
+    @deco.check_session
     def POST(self, name=None):
-        pass
+        import os
+        import shutil
+        import tempfile
+        vars = web.input(torrentFile = {})
+        vars.torrentFile
+        path = os.path.join(tempfile.gettempdir(), vars.torrentFile.filename)
+        tmp_file = open(path, 'w')
+        shutil.copyfileobj(vars.torrentFile.file, tmp_file)
+        tmp_file.close()
+        print path
+        
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)

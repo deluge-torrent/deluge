@@ -100,7 +100,7 @@ Deluge.Widgets.AddTorrent.File = new Class({
     Extends: Widgets.Window,
     
     options: {
-        width: 300,
+        width: 400,
         height: 100,
         title: _('From File')
     },
@@ -110,12 +110,18 @@ Deluge.Widgets.AddTorrent.File = new Class({
         this.bound = {
             onLoad: this.onLoad.bindWithEvent(this),
             onCancel: this.onCancel.bindWithEvent(this),
-            onSubmit: this.onSubmit.bindWithEvent(this)
+            onSubmit: this.onSubmit.bindWithEvent(this),
+            onComplete: this.onComplete.bindWithEvent(this),
+            onGetInfoSuccess: this.onGetInfoSuccess.bindWithEvent(this)
         };
         this.iframe = new Element('iframe', {
             src: '/template/render/html/window_add_torrent_file.html',
-            height: 100,
-            width: 300
+            height: 65,
+            width: 390,
+            style: {
+                background: 'White',
+                overflow: 'hidden'
+            }
         });
         this.iframe.addEvent('load', this.bound.onLoad);
         this.content.grab(this.iframe);
@@ -135,7 +141,20 @@ Deluge.Widgets.AddTorrent.File = new Class({
     },
     
     onSubmit: function(e) {
-        alert('form sent');
+        this.iframe.addEvent('load', this.bound.onComplete);
+        this.iframe.set('opacity', 0);
+    },
+    
+    onComplete: function(e) {
+        filename = this.iframe.contentDocument.body.get('text');
+        Deluge.Client.get_torrent_info(filename, {
+            onSuccess: this.bound.onGetInfoSuccess
+        });
+    },
+    
+    onGetInfoSuccess: function(info) {
+        this.fireEvent('torrentAdded', info);
+        this.hide();
     }
 });
 
@@ -219,6 +238,7 @@ Deluge.Widgets.AddTorrent.FilesTab = new Class({
     
     onLoad: function(e) {
         this.table = this.element.getElement('table');
+        alert('boo');
     },
     
     setTorrent: function(torrent) {
