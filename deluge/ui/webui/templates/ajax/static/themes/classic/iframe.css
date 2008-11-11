@@ -25,6 +25,28 @@ form label {
 	float: left;
 }
 
+div.fileInputs {
+    position: relative;
+}
+
+div.fakeFile {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+form input.file {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: left;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity: 0);
+    z-index: 2;
+}
+
 form input, form select {
 	float: left;
 	margin-right: 5px;

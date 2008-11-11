@@ -4,7 +4,14 @@
     </head>
     <body style="background: none;">
         <form method="post" action="/json/upload" enctype="multipart/form-data">
-            <label>$_('File'):</label><div id="torrentFileDiv"><input type="file" name="torrentFile" /></div><br/>
+            <label>$_('File'):</label>
+            <div class="fileInputs">
+                <input type="file" name="torrentFile" class="file" />
+                <div class="fakeFile">
+                    <input />
+                    <button>$_('Browse')</button>
+                </div>
+            </div><br/>
             <button class="ok">$_('Ok')</button><button class="cancel">$_('Cancel')</button>
         </form>
     </body>
