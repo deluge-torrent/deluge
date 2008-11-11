@@ -128,6 +128,7 @@ Deluge.Widgets.AddTorrent.File = new Class({
     },
     
     onLoad: function(e) {
+        this.iframe.set('opacity', 1);
         var body = $(this.iframe.contentDocument.body);
         this.cancelButton = body.getElement('button.cancel');
         this.cancelButton.addEvent('click', this.bound.onCancel);
