@@ -10,14 +10,6 @@ body {
 }
 
 /* forms */
-form fieldset {
-	border: none;
-	float: left;
-}
-
-form legend {
-	font-weight: bold;
-}
 
 form label {
 	width: 150px;
@@ -34,6 +26,10 @@ div.fakeFile {
     top: 0px;
     left: 0px;
     z-index: 1;
+}
+
+div.fakeFile input {
+    width: 305px;
 }
 
 form input.file {
