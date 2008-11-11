@@ -134,6 +134,7 @@ Deluge.Widgets.AddTorrent.File = new Class({
         
         var form = body.getElement('form');
         form.addEvent('submit', this.bound.onSubmit);
+        this.iframe.removeEvent('load', this.bound.onLoad);
     },
     
     onCancel: function(e) {
@@ -146,7 +147,7 @@ Deluge.Widgets.AddTorrent.File = new Class({
     },
     
     onComplete: function(e) {
-        filename = this.iframe.contentDocument.body.get('text');
+        filename = $(this.iframe.contentDocument.body).get('text');
         Deluge.Client.get_torrent_info(filename, {
             onSuccess: this.bound.onGetInfoSuccess
         });
@@ -155,6 +156,9 @@ Deluge.Widgets.AddTorrent.File = new Class({
     onGetInfoSuccess: function(info) {
         this.fireEvent('torrentAdded', info);
         this.hide();
+        this.iframe.removeEvent('load', this.bound.onComplete);
+        this.iframe.addEvent('load', this.bound.onLoad);
+        this.iframe.src = '/template/render/html/window_add_torrent_file.html';
     }
 });
 
@@ -232,13 +236,12 @@ Deluge.Widgets.AddTorrent.FilesTab = new Class({
     },
     
     initialize: function() {
-        this.parent('Files');
         this.addEvent('loaded', this.onLoad.bindWithEvent(this));
+        this.parent('Files');
     },
     
     onLoad: function(e) {
-        this.table = this.element.getElement('table');
-        alert('boo');
+        this.table = this.element.getElement('table');    
     },
     
     setTorrent: function(torrent) {
