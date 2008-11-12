@@ -98,8 +98,10 @@ class ConsoleUI(object):
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
         if args:
             self.precmd()
-            self.onecmd(args)
-            self.postcmd()
+            #allow multiple commands split by ";"
+            for arg in args.split(";"):
+                self.onecmd(arg)
+                self.postcmd()
             sys.exit(0)
 
     def completedefault(self, *ignored):
