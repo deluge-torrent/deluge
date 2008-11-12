@@ -59,6 +59,8 @@ POSSIBILITY OF SUCH DAMAGE.
 using boost::bind;
 using namespace libtorrent;
 
+static error_code ec;
+
 upnp::upnp(io_service& ios, connection_queue& cc
 	, address const& listen_interface, std::string const& user_agent
 	, portmap_callback_t const& cb, bool ignore_nonrouters, void* state)
@@ -66,7 +68,7 @@ upnp::upnp(io_service& ios, connection_queue& cc
 	, m_callback(cb)
 	, m_retry_count(0)
 	, m_io_service(ios)
-	, m_socket(ios, udp::endpoint(address_v4::from_string("239.255.255.250"), 1900)
+	, m_socket(ios, udp::endpoint(address_v4::from_string("239.255.255.250", ec), 1900)
 		, bind(&upnp::on_reply, self(), _1, _2, _3), false)
 	, m_broadcast_timer(ios)
 	, m_refresh_timer(ios)
@@ -114,7 +116,7 @@ void upnp::discover_device()
 
 void upnp::discover_device_impl()
 {
-	const char msearch[] =
+	const char msearch[] = 
 		"M-SEARCH * HTTP/1.1\r\n"
 		"HOST: 239.255.255.250:1900\r\n"
 		"ST:upnp:rootdevice\r\n"
@@ -220,7 +222,7 @@ void upnp::delete_mapping(int mapping)
 #endif
 
 	if (m.protocol == none) return;
-
+	
 	for (std::set<rootdevice>::iterator i = m_devices.begin()
 		, end(m_devices.end()); i != end; ++i)
 	{
@@ -257,7 +259,7 @@ void upnp::resend_request(error_code const& e)
 		disable("no UPnP router found");
 		return;
 	}
-
+	
 	for (std::set<rootdevice>::iterator i = m_devices.begin()
 		, end(m_devices.end()); i != end; ++i)
 	{
@@ -349,7 +351,7 @@ void upnp::on_reply(udp::endpoint const& from, char* buffer
 		}
 #endif
 		return;
-	}
+	} 
 
 	std::vector<ip_route> routes = enum_routes(m_io_service, ec);
 	if (m_ignore_non_routers && std::find_if(routes.begin(), routes.end()
@@ -559,7 +561,7 @@ void upnp::post(upnp::rootdevice const& d, std::string const& soap
 	TORRENT_ASSERT(d.upnp_connection);
 
 	std::stringstream header;
-
+	
 	header << "POST " << d.path << " HTTP/1.0\r\n"
 		"Host: " << d.hostname << ":" << d.port << "\r\n"
 		"Content-Type: text/xml; charset=\"utf-8\"\r\n"
@@ -572,7 +574,7 @@ void upnp::post(upnp::rootdevice const& d, std::string const& soap
 	m_log << time_now_string()
 		<< " ==> sending: " << header.str() << std::endl;
 #endif
-
+	
 }
 
 void upnp::create_port_mapping(http_connection& c, rootdevice& d, int i)
@@ -590,11 +592,11 @@ void upnp::create_port_mapping(http_connection& c, rootdevice& d, int i)
 #endif
 		return;
 	}
-
+	
 	std::string soap_action = "AddPortMapping";
 
 	std::stringstream soap;
-
+	
 	soap << "<?xml version=\"1.0\"?>\n"
 		"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" "
 		"s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
@@ -709,7 +711,7 @@ void upnp::delete_port_mapping(rootdevice& d, int i)
 	}
 
 	std::stringstream soap;
-
+	
 	std::string soap_action = "DeletePortMapping";
 
 	soap << "<?xml version=\"1.0\"?>\n"
@@ -721,7 +723,7 @@ void upnp::delete_port_mapping(rootdevice& d, int i)
 		"<NewExternalPort>" << d.mapping[i].external_port << "</NewExternalPort>"
 		"<NewProtocol>" << (d.mapping[i].protocol == udp ? "UDP" : "TCP") << "</NewProtocol>";
 	soap << "</u:" << soap_action << "></s:Body></s:Envelope>";
-
+	
 	post(d, soap.str(), soap_action);
 }
 
@@ -738,7 +740,7 @@ namespace
 		dst.clear();
 		while (*src) dst.push_back(tolower(*src++));
 	}
-
+	
 	bool string_equal_nocase(char const* lhs, char const* rhs)
 	{
 		while (tolower(*lhs) == tolower(*rhs))
@@ -900,10 +902,7 @@ void upnp::on_upnp_xml(error_code const& e
 			return;
 		}
 	}
-
-	if (s.url_base.empty()) d.control_url = s.control_url;
-	else d.control_url = s.url_base + s.control_url;
-
+	
 	if (s.url_base.empty()) d.control_url = s.control_url;
 	else d.control_url = s.url_base + s.control_url;
 
@@ -952,7 +951,7 @@ void upnp::disable(char const* msg)
 		i->protocol = none;
 		m_callback(i - m_mappings.begin(), 0, msg);
 	}
-
+	
 	m_devices.clear();
 	error_code ec;
 	m_broadcast_timer.cancel(ec);
@@ -969,7 +968,7 @@ namespace
 		bool exit;
 		int error_code;
 	};
-
+	
 	void find_error_code(int type, char const* string, error_code_parse_state& state)
 	{
 		if (state.exit) return;
@@ -992,7 +991,7 @@ namespace
 		int code;
 		char const* msg;
 	};
-
+	
 	error_code_t error_codes[] =
 	{
 		{402, "Invalid Arguments"}
@@ -1034,9 +1033,9 @@ void upnp::on_upnp_map_response(error_code const& e
 		d.disabled = true;
 		return;
 	}
-
+	
 	if (m_closing) return;
-
+	
 //	 error code response may look like this:
 //	<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
 //		s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
@@ -1078,7 +1077,7 @@ void upnp::on_upnp_map_response(error_code const& e
 			<< " <== got error message: " << s.error_code << std::endl;
 	}
 #endif
-
+	
 	mapping_t& m = d.mapping[mapping];
 
 	if (s.error_code == 725)

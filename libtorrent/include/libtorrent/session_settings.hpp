@@ -73,9 +73,9 @@ namespace libtorrent
 			// uses username and password
 			http_pw
 		};
-
+		
 		proxy_type type;
-
+	
 	};
 
 	struct TORRENT_EXPORT session_settings
@@ -153,7 +153,7 @@ namespace libtorrent
 		// the number of seconds to wait until giving up on a
 		// tracker request if it hasn't finished
 		int tracker_completion_timeout;
-
+		
 		// the number of seconds where no data is received
 		// from the tracker until it should be considered
 		// as timed out
@@ -183,7 +183,7 @@ namespace libtorrent
 		// all the pieces. i.e. the actual number of requests
 		// depends on the download rate and this number.
 		float request_queue_time;
-
+		
 		// the number of outstanding block requests a peer is
 		// allowed to queue up in the client. If a peer sends
 		// more requests than this (before the first one has
@@ -191,7 +191,7 @@ namespace libtorrent
 		// the higher this is, the faster upload speeds the
 		// client can get to a single peer.
 		int max_allowed_in_request_queue;
-
+		
 		// the maximum number of outstanding requests to
 		// send to a peer. This limit takes precedence over
 		// request_queue_time.
@@ -204,23 +204,23 @@ namespace libtorrent
 		// doing localized accesses and also to make it easier
 		// to identify bad peers if a piece fails the hash check.
 		int whole_pieces_threshold;
-
+		
 		// the number of seconds to wait for any activity on
 		// the peer wire before closing the connectiong due
 		// to time out.
 		int peer_timeout;
-
+		
 		// same as peer_timeout, but only applies to url-seeds.
 		// this is usually set lower, because web servers are
 		// expected to be more reliable.
 		int urlseed_timeout;
-
+		
 		// controls the pipelining size of url-seeds
 		int urlseed_pipeline_size;
 
 		// time to wait until a new retry takes place
 		int urlseed_wait_retry;
-
+		
 		// sets the upper limit on the total number of files this
 		// session will keep open. The reason why files are
 		// left open at all is that some anti virus software
@@ -234,7 +234,7 @@ namespace libtorrent
 		// number of connections and the number of files
 		// limits so their sum is slightly below it.
 		int file_pool_size;
-
+		
 		// false to not allow multiple connections from the same
 		// IP address. true will allow it.
 		bool allow_multiple_connections_per_ip;
@@ -242,7 +242,7 @@ namespace libtorrent
 		// the number of times we can fail to connect to a peer
 		// before we stop retrying it.
 		int max_failcount;
-
+		
 		// the number of seconds to wait to reconnect to a peer.
 		// this time is multiplied with the failcount.
 		int min_reconnect_time;
@@ -391,7 +391,7 @@ namespace libtorrent
 		// the number of seconds in between recalculating which
 		// torrents to activate and which ones to queue
 		int auto_manage_interval;
-
+	
 		// when a seeding torrent reaches eaither the share ratio
 		// (bytes up / bytes down) or the seed time ratio
 		// (seconds as seed / seconds as downloader) or the seed
@@ -461,7 +461,7 @@ namespace libtorrent
 			, service_port(0)
 			, max_fail_count(20)
 		{}
-
+		
 		// the maximum number of peers to send in a
 		// reply to get_peers
 		int max_peers_reply;
@@ -469,11 +469,11 @@ namespace libtorrent
 		// the number of simultanous "connections" when
 		// searching the DHT.
 		int search_branching;
-
+		
 		// the listen port for the dht. This is a UDP port.
 		// zero means use the same as the tcp interface
 		int service_port;
-
+		
 		// the maximum number of times a node can fail
 		// in a row before it is removed from the table.
 		int max_fail_count;
@@ -501,7 +501,7 @@ namespace libtorrent
 		enum enc_level
 		{
 			plaintext, // use only plaintext encryption
-			rc4, // use only rc4 encryption
+			rc4, // use only rc4 encryption 
 			both // allow both
 		};
 
