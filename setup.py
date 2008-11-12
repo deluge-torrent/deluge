@@ -294,7 +294,7 @@ setup(
             deluged = deluge.main:start_daemon
     """,
     ext_package = "deluge",
-    ext_modules = [libtorrent],
+    ext_modules = _ext_modules,
     fullname = "Deluge Bittorent Client",
     include_package_data = True,
     license = "GPLv3",
