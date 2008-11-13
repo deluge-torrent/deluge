@@ -1,0 +1,42 @@
+<form>
+    <fieldset>
+        <legend>$_('Allocation')</legend>
+            <label class="fluid">
+                <input type="radio" name="allocation" />
+                $_('Full')
+            </label><br />
+            <label class="fluid">
+                <input type="radio" name="allocation" />
+                $_('Compact')
+            </label>
+    </fieldset>
+    <fieldset>
+        <legend>$_('Bandwidth')</legend>
+        
+        <label>$_('Max Down Speed'):</label>
+        <input type="text" class="moouiSpinner" /><br/>
+        
+        <label>$_('Max Up Speed'):</label>
+        <input type="text" class="moouiSpinner" /><br/>
+        
+        <label>$_('Max Connections'):</label>
+        <input type="text" class="moouiSpinner" /><br/>
+        
+        <label>$_('Max Upload Slots'):</label>
+        <input type="text" class="moouiSpinner" />
+    </fieldset>
+    <fieldset>
+        <legend>$_('General')</legend>
+        <label class="fluid">
+            <input type="checkbox" />
+            $_('Add in Paused State')
+        </label><br/>
+        <label class="fluid">
+            <input type="checkbox" />
+            $_('Prioritize First/Last Pieces')
+        </label>
+    </fieldset>
+    <br style="clear: both;" />
+    <button>$_('Revert To Defaults')</button>
+    <button>$_('Apply To All')</button>
+</form>

@@ -365,6 +365,24 @@ label.fluid {
     float: right;
 }
 
+#addTorrent form {
+    margin-top: 20px;
+}
+
+#addTorrent form label {
+    width: 100px;
+}
+
+#addTorrent form label.fluid {
+    width: auto;
+}
+
+#addTorrent form button {
+    position: relative;
+    top: 40px;
+    float: right;
+}
+
 #urlInput {
     margin-top: 5px;
     margin-bottom: 10px;
