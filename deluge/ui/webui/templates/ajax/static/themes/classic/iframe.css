@@ -37,9 +37,6 @@ form input.file {
     top: 0px;
     left: 0px;
     text-align: left;
-    -moz-opacity: 0;
-    opacity: 0;
-    filter: alpha(opacity: 0);
     z-index: 2;
 }
 

@@ -112,8 +112,14 @@ Deluge.Widgets.AddTorrent.File = new Class({
             onCancel: this.onCancel.bindWithEvent(this),
             onSubmit: this.onSubmit.bindWithEvent(this),
             onComplete: this.onComplete.bindWithEvent(this),
+            onBeforeShow: this.onBeforeShow.bindWithEvent(this),
             onGetInfoSuccess: this.onGetInfoSuccess.bindWithEvent(this)
         };
+        this.addEvent('beforeShow', this.bound.onBeforeShow);
+    },
+
+    onBeforeShow: function(e) {
+        if (this.iframe) this.iframe.destroy();
         this.iframe = new Element('iframe', {
             src: '/template/render/html/window_add_torrent_file.html',
             height: 65,
@@ -123,19 +129,19 @@ Deluge.Widgets.AddTorrent.File = new Class({
                 overflow: 'hidden'
             }
         });
-        this.iframe.addEvent('load', this.bound.onLoad);
         this.content.grab(this.iframe);
+        this.iframe.addEvent('load', this.bound.onLoad);
     },
     
     onLoad: function(e) {
-        this.iframe.set('opacity', 1);
         var body = $(this.iframe.contentDocument.body);
         var form = body.getElement('form');
-        this.cancelButton = form.getElement('button.cancel');
-        this.cancelButton.addEvent('click', this.bound.onCancel);
+        var cancelButton = form.getElement('button.cancel');
+        cancelButton.addEvent('click', this.bound.onCancel);
         
         var fileInputs = form.getElement('div.fileInputs');
         var fileInput = fileInputs.getElement('input');
+        fileInput.set('opacity', 0.000001);
         var fakeFile = fileInputs.getElement('div').getElement('input');
         
         fileInput.addEvent('change', function(e) {
@@ -157,17 +163,14 @@ Deluge.Widgets.AddTorrent.File = new Class({
     
     onComplete: function(e) {
         filename = $(this.iframe.contentDocument.body).get('text');
+        this.hide();
         Deluge.Client.get_torrent_info(filename, {
             onSuccess: this.bound.onGetInfoSuccess
         });
     },
     
     onGetInfoSuccess: function(info) {
-        if (info) this.fireEvent('torrentAdded', info);        
-        this.hide();
-        this.iframe.removeEvent('load', this.bound.onComplete);
-        this.iframe.addEvent('load', this.bound.onLoad);
-        this.iframe.src = '/template/render/html/window_add_torrent_file.html';
+        if (info) this.fireEvent('torrentAdded', info);
     }
 });
 
