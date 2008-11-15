@@ -70,7 +70,7 @@ class AddForm(forms.Form):
     #    widget=forms.TextInput(attrs={'size':60}))
     #ret = forms.CheckBox(_('Add more'))
 
-    choose_files = forms.CheckBox(_('Choose Files'))
+    #choose_files = forms.CheckBox(_('Choose Files')) #BROKEN!
 
 
 class torrent_add:
