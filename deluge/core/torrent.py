@@ -405,6 +405,7 @@ class Torrent:
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
             "total_uploaded": self.status.all_time_upload,
+            "all_time_download": self.status.all_time_download,
             "state": self.state,
             "paused": self.status.paused,
             "progress": progress,

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 #
 # statistics_tab.py
 #
@@ -74,7 +74,7 @@ class StatisticsTab(Tab):
         self.label_widgets = [
             (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
             (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
-            (glade.get_widget("summary_total_downloaded"), fpeer_sized, ("total_done", "total_payload_download")),
+            (glade.get_widget("summary_total_downloaded"), fpeer_sized, ("all_time_download", "total_payload_download")),
             (glade.get_widget("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
             (glade.get_widget("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
             (glade.get_widget("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
