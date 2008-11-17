@@ -53,7 +53,6 @@ LABEL = "label"
 CONFIG_DEFAULTS = {
     "torrent_labels":{}, #torrent_id:label_id
     "labels":{}, #label_id:{name:value}
-    "auto_add_trackers":[]
 }
 
 CORE_OPTIONS = ["auto_add_trackers"]
@@ -73,7 +72,8 @@ OPTIONS_DEFAULTS = {
     "apply_move_completed":False,
     "move_completed":False,
     "move_completed_path":"",
-    "auto_add":False
+    "auto_add":False,
+    "auto_add_trackers":[]
 }
 
 NO_LABEL = "No Label"

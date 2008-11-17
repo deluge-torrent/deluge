@@ -49,8 +49,8 @@ class options:
     @api.deco.deluge_page
     def GET(self, label_id):
 
-        options_form = OptionsForm()
-
+        options = sclient.label_get_options(label_id)
+        options_form = OptionsForm(options)
         return api.render.label.options(label_id, options_form)
 
 class add:
