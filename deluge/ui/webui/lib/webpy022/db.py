@@ -12,7 +12,7 @@ __all__ = [
   "sqllist", "sqlors", "aparam", "reparam",
   "SQLQuery", "sqlquote",
   "SQLLiteral", "sqlliteral",
-  "connect", 
+  "connect",
   "TransactionError", "transaction", "transact", "commit", "rollback",
   "query",
   "select", "insert", "update", "delete"
@@ -45,17 +45,17 @@ def _interpolate(format):
     Takes a format string and returns a list of 2-tuples of the form
     (boolean, string) where boolean says whether string should be evaled
     or not.
-    
+
     from <http://lfw.org/python/Itpl.py> (public domain, Ka-Ping Yee)
     """
     from tokenize import tokenprog
-    
+
     def matchorfail(text, pos):
         match = tokenprog.match(text, pos)
         if match is None:
             raise _ItplError(text, pos)
         return match, match.end()
-    
+
     namechars = "abcdefghijklmnopqrstuvwxyz" \
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
     chunks = []
@@ -63,7 +63,7 @@ def _interpolate(format):
 
     while 1:
         dollar = format.find("$", pos)
-        if dollar < 0: 
+        if dollar < 0:
             break
         nextchar = format[dollar + 1]
 
@@ -74,9 +74,9 @@ def _interpolate(format):
                 match, pos = matchorfail(format, pos)
                 tstart, tend = match.regs[3]
                 token = format[tstart:tend]
-                if token == "{": 
+                if token == "{":
                     level = level + 1
-                elif token == "}":  
+                elif token == "}":
                     level = level - 1
             chunks.append((1, format[dollar + 2:pos - 1]))
 
@@ -93,11 +93,11 @@ def _interpolate(format):
                         match, pos = matchorfail(format, pos)
                         tstart, tend = match.regs[3]
                         token = format[tstart:tend]
-                        if token[0] in "([": 
+                        if token[0] in "([":
                             level = level + 1
-                        elif token[0] in ")]":  
+                        elif token[0] in ")]":
                             level = level - 1
-                else: 
+                else:
                     break
             chunks.append((1, format[dollar + 1:pos]))
 
@@ -105,14 +105,14 @@ def _interpolate(format):
             chunks.append((0, format[pos:dollar + 1]))
             pos = dollar + 1 + (nextchar == "$")
 
-    if pos < len(format): 
+    if pos < len(format):
         chunks.append((0, format[pos:]))
     return chunks
 
 class UnknownParamstyle(Exception):
     """
     raised for unsupported db paramstyles
-    
+
     (currently supported: qmark, numeric, format, pyformat)
     """
     pass
@@ -122,7 +122,7 @@ def aparam():
     Returns the appropriate string to be used to interpolate
     a value with the current `web.ctx.db_module` or simply %s
     if there isn't one.
-    
+
         >>> aparam()
         '%s'
     """
@@ -130,12 +130,12 @@ def aparam():
         style = web.ctx.db_module.paramstyle
     else:
         style = 'pyformat'
-    
-    if style == 'qmark': 
+
+    if style == 'qmark':
         return '?'
-    elif style == 'numeric': 
+    elif style == 'numeric':
         return ':1'
-    elif style in ['format', 'pyformat']: 
+    elif style in ['format', 'pyformat']:
         return '%s'
     raise UnknownParamstyle, style
 
@@ -143,7 +143,7 @@ def reparam(string_, dictionary):
     """
     Takes a string and a dictionary and interpolates the string
     using values from the dictionary. Returns an `SQLQuery` for the result.
-    
+
         >>> reparam("s = $s", dict(s=True))
         <sql: "s = 't'">
     """
@@ -159,7 +159,7 @@ def reparam(string_, dictionary):
 def sqlify(obj):
     """
     converts `obj` to its proper SQL version
-    
+
         >>> sqlify(None)
         'NULL'
         >>> sqlify(True)
@@ -167,10 +167,10 @@ def sqlify(obj):
         >>> sqlify(3)
         '3'
     """
-    
+
     # because `1 == True and hash(1) == hash(True)`
     # we have to do this the hard way...
-    
+
     if obj is None:
         return 'NULL'
     elif obj is True:
@@ -191,7 +191,7 @@ class SQLQuery:
     # tested in sqlquote's docstring
     def __init__(self, s='', v=()):
         self.s, self.v = str(s), tuple(v)
-    
+
     def __getitem__(self, key): # for backwards-compatibility
         return [self.s, self.v][key]
 
@@ -209,13 +209,13 @@ class SQLQuery:
             return self
         else:
             return NotImplemented
-    
+
     def __str__(self):
         try:
             return self.s % tuple([sqlify(x) for x in self.v])
         except (ValueError, TypeError):
             return self.s
-    
+
     def __repr__(self):
         return '<sql: %s>' % repr(str(self))
 
@@ -226,10 +226,10 @@ class SQLLiteral:
         >>> insert('foo', time=SQLLiteral('NOW()'), _test=True)
         <sql: 'INSERT INTO foo (time) VALUES (NOW())'>
     """
-    def __init__(self, v): 
+    def __init__(self, v):
         self.v = v
 
-    def __repr__(self): 
+    def __repr__(self):
         return self.v
 
 sqlliteral = SQLLiteral
@@ -237,7 +237,7 @@ sqlliteral = SQLLiteral
 def sqlquote(a):
     """
     Ensures `a` is quoted properly for use in a SQL query.
-    
+
         >>> 'WHERE x = ' + sqlquote(True) + ' AND y = ' + sqlquote(3)
         <sql: "WHERE x = 't' AND y = 3">
     """
@@ -249,19 +249,19 @@ class UnknownDB(Exception):
 
 def connect(dbn, **keywords):
     """
-    Connects to the specified database. 
-    
-    `dbn` currently must be "postgres", "mysql", or "sqlite". 
-    
+    Connects to the specified database.
+
+    `dbn` currently must be "postgres", "mysql", or "sqlite".
+
     If DBUtils is installed, connection pooling will be used.
     """
-    if dbn == "postgres": 
-        try: 
+    if dbn == "postgres":
+        try:
             import psycopg2 as db
-        except ImportError: 
-            try: 
+        except ImportError:
+            try:
                 import psycopg as db
-            except ImportError: 
+            except ImportError:
                 import pgdb as db
         if 'pw' in keywords:
             keywords['password'] = keywords['pw']
@@ -289,7 +289,7 @@ def connect(dbn, **keywords):
         web.config._hasPooling = False
         keywords['database'] = keywords['db']
         del keywords['db']
-    
+
     elif dbn == "firebird":
         import kinterbasdb as db
         if 'pw' in keywords:
@@ -298,7 +298,7 @@ def connect(dbn, **keywords):
         keywords['database'] = keywords['db']
         del keywords['db']
 
-    else: 
+    else:
         raise UnknownDB, dbn
 
     web.ctx.db_name = dbn
@@ -313,12 +313,12 @@ def connect(dbn, **keywords):
             return PooledDB.PooledDB(dbapi=db, **keywords)
         else:
             return PooledDB.PooledDB(creator=db, **keywords)
-    
+
     def db_cursor():
         if isinstance(web.ctx.db, dict):
             keywords = web.ctx.db
             if web.config._hasPooling:
-                if 'db' not in globals(): 
+                if 'db' not in globals():
                     globals()['db'] = _PooledDB(db, keywords)
                 web.ctx.db = globals()['db'].connection()
             else:
@@ -327,12 +327,12 @@ def connect(dbn, **keywords):
     web.ctx.db_cursor = db_cursor
 
     web.ctx.dbq_count = 0
-    
+
     def db_execute(cur, sql_query, dorollback=True):
         """executes an sql query"""
 
         web.ctx.dbq_count += 1
-        
+
         try:
             a = time.time()
             out = cur.execute(sql_query.s, sql_query.v)
@@ -372,31 +372,31 @@ def transact():
     """Start a transaction."""
     if not web.ctx.db_transaction:
         # commit everything up to now, so we don't rollback it later
-        if hasattr(web.ctx.db, 'commit'): 
+        if hasattr(web.ctx.db, 'commit'):
             web.ctx.db.commit()
     else:
         db_cursor = web.ctx.db_cursor()
-        web.ctx.db_execute(db_cursor, 
+        web.ctx.db_execute(db_cursor,
             SQLQuery("SAVEPOINT webpy_sp_%s" % web.ctx.db_transaction))
     web.ctx.db_transaction += 1
 
 def commit():
     """Commits a transaction."""
     web.ctx.db_transaction -= 1
-    if web.ctx.db_transaction < 0: 
+    if web.ctx.db_transaction < 0:
         raise TransactionError, "not in a transaction"
 
     if not web.ctx.db_transaction:
-        if hasattr(web.ctx.db, 'commit'): 
+        if hasattr(web.ctx.db, 'commit'):
             web.ctx.db.commit()
     else:
         db_cursor = web.ctx.db_cursor()
-        web.ctx.db_execute(db_cursor, 
+        web.ctx.db_execute(db_cursor,
             SQLQuery("RELEASE SAVEPOINT webpy_sp_%s" % web.ctx.db_transaction))
 
 def rollback(care=True):
     """Rolls back a transaction."""
-    web.ctx.db_transaction -= 1     
+    web.ctx.db_transaction -= 1
     if web.ctx.db_transaction < 0:
         web.db_transaction = 0
         if care:
@@ -405,7 +405,7 @@ def rollback(care=True):
             return
 
     if not web.ctx.db_transaction:
-        if hasattr(web.ctx.db, 'rollback'): 
+        if hasattr(web.ctx.db, 'rollback'):
             web.ctx.db.rollback()
     else:
         db_cursor = web.ctx.db_cursor()
@@ -416,9 +416,9 @@ def rollback(care=True):
 def query(sql_query, vars=None, processed=False, _test=False):
     """
     Execute SQL query `sql_query` using dictionary `vars` to interpolate it.
-    If `processed=True`, `vars` is a `reparam`-style list to use 
+    If `processed=True`, `vars` is a `reparam`-style list to use
     instead of interpolating.
-    
+
         >>> query("SELECT * FROM foo", _test=True)
         <sql: 'SELECT * FROM foo'>
         >>> query("SELECT * FROM foo WHERE x = $x", vars=dict(x='f'), _test=True)
@@ -427,15 +427,15 @@ def query(sql_query, vars=None, processed=False, _test=False):
         <sql: "SELECT * FROM foo WHERE x = 'f'">
     """
     if vars is None: vars = {}
-    
+
     if not processed and not isinstance(sql_query, SQLQuery):
         sql_query = reparam(sql_query, vars)
-    
+
     if _test: return sql_query
-    
+
     db_cursor = web.ctx.db_cursor()
     web.ctx.db_execute(db_cursor, sql_query)
-    
+
     if db_cursor.description:
         names = [x[0] for x in db_cursor.description]
         def iterwrapper():
@@ -450,28 +450,28 @@ def query(sql_query, vars=None, processed=False, _test=False):
                            for x in db_cursor.fetchall()]
     else:
         out = db_cursor.rowcount
-    
+
     if not web.ctx.db_transaction: web.ctx.db.commit()
     return out
 
 def sqllist(lst):
     """
     Converts the arguments for use in something like a WHERE clause.
-    
+
         >>> sqllist(['a', 'b'])
         'a, b'
         >>> sqllist('a')
         'a'
-        
+
     """
-    if isinstance(lst, str): 
+    if isinstance(lst, str):
         return lst
     else:
         return ', '.join(lst)
 
 def sqlors(left, lst):
     """
-    `left is a SQL clause like `tablename.arg = ` 
+    `left is a SQL clause like `tablename.arg = `
     and `lst` is a list of values. Returns a reparam-style
     pair featuring the SQL that ORs together the clause
     for each item in the lst.
@@ -490,11 +490,11 @@ def sqlors(left, lst):
         ln = len(lst)
         if ln == 0:
             return SQLQuery("2+2=5", [])
-        if ln == 1: 
+        if ln == 1:
             lst = lst[0]
 
     if isinstance(lst, iters):
-        return SQLQuery('(' + left + 
+        return SQLQuery('(' + left +
                (' OR ' + left).join([aparam() for param in lst]) + ")", lst)
     else:
         return SQLQuery(left + aparam(), [lst])
@@ -502,24 +502,24 @@ def sqlors(left, lst):
 def sqlwhere(dictionary, grouping=' AND '):
     """
     Converts a `dictionary` to an SQL WHERE clause `SQLQuery`.
-    
+
         >>> sqlwhere({'cust_id': 2, 'order_id':3})
         <sql: 'order_id = 3 AND cust_id = 2'>
         >>> sqlwhere({'cust_id': 2, 'order_id':3}, grouping=', ')
         <sql: 'order_id = 3, cust_id = 2'>
     """
-    
+
     return SQLQuery(grouping.join([
       '%s = %s' % (k, aparam()) for k in dictionary.keys()
     ]), dictionary.values())
 
-def select(tables, vars=None, what='*', where=None, order=None, group=None, 
+def select(tables, vars=None, what='*', where=None, order=None, group=None,
            limit=None, offset=None, _test=False):
     """
-    Selects `what` from `tables` with clauses `where`, `order`, 
-    `group`, `limit`, and `offset`. Uses vars to interpolate. 
+    Selects `what` from `tables` with clauses `where`, `order`,
+    `group`, `limit`, and `offset`. Uses vars to interpolate.
     Otherwise, each clause can be a SQLQuery.
-    
+
         >>> select('foo', _test=True)
         <sql: 'SELECT * FROM foo'>
         >>> select(['foo', 'bar'], where="foo.bar_id = bar.id", limit=5, _test=True)
@@ -527,7 +527,7 @@ def select(tables, vars=None, what='*', where=None, order=None, group=None,
     """
     if vars is None: vars = {}
     qout = ""
-    
+
     def gen_clause(sql, val):
         if isinstance(val, (int, long)):
             if sql == 'WHERE':
@@ -540,14 +540,14 @@ def select(tables, vars=None, what='*', where=None, order=None, group=None,
             nout = val
         elif val:
             nout = reparam(val, vars)
-        else: 
+        else:
             return ""
 
         out = ""
-        if qout: out += " " 
+        if qout: out += " "
         out += sql + " " + nout
         return out
-    
+
     if web.ctx.get('db_name') == "firebird":
         for (sql, val) in (
            ('FIRST', limit),
@@ -588,11 +588,11 @@ def insert(tablename, seqname=None, _test=False, **values):
     Inserts `values` into `tablename`. Returns current sequence ID.
     Set `seqname` to the ID if it's not the default, or to `False`
     if there isn't one.
-    
+
         >>> insert('foo', joe='bob', a=2, _test=True)
         <sql: "INSERT INTO foo (a, joe) VALUES (2, 'bob')">
     """
-    
+
     if values:
         sql_query = SQLQuery("INSERT INTO %s (%s) VALUES (%s)" % (
             tablename,
@@ -603,12 +603,12 @@ def insert(tablename, seqname=None, _test=False, **values):
         sql_query = SQLQuery("INSERT INTO %s DEFAULT VALUES" % tablename)
 
     if _test: return sql_query
-    
+
     db_cursor = web.ctx.db_cursor()
-    if seqname is False: 
+    if seqname is False:
         pass
-    elif web.ctx.db_name == "postgres": 
-        if seqname is None: 
+    elif web.ctx.db_name == "postgres":
+        if seqname is None:
             seqname = tablename + "_id_seq"
         sql_query += "; SELECT currval('%s')" % seqname
     elif web.ctx.db_name == "mysql":
@@ -618,13 +618,13 @@ def insert(tablename, seqname=None, _test=False, **values):
         web.ctx.db_execute(db_cursor, sql_query)
         # not really the same...
         sql_query = SQLQuery("SELECT last_insert_rowid()")
-    
+
     web.ctx.db_execute(db_cursor, sql_query)
-    try: 
+    try:
         out = db_cursor.fetchone()[0]
-    except Exception: 
+    except Exception:
         out = None
-    
+
     if not web.ctx.db_transaction: web.ctx.db.commit()
 
     return out
@@ -633,14 +633,14 @@ def update(tables, where, vars=None, _test=False, **values):
     """
     Update `tables` with clause `where` (interpolated using `vars`)
     and setting `values`.
-    
+
         >>> joe = 'Joseph'
         >>> update('foo', where='name = $joe', name='bob', age=5,
         ...   vars=locals(), _test=True)
         <sql: "UPDATE foo SET age = 5, name = 'bob' WHERE name = 'Joseph'">
     """
     if vars is None: vars = {}
-    
+
     if isinstance(where, (int, long)):
         where = "id = " + sqlquote(where)
     elif isinstance(where, (list, tuple)) and len(where) == 2:
@@ -649,24 +649,24 @@ def update(tables, where, vars=None, _test=False, **values):
         pass
     else:
         where = reparam(where, vars)
-    
+
     query = (
-      "UPDATE " + sqllist(tables) + 
-      " SET " + sqlwhere(values, ', ') + 
+      "UPDATE " + sqllist(tables) +
+      " SET " + sqlwhere(values, ', ') +
       " WHERE " + where)
-    
+
     if _test: return query
-    
+
     db_cursor = web.ctx.db_cursor()
     web.ctx.db_execute(db_cursor, query)
-    
+
     if not web.ctx.db_transaction: web.ctx.db.commit()
     return db_cursor.rowcount
 
 def delete(table, where=None, using=None, vars=None, _test=False):
     """
     Deletes from `table` with clauses `where` and `using`.
-    
+
         >>> name = 'Joe'
         >>> delete('foo', where='name = $name', vars=locals(), _test=True)
         <sql: "DELETE FROM foo WHERE name = 'Joe'">
@@ -689,9 +689,9 @@ def delete(table, where=None, using=None, vars=None, _test=False):
         q += ' WHERE ' + where
     if using and web.ctx.get('db_name') != "firebird":
         q += ' USING ' + sqllist(using)
-    
+
     if _test: return q
-    
+
     db_cursor = web.ctx.db_cursor()
     web.ctx.db_execute(db_cursor, q)
 

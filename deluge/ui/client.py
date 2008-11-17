@@ -159,7 +159,7 @@ class BaseClient(object):
     """
     no_callback_list = ["add_torrent_url", "pause_all_torrents",
             "resume_all_torrents", "set_config", "enable_plugin",
-            "disable_plugin", "set_torrent_trackers", "connect_peer", 
+            "disable_plugin", "set_torrent_trackers", "connect_peer",
             "set_torrent_max_connections", "set_torrent_max_upload_slots",
             "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
             "set_torrent_private_flag", "set_torrent_file_priorities",
@@ -169,7 +169,7 @@ class BaseClient(object):
             "set_torrent_prioritize_first_last", "set_torrent_auto_managed",
             "set_torrent_stop_ratio", "set_torrent_stop_at_ratio",
             "set_torrent_remove_at_ratio", "set_torrent_move_on_completed",
-            "set_torrent_move_on_completed_path", "add_torrent_magnets", 
+            "set_torrent_move_on_completed_path", "add_torrent_magnets",
             "create_torrent", "upload_plugin", "rescan_plugins", "rename_files",
             "rename_folder"]
 

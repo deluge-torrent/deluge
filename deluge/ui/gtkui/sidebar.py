@@ -53,17 +53,17 @@ class SideBar(component.Component):
         self.hpaned = glade.get_widget("hpaned")
         self.config = ConfigManager("gtkui.conf")
         #self.hpaned_position = self.hpaned.get_position()
-        
+
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
-        
+
         # Hide if necessary
         self.visible(self.config["show_sidebar"])
 
     def shutdown(self):
         log.debug("hpaned.position: %s", self.hpaned.get_position())
         self.config["sidebar_position"] = self.hpaned.get_position()
-        
+
     def visible(self, visible):
         if visible:
             if self.config["sidebar_position"]:

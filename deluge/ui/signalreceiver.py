@@ -2,19 +2,19 @@
 # signalreceiver.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -47,24 +47,24 @@ import socket
 from deluge.log import LOG as log
 
 class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
-    
+
     def __init__(self):
         log.debug("SignalReceiver init..")
         # Set to true so that the receiver thread will exit
 
         self.signals = {}
         self.emitted_signals = []
-        
+
         self.remote = False
-        
+
         self.start_server()
-        
+
     def start_server(self, port=None):
         # Setup the xmlrpc server
         host = "127.0.0.1"
         if self.remote:
             host = ""
-            
+
         server_ready = False
         while not server_ready:
             if port:
@@ -82,10 +82,10 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             else:
                 self.port = _port
                 server_ready = True
-            
+
         # Register the emit_signal function
         self.register_function(self.emit_signal)
-        
+
     def shutdown(self):
         """Shutdowns receiver thread"""
         log.debug("Shutting down signalreceiver")
@@ -101,26 +101,26 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         log.debug("Joining listening thread..")
         self.listening_thread.join(1.0)
         return
-    
+
     def set_remote(self, remote):
         self.remote = remote
         self.start_server(self.port)
-            
+
     def run(self):
         """This gets called when we start the thread"""
         # Register the signal receiver with the core
         self._shutdown = False
         client.register_client(str(self.port))
-        
+
         self.listening_thread = threading.Thread(target=self.handle_thread)
-        
+
         gobject.timeout_add(50, self.handle_signals)
-        
+
         try:
             self.listening_thread.start()
         except Exception, e:
             log.debug("Thread: %s", e)
-    
+
     def handle_thread(self):
         try:
             while not self._shutdown:
@@ -128,11 +128,11 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             self._shutdown = False
         except Exception, e:
             log.debug("handle_thread: %s", e)
-    
+
     def get_port(self):
         """Get the port that the SignalReceiver is listening on"""
         return self.port
-                
+
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""
         self.emitted_signals.append((signal, data))
@@ -143,13 +143,13 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             try:
                 for callback in self.signals[signal]:
                     gobject.idle_add(callback, *data)
-                    
+
             except Exception, e:
                 log.warning("Unable to call callback for signal %s: %s", signal, e)
 
         self.emitted_signals = []
         return True
-        
+
     def connect_to_signal(self, signal, callback):
         """Connect to a signal"""
         try:

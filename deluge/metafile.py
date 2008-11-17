@@ -71,7 +71,7 @@ def decode_from_filesystem(path):
 
 def dummy(v):
     pass
-    
+
 def make_meta_file(path, url, piece_length, progress=dummy,
                    title=None, comment=None, safe=None, content_type=None,
                    target=None, url_list=None, name=None, private=False,
@@ -105,7 +105,7 @@ def make_meta_file(path, url, piece_length, progress=dummy,
         data['created by'] = created_by
     if httpseeds:
         data['httpseeds'] = httpseeds
-        
+
     h.write(bencode(data))
     h.close()
 
@@ -153,7 +153,7 @@ def makeinfo(path, piece_length, progress, name = None,
             num_pieces = totalsize / piece_length
         else:
             num_pieces = 1
-        
+
         for p, f in subs:
             pos = 0
             size = os.path.getsize(f)
@@ -197,7 +197,7 @@ def makeinfo(path, piece_length, progress, name = None,
             num_pieces = size / piece_length
         else:
             num_pieces = 1
-        
+
         pieces = []
         p = 0
         h = file(path, 'rb')

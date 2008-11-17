@@ -19,7 +19,7 @@ class FormatException(TextException):
     pass
 
 class TextBase:
-    
+
     def __init__(self, fd, regexp):
         log.debug("TextBase loading")
         self.count = 0
@@ -28,7 +28,7 @@ class TextBase:
 
     def next(self):
         self.count += 1
-        
+
         txt = self.fd.readline()
         if txt == "":
             return False
@@ -89,7 +89,7 @@ class GZMuleReader(MuleReader):
             log.debug("Wrong file type or corrupted blocklist file.")
 
 
-# Reads zip files from SafePeer style files 
+# Reads zip files from SafePeer style files
 class PGZip(TextBase):
 
     def __init__(self, filename):
@@ -125,7 +125,7 @@ class PGZip(TextBase):
                     # End of zip
                     return False
             return ret
-        
+
         except FormatException, e:
             log.debug("Blocklist: PGZip: Got format exception for zipfile")
             # Just skip

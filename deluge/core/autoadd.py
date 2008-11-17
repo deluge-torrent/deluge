@@ -2,19 +2,19 @@
 # autoadd.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -48,7 +48,7 @@ class AutoAdd(component.Component):
         component.Component.__init__(self, "AutoAdd", depend=["TorrentManager"], interval=5000)
         # Get the core config
         self.config = ConfigManager("core.conf")
-        
+
         # A list of filenames
         self.invalid_torrents = []
         # Filename:Attempts
@@ -59,19 +59,19 @@ class AutoAdd(component.Component):
             self._on_autoadd_enable, apply_now=True)
         self.config.register_set_function("autoadd_location",
             self._on_autoadd_location)
-            
+
     def update(self):
         if not self.config["autoadd_enable"]:
             # We shouldn't be updating because autoadd is not enabled
             component.pause("AutoAdd")
             return
-            
+
         # Check the auto add folder for new torrents to add
         if not os.path.exists(self.config["autoadd_location"]):
             log.warning("Invalid AutoAdd folder: %s", self.config["autoadd_location"])
             component.pause("AutoAdd")
             return
-            
+
         for filename in os.listdir(self.config["autoadd_location"]):
             if filename.split(".")[-1] == "torrent":
                 filepath = os.path.join(self.config["autoadd_location"], filename)
@@ -88,16 +88,16 @@ class AutoAdd(component.Component):
                             os.rename(filepath, filepath + ".invalid")
                             del self.attempts[filename]
                             self.invalid_torrents.remove(filename)
-                    else:        
+                    else:
                         self.invalid_torrents.append(filename)
                         self.attempts[filename] = 1
                     continue
-                    
+
                 # The torrent looks good, so lets add it to the session
                 component.get("TorrentManager").add(filedump=filedump, filename=filename)
 
                 os.remove(filepath)
-    
+
     def load_torrent(self, filename):
         try:
             log.debug("Attempting to open %s for add.", filename)
@@ -109,10 +109,10 @@ class AutoAdd(component.Component):
         except IOError, e:
             log.warning("Unable to open %s: %s", filename, e)
             raise e
-        
+
         # Get the info to see if any exceptions are raised
         info = lt.torrent_info(lt.bdecode(filedump))
-        
+
         return filedump
 
     def _on_autoadd_enable(self, key, value):

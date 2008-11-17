@@ -47,18 +47,18 @@ class Command(BaseCommand):
     usage =  "Usage: info [<torrent-id> [<torrent-id> ...]]\n"\
              "       You can give the first few characters of a torrent-id to identify the torrent."
 
-        
+
     def handle(self, *args, **options):
         args = mapping.to_ids(args)
         self.torrents = match_torrents(args)
         for tor in self.torrents:
             self.show_info(tor, options.get('verbose'))
-    
+
     def complete(self, text, *args):
         torrents = match_torrents()
         names = mapping.get_names(torrents)
         return [ x[1] for x in names if x[1].startswith(text) ]
-    
+
     def show_info(self, torrent, verbose):
         def _got_torrent_status(state):
             print templates.info_general('ID', torrent)
@@ -98,7 +98,7 @@ class Command(BaseCommand):
                 for peer in state['peers']:
                     client_str = unicode(peer['client'])
                     client_str += unicode(peer['seed']) if peer['seed'] else ''
-                    print templates.info_peers(str(peer['ip']), unicode(client_str), 
+                    print templates.info_peers(str(peer['ip']), unicode(client_str),
                                         str(common.fspeed(peer['up_speed'])), str(common.fspeed(peer['down_speed'])))
             print ""
         client.get_torrent_status(_got_torrent_status, torrent, status_keys)

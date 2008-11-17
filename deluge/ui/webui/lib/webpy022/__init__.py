@@ -32,7 +32,7 @@ except ImportError:
 
 def main():
     import doctest
-    
+
     doctest.testmod(utils)
     doctest.testmod(db)
     doctest.testmod(net)
@@ -40,21 +40,21 @@ def main():
     doctest.testmod(http)
     doctest.testmod(webapi)
     doctest.testmod(request)
-    
+
     try:
         doctest.testmod(cheetah)
     except NameError:
         pass
-    
+
     template.test()
-    
+
     import sys
     urls = ('/web.py', 'source')
     class source:
         def GET(self):
             header('Content-Type', 'text/python')
             print open(sys.argv[0]).read()
-    
+
     if listget(sys.argv, 1) != 'test':
         run(urls, locals())
 

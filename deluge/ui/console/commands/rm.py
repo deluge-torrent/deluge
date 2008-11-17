@@ -10,7 +10,7 @@ class Command(BaseCommand):
     """Remove a torrent"""
     usage = "Usage: rm <torrent-id>"
     aliases = ['del']
-    
+
     option_list = BaseCommand.option_list + (
             make_option('--remove_torrent', action='store_true', default=False,
                         help="remove the torrent's file"),

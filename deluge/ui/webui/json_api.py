@@ -241,7 +241,7 @@ class json_rpc:
 class json_upload:
     def GET(self):
         pass
-    
+
     @deco.check_session
     def POST(self, name=None):
         import os
@@ -254,7 +254,7 @@ class json_upload:
         shutil.copyfileobj(vars.torrentFile.file, tmp_file)
         tmp_file.close()
         print path
-        
+
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)

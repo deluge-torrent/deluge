@@ -2,19 +2,19 @@
 # pluginmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -39,11 +39,11 @@ import deluge.pluginmanagerbase
 import deluge.component as component
 from deluge.log import LOG as log
 
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, 
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     component.Component):
     """PluginManager handles the loading of plugins and provides plugins with
     functions to access parts of the core."""
-    
+
     def __init__(self, core):
         component.Component.__init__(self, "PluginManager")
         self.core = core
@@ -53,7 +53,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             "post_torrent_remove": [],
             "post_session_load": []
         }
-        
+
         self.status_fields = {}
 
         # Call the PluginManagerBase constructor
@@ -63,19 +63,19 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def start(self):
         # Enable plugins that are enabled in the config
         self.enable_plugins()
-                            
+
         # Set update timer to call update() in plugins every second
         self.update_timer = gobject.timeout_add(1000, self.update_plugins)
 
     def stop(self):
         # Disable all enabled plugins
-        self.disable_plugins()      
+        self.disable_plugins()
         # Stop the update timer
         gobject.source_remove(self.update_timer)
-        
+
     def shutdown(self):
         self.stop()
-        
+
     def update_plugins(self):
         for plugin in self.plugins.keys():
             try:
@@ -87,13 +87,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def get_core(self):
         """Returns a reference to the core"""
         return self.core
-        
+
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
         client requests other status information from core."""
         log.debug("Registering status field %s with PluginManager", field)
         self.status_fields[field] = function
-    
+
     def deregister_status_field(self, field):
         """Deregisters a status field"""
         log.debug("Deregistering status field %s with PluginManager", field)
@@ -101,7 +101,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             del self.status_fields[field]
         except:
             log.warning("Unable to deregister status field %s", field)
-            
+
     def get_status(self, torrent_id, fields):
         """Return the value of status fields for the selected torrent_id."""
         status = {}
@@ -112,27 +112,27 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
                 log.warning("Status field %s is not registered with the\
                     PluginManager.", field)
         return status
-        
+
     def register_hook(self, hook, function):
         """Register a hook function with the plugin manager"""
         try:
             self.hooks[hook].append(function)
         except KeyError:
             log.warning("Plugin attempting to register invalid hook.")
-    
+
     def deregister_hook(self, hook, function):
         """Deregisters a hook function"""
         try:
             self.hooks[hook].remove(function)
         except:
             log.warning("Unable to deregister hook %s", hook)
-            
+
     def run_post_torrent_add(self, torrent_id):
         """This hook is run after a torrent has been added to the session."""
         log.debug("run_post_torrent_add")
         for function in self.hooks["post_torrent_add"]:
             function(torrent_id)
-            
+
     def run_post_torrent_remove(self, torrent_id):
         """This hook is run after a torrent has been removed from the session.
         """
@@ -147,16 +147,16 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         log.debug("run_post_session_load")
         for function in self.hooks["post_session_load"]:
             function()
-        
+
     def get_torrent_list(self):
         """Returns a list of torrent_id's in the current session."""
         return component.get("TorrentManager").get_torrent_list()
-    
+
     def block_ip_range(self, range):
         """Blocks the ip range in the core"""
         return self.core.export_block_ip_range(range)
-    
+
     def reset_ip_filter(self):
         """Resets the ip filter"""
         return self.core.export_reset_ip_filter()
-        
+

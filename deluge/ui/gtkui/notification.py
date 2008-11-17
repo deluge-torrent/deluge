@@ -2,19 +2,19 @@
 # notification.py
 #
 # Copyright (C) 2008 Marcos Pinto ('markybob') <markybob@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -72,7 +72,7 @@ class Notification:
                 log.warning("pynotify is not installed")
             else:
                 if pynotify.init("Deluge"):
-                    self.note = pynotify.Notification(_("Torrent complete"), 
+                    self.note = pynotify.Notification(_("Torrent complete"),
                         status["name"] + "\n" + _("Including %i files" % status["num_files"]))
                     self.note.set_icon_from_pixbuf(common.get_logo(48))
                     if not self.note.show():
@@ -99,7 +99,7 @@ class Notification:
         """sends email notification of finished torrent"""
         import smtplib
         headers = "From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n" % (
-            self.config["ntf_email_add"], self.config["ntf_email_add"], 
+            self.config["ntf_email_add"], self.config["ntf_email_add"],
                 "Finished torrent %s" % (status["name"]))
         text = _("This email is to inform you that Deluge has finished downloading %s , \
             which includes %i files.\nTo stop receiving these alerts, simply turn off \

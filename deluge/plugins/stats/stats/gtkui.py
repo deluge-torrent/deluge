@@ -57,7 +57,7 @@ class GraphsTab(Tab):
         self.bandwidth_graph.connect('expose_event', self.bandwidth_expose)
         self.window.unparent()
         self.label.unparent()
-    
+
     def bandwidth_expose(self, widget, event):
         self.graph_widget = self.bandwidth_graph
         self.graph = graph.Graph()
@@ -66,10 +66,10 @@ class GraphsTab(Tab):
         self.graph.set_left_axis(formatter=fspeed, min=10240)
         self.update_timer = gobject.timeout_add(2000, self.update_graph)
         self.update_graph()
-    
+
     def update_graph(self):
-        width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height        
-        context = self.graph_widget.window.cairo_create()        
+        width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height
+        context = self.graph_widget.window.cairo_create()
         self.graph.async_request()
         aclient.force_call(True)
         self.graph.draw_to_context(context, width, height)
@@ -86,7 +86,7 @@ class GtkUI(object):
         self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.register_hook("on_show_prefs", self.on_show_prefs)
         self.on_show_prefs()
-        
+
         self.graphs_tab = GraphsTab(XML(self.get_resource("tabs.glade")))
         self.torrent_details = component.get('TorrentDetails')
         self.torrent_details.notebook.append_page(self.graphs_tab.window, self.graphs_tab.label)

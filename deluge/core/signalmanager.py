@@ -2,19 +2,19 @@
 # signalmanager.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -53,7 +53,7 @@ class SignalManager(component.Component):
         """Registers a handler for signals"""
         if signal not in self.handler.keys():
             self.handler[signal] = []
-        
+
         self.handler[signal].append(handler)
         log.debug("Registered signal handler for %s", signal)
 
@@ -63,7 +63,7 @@ class SignalManager(component.Component):
         for (key, value) in self.handlers:
             if handler in value:
                 value.remove(handler)
-                            
+
     def deregister_client(self, address):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", address)
@@ -83,7 +83,7 @@ class SignalManager(component.Component):
         if signal in self.handlers.keys():
             for handler in self.handlers[signal]:
                 handler(*data)
-                
+
         for uri in self.clients:
             gobject.idle_add(self._emit, uri, signal, 1, *data)
 

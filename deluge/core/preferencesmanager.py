@@ -72,7 +72,7 @@ DEFAULT_PREFS = {
     "max_upload_speed": -1.0,
     "max_download_speed": -1.0,
     "max_upload_slots_global": 4,
-    "max_half_open_connections": (lambda: deluge.common.windows_check() and 
+    "max_half_open_connections": (lambda: deluge.common.windows_check() and
         (lambda: deluge.common.vista_check() and 4 or 8)() or -1)(),
     "max_connections_per_second": 20,
     "ignore_limits_on_local_network": True,
@@ -114,13 +114,13 @@ class PreferencesManager(component.Component):
         component.Component.__init__(self, "PreferencesManager")
 
         self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
-        
+
     def start(self):
         self.core = component.get("Core")
         self.session = component.get("Core").session
         self.settings = component.get("Core").settings
         self.signals = component.get("SignalManager")
-        
+
         # Register set functions in the Config
         self.config.register_set_function("torrentfiles_location",
             self._on_set_torrentfiles_location)
@@ -194,7 +194,7 @@ class PreferencesManager(component.Component):
             self._on_new_release_check)
 
         self.config.register_change_callback(self._on_config_value_change)
-        
+
     # Config set functions
     def _on_config_value_change(self, key, value):
         self.signals.emit("config_value_changed", key, value)

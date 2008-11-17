@@ -201,7 +201,7 @@ class CommandConfig(Command):
                     color = CYAN
                 elif isinstance(value, list):
                     color = MAGENTA
-                    
+
                 print ("* " + BLUE_B + "%s:" + color + " %s" + NORMAL) % (key, value)
         client.get_config(_on_get_config)
 

@@ -2,19 +2,19 @@
 # details_tab.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -46,7 +46,7 @@ class DetailsTab(Tab):
         # Get the labels we need to update.
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
-        
+
         self._name = "Details"
         self._child_widget = glade.get_widget("details_tab")
         self._tab_label = glade.get_widget("details_tab_label")
@@ -60,11 +60,11 @@ class DetailsTab(Tab):
             (glade.get_widget("summary_message"), str, ("message",)),
             (glade.get_widget("summary_hash"), str, ("hash",))
         ]
-    
+
     def update(self):
         # Get the first selected torrent
         selected = component.get("TorrentView").get_selected_torrents()
-        
+
         # Only use the first torrent in the list or return if None selected
         if len(selected) != 0:
             selected = selected[0]
@@ -72,20 +72,20 @@ class DetailsTab(Tab):
             # No torrent is selected in the torrentview
             self.clear()
             return
-        
+
         # Get the torrent status
         status_keys = ["name", "total_size", "num_files",
             "tracker", "save_path", "message", "hash"]
-        
+
         client.get_torrent_status(
             self._on_get_torrent_status, selected, status_keys)
-                    
+
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
         if status is None:
             return
-       
-        # Update all the label widgets        
+
+        # Update all the label widgets
         for widget in self.label_widgets:
             if widget[1] != None:
                 args = []
@@ -95,14 +95,14 @@ class DetailsTab(Tab):
                 except Exception, e:
                     log.debug("Unable to get status value: %s", e)
                     continue
-                    
+
                 txt = widget[1](*args)
             else:
                 txt = status[widget[2][0]]
 
             if widget[0].get_text() != txt:
                 widget[0].set_text(txt)
-            
+
     def clear(self):
         for widget in self.label_widgets:
             widget[0].set_text("")

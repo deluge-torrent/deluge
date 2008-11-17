@@ -35,7 +35,7 @@ default_style = {
     'magenta' : make_style(fg='magenta'),
     'cyan' : make_style(fg='cyan'),
     'white' : make_style(fg='white'),
-    
+
     'bold_black' : make_style(fg='black', attrs='bright'),
     'bold_red' : make_style(fg='red', attrs='bright'),
     'bold_green' : make_style(fg='green', attrs='bright'),

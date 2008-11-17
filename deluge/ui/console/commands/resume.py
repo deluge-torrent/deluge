@@ -26,4 +26,4 @@ class Command(BaseCommand):
         torrents = match_torrents()
         names = mapping.get_names(torrents)
         return [ x[1] for x in names if x[1].startswith(text) ]
-    
+

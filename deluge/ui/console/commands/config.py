@@ -9,7 +9,7 @@ import re
 import cStringIO, tokenize
 
 def atom(next, token):
-    """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm""" 
+    """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
     if token[1] == "(":
         out = []
         token = next()
@@ -34,7 +34,7 @@ def atom(next, token):
 
 def simple_eval(source):
     """ evaluates the 'source' string into a combination of primitive python objects
-    taken from http://effbot.org/zone/simple-iterator-parser.htm""" 
+    taken from http://effbot.org/zone/simple-iterator-parser.htm"""
     src = cStringIO.StringIO(source).readline
     src = tokenize.generate_tokens(src)
     src = (token for token in src if token[0] is not tokenize.NL)
@@ -46,11 +46,11 @@ def simple_eval(source):
 
 class Command(BaseCommand):
     """Show and set configuration values"""
-    
+
     option_list = BaseCommand.option_list + (
             make_option('-s', '--set', action='store_true', default=False, dest='set',
                         help='set value for key'),
-    ) 
+    )
     usage = "Usage: config [key1 [key2 ...]]\n"\
             "       config --set key value"
 
@@ -77,7 +77,7 @@ class Command(BaseCommand):
                     color = 'cyan'
                 elif isinstance(value, list):
                     color = 'magenta'
-            
+
                 print templates.config_display(key, style[color](str(value)))
         client.get_config(_on_get_config)
 
@@ -113,4 +113,4 @@ class Command(BaseCommand):
 
     def split(self, text):
         return str.split(text)
-        
+

@@ -2,19 +2,19 @@
 # queuedtorrents.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -49,16 +49,16 @@ class QueuedTorrents(component.Component):
         component.Component.__init__(self, "QueuedTorrents", depend=["StatusBar"])
         self.queue = []
         self.status_item = None
-        
+
         self.config = ConfigManager("gtkui.conf")
         self.glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui", 
+                    pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/queuedtorrents.glade"))
         self.glade.get_widget("chk_autoadd").set_active(
-            self.config["autoadd_queued"])        
+            self.config["autoadd_queued"])
         self.dialog = self.glade.get_widget("queued_torrents_dialog")
         self.dialog.set_icon(common.get_logo(32))
-        
+
         self.glade.signal_autoconnect({
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_clear_clicked": self.on_button_clear_clicked,
@@ -66,14 +66,14 @@ class QueuedTorrents(component.Component):
             "on_button_add_clicked": self.on_button_add_clicked,
             "on_chk_autoadd_toggled": self.on_chk_autoadd_toggled
         })
-    
+
         self.treeview = self.glade.get_widget("treeview")
         self.treeview.append_column(
             gtk.TreeViewColumn(_("Torrent"), gtk.CellRendererText(), text=0))
-        
+
         self.liststore = gtk.ListStore(str, str)
         self.treeview.set_model(self.liststore)
-        
+
     def run(self):
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.show()
@@ -91,12 +91,12 @@ class QueuedTorrents(component.Component):
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(True)
         self.run()
-    
+
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(False)
         self.update_status_bar()
-           
+
     def add_to_queue(self, torrents):
         """Adds the list of torrents to the queue"""
         # Add to the queue while removing duplicates
@@ -106,10 +106,10 @@ class QueuedTorrents(component.Component):
         self.liststore.clear()
         for torrent in self.queue:
             self.liststore.append([os.path.split(torrent)[1], torrent])
-        
+
         # Update the status bar
         self.update_status_bar()
-    
+
     def update_status_bar(self):
         """Attempts to update status bar"""
         # If there are no queued torrents.. remove statusbar widgets and return
@@ -118,7 +118,7 @@ class QueuedTorrents(component.Component):
                 component.get("StatusBar").remove_item(self.status_item)
                 self.status_item = None
             return False
-            
+
         try:
             statusbar = component.get("StatusBar")
         except Exception, e:
@@ -126,18 +126,18 @@ class QueuedTorrents(component.Component):
             # update it later.
             gobject.timeout_add(100, self.update_status_bar)
             return False
-                
+
         # Set the label text for statusbar
         if len(self.queue) > 1:
             label = str(len(self.queue)) + _(" Torrents Queued")
         else:
             label = str(len(self.queue)) + _(" Torrent Queued")
-        
+
         # Add the statusbar items if needed, or just modify the label if they
         # have already been added.
         if self.status_item == None:
             self.status_item = component.get("StatusBar").add_item(
-                stock=gtk.STOCK_SORT_DESCENDING, 
+                stock=gtk.STOCK_SORT_DESCENDING,
                 text=label,
                 callback=self.on_statusbar_click)
         else:
@@ -145,11 +145,11 @@ class QueuedTorrents(component.Component):
 
         # We return False so the timer stops
         return False
-    
+
     def on_statusbar_click(self, widget, event):
         log.debug("on_statusbar_click")
         self.run()
-        
+
     def on_button_remove_clicked(self, widget):
         selected = self.treeview.get_selection().get_selected()[1]
         if selected != None:
@@ -187,13 +187,13 @@ class QueuedTorrents(component.Component):
                     component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                 else:
                     client.add_torrent_file([torrent_path])
-            
+
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]
         self.dialog.hide()
         self.update_status_bar()
-        
+
     def on_chk_autoadd_toggled(self, widget):
         self.config["autoadd_queued"] = widget.get_active()
-        
-    
+
+
