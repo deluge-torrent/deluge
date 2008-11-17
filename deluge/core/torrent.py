@@ -60,9 +60,6 @@ class TorrentOptions(dict):
             "max_upload_slots": "max_upload_slots_per_torrent",
             "prioritize_first_last_pieces": "prioritize_first_last_pieces",
             "auto_managed": "auto_managed",
-            "stop_at_ratio": False,
-            "stop_ratio": 2.0,
-            "remove_at_ratio": False,
             "move_completed": "move_completed",
             "move_completed_path": "move_completed_path",
             "file_priorities": [],
@@ -70,6 +67,9 @@ class TorrentOptions(dict):
             "download_location": "download_location",
             "add_paused": "add_paused"
         }
+        super(TorrentOptions, self).__setitem__("stop_at_ratio", False)
+        super(TorrentOptions, self).__setitem__("stop_ratio", 2.0)
+        super(TorrentOptions, self).__setitem__("remove_at_ratio", False)
 
     def items(self):
         i = super(TorrentOptions, self).items()
