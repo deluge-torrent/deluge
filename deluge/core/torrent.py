@@ -445,7 +445,7 @@ class Torrent:
         for index, file in enumerate(files):
             ret.append({
                 'index': index,
-                'path': file.path,
+                'path': file.path.decode("utf8", "ignore"),
                 'size': file.size,
                 'offset': file.offset
             })
@@ -586,7 +586,11 @@ class Torrent:
 
         def ti_name():
             if self.handle.has_metadata():
-                return self.torrent_info.name()
+                try:
+                    return self.torrent_info.name().decode("utf8", "ignore")
+                except UnicodeDecodeError:
+                    return self.torrent_info.name()
+
             return self.torrent_id
         def ti_priv():
             if self.handle.has_metadata():
