@@ -2,19 +2,19 @@
 # peers_tab.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -53,7 +53,7 @@ class ColumnState:
         self.width = width
         self.sort = sort
         self.sort_order = sort_order
-            
+
 class PeersTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -62,19 +62,19 @@ class PeersTab(Tab):
         self._name = "Peers"
         self._child_widget = glade.get_widget("peers_tab")
         self._tab_label = glade.get_widget("peers_tab_label")
-        
+
         self.listview = glade.get_widget("peers_listview")
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf)
         self.cached_flag_pixbufs = {}
-        
+
         self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
         self.peer_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("downloading16.png"))
 
         # key is ip address, item is row iter
         self.peers = {}
-        
-        # Country column        
+
+        # Country column
         column = gtk.TreeViewColumn()
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
@@ -86,8 +86,8 @@ class PeersTab(Tab):
         column.set_min_width(10)
         column.set_reorderable(True)
         self.listview.append_column(column)
-        
-        # Address column        
+
+        # Address column
         column = gtk.TreeViewColumn(_("Address"))
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
@@ -103,7 +103,7 @@ class PeersTab(Tab):
         column.set_reorderable(True)
         self.listview.append_column(column)
 
-        # Client column        
+        # Client column
         column = gtk.TreeViewColumn(_("Client"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
@@ -127,8 +127,8 @@ class PeersTab(Tab):
         column.set_expand(False)
         column.set_min_width(10)
         column.set_reorderable(True)
-        self.listview.append_column(column)        
-        
+        self.listview.append_column(column)
+
         # Up Speed column
         column = gtk.TreeViewColumn(_("Up Speed"))
         render = gtk.CellRendererText()
@@ -140,21 +140,21 @@ class PeersTab(Tab):
         column.set_expand(False)
         column.set_min_width(10)
         column.set_reorderable(True)
-        self.listview.append_column(column)        
+        self.listview.append_column(column)
 
         self.listview.set_model(self.liststore)
-        
+
         self.load_state()
-        
+
         self.torrent_id = None
 
     def save_state(self):
         filename = "peers_tab.state"
         state = []
         for index, column in enumerate(self.listview.get_columns()):
-            state.append(ColumnState(column.get_title(), index, column.get_width(), 
+            state.append(ColumnState(column.get_title(), index, column.get_width(),
                 column.get_sort_indicator(), int(column.get_sort_order())))
-        
+
         # Get the config location for saving the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
 
@@ -165,13 +165,13 @@ class PeersTab(Tab):
             state_file.close()
         except IOError, e:
             log.warning("Unable to save state file: %s", e)
-    
+
     def load_state(self):
         filename = "peers_tab.state"
         # Get the config location for loading the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
         state = None
-        
+
         try:
             log.debug("Loading PeersTab state file: %s", filename)
             state_file = open(os.path.join(config_location, filename), "rb")
@@ -179,14 +179,14 @@ class PeersTab(Tab):
             state_file.close()
         except (EOFError, IOError), e:
             log.warning("Unable to load state file: %s", e)
-        
+
         if state == None:
             return
-        
+
         if len(state) != len(self.listview.get_columns()):
             log.warning("peers_tab.state is not compatible! rejecting..")
             return
-                
+
         for column_state in state:
             # Find matching columns in the listview
             for (index, column) in enumerate(self.listview.get_columns()):
@@ -203,7 +203,7 @@ class PeersTab(Tab):
                             self.listview.move_column_after(column, None)
                         else:
                             self.listview.move_column_after(column, self.listview.get_columns()[column_state.position - 1])
-    
+
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
@@ -215,7 +215,7 @@ class PeersTab(Tab):
             # No torrent is selected in the torrentview
             self.liststore.clear()
             return
-        
+
         if torrent_id != self.torrent_id:
             # We only want to do this if the torrent_id has changed
             self.liststore.clear()
@@ -227,20 +227,20 @@ class PeersTab(Tab):
     def get_flag_pixbuf(self, country):
         if country == "  ":
             return None
-            
+
         if not self.cached_flag_pixbufs.has_key(country):
             # We haven't created a pixbuf for this country yet
             try:
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
                     pkg_resources.resource_filename(
-                        "deluge", 
+                        "deluge",
                          os.path.join("data", "pixmaps", "flags", country.lower() + ".png")))
             except Exception, e:
                 log.debug("Unable to load flag: %s", e)
                 return None
-            
+
         return self.cached_flag_pixbufs[country]
-        
+
     def _on_get_torrent_status(self, status):
         new_ips = set()
         for peer in status["peers"]:
@@ -267,10 +267,10 @@ class PeersTab(Tab):
 
                 if icon != values[3]:
                     self.liststore.set_value(row, 7, icon)
-                    
+
             else:
                 # Peer is not in list so we need to add it
-                
+
                 # Create an int IP address for sorting purposes
                 ip_int = sum([int(byte) << shift
                     for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
@@ -279,19 +279,19 @@ class PeersTab(Tab):
                     icon = self.seed_pixbuf
                 else:
                     icon = self.peer_pixbuf
-                
+
                 row = self.liststore.append([
                     self.get_flag_pixbuf(peer["country"]),
                     peer["ip"],
                     peer["client"],
-                    peer["down_speed"], 
+                    peer["down_speed"],
                     peer["up_speed"],
                     peer["country"],
                     ip_int,
                     icon])
-                
+
                 self.peers[peer["ip"]] = row
-                
+
         # Now we need to remove any ips that were not in status["peers"] list
         for ip in set(self.peers.keys()).difference(new_ips):
             self.liststore.remove(self.peers[ip])

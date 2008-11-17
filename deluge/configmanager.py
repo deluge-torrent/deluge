@@ -2,19 +2,19 @@
 # configmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -62,36 +62,36 @@ class _ConfigManager:
                 os.makedirs(directory)
             except Exception, e:
                 log.warning("Unable to make config directory: %s", e)
-                
+
         self.config_directory = directory
-    
+
     def get_config_dir(self):
         log.debug("get_config_dir: %s", self.config_directory)
         return self.config_directory
-            
+
     def close(self, config):
         """Closes a config file."""
         try:
             del self.config_files[config]
         except KeyError:
             pass
-            
+
     def save(self):
         """Saves all the configs to disk."""
         for key in self.config_files.keys():
             self.config_files[key].save()
         # We need to return True to keep the timer active
         return True
-        
+
     def get_config(self, config_file, defaults=None):
         """Get a reference to the Config object for this filename"""
         log.debug("Getting config '%s'", config_file)
         # Create the config object if not already created
         if config_file not in self.config_files.keys():
             self.config_files[config_file] = Config(config_file, defaults, self.config_directory)
-        
+
         return self.config_files[config_file]
-        
+
 # Singleton functions
 _configmanager = _ConfigManager()
 
@@ -107,6 +107,6 @@ def get_config_dir(filename=None):
         return os.path.join(_configmanager.get_config_dir(), filename)
     else:
         return _configmanager.get_config_dir()
-        
+
 def close(config):
     return _configmanager.close(config)

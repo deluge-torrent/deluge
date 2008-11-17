@@ -2,19 +2,19 @@
 # oldstateupgrader.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -73,14 +73,14 @@ class OldStateUpgrader:
         if os.path.exists(self.state05_location) and not os.path.exists(self.state10_location):
             # If the 0.5 state file exists and the 1.0 doesn't, then let's upgrade it
             self.upgrade05()
-            
+
     def upgrade05(self):
         try:
             state = PickleUpgrader(open(self.state05_location, "rb")).load()
         except Exception, e:
             log.debug("Unable to open 0.5 state file: %s", e)
             return
-        
+
         new_state = deluge.core.torrentmanager.TorrentManagerState()
         for ti, uid in state.torrents.items():
             torrent_path = os.path.join(self.config["config_location"], "torrentfiles", ti.filename)
@@ -92,7 +92,7 @@ class OldStateUpgrader:
                 _file.close()
             except (IOError, RuntimeError), e:
                 log.warning("Unable to open %s: %s", filepath, e)
-            
+
             # Copy the torrent file to the new location
             import shutil
             shutil.copyfile(torrent_path, os.path.join(self.config["state_location"], str(torrent_info.info_hash()) + ".torrent"))
@@ -116,7 +116,7 @@ class OldStateUpgrader:
             )
             # Append the object to the state list
             new_state.torrents.append(new_torrent)
-            
+
         # Now we need to write out the new state file
         try:
             log.debug("Saving torrent state file.")
@@ -127,7 +127,7 @@ class OldStateUpgrader:
         except IOError, e:
             log.warning("Unable to save state file: %s", e)
             return
-        
+
         # Rename the persistent.state file
         try:
             os.rename(self.state05_location, self.state05_location + ".old")

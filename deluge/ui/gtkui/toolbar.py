@@ -2,19 +2,19 @@
 # toolbar.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -70,7 +70,7 @@ class ToolBar(component.Component):
             "toolbutton_queue_up",
             "toolbutton_queue_down"
         ]
-        
+
         # Set the Remove Torrent toolbuttons drop-down menu
         tb_remove = self.window.main_glade.get_widget("toolbutton_remove")
         tb_remove.set_menu(
@@ -78,7 +78,7 @@ class ToolBar(component.Component):
 
         if self.config["classic_mode"]:
             self.window.main_glade.get_widget("toolbutton_connectionmanager").hide()
-            
+
         # Hide if necessary
         self.visible(self.config["show_toolbar"])
 
@@ -86,19 +86,19 @@ class ToolBar(component.Component):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
         self.update_buttons()
-        
+
     def stop(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
-        
+
     def visible(self, visible):
         if visible:
             self.toolbar.show()
         else:
             self.toolbar.hide()
-            
+
         self.config["show_toolbar"] = visible
-            
+
     def add_toolbutton(self, callback, label=None, image=None, stock=None,
                                                          tooltip=None):
         """Adds a toolbutton to the toolbar"""
@@ -115,15 +115,15 @@ class ToolBar(component.Component):
             toolbutton.set_tooltip_text(tooltip)
         # Connect the 'clicked' event callback
         toolbutton.connect("clicked", callback)
-        
+
         # Append the button to the toolbar
         self.toolbar.insert(toolbutton, -1)
-        
+
         # Show the new toolbutton
         toolbutton.show_all()
-        
+
         return toolbutton
-    
+
     def add_separator(self, position=None):
         """Adds a separator toolitem"""
         sep = gtk.SeparatorToolItem()
@@ -134,13 +134,13 @@ class ToolBar(component.Component):
             self.toolbar.insert(sep, -1)
 
         sep.show()
-        
+
         return sep
-    
+
     def remove(self, widget):
         """Removes a widget from the toolbar"""
         self.toolbar.remove(widget)
-            
+
     ### Callbacks ###
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
@@ -156,7 +156,7 @@ class ToolBar(component.Component):
         log.debug("on_toolbutton_pause_clicked")
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_pause_activate(data)
-     
+
     def on_toolbutton_resume_clicked(self, data):
         log.debug("on_toolbutton_resume_clicked")
         # Use the menubar's calbacks
@@ -171,18 +171,18 @@ class ToolBar(component.Component):
         log.debug("on_toolbutton_connectionmanager_clicked")
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_connectionmanager_activate(data)
-    
+
     def on_toolbutton_queue_up_clicked(self, data):
         log.debug("on_toolbutton_queue_up_clicked")
         component.get("MenuBar").on_menuitem_queue_up_activate(data)
-        
+
     def on_toolbutton_queue_down_clicked(self, data):
         log.debug("on_toolbutton_queue_down_clicked")
         component.get("MenuBar").on_menuitem_queue_down_activate(data)
 
     def update_buttons(self, action=None, torrent_id=None):
         if action == None:
-            # If all the selected torrents are paused, then disable the 'Pause' 
+            # If all the selected torrents are paused, then disable the 'Pause'
             # button.
             # The same goes for the 'Resume' button.
             pause = False
@@ -205,18 +205,18 @@ class ToolBar(component.Component):
                 if pause and resume:
                     break
 
-            # Enable the 'Remove Torrent' button only if there's some selected 
+            # Enable the 'Remove Torrent' button only if there's some selected
             # torrent.
             remove = (len(selected) > 0)
-            
+
             for name, sensitive in (("toolbutton_pause", pause),
                                     ("toolbutton_resume", resume),
                                     ("toolbutton_remove", remove)):
                 self.window.main_glade.get_widget(name).set_sensitive(sensitive)
-                
-                    
+
+
             return False
-            
+
         pause = False
         resume = False
         if action == "paused":
@@ -231,5 +231,5 @@ class ToolBar(component.Component):
             self.window.main_glade.get_widget("toolbutton_resume").set_sensitive(resume)
         else:
             self.update_buttons()
-                                
+
         return False

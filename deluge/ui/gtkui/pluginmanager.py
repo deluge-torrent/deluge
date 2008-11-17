@@ -2,19 +2,19 @@
 # pluginmanager.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -37,7 +37,7 @@ from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, 
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     component.Component):
     def __init__(self):
         component.Component.__init__(self, "PluginManager", depend=["Signals"])
@@ -56,14 +56,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             self.hooks[hook].append(function)
         except KeyError:
             log.warning("Plugin attempting to register invalid hook.")
-    
+
     def deregister_hook(self, hook, function):
         """Deregisters a hook function"""
         try:
             self.hooks[hook].remove(function)
         except:
             log.warning("Unable to deregister hook %s", hook)
-                        
+
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
@@ -72,13 +72,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def stop(self):
         # Disable the plugins
         self.disable_plugins()
-    
+
     def update(self):
         # We call the plugins' update() method every second
         for plugin in self.plugins.values():
             if hasattr(plugin, "update"):
                 plugin.update()
-                
+
     def _on_get_enabled_plugins(self, enabled_plugins):
         log.debug("Core has these plugins enabled: %s", enabled_plugins)
         for plugin in enabled_plugins:
@@ -92,7 +92,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         log.debug("run_on_show_prefs")
         for function in self.hooks["on_show_prefs"]:
             function()
-            
+
     def run_on_apply_prefs(self):
         """This hook is run after the user clicks Apply or OK in the preferences
         dialog.
@@ -100,39 +100,39 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         log.debug("run_on_apply_prefs")
         for function in self.hooks["on_apply_prefs"]:
             function()
-            
+
     ## Plugin functions.. will likely move to own class..
-        
+
     def add_torrentview_text_column(self, *args, **kwargs):
         return component.get("TorrentView").add_text_column(*args, **kwargs)
-    
+
     def remove_torrentview_column(self, *args):
         return component.get("TorrentView").remove_column(*args)
-           
+
     def add_toolbar_separator(self):
         return component.get("ToolBar").add_separator()
-    
+
     def add_toolbar_button(self, *args, **kwargs):
         return component.get("ToolBar").add_toolbutton(*args, **kwargs)
-    
+
     def remove_toolbar_button(self, *args):
         return component.get("ToolBar").remove(*args)
-    
+
     def add_torrentmenu_menu(self, *args):
         return component.get("MenuBar").torrentmenu.append(*args)
-    
+
     def add_torrentmenu_separator(self):
         return component.get("MenuBar").add_torrentmenu_separator()
 
     def remove_torrentmenu_item(self, *args):
         return component.get("MenuBar").torrentmenu.remove(*args)
-    
+
     def add_preferences_page(self, *args):
         return component.get("Preferences").add_page(*args)
-    
+
     def remove_preferences_page(self, *args):
         return component.get("Preferences").remove_page(*args)
-                
+
     def update_torrent_view(self, *args):
         return component.get("TorrentView").update(*args)
 

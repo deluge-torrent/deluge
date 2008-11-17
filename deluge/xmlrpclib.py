@@ -991,7 +991,7 @@ class MultiCall:
 
     def get_call_list(self):
         return self.__call_list
-        
+
 # --------------------------------------------------------------------
 # convenience functions
 

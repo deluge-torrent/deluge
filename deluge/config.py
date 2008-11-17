@@ -2,19 +2,19 @@
 # config.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -42,7 +42,7 @@ from deluge.log import LOG as log
 
 class Config:
     """This class is used to access configuration files."""
-    
+
     def __init__(self, filename, defaults=None, config_dir=None):
         log.debug("Config created with filename: %s", filename)
         log.debug("Config defaults: %s", defaults)
@@ -50,7 +50,7 @@ class Config:
         self.previous_config = {}
         self.set_functions = {}
         self._change_callback = None
-        
+
         # If defaults is not None then we need to use "defaults".
         if defaults != None:
             self.config = defaults
@@ -60,18 +60,18 @@ class Config:
             self.config_file = deluge.common.get_default_config_dir(filename)
         else:
             self.config_file = os.path.join(config_dir, filename)
-            
+
         self.load(self.config_file)
         # Save
         self.save()
-        
+
         # This will get set with a gobject.timeout_add whenever a config option
         # is set.
         self.save_timer = None
-        
+
     def __del__(self):
         self.save()
-            
+
     def load(self, filename=None):
         """Load a config file either by 'filename' or the filename set during
         construction of this object."""
@@ -88,7 +88,7 @@ class Config:
             log.warning("IOError: Unable to load file '%s'", filename)
         except EOFError:
             pkl_file.close()
-            
+
     def save(self, filename=None):
         """Save configuration to either 'filename' or the filename set during
         construction of this object."""
@@ -107,16 +107,16 @@ class Config:
                 return
         except (EOFError, IOError):
             log.warning("IOError: Unable to open file: '%s'", filename)
-            
+
         try:
             pkl_file = open(filename, "wb")
             cPickle.dump(self.config, pkl_file)
             pkl_file.close()
         except IOError:
             log.warning("IOError: Unable to save file '%s'", filename)
-            
+
         self.save_timer = None
-        
+
     def set(self, key, value):
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
@@ -143,7 +143,7 @@ class Config:
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will
         return None."""
-        # Attempts to get the "key" value and returns None if the key is 
+        # Attempts to get the "key" value and returns None if the key is
         # invalid
         try:
             value = self.config[key]
@@ -156,15 +156,15 @@ class Config:
     def get_config(self):
         """Returns the entire configuration as a dictionary."""
         return self.config
-    
+
     def get_previous_config(self):
         """Returns the config prior to the last set()"""
         return self.previous_config
-    
+
     def register_change_callback(self, callback):
         """Registers a callback that will be called when a value is changed"""
         self._change_callback = callback
-            
+
     def register_set_function(self, key, function, apply_now=True):
         """Register a function to be run when a config value changes."""
         log.debug("Registering function for %s key..", key)
@@ -173,13 +173,13 @@ class Config:
         if apply_now:
             self.set_functions[key](key, self.config[key])
         return
-    
+
     def apply_all(self):
         """Runs all set functions"""
         log.debug("Running all set functions..")
         for key in self.set_functions.keys():
             self.set_functions[key](key, self.config[key])
-                    
+
     def __getitem__(self, key):
         return self.config[key]
 

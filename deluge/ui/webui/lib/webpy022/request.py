@@ -20,9 +20,9 @@ def handle(mapping, fvars=None):
     substitutions. `handle` will import modules as necessary.
     """
     for url, ofno in utils.group(mapping, 2):
-        if isinstance(ofno, tuple): 
+        if isinstance(ofno, tuple):
             ofn, fna = ofno[0], list(ofno[1:])
-        else: 
+        else:
             ofn, fna = ofno, []
         fn, result = utils.re_subm('^' + url + '$', ofn, web.ctx.path)
         if result: # it's a match
@@ -30,10 +30,10 @@ def handle(mapping, fvars=None):
                 url = fn.split(' ', 1)[1]
                 if web.ctx.method == "GET":
                     x = web.ctx.env.get('QUERY_STRING', '')
-                    if x: 
+                    if x:
                         url += '?' + x
                 return http.redirect(url)
-            elif '.' in fn: 
+            elif '.' in fn:
                 x = fn.split('.')
                 mod, cls = '.'.join(x[:-1]), x[-1]
                 mod = __import__(mod, globals(), locals(), [""])
@@ -41,18 +41,18 @@ def handle(mapping, fvars=None):
             else:
                 cls = fn
                 mod = fvars
-                if isinstance(mod, types.ModuleType): 
+                if isinstance(mod, types.ModuleType):
                     mod = vars(mod)
-                try: 
+                try:
                     cls = mod[cls]
-                except KeyError: 
+                except KeyError:
                     return web.notfound()
-            
+
             meth = web.ctx.method
             if meth == "HEAD":
-                if not hasattr(cls, meth): 
+                if not hasattr(cls, meth):
                     meth = "GET"
-            if not hasattr(cls, meth): 
+            if not hasattr(cls, meth):
                 return nomethod(cls)
             tocall = getattr(cls(), meth)
             args = list(result.groups())
@@ -86,9 +86,9 @@ def autodelegate(prefix=''):
             def GET_password(self): pass
             def GET_privacy(self): pass
 
-    `GET_password` would get called for `/prefs/password` while `GET_privacy` for 
+    `GET_password` would get called for `/prefs/password` while `GET_privacy` for
     `GET_privacy` gets called for `/prefs/privacy`.
-    
+
     If a user visits `/prefs/password/change` then `GET_password(self, '/change')`
     is called.
     """
@@ -100,7 +100,7 @@ def autodelegate(prefix=''):
         else:
             func = prefix + arg
             args = []
-        
+
         if hasattr(self, func):
             try:
                 return getattr(self, func)(*args)
@@ -118,11 +118,11 @@ def webpyfunc(inp, fvars, autoreload=False):
                 """find name of the module name from fvars."""
                 file, name = fvars['__file__'], fvars['__name__']
                 if name == '__main__':
-                    # Since the __main__ module can't be reloaded, the module has 
+                    # Since the __main__ module can't be reloaded, the module has
                     # to be imported using its file name.
                     name = os.path.splitext(os.path.basename(file))[0]
                 return name
-    
+
             mod = __import__(modname(), None, None, [""])
             #@@probably should replace this with some inspect magic
             name = utils.dictfind(fvars, inp)

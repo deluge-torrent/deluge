@@ -2,19 +2,19 @@
 # files_tab.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -104,8 +104,8 @@ class FilesTab(Tab):
         self.listview = glade.get_widget("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
         self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, int, int, int, str)
-        
-        # Filename column        
+
+        # Filename column
         column = gtk.TreeViewColumn(_("Filename"))
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
@@ -121,7 +121,7 @@ class FilesTab(Tab):
         column.set_reorderable(True)
         self.listview.append_column(column)
 
-        # Size column        
+        # Size column
         column = gtk.TreeViewColumn(_("Size"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
@@ -134,7 +134,7 @@ class FilesTab(Tab):
         column.set_reorderable(True)
         self.listview.append_column(column)
 
-        # Progress column        
+        # Progress column
         column = gtk.TreeViewColumn(_("Progress"))
         render = gtk.CellRendererProgress()
         column.pack_start(render)
@@ -146,8 +146,8 @@ class FilesTab(Tab):
         column.set_min_width(10)
         column.set_reorderable(True)
         self.listview.append_column(column)
-        
-        # Priority column        
+
+        # Priority column
         column = gtk.TreeViewColumn(_("Priority"))
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
@@ -164,9 +164,9 @@ class FilesTab(Tab):
         self.listview.append_column(column)
 
         self.listview.set_model(self.treestore)
-        
+
         self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        
+
         self.file_menu = glade.get_widget("menu_file_tab")
         self.listview.connect("row-activated", self._on_row_activated)
         self.listview.connect("button-press-event", self._on_button_press_event)
@@ -179,22 +179,22 @@ class FilesTab(Tab):
             "on_menuitem_highest_activate": self._on_menuitem_highest_activate,
             "on_menuitem_expand_all_activate": self._on_menuitem_expand_all_activate
         })
-        
+
         # Attempt to load state
         self.load_state()
-        
+
         # torrent_id: (filepath, size)
         self.files_list = {}
-        
+
         self.torrent_id = None
-    
+
     def save_state(self):
         filename = "files_tab.state"
         state = []
         for index, column in enumerate(self.listview.get_columns()):
-            state.append(ColumnState(column.get_title(), index, column.get_width(), 
+            state.append(ColumnState(column.get_title(), index, column.get_width(),
                 column.get_sort_indicator(), int(column.get_sort_order())))
-        
+
         # Get the config location for saving the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
 
@@ -205,13 +205,13 @@ class FilesTab(Tab):
             state_file.close()
         except IOError, e:
             log.warning("Unable to save state file: %s", e)
-    
+
     def load_state(self):
         filename = "files_tab.state"
         # Get the config location for loading the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
         state = None
-        
+
         try:
             log.debug("Loading FilesTab state file: %s", filename)
             state_file = open(os.path.join(config_location, filename), "rb")
@@ -219,10 +219,10 @@ class FilesTab(Tab):
             state_file.close()
         except (EOFError, IOError), e:
             log.warning("Unable to load state file: %s", e)
-        
+
         if state == None:
             return
-            
+
         for column_state in state:
             # Find matching columns in the listview
             for (index, column) in enumerate(self.listview.get_columns()):
@@ -239,7 +239,7 @@ class FilesTab(Tab):
                             self.listview.move_column_after(column, None)
                         else:
                             self.listview.move_column_after(column, self.listview.get_columns()[column_state.position - 1])
-                    
+
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
@@ -256,13 +256,13 @@ class FilesTab(Tab):
             # We only want to do this if the torrent_id has changed
             self.treestore.clear()
             self.torrent_id = torrent_id
-            
+
             if self.torrent_id not in self.files_list.keys():
                 # We need to get the files list
                 log.debug("Getting file list from core..")
                 client.get_torrent_status(
-                    self._on_get_torrent_files, 
-                    self.torrent_id, 
+                    self._on_get_torrent_files,
+                    self.torrent_id,
                     ["files", "file_progress", "file_priorities"])
                 client.force_call(block=True)
             else:
@@ -285,23 +285,23 @@ class FilesTab(Tab):
     def get_file_path(self, row, path=""):
         if not row:
             return path
-        
+
         path = self.treestore.get_value(row, 0) + path
         return self.get_file_path(self.treestore.iter_parent(row), path)
-        
+
     def _on_open_file(self, status):
         paths = self.listview.get_selection().get_selected_rows()[1]
         selected = []
         for path in paths:
             selected.append(self.treestore.get_iter(path))
-        
+
         for select in selected:
             path = self.get_file_path(select).split("/")
             filepath = os.path.join(status["save_path"], *path)
             log.debug("Open file '%s'", filepath)
             deluge.common.open_file(filepath)
 
-    ## The following 3 methods create the folder/file view in the treeview        
+    ## The following 3 methods create the folder/file view in the treeview
     def prepare_file_store(self, files):
         split_files = { }
         i = 0
@@ -320,7 +320,7 @@ class FilesTab(Tab):
                 files_storage[file_name_chunk] = { }
             self.prepare_file(file, file_name[first_slash_index+1:],
                               file_num, files_storage[file_name_chunk])
-                              
+
     def add_files(self, parent_iter, split_files):
         ret = 0
         for key,value in split_files.iteritems():
@@ -335,12 +335,12 @@ class FilesTab(Tab):
                                         value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
                 ret += value[1]["size"]
         return ret
-    ###        
+    ###
 
     def update_files(self):
         self.prepare_file_store(self.files_list[self.torrent_id])
         self.listview.expand_row("0", False)
-    
+
     def get_selected_files(self):
         """Returns a list of file indexes that are selected"""
         def get_iter_children(itr, selected):
@@ -350,7 +350,7 @@ class FilesTab(Tab):
                 if self.treestore.iter_has_child(i):
                     get_iter_children(i, selected)
                 i = self.treestore.iter_next(i)
-                    
+
         selected = []
         paths = self.listview.get_selection().get_selected_rows()[1]
         for path in paths:
@@ -358,24 +358,24 @@ class FilesTab(Tab):
             selected.append(self.treestore[i][5])
             if self.treestore.iter_has_child(i):
                 get_iter_children(i, selected)
-                
+
         return selected
 
     def _on_get_torrent_files(self, status):
         self.files_list[self.torrent_id] = status["files"]
         self.update_files()
         self._on_get_torrent_status(status)
-    
+
     def get_files_from_tree(self, rows, files_list, indent):
         if not rows:
             return None
-        
+
         for row in rows:
             if row[5] > -1:
                 files_list.append((row[5], row))
             self.get_files_from_tree(row.iterchildren(), files_list, indent+1)
         return None
-        
+
     def _on_get_torrent_status(self, status):
         # (index, iter)
         files_list = []
@@ -391,7 +391,7 @@ class FilesTab(Tab):
             file_priority = status["file_priorities"][index]
             if row[4] != file_priority:
                 row[4] = file_priority
-           
+
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
@@ -409,10 +409,10 @@ class FilesTab(Tab):
                     self.listview.get_selection().select_iter(row)
             else:
                 self.listview.get_selection().select_iter(row)
-            
+
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
-            
+
     def _on_menuitem_open_file_activate(self, menuitem):
         self._on_row_activated(None, None, None)
 
@@ -431,27 +431,27 @@ class FilesTab(Tab):
         file_priorities.sort()
         priorities = [p[1] for p in file_priorities]
         log.debug("priorities: %s", priorities)
-                        
+
         client.set_torrent_file_priorities(self.torrent_id, priorities)
-        
+
     def _on_menuitem_donotdownload_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), 
+            self.get_selected_files(),
             deluge.common.FILE_PRIORITY["Do Not Download"])
-            
+
     def _on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), 
+            self.get_selected_files(),
             deluge.common.FILE_PRIORITY["Normal Priority"])
 
     def _on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), 
+            self.get_selected_files(),
             deluge.common.FILE_PRIORITY["High Priority"])
 
     def _on_menuitem_highest_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), 
+            self.get_selected_files(),
             deluge.common.FILE_PRIORITY["Highest Priority"])
 
     def _on_menuitem_expand_all_activate(self, menuitem):

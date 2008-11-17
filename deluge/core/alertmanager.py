@@ -2,19 +2,19 @@
 # alertmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -54,17 +54,17 @@ class AlertManager(component.Component):
             lt.alert.category_t.tracker_notification |
             lt.alert.category_t.status_notification |
             lt.alert.category_t.ip_block_notification)
-            
+
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
 
     def update(self):
         self.handle_alerts()
-        
+
     def shutdown(self):
         del self.session
         del self.handlers
-        
+
     def register_handler(self, alert_type, handler):
         """Registers a function that will be called when 'alert_type' is pop'd
         in handle_alerts.  The handler function should look like:
@@ -75,11 +75,11 @@ class AlertManager(component.Component):
             # There is no entry for this alert type yet, so lets make it with an
             # empty list.
             self.handlers[alert_type] = []
-        
+
         # Append the handler to the list in the handlers dictionary
         self.handlers[alert_type].append(handler)
         log.debug("Registered handler for alert %s", alert_type)
-    
+
     def deregister_handler(self, handler):
         """De-registers the 'handler' function from all alert types."""
         # Iterate through all handlers and remove 'handler' where found
@@ -87,7 +87,7 @@ class AlertManager(component.Component):
             if handler in value:
                 # Handler is in this alert type list
                 value.remove(handler)
-                    
+
     def handle_alerts(self, wait=False):
         """Pops all libtorrent alerts in the session queue and handles them
         appropriately."""
@@ -101,7 +101,7 @@ class AlertManager(component.Component):
                 log.debug("%s: %s", alert_type, alert.message())
             except RuntimeError:
                 log.debug("%s", alert_type)
-                
+
             # Call any handlers for this alert type
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
@@ -109,7 +109,7 @@ class AlertManager(component.Component):
                         gobject.idle_add(handler, alert)
                     else:
                         handler(alert)
-                    
+
             alert = self.session.pop_alert()
 
         # Return True so that the timer continues

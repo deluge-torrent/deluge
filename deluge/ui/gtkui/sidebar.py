@@ -2,19 +2,19 @@
 # sidebar.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -49,12 +49,12 @@ class SideBar(component.Component):
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
         self.config = ConfigManager("gtkui.conf")
-        
+
         # Create the liststore
         # state str, str that's visible, icon
         self.liststore = gtk.ListStore(str, str, gtk.gdk.Pixbuf)
         self.liststore.append(["All", _("All"), None])
-        self.liststore.append(["Downloading", _("Downloading"), 
+        self.liststore.append(["Downloading", _("Downloading"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("downloading16.png"))])
         self.liststore.append(["Seeding", _("Seeding"),
@@ -82,29 +82,29 @@ class SideBar(component.Component):
         column.pack_start(render, expand=True)
         column.add_attribute(render, 'text', 1)
         self.label_view.append_column(column)
-        
+
         self.label_view.set_model(self.liststore)
-        
-        self.label_view.get_selection().connect("changed", 
+
+        self.label_view.get_selection().connect("changed",
                                     self.on_selection_changed)
-        
+
         # Select the 'All' label on init
         self.label_view.get_selection().select_iter(
             self.liststore.get_iter_first())
-            
+
         # Hide if necessary
         self.visible(self.config["show_sidebar"])
-        
+
     def visible(self, visible):
         if visible:
             self.scrolled.show()
         else:
             self.scrolled.hide()
             self.hpaned.set_position(-1)
-        
+
         self.is_visible = visible
         self.config["show_sidebar"] = visible
-        
+
     def on_selection_changed(self, selection):
         try:
             (model, row) = self.label_view.get_selection().get_selected()
@@ -112,7 +112,7 @@ class SideBar(component.Component):
             log.debug(e)
             # paths is likely None .. so lets return None
             return None
-        
+
         value = model.get_value(row, 0)
         if value == "All":
             component.get("TorrentView").set_filter(None, None)

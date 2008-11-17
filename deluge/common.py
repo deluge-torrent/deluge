@@ -2,19 +2,19 @@
 # common.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -90,9 +90,9 @@ def get_revision():
         f.close()
     except IOError, e:
         pass
-        
+
     return revision
-    
+
 def get_default_config_dir(filename=None):
     """ Returns the config path if no filename is specified
     Returns the config directory + filename as a path if filename is specified
@@ -134,7 +134,7 @@ def get_pixmap(fname):
 def get_logo(size):
     """Returns a deluge logo pixbuf based on the size parameter."""
     import gtk
-    if windows_check(): 
+    if windows_check():
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.png"), \
             size, size)
     else:
@@ -161,16 +161,16 @@ def open_url_in_browser(url):
                 webbrowser.open(self.url)
         BrowserThread(url).start()
         return False
-        
+
     import gobject
     gobject.idle_add(start_browser)
 
 
-def build_menu_radio_list(value_list, callback, pref_value=None, 
-    suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
+def build_menu_radio_list(value_list, callback, pref_value=None,
+    suffix=None, show_notset=False, notset_label=None, notset_lessthan=0,
     show_other=False, show_activated=False, activated_label=None):
-    # Build a menu with radio menu items from a list and connect them to 
-    # the callback. The pref_value is what you would like to test for the 
+    # Build a menu with radio menu items from a list and connect them to
+    # the callback. The pref_value is what you would like to test for the
     # default active radio item.
     import gtk
     if notset_label is None:
@@ -185,14 +185,14 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
         if pref_value > -1 and pref_value not in value_list:
             value_list.pop()
             value_list.append(pref_value)
-            
+
         for value in sorted(value_list):
             if suffix != None:
                 menuitem = gtk.RadioMenuItem(group, str(value) + " " + \
                     suffix)
             else:
                 menuitem = gtk.RadioMenuItem(group, str(value))
-        
+
             group = menuitem
 
             if value == pref_value and pref_value != None:
@@ -206,7 +206,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
     if show_activated is True:
         for value in sorted(value_list):
             menuitem = gtk.RadioMenuItem(group, str(activated_label))
-        
+
             group = menuitem
 
             if value == pref_value and pref_value != None:
@@ -226,7 +226,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
             menuitem.set_active(True)
         menuitem.connect("toggled", callback)
         menu.append(menuitem)
-        
+
     # Add the Other... menuitem
     if show_other is True:
         menuitem = gtk.SeparatorMenuItem()
@@ -235,7 +235,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
         menuitem.set_name(_("Other..."))
         menuitem.connect("activate", callback)
         menu.append(menuitem)
-                
+
     return menu
 
 def show_other_dialog(string, default=None):
@@ -243,7 +243,7 @@ def show_other_dialog(string, default=None):
     import gtk
     import gtk.glade
     dialog_glade = gtk.glade.XML(
-        pkg_resources.resource_filename("deluge.ui.gtkui", 
+        pkg_resources.resource_filename("deluge.ui.gtkui",
                                     "glade/dgtkpopups.glade"))
     speed_dialog = dialog_glade.get_widget("speed_dialog")
     spin_title = dialog_glade.get_widget("spin_title")
@@ -258,10 +258,10 @@ def show_other_dialog(string, default=None):
     else:
         speed_dialog.destroy()
         return None
-        
+
     speed_dialog.destroy()
     return value
-        
+
 ## Formatting text functions
 
 def fsize(fsize_b):
@@ -292,7 +292,7 @@ def fpeer(num_peers, total_peers):
         return "%d (%d)" % (num_peers, total_peers)
     else:
         return "%d" % num_peers
-    
+
 def ftime(seconds):
     """Returns a formatted time string"""
     if seconds == 0:
@@ -323,7 +323,7 @@ def is_url(url):
     return bool(re.search('^(https?|ftp|udp)://', url))
 
 def fetch_url(url):
-    """Downloads a torrent file from a given 
+    """Downloads a torrent file from a given
     URL and checks the file's validity."""
     import urllib
     from deluge.log import LOG as log
@@ -338,7 +338,7 @@ def fetch_url(url):
         else:
             log.debug("URL doesn't appear to be a valid torrent file: %s", url)
             return None
-            
+
 def pythonize(var):
     """Translates DBUS types back to basic Python types."""
     if isinstance(var, list):

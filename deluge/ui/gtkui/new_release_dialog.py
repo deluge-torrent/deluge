@@ -2,19 +2,19 @@
 # new_release_dialog.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -38,7 +38,7 @@ from deluge.configmanager import ConfigManager
 class NewReleaseDialog:
     def __init__(self):
         pass
-        
+
     def show(self, available_version):
         self.config = ConfigManager("gtkui.conf")
         glade = component.get("MainWindow").main_glade
@@ -52,14 +52,14 @@ class NewReleaseDialog:
             "clicked", self._on_button_goto_downloads)
         glade.get_widget("button_close_new_release").connect(
             "clicked", self._on_button_close_new_release)
-            
+
         self.dialog.show_all()
-        
+
     def _on_button_goto_downloads(self, widget):
         deluge.common.open_url_in_browser("http://deluge-torrent.org")
         self.config["show_new_releases"] = not self.chk_not_show_dialog.get_active()
         self.dialog.destroy()
-        
+
     def _on_button_close_new_release(self, widget):
         self.config["show_new_releases"] = not self.chk_not_show_dialog.get_active()
         self.dialog.destroy()

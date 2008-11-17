@@ -2,19 +2,19 @@
 # preferences.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -63,7 +63,7 @@ class Preferences(component.Component):
         self.treeview.append_column(column)
         # Add the default categories
         i = 0
-        for category in ["Downloads", "Network", "Bandwidth", "Interface", 
+        for category in ["Downloads", "Network", "Bandwidth", "Interface",
             "Other", "Daemon", "Queue", "Plugins"]:
             self.liststore.append([i, category])
             i += 1
@@ -79,15 +79,15 @@ class Preferences(component.Component):
             gtk.TreeViewColumn(_("Enabled"), render, active=1))
         self.plugin_listview.append_column(
             gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=0))
-        
+
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
-        self.treeview.get_selection().connect("changed", 
+        self.treeview.get_selection().connect("changed",
                                     self.on_selection_changed)
-        
+
         self.plugin_listview.get_selection().connect("changed",
             self.on_plugin_selection_changed)
-            
+
         self.glade.signal_autoconnect({
             "on_pref_dialog_delete_event": self.on_pref_dialog_delete_event,
             "on_button_ok_clicked": self.on_button_ok_clicked,
@@ -97,10 +97,10 @@ class Preferences(component.Component):
             "on_test_port_clicked": self.on_test_port_clicked
         })
 
-        # These get updated by requests done to the core        
+        # These get updated by requests done to the core
         self.all_plugins = []
         self.enabled_plugins = []
-    
+
     def __del__(self):
         del self.gtkui_config
 
@@ -125,9 +125,9 @@ class Preferences(component.Component):
         vbox.pack_start(align, False, False, 0)
         scrolled = gtk.ScrolledWindow()
         viewport = gtk.Viewport()
-        viewport.set_shadow_type(gtk.SHADOW_NONE)       
+        viewport.set_shadow_type(gtk.SHADOW_NONE)
         viewport.add(vbox)
-        scrolled.add(viewport)        
+        scrolled.add(viewport)
         scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         scrolled.show_all()
         # Add this page to the notebook
@@ -139,7 +139,7 @@ class Preferences(component.Component):
         """Removes a page from the notebook"""
         self.page_num_to_remove = None
         self.iter_to_remove = None
-        
+
         def check_row(model, path, iter, user_data):
             row_name = model.get_value(iter, 1)
             if row_name == user_data:
@@ -147,26 +147,26 @@ class Preferences(component.Component):
                 self.page_num_to_remove = model.get_value(iter, 0)
                 self.iter_to_remove = iter
                 return
-                
+
         self.liststore.foreach(check_row, name)
         # Remove the page and row
         if self.page_num_to_remove != None:
             self.notebook.remove_page(self.page_num_to_remove)
         if self.iter_to_remove != None:
             self.liststore.remove(self.iter_to_remove)
-    
+
     def _on_get_config(self, config):
         self.core_config = config
-    
+
     def _on_get_available_plugins(self, plugins):
         self.all_plugins = plugins
-    
+
     def _on_get_enabled_plugins(self, plugins):
         self.enabled_plugins = plugins
-    
+
     def _on_get_listen_port(self, port):
         self.active_port = port
-                    
+
     def show(self, page=None):
         """Page should be the string in the left list.. ie, 'Network' or 'Bandwidth'"""
         if page != None:
@@ -174,7 +174,7 @@ class Preferences(component.Component):
                 if page == string:
                     self.treeview.get_selection().select_path(index)
                     break
-                    
+
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         try:
@@ -208,7 +208,7 @@ class Preferences(component.Component):
                 "radio_full_allocation": \
                     ("not_active", self.core_config["compact_allocation"]),
                 "chk_prioritize_first_last_pieces": \
-                    ("active", 
+                    ("active",
                         self.core_config["prioritize_first_last_pieces"]),
                 "spin_port_min": ("value", self.core_config["listen_ports"][0]),
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
@@ -264,7 +264,7 @@ class Preferences(component.Component):
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
                 "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"])
             }
-            
+
             # Change a few widgets if we're connected to a remote host
             if not client.is_localhost():
                 self.glade.get_widget("entry_download_path").show()
@@ -276,7 +276,7 @@ class Preferences(component.Component):
                 self.glade.get_widget("move_completed_path_button").hide()
                 core_widgets.pop("move_completed_path_button")
                 core_widgets["entry_move_completed_path"] = ("text", self.core_config["move_completed_path"])
-                
+
                 self.glade.get_widget("entry_torrents_path").show()
                 self.glade.get_widget("torrent_files_button").hide()
                 core_widgets.pop("torrent_files_button")
@@ -294,7 +294,7 @@ class Preferences(component.Component):
                 self.glade.get_widget("entry_torrents_path").hide()
                 self.glade.get_widget("torrent_files_button").show()
                 self.glade.get_widget("entry_autoadd").hide()
-                self.glade.get_widget("folder_autoadd").show()                    
+                self.glade.get_widget("folder_autoadd").show()
 
             # Update the widgets accordingly
             for key in core_widgets.keys():
@@ -305,7 +305,7 @@ class Preferences(component.Component):
                     for child in widget.get_children():
                         child.set_sensitive(True)
                 widget.set_sensitive(True)
-                
+
                 if modifier == "filename":
                     if value:
                         try:
@@ -402,11 +402,11 @@ class Preferences(component.Component):
             self.gtkui_config["lock_tray"])
         self.glade.get_widget("chk_classic_mode").set_active(
             self.gtkui_config["classic_mode"])
-        
+
         ## Other tab ##
         self.glade.get_widget("chk_show_new_releases").set_active(
             self.gtkui_config["show_new_releases"])
-            
+
         ## Plugins tab ##
         all_plugins = self.all_plugins
         enabled_plugins = self.enabled_plugins
@@ -421,22 +421,22 @@ class Preferences(component.Component):
             row = self.plugin_liststore.append()
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)
-        
+
         component.get("PluginManager").run_on_show_prefs()
         # Now show the dialog
         self.pref_dialog.show()
-    
+
     def set_config(self):
         """Sets all altered config values in the core"""
         try:
             from hashlib import sha1 as sha_hash
         except ImportError:
             from sha import new as sha_hash
-        
+
         # Get the values from the dialog
         new_core_config = {}
         new_gtkui_config = {}
-        
+
         ## Downloads tab ##
         new_gtkui_config["interactive_add"] = \
             self.glade.get_widget("chk_show_dialog").get_active()
@@ -460,7 +460,7 @@ class Preferences(component.Component):
                 self.glade.get_widget("entry_move_completed_path").get_text()
             new_core_config["torrentfiles_location"] = \
                 self.glade.get_widget("entry_torrents_path").get_text()
-            
+
         new_core_config["autoadd_enable"] = \
             self.glade.get_widget("chk_autoadd").get_active()
         if client.is_localhost():
@@ -469,7 +469,7 @@ class Preferences(component.Component):
         else:
             new_core_config["autoadd_location"] = \
                 self.glade.get_widget("entry_autoadd").get_text()
-                
+
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
         new_core_config["prioritize_first_last_pieces"] = \
@@ -501,7 +501,7 @@ class Preferences(component.Component):
             self.glade.get_widget("combo_enclevel").get_active()
         new_core_config["enc_prefer_rc4"] = \
             self.glade.get_widget("chk_pref_rc4").get_active()
-        
+
         ## Bandwidth tab ##
         new_core_config["max_connections_global"] = \
             self.glade.get_widget(
@@ -532,7 +532,7 @@ class Preferences(component.Component):
                 "spin_max_download_per_torrent").get_value()
         new_core_config["ignore_limits_on_local_network"] = \
             self.glade.get_widget("chk_ignore_limits_on_local_network").get_active()
-        
+
         ## Interface tab ##
         new_gtkui_config["enable_system_tray"] = \
             self.glade.get_widget("chk_use_tray").get_active()
@@ -548,8 +548,8 @@ class Preferences(component.Component):
             new_gtkui_config["tray_password"] = passhex
         new_gtkui_config["classic_mode"] = \
             self.glade.get_widget("chk_classic_mode").get_active()
-        
-        ## Other tab ##    
+
+        ## Other tab ##
         new_gtkui_config["show_new_releases"] = \
             self.glade.get_widget("chk_show_new_releases").get_active()
         new_core_config["send_info"] = \
@@ -562,7 +562,7 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_allow_remote_connections").get_active()
         new_core_config["new_release_check"] = \
             self.glade.get_widget("chk_new_releases").get_active()
-                    
+
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
             self.glade.get_widget("chk_queue_new_top").get_active()
@@ -586,16 +586,16 @@ class Preferences(component.Component):
             self.glade.get_widget("spin_seed_time_ratio_limit").get_value()
         new_core_config["seed_time_limit"] = \
             self.glade.get_widget("spin_seed_time_limit").get_value()
-        
+
         # Run plugin hook to apply preferences
         component.get("PluginManager").run_on_apply_prefs()
-            
+
         # GtkUI
         for key in new_gtkui_config.keys():
             # The values do not match so this needs to be updated
             if self.gtkui_config[key] != new_gtkui_config[key]:
                 self.gtkui_config[key] = new_gtkui_config[key]
-        
+
         # Core
         if client.get_core_uri() != None:
             # Only do this if we're connected to a daemon
@@ -610,17 +610,17 @@ class Preferences(component.Component):
             client.force_call(True)
             # Update the configuration
             self.core_config.update(config_to_set)
-        
+
         # Re-show the dialog to make sure everything has been updated
         self.show()
-        
+
     def hide(self):
         self.pref_dialog.hide()
-    
+
     def on_pref_dialog_delete_event(self, widget, event):
         self.hide()
         return True
-    
+
     def on_toggle(self, widget):
         """Handles widget sensitivity based on radio/check button values."""
         try:
@@ -674,7 +674,7 @@ class Preferences(component.Component):
         log.debug("on_button_cancel_clicked")
         self.hide()
         return True
-        
+
     def on_selection_changed(self, treeselection):
         # Show the correct notebook page based on what row is selected.
         (model, row) = treeselection.get_selected()
@@ -690,7 +690,7 @@ class Preferences(component.Component):
                 "http://deluge-torrent.org/test-port.php?port=%s" % port)
         client.get_listen_port(on_get_listen_port)
         client.force_call()
-    
+
     def on_plugin_toggled(self, renderer, path):
         log.debug("on_plugin_toggled")
         row = self.plugin_liststore.get_iter_from_string(path)
@@ -703,7 +703,7 @@ class Preferences(component.Component):
         else:
             client.disable_plugin(name)
             component.get("PluginManager").disable_plugin(name)
-        
+
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")
-        
+

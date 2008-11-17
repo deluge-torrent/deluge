@@ -4,9 +4,9 @@ Network Utilities
 """
 
 __all__ = [
-  "validipaddr", "validipport", "validip", "validaddr", 
+  "validipaddr", "validipport", "validip", "validaddr",
   "urlquote",
-  "httpdate", "parsehttpdate", 
+  "httpdate", "parsehttpdate",
   "htmlquote", "websafe",
 ]
 
@@ -37,7 +37,7 @@ def validip(ip, defaultaddr="0.0.0.0", defaultport=8080):
     """returns `(ip_address, port)` from string `ip_addr_port`"""
     addr = defaultaddr
     port = defaultport
-    
+
     ip = ip.split(":", 1)
     if len(ip) == 1:
         if not ip[0]:
@@ -60,7 +60,7 @@ def validip(ip, defaultaddr="0.0.0.0", defaultport=8080):
 def validaddr(string_):
     """
     returns either (ip_address, port) or "/path/to/socket" from string_
-    
+
         >>> validaddr('/path/to/socket')
         '/path/to/socket'
         >>> validaddr('8000')
@@ -82,7 +82,7 @@ def validaddr(string_):
 def urlquote(val):
     """
     Quotes a string for use in a URL.
-    
+
         >>> urlquote('://?f=1&j=1')
         '%3A//%3Ff%3D1%26j%3D1'
         >>> urlquote(None)
@@ -98,7 +98,7 @@ def urlquote(val):
 def httpdate(date_obj):
     """
     Formats a datetime object for use in HTTP headers.
-    
+
         >>> import datetime
         >>> httpdate(datetime.datetime(1970, 1, 1, 1, 1, 1))
         'Thu, 01 Jan 1970 01:01:01 GMT'
@@ -121,7 +121,7 @@ def parsehttpdate(string_):
 def htmlquote(text):
     """
     Encodes `text` for raw use in HTML.
-    
+
         >>> htmlquote("<'&\\">")
         '&lt;&#39;&amp;&quot;&gt;'
     """
@@ -135,7 +135,7 @@ def htmlquote(text):
 def websafe(val):
     """
     Converts `val` so that it's safe for use in UTF-8 HTML.
-    
+
         >>> websafe("<'&\\">")
         '&lt;&#39;&amp;&quot;&gt;'
         >>> websafe(None)

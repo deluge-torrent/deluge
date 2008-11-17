@@ -56,20 +56,20 @@ class Parser:
         self.p = 0
         self._lock = [False]
         self.name = name
-    
+
     def lock(self):
         self._lock[-1] = True
-    
+
     def curline(self):
         return self.t[:self.p].count('\n')+1
-        
+
     def csome(self):
         return repr(self.t[self.p:self.p+5]+'...')
 
     def Error(self, x, y=None):
         if y is None: y = self.csome()
         raise ParseError, "%s: expected %s, got %s (line %s)" % (self.name, x, y, self.curline())
-    
+
     def q(self, f):
         def internal(*a, **kw):
             checkp = self.p
@@ -85,29 +85,29 @@ class Parser:
             self._lock.pop()
             return q or True
         return internal
-    
-    def tokr(self, t): 
+
+    def tokr(self, t):
         text = self.c(len(t))
         if text != t:
             self.Error(repr(t), repr(text))
         return t
-    
+
     def ltokr(self, *l):
         for x in l:
             o = self.tokq(x)
             if o: return o
         self.Error('one of '+repr(l))
-    
+
     def rer(self, r):
         x = re.match(r, self.t[self.p:]) #@@re_compile
         if not x:
             self.Error('r'+repr(r))
         return self.tokr(x.group())
-    
+
     def endr(self):
         if self.p != len(self.t):
             self.Error('EOF')
-        
+
     def c(self, n=1):
         out = self.t[self.p:self.p+n]
         if out == '' and n != 0:
@@ -117,7 +117,7 @@ class Parser:
 
     def lookbehind(self, t):
         return self.t[self.p-len(t):self.p] == t
-    
+
     def __getattr__(self, a):
         if a.endswith('q'):
             return self.q(getattr(self, a[:-1]+'r'))
@@ -128,25 +128,25 @@ class TemplateParser(Parser):
         Parser.__init__(self, *a, **kw)
         self.curws = ''
         self.curind = ''
-        
+
     def o(self, *a):
         return a+('lineno', self.curline())
-    
-    def go(self): 
+
+    def go(self):
         # maybe try to do some traceback parsing/hacking
         return self.gor()
-    
+
     def gor(self):
         header = self.defwithq()
         results = self.lines(start=True)
         self.endr()
         return header, results
-    
+
     def ws(self):
         n = 0
         while self.tokq(" "): n += 1
         return " " * n
-    
+
     def defwithr(self):
         self.tokr('$def with ')
         self.lock()
@@ -158,12 +158,12 @@ class TemplateParser(Parser):
             if self.tokq('='):
                 v = self.exprr()
                 kw.append((x, v))
-            else: 
+            else:
                 args.append(x)
             x = self.tokq(', ') and self.req(r_var)
         self.tokr(')\n')
         return self.o('defwith', 'null', None, 'args', args, 'kwargs', kw)
-    
+
     def literalr(self):
         o = (
           self.req('"[^"]*"') or #@@ no support for escapes
@@ -177,7 +177,7 @@ class TemplateParser(Parser):
 
         if o is False: self.Error('literal')
         return self.o('literal', 'thing', o)
-    
+
     def listr(self):
         self.tokr('[')
         self.lock()
@@ -189,7 +189,7 @@ class TemplateParser(Parser):
                 if not self.tokq(', '): break
             self.tokr(']')
         return self.o('list', 'thing', x)
-    
+
     def dictr(self):
         self.tokr('{')
         self.lock()
@@ -210,11 +210,11 @@ class TemplateParser(Parser):
         o = self.exprr() # todo: allow list
         self.tokr(')')
         return self.o('paren', 'thing', o)
-    
+
     def atomr(self):
         """returns var, literal, paren, dict, or list"""
         o = (
-          self.varq() or 
+          self.varq() or
           self.parenq() or
           self.dictq() or
           self.listq() or
@@ -222,9 +222,9 @@ class TemplateParser(Parser):
         )
         if o is False: self.Error('atom')
         return o
-        
+
     def primaryr(self):
-        """returns getattr, call, or getitem"""        
+        """returns getattr, call, or getitem"""
         n = self.atomr()
         while 1:
             if self.tokq('.'):
@@ -237,7 +237,7 @@ class TemplateParser(Parser):
             elif self.tokq('('):
                 args = []
                 kw = []
-                
+
                 while 1:
                     # need to see if we're doing a keyword argument
                     checkp = self.p
@@ -252,7 +252,7 @@ class TemplateParser(Parser):
                             args.append(x)
                         else:
                             break
-                            
+
                     if not self.tokq(', '): break
                 self.tokr(')')
                 n = self.o('call', 'thing', n, 'args', args, 'kwargs', kw)
@@ -262,9 +262,9 @@ class TemplateParser(Parser):
                 n = self.o('getitem', 'thing', n, 'item', v)
             else:
                 break
-        
+
         return n
-    
+
     def exprr(self):
         negate = self.tokq('not ')
         x = self.primaryr()
@@ -273,12 +273,12 @@ class TemplateParser(Parser):
             self.tokr(' ')
             y = self.exprr()
             x = self.o('test', 'x', x, 'op', operator, 'y', y)
-        
+
         return self.o('expr', 'thing', x, 'negate', negate)
 
     def varr(self):
         return self.o('var', 'name', self.rer(r_var))
-    
+
     def liner(self):
         out = []
         o = self.curws
@@ -293,7 +293,7 @@ class TemplateParser(Parser):
                     o = o[:-1] + c
                 else:
                     filter = not bool(self.tokq(':'))
-                    
+
                     if self.tokq('{'):
                         out.append(o)
                         out.append(self.o('itpl', 'name', self.exprr(), 'filter', filter))
@@ -301,7 +301,7 @@ class TemplateParser(Parser):
                         o = ''
                     else:
                         g = self.primaryq()
-                        if g: 
+                        if g:
                             out.append(o)
                             out.append(self.o('itpl', 'name', g, 'filter', filter))
                             o = ''
@@ -316,7 +316,7 @@ class TemplateParser(Parser):
             o = o[:-1]
         out.append(o)
         return self.o('line', 'thing', out)
-    
+
     def varsetr(self):
         self.tokr('$var ')
         self.lock()
@@ -331,21 +331,21 @@ class TemplateParser(Parser):
         expr = self.exprr()
         self.tokr(":")
         ifc = self.lines()
-        
+
         elifs = []
         while self.tokq(self.curws + self.curind + '$elif '):
             v = self.exprr()
             self.tokr(':')
             c = self.lines()
             elifs.append(self.o('elif', 'clause', v, 'body', c))
-        
+
         if self.tokq(self.curws + self.curind + "$else:"):
             elsec = self.lines()
         else:
             elsec = None
-        
+
         return self.o('if', 'clause', expr, 'then', ifc, 'elif', elifs, 'else', elsec)
-    
+
     def forr(self):
         self.tokr("$for ")
         self.lock()
@@ -359,44 +359,44 @@ class TemplateParser(Parser):
             elsec = self.lines()
         else:
             elsec = None
-        
+
         return self.o('for', 'name', v, 'body', l, 'in', g, 'else', elsec)
-    
+
     def whiler(self):
         self.tokr('$while ')
         self.lock()
         v = self.exprr()
         self.tokr(":")
         l = self.lines()
-        
+
         if self.tokq(self.curws + self.curind + '$else:'):
             elsec = self.lines()
         else:
             elsec = None
-        
+
         return self.o('while', 'clause', v, 'body', l, 'null', None, 'else', elsec)
-    
+
     def assignr(self):
         self.tokr('$ ')
         assign = self.rer(r_var) # NOTE: setable
         self.tokr(' = ')
         expr = self.exprr()
         self.tokr('\n')
-        
+
         return self.o('assign', 'name', assign, 'expr', expr)
-        
+
     def commentr(self):
         self.tokr('$#')
         self.lock()
         while self.c() != '\n': pass
         return self.o('comment')
-        
+
     def setabler(self):
         out = [self.varr()] #@@ not quite right
         while self.tokq(', '):
              out.append(self.varr())
         return out
-    
+
     def lines(self, start=False):
         """
         This function gets called from two places:
@@ -417,13 +417,13 @@ class TemplateParser(Parser):
             oldws = self.curws
             t = self.tokq(oldws + self.curind)
             if not t: break
-            
+
             self.curws += self.ws()
             x = t and (
-              self.varsetq() or 
-              self.ifq() or 
-              self.forq() or 
-              self.whileq() or 
+              self.varsetq() or
+              self.ifq() or
+              self.forq() or
+              self.whileq() or
               self.assignq() or
               self.commentq() or
               self.lineq())
@@ -437,7 +437,7 @@ class TemplateParser(Parser):
 
         if not start: self.curind = oldind
         return o
-    
+
 class Stowage(storage):
     def __str__(self): return self.get('_str')
     #@@ edits in place
@@ -453,7 +453,7 @@ class Stowage(storage):
             return self
         else:
             raise TypeError, 'cannot add'
-    
+
 class WTF(AssertionError): pass
 class SecurityError(Exception):
     """The template seems to be trying to do something naughty."""
@@ -469,7 +469,7 @@ class Template:
         '.html' : 'text/html; charset=utf-8',
         '.txt' : 'text/plain',
     }
-    
+
     def __init__(self, text, filter=None, filename=""):
         self.filter = filter
         self.filename = filename
@@ -482,7 +482,7 @@ class Template:
             self.h_defwith(header)
         else:
             self.args, self.kwargs = (), {}
-    
+
     def __call__(self, *a, **kw):
         d = self.globals.copy()
         d.update(self._parseargs(a, kw))
@@ -494,14 +494,14 @@ class Template:
             content_type = self.find_content_type()
             if content_type:
                 web.header('Content-Type', content_type, unique=True)
-        
+
         return f.go()
 
     def find_content_type(self):
         for ext, content_type in self.content_types.iteritems():
             if self.filename.endswith(ext):
                 return content_type
-    
+
     def _parseargs(self, inargs, inkwargs):
         # difference from Python:
         #   no error on setting a keyword arg twice
@@ -526,10 +526,10 @@ class Template:
             if v is Required:
                 unset.append(k)
         if unset:
-            raise TypeError, 'values for %s are required' % unset 
+            raise TypeError, 'values for %s are required' % unset
 
         return d
-    
+
     def h_defwith(self, header):
         assert header[WHAT] == 'defwith'
         f = Fill(self.tree, d={})
@@ -546,18 +546,18 @@ class Handle:
     def __init__(self, parsetree, **kw):
         self._funccache = {}
         self.parsetree = parsetree
-        for (k, v) in kw.iteritems(): setattr(self, k, v)    
-    
+        for (k, v) in kw.iteritems(): setattr(self, k, v)
+
     def h(self, item):
         return getattr(self, 'h_' + item[WHAT])(item)
-        
+
 class Fill(Handle):
     builtins = global_globals
     def filter(self, text):
         if text is None: return ''
         else: return utf8(text)
         # often replaced with stuff like net.websafe
-    
+
     def h_literal(self, i):
         item = i[THING]
         if isinstance(item, (unicode, str)) and item[0] in ['"', "'"]:
@@ -565,27 +565,27 @@ class Fill(Handle):
         elif isinstance(item, (float, int)):
             pass
         return item
-    
+
     def h_list(self, i):
         x = i[THING]
         out = []
         for item in x:
             out.append(self.h(item))
         return out
-    
+
     def h_dict(self, i):
         x = i[THING]
         out = {}
         for k, v in x.iteritems():
             out[self.h(k)] = self.h(v)
         return out
-    
+
     def h_paren(self, i):
         item = i[THING]
         if isinstance(item, list):
             raise NotImplementedError, 'tuples'
         return self.h(item)
-    
+
     def h_getattr(self, i):
         thing, attr = i[THING], i[ATTR]
         thing = self.h(thing)
@@ -603,25 +603,25 @@ class Fill(Handle):
                 return lambda s: s.join(thing)
             else:
                 raise
-    
+
     def h_call(self, i):
         call = self.h(i[THING])
         args = [self.h(x) for x in i[ARGS]]
         kw = dict([(x, self.h(y)) for (x, y) in i[KWARGS]])
         return call(*args, **kw)
-    
+
     def h_getitem(self, i):
         thing, item = i[THING], i[ITEM]
         thing = self.h(thing)
         item = self.h(item)
         return thing[item]
-    
+
     def h_expr(self, i):
         item = self.h(i[THING])
         if i[NEGATE]:
             item = not item
         return item
-    
+
     def h_test(self, item):
         ox, op, oy = item[X], item[OP], item[Y]
         # for short-circuiting to work, we can't eval these here
@@ -662,7 +662,7 @@ class Fill(Handle):
             return e(ox) % e(oy)
         else:
             raise WTF, 'op ' + op
-    
+
     def h_var(self, i):
         v = i[NAME]
         if v in self.d:
@@ -673,7 +673,7 @@ class Fill(Handle):
             return self.output
         else:
             raise NameError, 'could not find %s (line %s)' % (repr(i[NAME]), i[LINENO])
-        
+
     def h_line(self, i):
         out = []
         for x in i[THING]:
@@ -684,13 +684,13 @@ class Fill(Handle):
                 o = self.h(x[NAME])
                 if x[FILTER]:
                     o = self.filter(o)
-                else: 
+                else:
                     o = (o is not None and utf8(o)) or ""
                 out.append(o)
             else:
                 raise WTF, x
         return ''.join(out)
-    
+
     def h_varset(self, i):
         self.output[i[NAME]] = ''.join(self.h_lines(i[BODY]))
         return ''
@@ -708,7 +708,7 @@ class Fill(Handle):
             else:
                 do = i[ELSE]
         return ''.join(self.h_lines(do))
-        
+
     def h_for(self, i):
         out = []
         assert i[IN][WHAT] == 'expr'
@@ -724,13 +724,13 @@ class Fill(Handle):
                     for x, y in zip(forvar, nv):
                         assert x[WHAT] == 'var'
                         self.d[x[NAME]] = y
-                
+
                 out.extend(self.h_lines(i[BODY]))
         else:
             if i[ELSE]:
                 out.extend(self.h_lines(i[ELSE]))
         return ''.join(out)
-    
+
     def h_while(self, i):
         out = []
         expr = self.h(i[CLAUSE])
@@ -750,11 +750,11 @@ class Fill(Handle):
         return ''
 
     def h_comment(self, i): pass
-    
+
     def h_lines(self, lines):
         if lines is None: return []
         return map(self.h, lines)
-    
+
     def go(self):
         self.output = Stowage()
         self.output._str = ''.join(map(self.h, self.parsetree))
@@ -769,11 +769,11 @@ class render:
             self.cache = {}
         else:
             self.cache = False
-    
+
     def _do(self, name, filter=None):
         if self.cache is False or name not in self.cache:
 
-            tmplpath = os.path.join(self.loc, name) 
+            tmplpath = os.path.join(self.loc, name)
             p = [f for f in glob.glob(tmplpath + '.*') if not f.endswith('~')] # skip backup files
             if not p and os.path.isdir(tmplpath):
                 return render(tmplpath, cache=self.cache)
@@ -783,7 +783,7 @@ class render:
             p = p[0]
             c = Template(open(p).read(), filename=p)
             if self.cache is not False: self.cache[name] = (p, c)
-        
+
         if self.cache is not False: p, c = self.cache[name]
 
         if p.endswith('.html') or p.endswith('.xml'):
@@ -806,7 +806,7 @@ def test():
                 sys.stderr.flush()
         else:
             assert a == b, "\nexpected: %s\ngot: %s" % (repr(b), repr(a))
-    
+
     from utils import storage, group
 
     class t:
@@ -828,7 +828,7 @@ def test():
             else:
                 print >> sys.stderr, 'FAIL:', repr(self.source), 'expected', repr(other), ', got', repr(self.value)
                 sys.stderr.flush()
-    
+
     t('1')() == '1\n'
     t('$def with ()\n1')() == '1\n'
     t('$def with (a)\n$a')(1) == '1\n'
@@ -872,7 +872,7 @@ def test():
     assertEqual(str(j), '')
     assertEqual(j.foo, 'bar\n')
     if verbose: sys.stderr.write('\n')
-    
+
 
 if __name__ == "__main__":
     test()

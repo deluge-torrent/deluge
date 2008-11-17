@@ -2,19 +2,19 @@
 # core.py
 #
 # Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -66,17 +66,17 @@ FORMATS =  {
     'p2bgz': ["PeerGuardian P2B (GZip)", PGReader]
 }
 
-class Core(CorePluginBase):    
+class Core(CorePluginBase):
     def enable(self):
         log.debug('Blocklist: Plugin enabled..')
-        
+
         self.is_downloading = False
         self.is_importing = False
         self.num_blocked = 0
         self.file_progress = 0.0
-        
+
         self.core = component.get("Core")
-        
+
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
             self.export_import(self.need_new_blocklist())
@@ -86,13 +86,13 @@ class Core(CorePluginBase):
         self.update_timer = gobject.timeout_add(
             self.config["check_after_days"] * 24 * 60 * 60 * 1000,
             self.download_blocklist, True)
-        
+
     def disable(self):
         log.debug("Reset IP Filter..")
         component.get("Core").export_reset_ip_filter()
         self.config.save()
         log.debug('Blocklist: Plugin disabled')
-                
+
     def update(self):
         pass
 
@@ -100,7 +100,7 @@ class Core(CorePluginBase):
     def export_download(self, _import=False):
         """Download the blocklist specified in the config as url"""
         self.download_blocklist(_import)
-        
+
     def export_import(self, download=False, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
@@ -109,12 +109,12 @@ class Core(CorePluginBase):
     def export_get_config(self):
         """Returns the config dictionary"""
         return self.config.get_config()
-        
+
     def export_set_config(self, config):
         """Sets the config based on values in 'config'"""
         for key in config.keys():
             self.config[key] = config[key]
-    
+
     def export_get_status(self):
         """Returns the status of the plugin."""
         status = {}
@@ -124,40 +124,40 @@ class Core(CorePluginBase):
             status["state"] = "Importing"
         else:
             status["state"] = "Idle"
-        
+
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
         status["file_type"] = self.config["file_type"]
         status["file_url"] = self.config["file_url"]
         status["file_size"] = self.config["file_size"]
         status["file_date"] = self.config["file_date"]
-        
+
         return status
-        
+
     ####
-    
-    
+
+
     def on_download_blocklist(self, load):
         self.is_downloading = False
         if load:
             self.export_import()
-            
+
     def import_blocklist(self, download=False, force=False):
         """Imports the downloaded blocklist into the session"""
         if self.is_downloading:
             return
-            
+
         if download:
             if force or self.need_new_blocklist():
                 self.download_blocklist(True)
                 return
-        
-        self.is_importing = True        
+
+        self.is_importing = True
         log.debug("Reset IP Filter..")
         component.get("Core").export_reset_ip_filter()
-        
+
         self.num_blocked = 0
-        
+
         # Open the file for reading
         try:
             read_list = FORMATS[self.config["listtype"]][1](
@@ -177,21 +177,21 @@ class Core(CorePluginBase):
             log.debug("Exception during import: %s", e)
         else:
             log.debug("Blocklist import complete!")
-        
+
         self.is_importing = False
-            
+
     def download_blocklist(self, load=False):
         """Runs download_blocklist_thread() in a thread and calls on_download_blocklist
             when finished.  If load is True, then we will import the blocklist
             upon download completion."""
         if self.is_importing:
             return
-            
+
         self.is_downloading = True
         threading.Thread(
-            target=self.download_blocklist_thread, 
+            target=self.download_blocklist_thread,
             args=(self.on_download_blocklist, load)).start()
-        
+
     def download_blocklist_thread(self, callback, load):
         """Downloads the blocklist specified by 'url' in the config"""
         def _call_callback(callback, load):
@@ -203,10 +203,10 @@ class Core(CorePluginBase):
             if fp > 1.0:
                 fp = 1.0
             self.file_progress = fp
-            
+
         import socket
         socket.setdefaulttimeout(self.config["timeout"])
-        
+
         for i in xrange(self.config["try_times"]):
             log.debug("Attempting to download blocklist %s", self.config["url"])
             try:
@@ -225,10 +225,10 @@ class Core(CorePluginBase):
                 list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
                 self.config["file_date"] = datetime.datetime.fromtimestamp(list_stats.st_mtime).ctime()
                 self.config["file_size"] = list_size = list_stats.st_size
-                
+
                 gobject.idle_add(_call_callback, callback, load)
                 return
-            
+
     def need_new_blocklist(self):
         """Returns True if a new blocklist file should be downloaded"""
         try:
@@ -247,5 +247,5 @@ class Core(CorePluginBase):
 
         if current_time >= (list_time + datetime.timedelta(days=self.config["check_after_days"])):
             return True
-        
-        return False                
+
+        return False

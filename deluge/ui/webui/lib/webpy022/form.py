@@ -23,7 +23,7 @@ class Form:
         o = copy.deepcopy(self)
         if x: o.validates(x)
         return o
-    
+
     def render(self):
         out = ''
         out += self.rendernote(self.note)
@@ -34,7 +34,7 @@ class Form:
             out += '<td id="note_%s">%s</td></tr>\n' % (i.id, self.rendernote(i.note))
         out += "</table>"
         return out
-    
+
     def rendernote(self, note):
         if note: return '<strong class="wrong">%s</strong>' % note
         else: return ""
@@ -63,12 +63,12 @@ class Form:
 
     def fill(self, source=None, **kw):
         return self.validates(source, _validate=False, **kw)
-    
+
     def __getitem__(self, i):
         for x in self.inputs:
             if x.name == i: return x
         raise KeyError, i
-    
+
     def _get_d(self): #@@ should really be form.attr, no?
         return utils.storage([(i.name, i.value) for i in self.inputs])
     d = property(_get_d)
@@ -100,7 +100,7 @@ class Input(object):
         for (n, v) in self.attrs.items():
             str += ' %s="%s"' % (n, net.websafe(v))
         return str
-    
+
 #@@ quoting
 
 class Textbox(Input):
@@ -139,7 +139,7 @@ class Dropdown(Input):
             if type(arg) == tuple:
                 value, desc= arg
             else:
-                value, desc = arg, arg 
+                value, desc = arg, arg
 
             if self.value == value: select_p = ' selected="selected"'
             else: select_p = ''
@@ -196,11 +196,11 @@ class File(Input):
         x += self.addatts()
         x += ' />'
         return x
-    
+
 class Validator:
     def __deepcopy__(self, memo): return copy.copy(self)
     def __init__(self, msg, test, jstest=None): utils.autoassign(self, locals())
-    def valid(self, value): 
+    def valid(self, value):
         try: return self.test(value)
         except: return False
 
@@ -210,6 +210,6 @@ class regexp(Validator):
     def __init__(self, rexp, msg):
         self.rexp = re.compile(rexp)
         self.msg = msg
-    
+
     def valid(self, value):
         return bool(self.rexp.match(value))

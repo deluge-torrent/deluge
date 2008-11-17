@@ -2,19 +2,19 @@
 # removetorrentdialog.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -44,27 +44,27 @@ class RemoveTorrentDialog:
         self.torrent_ids = torrent_ids
         self.remove_torrentfile = remove_torrentfile
         self.remove_data = remove_data
-        
+
         self.glade = gtk.glade.XML(
-            pkg_resources.resource_filename("deluge.ui.gtkui", 
+            pkg_resources.resource_filename("deluge.ui.gtkui",
                 "glade/remove_torrent_dialog.glade"))
-        
+
         self.dialog = self.glade.get_widget("remove_torrent_dialog")
         self.dialog.set_icon(deluge.common.get_logo(32))
         self.dialog.set_transient_for(component.get("MainWindow").window)
-        
+
         self.glade.signal_autoconnect({
             "on_button_ok_clicked": self.on_button_ok_clicked,
             "on_button_cancel_clicked": self.on_button_cancel_clicked
         })
-        
+
         if len(self.torrent_ids) > 1:
             # We need to pluralize the dialog
             self.dialog.set_title("Remove Torrents?")
             self.glade.get_widget("label_title").set_markup(
                 _("<big><b>Are you sure you want to remove the selected torrents?</b></big>"))
             self.glade.get_widget("button_ok").set_label(_("Remove Selected Torrents"))
-        
+
         if self.remove_torrentfile or self.remove_data:
             self.glade.get_widget("hseparator1").show()
         if self.remove_torrentfile:
@@ -77,14 +77,14 @@ class RemoveTorrentDialog:
             self.dialog.destroy()
             return
         self.dialog.show()
-    
+
     def on_button_ok_clicked(self, widget):
         client.remove_torrent(
             self.torrent_ids, self.remove_torrentfile, self.remove_data)
         # Unselect all to avoid issues with the selection changed event
         component.get("TorrentView").treeview.get_selection().unselect_all()
         self.dialog.destroy()
-        
+
     def on_button_cancel_clicked(self, widget):
         self.dialog.destroy()
-        
+
