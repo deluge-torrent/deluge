@@ -56,12 +56,12 @@ from deluge.ui.tracker_icons import TrackerIcons
 page_manager = component.get("PageManager")
 config = ConfigManager("webui06.conf")
 
-def route(url, klass):
+def route(url, klass, use_module=True):
     """
     url-mapping is using page_manager
     not the default web.py way ; I want class decorators!
     """
-    page_manager.register_page(url, klass)
+    page_manager.register_page(url, klass,use_module)
 
 #pages:
 class login:
@@ -145,7 +145,7 @@ def reg_torrents_POST(url_name, proxy_command):
             getattr(proxy, proxy_command)(torrent_ids)
             do_redirect()
     _page_class.__name__ = "TORRENTS_POST:" + proxy_command
-    route("/torrent/%s/(.*)" % url_name, _page_class)
+    route("/torrent/%s/(.*)" % url_name, _page_class, use_module=False)
 
 reg_torrents_POST("start", "resume_torrent")
 reg_torrents_POST("stop", "pause_torrent")
