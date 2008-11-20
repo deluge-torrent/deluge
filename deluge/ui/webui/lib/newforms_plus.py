@@ -213,6 +213,28 @@ class DelugeFloat(DelugeInt):
             pass
         return float(DelugeInt.clean(self, value))
 
+
+class StringList(Field):
+    """for a list of strings """
+    def __init__(self, label, *args, **kwargs):
+        if not "widget" in kwargs:
+            kwargs["widget"]  = StringListWidget
+        newforms.Field.__init__(self, *args, **kwargs)
+
+    def clean(self, value):
+        if type(value) in [str, unicode]: #bug
+            return value.split("/n")
+
+class StringListWidget(newforms.Textarea):
+    """for a list of strings """
+    def __init__(self, attrs=None):
+        newforms.Textarea.__init__(self, attrs)
+
+    def render(self, name, value, attrs=None):
+        if type(value) in [list, tuple]: #bug
+            value = "\n".join(value)
+        return newforms.Textarea.render(self, name, value, attrs)
+
 #/fields
 
 
