@@ -396,6 +396,22 @@ class Core(
         }
 
 
+    def export_get_session_status(self, keys):
+        """
+        Gets the session status values for 'keys'
+
+        :param keys: list of strings, the keys for which we want values
+        :returns: a dictionary of {key: value, ...}
+        :rtype: dict
+
+        """
+        status = {}
+        session_status = self.session.status()
+        for key in keys:
+            status[key] = getattr(session_status, key)
+
+        return status
+
     def export_add_torrent_url(self, url, options):
         log.info("Attempting to add url %s", url)
 
