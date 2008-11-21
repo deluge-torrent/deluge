@@ -484,11 +484,7 @@ class Core(
 
     def export_get_torrent_status(self, torrent_id, keys):
         # Build the status dictionary
-        try:
-            status = self.torrents[torrent_id].get_status(keys)
-        except KeyError:
-            # The torrent_id is not found in the torrentmanager, so return None
-            return None
+        status = self.torrents[torrent_id].get_status(keys)
 
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(keys) - set(status.keys()))
@@ -496,7 +492,7 @@ class Core(
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
         return status
 
-    def export_get_torrents_status(self, filter_dict, keys ):
+    def export_get_torrents_status(self, filter_dict, keys):
         """
         returns all torrents , optionally filtered by filter_dict.
         """
@@ -506,7 +502,7 @@ class Core(
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
             status_dict[torrent_id] = self.export_get_torrent_status(torrent_id, keys)
-        # Emit the torrent_status signal to the clients
+
         return status_dict
 
     def export_get_filter_tree(self , show_zero_hits=True, hide_cat=None):

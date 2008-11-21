@@ -8,6 +8,7 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
   * Remove remaining gtk functions in common
   * Tracker icons.
+  * Add ETA for torrents with stop at seed ratio set
 
  GtkUI:
   * Add peer progress to the peers tab
