@@ -115,6 +115,8 @@ class StatusBar(component.Component):
         self.dht_nodes = 0
         self.dht_status = False
         self.health = False
+        self.download_protocol_rate = 0.0
+        self.upload_protocol_rate = 0.0
 
         self.config_value_changed_dict = {
             "max_connections_global": self._on_max_connections_global,
@@ -159,6 +161,11 @@ class StatusBar(component.Component):
             callback=self._on_upload_item_clicked,
             tooltip=_("Upload Speed"))
 
+        self.traffic_item = self.add_item(
+            image=deluge.common.get_pixmap("traffic16.png"),
+            callback=self._on_traffic_item_clicked,
+            tooltip=_("Protocol Traffic Upload/Download"))
+
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"))
         self.tooltips.set_tip(self.dht_item.get_eventbox(), "DHT Nodes")
@@ -192,6 +199,7 @@ class StatusBar(component.Component):
             self.remove_item(self.upload_item)
             self.remove_item(self.not_connected_item)
             self.remove_item(self.health_item)
+            self.remove_item(self.traffic_item)
         except Exception, e:
             log.debug("Unable to remove StatusBar item: %s", e)
         self.show_not_connected()
@@ -253,8 +261,9 @@ class StatusBar(component.Component):
         client.get_num_connections(self._on_get_num_connections)
         if self.dht_status:
             client.get_dht_nodes(self._on_get_dht_nodes)
-        client.get_download_rate(self._on_get_download_rate)
-        client.get_upload_rate(self._on_get_upload_rate)
+        client.get_session_status(self._on_get_session_status,
+            ["upload_rate", "download_rate", "payload_upload_rate", "payload_download_rate"])
+
         if not self.health:
             # Only request health status while False
             client.get_health(self._on_get_health)
@@ -287,20 +296,21 @@ class StatusBar(component.Component):
         else:
             self.remove_item(self.dht_item)
 
+    def _on_get_session_status(self, status):
+        self.download_rate = deluge.common.fsize(status["payload_download_rate"])
+        self.upload_rate = deluge.common.fsize(status["payload_upload_rate"])
+        self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) / 1024
+        self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) / 1024
+        self.update_download_label()
+        self.update_upload_label()
+        self.update_traffic_label()
+
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
         self.update_download_label()
 
-    def _on_get_download_rate(self, download_rate):
-        self.download_rate = deluge.common.fsize(download_rate)
-        self.update_download_label()
-
     def _on_max_upload_speed(self, max_upload_speed):
         self.max_upload_speed = max_upload_speed
-        self.update_upload_label()
-
-    def _on_get_upload_rate(self, upload_rate):
-        self.upload_rate = deluge.common.fsize(upload_rate)
         self.update_upload_label()
 
     def _on_get_health(self, value):
@@ -340,6 +350,10 @@ class StatusBar(component.Component):
                 self.upload_rate, self.max_upload_speed, _("KiB/s"))
 
         self.upload_item.set_text(label_string)
+
+    def update_traffic_label(self):
+        label_string = "%.2f/%.2f KiB/s" % (self.upload_protocol_rate, self.download_protocol_rate)
+        self.traffic_item.set_text(label_string)
 
     def update(self):
         # Send status request
@@ -433,3 +447,6 @@ class StatusBar(component.Component):
 
     def _on_notconnected_item_clicked(self, widget, event):
         component.get("ConnectionManager").show()
+
+    def _on_traffic_item_clicked(self, widget, event):
+        component.get("Preferences").show("Network")
