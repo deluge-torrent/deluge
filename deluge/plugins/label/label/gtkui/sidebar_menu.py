@@ -92,7 +92,7 @@ class LabelSidebarMenu(object):
         aclient.label_remove(None, self.treeview.value)
 
     def on_options (self, event=None):
-        self.options_dialog.show(self.treeview.value, (200,250))
+        self.options_dialog.show(self.treeview.value)
 
     def on_show(self, widget=None, data=None):
         "No Label:disable options/del"
@@ -135,6 +135,8 @@ class AddDialog(object):
     def show(self):
         self.glade = gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_add")
+        self.dialog.set_transient_for(component.get("MainWindow").window)
+
         self.glade.signal_autoconnect({
             "on_add_ok":self.on_ok,
             "on_add_cancel":self.on_cancel,
@@ -168,21 +170,25 @@ class OptionsDialog(object):
     def __init__(self):
         pass
 
-    def show(self, label , position):
+    def show(self, label):
         self.label = label
         self.glade = gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_options")
+        self.dialog.set_transient_for(component.get("MainWindow").window)
         self.glade.signal_autoconnect({
             "on_options_ok":self.on_ok,
             "on_options_cancel":self.on_cancel,
         })
+
+        # Show the label name in the header label
+        self.glade.get_widget("label_header").set_markup("<b>Label Options:</b> %s" % self.label)
 
         for chk_id, group in  self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
             chk.connect("toggled",self.apply_sensitivity)
 
         aclient.label_get_options(self.load_options, self.label)
-        self.dialog.move(*position)
+
         self.dialog.run()
 
     def load_options(self, options):
