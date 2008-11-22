@@ -239,6 +239,8 @@ class Preferences(component.Component):
                     ("value", self.core_config["max_connections_per_second"]),
                 "chk_ignore_limits_on_local_network": \
                     ("active", self.core_config["ignore_limits_on_local_network"]),
+                "chk_rate_limit_ip_overhead": \
+                    ("active", self.core_config["rate_limit_ip_overhead"]),
                 "spin_max_connections_per_torrent": \
                     ("value", self.core_config["max_connections_per_torrent"]),
                 "spin_max_upload_slots_per_torrent": \
@@ -359,6 +361,7 @@ class Preferences(component.Component):
                 "spin_max_half_open_connections",
                 "spin_max_connections_per_second",
                 "chk_ignore_limits_on_local_network",
+                "chk_rate_limit_ip_overhead",
                 "spin_max_connections_per_torrent",
                 "spin_max_upload_slots_per_torrent",
                 "spin_max_download_per_torrent",
@@ -532,6 +535,8 @@ class Preferences(component.Component):
                 "spin_max_download_per_torrent").get_value()
         new_core_config["ignore_limits_on_local_network"] = \
             self.glade.get_widget("chk_ignore_limits_on_local_network").get_active()
+        new_core_config["rate_limit_ip_overhead"] = \
+            self.glade.get_widget("chk_rate_limit_ip_overhead").get_active()
 
         ## Interface tab ##
         new_gtkui_config["enable_system_tray"] = \
@@ -706,4 +711,3 @@ class Preferences(component.Component):
 
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")
-

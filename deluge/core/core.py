@@ -116,6 +116,7 @@ DEFAULT_PREFS = {
     "move_completed": False,
     "move_completed_path": deluge.common.get_default_download_dir(),
     "new_release_check": True,
+    "rate_limit_ip_overhead": True
 }
 
 class Core(
@@ -292,6 +293,8 @@ class Core(
         self.new_release_timer = None
         self.config.register_set_function("new_release_check",
             self._on_new_release_check)
+        self.config.register_set_function("rate_limit_ip_overhead",
+            self._on_rate_limit_ip_overhead)
 
         self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
@@ -476,7 +479,8 @@ class Core(
         # Build the status dictionary
         try:
             status = self.torrents[torrent_id].get_status(keys)
-        except KeyError:
+        except KeyError, e:
+            log.debug(e)
             # The torrent_id is not found in the torrentmanager, so return None
             return None
 
@@ -493,7 +497,8 @@ class Core(
         for torrent_id in torrent_ids:
             try:
                 status = self.torrents[torrent_id].get_status(keys)
-            except KeyError:
+            except KeyError, e:
+                log.debug(e)
                 return None
             # Get the leftover fields and ask the plugin manager to fill them
             leftover_fields = list(set(keys) - set(status.keys()))
@@ -949,3 +954,8 @@ class Core(
         else:
             if self.new_release_timer:
                 gobject.source.remove(self.new_release_timer)
+
+    def _on_rate_limit_ip_overhead(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.settings.rate_limit_ip_overhead = value
+        self.session.set_settings(self.settings)

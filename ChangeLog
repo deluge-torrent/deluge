@@ -1,6 +1,8 @@
 Deluge 1.0.6 (In Development)
  Core:
   * Fix #475 catch unicode decoding errors
+  * Add an option to not include IP overhead in rate limiting (this is equivalent
+    to how 0.5.x behaves)
 
  GtkUI:
   * Display the proper downloaded value in the statistics tab
