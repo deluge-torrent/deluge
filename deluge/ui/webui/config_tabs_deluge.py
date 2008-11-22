@@ -107,6 +107,7 @@ class BandwithGlobal(config_forms.CfgForm):
     max_half_open_connections = forms.DelugeInt(_("Maximum Half-Open Connections"))
     max_connections_per_second = forms.DelugeInt(_("Maximum Connection Attempts per Second"))
     ignore_limits_on_local_network = forms.CheckBox("Ignore limits on local network")
+    rate_limit_ip_overhead = forms.CheckBox(_("Rate Limit IP Overhead"))
 
 
 config_page.register('bandwidth','global', BandwithGlobal)
@@ -118,7 +119,6 @@ class BandwithTorrent(config_forms.CfgForm):
     max_download_speed_per_torrent = forms.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
     max_upload_speed_per_torrent = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
     max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
-    rate_limit_ip_overhead = forms.CheckBox(_("Rate Limit IP Overhead"))
 
 config_page.register('bandwidth','torrent', BandwithTorrent)
 
