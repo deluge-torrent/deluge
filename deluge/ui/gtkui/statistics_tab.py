@@ -104,7 +104,7 @@ class StatisticsTab(Tab):
 
         # Get the torrent status
         status_keys = ["progress", "num_pieces", "piece_length",
-            "distributed_copies", "total_done", "total_payload_download",
+            "distributed_copies", "all_time_download", "total_payload_download",
             "total_uploaded", "total_payload_upload", "download_payload_rate",
             "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
             "total_seeds", "eta", "ratio", "next_announce",
