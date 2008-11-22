@@ -464,9 +464,6 @@ class Torrent:
             "peers": self.get_peers,
         }
 
-        self.status = None
-        self.torrent_info = None
-
         # Create the desired status dictionary and return it
         status_dict = {}
 
@@ -480,6 +477,9 @@ class Torrent:
                     status_dict[key] = full_status[key]
                 elif key in fns:
                     status_dict[key] = fns[key]()
+
+        self.status = None
+        self.torrent_info = None
 
         return status_dict
 
