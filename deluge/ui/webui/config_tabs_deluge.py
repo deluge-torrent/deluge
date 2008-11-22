@@ -118,7 +118,8 @@ class BandwithGlobal(config_forms.CfgForm):
 
     max_half_open_connections = forms.DelugeInt(_("Maximum Half-Open Connections"))
     max_connections_per_second = forms.DelugeInt(_("Maximum Connection Attempts per Second"))
-    ignore_limits_on_local_network = forms.CheckBox("Ignore limits on local network")
+    ignore_limits_on_local_network = forms.CheckBox(_("Ignore limits on local network"))
+    rate_limit_ip_overhead = forms.CheckBox(_("Rate Limit IP Overhead"))
 
 
 config_page.register('bandwidth','global', BandwithGlobal)
