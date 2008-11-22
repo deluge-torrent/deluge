@@ -107,6 +107,7 @@ DEFAULT_PREFS = {
     "outgoing_ports": [0, 0],
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
+    "rate_limit_ip_overhead": True
 }
 
 class PreferencesManager(component.Component):
@@ -192,6 +193,8 @@ class PreferencesManager(component.Component):
         self.new_release_timer = None
         self.config.register_set_function("new_release_check",
             self._on_new_release_check)
+        self.config.register_set_function("rate_limit_ip_overhead",
+            self._on_rate_limit_ip_overhead)
 
         self.config.register_change_callback(self._on_config_value_change)
 
@@ -454,3 +457,8 @@ class PreferencesManager(component.Component):
         self.session.set_web_seed_proxy(proxy_settings)
         self.session.set_tracker_proxy(proxy_settings)
         self.session.set_dht_proxy(proxy_settings)
+
+    def _on_rate_limit_ip_overhead(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.settings.rate_limit_ip_overhead = value
+        self.session.set_settings(self.settings)
