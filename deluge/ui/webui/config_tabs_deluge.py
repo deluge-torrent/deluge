@@ -118,6 +118,7 @@ class BandwithTorrent(config_forms.CfgForm):
     max_download_speed_per_torrent = forms.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
     max_upload_speed_per_torrent = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
     max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
+    rate_limit_ip_overhead = forms.CheckBox(_("Rate Limit IP Overhead"))
 
 config_page.register('bandwidth','torrent', BandwithTorrent)
 
