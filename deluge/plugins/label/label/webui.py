@@ -46,12 +46,35 @@ forms = api.forms
 
 #pages:
 class options:
+    def page(self, label_id,  options , error=None):
+        options_form = OptionsForm(options)
+        options_form.label_id = label_id
+        options_form.full_clean()
+        return api.render.label.options(label_id, options_form)
+
     @api.deco.deluge_page
     def GET(self, label_id):
+        return self.page(label_id, sclient.label_get_options(label_id))
 
+    @api.deco.check_session
+    def POST(self, label_id):
+        post_options = api.utils.get_newforms_data(OptionsForm)
         options = sclient.label_get_options(label_id)
+
+        log.debug(options)
+        options.update(dict(post_options))
+        log.debug(options)
         options_form = OptionsForm(options)
-        return api.render.label.options(label_id, options_form)
+        options_form.label_id = label_id
+
+        if not options_form.is_valid():
+             return self.page(label_id, options,  _("Error setting label options"))
+        else:
+            error = None
+
+        sclient.label_set_options(label_id, options_form.cleaned_data)
+        api.utils.seeother("/config/label")
+
 
 class add:
     @api.deco.deluge_page
@@ -99,6 +122,11 @@ class WebUI(WebUIPluginBase):
         ]
 """
 class OptionsForm(forms.Form):
+
+    #load/save:
+    def initial_data(self):
+        return sclient.label_get_options(self.label_id)
+
     #maximum:
     apply_max = forms.CheckBox(_("apply_max"))
     max_download_speed = forms.DelugeInt(_("max_download_speed"))
@@ -110,17 +138,17 @@ class OptionsForm(forms.Form):
     apply_queue = forms.CheckBox(_("apply_queue"))
     is_auto_managed = forms.CheckBox(_("is_auto_managed"))
     stop_at_ratio = forms.CheckBox(_("stop_at_ratio"))
-    stop_ratio = forms.DelugeInt(_("stop_ratio"))
+    stop_ratio = forms.DelugeFloat(_("stop_ratio"),  required=False)
     remove_at_ratio = forms.CheckBox(_("remove_at_ratio"))
 
     #location:
     apply_move_completed = forms.CheckBox(_("apply_move_completed"))
     move_completed = forms.CheckBox(_("move_completed"))
-    move_completed_path = forms.CharField(label=_("move_completed_path"))
+    move_completed_path = forms.CharField(label=_("move_completed_path"), required=False)
 
     #tracker:
     auto_add = forms.CheckBox(_("auto_add"))
-    auto_add_trackers = forms.CharField(label=_("auto_add_trackers"), widget=forms.Textarea)
+    auto_add_trackers = forms.StringList(_("auto_add_trackers"))
 
 
 

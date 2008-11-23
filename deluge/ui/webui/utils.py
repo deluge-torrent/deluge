@@ -171,13 +171,14 @@ def get_newforms_data(form_class):
     form_data = {}
     vars = web.input()
     for field in fields:
-        form_data[field] = vars.get(field)
-        #log.debug("form-field:%s=%s" %  (field, form_data[field]))
-        #DIRTY HACK: (for multiple-select)
-        if isinstance(form_class.base_fields[field],
-                forms.MultipleChoiceField):
-            form_data[field] = web.input(**{field:[]})[field]
-        #/DIRTY HACK
+        value = vars.get(field)
+
+        if value != None or  isinstance(form_class.base_fields[field], forms.BooleanField):
+            form_data[field]  = value
+            #for multiple-select) :
+            if isinstance(form_class.base_fields[field], forms.MultipleChoiceField):
+                form_data[field] = web.input(**{field:[]})[field]
+
     return form_data
 
 #/utils

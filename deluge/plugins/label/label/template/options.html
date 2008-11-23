@@ -1,9 +1,8 @@
-$def with (label_id, options_form)
+$def with (label_id, options_form, error=None)
 $:render.basic_header(_("Label Options"))
 <h2>$label_id Options.</h2>
 <div class="panel">
 <form method="POST" action='$base/label/options/$label_id'>
-    label= $label_id
     <h3>max</h3>
     <table>
     $:(options_form.as_table(["apply_max", "max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]))

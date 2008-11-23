@@ -147,12 +147,20 @@ class Core(CorePluginBase):
                 del self.torrent_labels[torrent_id]
 
     def clean_initial_config(self):
-        "add any new keys in OPTIONS_DEFAULTS"
+        """
+        *add any new keys in OPTIONS_DEFAULTS
+        *set all None values to default <-fix development config
+        """
         log.debug(self.labels.keys())
         for key in self.labels.keys():
             options = dict(OPTIONS_DEFAULTS)
             options.update(self.labels[key])
             self.labels[key] = options
+
+        for key, value in self.labels[key].iteritems():
+            if value == None:
+                self.labels[key] = OPTIONS_DEFAULTS[key]
+
 
     def save_config(self):
         self.clean_config()
