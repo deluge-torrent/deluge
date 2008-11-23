@@ -36,21 +36,21 @@ from deluge.ui.client import aclient
 from deluge.configmanager import ConfigManager
 
 STATE_PIX = {
-    "All":"all",
-    "Downloading":"downloading",
-    "Seeding":"seeding",
-    "Paused":"inactive",
-    "Checking":"checking",
-    "Queued":"queued",
-    "Error":"alert",
-    "Active":"active"
+    "All": "all",
+    "Downloading": "downloading",
+    "Seeding": "seeding",
+    "Paused": "inactive",
+    "Checking": "checking",
+    "Queued": "queued",
+    "Error": "alert",
+    "Active": "active"
     }
 
 
 TRANSLATE = {
-    "state":"State",
-    "tracker_host":"Tracker",
-    "label":"Label"
+    "state": "States",
+    "tracker_host": "Trackers",
+    "label": "Labels"
 }
 
 FILTER_COLUMN = 5
@@ -94,7 +94,7 @@ class FilterTreeView(component.Component):
 
         # Create the liststore
         #cat, value, label, count, pixmap, visible
-        self.treestore = gtk.TreeStore(str, str,str, int, gtk.gdk.Pixbuf, bool)
+        self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
 
         #add Cat nodes:
         self.cat_nodes = {}
@@ -113,8 +113,9 @@ class FilterTreeView(component.Component):
         self.label_view.append_column(column)
 
         #style:
-        self.label_view.set_show_expanders(False)
+        self.label_view.set_show_expanders(True)
         self.label_view.set_headers_visible(False)
+        self.label_view.set_level_indentation(-35)
 
         self.label_view.set_model(self.treestore)
         self.label_view.get_selection().connect("changed", self.on_selection_changed)
@@ -149,7 +150,6 @@ class FilterTreeView(component.Component):
             if not cat in self.cat_nodes:
                 self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, _t(cat), 0, None, False])
 
-
         #update rows
         visible_filters = []
         for cat,filters in filter_items.iteritems():
@@ -169,7 +169,6 @@ class FilterTreeView(component.Component):
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
 
-        self.label_view.expand_all()
         (model, row) = self.label_view.get_selection().get_selected()
         if not row:
             self.select_default_filter()
@@ -194,15 +193,14 @@ class FilterTreeView(component.Component):
 
     def render_cell_data(self, column, cell, model, row, data):
         "cell renderer"
-        cat    = model.get_value(row, 0)
+        cat = model.get_value(row, 0)
         value = model.get_value(row, 1)
         label = model.get_value(row, 2)
         count = model.get_value(row, 3)
         pix = model.get_value(row, 4)
 
-        if (label == "") and cat == "label":
+        if label == "" and cat == "label":
             label = _("no label")
-
 
         if pix:
             self.renderpix.set_property("visible", True)
@@ -289,6 +287,13 @@ class FilterTreeView(component.Component):
         if event.button == 1:
             # Prevent selecting a category label
             if cat == "cat":
+                if self.label_view.row_expanded(path):
+                    self.label_view.collapse_row(path)
+                else:
+                    self.label_view.expand_row(path, False)
+                    (model, row) = self.label_view.get_selection().get_selected()
+                    if not row:
+                        self.select_default_filter()
                 return True
 
         elif event.button == 3:
@@ -298,7 +303,7 @@ class FilterTreeView(component.Component):
             if not path:
                 return
             row = self.model_filter.get_iter(path[0])
-            self.cat    = self.model_filter.get_value(row, 0)
+            self.cat = self.model_filter.get_value(row, 0)
             self.value = self.model_filter.get_value(row, 1)
             self.count = self.model_filter.get_value(row, 3)
 
