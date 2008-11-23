@@ -141,6 +141,8 @@ class FilterTreeView(component.Component):
         # We set to this expand the rows on start-up
         self.expand_rows = True
 
+        self.selected_path = None
+
     def create_model_filter(self):
         self.model_filter = self.treestore.filter_new()
         self.model_filter.set_visible_column(FILTER_COLUMN)
@@ -175,8 +177,7 @@ class FilterTreeView(component.Component):
             self.label_view.expand_all()
             self.expand_rows = False
 
-        (model, row) = self.label_view.get_selection().get_selected()
-        if not row:
+        if not self.selected_path:
             self.select_default_filter()
 
     def update_row(self, cat, value , count):
@@ -254,7 +255,7 @@ class FilterTreeView(component.Component):
                 log.debug("nothing selected")
                 return
 
-            cat    = model.get_value(row, 0)
+            cat = model.get_value(row, 0)
             value = model.get_value(row, 1)
 
             filter_dict = {cat: [value]}
@@ -262,6 +263,8 @@ class FilterTreeView(component.Component):
                 filter_dict = {}
 
             component.get("TorrentView").set_filter(filter_dict)
+
+            self.selected_path = model.get_path(row)
 
         except Exception, e:
             log.debug(e)
@@ -297,9 +300,10 @@ class FilterTreeView(component.Component):
                     self.label_view.collapse_row(path)
                 else:
                     self.label_view.expand_row(path, False)
-                    (model, row) = self.label_view.get_selection().get_selected()
-                    if not row:
+                    if not self.selected_path:
                         self.select_default_filter()
+                    else:
+                        self.label_view.get_selection().select_path(self.selected_path)
                 return True
 
         elif event.button == 3:
