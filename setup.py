@@ -42,29 +42,6 @@ def windows_check():
 def osx_check():
     return platform.system() == "Darwin"
 
-# Try to get SVN revision number to append to version
-revision_string = ""
-try:
-    stdout = os.popen("svn info")
-    for line in stdout:
-        if line.split(" ")[0] == "Revision:":
-            revision_string = line.split(" ")[1].strip()
-            break
-    # Try to get the SVN revision on Gentoo systems
-    if revision_string == "":
-        stdout = os.popen("svn info /usr/portage/distfiles/svn-src/deluge/trunk")
-        for line in stdout:
-            if line.split(" ")[0] == "Revision:":
-                revision_string = line.split(" ")[1].strip()
-                break
-
-    f = open("deluge/data/revision", "w")
-    f.write(revision_string)
-    f.close()
-except:
-    pass
-
-
 if not os.environ.has_key("CC"):
     os.environ["CC"] = "gcc"
 
@@ -239,8 +216,27 @@ class build_trans(cmd.Command):
                             print('Compiling %s' % src)
                             msgfmt.make(src, dest)
 
+class build_plugins(cmd.Command):
+    description = "Build plugins into .eggs"
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build the plugin eggs
+        PLUGIN_PATH = "deluge/plugins/*"
+        if windows_check():
+            PLUGIN_PATH = "deluge\\plugins\\"
+
+        for path in glob.glob(PLUGIN_PATH):
+            if os.path.exists(os.path.join(path, "setup.py")):
+                os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
+
 class build(_build):
-    sub_commands = _build.sub_commands + [('build_trans', None)]
+    sub_commands = _build.sub_commands + [('build_trans', None), ('build_plugins', None)]
     def run(self):
         _build.run(self)
 
@@ -251,17 +247,9 @@ class install_data(_install_data):
 cmdclass = {
     'build': build,
     'build_trans': build_trans,
+    'build_plugins': build_plugins,
     'install_data': install_data
 }
-
-# Build the plugin eggs
-PLUGIN_PATH = "deluge/plugins/*"
-if windows_check():
-    PLUGIN_PATH = "deluge\\plugins\\"
-
-for path in glob.glob(PLUGIN_PATH):
-    if os.path.exists(os.path.join(path, "setup.py")):
-        os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
 
 # Main setup
 PREFIX = "/usr/"
@@ -310,9 +298,8 @@ setup(
     """,
     ext_package = "deluge",
     ext_modules = _ext_modules,
-    fullname = "Deluge Bittorent Client",
+    fullname = "Deluge Bittorrent Client",
     include_package_data = True,
-    language = "c++",
     license = "GPLv3",
     name = "deluge",
     package_data = {"deluge": ["ui/gtkui/glade/*.glade",
@@ -325,7 +312,6 @@ setup(
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
-                                "ui/webui/LICENSE",
                                 "ui/webui/scripts/*",
                                 "ui/webui/ssl/*",
                                 "ui/webui/static/*.css",
@@ -343,10 +329,3 @@ setup(
     url = "http://deluge-torrent.org",
     version = "1.1.0_dev",
 )
-
-try:
-    f = open("deluge/data/revision", "w")
-    f.write("")
-    f.close()
-except:
-    pass
