@@ -323,7 +323,7 @@ GPL = """#
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
-# Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
