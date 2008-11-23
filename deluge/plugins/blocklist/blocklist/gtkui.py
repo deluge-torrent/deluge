@@ -1,7 +1,7 @@
 #
 # gtkui.py
 #
-# Copyright (C) 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #

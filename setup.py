@@ -1,6 +1,7 @@
+#
 # setup.py
 #
-# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,15 +19,6 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
 
 import ez_setup
 ez_setup.use_setuptools()
@@ -295,7 +287,7 @@ setup(
     """,
     ext_package = "deluge",
     ext_modules = _ext_modules,
-    fullname = "Deluge Bittorent Client",
+    fullname = "Deluge Bittorrent Client",
     include_package_data = True,
     license = "GPLv3",
     name = "deluge",
@@ -309,9 +301,7 @@ setup(
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
-                                "ui/webui/LICENSE",
                                 "ui/webui/scripts/*",
-                                "ui/webui/ssl/*",
                                 "ui/webui/static/*.css",
                                 "ui/webui/static/*.js",
                                 "ui/webui/static/images/*.png",
@@ -320,9 +310,6 @@ setup(
                                 "ui/webui/static/images/tango/*.png",
                                 "ui/webui/templates/deluge/*",
                                 "ui/webui/templates/classic/*",
-                                "ui/webui/templates/ajax_demo/*.cfg",
-                                "ui/webui/templates/ajax_demo/*.html",
-                                "ui/webui/templates/ajax_demo/static/js/*",
                                 "ui/webui/templates/white/*"
                                 ]},
     packages = find_packages(exclude=["plugins"]),
