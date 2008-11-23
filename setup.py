@@ -216,8 +216,27 @@ class build_trans(cmd.Command):
                             print('Compiling %s' % src)
                             msgfmt.make(src, dest)
 
+class build_plugins(cmd.Command):
+    description = "Build plugins into .eggs"
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build the plugin eggs
+        PLUGIN_PATH = "deluge/plugins/*"
+        if windows_check():
+            PLUGIN_PATH = "deluge\\plugins\\"
+
+        for path in glob.glob(PLUGIN_PATH):
+            if os.path.exists(os.path.join(path, "setup.py")):
+                os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
+
 class build(_build):
-    sub_commands = _build.sub_commands + [('build_trans', None)]
+    sub_commands = _build.sub_commands + [('build_trans', None), ('build_plugins', None)]
     def run(self):
         _build.run(self)
 
@@ -228,17 +247,9 @@ class install_data(_install_data):
 cmdclass = {
     'build': build,
     'build_trans': build_trans,
+    'build_plugins': build_plugins,
     'install_data': install_data
 }
-
-# Build the plugin eggs
-PLUGIN_PATH = "deluge/plugins/*"
-if windows_check():
-    PLUGIN_PATH = "deluge\\plugins\\"
-
-for path in glob.glob(PLUGIN_PATH):
-    if os.path.exists(os.path.join(path, "setup.py")):
-        os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
 
 # Main setup
 PREFIX = "/usr/"
