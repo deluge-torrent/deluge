@@ -138,6 +138,8 @@ class FilterTreeView(component.Component):
         self.update_row("state", "Paused" , 0)
         self.update_row("state", "Queued" , 0)
 
+        # We set to this expand the rows on start-up
+        self.expand_rows = True
 
     def create_model_filter(self):
         self.model_filter = self.treestore.filter_new()
@@ -168,6 +170,10 @@ class FilterTreeView(component.Component):
         for f in self.filters:
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
+
+        if self.expand_rows:
+            self.label_view.expand_all()
+            self.expand_rows = False
 
         (model, row) = self.label_view.get_selection().get_selected()
         if not row:
