@@ -1,0 +1,45 @@
+.TH DELUGED 1 "November 2008" "1.0.6"
+
+.SH NAME
+deluged - a bittorrent client daemon
+
+.SH SYNOPSIS
+.B deluged [options]
+
+.SH DESCRIPTION
+.br
+.P
+Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
+.br
+.P
+By default, 'deluged' will run as a daemon, to prevent this you can run deluged with the -d option.  This option is useful for running deluged with the start-stop-daemon.
+
+.SH OPTIONS
+.TP
+.I --version
+Show program's version number and exit.
+.TP
+.I -h, --help
+Show this help message and exit.
+.TP
+.I -p PORT, --port=PORT
+Port daemon will listen on, default is 58846
+.TP
+.I -d, --do-not-daemonize
+Do not daemonize
+.TP
+.I -c CONFIG, --config=CONFIG
+Sets the configuration path.
+.TP
+.I -l LOGFILE, --logfile=LOGFILE
+Output to designated logfile instead of stdout
+
+.SH SEE ALSO
+.B Homepage:
+http://www.deluge-torrent.org/
+
+.SH AUTHOR
+This manual page was written by Andrew Resch <andrew.resch@gmail.com>.
+.br
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
+.br

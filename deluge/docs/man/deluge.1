@@ -1,0 +1,45 @@
+.TH DELUGE 1 "November 2008" "1.0.6"
+
+.SH NAME
+deluge - a bittorrent client
+
+.SH SYNOPSIS
+.B deluge [options] [torrent]
+
+.SH DESCRIPTION
+.br
+.P
+Deluge utilizes a client/server model, with 'deluged' being the daemon process and 'deluge' being used to launch a user-interface.
+.br
+.P
+By default, Deluge will run in 'Classic' mode where the daemon functionality will be hidden and the GtkUI will automatically launch a 'deluged' process.  You can turn this off in the Preferences dialog.
+
+.SH OPTIONS
+.TP
+.I [torrent]
+List of ".torrent" files to add to the download queue.
+.TP
+.I --version
+Show program's version number and exit.
+.TP
+.I -h, --help
+Show this help message and exit.
+.TP
+.I -c CONFIG, --config=CONFIG
+Sets the configuration path.
+.TP
+.I -u UI, --ui=UI
+The UI that you wish to launch, current options include: gtk, web or null
+.TP
+.I -l LOGFILE, --logfile=LOGFILE
+Output to designated logfile instead of stdout
+
+.SH SEE ALSO
+.B Homepage:
+http://www.deluge-torrent.org/
+
+.SH AUTHOR
+This manual page was written by Andrew Resch <andrew.resch@gmail.com>.
+.br
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
+.br
