@@ -209,6 +209,10 @@ class DelugeInt(newforms.IntegerField):
             value = -1
         return int(newforms.IntegerField.clean(self, value))
 
+    def widget_attrs(self, widget):
+        return {'size': "8"}
+
+
 class DelugeFloat(DelugeInt):
     def clean(self, value):
         try:
@@ -216,6 +220,14 @@ class DelugeFloat(DelugeInt):
         except:
             pass
         return float(DelugeInt.clean(self, value))
+
+    def widget_attrs(self, widget):
+        return {'size': "8"}
+
+class FloatField(newforms.FloatField):
+    def widget_attrs(self, widget):
+        return {'size': "8"}
+
 
 
 class StringList(Field):
