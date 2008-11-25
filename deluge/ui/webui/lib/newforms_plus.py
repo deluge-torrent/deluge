@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
+#
+# FilteredForm contains code copied from django newforms :
+# Copyright (c) 2005, the Lawrence Journal-World
+#
 # Django Licence, see ./newforms_portable/LICENCE
 #
 
