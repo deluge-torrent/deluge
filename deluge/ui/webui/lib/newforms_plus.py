@@ -199,7 +199,15 @@ class _DelugeIntInputWidget(newforms.TextInput):
             pass
         return newforms.TextInput.render(self, name, value, attrs)
 
-class DelugeInt(newforms.IntegerField):
+class IntegerField(newforms.IntegerField):
+    def widget_attrs(self, widget):
+        return {'size': "8"}
+
+class FloatField(newforms.FloatField):
+    def widget_attrs(self, widget):
+        return {'size': "8"}
+
+class DelugeInt(IntegerField):
     def __init__(self, label , **kwargs):
         newforms.IntegerField.__init__(self, label=label, min_value=-1,
             max_value=sys.maxint, widget=_DelugeIntInputWidget, **kwargs)
@@ -209,10 +217,6 @@ class DelugeInt(newforms.IntegerField):
             value = -1
         return int(newforms.IntegerField.clean(self, value))
 
-    def widget_attrs(self, widget):
-        return {'size': "8"}
-
-
 class DelugeFloat(DelugeInt):
     def clean(self, value):
         try:
@@ -220,14 +224,6 @@ class DelugeFloat(DelugeInt):
         except:
             pass
         return float(DelugeInt.clean(self, value))
-
-    def widget_attrs(self, widget):
-        return {'size': "8"}
-
-class FloatField(newforms.FloatField):
-    def widget_attrs(self, widget):
-        return {'size': "8"}
-
 
 
 class StringList(Field):
