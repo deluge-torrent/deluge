@@ -1,1 +1,2 @@
-debian/deluge.1
+deluge/docs/man/deluge.1
+deluge/docs/man/deluged.1
