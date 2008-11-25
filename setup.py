@@ -29,6 +29,7 @@ from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.install import install as _install
 from distutils.command.install_data import install_data as _install_data
+from distutils.command.clean import clean as _clean
 
 import msgfmt
 import os
@@ -219,6 +220,8 @@ class build_trans(cmd.Command):
 class build_plugins(cmd.Command):
     description = "Build plugins into .eggs"
 
+    user_options = []
+
     def initialize_options(self):
         pass
 
@@ -236,20 +239,74 @@ class build_plugins(cmd.Command):
                 os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
 
 class build(_build):
-    sub_commands = _build.sub_commands + [('build_trans', None), ('build_plugins', None)]
+    sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
     def run(self):
+        # Run all sub-commands (at least those that need to be run)
+        #for cmd_name in self.get_sub_commands():
+        #    self.run_command(cmd_name)
         _build.run(self)
 
 class install_data(_install_data):
     def run(self):
         _install_data.run(self)
 
+class clean_plugins(cmd.Command):
+    description = "Cleans the plugin folders"
+    user_options = [
+         ('all', 'a', "remove all build output, not just temporary by-products")
+    ]
+    boolean_options = ['all']
+
+    def initialize_options(self):
+        self.all = None
+
+    def finalize_options(self):
+        self.set_undefined_options('clean', ('all', 'all'))
+
+    def run(self):
+        print("Cleaning the plugin folders..")
+
+        PLUGIN_PATH = "deluge/plugins/*"
+        if windows_check():
+            PLUGIN_PATH = "deluge\\plugins\\"
+
+        for path in glob.glob(PLUGIN_PATH):
+            if os.path.exists(os.path.join(path, "setup.py")):
+                c = "cd " + path + "&& python setup.py clean"
+                if self.all:
+                    c += " -a"
+                os.system(c)
+
+            # Delete the .eggs
+            if path[-4:] == ".egg":
+                print("Deleting %s" % path)
+                os.remove(path)
+
+class clean(_clean):
+    sub_commands = _clean.sub_commands + [('clean_plugins', None)]
+
+    def run(self):
+        # Run all sub-commands (at least those that need to be run)
+        for cmd_name in self.get_sub_commands():
+            self.run_command(cmd_name)
+        _clean.run(self)
+
+class install(_install):
+    def run(self):
+        if not self.skip_build:
+            self.run_command("build")
+        _install.run(self)
+
 cmdclass = {
     'build': build,
     'build_trans': build_trans,
     'build_plugins': build_plugins,
-    'install_data': install_data
+    'install_data': install_data,
+    'clean_plugins': clean_plugins,
+    'clean': clean,
+    'install': install
 }
+
 
 # Main setup
 PREFIX = "/usr/"
