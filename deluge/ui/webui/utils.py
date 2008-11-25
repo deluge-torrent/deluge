@@ -107,24 +107,6 @@ def getcookie(key, default = None):
     ck = cookies()
     return ck.get(key, default)
 
-def get_stats():
-    stats = Storage(sclient.get_stats())
-
-    stats.download_rate = fspeed(stats.download_rate)
-    stats.upload_rate = fspeed(stats.upload_rate)
-
-    if stats.max_upload < 0:
-        stats.max_upload = _("∞")
-    else:
-        stats.max_upload = "%s KiB/s" % stats.max_upload
-
-    if stats.max_download < 0:
-        stats.max_download = _("∞")
-    else:
-        stats.max_download = "%s KiB/s" % stats.max_download
-
-    return stats
-
 def enhance_torrent_status(torrent_id, status):
     """
     in: raw torrent_status

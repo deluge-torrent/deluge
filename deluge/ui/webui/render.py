@@ -150,9 +150,9 @@ def template_sort_head(id,name):
 
 def template_part_stats():
     try:
-        return render.part_stats(get_stats())
-    except Exception:
-        return '[not connected]'
+        return render.part_stats(Storage(sclient.get_stats()))
+    except Exception, e:
+        return str(e)
 
 def get_config(var):
     return config[var]

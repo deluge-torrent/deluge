@@ -360,32 +360,22 @@ class Core(
 
     def export_get_stats(self):
         """
-        returns: {
-        'download_rate':float(),
-        'upload_rate':float(),
-        'num_connections':int(),
-        'dht_nodes',int(),
-        'free_space':long(),
-        'has_incoming_connections':bool(),
-        'max_num_connections':int(),
-        'max_download':float(),
-        'max_upload':float()
-        }
+        document me!!!
         """
-        #todo: perf enhancedment:shortcut self.session.status() to a local var.
-        return {
+        stats = self.export_get_session_status(["payload_download_rate", "payload_upload_rate",
+            "dht_nodes", "has_incoming_connections", "download_rate", "upload_rate"])
+
+        stats.update({
             #dynamic stats:
-            "download_rate":self.session.status().payload_download_rate,
-            "upload_rate":self.session.status().payload_upload_rate,
             "num_connections":self.session.num_connections(),
-            "dht_nodes":self.session.status().dht_nodes,
             "free_space":deluge.common.free_space(self.config["download_location"]),
-            "has_incoming_connections":self.session.status().has_incoming_connections,
             #max config values:
             "max_download":self.config["max_download_speed"],
             "max_upload":self.config["max_upload_speed"],
             "max_num_connections":self.config["max_connections_global"],
-        }
+        })
+
+        return stats
 
 
     def export_get_session_status(self, keys):
