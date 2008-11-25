@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
-# Django Licence, see ./newforms_portable/LICENCE
+#
+# FilteredForm contains code copied from django newforms :
+# Copyright (c) 2005, the Lawrence Journal-World
+#
+# All code in this file under Django Licence
+# See ./newforms_portable/LICENCE
 #
 
 from newforms_portable import *
 import newforms_portable as newforms
 from newforms_portable.forms import BoundField
 from newforms_portable.util import ErrorList, escape
-
 
 import sys, os
 
