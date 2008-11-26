@@ -108,6 +108,8 @@ def start_daemon():
         help="Set the config location", action="store", type="str")
     parser.add_option("-l", "--logfile", dest="logfile",
         help="Set the logfile location", action="store", type="str")
+    parser.add_option("-P", "--pidfile", dest="pidfile",
+        help="Use pidfile to store process id", action="store", type="str")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
@@ -123,42 +125,52 @@ def start_daemon():
         if not os.path.exists(deluge.common.get_default_config_dir()):
             os.makedirs(deluge.common.get_default_config_dir())
 
-    # If the donot daemonize is set, then we just skip the forking
-    if not options.donot and not deluge.common.windows_check():
-        if os.fork() == 0:
-            os.setsid()
-            if os.fork() == 0:
-                if options.logfile:
-                    logfile = options.logfile
-                else:
-                    if options.config:
-                        logfile = os.path.join(options.config, "deluged.log")
-                    else:
-                        config_dir = deluge.common.get_default_config_dir()
-                        logfile = os.path.join(config_dir, "deluged.log")
-
-                sys.stdout = open(logfile, "wb")
-                sys.stderr = sys.stdout
-                sys.stdin = None
-            else:
-                os._exit(0)
-        else:
-            os._exit(0)
-
-    # Windows check, we log to the config folder by default
-    if not options.donot and deluge.common.windows_check():
+    # Returns a path to the logfile
+    def open_logfile():
         if options.logfile:
-            logfile = options.logfile
+            return options.logfile
         else:
             if options.config:
-                logfile = os.path.join(options.config, "deluged.log")
+                return os.path.join(options.config, "deluged.log")
             else:
                 config_dir = deluge.common.get_default_config_dir()
-                logfile = os.path.join(config_dir, "deluged.log")
+                return os.path.join(config_dir, "deluged.log")
 
-        sys.stdout = open(logfile, "wb")
-        sys.stderr = sys.stdout
-        sys.stdin = None
+    # Writes out a pidfile if necessary
+    def write_pidfile():
+        if options.pidfile:
+            open(options.pidfile, "wb").write("%s\n" % os.getpid())
+
+    # If the donot daemonize is set, then we just skip the forking
+    if not options.donot:
+        # Windows check, we log to the config folder by default
+        if deluge.common.windows_check():
+            # Open a logfile
+            sys.stdout = open(open_logfile(), "wb")
+            sys.stderr = sys.stdout
+            sys.stdin = None
+
+            # Write pidfile
+            write_pidfile()
+
+        else:
+            if os.fork() == 0:
+                os.setsid()
+                if os.fork() == 0:
+                    # Open a logfile
+                    sys.stdout = open(open_logfile(), "wb")
+                    sys.stderr = sys.stdout
+                    sys.stdin = None
+
+                    # Write pidfile
+                    write_pidfile()
+                else:
+                    os._exit(0)
+            else:
+                os._exit(0)
+    else:
+        # Do not daemonize
+        write_pidfile()
 
     from deluge.core.daemon import Daemon
     Daemon(options, args)
