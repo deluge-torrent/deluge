@@ -291,20 +291,13 @@ class clean(_clean):
             self.run_command(cmd_name)
         _clean.run(self)
 
-class install(_install):
-    def run(self):
-        if not self.skip_build:
-            self.run_command("build")
-        _install.run(self)
-
 cmdclass = {
     'build': build,
     'build_trans': build_trans,
     'build_plugins': build_plugins,
     'install_data': install_data,
     'clean_plugins': clean_plugins,
-    'clean': clean,
-    'install': install
+    'clean': clean
 }
 
 
