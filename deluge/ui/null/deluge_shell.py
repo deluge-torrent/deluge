@@ -404,7 +404,7 @@ class CommandRemove(Command):
             return
         try:
             torrents = self.match_torrents(cmd[1:])
-            client.remove_torrent(torrents, False, False)
+            client.remove_torrent(torrents, False)
         except Exception, msg:
             print "*** Error:", str(msg), "\n"
 
@@ -500,4 +500,3 @@ class NullUI:
             print
 
         print "Thanks."
-

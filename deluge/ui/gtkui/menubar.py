@@ -49,10 +49,6 @@ class MenuBar(component.Component):
                     pkg_resources.resource_filename("deluge.ui.gtkui",
                                                 "glade/torrent_menu.glade"))
 
-        # Attach remove torrent menu
-        self.torrentmenu_glade.get_widget("menuitem_remove").set_submenu(
-            self.torrentmenu_glade.get_widget("remove_torrent_menu"))
-
         self.torrentmenu_glade.get_widget("menuitem_queue").set_submenu(
             self.torrentmenu_glade.get_widget("queue_torrent_menu"))
 
@@ -147,15 +143,8 @@ class MenuBar(component.Component):
                                     self.on_menuitem_updatetracker_activate,
             "on_menuitem_edittrackers_activate": \
                                     self.on_menuitem_edittrackers_activate,
-            "on_menuitem_remove_session_activate": \
-                self.on_menuitem_remove_session_activate,
-            "on_menuitem_remove_torrentfile_activate": \
-                self.on_menuitem_remove_torrentfile_activate,
-            "on_menuitem_remove_data_activate": \
-                self.on_menuitem_remove_data_activate,
-            "on_menuitem_remove_both_activate": \
-                self.on_menuitem_remove_both_activate,
-
+            "on_menuitem_remove_activate": \
+                self.on_menuitem_remove_activate,
             "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
             "on_menuitem_open_folder_activate": self.on_menuitem_open_folder_activate,
             "on_menuitem_move_activate": self.on_menuitem_move_activate,
@@ -287,33 +276,10 @@ class MenuBar(component.Component):
             component.get("MainWindow").window)
         dialog.run()
 
-    def on_menuitem_remove_session_activate(self, data=None):
-        log.debug("on_menuitem_remove_session_activate")
+    def on_menuitem_remove_activate(self, data=None):
+        log.debug("on_menuitem_remove_activate")
         from removetorrentdialog import RemoveTorrentDialog
-        RemoveTorrentDialog(
-            component.get("TorrentView").get_selected_torrents()).run()
-
-    def on_menuitem_remove_torrentfile_activate(self, data=None):
-        log.debug("on_menuitem_remove_torrentfile_activate")
-        from removetorrentdialog import RemoveTorrentDialog
-        RemoveTorrentDialog(
-            component.get("TorrentView").get_selected_torrents(),
-            remove_torrentfile=True).run()
-
-    def on_menuitem_remove_data_activate(self, data=None):
-        log.debug("on_menuitem_remove_data_activate")
-        from removetorrentdialog import RemoveTorrentDialog
-        RemoveTorrentDialog(
-            component.get("TorrentView").get_selected_torrents(),
-            remove_data=True).run()
-
-    def on_menuitem_remove_both_activate(self, data=None):
-        log.debug("on_menuitem_remove_both_activate")
-        from removetorrentdialog import RemoveTorrentDialog
-        RemoveTorrentDialog(
-            component.get("TorrentView").get_selected_torrents(),
-            remove_torrentfile=True,
-            remove_data=True).run()
+        RemoveTorrentDialog(component.get("TorrentView").get_selected_torrents()).run()
 
     def on_menuitem_recheck_activate(self, data=None):
         log.debug("on_menuitem_recheck_activate")

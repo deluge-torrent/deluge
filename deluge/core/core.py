@@ -432,10 +432,10 @@ class Core(
             # Run the plugin hooks for 'post_torrent_add'
             self.plugins.run_post_torrent_add(torrent_id)
 
-    def export_remove_torrent(self, torrent_ids, remove_torrent, remove_data):
+    def export_remove_torrent(self, torrent_ids, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
         for torrent_id in torrent_ids:
-            if self.torrents.remove(torrent_id, remove_torrent, remove_data):
+            if self.torrents.remove(torrent_id, remove_data):
                 # Run the plugin hooks for 'post_torrent_remove'
                 self.plugins.run_post_torrent_remove(torrent_id)
 

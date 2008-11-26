@@ -192,7 +192,7 @@ class torrent_delete:
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
-        proxy.remove_torrent(torrent_ids, torrent_also, data_also)
+        proxy.remove_torrent(torrent_ids, data_also)
         do_redirect()
 route("/torrent/delete/(.*)",torrent_delete)
 
@@ -487,7 +487,3 @@ class gettext:
         web.header("Content-Type", "text/javascript")
         print render.gettext()
 route("/gettext.js", gettext)
-
-
-
-

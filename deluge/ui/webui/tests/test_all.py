@@ -230,7 +230,7 @@ class TestIntegration(TestWebUiBase):
             #delete all, nice use case for refactoring delete..
             torrent_ids = proxy.get_session_state()
             for torrent in torrent_ids:
-                proxy.remove_torrent([torrent], False, False)
+                proxy.remove_torrent([torrent], False)
 
             torrent_ids = proxy.get_session_state()
             self.assertEqual(torrent_ids, [])
@@ -411,4 +411,3 @@ elif False:
 
 else:
     unittest.main()
-

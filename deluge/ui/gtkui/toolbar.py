@@ -63,11 +63,6 @@ class ToolBar(component.Component):
             "toolbutton_queue_down"
         ]
 
-        # Set the Remove Torrent toolbuttons drop-down menu
-        tb_remove = self.window.main_glade.get_widget("toolbutton_remove")
-        tb_remove.set_menu(
-            component.get("MenuBar").torrentmenu_glade.get_widget("remove_torrent_menu"))
-
         if self.config["classic_mode"]:
             self.window.main_glade.get_widget("toolbutton_connectionmanager").hide()
 
@@ -142,7 +137,7 @@ class ToolBar(component.Component):
     def on_toolbutton_remove_clicked(self, data):
         log.debug("on_toolbutton_remove_clicked")
         # Use the menubar's callbacks
-        component.get("MenuBar").on_menuitem_remove_session_activate(data)
+        component.get("MenuBar").on_menuitem_remove_activate(data)
 
     def on_toolbutton_pause_clicked(self, data):
         log.debug("on_toolbutton_pause_clicked")

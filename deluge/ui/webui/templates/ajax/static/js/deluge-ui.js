@@ -10,7 +10,7 @@ Copyright:
 
 
     Object: Deluge.UI
-        The object that manages 
+        The object that manages
 
     Example:
         Deluge.Grid.initialize();
@@ -21,11 +21,11 @@ Deluge.UI = {
         this.torrents = {};
         this.torrentIds = [];
         Deluge.Client = new JSON.RPC('/json/rpc');
-        
+
         var theme = Cookie.read('theme');
         if (theme) this.setTheme(theme);
         else this.setTheme('classic');
-        
+
         this.bound = {
             onUpdate: this.onUpdate.bindWithEvent(this),
             onResize: this.onResize.bindWithEvent(this),
@@ -38,32 +38,32 @@ Deluge.UI = {
             if (this.vbox) this.vbox.calculatePositions();
         }.bindWithEvent(this));
     },
-    
+
     /*
         Property: loadUI
             A method to load the UI after a delayed period of time until
             mooui has been fixed to allow a refresh of the widgets to gather
             the new style information.
-        
+
         Example:
             Deluge.UI.loadUI();
     */
     loadUI: function() {
         this.vbox = new Widgets.VBox('page', {expand: true});
-        
+
         this.toolbar = new Deluge.Widgets.Toolbar();
         this.addWindow = new Deluge.Widgets.AddWindow();
         this.createWindow = new Deluge.Widgets.CreateTorrent();
         if (Browser.Engine.name != 'trident') {
             this.prefsWindow = new Deluge.Widgets.PreferencesWindow();
         }
-        
+
         this.statusbar = new Deluge.Widgets.StatusBar();
         this.labels = new Deluge.Widgets.Labels()
         this.details = new Deluge.Widgets.Details()
-        
+
         this.initializeGrid()
-        
+
         this.split_horz = new Widgets.SplitPane('top', this.labels, this.grid, {
             pane1: {min: 180},
             pane2: {min: 100, expand: true}
@@ -74,36 +74,36 @@ Deluge.UI = {
             pane1: {min: 100, expand: true},
             pane2: {min: 200}
         });
-        
+
         this.vbox.addBox(this.toolbar, {fixed: true});
         this.vbox.addBox(this.splitVert);
         this.vbox.addBox(this.statusbar, {fixed: true});
         this.vbox.calculatePositions();
         this.details.expand()
-        
+
         this.toolbar.addEvent('buttonClick', this.bound.onToolbarClick);
         this.details.addEvent('filesAction', this.bound.onFilesAction);
         this.labels.addEvent('filterChanged', this.bound.onFilterChanged);
         details.addEvent('resize', function(e) {
             this.details.expand();
         }.bindWithEvent(this));
-        
+
         this.initialized = true;
         window.addEvent('resize', this.bound.onResize);
         Deluge.UI.update();
         this.overlay = $('overlay').dispose();
     },
-    
+
     /*
         Property: initializeGrid
             Initializes the Deluge torrent grid.
-        
+
         Example:
             Deluge.UI.initializeGrid();
     */
     initializeGrid: function() {
         this.grid = new Deluge.Widgets.TorrentGrid('torrents')
-        
+
         var menu = new Widgets.PopupMenu()
         menu.add(Deluge.Menus.Torrents);
         menu.addEvent('action', function(e) {
@@ -117,7 +117,7 @@ Deluge.UI = {
             menu.torrent_id = e.row_id
             menu.show(e)
         }.bindWithEvent(this))
-        
+
         this.grid.addEvent('selectedChanged', function(e) {
             if ($chk(this.grid.selectedRow)) {
                 this.details.update(this.grid.selectedRow.id);
@@ -126,16 +126,16 @@ Deluge.UI = {
             }
         }.bindWithEvent(this))
     },
-    
-    
+
+
     /*
         Property: setTheme
             Change the theme of the AJAX UI by unloading the current stylesheet
             and reloading a different one.
-        
+
         Arguments:
             name: the name of the theme to be switched too.
-        
+
         Example:
             Deluge.UI.setTheme('white');
     */
@@ -163,12 +163,12 @@ Deluge.UI = {
             }.periodical(50, this);
         };
     },
-    
+
     /*
         Property: run
             Start the Deluge UI polling the server to get the updated torrent
             information.
-        
+
         Example:
             Deluge.UI.run();
     */
@@ -177,12 +177,12 @@ Deluge.UI = {
             this.running = this.update.periodical(2000, this);
         }
     },
-    
+
     /*
         Property: stop
             Stop the Deluge UI polling the server to get the updated torrent
             information.
-        
+
         Example:
             Deluge.UI.stop();
     */
@@ -192,18 +192,18 @@ Deluge.UI = {
             this.running = false;
         }
     },
-    
+
     /*
         Property: update
             The function that is called to perform the update to the UI.
-        
+
         Example:
             Deluge.UI.update();
     */
     update: function() {
         filter = {};
         if (!this.initialized) return;
-        var type = this.labels.filterType, name = this.labels.filterName        
+        var type = this.labels.filterType, name = this.labels.filterName
         if (type && !(type == 'state' && name == 'All')) {
             filter[this.labels.filterType] = this.labels.filterName;
         }
@@ -211,14 +211,14 @@ Deluge.UI = {
             onSuccess: this.bound.onUpdate
         });
     },
-    
+
     /*
         Property: onUpdate
             Event handler for when the update data is returned from the server.
-        
+
         Arguments:
             data - The data returned from the server
-        
+
         Example:
             Deluge.Client.update_ui(Deluge.Keys.Grid, filter, {
                 onSuccess: this.onUpdate.bindWithEvent(this)
@@ -234,7 +234,7 @@ Deluge.UI = {
         })
         this.grid.updateTorrents(this.torrents);
         this.statusbar.update(this.stats);
-        
+
         if ($chk(this.grid.selectedRow)) {
             this.details.update(this.grid.selectedRow.id);
         } else {
@@ -242,14 +242,14 @@ Deluge.UI = {
         }
         this.labels.update(this.filters);
     },
-    
+
     /*
         Property: onFilesAction
             Event handler for when a torrents file priorities have been changed.
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             details.addEvent('filesAction', this.onFilesAction.bindWithEvent(this));
     */
@@ -265,63 +265,63 @@ Deluge.UI = {
                 Deluge.Client.set_torrent_file_priorities(event.torrentId, priorities, {
                     onSuccess: function(response) {
                         this.details.update(event.torrentId)
-                    }.bindWithEvent(this)    
+                    }.bindWithEvent(this)
                 })
             }.bindWithEvent(this)
         })
     },
-    
+
     /*
         Property: onResize
             Event handler for when the page is resized
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             window.addEvent('resize', this.onResize.bindWithEvent(this));
     */
     onResize: function(e) {
         this.vbox.calculatePositions();
     },
-    
+
     /*
         Property: onToolbarClick
             Event handler for when a list item is clicked
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             toolbar.addEvent('buttonClick', this.onToolbarClick.bindWithEvent(this));
     */
     onToolbarClick: function(e) {
         this.torrentAction(e.action);
     },
-    
+
     /*
         Property: onFilterChanged
             Event handler for when a filter is changed in the sidebar.
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             labels.addEvent('filterChanged', this.onFilterChanged.bindWithEvent(this));
     */
     onFilterChanged: function(e) {
         this.update();
     },
-    
+
     /*
         Property: torrentAction
             Peform either a global action or and action on selected torrents
             and then update the UI after performing the action.
-        
+
         Arguments:
             action - The action to perform
             value - The value accompanying the action, if there is one.
-        
+
         Example:
             Deluge.UI.torrentAction('resume');
     */
@@ -396,7 +396,7 @@ Deluge.UI = {
                     removeTorrent = true;
                     removeFiles = true;
                 }
-                client.remove_torrent(torrentIds, removeTorrent, removeFiles);
+                client.remove_torrent(torrentIds, removeFiles);
                 break;
             case 'preferences':
                 this.prefsWindow.show();

@@ -12,8 +12,6 @@ class Command(BaseCommand):
     aliases = ['del']
 
     option_list = BaseCommand.option_list + (
-            make_option('--remove_torrent', action='store_true', default=False,
-                        help="remove the torrent's file"),
             make_option('--remove_data', action='store_true', default=False,
                         help="remove the torrent's data"),
     )
@@ -22,7 +20,7 @@ class Command(BaseCommand):
         try:
             args = mapping.to_ids(args)
             torrents = match_torrents(args)
-            client.remove_torrent(torrents, options['remove_torrent'], options['remove_data'])
+            client.remove_torrent(torrents, options['remove_data'])
         except Exception, msg:
             print template.ERROR(str(msg))
 

@@ -421,29 +421,14 @@ class TorrentManager(component.Component):
 
         return filedump
 
-    def remove(self, torrent_id, remove_torrent=False, remove_data=False):
+    def remove(self, torrent_id, remove_data=False):
         """Remove a torrent from the manager"""
         try:
-            # Remove from libtorrent session
-            option = 0
-            # Remove data if set
-            if remove_data:
-                option = 1
             self.session.remove_torrent(self.torrents[torrent_id].handle,
-                option)
+                1 if remove_data else 0)
         except (RuntimeError, KeyError), e:
             log.warning("Error removing torrent: %s", e)
             return False
-
-        # Remove the .torrent file if requested
-        if remove_torrent:
-            try:
-                torrent_file = os.path.join(
-                    self.config["torrentfiles_location"],
-                    self.torrents[torrent_id].filename)
-                os.remove(torrent_file)
-            except Exception, e:
-                log.warning("Unable to remove .torrent file: %s", e)
 
         # Remove the .fastresume if it exists
         self.torrents[torrent_id].delete_fastresume()

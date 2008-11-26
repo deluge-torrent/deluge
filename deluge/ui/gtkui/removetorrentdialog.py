@@ -1,7 +1,7 @@
 #
 # removetorrentdialog.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,62 +22,72 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
 import gtk, gtk.glade
 import pkg_resources
 
-import deluge.common
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.log import LOG as log
-import deluge.ui.gtkui.common as common
 
-class RemoveTorrentDialog:
-    def __init__(self, torrent_ids, remove_torrentfile=False, remove_data=False):
-        self.torrent_ids = torrent_ids
-        self.remove_torrentfile = remove_torrentfile
-        self.remove_data = remove_data
+class RemoveTorrentDialog(object):
+    """
+    This class is used to create and show a Remove Torrent Dialog.
 
-        self.glade = gtk.glade.XML(
+    :param torrent_ids: a list of torrent_ids to remove
+
+    :raises TypeError: if :param:`torrent_id` is not a sequence type
+    :raises ValueError: if :param:`torrent_id` contains no torrent_ids or is None
+
+    """
+    def __init__(self, torrent_ids):
+        if type(torrent_ids) != list and type(torrent_ids) != tuple:
+            raise TypeError("requires a list of torrent_ids")
+
+        if not torrent_ids:
+            raise ValueError("requires a list of torrent_ids")
+
+        self.__torrent_ids = torrent_ids
+
+        glade = gtk.glade.XML(
             pkg_resources.resource_filename("deluge.ui.gtkui",
                 "glade/remove_torrent_dialog.glade"))
 
-        self.dialog = self.glade.get_widget("remove_torrent_dialog")
-        self.dialog.set_icon(common.get_logo(32))
-        self.dialog.set_transient_for(component.get("MainWindow").window)
+        self.__dialog = glade.get_widget("remove_torrent_dialog")
+        self.__dialog.set_transient_for(component.get("MainWindow").window)
+        self.__dialog.set_title("")
 
-        self.glade.signal_autoconnect({
-            "on_button_ok_clicked": self.on_button_ok_clicked,
-            "on_button_cancel_clicked": self.on_button_cancel_clicked
-        })
-
-        if len(self.torrent_ids) > 1:
+        if len(self.__torrent_ids) > 1:
             # We need to pluralize the dialog
-            self.dialog.set_title("Remove Torrents?")
-            self.glade.get_widget("label_title").set_markup(
-                _("<big><b>Are you sure you want to remove the selected torrents?</b></big>"))
-            self.glade.get_widget("button_ok").set_label(_("Remove Selected Torrents"))
+            label_title = glade.get_widget("label_title")
+            button_ok = glade.get_widget("button_ok")
+            button_data = glade.get_widget("button_data")
 
-        if self.remove_torrentfile or self.remove_data:
-            self.glade.get_widget("hseparator1").show()
-        if self.remove_torrentfile:
-            self.glade.get_widget("hbox_torrentfile").show()
-        if self.remove_data:
-            self.glade.get_widget("hbox_data").show()
+            def pluralize_torrents(text):
+                plural_torrent = _("Torrents")
+                return text.replace("torrent", plural_torrent.lower()).replace("Torrent", plural_torrent)
 
-    def run(self):
-        if self.torrent_ids == None or self.torrent_ids == []:
-            self.dialog.destroy()
-            return
-        self.dialog.show()
+            label_title.set_markup(pluralize_torrents(label_title.get_label()))
+            button_ok.set_label(pluralize_torrents(button_ok.get_label()))
+            button_data.set_label(pluralize_torrents(button_data.get_label()))
 
-    def on_button_ok_clicked(self, widget):
-        client.remove_torrent(
-            self.torrent_ids, self.remove_torrentfile, self.remove_data)
+    def __remove_torrents(self, remove_data):
+        client.remove_torrent(self.__torrent_ids, remove_data)
         # Unselect all to avoid issues with the selection changed event
         component.get("TorrentView").treeview.get_selection().unselect_all()
-        self.dialog.destroy()
 
-    def on_button_cancel_clicked(self, widget):
-        self.dialog.destroy()
+    def run(self):
+        """
+        Shows the dialog and awaits for user input.  The user can select to
+        remove the torrent(s) from the session with or without their data.
+        """
+        # Response IDs from the buttons
+        RESPONSE_SESSION = 1
+        RESPONSE_DATA = 2
 
+        response = self.__dialog.run()
+        if response == RESPONSE_SESSION:
+            self.__remove_torrents(False)
+        elif response == RESPONSE_DATA:
+            self.__remove_torrents(True)
+
+        self.__dialog.destroy()
