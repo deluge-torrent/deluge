@@ -801,6 +801,8 @@ class Preferences(component.Component):
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")
         (model, itr) = treeselection.get_selected()
+        if not itr:
+            return
         name = model[itr][0]
         plugin_info = component.get("PluginManager").get_plugin_info(name)
         self.glade.get_widget("label_plugin_author").set_text(plugin_info["Author"])
