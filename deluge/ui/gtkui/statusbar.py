@@ -367,7 +367,7 @@ class StatusBar(component.Component):
             value = -1
         elif widget.get_name() == _("Other..."):
             value = common.show_other_dialog(
-                _("Download Speed (KiB/s):"), self.max_download_speed)
+                _("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", self.max_download_speed)
             if value == None:
                 return
         else:
@@ -395,7 +395,7 @@ class StatusBar(component.Component):
             value = -1
         elif widget.get_name() == _("Other..."):
             value = common.show_other_dialog(
-                _("Upload Speed (KiB/s):"), self.max_upload_speed)
+                _("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", self.max_upload_speed)
             if value == None:
                 return
         else:
@@ -422,7 +422,7 @@ class StatusBar(component.Component):
             value = -1
         elif widget.get_name() == _("Other..."):
             value = common.show_other_dialog(
-                _("Connection Limit:"), self.max_connections)
+                _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, self.max_connections)
             if value == None:
                 return
         else:

@@ -115,26 +115,60 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
 
     return menu
 
-def show_other_dialog(string, default=None):
-    """Shows a dialog to get an 'other' speed and return the value"""
-    dialog_glade = gtk.glade.XML(
+def show_other_dialog(header, type_str, image_stockid=None, image_filename=None, default=0):
+    """
+    Shows a dialog with :param:`header` as the header text and :param:`type_str`
+    as the type text.  The type of spinbutton (int or float) is determined by
+    :param:`default`s type.
+
+    :param header: str, the header label text
+    :param type_str: str, the type label text, what comes after the spinbutton
+    :param image_stockid: gtkStockId, the stock id of the image in the header
+    :param image_filename: str, filename of icon in pixmaps folder
+    :param default: the default value in the spinbutton
+
+    :returns: None, int or float from spinbutton depending on :param:`default`.
+        None is returned if the user clicks on Cancel.
+    :rtype: None, int or float
+
+    :raises TypeError: if :param:`default` is not of type int or float
+
+    """
+    if type(default) != int and type(default) != float:
+        raise TypeError("default value needs to be an int or float")
+
+    glade = gtk.glade.XML(
         pkg_resources.resource_filename("deluge.ui.gtkui",
                                     "glade/dgtkpopups.glade"))
-    speed_dialog = dialog_glade.get_widget("speed_dialog")
-    spin_title = dialog_glade.get_widget("spin_title")
-    spin_title.set_text(_("%s" % string))
-    spin_speed = dialog_glade.get_widget("spin_speed")
-    if default != None:
-        spin_speed.set_value(default)
-    spin_speed.select_region(0, -1)
-    response = speed_dialog.run()
-    if response == 1: # OK Response
-        value = spin_speed.get_value()
-    else:
-        speed_dialog.destroy()
-        return None
+    dialog = glade.get_widget("other_dialog")
+    dialog.set_transient_for(component.get("MainWindow").window)
+    dialog.set_title("")
+    glade.get_widget("label_header").set_markup("<b>" + header + "</b>")
+    glade.get_widget("label_type").set_text(type_str)
+    if image_stockid:
+        glade.get_widget("image").set_from_stock(image_stockid, gtk.ICON_SIZE_LARGE_TOOLBAR)
+    if image_filename:
+        pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(
+            deluge.common.get_pixmap(image_filename), 32, 32)
+        glade.get_widget("image").set_from_pixbuf(pixbuf)
 
-    speed_dialog.destroy()
+    spinbutton = glade.get_widget("spinbutton")
+    if type(default) == float:
+        spinbutton.set_digits(1)
+
+    # Set default value and select text
+    spinbutton.set_value(default)
+    spinbutton.select_region(0, -1)
+
+    value = None
+    response = dialog.run()
+    if response == gtk.RESPONSE_OK:
+        if type(default) == int:
+            value = spinbutton.get_value_as_int()
+        else:
+            value = spinbutton.get_value()
+
+    dialog.destroy()
     return value
 
 def add_peer_dialog():

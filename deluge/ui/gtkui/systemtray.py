@@ -321,29 +321,26 @@ class SystemTray(component.Component):
         self.window.quit()
 
     def tray_setbwdown(self, widget, data=None):
-        self.setbwlimit(widget, _("Download"), "max_download_speed",
-            "tray_download_speed_list", self.max_download_speed)
+        self.setbwlimit(widget, _("Set Maximum Download Speed"), "max_download_speed",
+            "tray_download_speed_list", self.max_download_speed, "downloading.svg")
 
     def tray_setbwup(self, widget, data=None):
-        self.setbwlimit(widget, _("Upload"), "max_upload_speed",
-            "tray_upload_speed_list", self.max_upload_speed)
+        self.setbwlimit(widget, _("Set Maximum Upload Speed"), "max_upload_speed",
+            "tray_upload_speed_list", self.max_upload_speed, "seeding.svg")
 
-    def setbwlimit(self, widget, string, core_key, ui_key, default):
+    def setbwlimit(self, widget, string, core_key, ui_key, default, image):
         """Sets the bandwidth limit based on the user selection."""
         value = widget.get_children()[0].get_text().rstrip(" " + _("KiB/s"))
         if value == _("Unlimited"):
             value = -1
 
         if value == _("Other..."):
-            value = common.show_other_dialog(
-                string + " Speed (KiB/s):", default)
+            value = common.show_other_dialog(string, "KiB/s", None, image, default)
             if value == None:
                 return
 
         # Set the config in the core
-        value = float(value)
-        config_to_set = {core_key: value}
-        client.set_config(config_to_set)
+        client.set_config({core_key: value})
 
         self.build_tray_bwsetsubmenu()
 

@@ -402,34 +402,17 @@ class MenuBar(component.Component):
             "menuitem_max_connections": client.set_torrent_max_connections,
             "menuitem_upload_slots": client.set_torrent_max_upload_slots
         }
-        dialog_glade = gtk.glade.XML(
-            pkg_resources.resource_filename("deluge.ui.gtkui",
-                                        "glade/dgtkpopups.glade"))
-        speed_dialog = dialog_glade.get_widget("speed_dialog")
-        spin_title = dialog_glade.get_widget("spin_title")
-        if widget.name == "menuitem_down_speed":
-            spin_title.set_text(_("Set Max Download Speed (KiB/s):"))
-        elif widget.name == "menuitem_up_speed":
-            spin_title.set_text(_("Set Max Upload Speed (KiB/s):"))
-        elif widget.name == "menuitem_max_connections":
-            spin_title.set_text(_("Set Max Connections:"))
-        elif widget.name == "menuitem_upload_slots":
-            spin_title.set_text(_("Set Max Upload Slots:"))
+        # widget: (header, type_str, image_stockid, image_filename, default)
+        other_dialog_info = {
+            "menuitem_down_speed": (_("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", -1.0),
+            "menuitem_up_speed": (_("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", -1.0),
+            "menuitem_max_connections": (_("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1),
+            "menuitem_upload_slots": (_("Set Maximum Upload Slots"), "", gtk.STOCK_SORT_ASCENDING, None, -1)
+        }
 
-        spin_speed = dialog_glade.get_widget("spin_speed")
-        spin_speed.set_value(-1)
-        spin_speed.select_region(0, -1)
-        response = speed_dialog.run()
-        if response == 1: # OK Response
-            if widget.name == "menuitem_down_speed" or widget.name == "menuitem_up_speed":
-                value = spin_speed.get_value()
-            else:
-                value = spin_speed.get_value_as_int()
-        else:
-            speed_dialog.destroy()
-            return
-        speed_dialog.destroy()
-        if widget.name in funcs.keys():
+        # Show the other dialog
+        value = common.show_other_dialog(*other_dialog_info[widget.name])
+        if value and widget.name in funcs:
             for torrent in component.get("TorrentView").get_selected_torrents():
                 funcs[widget.name](torrent, value)
 
