@@ -59,7 +59,7 @@ class LabelConfig(object):
     def get_resource(self, filename):
         return pkg_resources.resource_filename("label", os.path.join("data", filename))
 
-    def load_settings(self ,widget = None , data = None):
+    def load_settings(self, widget=None, data=None):
         aclient.label_get_config(self.cb_global_options)
 
     def cb_global_options(self, options):
@@ -73,4 +73,3 @@ class LabelConfig(object):
         options = {}
         #update options dict here.
         aclient.label_set_config(None, options)
-
