@@ -157,9 +157,10 @@ class Core(CorePluginBase):
             options.update(self.labels[key])
             self.labels[key] = options
 
-        for key, value in self.labels.iteritems():
-            if value == None:
-                self.labels[key] = OPTIONS_DEFAULTS[key]
+        for label, options in self.labels.items():
+            for key, value in options.items():
+                if value == None:
+                    self.labels[label][key] = OPTIONS_DEFAULTS[key]
 
     def save_config(self):
         self.clean_config()
