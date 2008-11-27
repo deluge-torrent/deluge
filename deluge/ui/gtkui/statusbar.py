@@ -156,7 +156,7 @@ class StatusBar(component.Component):
         self.traffic_item = self.add_item(
             image=deluge.common.get_pixmap("traffic16.png"),
             callback=self._on_traffic_item_clicked,
-            tooltip=_("Protocol Traffic Upload/Download"))
+            tooltip=_("Protocol Traffic Download/Upload"))
 
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"))
@@ -344,7 +344,7 @@ class StatusBar(component.Component):
         self.upload_item.set_text(label_string)
 
     def update_traffic_label(self):
-        label_string = "%.2f/%.2f KiB/s" % (self.upload_protocol_rate, self.download_protocol_rate)
+        label_string = "%.2f/%.2f KiB/s" % (self.download_protocol_rate, self.upload_protocol_rate)
         self.traffic_item.set_text(label_string)
 
     def update(self):
