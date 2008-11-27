@@ -117,7 +117,11 @@ class SystemTray(component.Component):
             for widget in self.hide_widget_list:
                 self.tray_glade.get_widget(widget).hide()
 
-    def start(self):
+        if client.connected():
+            # We're connected so we need to get some values from the core
+            self.__start()
+
+    def __start(self):
         if self.config["enable_system_tray"]:
             # Show widgets in the hide list because we've connected to a host
             for widget in self.hide_widget_list:
@@ -132,6 +136,9 @@ class SystemTray(component.Component):
             client.get_config_value(
                 self._on_max_upload_speed, "max_upload_speed")
             self.send_status_request()
+
+    def start(self):
+        self.__start()
 
     def stop(self):
         try:
@@ -379,4 +386,3 @@ window, please enter your password"))
         is_showing_dlg[0] = False
 
         return result
-
