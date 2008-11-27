@@ -293,13 +293,14 @@ class Core(CorePluginBase):
 
     def export_get_config(self):
         "see : label_set_config"
-        return dict ( (k,self.config[k] )  for k in CORE_OPTIONS)
+        return dict((key, self.config[key]) for key in CORE_OPTIONS if key in self.config.config)
 
     def export_set_config(self, options):
         """global_options:"""
-        for key in CORE_OPTIONS:
-            if options.has_key(key):
-                self.config[key] = options[key]
+        for key, value in options.items:
+            if key in CORE_OPTIONS:
+                self.config[key] = value
+
         self.config.save()
 
     def _status_get_label(self, torrent_id):
