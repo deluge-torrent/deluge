@@ -37,6 +37,8 @@ import deluge.common
 
 def start_ui():
     """Entry point for ui script"""
+    import deluge.common
+
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",
                                            version=deluge.common.get_version())
@@ -49,9 +51,16 @@ def start_ui():
         help="Output to designated logfile instead of stdout", action="store", type="str")
     parser.add_option("-a", "--args", dest="args",
         help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
+    parser.add_option("-L", "--loglevel", dest="loglevel",
+        help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
+    parser.add_option("-q", "--quiet", dest="quiet",
+        help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
+
+    if options.quiet:
+        options.loglevel = "none"
 
     if options.config:
         if not os.path.exists(options.config):
@@ -79,6 +88,10 @@ def start_ui():
         sys.stdin = None
 
     from deluge.log import LOG as log
+    # Set the log level if necessary
+    if options.loglevel:
+        import deluge.log
+        deluge.log.setLoggerLevel(options.loglevel)
 
     version = deluge.common.get_version()
     if deluge.common.get_revision() != "":
@@ -110,9 +123,16 @@ def start_daemon():
         help="Set the logfile location", action="store", type="str")
     parser.add_option("-P", "--pidfile", dest="pidfile",
         help="Use pidfile to store process id", action="store", type="str")
+    parser.add_option("-L", "--loglevel", dest="loglevel",
+        help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
+    parser.add_option("-q", "--quiet", dest="quiet",
+        help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
+
+    if options.quiet:
+        options.loglevel = "none"
 
     if options.config:
         if not os.path.exists(options.config):
@@ -125,16 +145,23 @@ def start_daemon():
         if not os.path.exists(deluge.common.get_default_config_dir()):
             os.makedirs(deluge.common.get_default_config_dir())
 
-    # Returns a path to the logfile
+    # Opens a log file and redirects stdout to it
     def open_logfile():
+        path = None
         if options.logfile:
-            return options.logfile
+            path = options.logfile
         else:
             if options.config:
-                return os.path.join(options.config, "deluged.log")
+                path = os.path.join(options.config, "deluged.log")
             else:
                 config_dir = deluge.common.get_default_config_dir()
-                return os.path.join(config_dir, "deluged.log")
+                path = os.path.join(config_dir, "deluged.log")
+
+        # Open a logfile
+        if path:
+            sys.stdout = open(path, "wb")
+        sys.stderr = sys.stdout
+        sys.stdin = None
 
     # Writes out a pidfile if necessary
     def write_pidfile():
@@ -145,24 +172,13 @@ def start_daemon():
     if not options.donot:
         # Windows check, we log to the config folder by default
         if deluge.common.windows_check():
-            # Open a logfile
-            sys.stdout = open(open_logfile(), "wb")
-            sys.stderr = sys.stdout
-            sys.stdin = None
-
-            # Write pidfile
+            open_logfile()
             write_pidfile()
-
         else:
             if os.fork() == 0:
                 os.setsid()
                 if os.fork() == 0:
-                    # Open a logfile
-                    sys.stdout = open(open_logfile(), "wb")
-                    sys.stderr = sys.stdout
-                    sys.stdin = None
-
-                    # Write pidfile
+                    open_logfile()
                     write_pidfile()
                 else:
                     os._exit(0)
@@ -171,6 +187,11 @@ def start_daemon():
     else:
         # Do not daemonize
         write_pidfile()
+
+    # Set the log level if necessary
+    if options.loglevel:
+        import deluge.log
+        deluge.log.setLoggerLevel(options.loglevel)
 
     from deluge.core.daemon import Daemon
     Daemon(options, args)
