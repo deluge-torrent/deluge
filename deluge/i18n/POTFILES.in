@@ -107,6 +107,7 @@ deluge/ui/gtkui/new_release_dialog.py
 deluge/ui/gtkui/connectionmanager.py
 deluge/ui/gtkui/createtorrentdialog.py
 deluge/ui/gtkui/details_tab.py
+deluge/ui/gtkui/removetorrentdialog.py
 deluge/ui/signalreceiver.py
 deluge/ui/__init__.py
 deluge/ui/webui/components.py
@@ -162,7 +163,6 @@ deluge/ui/webui/lib/egg_handler.py
 deluge/ui/webui/utils.py
 deluge/ui/webui/pages.py
 deluge/ui/webui/__init__.py
-deluge/ui/webui/tests/multicall_notepad.py
 deluge/ui/webui/tests/test_all.py
 deluge/ui/webui/apache.py
 deluge/ui/webui/web.py
@@ -197,7 +197,6 @@ deluge/tests/test_signalreceiver.py
 deluge/tests/test_filters.py
 deluge/tests/test_tracker_icons.py
 deluge/tests/test_stats.py
-deluge/tests/test_statusbar.py
 deluge/tests/test_client.py
 deluge/log.py
 deluge/xmlrpclib.py

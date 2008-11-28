@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:19-0500\n"
-"PO-Revision-Date: 2008-10-15 05:51+0000\n"
-"Last-Translator: wilana <dianwilana@yahoo.com>\n"
+"PO-Revision-Date: 2008-11-11 08:13+0000\n"
+"Last-Translator: Gigih Aji Ibrahim <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 21:56+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -35,24 +35,24 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:87
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:87
 msgid "Connections:"
-msgstr ""
+msgstr "Koneksi:"
 
 #: deluge/plugins/label/label/data/label_options.glade:115
 #: deluge/plugins/label/label/data/label_options.glade:180
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:115
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:180
 msgid "Kib/s"
-msgstr ""
+msgstr "Kib/detik"
 
 #: deluge/plugins/label/label/data/label_options.glade:130
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:130
 msgid "Download Speed:"
-msgstr ""
+msgstr "Kecepatan mengunduh:"
 
 #: deluge/plugins/label/label/data/label_options.glade:142
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:142
 msgid "Upload Speed:"
-msgstr ""
+msgstr "Kecepatan mengunggah:"
 
 #: deluge/plugins/label/label/data/label_options.glade:155
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:155
@@ -67,7 +67,7 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:235
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:235
 msgid "Maximum"
-msgstr ""
+msgstr "Maksimal"
 
 #: deluge/plugins/label/label/data/label_options.glade:302
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:302
@@ -100,7 +100,7 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:145
 #: deluge/ui/webui/scripts/template_strings.py:59
 msgid "Queue"
-msgstr ""
+msgstr "Antrian"
 
 #: deluge/plugins/label/label/data/label_options.glade:413
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:413

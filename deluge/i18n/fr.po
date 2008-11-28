@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-27 18:19-0500\n"
-"PO-Revision-Date: 2008-10-31 00:49+0000\n"
-"Last-Translator: Mathieu D. (MatToufoutu) <mattoufootu@gmail.com>\n"
+"PO-Revision-Date: 2008-11-26 11:50+0000\n"
+"Last-Translator: Malaki <webmaster@malaki.ca>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 21:57+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -100,7 +100,7 @@ msgstr "Appliquer la configuration pour les fichiers en attente"
 #: deluge/ui/webui/config_tabs_deluge.py:145
 #: deluge/ui/webui/scripts/template_strings.py:59
 msgid "Queue"
-msgstr "File"
+msgstr "File d’attente"
 
 #: deluge/plugins/label/label/data/label_options.glade:413
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:413
@@ -137,7 +137,7 @@ msgstr "<i>(1 line per tracker)</i>"
 #: deluge/plugins/label/label/data/label_options.glade:508
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:508
 msgid "Automatically apply label:"
-msgstr "Appliqier automatiquement l'étiquette:"
+msgstr "Appliquer automatiquement l'étiquette:"
 
 #: deluge/plugins/label/label/data/label_options.glade:525
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:525
@@ -295,7 +295,7 @@ msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
-msgstr ""
+msgstr "info_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
@@ -389,11 +389,11 @@ msgstr "<b>Depuis l'adresse Internet</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1119
 msgid "Add Infohash"
-msgstr ""
+msgstr "Ajouter un info_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1155
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "<b>À partir du info_hash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1189
 msgid "Infohash:"

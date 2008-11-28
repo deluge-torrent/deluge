@@ -10,31 +10,31 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-27 18:19-0500\n"
-"PO-Revision-Date: 2008-10-30 23:01+0000\n"
-"Last-Translator: Johan Linde <nonlisted@gmail.com>\n"
+"PO-Revision-Date: 2008-11-25 23:43+0000\n"
+"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 21:57+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 #: deluge/plugins/label/build/lib/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
-"<i>Använd sidofält för att lägga till, redigera och ta bort "
-"beteckningar.</i>\n"
+"<i>Använd sidopanelen för att lägga till, redigera och ta bort "
+"etiketter.</i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 #: deluge/plugins/label/build/lib/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr "<b>Beteckningar</b>"
+msgstr "<b>Etiketter</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr "Beteckningsinställningar"
+msgstr "Etikettalternativ"
 
 #: deluge/plugins/label/label/data/label_options.glade:87
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:87
@@ -51,17 +51,17 @@ msgstr "Kib/s"
 #: deluge/plugins/label/label/data/label_options.glade:130
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:130
 msgid "Download Speed:"
-msgstr "Nedladdningshastighet:"
+msgstr "Hämtningshastighet:"
 
 #: deluge/plugins/label/label/data/label_options.glade:142
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:142
 msgid "Upload Speed:"
-msgstr "Uppladdningshastighet:"
+msgstr "Sändningshastighet:"
 
 #: deluge/plugins/label/label/data/label_options.glade:155
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:155
 msgid "Upload Slots:\t"
-msgstr "Uppladdningsslots:\t"
+msgstr "Sändningsplatser:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:222
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:222
@@ -78,13 +78,13 @@ msgstr "Maximum"
 #: deluge/ui/gtkui/glade/main_window.glade:1905
 #: deluge/ui/webui/torrent_options.py:29
 msgid "Remove at ratio"
-msgstr "Ta bort vid ratio"
+msgstr "Ta bort vid förhållande"
 
 #: deluge/plugins/label/label/data/label_options.glade:317
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:317
 #: deluge/ui/gtkui/glade/main_window.glade:1867
 msgid "Stop seed at ratio:"
-msgstr "Sluta seeda efter marginal:"
+msgstr "Sluta distribuera vid förhållande:"
 
 #: deluge/plugins/label/label/data/label_options.glade:332
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:332
@@ -92,7 +92,7 @@ msgstr "Sluta seeda efter marginal:"
 #: deluge/ui/webui/torrent_options.py:26
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "Auto Managed"
-msgstr "Automatiskt Hanterad"
+msgstr "Automatiskt hanterad"
 
 #: deluge/plugins/label/label/data/label_options.glade:361
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:361
@@ -136,12 +136,12 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:492
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:492
 msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(en rad per tracker)</i>"
+msgstr "<i>(en rad per bevakare)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:508
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:508
 msgid "Automatically apply label:"
-msgstr "Lägg automatiskt till beteckningar:"
+msgstr "Lägg automatiskt till etiketter:"
 
 #: deluge/plugins/label/label/data/label_options.glade:525
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:525
@@ -159,7 +159,7 @@ msgstr "Lägg till etikett"
 #: deluge/plugins/label/label/data/label_options.glade:593
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:593
 msgid "<b>Label name:</b>"
-msgstr "<b>Namnbeteckning:</b>"
+msgstr "<b>Etikettnamn:</b>"
 
 #: deluge/plugins/graph/build/lib/graph/data/config.glade:12
 #: deluge/plugins/stats/build/lib/stats/data/config.glade:12
@@ -181,7 +181,7 @@ msgstr "Typ:"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
 msgid "URL:"
-msgstr "Webbadress:"
+msgstr "URL:"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:89
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
@@ -190,7 +190,7 @@ msgstr "Webbadress:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
 #: deluge/ui/gtkui/glade/main_window.glade:2089
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Allmänt</b>"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:125
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:125
@@ -216,22 +216,22 @@ msgstr "<b>Inställningar</b>"
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:218
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:218
 msgid "Download the blocklist file if necessary and import the file."
-msgstr "Om det behövs, ladda ned blockningslista och importera den."
+msgstr "Hämta blockeringslistan, om nödvändigt, och importera filen."
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:238
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:238
 msgid "Check Download and Import"
-msgstr "Kontrollera nedladdning och import"
+msgstr "Kontrollera hämtning och importering"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:259
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:259
 msgid "Download a new blocklist file and import it."
-msgstr "Ladda ned en ny blocklist-fil och importera den."
+msgstr "Hämta ner en ny blockeringslista och importera den."
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:279
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:279
 msgid "Force Download and Import"
-msgstr "Tvinga nedladdning och import"
+msgstr "Tvinga hämtning och importering"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:304
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:304
@@ -339,11 +339,11 @@ msgstr "<b>Allokering</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:560
 msgid "Max Down Speed:"
-msgstr "Max nedladdingshastighet:"
+msgstr "Max hämtningshastighet:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:572
 msgid "Max Up Speed:"
-msgstr "Max uppladdingshastighet:"
+msgstr "Max sändningshastighet:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:586
 #: deluge/ui/gtkui/glade/main_window.glade:1721
@@ -353,7 +353,7 @@ msgstr "Maximala Anslutningar"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:600
 #: deluge/ui/gtkui/glade/main_window.glade:1784
 msgid "Max Upload Slots:"
-msgstr "Max uppladdningslots:"
+msgstr "Max sändningsplatser:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:669
 #: deluge/ui/gtkui/glade/main_window.glade:1817
@@ -466,7 +466,7 @@ msgstr ".. och ta bort torrent-fil"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:229
 msgid ".. And Delete Downloaded Files"
-msgstr ".. Och ta vort nedladdade filer"
+msgstr ".. och ta bort hämtade filer"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:238
 msgid ".. And Delete All Files"
@@ -488,7 +488,7 @@ msgstr "_Kopplingsbegränsning"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:297
 msgid "Upload _Slot Limit"
-msgstr "Uppladdnings _Slotbegränsning"
+msgstr "Begränsning för sändnings_platser"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:312
 msgid "_Auto Managed"
@@ -514,7 +514,7 @@ msgstr "<i>Den associerade .torrent-filen kommer att tas bort!</i>"
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
 #: deluge/ui/gtkui/glade/main_window.glade:2314
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>Den nedladdade datan kommer att tas bort!</i>"
+msgstr "<i>Hämtat data kommer att tas bort!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
 #: deluge/ui/gtkui/glade/main_window.glade:2358
@@ -529,7 +529,7 @@ msgstr "Inställningar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:74
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr "<b><i><big>Nedladdningar</big></i></b>"
+msgstr "<b><i><big>Hämtningar</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:112
 msgid "Always show"
@@ -545,7 +545,7 @@ msgstr "<b>Lägg till torrents dialog</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:180
 msgid "Download to:"
-msgstr ""
+msgstr "Hämta ner till:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:234
 msgid "Copy of .torrent files to:"
@@ -746,27 +746,28 @@ msgstr "<b><i><big>Bandbredd</big></i></b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1290
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal sändningsplatser för alla torrent-filer. Ange -1 för "
-"obegränsat antal."
+"Maximalt antal sändningsplatser för alla torrent-filer. Ställ in till -1 för "
+"obegränsat."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1309
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1379
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1403
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximal sändningshastighet för alla torrent-filer.  Ställ in -1 för "
+"Maximal sändningshastighet för alla torrent-filer.  Ställ in till -1 för "
 "obegränsad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1329
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maximal hämtningshastighet för alla torrent-filer. Ange -1 för obegränsad."
+"Maximal hämtningshastighet för alla torrent-filer. Ställ in till -1 för "
+"obegränsad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1586
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Maximal hämtningshastighet (Kibyte/s)"
+msgstr "Maximal hämtningshastighet (KiB/s)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1392
@@ -815,8 +816,8 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1638
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
-"Maximalt antal sändningsplatser per torrent-fil. Ange -1 för obegränsat "
-"antal."
+"Maximalt antal sändningsplatser per torrent-fil. Ställ in till -1 för "
+"obegränsat antal."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1661
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -1475,7 +1476,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:581
 msgid "_Do Not Download"
-msgstr "_Ladda Inte ned"
+msgstr "Hämta _inte ner"
 
 #: deluge/ui/gtkui/glade/main_window.glade:596
 msgid "_Normal Priority"
@@ -1596,11 +1597,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1734
 msgid "Max Upload Speed:"
-msgstr "Max uppladdningshastighet:"
+msgstr "Max sändningshastighet:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Download Speed:"
-msgstr "Max nedladdningshastighet:"
+msgstr "Max hämtningshastighet:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1757
 #: deluge/ui/gtkui/glade/main_window.glade:1769
@@ -1744,20 +1745,20 @@ msgstr "Maximalt antal anslutningar"
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 msgid "Maximum Download Speed (Kib/s)"
-msgstr "Maximal Nedladdningshastighet (Kib/s)"
+msgstr "Maximal hämtningshastighet (Kib/s)"
 
 #: deluge/plugins/label/label/webui/config.py:86
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr "Maximal uppladdningshastighet (Kib/s)"
+msgstr "Maximal sändningshastighet (Kib/s)"
 
 #: deluge/plugins/label/label/webui/config.py:87
 #: deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:120
 #: deluge/ui/webui/torrent_options.py:20 deluge/ui/webui/torrent_add.py:52
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Maximalt antal sändningsplatser"
 
 #: deluge/plugins/label/label/webui/config.py:88
 msgid "Move completed to"
@@ -1816,7 +1817,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:81
 msgid "Times to attempt download"
-msgstr "Antal gånger att försöka ladda ned"
+msgstr "Antal gånger att försöka hämta"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:82
 msgid "Import on daemon startup"
@@ -1824,7 +1825,7 @@ msgstr "Importera under deamon-uppstart"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:84
 msgid "Download Now"
-msgstr ""
+msgstr "Hämta ner nu"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:85
 msgid "Import Now"
@@ -1833,7 +1834,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/webui.py:92
 #, python-format
 msgid "Downloading %.2f%%"
-msgstr ""
+msgstr "Hämtar %.2f%%"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:94
 #, python-format
@@ -1982,12 +1983,12 @@ msgstr "Uppåt"
 #: deluge/ui/gtkui/systemtray.py:325 deluge/ui/webui/config_tabs_deluge.py:125
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "Download"
-msgstr "Ladda ned"
+msgstr "Hämta"
 
 #: deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/webui/scripts/template_strings.py:87
 msgid "Upload"
-msgstr "Sändning"
+msgstr "Skicka"
 
 #: deluge/ui/gtkui/systemtray.py:369
 msgid "Deluge is locked"
@@ -2034,11 +2035,11 @@ msgstr "Välj en mapp att flytta filer till"
 
 #: deluge/ui/gtkui/menubar.py:453
 msgid "Set Max Download Speed (KiB/s):"
-msgstr "Sätt maximal nedladdningshastighet (KiB/s):"
+msgstr "Ange maximal hämtningshastighet (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:455
 msgid "Set Max Upload Speed (KiB/s):"
-msgstr "Sätt maximal uppladdningshastighet (KiB/s):"
+msgstr "Ange maximal sändningshastighet (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:457
 msgid "Set Max Connections:"
@@ -2046,7 +2047,7 @@ msgstr "Sätt maximala anslutningar:"
 
 #: deluge/ui/gtkui/menubar.py:459
 msgid "Set Max Upload Slots:"
-msgstr "Sätt maximala uppladdningskopplingar:"
+msgstr "Ange max antal sändningsplatser:"
 
 #: deluge/ui/gtkui/peers_tab.py:102
 #: deluge/ui/webui/scripts/template_strings.py:8
@@ -2061,7 +2062,7 @@ msgstr "Klient"
 #: deluge/ui/gtkui/peers_tab.py:144 deluge/ui/gtkui/torrentview.py:160
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "Down Speed"
-msgstr "Nedhastighet"
+msgstr "Hämtningshastighet"
 
 #: deluge/ui/gtkui/peers_tab.py:157 deluge/ui/gtkui/torrentview.py:164
 #: deluge/ui/webui/scripts/template_strings.py:85
@@ -2373,7 +2374,7 @@ msgstr "Per Torrent"
 
 #: deluge/ui/webui/config_tabs_deluge.py:126
 msgid "Store all downoads in"
-msgstr "Lagra alla nedladdningar i"
+msgstr "Lagra alla hämtningar i"
 
 #: deluge/ui/webui/config_tabs_deluge.py:127
 msgid "Save .torrent files to"
@@ -2415,7 +2416,7 @@ msgstr "Totalt aktiva torrents"
 
 #: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Total active downloading"
-msgstr "Totalt antar aktiva nedladdningar"
+msgstr "Antal aktiva hämtningar"
 
 #: deluge/ui/webui/config_tabs_deluge.py:154
 msgid "Total active seeding"
@@ -2560,6 +2561,8 @@ msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Skicka upp en giltig bild. Filen du skickade upp var antingen inte en bild "
+"eller var skadad."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:497
 msgid "Enter a valid URL."
@@ -2670,11 +2673,11 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_options.py:16 deluge/ui/webui/torrent_add.py:48
 msgid "Maximum Down Speed"
-msgstr "Maximal Nedladdningshastighet"
+msgstr "Maximal hämtningshastighet"
 
 #: deluge/ui/webui/torrent_options.py:18 deluge/ui/webui/torrent_add.py:50
 msgid "Maximum Up Speed"
-msgstr "Maximal Uppladdningshastighet"
+msgstr "Maximal sändningshastighet"
 
 #: deluge/ui/webui/torrent_options.py:27
 msgid "Stop seed at ratio"
@@ -2686,7 +2689,7 @@ msgstr "Fel i torrentinställningar"
 
 #: deluge/ui/webui/torrent_add.py:43
 msgid "Download Location"
-msgstr "Nedladdningsplats"
+msgstr "Hämtningsplats"
 
 #: deluge/ui/webui/torrent_add.py:44
 msgid "Compact Allocation"
@@ -2698,7 +2701,7 @@ msgstr "Lägg Till I Pausat Läge"
 
 #: deluge/ui/webui/torrent_add.py:67
 msgid "Upload torrent"
-msgstr ""
+msgstr "Skicka upp torrent"
 
 #: deluge/ui/webui/torrent_add.py:73
 msgid "Choose Files"
@@ -2766,7 +2769,7 @@ msgstr "Radera .torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:23
 msgid "Delete downloaded files."
-msgstr "Radera nedladdade filer."
+msgstr "Ta bort hämtade filer."
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 msgid "Deluge : Torrent List"
@@ -2782,7 +2785,7 @@ msgstr "Inaktivera"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Downloaded"
-msgstr "Nedladdad"
+msgstr "Hämtat"
 
 #: deluge/ui/webui/scripts/template_strings.py:33
 msgid "Eta"
@@ -2806,7 +2809,7 @@ msgstr "Nyckelord"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Label torrent"
-msgstr ""
+msgstr "Sätt etikett på torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:41
 msgid "Login"
@@ -2922,7 +2925,7 @@ msgstr "Uppdatera"
 
 #: deluge/ui/webui/scripts/template_strings.py:88
 msgid "Uploaded"
-msgstr "Uppladdat"
+msgstr "Skickat"
 
 #: deluge/ui/webui/scripts/template_strings.py:89
 msgid "X"

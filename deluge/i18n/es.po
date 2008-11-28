@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:19-0500\n"
-"PO-Revision-Date: 2008-11-08 20:51+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2008-11-11 14:25+0000\n"
+"Last-Translator: Pablo Carmona A. <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 21:57+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -274,7 +274,7 @@ msgstr "Conexiones"
 #: deluge/plugins/stats/build/lib/stats/data/tabs.glade:85
 #: deluge/plugins/stats/stats/data/tabs.glade:85
 msgid "Seeds/Peers"
-msgstr ""
+msgstr "Semillas/Clientes"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 msgid "Add Torrents"
@@ -1224,7 +1224,7 @@ msgstr "Asistente de configuración Deluge"
 
 #: deluge/ui/gtkui/glade/wizard.glade:10
 msgid "This wizard will help you set up Deluge to your liking."
-msgstr ""
+msgstr "Este asistente le ayudará a configurar Deluge a su gusto."
 
 #: deluge/ui/gtkui/glade/wizard.glade:25
 msgid "All Finished!"
@@ -1442,7 +1442,7 @@ msgstr "Añadir Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:329
 msgid "Remove Torrent"
-msgstr "Eliminar Torrent"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:351
 msgid "Pause the selected torrents"
@@ -1573,7 +1573,7 @@ msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1337
 msgid "<b>Tracker:</b>"
-msgstr "<b>Rastreador:</b>"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1357
 msgid "<b>Total Size:</b>"
