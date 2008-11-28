@@ -340,7 +340,7 @@ class Torrent:
 
     def set_tracker_status(self, status):
         """Sets the tracker status"""
-        self.tracker_status = status
+        self.tracker_status = self.get_tracker_host() + ": " + status
 
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
