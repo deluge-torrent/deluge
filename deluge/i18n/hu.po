@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-10-12 11:56+0000\n"
+"PO-Revision-Date: 2008-11-13 11:45+0000\n"
 "Last-Translator: G. U. <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -23,15 +23,15 @@ msgstr "Bejelentés rendben"
 
 #: deluge/core/torrentmanager.py:691
 msgid "Announce Sent"
-msgstr "Bejelentés Elküldve"
+msgstr "Bejelentés elküldve"
 
 #: deluge/core/torrentmanager.py:700
 msgid "Alert"
-msgstr "Hiba"
+msgstr "Vigyázat"
 
 #: deluge/core/torrentmanager.py:711
 msgid "Warning"
-msgstr "Figyelmeztetés"
+msgstr "Figyelem"
 
 #: deluge/core/torrentmanager.py:721 deluge/ui/gtkui/sidebar.py:69
 #: deluge/ui/webui/scripts/template_strings.py:25
@@ -623,7 +623,7 @@ msgstr "Portok"
 
 #: deluge/ui/webui/config_tabs_deluge.py:46
 msgid "From"
-msgstr "Feladó"
+msgstr "Ettől"
 
 #: deluge/ui/webui/config_tabs_deluge.py:47
 msgid "To"
@@ -1641,11 +1641,11 @@ msgstr "<b><i><big>Hálózat</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:629
 msgid "From:"
-msgstr "Feladó:"
+msgstr "Ettől:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:657
 msgid "To:"
-msgstr "Címzett:"
+msgstr "Eddig:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:689
 msgid "Test Active Port"
@@ -1786,7 +1786,7 @@ msgstr "Megengedett kapcsolatok maximális száma.  Korlátlanhoz -1."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1263
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1481
 msgid "Maximum Upload Slots:"
-msgstr "Maximum Feltültései Szálak:"
+msgstr "Maximum feltöltési szálak:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1276
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1494

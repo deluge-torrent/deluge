@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-10-26 18:40+0000\n"
-"Last-Translator: Xavi de Moner <linuxcompulsive@gmail.com>\n"
+"PO-Revision-Date: 2008-11-12 12:05+0000\n"
+"Last-Translator: NeV3rKilL <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -41,7 +41,7 @@ msgstr "Error"
 #: deluge/plugins/label/label/webui_config.py:46
 #: deluge/plugins/label/label/gtkui.py:323 deluge/ui/gtkui/sidebar.py:76
 msgid "Labels"
-msgstr ""
+msgstr "Etiquetes"
 
 #: deluge/plugins/label/label/webui_config.py:58
 msgid "Select Label"
@@ -52,52 +52,52 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:117
 #: deluge/ui/webui/torrent_options.py:19 deluge/ui/webui/torrent_add.py:51
 msgid "Maximum Connections"
-msgstr ""
+msgstr "Connexions màximes"
 
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 msgid "Maximum Download Speed (Kib/s)"
-msgstr ""
+msgstr "Velocitat Màxima de Descàrrega (Kib/s)"
 
 #: deluge/plugins/label/label/webui_config.py:85
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr ""
+msgstr "Velocitat Màxima de Pujada (Kib/s)"
 
 #: deluge/plugins/label/label/webui_config.py:86
 #: deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:120
 #: deluge/ui/webui/torrent_options.py:20 deluge/ui/webui/torrent_add.py:52
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Llocs Màxims de Pujada"
 
 #: deluge/plugins/label/label/webui_config.py:88
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #: deluge/plugins/label/label/webui_config.py:89
 #: deluge/ui/webui/register_menu.py:52
 msgid "Delete"
-msgstr ""
+msgstr "Suprimeix"
 
 #: deluge/plugins/label/label/webui_config.py:99
 msgid "Add Label"
-msgstr ""
+msgstr "Afegeix una etiqueta"
 
 #: deluge/plugins/label/label/webui_config.py:108
 #: deluge/plugins/label/label/gtkui.py:104
 #: deluge/plugins/label/label/gtkui.py:272
 #: deluge/plugins/label/label/webui_pages.py:62
 msgid "Label"
-msgstr ""
+msgstr "Etiqueta"
 
 #: deluge/plugins/label/label/webui_config.py:115
 #: deluge/plugins/label/label/gtkui.py:301
 #: deluge/ui/webui/scripts/template_strings.py:30
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: deluge/plugins/label/label/webui_config.py:124
 msgid "Hide filter items with 0 hits"
@@ -105,17 +105,17 @@ msgstr ""
 
 #: deluge/plugins/label/label/gtk_sidebar.py:72
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 #: deluge/plugins/label/label/gtkui.py:109
 #: deluge/ui/gtkui/edittrackersdialog.py:83
 #: deluge/ui/webui/scripts/template_strings.py:68
 msgid "Tracker"
-msgstr ""
+msgstr "Tracker"
 
 #: deluge/plugins/label/label/gtkui.py:319
 msgid "Hide Zero Hits"
-msgstr ""
+msgstr "Amagar Cap ¿Hits?"
 
 #: deluge/plugins/label/label/gtkui.py:348 deluge/ui/webui/register_menu.py:51
 #: deluge/ui/webui/scripts/template_strings.py:3
@@ -124,72 +124,72 @@ msgstr "Afegir"
 
 #: deluge/plugins/label/label/core.py:265
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr ""
+msgstr "Etiqueta Invàlida, caràcters vàlids:[a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:266
 msgid "Empty Label"
-msgstr ""
+msgstr "Etiqueta Buida"
 
 #: deluge/plugins/label/label/core.py:267
 #: deluge/plugins/label/label/core.py:281
 #: deluge/plugins/label/label/core.py:299
 #: deluge/plugins/label/label/core.py:331
 msgid "Unknown Label"
-msgstr ""
+msgstr "Etiqueta Desconeguda"
 
 #: deluge/plugins/label/label/core.py:332
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Torrent Desconegut"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:46
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Llistat d'IPs d'Emule (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:47
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "Text SafePeer (Zip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:48
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "Text PeerGuardian (no comprimit)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:58
 msgid "BlockList"
-msgstr ""
+msgstr "Llista de Bloquejats"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:78
 #: deluge/ui/webui/torrent_add.py:65
 #: deluge/ui/webui/scripts/template_strings.py:75
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:79
 msgid "Check for every (days)"
-msgstr ""
+msgstr "Comprovar cada (dia)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:80
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Temps d'espera (segons)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:81
 msgid "Times to attempt download"
-msgstr ""
+msgstr "Cops per intentar baixar"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:82
 msgid "Import on daemon startup"
-msgstr ""
+msgstr "Quan el dimoni arranqui, importar"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:84
 msgid "Download Now"
-msgstr ""
+msgstr "Descarrega ara"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:85
 msgid "Import Now"
-msgstr ""
+msgstr "Importar ara"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:92
 #, python-format
@@ -199,41 +199,41 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/webui.py:94
 #, python-format
 msgid "Importing %s"
-msgstr ""
+msgstr "Important %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:96
 #, python-format
 msgid "Blocked Ranges: %s"
-msgstr ""
+msgstr "Rangs Bloquejats: %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:98
 msgid "Inactive"
-msgstr ""
+msgstr "Inactiu"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:105
 msgid "Refresh status"
-msgstr ""
+msgstr "Redibuixar l'estatus"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
-msgstr ""
+msgstr "Líder invàlid"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Codi màgic invàlid"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
-msgstr ""
+msgstr "Versió invàlida"
 
 #: deluge/ui/gtkui/listview.py:84
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Unknown"
-msgstr ""
+msgstr "Desconegut"
 
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
-msgstr ""
+msgstr "No Connectat"
 
 #: deluge/ui/gtkui/statusbar.py:149
 #: deluge/ui/webui/scripts/template_strings.py:12
@@ -242,11 +242,11 @@ msgstr "Connexions"
 
 #: deluge/ui/gtkui/statusbar.py:154
 msgid "Download Speed"
-msgstr ""
+msgstr "Velocitat de baixada"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Upload Speed"
-msgstr ""
+msgstr "Velocitat de Pujada"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"

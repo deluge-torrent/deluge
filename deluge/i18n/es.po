@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-11-08 20:52+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2008-11-20 08:12+0000\n"
+"Last-Translator: Rafael Muñoz Rodríguez <rmunozrodriguez@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -52,7 +52,7 @@ msgstr "Seleccionar etiqueta"
 #: deluge/ui/webui/config_tabs_deluge.py:117
 #: deluge/ui/webui/torrent_options.py:19 deluge/ui/webui/torrent_add.py:51
 msgid "Maximum Connections"
-msgstr "Conexiones máximas"
+msgstr "Máximo de conexiones"
 
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/ui/webui/config_tabs_deluge.py:103
@@ -159,7 +159,7 @@ msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:58
 msgid "BlockList"
-msgstr "Lista de bloqueados"
+msgstr "Lista de bloqueo"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:78
 #: deluge/ui/webui/torrent_add.py:65
@@ -233,7 +233,7 @@ msgstr "Desconocido"
 
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
-msgstr "No conectado"
+msgstr "Sin conexión"
 
 #: deluge/ui/gtkui/statusbar.py:149
 #: deluge/ui/webui/scripts/template_strings.py:12
@@ -303,7 +303,7 @@ msgstr "Tamaño"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:452
 msgid "Choose a .torrent file"
-msgstr "Elija un archivo .torrent"
+msgstr "Seleccione un archivo .torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:464
 msgid "Torrent files"
@@ -423,7 +423,7 @@ msgstr "Desligado"
 
 #: deluge/ui/gtkui/menubar.py:328
 msgid "Choose a directory to move files to"
-msgstr "Elige un directorio al que mover los archivos"
+msgstr "Seleccione un directorio al que mover los archivos"
 
 #: deluge/ui/gtkui/menubar.py:437
 msgid "Set Max Download Speed (KiB/s):"
@@ -775,7 +775,7 @@ msgstr "-1 = ilimitado"
 #: deluge/ui/webui/config_tabs_deluge.py:148
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2296
 msgid "Queue new torrents to top"
-msgstr "Colocar nuevos torrents al tope de la cola"
+msgstr "Colocar nuevos torrents al principio de la cola"
 
 #: deluge/ui/webui/config_tabs_deluge.py:152
 msgid "Total active torrents"
@@ -1210,7 +1210,7 @@ msgstr "Actualizar página cada:"
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "Remove"
-msgstr "Remover"
+msgstr "Eliminar"
 
 #: deluge/ui/webui/scripts/template_strings.py:53
 msgid "Remove torrent"
@@ -1494,7 +1494,7 @@ msgstr "Act_ualizar el rastreador"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
-msgstr "_Remover torrent"
+msgstr "Elimina_r torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:173
 msgid "_Force Re-check"
@@ -1545,14 +1545,14 @@ msgstr "_Autogestionado"
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:2099
 msgid "Remove Torrent?"
-msgstr "¿Remover torrent?"
+msgstr "¿Eliminar torrent?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
 #: deluge/ui/gtkui/glade/main_window.glade:2135
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
-"<big><b>¿Está seguro de que desea remover el torrent seleccionado?</b></big>"
+"<big><b>¿Está seguro de que desea eliminar el torrent seleccionado?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
 #: deluge/ui/gtkui/glade/main_window.glade:2186
@@ -1567,7 +1567,7 @@ msgstr "<i>¡La información descargada sera eliminada!</i>"
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
 #: deluge/ui/gtkui/glade/main_window.glade:2269
 msgid "Remove Selected Torrent"
-msgstr "Remover torrents seleccionados"
+msgstr "Eliminar torrents seleccionados"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:383
@@ -1991,7 +1991,7 @@ msgstr "Para de compartir cuando la proporción de compartición llegue a:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2631
 msgid "Remove torrent when share ratio reached"
-msgstr "Remover torrent cuando la proporción compartida se cumpla"
+msgstr "Eliminar torrent cuando la proporción compartida se cumpla"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2649
 msgid "<b>Seeding</b>"
@@ -2191,7 +2191,7 @@ msgstr "Comunidad"
 
 #: deluge/ui/gtkui/glade/main_window.glade:283
 msgid "Remove Torrent"
-msgstr "Remover torrent"
+msgstr "Eliminar torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:305
 msgid "Pause the selected torrents"

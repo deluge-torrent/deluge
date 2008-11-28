@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-11-05 21:11+0000\n"
+"PO-Revision-Date: 2008-11-15 14:51+0000\n"
 "Last-Translator: mankoneko <nkenny@simnet.is>\n"
 "Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -1045,7 +1045,7 @@ msgstr "Stjórnast sjálfvirkt"
 
 #: deluge/ui/webui/torrent_options.py:27
 msgid "Stop seed at ratio"
-msgstr "Stöðva dielingu við hlutfall"
+msgstr "Stöðva deilingu við hlutfall"
 
 #: deluge/ui/webui/torrent_options.py:29
 #: deluge/ui/gtkui/glade/main_window.glade:1871
@@ -1066,7 +1066,7 @@ msgstr "Hlutaniðursetning"
 
 #: deluge/ui/webui/torrent_add.py:56
 msgid "Add In Paused State"
-msgstr "Bæta við í hléástandi"
+msgstr "Bæta við í biðstöðu"
 
 #: deluge/ui/webui/torrent_add.py:57
 msgid "Set Private Flag"
@@ -1099,7 +1099,7 @@ msgstr "Bæta við öðrum (vera kyrr á viðbótasíðu)"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
-msgstr "Bæta við straumskjali"
+msgstr "Bæta við straumi"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 #: deluge/ui/gtkui/glade/main_window.glade:267
@@ -1132,7 +1132,7 @@ msgstr "Villuprófun: Gagnademba"
 
 #: deluge/ui/webui/scripts/template_strings.py:15
 msgid "Delete .torrent file"
-msgstr "Eyða .torrent skjali (straumskjali)"
+msgstr "Eyða straumskjali"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Delete downloaded files."
@@ -1153,7 +1153,7 @@ msgstr "Virkja"
 
 #: deluge/ui/webui/scripts/template_strings.py:26
 msgid "Eta"
-msgstr "eta"
+msgstr "Ákt"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "File"
@@ -1274,7 +1274,7 @@ msgstr "sekúndur"
 
 #: deluge/common.py:184
 msgid "Activated"
-msgstr "Virkjað"
+msgstr "Sett af stað"
 
 #: deluge/common.py:254
 #, python-format
@@ -1284,397 +1284,399 @@ msgstr "%s"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:404
 msgid "Type:"
-msgstr ""
+msgstr "Gerð:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:60
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1114
 msgid "URL:"
-msgstr ""
+msgstr "Slóð:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
 #: deluge/ui/gtkui/glade/main_window.glade:2002
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Almennt</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:125
 msgid "Days"
-msgstr ""
+msgstr "Dagar"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
 msgid "Check for new list every:"
-msgstr ""
+msgstr "Leita eftir nýjum lista hverja:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:168
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Flytja inn bannlista við ræsingu:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:186
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Stillingar</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:218
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "Hala niður bannlistaskjal ef nauðsyn krefur og flytja inn skjalið."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:238
 msgid "Check Download and Import"
-msgstr ""
+msgstr "Athuga niðurhal og innflutning"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:259
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "Hala niður nýju bannlistaskjali og flytja það inn."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:279
 msgid "Force Download and Import"
-msgstr ""
+msgstr "Neyða til niðurhals og innflutnings"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:304
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b> Valkostir</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:416
 msgid "Date:"
-msgstr ""
+msgstr "Dagsetning:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:428
 msgid "File Size:"
-msgstr ""
+msgstr "Stærð skjals:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Upplýsingar</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 msgid "Add Torrents"
-msgstr ""
+msgstr "Bæta við straumum"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Bæta við straumum</b></big>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 msgid "From _File"
-msgstr ""
+msgstr "Frá_Skjali"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "From _URL"
-msgstr ""
+msgstr "Frá_Slóð"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:239
 msgid "From _Hash"
-msgstr ""
+msgstr "Frá_Hakki"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:285
 msgid "_Remove"
-msgstr ""
+msgstr "_Fjarlægja"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:318
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>Straumar</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:372
 msgid "Fi_les"
-msgstr ""
+msgstr "S_krár"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:413
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:197
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:244
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
 msgid "Select A Folder"
-msgstr ""
+msgstr "Veldu möppu"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:270
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "<b>Ákvörðunarstaður niðurhals</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
-msgstr ""
+msgstr "Samþjappað"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:507
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:487
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Niðursetning</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
 #: deluge/ui/gtkui/glade/main_window.glade:1653
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Hámarksfjöldi upphalshólfa"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
 #: deluge/ui/gtkui/glade/main_window.glade:1716
 msgid "Max Connections:"
-msgstr ""
+msgstr "Hámarksfjöldi tenginga:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:624
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Hámarks hraði upphals:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:638
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Hámarkshraði niðurhals:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
 #: deluge/ui/gtkui/glade/main_window.glade:1783
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Bandvídd</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:704
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Bæta við í_Biðstöðu"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:719
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Setja fyrstu/síðustu hluta í forgang"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
 #: deluge/ui/gtkui/glade/main_window.glade:1930
 msgid "Private"
-msgstr ""
+msgstr "Einka"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:1977
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "_Breyta sporrekjendum"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "Hverfa aftur til upprunastillinga"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
 msgid "Apply To All"
-msgstr ""
+msgstr "Taka til allra"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
 #: deluge/ui/gtkui/glade/main_window.glade:2079
 msgid "_Options"
-msgstr ""
+msgstr "_Valkostir"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
 #: deluge/ui/gtkui/glade/edit_trackers.glade:223
 msgid "Add Tracker"
-msgstr ""
+msgstr "Bæta við sporrekjanda"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>Frá slóð</b>"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr ""
+msgstr "_Opna möppu"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Byrja aftur á völdum straumum."
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr ""
+msgstr "Byrja_aftur"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
-msgstr ""
+msgstr "Valmögu_leikar"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
-msgstr ""
+msgstr "_Röð"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_Uppfæra sporrekjanda"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_Fjarlægja straum"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:173
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_Neyða til endurathugunar"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:190
 msgid "Move _Storage"
-msgstr ""
+msgstr "Færa_Geymslu"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:211
 msgid "From Session"
-msgstr ""
+msgstr "Frá dvöl"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:220
 msgid ".. And Delete Torrent File"
-msgstr ""
+msgstr ".. og eyða straumskjali"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:229
 msgid ".. And Delete Downloaded Files"
-msgstr ""
+msgstr ".. og eyða niðurhöluðum skjölum"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:238
 msgid ".. And Delete All Files"
-msgstr ""
+msgstr ".. og eyða öllum skjölum"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:251
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Hámarks niðurhalshraði"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:266
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Hámarks upphalshraði"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:281
 msgid "_Connection Limit"
-msgstr ""
+msgstr "_Hámark tengingar"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:297
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Hámarksfjöldi upphals_hólfa"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:312
 msgid "_Auto Managed"
-msgstr ""
+msgstr "_Sjálfstjórnað"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:2099
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Fjarlægja straum?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
 #: deluge/ui/gtkui/glade/main_window.glade:2135
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Ertu viss um að þú viljir fjarlægja valinn straum?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
 #: deluge/ui/gtkui/glade/main_window.glade:2186
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>Viðeigandi .torrent verður eytt!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
 #: deluge/ui/gtkui/glade/main_window.glade:2225
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Gögnum sem halað hefur verið niður verður eytt!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
 #: deluge/ui/gtkui/glade/main_window.glade:2269
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Fjarlægja valinn straum"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:383
 msgid "Preferences"
-msgstr ""
+msgstr "Kjörstillingar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:74
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Niðurhöl</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:112
 msgid "Always show"
-msgstr ""
+msgstr "Sýna alltaf"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:129
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "Færa samtalið í forgrunn"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:146
 msgid "<b>Add Torrents Dialog</b>"
-msgstr ""
+msgstr "<b>Bæta straumum í samtal</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:184
 msgid "Default download location:"
-msgstr ""
+msgstr "Sjálfgefinn ákvörðunarstaður niðurhals:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:229
 msgid "Move completed to:"
-msgstr ""
+msgstr "Flytja klárað í:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:305
 msgid "Save copy of .torrent file:"
-msgstr ""
+msgstr "Vista eintak af .torrent skjali:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:343
 msgid "<b>Torrent File Copy</b>"
-msgstr ""
+msgstr "<b>Straumskjalsafrit</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:379
 msgid "Enable Folder:"
-msgstr ""
+msgstr "Virkja möppu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:416
 msgid "<b>Auto Add Folder</b>"
-msgstr ""
+msgstr "<b>Bæta möppu sjálfkrafa við</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Heildarniðursetning úthlutar öllu því plássi sem þörf er á fyrir strauminn "
+"og kemur í veg fyrir brotadreyfingu."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:453
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Nota heildarniðursetningu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:468
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Hlutaniðursetning úthlutar einungis plássi eftir því sem þarf."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:521
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Setja fyrstu og síðastu hluta skjala í straumi í forgang"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:522
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Setja fyrstu og síðustu hluta straums í forgang"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:562
 msgid "page 6"
-msgstr ""
+msgstr "síða 6"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Netkerfi</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:629
 msgid "From:"
-msgstr ""
+msgstr "Frá:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:657
 msgid "To:"
-msgstr ""
+msgstr "Til:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:689
 msgid "Test Active Port"
-msgstr ""
+msgstr "Prófa virkt tengi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:714
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr ""
+msgstr "Deluge velur sjálfvirkt tengi til að nota í hvert skipti."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:715
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Nota tengi af handahófi"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:733
 msgid "Active Port:"
-msgstr ""
+msgstr "Virkt tengi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:745
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:775
 msgid "<b>Ports</b>"
-msgstr ""
+msgstr "<b>Tengi</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:807
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "Dreifð hakktafla gæti bætt fjölda virkra tenginga."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:808
 msgid "Enable Mainline DHT"

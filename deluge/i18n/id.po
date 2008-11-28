@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-10-10 17:43+0000\n"
-"Last-Translator: Daya Adianto <Unknown>\n"
+"PO-Revision-Date: 2008-11-11 08:25+0000\n"
+"Last-Translator: Gigih Aji Ibrahim <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -27,21 +27,21 @@ msgstr ""
 
 #: deluge/core/torrentmanager.py:700
 msgid "Alert"
-msgstr ""
+msgstr "Peringatan"
 
 #: deluge/core/torrentmanager.py:711
 msgid "Warning"
-msgstr ""
+msgstr "Waspada"
 
 #: deluge/core/torrentmanager.py:721 deluge/ui/gtkui/sidebar.py:69
 #: deluge/ui/webui/scripts/template_strings.py:25
 msgid "Error"
-msgstr ""
+msgstr "Kesalahan"
 
 #: deluge/plugins/label/label/webui_config.py:46
 #: deluge/plugins/label/label/gtkui.py:323 deluge/ui/gtkui/sidebar.py:76
 msgid "Labels"
-msgstr ""
+msgstr "Label"
 
 #: deluge/plugins/label/label/webui_config.py:58
 msgid "Select Label"
@@ -75,7 +75,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui_config.py:88
 msgid "Apply"
-msgstr ""
+msgstr "Terapkan"
 
 #: deluge/plugins/label/label/webui_config.py:89
 #: deluge/ui/webui/register_menu.py:52
@@ -84,7 +84,7 @@ msgstr "Hapus"
 
 #: deluge/plugins/label/label/webui_config.py:99
 msgid "Add Label"
-msgstr ""
+msgstr "Tambah Label"
 
 #: deluge/plugins/label/label/webui_config.py:108
 #: deluge/plugins/label/label/gtkui.py:104
@@ -111,7 +111,7 @@ msgstr ""
 #: deluge/ui/gtkui/edittrackersdialog.py:83
 #: deluge/ui/webui/scripts/template_strings.py:68
 msgid "Tracker"
-msgstr ""
+msgstr "Tracker"
 
 #: deluge/plugins/label/label/gtkui.py:319
 msgid "Hide Zero Hits"
@@ -120,26 +120,26 @@ msgstr ""
 #: deluge/plugins/label/label/gtkui.py:348 deluge/ui/webui/register_menu.py:51
 #: deluge/ui/webui/scripts/template_strings.py:3
 msgid "Add"
-msgstr ""
+msgstr "Tambah"
 
 #: deluge/plugins/label/label/core.py:265
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr ""
+msgstr "Label tidak sah, karakter yang sah:[a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:266
 msgid "Empty Label"
-msgstr ""
+msgstr "Label Kosong"
 
 #: deluge/plugins/label/label/core.py:267
 #: deluge/plugins/label/label/core.py:281
 #: deluge/plugins/label/label/core.py:299
 #: deluge/plugins/label/label/core.py:331
 msgid "Unknown Label"
-msgstr ""
+msgstr "Label Tak Dikenal"
 
 #: deluge/plugins/label/label/core.py:332
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Torrent Tak Dikenal"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:46
 msgid "Emule IP list (GZip)"
@@ -147,15 +147,15 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:47
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer Text (Zipped)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:48
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian Text (Uncompressed)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:58
 msgid "BlockList"
@@ -173,7 +173,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:80
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Batas Waktu (detik)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:81
 msgid "Times to attempt download"
@@ -208,11 +208,11 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:98
 msgid "Inactive"
-msgstr ""
+msgstr "Tak Aktif"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:105
 msgid "Refresh status"
-msgstr ""
+msgstr "Perbarui status"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -224,33 +224,33 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
-msgstr ""
+msgstr "Versi Tidak Sah"
 
 #: deluge/ui/gtkui/listview.py:84
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Unknown"
-msgstr ""
+msgstr "Tak dikenal"
 
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
-msgstr ""
+msgstr "Tidak Terhubung"
 
 #: deluge/ui/gtkui/statusbar.py:149
 #: deluge/ui/webui/scripts/template_strings.py:12
 msgid "Connections"
-msgstr "Sambungan-sambungan"
+msgstr "Koneksi"
 
 #: deluge/ui/gtkui/statusbar.py:154
 msgid "Download Speed"
-msgstr ""
+msgstr "Kecepatan Mengunduh"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Upload Speed"
-msgstr ""
+msgstr "Kecepatan Mengunggah"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Tidak ada koneksi yang datang"
 
 #: deluge/ui/gtkui/statusbar.py:329 deluge/ui/gtkui/statusbar.py:339
 #: deluge/ui/gtkui/statusbar.py:352 deluge/ui/gtkui/statusbar.py:380
@@ -259,7 +259,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1665
 #: deluge/ui/gtkui/glade/main_window.glade:1679
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/detik"
 
 #: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:387
 #: deluge/ui/gtkui/statusbar.py:414 deluge/ui/gtkui/systemtray.py:187
@@ -267,25 +267,25 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:181
 msgid "Unlimited"
-msgstr ""
+msgstr "Tidak terbatas"
 
 #: deluge/ui/gtkui/statusbar.py:361 deluge/ui/gtkui/statusbar.py:389
 #: deluge/ui/gtkui/statusbar.py:416 deluge/ui/gtkui/systemtray.py:325
 #: deluge/common.py:238 deluge/common.py:239
 msgid "Other..."
-msgstr ""
+msgstr "Lainnya..."
 
 #: deluge/ui/gtkui/statusbar.py:363
 msgid "Download Speed (KiB/s):"
-msgstr ""
+msgstr "Kecepatan Mengunduh(KiB/detik)"
 
 #: deluge/ui/gtkui/statusbar.py:391
 msgid "Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Kecepatan Mengunggah(KiB/detik)"
 
 #: deluge/ui/gtkui/statusbar.py:418
 msgid "Connection Limit:"
-msgstr ""
+msgstr "Batas Koneksi"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
@@ -299,7 +299,7 @@ msgstr "Nama berkas"
 #: deluge/ui/gtkui/torrentview.py:129
 #: deluge/ui/webui/scripts/template_strings.py:62
 msgid "Size"
-msgstr "Besar"
+msgstr "Ukuran"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:452
 msgid "Choose a .torrent file"

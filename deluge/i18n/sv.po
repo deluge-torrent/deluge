@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-10-30 22:42+0000\n"
-"Last-Translator: Johan Linde <nonlisted@gmail.com>\n"
+"PO-Revision-Date: 2008-11-25 23:35+0000\n"
+"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-08 22:52+0000\n"
+"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -101,7 +101,7 @@ msgstr "Allmänt"
 
 #: deluge/plugins/label/label/webui_config.py:124
 msgid "Hide filter items with 0 hits"
-msgstr "Göm filterartikel med 0 träffar"
+msgstr "Dölj filterartikel med 0 träffar"
 
 #: deluge/plugins/label/label/gtk_sidebar.py:72
 msgid "Filters"
@@ -111,11 +111,11 @@ msgstr "Filter"
 #: deluge/ui/gtkui/edittrackersdialog.py:83
 #: deluge/ui/webui/scripts/template_strings.py:68
 msgid "Tracker"
-msgstr "Spårare"
+msgstr "Bevakare"
 
 #: deluge/plugins/label/label/gtkui.py:319
 msgid "Hide Zero Hits"
-msgstr "Göm de med noll träffar"
+msgstr "Dölj de med inga träffar"
 
 #: deluge/plugins/label/label/gtkui.py:348 deluge/ui/webui/register_menu.py:51
 #: deluge/ui/webui/scripts/template_strings.py:3
