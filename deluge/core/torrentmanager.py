@@ -29,6 +29,7 @@ import cPickle
 import os.path
 import os
 import time
+import shutil
 
 import gobject
 
@@ -531,12 +532,22 @@ class TorrentManager(component.Component):
         try:
             log.debug("Saving torrent state file.")
             state_file = open(
-                os.path.join(self.config["state_location"], "torrents.state"),
+                os.path.join(self.config["state_location"], "torrents.state.new"),
                                                                         "wb")
             cPickle.dump(state, state_file)
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")
+            return True
+
+        # We have to move the 'torrents.state.new' file to 'torrents.state'
+        try:
+            shutil.move(
+                os.path.join(self.config["state_location"], "torrents.state.new"),
+                os.path.join(self.config["state_location"], "torrents.state"))
+        except IOError:
+            log.warning("Unable to save state file.")
+            return True
 
         # We return True so that the timer thread will continue
         return True
