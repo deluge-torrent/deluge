@@ -59,8 +59,8 @@ class RemoveTorrentDialog(object):
         if len(self.__torrent_ids) > 1:
             # We need to pluralize the dialog
             label_title = glade.get_widget("label_title")
-            button_ok = glade.get_widget("button_ok")
-            button_data = glade.get_widget("button_data")
+            button_ok = glade.get_widget("button_ok_label")
+            button_data = glade.get_widget("button_data_label")
 
             def pluralize_torrents(text):
                 plural_torrent = _("Torrents")
