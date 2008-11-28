@@ -1,8 +1,7 @@
 #
-# blocklist/gtkui.py
+# submenu.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
 # Deluge is free software.
 #

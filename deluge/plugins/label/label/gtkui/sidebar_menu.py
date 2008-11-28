@@ -1,5 +1,5 @@
 #
-# gtk_sidebar.py
+# sidebar_menu.py
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
