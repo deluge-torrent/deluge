@@ -76,14 +76,6 @@ def cell_progress(column, cell, model, row, data):
     cell.set_property("text", text)
     cell.set_property("value", value)
 
-class ColumnState:
-    def __init__(self, name, position, width, sort, sort_order):
-        self.name = name
-        self.position = position
-        self.width = width
-        self.sort = sort
-        self.sort_order = sort_order
-
 class FilesTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -203,10 +195,21 @@ class FilesTab(Tab):
 
     def save_state(self):
         filename = "files_tab.state"
-        state = []
+        # Get the current sort order of the view
+        column_id, sort_order = self.treestore.get_sort_column_id()
+
+        # Setup state dict
+        state = {
+            "columns": {},
+            "sort_id": column_id,
+            "sort_order": sort_order
+        }
+
         for index, column in enumerate(self.listview.get_columns()):
-            state.append(ColumnState(column.get_title(), index, column.get_width(),
-                column.get_sort_indicator(), int(column.get_sort_order())))
+            state["columns"][column.get_title()] = {
+                "position": index,
+                "width": column.get_width()
+            }
 
         # Get the config location for saving the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
@@ -230,28 +233,30 @@ class FilesTab(Tab):
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError), e:
+        except (EOFError, IOError, AttributeError), e:
             log.warning("Unable to load state file: %s", e)
 
         if state == None:
             return
 
-        for column_state in state:
-            # Find matching columns in the listview
-            for (index, column) in enumerate(self.listview.get_columns()):
-                if column_state.name == column.get_title():
-                    # We have a match, so set options that were saved in state
-                    if column_state.width > 0:
-                        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
-                        column.set_fixed_width(column_state.width)
-                        column.set_sort_indicator(column_state.sort)
-                        column.set_sort_order(column_state.sort_order)
-                    if column_state.position != index:
-                        # Column is in wrong position
-                        if column_state.position == 0:
-                            self.listview.move_column_after(column, None)
-                        else:
-                            self.listview.move_column_after(column, self.listview.get_columns()[column_state.position - 1])
+        if state["sort_id"] and state["sort_order"]:
+            self.treestore.set_sort_column_id(state["sort_id"], state["sort_order"])
+
+        for (index, column) in enumerate(self.listview.get_columns()):
+            cname = column.get_title()
+            if state["columns"].has_key(cname):
+                cstate = state["columns"][cname]
+                column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+                column.set_fixed_width(cstate["width"])
+                if state["sort_id"] == index:
+                    column.set_sort_indicator(True)
+                    column.set_sort_order(state["sort_order"])
+                if cstate["position"] != index:
+                    # Column is in wrong position
+                    if cstate["position"] == 0:
+                        self.listview.move_column_after(column, None)
+                    elif self.listview.get_columns()[cstate["position"] - 1].get_title() != cname:
+                        self.listview.move_column_after(column, self.listview.get_columns()[cstate["position"] - 1])
 
     def update(self):
         # Get the first selected torrent
@@ -661,4 +666,3 @@ class FilesTab(Tab):
             model.foreach(find_file, None)
             log.debug("to_rename: %s", to_rename)
             client.rename_files(self.torrent_id, to_rename)
-
