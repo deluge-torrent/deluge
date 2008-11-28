@@ -73,7 +73,6 @@ class FilterTreeView(component.Component):
         self.config = ConfigManager("gtkui.conf")
         self.tracker_icons = TrackerIcons()
 
-        self.filters = {}
         self.label_view = gtk.TreeView()
         self.sidebar.add_tab(self.label_view, "filters", _("Filters"))
 
@@ -95,9 +94,6 @@ class FilterTreeView(component.Component):
         # Create the liststore
         #cat, value, label, count, pixmap, visible
         self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
-
-        #add Cat nodes:
-        self.cat_nodes = {}
 
         # Create the column
         column = gtk.TreeViewColumn(_("Filters"))
@@ -129,6 +125,11 @@ class FilterTreeView(component.Component):
         self.color_insensitive = style.base[gtk.STATE_INSENSITIVE]
         self.color_sensitive = style.base[gtk.STATE_NORMAL]
 
+    def start(self):
+        #add Cat nodes:
+        self.cat_nodes = {}
+        self.filters = {}
+
         #initial order of state filter:
         self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("State"), 0, None, False])
         self.update_row("state", "All" , 0)
@@ -142,6 +143,9 @@ class FilterTreeView(component.Component):
         self.expand_rows = True
 
         self.selected_path = None
+
+    def stop(self):
+        self.treestore.clear()
 
     def create_model_filter(self):
         self.model_filter = self.treestore.filter_new()
