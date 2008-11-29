@@ -122,7 +122,10 @@ if windows_check():
         'zlib'
     ]
 else:
-    _include_dirs += ['/usr/include/python' + python_version]
+    _include_dirs += [
+        '/usr/include/python' + python_version,
+        sysconfig.get_config_var("INCLUDEDIR")
+        ]
     _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
     if osx_check():
         _include_dirs += [
@@ -320,11 +323,15 @@ _data_files = [
 # Main setup
 setup(
     author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Sadrul Habib Chowdhury",
-    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, \
-        mvoncken@gmail.com, sadrul@users.sourceforge.net",
+    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, mvoncken@gmail.com, sadrul@users.sourceforge.net",
     cmdclass = cmdclass,
     data_files = _data_files,
     description = "Bittorrent Client",
+    long_description = """Deluge is a bittorrent client that utilizes a
+        daemon/client model.  There are various user interfaces available for
+        Deluge such as the GTKui, the webui and a console ui.  Deluge uses
+        libtorrent in it's backend to handle the bittorrent protocol.""",
+    keywords = "torrent bittorrent p2p fileshare filesharing",
     entry_points = """
         [console_scripts]
             deluge = deluge.main:start_ui
