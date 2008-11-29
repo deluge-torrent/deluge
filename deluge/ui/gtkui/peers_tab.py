@@ -207,7 +207,7 @@ class PeersTab(Tab):
             return
 
         if state["sort_id"] and state["sort_order"]:
-            self.treestore.set_sort_column_id(state["sort_id"], state["sort_order"])
+            self.liststore.set_sort_column_id(state["sort_id"], state["sort_order"])
 
         for (index, column) in enumerate(self.listview.get_columns()):
             cname = column.get_title()
