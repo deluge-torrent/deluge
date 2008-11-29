@@ -284,7 +284,7 @@ def ftime(seconds):
     Formats a string to show time in a human readable form
 
     :param seconds: int, the number of seconds
-    :returns: a formatted time string, will return 'Infinity' if seconds == 0
+    :returns: a formatted time string, will return '' if seconds == 0
     :rtype: string
 
     **Usage**
@@ -294,7 +294,7 @@ def ftime(seconds):
 
     """
     if seconds == 0:
-        return "Infinity"
+        return ""
     if seconds < 60:
         return '%ds' % (seconds)
     minutes = seconds / 60
