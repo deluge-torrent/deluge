@@ -105,22 +105,9 @@ class Core(
         self.register_introspection_functions()
 
         # Initialize gettext
-        if deluge.common.windows_check() or deluge.common.osx_check():
-            locale.setlocale(locale.LC_ALL, '')
-        else:
-            locale.setlocale(locale.LC_MESSAGES, '')
-            locale.bindtextdomain("deluge",
-                    pkg_resources.resource_filename(
-                                            "deluge", "i18n"))
-            locale.textdomain("deluge")
+        locale.setlocale(locale.LC_ALL, '')
+        gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
 
-        gettext.bindtextdomain("deluge",
-                    pkg_resources.resource_filename(
-                                            "deluge", "i18n"))
-        gettext.textdomain("deluge")
-        gettext.install("deluge",
-                    pkg_resources.resource_filename(
-                                            "deluge", "i18n"))
         # Setup signals
         signal.signal(signal.SIGINT, self._shutdown)
         signal.signal(signal.SIGTERM, self._shutdown)
