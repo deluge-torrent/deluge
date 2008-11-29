@@ -313,7 +313,7 @@ _data_files = [
     ('share/icons/hicolor/72x72/apps', ['deluge/data/icons/hicolor/72x72/apps/deluge.png']),
     ('share/icons/hicolor/96x96/apps', ['deluge/data/icons/hicolor/96x96/apps/deluge.png']),
     ('share/applications', ['deluge/data/share/applications/deluge.desktop']),
-    ('share/pixmaps', ['deluge/data/pixmaps/deluge.png']),
+    ('share/pixmaps', ['deluge/data/pixmaps/deluge.png', 'deluge/data/pixmaps/deluge.xpm']),
     ('share/man/man1', ['deluge/docs/man/deluge.1', 'deluge/docs/man/deluged.1'])
 ]
 
