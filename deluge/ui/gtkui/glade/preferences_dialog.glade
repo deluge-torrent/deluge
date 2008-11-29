@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Nov 28 18:46:39 2008 -->
+<!--Generated with glade3 3.4.5 on Fri Nov 28 19:21:58 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -588,7 +588,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">0 0 65535 1 10 10</property>
+                                                <property name="adjustment">0 0 65535 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -618,7 +618,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">0 0 65535 1 10 10</property>
+                                                <property name="adjustment">0 0 65535 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -722,7 +722,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">0 0 65535 1 10 10</property>
+                                                <property name="adjustment">0 0 65535 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -751,7 +751,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">0 0 65535 1 10 10</property>
+                                                <property name="adjustment">0 0 65535 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1220,7 +1220,7 @@ Disabled</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1239,7 +1239,7 @@ Disabled</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1259,7 +1259,7 @@ Disabled</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1292,7 +1292,7 @@ Disabled</property>
                                                 <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
                                                 <property name="max_length">4</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1370,7 +1370,7 @@ Disabled</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9999 1 10 0</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
@@ -1386,7 +1386,7 @@ Disabled</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9999 1 10 0</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
@@ -1486,7 +1486,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1504,7 +1504,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1572,7 +1572,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1588,7 +1588,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
@@ -2238,7 +2238,7 @@ Disabled</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">0 0 65535 1 10 10</property>
+                                                <property name="adjustment">0 0 65535 1 10 0</property>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -2515,7 +2515,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
+                                                    <property name="adjustment">0 -1 9999 1 10 0</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
@@ -2556,7 +2556,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
+                                                    <property name="adjustment">0 -1 9999 1 10 0</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
@@ -2574,7 +2574,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
+                                                    <property name="adjustment">0 -1 9999 1 10 0</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
@@ -2649,7 +2649,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">6 -1 100 1 10 10</property>
+                                                    <property name="adjustment">6 -1 100 1 10 0</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -2665,7 +2665,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">6 -1 100 0.10000000000000001 10 10</property>
+                                                    <property name="adjustment">6 -1 100 0.10000000000000001 10 0</property>
                                                     <property name="digits">2</property>
                                                   </widget>
                                                   <packing>
@@ -2682,7 +2682,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">1.5 -1 100 0.10000000000000001 10 10</property>
+                                                    <property name="adjustment">1.5 -1 100 0.10000000000000001 10 0</property>
                                                     <property name="digits">2</property>
                                                   </widget>
                                                   <packing>
@@ -2754,7 +2754,7 @@ Disabled</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">2 0.5 100 0.10000000000000001 1 1</property>
+                                                    <property name="adjustment">2 0.5 100 0.10000000000000001 1 0</property>
                                                     <property name="digits">2</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
@@ -3896,7 +3896,6 @@ HTTP W/ Auth</property>
                                                         <property name="response_id">0</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
-                                                        <property name="group">rad_ntf_ssl</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -3910,7 +3909,7 @@ HTTP W/ Auth</property>
                                                         <property name="label" translatable="yes">SSL</property>
                                                         <property name="response_id">0</property>
                                                         <property name="draw_indicator">True</property>
-                                                        <property name="group">rad_ntf_tls</property>
+                                                        <property name="group">rad_ntf_none</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -3925,7 +3924,7 @@ HTTP W/ Auth</property>
                                                         <property name="label" translatable="yes">TLS</property>
                                                         <property name="response_id">0</property>
                                                         <property name="draw_indicator">True</property>
-                                                        <property name="group">rad_ntf_ssl</property>
+                                                        <property name="group">rad_ntf_none</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -4068,162 +4067,168 @@ HTTP W/ Auth</property>
                                     <property name="can_focus">True</property>
                                     <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                                     <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                    <property name="shadow_type">GTK_SHADOW_IN</property>
                                     <child>
-                                      <widget class="GtkFrame" id="frame8">
+                                      <widget class="GtkViewport" id="viewport12">
                                         <property name="visible">True</property>
-                                        <property name="label_xalign">0</property>
+                                        <property name="resize_mode">GTK_RESIZE_QUEUE</property>
                                         <property name="shadow_type">GTK_SHADOW_NONE</property>
                                         <child>
-                                          <widget class="GtkAlignment" id="alignment26">
+                                          <widget class="GtkFrame" id="frame8">
                                             <property name="visible">True</property>
-                                            <property name="left_padding">12</property>
+                                            <property name="label_xalign">0</property>
+                                            <property name="shadow_type">GTK_SHADOW_NONE</property>
                                             <child>
-                                              <widget class="GtkTable" id="table10">
+                                              <widget class="GtkAlignment" id="alignment26">
                                                 <property name="visible">True</property>
-                                                <property name="n_rows">5</property>
-                                                <property name="n_columns">2</property>
-                                                <property name="column_spacing">5</property>
+                                                <property name="left_padding">12</property>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_plugin_details">
+                                                  <widget class="GtkTable" id="table10">
                                                     <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
+                                                    <property name="n_rows">5</property>
+                                                    <property name="n_columns">2</property>
+                                                    <property name="column_spacing">5</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_plugin_email">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">2</property>
+                                                        <property name="bottom_attach">3</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_plugin_homepage">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">3</property>
+                                                        <property name="bottom_attach">4</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label87">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="label" translatable="yes">Author Email:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">2</property>
+                                                        <property name="bottom_attach">3</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label86">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="label" translatable="yes">Homepage:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">3</property>
+                                                        <property name="bottom_attach">4</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label82">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="label" translatable="yes">Author:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label84">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="label" translatable="yes">Version:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label85">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="yalign">0</property>
+                                                        <property name="label" translatable="yes">Details:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">4</property>
+                                                        <property name="bottom_attach">5</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_plugin_author">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_plugin_version">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_plugin_details">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">4</property>
+                                                        <property name="bottom_attach">5</property>
+                                                        <property name="y_options"></property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">4</property>
-                                                    <property name="bottom_attach">5</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_plugin_version">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">1</property>
-                                                    <property name="bottom_attach">2</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_plugin_author">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label85">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="yalign">0</property>
-                                                    <property name="label" translatable="yes">Details:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">4</property>
-                                                    <property name="bottom_attach">5</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label84">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Version:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">1</property>
-                                                    <property name="bottom_attach">2</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label82">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Author:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label86">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Homepage:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">3</property>
-                                                    <property name="bottom_attach">4</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label87">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Author Email:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_plugin_homepage">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">3</property>
-                                                    <property name="bottom_attach">4</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_plugin_email">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
                                                 </child>
                                               </widget>
                                             </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label81">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">&lt;b&gt;Info&lt;/b&gt;</property>
+                                                <property name="use_markup">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="type">label_item</property>
+                                              </packing>
+                                            </child>
                                           </widget>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label81">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">&lt;b&gt;Info&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="type">label_item</property>
-                                          </packing>
                                         </child>
                                       </widget>
                                     </child>
