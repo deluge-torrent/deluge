@@ -35,6 +35,11 @@ class NewReleaseDialog:
         self.config = ConfigManager("gtkui.conf")
         glade = component.get("MainWindow").main_glade
         self.dialog = glade.get_widget("new_release_dialog")
+        if deluge.common.windows_check():
+            glade.get_widget("image_new_release").set_from_file(
+                deluge.common.get_pixmap("deluge16.png"))
+        else:
+            glade.get_widget("image_new_release").set_from_icon_name("deluge", 4)
         # Set the version labels
         glade.get_widget("label_available_version").set_text(available_version)
         glade.get_widget("label_current_version").set_text(
