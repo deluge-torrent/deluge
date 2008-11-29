@@ -189,11 +189,15 @@ if windows_check() or not os.path.exists(os.path.join(sysconfig.get_config_var("
 class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files'
 
+    user_options = [
+            ('build-lib', None, "lib build folder")
+    ]
+
     def initialize_options(self):
-        pass
+        self.build_lib = None
 
     def finalize_options(self):
-        pass
+        self.set_undefined_options('build', ('build_lib', 'build_lib'))
 
     def run(self):
         po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
@@ -202,7 +206,7 @@ class build_trans(cmd.Command):
                 if f.endswith('.po'):
                     lang = f[:len(f) - 3]
                     src = os.path.join(path, f)
-                    dest_path = os.path.join('deluge', 'i18n', lang, \
+                    dest_path = os.path.join(self.build_lib, 'deluge', 'i18n', lang, \
                         'LC_MESSAGES')
                     dest = os.path.join(dest_path, 'deluge.mo')
                     if not os.path.exists(dest_path):
