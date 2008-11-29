@@ -11,6 +11,15 @@ Authors:
 Homepage: http://deluge-torrent.org
 
 ==========================
+License
+==========================
+Deluge is under the GNU GPLv3 license.
+Icon data/pixmaps/deluge.svg and derivatives in data/icons are copyright
+Andrew Wedderburn and are under the GNU GPLv3.
+All other icons in data/pixmaps are copyright Andrew Resch and are under
+the GNU GPLv3.
+
+==========================
 Contact/Support:
 ==========================
 
@@ -24,7 +33,7 @@ We have two options available for support:
 Installation Instructions:
 ==========================
 
-First, make sure you have the proper build dependencies installed.  On a normal 
+First, make sure you have the proper build dependencies installed.  On a normal
 Debian or Ubuntu system:
 
 sudo apt-get install g++ make python-all-dev python-all python-dbus \
@@ -59,11 +68,11 @@ I started "deluge" but i don't see the gtk-ui
 
     The deluge command remembers the last interface it started. Be explicit and type one of the full "deluge -u <interface>" commands listed above.
 
-Why is deluge still listed in my system tray even after I close it ? 
+Why is deluge still listed in my system tray even after I close it ?
 
     You closed the gtk user-interface but you did not close the daemon. Choose "Quit & Shutdown Daemon" to close both Daemon and gtk-ui.
 
-How do I start the daemon ? 
+How do I start the daemon ?
 
     deluged
 
@@ -71,10 +80,10 @@ How do I start the daemon with logging to console ?
 
     deluged -d
 
-I can't connect to the daemon from another machine 
+I can't connect to the daemon from another machine
 
     * Configure the daemon to allow remote connections
-    * Restart the daemon. 
+    * Restart the daemon.
 
     Note: do not do this on a public ip , use the webui for unsecure networks.
 
