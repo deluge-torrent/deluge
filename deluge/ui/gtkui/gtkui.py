@@ -118,6 +118,12 @@ class GtkUI:
 
         # Initialize gettext
         locale.setlocale(locale.LC_ALL, '')
+        if hasattr(locale, "bindtextdomain"):
+            locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+        if hasattr(locale, "textdomain"):
+            locale.textdomain("deluge")
+        gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+        gettext.textdomain("deluge")
         gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
 
         # Setup signals
