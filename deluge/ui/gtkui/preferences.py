@@ -264,12 +264,14 @@ class Preferences(component.Component):
                 "chk_seed_ratio": ("active", self.core_config["stop_seed_at_ratio"]),
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
                 "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"]),
-                "spin_proxy_port": ("value", self.core_config["proxy_port"]),
-                "combo_proxy_type": ("active", self.core_config["proxy_type"]),
-                "txt_proxy_server": ("text", self.core_config["proxy_server"]),
-                "txt_proxy_username": ("text", self.core_config["proxy_username"]),
-                "txt_proxy_password": ("text", self.core_config["proxy_password"]),
             }
+            # Add proxy stuff
+            for t in ("peer", "web_seed", "tracker", "dht"):
+                core_widgets["spin_proxy_port_%s" % t] = ("value", self.core_config["proxies"][t]["port"])
+                core_widgets["combo_proxy_type_%s" % t] = ("active", self.core_config["proxies"][t]["type"])
+                core_widgets["txt_proxy_server_%s" % t] = ("text", self.core_config["proxies"][t]["hostname"])
+                core_widgets["txt_proxy_username_%s" % t] = ("text", self.core_config["proxies"][t]["username"])
+                core_widgets["txt_proxy_password_%s" % t] = ("text", self.core_config["proxies"][t]["password"])
 
             # Change a few widgets if we're connected to a remote host
             if not client.is_localhost():
@@ -387,12 +389,14 @@ class Preferences(component.Component):
                 "spin_share_ratio_limit",
                 "spin_seed_time_ratio_limit",
                 "spin_seed_time_limit",
-                "spin_proxy_port",
-                "combo_proxy_type",
-                "txt_proxy_username",
-                "txt_proxy_password",
-                "txt_proxy_server",
             ]
+            for t in ("peer", "web_seed", "tracker", "dht"):
+                core_widget_list.append("spin_proxy_port_%s" % t)
+                core_widget_list.append("combo_proxy_type_%s" % t)
+                core_widget_list.append("txt_proxy_username_%s" % t)
+                core_widget_list.append("txt_proxy_password_%s" % t)
+                core_widget_list.append("txt_proxy_server_%s" % t)
+
             # We don't appear to be connected to a daemon
             for key in core_widget_list:
                 widget = self.glade.get_widget(key)
@@ -644,16 +648,19 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_new_releases").get_active()
 
         ## Proxy tab ##
-        new_core_config["proxy_type"] = \
-            self.glade.get_widget("combo_proxy_type").get_active()
-        new_core_config["proxy_port"] = \
-            self.glade.get_widget("spin_proxy_port").get_value_as_int()
-        new_core_config["proxy_username"] = \
-            self.glade.get_widget("txt_proxy_username").get_text()
-        new_core_config["proxy_password"] = \
-            self.glade.get_widget("txt_proxy_password").get_text()
-        new_core_config["proxy_server"] = \
-            self.glade.get_widget("txt_proxy_server").get_text()
+        new_core_config["proxies"] = {}
+        for t in ("peer", "web_seed", "tracker", "dht"):
+            new_core_config["proxies"][t] = {}
+            new_core_config["proxies"][t]["type"] = \
+                self.glade.get_widget("combo_proxy_type_%s" % t).get_active()
+            new_core_config["proxies"][t]["port"] = \
+                self.glade.get_widget("spin_proxy_port_%s" % t).get_value_as_int()
+            new_core_config["proxies"][t]["username"] = \
+                self.glade.get_widget("txt_proxy_username_%s" % t).get_text()
+            new_core_config["proxies"][t]["password"] = \
+                self.glade.get_widget("txt_proxy_password_%s" % t).get_text()
+            new_core_config["proxies"][t]["hostname"] = \
+                self.glade.get_widget("txt_proxy_server_%s" % t).get_text()
 
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \

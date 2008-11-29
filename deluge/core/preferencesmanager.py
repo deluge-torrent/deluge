@@ -91,11 +91,37 @@ DEFAULT_PREFS = {
     "move_completed": False,
     "move_completed_path": deluge.common.get_default_download_dir(),
     "new_release_check": True,
-    "proxy_type" : 0,
-    "proxy_server" : "",
-    "proxy_username" : "",
-    "proxy_password" : "",
-    "proxy_port": 8080,
+    "proxies": {
+        "peer": {
+            "type": 0,
+            "hostname": "",
+            "username": "",
+            "password": "",
+            "port": 8080
+        },
+        "web_seed": {
+            "type": 0,
+            "hostname": "",
+            "username": "",
+            "password": "",
+            "port": 8080
+        },
+        "tracker": {
+            "type": 0,
+            "hostname": "",
+            "username": "",
+            "password": "",
+            "port": 8080
+        },
+        "dht": {
+            "type": 0,
+            "hostname": "",
+            "username": "",
+            "password": "",
+            "port": 8080
+        },
+
+    },
     "outgoing_ports": [0, 0],
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
@@ -172,16 +198,8 @@ class PreferencesManager(component.Component):
             self._on_set_dont_count_slow_torrents)
         self.config.register_set_function("send_info",
             self._on_send_info)
-        self.config.register_set_function("proxy_type",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_username",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_password",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_server",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_port",
-            self._on_set_proxy)
+        self.config.register_set_function("proxies",
+            self._on_set_proxies)
         self.new_release_timer = None
         self.config.register_set_function("new_release_check",
             self._on_new_release_check)
@@ -436,19 +454,17 @@ class PreferencesManager(component.Component):
             if self.new_release_timer:
                 gobject.source.remove(self.new_release_timer)
 
-    def _on_set_proxy(self, key, value):
-        log.debug("Proxy value %s set to %s..", key, value)
-        proxy_settings = lt.proxy_settings()
-        proxy_settings.proxy_type = lt.proxy_type(self.config["proxy_type"])
-        if self.config["proxy_type"] != 0:
-            proxy_settings.username = self.config["proxy_username"]
-            proxy_settings.password = self.config["proxy_password"]
-            proxy_settings.hostname = self.config["proxy_server"]
-            proxy_settings.port = int(self.config["proxy_port"])
-        self.session.set_peer_proxy(proxy_settings)
-        self.session.set_web_seed_proxy(proxy_settings)
-        self.session.set_tracker_proxy(proxy_settings)
-        self.session.set_dht_proxy(proxy_settings)
+    def _on_set_proxies(self, key, value):
+        for k, v in value.items():
+            if v["type"]:
+                proxy_settings = lt.proxy_settings()
+                proxy_settings.proxy_type = lt.proxy_type(v["type"])
+                proxy_settings.username = v["username"]
+                proxy_settings.password = v["password"]
+                proxy_settings.hostname = v["hostname"]
+                proxy_settings.port = v["port"]
+                log.debug("setting %s proxy settings", k)
+                getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
 
     def _on_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
