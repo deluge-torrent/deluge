@@ -25,11 +25,23 @@
 
 import deluge.xmlrpclib as xmlrpclib
 import socket
+import struct
 
 import gobject
 
 import deluge.component as component
 from deluge.log import LOG as log
+
+class Transport(xmlrpclib.Transport):
+    def make_connection(self, host):
+        # create a HTTP connection object from a host descriptor
+        import httplib
+        host, extra_headers, x509 = self.get_host_info(host)
+        h = httplib.HTTP(host)
+        h._conn.connect()
+        h._conn.sock.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
+                      struct.pack('ii', 1, 0))
+        return h
 
 class SignalManager(component.Component):
     def __init__(self):
@@ -68,7 +80,9 @@ class SignalManager(component.Component):
         """Registers a client to emit signals to."""
         uri = "http://" + str(address) + ":" + str(port)
         log.debug("Registering %s as a signal reciever..", uri)
-        self.clients[uri] = xmlrpclib.ServerProxy(uri)
+        self.clients[uri] = xmlrpclib.ServerProxy(uri, transport=Transport())
+        #self.clients[uri].socket.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
+                    #  struct.pack('ii', 1, 0))
 
     def emit(self, signal, *data):
         # Run the handlers
@@ -92,4 +106,3 @@ class SignalManager(component.Component):
             else:
                 log.info("Removing %s because it couldn't be reached..", uri)
                 del self.clients[uri]
-

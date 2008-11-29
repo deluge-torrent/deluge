@@ -26,6 +26,7 @@
 
 import os.path
 import socket
+import struct
 
 import gobject
 
@@ -34,6 +35,17 @@ import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 import deluge.error
 from deluge.log import LOG as log
+
+class Transport(xmlrpclib.Transport):
+    def make_connection(self, host):
+        # create a HTTP connection object from a host descriptor
+        import httplib
+        host, extra_headers, x509 = self.get_host_info(host)
+        h = httplib.HTTP(host)
+        h._conn.connect()
+        h._conn.sock.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
+                      struct.pack('ii', 1, 0))
+        return h
 
 class CoreProxy(gobject.GObject):
     __gsignals__ = {
@@ -134,7 +146,7 @@ class CoreProxy(gobject.GObject):
     def get_rpc_core(self):
         if self.rpc_core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
-            self.rpc_core = xmlrpclib.ServerProxy(self._uri.replace("localhost", "127.0.0.1"), allow_none=True)
+            self.rpc_core = xmlrpclib.ServerProxy(self._uri.replace("localhost", "127.0.0.1"), allow_none=True, transport=Transport())
             self._multi = xmlrpclib.MultiCall(self.rpc_core)
             self._multi_timer = gobject.timeout_add(200, self.do_multicall)
             # Call any callbacks registered
@@ -306,4 +318,3 @@ class AClient(BaseClient):
 
 sclient = SClient()
 aclient = AClient()
-
