@@ -184,6 +184,7 @@ class FilesTab(Tab):
         # Connect to the 'torrent_file_renamed' signal
         component.get("Signals").connect_to_signal("torrent_file_renamed", self._on_torrent_file_renamed_signal)
         component.get("Signals").connect_to_signal("torrent_folder_renamed", self._on_torrent_folder_renamed_signal)
+        component.get("Signals").connect_to_signal("torrent_removed", self._on_torrent_removed_signal)
 
         # Attempt to load state
         self.load_state()
@@ -633,6 +634,10 @@ class FilesTab(Tab):
                             self.treestore[itr][0] = new_split[i] + "/"
                         break
                     itr = self.treestore.iter_next(itr)
+
+    def _on_torrent_removed_signal(self, torrent_id):
+        if torrent_id in self.files_list:
+            del self.files_list[torrent_id]
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
         indexes = self.get_selected_files()
