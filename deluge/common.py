@@ -284,7 +284,7 @@ def ftime(seconds):
     Formats a string to show time in a human readable form
 
     :param seconds: int, the number of seconds
-    :returns: a formatted time string, will return 'unknown' for values greater than 10 weeks and 'Infinity' if seconds == 0
+    :returns: a formatted time string, will return 'Infinity' if seconds == 0
     :rtype: string
 
     **Usage**
@@ -311,9 +311,11 @@ def ftime(seconds):
         return '%dd %dh' % (days, hours)
     weeks = days / 7
     days = days % 7
-    if weeks < 10:
+    if weeks < 52:
         return '%dw %dd' % (weeks, days)
-    return 'unknown'
+    years = weeks / 52
+    weeks = weeks % 52
+    return '%dy %dw' % (years, weeks)
 
 def fdate(seconds):
     """
