@@ -129,7 +129,6 @@ class Signals(component.Component):
     def config_value_changed(self, key, value):
         log.debug("config_value_changed signal received..")
         component.get("StatusBar").config_value_changed(key, value)
-        component.get("SystemTray").config_value_changed(key, value)
 
     def torrent_queue_changed(self):
         log.debug("torrent_queue_changed signal received..")
@@ -154,4 +153,3 @@ class Signals(component.Component):
 
     def torrent_state_changed(self, value):
         log.debug("torrent_state_changed: %s", value)
-

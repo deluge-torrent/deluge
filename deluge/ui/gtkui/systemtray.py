@@ -112,6 +112,7 @@ class SystemTray(component.Component):
             self.tray_glade.get_widget("menuitem_quitdaemon").hide()
             self.tray_glade.get_widget("separatormenuitem4").hide()
 
+        component.get("Signals").connect_to_signal("config_value_changed", self.config_value_changed)
         if client.get_core_uri() == None:
         # Hide menu widgets because we're not connected to a host.
             for widget in self.hide_widget_list:
