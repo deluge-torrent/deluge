@@ -298,20 +298,20 @@ def ftime(seconds):
     if seconds < 60:
         return '%ds' % (seconds)
     minutes = seconds / 60
-    seconds = seconds % 60
     if minutes < 60:
+        seconds = seconds % 60
         return '%dm %ds' % (minutes, seconds)
     hours = minutes / 60
-    minutes = minutes % 60
     if hours < 24:
+        minutes = minutes % 60
         return '%dh %dm' % (hours, minutes)
     days = hours / 24
-    hours = hours % 24
     if days < 7:
+        hours = hours % 24
         return '%dd %dh' % (days, hours)
     weeks = days / 7
-    days = days % 7
     if weeks < 52:
+        days = days % 7
         return '%dw %dd' % (weeks, days)
     years = weeks / 52
     weeks = weeks % 52
