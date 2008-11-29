@@ -246,13 +246,7 @@ class build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
     def run(self):
         # Run all sub-commands (at least those that need to be run)
-        #for cmd_name in self.get_sub_commands():
-        #    self.run_command(cmd_name)
         _build.run(self)
-
-class install_data(_install_data):
-    def run(self):
-        _install_data.run(self)
 
 class clean_plugins(cmd.Command):
     description = "Cleans the plugin folders"
@@ -299,45 +293,31 @@ cmdclass = {
     'build': build,
     'build_trans': build_trans,
     'build_plugins': build_plugins,
-    'install_data': install_data,
     'clean_plugins': clean_plugins,
     'clean': clean
 }
 
+# Data files to be installed to the system
+_data_files = [
+    ('share/icons/scalable/apps', ['deluge/data/icons/scalable/apps/deluge.svg']),
+    ('share/icons/hicolor/128x128/apps', ['deluge/data/icons/hicolor/128x128/apps/deluge.png']),
+    ('share/icons/hicolor/16x16/apps', ['deluge/data/icons/hicolor/16x16/apps/deluge.png']),
+    ('share/icons/hicolor/192x192/apps', ['deluge/data/icons/hicolor/192x192/apps/deluge.png']),
+    ('share/icons/hicolor/22x22/apps', ['deluge/data/icons/hicolor/22x22/apps/deluge.png']),
+    ('share/icons/hicolor/24x24/apps', ['deluge/data/icons/hicolor/24x24/apps/deluge.png']),
+    ('share/icons/hicolor/256x256/apps', ['deluge/data/icons/hicolor/256x256/apps/deluge.png']),
+    ('share/icons/hicolor/32x32/apps', ['deluge/data/icons/hicolor/32x32/apps/deluge.png']),
+    ('share/icons/hicolor/36x36/apps', ['deluge/data/icons/hicolor/36x36/apps/deluge.png']),
+    ('share/icons/hicolor/48x48/apps', ['deluge/data/icons/hicolor/48x48/apps/deluge.png']),
+    ('share/icons/hicolor/64x64/apps', ['deluge/data/icons/hicolor/64x64/apps/deluge.png']),
+    ('share/icons/hicolor/72x72/apps', ['deluge/data/icons/hicolor/72x72/apps/deluge.png']),
+    ('share/icons/hicolor/96x96/apps', ['deluge/data/icons/hicolor/96x96/apps/deluge.png']),
+    ('share/applications', ['deluge/data/share/applications/deluge.desktop']),
+    ('share/pixmaps', ['deluge/data/pixmaps/deluge.png']),
+    ('share/man/man1', ['deluge/docs/man/deluge.1', 'deluge/docs/man/deluged.1'])
+]
 
 # Main setup
-PREFIX = "/usr/"
-if windows_check():
-    PREFIX = ""
-_data_files = [(os.path.join(PREFIX, 'share/icons/scalable/apps'), [
-                         'deluge/data/icons/scalable/apps/deluge.svg']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/128x128/apps'), [
-                        'deluge/data/icons/hicolor/128x128/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/16x16/apps'), [
-                        'deluge/data/icons/hicolor/16x16/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/192x192/apps'), [
-                        'deluge/data/icons/hicolor/192x192/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/22x22/apps'), [
-                        'deluge/data/icons/hicolor/22x22/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/24x24/apps'), [
-                        'deluge/data/icons/hicolor/24x24/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/256x256/apps'), [
-                        'deluge/data/icons/hicolor/256x256/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/32x32/apps'), [
-                        'deluge/data/icons/hicolor/32x32/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/36x36/apps'), [
-                        'deluge/data/icons/hicolor/36x36/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/48x48/apps'), [
-                        'deluge/data/icons/hicolor/48x48/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/64x64/apps'), [
-                        'deluge/data/icons/hicolor/64x64/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/72x72/apps'), [
-                        'deluge/data/icons/hicolor/72x72/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/icons/hicolor/96x96/apps'), [
-                        'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
-                (os.path.join(PREFIX, 'share/applications'), [
-                        'deluge/data/share/applications/deluge.desktop']),
-                (os.path.join(PREFIX, 'share/pixmaps'), ['deluge/data/pixmaps/deluge.png'])]
 setup(
     author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Sadrul Habib Chowdhury",
     author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, \
