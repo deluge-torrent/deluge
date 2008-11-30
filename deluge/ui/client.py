@@ -88,6 +88,7 @@ class CoreProxy(gobject.GObject):
                         except:
                             pass
                 except (socket.error, xmlrpclib.ProtocolError), e:
+                    log.error("Socket or XMLRPC error: %s", e)
                     self.set_core_uri(None)
                 except (deluge.xmlrpclib.Fault, Exception), e:
                     #self.set_core_uri(None) , disabled : there are many reasons for an exception ; not just an invalid core.
