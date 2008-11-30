@@ -6,6 +6,7 @@ adapted for deluge-webui:
 
 debugerror.py :
 This is adapted from Django <djangoproject.com>
+with modifications Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
 Copyright (c) 2005, the Lawrence Journal-World
 Used under the modified BSD license:
 http://www.xfree86.org/3.3.6/COPYRIGHT2.html#5
