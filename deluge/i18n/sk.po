@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-10-27 18:16-0500\n"
+"POT-Creation-Date: 2008-11-28 00:08-0600\n"
 "PO-Revision-Date: 2008-10-23 16:48+0000\n"
 "Last-Translator: Mário Buči <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
+"X-Launchpad-Export-Date: 2008-11-30 20:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -226,11 +226,6 @@ msgstr "Neplatný magický kód"
 msgid "Invalid version"
 msgstr "Neplatná verzia"
 
-#: deluge/ui/gtkui/listview.py:84
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr "Neznáme"
-
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
 msgstr "Nepripojený"
@@ -256,8 +251,8 @@ msgstr "Žiadne prichádzajúce spojenia!"
 #: deluge/ui/gtkui/statusbar.py:352 deluge/ui/gtkui/statusbar.py:380
 #: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
 #: deluge/ui/gtkui/systemtray.py:321
-#: deluge/ui/gtkui/glade/main_window.glade:1665
-#: deluge/ui/gtkui/glade/main_window.glade:1679
+#: deluge/ui/gtkui/glade/main_window.glade:1676
+#: deluge/ui/gtkui/glade/main_window.glade:1688
 msgid "KiB/s"
 msgstr "KiB/s"
 
@@ -265,13 +260,13 @@ msgstr "KiB/s"
 #: deluge/ui/gtkui/statusbar.py:414 deluge/ui/gtkui/systemtray.py:187
 #: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:322
 #: deluge/ui/webui/lib/newforms_plus.py:193
-#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:181
+#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:177
 msgid "Unlimited"
 msgstr "Bez obmedzenia"
 
 #: deluge/ui/gtkui/statusbar.py:361 deluge/ui/gtkui/statusbar.py:389
 #: deluge/ui/gtkui/statusbar.py:416 deluge/ui/gtkui/systemtray.py:325
-#: deluge/common.py:238 deluge/common.py:239
+#: deluge/common.py:234 deluge/common.py:235
 msgid "Other..."
 msgstr "Iné..."
 
@@ -587,13 +582,13 @@ msgstr "Štart"
 
 #: deluge/ui/webui/register_menu.py:55
 #: deluge/ui/webui/scripts/template_strings.py:47
-#: deluge/ui/gtkui/glade/main_window.glade:346
+#: deluge/ui/gtkui/glade/main_window.glade:322
 msgid "Queue Up"
 msgstr "Vyššie vo fronte"
 
 #: deluge/ui/webui/register_menu.py:56
 #: deluge/ui/webui/scripts/template_strings.py:45
-#: deluge/ui/gtkui/glade/main_window.glade:361
+#: deluge/ui/gtkui/glade/main_window.glade:333
 msgid "Queue Down"
 msgstr "Nižšie vo fronte"
 
@@ -752,7 +747,7 @@ msgid "Restart daemon and webui after changing these settings"
 msgstr "Reštartovať démona a WebUI po zmenení týchto nastavení"
 
 #: deluge/ui/webui/config_tabs_deluge.py:139
-#: deluge/ui/webui/config_tabs_webui.py:63
+#: deluge/ui/webui/config_tabs_webui.py:64
 msgid "Port"
 msgstr "Port"
 
@@ -823,6 +818,10 @@ msgstr "Zadajte zoznam hodnôt."
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr "Zadajte správnu možnosť. %s nepatrí medzi dostupné možnosti."
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "Neznáme"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -987,35 +986,39 @@ msgid "Button style"
 msgstr "Štýl tlačítka"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
+msgid "Auto refresh (seconds)"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:56
 msgid "Cache templates"
 msgstr "Šablóny zasobníka"
 
-#: deluge/ui/webui/config_tabs_webui.py:62
+#: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Server"
 msgstr "Server"
 
-#: deluge/ui/webui/config_tabs_webui.py:71
+#: deluge/ui/webui/config_tabs_webui.py:72
 #: deluge/ui/webui/scripts/template_strings.py:38
 msgid "Password"
 msgstr "Heslo"
 
-#: deluge/ui/webui/config_tabs_webui.py:73
+#: deluge/ui/webui/config_tabs_webui.py:74
 msgid "Current Password"
 msgstr "Súčasné heslo"
 
-#: deluge/ui/webui/config_tabs_webui.py:74
+#: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password"
 msgstr "Nové heslo"
 
-#: deluge/ui/webui/config_tabs_webui.py:75
+#: deluge/ui/webui/config_tabs_webui.py:76
 msgid "New Password (Confirm)"
 msgstr "Nové heslo (potvrdiť)"
 
-#: deluge/ui/webui/config_tabs_webui.py:82
+#: deluge/ui/webui/config_tabs_webui.py:83
 msgid "Old password is invalid"
 msgstr "Staré heslo je nesprávne"
 
-#: deluge/ui/webui/config_tabs_webui.py:85
+#: deluge/ui/webui/config_tabs_webui.py:86
 msgid "New Password is not equal to New Password(confirm)"
 msgstr "Nové heslo sa nezhoduje s potvrdením"
 
@@ -1028,12 +1031,12 @@ msgid "Maximum Up Speed"
 msgstr "Maximálna rýchlosť odosielania"
 
 #: deluge/ui/webui/torrent_options.py:23
-#: deluge/ui/gtkui/glade/main_window.glade:1943
+#: deluge/ui/gtkui/glade/main_window.glade:1897
 msgid "Prioritize First/Last"
 msgstr "Uprednostniť prvé/posledné"
 
 #: deluge/ui/webui/torrent_options.py:26
-#: deluge/ui/gtkui/glade/main_window.glade:1813
+#: deluge/ui/gtkui/glade/main_window.glade:1766
 msgid "Auto Managed"
 msgstr "Automatické spravovanie"
 
@@ -1042,7 +1045,7 @@ msgid "Stop seed at ratio"
 msgstr "Zastaviť seedovanie pri pomere"
 
 #: deluge/ui/webui/torrent_options.py:29
-#: deluge/ui/gtkui/glade/main_window.glade:1871
+#: deluge/ui/gtkui/glade/main_window.glade:1825
 msgid "Remove at ratio"
 msgstr "Odstrániť pri pomere"
 
@@ -1266,11 +1269,11 @@ msgstr "Odoslané"
 msgid "seconds"
 msgstr "sekúnd"
 
-#: deluge/common.py:184
+#: deluge/common.py:180
 msgid "Activated"
 msgstr "Aktvované"
 
-#: deluge/common.py:254
+#: deluge/common.py:250
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -1289,7 +1292,7 @@ msgstr "URL:"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
-#: deluge/ui/gtkui/glade/main_window.glade:2002
+#: deluge/ui/gtkui/glade/main_window.glade:1956
 msgid "<b>General</b>"
 msgstr "<b>Všeobecné</b>"
 
@@ -1396,12 +1399,12 @@ msgid "<b>Allocation</b>"
 msgstr "<b>Alokácia</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
-#: deluge/ui/gtkui/glade/main_window.glade:1653
+#: deluge/ui/gtkui/glade/main_window.glade:1703
 msgid "Max Upload Slots:"
 msgstr "Maximum slotov pre odosielanie:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
-#: deluge/ui/gtkui/glade/main_window.glade:1716
+#: deluge/ui/gtkui/glade/main_window.glade:1640
 msgid "Max Connections:"
 msgstr "Maximum spojení:"
 
@@ -1414,7 +1417,7 @@ msgid "Max Down Speed:"
 msgstr "Maximálna rýchlosť sťahovania:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-#: deluge/ui/gtkui/glade/main_window.glade:1783
+#: deluge/ui/gtkui/glade/main_window.glade:1736
 msgid "<b>Bandwidth</b>"
 msgstr "<b>Šírka pásma</b>"
 
@@ -1427,13 +1430,13 @@ msgid "Prioritize First/Last Pieces"
 msgstr "Uprednostniť prvé/posledné diely"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
-#: deluge/ui/gtkui/glade/main_window.glade:1930
+#: deluge/ui/gtkui/glade/main_window.glade:1884
 msgid "Private"
 msgstr "Súkromné"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:1977
+#: deluge/ui/gtkui/glade/main_window.glade:1931
 msgid "_Edit Trackers"
 msgstr "_Upraviť trackery"
 
@@ -1446,7 +1449,7 @@ msgid "Apply To All"
 msgstr "Použiť na všetky"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
-#: deluge/ui/gtkui/glade/main_window.glade:2079
+#: deluge/ui/gtkui/glade/main_window.glade:2033
 msgid "_Options"
 msgstr "_Možnosti"
 
@@ -1534,33 +1537,33 @@ msgid "_Auto Managed"
 msgstr "_Automatické spravovanie"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:2099
+#: deluge/ui/gtkui/glade/main_window.glade:2053
 msgid "Remove Torrent?"
 msgstr "Odstrániť torrent?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
-#: deluge/ui/gtkui/glade/main_window.glade:2135
+#: deluge/ui/gtkui/glade/main_window.glade:2089
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr "<big><b>Ste si istý, že chcete odstrániť označený torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
-#: deluge/ui/gtkui/glade/main_window.glade:2186
+#: deluge/ui/gtkui/glade/main_window.glade:2140
 msgid "<i>The associated .torrent will be deleted!</i>"
 msgstr "<i>Prislúchajúci .torrent bude zmazaný!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
-#: deluge/ui/gtkui/glade/main_window.glade:2225
+#: deluge/ui/gtkui/glade/main_window.glade:2179
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>Stiahnuté dáta budú zmazané!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
-#: deluge/ui/gtkui/glade/main_window.glade:2269
+#: deluge/ui/gtkui/glade/main_window.glade:2223
 msgid "Remove Selected Torrent"
 msgstr "Odstrániť označený torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:383
+#: deluge/ui/gtkui/glade/main_window.glade:347
 msgid "Preferences"
 msgstr "Predvoľby"
 
@@ -2055,8 +2058,8 @@ msgid "Destination:"
 msgstr "Cieľ:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
-#: deluge/ui/gtkui/glade/main_window.glade:398
-#: deluge/ui/gtkui/glade/main_window.glade:399
+#: deluge/ui/gtkui/glade/main_window.glade:358
+#: deluge/ui/gtkui/glade/main_window.glade:359
 msgid "Connection Manager"
 msgstr "Správca spojení"
 
@@ -2182,187 +2185,187 @@ msgstr "FAQ"
 msgid "Community"
 msgstr "Komunita"
 
-#: deluge/ui/gtkui/glade/main_window.glade:283
+#: deluge/ui/gtkui/glade/main_window.glade:279
 msgid "Remove Torrent"
 msgstr "Odstrániť torrent"
 
-#: deluge/ui/gtkui/glade/main_window.glade:305
+#: deluge/ui/gtkui/glade/main_window.glade:293
 msgid "Pause the selected torrents"
 msgstr "Pozastaviť označené torrenty"
 
-#: deluge/ui/gtkui/glade/main_window.glade:321
+#: deluge/ui/gtkui/glade/main_window.glade:305
 msgid "Resume the selected torrents"
 msgstr "Pokračovať označené torrenty"
 
-#: deluge/ui/gtkui/glade/main_window.glade:345
+#: deluge/ui/gtkui/glade/main_window.glade:321
 msgid "Queue Torrent Up"
 msgstr "Vyššie vo fronte"
 
-#: deluge/ui/gtkui/glade/main_window.glade:360
+#: deluge/ui/gtkui/glade/main_window.glade:332
 msgid "Queue Torrent Down"
 msgstr "Nižšie vo fronte"
 
-#: deluge/ui/gtkui/glade/main_window.glade:529
+#: deluge/ui/gtkui/glade/main_window.glade:484
 msgid "_Expand All"
 msgstr "_Rozbaliť všetky"
 
-#: deluge/ui/gtkui/glade/main_window.glade:549
+#: deluge/ui/gtkui/glade/main_window.glade:504
 msgid "_Do Not Download"
 msgstr "_Nesťahovať"
 
-#: deluge/ui/gtkui/glade/main_window.glade:564
+#: deluge/ui/gtkui/glade/main_window.glade:519
 msgid "_Normal Priority"
 msgstr "_Normálna priorita"
 
-#: deluge/ui/gtkui/glade/main_window.glade:579
+#: deluge/ui/gtkui/glade/main_window.glade:534
 msgid "_High Priority"
 msgstr "_Vysoká priorita"
 
-#: deluge/ui/gtkui/glade/main_window.glade:594
+#: deluge/ui/gtkui/glade/main_window.glade:549
 msgid "Hi_ghest Priority"
 msgstr "N_ajvyššia priorita"
 
-#: deluge/ui/gtkui/glade/main_window.glade:717
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Stiahnuté:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:734
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Odoslané:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:753
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Pomer zdieľania:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:772
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Najbližšie oznámenie:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:792
-#: deluge/ui/gtkui/glade/main_window.glade:812
-msgid "<b>Speed:</b>"
-msgstr "<b>Rýchlosť:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:834
-msgid "<b>ETA:</b>"
-msgstr "<b>Zostáva:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:856
-msgid "<b>Pieces:</b>"
-msgstr "<b>Diely:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:873
-msgid "<b>Seeders:</b>"
-msgstr "<b>Seederi:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:897
-msgid "<b>Peers:</b>"
-msgstr "<b>Peeri:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:952
-msgid "<b>Availability:</b>"
-msgstr "<b>Dostupnosť:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:984
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Stav trackeru:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1043
-msgid "<b>Active Time:</b>"
-msgstr "<b>Aktívny čas:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1066
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>Čas seedovania:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1081
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>Hodnotenie seedu:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1120
+#: deluge/ui/gtkui/glade/main_window.glade:632
 msgid "<b>Auto Managed:</b>"
 msgstr "<b>Automatické spravovanie:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1173
+#: deluge/ui/gtkui/glade/main_window.glade:671
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>Hodnotenie seedu:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:686
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>Čas seedovania:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:711
+msgid "<b>Active Time:</b>"
+msgstr "<b>Aktívny čas:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:770
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Stav trackeru:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:801
+msgid "<b>Availability:</b>"
+msgstr "<b>Dostupnosť:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:855
+msgid "<b>Peers:</b>"
+msgstr "<b>Peeri:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:881
+msgid "<b>Seeders:</b>"
+msgstr "<b>Seederi:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:899
+msgid "<b>Pieces:</b>"
+msgstr "<b>Diely:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:921
+msgid "<b>ETA:</b>"
+msgstr "<b>Zostáva:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:943
+#: deluge/ui/gtkui/glade/main_window.glade:965
+msgid "<b>Speed:</b>"
+msgstr "<b>Rýchlosť:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:984
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Najbližšie oznámenie:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1003
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Pomer zdieľania:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1022
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Odoslané:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1041
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Stiahnuté:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1128
 msgid "_Statistics"
 msgstr "Štat_istiky"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1258
-msgid "<b>Status:</b>"
-msgstr "<b>Stav:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1295
-msgid "<b>Path:</b>"
-msgstr "<b>Cesta:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1318
-msgid "<b>Name:</b>"
-msgstr "<b>Názov:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Total Size:</b>"
-msgstr "<b>Celková veľkosť:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1369
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1398
-msgid "<b>Hash:</b>"
-msgstr "<b>Hash:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1430
+#: deluge/ui/gtkui/glade/main_window.glade:1199
 msgid "<b># of files:</b>"
 msgstr "<b>Počet súborov:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1481
+#: deluge/ui/gtkui/glade/main_window.glade:1231
+msgid "<b>Hash:</b>"
+msgstr "<b>Hash:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1260
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1280
+msgid "<b>Total Size:</b>"
+msgstr "<b>Celková veľkosť:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1317
+msgid "<b>Name:</b>"
+msgstr "<b>Názov:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1337
+msgid "<b>Path:</b>"
+msgstr "<b>Cesta:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Status:</b>"
+msgstr "<b>Stav:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1436
 msgid "_Details"
 msgstr "_Podrobnosti"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1531
+#: deluge/ui/gtkui/glade/main_window.glade:1485
 msgid "_Files"
 msgstr "_Súbory"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1581
+#: deluge/ui/gtkui/glade/main_window.glade:1534
 msgid "_Peers"
 msgstr "P_eerovia"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1692
-msgid "Max Download Speed:"
-msgstr "Maximálna rýchlosť sťahovania:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1703
+#: deluge/ui/gtkui/glade/main_window.glade:1653
 msgid "Max Upload Speed:"
 msgstr "Maximálna rýchlosť odosielania:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1833
+#: deluge/ui/gtkui/glade/main_window.glade:1666
+msgid "Max Download Speed:"
+msgstr "Maximálna rýchlosť sťahovania:"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1786
 msgid "Stop seed at ratio:"
 msgstr "Zastaviť seedovanie pri pomere:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1895
+#: deluge/ui/gtkui/glade/main_window.glade:1849
 msgid "<b>Queue</b>"
 msgstr "<b>Fronta</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2287
+#: deluge/ui/gtkui/glade/main_window.glade:2241
 msgid "New Release"
 msgstr "Nová verzia"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2318
+#: deluge/ui/gtkui/glade/main_window.glade:2272
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>Je dostupná nová verzia!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2357
-msgid "<i>Current Version:</i>"
-msgstr "<i>Aktuálna verzia:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2378
+#: deluge/ui/gtkui/glade/main_window.glade:2323
 msgid "<i>Available Version:</i>"
 msgstr "<i>Dostupná verzia:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2414
+#: deluge/ui/gtkui/glade/main_window.glade:2346
+msgid "<i>Current Version:</i>"
+msgstr "<i>Aktuálna verzia:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "Do not show this dialog in the future"
 msgstr "Nezobrazovať v budúcnosti toto okno"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2454
+#: deluge/ui/gtkui/glade/main_window.glade:2408
 msgid "_Goto Website"
 msgstr "_Prejsť na webstránku"

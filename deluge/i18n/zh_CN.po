@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-10-27 18:16-0500\n"
-"PO-Revision-Date: 2008-10-22 05:14+0000\n"
-"Last-Translator: ChenMing <Unknown>\n"
+"POT-Creation-Date: 2008-11-28 00:08-0600\n"
+"PO-Revision-Date: 2008-11-28 16:13+0000\n"
+"Last-Translator: ibear <bearsprite@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-11-28 05:56+0000\n"
+"X-Launchpad-Export-Date: 2008-11-30 20:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:670
@@ -226,11 +226,6 @@ msgstr "无效magic代码"
 msgid "Invalid version"
 msgstr "已失效版本"
 
-#: deluge/ui/gtkui/listview.py:84
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr "未知"
-
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
 msgstr "未连接"
@@ -256,8 +251,8 @@ msgstr "没有连入的连接!"
 #: deluge/ui/gtkui/statusbar.py:352 deluge/ui/gtkui/statusbar.py:380
 #: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
 #: deluge/ui/gtkui/systemtray.py:321
-#: deluge/ui/gtkui/glade/main_window.glade:1665
-#: deluge/ui/gtkui/glade/main_window.glade:1679
+#: deluge/ui/gtkui/glade/main_window.glade:1676
+#: deluge/ui/gtkui/glade/main_window.glade:1688
 msgid "KiB/s"
 msgstr "KiB/s"
 
@@ -265,13 +260,13 @@ msgstr "KiB/s"
 #: deluge/ui/gtkui/statusbar.py:414 deluge/ui/gtkui/systemtray.py:187
 #: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:322
 #: deluge/ui/webui/lib/newforms_plus.py:193
-#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:181
+#: deluge/ui/webui/lib/newforms_plus.py:204 deluge/common.py:177
 msgid "Unlimited"
 msgstr "无限制"
 
 #: deluge/ui/gtkui/statusbar.py:361 deluge/ui/gtkui/statusbar.py:389
 #: deluge/ui/gtkui/statusbar.py:416 deluge/ui/gtkui/systemtray.py:325
-#: deluge/common.py:238 deluge/common.py:239
+#: deluge/common.py:234 deluge/common.py:235
 msgid "Other..."
 msgstr "其他"
 
@@ -581,13 +576,13 @@ msgstr "启动"
 
 #: deluge/ui/webui/register_menu.py:55
 #: deluge/ui/webui/scripts/template_strings.py:47
-#: deluge/ui/gtkui/glade/main_window.glade:346
+#: deluge/ui/gtkui/glade/main_window.glade:322
 msgid "Queue Up"
 msgstr "向上移动"
 
 #: deluge/ui/webui/register_menu.py:56
 #: deluge/ui/webui/scripts/template_strings.py:45
-#: deluge/ui/gtkui/glade/main_window.glade:361
+#: deluge/ui/gtkui/glade/main_window.glade:333
 msgid "Queue Down"
 msgstr "向下移动"
 
@@ -746,7 +741,7 @@ msgid "Restart daemon and webui after changing these settings"
 msgstr "改变这些设置后重启后台程序和webui"
 
 #: deluge/ui/webui/config_tabs_deluge.py:139
-#: deluge/ui/webui/config_tabs_webui.py:63
+#: deluge/ui/webui/config_tabs_webui.py:64
 msgid "Port"
 msgstr "端口"
 
@@ -816,6 +811,10 @@ msgstr "输入值列表"
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr "请选择一个有效的选项。%s不是一个可用的选项。"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "未知"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -974,35 +973,39 @@ msgid "Button style"
 msgstr "按钮风格"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
+msgid "Auto refresh (seconds)"
+msgstr "自动刷新(秒)"
+
+#: deluge/ui/webui/config_tabs_webui.py:56
 msgid "Cache templates"
 msgstr "保存模板"
 
-#: deluge/ui/webui/config_tabs_webui.py:62
+#: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Server"
 msgstr "服务器"
 
-#: deluge/ui/webui/config_tabs_webui.py:71
+#: deluge/ui/webui/config_tabs_webui.py:72
 #: deluge/ui/webui/scripts/template_strings.py:38
 msgid "Password"
 msgstr "密码"
 
-#: deluge/ui/webui/config_tabs_webui.py:73
+#: deluge/ui/webui/config_tabs_webui.py:74
 msgid "Current Password"
 msgstr "当前密码"
 
-#: deluge/ui/webui/config_tabs_webui.py:74
+#: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password"
 msgstr "新密码"
 
-#: deluge/ui/webui/config_tabs_webui.py:75
+#: deluge/ui/webui/config_tabs_webui.py:76
 msgid "New Password (Confirm)"
 msgstr "确认新密码"
 
-#: deluge/ui/webui/config_tabs_webui.py:82
+#: deluge/ui/webui/config_tabs_webui.py:83
 msgid "Old password is invalid"
 msgstr "旧密码无效"
 
-#: deluge/ui/webui/config_tabs_webui.py:85
+#: deluge/ui/webui/config_tabs_webui.py:86
 msgid "New Password is not equal to New Password(confirm)"
 msgstr "新密码与确认新密码不匹配"
 
@@ -1015,12 +1018,12 @@ msgid "Maximum Up Speed"
 msgstr "最大上传速度"
 
 #: deluge/ui/webui/torrent_options.py:23
-#: deluge/ui/gtkui/glade/main_window.glade:1943
+#: deluge/ui/gtkui/glade/main_window.glade:1897
 msgid "Prioritize First/Last"
 msgstr "区分先后"
 
 #: deluge/ui/webui/torrent_options.py:26
-#: deluge/ui/gtkui/glade/main_window.glade:1813
+#: deluge/ui/gtkui/glade/main_window.glade:1766
 msgid "Auto Managed"
 msgstr "自动管理"
 
@@ -1029,7 +1032,7 @@ msgid "Stop seed at ratio"
 msgstr "到达此分享率时停止做种"
 
 #: deluge/ui/webui/torrent_options.py:29
-#: deluge/ui/gtkui/glade/main_window.glade:1871
+#: deluge/ui/gtkui/glade/main_window.glade:1825
 msgid "Remove at ratio"
 msgstr "到达此分享率时删除种子"
 
@@ -1253,11 +1256,11 @@ msgstr "已上传"
 msgid "seconds"
 msgstr "秒"
 
-#: deluge/common.py:184
+#: deluge/common.py:180
 msgid "Activated"
 msgstr "活动的"
 
-#: deluge/common.py:254
+#: deluge/common.py:250
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -1276,7 +1279,7 @@ msgstr "网址(URL):"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
-#: deluge/ui/gtkui/glade/main_window.glade:2002
+#: deluge/ui/gtkui/glade/main_window.glade:1956
 msgid "<b>General</b>"
 msgstr "<b>常规</b>"
 
@@ -1383,12 +1386,12 @@ msgid "<b>Allocation</b>"
 msgstr "<b>存储分配</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
-#: deluge/ui/gtkui/glade/main_window.glade:1653
+#: deluge/ui/gtkui/glade/main_window.glade:1703
 msgid "Max Upload Slots:"
 msgstr "最大上传通道："
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
-#: deluge/ui/gtkui/glade/main_window.glade:1716
+#: deluge/ui/gtkui/glade/main_window.glade:1640
 msgid "Max Connections:"
 msgstr "最大连接数："
 
@@ -1401,7 +1404,7 @@ msgid "Max Down Speed:"
 msgstr "最大下载速度"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-#: deluge/ui/gtkui/glade/main_window.glade:1783
+#: deluge/ui/gtkui/glade/main_window.glade:1736
 msgid "<b>Bandwidth</b>"
 msgstr "带宽"
 
@@ -1414,13 +1417,13 @@ msgid "Prioritize First/Last Pieces"
 msgstr "区分前后优先块"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
-#: deluge/ui/gtkui/glade/main_window.glade:1930
+#: deluge/ui/gtkui/glade/main_window.glade:1884
 msgid "Private"
 msgstr "私有的"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:1977
+#: deluge/ui/gtkui/glade/main_window.glade:1931
 msgid "_Edit Trackers"
 msgstr "编辑Trackers(_E)"
 
@@ -1433,7 +1436,7 @@ msgid "Apply To All"
 msgstr "全部应用"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
-#: deluge/ui/gtkui/glade/main_window.glade:2079
+#: deluge/ui/gtkui/glade/main_window.glade:2033
 msgid "_Options"
 msgstr "选项(_O)"
 
@@ -1521,33 +1524,33 @@ msgid "_Auto Managed"
 msgstr "自动管理（_A）"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:2099
+#: deluge/ui/gtkui/glade/main_window.glade:2053
 msgid "Remove Torrent?"
 msgstr "删除任务？"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
-#: deluge/ui/gtkui/glade/main_window.glade:2135
+#: deluge/ui/gtkui/glade/main_window.glade:2089
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr "<big><b>您肯定您要删除已选任务？</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
-#: deluge/ui/gtkui/glade/main_window.glade:2186
+#: deluge/ui/gtkui/glade/main_window.glade:2140
 msgid "<i>The associated .torrent will be deleted!</i>"
 msgstr "<i>该联合种子文件将被删除！</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
-#: deluge/ui/gtkui/glade/main_window.glade:2225
+#: deluge/ui/gtkui/glade/main_window.glade:2179
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>该已下载数据将被删除！</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
-#: deluge/ui/gtkui/glade/main_window.glade:2269
+#: deluge/ui/gtkui/glade/main_window.glade:2223
 msgid "Remove Selected Torrent"
 msgstr "删除已选种子"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:383
+#: deluge/ui/gtkui/glade/main_window.glade:347
 msgid "Preferences"
 msgstr "参数选择"
 
@@ -2024,8 +2027,8 @@ msgid "Destination:"
 msgstr "目标："
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
-#: deluge/ui/gtkui/glade/main_window.glade:398
-#: deluge/ui/gtkui/glade/main_window.glade:399
+#: deluge/ui/gtkui/glade/main_window.glade:358
+#: deluge/ui/gtkui/glade/main_window.glade:359
 msgid "Connection Manager"
 msgstr "连接管理"
 
@@ -2151,187 +2154,187 @@ msgstr "常见问题"
 msgid "Community"
 msgstr "社区"
 
-#: deluge/ui/gtkui/glade/main_window.glade:283
+#: deluge/ui/gtkui/glade/main_window.glade:279
 msgid "Remove Torrent"
 msgstr "删除种子"
 
-#: deluge/ui/gtkui/glade/main_window.glade:305
+#: deluge/ui/gtkui/glade/main_window.glade:293
 msgid "Pause the selected torrents"
 msgstr "暂停已选择的任务"
 
-#: deluge/ui/gtkui/glade/main_window.glade:321
+#: deluge/ui/gtkui/glade/main_window.glade:305
 msgid "Resume the selected torrents"
 msgstr "开始已选择的任务"
 
-#: deluge/ui/gtkui/glade/main_window.glade:345
+#: deluge/ui/gtkui/glade/main_window.glade:321
 msgid "Queue Torrent Up"
 msgstr "在队列中上移种子"
 
-#: deluge/ui/gtkui/glade/main_window.glade:360
+#: deluge/ui/gtkui/glade/main_window.glade:332
 msgid "Queue Torrent Down"
 msgstr "在队列中下移种子"
 
-#: deluge/ui/gtkui/glade/main_window.glade:529
+#: deluge/ui/gtkui/glade/main_window.glade:484
 msgid "_Expand All"
 msgstr "全部展开(_E)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:549
+#: deluge/ui/gtkui/glade/main_window.glade:504
 msgid "_Do Not Download"
 msgstr "不要下载（_D）"
 
-#: deluge/ui/gtkui/glade/main_window.glade:564
+#: deluge/ui/gtkui/glade/main_window.glade:519
 msgid "_Normal Priority"
 msgstr "标准优先（_N）"
 
-#: deluge/ui/gtkui/glade/main_window.glade:579
+#: deluge/ui/gtkui/glade/main_window.glade:534
 msgid "_High Priority"
 msgstr "高优先级（_H）"
 
-#: deluge/ui/gtkui/glade/main_window.glade:594
+#: deluge/ui/gtkui/glade/main_window.glade:549
 msgid "Hi_ghest Priority"
 msgstr "最高优先级（_G）"
 
-#: deluge/ui/gtkui/glade/main_window.glade:717
-msgid "<b>Downloaded:</b>"
-msgstr "<b>已下载:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:734
-msgid "<b>Uploaded:</b>"
-msgstr "<b>已上传:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:753
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>分享率:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:772
-msgid "<b>Next Announce:</b>"
-msgstr "<b>下次通报:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:792
-#: deluge/ui/gtkui/glade/main_window.glade:812
-msgid "<b>Speed:</b>"
-msgstr "<b>速度：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:834
-msgid "<b>ETA:</b>"
-msgstr "<b>估计剩余时间:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:856
-msgid "<b>Pieces:</b>"
-msgstr "<b>块:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:873
-msgid "<b>Seeders:</b>"
-msgstr "<b>种子数：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:897
-msgid "<b>Peers:</b>"
-msgstr "<b>连接数:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:952
-msgid "<b>Availability:</b>"
-msgstr "<b>健康度:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:984
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Tracker 状态:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1043
-msgid "<b>Active Time:</b>"
-msgstr "<b>活跃时间：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1066
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>做种时间：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1081
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>种子等级：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1120
+#: deluge/ui/gtkui/glade/main_window.glade:632
 msgid "<b>Auto Managed:</b>"
 msgstr "<b>自动管理：</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1173
+#: deluge/ui/gtkui/glade/main_window.glade:671
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>种子等级：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:686
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>做种时间：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:711
+msgid "<b>Active Time:</b>"
+msgstr "<b>活跃时间：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:770
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Tracker 状态:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:801
+msgid "<b>Availability:</b>"
+msgstr "<b>健康度:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:855
+msgid "<b>Peers:</b>"
+msgstr "<b>连接数:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:881
+msgid "<b>Seeders:</b>"
+msgstr "<b>种子数：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:899
+msgid "<b>Pieces:</b>"
+msgstr "<b>块:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:921
+msgid "<b>ETA:</b>"
+msgstr "<b>估计剩余时间:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:943
+#: deluge/ui/gtkui/glade/main_window.glade:965
+msgid "<b>Speed:</b>"
+msgstr "<b>速度：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:984
+msgid "<b>Next Announce:</b>"
+msgstr "<b>下次通报:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1003
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>分享率:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1022
+msgid "<b>Uploaded:</b>"
+msgstr "<b>已上传:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1041
+msgid "<b>Downloaded:</b>"
+msgstr "<b>已下载:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1128
 msgid "_Statistics"
 msgstr "统计信息(_S)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1258
-msgid "<b>Status:</b>"
-msgstr "<b>状态：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1295
-msgid "<b>Path:</b>"
-msgstr "<b>路径：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1318
-msgid "<b>Name:</b>"
-msgstr "<b>名称：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Total Size:</b>"
-msgstr "<b>总大小：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1369
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1398
-msgid "<b>Hash:</b>"
-msgstr "<b>Hash:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1430
+#: deluge/ui/gtkui/glade/main_window.glade:1199
 msgid "<b># of files:</b>"
 msgstr "文件编号"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1481
+#: deluge/ui/gtkui/glade/main_window.glade:1231
+msgid "<b>Hash:</b>"
+msgstr "<b>Hash:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1260
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1280
+msgid "<b>Total Size:</b>"
+msgstr "<b>总大小：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1317
+msgid "<b>Name:</b>"
+msgstr "<b>名称：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1337
+msgid "<b>Path:</b>"
+msgstr "<b>路径：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Status:</b>"
+msgstr "<b>状态：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1436
 msgid "_Details"
 msgstr "详细信息 (_D)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1531
+#: deluge/ui/gtkui/glade/main_window.glade:1485
 msgid "_Files"
 msgstr "文件(_F)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1581
+#: deluge/ui/gtkui/glade/main_window.glade:1534
 msgid "_Peers"
 msgstr "Peers(_P)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1692
-msgid "Max Download Speed:"
-msgstr "最大下载速度"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1703
+#: deluge/ui/gtkui/glade/main_window.glade:1653
 msgid "Max Upload Speed:"
 msgstr "最大上传速度"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1833
+#: deluge/ui/gtkui/glade/main_window.glade:1666
+msgid "Max Download Speed:"
+msgstr "最大下载速度"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1786
 msgid "Stop seed at ratio:"
 msgstr "停止做种当共享率达到："
 
-#: deluge/ui/gtkui/glade/main_window.glade:1895
+#: deluge/ui/gtkui/glade/main_window.glade:1849
 msgid "<b>Queue</b>"
 msgstr "<b>队列</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2287
+#: deluge/ui/gtkui/glade/main_window.glade:2241
 msgid "New Release"
 msgstr "新发布"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2318
+#: deluge/ui/gtkui/glade/main_window.glade:2272
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>新发布可用!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2357
-msgid "<i>Current Version:</i>"
-msgstr "当前版本"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2378
+#: deluge/ui/gtkui/glade/main_window.glade:2323
 msgid "<i>Available Version:</i>"
 msgstr "<i>可用版本:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2414
+#: deluge/ui/gtkui/glade/main_window.glade:2346
+msgid "<i>Current Version:</i>"
+msgstr "当前版本"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "Do not show this dialog in the future"
 msgstr "不再显示这个对话框"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2454
+#: deluge/ui/gtkui/glade/main_window.glade:2408
 msgid "_Goto Website"
 msgstr "转到站点（_G）"
