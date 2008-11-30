@@ -817,6 +817,13 @@ class Torrent:
         """Renames a folder within a torrent.  This basically does a file rename
         on all of the folders children."""
         log.debug("attempting to rename folder: %s to %s", folder, new_folder)
+        if len(new_folder) < 1:
+            log.error("Attempting to rename a folder with an invalid folder name: %s", new_folder)
+            return
+
+        if new_folder[-1:] != "/":
+            new_folder += "/"
+
         for f in self.get_files():
             if f["path"].startswith(folder):
                 # Keep a list of filerenames we're waiting on
