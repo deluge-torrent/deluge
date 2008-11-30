@@ -1,3 +1,7 @@
+# Copyright (c) 2004-2007, CherryPy Team (team@cherrypy.org)
+# All rights reserved.
+# See LICENSE.TXT
+
 """A high-speed, production ready, thread pooled, generic WSGI server.
 
 Simplest example on how to use this module directly
@@ -5,7 +9,7 @@ Simplest example on how to use this module directly
 
     from cherrypy import wsgiserver
 
-    def my_crazy_app(environ, start_response):
+    def my_crazy_a pp(environ, start_response):
         status = '200 OK'
         response_headers = [('Content-type','text/plain')]
         start_response(status, response_headers)
@@ -1016,4 +1020,3 @@ class CherryPyWSGIServer(object):
                 if key and value:
                     wsgikey = 'SSL_SERVER_%s_DN_%s' % (prefix, key)
                     self.ssl_environ[wsgikey] = value
-
