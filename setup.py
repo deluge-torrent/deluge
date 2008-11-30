@@ -176,7 +176,18 @@ for source in _sources:
             break
 
 _ext_modules = []
-if windows_check() or not os.path.exists(os.path.join(sysconfig.get_config_var("LIBDIR"), "libtorrent-rasterbar.so.1")):
+
+# Check for a system libtorrent and if found, then do not build the libtorrent extension
+build_libtorrent = True
+try:
+    import libtorrent
+except ImportError:
+    build_libtorrent = True
+else:
+    if libtorrent.version_major == 0 and libtorrent.version_minor == 14:
+        build_libtorrent = False
+
+if build_libtorrent:
     # There isn't a system libtorrent library, so let's build the one included with deluge
     libtorrent = Extension(
         'libtorrent',
