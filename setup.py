@@ -173,7 +173,6 @@ for source in _sources:
     for rem in _source_removals:
         if rem in source:
             _sources.remove(source)
-            break
 
 _ext_modules = []
 
