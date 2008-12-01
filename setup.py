@@ -377,5 +377,5 @@ setup(
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
-    version = "1.0.5",
+    version = "1.0.6",
 )

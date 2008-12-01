@@ -1,4 +1,4 @@
-Deluge 1.0.6 (In Development)
+Deluge 1.0.6 (01 December 2008)
  Core:
   * Fix #475 catch unicode decoding errors
   * Add an option to not include IP overhead in rate limiting (this is equivalent
