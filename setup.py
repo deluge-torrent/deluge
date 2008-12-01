@@ -167,7 +167,7 @@ _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
 # Remove some files from the source that aren't needed
-_source_removals = ["mapped_storage.cpp"]
+_source_removals = ["mapped_storage.cpp", "memdebug.cpp"]
 
 for source in _sources:
     for rem in _source_removals:
