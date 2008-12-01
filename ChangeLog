@@ -7,6 +7,9 @@ Deluge 1.0.6 (01 December 2008)
  GtkUI:
   * Display the proper downloaded value in the statistics tab
 
+ Windows:
+  * Fix broken graphic in new release dialog
+
 Deluge 1.0.5 (09 November 2008)
  GtkUI:
   * Increase the per-torrent stop share ratio max to 99999.0
