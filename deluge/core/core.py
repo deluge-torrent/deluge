@@ -27,6 +27,7 @@ import gettext
 import locale
 import pkg_resources
 import sys
+import glob
 import shutil
 import os
 import os.path
@@ -758,3 +759,9 @@ class Core(
                     self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
+    
+    def export_glob(self, path):
+        return glob.glob(path)
+    
+    def export_iglob(self, path):
+        return glob.iglob(path)
