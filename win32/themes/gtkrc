@@ -1,0 +1,7 @@
+gtk-font-name = "arial 8"
+
+gtk-theme-name = "Clearlooks"
+
+gtk-icon-theme-name = "Tango"
+
+gtk-icon-sizes="gtk-small-toolbar=16,16"
