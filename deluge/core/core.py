@@ -322,6 +322,9 @@ class Core(
         except Exception, e:
             log.debug("handle_thread: %s", e)
 
+    def shutdown(self):
+        pass
+
     def _shutdown(self, *data):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
