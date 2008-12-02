@@ -230,6 +230,9 @@ class Core(
         except Exception, e:
             log.debug("handle_thread: %s", e)
 
+    def shutdown(self):
+        pass
+
     def _shutdown(self, *data):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
@@ -759,6 +762,6 @@ class Core(
                     self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
-    
+
     def export_glob(self, path):
         return glob.glob(path)
