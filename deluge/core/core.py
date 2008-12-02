@@ -762,6 +762,3 @@ class Core(
     
     def export_glob(self, path):
         return glob.glob(path)
-    
-    def export_iglob(self, path):
-        return glob.iglob(path)
