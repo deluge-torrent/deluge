@@ -1,0 +1,7 @@
+In this directory there should be three directories:
+
+boost/ -- the boost headers
+openssl/ -- the openssl headers
+zlib/ -- the zlib headers
+
+

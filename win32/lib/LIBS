@@ -1,0 +1,31 @@
+In this folder should include all the libs necessary for libtorrent.
+
+This will include boost libs, openssl libs and zlib libs.
+
+
+libboost_date_time-vc71-mt-1_36.lib
+libboost_filesystem-vc71-mt-1_36.lib
+libboost_graph-vc71-mt-1_36.lib
+libboost_iostreams-vc71-mt-1_36.lib
+libboost_prg_exec_monitor-vc71-mt-1_36.lib
+libboost_program_options-vc71-mt-1_36.lib
+libboost_python-vc71-mt-1_36.lib
+libboost_regex-vc71-mt-1_36.lib
+libboost_serialization-vc71-mt-1_36.lib
+libboost_signals-vc71-mt-1_36.lib
+libboost_system-vc71-mt-1_36.lib
+libboost_test_exec_monitor-vc71-mt-1_36.lib
+libboost_thread-vc71-mt-1_36.lib
+libboost_unit_test_framework-vc71-mt-1_36.lib
+libboost_wave-vc71-mt-1_36.lib
+libboost_wserialization-vc71-mt-1_36.lib
+libeay32.dll
+libeay32.lib
+libeay32MT.lib
+libssl32.dll
+ssleay32.dll
+ssleay32.lib
+ssleay32MT.lib
+zlib.lib
+zlib1.dll
+
