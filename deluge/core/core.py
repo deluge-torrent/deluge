@@ -530,6 +530,17 @@ class Core(
             return None
 
         return value
+    
+    def export_get_config_values(self, keys):
+        """Get the config values for the entered keys"""
+        config = {}
+        for key in keys:
+            try:
+                config[key] = self.config[key]
+            except KeyError:
+                pass
+        return config
+            
 
     def export_set_config(self, config):
         """Set the config with values from dictionary"""
