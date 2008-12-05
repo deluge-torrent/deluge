@@ -28,8 +28,9 @@ import threading
 import gobject
 from urllib import urlopen
 from deluge.log import LOG as log
-from deluge.common import get_default_config_dir, get_pixmap
+from deluge.common import get_pixmap
 import os
+import deluge.configmanager
 
 #some servers don't have their favicon at the expected location
 RENAMES = {
@@ -62,7 +63,7 @@ def fetch_url(url, valid_subtypes=None):
 class TrackerIcons(object):
     def __init__(self):
         #set image cache dir
-        self.image_dir = get_default_config_dir("icons")
+        self.image_dir = os.path.join(deluge.configmanager.get_config_dir(), "icons")
         if not os.path.exists(self.image_dir):
             os.mkdir(self.image_dir)
 
