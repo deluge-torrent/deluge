@@ -40,8 +40,12 @@ from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
+DEFAULT_URI = "http://127.0.0.1:58846"
+DEFAULT_HOST = DEFAULT_URI.split(":")[1][2:]
+DEFAULT_PORT = DEFAULT_URI.split(":")[-1]
+
 DEFAULT_CONFIG = {
-    "hosts": ["localhost:58846"]
+    "hosts": [DEFAULT_HOST + ":" + DEFAULT_PORT]
 }
 
 HOSTLIST_COL_PIXBUF = 0
@@ -118,12 +122,11 @@ class ConnectionManager(component.Component):
 
         # If classic mode is set, we just start up a localhost daemon and connect to it
         if self.gtkui_config["classic_mode"]:
-            uri = "http://localhost:58846"
-            self.start_localhost(58846)
+            self.start_localhost(DEFAULT_PORT)
             # We need to wait for the host to start before connecting
-            while not self.test_online_status(uri):
+            while not self.test_online_status(DEFAULT_URI):
                 time.sleep(0.01)
-            client.set_core_uri(uri)
+            client.set_core_uri(DEFAULT_URI)
             self.hide()
             return
 
@@ -393,9 +396,9 @@ class ConnectionManager(component.Component):
         log.debug("on_button_startdaemon_clicked")
         if self.liststore.iter_n_children(None) < 1:
             # There is nothing in the list, so lets create a localhost entry
-            self.add_host("localhost", 58846)
+            self.add_host(DEFAULT_HOST, DEFAULT_PORT)
             # ..and start the daemon.
-            self.start_localhost(58846)
+            self.start_localhost(DEFAULT_PORT)
             return
 
         paths = self.hostlist.get_selection().get_selected_rows()[1]
@@ -425,7 +428,8 @@ class ConnectionManager(component.Component):
         if deluge.common.windows_check():
             win32api.WinExec("deluged -p %s" % port)
         else:
-            subprocess.call(["deluged", "-p %s" % port])
+            subprocess.call(["deluged", "--port=%s" % port,
+                "--config=%s" % self.gtkui_config["config_location"]])
 
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
