@@ -1,11 +1,15 @@
 $def with (error)
 $:render.header(_('Login'))
+<script language="javascript">
+        window.onload = function () {
+            document.getElementById('pwd').focus();
+        }
+</script>
 <div class="panel">
 <h2>$_("Deluge Login")</h2>
 
 $if error > 0:
-    <div class="error">$_("Password is invalid,try again")</div>
-
+    <div class="error">$_("Password is invalid, try again")</div>
 <form method="POST" id="loginform" action='$base/login'>
 <input type="hidden" name="redir" value="$get('redir')">
 <div id="loginpanel">
