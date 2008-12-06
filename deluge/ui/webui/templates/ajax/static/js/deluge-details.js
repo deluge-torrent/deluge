@@ -203,10 +203,10 @@ Deluge.Widgets.FilesGrid = new Class({
     },
     
     priority_icons: {
-        0: '/static/images/tango/process-stop.png',
+        0: '/static/images/16/process-stop.png',
         1: '/template/static/icons/16/gtk-yes.png',
-        2: '/static/images/tango/queue-down.png',
-        5: '/static/images/tango/go-bottom.png'
+        2: '/static/images/16/queue-down.png',
+        5: '/static/images/16/go-bottom.png'
     },
     
     initialize: function(element, options) {

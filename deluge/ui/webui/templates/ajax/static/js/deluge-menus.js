@@ -15,19 +15,19 @@ Deluge.Menus = {
             type:'text',
             action:'pause',
             text: _('Pause'),
-            icon:'/static/images/tango/pause.png'
+            icon:'/static/images/16/pause.png'
         },
         {
             type: 'text',
             action: 'resume',
             text: _('Resume'),
-            icon: '/static/images/tango/start.png'
+            icon: '/static/images/16/start.png'
         },
         { type: 'seperator' },
         {
             type:'submenu',
             text: _('Options'),
-            icon:'/static/images/tango/preferences-system.png',
+            icon:'/static/images/16/preferences-system.png',
             items: [
                 {
                     type: 'submenu',
@@ -118,7 +118,7 @@ Deluge.Menus = {
                 {
                     type: 'submenu',
                     text: _('Connection Limit'),
-                    icon: '/static/images/tango/connections.png',
+                    icon: '/static/images/16/connections.png',
                     items: [
                         {
                             type: 'text',
@@ -218,25 +218,25 @@ Deluge.Menus = {
                     type: 'text',
                     action: 'top',
                     text: _('Top'),
-                    icon: '/static/images/tango/go-top.png'
+                    icon: '/static/images/16/go-top.png'
                 },
                 {
                     type: 'text',
                     action: 'up',
                     text: _('Up'),
-                    icon: '/static/images/tango/queue-up.png'
+                    icon: '/static/images/16/queue-up.png'
                 },
                 {
                     type: 'text',
                     action: 'down',
                     text: _('Down'),
-                    icon: '/static/images/tango/queue-down.png'
+                    icon: '/static/images/16/queue-down.png'
                 },
                 {
                     type: 'text',
                     action: 'bottom',
                     text: _('Bottom'),
-                    icon: '/static/images/tango/go-bottom.png'
+                    icon: '/static/images/16/go-bottom.png'
                 }
             ]
         },
@@ -259,7 +259,7 @@ Deluge.Menus = {
             action: 'remove',
             value: 0,
             text: _('Remove Torrent'),
-            icon: '/static/images/tango/list-remove.png',
+            icon: '/static/images/16/list-remove.png',
             items: [
                 {
                     type: 'text',
@@ -292,13 +292,13 @@ Deluge.Menus = {
             type: 'text',
             action: 'force_recheck',
             text: _('Force Recheck'),
-            icon: '/static/images/tango/edit-redo.png'
+            icon: '/static/images/16/edit-redo.png'
         },
         {
             type: 'text',
             action: 'move_storage',
             text: _('Move Storage'),
-            icon: '/static/images/tango/move.png'
+            icon: '/static/images/16/move.png'
         }
     ],
     
