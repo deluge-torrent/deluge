@@ -1,6 +1,5 @@
-All images from the kde-oxygen set.
+images from the kde-oxygen set.
 See webui/scripts/copy_icons.py for mapping.
-
-See LICENCE for a list of icons not taken from oxygen.
+See LICENSE for a list of icons not taken from oxygen.
 
 

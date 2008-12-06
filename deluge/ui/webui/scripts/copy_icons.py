@@ -19,15 +19,6 @@
 #     51 Franklin Street, Fifth Floor
 #     Boston, MA  02110-1301, USA.
 #
-#  In addition, as a special exception, the copyright holders give
-#  permission to link the code of portions of this program with the OpenSSL
-#  library.
-#  You must obey the GNU General Public License in all respects for all of
-#  the code used other than OpenSSL. If you modify file(s) with this
-#  exception, you may extend this exception to your version of the file(s),
-#  but you are not obligated to do so. If you do not wish to do so, delete
-#  this exception statement from your version. If you delete this exception
-#  statement from all source files in the program, then also delete it here.
 
 """
 copy  icons from kde icon set.
@@ -38,8 +29,8 @@ import os
 from os import path
 from shutil import copyfile
 
-ICON_SET  = "/home/martijn/prj/oxygen/oxygen/16"
-TARGET_DIR = "/home/martijn/src/deluge-stable/deluge/ui/webui/static/images/16x16"
+ICON_SET  = "/home/martijn/prj/oxygen/oxygen/16x16"
+TARGET_DIR = "/home/martijn/src/deluge-stable/deluge/ui/webui/static/images/16"
 
 
 mapping = {
@@ -53,11 +44,11 @@ mapping = {
     "go-top":"actions/2uparrow",
     "label":"actions/rss_tag",
     "list-add":"actions/add",
-    "list-remove":"actions/editdelete",
+    "list-remove":"actions/fileclose",
     "move":"actions/filesaveas",
     "pause":"actions/media_playback_pause",
     "preferences-system":"apps/preferences_system",
-    "proess-stop":"actions/process_stop",
+    "process-stop":"actions/process_stop",
     "queue-down":"actions/1downarrow",
     "queue-up":"actions/1uparrow",
     "start":"actions/media_playback_start",
@@ -65,6 +56,9 @@ mapping = {
     "system-log-out":"actions/system_log_out",
     "user-trash":"actions/edittrash",
     "view-refresh":"actions/view_refresh",
+    "gtk-yes":"actions/flag_green",
+    "drive-harddisk":"devices/drive_harddisk",
+    "select-all":"actions/edit_select_all"
 }
 
 for target, source in mapping.iteritems():
