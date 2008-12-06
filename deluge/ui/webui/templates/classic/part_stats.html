@@ -2,7 +2,7 @@ $def with (stats)
 
 <div id='stats_panel'>
 
-<img src="$base/static/images/tango/connections.png" title="$_('Connections')">$stats.num_connections ($deluge_int(stats.max_num_connections))
+<img src="$base/static/images/16/connections.png" title="$_('Connections')">$stats.num_connections ($deluge_int(stats.max_num_connections))
 
 <img src="$base/pixmaps/downloading16.png" title="$_('Down Speed')">$fspeed(stats.payload_download_rate)  ($deluge_int(stats.max_download))
 
@@ -12,7 +12,7 @@ $def with (stats)
 
 <img src="$base/pixmaps/dht16.png" title="$_('DHT Nodes')">$stats.dht_nodes
 
-<img src="$base/static/images/tango/drive-harddisk.png" title="$_('Disk Space')">$fsize(stats.free_space)
+<img src="$base/static/images/16/drive-harddisk.png" title="$_('Disk Space')">$fsize(stats.free_space)
 
 $if stats.has_incoming_connections:
 $else:
