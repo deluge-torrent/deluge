@@ -78,19 +78,19 @@ html, body {
 #labels .checking { background-image: url('/pixmaps/checking16.png'); }
 
 /* The icons for the statusbar */
-#status #info #connections {background-image:url(/static/images/tango/connections.png)}
+#status #info #connections {background-image:url(/static/images/16/connections.png)}
 #status #info #downspeed {background-image:url(/pixmaps/downloading16.png)}
 #status #info #upspeed {background-image:url(/pixmaps/seeding16.png)}
 #status #info #incoming_connections { background-image: url('/pixmaps/alert16.png'); }
 #status #info #dht {background-image:url(/pixmaps/dht16.png)}
-#status #info #free_space {background-image:url(/static/images/tango/drive-harddisk.png)}
+#status #info #free_space {background-image:url(/static/images/16/drive-harddisk.png)}
 
 #details {
 	padding: 5px;
 }
 
 .moouiTabs {
-    
+
 }
 
 .moouiTabs li {
@@ -157,7 +157,7 @@ li.moouiTabActive {
 #status #info li {
     width: auto;
 	height: 20px;
-	line-height: 20px;	
+	line-height: 20px;
 	padding-left: 21px;
 	margin-right: 10px;
 }

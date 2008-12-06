@@ -142,7 +142,7 @@ class TestNoAuth(TestWebUiBase):
 
     def testStatic(self):
         self.assert_exists('/static/images/simple_line.jpg')
-        self.assert_exists('/static/images/tango/up.png')
+        self.assert_exists('/static/images/16/up.png')
         #test 404
 
     #test template-static
