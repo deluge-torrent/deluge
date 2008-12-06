@@ -5,7 +5,7 @@ $:(render.header(_(torrent.state) + '/' + torrent.name))
 <div class="button_bar">
 $for id, title, image, flag, method, url, important in toolbar_items:
     $if (flag > 0) and (id != 'details'):
-        $:render.part_button(method, (url + str(torrent.id)), title, 'tango/' + image)
+        $:render.part_button(method, (url + str(torrent.id)), title, '16/' + image)
 </div>
 <div style="width:120px;height:20px;overflow:hidden;align:left;text-align:left;padding-left:20px;">
 $:render.part_auto_refresh()
