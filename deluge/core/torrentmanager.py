@@ -757,16 +757,23 @@ class TorrentManager(component.Component):
         log.debug("index: %s name: %s", alert.index, alert.name)
         torrent_id = str(alert.handle.info_hash())
         torrent = self.torrents[torrent_id]
-        old_folder = os.path.split(torrent.files[alert.index]["path"])[0]
-        new_folder = os.path.split(alert.name)[0]
         torrent.files[alert.index]["path"] = alert.name
 
-        if alert.index in torrent.waiting_on_folder_rename:
-            if torrent.waiting_on_folder_rename == [alert.index]:
-                # This is the last alert we were waiting for, time to send signal
-                component.get("SignalManager").emit("torrent_folder_renamed", torrent_id, old_folder, new_folder)
-            torrent.waiting_on_folder_rename.remove(alert.index)
-        else:
+        # We need to see if this file index is in a waiting_on_folder list
+        folder_rename = False
+        for i, wait_on_folder in enumerate(torrent.waiting_on_folder_rename):
+            if alert.index in wait_on_folder[2]:
+                folder_rename = True
+                if len(wait_on_folder[2]) == 1:
+                    # This is the last alert we were waiting for, time to send signal
+                    component.get("SignalManager").emit("torrent_folder_renamed", torrent_id, wait_on_folder[0], wait_on_folder[1])
+                    del torrent.waiting_on_folder_rename[i]
+                    break
+                # This isn't the last file to be renamed in this folder, so just
+                # remove the index and continue
+                torrent.waiting_on_folder_rename[i][2].remove(alert.index)
+
+        if not folder_rename:
             # This is just a regular file rename so send the signal
             component.get("SignalManager").emit("torrent_file_renamed", torrent_id, alert.index, alert.name)
 

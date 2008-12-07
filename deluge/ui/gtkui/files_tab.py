@@ -484,6 +484,7 @@ class FilesTab(Tab):
 
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.treestore[path][5]
+        log.debug("new_text: %s", new_text)
 
         # Don't do anything if the text hasn't changed
         if new_text == self.treestore[path][0]:
@@ -494,17 +495,17 @@ class FilesTab(Tab):
             # We are renaming a file
             itr = self.treestore.get_iter(path)
             # Recurse through the treestore to get the actual path of the file
-            def get_filepath(i, fp):
-                if self.treestore.iter_parent(i):
-                    fp = get_filepath(self.treestore.iter_parent(i), fp)
-                else:
-                    fp += self.treestore[i][0]
-                    return fp
+            def get_filepath(i):
+                ip = self.treestore.iter_parent(i)
+                fp = ""
+                while ip:
+                    fp = self.treestore[ip][0] + fp
+                    ip = self.treestore.iter_parent(ip)
                 return fp
 
             # Only recurse if file is in a folder..
             if self.treestore.iter_parent(itr):
-                filepath = get_filepath(itr, str()) + new_text
+                filepath = get_filepath(itr) + new_text
             else:
                 filepath = new_text
 
@@ -579,7 +580,9 @@ class FilesTab(Tab):
                                         parent_iter,
                                         self.treestore.get(itr,
                                         *xrange(self.treestore.get_n_columns())))
+                                    itr_parent = self.treestore.iter_parent(itr)
                                     self.treestore.remove(itr)
+                                    self.remove_childless_folders(itr_parent)
                                     return True
 
                             self.treestore.foreach(get_file_iter, None)
@@ -598,7 +601,73 @@ class FilesTab(Tab):
                         return True
                 self.treestore.foreach(set_file_name, None)
 
+    def get_iter_at_path(self, filepath):
+        """
+        Returns the gtkTreeIter for filepath
+        """
+        log.debug("get_iter_at_path: %s", filepath)
+        is_dir = False
+        if filepath[-1] == "/":
+            is_dir = True
+
+        filepath = filepath.split("/")
+        if "" in filepath:
+            filepath.remove("")
+
+        path_iter = None
+        itr = self.treestore.iter_children(None)
+        level = 0
+        while itr:
+            ipath = self.treestore[itr][0]
+            if (level + 1) != len(filepath) and ipath == filepath[level] + "/":
+                # We're not at the last index, but we do have a match
+                itr = self.treestore.iter_children(itr)
+                level += 1
+                continue
+            elif (level + 1) == len(filepath) and ipath == filepath[level] + "/" if is_dir else filepath[level]:
+                # This is the iter we've been searching for
+                path_iter = itr
+                break
+            else:
+                itr = self.treestore.iter_next(itr)
+                continue
+
+        return path_iter
+
+    def reparent_iter(self, itr, parent, move_siblings=False):
+        """
+        This effectively moves itr plus it's children to be a child of parent
+
+        If move_siblings is True, it will move all itr's siblings to parent
+        """
+        src = itr
+        def move_children(i, dest):
+            while i:
+                n = self.treestore.append(dest, self.treestore.get(i, *xrange(self.treestore.get_n_columns())))
+                to_remove = i
+                if self.treestore.iter_children(i):
+                    move_children(self.treestore.iter_children(i), n)
+                if i != src:
+                    i = self.treestore.iter_next(i)
+                else:
+                    # This is the source iter, we don't want other iters in it's level
+                    if not move_siblings:
+                        i = None
+                self.treestore.remove(to_remove)
+
+        move_children(itr, parent)
+
+    def remove_childless_folders(self, itr):
+        """
+        Goes up the tree removing childless itrs starting at itr
+        """
+        while not self.treestore.iter_children(itr):
+            parent = self.treestore.iter_parent(itr)
+            self.treestore.remove(itr)
+            itr = parent
+
     def _on_torrent_folder_renamed_signal(self, torrent_id, old_folder, new_folder):
+        log.debug("on_torrent_folder_renamed_signal")
         log.debug("old_folder: %s new_folder: %s", old_folder, new_folder)
 
         if old_folder[-1] != "/":
@@ -624,27 +693,32 @@ class FilesTab(Tab):
             except:
                 pass
 
-            itr = None
-            for i, old in enumerate(old_split):
-                itr = self.treestore.iter_children(itr)
-                while itr:
-                    if self.treestore[itr][0] == old + "/":
-                        if old != new_split[i]:
-                            # we need to change this one
-                            self.treestore[itr][0] = new_split[i] + "/"
-                        break
-                    itr = self.treestore.iter_next(itr)
+            old_folder_iter = self.get_iter_at_path(old_folder)
+            old_folder_iter_parent = self.treestore.iter_parent(old_folder_iter)
+
+            new_folder_iter = self.get_iter_at_path(new_folder)
+            if new_folder_iter:
+                # This means that a folder by this name already exists
+                self.reparent_iter(self.treestore.iter_children(old_folder_iter), new_folder_iter)
+            else:
+                new_folder_iter = self.get_iter_at_path("/".join(new_split[:-1]) + "/")
+                self.reparent_iter(old_folder_iter, new_folder_iter)
+
+            # We need to check if the old_folder_iter_parent no longer has children
+            # and if so, we delete it
+            self.remove_childless_folders(old_folder_iter_parent)
 
     def _on_torrent_removed_signal(self, torrent_id):
         if torrent_id in self.files_list:
             del self.files_list[torrent_id]
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
-        indexes = self.get_selected_files()
-        selection.set_text(",".join([str(x) for x in indexes]))
+        paths = self.listview.get_selection().get_selected_rows()[1]
+        selection.set_text(cPickle.dumps(paths))
 
     def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
-        log.debug("selection.data: %s", selection.data)
+        selected = cPickle.loads(selection.data)
+        log.debug("selection.data: %s", selected)
         drop_info = treeview.get_dest_row_at_pos(x, y)
         model = treeview.get_model()
         if drop_info:
@@ -658,16 +732,20 @@ class FilesTab(Tab):
                 parent_path = model[parent_iter][0] + parent_path
                 parent_iter = model.iter_parent(parent_iter)
 
-            #[(index, filepath), ...]
-            to_rename = []
-
-            selected = [int(x) for x in selection.data.split(",")]
-            def find_file(model, path, itr, user_data):
-                if model[itr][5] in selected:
-                    to_rename.append((model[itr][5], parent_path + model[itr][0]))
-                    if len(to_rename) == len(selected):
-                        return True
-
-            model.foreach(find_file, None)
-            log.debug("to_rename: %s", to_rename)
-            client.rename_files(self.torrent_id, to_rename)
+            if model[selected[0]][5] == -1:
+                log.debug("parent_path: %s", parent_path)
+                log.debug("rename_to: %s", parent_path + model[selected[0]][0])
+                # Get the full path of the folder we want to rename
+                pp = ""
+                itr = self.treestore.iter_parent(self.treestore.get_iter(selected[0]))
+                while itr:
+                    pp = self.treestore[itr][0] + pp
+                    itr = self.treestore.iter_parent(itr)
+                client.rename_folder(self.torrent_id, pp + model[selected[0]][0], parent_path + model[selected[0]][0])
+            else:
+                #[(index, filepath), ...]
+                to_rename = []
+                for s in selected:
+                    to_rename.append((model[s][5], parent_path + model[s][0]))
+                log.debug("to_rename: %s", to_rename)
+                client.rename_files(self.torrent_id, to_rename)

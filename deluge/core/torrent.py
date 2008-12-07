@@ -119,8 +119,10 @@ class Torrent:
         self.waiting_on_resume_data = False
 
         # Keep a list of file indexes we're waiting for file_rename alerts on
+        # This also includes the old_folder and new_folder to know what signal to send
         # This is so we can send one folder_renamed signal instead of multiple
         # file_renamed signals.
+        # [(old_folder, new_folder, [*indexes]), ...]
         self.waiting_on_folder_rename = []
 
         # We store the filename just in case we need to make a copy of the torrentfile
@@ -824,8 +826,10 @@ class Torrent:
         if new_folder[-1:] != "/":
             new_folder += "/"
 
+        wait_on_folder = (folder, new_folder, [])
         for f in self.get_files():
             if f["path"].startswith(folder):
                 # Keep a list of filerenames we're waiting on
-                self.waiting_on_folder_rename.append(f["index"])
+                wait_on_folder[2].append(f["index"])
                 self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1))
+        self.waiting_on_folder_rename.append(wait_on_folder)
