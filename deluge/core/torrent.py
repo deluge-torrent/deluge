@@ -395,7 +395,7 @@ class Torrent:
             # We're a seed, so calculate the time to the 'stop_share_ratio'
             if not status.upload_payload_rate:
                 return 0
-            stop_ratio = self.config["stop_seed_ratio"] if self.config["stop_seed_at_ratio"] else self.options["stop_seed_ratio"]
+            stop_ratio = self.config["stop_seed_ratio"] if self.config["stop_seed_at_ratio"] else self.options["stop_ratio"]
 
             return ((status.all_time_download * stop_ratio) - status.all_time_upload) / status.upload_payload_rate
 
