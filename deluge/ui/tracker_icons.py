@@ -136,7 +136,7 @@ class TrackerIcons(object):
         ext, icon_data  = self._fetch_icon(tracker_host)
 
         if icon_data:
-            filename = os.path.join(get_default_config_dir("icons"),"%s.%s" % (tracker_host, ext))
+            filename = os.path.join(deluge.configmanager.get_config_dir(), "%s.%s" % (tracker_host, ext))
             f = open(filename,"wb")
             f.write(icon_data)
             f.close()
@@ -169,7 +169,7 @@ class TrackerIcons(object):
 if __name__ == "__main__":
     import time
     def del_old():
-        filename = os.path.join(get_default_config_dir("icons"),"legaltorrents.com.ico")
+        filename = os.path.join(deluge.configmanager.get_config_dir(),"legaltorrents.com.ico")
         if os.path.exists(filename):
             os.remove(filename)
 
