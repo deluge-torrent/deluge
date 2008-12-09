@@ -187,11 +187,11 @@ class SystemTray(component.Component):
         if max_download_speed == -1:
             max_download_speed = _("Unlimited")
         else:
-            max_download_speed = "%s KiB/s" % (max_download_speed)
+            max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
         if max_upload_speed == -1:
             max_upload_speed = _("Unlimited")
         else:
-            max_upload_speed = "%s KiB/s" % (max_upload_speed)
+            max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
 
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
             _("Deluge"), _("Down"), self.download_rate, \
@@ -336,7 +336,7 @@ class SystemTray(component.Component):
             value = -1
 
         if value == _("Other..."):
-            value = common.show_other_dialog(string, "KiB/s", None, image, default)
+            value = common.show_other_dialog(string, _("KiB/s"), None, image, default)
             if value == None:
                 return
 

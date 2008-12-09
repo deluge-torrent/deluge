@@ -48,7 +48,7 @@ def fpcnt(value):
 
 def fspeed(value, max_value=-1):
     if max_value > -1:
-        return "%s [%s KiB/s]" % (deluge.common.fspeed(value), max_value)
+        return "%s [%s _(KiB/s)]" % (deluge.common.fspeed(value), max_value)
     else:
         return deluge.common.fspeed(value)
 

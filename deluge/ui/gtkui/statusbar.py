@@ -344,7 +344,7 @@ class StatusBar(component.Component):
         self.upload_item.set_text(label_string)
 
     def update_traffic_label(self):
-        label_string = "%.2f/%.2f KiB/s" % (self.download_protocol_rate, self.upload_protocol_rate)
+        label_string = "%.2f/%.2f %s" % (self.download_protocol_rate, self.upload_protocol_rate, _("KiB/s"))
         self.traffic_item.set_text(label_string)
 
     def update(self):
@@ -367,7 +367,7 @@ class StatusBar(component.Component):
             value = -1
         elif widget.get_name() == _("Other..."):
             value = common.show_other_dialog(
-                _("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", self.max_download_speed)
+                _("Set Maximum Download Speed"), _("KiB/s"), None, "downloading.svg", self.max_download_speed)
             if value == None:
                 return
         else:
@@ -395,7 +395,7 @@ class StatusBar(component.Component):
             value = -1
         elif widget.get_name() == _("Other..."):
             value = common.show_other_dialog(
-                _("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", self.max_upload_speed)
+                _("Set Maximum Upload Speed"), _("KiB/s"), None, "seeding.svg", self.max_upload_speed)
             if value == None:
                 return
         else:
