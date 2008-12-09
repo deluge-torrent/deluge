@@ -124,6 +124,8 @@ class AddTorrentDialog(component.Component):
         ]
         self.core_config = {}
 
+        self.glade.get_widget("notebook1").connect("switch-page", self._on_switch_page)
+
     def start(self):
         self.update_core_config()
 
@@ -157,19 +159,15 @@ class AddTorrentDialog(component.Component):
 
     def update_core_config(self):
         self.core_config = {}
-        # Send requests to the core for these config values
-        for key in self.core_keys:
-            client.get_config_value(self._on_config_value, key)
 
+        def _on_config_values(config):
+            self.core_config = config
+
+        # Send requests to the core for these config values
+        client.get_config_values(_on_config_values, self.core_keys)
         # Force a call to the core because we need this data now
         client.force_call()
         self.set_default_options()
-
-    def _on_config_value(self, value):
-        for key in self.core_keys:
-            if not self.core_config.has_key(key):
-                self.core_config[key] = value
-                break
 
     def add_from_files(self, filenames):
         import os.path
@@ -188,6 +186,7 @@ class AddTorrentDialog(component.Component):
                 [info.info_hash, info.name, filename])
             self.files[info.info_hash] = info.files
             self.infos[info.info_hash] = info.metadata
+            self.save_torrent_options(new_row)
 
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if not row and new_row:
@@ -212,6 +211,8 @@ class AddTorrentDialog(component.Component):
                 [info_hash, name, uri])
             self.files[info_hash] = []
             self.infos[info_hash] = None
+            self.save_torrent_options(new_row)
+
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if not row and new_row:
             self.listview_torrents.get_selection().select_iter(new_row)
@@ -238,6 +239,10 @@ class AddTorrentDialog(component.Component):
         self.update_torrent_options(model.get_value(row, 0))
 
         self.previous_selected_torrent = row
+
+    def _on_switch_page(self, widget, page, page_num):
+        # Save the torrent options when switching notebook pages
+        self.save_torrent_options()
 
     def prepare_file_store(self, files):
         self.listview_files.set_model(None)
@@ -347,6 +352,14 @@ class AddTorrentDialog(component.Component):
                 self.glade.get_widget("entry_download_path").get_text()
         options["compact_allocation"] = \
             self.glade.get_widget("radio_compact").get_active()
+
+        if options["compact_allocation"]:
+            # We need to make sure all the files are set to download
+            def set_download_true(model, path, itr):
+                model[path][0] = True
+            self.files_treestore.foreach(set_download_true)
+            self.update_treeview_toggles(self.files_treestore.get_iter_first())
+
         options["max_download_speed"] = \
             self.glade.get_widget("spin_maxdown").get_value()
         options["max_upload_speed"] = \
@@ -390,6 +403,8 @@ class AddTorrentDialog(component.Component):
 
         self.glade.get_widget("radio_compact").set_active(
             self.core_config["compact_allocation"])
+        self.glade.get_widget("radio_full").set_active(
+            not self.core_config["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
             self.core_config["max_download_speed_per_torrent"])
         self.glade.get_widget("spin_maxup").set_value(
@@ -416,6 +431,10 @@ class AddTorrentDialog(component.Component):
         return files_list
 
     def _on_file_toggled(self, render, path):
+        # Check to see if we can change file priorities
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if self.options[model[row][0]]["compact_allocation"]:
+            return
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
             for path in paths:

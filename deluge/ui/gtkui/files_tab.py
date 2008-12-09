@@ -160,6 +160,14 @@ class FilesTab(Tab):
         self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
         self.file_menu = glade.get_widget("menu_file_tab")
+        self.file_menu_priority_items = [
+            glade.get_widget("menuitem_donotdownload"),
+            glade.get_widget("menuitem_normal"),
+            glade.get_widget("menuitem_high"),
+            glade.get_widget("menuitem_highest"),
+            glade.get_widget("menuitem_priority_sep")
+        ]
+
         self.listview.connect("row-activated", self._on_row_activated)
         self.listview.connect("button-press-event", self._on_button_press_event)
 
@@ -271,26 +279,23 @@ class FilesTab(Tab):
             self.clear()
             return
 
+        status_keys = ["file_progress", "file_priorities"]
         if torrent_id != self.torrent_id:
             # We only want to do this if the torrent_id has changed
             self.treestore.clear()
             self.torrent_id = torrent_id
+            status_keys += ["compact"]
 
             if self.torrent_id not in self.files_list.keys():
                 # We need to get the files list
                 log.debug("Getting file list from core..")
-                client.get_torrent_status(
-                    self._on_get_torrent_files,
-                    self.torrent_id,
-                    ["files", "file_progress", "file_priorities"])
-                client.force_call(block=True)
+                status_keys += ["files"]
             else:
+                # We already have the files list stored, so just update the view
                 self.update_files()
-                client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, ["file_progress", "file_priorities"])
-                client.force_call(True)
-        else:
-            client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, ["file_progress", "file_priorities"])
-            client.force_call(True)
+
+        client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, status_keys)
+        client.force_call(True)
 
     def clear(self):
         self.treestore.clear()
@@ -381,11 +386,6 @@ class FilesTab(Tab):
 
         return selected
 
-    def _on_get_torrent_files(self, status):
-        self.files_list[self.torrent_id] = status["files"]
-        self.update_files()
-        self._on_get_torrent_status(status)
-
     def get_files_from_tree(self, rows, files_list, indent):
         if not rows:
             return None
@@ -397,6 +397,14 @@ class FilesTab(Tab):
         return None
 
     def _on_get_torrent_status(self, status):
+        # Store this torrent's compact setting
+        if "compact" in status:
+            self.__compact = status["compact"]
+
+        if "files" in status:
+            self.files_list[self.torrent_id] = status["files"]
+            self.update_files()
+
         # (index, iter)
         files_list = []
         self.get_files_from_tree(self.treestore, files_list, 0)
@@ -434,6 +442,9 @@ class FilesTab(Tab):
                     self.listview.get_selection().select_iter(row)
             else:
                 self.listview.get_selection().select_iter(row)
+
+            for widget in self.file_menu_priority_items:
+                widget.set_sensitive(not self.__compact)
 
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
