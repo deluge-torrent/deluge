@@ -195,3 +195,14 @@ class MainWindow(component.Component):
 
     def on_expose_event(self, widget, event):
         component.get("SystemTray").blink(False)
+
+    def update(self):
+        self.send_status_request()
+
+    def send_status_request(self):
+        client.get_session_status(self._on_get_session_status, ["download_rate", "upload_rate"])
+
+    def _on_get_session_status(self, status):
+        self.download_rate = deluge.common.fsize(status["download_rate"])
+        self.upload_rate = deluge.common.fsize(status["upload_rate"])
+        self.window.set_title("Deluge - %s %s/s|%s %s/s" % (_("Down:"), self.download_rate, _("Up:"), self.upload_rate))
