@@ -426,6 +426,8 @@ class MenuBar(component.Component):
 
     def on_menuitem_sidebar_zero_toggled(self, widget):
         self.config["sidebar_show_zero"] = widget.get_active()
+        component.get("FilterTreeView").update()
 
     def on_menuitem_sidebar_trackers_toggled(self, widget):
         self.config["sidebar_show_trackers"] = widget.get_active()
+        component.get("FilterTreeView").update()
