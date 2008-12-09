@@ -418,11 +418,12 @@ class Torrent:
         else:
             status = self.status
 
-        # Return -1.0 if the downloaded bytes is 0, this is to represent infinity
-        if status.all_time_download == 0:
-            return -1.0
+        downloaded = status.all_time_download
+        # We use 'total_done' if the downloaded value is 0
+        if downloaded == 0:
+            downloaded = status.total_done
 
-        return float(status.all_time_upload) / float(status.all_time_download)
+        return float(status.all_time_upload) / float(downloaded)
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
