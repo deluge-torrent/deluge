@@ -25,8 +25,9 @@
 
 import gobject
 
-import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
+from deluge.SimpleXMLRPCServer import SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
+from base64 import decodestring, encodestring
 
 from deluge.log import LOG as log
 import deluge.component as component
@@ -36,7 +37,7 @@ def export(func):
     func._rpcserver_export = True
     return func
 
-class RPCServer(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer, component.Component):
+class RPCServer(component.Component):
     def __init__(self, port):
         component.Component.__init__(self, "RPCServer")
 
@@ -53,24 +54,27 @@ class RPCServer(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer, component
 
         # Setup the xmlrpc server
         try:
-            log.info("Starting XMLRPC server on port %s", port)
-            SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, (hostname, port), logRequests=False, allow_none=True)
-        except:
+            log.info("Starting XMLRPC server %s:%s", hostname, port)
+            self.server = XMLRPCServer((hostname, port),
+                requestHandler=BasicAuthXMLRPCRequestHandler,
+                logRequests=False,
+                allow_none=True)
+        except Exception, e:
             log.info("Daemon already running or port not available..")
+            log.error(e)
             sys.exit(0)
 
-        self.register_multicall_functions()
-        self.register_introspection_functions()
+        self.server.register_multicall_functions()
+        self.server.register_introspection_functions()
 
-        self.socket.setblocking(False)
+        self.server.socket.setblocking(False)
 
-        gobject.io_add_watch(self.socket.fileno(), gobject.IO_IN | gobject.IO_OUT | gobject.IO_PRI | gobject.IO_ERR | gobject.IO_HUP, self._on_socket_activity)
+        gobject.io_add_watch(self.server.socket.fileno(), gobject.IO_IN | gobject.IO_OUT | gobject.IO_PRI | gobject.IO_ERR | gobject.IO_HUP, self._on_socket_activity)
 
     def _on_socket_activity(self, source, condition):
         """This gets called when there is activity on the socket, ie, data to read
         or to write."""
-        self.handle_request()
+        self.server.handle_request()
         return True
 
     def register_object(self, obj, name=None):
@@ -82,8 +86,9 @@ class RPCServer(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer, component
                 continue
             if getattr(getattr(obj, d), '_rpcserver_export', False):
                 log.debug("Registering method: %s", name + "." + d)
-                self.register_function(getattr(obj, d), name + "." + d)
+                self.server.register_function(getattr(obj, d), name + "." + d)
 
+class XMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
     def get_request(self):
         """Get the request and client address from the socket.
             We override this so that we can get the ip address of the client.
@@ -91,3 +96,13 @@ class RPCServer(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer, component
         request, client_address = self.socket.accept()
         self.client_address = client_address[0]
         return (request, client_address)
+
+class BasicAuthXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
+    def do_POST(self):
+        auth = self.headers['authorization']
+        auth = auth.replace("Basic ","")
+        decoded_auth = decodestring(auth)
+        # Check authentication here
+        # if cannot authenticate, end the connection or
+        # otherwise call original
+        return SimpleXMLRPCRequestHandler.do_POST(self)

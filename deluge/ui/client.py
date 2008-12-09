@@ -27,6 +27,7 @@
 import os.path
 import socket
 import struct
+import httplib
 
 import gobject
 
@@ -37,6 +38,47 @@ import deluge.error
 from deluge.log import LOG as log
 
 class Transport(xmlrpclib.Transport):
+    def __init__(self, username=None, password=None, use_datetime=0):
+        self.__username = username
+        self.__password = password
+        self._use_datetime = use_datetime
+
+    def request(self, host, handler, request_body, verbose=0):
+        # issue XML-RPC request
+
+        h = self.make_connection(host)
+        if verbose:
+            h.set_debuglevel(1)
+
+        self.send_request(h, handler, request_body)
+        self.send_host(h, host)
+        self.send_user_agent(h)
+
+        if self.__username is not None and self.__password is not None:
+            h.putheader("AUTHORIZATION", "Basic %s" % string.replace(
+                    encodestring("%s:%s" % (self.__username, self.__password)),
+                    "\012", ""))
+
+        self.send_content(h, request_body)
+
+        errcode, errmsg, headers = h.getreply()
+
+        if errcode != 200:
+            raise ProtocolError(
+                host + handler,
+                errcode, errmsg,
+                headers
+                )
+
+        self.verbose = verbose
+
+        try:
+            sock = h._conn.sock
+        except AttributeError:
+            sock = None
+
+        return self._parse_response(h.getfile(), sock)
+
     def make_connection(self, host):
         # create a HTTP connection object from a host descriptor
         import httplib
