@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=Deluge
+Name=Deluge BitTorrent Client
 GenericName=Bittorrent Client
 Comment=Transfer files using the Bittorrent protocol
 Exec=deluge
