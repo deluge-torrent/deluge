@@ -72,6 +72,8 @@ class MainWindow(component.Component):
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
         self.window.connect("expose-event", self.on_expose_event)
 
+        self.config.register_set_function("show_rate_in_title", self._on_set_show_rate_in_title)
+
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
@@ -196,13 +198,20 @@ class MainWindow(component.Component):
     def on_expose_event(self, widget, event):
         component.get("SystemTray").blink(False)
 
+    def stop(self):
+        self.window.set_title("Deluge")
+
     def update(self):
-        self.send_status_request()
+        # Update the window title
+        def _on_get_session_status(status):
+            download_rate = deluge.common.fspeed(status["download_rate"])
+            upload_rate = deluge.common.fspeed(status["upload_rate"])
+            self.window.set_title("Deluge - %s %s %s %s" % (_("Down:"), download_rate, _("Up:"), upload_rate))
+        if self.config["show_rate_in_title"]:
+            client.get_session_status(_on_get_session_status, ["download_rate", "upload_rate"])
 
-    def send_status_request(self):
-        client.get_session_status(self._on_get_session_status, ["download_rate", "upload_rate"])
-
-    def _on_get_session_status(self, status):
-        self.download_rate = deluge.common.fsize(status["download_rate"])
-        self.upload_rate = deluge.common.fsize(status["upload_rate"])
-        self.window.set_title("Deluge - %s %s/s|%s %s/s" % (_("Down:"), self.download_rate, _("Up:"), self.upload_rate))
+    def _on_set_show_rate_in_title(self, key, value):
+        if value:
+            self.update()
+        else:
+            self.window.set_title("Deluge")

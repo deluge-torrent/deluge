@@ -107,7 +107,8 @@ DEFAULT_PREFS = {
     "show_statusbar": True,
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
-    "sidebar_position": 170
+    "sidebar_position": 170,
+    "show_rate_in_title": False
 }
 
 class GtkUI:

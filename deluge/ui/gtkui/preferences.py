@@ -422,6 +422,8 @@ class Preferences(component.Component):
             self.gtkui_config["lock_tray"])
         self.glade.get_widget("chk_classic_mode").set_active(
             self.gtkui_config["classic_mode"])
+        self.glade.get_widget("chk_show_rate_in_title").set_active(
+            self.gtkui_config["show_rate_in_title"])
 
         ## Other tab ##
         self.glade.get_widget("chk_show_new_releases").set_active(
@@ -606,6 +608,8 @@ class Preferences(component.Component):
             new_gtkui_config["tray_password"] = passhex
         new_gtkui_config["classic_mode"] = \
             self.glade.get_widget("chk_classic_mode").get_active()
+        new_gtkui_config["show_rate_in_title"] = \
+            self.glade.get_widget("chk_show_rate_in_title").get_active()
 
         ## Notification tab ##
         new_gtkui_config["ntf_tray_blink"] = \
