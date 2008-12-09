@@ -124,6 +124,7 @@ deluge/ui/webui/config_tabs_webui.py
 deluge/ui/webui/torrent_options.py
 deluge/ui/webui/torrent_add.py
 deluge/ui/webui/scripts/template_strings.py
+deluge/ui/webui/scripts/copy_icons.py
 deluge/ui/webui/scripts/extract_template_strings.py
 deluge/ui/null/deluge_shell.py
 deluge/ui/null/__init__.py

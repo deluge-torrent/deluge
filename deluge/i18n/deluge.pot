@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 14:25-0600\n"
+"POT-Creation-Date: 2008-12-08 21:38-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,6 +248,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:321 deluge/ui/gtkui/statusbar.py:331
 #: deluge/ui/gtkui/statusbar.py:344 deluge/ui/gtkui/statusbar.py:372
+#: deluge/ui/gtkui/systemtray.py:181 deluge/ui/gtkui/systemtray.py:185
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:207
 #: deluge/ui/gtkui/systemtray.py:313
 #: deluge/ui/gtkui/glade/main_window.glade:1655
@@ -366,6 +367,10 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:308
 #: deluge/ui/webui/scripts/template_strings.py:72
 msgid "Upload"
+msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:319
+msgid " Speed (KiB/s):"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:348
