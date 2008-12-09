@@ -72,7 +72,7 @@ class MainWindow(component.Component):
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
         self.window.connect("expose-event", self.on_expose_event)
 
-        self.config.register_set_function("show_rate_in_title", self._on_set_show_rate_in_title)
+        self.config.register_set_function("show_rate_in_title", self._on_set_show_rate_in_title, apply_now=False)
 
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
