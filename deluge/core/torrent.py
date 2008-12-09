@@ -420,8 +420,11 @@ class Torrent:
 
         downloaded = status.all_time_download
         # We use 'total_done' if the downloaded value is 0
-        if downloaded == 0:
+        if downloaded == 0 and status.total_done > 0:
             downloaded = status.total_done
+        else:
+            # Return -1.0 to signify infinity
+            return -1.0
 
         return float(status.all_time_upload) / float(downloaded)
 
