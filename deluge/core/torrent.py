@@ -418,9 +418,10 @@ class Torrent:
         else:
             status = self.status
 
-        downloaded = status.all_time_download
-        # We use 'total_done' if the downloaded value is 0
-        if downloaded == 0 and status.total_done > 0:
+        if status.all_time_download > 0:
+            downloaded = status.all_time_download
+        elif status.total_done > 0:
+            # We use 'total_done' if the downloaded value is 0
             downloaded = status.total_done
         else:
             # Return -1.0 to signify infinity
