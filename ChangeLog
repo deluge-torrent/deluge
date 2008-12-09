@@ -9,6 +9,9 @@ Deluge 1.1.0 - "" (In Development)
   * Remove remaining gtk functions in common
   * Tracker icons.
   * Add ETA for torrents with stop at seed ratio set
+  * Fix #47 the state and config files are no longer invalidated when there is no diskspace
+  * Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
+  * Add -P, --pidfile option to deluged
 
  GtkUI:
   * Add peer progress to the peers tab
@@ -20,6 +23,14 @@ Deluge 1.1.0 - "" (In Development)
   * Redesiged sidebar with filters for Active and Tracker (see FilterManager)
   * Implement #428 the ability to rename files and directories
   * Implement #229 add date added column
+  * Implement #596 show speeds in title
+  * Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
+  * Fix #624 do not allow changing file priorities when using compact allocation
+  * Fix #602 re-did files/peers tab state saving/loading
+  * Fix gtk warnings
+  * Add protocol traffic statusbar item
+  * Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
+  * Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
 
  WebUi:
   * Lots of smaller tweaks.
@@ -44,3 +55,5 @@ Deluge 1.1.0 - "" (In Development)
 
  Misc:
   * Implement #478 display UI options in usage help
+  * Fix #547 add description to name field per HIG entry 2.1.1.1
+  * Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
