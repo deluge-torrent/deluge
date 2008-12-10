@@ -96,8 +96,8 @@ class ConnectionManager(component.Component):
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
 
         # Test to see if it's an old config
-        if DEFAULT_HOST + ":" + DEFAULT_PORT in self.config.config or \
-            "localhost:58846" in self.config.config:
+        if DEFAULT_HOST + ":" + DEFAULT_PORT in self.config.config["hosts"] or \
+            "localhost:58846" in self.config.config["hosts"]:
             # This is likely an older 1.0 config, so lets mv it and start fresh
             self.config = None
             hostlist_conf = deluge.configmanager.get_config_dir("hostlist.conf")
