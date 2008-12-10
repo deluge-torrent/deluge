@@ -32,8 +32,6 @@ import subprocess
 import time
 import threading
 import urlparse
-import shutil
-import stat
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
@@ -95,18 +93,7 @@ class ConnectionManager(component.Component):
                                             "glade/connection_manager.glade"))
 
         self.window = component.get("MainWindow")
-        self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
-
-        # Test to see if it's an old config
-        if DEFAULT_HOST + ":" + DEFAULT_PORT in self.config.config["hosts"] or \
-            "localhost:58846" in self.config.config["hosts"]:
-            # This is likely an older 1.0 config, so lets mv it and start fresh
-            self.config = None
-            hostlist_conf = deluge.configmanager.get_config_dir("hostlist.conf")
-            shutil.move(hostlist_conf, hostlist_conf + ".1.0")
-            self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
-            # Change the permissions on the file so only this user can read/write it
-            os.chmod(hostlist_conf, stat.S_IREAD | stat.S_IWRITE)
+        self.config = ConfigManager("hostlist.conf.1.1", DEFAULT_CONFIG)
 
         self.gtkui_config = ConfigManager("gtkui.conf")
         self.connection_manager = self.glade.get_widget("connection_manager")
