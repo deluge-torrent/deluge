@@ -27,8 +27,6 @@ import glob
 from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
-from distutils.command.install import install as _install
-from distutils.command.install_data import install_data as _install_data
 from distutils.command.clean import clean as _clean
 
 import msgfmt
@@ -168,11 +166,14 @@ _sources = glob.glob("./libtorrent/src/*.cpp") + \
 
 # Remove some files from the source that aren't needed
 _source_removals = ["mapped_storage.cpp", "memdebug.cpp"]
-
+to_remove = []
 for source in _sources:
     for rem in _source_removals:
         if rem in source:
-            _sources.remove(source)
+            to_remove.append(source)
+
+for rem in to_remove:
+    _sources.remove(rem)
 
 _ext_modules = []
 
