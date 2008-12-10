@@ -33,6 +33,7 @@ import time
 import threading
 import urlparse
 import shutil
+import stat
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
