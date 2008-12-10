@@ -416,7 +416,7 @@ class ConnectionManager(component.Component):
             core = xmlrpclib.ServerProxy(uri)
             core.shutdown()
             # Update display to show change
-            self.update()
+            self._update_list()
         elif HOSTLIST_STATUS[status] == "Offline":
             self.start_localhost(port)
 
