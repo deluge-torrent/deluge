@@ -55,7 +55,10 @@ class AuthManager(component.Component):
         """
 
         if username not in self.auth:
-            return False
+            # Let's try to re-load the file.. Maybe it's been updated
+            self.__load_auth_file()
+            if username not in self.auth:
+                return False
 
         if self.auth[username] == password:
             return True
