@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-11-30 14:25-0600\n"
-"PO-Revision-Date: 2008-11-06 05:57+0000\n"
+"POT-Creation-Date: 2008-12-08 21:38-0600\n"
+"PO-Revision-Date: 2008-12-09 02:00+0000\n"
 "Last-Translator: Aleksandar Micovic <metaleks@gmail.com>\n"
 "Language-Team: English (Canada) <en_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-06 04:52+0000\n"
+"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -249,6 +249,7 @@ msgstr "No Incoming Connections!"
 
 #: deluge/ui/gtkui/statusbar.py:321 deluge/ui/gtkui/statusbar.py:331
 #: deluge/ui/gtkui/statusbar.py:344 deluge/ui/gtkui/statusbar.py:372
+#: deluge/ui/gtkui/systemtray.py:181 deluge/ui/gtkui/systemtray.py:185
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:207
 #: deluge/ui/gtkui/systemtray.py:313
 #: deluge/ui/gtkui/glade/main_window.glade:1655
@@ -377,6 +378,10 @@ msgstr "Download"
 #: deluge/ui/webui/scripts/template_strings.py:72
 msgid "Upload"
 msgstr "Upload"
+
+#: deluge/ui/gtkui/systemtray.py:319
+msgid " Speed (KiB/s):"
+msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:348
 msgid "Deluge is locked"
@@ -712,7 +717,7 @@ msgstr "Maximum Connection Attempts per Second"
 
 #: deluge/ui/webui/config_tabs_deluge.py:102
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Rate Limit IP Overhead"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 msgid "Per Torrent"
@@ -992,7 +997,7 @@ msgstr "Button style"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 msgid "Auto refresh (seconds)"
-msgstr ""
+msgstr "Auto refresh (seconds)"
 
 #: deluge/ui/webui/config_tabs_webui.py:48
 msgid "Cache templates"
@@ -1816,10 +1821,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1381
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Rate limit IP overhead"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1399
 msgid "<b>Global Bandwidth Usage</b>"

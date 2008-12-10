@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-11-30 14:25-0600\n"
-"PO-Revision-Date: 2008-11-06 06:04+0000\n"
+"POT-Creation-Date: 2008-12-08 21:38-0600\n"
+"PO-Revision-Date: 2008-12-09 02:15+0000\n"
 "Last-Translator: Aleksandar Micovic <metaleks@gmail.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-06 04:52+0000\n"
+"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -91,7 +91,7 @@ msgstr "Додај ознаку"
 #: deluge/plugins/label/label/gtkui.py:264
 #: deluge/plugins/label/label/webui_pages.py:54
 msgid "Label"
-msgstr ""
+msgstr "Натпис"
 
 #: deluge/plugins/label/label/webui_config.py:107
 #: deluge/plugins/label/label/gtkui.py:293
@@ -143,19 +143,19 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:38
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Emule IP листа (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:39
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer Текст (компресован)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:40
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian текст (некомпресован)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:41
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "BlockList"
@@ -173,7 +173,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:72
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Истекло време (у секундама)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:73
 msgid "Times to attempt download"
@@ -228,7 +228,7 @@ msgstr "Неисправна верзија"
 
 #: deluge/ui/gtkui/statusbar.py:126
 msgid "Not Connected"
-msgstr ""
+msgstr "Није повезан"
 
 #: deluge/ui/gtkui/statusbar.py:141
 #: deluge/ui/webui/scripts/template_strings.py:12
@@ -249,6 +249,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:321 deluge/ui/gtkui/statusbar.py:331
 #: deluge/ui/gtkui/statusbar.py:344 deluge/ui/gtkui/statusbar.py:372
+#: deluge/ui/gtkui/systemtray.py:181 deluge/ui/gtkui/systemtray.py:185
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:207
 #: deluge/ui/gtkui/systemtray.py:313
 #: deluge/ui/gtkui/glade/main_window.glade:1655
@@ -262,7 +263,7 @@ msgstr "KiB/s"
 #: deluge/ui/webui/lib/newforms_plus.py:197
 #: deluge/ui/webui/lib/newforms_plus.py:208 deluge/common.py:169
 msgid "Unlimited"
-msgstr ""
+msgstr "Неограничено"
 
 #: deluge/ui/gtkui/statusbar.py:353 deluge/ui/gtkui/statusbar.py:381
 #: deluge/ui/gtkui/statusbar.py:408 deluge/ui/gtkui/systemtray.py:317
@@ -326,7 +327,7 @@ msgstr "У ред чекања"
 
 #: deluge/ui/gtkui/sidebar.py:58
 msgid "Paused"
-msgstr ""
+msgstr "Паузиран"
 
 #: deluge/ui/gtkui/sidebar.py:64
 msgid "Checking"
@@ -369,6 +370,10 @@ msgstr "Преузимање"
 msgid "Upload"
 msgstr "Слање"
 
+#: deluge/ui/gtkui/systemtray.py:319
+msgid " Speed (KiB/s):"
+msgstr ""
+
 #: deluge/ui/gtkui/systemtray.py:348
 msgid "Deluge is locked"
 msgstr ""
@@ -378,6 +383,8 @@ msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"Deluge је заштићен шифром.\n"
+"Да бисте приказали прозорче Deluge-а, молимо вас укуцајте вашу шифру"
 
 #: deluge/ui/gtkui/files_tab.py:130 deluge/ui/gtkui/torrentview.py:125
 #: deluge/ui/webui/scripts/template_strings.py:44
@@ -386,7 +393,7 @@ msgstr "Напредак"
 
 #: deluge/ui/gtkui/files_tab.py:143
 msgid "Priority"
-msgstr ""
+msgstr "Приоритет"
 
 #: deluge/ui/gtkui/menubar.py:69
 msgid "Set Unlimited"
@@ -398,7 +405,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:81
 msgid "On"
-msgstr ""
+msgstr "Укључено"
 
 #: deluge/ui/gtkui/menubar.py:84
 #: deluge/ui/webui/scripts/template_strings.py:36
@@ -525,7 +532,7 @@ msgstr "Подешавање"
 
 #: deluge/ui/webui/register_menu.py:32
 msgid "Connect"
-msgstr ""
+msgstr "Повежи"
 
 #: deluge/ui/webui/register_menu.py:33
 #: deluge/ui/webui/scripts/template_strings.py:2
@@ -550,7 +557,7 @@ msgstr "Појединости"
 #: deluge/ui/webui/scripts/template_strings.py:37
 #: deluge/ui/gtkui/glade/connection_manager.glade:246
 msgid "Options"
-msgstr ""
+msgstr "Опције"
 
 #: deluge/ui/webui/register_menu.py:39
 msgid "Trackers"
@@ -1053,7 +1060,7 @@ msgstr "Додај у паузираном стању"
 
 #: deluge/ui/webui/torrent_add.py:49
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Постави приватну ознаку"
 
 #: deluge/ui/webui/torrent_add.py:59
 #: deluge/ui/webui/scripts/template_strings.py:73
@@ -1208,7 +1215,7 @@ msgstr "Сачувај"
 
 #: deluge/ui/webui/scripts/template_strings.py:58
 msgid "Set"
-msgstr ""
+msgstr "Постави"
 
 #: deluge/ui/webui/scripts/template_strings.py:59
 msgid "Set Timeout"

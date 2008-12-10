@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 14:25-0600\n"
-"PO-Revision-Date: 2008-12-03 10:36+0000\n"
-"Last-Translator: DreamSonic <Unknown>\n"
+"POT-Creation-Date: 2008-12-08 21:38-0600\n"
+"PO-Revision-Date: 2008-12-09 15:07+0000\n"
+"Last-Translator: Alexander Telenga <telenga@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-06 04:52+0000\n"
+"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -252,6 +252,7 @@ msgstr "Входящие подключения отсутствуют"
 
 #: deluge/ui/gtkui/statusbar.py:321 deluge/ui/gtkui/statusbar.py:331
 #: deluge/ui/gtkui/statusbar.py:344 deluge/ui/gtkui/statusbar.py:372
+#: deluge/ui/gtkui/systemtray.py:181 deluge/ui/gtkui/systemtray.py:185
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:207
 #: deluge/ui/gtkui/systemtray.py:313
 #: deluge/ui/gtkui/glade/main_window.glade:1655
@@ -275,7 +276,7 @@ msgstr "Другое..."
 
 #: deluge/ui/gtkui/statusbar.py:355
 msgid "Download Speed (KiB/s):"
-msgstr "Скорость загрузки (КБ/с)"
+msgstr "Скорость приёма (КиБ/с)"
 
 #: deluge/ui/gtkui/statusbar.py:383
 msgid "Upload Speed (KiB/s):"
@@ -382,6 +383,10 @@ msgstr "Загрузить"
 msgid "Upload"
 msgstr "Раздача"
 
+#: deluge/ui/gtkui/systemtray.py:319
+msgid " Speed (KiB/s):"
+msgstr " Скорость (КБ/с):"
+
 #: deluge/ui/gtkui/systemtray.py:348
 msgid "Deluge is locked"
 msgstr "Deluge заблокирован"
@@ -430,7 +435,7 @@ msgstr "Установить максимальную скорость приё�
 
 #: deluge/ui/gtkui/menubar.py:431
 msgid "Set Max Upload Speed (KiB/s):"
-msgstr "Выставить максимальную скорость раздачи (КиБ/с):"
+msgstr "Установить максимальную скорость раздачи (КиБ/с):"
 
 #: deluge/ui/gtkui/menubar.py:433
 msgid "Set Max Connections:"
