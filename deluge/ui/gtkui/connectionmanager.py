@@ -31,6 +31,7 @@ import os
 import subprocess
 import time
 import threading
+import urlparse
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
@@ -45,7 +46,7 @@ DEFAULT_HOST = DEFAULT_URI.split(":")[1][2:]
 DEFAULT_PORT = DEFAULT_URI.split(":")[-1]
 
 DEFAULT_CONFIG = {
-    "hosts": [DEFAULT_HOST + ":" + DEFAULT_PORT]
+    "hosts": [DEFAULT_URI]
 }
 
 HOSTLIST_COL_PIXBUF = 0
@@ -58,8 +59,30 @@ HOSTLIST_STATUS = [
     "Connected"
 ]
 
+HOSTLIST_PIXBUFS = [
+    # This is populated in ConnectionManager.__init__
+]
+
 if deluge.common.windows_check():
     import win32api
+
+
+def cell_render_host(column, cell, model, row, data):
+    host = model[row][data]
+    u = urlparse.urlsplit(host)
+    if not u.hostname:
+        host = "http://" + host
+    u = urlparse.urlsplit(host)
+    if u.username:
+        text = u.username + ":*@" + u.hostname + ":" + str(u.port)
+    else:
+        text = u.hostname + ":" + str(u.port)
+
+    cell.set_property('text', text)
+
+def cell_render_pixbuf(column, cell, model, row, data):
+    state = model[row][data]
+    cell.set_property('pixbuf', HOSTLIST_PIXBUFS[state])
 
 class ConnectionManager(component.Component):
     def __init__(self):
@@ -71,15 +94,32 @@ class ConnectionManager(component.Component):
 
         self.window = component.get("MainWindow")
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
+
+        # Test to see if it's an old config
+        if DEFAULT_HOST + ":" + DEFAULT_PORT in self.config.config:
+            # This is likely an older 1.0 config, so lets mv it and start fresh
+            self.config = None
+            hostlist_conf = deluge.configmanager.get_config_dir("hostlist.conf")
+            shutil.move(hostlist_conf, hostlist_conf + ".1.0")
+            self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
+            # Change the permissions on the file so only this user can read/write it
+            os.chmod(hostlist_conf, stat.S_IREAD | stat.S_IWRITE)
+
         self.gtkui_config = ConfigManager("gtkui.conf")
         self.connection_manager = self.glade.get_widget("connection_manager")
         # Make the Connection Manager window a transient for the main window.
         self.connection_manager.set_transient_for(self.window.window)
+
+        # Create status pixbufs
+        for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
+            HOSTLIST_PIXBUFS.append(self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU))
+
         self.hostlist = self.glade.get_widget("hostlist")
         self.connection_manager.set_icon(common.get_logo(32))
 
         self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
 
+        # connection status pixbuf, hostname:port, status
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, int)
 
         # Holds the online status of hosts
@@ -95,9 +135,11 @@ class ConnectionManager(component.Component):
         render = gtk.CellRendererPixbuf()
         column = gtk.TreeViewColumn(
             "Status", render, pixbuf=HOSTLIST_COL_PIXBUF)
+        column.set_cell_data_func(render, cell_render_pixbuf, 2)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn("Host", render, text=HOSTLIST_COL_URI)
+        column.set_cell_data_func(render, cell_render_host, 1)
         self.hostlist.append_column(column)
 
         self.glade.signal_autoconnect({
@@ -138,27 +180,49 @@ class ConnectionManager(component.Component):
         if self.gtkui_config["autoconnect"] and \
             self.gtkui_config["autoconnect_host_uri"] != None:
             uri = self.gtkui_config["autoconnect_host_uri"]
-            # Make sure the uri is proper
-            if uri[:7] != "http://":
-                uri = "http://" + uri
             if self.test_online_status(uri):
                 # Host is online, so lets connect
                 client.set_core_uri(uri)
                 self.hide()
             elif self.gtkui_config["autostart_localhost"]:
                 # Check to see if we are trying to connect to a localhost
-                if uri[7:].split(":")[0] == "localhost" or \
-                    uri[7:].split(":")[0] == "127.0.0.1":
+                u = urlparse.urlsplit(uri)
+                if u.hostname == "localhost" or u.hostname == "127.0.0.1":
                     # This is a localhost, so lets try to start it
-                    port = uri[7:].split(":")[1]
                     # First add it to the list
-                    self.add_host("localhost", port)
-                    self.start_localhost(port)
-                    # We need to wait for the host to start before connecting
-                    while not self.test_online_status(uri):
+                    self.add_host("localhost", u.port)
+                    self.start_localhost(u.port)
+                    # Get the localhost uri with authentication details
+                    auth_uri = None
+                    while not auth_uri:
+                        # We need to keep trying because the daemon may not have been started yet
+                        # and the 'auth' file may not have been created
+                        auth_uri = self.get_localhost_auth_uri(uri)
                         time.sleep(0.01)
-                    client.set_core_uri(uri)
+
+                    # We need to wait for the host to start before connecting
+                    while not self.test_online_status(auth_uri):
+                        time.sleep(0.01)
+                    client.set_core_uri(auth_uri)
                     self.hide()
+
+    def get_localhost_auth_uri(self, uri):
+        """
+        Grabs the localclient auth line from the 'auth' file and creates a localhost uri
+
+        :param uri: the uri to add the authentication info to
+        :returns: a localhost uri containing authentication information or None if the information is not available
+        """
+        auth_file = deluge.configmanager.get_config_dir("auth")
+        if os.path.exists(auth_file):
+            u = urlparse.urlsplit(uri)
+            for line in open(auth_file):
+                username, password = line.split(":")
+                if username == "localclient":
+                    # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
+                    hostname = u.hostname.replace("localhost", "127.0.0.1")
+                    return u.scheme + "://" + username + ":" + password + "@" + hostname + ":" + str(u.port)
+        return None
 
     def start(self):
         if self.gtkui_config["autoconnect"]:
@@ -195,30 +259,24 @@ class ConnectionManager(component.Component):
         """Updates the host status"""
         def update_row(model=None, path=None, row=None, columns=None):
             uri = model.get_value(row, HOSTLIST_COL_URI)
-            uri = "http://" + uri
             threading.Thread(target=self.test_online_status, args=(uri,)).start()
             try:
                 online = self.online_status[uri]
             except:
                 online = False
 
+            # Update hosts status
             if online:
-                image = gtk.STOCK_YES
                 online = HOSTLIST_STATUS.index("Online")
             else:
-                image = gtk.STOCK_NO
                 online = HOSTLIST_STATUS.index("Offline")
 
+            if urlparse.urlsplit(uri).hostname == "localhost" or urlparse.urlsplit(uri).hostname == "127.0.0.1":
+                uri = self.get_localhost_auth_uri(uri)
+
             if uri == current_uri:
-                # We are connected to this host, so lets display the connected
-                # icon.
-                image = gtk.STOCK_CONNECT
                 online = HOSTLIST_STATUS.index("Connected")
 
-            pixbuf = self.connection_manager.render_icon(
-                image, gtk.ICON_SIZE_MENU)
-
-            model.set_value(row, HOSTLIST_COL_PIXBUF, pixbuf)
             model.set_value(row, HOSTLIST_COL_STATUS, online)
 
         current_uri = client.get_core_uri()
@@ -260,11 +318,9 @@ class ConnectionManager(component.Component):
 
         # Check to see if a localhost is selected
         localhost = False
-        if uri.split(":")[0] == "localhost" or uri.split(":")[0] == "127.0.0.1":
+        u = urlparse.urlsplit(uri)
+        if u.hostname == "localhost" or u.hostname == "127.0.0.1":
             localhost = True
-
-        # Make actual URI string
-        uri = "http://" + uri
 
         # Make sure buttons are sensitive at start
         self.glade.get_widget("button_startdaemon").set_sensitive(True)
@@ -321,7 +377,11 @@ class ConnectionManager(component.Component):
         online = True
         host = None
         try:
-            host = xmlrpclib.ServerProxy(uri.replace("localhost", "127.0.0.1"))
+            u = urlparse.urlsplit(uri)
+            if u.hostname == "localhost" or u.hostname == "127.0.0.1":
+                host = xmlrpclib.ServerProxy(self.get_localhost_auth_uri(uri))
+            else:
+                host = xmlrpclib.ServerProxy(uri)
             host.ping()
         except socket.error:
             online = False
@@ -341,18 +401,32 @@ class ConnectionManager(component.Component):
         dialog.set_icon(common.get_logo(16))
         hostname_entry = self.glade.get_widget("entry_hostname")
         port_spinbutton = self.glade.get_widget("spinbutton_port")
+        username_entry = self.glade.get_widget("entry_username")
+        password_entry = self.glade.get_widget("entry_password")
         response = dialog.run()
         if response == 1:
+            username = username_entry.get_text()
+            password = password_entry.get_text()
+            hostname = hostname_entry.get_text()
+            if not urlparse.urlsplit(hostname).hostname:
+                # We need to add a http://
+                hostname = "http://" + hostname
+            u = urlparse.urlsplit(hostname)
+            if username and password:
+                host = u.scheme + "://" + username + ":" + password + "@" + u.hostname
+            else:
+                host = hostname
+
             # We add the host
-            self.add_host(hostname_entry.get_text(),
-                port_spinbutton.get_value_as_int())
+            self.add_host(host, port_spinbutton.get_value_as_int())
 
         dialog.hide()
 
     def add_host(self, hostname, port):
         """Adds the host to the list"""
-        if hostname.startswith("http://"):
-            hostname = hostname[7:]
+        if not urlparse.urlsplit(hostname).scheme:
+            # We need to add http:// to this
+            hostname = "http://" + hostname
 
         # Check to make sure the hostname is at least 1 character long
         if len(hostname) < 1:
@@ -407,18 +481,17 @@ class ConnectionManager(component.Component):
         row = self.liststore.get_iter(paths[0])
         status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
         uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
-        port = uri.split(":")[1]
+        u = urlparse.urlsplit(uri)
         if HOSTLIST_STATUS[status] == "Online" or\
             HOSTLIST_STATUS[status] == "Connected":
             # We need to stop this daemon
-            uri = "http://" + uri
             # Call the shutdown method on the daemon
             core = xmlrpclib.ServerProxy(uri)
             core.shutdown()
             # Update display to show change
             self.update()
         elif HOSTLIST_STATUS[status] == "Offline":
-            self.start_localhost(port)
+            self.start_localhost(u.port)
 
     def start_localhost(self, port):
         """Starts a localhost daemon"""
@@ -444,11 +517,11 @@ class ConnectionManager(component.Component):
         uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
         # Determine if this is a localhost
         localhost = False
-        port = uri.split(":")[1]
-        if uri.split(":")[0] == "localhost":
+        u = urlparse.urlsplit(uri)
+        if u.hostname == "localhost" or u.hostname == "127.0.0.1":
             localhost = True
 
-        uri = "http://" + uri
+
         if status == HOSTLIST_STATUS.index("Connected"):
             # Stop all the components first.
             component.stop()
@@ -465,9 +538,14 @@ class ConnectionManager(component.Component):
             if localhost:
                 self.start_localhost(port)
                 # We need to wait for the host to start before connecting
-                while not self.test_online_status(uri):
+                auth_uri = None
+                while not auth_uri:
+                    auth_uri = self.get_localhost_auth_uri(uri)
                     time.sleep(0.01)
-                client.set_core_uri(uri)
+
+                while not self.test_online_status(auth_uri):
+                    time.sleep(0.01)
+                client.set_core_uri(auth_uri)
                 self._update_list()
                 self.hide()
 
@@ -477,7 +555,11 @@ class ConnectionManager(component.Component):
             return
 
         # Status is OK, so lets change to this host
-        client.set_core_uri(uri)
+        if localhost:
+            client.set_core_uri(self.get_localhost_auth_uri(uri))
+        else:
+            client.set_core_uri(uri)
+
         self.hide()
 
     def on_chk_autoconnect_toggled(self, widget):

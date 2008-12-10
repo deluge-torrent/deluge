@@ -53,6 +53,9 @@ from deluge.core.signalmanager import SignalManager
 from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
+from deluge.core.authmanager import AuthManager
+from deluge.core.rpcserver import BasicAuthXMLRPCRequestHandler
+
 from deluge.log import LOG as log
 
 STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
@@ -91,7 +94,9 @@ class Core(
         try:
             log.info("Starting XMLRPC server on port %s", port)
             SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, (hostname, port), logRequests=False, allow_none=True)
+                self, (hostname, port),
+                requestHandler=BasicAuthXMLRPCRequestHandler,
+                logRequests=False, allow_none=True)
         except:
             log.info("Daemon already running or port not available..")
             sys.exit(0)
@@ -201,6 +206,9 @@ class Core(
 
         # Create the AutoAdd component
         self.autoadd = AutoAdd()
+
+        # Start the AuthManager
+        self.authmanager = AuthManager()
 
         # New release check information
         self.new_release = None
@@ -530,7 +538,7 @@ class Core(
             return None
 
         return value
-    
+
     def export_get_config_values(self, keys):
         """Get the config values for the entered keys"""
         config = {}
@@ -540,7 +548,7 @@ class Core(
             except KeyError:
                 pass
         return config
-            
+
 
     def export_set_config(self, config):
         """Set the config with values from dictionary"""

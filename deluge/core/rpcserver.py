@@ -26,6 +26,7 @@
 import gobject
 
 from deluge.SimpleXMLRPCServer import SimpleXMLRPCServer
+from deluge.SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
 from SocketServer import ThreadingMixIn
 from base64 import decodestring, encodestring
 
@@ -99,10 +100,15 @@ class XMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 
 class BasicAuthXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
     def do_POST(self):
-        auth = self.headers['authorization']
-        auth = auth.replace("Basic ","")
-        decoded_auth = decodestring(auth)
-        # Check authentication here
-        # if cannot authenticate, end the connection or
-        # otherwise call original
-        return SimpleXMLRPCRequestHandler.do_POST(self)
+        if "authorization" in self.headers:
+            auth = self.headers['authorization']
+            auth = auth.replace("Basic ","")
+            decoded_auth = decodestring(auth)
+            # Check authentication here
+            if component.get("AuthManager").authorize(*decoded_auth.split(":")):
+                # User authorized, call the real do_POST now
+                return SimpleXMLRPCRequestHandler.do_POST(self)
+
+        # if cannot authenticate, end the connection
+        self.send_response(401)
+        self.end_headers()

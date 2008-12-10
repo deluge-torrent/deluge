@@ -58,7 +58,6 @@ class _ConfigManager:
         self.config_directory = directory
 
     def get_config_dir(self):
-        log.debug("get_config_dir: %s", self.config_directory)
         return self.config_directory
 
     def close(self, config):
