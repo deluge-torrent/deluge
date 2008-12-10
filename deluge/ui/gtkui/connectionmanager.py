@@ -156,9 +156,10 @@ class ConnectionManager(component.Component):
         if self.gtkui_config["classic_mode"]:
             self.start_localhost(DEFAULT_PORT)
             # We need to wait for the host to start before connecting
-            while not self.test_online_status(DEFAULT_URI):
+            uri = self.get_localhost_auth_uri(DEFAULT_URI)
+            while not self.test_online_status(uri):
                 time.sleep(0.01)
-            client.set_core_uri(DEFAULT_URI)
+            client.set_core_uri(uri)
             self.hide()
             return
 
