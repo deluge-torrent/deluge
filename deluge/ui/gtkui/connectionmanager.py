@@ -74,7 +74,7 @@ def cell_render_host(column, cell, model, row, data):
         host = "http://" + host
     u = urlparse.urlsplit(host)
     if u.username:
-        text = u.username + ":*@" + u.hostname + ":" + str(u.port)
+        text = u.username + "@" + u.hostname + ":" + str(u.port)
     else:
         text = u.hostname + ":" + str(u.port)
 
@@ -374,7 +374,7 @@ class ConnectionManager(component.Component):
             else:
                 host = xmlrpclib.ServerProxy(uri)
             host.ping()
-        except socket.error:
+        except Exception:
             online = False
 
         del host
