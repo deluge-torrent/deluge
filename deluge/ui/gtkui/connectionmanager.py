@@ -32,6 +32,7 @@ import subprocess
 import time
 import threading
 import urlparse
+import shutil
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
