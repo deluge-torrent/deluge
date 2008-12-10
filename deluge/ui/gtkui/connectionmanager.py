@@ -486,10 +486,12 @@ class ConnectionManager(component.Component):
             HOSTLIST_STATUS[status] == "Connected":
             # We need to stop this daemon
             # Call the shutdown method on the daemon
+            if u.hostname == "127.0.0.1" or u.hostname == "localhost":
+                uri = self.get_localhost_auth_uri(uri)
             core = xmlrpclib.ServerProxy(uri)
             core.shutdown()
             # Update display to show change
-            self.update()
+            self._update_list()
         elif HOSTLIST_STATUS[status] == "Offline":
             self.start_localhost(u.port)
 
@@ -536,7 +538,7 @@ class ConnectionManager(component.Component):
             log.warning("Host does not appear to be online..")
             # If this is an offline localhost.. lets start it and connect
             if localhost:
-                self.start_localhost(port)
+                self.start_localhost(u.port)
                 # We need to wait for the host to start before connecting
                 auth_uri = None
                 while not auth_uri:
