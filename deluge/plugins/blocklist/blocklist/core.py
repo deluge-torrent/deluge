@@ -39,9 +39,9 @@ from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip
 
 DEFAULT_PREFS = {
-    "url": "http://www.bluetack.co.uk/config/pipfilter.dat.gz",
+    "url": "http://www.deluge-torrent.org/blocklist/pipfilter.dat.gz",
     "load_on_start": False,
-    "check_after_days": 2,
+    "check_after_days": 4,
     "listtype": "gzmule",
     "timeout": 180,
     "try_times": 3,
