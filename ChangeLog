@@ -1,3 +1,18 @@
+Deluge 1.0.7 (10 December 2008)
+ GtkUI:
+  * Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
+  * Fix some minor bugs in ConnectionManager
+
+ Debian:
+  * Fix #571 notification-daemon-xfce dependency circle
+
+ Misc:
+  * Fix #547 add description to name field per HIG entry 2.1.1.1
+  * libtorrent updates
+
+ Plugins:
+  * Point default blocklist url to our server and up interval to 4 days
+
 Deluge 1.0.6 (01 December 2008)
  Core:
   * Fix #475 catch unicode decoding errors
