@@ -85,4 +85,4 @@ class AuthManager(component.Component):
                 # This is a comment line
                 continue
             username, password = line.split(":")
-            self.auth[username] = password
+            self.auth[username.strip()] = password.strip()
