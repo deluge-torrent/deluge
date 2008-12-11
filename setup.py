@@ -310,6 +310,7 @@ class install(_install):
         for cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
         _install.run(self)
+        self.do_egg_install()
 
 cmdclass = {
     'build': build,
