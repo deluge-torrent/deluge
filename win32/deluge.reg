@@ -14,7 +14,7 @@ REGEDIT4
 @="Bittorrent.File"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Bittorrent.File\DefaultIcon]
-@="[INSTALLDIR]Lib\\site-packages\\deluge-1.0.6-py2.5-win32.egg\\deluge\\data\\pixmaps\\deluge.ico"
+@="[INSTALLDIR]Lib\\site-packages\\deluge\\data\\pixmaps\\deluge.ico"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Bittorrent.File\shell]
 
