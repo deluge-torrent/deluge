@@ -28,6 +28,7 @@ import os.path
 import socket
 import struct
 import httplib
+import urlparse
 
 import gobject
 
@@ -297,8 +298,8 @@ class BaseClient(object):
         uri = self.core.get_core_uri()
         if uri != None:
             # Get the host
-            host = uri[7:].split(":")[0]
-            if host == "localhost" or host == "127.0.0.1":
+            u = urlparse.urlsplit(uri)
+            if u.hostname == "localhost" or u.hostname == "127.0.0.1":
                 return True
         return False
 
