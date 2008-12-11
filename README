@@ -47,7 +47,7 @@ The names of the packages may vary depending on your OS / distro.
 Once you have the needed libraries installed, build and install by running:
 
 	$ python setup.py build
-	$ sudo python setup.py install root=/
+	$ sudo python setup.py install
 
 
 ==========================
