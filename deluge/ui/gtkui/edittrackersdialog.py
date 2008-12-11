@@ -220,5 +220,6 @@ class EditTrackersDialog:
     def on_button_add_cancel_clicked(self, widget):
         log.debug("on_button_add_cancel_clicked")
         # Clear the entry widget and hide the dialog
-        self.glade.get_widget("entry_tracker").set_text("")
+        b = gtk.TextBuffer()
+        self.glade.get_widget("textview_trackers").set_buffer(b)
         self.add_tracker_dialog.hide()
