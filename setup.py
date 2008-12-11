@@ -28,7 +28,7 @@ from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
-from distutils.command.install import install
+from setuptools.command.install import install as _install
 
 import msgfmt
 import os
@@ -303,6 +303,13 @@ class clean(_clean):
         for cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
         _clean.run(self)
+
+class install(_install):
+    sub_commands = _install.sub_commands
+    def run(self):
+        for cmd_name in self.get_sub_commands():
+            self.run_command(cmd_name)
+        _install.run(self)
 
 cmdclass = {
     'build': build,
