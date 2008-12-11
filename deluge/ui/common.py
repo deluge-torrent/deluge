@@ -25,8 +25,11 @@
 
 import os
 from sha import sha
+import urlparse
+
 from deluge import bencode
 from deluge.log import LOG as log
+import deluge.configmanager
 
 class TorrentInfo(object):
     def __init__(self, filename):
@@ -116,3 +119,21 @@ def get_torrent_info(filename):
         "files": files,
         "info_hash": info_hash
     }
+
+def get_localhost_auth_uri(uri):
+    """
+    Grabs the localclient auth line from the 'auth' file and creates a localhost uri
+
+    :param uri: the uri to add the authentication info to
+    :returns: a localhost uri containing authentication information or None if the information is not available
+    """
+    auth_file = deluge.configmanager.get_config_dir("auth")
+    if os.path.exists(auth_file):
+        u = urlparse.urlsplit(uri)
+        for line in open(auth_file):
+            username, password = line.split(":")
+            if username == "localclient":
+                # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
+                hostname = u.hostname.replace("localhost", "127.0.0.1")
+                return u.scheme + "://" + username + ":" + password + "@" + hostname + ":" + str(u.port)
+    return None

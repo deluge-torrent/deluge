@@ -37,6 +37,7 @@ import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 import deluge.ui.gtkui.common as common
+from deluge.ui.common import get_localhost_auth_uri
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -151,7 +152,7 @@ class ConnectionManager(component.Component):
         if self.gtkui_config["classic_mode"]:
             self.start_localhost(DEFAULT_PORT)
             # We need to wait for the host to start before connecting
-            uri = self.get_localhost_auth_uri(DEFAULT_URI)
+            uri = get_localhost_auth_uri(DEFAULT_URI)
             while not self.test_online_status(uri):
                 time.sleep(0.01)
             client.set_core_uri(uri)
@@ -183,7 +184,7 @@ class ConnectionManager(component.Component):
                     while not auth_uri:
                         # We need to keep trying because the daemon may not have been started yet
                         # and the 'auth' file may not have been created
-                        auth_uri = self.get_localhost_auth_uri(uri)
+                        auth_uri = get_localhost_auth_uri(uri)
                         time.sleep(0.01)
 
                     # We need to wait for the host to start before connecting
@@ -191,24 +192,6 @@ class ConnectionManager(component.Component):
                         time.sleep(0.01)
                     client.set_core_uri(auth_uri)
                     self.hide()
-
-    def get_localhost_auth_uri(self, uri):
-        """
-        Grabs the localclient auth line from the 'auth' file and creates a localhost uri
-
-        :param uri: the uri to add the authentication info to
-        :returns: a localhost uri containing authentication information or None if the information is not available
-        """
-        auth_file = deluge.configmanager.get_config_dir("auth")
-        if os.path.exists(auth_file):
-            u = urlparse.urlsplit(uri)
-            for line in open(auth_file):
-                username, password = line.split(":")
-                if username == "localclient":
-                    # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
-                    hostname = u.hostname.replace("localhost", "127.0.0.1")
-                    return u.scheme + "://" + username + ":" + password + "@" + hostname + ":" + str(u.port)
-        return None
 
     def start(self):
         if self.gtkui_config["autoconnect"]:
@@ -258,7 +241,7 @@ class ConnectionManager(component.Component):
                 online = HOSTLIST_STATUS.index("Offline")
 
             if urlparse.urlsplit(uri).hostname == "localhost" or urlparse.urlsplit(uri).hostname == "127.0.0.1":
-                uri = self.get_localhost_auth_uri(uri)
+                uri = get_localhost_auth_uri(uri)
 
             if uri == current_uri:
                 online = HOSTLIST_STATUS.index("Connected")
@@ -366,7 +349,7 @@ class ConnectionManager(component.Component):
         try:
             u = urlparse.urlsplit(uri)
             if u.hostname == "localhost" or u.hostname == "127.0.0.1":
-                host = xmlrpclib.ServerProxy(self.get_localhost_auth_uri(uri))
+                host = xmlrpclib.ServerProxy(get_localhost_auth_uri(uri))
             else:
                 host = xmlrpclib.ServerProxy(uri)
             host.ping()
@@ -474,7 +457,7 @@ class ConnectionManager(component.Component):
             # We need to stop this daemon
             # Call the shutdown method on the daemon
             if u.hostname == "127.0.0.1" or u.hostname == "localhost":
-                uri = self.get_localhost_auth_uri(uri)
+                uri = get_localhost_auth_uri(uri)
             core = xmlrpclib.ServerProxy(uri)
             core.shutdown()
             # Update display to show change
@@ -529,7 +512,7 @@ class ConnectionManager(component.Component):
                 # We need to wait for the host to start before connecting
                 auth_uri = None
                 while not auth_uri:
-                    auth_uri = self.get_localhost_auth_uri(uri)
+                    auth_uri = get_localhost_auth_uri(uri)
                     time.sleep(0.01)
 
                 while not self.test_online_status(auth_uri):
@@ -545,7 +528,7 @@ class ConnectionManager(component.Component):
 
         # Status is OK, so lets change to this host
         if localhost:
-            client.set_core_uri(self.get_localhost_auth_uri(uri))
+            client.set_core_uri(get_localhost_auth_uri(uri))
         else:
             client.set_core_uri(uri)
 

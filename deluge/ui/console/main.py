@@ -6,6 +6,7 @@ import optparse
 from deluge.ui.console import UI_PATH
 from deluge.ui.console.colors import Template, make_style, templates, default_style as style
 from deluge.ui.client import aclient as client
+from deluge.ui.common import get_localhost_auth_uri
 import shlex
 
 
@@ -89,26 +90,6 @@ def load_commands(command_dir, exclude=[]):
         return dict(commands)
     except OSError, e:
         return {}
-
-def get_localhost_auth_uri(uri):
-    """
-    Grabs the localclient auth line from the 'auth' file and creates a localhost uri
-
-    :param uri: the uri to add the authentication info to
-    :returns: a localhost uri containing authentication information or None if the information is not available
-    """
-    import deluge.configmanager
-    auth_file = deluge.configmanager.get_config_dir("auth")
-    if os.path.exists(auth_file):
-        import urlparse
-        u = urlparse.urlsplit(uri)
-        for line in open(auth_file):
-            username, password = line.split(":")
-            if username == "localclient":
-                # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
-                hostname = u.hostname.replace("localhost", "127.0.0.1")
-                return u.scheme + "://" + username + ":" + password + "@" + hostname + ":" + str(u.port)
-    return None
 
 class ConsoleUI(object):
     prompt = '>>> '
