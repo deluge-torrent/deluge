@@ -131,7 +131,12 @@ def get_localhost_auth_uri(uri):
     if os.path.exists(auth_file):
         u = urlparse.urlsplit(uri)
         for line in open(auth_file):
-            username, password = line.split(":")
+            try:
+                username, password = line.split(":")
+            except ValueError, e:
+                log.error("Error with auth entry %s", line)
+                continue
+
             if username == "localclient":
                 # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
                 hostname = u.hostname.replace("localhost", "127.0.0.1")
