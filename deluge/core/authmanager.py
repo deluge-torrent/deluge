@@ -84,5 +84,8 @@ class AuthManager(component.Component):
             if line.startswith("#"):
                 # This is a comment line
                 continue
-            username, password = line.split(":")
+            try:
+                username, password = line.split(":")
+            except ValueError:
+                continue
             self.auth[username.strip()] = password.strip()
