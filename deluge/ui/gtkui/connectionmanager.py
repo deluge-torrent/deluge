@@ -80,10 +80,6 @@ def cell_render_host(column, cell, model, row, data):
 
     cell.set_property('text', text)
 
-def cell_render_pixbuf(column, cell, model, row, data):
-    state = model[row][data]
-    cell.set_property('pixbuf', HOSTLIST_PIXBUFS[state])
-
 class ConnectionManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "ConnectionManager")
@@ -125,7 +121,6 @@ class ConnectionManager(component.Component):
         render = gtk.CellRendererPixbuf()
         column = gtk.TreeViewColumn(
             "Status", render, pixbuf=HOSTLIST_COL_PIXBUF)
-        column.set_cell_data_func(render, cell_render_pixbuf, 2)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn("Host", render, text=HOSTLIST_COL_URI)
@@ -269,6 +264,7 @@ class ConnectionManager(component.Component):
                 online = HOSTLIST_STATUS.index("Connected")
 
             model.set_value(row, HOSTLIST_COL_STATUS, online)
+            model.set_value(row, HOSTLIST_COL_PIXBUF, HOSTLIST_PIXBUFS[online])
 
         current_uri = client.get_core_uri()
         self.liststore.foreach(update_row)
