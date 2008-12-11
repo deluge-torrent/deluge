@@ -4,6 +4,6 @@ gtk-theme-name = "Clearlooks"
 
 gtk-icon-theme-name = "Tango"
 
-gtk-icon-sizes="gtk-small-toolbar=16,16"
+gtk-icon-sizes = "gtk-small-toolbar=16,16"
 
-gtk-toolbar-set-style = "gtk-toolbar-icons"
+gtk-toolbar-style = GTK_TOOLBAR_ICONS
