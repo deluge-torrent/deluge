@@ -28,6 +28,7 @@ from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
+from distutils.command.install import install
 
 import msgfmt
 import os
@@ -308,7 +309,8 @@ cmdclass = {
     'build_trans': build_trans,
     'build_plugins': build_plugins,
     'clean_plugins': clean_plugins,
-    'clean': clean
+    'clean': clean,
+    'install': install
 }
 
 # Data files to be installed to the system
