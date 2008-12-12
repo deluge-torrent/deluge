@@ -305,12 +305,13 @@ class clean(_clean):
         _clean.run(self)
 
 class install(_install):
-    sub_commands = _install.sub_commands
     def run(self):
         for cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
         _install.run(self)
-        self.do_egg_install()
+        if not self.root:
+            self.do_egg_install()
+
 
 cmdclass = {
     'build': build,
