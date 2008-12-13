@@ -10,8 +10,6 @@ include /usr/share/dpatch/dpatch.make
 PYVERS      = 2.5
 DESTDIR     = $(CURDIR)/debian/deluge-torrent
 
-export PYTHONPATH=$(CURDIR)/debian/deluge-torrent/usr/lib/python2.5/site-packages/
-
 # We need to known the target arch to enable/disable amd64 hack
 ARCH	    = $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 ARCH64	    = ia64 amd64 alpha kfreebsd-amd64 ppc64
