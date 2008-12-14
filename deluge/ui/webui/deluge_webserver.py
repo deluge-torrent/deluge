@@ -34,22 +34,17 @@ from webserver_common import  CONFIG_DEFAULTS
 config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
 
 # Initialize gettext
-if deluge.common.windows_check() or deluge.common.osx_check():
+try:
     locale.setlocale(locale.LC_ALL, '')
-else:
-    locale.setlocale(locale.LC_MESSAGES, '')
-    locale.bindtextdomain("deluge",
-            pkg_resources.resource_filename(
-                                    "deluge", "i18n"))
-    locale.textdomain("deluge")
-
-gettext.bindtextdomain("deluge",
-            pkg_resources.resource_filename(
-                                    "deluge", "i18n"))
-gettext.textdomain("deluge")
-gettext.install("deluge",
-            pkg_resources.resource_filename(
-                                    "deluge", "i18n"))
+    if hasattr(locale, "bindtextdomain"):
+        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    if hasattr(locale, "textdomain"):
+        locale.textdomain("deluge")
+    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    gettext.textdomain("deluge")
+    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+except Exception, e:
+    log.error("Unable to initialize gettext/locale: %s", e)
 
 components.register() #after gettext!!
 
