@@ -31,6 +31,13 @@ import gobject
 
 import pkg_resources
 
+try:
+    import deluge.libtorrent as lt
+except ImportError:
+    import libtorrent as lt
+    if not (lt.version_major == 0 and lt.version_minor == 14):
+        raise ImportError("This version of Deluge requires libtorrent 0.14!")
+
 from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.ui.gtkui.listview as listview
@@ -171,10 +178,6 @@ class AddTorrentDialog(component.Component):
                 break
 
     def add_from_files(self, filenames):
-        try:
-            import libtorrent as lt
-        except ImportError:
-            import deluge.libtorrent as lt
         import os.path
         new_row = None
 
