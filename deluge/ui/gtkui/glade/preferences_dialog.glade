@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Dec  8 21:18:16 2008 -->
+<?xml version="1.0"?>
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -449,8 +447,8 @@
                     <property name="label" translatable="yes">page 6</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -643,6 +641,21 @@
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">4</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkAlignment" id="alignment48">
+                                                <property name="visible">True</property>
+                                                <property name="left_padding">5</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="port_img">
+                                                    <property name="visible">True</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">5</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -1147,9 +1160,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 7</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">1</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -1639,9 +1652,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 8</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">2</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -2009,9 +2022,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 10</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">3</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -2203,9 +2216,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 11</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">4</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -2424,9 +2437,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 11</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">5</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -2883,9 +2896,9 @@ Disabled</property>
                     <property name="label" translatable="yes">page 12</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">6</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>

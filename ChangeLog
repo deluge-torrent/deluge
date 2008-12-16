@@ -31,6 +31,7 @@ Deluge 1.1.0 - "" (In Development)
   * Add protocol traffic statusbar item
   * Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
   * Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
+  * Make active port test use internal graphic instead of launching browser
 
  WebUi:
   * Lots of smaller tweaks.

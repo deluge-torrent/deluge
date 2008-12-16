@@ -790,3 +790,15 @@ class Core(
 
     def export_glob(self, path):
         return glob.glob(path)
+
+    def export_test_listen_port(self):
+        """ Checks if active port is open """
+        import urllib
+        port = self.export_get_listen_port()
+        try:
+            status = urllib.urlopen("http://deluge-torrent.org/test_port.php?port=%s" % port).read()
+        except IOError:
+            log.debug("Network error while trying to check status of port %s", port)
+            return 0
+        else:
+            return int(status)
