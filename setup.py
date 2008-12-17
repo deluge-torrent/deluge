@@ -380,7 +380,7 @@ setup(
                                 "ui/webui/static/images/*.png",
                                 "ui/webui/static/images/*.jpg",
                                 "ui/webui/static/images/*.gif",
-                                "ui/webui/static/images/16/*",
+                                "ui/webui/static/images/16/*.png",
                                 "ui/webui/templates/deluge/*",
                                 "ui/webui/templates/classic/*",
                                 "ui/webui/templates/white/*"
