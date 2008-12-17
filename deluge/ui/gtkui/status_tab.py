@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# statistics_tab.py
+# status_tab.py
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -52,16 +52,16 @@ def fspeed(value, max_value=-1):
     else:
         return deluge.common.fspeed(value)
 
-class StatisticsTab(Tab):
+class StatusTab(Tab):
     def __init__(self):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
 
-        self._name = "Statistics"
-        self._child_widget = glade.get_widget("statistics_tab")
-        self._tab_label = glade.get_widget("statistics_tab_label")
+        self._name = "Status"
+        self._child_widget = glade.get_widget("status_tab")
+        self._tab_label = glade.get_widget("status_tab_label")
 
         self.label_widgets = [
             (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),

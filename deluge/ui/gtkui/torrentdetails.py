@@ -77,14 +77,14 @@ class TorrentDetails(component.Component):
         self.tabs = {}
 
         # Add the default tabs
-        from statistics_tab import StatisticsTab
+        from status_tab import StatusTab
         from details_tab import DetailsTab
         from files_tab import FilesTab
         from peers_tab import PeersTab
         from options_tab import OptionsTab
 
         default_tabs = {
-            "Statistics": StatisticsTab,
+            "Status": StatusTab,
             "Details": DetailsTab,
             "Files": FilesTab,
             "Peers": PeersTab,
@@ -93,7 +93,7 @@ class TorrentDetails(component.Component):
 
         # tab_name, visible
         default_order = [
-            ("Statistics", True),
+            ("Status", True),
             ("Details", True),
             ("Files", True),
             ("Peers", True),
@@ -117,6 +117,8 @@ class TorrentDetails(component.Component):
 
         # Add the tabs in the order from the state
         for tab_name, visible in state:
+            # We need to rename the tab in the state for backwards compat
+            tab_name = tab_name.replace("Statistics", "Status")
             self.add_tab(default_tabs[tab_name]())
 
         # Hide any of the non-visible ones
