@@ -52,7 +52,7 @@ class GtkUI(ui.UI):
         log.debug("Blocklist GtkUI disable..")
 
         # Remove the preferences page
-        self.plugin.remove_preferences_page("Blocklist")
+        self.plugin.remove_preferences_page(_("Blocklist"))
 
         # Remove status item
         component.get("StatusBar").remove_item(self.status_item)
@@ -189,5 +189,5 @@ class GtkUI(ui.UI):
 
         # Add the page to the preferences dialog
         self.plugin.add_preferences_page(
-            "Blocklist",
+            _("Blocklist"),
             self.glade.get_widget("blocklist_prefs_box"))

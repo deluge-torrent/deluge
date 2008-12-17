@@ -73,11 +73,6 @@ class GtkUI(ui.UI):
         except Exception, e:
             log.debug(e)
 
-
-    def get_pixmap(self, fname):
-        """Returns a pixmap file included with plugin"""
-        return pkg_resources.resource_filename("blocklist", os.path.join("data", fname))
-
     def load_interface(self):
         #sidebar
         #disabled
@@ -106,5 +101,3 @@ class GtkUI(ui.UI):
         log.debug("add columns")
 
         component.get("TorrentView").add_text_column(_("Label"), status_field=["label"])
-
-

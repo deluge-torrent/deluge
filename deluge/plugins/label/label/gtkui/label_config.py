@@ -45,14 +45,14 @@ class LabelConfig(object):
         self.glade = gtk.glade.XML(self.get_resource("label_pref.glade"))
 
 
-        self.plugin.add_preferences_page("Label", self.glade.get_widget("label_prefs_box"))
+        self.plugin.add_preferences_page(_("Label"), self.glade.get_widget("label_prefs_box"))
         self.plugin.register_hook("on_show_prefs", self.load_settings)
         self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
 
         self.load_settings()
 
     def unload(self):
-        self.plugin.remove_preferences_page("Label")
+        self.plugin.remove_preferences_page(_("Label"))
         self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.deregister_hook("on_show_prefs", self.load_settings)
 
