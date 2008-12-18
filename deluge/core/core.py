@@ -317,7 +317,9 @@ class Core(
     def check_new_release(self):
         if self.new_release:
             log.debug("new_release: %s", self.new_release)
-            if self.new_release > deluge.common.get_version():
+            nr = self.new_release.split("_")
+            cv = deluge.common.get_version().split("_")
+            if nr[0] > cv[0]:
                 self.signals.emit("new_version_available", self.new_release)
                 return self.new_release
         return False
