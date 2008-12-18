@@ -29,6 +29,7 @@ import os
 import datetime
 import gobject
 import time
+import shutil
 
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
@@ -150,12 +151,19 @@ class Core(CorePluginBase):
 
         self.num_blocked = 0
 
+        # If we have a newly downloaded file, lets try that before the .cache
+        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
+            bl_file = deluge.configmanager.get_config_dir("blocklist.download")
+            using_download = True
+        else:
+            bl_file = deluge.configmanager.get_config_dir("blocklist.cache")
+            using_download = False
+
         # Open the file for reading
         try:
-            read_list = FORMATS[self.config["listtype"]][1](
-                deluge.configmanager.get_config_dir("blocklist.cache"))
+            read_list = FORMATS[self.config["listtype"]][1](bl_file)
         except Exception, e:
-            log.debug("Unable to read blocklist.cache: %s", e)
+            log.debug("Unable to read blocklist file: %s", e)
             return
 
         try:
@@ -169,6 +177,16 @@ class Core(CorePluginBase):
             log.debug("Exception during import: %s", e)
         else:
             log.debug("Blocklist import complete!")
+            # The import was successful so lets move this to blocklist.cache
+            if using_download:
+                log.debug("Moving blocklist.download to blocklist.cache")
+                shutil.move(bl_file, deluge.configmanager.get_config_dir("blocklist.cache"))
+            # Set information about the file
+            self.config["file_type"] = self.config["listtype"]
+            self.config["file_url"] = self.config["url"]
+            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
+            self.config["file_date"] = datetime.datetime.fromtimestamp(list_stats.st_mtime).ctime()
+            self.config["file_size"] = list_size = list_stats.st_size
 
         self.is_importing = False
 
@@ -204,20 +222,14 @@ class Core(CorePluginBase):
             try:
                 urllib.urlretrieve(
                     self.config["url"],
-                    deluge.configmanager.get_config_dir("blocklist.cache"),
+                    deluge.configmanager.get_config_dir("blocklist.download"),
                     on_retrieve_data)
             except Exception, e:
                 log.debug("Error downloading blocklist: %s", e)
+                os.remove(deluge.configmanager.get_config_dir("blocklist.download"))
                 continue
             else:
                 log.debug("Blocklist successfully downloaded..")
-                # Set information about the file
-                self.config["file_type"] = self.config["listtype"]
-                self.config["file_url"] = self.config["url"]
-                list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
-                self.config["file_date"] = datetime.datetime.fromtimestamp(list_stats.st_mtime).ctime()
-                self.config["file_size"] = list_size = list_stats.st_size
-
                 gobject.idle_add(_call_callback, callback, load)
                 return
 
