@@ -1,12 +1,5 @@
 deluge/plugins/label/label/data/label_pref.glade
 deluge/plugins/label/label/data/label_options.glade
-deluge/plugins/label/build/lib/label/data/label_pref.glade
-deluge/plugins/label/build/lib/label/data/label_options.glade
-deluge/plugins/graph/build/lib/graph/data/config.glade
-deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade
-deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade
-deluge/plugins/stats/build/lib/stats/data/config.glade
-deluge/plugins/stats/build/lib/stats/data/tabs.glade
 deluge/plugins/stats/stats/data/config.glade
 deluge/plugins/stats/stats/data/tabs.glade
 deluge/ui/gtkui/glade/add_torrent_dialog.glade
@@ -18,7 +11,6 @@ deluge/ui/gtkui/glade/edit_trackers.glade
 deluge/ui/gtkui/glade/queuedtorrents.glade
 deluge/ui/gtkui/glade/move_storage_dialog.glade
 deluge/ui/gtkui/glade/connection_manager.glade
-deluge/ui/gtkui/glade/wizard.glade
 deluge/ui/gtkui/glade/create_torrent_dialog.glade
 deluge/ui/gtkui/glade/dgtkpopups.glade
 deluge/ui/gtkui/glade/tray_menu.glade
@@ -96,7 +88,7 @@ deluge/ui/console/__init__.py
 deluge/ui/gtkui/listview.py
 deluge/ui/gtkui/options_tab.py
 deluge/ui/gtkui/statusbar.py
-deluge/ui/gtkui/statistics_tab.py
+deluge/ui/gtkui/status_tab.py
 deluge/ui/gtkui/addtorrentdialog.py
 deluge/ui/gtkui/coreconfig.py
 deluge/ui/gtkui/sidebar.py
@@ -193,8 +185,6 @@ deluge/ui/webui/scripts/template_strings.py
 deluge/ui/webui/scripts/extract_ajax_strings.py
 deluge/ui/webui/scripts/copy_icons.py
 deluge/ui/webui/scripts/extract_template_strings.py
-deluge/ui/null/deluge_shell.py
-deluge/ui/null/__init__.py
 deluge/common.py
 deluge/component.py
 deluge/main.py
