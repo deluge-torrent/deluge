@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-08 21:38-0600\n"
+"POT-Creation-Date: 2008-12-17 21:59-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: deluge/core/torrentmanager.py:668
+#: deluge/core/torrentmanager.py:671
 msgid "Announce OK"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:689
+#: deluge/core/torrentmanager.py:692
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:698
+#: deluge/core/torrentmanager.py:701
 msgid "Alert"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:709
+#: deluge/core/torrentmanager.py:712
 msgid "Warning"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:719 deluge/ui/gtkui/sidebar.py:61
+#: deluge/core/torrentmanager.py:722 deluge/ui/gtkui/sidebar.py:61
 #: deluge/ui/webui/scripts/template_strings.py:25
 msgid "Error"
 msgstr ""
@@ -282,29 +282,29 @@ msgstr ""
 msgid "Connection Limit:"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:82 deluge/ui/gtkui/queuedtorrents.py:63
+#: deluge/ui/gtkui/addtorrentdialog.py:89 deluge/ui/gtkui/queuedtorrents.py:63
 msgid "Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:101
+#: deluge/ui/gtkui/addtorrentdialog.py:97 deluge/ui/gtkui/files_tab.py:101
 msgid "Filename"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:101 deluge/ui/gtkui/files_tab.py:117
+#: deluge/ui/gtkui/addtorrentdialog.py:108 deluge/ui/gtkui/files_tab.py:117
 #: deluge/ui/gtkui/torrentview.py:121
 #: deluge/ui/webui/scripts/template_strings.py:62
 msgid "Size"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:444
+#: deluge/ui/gtkui/addtorrentdialog.py:447
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:456
+#: deluge/ui/gtkui/addtorrentdialog.py:459
 msgid "Torrent files"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:460
+#: deluge/ui/gtkui/addtorrentdialog.py:463
 msgid "All files"
 msgstr ""
 

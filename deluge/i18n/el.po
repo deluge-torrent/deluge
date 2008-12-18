@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:38-0600\n"
-"PO-Revision-Date: 2008-12-05 17:33+0000\n"
+"PO-Revision-Date: 2008-12-10 20:00+0000\n"
 "Last-Translator: Kainourgiakis Giorgos <kaingeo@yahoo.gr>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -383,7 +383,7 @@ msgstr "Αποστολή"
 
 #: deluge/ui/gtkui/systemtray.py:319
 msgid " Speed (KiB/s):"
-msgstr ""
+msgstr " Ταχύτητα (KiB/s):"
 
 #: deluge/ui/gtkui/systemtray.py:348
 msgid "Deluge is locked"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:38-0600\n"
-"PO-Revision-Date: 2008-12-09 09:08+0000\n"
-"Last-Translator: r1348 <Unknown>\n"
+"PO-Revision-Date: 2008-12-11 19:20+0000\n"
+"Last-Translator: timendum <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -718,7 +718,7 @@ msgstr "Massimi tentativi di connessione per secondo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:102
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Limita anche l'Overead TCP/IP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 msgid "Per Torrent"
@@ -1831,10 +1831,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Se abilitato, l'overhead TCP/IP stimato viene scalato di limiti di banda, "
+"per evitare che sommato al traffico superino i limiti"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1381
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Limita anche l'overead TCP/IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1399
 msgid "<b>Global Bandwidth Usage</b>"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:38-0600\n"
-"PO-Revision-Date: 2008-10-29 13:42+0000\n"
+"PO-Revision-Date: 2008-12-13 12:42+0000\n"
 "Last-Translator: Yasen Pramatarov <Unknown>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -169,7 +169,7 @@ msgstr "Url"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:71
 msgid "Check for every (days)"
-msgstr ""
+msgstr "Проверка на всеки (в дни)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:72
 msgid "Timeout (seconds)"
@@ -405,12 +405,12 @@ msgstr "Друго..."
 
 #: deluge/ui/gtkui/menubar.py:81
 msgid "On"
-msgstr ""
+msgstr "Вкл"
 
 #: deluge/ui/gtkui/menubar.py:84
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Off"
-msgstr ""
+msgstr "Изкл."
 
 #: deluge/ui/gtkui/menubar.py:320
 msgid "Choose a directory to move files to"

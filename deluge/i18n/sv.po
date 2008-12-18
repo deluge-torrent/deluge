@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:38-0600\n"
-"PO-Revision-Date: 2008-11-25 23:35+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
+"PO-Revision-Date: 2008-12-14 20:39+0000\n"
+"Last-Translator: Malte Lenz <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:08+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:668
@@ -381,7 +381,7 @@ msgstr "KB/s Upp"
 
 #: deluge/ui/gtkui/systemtray.py:319
 msgid " Speed (KiB/s):"
-msgstr ""
+msgstr " Hastighet (KiB/s):"
 
 #: deluge/ui/gtkui/systemtray.py:348
 msgid "Deluge is locked"
@@ -998,7 +998,7 @@ msgstr "Knappstil"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 msgid "Auto refresh (seconds)"
-msgstr ""
+msgstr "Autouppdatering (sekunder)"
 
 #: deluge/ui/webui/config_tabs_webui.py:48
 msgid "Cache templates"
