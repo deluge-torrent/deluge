@@ -309,6 +309,12 @@ class BaseClient(object):
 
     def set_core_uri(self, uri='http://localhost:58846'):
         """Sets the core uri"""
+        if uri:
+            # Check if we need to get the localclient auth password
+            u = urlparse.urlsplit(uri)
+            if (u.hostname == "localhost" or u.hostname == "127.0.0.1") and not u.username:
+                from deluge.ui.common import get_localhost_auth_uri
+                uri = get_localhost_auth_uri(uri)
         return self.core.set_core_uri(uri)
 
     def connected(self):
