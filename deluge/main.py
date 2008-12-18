@@ -174,7 +174,7 @@ def start_daemon():
     # If the donot daemonize is set, then we just skip the forking
     if not options.donot:
         # Windows check, we log to the config folder by default
-        if deluge.common.windows_check():
+        if deluge.common.windows_check() or deluge.common.osx_check():
             open_logfile()
             write_pidfile()
         else:
