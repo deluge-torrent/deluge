@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:40-0600\n"
-"PO-Revision-Date: 2008-12-09 16:39+0000\n"
-"Last-Translator: pronull <dmitrievp@gmail.com>\n"
+"PO-Revision-Date: 2008-12-15 23:26+0000\n"
+"Last-Translator: temy4 <art.savenkov@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:13+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -1779,7 +1779,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:132
 msgid "max_download_speed"
-msgstr ""
+msgstr "Максимальная скорость загрузки"
 
 #: deluge/plugins/label/label/webui.py:133
 msgid "max_upload_speed"
@@ -1791,7 +1791,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:135
 msgid "max_connections"
-msgstr ""
+msgstr "Максимальное количество соединений"
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "apply_queue"
@@ -2968,7 +2968,7 @@ msgstr "Лимит соединений"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "D/L Speed Limit"
-msgstr ""
+msgstr "Ограничение скорости закачки"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"
@@ -3188,7 +3188,7 @@ msgstr "Истина"
 
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
-msgstr ""
+msgstr "Ограничение скорости загрузки"
 
 #: deluge/ui/webui/scripts/template_strings.py:118
 msgid "Update"
