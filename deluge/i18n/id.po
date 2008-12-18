@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:40-0600\n"
-"PO-Revision-Date: 2008-11-11 08:13+0000\n"
-"Last-Translator: Gigih Aji Ibrahim <Unknown>\n"
+"PO-Revision-Date: 2008-12-14 12:15+0000\n"
+"Last-Translator: Daya Adianto <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:13+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -25,17 +25,17 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_pref.glade:32
 #: deluge/plugins/label/build/lib/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr ""
+msgstr "<b>Label</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr ""
+msgstr "Pengaturan Label"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr ""
+msgstr "<b>Pengaturan Label</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -51,7 +51,7 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:216 deluge/ui/gtkui/systemtray.py:334
 #: deluge/ui/gtkui/systemtray.py:339
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/detik"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:158
@@ -76,7 +76,7 @@ msgstr "Koneksi:"
 #: deluge/plugins/label/label/data/label_options.glade:270
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr ""
+msgstr "Terapkan aturan per torrent:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:283
@@ -95,19 +95,19 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "Hentikan penyebaran pada rasio:"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1919
 #: deluge/ui/webui/torrent_options.py:51
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Singkirkan pada rasio"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Terapkan Aturan antrian:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:426
@@ -120,7 +120,7 @@ msgstr "Antrian"
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:150
 msgid "Move completed to:"
-msgstr ""
+msgstr "Pindahkan yang telah selesai ke:"
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:493
@@ -130,7 +130,7 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:509
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:509
 msgid "Location"
-msgstr ""
+msgstr "Lokasi"
 
 #: deluge/plugins/label/label/data/label_options.glade:541
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:541
@@ -139,16 +139,19 @@ msgid ""
 "tracker2.com\n"
 "this doesn't do anything yet..\n"
 msgstr ""
+"tracker1.org\n"
+"tracker2.com\n"
+"ini belum melakukan apa-apa...\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(1 baris per tracker)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:568
 msgid "Automatically apply label:"
-msgstr ""
+msgstr "Otomatis pasang label:"
 
 #: deluge/plugins/label/label/data/label_options.glade:585
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:585
@@ -160,17 +163,17 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:638
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:638
 msgid "Add Label"
-msgstr ""
+msgstr "Tambah Label"
 
 #: deluge/plugins/label/label/data/label_options.glade:672
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:672
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Tambah Label<b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:703
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:703
 msgid "Name:"
-msgstr ""
+msgstr "Nama:"
 
 #: deluge/plugins/graph/build/lib/graph/data/config.glade:12
 #: deluge/plugins/stats/build/lib/stats/data/config.glade:12
@@ -195,7 +198,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:89
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
@@ -204,12 +207,12 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3744
 #: deluge/ui/gtkui/glade/main_window.glade:2103
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Umum</b>"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:124
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:124
 msgid "Check for new list every:"
-msgstr ""
+msgstr "Cek daftar terbaru setiap:"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:148
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:148
@@ -224,7 +227,7 @@ msgstr ""
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:185
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:185
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Pengaturan</b>"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:217
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:217
@@ -255,18 +258,18 @@ msgstr ""
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:344
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:344
 msgid "File Size:"
-msgstr ""
+msgstr "Ukuran Berkas:"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:354
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:354
 msgid "Date:"
-msgstr ""
+msgstr "Tanggal:"
 
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:446
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:446
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4224
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Info</b>"
 
 #: deluge/plugins/stats/build/lib/stats/data/tabs.glade:21
 #: deluge/plugins/stats/stats/data/tabs.glade:21
@@ -276,14 +279,14 @@ msgstr ""
 #: deluge/plugins/stats/build/lib/stats/data/tabs.glade:48
 #: deluge/plugins/stats/stats/data/tabs.glade:48
 msgid "Bandwidth"
-msgstr ""
+msgstr "Lebar Pita"
 
 #: deluge/plugins/stats/build/lib/stats/data/tabs.glade:66
 #: deluge/plugins/stats/stats/data/tabs.glade:66
 #: deluge/ui/gtkui/statusbar.py:144
 #: deluge/ui/webui/scripts/template_strings.py:25
 msgid "Connections"
-msgstr ""
+msgstr "Sambungan-sambungan"
 
 #: deluge/plugins/stats/build/lib/stats/data/tabs.glade:85
 #: deluge/plugins/stats/stats/data/tabs.glade:85
@@ -303,11 +306,11 @@ msgstr ""
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/main_window.glade:20
 msgid "_File"
-msgstr ""
+msgstr "_Berkas"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
-msgstr ""
+msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
@@ -344,12 +347,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:488
 msgid "Compact"
-msgstr ""
+msgstr "Ringkas"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:508
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:374
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Pengalokasian</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:597
 #: deluge/ui/gtkui/glade/main_window.glade:1797
@@ -1546,7 +1549,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:983
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<b>ETA:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1005
 #: deluge/ui/gtkui/glade/main_window.glade:1027

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-12-08 21:40-0600\n"
-"PO-Revision-Date: 2008-11-02 11:00+0000\n"
-"Last-Translator: AlckO <adrysoft04@alice.it>\n"
+"PO-Revision-Date: 2008-12-17 19:57+0000\n"
+"Last-Translator: Vincent Ortalda <vinnyort@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:13+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -499,11 +499,11 @@ msgstr "_Gestito Automaticamente"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Rimuovere il torrent selezionato?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Se rimuovi i dati, saranno persi permanentemente."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"

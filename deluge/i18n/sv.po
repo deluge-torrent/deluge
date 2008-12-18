@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-08 21:40-0600\n"
-"PO-Revision-Date: 2008-11-25 23:43+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
+"PO-Revision-Date: 2008-12-14 21:50+0000\n"
+"Last-Translator: Malte Lenz <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-12-10 03:12+0000\n"
+"X-Launchpad-Export-Date: 2008-12-18 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -39,7 +39,7 @@ msgstr "Etikettalternativ"
 #: deluge/plugins/label/label/data/label_options.glade:36
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr ""
+msgstr "<b>Etikettinställningar</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -172,7 +172,7 @@ msgstr "Lägg till etikett"
 #: deluge/plugins/label/label/data/label_options.glade:672
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:672
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Lägg till etikett</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:703
 #: deluge/plugins/label/build/lib/label/data/label_options.glade:703
@@ -501,7 +501,7 @@ msgstr "_Auto. hanterad"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Ta bort vald torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
@@ -513,7 +513,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Ta bort _Torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -831,6 +831,10 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
+"Klassiskt läge kommer att dölja det mesta av demonens funktionalitet och "
+"Deluge kommer att ge sken av att vara ett enda program. Använd denna "
+"inställning om du inte vill dra nytta av att ha Deluge körandes som en "
+"demon. För att ändringarna ska aktiveras behöver Deluge startas om."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3778
@@ -952,7 +956,7 @@ msgstr "<b>Anslutningar</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2338
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Kontrollera regelbundet hemsidan för uppdateringar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2349
 msgid "<b>Other</b>"
@@ -1091,7 +1095,7 @@ msgstr "Dialogruta"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3725
 msgid "Only OGG and WAV files are supported"
-msgstr ""
+msgstr "Endast formaten OGG och WAV stödjs"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 msgid "Sound:"
@@ -1137,7 +1141,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4133
 msgid "Homepage:"
-msgstr ""
+msgstr "Hemsida:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4146
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
@@ -1150,7 +1154,7 @@ msgstr "Version:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4171
 msgid "Details:"
-msgstr ""
+msgstr "Detaljer:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4274
 msgid "_Install Plugin"
@@ -1216,7 +1220,7 @@ msgstr "<b>Flytta lagring</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"
-msgstr ""
+msgstr "Mål:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
 #: deluge/ui/gtkui/glade/main_window.glade:436
@@ -1270,6 +1274,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/wizard.glade:10
 msgid "This wizard will help you set up Deluge to your liking."
 msgstr ""
+"Denna guide kommer hjälpa dig att ställa in Deluge enligt dina önskemål."
 
 #: deluge/ui/gtkui/glade/wizard.glade:25
 msgid "All Finished!"
@@ -1278,7 +1283,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
 #: deluge/ui/webui/scripts/template_strings.py:26
 msgid "Create Torrent"
-msgstr ""
+msgstr "Skapa torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
 msgid "<big><b>Create Torrent</b></big>"
@@ -1294,15 +1299,15 @@ msgstr "_Avlägsen sökväg"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "<b>Filer</b>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
 msgid "Comments:"
-msgstr ""
+msgstr "Kommentarer:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
@@ -1320,6 +1325,11 @@ msgid ""
 "256 KiB\n"
 "512 KiB"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
 #: deluge/ui/webui/torrent_add.py:49
@@ -1341,7 +1351,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:756
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:938
 msgid "Path:"
-msgstr ""
+msgstr "Sökväg:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:831
 msgid "Creating Torrent"
@@ -1349,11 +1359,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
 msgid "Save .torrent as"
-msgstr ""
+msgstr "Spara .torrent som"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
 msgid "<b>Save .torrent file</b>"
-msgstr ""
+msgstr "<b>Spara .torrent-fil</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:37
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
@@ -1457,19 +1467,19 @@ msgstr "_Hjälp"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
-msgstr ""
+msgstr "Hemsida"
 
 #: deluge/ui/gtkui/glade/main_window.glade:251
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Vanliga frågor"
 
 #: deluge/ui/gtkui/glade/main_window.glade:252
 msgid "FAQ"
-msgstr ""
+msgstr "Vanliga frågor"
 
 #: deluge/ui/gtkui/glade/main_window.glade:269
 msgid "Community"
-msgstr ""
+msgstr "Community"
 
 #: deluge/ui/gtkui/glade/main_window.glade:313
 #: deluge/ui/webui/scripts/template_strings.py:9
@@ -1609,7 +1619,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1219
 msgid "_Statistics"
-msgstr ""
+msgstr "_Statistik"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1290
 msgid "<b># of files:</b>"
@@ -1637,7 +1647,7 @@ msgstr "<b>Sökväg:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Status:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1530
 msgid "_Details"
@@ -1645,7 +1655,7 @@ msgstr "_Detaljer"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
-msgstr ""
+msgstr "_Filer"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
@@ -1665,7 +1675,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1992
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>Kö</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2029
 #: deluge/ui/webui/scripts/template_strings.py:81
@@ -1717,7 +1727,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2516
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Visa inte denna dialog i framtiden"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2556
 msgid "_Goto Website"
@@ -1729,7 +1739,7 @@ msgstr ""
 
 #: deluge/core/torrentmanager.py:665
 msgid "Announce OK"
-msgstr ""
+msgstr "Annonsering OK"
 
 #: deluge/core/torrentmanager.py:686
 msgid "Announce Sent"
@@ -1818,7 +1828,7 @@ msgstr ""
 #: deluge/plugins/label/label/gtkui/__init__.py:108
 #: deluge/ui/webui/scripts/template_strings.py:57
 msgid "Label"
-msgstr ""
+msgstr "Etikett"
 
 #: deluge/plugins/label/label/webui.py:163
 msgid "Work in progress.."
@@ -1830,11 +1840,11 @@ msgstr "Etikett _Intsällningar"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:56
 msgid "_Remove Label"
-msgstr ""
+msgstr "_Ta bort etikett"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:57
 msgid "_Add Label"
-msgstr ""
+msgstr "_Lägg till etikett"
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -1846,17 +1856,17 @@ msgstr ""
 
 #: deluge/plugins/label/label/core.py:190
 msgid "Label already exists"
-msgstr ""
+msgstr "Etikett existerar redan"
 
 #: deluge/plugins/label/label/core.py:196
 #: deluge/plugins/label/label/core.py:248
 #: deluge/plugins/label/label/core.py:281
 msgid "Unknown Label"
-msgstr ""
+msgstr "Okänd etikett"
 
 #: deluge/plugins/label/label/core.py:282
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Okänd torrent"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:38
 msgid "Emule IP list (GZip)"
@@ -1889,7 +1899,7 @@ msgstr "Kontrollera efter var (dag)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:72
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Timeout (sekunder)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:73
 msgid "Times to attempt download"
@@ -1905,7 +1915,7 @@ msgstr "Hämta ner nu"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:77
 msgid "Import Now"
-msgstr ""
+msgstr "Importera nu"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:84
 #, python-format
@@ -1915,7 +1925,7 @@ msgstr "Hämtar %.2f%%"
 #: deluge/plugins/blocklist/blocklist/webui.py:86
 #, python-format
 msgid "Importing %s"
-msgstr ""
+msgstr "Importerar %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:88
 #, python-format
@@ -1924,11 +1934,11 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:90
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:97
 msgid "Refresh status"
-msgstr ""
+msgstr "Uppdatera status"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -1944,7 +1954,7 @@ msgstr "Felaktig version"
 
 #: deluge/plugins/stats/stats/webui.py:107
 msgid "Stats"
-msgstr ""
+msgstr "Statistik"
 
 #: deluge/plugins/stats/stats/webui.py:116
 msgid "Graph"
@@ -1956,7 +1966,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:129
 msgid "Not Connected"
-msgstr ""
+msgstr "Inte ansluten"
 
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
@@ -1972,7 +1982,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Inga inkommande anslutningar!"
 
 #: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
 #: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
@@ -1997,7 +2007,7 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Sätt Maximal Uppladdningshastighet"
 
 #: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
 msgid "Set Maximum Connections"
@@ -2092,7 +2102,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:78
 msgid "On"
-msgstr ""
+msgstr "På"
 
 #: deluge/ui/gtkui/menubar.py:81
 #: deluge/ui/webui/scripts/template_strings.py:71
@@ -2158,7 +2168,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:214
 msgid "no label"
-msgstr ""
+msgstr "ingen etikett"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
@@ -2242,11 +2252,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/createtorrentdialog.py:117
 msgid "Choose a file"
-msgstr ""
+msgstr "Välj en fil"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:144
 msgid "Choose a folder"
-msgstr ""
+msgstr "Välj en mapp"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:209
 msgid "Save .torrent file"
@@ -2409,7 +2419,7 @@ msgstr "Nivå"
 
 #: deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
@@ -2425,7 +2435,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
@@ -2521,7 +2531,7 @@ msgstr "Lägg automatiskt till mapp"
 
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
-msgstr ""
+msgstr "Lägg till automatiskt aktiverat"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
@@ -2672,7 +2682,7 @@ msgstr "Skriv en korrekt tid"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:335
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "Ange giltigt datum/tid."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
 msgid "Enter a valid e-mail address."
@@ -2754,7 +2764,7 @@ msgstr "Knappstil"
 
 #: deluge/ui/webui/config_tabs_webui.py:49
 msgid "Auto refresh (seconds)"
-msgstr ""
+msgstr "Autouppdatering (sekunder)"
 
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
@@ -2770,7 +2780,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_webui.py:61
 msgid "Https"
-msgstr ""
+msgstr "Https"
 
 #: deluge/ui/webui/config_tabs_webui.py:70
 #, python-format
@@ -2804,15 +2814,15 @@ msgstr "De två nya lösenords-fälten stämmer inte överens med varandra."
 
 #: deluge/ui/webui/config_tabs_webui.py:103
 msgid "Sidebar"
-msgstr ""
+msgstr "Sidopanel"
 
 #: deluge/ui/webui/config_tabs_webui.py:104
 msgid "Show sidebar"
-msgstr ""
+msgstr "Visa sidopanel"
 
 #: deluge/ui/webui/config_tabs_webui.py:105
 msgid "Show zero hits"
-msgstr ""
+msgstr "Visa noll träffar"
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
@@ -2868,15 +2878,15 @@ msgstr "Antal Filer"
 
 #: deluge/ui/webui/scripts/template_strings.py:2
 msgid "... and delete All files"
-msgstr ""
+msgstr "... och ta bor alla filer"
 
 #: deluge/ui/webui/scripts/template_strings.py:3
 msgid "... and delete Downloaded files"
-msgstr ""
+msgstr "... och ta bort nedladdade filer"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "... and delete Torrent file"
-msgstr ""
+msgstr "... och ta bort torrent-fil"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Active time"
@@ -2888,7 +2898,7 @@ msgstr "Administrering"
 
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Automatisk uppdatering:"
 
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Ava"
@@ -2904,7 +2914,7 @@ msgstr "Nederst"
 
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Clear"
@@ -2952,11 +2962,11 @@ msgstr "Inaktivera"
 
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Disk Space"
-msgstr ""
+msgstr "Diskutrymme"
 
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Do not download"
-msgstr ""
+msgstr "Ladda inte ner"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Downloaded"
@@ -2972,7 +2982,7 @@ msgstr "Falsk"
 
 #: deluge/ui/webui/scripts/template_strings.py:47
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: deluge/ui/webui/scripts/template_strings.py:49
 msgid "Filter on a keyword"
@@ -2988,7 +2998,7 @@ msgstr "Från session"
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "From Url"
-msgstr ""
+msgstr "Från Url"
 
 #: deluge/ui/webui/scripts/template_strings.py:53
 msgid "General"
@@ -2996,11 +3006,11 @@ msgstr "Allmänt"
 
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
-msgstr ""
+msgstr "Hög prioritet"
 
 #: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Highest priority"
-msgstr ""
+msgstr "Högst prioritet"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Keyword"
@@ -3024,15 +3034,15 @@ msgstr "Nästa annonsering"
 
 #: deluge/ui/webui/scripts/template_strings.py:66
 msgid "No Incoming Connections"
-msgstr ""
+msgstr "Inga inkommande anslutningar"
 
 #: deluge/ui/webui/scripts/template_strings.py:67
 msgid "No Label"
-msgstr ""
+msgstr "Ingen etikett"
 
 #: deluge/ui/webui/scripts/template_strings.py:69
 msgid "Normal priority"
-msgstr ""
+msgstr "Normal prioritet"
 
 #: deluge/ui/webui/scripts/template_strings.py:70
 msgid "Not Connected to a daemon"
@@ -3040,7 +3050,7 @@ msgstr "Inte ansluten till någon daemon"
 
 #: deluge/ui/webui/scripts/template_strings.py:72
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: deluge/ui/webui/scripts/template_strings.py:74
 msgid "Other"
@@ -3088,7 +3098,7 @@ msgstr "Spara"
 
 #: deluge/ui/webui/scripts/template_strings.py:94
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: deluge/ui/webui/scripts/template_strings.py:95
 msgid "Seed rank"
