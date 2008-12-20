@@ -93,10 +93,14 @@ class TorrentOptions(dict):
     def __getitem__(self, key):
         if super(TorrentOptions, self).has_key(key):
             return super(TorrentOptions, self).__getitem__(key)
-        elif key in self.default_keys and self.default_keys[key] in self.config:
+        elif key in self.default_keys:
+            if self.default_keys[key] in self.config:
                 return self.config[self.default_keys[key]]
+            else:
+                return self.default_keys[key]
         else:
             raise KeyError
+
 
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
