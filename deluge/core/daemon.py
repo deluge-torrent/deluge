@@ -22,15 +22,54 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+import signal
 
+import gobject
+import gettext
+import locale
+import pkg_resources
+
+import deluge.component as component
 import deluge.configmanager
 import deluge.common
+from deluge.core.rpcserver import RPCServer, export
 from deluge.log import LOG as log
 
-class Daemon:
+class Daemon(object):
     def __init__(self, options, args):
+        # Initialize gettext
+        try:
+            locale.setlocale(locale.LC_ALL, '')
+            if hasattr(locale, "bindtextdomain"):
+                locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+            if hasattr(locale, "textdomain"):
+                locale.textdomain("deluge")
+            gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+            gettext.textdomain("deluge")
+            gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+        except Exception, e:
+            log.error("Unable to initialize gettext/locale: %s", e)
+
+        # Setup signals
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
+        if not deluge.common.windows_check():
+            signal.signal(signal.SIGHUP, self.shutdown)
+        else:
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT
+            from win32con import CTRL_SHUTDOWN_EVENT
+            result = 0
+            def win_handler(ctrl_type):
+                log.debug("ctrl_type: %s", ctrl_type)
+                if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
+                    self.__shutdown()
+                    result = 1
+                    return result
+            SetConsoleCtrlHandler(win_handler)
+
         version = deluge.common.get_version()
-        if deluge.common.get_revision() != "":
+        if deluge.common.get_revision():
             version = version + "r" + deluge.common.get_revision()
 
         log.info("Deluge daemon %s", version)
@@ -41,5 +80,25 @@ class Daemon:
 
         from deluge.core.core import Core
         # Start the core as a thread and join it until it's done
-        self.core = Core(options.port).run()
+        self.core = Core()
 
+        self.rpcserver = RPCServer(options.port if options.port else self.core.config["daemon_port"])
+        self.rpcserver.register_object(self.core, "core")
+        self.rpcserver.register_object(self, "daemon")
+
+        gobject.threads_init()
+
+        # Make sure we start the PreferencesManager first
+        component.start("PreferencesManager")
+        component.start()
+
+        self.loop = gobject.MainLoop()
+        try:
+            self.loop.run()
+        except KeyboardInterrupt:
+            self.shutdown()
+
+    @export
+    def shutdown(self):
+        component.shutdown()
+        self.loop.quit()

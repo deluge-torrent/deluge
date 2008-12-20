@@ -230,7 +230,7 @@ class GtkUI:
         component.shutdown()
         if self.started_in_classic:
             try:
-                client.shutdown()
+                client.daemon.shutdown(None)
             except:
                 pass
 

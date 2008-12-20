@@ -22,19 +22,12 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
+import deluge.component as component
 from deluge.log import LOG as log
 
 class CorePluginBase:
     def __init__(self, plugin_api, plugin_name):
         self.plugin = plugin_api
-        # Register all export_* functions
-        for func in dir(self):
-            if func.startswith("export_"):
-                log.debug("Registering export function %s as %s", func,
-                    plugin_name.lower() + "_" + func[7:])
-                self.plugin.get_core().register_function(
-                    getattr(self, "%s" % func), plugin_name.lower()\
-                         + "_" + func[7:])
+        # Register RPC methods
+        component.get("RPCServer").register_object(self, plugin_name.lower())
         log.debug("CorePlugin initialized..")
-

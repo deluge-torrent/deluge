@@ -35,6 +35,7 @@ from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
+from deluge.core.rpcserver import export
 
 from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip
@@ -72,7 +73,7 @@ class Core(CorePluginBase):
 
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
-            self.export_import(self.need_new_blocklist())
+            self.import_list(self.need_new_blocklist())
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
@@ -82,7 +83,7 @@ class Core(CorePluginBase):
 
     def disable(self):
         log.debug("Reset IP Filter..")
-        component.get("Core").export_reset_ip_filter()
+        component.get("Core").reset_ip_filter()
         self.config.save()
         log.debug('Blocklist: Plugin disabled')
 
@@ -90,25 +91,30 @@ class Core(CorePluginBase):
         pass
 
     ## Exported RPC methods ###
-    def export_download(self, _import=False):
+    @export
+    def download_list(self, _import=False):
         """Download the blocklist specified in the config as url"""
         self.download_blocklist(_import)
 
-    def export_import(self, download=False, force=False):
+    @export
+    def import_list(self, download=False, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
         threading.Thread(target=self.import_blocklist, kwargs={"download": download, "force": force}).start()
 
-    def export_get_config(self):
+    @export
+    def get_config(self):
         """Returns the config dictionary"""
         return self.config.config
 
-    def export_set_config(self, config):
+    @export
+    def set_config(self, config):
         """Sets the config based on values in 'config'"""
         for key in config.keys():
             self.config[key] = config[key]
 
-    def export_get_status(self):
+    @export
+    def get_status(self):
         """Returns the status of the plugin."""
         status = {}
         if self.is_downloading:
@@ -133,7 +139,7 @@ class Core(CorePluginBase):
     def on_download_blocklist(self, load):
         self.is_downloading = False
         if load:
-            self.export_import()
+            self.import_list()
 
     def import_blocklist(self, download=False, force=False):
         """Imports the downloaded blocklist into the session"""
@@ -147,7 +153,7 @@ class Core(CorePluginBase):
 
         self.is_importing = True
         log.debug("Reset IP Filter..")
-        component.get("Core").export_reset_ip_filter()
+        component.get("Core").reset_ip_filter()
 
         self.num_blocked = 0
 
@@ -170,7 +176,7 @@ class Core(CorePluginBase):
             log.debug("Blocklist import starting..")
             ips = read_list.next()
             while ips:
-                self.core.export_block_ip_range(ips)
+                self.core.block_ip_range(ips)
                 self.num_blocked += 1
                 ips = read_list.next()
         except Exception, e:

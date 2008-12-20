@@ -42,6 +42,7 @@ class AlertManager(component.Component):
         log.debug("AlertManager initialized..")
         component.Component.__init__(self, "AlertManager", interval=50)
         self.session = session
+
         self.session.set_alert_mask(
             lt.alert.category_t.error_notification |
             lt.alert.category_t.port_mapping_notification |

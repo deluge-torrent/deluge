@@ -7,4 +7,4 @@ from deluge.ui.client import aclient as client
 class Command(BaseCommand):
     "Shutdown the deluge server."
     def handle(self, **options):
-        client.shutdown()
+        client.daemon.shutdown(None)

@@ -32,7 +32,7 @@ COMPONENT_STATE = [
     "Paused"
 ]
 
-class Component:
+class Component(object):
     def __init__(self, name, interval=1000, depend=None):
         # Register with the ComponentRegistry
         register(name, self, depend)

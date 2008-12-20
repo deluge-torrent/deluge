@@ -358,7 +358,7 @@ class ConnectionManager(component.Component):
                 host = xmlrpclib.ServerProxy(get_localhost_auth_uri(uri))
             else:
                 host = xmlrpclib.ServerProxy(uri)
-            host.ping()
+            host.core.ping()
         except Exception:
             online = False
 

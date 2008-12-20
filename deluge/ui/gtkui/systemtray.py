@@ -308,7 +308,7 @@ class SystemTray(component.Component):
                 return
 
         if self.config["classic_mode"]:
-            client.shutdown()
+            client.daemon.shutdown(None)
 
         self.window.quit()
 
@@ -318,7 +318,7 @@ class SystemTray(component.Component):
             if not self.unlock_tray():
                 return
 
-        client.shutdown()
+        client.daemon.shutdown(None)
         self.window.quit()
 
     def tray_setbwdown(self, widget, data=None):

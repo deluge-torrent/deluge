@@ -28,6 +28,7 @@ adds a status field for tracker.
 
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
+from deluge.core.rpcserver import export
 from deluge.configmanager import ConfigManager
 import deluge.component as component
 from urlparse import urlparse
@@ -93,7 +94,7 @@ class Core(CorePluginBase):
         #self.set_config_defaults()
 
         #reduce typing, assigning some values to self...
-        self.torrents = core.torrents.torrents
+        self.torrents = core.torrentmanager.torrents
         self.labels = self.config["labels"]
         self.torrent_labels = self.config["torrent_labels"]
 
@@ -180,7 +181,8 @@ class Core(CorePluginBase):
         return sorted(self.labels.keys())
 
     #Labels:
-    def export_add(self, label_id):
+    @export
+    def add(self, label_id):
         """add a label
         see label_set_options for more options.
         """
@@ -191,7 +193,8 @@ class Core(CorePluginBase):
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
 
-    def export_remove(self, label_id):
+    @export
+    def remove(self, label_id):
         "remove a label"
         CheckInput(label_id in self.labels, _("Unknown Label"))
         del self.labels[label_id]
@@ -230,7 +233,8 @@ class Core(CorePluginBase):
                     return True
         return False
 
-    def export_set_options(self, label_id, options_dict , apply = False):
+    @export
+    def set_options(self, label_id, options_dict , apply = False):
         """update the label options
 
         options_dict :
@@ -266,11 +270,13 @@ class Core(CorePluginBase):
 
         self.config.save()
 
-    def export_get_options(self, label_id):
+    @export
+    def get_options(self, label_id):
         """returns the label options"""
         return self.labels[label_id]
 
-    def export_set_torrent(self, torrent_id , label_id):
+    @export
+    def set_torrent(self, torrent_id , label_id):
         """
         assign a label to a torrent
         removes a label if the label_id parameter is empty.
@@ -291,11 +297,13 @@ class Core(CorePluginBase):
 
         self.config.save()
 
-    def export_get_config(self):
+    @export
+    def get_config(self):
         "see : label_set_config"
         return dict((key, self.config[key]) for key in CORE_OPTIONS if key in self.config.config)
 
-    def export_set_config(self, options):
+    @export
+    def set_config(self, options):
         """global_options:"""
         for key, value in options.items:
             if key in CORE_OPTIONS:

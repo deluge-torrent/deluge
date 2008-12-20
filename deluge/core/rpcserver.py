@@ -22,6 +22,7 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+"""RPCServer Module"""
 
 import gobject
 
@@ -35,20 +36,29 @@ import deluge.component as component
 import deluge.configmanager
 
 def export(func):
+    """
+    Decorator function to register an object's method as an RPC.  The object
+    will need to be registered with an RPCServer to be effective.
+
+    :param func: function, the function to export
+    """
     func._rpcserver_export = True
     return func
 
 class RPCServer(component.Component):
-    def __init__(self, port):
+    """
+    This class is used to handle rpc requests from the client.  Objects are
+    registered with this class and their methods are exported using the export
+    decorator.
+
+    :param port: int, the port the RPCServer will listen on
+    :param allow_remote: bool, set True if the server should allow remote connections
+    """
+
+    def __init__(self, port=58846, allow_remote=False):
         component.Component.__init__(self, "RPCServer")
 
-        # Get config
-        self.config = deluge.configmanager.ConfigManager("core.conf")
-
-        if port == None:
-            port = self.config["daemon_port"]
-
-        if self.config["allow_remote"]:
+        if allow_remote:
             hostname = ""
         else:
             hostname = "localhost"
@@ -70,15 +80,24 @@ class RPCServer(component.Component):
 
         self.server.socket.setblocking(False)
 
-        gobject.io_add_watch(self.server.socket.fileno(), gobject.IO_IN | gobject.IO_OUT | gobject.IO_PRI | gobject.IO_ERR | gobject.IO_HUP, self._on_socket_activity)
+        gobject.io_add_watch(self.server.socket.fileno(), gobject.IO_IN | gobject.IO_OUT | gobject.IO_PRI | gobject.IO_ERR | gobject.IO_HUP, self.__on_socket_activity)
 
-    def _on_socket_activity(self, source, condition):
-        """This gets called when there is activity on the socket, ie, data to read
-        or to write."""
+    def __on_socket_activity(self, source, condition):
+        """
+        This gets called when there is activity on the socket, ie, data to read
+        or to write and is called by gobject.io_add_watch().
+        """
         self.server.handle_request()
         return True
 
     def register_object(self, obj, name=None):
+        """
+        Registers an object to export it's rpc methods.  These methods should
+        be exported with the export decorator prior to registering the object.
+
+        :param obj: object, the object that we want to export
+        :param name: str, the name to use, if None, it will be the class name of the object
+        """
         if not name:
             name = obj.__class__.__name__
 
@@ -89,10 +108,18 @@ class RPCServer(component.Component):
                 log.debug("Registering method: %s", name + "." + d)
                 self.server.register_function(getattr(obj, d), name + "." + d)
 
+    @property
+    def client_address(self):
+        """
+        The ip address of the current client.
+        """
+        return self.server.client_address
+
 class XMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
     def get_request(self):
-        """Get the request and client address from the socket.
-            We override this so that we can get the ip address of the client.
+        """
+        Get the request and client address from the socket.
+        We override this so that we can get the ip address of the client.
         """
         request, client_address = self.socket.accept()
         self.client_address = client_address[0]

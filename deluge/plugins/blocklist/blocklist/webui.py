@@ -51,18 +51,18 @@ class BlockListCfgForm(forms.Form):
 
     #load/save:
     def initial_data(self):
-        data = sclient.blocklist_get_config()
+        data = sclient.blocklist.get_config()
         return data
 
     def save(self, data):
         cfg = dict(data)
         del cfg["btn_download_now"]
         del cfg["btn_import_now"]
-        sclient.blocklist_set_config(cfg)
+        sclient.blocklist.set_config(cfg)
         if data.btn_import_now:
-            aclient.blocklist_import(None, data.btn_download_now)
+            aclient.blocklist.import_list(None, data.btn_download_now)
         elif data.btn_download_now:
-            aclient.blocklist_download(None)
+            aclient.blocklist.download(None)
 
 
     #input fields :
@@ -78,7 +78,7 @@ class BlockListCfgForm(forms.Form):
 
     def post_html(self):
         "show blocklist status"
-        status = sclient.blocklist_get_status()
+        status = sclient.blocklist.get_status()
 
         if status["state"] == "Downloading":
             txt = _("Downloading %.2f%%") % (status["file_progress"] * 100)
@@ -109,6 +109,3 @@ class WebUI(ui.UI):
 
     def disable(self):
         config_page_manager.deregister('blocklist')
-
-
-

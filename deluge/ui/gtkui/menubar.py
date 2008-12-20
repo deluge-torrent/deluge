@@ -231,14 +231,14 @@ class MenuBar(component.Component):
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown
-        client.shutdown()
+        client.daemon.shutdown(None)
         self.window.quit()
 
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
         if self.config["classic_mode"]:
             try:
-                client.shutdown()
+                client.daemon.shutdown(None)
             except deluge.error.NoCoreError:
                 pass
         self.window.quit()

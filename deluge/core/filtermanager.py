@@ -75,7 +75,7 @@ class FilterManager(component.Component):
         component.Component.__init__(self, "FilterManager")
         log.debug("FilterManager init..")
         self.core = core
-        self.torrents = core.torrents
+        self.torrents = core.torrentmanager
         self.registered_filters = {}
         self.register_filter("keyword", filter_keywords)
         self.tree_fields = {}
@@ -129,7 +129,7 @@ class FilterManager(component.Component):
 
         #leftover filter arguments:
         #default filter on status fields.
-        status_func = self.core.export_get_torrent_status #premature optimalisation..
+        status_func = self.core.get_torrent_status #premature optimalisation..
         for torrent_id in list(torrent_ids):
             status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
             for field, values in filter_dict.iteritems():
@@ -144,7 +144,7 @@ class FilterManager(component.Component):
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
-        status_func = self.core.export_get_torrent_status #premature optimalisation..
+        status_func = self.core.get_torrent_status #premature optimalisation..
         tree_keys = list(self.tree_fields.keys())
         if hide_cat:
             for cat in hide_cat:
@@ -196,7 +196,7 @@ class FilterManager(component.Component):
         del self.tree_fields[field]
 
     def filter_state_active(self, torrent_ids):
-        get_status = self.core.export_get_torrent_status
+        get_status = self.core.get_torrent_status
         for torrent_id in list(torrent_ids):
             status = get_status(torrent_id, ["download_payload_rate", "upload_payload_rate"])
             if status["download_payload_rate"] or status["upload_payload_rate"]:
@@ -223,6 +223,3 @@ class FilterManager(component.Component):
             iy = 99
 
         return ix - iy
-
-
-

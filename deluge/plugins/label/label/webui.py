@@ -54,12 +54,12 @@ class options:
 
     @api.deco.deluge_page
     def GET(self, label_id):
-        return self.page(label_id, sclient.label_get_options(label_id))
+        return self.page(label_id, sclient.label.get_options(label_id))
 
     @api.deco.check_session
     def POST(self, label_id):
         post_options = api.utils.get_newforms_data(OptionsForm)
-        options = sclient.label_get_options(label_id)
+        options = sclient.label.get_options(label_id)
 
         log.debug(options)
         options.update(dict(post_options))
@@ -72,7 +72,7 @@ class options:
         else:
             error = None
 
-        sclient.label_set_options(label_id, options_form.cleaned_data)
+        sclient.label.set_options(label_id, options_form.cleaned_data)
         api.utils.seeother("/config/label")
 
 
@@ -90,7 +90,7 @@ class config_page:
     """for ajaxui."""
     @api.deco.deluge_page
     def GET(self, args):
-        labels = sclient.label_get_labels()
+        labels = sclient.label.get_labels()
         return api.render.label.config_page(labels)
 
 
@@ -125,7 +125,7 @@ class OptionsForm(forms.Form):
 
     #load/save:
     def initial_data(self):
-        return sclient.label_get_options(self.label_id)
+        return sclient.label.get_options(self.label_id)
 
     #maximum:
     apply_max = forms.CheckBox(_("apply_max"))
@@ -164,15 +164,15 @@ class ConfigForm(forms.Form):
 
     #load/save:
     def initial_data(self):
-        return sclient.label_get_config()
+        return sclient.label.get_config()
 
     def save(self, data):
         cfg = dict(data)
-        sclient.label_set_config(cfg)
+        sclient.label.set_config(cfg)
 
     def pre_html(self):
         """ custom config html/template"""
-        labels = sclient.label_get_labels()
+        labels = sclient.label.get_labels()
         return api.render.label.config(labels)
 
 

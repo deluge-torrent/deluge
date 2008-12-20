@@ -111,6 +111,7 @@ class CoreProxy(gobject.GObject):
             if self.rpc_core is None:
                 raise deluge.error.NoCoreError("The core proxy is invalid.")
                 return
+
         _func = getattr(self._multi, func)
 
         if _func is not None:
@@ -200,6 +201,18 @@ class CoreProxy(gobject.GObject):
 
 _core = CoreProxy()
 
+class DottedObject(object):
+    """This is used for dotted name calls to client"""
+    def __init__(self, client, base):
+        self.client = client
+        self.base = base
+
+    def __call__(self, *args, **kwargs):
+        return self.client.get_method("core." + self.base)(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return self.client.get_method(self.base + "." + name)
+
 class BaseClient(object):
     """
     wraps all calls to core/coreproxy
@@ -242,8 +255,7 @@ class BaseClient(object):
         raise NotImplementedError()
 
     def __getattr__(self, method_name):
-        return  self.get_method(method_name)
-        #raise AttributeError("no attr/method named:%s" % attr)
+        return DottedObject(self, method_name)
 
     #custom wrapped methods:
     def add_torrent_file(self, torrent_files, torrent_options=None):
@@ -277,7 +289,7 @@ class BaseClient(object):
                     options = None
             else:
                 options = None
-            self.get_method("add_torrent_file")(filename, fdump, options)
+            self.get_method("core.add_torrent_file")(filename, fdump, options)
 
     def add_torrent_file_binary(self, filename, fdump, options = None):
         """
@@ -286,10 +298,11 @@ class BaseClient(object):
         Expects fdump as a bytestring (== result of f.read()).
         """
         fdump_xmlrpc = xmlrpclib.Binary(fdump)
-        self.get_method("add_torrent_file")(filename, fdump_xmlrpc, options)
+        self.get_method("core.add_torrent_file")(filename, fdump_xmlrpc, options)
 
     #utility:
     def has_callback(self, method_name):
+        method_name = method_name.split(".")[-1]
         return not (method_name in self.no_callback_list)
 
     def is_localhost(self):

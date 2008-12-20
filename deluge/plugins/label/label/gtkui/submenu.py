@@ -58,7 +58,7 @@ class LabelMenu(gtk.MenuItem):
 
     def on_show(self, widget=None, data=None):
         log.debug("label-on-show")
-        aclient.label_get_labels(self.cb_labels)
+        aclient.label.get_labels(self.cb_labels)
         aclient.force_call(block=True)
 
     def cb_labels(self , labels):
@@ -73,5 +73,5 @@ class LabelMenu(gtk.MenuItem):
     def on_select_label(self, widget=None, label_id = None):
         log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
         for torrent_id in self.get_torrent_ids():
-            aclient.label_set_torrent(None, torrent_id, label_id)
+            aclient.label.set_torrent(None, torrent_id, label_id)
         #aclient.force_call(block=True)

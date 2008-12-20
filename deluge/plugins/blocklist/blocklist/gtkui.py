@@ -108,7 +108,7 @@ class GtkUI(ui.UI):
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
 
-        client.blocklist_get_status(_on_get_status)
+        client.blocklist.get_status(_on_get_status)
 
     def _on_show_prefs(self):
         def _on_get_config(config):
@@ -126,7 +126,7 @@ class GtkUI(ui.UI):
             self.glade.get_widget("chk_import_on_start").set_active(
                 config["load_on_start"])
 
-        client.blocklist_get_config(_on_get_config)
+        client.blocklist.get_config(_on_get_config)
 
     def _on_apply_prefs(self):
         config = {}
@@ -135,13 +135,13 @@ class GtkUI(ui.UI):
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
-        client.blocklist_set_config(None, config)
+        client.blocklist.set_config(None, config)
 
     def _on_button_check_download_clicked(self, widget):
-        client.blocklist_import(None, True, False)
+        client.blocklist.import_list(None, True, False)
 
     def _on_button_force_download_clicked(self, widget):
-        client.blocklist_import(None, True, True)
+        client.blocklist.import_list(None, True, True)
 
     def _on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Blocklist")
