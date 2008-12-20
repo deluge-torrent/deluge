@@ -94,7 +94,7 @@ class TorrentOptions(dict):
         if super(TorrentOptions, self).has_key(key):
             return super(TorrentOptions, self).__getitem__(key)
         elif key in self.default_keys:
-            if self.default_keys[key] in self.config:
+            if self.default_keys[key] in self.config.config:
                 return self.config[self.default_keys[key]]
             else:
                 return self.default_keys[key]
