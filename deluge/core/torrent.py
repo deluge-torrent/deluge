@@ -82,7 +82,7 @@ class TorrentOptions(dict):
         return k
 
     def iteritems(self):
-        return self.items().itermitems()
+        return self.items().iteritems()
 
     def has_key(self, key):
         if super(TorrentOptions, self).has_key(key):
@@ -98,7 +98,7 @@ class TorrentOptions(dict):
         if super(TorrentOptions, self).has_key(key):
             return super(TorrentOptions, self).__getitem__(key)
         else:
-            if self.default_keys[key]:
+            if key in self.config:
                 return self.config[self.default_keys[key]]
             else:
                 return self.default_keys[key]
