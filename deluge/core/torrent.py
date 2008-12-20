@@ -85,11 +85,7 @@ class TorrentOptions(dict):
         return self.items().iteritems()
 
     def has_key(self, key):
-        if super(TorrentOptions, self).has_key(key):
-            return True
-        elif self.default_keys.has_key(key):
-            return True
-        return False
+        return key in super(TorrentOptions, self) or key in self.default_keys
 
     def __setitem__(self, key, value):
         super(TorrentOptions, self).__setitem__(key, value)
