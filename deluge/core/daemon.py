@@ -82,7 +82,10 @@ class Daemon(object):
         # Start the core as a thread and join it until it's done
         self.core = Core()
 
-        self.rpcserver = RPCServer(options.port if options.port else self.core.config["daemon_port"])
+        self.rpcserver = RPCServer(
+            options.port if options.port else self.core.config["daemon_port"],
+            self.core.config["allow_remote"]
+        )
         self.rpcserver.register_object(self.core, "core")
         self.rpcserver.register_object(self, "daemon")
 
