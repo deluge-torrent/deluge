@@ -130,7 +130,7 @@ class Core(component.Component):
     def stop(self):
         # Save the DHT state if necessary
         if self.config["dht"]:
-            self.__save_dht_state()
+            self.save_dht_state()
         # Save the libtorrent session state
         self.__save_session_state()
 
@@ -156,7 +156,7 @@ class Core(component.Component):
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
 
-    def __save_dht_state(self):
+    def save_dht_state(self):
         """Saves the dht state to a file"""
         try:
             dht_data = open(deluge.common.get_default_config_dir("dht.state"), "wb")
