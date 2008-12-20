@@ -25,6 +25,7 @@
 """RPCServer Module"""
 
 import gobject
+import sys
 
 from deluge.SimpleXMLRPCServer import SimpleXMLRPCServer
 from deluge.SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
