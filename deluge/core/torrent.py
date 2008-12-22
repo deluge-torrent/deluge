@@ -520,7 +520,10 @@ class Torrent:
                 host = (url.hostname or 'DHT')
                 parts = host.split(".")
                 if len(parts) > 2:
-                    host = ".".join(parts[-2:])
+                    if parts[-2] in ("co", "com"):
+                        host = ".".join(parts[-3:])
+                    else:
+                        host = ".".join(parts[-2:])
                 return host
         return ""
 
