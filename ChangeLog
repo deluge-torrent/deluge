@@ -1,4 +1,4 @@
-Deluge 1.1.0 - "" (In Development)
+Deluge 1.1.0_RC1 (23 December 2008)
  Core:
   * Implement #79 ability to change outgoing port range
   * Implement #296 ability to change peer TOS byte
@@ -58,3 +58,252 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #478 display UI options in usage help
   * Fix #547 add description to name field per HIG entry 2.1.1.1
   * Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
+
+Deluge 1.0.7 (10 December 2008)
+ GtkUI:
+  * Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
+  * Fix some minor bugs in ConnectionManager
+
+ Debian:
+  * Fix #571 notification-daemon-xfce dependency circle
+
+ Misc:
+  * Fix #547 add description to name field per HIG entry 2.1.1.1
+  * libtorrent updates
+
+ Plugins:
+  * Point default blocklist url to our server and up interval to 4 days
+
+Deluge 1.0.6 (01 December 2008)
+ Core:
+  * Fix #475 catch unicode decoding errors
+  * Add an option to not include IP overhead in rate limiting (this is equivalent
+    to how 0.5.x behaves)
+  * Have default blocklist url point to our server
+
+ GtkUI:
+  * Display the proper downloaded value in the statistics tab
+
+ Windows:
+  * Fix broken graphic in new release dialog
+
+Deluge 1.0.5 (09 November 2008)
+ GtkUI:
+  * Increase the per-torrent stop share ratio max to 99999.0
+  * Fix #528 make sure gtkui config file is written before exiting
+  * Fix UDP tracker support
+
+ WebUi:
+  * Javascript auto refresh for both templates.
+
+ Windows:
+  * Fix #577 adding torrents by drag n' drop
+  * Fix association in Vista
+  * Fix WebUI launch
+
+ Debian:
+  * SID packages now requires Boost 1.36
+
+ Ubuntu:
+  * Jaunty packages are now provided
+
+Deluge 1.0.4 (31 October 2008)
+ Core:
+  * Fix #560 force an int value for global max connections
+  * Fix #545 use proper values in ratio calculation
+  * Fix UPnP again..
+
+ GtkUI:
+  * Fix #565 wait for the deluged process to start to prevent defunct processes
+
+ OS X:
+  * Fix issues with gettext
+
+ Windows:
+  * Fix starting on non-English versions of Windows
+
+Deluge 1.0.3 (18 October 2008)
+ Core:
+  * Fix upnp - it should work on more routers now too
+  * Fix issue where Deluge would send improper stats to the tracker after a
+    pause/resume.
+  * Fix issue where fastresume files would be rejected when using FAT32.  This
+    would cause the torrent to be rechecked on every startup.
+  * Fix ip filtering
+
+ GtkUI:
+  * Re-add the "Max Connections Per Second" option with a default setting of 20
+
+ WebUI:
+  * Fix White template for Opera
+
+ Misc:
+  * Deluge will now use a system libtorrent library if available.
+  * The build system will no longer build libtorrent if a system library is
+    detected.
+
+Deluge 1.0.2 (10 October 2008)
+ Core:
+  * Fix issue where torrents will not be properly added to the session
+
+Deluge 1.0.1 (10 October 2008)
+ Core:
+  * Change the default max global upload slots to 4 instead of -1 since libtorrent
+    will automatically open more slots to meet the upload speed limit.
+  * Fix display of tracker error messages
+  * Fix add_torrent_url() to download the torrent file in a thread to prevent
+    the main thread from blocking and causing the daemon to freeze.
+  * Removed the 'Maximum Connections Per Second' setting and replaced it with a
+    default setting of 20.  This should alleviate speed issues some are experiencing.
+  * Changed max half-open connections default limit to 8 on XP/2000 and 4 on Vista
+  * Prevent being able to set file priorities for compactly allocated torrents as
+    it is not intended to work.
+  * Fix freezing on start-up issues on systems that do not have a properly
+    configured localhost entry.
+  * Change max connections default setting to 200
+  * Fix issue with invalid bencoding from some trackers
+  * Plenty of libtorrent updates that should improve core stability
+
+ GtkUI:
+  * Improve performance of files tab by only updating when values change
+
+ Misc:
+  * Fix #187 set a 5 second timer to save the config file after a config value
+    has been changed.
+  * Fix #503 change the boost lib detection logic to first look for -mt and
+    if not available, fall back to regular boost lib (non-multithreaded)
+
+ WebUI:
+  * Add enable "Auto Add" checkbox
+
+Deluge 1.0.0 - "Sharks Are Bulletproof" (21 September 2008)
+ Core:
+  * Include GeoIP database for country look-ups
+  * Fix upgrading from 0.5.x state where torrents would have no trackers
+
+Deluge 0.9.09 - "1.0.0_RC9" (15 September 2008)
+ Core:
+  * Bug fixes in libtorrent including a crash when the tracker doesn't
+    have 'announce' in it's url.
+  * Fix fastresume issue causing loss of data by deleting the fastresume file
+    before writing a new one
+  * Fix #475 the use of unicode paths when adding torrents
+
+ GtkUI:
+  * Fix add torrent dialog closing preventing another dialog from being shown
+  * Fix various issues when not using English
+  * Fix setting file priorities on folders
+
+Deluge 0.9.08 - "1.0.0_RC8" (27 August 2008)
+ Core:
+  * Attempt to automatically upgrade a 0.5.x state file to new format
+  * Tracker errors now change the tracker status
+
+ Plugins:
+  * Fix bug in Blocklist that prevented downloading a new file every X days
+
+ GtkUI:
+  * Sort filenames alphabetically in add torrent dialog
+  * Fix setting file priorities on folders
+  * Fix #453 allow showing of text in the toolbar buttons
+
+Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
+ Core:
+  * Fix loading torrents from state when fastresume file is missing
+  * Fix UPnP
+  * Fix to prevent Deluge from segfaulting when trying to autoadd an incomplete torrent file
+  * Fix #407 possible negative ETA
+
+ GtkUI:
+  * Add 'edit' to edit trackers dialog
+  * Improve performance of initial torrent list load
+  * Fix hiding the bottom pane when disabling all the tabs
+  * Fix not showing new torrents if you don't use the All label first
+  * Fix size units to be more accurate
+  * Fix torrentview sorting to be persistent
+  * Fix not displaying file list when state changes
+  * Expand root folder in files tab by default
+
+ Null:
+  * Fix #415 crash when using 'config-set' with no parameters
+
+ Windows:
+  * Fix Vista slowness issue
+  * Fix properly shutting Deluge down when system shuts down
+  * Fix opening folders/files
+
+Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
+ Core:
+  * Fix CPU spikes
+
+ GtkUI:
+  * Fix move storage dialog when connected to a remote daemon
+
+Deluge 0.9.05 - "1.0.0_RC5" (04 August 2008)
+ Core:
+  * Fix deluged running with ssh X forwarding by removing the Gnome lib import
+  * Save resume data periodically to help prevent data loss
+  * Fix queue order shuffling on restart
+
+ GtkUI:
+  * Handle shutting down more cleanly
+  * Add translators to credits
+
+ Plugins:
+  * Improve the Blocklist plugin preferences page.
+
+ Windows:
+  * Fix drag n' drop support
+
+Deluge 0.9.04 - "1.0.0_RC4" (29 July 2008)
+ Core:
+  * Fix building with gcc 4.3
+  * Fix do not create torrentfiles folder unless 'copy_torrent_file' is True
+
+ GtkUI:
+  * Add drag n' drop support for adding .torrent files
+  * Double-clicking on host in ConnectionManager now will connect to that host
+  * Fix selecting torrents when right-clicking on them in torrentview and filestab
+  * Fix new release check
+  * Display 'total_wanted' instead of 'total_size' in Size column
+  * Fix displaying of torrents when language is not English
+  * Fix the view options to be persistent between sessions
+  * Fix signalreceiver when switching between daemons
+
+Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
+ Core:
+  * File progress fixes from libtorrent
+  * Fix building on FreeBSD
+  * Fix #350 stop seeds when stop ratio is reached
+  * Fix #358 properly emit torrent_removed signal when remove_at_ratio happens
+
+ UI:
+  * Default to gtkui when running 'deluge' instead of defaulting to last used.
+
+ GtkUI:
+  * Fix open folder
+  * Fix #349 tab ordering when hiding/showing
+
+ Windows:
+  * Fix torrent file association and adding files from command line
+
+ Plugins:
+  * Blocklist plugin has been rewritten
+
+ Misc:
+  * Some changes for python 2.6 compatibility
+
+Deluge 0.9.02 - "1.0.0_RC2" (15 July 2008)
+ Core:
+  * Fix displaying of file progress
+  * Fix files to have proper read/write permissions
+
+ WebUI:
+  * Include missing 'classic' template
+  * Update options tab to include queue settings
+
+ Windows:
+  * Fix displaying of tray icon
+  * Fix scrolling of tray menu
+  * Fix hiding of tray icon when shutting down
+  * Fix tray icon tool tip length to show properly
