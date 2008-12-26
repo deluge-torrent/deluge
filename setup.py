@@ -75,6 +75,7 @@ if windows_check():
         "-D_UNICODE",
         "/GR",
         "/Zc:wchar_t",
+        "/EHsc",
         ]
 else:
     _extra_compile_args += ["-Wno-missing-braces"]
