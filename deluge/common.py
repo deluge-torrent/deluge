@@ -79,7 +79,7 @@ def get_version():
     :rtype: string
 
     """
-    return pkg_resources.require("Deluge")[0].version.split("r")[0]
+    return pkg_resources.require("Deluge")[0].version
 
 def get_revision():
     """

@@ -1,3 +1,7 @@
+Deluge 1.1.0_RC2 (In Development)
+ Core:
+  * Fix new version check
+
 Deluge 1.1.0_RC1 (23 December 2008)
  Core:
   * Implement #79 ability to change outgoing port range
