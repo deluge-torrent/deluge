@@ -179,6 +179,7 @@ class Core(CorePluginBase):
                 self.core.block_ip_range(ips)
                 self.num_blocked += 1
                 ips = read_list.next()
+            read_list.close()
         except Exception, e:
             log.debug("Exception during import: %s", e)
         else:
