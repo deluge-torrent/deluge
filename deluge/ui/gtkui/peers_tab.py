@@ -32,6 +32,7 @@ from itertools import izip
 
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
+import deluge.configmanager
 import deluge.component as component
 import deluge.common
 import deluge.ui.gtkui.common as common
@@ -175,7 +176,7 @@ class PeersTab(Tab):
             }
 
         # Get the config location for saving the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
 
         try:
             log.debug("Saving FilesTab state file: %s", filename)
@@ -188,7 +189,7 @@ class PeersTab(Tab):
     def load_state(self):
         filename = "peers_tab.state"
         # Get the config location for loading the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
         state = None
 
         try:

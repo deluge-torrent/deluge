@@ -60,7 +60,6 @@ import deluge.configmanager
 import deluge.common
 
 DEFAULT_PREFS = {
-    "config_location": deluge.configmanager.get_config_dir(),
     "classic_mode": True,
     "interactive_add": True,
     "focus_add_dialog": True,

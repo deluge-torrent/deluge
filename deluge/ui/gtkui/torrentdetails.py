@@ -33,6 +33,7 @@ import cPickle
 import deluge.component as component
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
+import deluge.configmanager
 
 from deluge.log import LOG as log
 
@@ -371,7 +372,7 @@ class TorrentDetails(component.Component):
         state = [(n, v) for w, n, v in state]
 
         # Get the config location for saving the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
 
         try:
             log.debug("Saving TorrentDetails state file: %s", filename)
@@ -384,7 +385,7 @@ class TorrentDetails(component.Component):
     def load_state(self):
         filename = "tabs.state"
         # Get the config location for loading the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
         state = None
 
         try:

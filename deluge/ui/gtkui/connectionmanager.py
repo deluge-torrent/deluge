@@ -40,6 +40,7 @@ import deluge.ui.gtkui.common as common
 from deluge.ui.common import get_localhost_auth_uri
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
+import deluge.configmanager
 from deluge.log import LOG as log
 
 DEFAULT_URI = "http://127.0.0.1:58846"
@@ -480,7 +481,7 @@ class ConnectionManager(component.Component):
             win32api.WinExec("deluged -p %s" % port)
         else:
             subprocess.call(["deluged", "--port=%s" % port,
-                "--config=%s" % self.gtkui_config["config_location"]])
+                "--config=%s" % deluge.configmanager.get_config_dir()])
 
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
