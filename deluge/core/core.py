@@ -179,9 +179,36 @@ class Core(component.Component):
     def check_new_release(self):
         if self.new_release:
             log.debug("new_release: %s", self.new_release)
-            nr = self.new_release.split("_")
-            cv = deluge.common.get_version().split("-")
-            if nr[0] > cv[0]:
+            class VersionSplit(object):
+                def __init__(self, ver):
+                    ver = ver.lower()
+                    vs = ver.split("_") if "_" in ver else ver.split("-")
+                    self.version = vs[0]
+                    self.suffix = None
+                    if len(vs) > 1:
+                        for s in ("rc", "alpha", "beta", "dev"):
+                            if s in vs[1][:len(s)]:
+                                self.suffix = vs[1]
+
+                def __cmp__(self, ver):
+                    if self.version > ver.version or (self.suffix and self.suffix[:3] == "dev"):
+                        return 1
+                    if self.version < ver.version:
+                        return -1
+
+                    if self.version == ver.version:
+                        if self.suffix == ver.suffix:
+                            return 0
+                        if self.suffix is None:
+                            return 1
+                        if ver.suffix is None:
+                            return -1
+                        if self.suffix < ver.suffix:
+                            return -1
+                        if self.suffix > ver.suffix:
+                            return 1
+
+            if VersionSplit(self.new_release) > VersionSplit(deluge.common.get_version()):
                 self.signalmanager.emit("new_version_available", self.new_release)
                 return self.new_release
         return False
