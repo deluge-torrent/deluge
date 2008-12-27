@@ -297,11 +297,12 @@ class Core(CorePluginBase):
 
     def export_set_config(self, options):
         """global_options:"""
-        for key, value in options.items:
-            if key in CORE_OPTIONS:
-                self.config[key] = value
+        if options:
+            for key, value in options.items:
+                if key in CORE_OPTIONS:
+                    self.config[key] = value
 
-        self.config.save()
+            self.config.save()
 
     def _status_get_label(self, torrent_id):
         return self.torrent_labels.get(torrent_id) or ""
