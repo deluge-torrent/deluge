@@ -35,6 +35,7 @@ import deluge.common
 import deluge.error
 import deluge.ui.gtkui.common as common
 from deluge.configmanager import ConfigManager
+import deluge.configmanager
 
 class Preferences(component.Component):
     def __init__(self):
@@ -855,7 +856,7 @@ class Preferences(component.Component):
         filename = os.path.split(filepath)[1]
         shutil.copyfile(
             filepath,
-            os.path.join(self.gtkui_config["config_location"], "plugins", filename))
+            os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename))
 
         component.get("PluginManager").scan_for_plugins()
 

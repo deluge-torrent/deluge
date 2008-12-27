@@ -32,6 +32,7 @@ pygtk.require('2.0')
 import gtk
 import gettext
 
+import deluge.configmanager
 from deluge.configmanager import ConfigManager
 import deluge.common
 from deluge.log import LOG as log
@@ -204,7 +205,7 @@ class ListView:
             counter += 1
 
         # Get the config location for saving the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
 
         try:
             log.debug("Saving ListView state file: %s", filename)
@@ -217,7 +218,7 @@ class ListView:
     def load_state(self, filename):
         """Load the listview state from filename."""
         # Get the config location for loading the state file
-        config_location = ConfigManager("gtkui.conf")["config_location"]
+        config_location = deluge.configmanager.get_config_dir()
         state = None
 
         try:
