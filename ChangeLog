@@ -1,6 +1,7 @@
 Deluge 1.1.0_RC2 (In Development)
  Core:
   * Fix new version check
+  * Fix issue that prevented torrents from being added
 
  GtkUI:
   * Fix tooltip for 'Show session speed in titlebar' option
