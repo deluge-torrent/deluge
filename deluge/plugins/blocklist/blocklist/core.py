@@ -40,7 +40,7 @@ from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip
 
 DEFAULT_PREFS = {
-    "url": "http://www.deluge-torrent.org/blocklist/pipfilter.dat.gz",
+    "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
     "load_on_start": False,
     "check_after_days": 4,
     "listtype": "gzmule",
