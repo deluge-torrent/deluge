@@ -302,8 +302,11 @@ class BaseClient(object):
 
     #utility:
     def has_callback(self, method_name):
-        method_name = method_name.split(".")[-1]
-        return not (method_name in self.no_callback_list)
+        msplit = method_name.split(".")
+        if msplit[0] == "core":
+            return not (msplit[1] in self.no_callback_list)
+        else:
+            return True
 
     def is_localhost(self):
         """Returns True if core is a localhost"""
