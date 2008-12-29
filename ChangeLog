@@ -10,6 +10,10 @@ Deluge 1.1.0_RC2 (In Development)
   * Remove Stats plugin since it wasn't intended to be in this release
   * Fix never-ending import in Blocklist on Windows
 
+ Windows:
+  * Fix double-click association on Windows
+  * Fix Pidgin icon interference
+
 Deluge 1.1.0_RC1 (23 December 2008)
  Core:
   * Implement #79 ability to change outgoing port range
