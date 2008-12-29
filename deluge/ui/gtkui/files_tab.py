@@ -257,7 +257,7 @@ class FilesTab(Tab):
             if state["columns"].has_key(cname):
                 cstate = state["columns"][cname]
                 column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
-                column.set_fixed_width(cstate["width"])
+                column.set_fixed_width(cstate["width"] if cstate["width"] > 0 else 10)
                 if state["sort_id"] == index:
                     column.set_sort_indicator(True)
                     column.set_sort_order(state["sort_order"])
