@@ -108,15 +108,15 @@ if windows_check():
     _library_dirs += ['./win32/lib']
     _libraries = [
         'advapi32',
-        'boost_filesystem-vc90-mt-1_36',
-        'boost_date_time-vc90-mt-1_36',
-        'boost_iostreams-vc90-mt-1_36',
-        'boost_python-vc90-mt-1_36',
-        'boost_system-vc90-mt-1_36',
-        'boost_thread-vc90-mt-1_36',
+        'boost_filesystem-vc71-mt-1_36',
+        'boost_date_time-vc71-mt-1_36',
+        'boost_iostreams-vc71-mt-1_36',
+        'boost_python-vc71-mt-1_36',
+        'boost_system-vc71-mt-1_36',
+        'boost_thread-vc71-mt-1_36',
         'gdi32',
-        'libeay32MT',
-        'ssleay32MT',
+        'libeay32',
+        'ssleay32',
         'ws2_32',
         'wsock32',
         'zlib'
