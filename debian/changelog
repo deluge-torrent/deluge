@@ -1,5 +1,5 @@
-deluge-torrent (1.1.0_RC1) unstable; urgency=low
+deluge-torrent (1.0.99+1.1.0RC-2) unstable; urgency=low
 
-  * 1.1.0 RC1 release
+  * 1.1.0 RC2 release
 
- -- Andrew Resch (andar) <andrewresch@gmail.com>  Tue, 23 Dec 2008 16:31:14 -0800
+ -- Andrew Resch (andar) <andrewresch@gmail.com>  Mon, 29 Dec 2008 16:31:14 -0800
