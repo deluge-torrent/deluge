@@ -793,9 +793,11 @@ class Preferences(component.Component):
         log.debug("on_test_port_clicked")
         def on_get_test(status):
             if status:
-                self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_YES, 4).show()
+                self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_YES, 4)
+                self.glade.get_widget("port_img").show()
             else:
-                self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_DIALOG_WARNING, 4).show()
+                self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
+                self.glade.get_widget("port_img").show()
         client.test_listen_port(on_get_test)
         client.force_call()
 
