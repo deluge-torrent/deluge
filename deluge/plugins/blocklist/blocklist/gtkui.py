@@ -138,9 +138,11 @@ class GtkUI(ui.UI):
         client.blocklist.set_config(None, config)
 
     def _on_button_check_download_clicked(self, widget):
+        self._on_apply_prefs()
         client.blocklist.import_list(None, True, False)
 
     def _on_button_force_download_clicked(self, widget):
+        self._on_apply_prefs()
         client.blocklist.import_list(None, True, True)
 
     def _on_status_item_clicked(self, widget, event):
