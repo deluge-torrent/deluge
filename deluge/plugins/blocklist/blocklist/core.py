@@ -170,6 +170,7 @@ class Core(CorePluginBase):
             read_list = FORMATS[self.config["listtype"]][1](bl_file)
         except Exception, e:
             log.debug("Unable to read blocklist file: %s", e)
+            self.is_importing = False
             return
 
         try:
