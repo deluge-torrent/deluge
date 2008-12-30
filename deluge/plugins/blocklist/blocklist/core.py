@@ -38,7 +38,7 @@ import deluge.configmanager
 from deluge.core.rpcserver import export
 
 from peerguardian import PGReader, PGException
-from text import TextReader, GZMuleReader, PGZip
+from text import TextReader, GZMuleReader, PGZip, PGTextReaderGzip
 
 DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
@@ -57,7 +57,8 @@ FORMATS =  {
     'gzmule': ["Emule IP list (GZip)", GZMuleReader],
     'spzip': ["SafePeer Text (Zipped)", PGZip],
     'pgtext': ["PeerGuardian Text (Uncompressed)", TextReader],
-    'p2bgz': ["PeerGuardian P2B (GZip)", PGReader]
+    'p2bgz': ["PeerGuardian P2B (GZip)", PGReader],
+    'pgtextgz': ["PeerGuardian Text (GZip)",  PGTextReaderGzip]
 }
 
 class Core(CorePluginBase):

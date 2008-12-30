@@ -59,6 +59,13 @@ class PGTextReader(TextBase):
         regexp = ':(\d+)\.(\d+)\.(\d+)\.(\d+)-(\d+)\.(\d+)\.(\d+)\.(\d+)\s*$'
         TextBase.__init__(self, fd, regexp)
 
+class PGTextReaderGzip(PGTextReader):
+    def __init__(self, filename):
+        log.debug("PGTextReaderGzip loading")
+        try:
+            PGTextReader.__init__(self, gzip.open(filename, "r"))
+        except:
+            log.debug("Wrong file type or corrupted blocklist file.")
 
 # This reads uncompressed PG text list
 class TextReader(PGTextReader):
