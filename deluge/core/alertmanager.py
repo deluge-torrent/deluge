@@ -90,8 +90,7 @@ class AlertManager(component.Component):
         alert = self.session.pop_alert()
         while alert is not None:
             # Loop through all alerts in the queue
-            # Do some magic to get the alert type as a string
-            alert_type = str(type(alert)).split("'")[1].split(".")[-1]
+            alert_type = type(alert).__name__
             # Display the alert message
             log.debug("%s: %s", alert_type, alert.message())
             # Call any handlers for this alert type
