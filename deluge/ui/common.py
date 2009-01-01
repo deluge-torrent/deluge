@@ -22,9 +22,13 @@
 #     Boston, MA  02110-1301, USA.
 #
 
-
 import os
-from sha import sha
+import sys
+
+if sys.version_info > (2, 6):
+    from hashlib import sha1 as sha
+else:
+    from sha import sha
 import urlparse
 
 from deluge import bencode
