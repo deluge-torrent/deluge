@@ -57,7 +57,7 @@ FORMATS =  {
     'spzip': ["SafePeer Text (Zipped)", PGZip],
     'pgtext': ["PeerGuardian Text (Uncompressed)", TextReader],
     'p2bgz': ["PeerGuardian P2B (GZip)", PGReader],
-    'pgtextgz': ["PeerGuaedian Text (GZip)",  PGTextReaderGzip]
+    'pgtextgz': ["PeerGuardian Text (GZip)",  PGTextReaderGzip]
 }
 
 class Core(CorePluginBase):
