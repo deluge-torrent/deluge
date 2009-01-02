@@ -461,7 +461,7 @@ class PreferencesManager(component.Component):
         for k, v in value.items():
             if v["type"]:
                 proxy_settings = lt.proxy_settings()
-                proxy_settings.proxy_type = lt.proxy_type(v["type"])
+                proxy_settings.type = lt.proxy_type(v["type"])
                 proxy_settings.username = v["username"]
                 proxy_settings.password = v["password"]
                 proxy_settings.hostname = v["hostname"]
