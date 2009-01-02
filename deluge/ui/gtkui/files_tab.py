@@ -603,8 +603,20 @@ class FilesTab(Tab):
                             log.debug("parent_path: %s remove: %s", parent_path, model[itr][0])
                             parent_path.remove(model[itr][0][:-1])
 
+                if parent_path:
+                    self.treestore.foreach(find_parent, None)
+                else:
+                    new_folders = name.split("/")[:-1]
+                    parent_iter = None
+                    for f in new_folders:
+                        parent_iter = self.treestore.append(parent_iter,
+                                                [f + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                    child = self.get_iter_at_path(old_name)
+                    self.treestore.append(
+                        parent_iter,
+                        self.treestore.get(child, *xrange(self.treestore.get_n_columns())))
+                    self.treestore.remove(child)
 
-                self.treestore.foreach(find_parent, None)
             else:
                 # This is just changing a filename without any folder changes
                 def set_file_name(model, path, itr, user_data):
@@ -709,6 +721,10 @@ class FilesTab(Tab):
             old_folder_iter_parent = self.treestore.iter_parent(old_folder_iter)
 
             new_folder_iter = self.get_iter_at_path(new_folder)
+            if len(new_split) == len(old_split):
+                # These are at the same tree depth, so it's a simple rename
+                self.treestore[old_folder_iter][0] = new_folder
+                return
             if new_folder_iter:
                 # This means that a folder by this name already exists
                 self.reparent_iter(self.treestore.iter_children(old_folder_iter), new_folder_iter)
