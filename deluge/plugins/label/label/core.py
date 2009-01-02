@@ -177,7 +177,8 @@ class Core(CorePluginBase):
         if changed:
             self.config.save()
 
-    def export_get_labels(self):
+    @export
+    def get_labels(self):
         return sorted(self.labels.keys())
 
     #Labels:
@@ -222,8 +223,12 @@ class Core(CorePluginBase):
             torrent.set_remove_at_ratio(options['remove_at_ratio'])
 
         if options["apply_move_completed"]:
-            torrent.set_move_on_completed(options["move_completed"])
-            torrent.set_move_on_completed_path(options["move_completed_path"])
+            torrent.set_options(
+                {
+                    "move_completed": options["move_completed"],
+                    "move_completed_path": options["move_completed_path"]
+                }
+            )
 
     def _has_auto_match(self, torrent ,label_options):
         "match for auto_add fields"
@@ -266,7 +271,7 @@ class Core(CorePluginBase):
         if options["auto_add"]:
             for torrent_id, torrent in self.torrents.iteritems():
                 if self._has_auto_match(torrent, options):
-                    self.export_set_torrent(torrent_id , label_id)
+                    self.set_torrent(torrent_id , label_id)
 
         self.config.save()
 
