@@ -2,6 +2,9 @@ Deluge 1.1.0_RC3 (In Development)
  GtkUI:
   * Fix folder renaming to display the change properly
 
+ Plugins:
+  * Label: Fix move on completed
+
 Deluge 1.1.0_RC2 (29 December 2008)
  Core:
   * Fix new version check
