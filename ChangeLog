@@ -1,4 +1,7 @@
 Deluge 1.1.0_RC3 (In Development)
+ Core:
+  * Fix applying proxy settings
+
  GtkUI:
   * Fix folder renaming to display the change properly
 
