@@ -4,6 +4,7 @@ Deluge 1.1.0_RC3 (In Development)
 
  GtkUI:
   * Fix folder renaming to display the change properly
+  * Fix seeding torrents from moving around when sorting the '#' column
 
  Plugins:
   * Label: Fix move on completed

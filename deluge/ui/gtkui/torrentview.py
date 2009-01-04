@@ -279,10 +279,11 @@ class TorrentView(listview.ListView, component.Component):
             if not torrent_id in status.keys():
                 row[filter_column] = False
             else:
+                row[filter_column] = True
                 if torrent_id in self.prev_status and status[torrent_id] == self.prev_status[torrent_id]:
                     # The status dict is the same, so do not update
                     continue
-                row[filter_column] = True
+
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)

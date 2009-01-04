@@ -161,23 +161,16 @@ class ListView:
         """create new filter-model
         must be called after listview.create_new_liststore
         """
-        sort_column = None
-        if self.model_filter:
-            # Save the liststore filter column
-            sort_column = self.model_filter.get_sort_column_id()
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
         self.model_filter = gtk.TreeModelSort(model_filter)
         self.set_sort_functions()
         self.treeview.set_model(self.model_filter)
-        if sort_column and sort_column != (None, None):
-            self.model_filter.set_sort_column_id(*sort_column)
 
     def set_sort_functions(self):
         for column in self.columns.values():
             if column.sort_func:
-                log.debug("sort_func: %s sort_id: %s", column.sort_func, column.sort_id)
                 self.model_filter.set_sort_func(
                     column.sort_id,
                     column.sort_func,
