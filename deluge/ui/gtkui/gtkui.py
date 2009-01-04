@@ -106,7 +106,7 @@ DEFAULT_PREFS = {
     "show_toolbar": True,
     "show_statusbar": True,
     "sidebar_show_zero": False,
-    "sidebar_show_trackers": False,
+    "sidebar_show_trackers": True,
     "sidebar_position": 170,
     "show_rate_in_title": False
 }
