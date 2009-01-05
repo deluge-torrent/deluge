@@ -8,6 +8,8 @@ Deluge 1.1.0_RC3 (In Development)
 
  Plugins:
   * Label: Fix move on completed
+  * Add 'PeerGuardian Text (GZip)' reader to the Blocklist plugin
+  * Apply Blocklist preferences when clicking on the buttons
 
 Deluge 1.1.0_RC2 (29 December 2008)
  Core:
