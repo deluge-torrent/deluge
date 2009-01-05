@@ -518,6 +518,16 @@ class Torrent:
             url = urlparse(tracker)
             if hasattr(url, "hostname"):
                 host = (url.hostname or 'DHT')
+                # Check if hostname is an IP address and just return it if that's the case
+                import socket
+                try:
+                    socket.inet_aton(url.hostname)
+                except socket.error:
+                    pass
+                else:
+                    # This is an IP address because an exception wasn't raised
+                    return url.hostname
+
                 parts = host.split(".")
                 if len(parts) > 2:
                     if parts[-2] in ("co", "com"):
