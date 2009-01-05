@@ -1,6 +1,7 @@
 Deluge 1.1.0_RC3 (05 January 2009)
  Core:
   * Fix applying proxy settings
+  * Fix the display of the tracker host when it's an IP address and not a hostname
 
  GtkUI:
   * Fix folder renaming to display the change properly
