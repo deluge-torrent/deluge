@@ -49,18 +49,18 @@ class TorrentOptions(dict):
     def __init__(self):
         self.config = ConfigManager("core.conf")
         self.default_keys = {
-            "max_download_speed": "max_download_speed_per_torrent",
-            "max_upload_speed": "max_upload_speed_per_torrent",
-            "max_connections": "max_connections_per_torrent",
-            "max_upload_slots": "max_upload_slots_per_torrent",
-            "prioritize_first_last_pieces": "prioritize_first_last_pieces",
+            "add_paused": "add_paused",
             "auto_managed": "auto_managed",
-            "move_completed": "move_completed",
-            "move_completed_path": "move_completed_path",
-            "file_priorities": [],
             "compact_allocation": "compact_allocation",
             "download_location": "download_location",
-            "add_paused": "add_paused"
+            "file_priorities": [],
+            "max_connections": "max_connections_per_torrent",
+            "max_download_speed": "max_download_speed_per_torrent",
+            "max_upload_slots": "max_upload_slots_per_torrent",
+            "max_upload_speed": "max_upload_speed_per_torrent",
+            "move_completed": "move_completed",
+            "move_completed_path": "move_completed_path",
+            "prioritize_first_last_pieces": "prioritize_first_last_pieces"
         }
         super(TorrentOptions, self).__setitem__("stop_at_ratio", False)
         super(TorrentOptions, self).__setitem__("stop_ratio", 2.0)
@@ -205,14 +205,14 @@ class Torrent:
     def set_options(self, options):
         OPTIONS_FUNCS = {
             # Functions used for setting options
-            "max_download_speed": self.set_max_download_speed,
-            "max_upload_speed": self.set_max_upload_speed,
-            "max_connections": self.handle.set_max_connections,
-            "max_upload_slots": self.handle.set_max_uploads,
-            "prioritize_first_last_pieces": self.set_prioritize_first_last,
             "auto_managed": self.set_auto_managed,
-            "file_priorities": self.set_file_priorities,
             "download_location": self.set_save_path,
+            "file_priorities": self.set_file_priorities,
+            "max_connections": self.handle.set_max_connections,
+            "max_download_speed": self.set_max_download_speed,
+            "max_upload_slots": self.handle.set_max_uploads,
+            "max_upload_speed": self.set_max_upload_speed,
+            "prioritize_first_last_pieces": self.set_prioritize_first_last
         }
         for (key, value) in options.items():
             if OPTIONS_FUNCS.has_key(key):
@@ -474,13 +474,13 @@ class Torrent:
                     country += c
 
             ret.append({
-                "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
-                "up_speed": peer.up_speed,
-                "down_speed": peer.down_speed,
-                "country": country,
                 "client": client,
+                "country": country,
+                "down_speed": peer.down_speed,
+                "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
+                "progress": peer.progress,
                 "seed": peer.flags & peer.seed,
-                "progress": peer.progress
+                "up_speed": peer.up_speed,
             })
 
         return ret
@@ -554,47 +554,47 @@ class Torrent:
 
         #if you add a key here->add it to core.py STATUS_KEYS too.
         full_status = {
-            "distributed_copies": distributed_copies,
-            "total_done": self.status.total_done,
-            "total_uploaded": self.status.all_time_upload,
+            "active_time": self.status.active_time,
             "all_time_download": self.status.all_time_download,
-            "state": self.state,
-            "paused": self.status.paused,
-            "progress": progress,
-            "next_announce": self.status.next_announce.seconds,
-            "total_payload_download": self.status.total_payload_download,
-            "total_payload_upload": self.status.total_payload_upload,
+            "compact": self.options["compact_allocation"],
+            "distributed_copies": distributed_copies,
             "download_payload_rate": self.status.download_payload_rate,
-            "upload_payload_rate": self.status.upload_payload_rate,
+            "file_priorities": self.options["file_priorities"],
+            "files": self.files,
+            "hash": self.torrent_id,
+            "is_auto_managed": self.options["auto_managed"],
+            "max_connections": self.options["max_connections"],
+            "max_download_speed": self.options["max_download_speed"],
+            "max_upload_slots": self.options["max_upload_slots"],
+            "max_upload_speed": self.options["max_upload_speed"],
+            "message": self.statusmsg,
+            "move_on_completed_path": self.options["move_completed_path"],
+            "move_on_completed": self.options["move_completed"],
+            "next_announce": self.status.next_announce.seconds,
             "num_peers": self.status.num_peers - self.status.num_seeds,
             "num_seeds": self.status.num_seeds,
+            "paused": self.status.paused,
+            "prioritize_first_last": self.options["prioritize_first_last_pieces"],
+            "progress": progress,
+            "remove_at_ratio": self.options["remove_at_ratio"],
+            "save_path": self.options["download_location"],
+            "seeding_time": self.status.seeding_time,
+            "seed_rank": self.status.seed_rank,
+            "state": self.state,
+            "stop_at_ratio": self.options["stop_at_ratio"],
+            "stop_ratio": self.options["stop_ratio"],
+            "time_added": self.time_added,
+            "total_done": self.status.total_done,
+            "total_payload_download": self.status.total_payload_download,
+            "total_payload_upload": self.status.total_payload_upload,
             "total_peers": self.status.num_incomplete,
             "total_seeds":  self.status.num_complete,
+            "total_uploaded": self.status.all_time_upload,
             "total_wanted": self.status.total_wanted,
             "tracker": self.status.current_tracker,
             "trackers": self.trackers,
             "tracker_status": self.tracker_status,
-            "save_path": self.options["download_location"],
-            "files": self.files,
-            "file_priorities": self.options["file_priorities"],
-            "compact": self.options["compact_allocation"],
-            "max_connections": self.options["max_connections"],
-            "max_upload_slots": self.options["max_upload_slots"],
-            "max_upload_speed": self.options["max_upload_speed"],
-            "max_download_speed": self.options["max_download_speed"],
-            "prioritize_first_last": self.options["prioritize_first_last_pieces"],
-            "message": self.statusmsg,
-            "hash": self.torrent_id,
-            "active_time": self.status.active_time,
-            "seeding_time": self.status.seeding_time,
-            "seed_rank": self.status.seed_rank,
-            "is_auto_managed": self.options["auto_managed"],
-            "stop_ratio": self.options["stop_ratio"],
-            "stop_at_ratio": self.options["stop_at_ratio"],
-            "remove_at_ratio": self.options["remove_at_ratio"],
-            "move_on_completed": self.options["move_completed"],
-            "move_on_completed_path": self.options["move_completed_path"],
-            "time_added": self.time_added
+            "upload_payload_rate": self.status.upload_payload_rate
         }
 
         def ti_name():
@@ -627,19 +627,19 @@ class Torrent:
             return 0
 
         fns = {
+            "eta": self.get_eta,
+            "file_progress": self.get_file_progress,
+            "is_seed": self.handle.is_seed,
             "name": ti_name,
-            "private": ti_priv,
-            "total_size": ti_total_size,
             "num_files": ti_num_files,
             "num_pieces": ti_num_pieces,
-            "piece_length": ti_piece_length,
-            "eta": self.get_eta,
-            "ratio": self.get_ratio,
-            "file_progress": self.get_file_progress,
-            "queue": self.handle.queue_position,
-            "is_seed": self.handle.is_seed,
             "peers": self.get_peers,
-            "tracker_host": self.get_tracker_host
+            "piece_length": ti_piece_length,
+            "private": ti_priv,
+            "queue": self.handle.queue_position,
+            "ratio": self.get_ratio,
+            "total_size": ti_total_size,
+            "tracker_host": self.get_tracker_host,
         }
 
         # Create the desired status dictionary and return it
