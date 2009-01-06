@@ -42,18 +42,18 @@ class Notification:
             self.get_torrent_status(torrent_id)
 
     def get_torrent_status(self, torrent_id):
-        client.get_torrent_status(
-            self._on_get_torrent_status, torrent_id, ["name", "num_files"])
+        client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["name", "num_files"])
 
     def _on_get_torrent_status(self, status):
         if status is None:
             return
-        if self.config["ntf_popup"]:
-            self.popup(status)
-        if self.config["ntf_email"]:
-            self.email(status)
-        if self.config["ntf_sound"]:
-            self.sound()
+        if status["total_payload_download"]:
+            if self.config["ntf_popup"]:
+                self.popup(status)
+            if self.config["ntf_email"]:
+                self.email(status)
+            if self.config["ntf_sound"]:
+                self.sound()
 
     def popup(self, status):
         """popups up notification of finished torrent"""
