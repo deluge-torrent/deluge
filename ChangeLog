@@ -1,3 +1,7 @@
+Deluge 1.1.0_RC4 (In Development)
+ Core:
+  * Fix issue in get_tracker_host when the torrent has no tracker
+
 Deluge 1.1.0_RC3 (05 January 2009)
  Core:
   * Fix applying proxy settings
