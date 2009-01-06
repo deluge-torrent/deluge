@@ -521,7 +521,7 @@ class Torrent:
                 # Check if hostname is an IP address and just return it if that's the case
                 import socket
                 try:
-                    socket.inet_aton(url.hostname)
+                    socket.inet_aton(host)
                 except socket.error:
                     pass
                 else:
