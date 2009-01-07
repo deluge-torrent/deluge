@@ -383,7 +383,8 @@ Deluge.UI = {
                 });
                 break;
             case 'create':
-                this.createWindow.show();
+                alert('Sorry, this hasn\'t been implemented yet.');
+                //this.createWindow.show();
                 break;
             case 'add':
                 this.addWindow.show();
@@ -401,6 +402,8 @@ Deluge.UI = {
             case 'preferences':
                 this.prefsWindow.show();
                 break;
+            case 'connections':
+                alert('Sorry, this hasn\'t been implemented yet.');
             default:
                 break;
         }
