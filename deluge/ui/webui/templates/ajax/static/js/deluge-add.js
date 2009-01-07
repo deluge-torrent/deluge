@@ -287,6 +287,42 @@ Deluge.Widgets.AddTorrent.OptionsTab = new Class({
     
     onLoad: function(e) {
         this.form = this.element.getElement('form');
+        
+        new Widgets.Spinner(this.form.max_download_speed_per_torrent, {
+            step: 10,
+            precision: 1,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });
+        
+        new Widgets.Spinner(this.form.max_upload_speed_per_torrent, {
+            step: 10,
+            precision: 1,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });
+        
+        new Widgets.Spinner(this.form.max_connections_per_torrent, {
+            step: 1,
+            precision: 0,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });
+        
+        new Widgets.Spinner(this.form.max_upload_slots_per_torrent, {
+            step: 1,
+            precision: 0,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });
     },
     
     getDefaults: function() {
@@ -301,10 +337,24 @@ Deluge.Widgets.AddTorrent.OptionsTab = new Class({
             'prioritize_first_last_pieces'
         ]
         Deluge.Client.get_config_values(keys, {
-            onSuccess: function(config) {
-                alert(JSON.encode(config));
+            onSuccess: this.onGetConfigSuccess.bindWithEvent(this)
+        });
+    },
+    
+    onGetConfigSuccess: function(config) {
+        this.form.add_paused.checked = config['add_paused'];
+        $each(this.form.compact_allocation, function(el) {
+            if (el.value == config['compact_allocation'].toString()) {
+                el.checked = true;
+            } else {
+                el.checked = false;
             }
         });
+        this.form.prioritize_first_last_pieces.checked = config['prioritize_first_last_pieces'];
+        $$W(this.form.max_download_speed_per_torrent).setValue(config['max_download_speed_per_torrent']);
+        $$W(this.form.max_upload_speed_per_torrent).setValue(config['max_upload_speed_per_torrent']);
+        $$W(this.form.max_connections_per_torrent).setValue(config['max_connections_per_torrent']);
+        $$W(this.form.max_upload_slots_per_torrent).setValue(config['max_upload_slots_per_torrent']);
     }
 });
 
