@@ -404,6 +404,10 @@ Deluge.UI = {
                 break;
             case 'connections':
                 alert('Sorry, this hasn\'t been implemented yet.');
+                break;
+            case 'edit_trackers':
+                alert('Sorry, this hasn\'t been implemented yet.');
+                break;
             default:
                 break;
         }

@@ -14,21 +14,21 @@
         <legend>$_('Bandwidth')</legend>
         
         <label>$_('Max Down Speed'):</label>
-        <input type="text" class="moouiSpinner" /><br/>
+        <input type="text" name="max_download_speed" class="moouiSpinner" /><br/>
         
         <label>$_('Max Up Speed'):</label>
-        <input type="text" class="moouiSpinner" /><br/>
+        <input type="text" name="max_upload_speed" class="moouiSpinner" /><br/>
         
         <label>$_('Max Connections'):</label>
-        <input type="text" class="moouiSpinner" /><br/>
+        <input type="text" name="max_connections" class="moouiSpinner" /><br/>
         
         <label>$_('Max Upload Slots'):</label>
-        <input type="text" class="moouiSpinner" />
+        <input type="text" name="max_upload_slots" class="moouiSpinner" />
     </fieldset>
     <fieldset>
         <legend>$_('General')</legend>
         <label class="fluid">
-            <input type="checkbox" />
+            <input type="checkbox" name="add_paused" />
             $_('Add in Paused State')
         </label><br/>
         <label class="fluid">
