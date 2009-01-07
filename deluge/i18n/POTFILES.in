@@ -1,7 +1,5 @@
 deluge/plugins/label/label/data/label_pref.glade
 deluge/plugins/label/label/data/label_options.glade
-deluge/plugins/stats/stats/data/config.glade
-deluge/plugins/stats/stats/data/tabs.glade
 deluge/ui/gtkui/glade/add_torrent_dialog.glade
 deluge/ui/gtkui/glade/filtertree_menu.glade
 deluge/ui/gtkui/glade/torrent_menu.glade
@@ -57,14 +55,6 @@ deluge/plugins/blocklist/blocklist/core.py
 deluge/plugins/coreclient.py
 deluge/plugins/__init__.py
 deluge/plugins/webuipluginbase.py
-deluge/plugins/stats/setup.py
-deluge/plugins/stats/stats/webui.py
-deluge/plugins/stats/stats/gtkui.py
-deluge/plugins/stats/stats/test.py
-deluge/plugins/stats/stats/graph.py
-deluge/plugins/stats/stats/test_total.py
-deluge/plugins/stats/stats/__init__.py
-deluge/plugins/stats/stats/core.py
 deluge/configmanager.py
 deluge/ui/tracker_icons.py
 deluge/ui/client.py
