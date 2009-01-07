@@ -359,6 +359,11 @@ Deluge.Widgets.AddTorrent.OptionsTab = new Class({
     },
     
     onGetConfigSuccess: function(config) {
+        this.default_config = config;
+        this.setFormToDefault();
+    },
+    
+    setFormToDefault: function() {
         this.form.add_paused.checked = config['add_paused'];
         $each(this.form.compact_allocation, function(el) {
             if (el.value == config['compact_allocation'].toString()) {
@@ -372,6 +377,10 @@ Deluge.Widgets.AddTorrent.OptionsTab = new Class({
         $$W(this.form.max_upload_speed_per_torrent).setValue(config['max_upload_speed_per_torrent']);
         $$W(this.form.max_connections_per_torrent).setValue(config['max_connections_per_torrent']);
         $$W(this.form.max_upload_slots_per_torrent).setValue(config['max_upload_slots_per_torrent']);
+    },
+    
+    setTorrent: function(torrent) {
+        
     }
 });
 
