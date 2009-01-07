@@ -276,9 +276,15 @@ Deluge.Widgets.AddTorrent.FilesTab = new Class({
         if (!torrent) return;
         $each(torrent['files'], function(file) {
             row = new Element('tr');
-            new Element('td').inject(row);
-            new Element('td').set('text', file['path']).inject(row);
-            new Element('td').set('text', file['size'].toBytes()).inject(row);
+            new Element('td').addClass('fileSelect').inject(row).grab(new Element('input', {
+                'type': 'checkbox',
+                'checked': 'checked'
+            }));
+            var icon = new Element('td').addClass('fileIcon').inject(row);
+            var mimetype = Deluge.Mime.getMimeType(file['path']);
+            if (mimetype) icon.addClass(mimetype.replace('/', '_'));
+            new Element('td').addClass('fileName').set('text', file['path']).inject(row);
+            new Element('td').addClass('fileSize').set('text', file['size'].toBytes()).inject(row);
             this.table.grab(row);
         }, this);
     }

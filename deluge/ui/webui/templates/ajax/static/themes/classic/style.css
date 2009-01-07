@@ -358,6 +358,28 @@ label.fluid {
     color: Black;
     background: #99acc3;
     border:1px solid #23344b;
+    overflow: auto;
+}
+
+#addTorrent .filesTable .fileIcon {
+    width: 20px;
+    background: url(mime_icons/unknown.png) 2px 2px no-repeat;
+}
+
+#addTorrent .filesTable .fileSelect {
+    width: 20px;
+}
+
+#addTorrent .filesTable .fileName {
+    width: 410px;
+}
+
+#addTorrent .filesTable .fileSize {
+    width: 60px;
+}
+
+#addTorrent .filesTable .image_jpeg {
+    background-image: url(mime_icons/image.png);
 }
 
 #addTorrent #buttons {
