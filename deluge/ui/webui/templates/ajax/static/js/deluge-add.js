@@ -194,17 +194,17 @@ Deluge.Widgets.AddTorrent.Url = new Class({
         
         this.form = new Element('form');
         this.urlInput = new Element('input', {
-            type: 'text',
-            id: 'urlInput',
-            name: 'urlInput'
+            'type': 'text',
+            'id': 'urlInput',
+            'name': 'urlInput'
         });
         this.okButton = new Element('button');
         this.okButton.set('text', _('Ok'));
         this.cancelButton = new Element('button');
         this.cancelButton.set('text', _('Cancel'));
         this.form.grab(new Element('label', {
-            for: 'urlInput',
-            text: _('Url'),
+            'for': 'urlInput',
+            'text': _('Url'),
         }).addClass('fluid'));
         this.form.grab(this.urlInput).grab(new Element('br'));
         this.form.grab(this.okButton).grab(this.cancelButton);
