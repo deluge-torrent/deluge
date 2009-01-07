@@ -23,11 +23,13 @@ Deluge.Widgets.AddWindow = new Class({
         this.bound = {
             onLoad: this.onLoad.bindWithEvent(this),
             onAdd: this.onAdd.bindWithEvent(this),
+            onShow: this.onShow.bindWithEvent(this),
             onCancel: this.onCancel.bindWithEvent(this),
             onTorrentAdded: this.onTorrentAdded.bindWithEvent(this),
             onTorrentChanged: this.onTorrentChanged.bindWithEvent(this)
         }
         this.addEvent('loaded', this.bound.onLoad);
+        this.addEvent('show', this.bound.onShow);
     },
     
     onLoad: function(e) {
@@ -37,10 +39,9 @@ Deluge.Widgets.AddWindow = new Class({
         this.torrentInfo = new Hash();
         this.tabs = new Widgets.Tabs(this.content.getElement('div.moouiTabs'));
         this.filesTab = new Deluge.Widgets.AddTorrent.FilesTab();
+        this.optionsTab = new Deluge.Widgets.AddTorrent.OptionsTab();
         this.tabs.addPage(this.filesTab);
-        this.tabs.addPage(new Widgets.TabPage('Options', {
-            url: '/template/render/html/add_torrent_options.html'
-        }));
+        this.tabs.addPage(this.optionsTab);
         
         this.fileWindow = new Deluge.Widgets.AddTorrent.File();
         this.fileWindow.addEvent('torrentAdded', this.bound.onTorrentAdded);
@@ -84,6 +85,10 @@ Deluge.Widgets.AddWindow = new Class({
         }, this);
         Deluge.Client.add_torrents(torrents);
         this.onCancel()
+    },
+    
+    onShow: function(e) {
+        this.optionsTab.getDefaults();
     },
     
     onCancel: function(e) {
@@ -265,6 +270,41 @@ Deluge.Widgets.AddTorrent.FilesTab = new Class({
             new Element('td').set('text', file['size'].toBytes()).inject(row);
             this.table.grab(row);
         }, this);
+    }
+});
+
+Deluge.Widgets.AddTorrent.OptionsTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/add_torrent_options.html'
+    },
+    
+    initialize: function() {
+        this.parent('Options');
+        this.addEvent('loaded', this.onLoad.bindWithEvent(this));
+    },
+    
+    onLoad: function(e) {
+        this.form = this.element.getElement('form');
+    },
+    
+    getDefaults: function() {
+        var keys = [
+            'add_paused',
+            'compact_allocation',
+            'download_location',
+            'max_connections_per_torrent',
+            'max_download_speed_per_torrent',
+            'max_upload_slots_per_torrent',
+            'max_upload_speed_per_torrent',
+            'prioritize_first_last_pieces'
+        ]
+        Deluge.Client.get_config_values(keys, {
+            onSuccess: function(config) {
+                alert(JSON.encode(config));
+            }
+        });
     }
 });
 

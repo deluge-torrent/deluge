@@ -1,6 +1,12 @@
 Deluge 1.1.0_RC4 (In Development)
  Core:
   * Fix issue in get_tracker_host when the torrent has no tracker
+ 
+ Ajaxui:
+  * Fix loading on iPods.
+  * Fix sorting on the name column.
+  * Add "Not Implemented" alerts to some functions.
+  * Improve the options tab on the Add Torrent dialog
 
 Deluge 1.1.0_RC3 (05 January 2009)
  Core:
