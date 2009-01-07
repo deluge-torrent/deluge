@@ -25,6 +25,7 @@ Deluge.Widgets.AddWindow = new Class({
             onAdd: this.onAdd.bindWithEvent(this),
             onShow: this.onShow.bindWithEvent(this),
             onCancel: this.onCancel.bindWithEvent(this),
+            onRemoveClick: this.onRemoveClick.bindWithEvent(this),
             onTorrentAdded: this.onTorrentAdded.bindWithEvent(this),
             onTorrentChanged: this.onTorrentChanged.bindWithEvent(this)
         }
@@ -56,6 +57,9 @@ Deluge.Widgets.AddWindow = new Class({
         this.urlButton.addEvent('click', function(e) {
             this.urlWindow.show();
         }.bindWithEvent(this));
+        
+        this.removeButton = this.content.getElement('button.remove');
+        this.removeButton.addEvent('click', this.bound.onRemoveClick);
         
         this.content.getElement('button.add').addEvent('click', this.bound.onAdd);
         this.content.getElement('button.cancel').addEvent('click', this.bound.onCancel);
@@ -96,6 +100,12 @@ Deluge.Widgets.AddWindow = new Class({
         this.torrents.empty();
         this.torrentInfo.empty();
         this.filesTab.table.empty();
+    },
+    
+    onRemoveClick: function(e) {
+        delete this.torrentInfo[this.torrents.value];
+        this.torrents.options[this.torrents.selectedIndex].dispose();
+        this.filesTab.setTorrent(null);
     }
 });
 
@@ -263,6 +273,7 @@ Deluge.Widgets.AddTorrent.FilesTab = new Class({
     
     setTorrent: function(torrent) {
         this.table.empty();
+        if (!torrent) return;
         $each(torrent['files'], function(file) {
             row = new Element('tr');
             new Element('td').inject(row);
