@@ -398,7 +398,8 @@ setup(
                                 "ui/webui/templates/ajax/static/images/*.gif",
                                 "ui/webui/templates/ajax/static/js/*.js",
                                 "ui/webui/templates/ajax/static/themes/classic/*",
-                                "ui/webui/templates/ajax/static/themes/white/*"
+                                "ui/webui/templates/ajax/static/themes/white/*",
+                                "ui/webui/templates/ajax/static/themes/white/mime_icons/*.png",
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
