@@ -1,6 +1,11 @@
 Deluge 1.1.0_RC4 (In Development)
  Core:
   * Fix issue in get_tracker_host when the torrent has no tracker
+  * Fix crash while trying to convert very old 0.5 config files
+
+ GtkUI:
+  * Fix translation setting in remove torrent dialog
+  * Fix notification bug on startup for already finished torrents
  
  Ajaxui:
   * Fix loading on iPods.
