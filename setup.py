@@ -344,8 +344,8 @@ _data_files = [
 
 # Main setup
 setup(
-    author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Sadrul Habib Chowdhury",
-    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, mvoncken@gmail.com, sadrul@users.sourceforge.net",
+    author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Damien Churchill",
+    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, mvoncken@gmail.com, damoxc@gmail.com",
     cmdclass = cmdclass,
     data_files = _data_files,
     description = "Bittorrent Client",
