@@ -34,6 +34,7 @@ import sys
 from optparse import OptionParser
 
 import deluge.common
+import deluge.configmanager
 
 def start_ui():
     """Entry point for ui script"""
@@ -58,9 +59,21 @@ def start_ui():
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+    parser.add_option("-s", "--set-default-ui", dest="default_ui",
+        help="Sets the default UI to be run when no UI is specified", action="store", type="str")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
+
+    if options.default_ui:
+        if options.config:
+            deluge.configmanager.set_config_dir(options.config)
+
+        config = deluge.configmanager.ConfigManager("ui.conf")
+        config["default_ui"] = options.default_ui
+        config.save()
+        print "The default UI has been changed to", options.default_ui
+        sys.exit(0)
 
     if options.quiet:
         options.loglevel = "none"

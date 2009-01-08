@@ -22,7 +22,7 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
+import sys
 import deluge.configmanager
 
 from deluge.log import LOG as log
@@ -48,19 +48,19 @@ class UI:
         config.save()
         del config
 
-        if selected_ui == "gtk":
-            log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI(args)
-        elif selected_ui == "web":
-            log.info("Starting WebUI..")
-            from deluge.ui.webui.webui import WebUI
-            ui = WebUI(args)
-        elif selected_ui == "null":
-            log.info("Starting NullUI..")
-            from deluge.ui.null.deluge_shell import NullUI
-            ui = NullUI(args)
-        elif selected_ui == "console":
-            log.info("Starting ConsoleUI..")
-            from deluge.ui.console.main import ConsoleUI
-            ui = ConsoleUI(ui_args).run()
+        try:
+            if selected_ui == "gtk":
+                log.info("Starting GtkUI..")
+                from deluge.ui.gtkui.gtkui import GtkUI
+                ui = GtkUI(args)
+            elif selected_ui == "web":
+                log.info("Starting WebUI..")
+                from deluge.ui.webui.webui import WebUI
+                ui = WebUI(args)
+            elif selected_ui == "console":
+                log.info("Starting ConsoleUI..")
+                from deluge.ui.console.main import ConsoleUI
+                ui = ConsoleUI(ui_args).run()
+        except ImportError:
+            log.error("Unable to find the requested UI.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.")
+            sys.exit(0)
