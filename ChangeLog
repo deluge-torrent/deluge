@@ -6,12 +6,15 @@ Deluge 1.1.0_RC4 (In Development)
  GtkUI:
   * Fix translation setting in remove torrent dialog
   * Fix notification bug on startup for already finished torrents
- 
+
  Ajaxui:
   * Fix loading on iPods.
   * Fix sorting on the name column.
   * Add "Not Implemented" alerts to some functions.
   * Improve the options tab on the Add Torrent dialog
+
+ Misc:
+  * Added '-s', '--set-default-ui' option to deluge
 
 Deluge 1.1.0_RC3 (05 January 2009)
  Core:
