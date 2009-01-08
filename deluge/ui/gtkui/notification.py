@@ -42,7 +42,7 @@ class Notification:
             self.get_torrent_status(torrent_id)
 
     def get_torrent_status(self, torrent_id):
-        client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["name", "num_files"])
+        client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["name", "num_files", "total_payload_download"])
 
     def _on_get_torrent_status(self, status):
         if status is None:
@@ -122,4 +122,3 @@ class Notification:
             log.warning("sending email notification of finished torrent failed")
         else:
             log.info("sending email notification of finished torrent was successful")
-
