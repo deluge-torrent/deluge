@@ -68,7 +68,7 @@ DEFAULT_PREFS = {
     "max_download_speed": -1.0,
     "max_upload_slots_global": 4,
     "max_half_open_connections": (lambda: deluge.common.windows_check() and
-        (lambda: deluge.common.vista_check() and 4 or 8)() or -1)(),
+        (lambda: deluge.common.vista_check() and 4 or 8)() or 50)(),
     "max_connections_per_second": 20,
     "ignore_limits_on_local_network": True,
     "max_connections_per_torrent": -1,
