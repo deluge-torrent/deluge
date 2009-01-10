@@ -1,4 +1,4 @@
-Deluge 1.1.0_RC4 (In Development)
+Deluge 1.1.0 (10 January 2009)
  Core:
   * Fix issue in get_tracker_host when the torrent has no tracker
   * Fix crash while trying to convert very old 0.5 config files
