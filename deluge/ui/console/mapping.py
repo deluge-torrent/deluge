@@ -43,7 +43,7 @@ def get_names(torrents):
         except Exception, e:
             print e
 
-    client.get_torrents_status(_got_torrents_status, torrents, ['name'])
+    client.get_torrents_status(_got_torrents_status, {'id':torrents}, ['name'])
     client.force_call()
     return names
 
