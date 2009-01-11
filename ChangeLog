@@ -13,6 +13,9 @@ Deluge 1.1.0 - "Time gas!" (10 January 2009)
   * Add "Not Implemented" alerts to some functions.
   * Improve the options tab on the Add Torrent dialog
 
+ ConsoleUI:
+  * Fix auto-complete feature for torrents.
+
  Misc:
   * Added '-s', '--set-default-ui' option to deluge
 
