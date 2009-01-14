@@ -1,4 +1,7 @@
 Deluge 1.1.1 - (In Development)
+ Core:
+  * Fix oldstateupgrader for those upgrading from 0.5.x
+
  Misc:
   * Fix bdecoding some torrent files
 

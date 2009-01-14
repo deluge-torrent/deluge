@@ -76,29 +76,30 @@ class OldStateUpgrader:
             log.debug("Unable to open 0.5 state file: %s", e)
             return
 
+        # Check to see if we can upgrade this file
         if type(state).__name__ == 'list':
-            log.debug("0.5 state file is too old to upgrade:")
+            log.warning("0.5 state file is too old to upgrade")
             return
-        else:
-            new_state = deluge.core.torrentmanager.TorrentManagerState()
-            for ti, uid in state.torrents.items():
-                torrent_path = os.path.join(self.config["config_location"], "torrentfiles", ti.filename)
-                try:
-                    torrent_info = None
-                    log.debug("Attempting to create torrent_info from %s", torrent_path)
-                    _file = open(torrent_path, "rb")
-                    torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
-                    _file.close()
-                except (IOError, RuntimeError), e:
-                    log.warning("Unable to open %s: %s", filepath, e)
+
+        new_state = deluge.core.torrentmanager.TorrentManagerState()
+        for ti, uid in state.torrents.items():
+            torrent_path = os.path.join(self.config["config_location"], "torrentfiles", ti.filename)
+            try:
+                torrent_info = None
+                log.debug("Attempting to create torrent_info from %s", torrent_path)
+                _file = open(torrent_path, "rb")
+                torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
+                _file.close()
+            except (IOError, RuntimeError), e:
+                log.warning("Unable to open %s: %s", filepath, e)
 
             # Copy the torrent file to the new location
-                import shutil
-                shutil.copyfile(torrent_path, os.path.join(self.config["state_location"], str(torrent_info.info_hash()) + ".torrent"))
+            import shutil
+            shutil.copyfile(torrent_path, os.path.join(self.config["state_location"], str(torrent_info.info_hash()) + ".torrent"))
 
-              # Set the file prioritiy property if not already there
-                if not hasattr(ti, "priorities"):
-                    ti.priorities = [1] * torrent_info.num_files()
+            # Set the file prioritiy property if not already there
+            if not hasattr(ti, "priorities"):
+                ti.priorities = [1] * torrent_info.num_files()
 
             # Create the new TorrentState object
             new_torrent = deluge.core.torrentmanager.TorrentState(
@@ -116,16 +117,16 @@ class OldStateUpgrader:
             # Append the object to the state list
             new_state.torrents.append(new_torrent)
 
-            # Now we need to write out the new state file
-            try:
-                log.debug("Saving torrent state file.")
-                state_file = open(
-                    os.path.join(self.config["state_location"], "torrents.state"), "wb")
-                cPickle.dump(new_state, state_file)
-                state_file.close()
-            except IOError, e:
-                log.warning("Unable to save state file: %s", e)
-                return
+        # Now we need to write out the new state file
+        try:
+            log.debug("Saving torrent state file.")
+            state_file = open(
+                os.path.join(self.config["state_location"], "torrents.state"), "wb")
+            cPickle.dump(new_state, state_file)
+            state_file.close()
+        except IOError, e:
+            log.warning("Unable to save state file: %s", e)
+            return
 
         # Rename the persistent.state file
         try:
