@@ -4,6 +4,7 @@ Deluge 1.1.1 - (In Development)
 
  GtkUI:
   * Fix opening links from Help menu and others
+  * Fix remembering sorted column in the torrent list
 
  Misc:
   * Fix bdecoding some torrent files
