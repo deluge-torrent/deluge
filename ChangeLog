@@ -10,6 +10,7 @@ Deluge 1.1.1 - (In Development)
  Misc:
   * Fix bdecoding some torrent files
   * Fix the -l, --logfile option
+  * Fix #729 tracker icons not being saved in the correct location
 
 Deluge 1.1.0 - "Time gas!" (10 January 2009)
  Core:
