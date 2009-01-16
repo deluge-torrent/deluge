@@ -166,7 +166,7 @@ class PeersTab(Tab):
         state = {
             "columns": {},
             "sort_id": column_id,
-            "sort_order": sort_order
+            "sort_order": int(sort_order)
         }
 
         for index, column in enumerate(self.listview.get_columns()):
