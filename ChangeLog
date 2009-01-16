@@ -13,6 +13,7 @@ Deluge 1.1.1 - (In Development)
   * Fix the -l, --logfile option
   * Fix #729 tracker icons not being saved in the correct location
   * Add support for more tracker icons
+  * Fix being able to connect to a local daemon from another user account
 
 Deluge 1.1.0 - "Time gas!" (10 January 2009)
  Core:

@@ -127,6 +127,12 @@ def get_localhost_auth_uri(uri):
     :param uri: the uri to add the authentication info to
     :returns: a localhost uri containing authentication information or None if the information is not available
     """
+    u = urlparse.urlsplit(uri)
+    # If there is already a username in this URI, let's just return it since
+    # the user has provided credentials.
+    if u.username:
+        return uri
+
     auth_file = deluge.configmanager.get_config_dir("auth")
     if os.path.exists(auth_file):
         u = urlparse.urlsplit(uri)
