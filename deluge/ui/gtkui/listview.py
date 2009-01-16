@@ -164,8 +164,14 @@ class ListView:
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
+        sort_info = None
+        if self.model_filter:
+            sort_info = self.model_filter.get_sort_column_id()
+
         self.model_filter = gtk.TreeModelSort(model_filter)
-        self.set_sort_functions()
+        if sort_info and sort_info[0] and sort_info[1] > -1:
+            self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
+        #self.set_sort_functions()
         self.treeview.set_model(self.model_filter)
 
     def set_sort_functions(self):
