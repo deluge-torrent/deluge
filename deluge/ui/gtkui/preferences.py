@@ -433,8 +433,11 @@ class Preferences(component.Component):
         ## Notification tab ##
         self.glade.get_widget("chk_ntf_tray_blink").set_active(
             self.gtkui_config["ntf_tray_blink"])
-        self.glade.get_widget("chk_ntf_popup").set_active(
-            self.gtkui_config["ntf_popup"])
+        if deluge.common.windows_check():
+            self.gtkui_config["ntf_popup"].set_sensitive(False)
+        else:
+            self.glade.get_widget("chk_ntf_popup").set_active(
+                self.gtkui_config["ntf_popup"])
         self.glade.get_widget("chk_ntf_email").set_active(
             self.gtkui_config["ntf_email"])
         self.glade.get_widget("chk_ntf_sound").set_active(
