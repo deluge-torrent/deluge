@@ -136,7 +136,7 @@ class TrackerIcons(object):
         ext, icon_data  = self._fetch_icon(tracker_host)
 
         if icon_data:
-            filename = os.path.join(deluge.configmanager.get_config_dir(), "%s.%s" % (tracker_host, ext))
+            filename = os.path.join(self.image_dir, "%s.%s" % (tracker_host, ext))
             f = open(filename,"wb")
             f.write(icon_data)
             f.close()
