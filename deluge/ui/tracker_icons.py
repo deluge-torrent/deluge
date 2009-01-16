@@ -38,7 +38,7 @@ RENAMES = {
     "aelitis.com":"www.vuze.com"
     }
 
-VALID_ICO_TYPES = ["octet-stream", "x-icon", "image/vnd.microsoft.icon"]
+VALID_ICO_TYPES = ["octet-stream", "x-icon", "vnd.microsoft.icon"]
 VALID_PNG_TYPES = ["octet-stream", "png"]
 
 def fetch_url(url, valid_subtypes=None):
