@@ -33,6 +33,7 @@ import os.path
 import sys
 from optparse import OptionParser
 
+import deluge.log
 import deluge.common
 import deluge.configmanager
 
@@ -91,28 +92,24 @@ def start_ui():
 
     # Always log to a file in Windows
     if deluge.common.windows_check() and not options.logfile:
-        options.logfile = "deluge.log"
-
-    if options.logfile:
         if options.config:
-            logfile = os.path.join(options.config, options.logfile)
+            options.logfile = os.path.join(options.config, "deluge.log")
         else:
             config_dir = deluge.common.get_default_config_dir()
-            logfile = os.path.join(config_dir, options.logfile)
-        sys.stdout = open(logfile, "wb")
-        sys.stderr = sys.stdout
-        sys.stdin = None
+            options.logfile = os.path.join(config_dir, "deluge.log")
 
-    from deluge.log import LOG as log
-    # Set the log level if necessary
-    if options.loglevel:
-        import deluge.log
-        deluge.log.setLoggerLevel(options.loglevel)
+    # Setup the logger
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
+    if options.logfile:
+        sys.stdout = None
+        sys.stderr = None
+        sys.stdin = None
 
     version = deluge.common.get_version()
     if deluge.common.get_revision() != "":
         version = version + "r" + deluge.common.get_revision()
 
+    from deluge.log import LOG as log
     log.info("Deluge ui %s", version)
     log.debug("options: %s", options)
     log.debug("args: %s", args)
@@ -161,23 +158,14 @@ def start_daemon():
         if not os.path.exists(deluge.common.get_default_config_dir()):
             os.makedirs(deluge.common.get_default_config_dir())
 
-    # Opens a log file and redirects stdout to it
+    # Sets the options.logfile to point to the default location
     def open_logfile():
-        path = None
-        if options.logfile:
-            path = options.logfile
-        else:
+        if not options.logfile:
             if options.config:
-                path = os.path.join(options.config, "deluged.log")
+                options.logfile = os.path.join(options.config, "deluged.log")
             else:
                 config_dir = deluge.common.get_default_config_dir()
-                path = os.path.join(config_dir, "deluged.log")
-
-        # Open a logfile
-        if path:
-            sys.stdout = open(path, "wb")
-        sys.stderr = sys.stdout
-        sys.stdin = None
+                options.logfile = os.path.join(config_dir, "deluged.log")
 
     # Writes out a pidfile if necessary
     def write_pidfile():
@@ -204,10 +192,12 @@ def start_daemon():
         # Do not daemonize
         write_pidfile()
 
-    # Set the log level if necessary
-    if options.loglevel:
-        import deluge.log
-        deluge.log.setLoggerLevel(options.loglevel)
+    # Setup the logger
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
+    if options.logfile:
+        sys.stdout = None
+        sys.stderr = None
+        sys.stdin = None
 
     from deluge.core.daemon import Daemon
     Daemon(options, args)

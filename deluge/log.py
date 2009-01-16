@@ -27,12 +27,32 @@
 
 import logging
 
-# Setup the logger
-logging.basicConfig(
-    level=logging.ERROR,
-    format="[%(levelname)-8s] %(asctime)s %(module)s:%(lineno)d %(message)s",
-    datefmt="%H:%M:%S"
-)
+levels = {
+    "info": logging.INFO,
+    "warning": logging.WARNING,
+    "error": logging.ERROR,
+    "none": logging.CRITICAL,
+    "debug": logging.DEBUG
+}
+def setupLogger(level="error", filename=None):
+    """
+    Sets up the basic logger and if `:param:filename` is set, then it will log
+    to that file instead of stdout.
+
+    :param level: str, the level to log
+    :param filename: str, the file to log to
+    """
+
+    if not level:
+        level = "error"
+
+    logging.basicConfig(
+        level=levels[level],
+        format="[%(levelname)-8s] %(asctime)s %(module)s:%(lineno)d %(message)s",
+        datefmt="%H:%M:%S",
+        filename=filename,
+        filemode="w"
+    )
 
 def setLoggerLevel(level):
     """
@@ -41,14 +61,6 @@ def setLoggerLevel(level):
     :param level: str, a string representing the desired level
 
     """
-    levels = {
-        "info": logging.INFO,
-        "warning": logging.WARNING,
-        "error": logging.ERROR,
-        "none": logging.CRITICAL,
-        "debug": logging.DEBUG
-    }
-
     if level not in levels:
         return
 
