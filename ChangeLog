@@ -7,6 +7,8 @@ Deluge 1.1.1 - (In Development)
   * Fix remembering sorted column in the torrent list
   * Fix saving Files tab and Peers tab state
   * Disable popup notification in preferences on Windows
+  * Fix crashing in AddTorrentDialog when removing torrents from the list
+  * Do not allow duplicate torrents in the AddTorrentDialog
 
  Misc:
   * Fix bdecoding some torrent files
