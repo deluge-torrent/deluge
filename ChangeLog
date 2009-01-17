@@ -9,6 +9,7 @@ Deluge 1.1.1 - (In Development)
   * Disable popup notification in preferences on Windows
   * Fix crashing in AddTorrentDialog when removing torrents from the list
   * Do not allow duplicate torrents in the AddTorrentDialog
+  * Fix translating speed units in status tab when a per-torrent limit is set
 
  Misc:
   * Fix bdecoding some torrent files
