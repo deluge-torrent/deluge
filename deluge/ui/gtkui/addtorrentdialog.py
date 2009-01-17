@@ -181,6 +181,10 @@ class AddTorrentDialog(component.Component):
                 log.debug("Unable to open torrent file: %s", e)
                 continue
 
+            if info.info_hash in self.files:
+                log.debug("Trying to add a duplicate torrent!")
+                continue
+
             name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
             new_row = self.torrent_liststore.append(
                 [info.info_hash, info.name, filename])
@@ -219,14 +223,18 @@ class AddTorrentDialog(component.Component):
 
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
-
-        if row is None:
+        if row is None or not model.iter_is_valid(row):
             self.files_treestore.clear()
+            self.previous_selected_torrent = None
+            return
+
+        if model[row][0] not in self.files:
+            self.files_treestore.clear()
+            self.previous_selected_torrent = None
             return
 
         # Save the previous torrents options
         self.save_torrent_options()
-
         # Update files list
         files_list = self.files[model.get_value(row, 0)]
 
@@ -336,9 +344,9 @@ class AddTorrentDialog(component.Component):
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
         # selected.
-        if row is None:
+        if row is None and self.previous_selected_torrent and self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
             row = self.previous_selected_torrent
-        if row is None or not self.torrent_liststore.iter_is_valid(row):
+        else:
             return
 
         torrent_id = self.torrent_liststore.get_value(row, 0)
@@ -376,8 +384,12 @@ class AddTorrentDialog(component.Component):
         self.options[torrent_id] = options
 
         # Save the file priorities
-        files_priorities = self.build_priorities(
-                            self.files_treestore.get_iter_first(), {})
+        (model, srow) = self.listview_torrents.get_selection().get_selected()
+        if srow != row:
+            files_priorities = [1] * len(self.files[torrent_id])
+        else:
+            files_priorities = self.build_priorities(
+                                self.files_treestore.get_iter_first(), {})
 
         if len(files_priorities) > 0:
             for i, file_dict in enumerate(self.files[torrent_id]):
