@@ -43,7 +43,7 @@ def setupLogger(level="error", filename=None):
     :param filename: str, the file to log to
     """
 
-    if not level:
+    if not level or level not in levels:
         level = "error"
 
     logging.basicConfig(
