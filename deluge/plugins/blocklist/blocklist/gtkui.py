@@ -139,11 +139,11 @@ class GtkUI(ui.UI):
 
     def _on_button_check_download_clicked(self, widget):
         self._on_apply_prefs()
-        client.blocklist.import_list(None, True, False)
+        client.blocklist.import_list(None, False)
 
     def _on_button_force_download_clicked(self, widget):
         self._on_apply_prefs()
-        client.blocklist.import_list(None, True, True)
+        client.blocklist.import_list(None, True)
 
     def _on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Blocklist")

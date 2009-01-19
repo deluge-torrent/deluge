@@ -74,7 +74,7 @@ class Core(CorePluginBase):
 
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
-            self.import_list(self.need_new_blocklist())
+            self.import_list()
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
@@ -98,10 +98,10 @@ class Core(CorePluginBase):
         self.download_blocklist(_import)
 
     @export
-    def import_list(self, download=False, force=False):
+    def import_list(self, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
-        threading.Thread(target=self.import_blocklist, kwargs={"download": download, "force": force}).start()
+        threading.Thread(target=self.import_blocklist, kwargs={"force": force}).start()
 
     @export
     def get_config(self):
@@ -142,15 +142,14 @@ class Core(CorePluginBase):
         if load:
             self.import_list()
 
-    def import_blocklist(self, download=False, force=False):
+    def import_blocklist(self, force=False):
         """Imports the downloaded blocklist into the session"""
         if self.is_downloading:
             return
 
-        if download:
-            if force or self.need_new_blocklist():
-                self.download_blocklist(True)
-                return
+        if force or self.need_new_blocklist():
+            self.download_blocklist(True)
+            return
 
         self.is_importing = True
         log.debug("Reset IP Filter..")
@@ -244,6 +243,11 @@ class Core(CorePluginBase):
 
     def need_new_blocklist(self):
         """Returns True if a new blocklist file should be downloaded"""
+        # Check to see if we've just downloaded a new blocklist
+        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
+            log.debug("New blocklist waiting to be imported")
+            return False
+
         try:
             # Check current block lists time stamp and decide if it needs to be replaced
             list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
@@ -256,6 +260,7 @@ class Core(CorePluginBase):
 
         # If local blocklist file exists but nothing is in it
         if list_size == 0:
+            log.debug("Empty blocklist")
             return True
 
         import socket
@@ -264,13 +269,14 @@ class Core(CorePluginBase):
         try:
             # Get remote blocklist time stamp and size
             remote_stats = urllib.urlopen(self.config["url"]).info()
-            remote_size = remote_stats["content-length"]
+            remote_size = long(remote_stats["content-length"])
             remote_time = datetime.datetime.strptime(remote_stats["last-modified"],"%a, %d %b %Y %H:%M:%S GMT")
         except Exception, e:
             log.debug("Unable to get blocklist stats: %s", e)
             return False
 
         if list_time < remote_time or list_size < remote_size:
+            log.debug("Newer blocklist exists (%s & %d vs %s & %d)", remote_time, remote_size, list_time, list_size)
             return True
 
         return False

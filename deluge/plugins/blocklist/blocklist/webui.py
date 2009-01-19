@@ -60,10 +60,7 @@ class BlockListCfgForm(forms.Form):
         del cfg["btn_import_now"]
         sclient.blocklist.set_config(cfg)
         if data.btn_import_now:
-            aclient.blocklist.import_list(None, data.btn_download_now)
-        elif data.btn_download_now:
-            aclient.blocklist.download(None)
-
+            aclient.blocklist.import_list(None, data.btn_force_download)
 
     #input fields :
     listtype = forms.ChoiceField(FORMAT_LIST)
@@ -73,8 +70,8 @@ class BlockListCfgForm(forms.Form):
     try_times = forms.IntegerField(label=_("Times to attempt download"), min_value=1, max_value=5)
     load_on_start = forms.CheckBox(_('Import on daemon startup'))
 
-    btn_download_now = forms.CheckBox(_('Download Now'))
     btn_import_now = forms.CheckBox(_('Import Now'))
+    btn_force_download = forms.CheckBox(_('Force Download'))
 
     def post_html(self):
         "show blocklist status"
