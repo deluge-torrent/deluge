@@ -152,12 +152,6 @@ class Core(CorePluginBase):
             self.download_blocklist(True)
             return
 
-        self.is_importing = True
-        log.debug("Reset IP Filter..")
-        component.get("Core").reset_ip_filter()
-
-        self.num_blocked = 0
-
         # If we have a newly downloaded file, lets try that before the .cache
         if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
             bl_file = deluge.configmanager.get_config_dir("blocklist.download")
@@ -165,11 +159,16 @@ class Core(CorePluginBase):
         elif self.has_imported:
             # Blocklist is up to date so doesn't need to be imported
             log.debug("Latest blocklist is already imported")
-            self.is_importing = False
             return
         else:
             bl_file = deluge.configmanager.get_config_dir("blocklist.cache")
             using_download = False
+
+        self.is_importing = True
+        log.debug("Reset IP Filter..")
+        component.get("Core").reset_ip_filter()
+
+        self.num_blocked = 0
 
         # Open the file for reading
         try:
@@ -198,9 +197,6 @@ class Core(CorePluginBase):
             # Set information about the file
             self.config["file_type"] = self.config["listtype"]
             self.config["file_url"] = self.config["url"]
-            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
-            self.config["file_date"] = datetime.datetime.fromtimestamp(list_stats.st_mtime).ctime()
-            self.config["file_size"] = list_size = list_stats.st_size
 
         self.is_importing = False
         self.has_imported = True
@@ -235,7 +231,7 @@ class Core(CorePluginBase):
         for i in xrange(self.config["try_times"]):
             log.debug("Attempting to download blocklist %s", self.config["url"])
             try:
-                urllib.urlretrieve(
+                (filename, headers) = urllib.urlretrieve(
                     self.config["url"],
                     deluge.configmanager.get_config_dir("blocklist.download"),
                     on_retrieve_data)
@@ -245,6 +241,8 @@ class Core(CorePluginBase):
                 continue
             else:
                 log.debug("Blocklist successfully downloaded..")
+                self.config["file_date"] = datetime.datetime.strptime(headers["last-modified"],"%a, %d %b %Y %H:%M:%S GMT").ctime()
+                self.config["file_size"] = long(headers["content-length"])
                 gobject.idle_add(_call_callback, callback, load)
                 return
 
@@ -255,18 +253,16 @@ class Core(CorePluginBase):
             log.debug("New blocklist waiting to be imported")
             return False
 
-        try:
+        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.cache")):
             # Check current block lists time stamp and decide if it needs to be replaced
-            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
-            list_time = datetime.datetime.fromtimestamp(list_stats.st_mtime)
-            list_size = list_stats.st_size
-            current_time = datetime.datetime.today()
-        except Exception, e:
-            log.debug("Unable to get file stats: %s", e)
+            list_size = long(self.config["file_size"])
+            list_time = datetime.datetime.strptime(self.config["file_date"], "%a %b %d %H:%M:%S %Y")
+        else:
+            log.debug("Blocklist doesn't exist")
             return True
 
         # If local blocklist file exists but nothing is in it
-        if list_size == 0:
+        if not list_size or list_size == 0:
             log.debug("Empty blocklist")
             return True
 

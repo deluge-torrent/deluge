@@ -56,8 +56,8 @@ class BlockListCfgForm(forms.Form):
 
     def save(self, data):
         cfg = dict(data)
-        del cfg["btn_download_now"]
         del cfg["btn_import_now"]
+        del cfg["btn_force_download"]
         sclient.blocklist.set_config(cfg)
         if data.btn_import_now:
             aclient.blocklist.import_list(None, data.btn_force_download)
