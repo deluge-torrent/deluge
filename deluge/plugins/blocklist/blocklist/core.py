@@ -258,7 +258,19 @@ class Core(CorePluginBase):
         if list_size == 0:
             return True
 
-        if current_time >= (list_time + datetime.timedelta(days=self.config["check_after_days"])):
+        import socket
+        socket.setdefaulttimeout(self.config["timeout"])
+
+        try:
+            # Get remote blocklist time stamp and size
+            remote_stats = urllib.urlopen(self.config["url"]).info()
+            remote_size = remote_stats["content-length"]
+            remote_time = datetime.datetime.strptime(remote_stats["last-modified"],"%a, %d %b %Y %H:%M:%S GMT")
+        except Exception, e:
+            log.debug("Unable to get blocklist stats: %s", e)
+            return False
+
+        if list_time < remote_time or list_size < remote_size:
             return True
 
         return False
