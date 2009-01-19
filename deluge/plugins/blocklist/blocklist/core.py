@@ -266,6 +266,10 @@ class Core(CorePluginBase):
             log.debug("Empty blocklist")
             return True
 
+        # If blocklist has just started up don't check for updates
+        if not self.has_imported:
+            return False
+
         import socket
         socket.setdefaulttimeout(self.config["timeout"])
 
@@ -278,6 +282,7 @@ class Core(CorePluginBase):
             log.debug("Unable to get blocklist stats: %s", e)
             return False
 
+        # Check if remote blocklist is newer (in date or size)
         if list_time < remote_time or list_size < remote_size:
             log.debug("Newer blocklist exists (%s & %d vs %s & %d)", remote_time, remote_size, list_time, list_size)
             return True
