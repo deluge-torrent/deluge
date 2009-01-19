@@ -67,6 +67,7 @@ class Core(CorePluginBase):
 
         self.is_downloading = False
         self.is_importing = False
+        self.has_imported = False
         self.num_blocked = 0
         self.file_progress = 0.0
 
@@ -161,6 +162,11 @@ class Core(CorePluginBase):
         if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
             bl_file = deluge.configmanager.get_config_dir("blocklist.download")
             using_download = True
+        elif self.has_imported:
+            # Blocklist is up to date so doesn't need to be imported
+            log.debug("Latest blocklist is already imported")
+            self.is_importing = False
+            return
         else:
             bl_file = deluge.configmanager.get_config_dir("blocklist.cache")
             using_download = False
@@ -197,6 +203,7 @@ class Core(CorePluginBase):
             self.config["file_size"] = list_size = list_stats.st_size
 
         self.is_importing = False
+        self.has_imported = True
 
     def download_blocklist(self, load=False):
         """Runs download_blocklist_thread() in a thread and calls on_download_blocklist
@@ -279,4 +286,5 @@ class Core(CorePluginBase):
             log.debug("Newer blocklist exists (%s & %d vs %s & %d)", remote_time, remote_size, list_time, list_size)
             return True
 
+        log.debug("Blocklist is up to date")
         return False
