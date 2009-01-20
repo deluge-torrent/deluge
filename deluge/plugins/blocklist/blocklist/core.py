@@ -255,14 +255,14 @@ class Core(CorePluginBase):
 
         if os.path.exists(deluge.configmanager.get_config_dir("blocklist.cache")):
             # Check current block lists time stamp and decide if it needs to be replaced
-            list_size = long(self.config["file_size"])
+            list_size = long(os.stat(deluge.configmanager.get_config_dir("blocklist.cache")).st_size)
             list_time = datetime.datetime.strptime(self.config["file_date"], "%a %b %d %H:%M:%S %Y")
         else:
             log.debug("Blocklist doesn't exist")
             return True
 
         # If local blocklist file exists but nothing is in it
-        if not list_size or list_size == 0:
+        if list_size == 0:
             log.debug("Empty blocklist")
             return True
 
