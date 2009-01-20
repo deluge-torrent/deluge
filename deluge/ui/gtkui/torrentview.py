@@ -213,6 +213,7 @@ class TorrentView(listview.ListView, component.Component):
         """Stops the torrentview"""
         # We need to clear the liststore
         self.liststore.clear()
+        self.prev_status = {}
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
