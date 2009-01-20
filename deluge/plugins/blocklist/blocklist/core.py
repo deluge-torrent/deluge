@@ -255,8 +255,14 @@ class Core(CorePluginBase):
 
         if os.path.exists(deluge.configmanager.get_config_dir("blocklist.cache")):
             # Check current block lists time stamp and decide if it needs to be replaced
-            list_size = long(os.stat(deluge.configmanager.get_config_dir("blocklist.cache")).st_size)
-            list_time = datetime.datetime.strptime(self.config["file_date"], "%a %b %d %H:%M:%S %Y")
+            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
+            list_size = long(list_stats.st_size)
+            list_checked = datetime.datetime.fromtimestamp(list_stats.st_mtime)
+            try:
+                list_time = datetime.datetime.strptime(self.config["file_date"], "%a %b %d %H:%M:%S %Y")
+            except:
+                list_time = list_checked
+            current_time = datetime.datetime.today()
         else:
             log.debug("Blocklist doesn't exist")
             return True
@@ -266,8 +272,9 @@ class Core(CorePluginBase):
             log.debug("Empty blocklist")
             return True
 
-        # If blocklist has just started up don't check for updates
-        if not self.has_imported:
+        # If blocklist has just started up, check for updates if over x days
+        if not self.has_imported and current_time < (list_checked + datetime.timedelta(days=self.config["check_after_days"])):
+            log.debug("Blocklist doesn't need checking yet")
             return False
 
         import socket
@@ -287,5 +294,7 @@ class Core(CorePluginBase):
             log.debug("Newer blocklist exists (%s & %d vs %s & %d)", remote_time, remote_size, list_time, list_size)
             return True
 
+        # Update last modified time of blocklist
+        os.utime(deluge.configmanager.get_config_dir("blocklist.cache"), None)
         log.debug("Blocklist is up to date")
         return False
