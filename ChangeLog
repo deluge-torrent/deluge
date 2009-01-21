@@ -1,6 +1,7 @@
 Deluge 1.1.1 - (In Development)
  Core:
   * Fix oldstateupgrader for those upgrading from 0.5.x
+  * Fix setting Peer TOS byte
 
  GtkUI:
   * Fix opening links from Help menu and others

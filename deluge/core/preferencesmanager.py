@@ -265,7 +265,7 @@ class PreferencesManager(component.Component):
     def _on_set_peer_tos(self, key, value):
         log.debug("setting peer_tos to: %s", value)
         try:
-            self.settings.peer_tos = str(int(value, 16))
+            self.settings.peer_tos = chr(int(value, 16))
         except ValueError, e:
             log.debug("Invalid tos byte: %s", e)
             return
