@@ -386,7 +386,7 @@ class AddTorrentDialog(component.Component):
 
         # Save the file priorities
         (model, srow) = self.listview_torrents.get_selection().get_selected()
-        if srow != row:
+        if srow and model[srow][0] != torrent_id:
             files_priorities = [1] * len(self.files[torrent_id])
         else:
             files_priorities = self.build_priorities(
