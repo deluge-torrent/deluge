@@ -344,10 +344,11 @@ class AddTorrentDialog(component.Component):
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
         # selected.
-        if row is None and self.previous_selected_torrent and self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
-            row = self.previous_selected_torrent
-        else:
-            return
+        if row is None:
+            if self.previous_selected_torrent and self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
+                row = self.previous_selected_torrent
+            else:
+                return
 
         torrent_id = self.torrent_liststore.get_value(row, 0)
 
