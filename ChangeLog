@@ -12,6 +12,7 @@ Deluge 1.1.1 - (In Development)
   * Do not allow duplicate torrents in the AddTorrentDialog
   * Fix translating speed units in status tab when a per-torrent limit is set
   * Fix torrents not displaying properly after disconnecting and reconnecting to the daemon
+  * Fix when sorting # column, downloads should be on top
 
  Misc:
   * Fix bdecoding some torrent files
