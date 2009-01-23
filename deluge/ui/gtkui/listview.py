@@ -171,7 +171,7 @@ class ListView:
         self.model_filter = gtk.TreeModelSort(model_filter)
         if sort_info and sort_info[0] and sort_info[1] > -1:
             self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
-        #self.set_sort_functions()
+        self.set_sort_functions()
         self.treeview.set_model(self.model_filter)
 
     def set_sort_functions(self):
