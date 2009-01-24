@@ -593,7 +593,14 @@ namespace aux {
 		s.sock.reset(new socket_acceptor(m_io_service));
 		s.sock->open(ep.protocol(), ec);
 		s.sock->set_option(socket_acceptor::reuse_address(true), ec);
-		if (ep.protocol() == tcp::v6()) s.sock->set_option(v6only(v6_only), ec);
+		if (ep.protocol() == tcp::v6())
+		{
+			s.sock->set_option(v6only(v6_only), ec);
+#ifdef TORRENT_WINDOWS
+			// enable Teredo on windows
+			s.sock->set_option(v6_protection_level(PROTECTION_LEVEL_UNRESTRICTED), ec);
+#endif
+		}
 		s.sock->bind(ep, ec);
 		while (ec && retries > 0)
 		{
@@ -2150,11 +2157,27 @@ namespace aux {
 			m_dht_settings.service_port = m_listen_interface.port();
 	}
 
-	entry session_impl::dht_state() const
+	void session_impl::dht_state_callback(boost::condition& c
+		, entry& e, bool& done) const
 	{
 		mutex_t::scoped_lock l(m_mutex);
+		if (m_dht) e = m_dht->state();
+		done = true;
+		l.unlock();
+		c.notify_all();
+	}
+
+	entry session_impl::dht_state() const
+	{
+		boost::condition cond;
+		mutex_t::scoped_lock l(m_mutex);
 		if (!m_dht) return entry();
-		return m_dht->state();
+		entry e;
+		bool done = false;
+		m_io_service.post(boost::bind(&session_impl::dht_state_callback
+			, this, boost::ref(cond), boost::ref(e), boost::ref(done)));
+		while (!done) cond.wait(l);
+		return e;
 	}
 
 	void session_impl::add_dht_node(std::pair<std::string, int> const& node)
