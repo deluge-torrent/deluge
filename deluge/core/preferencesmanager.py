@@ -256,7 +256,8 @@ class PreferencesManager(component.Component):
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:
             log.debug("outgoing port range set to %s-%s", value[0], value[1])
-            self.session.outgoing_ports(value[0], value[1])
+            self.settings.outgoing_ports = value[0], value[1]
+            self.session.set_settings(self.settings)
 
     def _on_set_random_outgoing_ports(self, key, value):
         if value:
