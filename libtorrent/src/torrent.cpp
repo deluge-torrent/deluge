@@ -729,6 +729,7 @@ namespace libtorrent
 	void torrent::on_piece_checked(int ret, disk_io_job const& j)
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+		INVARIANT_CHECK;
 
 		if (ret == piece_manager::disk_check_aborted)
 		{
@@ -3883,9 +3884,11 @@ namespace libtorrent
 
 		// if we haven't yet met the seed limits, set the seed_ratio_not_met
 		// flag. That will make this seed prioritized
+		// downloaded may be 0 if the torrent is 0-sized
 		size_type downloaded = (std::max)(m_total_downloaded, m_torrent_file->total_size());
 		if (seed_time < s.seed_time_limit
 			&& (seed_time > 1 && download_time / float(seed_time) < s.seed_time_ratio_limit)
+			&& downloaded > 0
 			&& m_total_uploaded / downloaded < s.share_ratio_limit)
 			ret |= seed_ratio_not_met;
 
