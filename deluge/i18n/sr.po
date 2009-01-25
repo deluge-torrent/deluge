@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-08 18:24+0000\n"
+"PO-Revision-Date: 2009-01-12 15:54+0000\n"
 "Last-Translator: Branislav Jovanović <branej@gmail.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -364,7 +364,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Уклони означени торенте?</b></big>"
+msgstr "<big><b>Уклони означени торент?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
@@ -376,7 +376,7 @@ msgstr "Уклони са по_дацима"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "Укони _торент"
+msgstr "Уклони _торент"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -1561,7 +1561,7 @@ msgstr "Уклони торент?"
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
-"<big><b>Кесте ли сигурни да желите да уклоните означени торент?</b></big>"
+"<big><b>Јесте ли сигурни да желите да уклоните означени торент?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2289
 msgid "<i>The associated .torrent will be deleted!</i>"

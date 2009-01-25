@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-24 03:01+0000\n"
-"Last-Translator: Sardan <serdar.zeybek@gmail.com>\n"
+"PO-Revision-Date: 2009-01-13 00:26+0000\n"
+"Last-Translator: Mert Bozkurt <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -33,7 +33,7 @@ msgstr "Etiket seçenekleri"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr ""
+msgstr "<b>Etiket Seçenekleri</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -144,7 +144,7 @@ msgstr "Etiket Ekle"
 
 #: deluge/plugins/label/label/data/label_options.glade:672
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Etiket Ekle</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:703
 msgid "Name:"
@@ -365,11 +365,11 @@ msgstr "_Otomatik Ayarla"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Seçilen torrent kaldırılsın mı?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Eğer veriyi kaldırırsanız, kalıcı olarak silinir."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
@@ -377,7 +377,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Torrenti _Kaldır"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -660,7 +660,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "IP limiti aşıldı"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1463
 msgid "<b>Global Bandwidth Usage</b>"
@@ -716,7 +716,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1780
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Ana Pencere</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1816
 msgid "Always show"
@@ -947,7 +947,7 @@ msgstr "Kullanıcı adı:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3116
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "Eş"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3292
 msgid "<b>Web Seed</b>"
@@ -955,7 +955,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3471
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "<b>İzleyici</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3650
 msgid "<b>DHT</b>"
@@ -975,7 +975,7 @@ msgstr "Ses:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3763
 msgid "Popup"
-msgstr ""
+msgstr "Açılır Pencere"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3779
 msgid "Blinking tray icon"
@@ -1030,11 +1030,11 @@ msgstr "Yazan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4232
 msgid "Homepage:"
-msgstr ""
+msgstr "Anasayfa:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4245
 msgid "Author Email:"
-msgstr ""
+msgstr "Yazarın E-postası:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4287
 msgid "<b>Info</b>"
@@ -1239,7 +1239,7 @@ msgstr "<b>.torrent dosyasını sakla</b>"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:37
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
-msgstr ""
+msgstr "etiket"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
@@ -1409,15 +1409,15 @@ msgstr "Hepsini _Aç"
 
 #: deluge/ui/gtkui/glade/main_window.glade:571
 msgid "_Do Not Download"
-msgstr ""
+msgstr "_İndirme"
 
 #: deluge/ui/gtkui/glade/main_window.glade:586
 msgid "_Normal Priority"
-msgstr ""
+msgstr "_Normal Öncelik"
 
 #: deluge/ui/gtkui/glade/main_window.glade:601
 msgid "_High Priority"
-msgstr ""
+msgstr "_Yüksek Öncelik"
 
 #: deluge/ui/gtkui/glade/main_window.glade:616
 msgid "Hi_ghest Priority"
@@ -1486,11 +1486,11 @@ msgstr "<b>İndirilen:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1164
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Eklendiği Tarih:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1219
 msgid "_Status"
-msgstr ""
+msgstr "_Durum"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1290
 msgid "<b># of files:</b>"
@@ -1878,11 +1878,11 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Azami Gönderme Hızı"
 
 #: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Azami bağlantıyı ayarla"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:83 deluge/ui/gtkui/queuedtorrents.py:64
 msgid "Torrent"
@@ -2047,7 +2047,7 @@ msgstr "Durum"
 
 #: deluge/ui/gtkui/filtertreeview.py:214
 msgid "no label"
-msgstr ""
+msgstr "etiket yok"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
@@ -2067,7 +2067,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Torrents"
-msgstr ""
+msgstr "Torentler"
 
 #: deluge/ui/gtkui/common.py:57
 msgid "Activated"
@@ -2090,11 +2090,11 @@ msgstr "İzleyici"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
-msgstr ""
+msgstr "İndirilenler"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Network"
-msgstr ""
+msgstr "Ağ"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Bandwidth"
@@ -2102,7 +2102,7 @@ msgstr "Bant Genişliği"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
-msgstr ""
+msgstr "Arayüz"
 
 #: deluge/ui/gtkui/preferences.py:61
 #: deluge/ui/webui/scripts/template_strings.py:74
@@ -2115,15 +2115,15 @@ msgstr "Daemon"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Proxy"
-msgstr ""
+msgstr "Vekil Sunucu"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Notification"
-msgstr ""
+msgstr "Bildirim"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Plugins"
-msgstr ""
+msgstr "Eklentiler"
 
 #: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Enabled"
@@ -2176,11 +2176,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/createtorrentdialog.py:117
 msgid "Choose a file"
-msgstr ""
+msgstr "Bir dosya seçin"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:144
 msgid "Choose a folder"
-msgstr ""
+msgstr "Bir dizin seçin"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:209
 msgid "Save .torrent file"
@@ -2193,7 +2193,7 @@ msgstr ""
 
 #: deluge/ui/webui/render.py:169
 msgid "∞"
-msgstr ""
+msgstr "∞"
 
 #: deluge/ui/webui/config_forms.py:90
 msgid "These changes were saved"
@@ -2303,7 +2303,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:70
 msgid "UpNP"
-msgstr ""
+msgstr "UpNP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:72
 msgid "Peer-Exchange"
@@ -2422,7 +2422,7 @@ msgstr "Azami Yarı-Açık Bağlantı"
 
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "Saniye Başı Azami Bağlantı Denemesi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
@@ -2451,7 +2451,7 @@ msgstr "Dizinleri Otomatik ekle"
 
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
-msgstr ""
+msgstr "Kendiliğinden Ekleme etkinleştirildi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
@@ -2502,6 +2502,7 @@ msgstr "birşey tercüme et"
 msgid ""
 "Select a valid choice. That choice is not one of the available choices."
 msgstr ""
+"Geçerli bir seçim yapın. Bu seçim kullanılabilir seçimlerden biri değil."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
@@ -2512,7 +2513,7 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
-msgstr ""
+msgstr "Geçerli bir seçim yapın. %s kullanılır seçimlerden biri değil."
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Unknown"
@@ -2554,14 +2555,14 @@ msgstr "Tam sayı giriniz"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:211
 #, python-format
 msgid "Ensure this value is less than or equal to %s."
-msgstr ""
+msgstr "Bu değerin %s 'den küçük ya da eşit olmasını sağlayın."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:154
 #: deluge/ui/webui/lib/newforms_portable/fields.py:183
 #: deluge/ui/webui/lib/newforms_portable/fields.py:212
 #, python-format
 msgid "Ensure this value is greater than or equal to %s."
-msgstr ""
+msgstr "Bu değerin %s 'den büyük ya da eşit olmasını sağlayın."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
@@ -2571,18 +2572,20 @@ msgstr "Bir sayı girin."
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
 msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
+msgstr "Burada toplam %s rakamdan fazla olmamasını sağlayın."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:214
 #, python-format
 msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
+msgstr "Burada toplam %s ondalık basamaktan fazla olmamasını sağlayın."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
 msgid ""
 "Ensure that there are no more than %s digits before the decimal point."
 msgstr ""
+"Ondalık ayırıcıdan önce burada toplam %s basamaktan fazla olmamasını "
+"sağlayın."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
@@ -2690,7 +2693,7 @@ msgstr "Sunucu"
 
 #: deluge/ui/webui/config_tabs_webui.py:58
 msgid "Manually restart webui to apply changes."
-msgstr ""
+msgstr "Değişiklikler onaylandığında webui'yi elle yeniden başlat"
 
 #: deluge/ui/webui/config_tabs_webui.py:61
 msgid "Https"
@@ -2728,11 +2731,11 @@ msgstr "\"Yeni Parola\" ile \"Yeni Parola(doğrulama)\" birbirinden farklı"
 
 #: deluge/ui/webui/config_tabs_webui.py:103
 msgid "Sidebar"
-msgstr ""
+msgstr "Kenar Çubuğu"
 
 #: deluge/ui/webui/config_tabs_webui.py:104
 msgid "Show sidebar"
-msgstr ""
+msgstr "Kenar çubuğunu göster"
 
 #: deluge/ui/webui/config_tabs_webui.py:105
 msgid "Show zero hits"
@@ -2740,7 +2743,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
-msgstr ""
+msgstr "İzleyicileri göster"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
@@ -2828,7 +2831,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Clear"

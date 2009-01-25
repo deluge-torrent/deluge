@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-10 09:47+0000\n"
-"Last-Translator: Mário Buči <Unknown>\n"
+"PO-Revision-Date: 2009-01-21 00:41+0000\n"
+"Last-Translator: Robert Hartl <hartl.robert@gmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -660,10 +660,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Ak je zaškrtnuté, odhadované TCP/IP výdavky sú čerpané z obmedzovačov tempa "
+"tak, aby sa predošlo prekročeniu obmedzenia celkovej dátovej prevádzky."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Obmedzenie IP výdavkov"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1463
 msgid "<b>Global Bandwidth Usage</b>"
@@ -2178,7 +2180,7 @@ msgstr "Pomer"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
-msgstr "Prospech"
+msgstr "Dostupnosť"
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"
@@ -2436,7 +2438,7 @@ msgstr "Maximálny počet pokusov o pripojenie za sekundu"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Obmedzenie IP výdavkov"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2759,7 +2761,7 @@ msgstr "Zobraziť trackery"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
-msgstr ""
+msgstr "Zobraziť vyhľadávanie kľúčového slova"
 
 #: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
 msgid "Maximum Down Speed"

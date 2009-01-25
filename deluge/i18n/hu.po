@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-07 17:05+0000\n"
-"Last-Translator: csulok <shikakaa@gmail.com>\n"
+"PO-Revision-Date: 2009-01-24 13:39+0000\n"
+"Last-Translator: Adam Niedling <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -299,7 +299,7 @@ msgstr "_Mindent kijelöl"
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
-msgstr "Visszatérés a kiválasztott torrentekhez."
+msgstr "Kiválasztott torrentek folytatása"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
@@ -374,7 +374,7 @@ msgstr "Ha eltávolítod az adatot, örökre elveszik."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "_Adattal felülírás"
+msgstr "_Adat eltávolítása"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -490,6 +490,8 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"TOS byte, ami a peereknek küldött minden IP csomag fejlécébe kerül (web seed "
+"felé is). Hex érték."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:828
 msgid "Peer TOS Byte:"
@@ -1939,7 +1941,7 @@ msgstr "Deluge"
 #: deluge/ui/gtkui/systemtray.py:197
 #: deluge/ui/webui/scripts/template_strings.py:37
 msgid "Down"
-msgstr "Lejjebb"
+msgstr "Le"
 
 #: deluge/ui/gtkui/systemtray.py:198
 #: deluge/ui/webui/scripts/template_strings.py:116
@@ -2172,7 +2174,7 @@ msgstr "Arány"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
-msgstr "Hasznosság"
+msgstr "Elérhető"
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-23 23:38+0000\n"
-"Last-Translator: Marcos Pinto <markybob@gmail.com>\n"
+"PO-Revision-Date: 2009-01-23 21:26+0000\n"
+"Last-Translator: Martin Grønholdt <martin.groenholdt@gmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -81,7 +81,7 @@ msgstr "Auto udført"
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "Stop seed ved ratio"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1919
@@ -91,7 +91,7 @@ msgstr "Fjern ved denne ratio"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Anvend kø indstillinger"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
@@ -106,7 +106,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 msgid "Apply location settings:"
-msgstr ""
+msgstr "Anvend placerings indstillinger"
 
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(1 linie per tracker)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 msgid "Automatically apply label:"
@@ -139,7 +139,7 @@ msgstr "Tilføj mærkat"
 
 #: deluge/plugins/label/label/data/label_options.glade:672
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Tilføj mærkat</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:703
 msgid "Name:"
@@ -148,11 +148,11 @@ msgstr "Navn:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
-msgstr ""
+msgstr "Tilføj Torrents"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Tilføj Torrents</b></big>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
@@ -162,7 +162,7 @@ msgstr "_Filer"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
-msgstr ""
+msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
@@ -195,7 +195,7 @@ msgstr "<b>Gemmeplacering</b>"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Full"
-msgstr ""
+msgstr "Fuld"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
@@ -208,16 +208,16 @@ msgstr "<b>Tildeling</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:558
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Maksimum dowload hastighed"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:570
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Maksimum upload hastighed:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:584
 #: deluge/ui/gtkui/glade/main_window.glade:1734
 msgid "Max Connections:"
-msgstr ""
+msgstr "Maksimum antal forbindelser:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:598
 #: deluge/ui/gtkui/glade/main_window.glade:1797
@@ -227,15 +227,15 @@ msgstr "Maks. upload pladser:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:667
 #: deluge/ui/gtkui/glade/main_window.glade:1830
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Båndbredde</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Tilføj i pauset tilstand"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Priotér første og sidste del"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2526
@@ -246,11 +246,11 @@ msgstr "<b>Generelt</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:793
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "Gendan standarter"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:847
 msgid "Apply To All"
-msgstr ""
+msgstr "Anvend på alle"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:894
 #: deluge/ui/gtkui/glade/main_window.glade:2182
@@ -259,7 +259,7 @@ msgstr "_Indstillinger"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:970
 msgid "Add URL"
-msgstr ""
+msgstr "Tilføj adresse"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1006
 msgid "<b>From URL</b>"
@@ -288,12 +288,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
-msgstr ""
+msgstr "_Vælg alle"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Genoptag valgte torrenter"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
@@ -305,11 +305,11 @@ msgstr "_Åbn mappe"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr ""
+msgstr "_Genoptag"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
-msgstr ""
+msgstr "_Indstillinger"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
@@ -339,7 +339,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 msgid "_Download Speed Limit"
-msgstr "Begrænsning af _downloadhastighed"
+msgstr "_Download hastigheds grænse"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
@@ -348,11 +348,11 @@ msgstr "Begrænsning af _uploadhastighed"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
-msgstr ""
+msgstr "_Forbindelses grænse"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "Grænse for upload pladser"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -360,19 +360,19 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Fjen den valgte torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Hvis du fjerner dataene, vil de være permanent gå tabt."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Fjern med _data"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Fjern torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -382,7 +382,7 @@ msgstr "Indstillinger"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:74
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Downloads</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:216
 msgid "Auto add .torrents from:"
@@ -436,11 +436,11 @@ msgstr "<b>Indstillinger</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:449
 msgid "page 6"
-msgstr ""
+msgstr "side 6"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:479
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Nætværk</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:520
 msgid "Deluge will automatically choose a different port to use every time."
@@ -449,7 +449,7 @@ msgstr "Deluge vil automatisk vælge en anden port at bruge næste gang."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:521
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:709
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Brug tilfældige porte"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:539
 msgid "Active Port:"
@@ -475,11 +475,11 @@ msgstr "Test aktiv port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:677
 msgid "<b>Incoming Ports</b>"
-msgstr ""
+msgstr "<b>Porte til ingående forbindelser</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:792
 msgid "<b>Outgoing Ports</b>"
-msgstr ""
+msgstr "<b>Porte til udgående forbindelser</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:827
 msgid ""
@@ -519,16 +519,16 @@ msgstr "NAT-PMP"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:927
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:928
 msgid "Peer Exchange"
-msgstr "Modpart-udveksling"
+msgstr "Peer-udveksling"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:945
 msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
+msgstr "Local Service Discovery finder peers på det lokale netværk"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:946
 #: deluge/ui/webui/config_tabs_deluge.py:73
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:960
 msgid "Distributed hash table may improve the amount of active connections."
@@ -558,6 +558,9 @@ msgid ""
 "Enabled\n"
 "Disabled"
 msgstr ""
+"Tvunget\n"
+"Aktiveret\n"
+"Deaktiveret"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1053
 msgid ""
@@ -575,7 +578,7 @@ msgstr "Udgående"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1105
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "Kryptér hele strømmen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1128
 msgid "<b>Encryption</b>"
@@ -583,11 +586,11 @@ msgstr "<b>Kryptering</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1162
 msgid "page 7"
-msgstr ""
+msgstr "side 7"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1193
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Båndbredde</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1268
 msgid "Maximum Connection Attempts per Second:"
@@ -613,7 +616,7 @@ msgstr "Højeste sendehastighed (KiB/s):"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1304
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1329
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Største antal tilladte forbindelser. Sæt til 0 for ubegrænset."
+msgstr "Største antal tilladte forbindelser. Sæt til -1 for ubegrænset."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1306
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1538
@@ -635,7 +638,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1562
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Højste nedhentningshastighed (KiB/s):"
+msgstr "Maksimale Download Hastighed (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1400
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
@@ -645,7 +648,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1425
 #: deluge/ui/webui/config_tabs_deluge.py:113
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Ignorer begrænsninger på det locale netværk"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1444
 msgid ""
@@ -697,11 +700,11 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4009
 #: deluge/ui/webui/scripts/template_strings.py:43
 msgid "Enable"
-msgstr ""
+msgstr "Aktivér"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1732
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Klassisk tilstand</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1768
 msgid "Show session speed in titlebar"
@@ -709,11 +712,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1780
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Hoved vindue</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1816
 msgid "Always show"
-msgstr ""
+msgstr "Vis altid"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1832
 msgid "Bring the dialog to focus"
@@ -759,7 +762,7 @@ msgstr "side 10"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2055
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Andre</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2097
 msgid ""
@@ -782,10 +785,13 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"Hjælp os med at forbedre Deluge ved at sende os information, om din Python "
+"version, PyGTK version, Operativ system og processor. Ingen anden "
+"information vil blive sendt."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2172
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Ja, send venligst anonyme statistikker"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2191
 msgid "<b>System Information</b>"
@@ -806,20 +812,20 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "<b>Port</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2358
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Tilad fjern-forbindelser"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2369
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Forbindelser</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2401
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Tjek regelmæssigt efter nye versioner"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2412
 msgid "<b>Other</b>"
@@ -827,7 +833,7 @@ msgstr "<b>Andet</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2470
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Kø</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2513
 #: deluge/ui/webui/config_tabs_deluge.py:153

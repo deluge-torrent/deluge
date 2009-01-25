@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-04 01:05+0000\n"
-"Last-Translator: obo <Unknown>\n"
+"PO-Revision-Date: 2009-01-21 20:22+0000\n"
+"Last-Translator: Luca Andrea Rossi <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -432,7 +432,7 @@ msgstr "Priorità alle parti iniziali e finali dei file nei torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:409
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Priorità ai primi e ultimi pezzi del torrent"
+msgstr "Priorità alle parti iniziali e finali del torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:424
 msgid "<b>Options</b>"
@@ -1404,7 +1404,7 @@ msgstr "Accoda il torrent in alto"
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
-msgstr "Sposta in sù nella coda"
+msgstr "Sposta in su nella coda"
 
 #: deluge/ui/gtkui/glade/main_window.glade:400
 msgid "Queue Torrent Down"
@@ -2403,7 +2403,7 @@ msgstr "Note utente"
 #: deluge/ui/webui/config_tabs_webui.py:82
 #: deluge/ui/webui/scripts/template_strings.py:75
 msgid "Password"
-msgstr "Parola d'ordine"
+msgstr "Password"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 msgid "Global"

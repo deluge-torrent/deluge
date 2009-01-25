@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-28 08:56+0000\n"
-"Last-Translator: Liu, Shuyuan <Unknown>\n"
+"PO-Revision-Date: 2009-01-15 05:50+0000\n"
+"Last-Translator: Wei Hsiang Hung <weihsiang.hung@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:32+0000\n"
+"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -1062,7 +1062,7 @@ msgstr "編輯 Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr ""
+msgstr "<b>編輯 Tracker</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
@@ -1087,7 +1087,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
 msgid "<b>Move Storage</b>"
-msgstr ""
+msgstr "<b>變更儲存位置</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"
@@ -1183,6 +1183,11 @@ msgid ""
 "256 KiB\n"
 "512 KiB"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
 #: deluge/ui/webui/torrent_add.py:49
@@ -1226,11 +1231,11 @@ msgstr "標籤"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
 msgid "Add Peer"
-msgstr ""
+msgstr "加入 Peer"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr ""
+msgstr "<b>加入使用者</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
@@ -1512,7 +1517,7 @@ msgstr "檔案(_F)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr ""
+msgstr "使用者(_P)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -3262,7 +3267,8 @@ msgstr "秒"
 #~ "\n"
 #~ "Launchpad Contributions:\n"
 #~ "  Liu, Shuyuan https://launchpad.net/~victorangus\n"
-#~ "  Marcos Pinto https://launchpad.net/~markybob"
+#~ "  Marcos Pinto https://launchpad.net/~markybob\n"
+#~ "  Wei Hsiang Hung https://launchpad.net/~weihsiang-hung"
 
 #~ msgid "Translate This Application..."
 #~ msgstr "翻譯這個應用程式..."
