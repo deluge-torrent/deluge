@@ -1,4 +1,4 @@
-Deluge 1.1.1 - (In Development)
+Deluge 1.1.1 - (24 January 2009)
  Core:
   * Fix oldstateupgrader for those upgrading from 0.5.x
   * Fix setting Peer TOS byte
