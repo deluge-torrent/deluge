@@ -9,7 +9,7 @@ using namespace boost::python;
 template<class T1, class T2>
 struct pair_to_tuple
 {
-    static PyObject* convert(const std::pair<int, int>& p)
+    static PyObject* convert(const std::pair<T1, T2>& p)
     {
         return incref(make_tuple(p.first, p.second).ptr());
     }
