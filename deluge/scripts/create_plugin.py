@@ -319,7 +319,7 @@ $:render.footer()
 GPL = """#
 # %(filename)s
 #
-# Copyright (C) 2008 %(author_name)s <%(author_email)s>
+# Copyright (C) 2009 %(author_name)s <%(author_email)s>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
