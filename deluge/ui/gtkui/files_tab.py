@@ -212,7 +212,7 @@ class FilesTab(Tab):
         state = {
             "columns": {},
             "sort_id": column_id,
-            "sort_order": int(sort_order)
+            "sort_order": int(sort_order) if sort_order else None
         }
 
         for index, column in enumerate(self.listview.get_columns()):
@@ -249,7 +249,7 @@ class FilesTab(Tab):
         if state == None:
             return
 
-        if state["sort_id"] and state["sort_order"]:
+        if state["sort_id"] and state["sort_order"] is not None:
             self.treestore.set_sort_column_id(state["sort_id"], state["sort_order"])
 
         for (index, column) in enumerate(self.listview.get_columns()):
@@ -258,7 +258,7 @@ class FilesTab(Tab):
                 cstate = state["columns"][cname]
                 column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                 column.set_fixed_width(cstate["width"] if cstate["width"] > 0 else 10)
-                if state["sort_id"] == index:
+                if state["sort_id"] == index and state["sort_order"] is not None:
                     column.set_sort_indicator(True)
                     column.set_sort_order(state["sort_order"])
                 if cstate["position"] != index:

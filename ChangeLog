@@ -4,6 +4,7 @@ Deluge 1.1.2 - (In Development)
 
  GtkUI:
   * Fix #761 use proper theme colours in sidebar
+  * Fix saving files/peers tab state when no column is sorted
 
 Deluge 1.1.1 - (24 January 2009)
  Core:
