@@ -122,8 +122,8 @@ class FilterTreeView(component.Component):
 
         #colors using current theme.
         style = self.window.window.get_style()
-        self.color_insensitive = style.base[gtk.STATE_INSENSITIVE]
-        self.color_sensitive = style.base[gtk.STATE_NORMAL]
+        self.colour_backgrond = style.bg[gtk.STATE_NORMAL]
+        self.colour_foreground = style.fg[gtk.STATE_NORMAL]
 
     def start(self):
         #add Cat nodes:
@@ -218,17 +218,16 @@ class FilterTreeView(component.Component):
         else:
             self.renderpix.set_property("visible", False)
 
-        #cell.set_property('editable', False)
         if cat == "cat":
             txt = label
-            col = self.color_insensitive
+            cell.set_property("cell-background-gdk", self.colour_background)
+            cell.set_property("foreground-gdk", self.colour_foreground)
         else:
             txt = "%s (%s)"  % (label, count)
-            col = self.color_sensitive
+            cell.set_property("cell-background", None)
+            cell.set_property("foreground", None)
 
         cell.set_property('text', txt)
-        cell.set_property("cell-background-gdk",col)
-        self.renderpix.set_property("cell-background-gdk",col)
 
     def get_pixmap(self, cat, value):
         if cat == "state":

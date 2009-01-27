@@ -1,3 +1,10 @@
+Deluge 1.1.2 - (In Development)
+ Core:
+  * Fix issue where torrents get stuck Checking
+
+ GtkUI:
+  * Fix #761 use proper theme colours in sidebar
+
 Deluge 1.1.1 - (24 January 2009)
  Core:
   * Fix oldstateupgrader for those upgrading from 0.5.x
