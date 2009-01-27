@@ -44,7 +44,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #pragma warning(push, 1)
 #endif
 
-#include <boost/lexical_cast.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -379,7 +378,7 @@ namespace libtorrent
 		// copy the info section
 		m_info_section_size = section.second;
 		m_info_section.reset(new char[m_info_section_size]);
-		memcpy(m_info_section.get(), section.first, m_info_section_size);
+		std::memcpy(m_info_section.get(), section.first, m_info_section_size);
 		TORRENT_ASSERT(section.first[0] == 'd');
 		TORRENT_ASSERT(section.first[m_info_section_size-1] == 'e');
 

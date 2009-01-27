@@ -50,6 +50,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/version.hpp"
 #include "libtorrent/extensions.hpp"
 #include "libtorrent/aux_/session_impl.hpp"
+#include "libtorrent/broadcast_socket.hpp"
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 #include "libtorrent/pe_crypto.hpp"
@@ -605,13 +606,13 @@ namespace libtorrent
 #endif
 	}
 
-	void bt_peer_connection::send_buffer(char* buf, int size, int flags)
+	void bt_peer_connection::send_buffer(char const* buf, int size, int flags)
 	{
 		TORRENT_ASSERT(buf);
 		TORRENT_ASSERT(size > 0);
 
 		if (m_encrypted && m_rc4_encrypted)
-			m_RC4_handler->encrypt(buf, size);
+			m_RC4_handler->encrypt(const_cast<char*>(buf), size);
 		
 		peer_connection::send_buffer(buf, size, flags);
 	}
