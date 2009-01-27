@@ -1,5 +1,5 @@
 #
-# blocklist/ui.py
+# ui.py
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
@@ -41,4 +41,3 @@ class UI:
 
     def disable(self):
         pass
-
