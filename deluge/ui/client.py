@@ -27,13 +27,13 @@ from twisted.internet import reactor, ssl, defer
 import deluge.rencode as rencode
 import zlib
 
+import deluge.common
+from deluge.log import LOG as log
+
 if deluge.common.windows_check():
     import win32api
 else:
     import subprocess
-
-import deluge.common
-from deluge.log import LOG as log
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
