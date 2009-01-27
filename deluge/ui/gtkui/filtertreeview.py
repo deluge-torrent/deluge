@@ -122,7 +122,7 @@ class FilterTreeView(component.Component):
 
         #colors using current theme.
         style = self.window.window.get_style()
-        self.colour_backgrond = style.bg[gtk.STATE_NORMAL]
+        self.colour_background = style.bg[gtk.STATE_NORMAL]
         self.colour_foreground = style.fg[gtk.STATE_NORMAL]
 
     def start(self):
