@@ -30,7 +30,7 @@ import pkg_resources
 import gobject
 from itertools import izip
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.component as component
@@ -244,7 +244,7 @@ class PeersTab(Tab):
             self.peers = {}
             self.torrent_id = torrent_id
 
-        client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["peers"])
+        client.core.get_torrent_status(torrent_id, ["peers"]).addCallback(self._on_get_torrent_status)
 
     def get_flag_pixbuf(self, country):
         if country == "  ":

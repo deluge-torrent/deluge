@@ -25,7 +25,7 @@
 
 import deluge.component as component
 import deluge.pluginmanagerbase
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
@@ -59,7 +59,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
-        client.get_enabled_plugins(self._on_get_enabled_plugins)
+        client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
 
     def stop(self):
         # Disable the plugins

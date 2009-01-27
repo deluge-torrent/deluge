@@ -30,7 +30,6 @@ import pkg_resources
 
 import deluge.common
 import deluge.ui.gtkui.common as common
-from deluge.ui.client import aclient as client
 
 class AboutDialog:
     def __init__(self):

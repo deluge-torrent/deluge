@@ -27,7 +27,8 @@ import deluge.xmlrpclib as xmlrpclib
 import socket
 import struct
 
-import gobject
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 import deluge.component as component
 from deluge.log import LOG as log
@@ -81,8 +82,6 @@ class SignalManager(component.Component):
         uri = "http://" + str(address) + ":" + str(port)
         log.debug("Registering %s as a signal reciever..", uri)
         self.clients[uri] = xmlrpclib.ServerProxy(uri, transport=Transport())
-        #self.clients[uri].socket.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
-                    #  struct.pack('ii', 1, 0))
 
     def emit(self, signal, *data):
         # Run the handlers
@@ -91,7 +90,9 @@ class SignalManager(component.Component):
                 handler(*data)
 
         for uri in self.clients:
-            gobject.idle_add(self._emit, uri, signal, 1, *data)
+    #        reactor.callLater(0, self._emit, uri, signal, 1, *data)
+            #XXX: Need to fix this for the new signal sending
+            pass
 
     def _emit(self, uri, signal, count, *data):
         if uri not in self.clients:
@@ -102,7 +103,7 @@ class SignalManager(component.Component):
         except (socket.error, Exception), e:
             log.warning("Unable to emit signal to client %s: %s (%d)", client, e, count)
             if count < 30:
-                gobject.timeout_add(1000, self._emit, uri, signal, count + 1, *data)
+                reactor.callLater(1, self._emit, uri, signal, count + 1, *data)
             else:
                 log.info("Removing %s because it couldn't be reached..", uri)
                 del self.clients[uri]

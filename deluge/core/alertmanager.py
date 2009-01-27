@@ -25,7 +25,7 @@
 
 """The AlertManager handles all the libtorrent alerts."""
 
-import gobject
+from twisted.internet import reactor
 
 import deluge.component as component
 try:
@@ -97,7 +97,7 @@ class AlertManager(component.Component):
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
                     if not wait:
-                        gobject.idle_add(handler, alert)
+                        reactor.callLater(0, handler, alert)
                     else:
                         handler(alert)
 

@@ -30,7 +30,7 @@ import gobject
 import pkg_resources
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -166,19 +166,19 @@ class QueuedTorrents(component.Component):
                     component.get("AddTorrentDialog").add_from_url(torrent_path)
                     component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                 else:
-                    client.add_torrent_url(torrent_path, None)
+                    client.core.add_torrent_url(torrent_path, None)
             elif deluge.common.is_magnet(torrent_path):
                 if self.config["interactive_add"]:
                     component.get("AddTorrentDialog").add_from_magnets([torrent_path])
                     component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                 else:
-                    client.add_magnet_uris([torrent_path], [])
+                    client.core.add_magnet_uris([torrent_path], [])
             else:
                 if self.config["interactive_add"]:
                     component.get("AddTorrentDialog").add_from_files([torrent_path])
                     component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                 else:
-                    client.add_torrent_file([torrent_path])
+                    client.core.add_torrent_file([torrent_path])
 
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]
@@ -187,5 +187,3 @@ class QueuedTorrents(component.Component):
 
     def on_chk_autoadd_toggled(self, widget):
         self.config["autoadd_queued"] = widget.get_active()
-
-

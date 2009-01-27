@@ -24,7 +24,7 @@
 
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
 
 class OptionsTab(Tab):
@@ -87,7 +87,7 @@ class OptionsTab(Tab):
         if torrent_id != self.prev_torrent_id:
             self.prev_status = None
 
-        client.get_torrent_status(self._on_get_torrent_status, torrent_id,
+        client.core.get_torrent_status(torrent_id,
             ["max_download_speed",
             "max_upload_speed",
             "max_connections",
@@ -99,7 +99,7 @@ class OptionsTab(Tab):
             "stop_ratio",
             "remove_at_ratio",
             "move_on_completed",
-            "move_on_completed_path"])
+            "move_on_completed_path"]).addCallback(self._on_get_torrent_status)
         self.prev_torrent_id = torrent_id
 
     def clear(self):
@@ -147,31 +147,31 @@ class OptionsTab(Tab):
 
     def _on_button_apply_clicked(self, button):
         if self.spin_max_download.get_value() != self.prev_status["max_download_speed"]:
-            client.set_torrent_max_download_speed(self.prev_torrent_id, self.spin_max_download.get_value())
+            client.core.set_torrent_max_download_speed(self.prev_torrent_id, self.spin_max_download.get_value())
         if self.spin_max_upload.get_value() != self.prev_status["max_upload_speed"]:
-            client.set_torrent_max_upload_speed(self.prev_torrent_id, self.spin_max_upload.get_value())
+            client.core.set_torrent_max_upload_speed(self.prev_torrent_id, self.spin_max_upload.get_value())
         if self.spin_max_connections.get_value_as_int() != self.prev_status["max_connections"]:
-            client.set_torrent_max_connections(self.prev_torrent_id, self.spin_max_connections.get_value_as_int())
+            client.core.set_torrent_max_connections(self.prev_torrent_id, self.spin_max_connections.get_value_as_int())
         if self.spin_max_upload_slots.get_value_as_int() != self.prev_status["max_upload_slots"]:
-            client.set_torrent_max_upload_slots(self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
+            client.core.set_torrent_max_upload_slots(self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
         if self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]:
-            client.set_torrent_prioritize_first_last(self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
+            client.core.set_torrent_prioritize_first_last(self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
         if self.chk_auto_managed.get_active() != self.prev_status["is_auto_managed"]:
-            client.set_torrent_auto_managed(self.prev_torrent_id, self.chk_auto_managed.get_active())
+            client.core.set_torrent_auto_managed(self.prev_torrent_id, self.chk_auto_managed.get_active())
         if self.chk_stop_at_ratio.get_active() != self.prev_status["stop_at_ratio"]:
-            client.set_torrent_stop_at_ratio(self.prev_torrent_id, self.chk_stop_at_ratio.get_active())
+            client.core.set_torrent_stop_at_ratio(self.prev_torrent_id, self.chk_stop_at_ratio.get_active())
         if self.spin_stop_ratio.get_value() != self.prev_status["stop_ratio"]:
-            client.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
+            client.core.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
         if self.chk_remove_at_ratio.get_active() != self.prev_status["remove_at_ratio"]:
-            client.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
+            client.core.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
         if self.chk_move_completed.get_active() != self.prev_status["move_on_completed"]:
-            client.set_torrent_move_on_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
+            client.core.set_torrent_move_on_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
             if self.chk_move_completed.get_active():
                 if client.is_localhost():
                     path = self.filechooser_move_completed.get_current_folder()
                 else:
                     path = self.entry_move_completed.get_text()
-                client.set_torrent_move_on_completed_path(self.prev_torrent_id, path)
+                client.core.set_torrent_move_on_completed_path(self.prev_torrent_id, path)
 
 
     def _on_button_edit_trackers_clicked(self, button):

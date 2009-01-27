@@ -61,6 +61,7 @@ class UI:
                 log.info("Starting ConsoleUI..")
                 from deluge.ui.console.main import ConsoleUI
                 ui = ConsoleUI(ui_args).run()
-        except ImportError:
+        except ImportError, e:
+            log.exception(e)
             log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
             sys.exit(0)

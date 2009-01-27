@@ -30,7 +30,7 @@ import pkg_resources
 
 import deluge.error
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.common
 import deluge.ui.gtkui.common as common
 from deluge.configmanager import ConfigManager
@@ -231,16 +231,13 @@ class MenuBar(component.Component):
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown
-        client.daemon.shutdown(None)
+        client.daemon.shutdown()
         self.window.quit()
 
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
         if self.config["classic_mode"]:
-            try:
-                client.daemon.shutdown(None)
-            except deluge.error.NoCoreError:
-                pass
+            client.daemon.shutdown()
         self.window.quit()
 
     ## Edit Menu ##
@@ -255,17 +252,17 @@ class MenuBar(component.Component):
     ## Torrent Menu ##
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
-        client.pause_torrent(
+        client.core.pause_torrent(
             component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_resume_activate(self, data=None):
         log.debug("on_menuitem_resume_activate")
-        client.resume_torrent(
+        client.core.resume_torrent(
             component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")
-        client.force_reannounce(
+        client.core.force_reannounce(
             component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_edittrackers_activate(self, data=None):
@@ -283,7 +280,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_recheck_activate(self, data=None):
         log.debug("on_menuitem_recheck_activate")
-        client.force_recheck(
+        client.core.force_recheck(
             component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_open_folder_activate(self, data=None):
@@ -291,7 +288,7 @@ class MenuBar(component.Component):
         def _on_torrent_status(status):
             deluge.common.open_file(status["save_path"])
         for torrent_id in component.get("TorrentView").get_selected_torrents():
-            client.get_torrent_status(_on_torrent_status, torrent_id, ["save_path"])
+            client.core.get_torrent_status(torrent_id, ["save_path"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
@@ -310,11 +307,11 @@ class MenuBar(component.Component):
             if chooser.run() == gtk.RESPONSE_OK:
                 result = chooser.get_filename()
                 config["choose_directory_dialog_path"] = result
-                client.move_storage(
+                client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), result)
             chooser.destroy()
         else:
-            client.get_torrent_status(self.show_move_storage_dialog, component.get("TorrentView").get_selected_torrent(), ["save_path"])
+            client.core.get_torrent_status(component.get("TorrentView").get_selected_torrent(), ["save_path"]).addCallback(self.show_move_storage_dialog)
             client.force_call(False)
 
     def show_move_storage_dialog(self, status):
@@ -330,26 +327,26 @@ class MenuBar(component.Component):
             if response_id == gtk.RESPONSE_OK:
                 log.debug("Moving torrents to %s", entry.get_text())
                 path = entry.get_text()
-                client.move_storage(component.get("TorrentView").get_selected_torrents(), path)
+                client.core.move_storage(component.get("TorrentView").get_selected_torrents(), path)
             dialog.hide()
         dialog.connect("response", _on_response_event)
         dialog.show()
 
     def on_menuitem_queue_top_activate(self, value):
         log.debug("on_menuitem_queue_top_activate")
-        client.queue_top(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_top(None, component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_up_activate(self, value):
         log.debug("on_menuitem_queue_up_activate")
-        client.queue_up(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_up(None, component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_down_activate(self, value):
         log.debug("on_menuitem_queue_down_activate")
-        client.queue_down(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_down(None, component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_bottom_activate(self, value):
         log.debug("on_menuitem_queue_bottom_activate")
-        client.queue_bottom(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_bottom(None, component.get("TorrentView").get_selected_torrents())
 
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, value):
@@ -385,10 +382,10 @@ class MenuBar(component.Component):
     def on_menuitem_set_unlimited(self, widget):
         log.debug("widget.name: %s", widget.name)
         funcs = {
-            "menuitem_down_speed": client.set_torrent_max_download_speed,
-            "menuitem_up_speed": client.set_torrent_max_upload_speed,
-            "menuitem_max_connections": client.set_torrent_max_connections,
-            "menuitem_upload_slots": client.set_torrent_max_upload_slots
+            "menuitem_down_speed": client.core.set_torrent_max_download_speed,
+            "menuitem_up_speed": client.core.set_torrent_max_upload_speed,
+            "menuitem_max_connections": client.core.set_torrent_max_connections,
+            "menuitem_upload_slots": client.core.set_torrent_max_upload_slots
         }
         if widget.name in funcs.keys():
             for torrent in component.get("TorrentView").get_selected_torrents():
@@ -397,10 +394,10 @@ class MenuBar(component.Component):
     def on_menuitem_set_other(self, widget):
         log.debug("widget.name: %s", widget.name)
         funcs = {
-            "menuitem_down_speed": client.set_torrent_max_download_speed,
-            "menuitem_up_speed": client.set_torrent_max_upload_speed,
-            "menuitem_max_connections": client.set_torrent_max_connections,
-            "menuitem_upload_slots": client.set_torrent_max_upload_slots
+            "menuitem_down_speed": client.core.set_torrent_max_download_speed,
+            "menuitem_up_speed": client.core.set_torrent_max_upload_speed,
+            "menuitem_max_connections": client.core.set_torrent_max_connections,
+            "menuitem_upload_slots": client.core.set_torrent_max_upload_slots
         }
         # widget: (header, type_str, image_stockid, image_filename, default)
         other_dialog_info = {
@@ -418,11 +415,11 @@ class MenuBar(component.Component):
 
     def on_menuitem_set_automanaged_on(self, widget):
         for torrent in component.get("TorrentView").get_selected_torrents():
-            client.set_torrent_auto_managed(torrent, True)
+            client.core.set_torrent_auto_managed(torrent, True)
 
     def on_menuitem_set_automanaged_off(self, widget):
         for torrent in component.get("TorrentView").get_selected_torrents():
-            client.set_torrent_auto_managed(torrent, False)
+            client.core.set_torrent_auto_managed(torrent, False)
 
     def on_menuitem_sidebar_zero_toggled(self, widget):
         self.config["sidebar_show_zero"] = widget.get_active()

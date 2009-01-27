@@ -27,7 +27,7 @@ import sys
 import os.path
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -90,14 +90,14 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_url(arg)
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.add_torrent_url(arg, None)
+                client.core.add_torrent_url(arg, None)
         elif deluge.common.is_magnet(arg):
             log.debug("Attempting to add %s from external source..", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_magnets([arg])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.add_torrent_magnets([arg], [])
+                client.core.add_torrent_magnets([arg], [])
         else:
             # Just a file
             log.debug("Attempting to add %s from external source..",
@@ -106,4 +106,4 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.add_torrent_file([os.path.abspath(arg)])
+                client.core.add_torrent_file([os.path.abspath(arg)])

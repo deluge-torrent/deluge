@@ -25,7 +25,7 @@
 import gtk, gtk.glade
 import pkg_resources
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 from deluge.log import LOG as log
 
@@ -71,7 +71,7 @@ class RemoveTorrentDialog(object):
             button_data.set_label(pluralize_torrents(button_data.get_label()))
 
     def __remove_torrents(self, remove_data):
-        client.remove_torrent(self.__torrent_ids, remove_data)
+        client.core.remove_torrent(self.__torrent_ids, remove_data)
         # Unselect all to avoid issues with the selection changed event
         component.get("TorrentView").treeview.get_selection().unselect_all()
 

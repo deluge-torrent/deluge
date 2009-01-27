@@ -26,7 +26,7 @@
 
 import gtk, gtk.glade
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.torrentdetails import Tab
@@ -105,8 +105,8 @@ class StatusTab(Tab):
             "max_upload_speed", "max_download_speed", "active_time",
             "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
 
-        client.get_torrent_status(
-            self._on_get_torrent_status, selected, status_keys)
+        client.core.get_torrent_status(
+            selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core

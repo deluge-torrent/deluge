@@ -29,7 +29,7 @@ import random
 
 import gobject
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib
@@ -149,4 +149,3 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
                 self.signals[signal].append(callback)
         except KeyError:
             self.signals[signal] = [callback]
-

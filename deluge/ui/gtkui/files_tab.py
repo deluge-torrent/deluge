@@ -30,7 +30,7 @@ import os.path
 import cPickle
 
 from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.component as component
@@ -295,7 +295,7 @@ class FilesTab(Tab):
                 # We already have the files list stored, so just update the view
                 self.update_files()
 
-        client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, status_keys)
+        client.core.get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status)
         client.force_call(True)
 
     def clear(self):
@@ -304,7 +304,7 @@ class FilesTab(Tab):
 
     def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
-            client.get_torrent_status(self._on_open_file, self.torrent_id, ["save_path", "files"])
+            client.core.get_torrent_status(self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
             client.force_call(False)
 
     def get_file_path(self, row, path=""):
@@ -469,7 +469,7 @@ class FilesTab(Tab):
         priorities = [p[1] for p in file_priorities]
         log.debug("priorities: %s", priorities)
 
-        client.set_torrent_file_priorities(self.torrent_id, priorities)
+        client.core.set_torrent_file_priorities(self.torrent_id, priorities)
 
     def _on_menuitem_donotdownload_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
@@ -523,7 +523,7 @@ class FilesTab(Tab):
 
             log.debug("filepath: %s", filepath)
 
-            client.rename_files(self.torrent_id, [(index, filepath)])
+            client.core.rename_files(self.torrent_id, [(index, filepath)])
         else:
             # We are renaming a folder
             folder = self.treestore[path][0]
@@ -534,7 +534,7 @@ class FilesTab(Tab):
                 parent_path = self.treestore[itr][0] + parent_path
                 itr = self.treestore.iter_parent(itr)
 
-            client.rename_folder(self.torrent_id, parent_path + folder, parent_path + new_text)
+            client.core.rename_folder(self.torrent_id, parent_path + folder, parent_path + new_text)
 
         self._editing_index = None
 
@@ -769,11 +769,11 @@ class FilesTab(Tab):
                 while itr:
                     pp = self.treestore[itr][0] + pp
                     itr = self.treestore.iter_parent(itr)
-                client.rename_folder(self.torrent_id, pp + model[selected[0]][0], parent_path + model[selected[0]][0])
+                client.core.rename_folder(self.torrent_id, pp + model[selected[0]][0], parent_path + model[selected[0]][0])
             else:
                 #[(index, filepath), ...]
                 to_rename = []
                 for s in selected:
                     to_rename.append((model[s][5], parent_path + model[s][0]))
                 log.debug("to_rename: %s", to_rename)
-                client.rename_files(self.torrent_id, to_rename)
+                client.core.rename_files(self.torrent_id, to_rename)

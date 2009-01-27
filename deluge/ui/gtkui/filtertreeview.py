@@ -32,7 +32,7 @@ import deluge.component as component
 import deluge.common
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.log import LOG as log
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 
 STATE_PIX = {
@@ -280,7 +280,7 @@ class FilterTreeView(component.Component):
             hide_cat = []
             if not self.config["sidebar_show_trackers"]:
                 hide_cat = ["tracker_host"]
-            aclient.get_filter_tree(self.cb_update_filter_tree, self.config["sidebar_show_zero"], hide_cat)
+            client.core.get_filter_tree(self.config["sidebar_show_zero"], hide_cat).addCallback(self.cb_update_filter_tree)
         except Exception, e:
             log.debug(e)
 

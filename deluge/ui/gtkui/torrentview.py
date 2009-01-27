@@ -34,7 +34,7 @@ from urlparse import urlparse
 
 import deluge.common
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
@@ -197,9 +197,10 @@ class TorrentView(listview.ListView, component.Component):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
-        client.get_session_state(self._on_session_state)
+        client.core.get_session_state().addCallback(self._on_session_state)
 
     def _on_session_state(self, state):
+        log.debug("on_session_state")
         self.treeview.freeze_child_notify()
         model = self.treeview.get_model()
         for torrent_id in state:
@@ -259,8 +260,8 @@ class TorrentView(listview.ListView, component.Component):
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        client.get_torrents_status(
-            self._on_get_torrents_status, self.filter, status_keys)
+        client.core.get_torrents_status(
+            self.filter, status_keys).addCallback(self._on_get_torrents_status)
 
     def update(self):
         # Send a status request

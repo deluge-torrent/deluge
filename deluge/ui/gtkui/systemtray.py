@@ -27,7 +27,7 @@ import gtk
 import pkg_resources
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -113,7 +113,7 @@ class SystemTray(component.Component):
             self.tray_glade.get_widget("separatormenuitem4").hide()
 
         component.get("Signals").connect_to_signal("config_value_changed", self.config_value_changed)
-        if client.get_core_uri() == None:
+        if not client.connected():
         # Hide menu widgets because we're not connected to a host.
             for widget in self.hide_widget_list:
                 self.tray_glade.get_widget(widget).hide()
@@ -132,10 +132,10 @@ class SystemTray(component.Component):
             self.build_tray_bwsetsubmenu()
 
             # Get some config values
-            client.get_config_value(
-                self._on_max_download_speed, "max_download_speed")
-            client.get_config_value(
-                self._on_max_upload_speed, "max_upload_speed")
+            client.core.get_config_value(
+                "max_download_speed").addCallback(self._on_max_download_speed)
+            client.core.get_config_value(
+                "max_upload_speed").addCallback(self._on_max_upload_speed)
             self.send_status_request()
 
     def start(self):
@@ -153,8 +153,8 @@ class SystemTray(component.Component):
         self.tray.set_visible(False)
 
     def send_status_request(self):
-        client.get_download_rate(self._on_get_download_rate)
-        client.get_upload_rate(self._on_get_upload_rate)
+        client.core.get_download_rate().addCallback(self._on_get_download_rate)
+        client.core.get_upload_rate().addCallback(self._on_get_upload_rate)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -291,15 +291,15 @@ class SystemTray(component.Component):
     def on_menuitem_add_torrent_activate(self, menuitem):
         log.debug("on_menuitem_add_torrent_activate")
         from addtorrentdialog import AddTorrentDialog
-        client.add_torrent_file(AddTorrentDialog().show())
+        client.core.add_torrent_file(AddTorrentDialog().show())
 
     def on_menuitem_pause_all_activate(self, menuitem):
         log.debug("on_menuitem_pause_all_activate")
-        client.pause_all_torrents()
+        client.core.pause_all_torrents()
 
     def on_menuitem_resume_all_activate(self, menuitem):
         log.debug("on_menuitem_resume_all_activate")
-        client.resume_all_torrents()
+        client.core.resume_all_torrents()
 
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
@@ -308,7 +308,7 @@ class SystemTray(component.Component):
                 return
 
         if self.config["classic_mode"]:
-            client.daemon.shutdown(None)
+            client.daemon.shutdown()
 
         self.window.quit()
 
@@ -318,7 +318,7 @@ class SystemTray(component.Component):
             if not self.unlock_tray():
                 return
 
-        client.daemon.shutdown(None)
+        client.daemon.shutdown()
         self.window.quit()
 
     def tray_setbwdown(self, widget, data=None):
@@ -341,7 +341,7 @@ class SystemTray(component.Component):
                 return
 
         # Set the config in the core
-        client.set_config({core_key: value})
+        client.core.set_config({core_key: value})
 
         self.build_tray_bwsetsubmenu()
 

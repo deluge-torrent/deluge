@@ -30,7 +30,7 @@ import pkg_resources
 
 import deluge.component as component
 from deluge.log import LOG as log
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.common
 import deluge.error
 import deluge.ui.gtkui.common as common
@@ -152,6 +152,7 @@ class Preferences(component.Component):
             self.liststore.remove(self.iter_to_remove)
 
     def _on_get_config(self, config):
+        log.debug("on_get_config: %s", config)
         self.core_config = config
 
     def _on_get_available_plugins(self, plugins):
@@ -174,10 +175,10 @@ class Preferences(component.Component):
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         try:
-            client.get_config(self._on_get_config)
-            client.get_available_plugins(self._on_get_available_plugins)
-            client.get_enabled_plugins(self._on_get_enabled_plugins)
-            client.get_listen_port(self._on_get_listen_port)
+            client.core.get_config().addCallback(self._on_get_config)
+            client.core.get_available_plugins().addCallback(self._on_get_available_plugins)
+            client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
+            client.core.get_listen_port().addCallback(self._on_get_listen_port)
             # Force these calls and block until we've done them all
             client.force_call()
         except deluge.error.NoCoreError:
@@ -704,7 +705,7 @@ class Preferences(component.Component):
                 self.gtkui_config[key] = new_gtkui_config[key]
 
         # Core
-        if client.get_core_uri() != None:
+        if client.connected():
             # Only do this if we're connected to a daemon
             config_to_set = {}
             for key in new_core_config.keys():
@@ -713,7 +714,7 @@ class Preferences(component.Component):
                     config_to_set[key] = new_core_config[key]
 
             # Set each changed config value in the core
-            client.set_config(config_to_set)
+            client.core.set_config(config_to_set)
             client.force_call(True)
             # Update the configuration
             self.core_config.update(config_to_set)
@@ -801,7 +802,7 @@ class Preferences(component.Component):
             else:
                 self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
                 self.glade.get_widget("port_img").show()
-        client.test_listen_port(on_get_test)
+        client.core.test_listen_port().addCallback(on_get_test)
         client.force_call()
 
     def on_plugin_toggled(self, renderer, path):
@@ -811,10 +812,10 @@ class Preferences(component.Component):
         value = self.plugin_liststore.get_value(row, 1)
         self.plugin_liststore.set_value(row, 1, not value)
         if not value:
-            client.enable_plugin(name)
+            client.core.enable_plugin(name)
             component.get("PluginManager").enable_plugin(name)
         else:
-            client.disable_plugin(name)
+            client.core.disable_plugin(name)
             component.get("PluginManager").disable_plugin(name)
 
     def on_plugin_selection_changed(self, treeselection):
@@ -867,16 +868,16 @@ class Preferences(component.Component):
 
         if not client.is_localhost():
             # We need to send this plugin to the daemon
-            client.upload_plugin(
+            client.core.upload_plugin(
                 filename,
                 xmlrpclib.Binary(open(filepath, "rb").read()))
 
-        client.rescan_plugins()
+        client.core.rescan_plugins()
         chooser.destroy()
         # We need to re-show the preferences dialog to show the new plugins
         self.show()
 
     def _on_button_rescan_plugins_clicked(self, widget):
         component.get("PluginManager").scan_for_plugins()
-        client.rescan_plugins()
+        client.core.rescan_plugins()
         self.show()

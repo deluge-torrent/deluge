@@ -31,7 +31,7 @@ import gobject
 
 import pkg_resources
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 import deluge.ui.gtkui.listview as listview
 from deluge.configmanager import ConfigManager
@@ -162,12 +162,10 @@ class AddTorrentDialog(component.Component):
 
         def _on_config_values(config):
             self.core_config = config
+            self.set_default_options()
 
         # Send requests to the core for these config values
-        client.get_config_values(_on_config_values, self.core_keys)
-        # Force a call to the core because we need this data now
-        client.force_call()
-        self.set_default_options()
+        client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
 
     def add_from_files(self, filenames):
         import os.path
@@ -673,9 +671,9 @@ class AddTorrentDialog(component.Component):
             row = self.torrent_liststore.iter_next(row)
 
         if torrent_filenames:
-            client.add_torrent_file(torrent_filenames, torrent_options)
+            client.core.add_torrent_file(torrent_filenames, torrent_options)
         if torrent_magnets:
-            client.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
+            client.core.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
 
         client.force_call(False)
         self.hide()

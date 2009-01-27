@@ -26,7 +26,7 @@
 import gtk
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.ui.signalreceiver import SignalReceiver
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -34,12 +34,13 @@ from deluge.log import LOG as log
 class Signals(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Signals")
-        self.receiver = SignalReceiver()
+       # self.receiver = SignalReceiver()
         self.config = ConfigManager("gtkui.conf")
-        self.config["signal_port"] = self.receiver.get_port()
+        #self.config["signal_port"] = self.receiver.get_port()
         self.config.save()
 
     def start(self):
+        return
         self.receiver.set_remote(not client.is_localhost())
         self.receiver.run()
 
@@ -70,6 +71,7 @@ class Signals(component.Component):
             self.torrent_finished)
 
     def stop(self):
+        return
         try:
             self.receiver.shutdown()
         except:
@@ -77,7 +79,8 @@ class Signals(component.Component):
 
     def connect_to_signal(self, signal, callback):
         """Connects a callback to a signal"""
-        self.receiver.connect_to_signal(signal, callback)
+        #self.receiver.connect_to_signal(signal, callback)
+        pass
 
     def torrent_finished(self, torrent_id):
         log.debug("torrent_finished signal received..")

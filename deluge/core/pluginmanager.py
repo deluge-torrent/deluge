@@ -25,7 +25,8 @@
 
 """PluginManager for Core"""
 
-import gobject
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 import deluge.pluginmanagerbase
 import deluge.component as component
@@ -57,13 +58,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         self.enable_plugins()
 
         # Set update timer to call update() in plugins every second
-        self.update_timer = gobject.timeout_add(1000, self.update_plugins)
+        self.update_timer = LoopingCall(self.update_plugins)
+        self.update_timer.start(1)
 
     def stop(self):
         # Disable all enabled plugins
         self.disable_plugins()
         # Stop the update timer
-        gobject.source_remove(self.update_timer)
+        self.update_timer.stop()
 
     def shutdown(self):
         self.stop()
@@ -151,4 +153,3 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def reset_ip_filter(self):
         """Resets the ip filter"""
         return self.core.export_reset_ip_filter()
-

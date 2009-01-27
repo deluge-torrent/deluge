@@ -31,7 +31,7 @@ import pkg_resources
 from urlparse import urlparse
 import urllib
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
@@ -208,7 +208,7 @@ class MainWindow(component.Component):
             upload_rate = deluge.common.fspeed(status["upload_rate"])
             self.window.set_title("Deluge - %s %s %s %s" % (_("Down:"), download_rate, _("Up:"), upload_rate))
         if self.config["show_rate_in_title"]:
-            client.get_session_status(_on_get_session_status, ["download_rate", "upload_rate"])
+            client.core.get_session_status(["download_rate", "upload_rate"]).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:

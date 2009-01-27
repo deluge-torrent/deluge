@@ -28,7 +28,7 @@ import pkg_resources
 import os.path
 import gobject
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.ui.gtkui.listview as listview
 import deluge.component as component
 import deluge.common
@@ -182,7 +182,7 @@ class CreateTorrentDialog:
                     self.files_treestore.clear()
                     self.files_treestore.append(None, [result, gtk.STOCK_NETWORK, size])
                     self.adjust_piece_size()
-            client.get_path_size(_on_get_path_size, result)
+            client.core.get_path_size(result).addCallback(_on_get_path_size)
             client.force_call(True)
 
         dialog.destroy()
@@ -270,7 +270,7 @@ class CreateTorrentDialog:
         add_to_session = self.glade.get_widget("chk_add_to_session").get_active()
 
         if is_remote:
-            client.create_torrent(
+            client.core.create_torrent(
                 path,
                 tracker,
                 piece_length,
@@ -321,7 +321,7 @@ class CreateTorrentDialog:
             httpseeds=httpseeds)
         self.glade.get_widget("progress_dialog").hide_all()
         if add_to_session:
-            client.add_torrent_file([target])
+            client.core.add_torrent_file([target])
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)
@@ -380,5 +380,3 @@ class CreateTorrentDialog:
         log.debug("_on_button_remove_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
         self.trackers_liststore.remove(row)
-
-

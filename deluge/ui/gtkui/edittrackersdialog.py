@@ -28,7 +28,7 @@ import pkg_resources
 
 import deluge.common
 import deluge.ui.gtkui.common as common
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 from deluge.log import LOG as log
 
@@ -85,8 +85,7 @@ class EditTrackersDialog:
 
         # Get the trackers for this torrent
 
-        client.get_torrent_status(
-            self._on_get_torrent_status, self.torrent_id, ["trackers"])
+        client.core.get_torrent_status(self.torrent_id, ["trackers"]).addCallback(self._on_get_torrent_status)
         client.force_call()
 
     def _on_get_torrent_status(self, status):
@@ -169,7 +168,7 @@ class EditTrackersDialog:
             self.trackers.append(tracker)
         self.liststore.foreach(each, None)
         # Set the torrens trackers
-        client.set_torrent_trackers(self.torrent_id, self.trackers)
+        client.core.set_torrent_trackers(self.torrent_id, self.trackers)
         self.dialog.destroy()
 
     def on_button_cancel_clicked(self, widget):

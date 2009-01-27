@@ -31,7 +31,8 @@ import os
 import time
 import shutil
 
-import gobject
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 try:
     import deluge.libtorrent as lt
@@ -178,8 +179,10 @@ class TorrentManager(component.Component):
         self.load_state()
 
         # Save the state every 5 minutes
-        self.save_state_timer = gobject.timeout_add(300000, self.save_state)
-        self.save_resume_data_timer = gobject.timeout_add(290000, self.save_resume_data)
+        self.save_state_timer = LoopingCall(self.save_state)
+        self.save_state_timer.start(200)
+        self.save_resume_data_timer = LoopingCall(self.save_resume_data)
+        self.save_resume_data_timer.start(190)
 
     def stop(self):
         # Save state on shutdown

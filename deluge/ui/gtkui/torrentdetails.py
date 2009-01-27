@@ -31,7 +31,7 @@ import os.path
 import cPickle
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 

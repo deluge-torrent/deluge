@@ -25,7 +25,7 @@
 
 import gtk, gtk.glade
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.torrentdetails import Tab
@@ -69,8 +69,7 @@ class DetailsTab(Tab):
         status_keys = ["name", "total_size", "num_files",
             "tracker", "save_path", "message", "hash"]
 
-        client.get_torrent_status(
-            self._on_get_torrent_status, selected, status_keys)
+        client.core.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
@@ -98,4 +97,3 @@ class DetailsTab(Tab):
     def clear(self):
         for widget in self.label_widgets:
             widget[0].set_text("")
-

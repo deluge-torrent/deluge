@@ -24,7 +24,7 @@
 
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.log import LOG as log
 
 class CoreConfig(component.Component):
@@ -36,7 +36,7 @@ class CoreConfig(component.Component):
             self._on_config_value_changed)
 
     def start(self):
-        client.get_config(self._on_get_config)
+        client.core.get_config().addCallback(self._on_get_config)
 
     def stop(self):
         self.config = {}
@@ -45,11 +45,10 @@ class CoreConfig(component.Component):
         return self.config[key]
 
     def __setitem__(self, key, value):
-        client.set_config({key: value})
+        client.core.set_config({key: value})
 
     def _on_get_config(self, config):
         self.config = config
 
     def _on_config_value_changed(self, key, value):
         self.config[key] = value
-

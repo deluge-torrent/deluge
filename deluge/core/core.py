@@ -29,7 +29,8 @@ import os.path
 import threading
 import pkg_resources
 
-import gobject
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 try:
     import deluge.libtorrent as lt
@@ -49,7 +50,7 @@ from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
 from deluge.core.authmanager import AuthManager
-from deluge.core.rpcserver import BasicAuthXMLRPCRequestHandler, export
+from deluge.core.rpcserver import export
 
 from deluge.log import LOG as log
 
@@ -214,12 +215,12 @@ class Core(component.Component):
         return False
 
     # Exported Methods
-    @export
+    @export()
     def ping(self):
         """A method to see if the core is running"""
         return True
 
-    @export
+    @export()
     def register_client(self, port):
         """Registers a client with the signal manager so that signals are
             sent to it."""
@@ -227,17 +228,17 @@ class Core(component.Component):
         if self.config["new_release_check"]:
             self.check_new_release()
 
-    @export
+    @export()
     def deregister_client(self):
         """De-registers a client with the signal manager."""
         self.signalmanager.deregister_client(component.get("RPCServer").client_address)
 
-    @export
+    @export()
     def add_torrent_file(self, filename, filedump, options):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
-        gobject.idle_add(self._add_torrent_file, filename, filedump, options)
+        reactor.callLater(0, self._add_torrent_file, filename, filedump, options)
 
     def _add_torrent_file(self, filename, filedump, options):
         # Turn the filedump into a torrent_info
@@ -259,7 +260,7 @@ class Core(component.Component):
         # Run the plugin hooks for 'post_torrent_add'
         self.pluginmanager.run_post_torrent_add(torrent_id)
 
-    @export
+    @export()
     def get_stats(self):
         """
         document me!!!
@@ -279,7 +280,7 @@ class Core(component.Component):
 
         return stats
 
-    @export
+    @export()
     def get_session_status(self, keys):
         """
         Gets the session status values for 'keys'
@@ -296,7 +297,7 @@ class Core(component.Component):
 
         return status
 
-    @export
+    @export()
     def add_torrent_url(self, url, options):
         log.info("Attempting to add url %s", url)
 
@@ -321,7 +322,7 @@ class Core(component.Component):
         # Add the torrent to session
         return callback(filename, filedump, options)
 
-    @export
+    @export()
     def add_torrent_magnets(self, uris, options):
         for uri in uris:
             log.debug("Attempting to add by magnet uri: %s", uri)
@@ -335,7 +336,7 @@ class Core(component.Component):
             # Run the plugin hooks for 'post_torrent_add'
             self.pluginmanager.run_post_torrent_add(torrent_id)
 
-    @export
+    @export()
     def remove_torrent(self, torrent_ids, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
         for torrent_id in torrent_ids:
@@ -343,57 +344,57 @@ class Core(component.Component):
                 # Run the plugin hooks for 'post_torrent_remove'
                 self.pluginmanager.run_post_torrent_remove(torrent_id)
 
-    @export
+    @export()
     def force_reannounce(self, torrent_ids):
         log.debug("Forcing reannouncment to: %s", torrent_ids)
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].force_reannounce()
 
-    @export
+    @export()
     def pause_torrent(self, torrent_ids):
         log.debug("Pausing: %s", torrent_ids)
         for torrent_id in torrent_ids:
             if not self.torrentmanager[torrent_id].pause():
                 log.warning("Error pausing torrent %s", torrent_id)
 
-    @export
+    @export()
     def connect_peer(self, torrent_id, ip, port):
         log.debug("adding peer %s to %s", ip, torrent_id)
         if not self.torrentmanager[torrent_id].connect_peer(ip, port):
             log.warning("Error adding peer %s:%s to %s", ip, port, torrent_id)
 
-    @export
+    @export()
     def move_storage(self, torrent_ids, dest):
         log.debug("Moving storage %s to %s", torrent_ids, dest)
         for torrent_id in torrent_ids:
             if not self.torrentmanager[torrent_id].move_storage(dest):
                 log.warning("Error moving torrent %s to %s", torrent_id, dest)
 
-    @export
+    @export()
     def pause_all_torrents(self):
         """Pause all torrents in the session"""
         self.session.pause()
 
-    @export
+    @export()
     def resume_all_torrents(self):
         """Resume all torrents in the session"""
         self.session.resume()
         self.signalmanager.emit("torrent_all_resumed")
 
-    @export
+    @export()
     def resume_torrent(self, torrent_ids):
         log.debug("Resuming: %s", torrent_ids)
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].resume()
 
-    @export
+    @export()
     def get_status_keys(self):
         """
         returns all possible keys for the keys argument in get_torrent(s)_status.
         """
         return STATUS_KEYS + self.pluginmanager.status_fields.keys()
 
-    @export
+    @export()
     def get_torrent_status(self, torrent_id, keys):
         # Build the status dictionary
         status = self.torrentmanager[torrent_id].get_status(keys)
@@ -404,7 +405,7 @@ class Core(component.Component):
             status.update(self.pluginmanager.get_status(torrent_id, leftover_fields))
         return status
 
-    @export
+    @export()
     def get_torrents_status(self, filter_dict, keys):
         """
         returns all torrents , optionally filtered by filter_dict.
@@ -418,7 +419,7 @@ class Core(component.Component):
 
         return status_dict
 
-    @export
+    @export()
     def get_filter_tree(self , show_zero_hits=True, hide_cat=None):
         """
         returns {field: [(value,count)] }
@@ -426,18 +427,18 @@ class Core(component.Component):
         """
         return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
 
-    @export
+    @export()
     def get_session_state(self):
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager
         return self.torrentmanager.get_torrent_list()
 
-    @export
+    @export()
     def get_config(self):
         """Get all the preferences as a dictionary"""
         return self.config.config
 
-    @export
+    @export()
     def get_config_value(self, key):
         """Get the config value for key"""
         try:
@@ -447,7 +448,7 @@ class Core(component.Component):
 
         return value
 
-    @export
+    @export()
     def get_config_values(self, keys):
         """Get the config values for the entered keys"""
         config = {}
@@ -458,7 +459,7 @@ class Core(component.Component):
                 pass
         return config
 
-    @export
+    @export()
     def set_config(self, config):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
@@ -467,156 +468,158 @@ class Core(component.Component):
                 config[key] = config[key].encode("utf8")
             self.config[key] = config[key]
 
-    @export
+    @export()
     def get_listen_port(self):
         """Returns the active listen port"""
         return self.session.listen_port()
 
-    @export
+    @export()
     def get_num_connections(self):
         """Returns the current number of connections"""
         return self.session.num_connections()
 
-    @export
+    @export()
     def get_dht_nodes(self):
         """Returns the number of dht nodes"""
         return self.session.status().dht_nodes
 
-    @export
+    @export()
     def get_download_rate(self):
         """Returns the payload download rate"""
         return self.session.status().payload_download_rate
 
-    @export
+    @export()
     def get_upload_rate(self):
         """Returns the payload upload rate"""
         return self.session.status().payload_upload_rate
 
-    @export
+    @export()
     def get_available_plugins(self):
         """Returns a list of plugins available in the core"""
         return self.pluginmanager.get_available_plugins()
 
-    @export
+    @export()
     def get_enabled_plugins(self):
         """Returns a list of enabled plugins in the core"""
         return self.pluginmanager.get_enabled_plugins()
 
-    @export
+    @export()
     def enable_plugin(self, plugin):
         self.pluginmanager.enable_plugin(plugin)
         return None
 
-    @export
+    @export()
     def disable_plugin(self, plugin):
         self.pluginmanager.disable_plugin(plugin)
         return None
 
-    @export
+    @export()
     def force_recheck(self, torrent_ids):
         """Forces a data recheck on torrent_ids"""
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].force_recheck()
 
-    @export
+    @export()
     def set_torrent_options(self, torrent_ids, options):
         """Sets the torrent options for torrent_ids"""
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].set_options(options)
 
-    @export
+    @export()
     def set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
         return self.torrentmanager[torrent_id].set_trackers(trackers)
 
-    @export
+    @export()
     def set_torrent_max_connections(self, torrent_id, value):
         """Sets a torrents max number of connections"""
         return self.torrentmanager[torrent_id].set_max_connections(value)
 
-    @export
+    @export()
     def set_torrent_max_upload_slots(self, torrent_id, value):
         """Sets a torrents max number of upload slots"""
         return self.torrentmanager[torrent_id].set_max_upload_slots(value)
 
-    @export
+    @export()
     def set_torrent_max_upload_speed(self, torrent_id, value):
         """Sets a torrents max upload speed"""
         return self.torrentmanager[torrent_id].set_max_upload_speed(value)
 
-    @export
+    @export()
     def set_torrent_max_download_speed(self, torrent_id, value):
         """Sets a torrents max download speed"""
         return self.torrentmanager[torrent_id].set_max_download_speed(value)
 
-    @export
+    @export()
     def set_torrent_file_priorities(self, torrent_id, priorities):
         """Sets a torrents file priorities"""
         return self.torrentmanager[torrent_id].set_file_priorities(priorities)
 
-    @export
+    @export()
     def set_torrent_prioritize_first_last(self, torrent_id, value):
         """Sets a higher priority to the first and last pieces"""
         return self.torrentmanager[torrent_id].set_prioritize_first_last(value)
 
-    @export
+    @export()
     def set_torrent_auto_managed(self, torrent_id, value):
         """Sets the auto managed flag for queueing purposes"""
         return self.torrentmanager[torrent_id].set_auto_managed(value)
 
-    @export
+    @export()
     def set_torrent_stop_at_ratio(self, torrent_id, value):
         """Sets the torrent to stop at 'stop_ratio'"""
         return self.torrentmanager[torrent_id].set_stop_at_ratio(value)
 
-    @export
+    @export()
     def set_torrent_stop_ratio(self, torrent_id, value):
         """Sets the ratio when to stop a torrent if 'stop_at_ratio' is set"""
         return self.torrentmanager[torrent_id].set_stop_ratio(value)
 
-    @export
+    @export()
     def set_torrent_remove_at_ratio(self, torrent_id, value):
         """Sets the torrent to be removed at 'stop_ratio'"""
         return self.torrentmanager[torrent_id].set_remove_at_ratio(value)
 
-    @export
+    @export()
     def set_torrent_move_on_completed(self, torrent_id, value):
         """Sets the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_on_completed(value)
 
-    @export
+    @export()
     def set_torrent_move_on_completed_path(self, torrent_id, value):
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_on_completed_path(value)
 
-    @export
+    @export()
     def block_ip_range(self, range):
         """Block an ip range"""
         self.ip_filter.add_rule(range[0], range[1], 1)
 
         # Start a 2 second timer (and remove the previous one if it exists)
-        if self.__set_ip_filter_timer:
-            gobject.source_remove(self.__set_ip_filter_timer)
-        self.__set_ip_filter_timer = gobject.timeout_add(2000, self.session.set_ip_filter, self.ip_filter)
+        #if self.__set_ip_filter_timer:
+        #    self.__set_ip_filter_timer.stop()
 
-    @export
+        #self.__set_ip_filter_timer = LoopingCall(self.session.set_ip_filter, self.ip_filter)
+        #self.__set_ip_filter_timer.start(2, False)
+
+    @export()
     def reset_ip_filter(self):
         """Clears the ip filter"""
         self.ip_filter = lt.ip_filter()
         self.session.set_ip_filter(self.ip_filter)
 
-    @export
+    @export()
     def get_health(self):
         """Returns True if we have established incoming connections"""
         return self.session.status().has_incoming_connections
 
-    @export
+    @export()
     def get_path_size(self, path):
         """Returns the size of the file or folder 'path' and -1 if the path is
         unaccessible (non-existent or insufficient privs)"""
         return deluge.common.get_path_size(path)
 
-    @export
+    @export()
     def create_torrent(self, path, tracker, piece_length, comment, target,
                         url_list, private, created_by, httpseeds, add_to_session):
 
@@ -651,7 +654,7 @@ class Core(component.Component):
         if add_to_session:
             self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), None)
 
-    @export
+    @export()
     def upload_plugin(self, filename, plugin_data):
         """This method is used to upload new plugins to the daemon.  It is used
         when connecting to the daemon remotely and installing a new plugin on
@@ -663,23 +666,23 @@ class Core(component.Component):
         f.close()
         component.get("PluginManager").scan_for_plugins()
 
-    @export
+    @export()
     def rescan_plugins(self):
         """Rescans the plugin folders for new plugins"""
         component.get("PluginManager").scan_for_plugins()
 
-    @export
+    @export()
     def rename_files(self, torrent_id, filenames):
         """Renames files in 'torrent_id'. The 'filenames' parameter should be a
         list of (index, filename) pairs."""
         self.torrentmanager[torrent_id].rename_files(filenames)
 
-    @export
+    @export()
     def rename_folder(self, torrent_id, folder, new_folder):
         """Renames the 'folder' to 'new_folder' in 'torrent_id'."""
         self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
 
-    @export
+    @export()
     def queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)
         for torrent_id in torrent_ids:
@@ -690,7 +693,7 @@ class Core(component.Component):
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
-    @export
+    @export()
     def queue_up(self, torrent_ids):
         log.debug("Attempting to queue %s to up", torrent_ids)
         #torrent_ids must be sorted before moving.
@@ -703,7 +706,7 @@ class Core(component.Component):
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
-    @export
+    @export()
     def queue_down(self, torrent_ids):
         log.debug("Attempting to queue %s to down", torrent_ids)
         #torrent_ids must be sorted before moving.
@@ -716,7 +719,7 @@ class Core(component.Component):
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
-    @export
+    @export()
     def queue_bottom(self, torrent_ids):
         log.debug("Attempting to queue %s to bottom", torrent_ids)
         for torrent_id in torrent_ids:
@@ -727,11 +730,11 @@ class Core(component.Component):
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
-    @export
+    @export()
     def glob(self, path):
         return glob.glob(path)
 
-    @export
+    @export()
     def test_listen_port(self):
         """ Checks if active port is open """
         import urllib

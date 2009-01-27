@@ -1,7 +1,7 @@
 #
 # connectionmanager.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,38 +22,40 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
-import gtk, gtk.glade
+import gtk
 import pkg_resources
-import gobject
-import socket
-import os
-import subprocess
-import time
-import threading
 import urlparse
+import time
+import hashlib
 
 import deluge.component as component
-import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 import deluge.ui.gtkui.common as common
-from deluge.ui.common import get_localhost_auth_uri
-from deluge.ui.client import aclient as client
-from deluge.configmanager import ConfigManager
 import deluge.configmanager
+from deluge.ui.client import client
+import deluge.ui.client
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
-DEFAULT_URI = "http://127.0.0.1:58846"
-DEFAULT_HOST = DEFAULT_URI.split(":")[1][2:]
-DEFAULT_PORT = DEFAULT_URI.split(":")[-1]
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 58846
 
 DEFAULT_CONFIG = {
-    "hosts": [DEFAULT_URI]
+    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "andrew", "andrew")]
 }
 
-HOSTLIST_COL_PIXBUF = 0
-HOSTLIST_COL_URI = 1
-HOSTLIST_COL_STATUS = 2
+HOSTLIST_COL_ID = 0
+HOSTLIST_COL_HOST = 1
+HOSTLIST_COL_PORT = 2
+HOSTLIST_COL_STATUS = 3
+HOSTLIST_COL_USER = 4
+HOSTLIST_COL_PASS = 5
+HOSTLIST_COL_VERSION = 6
+
+
+HOSTLIST_PIXBUFS = [
+    # This is populated in ConnectionManager.show
+]
 
 HOSTLIST_STATUS = [
     "Offline",
@@ -61,242 +63,260 @@ HOSTLIST_STATUS = [
     "Connected"
 ]
 
-HOSTLIST_PIXBUFS = [
-    # This is populated in ConnectionManager.__init__
-]
-
-if deluge.common.windows_check():
-    import win32api
-
-
 def cell_render_host(column, cell, model, row, data):
-    host = model[row][data]
-    u = urlparse.urlsplit(host)
-    if not u.hostname:
-        host = "http://" + host
-    u = urlparse.urlsplit(host)
-    if u.username:
-        text = u.username + "@" + u.hostname + ":" + str(u.port)
-    else:
-        text = u.hostname + ":" + str(u.port)
-
+    host, port, username = model.get(row, *data)
+    text = host + ":" + str(port)
+    if username:
+        text = username + "@" + text
     cell.set_property('text', text)
+
+def cell_render_status(column, cell, model, row, data):
+    status = model[row][data]
+    pixbuf = None
+    if status in HOSTLIST_STATUS:
+        pixbuf = HOSTLIST_PIXBUFS[HOSTLIST_STATUS.index(status)]
+
+    cell.set_property("pixbuf", pixbuf)
 
 class ConnectionManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "ConnectionManager")
+        self.gtkui_config = ConfigManager("gtkui.conf")
+
+        if self.gtkui_config["classic_mode"]:
+            client.start_classic_mode()
+            return
+
+        self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
+
+    # Component overrides
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+    # Public methods
+    def show(self):
+        """
+        Show the ConnectionManager dialog.
+        """
         # Get the glade file for the connection manager
         self.glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/connection_manager.glade"))
-
         self.window = component.get("MainWindow")
-        self.config = ConfigManager("hostlist.conf.1.1", DEFAULT_CONFIG)
 
-        self.gtkui_config = ConfigManager("gtkui.conf")
+        # Setup the ConnectionManager dialog
         self.connection_manager = self.glade.get_widget("connection_manager")
-        # Make the Connection Manager window a transient for the main window.
         self.connection_manager.set_transient_for(self.window.window)
-
-        # Create status pixbufs
-        for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
-            HOSTLIST_PIXBUFS.append(self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU))
-
-        self.hostlist = self.glade.get_widget("hostlist")
         self.connection_manager.set_icon(common.get_logo(32))
-
         self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
 
-        # connection status pixbuf, hostname:port, status
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, int)
+        self.hostlist = self.glade.get_widget("hostlist")
 
-        # Holds the online status of hosts
-        self.online_status = {}
+        # Create status pixbufs
+        if not HOSTLIST_PIXBUFS:
+            for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
+                HOSTLIST_PIXBUFS.append(self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU))
 
-        # Fill in hosts from config file
-        for host in self.config["hosts"]:
-            row = self.liststore.append()
-            self.liststore.set_value(row, HOSTLIST_COL_URI, host)
+        # Create the host list gtkliststore
+        # id-hash, hostname, port, status, username, password, version
+        self.liststore = gtk.ListStore(str, str, int, str, str, str, str)
 
         # Setup host list treeview
         self.hostlist.set_model(self.liststore)
         render = gtk.CellRendererPixbuf()
-        column = gtk.TreeViewColumn(
-            "Status", render, pixbuf=HOSTLIST_COL_PIXBUF)
+        column = gtk.TreeViewColumn("Status", render)
+        column.set_cell_data_func(render, cell_render_status, 3)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Host", render, text=HOSTLIST_COL_URI)
-        column.set_cell_data_func(render, cell_render_host, 1)
+        column = gtk.TreeViewColumn("Host", render, text=HOSTLIST_COL_HOST)
+        column.set_cell_data_func(render, cell_render_host, (1, 2, 4))
+        column.set_expand(True)
+        self.hostlist.append_column(column)
+        render = gtk.CellRendererText()
+        column = gtk.TreeViewColumn("Version", render, text=HOSTLIST_COL_VERSION)
         self.hostlist.append_column(column)
 
-        self.glade.signal_autoconnect({
-            "on_button_addhost_clicked": self.on_button_addhost_clicked,
-            "on_button_removehost_clicked": self.on_button_removehost_clicked,
-            "on_button_startdaemon_clicked": \
-                self.on_button_startdaemon_clicked,
-            "on_button_close_clicked": self.on_button_close_clicked,
-            "on_button_connect_clicked": self.on_button_connect_clicked,
-            "on_chk_autoconnect_toggled": self.on_chk_autoconnect_toggled,
-            "on_chk_autostart_toggled": self.on_chk_autostart_toggled,
-            "on_chk_donotshow_toggled": self.on_chk_donotshow_toggled
-        })
+        # Load any saved host entries
+        self.__load_hostlist()
+        self.__load_options()
 
-        self.connection_manager.connect("delete-event", self.on_delete_event)
-        # Connect to the 'changed' event of TreeViewSelection to get selection
-        # changes.
-        self.hostlist.get_selection().connect("changed",
-                                    self.on_selection_changed)
+        # Connect the signals to the handlers
+        self.glade.signal_autoconnect(self)
+        self.hostlist.get_selection().connect("changed", self.on_hostlist_selection_changed)
 
-        self.hostlist.connect("row-activated", self._on_row_activated)
+        self.__update_list()
 
-        # If classic mode is set, we just start up a localhost daemon and connect to it
-        if self.gtkui_config["classic_mode"]:
-            self.start_localhost(DEFAULT_PORT)
-            # We need to wait for the host to start before connecting
-            uri = None
-            while not uri:
-                # We need to keep trying because the daemon may not have been started yet
-                # and the 'auth' file may not have been created
-                uri = get_localhost_auth_uri(DEFAULT_URI)
-                time.sleep(0.01)
+        response = self.connection_manager.run()
 
-            while not self.test_online_status(uri):
-                time.sleep(0.01)
-            client.set_core_uri(uri)
-            self.hide()
-            return
+        # Save the toggle options
+        self.__save_options()
 
-        # This controls the timer, if it's set to false the update timer will stop.
-        self._do_update = True
-        self._update_list()
+        self.connection_manager.destroy()
+        del self.glade
+        del self.window
+        del self.connection_manager
+        del self.liststore
+        del self.hostlist
 
-        # Auto connect to a host if applicable
-        if self.gtkui_config["autoconnect"] and \
-            self.gtkui_config["autoconnect_host_uri"] != None:
-            uri = self.gtkui_config["autoconnect_host_uri"]
-            if self.test_online_status(uri):
-                # Host is online, so lets connect
-                client.set_core_uri(uri)
-                self.hide()
-            elif self.gtkui_config["autostart_localhost"]:
-                # Check to see if we are trying to connect to a localhost
-                u = urlparse.urlsplit(uri)
-                if u.hostname == "localhost" or u.hostname == "127.0.0.1":
-                    # This is a localhost, so lets try to start it
-                    # First add it to the list
-                    self.add_host("localhost", u.port)
-                    self.start_localhost(u.port)
-                    # Get the localhost uri with authentication details
-                    auth_uri = None
-                    while not auth_uri:
-                        # We need to keep trying because the daemon may not have been started yet
-                        # and the 'auth' file may not have been created
-                        auth_uri = get_localhost_auth_uri(uri)
-                        time.sleep(0.01)
+    def add_host(self, host, port, username="", password=""):
+        """
+        Adds a host to the list.
 
-                    # We need to wait for the host to start before connecting
-                    while not self.test_online_status(auth_uri):
-                        time.sleep(0.01)
-                    client.set_core_uri(auth_uri)
-                    self.hide()
+        :param host: str, the hostname
+        :param port: int, the port
+        :param username: str, the username to login as
+        :param password: str, the password to login with
 
-    def start(self):
-        if self.gtkui_config["autoconnect"]:
-            # We need to update the autoconnect_host_uri on connection to host
-            # start() gets called whenever we get a new connection to a host
-            self.gtkui_config["autoconnect_host_uri"] = client.get_core_uri()
+        """
+        # Check to see if there is already an entry for this host and return
+        # if thats the case
+        for entry in self.liststore:
+            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
+                raise Exception("Host already in list!")
 
-    def show(self):
-        # Set the checkbuttons according to config
-        self.glade.get_widget("chk_autoconnect").set_active(
-            self.gtkui_config["autoconnect"])
-        self.glade.get_widget("chk_autostart").set_active(
-            self.gtkui_config["autostart_localhost"])
-        self.glade.get_widget("chk_donotshow").set_active(
-            not self.gtkui_config["show_connection_manager_on_start"])
+        # Host isn't in the list, so lets add it
+        row = self.liststore.append()
+        import time
+        import hashlib
+        self.liststore[row][HOSTLIST_COL_ID] = hashlib.sha1(str(time.time()).hexdigest())
+        self.liststore[row][HOSTLIST_COL_HOST] = host
+        self.liststore[row][HOSTLIST_COL_PORT] = port
+        self.liststore[row][HOSTLIST_COL_USER] = username
+        self.liststore[row][HOSTLIST_COL_PASS] = password
 
-        # Setup timer to update host status
-        self._update_timer = gobject.timeout_add(1000, self._update_list)
-        self._update_list()
-        self._update_list()
-        self.connection_manager.show_all()
+        # Save the host list to file
+        self.__save_hostlist()
 
-    def hide(self):
-        self.connection_manager.hide()
-        self._do_update = False
-        try:
-            gobject.source_remove(self._update_timer)
-        except AttributeError:
-            # We are probably trying to hide the window without having it showed
-            # first.  OK to ignore.
-            pass
+        # Update the status of the hosts
+        self.__update_list()
 
-    def _update_list(self):
+    # Private methods
+    def __save_hostlist(self):
+        """
+        Save the current hostlist to the config file.
+        """
+        # Grab the hosts from the liststore
+        self.config["hosts"] = []
+        for row in self.liststore:
+            self.config["hosts"].append((row[HOSTLIST_COL_ID], row[HOSTLIST_COL_HOST], row[HOSTLIST_COL_PORT], row[HOSTLIST_COL_USER], row[HOSTLIST_COL_PASS]))
+
+        self.config.save()
+
+    def __load_hostlist(self):
+        """
+        Load saved host entries
+        """
+        for host in self.config["hosts"]:
+            new_row = self.liststore.append()
+            self.liststore[new_row][HOSTLIST_COL_ID] = host[0]
+            self.liststore[new_row][HOSTLIST_COL_HOST] = host[1]
+            self.liststore[new_row][HOSTLIST_COL_PORT] = host[2]
+            self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
+            self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
+
+    def __get_host_row(self, host_id):
+        """
+        Returns the row in the liststore for `:param:host_id` or None
+
+        """
+        for row in self.liststore:
+            if host_id == row[HOSTLIST_COL_ID]:
+                return row
+        return None
+
+    def __update_list(self):
         """Updates the host status"""
-        def update_row(model=None, path=None, row=None, columns=None):
-            uri = model.get_value(row, HOSTLIST_COL_URI)
-            threading.Thread(target=self.test_online_status, args=(uri,)).start()
-            try:
-                online = self.online_status[uri]
-            except:
-                online = False
+        def on_connect(result, c, host_id):
+            row = self.__get_host_row(host_id)
+            def on_info(info, c):
+                if row:
+                    row[HOSTLIST_COL_STATUS] = "Online"
+                    row[HOSTLIST_COL_VERSION] = info
+                    self.__update_buttons()
+                c.disconnect()
 
-            # Update hosts status
-            if online:
-                online = HOSTLIST_STATUS.index("Online")
-            else:
-                online = HOSTLIST_STATUS.index("Offline")
+            def on_info_fail(reason):
+                if row:
+                    row[HOSTLIST_COL_STATUS] = "Offline"
+                    self.__update_buttons()
 
-            if urlparse.urlsplit(uri).hostname == "localhost" or urlparse.urlsplit(uri).hostname == "127.0.0.1":
-                uri = get_localhost_auth_uri(uri)
+            d = c.daemon.info()
+            d.addCallback(on_info, c)
+            d.addErrback(on_info_fail)
 
-            if uri == current_uri:
-                online = HOSTLIST_STATUS.index("Connected")
+        def on_connect_failed(reason, host_info):
+            row = self.__get_host_row(host_id)
+            if row:
+                row[HOSTLIST_COL_STATUS] = "Offline"
+                self.__update_buttons()
 
-            model.set_value(row, HOSTLIST_COL_STATUS, online)
-            model.set_value(row, HOSTLIST_COL_PIXBUF, HOSTLIST_PIXBUFS[online])
+        for row in self.liststore:
+            host_id = row[HOSTLIST_COL_ID]
+            host = row[HOSTLIST_COL_HOST]
+            port = row[HOSTLIST_COL_PORT]
+            user = row[HOSTLIST_COL_USER]
+            password = row[HOSTLIST_COL_PASS]
+            if client.connected() and (host, port, user) == client.connection_info():
+                def on_info(info):
+                    row[HOSTLIST_COL_VERSION] = info
+                    self.__update_buttons()
+                row[HOSTLIST_COL_STATUS] = "Connected"
+                client.daemon.info().addCallback(on_info)
+                continue
 
-        current_uri = client.get_core_uri()
-        self.liststore.foreach(update_row)
-        # Update the buttons
-        self.update_buttons()
+            # Create a new Client instance
+            c = deluge.ui.client.Client()
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c, host_id)
+            d.addErrback(on_connect_failed, host_id)
 
-        # See if there is any row selected
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        if len(paths) < 1:
-            # And there is at least 1 row
-            if self.liststore.iter_n_children(None) > 0:
-                # Then select the first row
-                self.hostlist.get_selection().select_iter(self.liststore.get_iter_first())
-        return self._do_update
+    def __load_options(self):
+        """
+        Set the widgets to show the correct options from the config.
+        """
+        self.glade.get_widget("chk_autoconnect").set_active(self.gtkui_config["autoconnect"])
+        self.glade.get_widget("chk_autostart").set_active(self.gtkui_config["autostart_localhost"])
+        self.glade.get_widget("chk_donotshow").set_active(not self.gtkui_config["show_connection_manager_on_start"])
 
-    def update_buttons(self):
-        """Updates the buttons based on selection"""
-        if self.liststore.iter_n_children(None) < 1:
+    def __save_options(self):
+        """
+        Set options in gtkui config from the toggle buttons.
+        """
+        self.gtkui_config["autoconnect"] = self.glade.get_widget("chk_autoconnect").get_active()
+        self.gtkui_config["autostart_localhost"] = self.glade.get_widget("chk_autostart").get_active()
+        self.gtkui_config["show_connection_manager_on_start"] = not self.glade.get_widget("chk_donotshow").get_active()
+
+    def __update_buttons(self):
+        """
+        Updates the buttons states.
+        """
+        if len(self.liststore) == 0:
             # There is nothing in the list
             self.glade.get_widget("button_startdaemon").set_sensitive(True)
             self.glade.get_widget("button_connect").set_sensitive(False)
             self.glade.get_widget("button_removehost").set_sensitive(False)
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-            self.glade.get_widget("label_startdaemon").set_text(
-                "_Start Daemon")
-        self.glade.get_widget("label_startdaemon").set_use_underline(
-            True)
+            self.glade.get_widget("label_startdaemon").set_text("_Start Daemon")
 
-        # Get the selected row's URI
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        # If nothing is selected, just return
-        if len(paths) < 1:
+        model, row = self.hostlist.get_selection().get_selected()
+        if not row:
             return
-        row = self.liststore.get_iter(paths[0])
-        uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
-        status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
 
-        # Check to see if a localhost is selected
+        # Get some values about the selected host
+        status = model[row][HOSTLIST_COL_STATUS]
+        host = model[row][HOSTLIST_COL_HOST]
+
+        log.debug("Status: %s", status)
+        # Check to see if we have a localhost entry selected
         localhost = False
-        u = urlparse.urlsplit(uri)
-        if u.hostname == "localhost" or u.hostname == "127.0.0.1":
+        if host in ("127.0.0.1", "localhost"):
             localhost = True
 
         # Make sure buttons are sensitive at start
@@ -304,26 +324,25 @@ class ConnectionManager(component.Component):
         self.glade.get_widget("button_connect").set_sensitive(True)
         self.glade.get_widget("button_removehost").set_sensitive(True)
 
-        # See if this is the currently connected URI
-        if status == HOSTLIST_STATUS.index("Connected"):
+        # See if this is the currently connected host
+        if status == "Connected":
             # Display a disconnect button if we're connected to this host
             self.glade.get_widget("button_connect").set_label("gtk-disconnect")
             self.glade.get_widget("button_removehost").set_sensitive(False)
         else:
             self.glade.get_widget("button_connect").set_label("gtk-connect")
-            if status == HOSTLIST_STATUS.index("Offline") and not localhost:
+            if status == "Offline" and not localhost:
                 self.glade.get_widget("button_connect").set_sensitive(False)
 
         # Check to see if the host is online
-        if status == HOSTLIST_STATUS.index("Connected") \
-            or status == HOSTLIST_STATUS.index("Online"):
+        if status == "Connected" or status == "Online":
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text(
                 "_Stop Daemon")
 
         # Update the start daemon button if the selected host is localhost
-        if localhost and status == HOSTLIST_STATUS.index("Offline"):
+        if localhost and status == "Offline":
             # The localhost is not online
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
@@ -338,39 +357,30 @@ class ConnectionManager(component.Component):
         self.glade.get_widget("label_startdaemon").set_use_underline(
             True)
 
-    def save(self):
-        """Save the current host list to file"""
-        def append_row(model=None, path=None, row=None, columns=None):
-            hostlist.append(model.get_value(row, HOSTLIST_COL_URI))
+    # Signal handlers
+    def __on_connected(self, connector, host_id):
+        if self.gtkui_config["autoconnect"]:
+            self.gtkui_config["autoconnect_host_id"] = host_id
 
-        hostlist = []
-        self.liststore.foreach(append_row, hostlist)
-        self.config["hosts"] = hostlist
-        self.config.save()
+    def on_button_connect_clicked(self, widget):
+        model, row = self.hostlist.get_selection().get_selected()
+        status = model[row][HOSTLIST_COL_STATUS]
+        if status == "Connected":
+            def on_disconnect(reason):
+                self.__update_list()
+            client.disconnect().addCallback(on_disconnect)
+            return
 
-    def test_online_status(self, uri):
-        """Tests the status of URI.. Returns True or False depending on status.
-        """
-        online = True
-        host = None
-        try:
-            u = urlparse.urlsplit(uri)
-            if u.hostname == "localhost" or u.hostname == "127.0.0.1":
-                host = xmlrpclib.ServerProxy(get_localhost_auth_uri(uri))
-            else:
-                host = xmlrpclib.ServerProxy(uri)
-            host.core.ping()
-        except Exception:
-            online = False
+        host_id = model[row][HOSTLIST_COL_ID]
+        host = model[row][HOSTLIST_COL_HOST]
+        port = model[row][HOSTLIST_COL_PORT]
+        user = model[row][HOSTLIST_COL_USER]
+        password = model[row][HOSTLIST_COL_PASS]
+        client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
+        self.connection_manager.response(gtk.RESPONSE_OK)
 
-        del host
-        self.online_status[uri] = online
-        return online
-
-    ## Callbacks
-    def on_delete_event(self, widget, event):
-        self.hide()
-        return True
+    def on_button_close_clicked(self, widget):
+        self.connection_manager.response(gtk.RESPONSE_CLOSE)
 
     def on_button_addhost_clicked(self, widget):
         log.debug("on_button_addhost_clicked")
@@ -385,50 +395,11 @@ class ConnectionManager(component.Component):
             username = username_entry.get_text()
             password = password_entry.get_text()
             hostname = hostname_entry.get_text()
-            if not urlparse.urlsplit(hostname).hostname:
-                # We need to add a http://
-                hostname = "http://" + hostname
-            u = urlparse.urlsplit(hostname)
-            if username and password:
-                host = u.scheme + "://" + username + ":" + password + "@" + u.hostname
-            else:
-                host = hostname
 
             # We add the host
-            self.add_host(host, port_spinbutton.get_value_as_int())
+            self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
 
-        dialog.hide()
-
-    def add_host(self, hostname, port):
-        """Adds the host to the list"""
-        if not urlparse.urlsplit(hostname).scheme:
-            # We need to add http:// to this
-            hostname = "http://" + hostname
-
-        # Check to make sure the hostname is at least 1 character long
-        if len(hostname) < 1:
-            return
-
-        # Get the port and concatenate the hostname string
-        hostname = hostname + ":" + str(port)
-
-        # Check to see if there is already an entry for this host and return
-        # if thats the case
-        self.hosts_liststore = []
-        def each_row(model, path, iter, data):
-            self.hosts_liststore.append(
-                model.get_value(iter, HOSTLIST_COL_URI))
-        self.liststore.foreach(each_row, None)
-        if hostname in self.hosts_liststore:
-            return
-
-        # Host isn't in the list, so lets add it
-        row = self.liststore.append()
-        self.liststore.set_value(row, HOSTLIST_COL_URI, hostname)
-        # Save the host list to file
-        self.save()
-        # Update the status of the hosts
-        self._update_list()
+        dialog.destroy()
 
     def on_button_removehost_clicked(self, widget):
         log.debug("on_button_removehost_clicked")
@@ -438,7 +409,7 @@ class ConnectionManager(component.Component):
             self.liststore.remove(self.liststore.get_iter(path))
 
         # Update the hostlist
-        self._update_list()
+        self.__update_list()
 
         # Save the host list
         self.save()
@@ -449,120 +420,48 @@ class ConnectionManager(component.Component):
             # There is nothing in the list, so lets create a localhost entry
             self.add_host(DEFAULT_HOST, DEFAULT_PORT)
             # ..and start the daemon.
-            self.start_localhost(DEFAULT_PORT)
+            client.start_daemon(DEFAULT_PORT, deluge.configmanager.get_config_dir())
             return
 
         paths = self.hostlist.get_selection().get_selected_rows()[1]
         if len(paths) < 1:
             return
-        row = self.liststore.get_iter(paths[0])
-        status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
-        uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
-        u = urlparse.urlsplit(uri)
-        if HOSTLIST_STATUS[status] == "Online" or\
-            HOSTLIST_STATUS[status] == "Connected":
+
+        status = self.liststore[paths[0]][HOSTLIST_COL_STATUS]
+        host = self.liststore[paths[0]][HOSTLIST_COL_HOST]
+        port = self.liststore[paths[0]][HOSTLIST_COL_PORT]
+        user = self.liststore[paths[0]][HOSTLIST_COL_USER]
+        password = self.liststore[paths[0]][HOSTLIST_COL_PASS]
+
+        if host not in ("127.0.0.1", "localhost"):
+            return
+
+        if status in ("Online", "Connected"):
             # We need to stop this daemon
             # Call the shutdown method on the daemon
-            if u.hostname == "127.0.0.1" or u.hostname == "localhost":
-                uri = get_localhost_auth_uri(uri)
-            core = xmlrpclib.ServerProxy(uri)
-            core.shutdown()
-            # Update display to show change
-            self._update_list()
-        elif HOSTLIST_STATUS[status] == "Offline":
-            self.start_localhost(u.port)
+            def on_daemon_shutdown(d):
+                # Update display to show change
+                self.__update_list()
+            if client.connected():
+                client.daemon.shutdown().addCallback(on_daemon_shutdown)
+            else:
+                # Create a new client instance
+                c = deluge.ui.client.Client()
+                def on_connect(d, c):
+                    log.debug("on_connect")
+                    c.daemon.shutdown().addCallback(on_daemon_shutdown)
 
-    def start_localhost(self, port):
-        """Starts a localhost daemon"""
-        port = str(port)
-        log.info("Starting localhost:%s daemon..", port)
-        # Spawn a local daemon
-        if deluge.common.windows_check():
-            win32api.WinExec("deluged -p %s" % port)
-        else:
-            subprocess.call(["deluged", "--port=%s" % port,
-                "--config=%s" % deluge.configmanager.get_config_dir()])
+                c.connect(host, port, user, password).addCallback(on_connect, c)
 
-    def on_button_close_clicked(self, widget):
-        log.debug("on_button_close_clicked")
-        self.hide()
+        elif status == "Offline":
+            client.start_daemon(port, deluge.configmanager.get_config_dir())
+            self.__update_list()
 
-    def on_button_connect_clicked(self, widget):
-        log.debug("on_button_connect_clicked")
-        component.stop()
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        row = self.liststore.get_iter(paths[0])
-        status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
-        uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
-        # Determine if this is a localhost
-        localhost = False
-        u = urlparse.urlsplit(uri)
-        if u.hostname == "localhost" or u.hostname == "127.0.0.1":
-            localhost = True
+    def on_button_refresh_clicked(self, widget):
+        self.__update_list()
 
+    def on_hostlist_row_activated(self, tree, path, view_column):
+        self.on_button_connect_clicked()
 
-        if status == HOSTLIST_STATUS.index("Connected"):
-            # Stop all the components first.
-            component.stop()
-            # If we are connected to this host, then we will disconnect.
-            client.set_core_uri(None)
-            self._update_list()
-            return
-
-        # Test the host to see if it is online or not.  We don't use the status
-        # column information because it can be up to 5 seconds out of sync.
-        if not self.test_online_status(uri):
-            log.warning("Host does not appear to be online..")
-            # If this is an offline localhost.. lets start it and connect
-            if localhost:
-                self.start_localhost(u.port)
-                # We need to wait for the host to start before connecting
-                auth_uri = None
-                while not auth_uri:
-                    auth_uri = get_localhost_auth_uri(uri)
-                    time.sleep(0.01)
-
-                while not self.test_online_status(auth_uri):
-                    time.sleep(0.01)
-                client.set_core_uri(auth_uri)
-                self._update_list()
-                self.hide()
-
-            # Update the list to show proper status
-            self._update_list()
-
-            return
-
-        # Status is OK, so lets change to this host
-        if localhost:
-            client.set_core_uri(get_localhost_auth_uri(uri))
-        else:
-            client.set_core_uri(uri)
-
-        self.hide()
-
-    def on_chk_autoconnect_toggled(self, widget):
-        log.debug("on_chk_autoconnect_toggled")
-        value = widget.get_active()
-        self.gtkui_config["autoconnect"] = value
-        # If we are currently connected to a host, set that as the autoconnect
-        # host.
-        if client.get_core_uri() != None:
-            self.gtkui_config["autoconnect_host_uri"] = client.get_core_uri()
-
-    def on_chk_autostart_toggled(self, widget):
-        log.debug("on_chk_autostart_toggled")
-        value = widget.get_active()
-        self.gtkui_config["autostart_localhost"] = value
-
-    def on_chk_donotshow_toggled(self, widget):
-        log.debug("on_chk_donotshow_toggled")
-        value = widget.get_active()
-        self.gtkui_config["show_connection_manager_on_start"] = not value
-
-    def on_selection_changed(self, treeselection):
-        log.debug("on_selection_changed")
-        self.update_buttons()
-
-    def _on_row_activated(self, tree, path, view_column):
-        self.on_button_connect_clicked(self.glade.get_widget("button_connect"))
+    def on_hostlist_selection_changed(self, treeselection):
+        self.__update_buttons()

@@ -1,8 +1,7 @@
 #
 # client.py
 #
-# Copyright (C) 2007/2008 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -23,364 +22,543 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+from twisted.internet.protocol import Protocol, ClientFactory
+from twisted.internet import reactor, ssl, defer
+import deluge.rencode as rencode
+import zlib
 
-import os.path
-import socket
-import struct
-import httplib
-import urlparse
-
-import gobject
-
-import deluge.xmlrpclib as xmlrpclib
+if deluge.common.windows_check():
+    import win32api
+else:
+    import subprocess
 
 import deluge.common
-import deluge.error
 from deluge.log import LOG as log
 
-class Transport(xmlrpclib.Transport):
-    def __init__(self, username=None, password=None, use_datetime=0):
-        self.__username = username
-        self.__password = password
-        self._use_datetime = use_datetime
+RPC_RESPONSE = 1
+RPC_ERROR = 2
+RPC_SIGNAL = 3
 
-    def request(self, host, handler, request_body, verbose=0):
-        # issue XML-RPC request
+def format_kwargs(kwargs):
+    return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
 
-        h = self.make_connection(host)
-        if verbose:
-            h.set_debuglevel(1)
+class DelugeRPCError(object):
+    """
+    This object is passed to errback handlers in the event of a RPCError from the
+    daemon.
+    """
+    def __init__(self, method, args, kwargs, exception_type, exception_msg, traceback):
+        self.method = method
+        self.args = args
+        self.kwargs = kwargs
+        self.exception_type = exception_type
+        self.exception_msg = exception_msg
+        self.traceback = traceback
 
-        self.send_request(h, handler, request_body)
-        self.send_host(h, host)
-        self.send_user_agent(h)
+class DelugeRPCRequest(object):
+    """
+    This object is created whenever there is a RPCRequest to be sent to the
+    daemon.  It is generally only used by the DaemonProxy's call method.
+    """
 
-        if self.__username is not None and self.__password is not None:
-            h.putheader("AUTHORIZATION", "Basic %s" % string.replace(
-                    encodestring("%s:%s" % (self.__username, self.__password)),
-                    "\012", ""))
+    request_id = None
+    method = None
+    args = None
+    kwargs = None
 
-        self.send_content(h, request_body)
+    def __repr__(self):
+        """
+        Returns a string of the RPCRequest in the following form:
+            method(arg, kwarg=foo, ...)
+        """
+        s = self.method + "("
+        if self.args:
+            s += ", ".join([str(x) for x in self.args])
+        if self.kwargs:
+            if self.args:
+                s += ", "
+            s += format_kwargs(self.kwargs)
+        s += ")"
 
-        errcode, errmsg, headers = h.getreply()
+        return s
 
-        if errcode != 200:
-            raise xmlrpclib.ProtocolError(
-                host + handler,
-                errcode, errmsg,
-                headers
-                )
+    def format_message(self):
+        """
+        Returns a properly formatted RPCRequest based on the properties.  Will
+        raise a TypeError if the properties haven't been set yet.
 
-        self.verbose = verbose
+        :returns: a properly formated RPCRequest
+        """
+        if self.request_id is None or self.method is None or self.args is None or self.kwargs is None:
+            raise TypeError("You must set the properties of this object before calling format_message!")
 
-        try:
-            sock = h._conn.sock
-        except AttributeError:
-            sock = None
+        return (self.request_id, self.method, self.args, self.kwargs)
 
-        return self._parse_response(h.getfile(), sock)
+class DelugeRPCProtocol(Protocol):
+    __rpc_requests = {}
+    __buffer = None
+    def connectionMade(self):
+        # Set the protocol in the daemon so it can send data
+        self.factory.daemon.protocol = self
+        # Get the address of the daemon that we've connected to
+        peer = self.transport.getPeer()
+        self.factory.daemon.host = peer.host
+        self.factory.daemon.port = peer.port
+        self.factory.daemon.connected = True
 
-    def make_connection(self, host):
-        # create a HTTP connection object from a host descriptor
-        import httplib
-        host, extra_headers, x509 = self.get_host_info(host)
-        h = httplib.HTTP(host)
-        h._conn.connect()
-        h._conn.sock.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
-                      struct.pack('ii', 1, 0))
-        return h
+        log.info("Connected to daemon at %s:%s..", peer.host, peer.port)
+        self.factory.daemon.connect_deferred.callback((peer.host, peer.port))
 
-class CoreProxy(gobject.GObject):
-    __gsignals__ = {
-        "new_core" : (
-            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
-        "no_core" : (
-            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
-    }
-    def __init__(self):
-        log.debug("CoreProxy init..")
-        gobject.GObject.__init__(self)
-        self._uri = None
-        self.rpc_core = None
-        self._multi = None
-        self._callbacks = []
-        self._multi_timer = None
+    def dataReceived(self, data):
+        """
+        This method is called whenever we receive data from the daemon.
 
-    def call(self, func, callback, *args):
-        if self.rpc_core is None or self._multi is None:
-            if self.rpc_core is None:
-                raise deluge.error.NoCoreError("The core proxy is invalid.")
+        :param data: a zlib compressed and rencoded string that should be either
+            a RPCResponse, RCPError or RPCSignal
+        """
+        if self.__buffer:
+            # We have some data from the last dataReceived() so lets prepend it
+            data = self.__buffer + data
+            self.__buffer = None
+
+        while data:
+            dobj = zlib.decompressobj()
+            try:
+                request = rencode.loads(dobj.decompress(data))
+            except Exception, e:
+                log.debug("Received possible invalid message: %s", e)
+                # This could be cut-off data, so we'll save this in the buffer
+                # and try to prepend it on the next dataReceived()
+                self.__buffer = data
+                return
+            else:
+                data = dobj.unused_data
+
+            if type(request) is not tuple:
+                log.debug("Received invalid message: type is not tuple")
+                return
+            if len(request) < 3:
+                log.debug("Received invalid message: number of items in response is %s", len(3))
                 return
 
-        _func = getattr(self._multi, func)
+            message_type = request[0]
 
-        if _func is not None:
-            if (func, args) in self._multi.get_call_list():
-                index = self._multi.get_call_list().index((func, args))
-                if callback not in self._callbacks[index]:
-                    self._callbacks[index].append(callback)
-            else:
-                if len(args) == 0:
-                    _func()
-                else:
-                    _func(*args)
+            if message_type == RPC_SIGNAL:
+                signal = request[1]
+                # A RPCSignal was received from the daemon so run any handlers
+                # associated with it.
+                if signal in self.factory.daemon.signal_handlers:
+                    for handler in self.factory.daemon.signal_handlers[signal]:
+                        handler(*request[2])
+                        return
 
-                self._callbacks.append([callback])
+            request_id = request[1]
 
-    def do_multicall(self, block=False):
-        if len(self._callbacks) == 0:
-            return True
+            # We get the Deferred object for this request_id to either run the
+            # callbacks or the errbacks dependent on the response from the daemon.
+            d = self.factory.daemon.pop_deferred(request_id)
 
-        if self._multi is not None and self.rpc_core is not None:
-            try:
-                try:
-                    for i, ret in enumerate(self._multi()):
-                        try:
-                            for callback in self._callbacks[i]:
-                                if block == False:
-                                    gobject.idle_add(callback, ret)
-                                else:
-                                    callback(ret)
-                        except:
-                            pass
-                except (socket.error, xmlrpclib.ProtocolError), e:
-                    log.error("Socket or XMLRPC error: %s", e)
-                    self.set_core_uri(None)
-                except (deluge.xmlrpclib.Fault, Exception), e:
-                    #self.set_core_uri(None) , disabled : there are many reasons for an exception ; not just an invalid core.
-                    #todo : publish an exception event, ui's like gtk could popup a dialog for this.
-                    log.warning("Multi-call Exception: %s:%s", e, getattr(e,"message",None))
-            finally:
-                self._callbacks = []
+            if message_type == RPC_RESPONSE:
+                # Run the callbacks registered with this Deferred object
+                d.callback(request[2])
+            elif message_type == RPC_ERROR:
+                # Create the DelugeRPCError to pass to the errback
+                r = self.__rpc_requests[request_id]
+                e = DelugeRPCError(r.method, r.args, r.kwargs, request[2][0], request[2][1], request[2][2])
+                # Run the errbacks registered with this Deferred object
+                d.errback(e)
 
-        self._multi = xmlrpclib.MultiCall(self.rpc_core)
+            del self.__rpc_requests[request_id]
 
-        return True
+    def send_request(self, request):
+        """
+        Sends a RPCRequest to the server.
 
-    def set_core_uri(self, uri):
-        log.info("Setting core uri as %s", uri)
+        :param request: RPCRequest
 
-        if uri == None and self._uri != None:
-            self._uri = None
-            self.rpc_core = None
-            self._multi = None
-            try:
-                gobject.source_remove(self._multi_timer)
-            except:
-                pass
-            self.emit("no_core")
-            return
+        """
+        # Store the DelugeRPCRequest object just in case a RPCError is sent in
+        # response to this request.  We use the extra information when printing
+        # out the error for debugging purposes.
+        self.__rpc_requests[request.request_id] = request
+        log.debug("Sending RPCRequest %s: %s", request.request_id, request)
+        # Send the request in a tuple because multiple requests can be sent at once
+        self.transport.write(zlib.compress(rencode.dumps((request.format_message(),))))
 
-        if uri != self._uri and self._uri != None:
-            self.rpc_core = None
-            self._multi = None
-            try:
-                gobject.source_remove(self._multi_timer)
-            except:
-                pass
-            self.emit("no_core")
+class DelugeRPCClientFactory(ClientFactory):
+    protocol = DelugeRPCProtocol
 
-        self._uri = uri
-        # Get a new core
-        self.get_rpc_core()
+    def __init__(self, daemon):
+        self.daemon = daemon
 
-    def get_core_uri(self):
-        """Returns the URI of the core currently being used."""
-        return self._uri
+    def startedConnecting(self, connector):
+        log.info("Connecting to daemon at %s:%s..", connector.host, connector.port)
 
-    def get_rpc_core(self):
-        if self.rpc_core is None and self._uri is not None:
-            log.debug("Creating ServerProxy..")
-            self.rpc_core = xmlrpclib.ServerProxy(self._uri.replace("localhost", "127.0.0.1"), allow_none=True, transport=Transport())
-            self._multi = xmlrpclib.MultiCall(self.rpc_core)
-            self._multi_timer = gobject.timeout_add(200, self.do_multicall)
-            # Call any callbacks registered
-            self.emit("new_core")
+    def clientConnectionFailed(self, connector, reason):
+        log.warning("Connection to daemon at %s:%s failed: %s", connector.host, connector.port, reason.value)
+        self.daemon.connect_deferred.errback(reason)
 
-        return self.rpc_core
+    def clientConnectionLost(self, connector, reason):
+        log.info("Connection lost to daemon at %s:%s reason: %s", connector.host, connector.port, reason.value)
+        self.daemon.host = None
+        self.daemon.port = None
+        self.daemon.username = None
+        self.daemon.connected = False
+        if self.daemon.disconnect_deferred:
+            self.daemon.disconnect_deferred.callback(reason.value)
+        self.daemon.generate_event("disconnected")
 
-_core = CoreProxy()
+class DaemonProxy(object):
+    __event_handlers = {
+        "connected": [],
+        "disconnected": []
+    }
+
+    def register_event_handler(self, event, handler):
+        """
+        Registers a handler that will be called when an event happens.
+
+        :params event: str, the event to handle
+        :params handler: func, the handler function, f()
+
+        :raises KeyError: if event is not valid
+        """
+        self.__event_handlers[event].append(handler)
+
+    def generate_event(self, event):
+        """
+        Calls the event handlers for `:param:event`.
+
+        :param event: str, the event to generate
+        """
+        for handler in self.__event_handlers[event]:
+            handler()
+
+class DaemonSSLProxy(DaemonProxy):
+    def __init__(self):
+        self.__factory = DelugeRPCClientFactory(self)
+        self.__request_counter = 0
+        self.__deferred = {}
+
+        # This is set when a connection is made to the daemon
+        self.protocol = None
+
+        # This is set when a connection is made
+        self.host = None
+        self.port = None
+        self.username = None
+
+        self.connected = False
+
+        self.disconnect_deferred = None
+
+    def connect(self, host, port, username, password):
+        """
+        Connects to a daemon at host:port
+
+        :param host: str, the host to connect to
+        :param port: int, the listening port on the daemon
+        :param username: str, the username to login as
+        :param password: str, the password to login with
+
+        :returns: twisted.Deferred
+
+        """
+        self.host = host
+        self.port = port
+        self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
+        self.connect_deferred = defer.Deferred()
+        self.connect_deferred.addCallback(self.__on_connect, username, password)
+        self.connect_deferred.addErrback(self.__on_connect_fail)
+
+        self.login_deferred = defer.Deferred()
+        # XXX: Add the login stuff..
+        return self.login_deferred
+
+    def disconnect(self):
+        self.disconnect_deferred = defer.Deferred()
+        self.__connector.disconnect()
+        return self.disconnect_deferred
+
+    def call(self, method, *args, **kwargs):
+        """
+        Makes a RPCRequest to the daemon.  All methods should be in the form of
+        'component.method'.
+
+        :params method: str, the method to call in the form of 'component.method'
+        :params args: the arguments to call the remote method with
+        :params kwargs: the keyword arguments to call the remote method with
+
+        :return: a twisted.Deferred object that will be activated when a RPCResponse
+            or RPCError is received from the daemon
+
+        """
+        # Create the DelugeRPCRequest to pass to protocol.send_request()
+        request = DelugeRPCRequest()
+        request.request_id = self.__request_counter
+        request.method = method
+        request.args = args
+        request.kwargs = kwargs
+        # Send the request to the server
+        self.protocol.send_request(request)
+        # Create a Deferred object to return and add a default errback to print
+        # the error.
+        d = defer.Deferred()
+        d.addErrback(self.__rpcError)
+
+        # Store the Deferred until we receive a response from the daemon
+        self.__deferred[self.__request_counter] = d
+
+        # Increment the request counter since we don't want to use the same one
+        # before a response is received.
+        self.__request_counter += 1
+
+        return d
+
+    def pop_deferred(self, request_id):
+        """
+        Pops a Deffered object.  This is generally called once we receive the
+        reply we were waiting on from the server.
+
+        :param request_id: int, the request_id of the Deferred to pop
+        """
+        return self.__deferred.pop(request_id)
+
+    def register_signal_handler(self, signal, handler):
+        """
+        Registers a handler function to be called when `:param:signal` is received
+        from the daemon.
+
+        :param signal: str, the name of the signal to handle
+        :param handler: function, the function to be called when `:param:signal`
+            is emitted from the daemon
+
+        """
+        if signal not in self.signal_handlers:
+            self.signal_handlers[signal] = []
+
+        self.signal_handlers[signal].append(handler)
+
+    def deregister_signal_handler(self, signal, handler):
+        """
+        Deregisters a signal handler.
+
+        :param signal: str, the name of the signal
+        :param handler: function, the function registered
+
+        """
+        if signal in self.signal_handlers and handler in self.signal_handlers[signal]:
+            self.signal_handlers[signal].remove(handler)
+
+    def __rpcError(self, error_data):
+        """
+        Prints out a RPCError message to the error log.  This includes the daemon
+        traceback.
+
+        :param error_data: this is passed from the deferred errback with error.value
+            containing a `:class:DelugeRPCError` object.
+        """
+        # Get the DelugeRPCError object from the error_data
+        error = error_data.value
+        # Create a delugerpcrequest to print out a nice RPCRequest string
+        r = DelugeRPCRequest()
+        r.method = error.method
+        r.args = error.args
+        r.kwargs = error.kwargs
+        msg = "RPCError Message Received!"
+        msg += "\n" + "-" * 80
+        msg += "\n" + "RPCRequest: " + r.__repr__()
+        msg += "\n" + "-" * 80
+        msg += "\n" + error.traceback + "\n" + error.exception_type + ": " + error.exception_msg
+        msg += "\n" + "-" * 80
+        log.error(msg)
+
+    def __on_connect(self, result, username, password):
+        self.__login_deferred = self.call("daemon.login", username, password)
+        self.__login_deferred.addCallback(self.__on_login, username)
+        self.__login_deferred.addErrback(self.__on_login_fail)
+
+    def __on_connect_fail(self, reason):
+        self.login_deferred.callback(False)
+
+    def __on_login(self, result, username):
+        self.username = username
+        self.login_deferred.callback(result)
+        self.generate_event("connected")
+
+    def __on_login_fail(self, result):
+        self.login_deferred.callback(False)
+
+class DaemonClassicProxy(DaemonProxy):
+    def __init__(self):
+        import daemon
+        self.__daemon = daemon.Daemon()
+        self.connected = True
+
+    def call(self, method, *args, **kwargs):
+        log.debug("call: %s %s %s", method, args, kwargs)
+
+        m = self.__daemon.rpcserver.get_object_method(method)
+        d = defer.Deferred()
+        try:
+            result = m(*args, **kwargs)
+        except Exception, e:
+            d.errback(e)
+        else:
+            d.callbacks(result)
+        return d
+
 
 class DottedObject(object):
-    """This is used for dotted name calls to client"""
-    def __init__(self, client, base):
-        self.client = client
-        self.base = base
+    """
+    This is used for dotted name calls to client
+    """
+    def __init__(self, daemon, method):
+        self.daemon = daemon
+        self.base = method
 
     def __call__(self, *args, **kwargs):
-        return self.client.get_method("core." + self.base)(*args, **kwargs)
+        raise Exception("You must make calls in the form of 'component.method'!")
 
     def __getattr__(self, name):
-        return self.client.get_method(self.base + "." + name)
+        return RemoteMethod(self.daemon, self.base + "." + name)
 
-class BaseClient(object):
+class RemoteMethod(DottedObject):
     """
-    wraps all calls to core/coreproxy
-    base for AClient and SClient
+    This is used when something like 'client.core.get_something()' is attempted.
     """
-    no_callback_list = ["add_torrent_url", "pause_all_torrents",
-            "resume_all_torrents", "set_config", "enable_plugin",
-            "disable_plugin", "set_torrent_trackers", "connect_peer",
-            "set_torrent_max_connections", "set_torrent_max_upload_slots",
-            "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
-            "set_torrent_private_flag", "set_torrent_file_priorities",
-            "block_ip_range", "remove_torrent", "pause_torrent", "move_storage",
-            "resume_torrent", "force_reannounce", "force_recheck",
-            "deregister_client", "register_client", "add_torrent_file",
-            "set_torrent_prioritize_first_last", "set_torrent_auto_managed",
-            "set_torrent_stop_ratio", "set_torrent_stop_at_ratio",
-            "set_torrent_remove_at_ratio", "set_torrent_move_on_completed",
-            "set_torrent_move_on_completed_path", "add_torrent_magnets",
-            "create_torrent", "upload_plugin", "rescan_plugins", "rename_files",
-            "rename_folder"]
+    def __call__(self, *args, **kwargs):
+        return self.daemon.call(self.base, *args, **kwargs)
+
+class Client(object):
+    """
+    This class is used to connect to a daemon process and issue RPC requests.
+    """
+
+    __event_handlers = {
+        "connected": [],
+        "disconnected": []
+    }
 
     def __init__(self):
-        self.core = _core
+        self._daemon_proxy = None
 
-    #xml-rpc introspection
-    def list_methods(self):
-        registered = self.core.rpc_core.system.listMethods()
-        return sorted(registered)
-
-    def methodSignature(self, method_name):
-        "broken :("
-        return self.core.rpc_core.system.methodSignature(method_name)
-
-    def methodHelp(self, method_name):
-        return self.core.rpc_core.system.methodHelp(method_name)
-
-    #wrappers, getattr
-    def get_method(self, method_name):
-        "Override this in subclass."
-        raise NotImplementedError()
-
-    def __getattr__(self, method_name):
-        return DottedObject(self, method_name)
-
-    #custom wrapped methods:
-    def add_torrent_file(self, torrent_files, torrent_options=None):
-        """Adds torrent files to the core
-        Expects a list of torrent files
-        A list of torrent_option dictionaries in the same order of torrent_files
+    def connect(self, host="127.0.0.1", port=58846, username="", password=""):
         """
-        if torrent_files is None:
-            log.debug("No torrent files selected..")
-            return
-        log.debug("Attempting to add torrent files: %s", torrent_files)
-        for torrent_file in torrent_files:
-            # Open the .torrent file for reading because we need to send it's
-            # contents to the core.
-            try:
-                f = open(torrent_file, "rb")
-            except Exception, e:
-                log.warning("Unable to open %s: %s", torrent_file, e)
-                continue
+        Connects to a daemon process.
 
-            # Get the filename because the core doesn't want a path.
-            (path, filename) = os.path.split(torrent_file)
-            fdump = xmlrpclib.Binary(f.read())
-            f.close()
+        :param host: str, the hostname of the daemon
+        :param port: int, the port of the daemon
+        :param username: str, the username to login with
+        :param password: str, the password to login with
 
-            # Get the options for the torrent
-            if torrent_options != None:
-                try:
-                    options = torrent_options[torrent_files.index(torrent_file)]
-                except:
-                    options = None
+        :returns: a Deferred object that will be called once the connection
+            has been established or fails
+        """
+        self._daemon_proxy = DaemonSSLProxy()
+        self._daemon_proxy.register_event_handler("connected", self._on_connect)
+        self._daemon_proxy.register_event_handler("disconnected", self._on_disconnect)
+        d = self._daemon_proxy.connect(host, port, username, password)
+        return d
+
+    def disconnect(self):
+        """
+        Disconnects from the daemon.
+        """
+        if self._daemon_proxy:
+            return self._daemon_proxy.disconnect()
+
+    def start_classic_mode(self):
+        """
+        Starts a daemon in the same process as the client.
+        """
+        self._daemon_proxy = DaemonClassicProxy()
+
+    def start_daemon(self, port, config):
+        """
+        Starts a daemon process.
+
+        :param port: int, the port for the daemon to listen on
+        :param config: str, the path to the current config folder
+        :returns: True if started, False if not
+
+        """
+        try:
+            if deluge.common.windows_check():
+                win32api.WinExec("deluged --port=%s --config=%s" % (port, config))
             else:
-                options = None
-            self.get_method("core.add_torrent_file")(filename, fdump, options)
-
-    def add_torrent_file_binary(self, filename, fdump, options = None):
-        """
-        Core-wrapper.
-        Adds 1 torrent file to the core.
-        Expects fdump as a bytestring (== result of f.read()).
-        """
-        fdump_xmlrpc = xmlrpclib.Binary(fdump)
-        self.get_method("core.add_torrent_file")(filename, fdump_xmlrpc, options)
-
-    #utility:
-    def has_callback(self, method_name):
-        msplit = method_name.split(".")
-        if msplit[0] == "core":
-            return not (msplit[1] in self.no_callback_list)
+                subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
+        except Exception, e:
+            log.error("Unable to start daemon!")
+            log.exception(e)
+            return False
         else:
             return True
 
     def is_localhost(self):
-        """Returns True if core is a localhost"""
-        # Get the uri
-        uri = self.core.get_core_uri()
-        if uri != None:
-            # Get the host
-            u = urlparse.urlsplit(uri)
-            if u.hostname == "localhost" or u.hostname == "127.0.0.1":
-                return True
-        return False
+        """
+        Checks if the current connected host is a localhost or not.
 
-    def get_core_uri(self):
-        """Get the core URI"""
-        return self.core.get_core_uri()
+        :returns: bool, True if connected to a localhost
 
-    def set_core_uri(self, uri='http://localhost:58846'):
-        """Sets the core uri"""
-        if uri:
-            # Check if we need to get the localclient auth password
-            u = urlparse.urlsplit(uri)
-            if (u.hostname == "localhost" or u.hostname == "127.0.0.1") and not u.username:
-                from deluge.ui.common import get_localhost_auth_uri
-                uri = get_localhost_auth_uri(uri)
-        return self.core.set_core_uri(uri)
-
-    def connected(self):
-        """Returns True if connected to a host, and False if not."""
-        if self.get_core_uri() != None:
+        """
+        if self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost"):
             return True
         return False
 
-    def shutdown(self):
-        """Shutdown the core daemon"""
-        try:
-            self.core.call("shutdown", None)
-            self.core.do_multicall(block=False)
-        finally:
-            self.set_core_uri(None)
+    def connected(self):
+        """
+        Check to see if connected to a daemon.
 
-    #events:
-    def connect_on_new_core(self, callback):
-        """Connect a callback whenever a new core is connected to."""
-        return self.core.connect("new_core", callback)
+        :returns: bool, True if connected
 
-    def connect_on_no_core(self, callback):
-        """Connect a callback whenever the core is disconnected from."""
-        return self.core.connect("no_core", callback)
+        """
+        return self._daemon_proxy.connected if self._daemon_proxy else False
 
-class SClient(BaseClient):
-    """
-    sync proxy
-    """
-    def get_method(self, method_name):
-        return getattr(self.core.rpc_core, method_name)
+    def connection_info(self):
+        """
+        Get some info about the connection or return None if not connected.
 
-class AClient(BaseClient):
-    """
-    async proxy
-    """
-    def get_method(self, method_name):
-        if not self.has_callback(method_name):
-            def async_proxy_nocb(*args, **kwargs):
-                return self.core.call(method_name, None, *args, **kwargs)
-            return async_proxy_nocb
-        else:
-            def async_proxy(*args, **kwargs):
-                return self.core.call(method_name, *args, **kwargs)
-            return async_proxy
+        :returns: a tuple of (host, port, username) or None if not connected
+        """
+        if self.connected():
+            return (self._daemon_proxy.host, self._daemon_proxy.port, self._daemon_proxy.username)
 
-    def force_call(self, block=True):
-        """Forces the multicall batch to go now and not wait for the timer.  This
-        call also blocks until all callbacks have been dealt with."""
-        self.core.do_multicall(block=block)
+        return None
 
-sclient = SClient()
-aclient = AClient()
+    def register_event_handler(self, event, handler):
+        """
+        Registers a handler that will be called when an event happens.
+
+        :params event: str, the event to handle
+        :params handler: func, the handler function, f()
+
+        :raises KeyError: if event is not valid
+        """
+        self.__event_handlers[event].append(handler)
+
+    def __generate_event(self, event):
+        """
+        Calls the event handlers for `:param:event`.
+
+        :param event: str, the event to generate
+        """
+
+        for handler in self.__event_handlers[event]:
+            handler()
+
+    def force_call(self, block=False):
+        # no-op for now.. we'll see if we need this in the future
+        pass
+
+    def __getattr__(self, method):
+        return DottedObject(self._daemon_proxy, method)
+
+    def _on_connect(self):
+        self.__generate_event("connected")
+
+    def _on_disconnect(self):
+        self.__generate_event("disconnected")
+
+# This is the object clients will use
+client = Client()

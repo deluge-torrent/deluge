@@ -26,11 +26,11 @@
 import gtk
 import gobject
 
+from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 import deluge.ui.gtkui.common as common
 from deluge.configmanager import ConfigManager
-from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 
 class StatusBarItem:
@@ -170,15 +170,14 @@ class StatusBar(component.Component):
         self.health = False
 
         # Get some config values
-        client.get_config_value(
-            self._on_max_connections_global, "max_connections_global")
-        client.get_config_value(
-            self._on_max_download_speed, "max_download_speed")
-        client.get_config_value(
-            self._on_max_upload_speed, "max_upload_speed")
-        client.get_config_value(
-            self._on_dht, "dht")
-        client.get_health(self._on_get_health)
+        client.core.get_config_value(
+            "max_connections_global").addCallback(self._on_max_connections_global)
+        client.core.get_config_value(
+            "max_download_speed").addCallback(self._on_max_download_speed)
+        client.core.get_config_value(
+            "max_upload_speed").addCallback(self._on_max_upload_speed)
+        client.core.get_config_value("dht").addCallback(self._on_dht)
+        client.core.get_health().addCallback(self._on_get_health)
 
         self.send_status_request()
 
@@ -250,15 +249,18 @@ class StatusBar(component.Component):
 
     def send_status_request(self):
         # Sends an async request for data from the core
-        client.get_num_connections(self._on_get_num_connections)
+        client.core.get_num_connections().addCallback(self._on_get_num_connections)
         if self.dht_status:
-            client.get_dht_nodes(self._on_get_dht_nodes)
-        client.get_session_status(self._on_get_session_status,
-            ["upload_rate", "download_rate", "payload_upload_rate", "payload_download_rate"])
+            client.core.get_dht_nodes().addCallback(self._on_get_dht_nodes)
+        client.core.get_session_status([
+            "upload_rate",
+            "download_rate",
+            "payload_upload_rate",
+            "payload_download_rate"]).addCallback(self._on_get_session_status)
 
         if not self.health:
             # Only request health status while False
-            client.get_health(self._on_get_health)
+            client.core.get_health().addCallback(self._on_get_health)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -284,7 +286,7 @@ class StatusBar(component.Component):
         if value:
             self.hbox.pack_start(
                 self.dht_item.get_eventbox(), expand=False, fill=False)
-            client.get_dht_nodes(self._on_get_dht_nodes)
+            client.core.get_dht_nodes().addCallback(self._on_get_dht_nodes)
         else:
             self.remove_item(self.dht_item)
 
@@ -377,7 +379,7 @@ class StatusBar(component.Component):
 
         # Set the config in the core
         if value != self.max_download_speed:
-            client.set_config({"max_download_speed": value})
+            client.core.set_config({"max_download_speed": value})
 
     def _on_upload_item_clicked(self, widget, event):
         menu = common.build_menu_radio_list(
@@ -405,7 +407,7 @@ class StatusBar(component.Component):
 
         # Set the config in the core
         if value != self.max_upload_speed:
-            client.set_config({"max_upload_speed": value})
+            client.core.set_config({"max_upload_speed": value})
 
     def _on_connection_item_clicked(self, widget, event):
         menu = common.build_menu_radio_list(
@@ -432,7 +434,7 @@ class StatusBar(component.Component):
 
         # Set the config in the core
         if value != self.max_connections:
-            client.set_config({"max_connections_global": value})
+            client.core.set_config({"max_connections_global": value})
 
     def _on_health_icon_clicked(self, widget, event):
         component.get("Preferences").show("Network")

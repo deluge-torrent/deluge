@@ -1,7 +1,7 @@
 #
 # authmanager.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -29,16 +29,25 @@ import stat
 import deluge.component as component
 import deluge.configmanager as configmanager
 
+from deluge.log import LOG as log
+
+AUTH_LEVEL_NONE = 0
+AUTH_LEVEL_READONLY = 1
+AUTH_LEVEL_NORMAL = 5
+AUTH_LEVEL_ADMIN = 10
+
+AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
 class AuthManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "AuthManager")
-        self.auth = {}
+        self.__auth = {}
 
     def start(self):
         self.__load_auth_file()
 
     def stop(self):
-        self.auth = {}
+        self.__auth = {}
 
     def shutdown(self):
         pass
@@ -49,21 +58,22 @@ class AuthManager(component.Component):
 
         :param username: str, username
         :param password: str, password
-        :returns: True or False
-        :rtype: bool
+        :returns: int, the auth level for this user or 0 if not able to authenticate
+        :rtype: int
 
         """
 
-        if username not in self.auth:
+        if username not in self.__auth:
             # Let's try to re-load the file.. Maybe it's been updated
             self.__load_auth_file()
-            if username not in self.auth:
-                return False
+            if username not in self.__auth:
+                return 0
 
-        if self.auth[username] == password:
-            return True
+        if self.__auth[username][0] == password:
+            # Return the users auth level
+            return self.__auth[username][1]
 
-        return False
+        return 0
 
     def __load_auth_file(self):
         auth_file = configmanager.get_config_dir("auth")
@@ -74,7 +84,7 @@ class AuthManager(component.Component):
                 from hashlib import sha1 as sha_hash
             except ImportError:
                 from sha import new as sha_hash
-            open(auth_file, "w").write("localclient:" + sha_hash(str(random.random())).hexdigest() + "\n")
+            open(auth_file, "w").write("localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN))
             # Change the permissions on the file so only this user can read/write it
             os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
@@ -85,7 +95,18 @@ class AuthManager(component.Component):
                 # This is a comment line
                 continue
             try:
-                username, password = line.split(":")
-            except ValueError:
+                lsplit = line.split(":")
+            except Exception, e:
+                log.error("Your auth file is malformed: %s", e)
                 continue
-            self.auth[username.strip()] = password.strip()
+            if len(lsplit) == 2:
+                username, password = lsplit
+                log.warning("Your auth entry for %s contains no auth level, using AUTH_LEVEL_DEFAULT(%s)..", username, AUTH_LEVEL_DEFAULT)
+                level = AUTH_LEVEL_DEFAULT
+            elif len(lsplit) == 3:
+                username, password, level = lsplit
+            else:
+                log.error("Your auth file is malformed: Incorrect number of fields!")
+                continue
+
+            self.__auth[username.strip()] = (password.strip(), level)

@@ -30,7 +30,7 @@ import gtk, gtk.glade
 
 import pkg_resources
 
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 from deluge.log import LOG as log
 import deluge.common
@@ -191,6 +191,6 @@ def add_peer_dialog():
         if deluge.common.is_ip(ip):
             id = component.get("TorrentView").get_selected_torrent()
             log.debug("adding peer %s to %s", value, id)
-            client.connect_peer(id, ip, port)
+            client.core.connect_peer(id, ip, port)
     peer_dialog.destroy()
     return True

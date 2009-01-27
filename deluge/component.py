@@ -111,6 +111,7 @@ class ComponentRegistry:
         if self.depend.has_key(name):
             for depend in self.depend[name]:
                 self.start_component(depend)
+
         # Only start if the component is stopped.
         if self.components[name].get_state() == \
             COMPONENT_STATE.index("Stopped"):

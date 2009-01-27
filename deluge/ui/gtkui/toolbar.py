@@ -31,7 +31,6 @@ import gobject
 import deluge.component as component
 from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
-from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 
 class ToolBar(component.Component):

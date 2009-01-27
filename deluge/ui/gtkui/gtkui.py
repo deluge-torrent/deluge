@@ -24,20 +24,20 @@
 
 
 from deluge.log import LOG as log
-import pygtk
-try:
-    pygtk.require('2.0')
-except:
-    log.warning("It is suggested that you upgrade your PyGTK to 2.10 or greater.")
-import gtk, gtk.glade
+
+# Install the twisted reactor
+from twisted.internet import gtk2reactor
+reactor = gtk2reactor.install()
+
 import gobject
 import gettext
 import locale
 import pkg_resources
 import signal
+import gtk, gtk.glade
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from mainwindow import MainWindow
 from menubar import MenuBar
 from toolbar import ToolBar
@@ -82,7 +82,7 @@ DEFAULT_PREFS = {
     "enabled_plugins": [],
     "show_connection_manager_on_start": True,
     "autoconnect": False,
-    "autoconnect_host_uri": None,
+    "autoconnect_host_id": None,
     "autostart_localhost": False,
     "autoadd_queued": False,
     "autoadd_enable": False,
@@ -183,8 +183,8 @@ class GtkUI:
         self.ipcinterface = IPCInterface(args)
 
         # We make sure that the UI components start once we get a core URI
-        client.connect_on_new_core(self._on_new_core)
-        client.connect_on_no_core(self._on_no_core)
+        client.register_event_handler("connected", self._on_new_core)
+        client.register_event_handler("disconnected", self._on_no_core)
 
         # Start the signal receiver
         self.signal_receiver = Signals()
@@ -209,13 +209,13 @@ class GtkUI:
 
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
-        if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
-            self.connectionmanager.show()
+
+        reactor.callWhenRunning(self._on_reactor_start)
 
         # Start the gtk main loop
         try:
             gtk.gdk.threads_enter()
-            gtk.main()
+            reactor.run()
             gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.shutdown()
@@ -229,7 +229,7 @@ class GtkUI:
         component.shutdown()
         if self.started_in_classic:
             try:
-                client.daemon.shutdown(None)
+                client.daemon.shutdown()
             except:
                 pass
 
@@ -241,8 +241,15 @@ class GtkUI:
         except RuntimeError:
             pass
 
-    def _on_new_core(self, data):
+    def _on_reactor_start(self):
+        log.debug("_on_reactor_start")
+        # XXX: We need to call a simulate() here, but this could be a bug in twisted
+        reactor.simulate()
+        if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
+            self.connectionmanager.show()
+
+    def _on_new_core(self):
         component.start()
 
-    def _on_no_core(self, data):
+    def _on_no_core(self):
         component.stop()

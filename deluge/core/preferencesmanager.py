@@ -25,7 +25,8 @@
 
 import os.path
 import threading
-import gobject
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
 
 try:
     import deluge.libtorrent as lt
@@ -450,13 +451,14 @@ class PreferencesManager(component.Component):
             log.debug("Checking for new release..")
             threading.Thread(target=self.core.get_new_release).start()
             if self.new_release_timer:
-                gobject.source_remove(self.new_release_timer)
+                self.new_release_timer.stop()
             # Set a timer to check for a new release every 3 days
-            self.new_release_timer = gobject.timeout_add(
-                72 * 60 * 60 * 1000, self._on_new_release_check, "new_release_check", True)
+            self.new_release_timer = LoopingCall(
+                self._on_new_release_check, "new_release_check", True)
+            self.new_release_timer.start(72 * 60 * 60, False)
         else:
             if self.new_release_timer:
-                gobject.source.remove(self.new_release_timer)
+                self.new_release_timer.stop()
 
     def _on_set_proxies(self, key, value):
         for k, v in value.items():

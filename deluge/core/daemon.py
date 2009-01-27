@@ -24,10 +24,10 @@
 
 import signal
 
-import gobject
 import gettext
 import locale
 import pkg_resources
+from twisted.internet import reactor
 
 import deluge.component as component
 import deluge.configmanager
@@ -59,13 +59,11 @@ class Daemon(object):
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             from win32con import CTRL_SHUTDOWN_EVENT
-            result = 0
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
                     self.__shutdown()
-                    result = 1
-                    return result
+                    return 1
             SetConsoleCtrlHandler(win_handler)
 
         version = deluge.common.get_version()
@@ -83,25 +81,33 @@ class Daemon(object):
         self.core = Core()
 
         self.rpcserver = RPCServer(
-            options.port if options.port else self.core.config["daemon_port"],
-            self.core.config["allow_remote"]
+            port=options.port if options.port else self.core.config["daemon_port"],
+            allow_remote=self.core.config["allow_remote"]
         )
-        self.rpcserver.register_object(self.core, "core")
-        self.rpcserver.register_object(self, "daemon")
+        self.rpcserver.register_object(self.core)
+        self.rpcserver.register_object(self)
 
-        gobject.threads_init()
 
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
         component.start()
 
-        self.loop = gobject.MainLoop()
+#        reactor.run()
         try:
-            self.loop.run()
+            reactor.run()
         except KeyboardInterrupt:
             self.shutdown()
 
-    @export
-    def shutdown(self):
+    @export()
+    def shutdown(self, *args, **kwargs):
         component.shutdown()
-        self.loop.quit()
+        reactor.stop()
+
+    @export()
+    def info(self):
+        """
+        Returns some info from the daemon.
+
+        :returns: str, the version number
+        """
+        return deluge.common.get_version()
