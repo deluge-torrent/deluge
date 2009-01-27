@@ -48,7 +48,7 @@ class AboutDialog:
         version = deluge.common.get_version()
         if rev != "":
             version = version + "r" + rev
-        self.about.set_copyright(u'Copyright \u00A9 2007-2008 Andrew Resch')
+        self.about.set_copyright(u'Copyright \u00A9 2007-2009 Andrew Resch')
         self.about.set_comments("A peer-to-peer file sharing program\nutilizing the Bittorrent protocol.")
         self.about.set_version(version)
         self.about.set_authors(["Andrew Resch", "Marcos Pinto", "",
