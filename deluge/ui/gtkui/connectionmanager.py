@@ -27,6 +27,7 @@ import pkg_resources
 import urlparse
 import time
 import hashlib
+from twisted.internet import reactor
 
 import deluge.component as component
 import deluge.common
@@ -455,7 +456,7 @@ class ConnectionManager(component.Component):
 
         elif status == "Offline":
             client.start_daemon(port, deluge.configmanager.get_config_dir())
-            self.__update_list()
+            reactor.callLater(2.0, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):
         self.__update_list()
