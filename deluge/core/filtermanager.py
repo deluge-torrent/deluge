@@ -107,6 +107,7 @@ class FilterManager(component.Component):
             return torrent_ids
 
         #special purpose: state=Active.
+        filter_dict["state"] = list(filter_dict["state"])
         if "state" in filter_dict and "Active" in filter_dict["state"]:
             filter_dict["state"].remove("Active")
             if not filter_dict["state"]:
