@@ -184,7 +184,7 @@ class ConnectionManager(component.Component):
         row = self.liststore.append()
         import time
         import hashlib
-        self.liststore[row][HOSTLIST_COL_ID] = hashlib.sha1(str(time.time()).hexdigest())
+        self.liststore[row][HOSTLIST_COL_ID] = hashlib.sha1(str(time.time())).hexdigest()
         self.liststore[row][HOSTLIST_COL_HOST] = host
         self.liststore[row][HOSTLIST_COL_PORT] = port
         self.liststore[row][HOSTLIST_COL_USER] = username
@@ -399,7 +399,7 @@ class ConnectionManager(component.Component):
             # We add the host
             self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
 
-        dialog.destroy()
+        dialog.hide()
 
     def on_button_removehost_clicked(self, widget):
         log.debug("on_button_removehost_clicked")
