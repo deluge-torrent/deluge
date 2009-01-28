@@ -412,7 +412,7 @@ class ConnectionManager(component.Component):
         self.__update_list()
 
         # Save the host list
-        self.save()
+        self.__save_hostlist()
 
     def on_button_startdaemon_clicked(self, widget):
         log.debug("on_button_startdaemon_clicked")
