@@ -2,25 +2,39 @@
 Script: deluge-details.js
     Contains the tabs for the torrent details.
 
-License:
-    General Public License v3
-
-Copyright:
-    Damien Churchill (c) 2008 <damoxc@gmail.com>
+ *
+ * Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
 */
 
 Deluge.Widgets.Details = new Class({
     Extends: Widgets.Tabs,
-    
+
     initialize: function() {
         this.parent($$('#details .mooui-tabs')[0]);
-        
+
         this.statistics = new Deluge.Widgets.StatisticsPage();
         this.details = new Deluge.Widgets.DetailsPage();
         this.files = new Deluge.Widgets.FilesPage();
         this.peers = new Deluge.Widgets.PeersPage();
         this.options = new Deluge.Widgets.OptionsPage();
-        
+
         this.addPage(this.statistics);
         this.addPage(this.details);
         this.addPage(this.files);
@@ -30,7 +44,7 @@ Deluge.Widgets.Details = new Class({
             this.update(this.torrentId);
         }.bindWithEvent(this));
         this.addEvent('resize', this.resized.bindWithEvent(this));
-        
+
         this.files.addEvent('menuAction', function(e) {
             files = [];
             this.files.grid.getSelected().each(function(file) {
@@ -40,7 +54,7 @@ Deluge.Widgets.Details = new Class({
             this.fireEvent('filesAction', e);
         }.bindWithEvent(this));
     },
-    
+
     keys: {
         0: Deluge.Keys.Statistics,
         1: Deluge.Keys.Details,
@@ -48,7 +62,7 @@ Deluge.Widgets.Details = new Class({
         3: Deluge.Keys.Peers,
         4: Deluge.Keys.Options
     },
-    
+
     clear: function() {
         this.pages.each(function(page) {
             page.element.getChildren().each(function(el) {
@@ -57,7 +71,7 @@ Deluge.Widgets.Details = new Class({
             if (page.clear) page.clear();
         });
     },
-    
+
     update: function(torrentId) {
         this.torrentId = torrentId;
         if (!this.torrentId) {
@@ -75,7 +89,7 @@ Deluge.Widgets.Details = new Class({
             }.bindWithEvent(this)
         });
     },
-    
+
     resized: function(event) {
         this.pages.each(function(page) {
             page.getSizeModifiers();
@@ -89,16 +103,16 @@ Deluge.Widgets.Details = new Class({
 
 Deluge.Widgets.StatisticsPage = new Class({
     Extends: Widgets.TabPage,
-    
+
     options: {
         url: '/template/render/html/tab_statistics.html'
     },
-    
+
     initialize: function() {
         this.parent(_('Statistics'));
         this.addEvent('loaded', this.onLoad.bindWithEvent(this));
     },
-    
+
     onLoad: function(e) {
         this.element.id = 'statistics';
         this.bar = new Widgets.ProgressBar();
@@ -107,19 +121,19 @@ Deluge.Widgets.StatisticsPage = new Class({
         this.bar.update('', 0);
         this.addEvent('resize', this.onResize.bindWithEvent(this));
     },
-    
+
     onResize: function(e) {
         if (!$defined(this.bar)) return;
         this.bar.set('width', this.getWidth() - 12);
     },
-    
+
     clear: function() {
         if (this.bar) this.bar.update('', 0);
         this.element.getElements('dd').each(function(item) {
             item.set('text', '');
         }, this);
     },
-    
+
     update: function(torrent) {
         var data = {
             downloaded: torrent.total_done.toBytes()+' ('+torrent.total_payload_download.toBytes()+')',
@@ -140,10 +154,10 @@ Deluge.Widgets.StatisticsPage = new Class({
         }
         var text = torrent.state + ' ' + torrent.progress.toFixed(2) + '%';
         this.bar.update(text, torrent.progress);
-        
+
         if (torrent.is_auto_managed) {data.auto_managed = 'True'}
         else {data.auto_managed = 'False'};
-        
+
         this.element.getElements('dd').each(function(item) {
             item.set('text', data[item.getProperty('class')]);
         }, this);
@@ -152,21 +166,21 @@ Deluge.Widgets.StatisticsPage = new Class({
 
 Deluge.Widgets.DetailsPage = new Class({
     Extends: Widgets.TabPage,
-    
+
     options: {
         url: '/template/render/html/tab_details.html'
     },
-    
+
     initialize: function() {
         this.parent(_('Details'));
     },
-    
+
     clear: function() {
         this.element.getElements('dd').each(function(item) {
             item.set('text', '');
         }, this);
     },
-    
+
     update: function(torrent) {
         var data = {
             torrent_name: torrent.name,
@@ -185,7 +199,7 @@ Deluge.Widgets.DetailsPage = new Class({
 
 Deluge.Widgets.FilesGrid = new Class({
     Extends: Widgets.DataGrid,
-    
+
     options: {
         columns: [
             {name: 'filename',text: 'Filename',type:'text',width: 350},
@@ -194,21 +208,21 @@ Deluge.Widgets.FilesGrid = new Class({
             {name: 'priority',text: 'Priority',type:'icon',width: 150}
         ]
     },
-    
+
     priority_texts: {
         0: 'Do Not Download',
         1: 'Normal Priority',
         2: 'High Priority',
         5: 'Highest Priority'
     },
-    
+
     priority_icons: {
         0: '/static/images/16/process-stop.png',
         1: '/template/static/icons/16/gtk-yes.png',
         2: '/static/images/16/queue-down.png',
         5: '/static/images/16/go-bottom.png'
     },
-    
+
     initialize: function(element, options) {
         this.parent(element, options);
         var menu = new Widgets.PopupMenu();
@@ -220,7 +234,7 @@ Deluge.Widgets.FilesGrid = new Class({
                 icon: this.priority_icons[index]
             });
         }, this);
-        
+
         menu.addEvent('action', function(e) {
             e = {
                 action: e.action,
@@ -228,20 +242,20 @@ Deluge.Widgets.FilesGrid = new Class({
             };
             this.fireEvent('menuAction', e);
         }.bind(this));
-        
+
         this.addEvent('rowMenu', function(e) {
             e.stop();
             menu.row = e.row;
             menu.show(e);
         })
     },
-    
+
     clear: function() {
         this.rows.empty();
         this.body.empty();
         this.render();
     },
-    
+
     updateFiles: function(torrent) {
         torrent.files.each(function(file) {
             var p = torrent.file_priorities[file.index];
@@ -249,7 +263,7 @@ Deluge.Widgets.FilesGrid = new Class({
                 text:this.priority_texts[p],
                 icon:this.priority_icons[p]
             };
-            
+
             var percent = torrent.file_progress[file.index]*100.0;
             row = {
                 id: torrent.id + '-' + file.index,
@@ -261,7 +275,7 @@ Deluge.Widgets.FilesGrid = new Class({
                 },
                 fileIndex: file.index,
                 torrentId: torrent.id
-                
+
             };
             if (this.has(row.id)) {
                 this.updateRow(row, true);
@@ -275,49 +289,49 @@ Deluge.Widgets.FilesGrid = new Class({
 
 Deluge.Widgets.FilesPage = new Class({
     Extends: Widgets.TabPage,
-    
+
     options: {
         url: '/template/render/html/tab_files.html'
     },
-    
+
     initialize: function(el) {
         this.parent(_('Files'));
         this.torrentId = -1;
         this.addEvent('loaded', this.loaded.bindWithEvent(this));
         this.addEvent('resize', this.resized.bindWithEvent(this));
     },
-    
+
     loaded: function(event) {
         this.grid = new Deluge.Widgets.FilesGrid('files');
         this.grid.addEvent('menuAction', this.menuAction.bindWithEvent(this));
-        
+
         if (this.beenResized) {
             this.resized(this.beenResized);
             delete this.beenResized;
         };
     },
-    
+
     clear: function() {
         if (this.grid) this.grid.clear();
     },
-    
+
     resized: function(e) {
         if (!this.grid) {
             this.beenResized = e;
             return;
         };
-        
+
         this.element.getPadding();
         this.grid.sets({
             width: e.width - this.element.padding.x,
             height: e.height - this.element.padding.y
         });
     },
-    
+
     menuAction: function(e) {
         this.fireEvent('menuAction', e);
     },
-    
+
     update: function(torrent) {
         if (this.torrentId != torrent.id) {
             this.torrentId = torrent.id;
@@ -330,17 +344,17 @@ Deluge.Widgets.FilesPage = new Class({
 
 Deluge.Widgets.PeersPage = new Class({
     Extends: Widgets.TabPage,
-    
+
     options: {
         url: '/template/render/html/tab_peers.html'
     },
-    
+
     initialize: function(el) {
         this.parent(_('Peers'));
         this.addEvent('resize', this.resized.bindWithEvent(this));
         this.addEvent('loaded', this.loaded.bindWithEvent(this));
     },
-    
+
     loaded: function(event) {
         this.grid = new Widgets.DataGrid($('peers'), {
             columns: [
@@ -356,26 +370,26 @@ Deluge.Widgets.PeersPage = new Class({
             delete this.been_resized;
         };
     },
-    
+
     resized: function(e) {
         if (!this.grid) {
             this.been_resized = e;
             return;
         };
-        
+
         this.element.getPadding();
         this.grid.sets({
             width: e.width - this.element.padding.x,
             height: e.height - this.element.padding.y
         });
     },
-    
+
     clear: function() {
         if (!this.grid) return;
         this.grid.rows.empty();
         this.grid.body.empty();
     },
-    
+
     update: function(torrent) {
         if (this.torrentId != torrent.id) {
             this.torrentId = torrent.id;
@@ -406,7 +420,7 @@ Deluge.Widgets.PeersPage = new Class({
             }
             peers.include(peer.ip);
         }, this);
-        
+
         this.grid.rows.each(function(row) {
             if (!peers.contains(row.id)) {
                 row.element.destroy();
@@ -419,11 +433,11 @@ Deluge.Widgets.PeersPage = new Class({
 
 Deluge.Widgets.OptionsPage = new Class({
     Extends: Widgets.TabPage,
-    
+
     options: {
         url: '/template/render/html/tab_options.html'
     },
-    
+
     initialize: function() {
         if (!this.element)
             this.parent(_('Options'));
@@ -431,7 +445,7 @@ Deluge.Widgets.OptionsPage = new Class({
             this.loaded(event);
         }.bindWithEvent(this));
     },
-    
+
     loaded: function(event) {
         this.bound = {
             apply: this.apply.bindWithEvent(this),
@@ -457,7 +471,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 el.focused = false;
             });
         }, this);
-        
+
         new Widgets.Spinner(this.form.max_download_speed, {
             step: 10,
             precision: 1,
@@ -465,7 +479,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 high: null,
                 low: -1
             }
-        });    
+        });
         new Widgets.Spinner(this.form.max_upload_speed, {
             step: 10,
             precision: 1,
@@ -473,7 +487,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 high: null,
                 low: -1
             }
-        });        
+        });
         new Widgets.Spinner(this.form.max_connections, {
             step: 1,
             precision: 0,
@@ -481,7 +495,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 high: null,
                 low: -1
             }
-        });        
+        });
         new Widgets.Spinner(this.form.max_upload_slots, {
             step: 1,
             precision: 0,
@@ -489,7 +503,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 high: null,
                 low: -1
             }
-        });        
+        });
         new Widgets.Spinner(this.form.stop_ratio, {
             step: 1,
             precision: 1,
@@ -498,11 +512,11 @@ Deluge.Widgets.OptionsPage = new Class({
                 low: -1
             }
         });
-        
+
         this.form.apply_options.addEvent('click', this.bound.apply);
         this.form.reset_options.addEvent('click', this.bound.reset);
     },
-    
+
     apply: function(event) {
         if (!this.torrentId) return;
         var changed = this.changed[this.torrentId];
@@ -516,7 +530,7 @@ Deluge.Widgets.OptionsPage = new Class({
             }.bindWithEvent(this)
         });
     },
-    
+
     clear: function() {
         if (!this.form) return;
         $$W(this.form.max_download_speed).setValue(0);
@@ -531,7 +545,7 @@ Deluge.Widgets.OptionsPage = new Class({
         this.form.private.disabled = false;
         this.form.prioritize_first_last.checked = false;
     },
-    
+
     reset: function(event) {
         if (this.torrentId) {
             delete this.changed[this.torrentId];
@@ -543,7 +557,7 @@ Deluge.Widgets.OptionsPage = new Class({
             }.bindWithEvent(this)
         });
     },
-    
+
     update: function(torrent) {
         this.torrentId = torrent.id;
         $each(torrent, function(value, key) {

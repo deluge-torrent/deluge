@@ -2,11 +2,25 @@
 Script: deluge-mime.js
     Library for converting mimetypes to extensions and vica versa.
 
-License:
-    General Public License v3
-
-Copyright:
-    Damien Churchill (c) 2008 <damoxc@gmail.com>
+ *
+ * Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
 
 
     Object: Deluge.Mime
@@ -136,12 +150,12 @@ Deluge.Mime = {
         '.avi':      'video/x-msvideo',
         '.movie':    'video/x-sgi-movie'
     }),
-    
+
     getMimeType: function(filename) {
         var extension = filename.match(/^.*(\.\w+)$/)
         if (extension) extension = extension[1]
         else return null;
-        
+
         if (this.types_map.has(extension)) return this.types_map[extension];
         else return null;
     }
