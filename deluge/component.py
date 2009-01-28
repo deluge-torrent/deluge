@@ -22,8 +22,7 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
-import gobject
+from twisted.internet.task import LoopingCall
 from deluge.log import LOG as log
 
 COMPONENT_STATE = [
@@ -49,7 +48,7 @@ class Component(object):
     def _start(self):
         self._state = COMPONENT_STATE.index("Started")
         if self._update():
-            self._timer = gobject.timeout_add(self._interval, self._update)
+            self._timer = LoopingCall(self._interval, self._update)
 
     def stop(self):
         pass
@@ -57,14 +56,14 @@ class Component(object):
     def _stop(self):
         self._state = COMPONENT_STATE.index("Stopped")
         try:
-            gobject.source_remove(self._timer)
+            self._timer.stop()
         except:
             pass
 
     def _pause(self):
         self._state = COMPONENT_STATE.index("Paused")
         try:
-            gobject.source_remove(self._timer)
+            self._timer.stop()
         except:
             pass
 

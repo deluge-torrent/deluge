@@ -152,4 +152,4 @@ def get_localhost_auth():
 
             if username == "localclient":
                 return (username, password)
-    return None
+    return ("", "")

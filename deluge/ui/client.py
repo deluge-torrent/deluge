@@ -391,21 +391,36 @@ class DaemonSSLProxy(DaemonProxy):
 
 class DaemonClassicProxy(DaemonProxy):
     def __init__(self):
-        import daemon
-        self.__daemon = daemon.Daemon()
+        import deluge.core.daemon
+        self.__daemon = deluge.core.daemon.Daemon(classic=True)
+        log.debug("daemon created!")
         self.connected = True
+        self.host = "localhost"
+        self.port = 58846
+        self.user = "localclient"
+
+
+
+    def disconnect(self):
+        self.__daemon = None
 
     def call(self, method, *args, **kwargs):
         log.debug("call: %s %s %s", method, args, kwargs)
 
-        m = self.__daemon.rpcserver.get_object_method(method)
         d = defer.Deferred()
+        try:
+            m = self.__daemon.rpcserver.get_object_method(method)
+        except Exception, e:
+            log.exception(e)
+            d.errback(e)
+            return d
+
         try:
             result = m(*args, **kwargs)
         except Exception, e:
             d.errback(e)
         else:
-            d.callbacks(result)
+            d.callback(result)
         return d
 
 
@@ -502,7 +517,8 @@ class Client(object):
         :returns: bool, True if connected to a localhost
 
         """
-        if self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost"):
+        if self._daemon_proxy and self._daemon_proxy.host in ("127.0.0.1", "localhost") or\
+            isinstance(self._daemon_proxy, DaemonClassicProxy):
             return True
         return False
 

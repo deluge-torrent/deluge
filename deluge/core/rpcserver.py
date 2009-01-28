@@ -236,10 +236,21 @@ class RPCServer(component.Component):
     :param port: int, the port the RPCServer will listen on
     :param interface: str, the interface to listen on, this may override the `:param:allow_remote` setting
     :param allow_remote: bool, set True if the server should allow remote connections
+    :param listen: bool, if False, will not start listening.. This is only useful in Classic Mode
     """
 
-    def __init__(self, port=58846, interface="", allow_remote=False):
+    def __init__(self, port=58846, interface="", allow_remote=False, listen=True):
         component.Component.__init__(self, "RPCServer")
+
+        self.factory = Factory()
+        self.factory.protocol = DelugeRPCProtocol
+        # Holds the registered methods
+        self.factory.methods = {}
+        # Holds the session_ids and auth levels
+        self.factory.authorized_sessions = {}
+
+        if not listen:
+            return
 
         if allow_remote:
             hostname = ""
@@ -250,13 +261,6 @@ class RPCServer(component.Component):
             hostname = interface
 
         log.info("Starting DelugeRPC server %s:%s", hostname, port)
-
-        self.factory = Factory()
-        self.factory.protocol = DelugeRPCProtocol
-        # Holds the registered methods
-        self.factory.methods = {}
-        # Holds the session_ids and auth levels
-        self.factory.authorized_sessions = {}
 
         # Check for SSL cert/key and create them if necessary
         ssl_dir = deluge.configmanager.get_config_dir("ssl")
@@ -297,7 +301,6 @@ class RPCServer(component.Component):
                 self.factory.methods[name + "." + d] = getattr(obj, d)
 
     def get_object_method(self, name):
-        log.debug(self.factory.methods)
         return self.factory.methods[name]
 
     def __generate_ssl_keys(self):

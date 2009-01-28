@@ -85,10 +85,6 @@ class ConnectionManager(component.Component):
         component.Component.__init__(self, "ConnectionManager")
         self.gtkui_config = ConfigManager("gtkui.conf")
 
-        if self.gtkui_config["classic_mode"]:
-            client.start_classic_mode()
-            return
-
         self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
 
     # Component overrides

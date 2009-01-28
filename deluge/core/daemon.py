@@ -36,7 +36,7 @@ from deluge.core.rpcserver import RPCServer, export
 from deluge.log import LOG as log
 
 class Daemon(object):
-    def __init__(self, options, args):
+    def __init__(self, options=None, args=None, classic=False):
         # Initialize gettext
         try:
             locale.setlocale(locale.LC_ALL, '')
@@ -74,29 +74,36 @@ class Daemon(object):
         log.debug("options: %s", options)
         log.debug("args: %s", args)
         # Set the config directory
-        deluge.configmanager.set_config_dir(options.config)
+        if options:
+            deluge.configmanager.set_config_dir(options.config)
 
         from deluge.core.core import Core
         # Start the core as a thread and join it until it's done
         self.core = Core()
 
+        port = self.core.config["daemon_port"]
+        if options and options.port:
+            port = options.port
         self.rpcserver = RPCServer(
-            port=options.port if options.port else self.core.config["daemon_port"],
-            allow_remote=self.core.config["allow_remote"]
+            port=port,
+            allow_remote=self.core.config["allow_remote"],
+            listen=not classic
         )
+
+        # Register the daemon and the core RPCs
         self.rpcserver.register_object(self.core)
         self.rpcserver.register_object(self)
 
 
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
-        component.start()
 
-#        reactor.run()
-        try:
-            reactor.run()
-        except KeyboardInterrupt:
-            self.shutdown()
+        if not classic:
+            component.start()
+            try:
+                reactor.run()
+            except KeyboardInterrupt:
+                self.shutdown()
 
     @export()
     def shutdown(self, *args, **kwargs):

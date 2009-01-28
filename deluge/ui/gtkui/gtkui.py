@@ -243,10 +243,15 @@ class GtkUI:
 
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
-        # XXX: We need to call a simulate() here, but this could be a bug in twisted
-        reactor.simulate()
         if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
+            # XXX: We need to call a simulate() here, but this could be a bug in twisted
+            reactor.simulate()
             self.connectionmanager.show()
+
+        if self.config["classic_mode"]:
+            client.start_classic_mode()
+            self._on_new_core()
+            return
 
     def _on_new_core(self):
         component.start()

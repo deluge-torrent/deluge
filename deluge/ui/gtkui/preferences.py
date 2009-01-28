@@ -174,15 +174,13 @@ class Preferences(component.Component):
 
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
-        try:
+        if client.connected():
             client.core.get_config().addCallback(self._on_get_config)
             client.core.get_available_plugins().addCallback(self._on_get_available_plugins)
             client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
             client.core.get_listen_port().addCallback(self._on_get_listen_port)
             # Force these calls and block until we've done them all
             client.force_call()
-        except deluge.error.NoCoreError:
-            log.debug("Not connected to a daemon..")
 
         if self.core_config != {} and self.core_config != None:
             core_widgets = {
