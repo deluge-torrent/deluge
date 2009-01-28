@@ -168,7 +168,7 @@ class TorrentManager(component.Component):
 
     def start(self):
         # Get the pluginmanager reference
-        self.plugins = component.get("PluginManager")
+        self.plugins = component.get("CorePluginManager")
 
         self.signals = component.get("SignalManager")
 

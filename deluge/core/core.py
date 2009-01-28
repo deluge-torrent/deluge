@@ -664,12 +664,12 @@ class Core(component.Component):
         f = open(os.path.join(self.config["config_location"], "plugins", filename), "wb")
         f.write(plugin_data.data)
         f.close()
-        component.get("PluginManager").scan_for_plugins()
+        component.get("CorePluginManager").scan_for_plugins()
 
     @export()
     def rescan_plugins(self):
         """Rescans the plugin folders for new plugins"""
-        component.get("PluginManager").scan_for_plugins()
+        component.get("CorePluginManager").scan_for_plugins()
 
     @export()
     def rename_files(self, torrent_id, filenames):

@@ -38,7 +38,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     functions to access parts of the core."""
 
     def __init__(self, core):
-        component.Component.__init__(self, "PluginManager")
+        component.Component.__init__(self, "CorePluginManager")
         self.core = core
         # Set up the hooks dictionary
         self.hooks = {
