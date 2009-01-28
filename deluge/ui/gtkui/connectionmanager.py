@@ -41,7 +41,7 @@ DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
 
 DEFAULT_CONFIG = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "andrew", "andrew")]
+    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
 }
 
 HOSTLIST_COL_ID = 0
