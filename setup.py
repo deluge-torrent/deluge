@@ -383,7 +383,6 @@ setup(
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
                                 "ui/webui/scripts/*",
-                                "ui/webui/ssl/*",
                                 "ui/webui/static/*.css",
                                 "ui/webui/static/*.js",
                                 "ui/webui/static/images/*.png",

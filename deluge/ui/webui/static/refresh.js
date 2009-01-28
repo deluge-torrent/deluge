@@ -20,7 +20,7 @@
 
 quick and dirty auto-refresh timer.
 Our users have waited too long for a new auto-refresh.
-I need to get things done (even if it's ot pretty). ;with the least dependencies for a backport to 1.05
+I need to get things done (even if it's not pretty). ;with the least dependencies for a backport to 1.05
 */
 var seconds=0;
 var refresh_secs = 10;

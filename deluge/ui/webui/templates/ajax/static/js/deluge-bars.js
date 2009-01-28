@@ -2,11 +2,25 @@
 Script: deluge-bars.js
     Contains the various bars (Sidebar, Toolbar, Statusbar) used within Deluge.
 
-License:
-    General Public License v3
-
-Copyright:
-    Damien Churchill (c) 2008 <damoxc@gmail.com>
+ *
+ * Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
 
 
     Class: Deluge.Widgets.Toolbar
@@ -22,7 +36,7 @@ Copyright:
 Deluge.Widgets.Toolbar = new Class({
     Implements: Events,
     Extends: Widgets.Base,
-    
+
     initialize: function() {
         this.parent($('toolbar'));
         this.buttons = this.element.getFirst();
@@ -39,54 +53,54 @@ Deluge.Widgets.Toolbar = new Class({
 /*
     Class: Deluge.Widgets.StatusBar
         Class to manage the bottom status bar
-    
+
     Example:
         status = new Deluge.Widgets.StatusBar();
-    
+
     Returns:
         An instance of the class wrapped about the status div
 */
 Deluge.Widgets.StatusBar = new Class({
     Extends: Widgets.Base,
-    
+
     initialize: function() {
         this.parent($('status'));
         this.bound = {
             onContextMenu: this.onContextMenu.bindWithEvent(this)
         };
-        
+
         this.element.getElements('li').each(function(el) {
             this[el.id] = el;
         }, this);
         this.incoming_connections.setStyle('display', 'none');
-        
+
         this.connections.addEvent('contextmenu', this.bound.onContextMenu);
         var menu = new Widgets.PopupMenu();
         menu.add(Deluge.Menus.Connections);
         menu.addEvent('action', this.onMenuAction);
         this.connections.store('menu', menu);
-        
+
         this.downspeed.addEvent('contextmenu', this.bound.onContextMenu);
         menu = new Widgets.PopupMenu();
         menu.add(Deluge.Menus.Download);
         menu.addEvent('action', this.onMenuAction);
         this.downspeed.store('menu', menu);
-        
+
         this.upspeed.addEvent('contextmenu', this.bound.onContextMenu);
         menu = new Widgets.PopupMenu();
         menu.add(Deluge.Menus.Upload);
         menu.addEvent('action', this.onMenuAction);
         this.upspeed.store('menu', menu);
     },
-    
+
     /*
         Property: update
             Takes thes stats part of the update_ui rpc call and
             performs the required changes on the statusbar.
-        
+
         Arguments:
             stats - A dictionary of the returned stats
-        
+
         Example:
             statusbar.update(data['stats']);
     */
@@ -97,20 +111,20 @@ Deluge.Widgets.StatusBar = new Class({
         this.dht.set('text', stats.dht_nodes);
         this.free_space.set('text', stats.free_space.toBytes());
         if (stats.has_incoming_connections) {
-            this.incoming_connections.setStyle('display', 'none');    
+            this.incoming_connections.setStyle('display', 'none');
         } else {
             this.incoming_connections.setStyle('display', 'inline');
         }
     },
-    
+
     /*
         Property: onContextMenu
             Event handler for when certain parts of the statusbar have been
             right clicked.
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             el.addEvent('contextmenu', this.onContextMenu.bindWithEvent(this));
     */
@@ -119,16 +133,16 @@ Deluge.Widgets.StatusBar = new Class({
         var menu = e.target.retrieve('menu');
         if (menu) menu.show(e);
     },
-    
+
     /*
         Property: onMenuAction
             Event handler for when an item in one of the menus is clicked.
             Note that it does not need to be bound as it doesn't use `this`
             anywhere within the method.
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             menu.addEvent('action', this.onMenuAction);
     */
@@ -145,17 +159,17 @@ Deluge.Widgets.StatusBar = new Class({
 /*
     Class: Deluge.Wdigets.Labels
         Class to manage the filtering labels in the sidebar
-    
+
     Example:
         labels = new Deluge.Widgets.Labels();
-    
+
     Returns:
         An instance of the class wrapped about the labels div
 */
 Deluge.Widgets.Labels = new Class({
-    
+
     Extends: Widgets.Base,
-    
+
     initialize: function() {
         this.parent($('labels'));
         this.bound = {
@@ -163,15 +177,15 @@ Deluge.Widgets.Labels = new Class({
         };
         this.filters = {};
     },
-    
+
     /*
         Property: update
             Takes thes filters part of the update_ui rpc call and
             performs the required changes on the filtering
-        
+
         Arguments:
             filters - A dictionary of the available filters
-        
+
         Example:
             labels.update({'state': [['All', '3'], ['Downloading', '2']]);
     */
@@ -194,13 +208,13 @@ Deluge.Widgets.Labels = new Class({
             }
         }, this);
     },
-    
+
     /*
         Property: labelClicked
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             labelSection.addEvent('labelClicked', this.bound.labelClicked);
     */
@@ -217,26 +231,26 @@ Deluge.Widgets.Labels = new Class({
 /*
     Class: Deluge.Widgets.LabelSection
         Class to manage a section of filters within the labels block
-    
+
     Arguments:
         string (the name of the section)
-    
+
     Returns:
         A widget with the ability to manage the filters
 */
 Deluge.Widgets.LabelSection = new Class({
-    
+
     Extends: Widgets.Base,
-    
+
     regex: /([\w]+)\s\((\d)\)/,
-    
+
     initialize: function(name) {
         this.parent(new Element('div'));
         this.name = name;
         this.bound = {
             'clicked': this.clicked.bindWithEvent(this)
         }
-        
+
         name = name.replace('_', ' ');
         parts = name.split(' ');
         name = '';
@@ -246,21 +260,21 @@ Deluge.Widgets.LabelSection = new Class({
             part = firstLetter + part.substring(1);
             name += part + ' ';
         });
-        
+
         this.header = new Element('h3').set('text', name);
         this.list = new Element('ul');
-        
+
         this.element.grab(this.header);
         this.element.grab(this.list);
     },
-    
+
     /*
         Property: update
             Updates the filters list
-        
+
         Arguments:
             values - a list of name/count values for the filters
-        
+
         Example:
             labelSection.update([['All', '3'], ['Downloading', '2']]);
     */
@@ -283,7 +297,7 @@ Deluge.Widgets.LabelSection = new Class({
             }
             el.set('text', name + ' (' + count +')');
         }, this);
-        
+
         // Clean out any labels that are no longer returned
         this.list.getElements('li').each(function(el) {
             var hasName = false;
@@ -291,20 +305,20 @@ Deluge.Widgets.LabelSection = new Class({
                 if (hasName) return;
                 hasName = el.hasClass(name);
             });
-            
+
             if (!hasName) {
                 el.destroy();
             }
         });
     },
-    
+
     /*
         Property: clicked
             Event handler for when a list item is clicked
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             listItem.addEvent('click', this.clicked.bindWithEvent(this));
     */

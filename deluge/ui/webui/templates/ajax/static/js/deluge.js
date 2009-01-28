@@ -2,8 +2,24 @@
  * Script: deluge.js
  *  The core script for the deluge ajax ui
  *
- * Copyright:
- *   Damien Churchill (c) 2008 <damoxc@gmail.com>
+ * Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
  */
 
 var Deluge = $empty;
@@ -14,13 +30,13 @@ Deluge.Keys = {
         'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed'
-    ],    
+    ],
     Statistics: [
         'total_done', 'total_payload_download', 'total_uploaded',
         'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
         'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
         'seed_rank'
-    ],    
+    ],
     Files: [
         'files', 'file_progress', 'file_priorities'
     ],

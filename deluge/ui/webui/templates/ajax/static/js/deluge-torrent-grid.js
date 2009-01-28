@@ -2,11 +2,25 @@
 Script: deluge-torrent-grid.js
     Contains the Deluge torrent grid.
 
-License:
-    General Public License v3
-
-Copyright:
-    Damien Churchill (c) 2008 <damoxc@gmail.com>
+ *
+ * Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, write to:
+ *     The Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor
+ *     Boston, MA  02110-1301, USA.
+ *
 
 
     Class: Deluge.Widgets.TorrentGrid
@@ -21,7 +35,7 @@ Copyright:
 */
 Deluge.Widgets.TorrentGrid = new Class({
     Extends: Widgets.DataGrid,
-    
+
     options: {
         columns: [
             {name: 'number',text: '#',type:'number',width: 20},
@@ -37,7 +51,7 @@ Deluge.Widgets.TorrentGrid = new Class({
             {name: 'avail',text: 'Avail.',type:'number',width: 60}
         ]
     },
-    
+
     icons: {
         'Downloading': '/pixmaps/downloading16.png',
         'Seeding': '/pixmaps/seeding16.png',
@@ -46,19 +60,19 @@ Deluge.Widgets.TorrentGrid = new Class({
         'Error': '/pixmaps/alert16.png',
         'Checking': '/pixmaps/checking16.png'
     },
-    
+
     /*
         Property: getSelectedTorrentIds
             Helper function to quickly return the torrent ids of the currently
             selected torrents in the grid.
-        
+
         Example:
             var ids = '';
             grid.getSelectedTorrentIds.each(function(id) {
                 ids += id + '\n';
             });
             alert(ids);
-        
+
         Returns:
             A list containing the currently selected torrent ids.
     */
@@ -69,14 +83,14 @@ Deluge.Widgets.TorrentGrid = new Class({
         });
         return torrentIds;
     },
-    
+
     /*
         Property: updateTorrents
             Event handler for when a list item is clicked
-        
+
         Arguments:
             e - The event args
-        
+
         Example:
             listItem.addEvent('click', this.clicked.bindWithEvent(this));
     */
@@ -107,7 +121,7 @@ Deluge.Widgets.TorrentGrid = new Class({
                 this.addRow(row, true);
             };
         }, this);
-        
+
         // remove any torrents no longer in the grid.
         this.rows.each(function(row) {
             if (!torrents.has(row.id)) {
