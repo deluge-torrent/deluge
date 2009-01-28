@@ -124,30 +124,32 @@ def get_torrent_info(filename):
         "info_hash": info_hash
     }
 
-def get_localhost_auth_uri(uri):
+def get_localhost_auth():
     """
     Grabs the localclient auth line from the 'auth' file and creates a localhost uri
 
-    :param uri: the uri to add the authentication info to
-    :returns: a localhost uri containing authentication information or None if the information is not available
+    :returns: tuple, with the username and password to login as
     """
-    u = urlparse.urlsplit(uri)
-    # If there is already a username in this URI, let's just return it since
-    # the user has provided credentials.
-    if u.username:
-        return uri
-
     auth_file = deluge.configmanager.get_config_dir("auth")
     if os.path.exists(auth_file):
-
         for line in open(auth_file):
+            if line.startswith("#"):
+                # This is a comment line
+                continue
             try:
-                username, password = line.strip().split(":")
-            except ValueError:
+                lsplit = line.split(":")
+            except Exception, e:
+                log.error("Your auth file is malformed: %s", e)
+                continue
+
+            if len(lsplit) == 2:
+                username, password = lsplit
+            elif len(lsplit) == 3:
+                username, password, level = lsplit
+            else:
+                log.error("Your auth file is malformed: Incorrect number of fields!")
                 continue
 
             if username == "localclient":
-                # We use '127.0.0.1' in place of 'localhost' just incase this isn't defined properly
-                hostname = u.hostname.replace("localhost", "127.0.0.1")
-                return u.scheme + "://" + username + ":" + password + "@" + hostname + ":" + str(u.port)
+                return (username, password)
     return None
