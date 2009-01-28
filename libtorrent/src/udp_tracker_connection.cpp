@@ -45,7 +45,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <boost/bind.hpp>
+
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING
 #include <boost/lexical_cast.hpp>
+using boost::lexical_cast;
+#endif
 
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -69,7 +73,6 @@ namespace
 }
 
 using boost::bind;
-using boost::lexical_cast;
 
 namespace libtorrent
 {
