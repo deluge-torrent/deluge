@@ -63,7 +63,7 @@ class Tab:
 
 class TorrentDetails(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "TorrentDetails", interval=2000)
+        component.Component.__init__(self, "TorrentDetails", interval=2)
         self.window = component.get("MainWindow")
         glade = self.window.main_glade
 

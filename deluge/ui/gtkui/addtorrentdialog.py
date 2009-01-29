@@ -28,6 +28,8 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 import gobject
+import base64
+import os
 
 import pkg_resources
 
@@ -671,7 +673,11 @@ class AddTorrentDialog(component.Component):
             row = self.torrent_liststore.iter_next(row)
 
         if torrent_filenames:
-            client.core.add_torrent_file(torrent_filenames, torrent_options)
+            for i, f in enumerate(torrent_filenames):
+                client.core.add_torrent_file(
+                    os.path.split(f)[-1],
+                    base64.encodestring(open(f).read()),
+                    torrent_options[i])
         if torrent_magnets:
             client.core.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
 

@@ -32,7 +32,7 @@ COMPONENT_STATE = [
 ]
 
 class Component(object):
-    def __init__(self, name, interval=1000, depend=None):
+    def __init__(self, name, interval=1, depend=None):
         # Register with the ComponentRegistry
         register(name, self, depend)
         self._interval = interval
@@ -48,7 +48,8 @@ class Component(object):
     def _start(self):
         self._state = COMPONENT_STATE.index("Started")
         if self._update():
-            self._timer = LoopingCall(self._interval, self._update)
+            self._timer = LoopingCall(self._update)
+            self._timer.start(self._interval)
 
     def stop(self):
         pass

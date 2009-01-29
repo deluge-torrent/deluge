@@ -28,9 +28,11 @@ import os
 import os.path
 import threading
 import pkg_resources
+import base64
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
+import twisted.web.client
 
 try:
     import deluge.libtorrent as lt
@@ -216,49 +218,79 @@ class Core(component.Component):
 
     # Exported Methods
     @export()
-    def ping(self):
-        """A method to see if the core is running"""
-        return True
-
-    @export()
-    def register_client(self, port):
-        """Registers a client with the signal manager so that signals are
-            sent to it."""
-        self.signalmanager.register_client(component.get("RPCServer").client_address, port)
-        if self.config["new_release_check"]:
-            self.check_new_release()
-
-    @export()
-    def deregister_client(self):
-        """De-registers a client with the signal manager."""
-        self.signalmanager.deregister_client(component.get("RPCServer").client_address)
-
-    @export()
     def add_torrent_file(self, filename, filedump, options):
-        """Adds a torrent file to the libtorrent session
-            This requires the torrents filename and a dump of it's content
         """
-        reactor.callLater(0, self._add_torrent_file, filename, filedump, options)
+        Adds a torrent file to the session.
 
-    def _add_torrent_file(self, filename, filedump, options):
-        # Turn the filedump into a torrent_info
-        if not isinstance(filedump, str):
-            filedump = filedump.data
+        :param filename: str, the filename of the torrent
+        :param filedump: str, a base64 encoded string of the torrent file contents
+        :param options: dict, the options to apply to the torrent on add
 
-        if len(filedump) == 0:
-            log.warning("Torrent file is corrupt!")
-            return
+        :returns: the torrent_id as a str or None
+
+        """
+        try:
+            filedump = base64.decodestring(filedump)
+        except Exception, e:
+            log.error("There was an error decoding the filedump string!")
+            log.exception(e)
 
         try:
-            torrent_info = lt.torrent_info(lt.bdecode(filedump))
-        except RuntimeError, e:
-            log.warning("Unable to decode torrent file: %s", e)
-            return None
-
-        torrent_id = self.torrentmanager.add(filedump=filedump, options=options, filename=filename)
+            torrent_id = self.torrentmanager.add(filedump=filedump, options=options, filename=filename)
+        except Exception, e:
+            log.error("There was an error adding the torrent file %s", filename)
+            log.exception(e)
 
         # Run the plugin hooks for 'post_torrent_add'
         self.pluginmanager.run_post_torrent_add(torrent_id)
+
+    @export()
+    def add_torrent_url(self, url, options):
+        """
+        Adds a torrent from a url.  Deluge will attempt to fetch the torrent
+        from url prior to adding it to the session.
+
+        :param url: str, the url pointing to the torrent file
+        :param options: dict, the options to apply to the torrent on add
+
+        :returns: the torrent_id as a str or None
+
+        """
+        log.info("Attempting to add url %s", url)
+        def on_get_page(page):
+            # We got the data, so attempt adding it to the session
+            self.add_torrent_file(url.split("/")[-1], base64.encodestring(page), options)
+
+        def on_get_page_error(reason):
+            log.error("Error occured downloading torrent from %s", url)
+            log.error("Reason: %s", reason)
+            # XXX: Probably should raise an exception to the client here
+            return
+
+        twisted.web.client.getPage(url).addCallback(on_get_page).addErrback(on_get_page_error)
+
+    @export()
+    def add_torrent_magnets(self, uris, options):
+        for uri in uris:
+            log.debug("Attempting to add by magnet uri: %s", uri)
+            try:
+                option = options[uris.index(uri)]
+            except IndexError:
+                option = None
+
+            torrent_id = self.torrentmanager.add(magnet=uri, options=option)
+
+            # Run the plugin hooks for 'post_torrent_add'
+            self.pluginmanager.run_post_torrent_add(torrent_id)
+
+
+    @export()
+    def remove_torrent(self, torrent_ids, remove_data):
+        log.debug("Removing torrent %s from the core.", torrent_ids)
+        for torrent_id in torrent_ids:
+            if self.torrentmanager.remove(torrent_id, remove_data):
+                # Run the plugin hooks for 'post_torrent_remove'
+                self.pluginmanager.run_post_torrent_remove(torrent_id)
 
     @export()
     def get_stats(self):
@@ -296,53 +328,6 @@ class Core(component.Component):
             status[key] = getattr(session_status, key)
 
         return status
-
-    @export()
-    def add_torrent_url(self, url, options):
-        log.info("Attempting to add url %s", url)
-
-        threading.Thread(target=self.fetch_torrent_url_thread, args=(self.add_torrent_file, url, options)).start()
-
-    def fetch_torrent_url_thread(self, callback, url, options):
-        # Get the actual filename of the torrent from the url provided.
-        filename = url.split("/")[-1]
-
-        # Get the .torrent file from the url
-        torrent_file = deluge.common.fetch_url(url)
-        if torrent_file is None:
-            return False
-
-        # Dump the torrents file contents to a string
-        try:
-            filedump = open(torrent_file, "rb").read()
-        except IOError:
-            log.warning("Unable to open %s for reading.", torrent_file)
-            return False
-
-        # Add the torrent to session
-        return callback(filename, filedump, options)
-
-    @export()
-    def add_torrent_magnets(self, uris, options):
-        for uri in uris:
-            log.debug("Attempting to add by magnet uri: %s", uri)
-            try:
-                option = options[uris.index(uri)]
-            except IndexError:
-                option = None
-
-            torrent_id = self.torrentmanager.add(magnet=uri, options=option)
-
-            # Run the plugin hooks for 'post_torrent_add'
-            self.pluginmanager.run_post_torrent_add(torrent_id)
-
-    @export()
-    def remove_torrent(self, torrent_ids, remove_data):
-        log.debug("Removing torrent %s from the core.", torrent_ids)
-        for torrent_id in torrent_ids:
-            if self.torrentmanager.remove(torrent_id, remove_data):
-                # Run the plugin hooks for 'post_torrent_remove'
-                self.pluginmanager.run_post_torrent_remove(torrent_id)
 
     @export()
     def force_reannounce(self, torrent_ids):

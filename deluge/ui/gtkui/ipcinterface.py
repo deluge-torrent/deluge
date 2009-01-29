@@ -25,6 +25,7 @@
 
 import sys
 import os.path
+import base64
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -106,4 +107,5 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_file([os.path.abspath(arg)])
+                path = os.path.abspath(arg)
+                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path).read()), None)

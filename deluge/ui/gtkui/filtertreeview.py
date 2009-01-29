@@ -64,7 +64,7 @@ def _t(text):
 #sidebar-treeview
 class FilterTreeView(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "FilterTreeView", interval=2000)
+        component.Component.__init__(self, "FilterTreeView", interval=2)
         self.window = component.get("MainWindow")
         glade = self.window.main_glade
         self.hpaned = glade.get_widget("hpaned")

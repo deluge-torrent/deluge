@@ -109,7 +109,7 @@ def queue_column_sort(model, iter1, iter2, data):
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
-        component.Component.__init__(self, "TorrentView", interval=2000)
+        component.Component.__init__(self, "TorrentView", interval=2)
         self.window = component.get("MainWindow")
         # Call the ListView constructor
         listview.ListView.__init__(self,

@@ -91,7 +91,7 @@ class StatusBarItem:
 
 class StatusBar(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "StatusBar", interval=3000)
+        component.Component.__init__(self, "StatusBar", interval=3)
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
         self.tooltips = gtk.Tooltips()

@@ -178,7 +178,10 @@ class QueuedTorrents(component.Component):
                     component.get("AddTorrentDialog").add_from_files([torrent_path])
                     component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                 else:
-                    client.core.add_torrent_file([torrent_path])
+                    client.core.add_torrent_file(
+                        os.path.split(torrent_path)[-1],
+                        base64.encodestring(open(torrent_path).read()),
+                        None)
 
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]

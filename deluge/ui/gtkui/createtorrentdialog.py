@@ -321,7 +321,10 @@ class CreateTorrentDialog:
             httpseeds=httpseeds)
         self.glade.get_widget("progress_dialog").hide_all()
         if add_to_session:
-            client.core.add_torrent_file([target])
+            client.core.add_torrent_file(
+                os.path.split(target)[-1],
+                base64.encodestring(open(target).read()),
+                None)
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)

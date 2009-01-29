@@ -35,7 +35,7 @@ import deluge.ui.gtkui.common as common
 
 class SystemTray(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "SystemTray", interval=4000)
+        component.Component.__init__(self, "SystemTray", interval=4)
         self.window = component.get("MainWindow")
         self.config = ConfigManager("gtkui.conf")
         # List of widgets that need to be hidden when not connected to a host
@@ -290,8 +290,7 @@ class SystemTray(component.Component):
 
     def on_menuitem_add_torrent_activate(self, menuitem):
         log.debug("on_menuitem_add_torrent_activate")
-        from addtorrentdialog import AddTorrentDialog
-        client.core.add_torrent_file(AddTorrentDialog().show())
+        component.get("AddTorrentDialog").show()
 
     def on_menuitem_pause_all_activate(self, menuitem):
         log.debug("on_menuitem_pause_all_activate")
