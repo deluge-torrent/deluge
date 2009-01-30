@@ -27,6 +27,7 @@
 import sys
 import zlib
 import os
+import stat
 import traceback
 
 from twisted.internet.protocol import Factory, Protocol
