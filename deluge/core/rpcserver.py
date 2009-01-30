@@ -199,6 +199,20 @@ class DelugeRPCProtocol(Protocol):
                     self.transport.loseConnection()
             finally:
                 return
+        elif method == "daemon.list_methods":
+            # This is a method used to populate the json-rpc interface in the
+            # webui
+            try:
+                ret = self.factory.methods.keys()
+            except Exception, e:
+                # Send error packet here
+                log.exception(e)
+            else:
+                self.sendData((RPC_RESPONSE, request_id, (ret)))
+                if not ret:
+                    self.transport.loseConnection()
+            finally:
+                return
 
         if method in self.factory.methods:
             try:
