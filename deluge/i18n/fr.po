@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-10 18:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -985,7 +985,7 @@ msgstr "page 12"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2929
 msgid "<i><b><big>Proxy</big></b></i>"
 msgstr ""
-"Copy text   \t\n"
+"Copy text   \t\r\n"
 "<i><b><big>Proxy</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
@@ -2023,20 +2023,23 @@ msgid ""
 "General Public License along with this program; if not, see "
 "<http://www.gnu.org/licenses>."
 msgstr ""
-"Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le\n"
-"  modifier suivant les termes de la “GNU General Public License” telle que\n"
-"  publiée par la Free Software Foundation : soit la version 3 de cette\n"
-"  licence, soit (à votre gré) toute version ultérieure.\n"
-"  \n"
+"Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le\r\n"
+"  modifier suivant les termes de la “GNU General Public License” telle "
+"que\r\n"
+"  publiée par la Free Software Foundation : soit la version 3 de cette\r\n"
+"  licence, soit (à votre gré) toute version ultérieure.\r\n"
+"  \r\n"
 "  Ce programme est distribué dans l’espoir qu’il vous sera utile, mais "
-"SANS\n"
-"  AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ\n"
-"  ni d’ADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale\n"
-"  Publique GNU pour plus de détails.\n"
-"  \n"
+"SANS\r\n"
+"  AUCUNE GARANTIE : sans même la garantie implicite de "
+"COMMERCIALISABILITÉ\r\n"
+"  ni d’ADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence "
+"Générale\r\n"
+"  Publique GNU pour plus de détails.\r\n"
+"  \r\n"
 "  Vous devriez avoir reçu une copie de la Licence Générale Publique GNU "
-"avec\n"
-"  ce programme ; si ce n’est pas le cas, consultez :\n"
+"avec\r\n"
+"  ce programme ; si ce n’est pas le cas, consultez :\r\n"
 "  <http://www.gnu.org/licenses/>."
 
 #: deluge/ui/gtkui/systemtray.py:197
