@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-24 22:42+0000\n"
-"Last-Translator: zero <vincelepapibrossard@hotmail.com>\n"
+"PO-Revision-Date: 2009-01-27 03:58+0000\n"
+"Last-Translator: Kaïs Bejaoui <kaisoun@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1941,20 +1941,23 @@ msgid ""
 "General Public License along with this program; if not, see "
 "<http://www.gnu.org/licenses>."
 msgstr ""
-"Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le\n"
-"  modifier suivant les termes de la “GNU General Public License” telle que\n"
-"  publiée par la Free Software Foundation : soit la version 3 de cette\n"
-"  licence, soit (à votre gré) toute version ultérieure.\n"
-"  \n"
+"Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le\r\n"
+"  modifier suivant les termes de la “GNU General Public License” telle "
+"que\r\n"
+"  publiée par la Free Software Foundation : soit la version 3 de cette\r\n"
+"  licence, soit (à votre gré) toute version ultérieure.\r\n"
+"  \r\n"
 "  Ce programme est distribué dans l’espoir qu’il vous sera utile, mais "
-"SANS\n"
-"  AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ\n"
-"  ni d’ADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale\n"
-"  Publique GNU pour plus de détails.\n"
-"  \n"
+"SANS\r\n"
+"  AUCUNE GARANTIE : sans même la garantie implicite de "
+"COMMERCIALISABILITÉ\r\n"
+"  ni d’ADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence "
+"Générale\r\n"
+"  Publique GNU pour plus de détails.\r\n"
+"  \r\n"
 "  Vous devriez avoir reçu une copie de la Licence Générale Publique GNU "
-"avec\n"
-"  ce programme ; si ce n’est pas le cas, consultez :\n"
+"avec\r\n"
+"  ce programme ; si ce n’est pas le cas, consultez :\r\n"
 "  <http://www.gnu.org/licenses/>."
 
 #: deluge/ui/gtkui/systemtray.py:197
@@ -2003,12 +2006,12 @@ msgstr "Autre..."
 
 #: deluge/ui/gtkui/menubar.py:78
 msgid "On"
-msgstr ""
+msgstr "Activé"
 
 #: deluge/ui/gtkui/menubar.py:81
 #: deluge/ui/webui/scripts/template_strings.py:71
 msgid "Off"
-msgstr ""
+msgstr "Désactivé"
 
 #: deluge/ui/gtkui/menubar.py:301
 msgid "Choose a directory to move files to"
@@ -2045,7 +2048,7 @@ msgstr "Torrent terminé"
 #: deluge/ui/gtkui/notification.py:68
 #, python-format
 msgid "Including %i files"
-msgstr ""
+msgstr "Inclure %i fichiers"
 
 #: deluge/ui/gtkui/notification.py:96
 #, python-format
@@ -2088,11 +2091,11 @@ msgstr " Torrent rajouté à la queue"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
-msgstr ""
+msgstr "Descendant:"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Up:"
-msgstr ""
+msgstr "Montant :"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Torrents"
@@ -2109,7 +2112,7 @@ msgstr "Le torrent a depassé le ratio"
 #: deluge/ui/gtkui/edittrackersdialog.py:74
 #: deluge/ui/gtkui/createtorrentdialog.py:88
 msgid "Tier"
-msgstr ""
+msgstr "Ranger"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
 #: deluge/ui/gtkui/createtorrentdialog.py:90
@@ -2140,7 +2143,7 @@ msgstr "Autre"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
 msgid "Daemon"
-msgstr ""
+msgstr "Démon"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Proxy"
@@ -2152,7 +2155,7 @@ msgstr "Notification"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Plugins"
-msgstr ""
+msgstr "Greffons"
 
 #: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Enabled"
@@ -2160,7 +2163,7 @@ msgstr "Activé"
 
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Plugin"
-msgstr ""
+msgstr "Greffon"
 
 #: deluge/ui/gtkui/preferences.py:832
 msgid "Select the Plugin"
@@ -2201,7 +2204,7 @@ msgstr "Disp."
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"
-msgstr ""
+msgstr "Ajouté"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:117
 msgid "Choose a file"
@@ -2240,7 +2243,7 @@ msgstr "Configuration"
 #: deluge/ui/webui/register_menu.py:32
 #: deluge/ui/webui/scripts/template_strings.py:21
 msgid "Connect"
-msgstr ""
+msgstr "Connecter"
 
 #: deluge/ui/webui/register_menu.py:33
 #: deluge/ui/webui/scripts/template_strings.py:5
@@ -2278,20 +2281,20 @@ msgstr "Supprimer"
 #: deluge/ui/webui/register_menu.py:45
 #: deluge/ui/webui/scripts/template_strings.py:106
 msgid "Stop"
-msgstr ""
+msgstr "Arrêter"
 
 #: deluge/ui/webui/register_menu.py:46
 #: deluge/ui/webui/scripts/template_strings.py:104
 msgid "Start"
-msgstr ""
+msgstr "Démarrer"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
-msgstr ""
+msgstr "Haut de la queue"
 
 #: deluge/ui/webui/register_menu.py:50
 msgid "Queue Bottom"
-msgstr ""
+msgstr "Bas de la queue"
 
 #: deluge/ui/webui/register_menu.py:52
 #: deluge/ui/webui/scripts/template_strings.py:61
@@ -2328,7 +2331,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:69
 msgid "Mainline DHT"
-msgstr ""
+msgstr "Table de hachage distribuée principale"
 
 #: deluge/ui/webui/config_tabs_deluge.py:70
 msgid "UpNP"
@@ -2336,7 +2339,7 @@ msgstr "UpNP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:72
 msgid "Peer-Exchange"
-msgstr ""
+msgstr "Échange-Pair"
 
 #: deluge/ui/webui/config_tabs_deluge.py:78
 msgid "Encryption"
@@ -2372,11 +2375,11 @@ msgstr "Niveau"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
-msgstr ""
+msgstr "Socksv4"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5"
-msgstr ""
+msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
@@ -2416,7 +2419,7 @@ msgstr "Mot de passe"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:121
@@ -2427,7 +2430,7 @@ msgstr "-1 = Illimité"
 #: deluge/ui/webui/config_tabs_deluge.py:122
 #: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:43
 msgid "Maximum Connections"
-msgstr ""
+msgstr "Connexions maximum"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 #: deluge/ui/webui/config_tabs_deluge.py:123
@@ -2451,7 +2454,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "Tentatives de connexions maximales par seconde"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
@@ -2459,12 +2462,12 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
-msgstr ""
+msgstr "Par torrent"
 
 #: deluge/ui/webui/config_tabs_deluge.py:130
 #: deluge/ui/webui/scripts/template_strings.py:39
 msgid "Download"
-msgstr ""
+msgstr "Téléchargement"
 
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
@@ -2476,11 +2479,11 @@ msgstr "Sauvegarder les fichiers .torrent dans"
 
 #: deluge/ui/webui/config_tabs_deluge.py:133
 msgid "Auto Add folder"
-msgstr ""
+msgstr "Ajout automatique de dossiers"
 
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
-msgstr ""
+msgstr "Ajout automatique activé"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
@@ -2497,11 +2500,11 @@ msgstr "-1 = Illimité"
 
 #: deluge/ui/webui/config_tabs_deluge.py:157
 msgid "Total active torrents"
-msgstr ""
+msgstr "Torrents actifs totaux"
 
 #: deluge/ui/webui/config_tabs_deluge.py:158
 msgid "Total active downloading"
-msgstr ""
+msgstr "Téléchargement actifs totaux"
 
 #: deluge/ui/webui/config_tabs_deluge.py:159
 msgid "Total active seeding"

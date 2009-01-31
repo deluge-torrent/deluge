@@ -138,7 +138,6 @@ deluge/ui/webui/lib/webpy022/webapi.py
 deluge/ui/webui/lib/webpy022/form.py
 deluge/ui/webui/lib/json.py
 deluge/ui/webui/lib/newforms_plus.py
-deluge/ui/webui/lib/pythonize.py
 deluge/ui/webui/lib/egg_render.py
 deluge/ui/webui/lib/static_handler.py
 deluge/ui/webui/lib/__init__.py
@@ -191,4 +190,3 @@ deluge/xmlrpclib.py
 deluge/scripts/deluge_remote.py
 deluge/scripts/wiki_docgen.py
 deluge/scripts/create_plugin.py
-deluge/scripts/state_upgrade.py

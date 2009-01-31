@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2009-01-18 22:06+0000\n"
-"Last-Translator: Alexandre Sapata Carbonell <alexandrenescau@gmail.com>\n"
+"PO-Revision-Date: 2009-01-29 00:28+0000\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -491,6 +491,8 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"O byte TOS definido no cabeçalho IP de cada pacote enviado para os peers "
+"(incluindo web seeds). Espera que seja usado um valor em hexadecimal."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:828
 msgid "Peer TOS Byte:"
@@ -1055,7 +1057,7 @@ msgstr "_Instalar Plugin"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4379
 msgid "_Rescan Plugins"
-msgstr ""
+msgstr "_Atualizar Plugins"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
@@ -1261,7 +1263,7 @@ msgstr "<b>Adicionar Peer</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
-msgstr ""
+msgstr "servidor:porta"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -1335,7 +1337,7 @@ msgstr "Barra lateral"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "Mostrar _Vazios"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1651,39 +1653,39 @@ msgstr "velocidade_máxima_de_download"
 
 #: deluge/plugins/label/label/webui.py:133
 msgid "max_upload_speed"
-msgstr ""
+msgstr "velocidade_máxima_de_upload"
 
 #: deluge/plugins/label/label/webui.py:134
 msgid "max_upload_slots"
-msgstr ""
+msgstr "máximo_de_vagas_de_upload"
 
 #: deluge/plugins/label/label/webui.py:135
 msgid "max_connections"
-msgstr ""
+msgstr "máximo_de_conexões"
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "apply_queue"
-msgstr ""
+msgstr "aplicar_fila"
 
 #: deluge/plugins/label/label/webui.py:139
 msgid "is_auto_managed"
-msgstr ""
+msgstr "é_auto_gerenciado"
 
 #: deluge/plugins/label/label/webui.py:140
 msgid "stop_at_ratio"
-msgstr ""
+msgstr "parar_na_proporção"
 
 #: deluge/plugins/label/label/webui.py:141
 msgid "stop_ratio"
-msgstr ""
+msgstr "proporção_máxima"
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "remove_at_ratio"
-msgstr ""
+msgstr "remover_na_proporção"
 
 #: deluge/plugins/label/label/webui.py:145
 msgid "apply_move_completed"
-msgstr ""
+msgstr "aplicar_mover_completados"
 
 #: deluge/plugins/label/label/webui.py:146
 msgid "move_completed"
@@ -1691,15 +1693,15 @@ msgstr "mover_completados"
 
 #: deluge/plugins/label/label/webui.py:147
 msgid "move_completed_path"
-msgstr ""
+msgstr "caminho_mover_completados"
 
 #: deluge/plugins/label/label/webui.py:150
 msgid "auto_add"
-msgstr ""
+msgstr "adicionar_automaticamente"
 
 #: deluge/plugins/label/label/webui.py:151
 msgid "auto_add_trackers"
-msgstr ""
+msgstr "adicionar_trackers_automaticamente"
 
 #: deluge/plugins/label/label/webui.py:162
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -1713,7 +1715,7 @@ msgstr "Rótulo"
 
 #: deluge/plugins/label/label/webui.py:163
 msgid "Work in progress.."
-msgstr ""
+msgstr "Ainda não está pronto..."
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:55
 msgid "Label _Options"
@@ -1826,7 +1828,7 @@ msgstr "Atualizar Estado"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:55
 #: deluge/plugins/blocklist/blocklist/gtkui.py:194
 msgid "Blocklist"
-msgstr ""
+msgstr "Lista de bloqueios"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -1859,7 +1861,7 @@ msgstr "Velocidade de Envio"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Trafico de download/upload do protocolo"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
@@ -1883,16 +1885,16 @@ msgstr "Outro..."
 #: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/systemtray.py:325
 #: deluge/ui/gtkui/menubar.py:407
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Definir velocidade máxima de download"
 
 #: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Definir velocidade máxima de upload"
 
 #: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Definir número máximo de conexões"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:83 deluge/ui/gtkui/queuedtorrents.py:64
 msgid "Torrent"
@@ -2005,7 +2007,7 @@ msgstr "Escolha um diretório para mover os arquivos"
 
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Definir máximo de vagas para upload"
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2065,7 +2067,7 @@ msgstr "Estado"
 
 #: deluge/ui/gtkui/filtertreeview.py:214
 msgid "no label"
-msgstr ""
+msgstr "Sem rótulos"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
@@ -2077,11 +2079,11 @@ msgstr " Torrent Enfileirado"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
-msgstr ""
+msgstr "Download:"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Up:"
-msgstr ""
+msgstr "Upload:"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Torrents"
@@ -2121,7 +2123,7 @@ msgstr "Largura de Banda"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: deluge/ui/gtkui/preferences.py:61
 #: deluge/ui/webui/scripts/template_strings.py:74
@@ -2158,7 +2160,7 @@ msgstr "Selecione o plugin"
 
 #: deluge/ui/gtkui/preferences.py:843
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Eggs do Plugin"
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2363,15 +2365,15 @@ msgstr "Nível"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
-msgstr ""
+msgstr "Socksv4"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5"
-msgstr ""
+msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
-msgstr ""
+msgstr "Socksv5 C/ Autenticação"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
@@ -2379,7 +2381,7 @@ msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
-msgstr ""
+msgstr "HTTP C/ Autenticação"
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
@@ -2387,7 +2389,7 @@ msgstr "Tipo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:96
 msgid "Host"
-msgstr ""
+msgstr "Servidor"
 
 #: deluge/ui/webui/config_tabs_deluge.py:97
 #: deluge/ui/webui/config_tabs_deluge.py:144
@@ -2446,7 +2448,7 @@ msgstr "Limite de Tentativas de Conexões por Segundo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Limite da taxa de sobrecarga de IP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2471,7 +2473,7 @@ msgstr "Adicionar diretório automaticamente"
 
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
-msgstr ""
+msgstr "Adição Automática habilitada"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
@@ -2705,7 +2707,7 @@ msgstr "Estilo do botão"
 
 #: deluge/ui/webui/config_tabs_webui.py:49
 msgid "Auto refresh (seconds)"
-msgstr ""
+msgstr "Atualização automática"
 
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
@@ -2717,7 +2719,7 @@ msgstr "Servidor"
 
 #: deluge/ui/webui/config_tabs_webui.py:58
 msgid "Manually restart webui to apply changes."
-msgstr ""
+msgstr "Reinicie a webui manualmente para aplicar as configurações."
 
 #: deluge/ui/webui/config_tabs_webui.py:61
 msgid "Https"
@@ -2726,12 +2728,12 @@ msgstr "Https"
 #: deluge/ui/webui/config_tabs_webui.py:70
 #, python-format
 msgid "Certificate not found at '%s'"
-msgstr ""
+msgstr "Certificado não encontrado em '%s'"
 
 #: deluge/ui/webui/config_tabs_webui.py:73
 #, python-format
 msgid "Key not found at '%s'"
-msgstr ""
+msgstr "Chave não encontrada em '%s'"
 
 #: deluge/ui/webui/config_tabs_webui.py:84
 msgid "Current Password"
@@ -2755,23 +2757,23 @@ msgstr "A nova senha e sua confirmação não são iguais"
 
 #: deluge/ui/webui/config_tabs_webui.py:103
 msgid "Sidebar"
-msgstr ""
+msgstr "Barra lateral"
 
 #: deluge/ui/webui/config_tabs_webui.py:104
 msgid "Show sidebar"
-msgstr ""
+msgstr "Mostrar barra lateral"
 
 #: deluge/ui/webui/config_tabs_webui.py:105
 msgid "Show zero hits"
-msgstr ""
+msgstr "Mostrar vazias"
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
-msgstr ""
+msgstr "Mostrar trackers"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
-msgstr ""
+msgstr "Mostrar busca por palavra"
 
 #: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
 msgid "Maximum Down Speed"
@@ -2823,11 +2825,11 @@ msgstr "... e apagar todos os arquivos"
 
 #: deluge/ui/webui/scripts/template_strings.py:3
 msgid "... and delete Downloaded files"
-msgstr ""
+msgstr "... e deletar arquivos recebidos"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "... and delete Torrent file"
-msgstr ""
+msgstr "... e deletar arquivo .torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Active time"
@@ -2851,11 +2853,11 @@ msgstr "Disponibilidade"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
-msgstr ""
+msgstr "Em baixo"
 
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Clear"
@@ -2871,11 +2873,11 @@ msgstr "Conecto em"
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 msgid "Connection Limit"
-msgstr ""
+msgstr "Limite de conexão"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "D/L Speed Limit"
-msgstr ""
+msgstr "Limite de velocidade do Download"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"
@@ -2907,7 +2909,7 @@ msgstr "Espaço em Disco"
 
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Do not download"
-msgstr ""
+msgstr "Não baixar"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Downloaded"
@@ -2931,7 +2933,7 @@ msgstr "Filtrar no teclado"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Force Recheck"
-msgstr ""
+msgstr "Forçar verificação"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "From Session"
@@ -2939,7 +2941,7 @@ msgstr "Da Sessão"
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "From Url"
-msgstr ""
+msgstr "Da URL"
 
 #: deluge/ui/webui/scripts/template_strings.py:53
 msgid "General"
@@ -2947,11 +2949,11 @@ msgstr "Geral"
 
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
-msgstr ""
+msgstr "Prioridade alta"
 
 #: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Highest priority"
-msgstr ""
+msgstr "Prioridade total"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Keyword"
@@ -2975,15 +2977,15 @@ msgstr "Próximo Anúncio"
 
 #: deluge/ui/webui/scripts/template_strings.py:66
 msgid "No Incoming Connections"
-msgstr ""
+msgstr "Sem conexões vindas de fora"
 
 #: deluge/ui/webui/scripts/template_strings.py:67
 msgid "No Label"
-msgstr ""
+msgstr "Sem rótulos"
 
 #: deluge/ui/webui/scripts/template_strings.py:69
 msgid "Normal priority"
-msgstr ""
+msgstr "Prioridade normal"
 
 #: deluge/ui/webui/scripts/template_strings.py:70
 msgid "Not Connected to a daemon"
@@ -2991,7 +2993,7 @@ msgstr "Não conectado ao daemon"
 
 #: deluge/ui/webui/scripts/template_strings.py:72
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: deluge/ui/webui/scripts/template_strings.py:76
 msgid "Password is invalid,try again"
@@ -3035,7 +3037,7 @@ msgstr "Salvar"
 
 #: deluge/ui/webui/scripts/template_strings.py:94
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
 
 #: deluge/ui/webui/scripts/template_strings.py:95
 msgid "Seed rank"
@@ -3071,7 +3073,7 @@ msgstr "Enviar"
 
 #: deluge/ui/webui/scripts/template_strings.py:108
 msgid "Top"
-msgstr ""
+msgstr "Topo"
 
 #: deluge/ui/webui/scripts/template_strings.py:109
 msgid "Torrent list"
@@ -3091,7 +3093,7 @@ msgstr "Verdadeiro"
 
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
-msgstr ""
+msgstr "Velocidade limite de upload"
 
 #: deluge/ui/webui/scripts/template_strings.py:118
 msgid "Update"
@@ -3107,7 +3109,7 @@ msgstr "Upload"
 
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
-msgstr ""
+msgstr "Limite de vagas de upload"
 
 #: deluge/ui/webui/scripts/template_strings.py:122
 msgid "Uploaded"

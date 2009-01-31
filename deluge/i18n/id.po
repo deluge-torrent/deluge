@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-24 06:11+0000\n"
-"Last-Translator: Marcos Pinto <markybob@gmail.com>\n"
+"PO-Revision-Date: 2009-01-25 06:50+0000\n"
+"Last-Translator: Rahman Yusri Aftian <aftian@yahoo.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -45,7 +45,7 @@ msgstr "<b>Pengaturan Label</b>"
 #: deluge/ui/gtkui/systemtray.py:216 deluge/ui/gtkui/systemtray.py:334
 #: deluge/ui/gtkui/systemtray.py:339
 msgid "KiB/s"
-msgstr "KiB/detik"
+msgstr "KiB/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -57,7 +57,7 @@ msgstr "Kecepatan mengunggah:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Kecepatan mengunduh:"
+msgstr "Kecepatan pengunduhan:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
-msgstr "Lokasi"
+msgstr "_Lokasi:"
 
 #: deluge/plugins/label/label/data/label_options.glade:541
 msgid ""

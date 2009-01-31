@@ -8,30 +8,31 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-30 22:12+0000\n"
-"Last-Translator: Bengt Lüers <Bengt.Lueers@gmail.com>\n"
+"PO-Revision-Date: 2009-01-31 02:39+0000\n"
+"Last-Translator: Marcos Pinto <markybob@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr "<i>Benutze die Seitenleiste um die Lesezeichen zu bearbeiten.</i>\n"
+msgstr ""
+"<i>Benutzen Sie die Seitenleiste um Markierungen zu bearbeiten.</i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr "<b>Lesezeichen</b>"
+msgstr "<b>Markierungen</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr "Lesezeichen-Optionen"
+msgstr "Markierungsoptionen"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr "<b>Lesezeichen-Optionen</b>"
+msgstr "<b>Markierungsoptionen</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -49,15 +50,15 @@ msgstr "KiB/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
-msgstr "Sende-Kanäle:\t"
+msgstr "Uploadverbindungen:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
-msgstr "Upload Geschwindigkeit:"
+msgstr "Upload-Geschwindigkeit:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Download Geschwindigkeit:"
+msgstr "Download-Geschwindigkeit:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -65,11 +66,11 @@ msgstr "Verbindungen:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr "Verwende Beschränkung pro Torrent:"
+msgstr "Beschränkungen auf einzelne Torrents anwenden"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
-msgstr "Maximum"
+msgstr "Limits"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1860
@@ -81,7 +82,7 @@ msgstr "Automatisch verwaltet"
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
-msgstr "Verteilen stoppen, bei Verhältnis:"
+msgstr "Verteilen stoppen bei Verhältnis:"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1919
@@ -91,7 +92,7 @@ msgstr "Entfernen bei Verhältnis"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr "Verwende Einstellungen der Warteliste:"
+msgstr "Warteschlangen-Einstellungen festlegen:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
@@ -106,11 +107,11 @@ msgstr "Verschiebe fertige nach:"
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 msgid "Apply location settings:"
-msgstr "Verwende Einstellungen vom Standort:"
+msgstr "Verzeichnis festlegen:"
 
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
-msgstr "Standort"
+msgstr "Verzeichnis"
 
 #: deluge/plugins/label/label/data/label_options.glade:541
 msgid ""
@@ -120,7 +121,7 @@ msgid ""
 msgstr ""
 "tracker-name.org\n"
 "tracker.index.com\n"
-"Das hier macht noch nichts ...\n"
+"Dies hat noch keine Funktion...\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
@@ -128,7 +129,7 @@ msgstr "<i>(Je eine Zeile pro Tracker)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 msgid "Automatically apply label:"
-msgstr "Verwende automatisch folgendes Lesezeichen:"
+msgstr "Automatisch folgende Markierung verwenden:"
 
 #: deluge/plugins/label/label/data/label_options.glade:585
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -138,11 +139,11 @@ msgstr "Tracker"
 
 #: deluge/plugins/label/label/data/label_options.glade:638
 msgid "Add Label"
-msgstr "Label Hinzufügen"
+msgstr "Markierung hinzufügen"
 
 #: deluge/plugins/label/label/data/label_options.glade:672
 msgid "<b>Add Label</b>"
-msgstr "<b>Reiter hinzufügen</b>"
+msgstr "<b>Markierung hinzufügen</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:703
 msgid "Name:"
@@ -169,7 +170,7 @@ msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
-msgstr "Datei-Quersumme"
+msgstr "_Hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
@@ -198,11 +199,11 @@ msgstr "<b>Download-Ziel</b>"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Full"
-msgstr "Voll"
+msgstr "Vollständig"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
-msgstr "Kompakt"
+msgstr "Dynamisch"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:374
@@ -249,7 +250,7 @@ msgstr "<b>Allgemein</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:793
 msgid "Revert To Defaults"
-msgstr "Auf Standard-Werte zurücksetzten"
+msgstr "Auf Standardwerte zurücksetzten"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:847
 msgid "Apply To All"
@@ -274,15 +275,15 @@ msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
-msgstr "Datei-Quersumme hinzufügen"
+msgstr "Torrent-Hash hinzufügen"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
 msgid "<b>From Infohash</b>"
-msgstr "<b>Nach Datei-Quersumme</b>"
+msgstr "<b>Von Hash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
 msgid "Infohash:"
-msgstr "Datei-Quersumme"
+msgstr "Hash:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
@@ -337,7 +338,7 @@ msgstr "_Neu-Prüfung erzwingen"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
-msgstr "_Speicher verschieben"
+msgstr "Torrent ver_schieben"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
@@ -347,7 +348,7 @@ msgstr "Maximale Downloadgeschwindigkeit"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "Maximale Uploadgeschwindigkeit"
+msgstr "_Upload Limit"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -355,7 +356,7 @@ msgstr "_Verbindungslimit"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr "Limit für Upload-Kanäle"
+msgstr "Upload-_Slot Limit"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -367,15 +368,15 @@ msgstr "<big><b>Ausgewähltes Torrent wirklich entfernen?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr "Das Entfernen dieser Daten ist unwiderruflich."
+msgstr "Beim Entfernen der Daten werden diese unwiderruflich gelöscht."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Mit _Daten entfernen."
+msgstr "Torrent und _Daten entfernen"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "_Torrent entfernen"
+msgstr "Nur _Torrent entfernen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -389,7 +390,7 @@ msgstr "<b><i><big>Downloads</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:216
 msgid "Auto add .torrents from:"
-msgstr "Automatisches Hinzufügen von .torrents von:"
+msgstr "Automatisches Hinzufügen von .torrents aus:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:231
 msgid "Copy of .torrent files to:"
@@ -408,27 +409,29 @@ msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Die volle Zuweisung belegt den gesamten Speicherplatz, der für den Torrent "
-"benötigt wird, auf einmal und verhindert die Fragmentierung des Dateisystems."
+"Die Methode \"Vollständig\" reserviert den benötigten Speicherplatz für den "
+"Torrent bereits vorher und verhindert so die Fragmentierung des Dateisystems"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:340
 msgid "Use Full Allocation"
-msgstr "Volle Zuweisung verwenden"
+msgstr "Vollständig zuweisen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:355
 msgid "Compact allocation only allocates space as needed"
 msgstr ""
-"Die kompakte Zuweisung belegt nur soviel Speicherplatz, wie gerade benötigt "
-"wird."
+"Die Methode \"Dynamisch\" belegt nur so viel Speicherplatz wie Daten "
+"heruntergeladen wurden."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:356
 #: deluge/ui/webui/config_tabs_deluge.py:135
 msgid "Use Compact Allocation"
-msgstr "Kompakte Zuweisung verwenden"
+msgstr "Dynamisch zuweisen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:408
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Erste und letzte Stücke von Dateien in Torrents bevorzugen"
+msgstr ""
+"Erste und letzte Stücke von Dateien in Torrents bevorzugen um so z.B. eine "
+"frühe Vorschau von Videodateien zu ermöglichen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:409
 msgid "Prioritize first and last pieces of torrent"
@@ -453,7 +456,7 @@ msgstr "Deluge wählt automatisch jedes Mal einen anderen Port."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:521
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:709
 msgid "Use Random Ports"
-msgstr "Benutze Zufallsports"
+msgstr "Benutze zufällige Ports"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:539
 msgid "Active Port:"
@@ -479,20 +482,19 @@ msgstr "Aktiven Port testen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:677
 msgid "<b>Incoming Ports</b>"
-msgstr "<b>Ankommende Kanäle</b>"
+msgstr "Eingehende Ports"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:792
 msgid "<b>Outgoing Ports</b>"
-msgstr "<b>Ausgehende Kanäle</b>"
+msgstr "Ausgehende Ports"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:827
 msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
-"Das TOS-Byte beschreibt die Art der gesendeten Daten mit einem Hex-Wert. Es "
-"wird in der IP-Kopfzeile jedes Paketes an die Gegenstellen (einschließlich "
-"Web-Seeds) gesendet."
+"Das TOS-Byte (im Hex-Format), das im IP-Header an die Peers (einschließlich "
+"Webseeds) gesendet wird."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:828
 msgid "Peer TOS Byte:"
@@ -526,11 +528,11 @@ msgstr "NAT-PMP"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:927
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:928
 msgid "Peer Exchange"
-msgstr "Austausch von Gegenstellen"
+msgstr "Peer-Austausch"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:945
 msgid "Local Service Discovery finds local peers on your network."
-msgstr "Lokale Dienst-Suche findet Gegenstellen in Ihrem lokalen Netzwerk."
+msgstr "Local Service Discovery (LSD) findet Peers im lokalen Netzwerk."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:946
 #: deluge/ui/webui/config_tabs_deluge.py:73
@@ -576,8 +578,8 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Protokoll\n"
-"Daten\n"
+"Protokollinformationen\n"
+"Datenstrom\n"
 "Beides"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1080
@@ -613,17 +615,17 @@ msgstr "Maximale Anzahl halboffener Verbindungen"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1381
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Die maximale Upload-Rate für alle Torrents. Auf -1 setzen für unendlich."
+"Die maximale Uploadrate für alle Torrents. Auf -1 setzen für unendlich."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1575
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Maximale Upload-Rate (KiB/s):"
+msgstr "Maximale Uploadrate (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1304
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1329
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "max. Anzahl von Verbindungen. Setze -1 für unendlich."
+msgstr "max. Anzahl von Verbindungen. Auf -1 setzen für unendlich."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1306
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1538
@@ -1051,7 +1053,7 @@ msgstr "<b>Information</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4337
 msgid "_Install Plugin"
-msgstr "_Installiere Pulgin"
+msgstr "Installiere Plugin"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4379
 msgid "_Rescan Plugins"

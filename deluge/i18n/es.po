@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-06 21:52-0600\n"
-"PO-Revision-Date: 2008-12-27 19:50+0000\n"
-"Last-Translator: Franco Sabbatini <fsabbatini@gmail.com>\n"
+"PO-Revision-Date: 2009-01-29 08:58+0000\n"
+"Last-Translator: Rafael Muñoz Rodríguez <rmunozrodriguez@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-25 03:12+0000\n"
+"X-Launchpad-Export-Date: 2009-01-31 21:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1949,12 +1949,12 @@ msgstr "Deluge"
 #: deluge/ui/gtkui/systemtray.py:197
 #: deluge/ui/webui/scripts/template_strings.py:37
 msgid "Down"
-msgstr "Abajo"
+msgstr "Bajada"
 
 #: deluge/ui/gtkui/systemtray.py:198
 #: deluge/ui/webui/scripts/template_strings.py:116
 msgid "Up"
-msgstr "Arriba"
+msgstr "Subida"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
@@ -2116,7 +2116,7 @@ msgstr "Ancho de banda"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
-msgstr "Interfaz:"
+msgstr "Interfaz"
 
 #: deluge/ui/gtkui/preferences.py:61
 #: deluge/ui/webui/scripts/template_strings.py:74
@@ -2133,7 +2133,7 @@ msgstr "Proxy"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Notification"
-msgstr "Aviso"
+msgstr "Notificación"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Plugins"
