@@ -1,7 +1,7 @@
 #
 # rpcserver.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2008,2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -200,20 +200,6 @@ class DelugeRPCProtocol(Protocol):
                     self.transport.loseConnection()
             finally:
                 return
-        elif method == "daemon.list_methods":
-            # This is a method used to populate the json-rpc interface in the
-            # webui
-            try:
-                ret = self.factory.methods.keys()
-            except Exception, e:
-                # Send error packet here
-                log.exception(e)
-            else:
-                self.sendData((RPC_RESPONSE, request_id, (ret)))
-                if not ret:
-                    self.transport.loseConnection()
-            finally:
-                return
 
         if method in self.factory.methods:
             try:
@@ -306,17 +292,33 @@ class RPCServer(component.Component):
         if not name:
             name = obj.__class__.__name__.lower()
 
-        log.debug("dir: %s", dir(obj))
         for d in dir(obj):
             if d[0] == "_":
                 continue
             if getattr(getattr(obj, d), '_rpcserver_export', False):
                 log.debug("Registering method: %s", name + "." + d)
-                #self.server.register_function(getattr(obj, d), name + "." + d)
                 self.factory.methods[name + "." + d] = getattr(obj, d)
 
     def get_object_method(self, name):
+        """
+        Returns a registered method.
+
+        :param name: str, the name of the method, usually in the form of 'object.method'
+
+        :returns: method
+
+        :raises KeyError: if `:param:name` is not registered
+
+        """
         return self.factory.methods[name]
+
+    def get_method_list(self):
+        """
+        Returns a list of the exported methods.
+
+        :returns: list, the exported methods
+        """
+        return self.factory.methods.keys()
 
     def __generate_ssl_keys(self):
         """

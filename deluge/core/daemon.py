@@ -118,3 +118,10 @@ class Daemon(object):
         :returns: str, the version number
         """
         return deluge.common.get_version()
+
+    @export()
+    def get_method_list(self):
+        """
+        Returns a list of the exported methods.
+        """
+        return self.rpccserver.get_method_list()
