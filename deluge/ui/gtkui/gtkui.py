@@ -118,7 +118,6 @@ class GtkUI:
 
         # Initialize gettext
         try:
-            locale.setlocale(locale.LC_ALL, '')
             if hasattr(locale, "bindtextdomain"):
                 locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
             if hasattr(locale, "textdomain"):
@@ -127,7 +126,8 @@ class GtkUI:
             gettext.textdomain("deluge")
             gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
         except Exception, e:
-            log.error("Unable to initialize gettext/locale: %s", e)
+            log.error("Unable to initialize gettext/locale!")
+            log.exception(e)
 
         # Setup signals
         try:
