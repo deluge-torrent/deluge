@@ -199,5 +199,9 @@ def start_daemon():
         sys.stderr = None
         sys.stdin = None
 
-    from deluge.core.daemon import Daemon
-    Daemon(options, args)
+    try:
+        from deluge.core.daemon import Daemon
+        Daemon(options, args)
+    except Exception, e:
+        from deluge.log import LOG as log
+        log.exception(e)

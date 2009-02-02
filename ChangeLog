@@ -1,6 +1,7 @@
 Deluge 1.1.3 - (In Development)
  Misc:
   * Fix issue when initializing gettext that would prevent deluge from starting
+  * Fix logging exceptions when starting the daemon
 
 Deluge 1.1.2 - (31 January 2009)
  Core:
