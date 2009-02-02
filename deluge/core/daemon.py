@@ -124,4 +124,4 @@ class Daemon(object):
         """
         Returns a list of the exported methods.
         """
-        return self.rpccserver.get_method_list()
+        return self.rpcserver.get_method_list()
