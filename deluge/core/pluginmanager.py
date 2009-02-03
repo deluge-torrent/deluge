@@ -65,7 +65,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         # Disable all enabled plugins
         self.disable_plugins()
         # Stop the update timer
-        self.update_timer.stop()
+        if self.update_timer.running:
+            self.update_timer.stop()
 
     def shutdown(self):
         self.stop()

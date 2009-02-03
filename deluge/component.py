@@ -172,7 +172,8 @@ class ComponentRegistry:
             try:
                 self.components[component].shutdown()
             except Exception, e:
-                log.debug("Unable to call shutdown(): %s", e)
+                log.debug("Unable to call shutdown()")
+                log.exception(e)
 
 
 _ComponentRegistry = ComponentRegistry()
