@@ -190,10 +190,10 @@ class FilesTab(Tab):
             "on_menuitem_expand_all_activate": self._on_menuitem_expand_all_activate
         })
 
-        # Connect to the 'torrent_file_renamed' signal
-        component.get("Signals").connect_to_signal("torrent_file_renamed", self._on_torrent_file_renamed_signal)
-        component.get("Signals").connect_to_signal("torrent_folder_renamed", self._on_torrent_folder_renamed_signal)
-        component.get("Signals").connect_to_signal("torrent_removed", self._on_torrent_removed_signal)
+        # Connect to various events from the daemon
+        client.register_event_handler("TorrentFileRenamedEvent", self._on_torrentfilerenamed_event)
+        client.register_event_handler("TorrentFolderRenamedEvent", self._on_torrentfolderrenamed_event)
+        client.register_event_handler("TorrentRemovedEvent", self._on_torrentremoved_event)
 
         # Attempt to load state
         self.load_state()
@@ -544,7 +544,7 @@ class FilesTab(Tab):
     def _on_filename_editing_canceled(self, renderer):
         self._editing_index = None
 
-    def _on_torrent_file_renamed_signal(self, torrent_id, index, name):
+    def _on_torrentfilerenamed_event(self, torrent_id, index, name):
         log.debug("index: %s name: %s", index, name)
         old_name = self.files_list[torrent_id][index]["path"]
         self.files_list[torrent_id][index]["path"] = name
@@ -690,7 +690,7 @@ class FilesTab(Tab):
             self.treestore.remove(itr)
             itr = parent
 
-    def _on_torrent_folder_renamed_signal(self, torrent_id, old_folder, new_folder):
+    def _on_torrentfolderrenamed_event(self, torrent_id, old_folder, new_folder):
         log.debug("on_torrent_folder_renamed_signal")
         log.debug("old_folder: %s new_folder: %s", old_folder, new_folder)
 
@@ -736,7 +736,7 @@ class FilesTab(Tab):
             # and if so, we delete it
             self.remove_childless_folders(old_folder_iter_parent)
 
-    def _on_torrent_removed_signal(self, torrent_id):
+    def _on_torrentremoved_event(self, torrent_id):
         if torrent_id in self.files_list:
             del self.files_list[torrent_id]
 

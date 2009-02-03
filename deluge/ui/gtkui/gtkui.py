@@ -49,7 +49,6 @@ from preferences import Preferences
 from systemtray import SystemTray
 from statusbar import StatusBar
 from connectionmanager import ConnectionManager
-from signals import Signals
 from pluginmanager import PluginManager
 from ipcinterface import IPCInterface
 
@@ -128,7 +127,6 @@ class GtkUI:
         except Exception, e:
             log.error("Unable to initialize gettext/locale!")
             log.exception(e)
-
         # Setup signals
         try:
             import gnome.ui
@@ -183,11 +181,7 @@ class GtkUI:
         self.ipcinterface = IPCInterface(args)
 
         # We make sure that the UI components start once we get a core URI
-        client.register_event_handler("connected", self._on_new_core)
-        client.register_event_handler("disconnected", self._on_no_core)
-
-        # Start the signal receiver
-        self.signal_receiver = Signals()
+        client.set_disconnect_callback(self.__on_disconnect)
 
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
@@ -250,11 +244,11 @@ class GtkUI:
 
         if self.config["classic_mode"]:
             client.start_classic_mode()
-            self._on_new_core()
             return
 
-    def _on_new_core(self):
-        component.start()
-
-    def _on_no_core(self):
+    def __on_disconnect(self):
+        """
+        Called when disconnected from the daemon.  We basically just stop all
+        the components here.
+        """
         component.stop()

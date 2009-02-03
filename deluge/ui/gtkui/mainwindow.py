@@ -80,6 +80,9 @@ class MainWindow(component.Component):
             log.debug("Showing window")
             self.show()
 
+        client.register_event_handler("NewVersionAvailableEvent", self.on_newversionavailable_event)
+        client.register_event_handler("TorrentFinishedEvent", self.on_torrentfinished_event)
+
     def show(self):
         try:
             component.resume("TorrentView")
@@ -215,3 +218,12 @@ class MainWindow(component.Component):
             self.update()
         else:
             self.window.set_title("Deluge")
+
+    def on_newversionavailable_event(self, new_version):
+        if self.config["show_new_releases"]:
+            from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
+            NewReleaseDialog().show(new_version)
+
+    def on_torrentfinished_event(self, torrent_id):
+        from deluge.ui.gtkui.notification import Notification
+        Notification().notify(torrent_id)

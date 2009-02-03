@@ -40,8 +40,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
-
-import deluge.xmlrpclib
+from deluge.event import *
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
@@ -677,7 +676,7 @@ class Torrent:
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
             # the torrent_paused alert from libtorrent will not be generated.
             self.update_state()
-            self.signals.emit("torrent_paused", self.torrent_id)
+            component.get("RPCServer").emit_event(TorrentStateChangedEvent(self.torrent_id, "Paused"))
         else:
             try:
                 self.handle.pause()
@@ -706,7 +705,8 @@ class Torrent:
                         ratio = self.config["stop_seed_ratio"]
 
                     if self.get_ratio() >= ratio:
-                        self.signals.emit("torrent_resume_at_stop_ratio")
+                        #XXX: This should just be returned in the RPC Response, no event
+                        #self.signals.emit_event("torrent_resume_at_stop_ratio")
                         return
 
             if self.options["auto_managed"]:

@@ -164,6 +164,11 @@ class MenuBar(component.Component):
             self.window.main_glade.get_widget("separatormenuitem").hide()
             self.window.main_glade.get_widget("menuitem_connectionmanager").hide()
 
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
+        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
+
     def start(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
@@ -217,6 +222,18 @@ class MenuBar(component.Component):
         return sep
 
     ### Callbacks ###
+    def on_torrentstatechanged_event(self, torrent_id, state):
+        if state == "Paused":
+            self.update_menu()
+
+    def on_torrentresumed_event(self, torrent_id):
+        self.update_menu()
+
+    def on_sessionpaused_event(self):
+        self.update_menu()
+
+    def on_sessionresumed_event(self):
+        self.update_menu()
 
     ## File Menu ##
     def on_menuitem_addtorrent_activate(self, data=None):

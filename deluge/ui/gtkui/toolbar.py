@@ -29,6 +29,7 @@ import gtk, gtk.glade
 import gobject
 
 import deluge.component as component
+from deluge.ui.client import client
 from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
 from deluge.configmanager import ConfigManager
@@ -67,6 +68,10 @@ class ToolBar(component.Component):
 
         # Hide if necessary
         self.visible(self.config["show_toolbar"])
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
+        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
 
     def start(self):
         for widget in self.change_sensitivity:
@@ -128,6 +133,19 @@ class ToolBar(component.Component):
         self.toolbar.remove(widget)
 
     ### Callbacks ###
+    def on_torrentstatechanged_event(self, torrent_id, state):
+        if state == "Paused":
+            self.update_buttons()
+
+    def on_torrentresumed_event(self, torrent_id):
+        self.update_buttons()
+
+    def on_sessionpaused_event(self):
+        self.update_buttons()
+
+    def on_sessionresumed_event(self):
+        self.update_buttons()
+
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
         # Use the menubar's callback

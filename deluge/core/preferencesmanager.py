@@ -35,6 +35,7 @@ except ImportError:
     if not (lt.version_major == 0 and lt.version_minor == 14):
         raise ImportError("This version of Deluge requires libtorrent 0.14!")
 
+from deluge.event import *
 import deluge.configmanager
 import deluge.common
 import deluge.component as component
@@ -214,7 +215,7 @@ class PreferencesManager(component.Component):
 
     # Config set functions
     def _on_config_value_change(self, key, value):
-        self.signals.emit("config_value_changed", key, value)
+        component.get("RPCServer").emit_event(ConfigValueChangedEvent(key, value))
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:

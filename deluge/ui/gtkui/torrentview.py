@@ -193,6 +193,13 @@ class TorrentView(listview.ListView, component.Component):
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
 
+        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
+        client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
+        client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
+        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
+        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
+        client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
+
     def start(self):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
@@ -424,3 +431,32 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
+
+    def on_torrentadded_event(self, torrent_id):
+        self.add_row(torrent_id)
+        self.mark_dirty(torrent_id)
+
+    def on_torrentremoved_event(self, torrent_id):
+        self.remove_row(torrent_id)
+
+    def on_torrentstatechanged_event(self, torrent_id, state):
+        # Update the torrents state
+        for row in self.liststore:
+            if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
+                continue
+
+            row[self.get_column_index("Progress")[1]] = state
+
+        self.mark_dirty(torrent_id)
+
+    def on_sessionpaused_event(self):
+        self.mark_dirty()
+        self.update()
+
+    def on_sessionresumed_event(self):
+        self.mark_dirty()
+        self.update()
+
+    def on_torrentqueuechanged_event(self):
+        self.mark_dirty()
+        self.update()

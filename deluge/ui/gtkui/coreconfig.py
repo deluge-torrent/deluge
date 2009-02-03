@@ -32,8 +32,7 @@ class CoreConfig(component.Component):
         log.debug("CoreConfig init..")
         component.Component.__init__(self, "CoreConfig", ["Signals"])
         self.config = {}
-        component.get("Signals").connect_to_signal("config_value_changed",
-            self._on_config_value_changed)
+        client.register_event_handler("ConfigValueChangedEvent", self.on_configvaluechanged_event)
 
     def start(self):
         client.core.get_config().addCallback(self._on_get_config)
@@ -50,5 +49,5 @@ class CoreConfig(component.Component):
     def _on_get_config(self, config):
         self.config = config
 
-    def _on_config_value_changed(self, key, value):
+    def on_configvaluechanged_event(self, key, value):
         self.config[key] = value

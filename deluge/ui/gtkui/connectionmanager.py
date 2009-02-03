@@ -363,6 +363,8 @@ class ConnectionManager(component.Component):
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
 
+        component.start()
+
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
         status = model[row][HOSTLIST_COL_STATUS]

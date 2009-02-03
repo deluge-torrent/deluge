@@ -32,7 +32,7 @@ from deluge.log import LOG as log
 class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     component.Component):
     def __init__(self):
-        component.Component.__init__(self, "PluginManager", depend=["Signals"])
+        component.Component.__init__(self, "PluginManager")
         self.config = ConfigManager("gtkui.conf")
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "gtkui.conf", "deluge.plugin.gtkui")

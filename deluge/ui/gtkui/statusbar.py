@@ -134,6 +134,8 @@ class StatusBar(component.Component):
         # Hide if necessary
         self.visible(self.config["show_statusbar"])
 
+        client.register_event_handler("ConfigValueChangedEvent", self.on_configvaluechanged_event)
+
     def start(self):
         # Add in images and labels
         self.remove_item(self.not_connected_item)
@@ -262,7 +264,7 @@ class StatusBar(component.Component):
             # Only request health status while False
             client.core.get_health().addCallback(self._on_get_health)
 
-    def config_value_changed(self, key, value):
+    def on_configvaluechanged_event(self, key, value):
         """This is called when we received a config_value_changed signal from
         the core."""
 

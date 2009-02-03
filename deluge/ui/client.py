@@ -28,6 +28,7 @@ import deluge.rencode as rencode
 import zlib
 
 import deluge.common
+import deluge.component as component
 from deluge.log import LOG as log
 
 if deluge.common.windows_check():
@@ -95,9 +96,9 @@ class DelugeRPCRequest(object):
         return (self.request_id, self.method, self.args, self.kwargs)
 
 class DelugeRPCProtocol(Protocol):
-    __rpc_requests = {}
-    __buffer = None
     def connectionMade(self):
+        self.__rpc_requests = {}
+        self.__buffer = None
         # Set the protocol in the daemon so it can send data
         self.factory.daemon.protocol = self
         # Get the address of the daemon that we've connected to
@@ -144,12 +145,12 @@ class DelugeRPCProtocol(Protocol):
             message_type = request[0]
 
             if message_type == RPC_SIGNAL:
-                signal = request[1]
+                event = request[1]
                 # A RPCSignal was received from the daemon so run any handlers
                 # associated with it.
-                if signal in self.factory.daemon.signal_handlers:
-                    for handler in self.factory.daemon.signal_handlers[signal]:
-                        handler(*request[2])
+                if event in self.factory.event_handlers:
+                    for handler in self.factory.event_handlers[event]:
+                        reactor.callLater(0, handler, *request[2])
                         return
 
             request_id = request[1]
@@ -181,15 +182,16 @@ class DelugeRPCProtocol(Protocol):
         # response to this request.  We use the extra information when printing
         # out the error for debugging purposes.
         self.__rpc_requests[request.request_id] = request
-        log.debug("Sending RPCRequest %s: %s", request.request_id, request)
+        #log.debug("Sending RPCRequest %s: %s", request.request_id, request)
         # Send the request in a tuple because multiple requests can be sent at once
         self.transport.write(zlib.compress(rencode.dumps((request.format_message(),))))
 
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol
 
-    def __init__(self, daemon):
+    def __init__(self, daemon, event_handlers):
         self.daemon = daemon
+        self.event_handlers = event_handlers
 
     def startedConnecting(self, connector):
         log.info("Connecting to daemon at %s:%s..", connector.host, connector.port)
@@ -206,37 +208,16 @@ class DelugeRPCClientFactory(ClientFactory):
         self.daemon.connected = False
         if self.daemon.disconnect_deferred:
             self.daemon.disconnect_deferred.callback(reason.value)
-        self.daemon.generate_event("disconnected")
+
+        if self.daemon.disconnect_callback:
+            self.daemon.disconnect_callback()
 
 class DaemonProxy(object):
-    __event_handlers = {
-        "connected": [],
-        "disconnected": []
-    }
-
-    def register_event_handler(self, event, handler):
-        """
-        Registers a handler that will be called when an event happens.
-
-        :params event: str, the event to handle
-        :params handler: func, the handler function, f()
-
-        :raises KeyError: if event is not valid
-        """
-        self.__event_handlers[event].append(handler)
-
-    def generate_event(self, event):
-        """
-        Calls the event handlers for `:param:event`.
-
-        :param event: str, the event to generate
-        """
-        for handler in self.__event_handlers[event]:
-            handler()
+    pass
 
 class DaemonSSLProxy(DaemonProxy):
-    def __init__(self):
-        self.__factory = DelugeRPCClientFactory(self)
+    def __init__(self, event_handlers={}):
+        self.__factory = DelugeRPCClientFactory(self, event_handlers)
         self.__request_counter = 0
         self.__deferred = {}
 
@@ -251,6 +232,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.connected = False
 
         self.disconnect_deferred = None
+        self.disconnect_callback = None
 
     def connect(self, host, port, username, password):
         """
@@ -268,11 +250,12 @@ class DaemonSSLProxy(DaemonProxy):
         self.port = port
         self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
         self.connect_deferred = defer.Deferred()
+        self.login_deferred = defer.Deferred()
+
+        # Upon connect we do a 'daemon.login' RPC
         self.connect_deferred.addCallback(self.__on_connect, username, password)
         self.connect_deferred.addErrback(self.__on_connect_fail)
 
-        self.login_deferred = defer.Deferred()
-        # XXX: Add the login stuff..
         return self.login_deferred
 
     def disconnect(self):
@@ -324,31 +307,34 @@ class DaemonSSLProxy(DaemonProxy):
         """
         return self.__deferred.pop(request_id)
 
-    def register_signal_handler(self, signal, handler):
+    def register_event_handler(self, event, handler):
         """
-        Registers a handler function to be called when `:param:signal` is received
+        Registers a handler function to be called when `:param:event` is received
         from the daemon.
 
-        :param signal: str, the name of the signal to handle
-        :param handler: function, the function to be called when `:param:signal`
+        :param event: str, the name of the event to handle
+        :param handler: function, the function to be called when `:param:event`
             is emitted from the daemon
 
         """
-        if signal not in self.signal_handlers:
-            self.signal_handlers[signal] = []
+        if event not in self.factory.event_handlers:
+            # This is a new event to handle, so we need to tell the daemon
+            # that we're interested in receiving this type of event
+            self.event_handlers[event] = []
+            self.call("daemon.set_event_interest", [event])
 
-        self.signal_handlers[signal].append(handler)
+        self.factory.event_handlers[event].append(handler)
 
-    def deregister_signal_handler(self, signal, handler):
+    def deregister_event_handler(self, event, handler):
         """
-        Deregisters a signal handler.
+        Deregisters a event handler.
 
-        :param signal: str, the name of the signal
+        :param event: str, the name of the event
         :param handler: function, the function registered
 
         """
-        if signal in self.signal_handlers and handler in self.signal_handlers[signal]:
-            self.signal_handlers[signal].remove(handler)
+        if event in self.event_handlers and handler in self.event_handlers[event]:
+            self.event_handlers[event].remove(handler)
 
     def __rpcError(self, error_data):
         """
@@ -379,15 +365,25 @@ class DaemonSSLProxy(DaemonProxy):
         self.__login_deferred.addErrback(self.__on_login_fail)
 
     def __on_connect_fail(self, reason):
+        log.debug("connect_fail: %s", reason)
         self.login_deferred.callback(False)
 
     def __on_login(self, result, username):
         self.username = username
+        # We need to tell the daemon what events we're interested in receiving
+        if self.__factory.event_handlers:
+            self.call("daemon.set_event_interest", self.__factory.event_handlers.keys())
         self.login_deferred.callback(result)
-        self.generate_event("connected")
 
     def __on_login_fail(self, result):
         self.login_deferred.callback(False)
+
+    def set_disconnect_callback(self, cb):
+        """
+        Set a function to be called when the connection to the daemon is lost
+        for any reason.
+        """
+        self.disconnect_callback = cb
 
 class DaemonClassicProxy(DaemonProxy):
     def __init__(self):
@@ -398,8 +394,6 @@ class DaemonClassicProxy(DaemonProxy):
         self.host = "localhost"
         self.port = 58846
         self.user = "localclient"
-
-
 
     def disconnect(self):
         self.__daemon = None
@@ -451,12 +445,11 @@ class Client(object):
     """
 
     __event_handlers = {
-        "connected": [],
-        "disconnected": []
     }
 
     def __init__(self):
         self._daemon_proxy = None
+        self.disconnect_callback = None
 
     def connect(self, host="127.0.0.1", port=58846, username="", password=""):
         """
@@ -470,9 +463,8 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
-        self._daemon_proxy = DaemonSSLProxy()
-        self._daemon_proxy.register_event_handler("connected", self._on_connect)
-        self._daemon_proxy.register_event_handler("disconnected", self._on_disconnect)
+        self._daemon_proxy = DaemonSSLProxy(self.__event_handlers)
+        self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port, username, password)
         return d
 
@@ -544,24 +536,30 @@ class Client(object):
 
     def register_event_handler(self, event, handler):
         """
-        Registers a handler that will be called when an event happens.
+        Registers a handler that will be called when an event is received from the daemon.
 
         :params event: str, the event to handle
-        :params handler: func, the handler function, f()
-
-        :raises KeyError: if event is not valid
+        :params handler: func, the handler function, f(args)
         """
+        if event not in self.__event_handlers:
+            self.__event_handlers[event] = []
         self.__event_handlers[event].append(handler)
+        # We need to replicate this in the daemon proxy
+        if self._daemon_proxy:
+            self._daemon_proxy.register_event_handler(event, handler)
 
-    def __generate_event(self, event):
+    def deregister_event_handler(self, event, handler):
         """
-        Calls the event handlers for `:param:event`.
+        Deregisters a event handler.
 
-        :param event: str, the event to generate
+        :param event: str, the name of the event
+        :param handler: function, the function registered
+
         """
-
-        for handler in self.__event_handlers[event]:
-            handler()
+        if event in self.__event_handlers and handler in self.__event_handlers[event]:
+            self.__event_handlers[event].remove(handler)
+        if self._daemon_proxy:
+            self._daemon_proxy.register_event_handler(event, handler)
 
     def force_call(self, block=False):
         # no-op for now.. we'll see if we need this in the future
@@ -570,11 +568,16 @@ class Client(object):
     def __getattr__(self, method):
         return DottedObject(self._daemon_proxy, method)
 
-    def _on_connect(self):
-        self.__generate_event("connected")
+    def set_disconnect_callback(self, cb):
+        """
+        Set a function to be called whenever the client is disconnected from
+        the daemon for any reason.
+        """
+        self.disconnect_callback = cb
 
-    def _on_disconnect(self):
-        self.__generate_event("disconnected")
+    def __on_disconnect(self):
+        if self.disconnect_callback:
+            self.disconnect_callback()
 
 # This is the object clients will use
 client = Client()

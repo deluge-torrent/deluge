@@ -137,7 +137,7 @@ class DelugeRPCProtocol(Protocol):
                     s += ", ".join([key + "=" + str(value) for key, value in call[3].items()])
                 s += ")"
 
-                log.debug("RPCRequest: %s", s)
+                #log.debug("RPCRequest: %s", s)
                 reactor.callLater(0, self._dispatch, *call)
 
     def sendData(self, data):
@@ -184,6 +184,20 @@ class DelugeRPCProtocol(Protocol):
         :param kwargs: dict, the keyword-arguments to pass to `:param:method`
 
         """
+        def sendError():
+            """
+            Sends an error response with the contents of the exception that was raised.
+            """
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+
+            self.sendData((
+                RPC_ERROR,
+                request_id,
+                (exceptionType.__name__,
+                exceptionValue.message,
+                "".join(traceback.format_tb(exceptionTraceback)))
+            ))
+
         if method == "daemon.login":
             # This is a special case and used in the initial connection process
             # We need to authenticate the user here
@@ -191,13 +205,28 @@ class DelugeRPCProtocol(Protocol):
                 ret = component.get("AuthManager").authorize(*args, **kwargs)
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = ret
+                    self.factory.session_protocols[self.transport.sessionno] = self
             except Exception, e:
-                # Send error packet here
+                sendError()
                 log.exception(e)
             else:
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:
                     self.transport.loseConnection()
+            finally:
+                return
+        elif method == "daemon.set_event_interest":
+            # This special case is to allow clients to set which events they are
+            # interested in receiving.
+            # We are expecting a sequence from the client.
+            try:
+                if self.transport.sessionno not in self.factory.interested_events:
+                    self.factory.interested_events[self.transport.sessionno] = []
+                self.factory.interested_events[self.transport.sessionno].extend(args[0])
+            except Exception, e:
+                sendError()
+            else:
+                self.sendData((RPC_RESPONSE, request_id, (True)))
             finally:
                 return
 
@@ -209,19 +238,9 @@ class DelugeRPCProtocol(Protocol):
                     # This session is not allowed to call this method
                     log.debug("Session %s is trying to call a method it is not authorized to call!", self.transport.sessionno)
                     raise NotAuthorizedError("Auth level too low: %s < %s" % (auth_level, method_auth_requirement))
-
                 ret = self.factory.methods[method](*args, **kwargs)
             except Exception, e:
-                # Send an error packet here
-                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-
-                self.sendData((
-                    RPC_ERROR,
-                    request_id,
-                    (exceptionType.__name__,
-                    exceptionValue.message,
-                    "".join(traceback.format_tb(exceptionTraceback)))
-                ))
+                sendError()
                 # Don't bother printing out DelugeErrors, because they are just for the client
                 if not isinstance(e, DelugeError):
                     log.exception("Exception calling RPC request: %s", e)
@@ -249,6 +268,10 @@ class RPCServer(component.Component):
         self.factory.methods = {}
         # Holds the session_ids and auth levels
         self.factory.authorized_sessions = {}
+        # Holds the protocol objects with the session_id as key
+        self.factory.session_protocols = {}
+        # Holds the interested event list for the sessions
+        self.factory.interested_events = {}
 
         if not listen:
             return
@@ -319,6 +342,22 @@ class RPCServer(component.Component):
         :returns: list, the exported methods
         """
         return self.factory.methods.keys()
+
+    def emit_event(self, event):
+        """
+        Emits the event to interested clients.
+
+        :param event: DelugeEvent
+        """
+        log.debug("intevents: %s", self.factory.interested_events)
+        # Find sessions interested in this event
+        for session_id, interest in self.factory.interested_events.iteritems():
+            if event.name in interest:
+                log.debug("Emit Event: %s %s", event.name, event.args)
+                # This session is interested so send a RPC_SIGNAL
+                self.factory.session_protocols[session_id].sendData(
+                    (RPC_SIGNAL, event.name, event.args)
+                )
 
     def __generate_ssl_keys(self):
         """

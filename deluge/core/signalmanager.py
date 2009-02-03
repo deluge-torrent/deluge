@@ -99,7 +99,7 @@ class SignalManager(component.Component):
             return
         client = self.clients[uri]
         try:
-            client.emit_signal(signal, *data)
+            client.emit_event_signal(signal, *data)
         except (socket.error, Exception), e:
             log.warning("Unable to emit signal to client %s: %s (%d)", client, e, count)
             if count < 30:
