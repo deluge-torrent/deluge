@@ -143,7 +143,6 @@ class PreferencesManager(component.Component):
         self.core = component.get("Core")
         self.session = component.get("Core").session
         self.settings = component.get("Core").settings
-        self.signals = component.get("SignalManager")
 
         # Register set functions in the Config
         self.config.register_set_function("torrentfiles_location",

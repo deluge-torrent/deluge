@@ -171,8 +171,6 @@ class TorrentManager(component.Component):
         # Get the pluginmanager reference
         self.plugins = component.get("CorePluginManager")
 
-        self.signals = component.get("SignalManager")
-
         # Run the old state upgrader before loading state
         deluge.core.oldstateupgrader.OldStateUpgrader()
 

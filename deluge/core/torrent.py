@@ -108,8 +108,6 @@ class Torrent:
         # Get the core config
         self.config = ConfigManager("core.conf")
 
-        self.signals = component.get("SignalManager")
-
         # Set the libtorrent handle
         self.handle = handle
         # Set the torrent_id for this torrent

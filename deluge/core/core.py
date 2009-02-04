@@ -48,7 +48,6 @@ from deluge.event import *
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
-from deluge.core.signalmanager import SignalManager
 from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
@@ -113,7 +112,6 @@ class Core(component.Component):
         # Create the components
         self.preferencesmanager = PreferencesManager()
         self.alertmanager = AlertManager(self.session)
-        self.signalmanager = SignalManager()
         self.pluginmanager = PluginManager(self)
         self.torrentmanager = TorrentManager(self.session, self.alertmanager)
         self.filtermanager = FilterManager(self)
