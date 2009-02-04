@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script type="text/javascript" src="/js/mootools-1.2.1-core-yc.js"></script>
+		<script type="text/javascript" src="/js/ext-mootools-adapter.js"></script>
+		<script type="text/javascript" src="/js/ext-all.js"></script>
+		<script src="/js/Rpc.js"></script>
+		<script type="text/javascript" src="/js/deluge.js"></script>
+		<script type="text/javascript" src="/js/deluge-torrents.js"></script>
+        <script>
+			var client = new JSON.RPC('/json');
+			var res = client.web.update_ui(Deluge.Keys.Grid, {}, {async: false});
+			
+			alert(JSON.encode(torrents));
+            //var store = new Deluge.TorrentStore();
+			//alert(store);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

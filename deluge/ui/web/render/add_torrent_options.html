@@ -1,0 +1,42 @@
+<form>
+    <fieldset>
+        <legend>${_("Allocation")}</legend>
+            <label class="fluid">
+                <input type="radio" name="compact_allocation" value="false" />
+                ${_("Full")}
+            </label><br />
+            <label class="fluid">
+                <input type="radio" name="compact_allocation" value="true" />
+                ${_("Compact")}
+            </label>
+    </fieldset>
+    <fieldset>
+        <legend>${_("Bandwidth")}</legend>
+        
+        <label>${_("Max Down Speed")}:</label>
+        <input type="text" name="max_download_speed_per_torrent" class="moouiSpinner" /><br/>
+        
+        <label>${_("Max Up Speed")}:</label>
+        <input type="text" name="max_upload_speed_per_torrent" class="moouiSpinner" /><br/>
+        
+        <label>${_("Max Connections")}:</label>
+        <input type="text" name="max_connections_per_torrent" class="moouiSpinner" /><br/>
+        
+        <label>${_("Max Upload Slots")}:</label>
+        <input type="text" name="max_upload_slots_per_torrent" class="moouiSpinner" />
+    </fieldset>
+    <fieldset>
+        <legend>${_("General")}</legend>
+        <label class="fluid">
+            <input type="checkbox" name="add_paused" />
+            ${_("Add in Paused State")}
+        </label><br/>
+        <label class="fluid">
+            <input type="checkbox" name="prioritize_first_last_pieces" />
+            ${_("Prioritize First/Last Pieces")}
+        </label>
+    </fieldset>
+    <br style="clear: both;" />
+    <button>${_("Revert To Defaults")}</button>
+    <button>${_("Apply To All")}</button>
+</form>

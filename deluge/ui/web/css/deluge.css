@@ -1,0 +1,66 @@
+html, body {
+	font: normal 0.8em verdana;
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	overflow: hidden;
+	height:100%;
+}
+
+.deluge-torrents .torrent-name {
+    padding-left: 20px;
+    background-repeat: no-repeat;
+    height: 16px;
+    line-height: 16px;
+}
+
+.deluge-torrents .deluge-torrent-progress {
+	text-align: center;
+}
+
+#labels .all { background-image: url('/icons/16/all.png'); }
+#labels .active { background-image: url('/icons/16/active.png'); }
+#labels .downloading, .deluge-torrents .downloading { background-image: url('/icons/16/downloading.png'); }
+#labels .seeding, .deluge-torrents .seeding { background-image: url('/icons/16/seeding.png'); }
+#labels .queued, .deluge-torrents .queued { background-image: url('/icons/16/queued.png'); }
+#labels .paused, .deluge-torrents .paused { background-image: url('/icons/16/inactive.png'); }
+#labels .error, .deluge-torrents .error { background-image: url('/icons/16/alert.png'); }
+#labels .checking, .deluge-torrents .checking { background-image: url('/icons/16/checking.png'); }
+
+
+/* Torrent Details */
+.deluge-status-progressbar {
+    margin: 5px;
+}
+
+.deluge-status {
+	margin: 10px;
+}
+
+.deluge-status dl {
+	float: left;
+	min-height: 100px;
+}
+
+.deluge-status dl dt {
+	float: left;
+	font-weight: bold;
+	height: 19px;
+}
+
+.deluge-status dl dd {
+	margin-left: 100px;
+	width: 140px;
+	height: 19px;
+}
+
+.deluge-status dd.downspeed, .deluge-status dd.upspeed, .deluge-status dd.eta, .deluge-status dd.pieces {
+	margin-left: 75px;
+}
+
+.deluge-status form br {
+	clear: left;
+}
+
+.deluge-status dd.torrent_name, .deluge-status dd.tracker, .deluge-status dd.path {
+	width: 500px;

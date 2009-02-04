@@ -1,0 +1,213 @@
+/*
+
+-----------------------------------------------------------
+
+Theme Name: Ajax Base
+Theme URI: http://deluge-torrent.org
+Description: Deluge Ajax Theme
+Version: 0.1
+-----------------------------------------------------------
+
+*/
+
+html, body {
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #304663 url(/images/simple_bg.jpg) repeat-x;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
+}
+
+#overlay .title {
+	position: absolute;
+	left: 40px;
+	top: 7px;
+	color: #8fa6c3;
+	padding: 0;
+	margin: 0;
+	line-height: 26px;
+	font-size: 26px;
+}
+
+/* The toolbar button icons */
+#toolbar #buttons #create {background-image:url(/icons/32/new.png)}
+#toolbar #buttons #add {background-image:url(/icons/32/add.png)}
+#toolbar #buttons #remove {background-image:url(/icons/32/remove.png)}
+#toolbar #buttons #pause {background-image:url(/icons/32/pause.png)}
+#toolbar #buttons #resume {background-image:url(/icons/32/resume.png)}
+#toolbar #buttons #up {background-image:url(/icons/32/up.png)}
+#toolbar #buttons #down {background-image:url(/icons/32/down.png)}
+#toolbar #buttons #preferences {background-image:url(/icons/32/options.png)}
+#toolbar #buttons #connections {background-image:url(/icons/32/connections.png)}
+
+/* The icons for the filter states */
+#labels li {
+	background-repeat: no-repeat;
+	background-position: 4px;
+	padding-left: 24px;
+	line-height: 20px;
+}
+
+#labels li:hover { text-decoration: underline; cursor: pointer; }
+
+#labels .activestate {
+	font-weight: bold;
+}
+
+#labels .activestate:hover {
+	text-decoration: none;
+}
+
+#labels .all { background-image: url('/icons/16/all.png'); }
+#labels .active { background-image: url('/icons/16/active.png'); }
+#labels .downloading { background-image: url('/icons/16/downloading.png'); }
+#labels .seeding { background-image: url('/icons/16/seeding.png'); }
+#labels .queued { background-image: url('/icons/16/queued.png'); }
+#labels .paused { background-image: url('/icons/16/inactive.png'); }
+#labels .error { background-image: url('/icons/16/alert.png'); }
+#labels .checking { background-image: url('/icons/16/checking.png'); }
+
+/* The icons for the statusbar */
+#status #info #connections {background-image:url(/icons/16/connections.png)}
+#status #info #downspeed {background-image:url(/icons/16/downloading.png)}
+#status #info #upspeed {background-image:url(/icons/16/seeding.png)}
+#status #info #incoming_connections { background-image: url('/icons/16/alert.png'); }
+#status #info #dht {background-image:url(/icons/16/dht.png)}
+#status #info #free_space {background-image:url(/icons/16/drive-harddisk.png)}
+
+#details {
+	padding: 5px;
+}
+
+.moouiTabs {
+
+}
+
+.moouiTabs li {
+    position: relative;
+    top: 1px;
+	background: #37506f;
+	border: 1px solid #364961;
+	border-bottom: none;
+	padding: 7px;
+	font-size: 1.1em;
+}
+
+.moouiTabs li:hover {
+	background: #426187;
+}
+
+li.moouiTabActive {
+	background: #426187;
+}
+
+.moouiTabPage {
+	background: #426187;
+	border: 1px solid #364961;
+	padding: 5px;
+	-moz-border-radius:0 5px 5px 5px;
+	-webkit-border-radius: 0 5px 5px 5px;
+	overflow: auto;
+}
+
+#details dl {
+	float: left;
+	min-height: 100px;
+}
+
+#details dl dt {
+	float: left;
+	font-weight: bold;
+	height: 19px;
+}
+
+#details dl dd {
+	margin-left: 100px;
+	width: 140px;
+	height: 19px;
+}
+
+#details dd.downspeed, #details dd.upspeed, #details dd.eta, #details dd.pieces {
+	margin-left: 75px;
+}
+
+#details form br {
+	clear: left;
+}
+
+#details dd.torrent_name, #details dd.tracker, #details dd.path {
+	width: 500px;
+}
+
+#status #info {
+	float: left;
+	margin: 10px;
+}
+
+#status #info li {
+    width: auto;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 21px;
+	margin-right: 10px;
+}
+
+.categories {
+	height: 350px;
+}
+
+.pref_pages {
+	height: 350px;
+}
+
+.deluge-prefs-page {
+	display: none;
+}
+
+.deluge-prefs-page-active {
+	display: block;
+}
+
+.moouiWindowContent #preferences .categories {
+	float: left;
+	width: 100px;
+	padding-left: 10px;
+}
+
+.moouiWindowContent #preferences .pref_pages h3 {
+	margin-bottom: 5px;
+}
+
+.moouiWindowContent #preferences .pref_pages {
+	float: left;
+	width: 380px;
+}
+
+.moouiWindowContent #preferences .categories ul {
+	list-style: none;
+	padding: 0;
+	padding-left: 10px;
+}
+
+.moouiWindowContent #preferences .categories li {
+	cursor: pointer;
+}
+
+.buttons {
+	margin-top: 10px;
+	float: right;
+}
+
+.buttons button {
+	margin-right: 10px;
+}

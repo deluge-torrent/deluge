@@ -1,0 +1,160 @@
+/*
+ * Stylesheet: Widgets.PopupMenu.css
+ *
+ * Depends: []
+ */
+
+ul.moouiMenu {
+	position: absolute;
+	z-index: 1000;
+	padding: 0;
+}
+
+ul.moouiMenu li {
+	position: relative;
+	list-style: none;
+	margin: 1px;
+	padding-left: 2px;
+	padding-right: 10px;
+	line-height: 20px;
+	height: 20px;
+	background: no-repeat 2px;
+}
+
+ul.moouiMenu li.moouiMenuIcon {
+	padding-left: 20px;
+}
+
+ul.moouiMenu li.moouiMenuSep {
+	height: 1px;
+	line-height: 1px;
+}
+
+ul.moouiMenu li.moouiMenuToggle input {
+	cursor: pointer;
+}
+
+ul.moouiMenu li.moouiMenuToggle span span {
+	position: relative;
+	top: -3px;
+}
+
+ul.moouiMenu li > ul {
+	display: none;
+	position: relative;
+	top: -20px;
+	width: 400px;
+}
+
+ul.moouiMenu li:hover {
+	cursor: pointer;
+}
+
+ul.moouiMenu li:hover > ul {	
+	display: block;
+}
+
+ul.moouiMenu li.moouiMenuSep:hover {
+	cursor: default;
+}
+
+/*
+ * Stylesheet: Widgets.ProgressBar.css
+ *
+ * Depends: []
+ */
+
+.moouiProgressBar span {
+	text-align: center;
+	float: left;
+}
+
+/*
+ * Stylesheet: Widgets.SplitPane.css
+ *
+ * Depends: []
+ */
+
+.moouiPane {
+    float: left;
+	position: relative;
+}
+
+.moouiSplitter {
+	position: relative;
+	float: left;
+	background: Gray;
+}
+
+.moouiSplitterVertical {
+	cursor: e-resize;
+}
+
+.moouiSplitterHorizontal {
+	cursor: n-resize;
+}
+
+/*
+ * Stylesheet: Widgets.SplitPane.css
+ *
+ * Depends: []
+ */
+
+.moouiTabs ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.moouiTabs li {
+	float: left;
+	padding: 4px;
+	cursor: pointer;
+	height: 14px;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+}
+
+.moouiTabs .moouiTabPages {
+	clear: left;
+}
+
+.moouiTabPage {
+	display: none;	
+}
+
+.moouiTabPageActive {
+	display: block;
+}
+
+/*
+ * Stylesheet: Widgets.Window.css
+ *
+ * Depends: []
+ */
+
+.moouiWindow {
+	position: fixed;
+	top: 0px;
+	left: 200px;
+	z-index: 100;
+}
+
+.moouiWindowTitle {
+	margin: 10px;
+	cursor: pointer;
+	float: left;
+}
+
+.moouiWindowClose {
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.moouiWindowContent {
+	clear: both;
+	padding: 5px;
+}

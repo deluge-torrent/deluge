@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="$base/template/static/themes/classic/iframe.css" />
+    </head>
+    <body style="background: none;">
+        <form method="post" action="/json/upload" enctype="multipart/form-data">
+            <label>${_("File")}:</label>
+            <div class="fileInputs">
+                <input type="file" name="torrentFile" class="file" size="35"/>
+                <div class="fakeFile">
+                    <input />
+                    <button>${_("Browse")}</button>
+                </div>
+            </div><br/>
+            <button class="ok">${_("Ok")}</button><button class="cancel">${_("Cancel")}</button>
+        </form>
+    </body>
+</html>
