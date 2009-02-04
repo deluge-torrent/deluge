@@ -30,7 +30,7 @@ Deluge Config Module
 import cPickle as pickle
 import shutil
 import os
-import gobject
+
 import deluge.common
 from deluge.log import LOG as log
 
@@ -62,7 +62,7 @@ class Config(object):
         self.__previous_config = {}
         self.__set_functions = {}
         self.__change_callback = None
-        # This will get set with a gobject.timeout_add whenever a config option
+        # This will get set with a reactor.callLater whenever a config option
         # is set.
         self.__save_timer = None
 
@@ -127,18 +127,19 @@ class Config(object):
         self.__previous_config.update(self.__config)
         self.__config[key] = value
         # Run the set_function for this key if any
+        from twisted.internet import reactor
         try:
-            gobject.idle_add(self.__set_functions[key], key, value)
+            reactor.callLater(0, self.__set_functions[key], key, value)
         except KeyError:
             pass
         try:
-            gobject.idle_add(self.__change_callback, key, value)
+            reactor.callLater(0, self.__change_callback, key, value)
         except:
             pass
 
         # We set the save_timer for 5 seconds if not already set
-        if not self.__save_timer:
-            self.__save_timer = gobject.timeout_add(5000, self.save)
+        if not self.__save_timer or not self.__save_timer.active():
+            self.__save_timer = reactor.callLater(5, self.save)
 
     def __getitem__(self, key):
         """
