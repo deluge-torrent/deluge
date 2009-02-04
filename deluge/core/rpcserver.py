@@ -167,8 +167,10 @@ class DelugeRPCProtocol(Protocol):
 
         """
 
-        # We need to remove this session from the authmanager
+        # We need to remove this session from various dicts
         del self.factory.authorized_sessions[self.transport.sessionno]
+        del self.factory.session_protocols[self.transport.sessionno]
+        del self.factory.interested_events[self.transport.sessionno]
 
         log.info("Deluge client disconnected: %s", reason.value)
 
