@@ -42,7 +42,9 @@ class DelugeEvent(object):
         return self.__class__.__name__
 
     def _get_args(self):
-        return self.__dict__.values()
+        if not hasattr(self, "_args"):
+            return []
+        return self._args
 
     name = property(fget=_get_name)
     args = property(fget=_get_args)
@@ -55,7 +57,7 @@ class TorrentAddedEvent(DelugeEvent):
         """
         :param torrent_id: str, the torrent_id of the torrent that was added
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentRemovedEvent(DelugeEvent):
     """
@@ -65,7 +67,7 @@ class TorrentRemovedEvent(DelugeEvent):
         """
         :param torrent_id: str, the torrent_id
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentStateChangedEvent(DelugeEvent):
     """
@@ -76,8 +78,7 @@ class TorrentStateChangedEvent(DelugeEvent):
         :param torrent_id: str, the torrent_id
         :param state: str, the new state
         """
-        self.torrent_id = torrent_id
-        self.state = state
+        self._args = [torrent_id, state]
 
 class TorrentQueueChangedEvent(DelugeEvent):
     """
@@ -95,9 +96,7 @@ class TorrentFolderRenamedEvent(DelugeEvent):
         :param old: str, the old folder name
         :param new: str, the new folder name
         """
-        self.torrent_id = torrent_id
-        self.old = old
-        self.new = new
+        self._args = [torrent_id, old, new]
 
 class TorrentFileRenamedEvent(DelugeEvent):
     """
@@ -109,9 +108,7 @@ class TorrentFileRenamedEvent(DelugeEvent):
         :param index: int, the index of the file
         :param name: str, the new filename
         """
-        self.torrent_id = torrent_id
-        self.index = index
-        self.name = name
+        self._args = [torrent_id, index, name]
 
 class TorrentFinishedEvent(DelugeEvent):
     """
@@ -121,7 +118,7 @@ class TorrentFinishedEvent(DelugeEvent):
         """
         :param torrent_id: str, the torrent_id
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentResumedEvent(DelugeEvent):
     """
@@ -131,7 +128,7 @@ class TorrentResumedEvent(DelugeEvent):
         """
         :param torrent_id: str, the torrent_id
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class NewVersionAvailableEvent(DelugeEvent):
     """
@@ -141,7 +138,7 @@ class NewVersionAvailableEvent(DelugeEvent):
         """
         :param new_release: str, the new version that is available
         """
-        self.new_release = new_release
+        self._args = [new_release]
 
 class SessionPausedEvent(DelugeEvent):
     """
@@ -164,5 +161,4 @@ class ConfigValueChangedEvent(DelugeEvent):
         :param key: str, the key that changed
         :param value: the new value of the `:param:key`
         """
-        self.key = key
-        self.value = value
+        self._args = [key, value]

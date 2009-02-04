@@ -151,7 +151,7 @@ class DelugeRPCProtocol(Protocol):
                 if event in self.factory.event_handlers:
                     for handler in self.factory.event_handlers[event]:
                         reactor.callLater(0, handler, *request[2])
-                        return
+                return
 
             request_id = request[1]
 

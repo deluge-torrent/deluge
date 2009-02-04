@@ -265,8 +265,10 @@ class StatusBar(component.Component):
             client.core.get_health().addCallback(self._on_get_health)
 
     def on_configvaluechanged_event(self, key, value):
-        """This is called when we received a config_value_changed signal from
-        the core."""
+        """
+        This is called when we receive a ConfigValueChangedEvent from
+        the core.
+        """
 
         if key in self.config_value_changed_dict.keys():
             self.config_value_changed_dict[key](value)
