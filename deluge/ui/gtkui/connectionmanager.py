@@ -150,7 +150,9 @@ class ConnectionManager(component.Component):
 
         self.__update_list()
 
+        self.running = True
         response = self.connection_manager.run()
+        self.running = False
 
         # Save the toggle options
         self.__save_options()
@@ -231,8 +233,14 @@ class ConnectionManager(component.Component):
     def __update_list(self):
         """Updates the host status"""
         def on_connect(result, c, host_id):
+            # Return if the deferred callback was done after the dialog was closed
+            if not self.running:
+                return
+
             row = self.__get_host_row(host_id)
             def on_info(info, c):
+                if not self.running:
+                    return
                 if row:
                     row[HOSTLIST_COL_STATUS] = "Online"
                     row[HOSTLIST_COL_VERSION] = info
@@ -240,6 +248,8 @@ class ConnectionManager(component.Component):
                 c.disconnect()
 
             def on_info_fail(reason):
+                if not self.running:
+                    return
                 if row:
                     row[HOSTLIST_COL_STATUS] = "Offline"
                     self.__update_buttons()
@@ -249,6 +259,8 @@ class ConnectionManager(component.Component):
             d.addErrback(on_info_fail)
 
         def on_connect_failed(reason, host_info):
+            if not self.running:
+                return
             row = self.__get_host_row(host_id)
             if row:
                 row[HOSTLIST_COL_STATUS] = "Offline"
@@ -262,6 +274,8 @@ class ConnectionManager(component.Component):
             password = row[HOSTLIST_COL_PASS]
             if client.connected() and (host, port, user) == client.connection_info():
                 def on_info(info):
+                    if not self.running:
+                        return
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
                 row[HOSTLIST_COL_STATUS] = "Connected"
