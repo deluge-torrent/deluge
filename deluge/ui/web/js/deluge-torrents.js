@@ -1,5 +1,5 @@
 function queue(value) {
-	return value + 1;
+	return (value == -1) ? "" : value + 1;
 }
 
 function name(value, p, r) {
