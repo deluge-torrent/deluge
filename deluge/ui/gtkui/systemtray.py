@@ -149,6 +149,8 @@ class SystemTray(component.Component):
         except Exception, e:
             log.debug("Unable to hide system tray menu widgets: %s", e)
 
+        self.tray.set_tooltip(_("Deluge\nNot Connected.."))
+
     def shutdown(self):
         self.tray.set_visible(False)
 
