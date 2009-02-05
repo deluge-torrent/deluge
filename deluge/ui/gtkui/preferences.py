@@ -154,15 +154,27 @@ class Preferences(component.Component):
     def _on_get_config(self, config):
         log.debug("on_get_config: %s", config)
         self.core_config = config
+        self.__wait_to_show -= 1
+        if not self.__wait_to_show:
+            self._show()
 
     def _on_get_available_plugins(self, plugins):
         self.all_plugins = plugins
+        self.__wait_to_show -= 1
+        if not self.__wait_to_show:
+            self._show()
 
     def _on_get_enabled_plugins(self, plugins):
         self.enabled_plugins = plugins
+        self.__wait_to_show -= 1
+        if not self.__wait_to_show:
+            self._show()
 
     def _on_get_listen_port(self, port):
         self.active_port = port
+        self.__wait_to_show -= 1
+        if not self.__wait_to_show:
+            self._show()
 
     def show(self, page=None):
         """Page should be the string in the left list.. ie, 'Network' or 'Bandwidth'"""
@@ -175,6 +187,8 @@ class Preferences(component.Component):
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         if client.connected():
+            # We use a counter to know when to show the dialog
+            self.__wait_to_show = 4
             client.core.get_config().addCallback(self._on_get_config)
             client.core.get_available_plugins().addCallback(self._on_get_available_plugins)
             client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
@@ -182,6 +196,7 @@ class Preferences(component.Component):
             # Force these calls and block until we've done them all
             client.force_call()
 
+    def _show(self):
         if self.core_config != {} and self.core_config != None:
             core_widgets = {
                 "download_path_button": \
