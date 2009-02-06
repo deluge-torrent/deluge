@@ -3,6 +3,7 @@ Deluge 1.1.3 - (In Development)
   * Fix issue when initializing gettext that would prevent deluge from starting
   * Fix logging exceptions when starting the daemon
   * Fix displaying errors when a torrent is Checking
+  * Fix #790 tracker hosts not correct for some 3rd-level domain names
 
 Deluge 1.1.2 - (31 January 2009)
  Core:
