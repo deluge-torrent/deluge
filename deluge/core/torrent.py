@@ -350,6 +350,16 @@ class Torrent:
 
         log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
         log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
+
+        # First we check for an error from libtorrent, and set the state to that
+        # if any occurred.
+        if self.handle.is_paused() and len(self.handle.status().error) > 0:
+            # This is an error'd torrent
+            self.state = "Error"
+            self.set_status_message(self.handle.status().error)
+            self.handle.auto_managed(False)
+            return
+
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             self.state = "Checking"
             return
@@ -360,12 +370,7 @@ class Torrent:
         elif ltstate == LTSTATE["Allocating"]:
             self.state = "Allocating"
 
-        if self.handle.is_paused() and len(self.handle.status().error) > 0:
-            # This is an error'd torrent
-            self.state = "Error"
-            self.set_status_message(self.handle.status().error)
-            self.handle.auto_managed(False)
-        elif self.handle.is_paused() and self.handle.is_auto_managed() and not component.get("Core").session.is_paused():
+        if self.handle.is_paused() and self.handle.is_auto_managed() and not component.get("Core").session.is_paused():
             self.state = "Queued"
         elif component.get("Core").session.is_paused() or (self.handle.is_paused() and not self.handle.is_auto_managed()):
             self.state = "Paused"
