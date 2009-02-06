@@ -351,19 +351,19 @@ class MenuBar(component.Component):
 
     def on_menuitem_queue_top_activate(self, value):
         log.debug("on_menuitem_queue_top_activate")
-        client.core.queue_top(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_top(component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_up_activate(self, value):
         log.debug("on_menuitem_queue_up_activate")
-        client.core.queue_up(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_up(component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_down_activate(self, value):
         log.debug("on_menuitem_queue_down_activate")
-        client.core.queue_down(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_down(component.get("TorrentView").get_selected_torrents())
 
     def on_menuitem_queue_bottom_activate(self, value):
         log.debug("on_menuitem_queue_bottom_activate")
-        client.core.queue_bottom(None, component.get("TorrentView").get_selected_torrents())
+        client.core.queue_bottom(component.get("TorrentView").get_selected_torrents())
 
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, value):
