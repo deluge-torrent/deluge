@@ -44,7 +44,7 @@ from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
-RPC_SIGNAL = 3
+RPC_EVENT = 3
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
@@ -356,9 +356,9 @@ class RPCServer(component.Component):
         for session_id, interest in self.factory.interested_events.iteritems():
             if event.name in interest:
                 log.debug("Emit Event: %s %s", event.name, event.args)
-                # This session is interested so send a RPC_SIGNAL
+                # This session is interested so send a RPC_EVENT
                 self.factory.session_protocols[session_id].sendData(
-                    (RPC_SIGNAL, event.name, event.args)
+                    (RPC_EVENT, event.name, event.args)
                 )
 
     def __generate_ssl_keys(self):

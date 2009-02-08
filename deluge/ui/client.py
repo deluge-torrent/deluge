@@ -38,7 +38,7 @@ else:
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
-RPC_SIGNAL = 3
+RPC_EVENT = 3
 
 def format_kwargs(kwargs):
     return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
@@ -144,14 +144,14 @@ class DelugeRPCProtocol(Protocol):
 
             message_type = request[0]
 
-            if message_type == RPC_SIGNAL:
+            if message_type == RPC_EVENT:
                 event = request[1]
                 # A RPCSignal was received from the daemon so run any handlers
                 # associated with it.
                 if event in self.factory.event_handlers:
                     for handler in self.factory.event_handlers[event]:
                         reactor.callLater(0, handler, *request[2])
-                return
+                continue
 
             request_id = request[1]
 
