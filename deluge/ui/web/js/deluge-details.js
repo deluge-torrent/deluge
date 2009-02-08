@@ -37,3 +37,7 @@ Deluge.Details.Status.add({
 	cls: 'deluge-status',
 	border: false
 });
+
+Deluge.Details.update = function(torrentId) {
+	Deluge.Details.getActiveTab().update(torrent);
+}

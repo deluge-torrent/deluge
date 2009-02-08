@@ -7,11 +7,14 @@ html, body {
 	height:100%;
 }
 
+.deluge-torrents td {
+	height: 16px;
+    line-height: 16px;
+}
+
 .deluge-torrents .torrent-name {
     padding-left: 20px;
     background-repeat: no-repeat;
-    height: 16px;
-    line-height: 16px;
 }
 
 .deluge-torrents .deluge-torrent-progress {
@@ -64,3 +67,4 @@ html, body {
 
 .deluge-status dd.torrent_name, .deluge-status dd.tracker, .deluge-status dd.path {
 	width: 500px;
+}

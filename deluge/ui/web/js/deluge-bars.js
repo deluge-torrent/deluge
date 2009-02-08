@@ -3,55 +3,55 @@ Deluge.ToolBar = new Ext.Toolbar({
 		{
 			id: 'create',
 			cls: 'x-btn-text-icon',
-			text: 'Create',
+			text: _('Create'),
 			icon: '/icons/16/create.png',
 			handler: torrentAction
 		},{
 			id: 'add',
 			cls: 'x-btn-text-icon',
-			text: 'Add',
+			text: _('Add'),
 			icon: '/icons/16/add.png',
 			handler: torrentAction
 		},{
 			id: 'remove',
 			cls: 'x-btn-text-icon',
-			text: 'Remove',
+			text: _('Remove'),
 			icon: '/icons/16/remove.png',
 			handler: torrentAction
 		},{
 			id: 'pause',
 			cls: 'x-btn-text-icon',
-			text: 'Pause',
+			text: _('Pause'),
 			icon: '/icons/16/pause.png',
 			handler: torrentAction
 		},{
 			id: 'resume',
 			cls: 'x-btn-text-icon',
-			text: 'Resume',
+			text: _('Resume'),
 			icon: '/icons/16/start.png',
 			handler: torrentAction
 		},{
 			id: 'up',
 			cls: 'x-btn-text-icon',
-			text: 'Up',
+			text: _('Up'),
 			icon: '/icons/16/up.png',
 			handler: torrentAction
 		},{
 			id: 'down',
 			cls: 'x-btn-text-icon',
-			text: 'Down',
+			text: _('Down'),
 			icon: '/icons/16/down.png',
 			handler: torrentAction
 		},{
 			id: 'preferences',
 			cls: 'x-btn-text-icon',
-			text: 'Preferences',
+			text: _('Preferences'),
 			icon: '/icons/16/preferences.png',
 			handler: torrentAction
 		},{
 			id: 'connectionman',
 			cls: 'x-btn-text-icon',
-			text: 'Connection Manager',
+			text: _('Connection Manager'),
 			icon: '/icons/16/connection_manager.png',
 			handler: torrentAction
 		}
@@ -105,10 +105,11 @@ function torrentAction(item) {
 }
 
 Deluge.SideBar = {
-	region:'west',
-	id:'west-panel',
-	title:'Sidebar',
-	split:true,
+	region: 'west',
+	id: 'sidebar',
+	cls: 'deluge-sidebar',
+	title: _('Sidebar'),
+	split: true,
 	width: 200,
 	minSize: 175,
 	collapsible: true,

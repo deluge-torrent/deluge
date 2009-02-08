@@ -13,6 +13,12 @@ Deluge.Ui = {
 			bbar: Deluge.StatusBar
 		});
 		
+		Deluge.SideBar = this.MainPanel.items.get('sidebar');
+		Deluge.SideBar.on('collapse', function(bar) {
+			
+			//alert(JSON.encode($('sidebar').getSize()));
+		});
+		
 		this.Viewport = new Ext.Viewport({
 			layout: 'fit',
 			items: [this.MainPanel]

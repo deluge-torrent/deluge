@@ -37,10 +37,9 @@ if sys.version_info > (2, 6):
 else:
     import simplejson as json
 
+from twisted.application import service, internet
 from twisted.internet.defer import Deferred
-from twisted.application import service, strports
-from twisted.web2 import static, wsgi, resource, responsecode
-from twisted.web2 import stream, http, http_headers, server, channel
+from twisted.web import http, resource, server, static
 
 from mako.template import Template as MakoTemplate
 
@@ -60,14 +59,14 @@ class Template(MakoTemplate):
 
 class JSONException(Exception): pass
 
-class JSON(resource.PostableResource):
+class JSON(resource.Resource):
     """
-    A Twisted Web2 resource that exposes a JSON-RPC interface for web clients
+    A Twisted Web resource that exposes a JSON-RPC interface for web clients
     to use.
     """
     
     def __init__(self):
-        resource.PostableResource.__init__(self)
+        resource.Resource.__init__(self)
         self._remote_methods = []
         self._local_methods = {
             "web.update_ui": self.update_ui,
@@ -76,12 +75,16 @@ class JSON(resource.PostableResource):
             "web.add_torrents": self.add_torrents
         }
         for entry in open(common.get_default_config_dir("auth")):
-            username, password = entry.split(":")
+            parts = entry.split(":")
+            if len(parts) > 1:
+                username, password = parts[0], parts[1]
+            else:
+                continue
+
             if username != "localclient":
                 continue
             self.local_username = username
             self.local_password = password
-            print username, password
         self.connect()
     
     def connect(self, host="localhost", username=None, password=None):
@@ -159,21 +162,22 @@ class JSON(resource.PostableResource):
         except Exception, e:
             raise JSONException(str(e))
     
-    def _on_rpc_request_finished(self, result, response):
+    def _on_rpc_request_finished(self, result, response, request):
         """
         Sends the response of any rpc calls back to the json-rpc client.
         """
         response["result"] = result
-        return self._send_response(response)
+        return self._send_response(request, response)
 
-    def _on_rpc_request_failed(self, reason, response):
+    def _on_rpc_request_failed(self, reason, response, request):
         """
         Handles any failures that occured while making an rpc call.
         """
         print reason
-        return http.Response(responsecode.INTERNAL_SERVER_ERROR)
+        request.setResponseCode(http.INTERNAL_SERVER_ERROR)
+        return ""
     
-    def _on_json_request(self, result, request):
+    def _on_json_request(self, request):
         """
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
@@ -181,8 +185,8 @@ class JSON(resource.PostableResource):
         log.debug("json-request: %s", request.json)
         response = {"result": None, "error": None, "id": None}
         d, response["id"] = self._handle_request(request.json)
-        d.addCallback(self._on_rpc_request_finished, response)
-        d.addErrback(self._on_rpc_request_failed, response)
+        d.addCallback(self._on_rpc_request_finished, response, request)
+        d.addErrback(self._on_rpc_request_failed, response, request)
         return d
     
     def _on_json_request_failed(self, reason, request):
@@ -190,38 +194,31 @@ class JSON(resource.PostableResource):
         Errback handler to return a HTTP code of 500.
         """
         print reason
-        return http.Response(responsecode.INTERNAL_SERVER_ERROR)
+        request.setResponseCode(http.INTERNAL_SERVER_ERROR)
+        return ""
     
-    def _send_response(self, response):
+    def _send_response(self, request, response):
         response = json.dumps(response)
-        return http.Response(responsecode.OK,
-                             {"content-type": http_headers.MimeType("application", "x-json")},
-                             stream=response)
+        request.setHeader("content-type", "application/x-json")
+        request.write(response)
+        request.finish()
     
-    def http_POST(self, request):
+    def render(self, request):
         """
         Handles all the POST requests made to the /json controller.
         """
-        request.json = ""
-        def handle_data(data):
-            request.json += data
-        
-        d = stream.readStream(request.stream, handle_data)
-        d.addCallbacks(
-            self._on_json_request,
-            self._on_json_request_failed,
-            callbackArgs=(request,),
-            errbackArgs=(request,)
-        )
-        
-        d.addErrback(self._on_json_request_failed, request)
-        return d
 
-    def render(self, request):
-        """
-        Block all other HTTP methods.
-        """
-        return http.Response(responsecode.NOT_ALLOWED)
+        if request.method != "POST":
+            request.setResponseCode(http.NOT_ALLOWED)
+            return ""
+        
+        try:
+            request.content.seek(0)
+            request.json = request.content.read()
+            d = self._on_json_request(request)
+            return server.NOT_DONE_YET
+        except Exception, e:
+            return self._on_json_request_failed(e, request)
     
     def update_ui(self, keys, filter_dict, cache_id=None):
 
@@ -302,16 +299,14 @@ class JSON(resource.PostableResource):
     
 
 class GetText(resource.Resource):
-    headers = {
-        "content-type": http_headers.MimeType("text", "javascript")
-    }
     def render(self, request):
+        request.setHeader("content-type", "text/javascript")
         template = Template(filename="gettext.js")
-        return http.Response(responsecode.OK, self.headers, template.render())
+        return template.render()
 
-class Upload(resource.PostableResource):
+class Upload(resource.Resource):
     """
-    Twisted Web2 resource to handle file uploads
+    Twisted Web resource to handle file uploads
     """
     
     def http_POST(self, request):
@@ -330,72 +325,81 @@ class Upload(resource.PostableResource):
                 f = open(fn, upload[2].mode)
                 shutil.copyfileobj(upload[2], f)
                 filenames.append(fn)
-        return http.Response(responsecode.OK, stream="\n".join(filenames))
+        return http.Response(http.OK, stream="\n".join(filenames))
     
     def render(self, request):
         """
         Block all other HTTP methods.
         """
-        return http.Response(responsecode.NOT_ALLOWED)
+        return http.Response(http.NOT_ALLOWED)
 
 class Render(resource.Resource):
-    
-    headers = {
-        "Content-type": http_headers.MimeType("text", "html")
-        }
 
-    def locateChild(self, request, segments):
-        request.render_file = segments[0]
-        return self, ()
+    def getChild(self, path, request):
+        request.render_file = path
+        return self
     
     def render(self, request):
         if not hasattr(request, "render_file"):
-            return http.Response(responsecode.INTERNAL_SERVER_ERROR)
+            request.setResponseCode(http.INTERNAL_SERVER_ERROR)
+            return ""
 
         filename = os.path.join("render", request.render_file)
         template = Template(filename=filename)
-        return http.Response(responsecode.OK, self.headers, template.render())
+        request.setHeader("content-type", "text/html")
+        request.setResponseCode(http.OK)
+        return template.render()
 
 class Tracker(resource.Resource):
     tracker_icons = TrackerIcons()
     
-    def locateChild(self, request, segments):
-        request.tracker_name = "/".join(segments)
-        return self, ()
+    def getChild(self, path, request):
+        request.tracker_name = path
+        return self
     
     def render(self, request):
         headers = {}
         filename = self.tracker_icons.get(request.tracker_name)
         if filename:
-            http_headers.He
-            #headers["cache-control"] = "public, must-revalidate, max-age=86400"
+            request.setHeader("cache-control", "public, must-revalidate, max-age=86400")
             if filename.endswith(".ico"):
-                headers["content-type"] = http_headers.MimeType("image", "x-icon")
+                request.setHeader("content-type", "image/x-icon")
             elif filename.endwith(".png"):
-                headers["content-type"] = http_headers.MimeType("image", "png")
+                request.setHeader("content-type", "image/png")
             data = open(filename, "rb")
-            return http.Response(responsecode.OK, headers, data.read())
+            request.setResponseCode(http.OK)
+            return data.read()
         else:
-            return http.Response(responsecode.NOT_FOUND)
+            request.setResponseCode(http.NOT_FOUND)
+            return ""
 
 class TopLevel(resource.Resource):
-    
     addSlash = True
-    child_json = JSON()
-    child_upload = Upload()
-    child_test = static.File("test.html")
-    child_js = static.File("js")
-    child_images = static.File("images")
-    child_icons = static.File("icons")
-    child_css = static.File("css")
-    child_themes = static.File("themes")
-    child_gettext = GetText()
-    child_render = Render()
-    child_tracker = Tracker()
+    
+    def __init__(self):
+        resource.Resource.__init__(self)
+        self.putChild("css", static.File("css"))
+        self.putChild("gettext.js", GetText())
+        self.putChild("icons", static.File("icons"))
+        self.putChild("images", static.File("images"))
+        self.putChild("js", static.File("js"))
+        self.putChild("json", JSON())
+        self.putChild("upload", Upload())
+        self.putChild("render", Render())
+        self.putChild("test", static.File("test.html"))
+        self.putChild("themes", static.File("themes"))
+        self.putChild("tracker", Tracker())
+    
+    def getChild(self, path, request):
+        if path == "":
+            return self
+        else:
+            return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
         template = Template(filename="index.html")
-        return http.Response(responsecode.OK, stream=template.render())
+        request.setHeader("content-type", "text/html; charset=utf-8")
+        return template.render()
 
 setupLogger(level="debug")
 
@@ -411,8 +415,9 @@ try:
     gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
 except Exception, e:
     log.error("Unable to initialize gettext/locale: %s", e)
-
+    
 site = server.Site(TopLevel())
 application = service.Application("DelugeWeb")
-s = strports.service("tcp:8112", channel.HTTPFactory(site))
-s.setServiceParent(application)
+sc = service.IServiceCollection(application)
+i = internet.TCPServer(8112, site)
+i.setServiceParent(sc)
