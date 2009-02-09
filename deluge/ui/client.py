@@ -127,7 +127,7 @@ class DelugeRPCProtocol(Protocol):
             try:
                 request = rencode.loads(dobj.decompress(data))
             except Exception, e:
-                log.debug("Received possible invalid message: %s", e)
+                log.debug("Received possible invalid message (%r): %s", data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self.__buffer = data
@@ -146,7 +146,7 @@ class DelugeRPCProtocol(Protocol):
 
             if message_type == RPC_EVENT:
                 event = request[1]
-                # A RPCSignal was received from the daemon so run any handlers
+                # A RPCEvent was received from the daemon so run any handlers
                 # associated with it.
                 if event in self.factory.event_handlers:
                     for handler in self.factory.event_handlers[event]:
