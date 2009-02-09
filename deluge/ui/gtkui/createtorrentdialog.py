@@ -27,6 +27,7 @@ import gtk
 import pkg_resources
 import os.path
 import gobject
+import base64
 
 from deluge.ui.client import client
 import deluge.ui.gtkui.listview as listview
