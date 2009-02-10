@@ -282,9 +282,6 @@ class ConnectionManager(component.Component):
                 client.daemon.info().addCallback(on_info)
                 continue
 
-            if host in ("127.0.0.1", "localhost") and not user:
-                # We need to get the localhost creds
-                user, password = deluge.ui.common.get_localhost_auth()
             # Create a new Client instance
             c = deluge.ui.client.Client()
             d = c.connect(host, port, user, password)
@@ -393,10 +390,7 @@ class ConnectionManager(component.Component):
         port = model[row][HOSTLIST_COL_PORT]
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
-        if not user and host in ("127.0.0.1", "localhost"):
-            # This is a localhost connection with no username, so lets try to
-            # get the localclient creds from the auth file.
-            user, password = deluge.ui.common.get_localhost_auth()
+
         client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
         self.connection_manager.response(gtk.RESPONSE_OK)
 

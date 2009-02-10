@@ -146,6 +146,7 @@ class DelugeRPCProtocol(Protocol):
 
             if message_type == RPC_EVENT:
                 event = request[1]
+                #log.debug("Received RPCEvent: %s", event)
                 # A RPCEvent was received from the daemon so run any handlers
                 # associated with it.
                 if event in self.factory.event_handlers:
@@ -463,6 +464,12 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
+        if not username and host in ("127.0.0.1", "localhost"):
+            # No username was provided and it's the localhost, so we can try
+            # to grab the credentials from the auth file.
+            import common
+            username, password = common.get_localhost_auth()
+
         self._daemon_proxy = DaemonSSLProxy(self.__event_handlers)
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port, username, password)
