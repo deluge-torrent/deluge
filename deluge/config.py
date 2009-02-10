@@ -30,6 +30,12 @@ Deluge Config Module
 import cPickle as pickle
 import shutil
 import os
+import sys
+
+if sys.version_info > (2, 6):
+    import json
+else:
+    import simplejson as json
 
 import deluge.common
 from deluge.log import LOG as log
@@ -238,9 +244,12 @@ class Config(object):
         if not filename:
             filename = self.__config_file
         try:
-            self.__config.update(pickle.load(open(filename, "rb")))
+            self.__config.update(json.load(open(filename, "r")))
         except Exception, e:
-            log.warning("Unable to load config file: %s", filename)
+            try:
+                self.__config.update(pickle.load(open(filename, "rb")))
+            except Exception, e:
+                log.warning("Unable to load config file: %s", filename)
 
         log.debug("Config %s loaded: %s", filename, self.__config)
 
@@ -256,7 +265,7 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            if self.__config == pickle.load(open(filename, "rb")):
+            if self.__config == json.load(open(filename, "r")):
                 # The config has not changed so lets just return
                 self.__save_timer = None
                 return
@@ -267,7 +276,7 @@ class Config(object):
 
         try:
             log.debug("Saving new config file %s", filename + ".new")
-            pickle.dump(self.__config, open(filename + ".new", "wb"))
+            json.dump(self.__config, open(filename + ".new", "w"), indent=2)
         except Exception, e:
             log.error("Error writing new config file: %s", e)
             return
