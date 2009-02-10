@@ -84,7 +84,7 @@ class AuthManager(component.Component):
                 from hashlib import sha1 as sha_hash
             except ImportError:
                 from sha import new as sha_hash
-            open(auth_file, "w").write("localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN))
+            open(auth_file, "w").write("localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN) + "\n")
             # Change the permissions on the file so only this user can read/write it
             os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
