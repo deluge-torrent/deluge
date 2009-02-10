@@ -63,7 +63,6 @@ Deluge.Torrents = new Ext.grid.GridPanel({
 	stripeRows: true,
 	autoExpandColumn: 'name',
 	deferredRender:false,
-	contentEl: 'torrents',
 	autoScroll:true,
 	margins: '5 5 0 0'
 })
