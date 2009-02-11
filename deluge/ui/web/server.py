@@ -50,14 +50,43 @@ from deluge.ui.client import client
 from deluge.ui.tracker_icons import TrackerIcons
 log = logging.getLogger(__name__)
 
+# Initialize gettext
+try:
+    locale.setlocale(locale.LC_ALL, "")
+    if hasattr(locale, "bindtextdomain"):
+        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    if hasattr(locale, "textdomain"):
+        locale.textdomain("deluge")
+    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    gettext.textdomain("deluge")
+    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+except Exception, e:
+    log.error("Unable to initialize gettext/locale: %s", e)
+
+current_dir = os.path.dirname(__file__)
+
+def rpath(path):
+    """
+    Convert a relative path into an absolute path relative to the location
+    of this script.
+    """
+    return os.path.join(current_dir, path)
+
 class Template(MakoTemplate):
     
+    builtins = {
+        "_": gettext.gettext,
+        "version": common.get_version()
+    }
+    
     def render(self, *args, **data):
-        data["_"] = gettext.gettext
-        data["version"] = common.get_version()
+        data.update(self.builtins)
         return MakoTemplate.render(self, *args, **data)
 
-class JSONException(Exception): pass
+class JSONException(Exception):
+    def __init__(self, inner_exception):
+        self.inner_exception = inner_exception
+        Exception.__init__(self, str(inner_exception))
 
 class JSON(resource.Resource):
     """
@@ -160,7 +189,7 @@ class JSON(resource.Resource):
             elif method in self._remote_methods:
                 return self._exec_remote(method, params), request_id
         except Exception, e:
-            raise JSONException(str(e))
+            raise JSONException(e)
     
     def _on_rpc_request_finished(self, result, response, request):
         """
@@ -173,7 +202,7 @@ class JSON(resource.Resource):
         """
         Handles any failures that occured while making an rpc call.
         """
-        print reason
+        print type(reason)
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
     
@@ -193,7 +222,7 @@ class JSON(resource.Resource):
         """
         Errback handler to return a HTTP code of 500.
         """
-        print reason
+        raise reason
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
     
@@ -301,7 +330,7 @@ class JSON(resource.Resource):
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript")
-        template = Template(filename="gettext.js")
+        template = Template(filename=rpath("gettext.js"))
         return template.render()
 
 class Upload(resource.Resource):
@@ -345,7 +374,7 @@ class Render(resource.Resource):
             return ""
 
         filename = os.path.join("render", request.render_file)
-        template = Template(filename=filename)
+        template = Template(filename=rpath(filename))
         request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
         return template.render()
@@ -378,16 +407,16 @@ class TopLevel(resource.Resource):
     
     def __init__(self):
         resource.Resource.__init__(self)
-        self.putChild("css", static.File("css"))
+        self.putChild("css", static.File(rpath("css")))
         self.putChild("gettext.js", GetText())
-        self.putChild("icons", static.File("icons"))
-        self.putChild("images", static.File("images"))
-        self.putChild("js", static.File("js"))
+        self.putChild("icons", static.File(rpath("icons")))
+        self.putChild("images", static.File(rpath("images")))
+        self.putChild("js", static.File(rpath("js")))
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
         self.putChild("test", static.File("test.html"))
-        self.putChild("themes", static.File("themes"))
+        self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
     
     def getChild(self, path, request):
@@ -397,27 +426,23 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-        template = Template(filename="index.html")
+        template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
         return template.render()
 
-setupLogger(level="debug")
+class DelugeWeb:
+    def __init__(self):
+        self.site = server.Site(TopLevel())
+        self.port = 8112
 
-# Initialize gettext
-try:
-    locale.setlocale(locale.LC_ALL, "")
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-except Exception, e:
-    log.error("Unable to initialize gettext/locale: %s", e)
-    
-site = server.Site(TopLevel())
-application = service.Application("DelugeWeb")
-sc = service.IServiceCollection(application)
-i = internet.TCPServer(8112, site)
-i.setServiceParent(sc)
+if __name__ == "__builtin__":
+    deluge_web = DelugeWeb()
+    application = service.Application("DelugeWeb")
+    sc = service.IServiceCollection(application)
+    i = internet.TCPServer(deluge_web.port, deluge_web.site)
+    i.setServiceParent(sc)
+elif __name__ == "__main__":
+    from twisted.internet import reactor
+    deluge_web = DelugeWeb()
+    reactor.listenTCP(deluge_web.port, deluge_web.site)
+    reactor.run()
