@@ -26,11 +26,8 @@
 from deluge.log import LOG as log
 
 # Install the twisted reactor
-try:
-    from twisted.internet import gtk2reactor
-    reactor = gtk2reactor.install()
-except ImportError:
-    log.error("You must install python-twisted")
+from twisted.internet import gtk2reactor
+reactor = gtk2reactor.install()
 
 import gobject
 import gettext

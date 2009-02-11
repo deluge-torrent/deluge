@@ -30,14 +30,11 @@ import threading
 import pkg_resources
 import base64
 
-from deluge.log import LOG as log
+from twisted.internet import reactor
+from twisted.internet.task import LoopingCall
+import twisted.web.client
 
-try:
-    from twisted.internet import reactor
-    from twisted.internet.task import LoopingCall
-    import twisted.web.client
-except ImportError:
-    log.error("You must install python-twisted")
+from deluge.log import LOG as log
 
 try:
     import deluge.libtorrent as lt
