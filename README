@@ -7,6 +7,7 @@ Authors:
     Marcos Pinto
     Martijn Voncken
     Sadrul Habib Chowdhury
+    Damien Churchill
 
 Homepage: http://deluge-torrent.org
 
@@ -33,6 +34,29 @@ We have two options available for support:
 ==========================
 Installation Instructions:
 ==========================
+
+Dependencies:
+  Core:
+    python >= 2.5
+    boost >= 1.34.1
+    openssl
+    zlib
+    twisted
+    twisted-web
+    pyopenssl
+    simplejson (if python < 2.6)
+    setuptools
+    gettext
+
+  Gtk:
+    dbus-python
+    python-notify (libnotify python wrapper)
+    pygame
+    pygtk >= 2.10
+    librsvg
+
+  Web:
+    mako
 
 First, make sure you have the proper build dependencies installed.  On a normal
 Debian or Ubuntu system:
