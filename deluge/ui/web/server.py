@@ -28,6 +28,7 @@ import locale
 import shutil
 import urllib
 import gettext
+import hashlib
 import logging
 import tempfile
 import pkg_resources
@@ -44,6 +45,7 @@ from twisted.web import http, resource, server, static
 from mako.template import Template as MakoTemplate
 
 from deluge import common
+from deluge.configmanager import ConfigManager
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.client import client
@@ -65,9 +67,30 @@ except Exception, e:
 
 current_dir = os.path.dirname(__file__)
 
+CONFIG_DEFAULTS = {
+    "port": 8112,
+    "button_style": 2,
+    "auto_refresh": False,
+    "auto_refresh_secs": 10,
+    "template": "white",
+    "pwd_salt": "2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
+    "pwd_md5": ".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
+    "cache_templates": True,
+    "daemon": "http://localhost:58846",
+    "base": "",
+    "disallow": {},
+    "sessions": [],
+    "sidebar_show_zero": False,
+    "sidebar_show_trackers": False,
+    "show_keyword_search": False,
+    "show_sidebar": True,
+    "https": False,
+    "refresh_secs": 10
+}
+config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
+
 def rpath(path):
-    """
-    Convert a relative path into an absolute path relative to the location
+    """Convert a relative path into an absolute path relative to the location
     of this script.
     """
     return os.path.join(current_dir, path)
@@ -222,7 +245,7 @@ class JSON(resource.Resource):
         """
         Errback handler to return a HTTP code of 500.
         """
-        raise reason
+        log.exception(reason)
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
     
@@ -325,6 +348,14 @@ class JSON(resource.Resource):
         d = Deferred()
         d.callback(True)
         return d
+    
+    def login(self, password):
+        """
+        """
+        m = hashlib.md5()
+        m.update(config['pwd_salt'])
+        m.update(password)
+        return (m.digest() == config['pwd_md5'])
     
 
 class GetText(resource.Resource):
@@ -433,7 +464,7 @@ class TopLevel(resource.Resource):
 class DelugeWeb:
     def __init__(self):
         self.site = server.Site(TopLevel())
-        self.port = 8112
+        self.port = config["port"]
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()
