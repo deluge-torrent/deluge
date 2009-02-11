@@ -30,9 +30,14 @@ import threading
 import pkg_resources
 import base64
 
-from twisted.internet import reactor
-from twisted.internet.task import LoopingCall
-import twisted.web.client
+from deluge.log import LOG as log
+
+try:
+    from twisted.internet import reactor
+    from twisted.internet.task import LoopingCall
+    import twisted.web.client
+except ImportError:
+    log.error("You must install python-twisted")
 
 try:
     import deluge.libtorrent as lt
@@ -53,8 +58,6 @@ from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
 from deluge.core.authmanager import AuthManager
 from deluge.core.rpcserver import export
-
-from deluge.log import LOG as log
 
 STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
     'file_priorities', 'file_progress', 'files', 'hash', 'is_auto_managed', 'is_seed', 'max_connections',
