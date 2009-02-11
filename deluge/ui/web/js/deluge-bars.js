@@ -118,7 +118,7 @@ Deluge.SideBar = {
 
 Deluge.StatusBar = new Ext.StatusBar({
 	statusAlign: 'left',
-	items: [{
+	/*items: [{
 		id: 'statusbar-connections',
 		text: '200 (200)',
 		cls: 'x-btn-text-icon',
@@ -146,5 +146,5 @@ Deluge.StatusBar = new Ext.StatusBar({
 		text: '161',
 		cls: 'x-btn-text-icon',
 		icon: '/icons/16/dht.png'
-	}]
+	}]*/
 });

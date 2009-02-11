@@ -124,7 +124,8 @@ class JSON(resource.Resource):
             "web.update_ui": self.update_ui,
             "web.download_torrent_from_url": self.download_torrent_from_url,
             "web.get_torrent_info": self.get_torrent_info,
-            "web.add_torrents": self.add_torrents
+            "web.add_torrents": self.add_torrents,
+            "web.login": self.login
         }
         for entry in open(common.get_default_config_dir("auth")):
             parts = entry.split(":")
@@ -355,7 +356,9 @@ class JSON(resource.Resource):
         m = hashlib.md5()
         m.update(config['pwd_salt'])
         m.update(password)
-        return (m.digest() == config['pwd_md5'])
+        d = Deferred()
+        d.callback(m.digest() == config['pwd_md5'])
+        return d
     
 
 class GetText(resource.Resource):

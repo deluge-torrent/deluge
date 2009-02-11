@@ -1,9 +1,7 @@
 Deluge.Ui = {
 	initialize: function() {
-		Deluge.Client = new JSON.RPC('/json');
 		this.errorCount = 0;
 		Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
-		
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
 			title: 'Deluge',
@@ -12,19 +10,22 @@ Deluge.Ui = {
 			items: [Deluge.SideBar, Deluge.Details,  Deluge.Torrents],
 			bbar: Deluge.StatusBar
 		});
-		
-		Deluge.SideBar = this.MainPanel.items.get('sidebar');
-		Deluge.SideBar.on('collapse', function(bar) {
-			
-			//alert(JSON.encode($('sidebar').getSize()));
-		});
-		
+
 		this.Viewport = new Ext.Viewport({
 			layout: 'fit',
 			items: [this.MainPanel]
 		});
+
+		Deluge.Login.Window.show();
+		Deluge.Client = new JSON.RPC('/json');
+		
 		Deluge.Details.Status.items.get("status-details").load({
 			url: "/render/tab_statistics.html"
+		});
+
+		Deluge.SideBar = this.MainPanel.items.get('sidebar');
+		Deluge.SideBar.on('collapse', function(bar) {
+			
 		});
 	},
 	
@@ -178,5 +179,4 @@ Deluge.Ui = {
 
 document.addEvent('domready', function(e) {
 	Deluge.Ui.initialize();
-	Deluge.Ui.run();
 });
