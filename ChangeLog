@@ -1,6 +1,7 @@
 Deluge 1.1.3 - (In Development)
  Core:
   * Fix issue where checking queue would stop
+  * Fix announcing to SSL trackers
 
  Misc:
   * Fix issue when initializing gettext that would prevent deluge from starting
