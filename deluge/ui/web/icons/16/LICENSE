@@ -7,8 +7,17 @@ Oxygen icon theme is dual licensed.
 You may copy it under the Creative Common Attribution-ShareAlike 3.0 License
 or the GNU Library General Public License.
 
-ICONS NOT UNDER THIS LICENCE:
-*none yet
-*add them here if needed.
+ICONS FROM FUGUE ICON SET:
+http://www.pinvoke.com
 
-
+ - add.png
+ - connection_manager.png
+ - create.png
+ - down.png
+ - go-bottom.png
+ - go-top.png
+ - pause.png
+ - preferences.png
+ - remove.png
+ - start.png
+ - up.png
