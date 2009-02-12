@@ -3,46 +3,53 @@ Deluge.ToolBar = new Ext.Toolbar({
 		{
 			id: 'create',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Create'),
 			icon: '/icons/16/create.png',
 			handler: torrentAction
 		},{
 			id: 'add',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Add'),
 			icon: '/icons/16/add.png',
 			handler: torrentAction
 		},{
 			id: 'remove',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Remove'),
 			icon: '/icons/16/remove.png',
 			handler: torrentAction
-		},{
+		},'|',{
 			id: 'pause',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Pause'),
 			icon: '/icons/16/pause.png',
 			handler: torrentAction
 		},{
 			id: 'resume',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Resume'),
 			icon: '/icons/16/start.png',
 			handler: torrentAction
-		},{
+		},'|',{
 			id: 'up',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Up'),
 			icon: '/icons/16/up.png',
 			handler: torrentAction
 		},{
 			id: 'down',
 			cls: 'x-btn-text-icon',
+			disabled: true,
 			text: _('Down'),
 			icon: '/icons/16/down.png',
 			handler: torrentAction
-		},{
+		},'|',{
 			id: 'preferences',
 			cls: 'x-btn-text-icon',
 			text: _('Preferences'),
