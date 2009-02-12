@@ -5,7 +5,7 @@ Deluge.Login = {
         baseCls: 'x-plain',
         labelWidth: 55,
         items: [{
-            fieldLabel: 'Password',
+            fieldLabel: _('Password'),
             id: 'password',
             name: 'password',
             inputType: 'password',
@@ -19,6 +19,14 @@ Deluge.Login = {
             onSuccess: function(result) {
                 if (result == true) {
                     Deluge.Login.Window.hide();
+                } else {
+                    Ext.MessageBox.show({
+                        title: _('Incorrect'),
+                        msg: _('You entered an incorrect password'),
+                        buttons: Ext.MessageBox.OK,
+                        modal: false,
+                        icon: Ext.MessageBox.WARNING
+                    });
                 }
             }
         });
@@ -35,7 +43,7 @@ Deluge.Login.Window = new Ext.Window({
     closable: false,
     modal: true,
     plain: true,
-    title: 'Login',
+    title: _('Login'),
     items: Deluge.Login.Form,
     buttons: [{
         text: 'Login',
