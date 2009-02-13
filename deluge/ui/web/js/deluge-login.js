@@ -7,7 +7,7 @@ Deluge.Login = {
                     Deluge.Login.Window.hide();
                 } else {
                     Ext.MessageBox.show({
-                        title: _('Incorrect'),
+                        title: _('Login Failed'),
                         msg: _('You entered an incorrect password'),
                         buttons: Ext.MessageBox.OK,
                         modal: false,
