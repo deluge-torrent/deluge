@@ -108,6 +108,9 @@ function torrentAction(item) {
 				}
 			});
 			break;
+		case "connectionman":
+			Deluge.Connections.Window.show();
+			break;
 	}	
 }
 

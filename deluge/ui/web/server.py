@@ -76,6 +76,7 @@ CONFIG_DEFAULTS = {
     "pwd_salt": "2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
     "pwd_md5": ".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
     "cache_templates": True,
+    "connections": [],
     "daemon": "http://localhost:58846",
     "base": "",
     "disallow": {},

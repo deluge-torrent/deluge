@@ -5,6 +5,7 @@ Deluge.Login = {
             onSuccess: function(result) {
                 if (result == true) {
                     Deluge.Login.Window.hide();
+                    Deluge.Connections.Window.show();
                 } else {
                     Ext.MessageBox.show({
                         title: _('Login Failed'),
@@ -56,7 +57,7 @@ Deluge.Login.Window = new Ext.Window({
     title: _('Login'),
     items: Deluge.Login.Form,
     buttons: [{
-        text: 'Login',
+        text: _('Login'),
         handler: Deluge.Login.onLogin
     }]
 });
