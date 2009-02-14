@@ -68,6 +68,7 @@ class Core(CorePluginBase):
         self.is_downloading = False
         self.is_importing = False
         self.has_imported = False
+        self.up_to_date = False
         self.num_blocked = 0
         self.file_progress = 0.0
 
@@ -126,6 +127,7 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
+        status["up_to_date"] = self.up_to_date
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
         status["file_type"] = self.config["file_type"]
@@ -248,6 +250,10 @@ class Core(CorePluginBase):
 
     def need_new_blocklist(self):
         """Returns True if a new blocklist file should be downloaded"""
+
+        # Assume blocklist is not up to date
+        self.up_to_date = False
+
         # Check to see if we've just downloaded a new blocklist
         if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
             log.debug("New blocklist waiting to be imported")
@@ -296,5 +302,6 @@ class Core(CorePluginBase):
 
         # Update last modified time of blocklist
         os.utime(deluge.configmanager.get_config_dir("blocklist.cache"), None)
+        self.up_to_date = True
         log.debug("Blocklist is up to date")
         return False

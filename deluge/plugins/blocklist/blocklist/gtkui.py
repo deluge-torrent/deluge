@@ -70,6 +70,7 @@ class GtkUI(ui.UI):
                 self.table_info.hide()
                 self.glade.get_widget("button_check_download").set_sensitive(False)
                 self.glade.get_widget("button_force_download").set_sensitive(False)
+                self.glade.get_widget("image_up_to_date").hide()
 
                 self.status_item.set_text(
                     "Downloading %.2f%%" % (status["file_progress"] * 100))
@@ -81,6 +82,7 @@ class GtkUI(ui.UI):
                 self.table_info.hide()
                 self.glade.get_widget("button_check_download").set_sensitive(False)
                 self.glade.get_widget("button_force_download").set_sensitive(False)
+                self.glade.get_widget("image_up_to_date").hide()
 
                 self.status_item.set_text(
                     "Importing " + str(status["num_blocked"]))
@@ -92,6 +94,10 @@ class GtkUI(ui.UI):
                 self.progress_bar.hide()
                 self.glade.get_widget("button_check_download").set_sensitive(True)
                 self.glade.get_widget("button_force_download").set_sensitive(True)
+                if status["up_to_date"]:
+                    self.glade.get_widget("image_up_to_date").show()
+                else:
+                    self.glade.get_widget("image_up_to_date").hide()
 
                 self.table_info.show()
                 self.status_item.set_text(str(status["num_blocked"]))
