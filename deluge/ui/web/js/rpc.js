@@ -52,24 +52,38 @@ JSON.RPC = new Class({
 		this.setOptions(options)
 		this.url = url
 		if (this.options.methods.length == 0) {
-			var methodNames = this._execute('system.listMethods', {async: false});
-			var components = new Hash();
-
-			methodNames.forEach(function(method) {
-				var parts = method.split('.');
-				var component = $pick(components[parts[0]], new Hash());
-				var fn = function() {
-					var options = this._parseargs(arguments);
-					return this._execute(method, options);
-				}.bind(this);
-				component[parts[1]] = fn;
-				components[parts[0]] = component;
-			}, this);
-			
-			components.each(function(methods, name) {
-				this[name] = methods;
-			}, this);
+			this._setMethods(this._execute('system.listMethods', {async: false}));
+		} else {
+			this._setMethods(this.options.methods);
 		}
+	},
+	
+	
+	/*
+	Property: _setMethods
+		Internal method for settings the methods up
+
+	Arguments:
+		methodNames - A list of the method names available.
+
+	*/
+	_setMethods: function(methodNames) {
+		var components = new Hash();
+
+		methodNames.forEach(function(method) {
+			var parts = method.split('.');
+			var component = $pick(components[parts[0]], new Hash());
+			var fn = function() {
+				var options = this._parseargs(arguments);
+				return this._execute(method, options);
+			}.bind(this);
+			component[parts[1]] = fn;
+			components[parts[0]] = component;
+		}, this);
+		
+		components.each(function(methods, name) {
+			this[name] = methods;
+		}, this);
 	},
 
 	/*
