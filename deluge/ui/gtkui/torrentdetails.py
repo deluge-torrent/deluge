@@ -204,6 +204,12 @@ class TorrentDetails(component.Component):
         self.regenerate_positions()
         self.generate_menu()
 
+        show = False
+        for name, tab in self.tabs.iteritems():
+            show = show or tab.is_visible
+
+        self.visible(show)
+
     def show_tab(self, tab_name):
         log.debug("%s\n%s\n%s", self.tabs[tab_name].get_child_widget(),
             self.tabs[tab_name].get_tab_label(),
@@ -234,6 +240,7 @@ class TorrentDetails(component.Component):
         self.tabs[tab_name].is_visible = True
         self.regenerate_positions()
         self.generate_menu()
+        self.visible(True)
 
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
