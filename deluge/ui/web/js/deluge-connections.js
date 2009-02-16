@@ -1,10 +1,27 @@
 Deluge.Connections = {
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
+		Deluge.Connections.Window.hide();
     },
     
     onConnect: function(e) {
+		$clear(Deluge.Connections.running);
+		Deluge.Connections.Window.hide();
+		var selected = Deluge.Connections.Grid.getSelectionModel().getSelected();
+		var id = selected.id;
+		Deluge.Client.web.connect(id, {
+			onSuccess: function(methods) {
+				Deluge.Client = new JSON.RPC('/json', {
+					methods: methods
+				});
+				Deluge.Ui.run();
+			}
+		});
     },
+	
+	onSelect: function(selModel, rowIndex, record) {
+		Deluge.Connections.selectedRow = rowIndex;
+	},
 	
 	onShow: function(window) {
 		Deluge.Connections.running = Deluge.Connections.runCheck.periodical(2000);
@@ -19,6 +36,8 @@ Deluge.Connections = {
 	
 	onGetHosts: function(hosts) {
 		Deluge.Connections.Store.loadData(hosts);
+		var selection = Deluge.Connections.Grid.getSelectionModel();
+		selection.selectRow(Deluge.Connections.selectedRow);
 	}
 }
 
@@ -28,7 +47,8 @@ Deluge.Connections.Store = new Ext.data.SimpleStore({
 		{name: 'host', mapping: 1},
 		{name: 'port', mapping: 2},
 		{name: 'version', mapping: 6}
-	]
+	],
+	id: 0
 });
 
 var renderHost = function(value, p, r) {
@@ -44,6 +64,10 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 		{header: "Version", width: 75, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'version'}
 	],	
 	stripeRows: true,
+	selModel: new Ext.grid.RowSelectionModel({
+		singleSelect: true,
+		listeners: {'rowselect': Deluge.Connections.onSelect}
+	}),
 	autoExpandColumn: 'host',
 	deferredRender:false,
 	autoScroll:true,
@@ -69,6 +93,7 @@ Deluge.Connections.Window = new Ext.Window({
         handler: Deluge.Connections.onConnect
     }],
 	listeners: {
+		'hide': Deluge.Connections.onClose,
 		'show': Deluge.Connections.onShow
 	}
 });

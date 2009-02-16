@@ -67,7 +67,7 @@ Deluge.Ui = {
 			]);
 		});
 		Deluge.Torrents.store.loadData(torrents);
-		this.updateStatusBar(data['stats']);
+		//this.updateStatusBar(data['stats']);
 		this.errorCount = 0;
 	},
 	

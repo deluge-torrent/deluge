@@ -146,7 +146,8 @@ class JSON(resource.Resource):
             "web.get_torrent_info": self.get_torrent_info,
             "web.add_torrents": self.add_torrents,
             "web.login": self.login,
-            "web.get_hosts": self.get_hosts
+            "web.get_hosts": self.get_hosts,
+            "web.connect": self.connect
         }
         for entry in open(common.get_default_config_dir("auth")):
             parts = entry.split(":")
@@ -160,19 +161,23 @@ class JSON(resource.Resource):
             self.local_username = username
             self.local_password = password
     
-    def connect(self, host="localhost", port=58846, username=None, password=None):
+    def _connect(self, host="localhost", port=58846, username=None, password=None):
         """
         Connects the client to a daemon
         """
         username = username or self.local_username
         password = password or self.local_password
-        d = client.connect(host=host, username=username, password=password)
+        d = Deferred()
+        _d = client.connect(host=host, username=username, password=password)
         
         def on_get_methods(methods):
             """
             Handles receiving the method names
             """
             self._remote_methods = methods
+            methods = list(self._remote_methods)
+            methods.extend(self._local_methods)
+            d.callback(methods)
         
         def on_client_connected(connection_id):
             """
@@ -181,7 +186,8 @@ class JSON(resource.Resource):
             """
             d = client.daemon.get_method_list()
             d.addCallback(on_get_methods)
-        d.addCallback(on_client_connected)
+        _d.addCallback(on_client_connected)
+        return d
 
     def _exec_local(self, method, params):
         """
@@ -293,6 +299,16 @@ class JSON(resource.Resource):
             return server.NOT_DONE_YET
         except Exception, e:
             return self._on_json_request_failed(e, request)
+    
+    def connect(self, host_id):
+        d = Deferred()
+        def on_connected(methods):
+            d.callback(methods)
+        for host in hostlist["hosts"]:
+            if host_id != host[0]:
+                continue
+            self._connect(*host[1:]).addCallback(on_connected)
+        return d
     
     def update_ui(self, keys, filter_dict, cache_id=None):
 
@@ -406,7 +422,7 @@ class JSON(resource.Resource):
             d.addErrback(on_info_fail, c)
             
         def on_connect_failed(reason, host_id):
-            print reason
+            log.exception(reason)
             hosts[host_id][5] = _("Offline")
             run_check()
         
