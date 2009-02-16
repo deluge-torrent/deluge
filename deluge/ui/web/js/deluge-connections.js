@@ -3,23 +3,38 @@ Deluge.Connections = {
     },
     
     onConnect: function(e) {
-    }
+    },
+	
+	onShow: function(window) {
+		Deluge.Client.web.get_hosts({
+			onSuccess: Deluge.Connections.onGetHosts
+		});
+	},
+	
+	onGetHosts: function(hosts) {
+		Deluge.Connections.Store.loadData(hosts);
+	}
 }
 
 Deluge.Connections.Store = new Ext.data.SimpleStore({
 	fields: [
-		{name: 'status'},
-		{name: 'host'},
-		{name: 'version'}
+		{name: 'status', mapping: 5},
+		{name: 'host', mapping: 1},
+		{name: 'port', mapping: 2},
+		{name: 'version', mapping: 6}
 	]
 });
+
+var renderHost = function(value, p, r) {
+	return value + ':' + r.data['port']
+}
 
 Deluge.Connections.Grid = new Ext.grid.GridPanel({
 	store: Deluge.Connections.Store,
 	cls: 'deluge-torrents',
 	columns: [
 		{header: "Status", width: 55, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'status'},
-		{id:'host', header: "Host", width: 150, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'host'},
+		{id:'host', header: "Host", width: 150, sortable: true, renderer: renderHost, dataIndex: 'host'},
 		{header: "Version", width: 75, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'version'}
 	],	
 	stripeRows: true,
@@ -46,5 +61,8 @@ Deluge.Connections.Window = new Ext.Window({
     },{
         text: _('Connect'),
         handler: Deluge.Connections.onConnect
-    }]
+    }],
+	listeners: {
+		'show': Deluge.Connections.onShow
+	}
 });

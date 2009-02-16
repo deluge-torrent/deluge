@@ -24,6 +24,7 @@
 
 import os
 import sys
+import time
 import locale
 import shutil
 import urllib
@@ -48,7 +49,7 @@ from deluge import common
 from deluge.configmanager import ConfigManager
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
-from deluge.ui.client import client
+from deluge.ui.client import client, Client
 from deluge.ui.tracker_icons import TrackerIcons
 log = logging.getLogger(__name__)
 
@@ -64,6 +65,8 @@ try:
     gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
 except Exception, e:
     log.error("Unable to initialize gettext/locale: %s", e)
+
+_ = gettext.gettext
 
 current_dir = os.path.dirname(__file__)
 
@@ -88,7 +91,23 @@ CONFIG_DEFAULTS = {
     "https": False,
     "refresh_secs": 10
 }
+
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 58846
+DEFAULT_HOSTS = {
+    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
+}
+
+HOSTLIST_COL_ID = 0
+HOSTLIST_COL_HOST = 1
+HOSTLIST_COL_PORT = 2
+HOSTLIST_COL_STATUS = 3
+HOSTLIST_COL_USER = 4
+HOSTLIST_COL_PASS = 5
+HOSTLIST_COL_VERSION = 6
+
 config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
+hostlist = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
 
 def rpath(path):
     """Convert a relative path into an absolute path relative to the location
@@ -99,7 +118,7 @@ def rpath(path):
 class Template(MakoTemplate):
     
     builtins = {
-        "_": gettext.gettext,
+        "_": _,
         "version": common.get_version()
     }
     
@@ -126,7 +145,8 @@ class JSON(resource.Resource):
             "web.download_torrent_from_url": self.download_torrent_from_url,
             "web.get_torrent_info": self.get_torrent_info,
             "web.add_torrents": self.add_torrents,
-            "web.login": self.login
+            "web.login": self.login,
+            "web.get_hosts": self.get_hosts
         }
         for entry in open(common.get_default_config_dir("auth")):
             parts = entry.split(":")
@@ -139,9 +159,8 @@ class JSON(resource.Resource):
                 continue
             self.local_username = username
             self.local_password = password
-        self.connect()
     
-    def connect(self, host="localhost", username=None, password=None):
+    def connect(self, host="localhost", port=58846, username=None, password=None):
         """
         Connects the client to a daemon
         """
@@ -214,6 +233,7 @@ class JSON(resource.Resource):
             elif method in self._remote_methods:
                 return self._exec_remote(method, params), request_id
         except Exception, e:
+            log.exception(e)
             raise JSONException(e)
     
     def _on_rpc_request_finished(self, result, response, request):
@@ -352,7 +372,7 @@ class JSON(resource.Resource):
         return d
     
     def login(self, password):
-        """
+        """Method to allow the webui to authenticate
         """
         m = hashlib.md5()
         m.update(config['pwd_salt'])
@@ -361,6 +381,54 @@ class JSON(resource.Resource):
         d.callback(m.digest() == config['pwd_md5'])
         return d
     
+    def get_hosts(self):
+        """Return the hosts in the hostlist"""
+        hosts = dict((host[0], host[:]) for host in hostlist["hosts"])
+        
+        main_deferred = Deferred()
+        def run_check():
+            if all(map(lambda x: x[5] is not None, hosts.values())):
+                main_deferred.callback(hosts.values())
+        
+        def on_connect(result, c, host_id):
+            def on_info(info, c):
+                hosts[host_id][5] = _("Online")
+                hosts[host_id][6] = info
+                c.disconnect()
+                run_check()
+            
+            def on_info_fail(reason):
+                hosts[host_id][5] = _("Offline")
+                run_check()
+            
+            d = c.daemon.info()
+            d.addCallback(on_info, c)
+            d.addErrback(on_info_fail, c)
+            
+        def on_connect_failed(reason, host_id):
+            print reason
+            hosts[host_id][5] = _("Offline")
+            run_check()
+        
+        for host in hosts.values():
+            host_id, host, port, user, password = host[0:5]
+            hosts[host_id].append(None)
+            hosts[host_id].append(None)
+            
+            if client.connected() and (host, port, user) == client.connection_info():
+                def on_info(info):
+                    hosts[host_id][6] = info
+                    run_check()
+                host[5] = _("Connected")
+                client.daemon.info().addCallback(on_info)
+                hosts[host_id] = host
+                continue
+            
+            c = Client()
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c, host_id)
+            d.addErrback(on_connect_failed, host_id)
+        return main_deferred
 
 class GetText(resource.Resource):
     def render(self, request):
