@@ -1,11 +1,17 @@
 Deluge.Connections = {
     onClose: function(e) {
+		$clear(Deluge.Connections.running);
     },
     
     onConnect: function(e) {
     },
 	
 	onShow: function(window) {
+		Deluge.Connections.running = Deluge.Connections.runCheck.periodical(2000);
+		Deluge.Connections.runCheck();
+	},
+	
+	runCheck: function() {
 		Deluge.Client.web.get_hosts({
 			onSuccess: Deluge.Connections.onGetHosts
 		});

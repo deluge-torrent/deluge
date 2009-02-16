@@ -24,9 +24,6 @@ Deluge.Ui = {
 		});
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');
-		Deluge.SideBar.on('collapse', function(bar) {
-			
-		});
 	},
 	
 	update: function() {
