@@ -14,7 +14,7 @@ Deluge.Connections = {
 				Deluge.Client = new JSON.RPC('/json', {
 					methods: methods
 				});
-				Deluge.Ui.run();
+				Deluge.Ui.connected();
 			}
 		});
     },

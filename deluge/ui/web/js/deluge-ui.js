@@ -149,13 +149,14 @@ Deluge.Ui = {
         information.
 
     Example:
-        Deluge.UI.run();
+        Deluge.UI.connected();
     */
-	run: function() {
+	connected: function() {
 		if (!this.running) {
 			this.running = this.update.periodical(2000, this);
 			this.update();
 		}
+		Deluge.ToolBar.connected();
 	},
 	
 	/*

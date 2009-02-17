@@ -65,6 +65,18 @@ Deluge.ToolBar = new Ext.Toolbar({
 	]
 });
 
+Deluge.ToolBar.connected = function() {
+	Deluge.ToolBar.items.each(function(bn) {
+		bn.enable();
+	});
+}
+
+Deluge.ToolBar.disconnected = function() {
+	Deluge.ToolBar.items.each(function(bn) {
+		bn.disable();
+	});
+}
+
 function torrentAction(item) {
 	var selection = Deluge.Torrents.getSelectionModel().getSelections();
 	var ids = new Array();
