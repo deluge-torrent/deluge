@@ -63,4 +63,5 @@ class UI:
                 ui = ConsoleUI(ui_args).run()
         except ImportError:
             log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
+            import sys
             sys.exit(0)
