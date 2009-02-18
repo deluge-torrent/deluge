@@ -240,7 +240,9 @@ class JSON(resource.Resource):
                 return self._exec_remote(method, params), request_id
         except Exception, e:
             log.exception(e)
-            raise JSONException(e)
+            d = Deferred()
+            d.callback(None)
+            return d, request_id
     
     def _on_rpc_request_finished(self, result, response, request):
         """
@@ -403,18 +405,18 @@ class JSON(resource.Resource):
         
         main_deferred = Deferred()
         def run_check():
-            if all(map(lambda x: x[5] is not None, hosts.values())):
+            if all(map(lambda x: x[3] is not None, hosts.values())):
                 main_deferred.callback(hosts.values())
         
         def on_connect(result, c, host_id):
             def on_info(info, c):
-                hosts[host_id][5] = _("Online")
-                hosts[host_id][6] = info
+                hosts[host_id][3] = _("Online")
+                hosts[host_id][4] = info
                 c.disconnect()
                 run_check()
             
             def on_info_fail(reason):
-                hosts[host_id][5] = _("Offline")
+                hosts[host_id][3] = _("Offline")
                 run_check()
             
             d = c.daemon.info()
@@ -423,17 +425,16 @@ class JSON(resource.Resource):
             
         def on_connect_failed(reason, host_id):
             log.exception(reason)
-            hosts[host_id][5] = _("Offline")
+            hosts[host_id][3] = _("Offline")
             run_check()
         
         for host in hosts.values():
             host_id, host, port, user, password = host[0:5]
-            hosts[host_id].append(None)
-            hosts[host_id].append(None)
+            hosts[host_id][3:4] = (None, None)
             
             if client.connected() and (host, port, user) == client.connection_info():
                 def on_info(info):
-                    hosts[host_id][6] = info
+                    hosts[host_id][4] = info
                     run_check()
                 host[5] = _("Connected")
                 client.daemon.info().addCallback(on_info)

@@ -43,10 +43,10 @@ Deluge.Connections = {
 
 Deluge.Connections.Store = new Ext.data.SimpleStore({
 	fields: [
-		{name: 'status', mapping: 5},
+		{name: 'status', mapping: 3},
 		{name: 'host', mapping: 1},
 		{name: 'port', mapping: 2},
-		{name: 'version', mapping: 6}
+		{name: 'version', mapping: 4}
 	],
 	id: 0
 });
