@@ -142,7 +142,8 @@ class JSON(resource.Resource):
             "web.add_torrents": self.add_torrents,
             "web.login": self.login,
             "web.get_hosts": self.get_hosts,
-            "web.connect": self.connect
+            "web.connect": self.connect,
+            "web.connected": self.connected
         }
         for entry in open(common.get_default_config_dir("auth")):
             parts = entry.split(":")
@@ -307,13 +308,17 @@ class JSON(resource.Resource):
             self._connect(*host[1:]).addCallback(on_connected)
         return d
     
-    def update_ui(self, keys, filter_dict, cache_id=None):
+    def connected(self):
+        d = Deferred()
+        d.callback(client.connected())
+        return d
+    
+    def update_ui(self, keys, filter_dict):
 
         ui_info = {
             "torrents": None,
             "filters": None,
-            "stats": None,
-            "cache_id": -1
+            "stats": None
         }
         
         d = Deferred()

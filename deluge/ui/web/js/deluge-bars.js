@@ -26,6 +26,10 @@ Deluge.ToolBar = {
 		Deluge.Login.Window.show();
 	},
 	
+	onConnectionManagerClick: function(item) {
+		Deluge.Connections.Window.show();
+	},
+	
 	onTorrentAction: function(item) {
 		var selection = Deluge.Torrents.getSelectionModel().getSelections();
 		var ids = new Array();
@@ -42,35 +46,20 @@ Deluge.ToolBar = {
 				});
 				break;
 			case 'pause':
-				Deluge.Client.core.pause_torrent(ids, {
-					onSuccess: function() {
-						Deluge.Ui.update();
-					}
-				});
-				break;
 			case 'resume':
-				Deluge.Client.core.resume_torrent(ids, {
+				Deluge.Client.core[item.id + '_torrent'](ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
 			case 'up':
-				Deluge.Client.core.queue_up(ids, {
-					onSuccess: function() {
-						Deluge.Ui.update();
-					}
-				});
-				break;
 			case 'down':
-				Deluge.Client.core.queue_down(ids, {
+				Deluge.Client.core['queue_' + item.id](ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
-				break;
-			case 'connectionman':
-				Deluge.Connections.Window.show();
 				break;
 		}
 	},
@@ -143,13 +132,16 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			cls: 'x-btn-text-icon',
 			text: _('Connection Manager'),
 			icon: '/icons/16/connection_manager.png',
-			handler: Deluge.ToolBar.onTorrentAction
+			handler: Deluge.ToolBar.onConnectionManagerClick,
+			scope: Deluge.ToolBar
 		},'->',{
 			id: 'help',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			icon: '/icons/16/help.png',
-			text: _('Help')
+			text: _('Help'),
+			handler: Deluge.ToolBar.onHelpClick,
+			scope: Deluge.ToolBar
 		},{
 			id: 'logout',
 			cls: 'x-btn-text-icon',

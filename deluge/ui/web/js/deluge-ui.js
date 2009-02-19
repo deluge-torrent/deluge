@@ -29,6 +29,15 @@ Deluge.Ui = {
 			onSuccess: this.onUpdate.bindWithEvent(this),
 			onFailure: this.onUpdateError.bindWithEvent(this)
 		});
+		Deluge.Client.web.connected({
+			onSuccess: this.onConnectedCheck.bindWithEvent(this)
+		});
+	},
+	
+	onConnectedCheck: function(connected) {
+		if (!connected) {
+			Deluge.Events.fire('disconnect');
+		}
 	},
 	
 	onUpdateError: function(error) {
