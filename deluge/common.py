@@ -29,6 +29,12 @@ import os
 import time
 import subprocess
 import platform
+import sys
+	
+if sys.version_info > (2, 6):
+    import json
+else:
+    import simplejson as json
 
 import pkg_resources
 import xdg, xdg.BaseDirectory

@@ -23,7 +23,6 @@
 #
 
 import os
-import sys
 import time
 import locale
 import shutil
@@ -33,11 +32,6 @@ import hashlib
 import logging
 import tempfile
 import pkg_resources
-
-if sys.version_info > (2, 6):
-    import json
-else:
-    import simplejson as json
 
 from twisted.application import service, internet
 from twisted.internet.defer import Deferred
@@ -52,6 +46,7 @@ from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
 from deluge.ui.tracker_icons import TrackerIcons
 log = logging.getLogger(__name__)
+json = common.json
 
 # Initialize gettext
 try:

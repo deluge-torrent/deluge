@@ -30,15 +30,11 @@ Deluge Config Module
 import cPickle as pickle
 import shutil
 import os
-import sys
-
-if sys.version_info > (2, 6):
-    import json
-else:
-    import simplejson as json
 
 import deluge.common
 from deluge.log import LOG as log
+
+json = deluge.common.json
 
 def prop(func):
     """Function decorator for defining property attributes
