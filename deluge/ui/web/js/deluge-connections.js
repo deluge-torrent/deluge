@@ -1,4 +1,7 @@
 Deluge.Connections = {
+	connects: new Array(),
+	disconnects: new Array()
+	
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
 		Deluge.Connections.Window.hide();
@@ -19,6 +22,12 @@ Deluge.Connections = {
 		});
     },
 	
+	onGetHosts: function(hosts) {
+		Deluge.Connections.Store.loadData(hosts);
+		var selection = Deluge.Connections.Grid.getSelectionModel();
+		selection.selectRow(Deluge.Connections.selectedRow);
+	},
+	
 	onSelect: function(selModel, rowIndex, record) {
 		Deluge.Connections.selectedRow = rowIndex;
 	},
@@ -28,16 +37,25 @@ Deluge.Connections = {
 		Deluge.Connections.runCheck();
 	},
 	
+	addConnect: function(fn) {
+		
+	},
+	
+	removeConnect: function(fn) {
+	},
+	
+	addDisconnect: function(fn) {
+		
+	},
+	
+	removeDisconnect: function(fn) {
+		
+	},
+	
 	runCheck: function() {
 		Deluge.Client.web.get_hosts({
 			onSuccess: Deluge.Connections.onGetHosts
 		});
-	},
-	
-	onGetHosts: function(hosts) {
-		Deluge.Connections.Store.loadData(hosts);
-		var selection = Deluge.Connections.Grid.getSelectionModel();
-		selection.selectRow(Deluge.Connections.selectedRow);
 	}
 }
 
