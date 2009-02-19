@@ -1,14 +1,22 @@
 Deluge.ToolBar = {
+	connected_buttons: [
+		'create', 'add', 'remove', 'pause', 'resume', 'up', 'down'
+	],
+	
 	onConnect: function() {
-		Deluge.ToolBar.Bar.items.each(function(bn) {
-			bn.enable();
-		});
+		$each(this.connected_buttons, function(button_id) {
+			this.Bar.items.get(button_id).enable();
+		}, this);
 	},
 	
 	onDisconnect: function() {
-		Deluge.ToolBar.items.each(function(bn) {
-			bn.disable();
-		});
+		$each(this.connected_buttons, function(button_id) {
+			this.Bar.items.get(button_id).disable();
+		}, this);
+	},
+	
+	onLogout: function() {
+		
 	},
 	
 	onTorrentAction: function(item) {
@@ -128,6 +136,19 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			text: _('Connection Manager'),
 			icon: '/icons/16/connection_manager.png',
 			handler: Deluge.ToolBar.onTorrentAction
+		},'->',{
+			id: 'help',
+			cls: 'x-btn-text-icon',
+			disabled: true,
+			icon: '/icons/16/help.png',
+			text: _('Help')
+		},{
+			id: 'logout',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/logout.png',
+			disabled: true,
+			text: _('Logout'),
+			handler: Deluge.ToolBar.onLogout
 		}
 	],		
 	listeners: {'render': Deluge.ToolBar.onToolbarRender, scope: Deluge.ToolBar}
@@ -148,7 +169,6 @@ Deluge.SideBar = {
 };
 
 Deluge.StatusBar = new Ext.StatusBar({
-	statusAlign: 'left',
 	/*items: [{
 		id: 'statusbar-connections',
 		text: '200 (200)',
