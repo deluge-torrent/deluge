@@ -7,7 +7,7 @@ Deluge.Ui = {
 			title: 'Deluge',
 			layout: 'border',
 			tbar: Deluge.ToolBar,
-			items: [Deluge.SideBar, Deluge.Details,  Deluge.Torrents],
+			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents],
 			bbar: Deluge.StatusBar
 		});
 
@@ -18,10 +18,7 @@ Deluge.Ui = {
 
 		Deluge.Login.Window.show();
 		Deluge.Client = new JSON.RPC('/json');
-		
-		Deluge.Details.Status.items.get("status-details").load({
-			url: "/render/tab_statistics.html"
-		});
+		Deluge.Details.initialize();
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');
 	},
