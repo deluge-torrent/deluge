@@ -6,10 +6,11 @@ var Deluge = {
 Deluge.Events = {
 	_events: new Hash(),
 	
-	fire: function(eventName) {
+	fire: function(eventName, arg) {
 		if (!this._events[eventName]) return;
 		$each(this._events[eventName], function(fn) {
-			fn(Deluge.Client);
+			if ($type(fn) != 'function') return;
+			fn(arg);
 		});
 	},
 	
