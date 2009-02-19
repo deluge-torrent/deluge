@@ -1,6 +1,5 @@
 Deluge.Connections = {
-	connects: new Array(),
-	disconnects: new Array()
+	_events: new Hash(),
 	
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
@@ -17,7 +16,7 @@ Deluge.Connections = {
 				Deluge.Client = new JSON.RPC('/json', {
 					methods: methods
 				});
-				Deluge.Ui.connected();
+				Deluge.Connections.fire("connect");
 			}
 		});
     },
@@ -37,19 +36,22 @@ Deluge.Connections = {
 		Deluge.Connections.runCheck();
 	},
 	
-	addConnect: function(fn) {
-		
+	fire: function(eventName) {
+		if (!this._events[eventName]) return;
+		$each(this._events[eventName], function(fn) {
+			fn(Deluge.Client);
+		});
 	},
 	
-	removeConnect: function(fn) {
+	on: function(eventName, fn) {
+		var e = $pick(this._events[eventName], new Array());
+		e.include(fn);
+		this._events[eventName] = e;
 	},
 	
-	addDisconnect: function(fn) {
-		
-	},
-	
-	removeDisconnect: function(fn) {
-		
+	removeListener: function(eventName, fn) {
+		if (!this._events[eventName]) return;
+		this._events[eventName].remove(fn);
 	},
 	
 	runCheck: function() {

@@ -6,7 +6,7 @@ Deluge.Ui = {
 			id: 'mainPanel',
 			title: 'Deluge',
 			layout: 'border',
-			tbar: Deluge.ToolBar,
+			tbar: Deluge.ToolBar.Bar,
 			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents],
 			bbar: Deluge.StatusBar
 		});
@@ -17,6 +17,7 @@ Deluge.Ui = {
 		});
 
 		Deluge.Login.Window.show();
+		Deluge.Connections.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');
@@ -145,14 +146,13 @@ Deluge.Ui = {
         information.
 
     Example:
-        Deluge.UI.connected();
+        Deluge.UI.onConnect();
     */
-	connected: function() {
+	onConnect: function() {
 		if (!this.running) {
 			this.running = this.update.periodical(2000, this);
 			this.update();
 		}
-		Deluge.ToolBar.connected();
 	},
 	
 	/*
