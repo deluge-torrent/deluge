@@ -65,80 +65,8 @@ Deluge.Ui = {
 			]);
 		});
 		Deluge.Torrents.store.loadData(torrents);
-		//this.updateStatusBar(data['stats']);
+		Deluge.StatusBar.update(data['stats']);
 		this.errorCount = 0;
-	},
-	
-	updateStatusBar: function(stats) {
-		function addSpeed(val) {return val + " KiB/s"}
-		
-		function updateStat(name, config) {
-			var item = Deluge.StatusBar.items.get("statusbar-" + name);
-			if (config.limit.value == -1) {
-				var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
-			} else {
-				var value = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
-				var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value) : config.limit.value;
-				var str = String.format(config.format, value, limit);
-			}
-			item.setText(str);
-		}
-		
-		updateStat("connections", {
-			value: {value: stats.num_connections},
-			limit: {value: stats.max_num_connections},
-			format: "{0} ({1})"
-		});
-
-		updateStat("downspeed", {
-			value: {
-				value: stats.download_rate,
-				formatter: Deluge.Formatters.speed
-			},
-			limit: {
-				value: stats.max_download,
-				formatter: addSpeed
-			},
-			format: "{0} ({1})"
-		});
-
-		updateStat("upspeed", {
-			value: {
-				value: stats.upload_rate,
-				formatter: Deluge.Formatters.speed
-			},
-			limit: {
-				value: stats.max_upload,
-				formatter: addSpeed
-			},
-			format: "{0} ({1})"
-		});
-		
-		updateStat("traffic", {
-			value: {
-				value: stats.payload_download_rate,
-				formatter: Deluge.Formatters.speed
-			},
-			limit: {
-				value: stats.payload_upload_rate,
-				formatter: Deluge.Formatters.speed
-			},
-			format: "{0}/{1}"
-		});
-
-		Deluge.StatusBar.items.get('statusbar-dht').setText(stats.dht_nodes);
-
-		function updateMenu(menu, stat) {
-			var item = menu.items.get(stat)
-			if (!item) {
-				item = menu.items.get("other")
-			}
-			item.setChecked(true);
-		}
-		
-		updateMenu(Deluge.Menus.Connections, stats.max_num_connections);
-		updateMenu(Deluge.Menus.Download, stats.max_download);
-		updateMenu(Deluge.Menus.Upload, stats.max_upload);
 	},
 	
 	/*

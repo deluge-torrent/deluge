@@ -180,10 +180,45 @@ Deluge.SideBar = {
 Deluge.StatusBar = {
 	onRender: function() {
 		this.bound = {
-			onConnect: this.onConnect.bindWithEvent(this)
+			onConnect: this.onConnect.bindWithEvent(this),
+			onDisconnect: this.onDisconnect.bindWithEvent(this)
 		}
+		
 		Deluge.Events.on('connect', this.bound.onConnect);
 		Deluge.Events.on('disconnect', this.bound.onDisconnect);
+	},
+	
+	createButtons: function() {
+		this.Bar.add({
+			id: 'statusbar-connections',
+			text: '200 (200)',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/connection_manager.png',
+			menu: Deluge.Menus.Connections
+		}, '-', {
+			id: 'statusbar-downspeed',
+			text: '9.8KiB/s (30 KiB/s)',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/downloading.png',
+			menu: Deluge.Menus.Download
+		}, '-', {
+			id: 'statusbar-upspeed',
+			text: '9.8KiB/s (30 KiB/s)',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/seeding.png',
+			menu: Deluge.Menus.Upload
+		}, '-', {
+			id: 'statusbar-traffic',
+			text: '1.53/2,65 KiB/s',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/traffic.png'
+		}, '-', {
+			id: 'statusbar-dht',
+			text: '161',
+			cls: 'x-btn-text-icon',
+			icon: '/icons/16/dht.png'
+		});
+		this.created = true;
 	},
 	
 	onConnect: function() {
@@ -191,10 +226,93 @@ Deluge.StatusBar = {
 			iconCls: 'x-connected',
 			text: ''
 		});
+		if (!this.created) this.createButtons();
+		else {
+			this.Bar.items.each(function(item) {
+				item.show();
+				item.enable();
+			});
+		}
 	},
 	
 	onDisconnect: function() {
 		this.Bar.clearStatus({useDefaults:true});
+		this.Bar.items.each(function(item) {
+			item.hide();
+			item.disable();
+		});
+	},
+	
+	update: function(stats) {
+		function addSpeed(val) {return val + ' KiB/s'}
+		
+		var updateStat = function(name, config) {
+			var item = this.Bar.items.get('statusbar-' + name);
+			if (config.limit.value == -1) {
+				var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
+			} else {
+				var value = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
+				var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value) : config.limit.value;
+				var str = String.format(config.format, value, limit);
+			}
+			item.setText(str);
+		}.bind(this);
+		
+		updateStat('connections', {
+			value: {value: stats.num_connections},
+			limit: {value: stats.max_num_connections},
+			format: '{0} ({1})'
+		});
+
+		updateStat('downspeed', {
+			value: {
+				value: stats.download_rate,
+				formatter: Deluge.Formatters.speed
+			},
+			limit: {
+				value: stats.max_download,
+				formatter: addSpeed
+			},
+			format: '{0} ({1})'
+		});
+
+		updateStat('upspeed', {
+			value: {
+				value: stats.upload_rate,
+				formatter: Deluge.Formatters.speed
+			},
+			limit: {
+				value: stats.max_upload,
+				formatter: addSpeed
+			},
+			format: '{0} ({1})'
+		});
+		
+		updateStat('traffic', {
+			value: {
+				value: stats.payload_download_rate,
+				formatter: Deluge.Formatters.speed
+			},
+			limit: {
+				value: stats.payload_upload_rate,
+				formatter: Deluge.Formatters.speed
+			},
+			format: '{0}/{1}'
+		});
+
+		this.Bar.items.get('statusbar-dht').setText(stats.dht_nodes);
+
+		function updateMenu(menu, stat) {
+			var item = menu.items.get(stat)
+			if (!item) {
+				item = menu.items.get('other')
+			}
+			item.setChecked(true);
+		}
+		
+		updateMenu(Deluge.Menus.Connections, stats.max_num_connections);
+		updateMenu(Deluge.Menus.Download, stats.max_download);
+		updateMenu(Deluge.Menus.Upload, stats.max_upload);
 	}
 }
 
@@ -202,34 +320,5 @@ Deluge.StatusBar.Bar = new Ext.StatusBar({
 	id: 'deluge-statusbar',
 	defaultIconCls: 'x-not-connected',
 	defaultText: _('Not Connected'),
-	/*items: [{
-		id: 'statusbar-connections',
-		text: '200 (200)',
-		cls: 'x-btn-text-icon',
-		icon: '/icons/16/connection_manager.png',
-		menu: Deluge.Menus.Connections
-	}, '-', {
-		id: 'statusbar-downspeed',
-		text: '9.8KiB/s (30 KiB/s)',
-		cls: 'x-btn-text-icon',
-		icon: '/icons/16/downloading.png',
-		menu: Deluge.Menus.Download
-	}, '-', {
-		id: 'statusbar-upspeed',
-		text: '9.8KiB/s (30 KiB/s)',
-		cls: 'x-btn-text-icon',
-		icon: '/icons/16/seeding.png',
-		menu: Deluge.Menus.Upload
-	}, '-', {
-		id: 'statusbar-traffic',
-		text: '1.53/2,65 KiB/s',
-		cls: 'x-btn-text-icon',
-		icon: '/icons/16/traffic.png'
-	}, '-', {
-		id: 'statusbar-dht',
-		text: '161',
-		cls: 'x-btn-text-icon',
-		icon: '/icons/16/dht.png'
-	}]*/
 	listeners: {'render': {scope: Deluge.StatusBar, fn: Deluge.StatusBar.onRender}}
 });
