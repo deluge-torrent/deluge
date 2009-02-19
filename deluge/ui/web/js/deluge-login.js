@@ -6,6 +6,7 @@ Deluge.Login = {
                 if (result == true) {
                     Deluge.Login.Window.hide();
                     Deluge.Connections.Window.show();
+                    passwordField.setRawValue('');
                     Deluge.Events.fire('login')
                 } else {
                     Ext.MessageBox.show({
@@ -20,8 +21,16 @@ Deluge.Login = {
         });
     },
     
+    onLogout: function() {
+        Deluge.Login.Window.show();
+    },
+    
     onKey: function(field, e) {
         if (e.getKey() == 13) Deluge.Login.onLogin();
+    },
+    
+    onRender: function() {  
+        Deluge.Events.on('logout', this.onLogout);
     }
 }
 
@@ -60,5 +69,6 @@ Deluge.Login.Window = new Ext.Window({
     buttons: [{
         text: _('Login'),
         handler: Deluge.Login.onLogin
-    }]
+    }],
+    listeners: {'render': {fn: Deluge.Login.onRender, scope: Deluge.Login}}
 });

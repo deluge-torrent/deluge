@@ -1,4 +1,7 @@
 Deluge.Connections = {
+	disconnect: function() {
+		Deluge.Events.fire('disconnect');
+	},
 	
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
@@ -15,7 +18,7 @@ Deluge.Connections = {
 				Deluge.Client = new JSON.RPC('/json', {
 					methods: methods
 				});
-				Deluge.Events.fire("connect");
+				Deluge.Events.fire('connect');
 			}
 		});
     },
@@ -33,6 +36,10 @@ Deluge.Connections = {
 	onShow: function(window) {
 		Deluge.Connections.running = Deluge.Connections.runCheck.periodical(2000);
 		Deluge.Connections.runCheck();
+		Deluge.Events.on('logout', function(e) {
+			Deluge.Connections.disconnect();
+			Deluge.Connections.Window.hide();
+		});
 	},
 	
 	runCheck: function() {
@@ -60,9 +67,9 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 	store: Deluge.Connections.Store,
 	cls: 'deluge-torrents',
 	columns: [
-		{header: "Status", width: 55, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'status'},
-		{id:'host', header: "Host", width: 150, sortable: true, renderer: renderHost, dataIndex: 'host'},
-		{header: "Version", width: 75, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'version'}
+		{header: 'Status', width: 55, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'status'},
+		{id:'host', header: 'Host', width: 150, sortable: true, renderer: renderHost, dataIndex: 'host'},
+		{header: 'Version', width: 75, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'version'}
 	],	
 	stripeRows: true,
 	selModel: new Ext.grid.RowSelectionModel({

@@ -17,6 +17,13 @@ Deluge.ToolBar = {
 	
 	onLogin: function() {
 		this.Bar.items.get('logout').enable();
+		
+	},
+	
+	onLogout: function() {
+		this.Bar.items.get('logout').disable();
+		Deluge.Events.fire('logout');
+		Deluge.Login.Window.show();
 	},
 	
 	onTorrentAction: function(item) {
@@ -149,7 +156,8 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			icon: '/icons/16/logout.png',
 			disabled: true,
 			text: _('Logout'),
-			handler: Deluge.ToolBar.onLogout
+			handler: Deluge.ToolBar.onLogout,
+			scope: Deluge.ToolBar
 		}
 	],		
 	listeners: {'render': Deluge.ToolBar.onToolbarRender, scope: Deluge.ToolBar}

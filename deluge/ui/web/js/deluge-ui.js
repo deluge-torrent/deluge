@@ -18,6 +18,7 @@ Deluge.Ui = {
 
 		Deluge.Login.Window.show();
 		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
+		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');
@@ -153,6 +154,10 @@ Deluge.Ui = {
 			this.running = this.update.periodical(2000, this);
 			this.update();
 		}
+	},
+	
+	onDisconnect: function() {
+		this.stop();
 	},
 	
 	/*
