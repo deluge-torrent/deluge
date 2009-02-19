@@ -17,7 +17,7 @@ Deluge.Ui = {
 		});
 
 		Deluge.Login.Window.show();
-		Deluge.Connections.on("connect", this.onConnect.bindWithEvent(this));
+		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');

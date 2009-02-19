@@ -69,7 +69,7 @@ Deluge.ToolBar = {
 	},
 	
 	onToolbarRender: function(toolbar) {
-		Deluge.Connections.on("connect", this.onConnect.bindWithEvent(this));
+		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 	}
 }
 

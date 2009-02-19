@@ -1,4 +1,29 @@
-var Deluge = $empty;
+var Deluge = {
+	author: 'Damien Churchill <damoxc@gmail.com>',
+	version: '1.2-dev'
+};
+
+Deluge.Events = {
+	_events: new Hash(),
+	
+	fire: function(eventName) {
+		if (!this._events[eventName]) return;
+		$each(this._events[eventName], function(fn) {
+			fn(Deluge.Client);
+		});
+	},
+	
+	on: function(eventName, fn) {
+		var e = $pick(this._events[eventName], new Array());
+		e.include(fn);
+		this._events[eventName] = e;
+	},
+	
+	removeListener: function(eventName, fn) {
+		if (!this._events[eventName]) return;
+		this._events[eventName].remove(fn);
+	}
+};
 
 Deluge.Formatters = {
 	size: function(bytes) {
