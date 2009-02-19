@@ -14,7 +14,8 @@ Deluge.Login = {
                         msg: _('You entered an incorrect password'),
                         buttons: Ext.MessageBox.OK,
                         modal: false,
-                        icon: Ext.MessageBox.WARNING
+                        icon: Ext.MessageBox.WARNING,
+                        iconCls: '.x-deluge-warning'
                     });
                 }
             }
@@ -65,6 +66,7 @@ Deluge.Login.Window = new Ext.Window({
     modal: true,
     plain: true,
     title: _('Login'),
+    iconCls: 'x-deluge-login-window-icon',
     items: Deluge.Login.Form,
     buttons: [{
         text: _('Login'),
