@@ -18,7 +18,6 @@ Deluge.Ui = {
 
 		Deluge.Login.Window.show();
 		Deluge.Client = new JSON.RPC('/json');
-		Deluge.Details.initialize();
 
 		Deluge.SideBar = this.MainPanel.items.get('sidebar');
 	},
