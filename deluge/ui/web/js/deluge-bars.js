@@ -11,58 +11,58 @@ Deluge.ToolBar = {
 		});
 	},
 	
+	onTorrentAction: function(item) {
+		var selection = Deluge.Torrents.getSelectionModel().getSelections();
+		var ids = new Array();
+		$each(selection, function(record) {
+			ids.include(record.id);
+		});
+		
+		switch (item.id) {
+			case "remove":
+				Deluge.Client.core.remove_torrent(ids, null, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case "pause":
+				Deluge.Client.core.pause_torrent(ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case "resume":
+				Deluge.Client.core.resume_torrent(ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case "up":
+				Deluge.Client.core.queue_up(ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case "down":
+				Deluge.Client.core.queue_down(ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case "connectionman":
+				Deluge.Connections.Window.show();
+				break;
+		}
+	},
+	
 	onToolbarRender: function(toolbar) {
 		Deluge.Connections.on("connect", this.onConnect.bindWithEvent(this));
 	}
-}
-
-function torrentAction(item) {
-	var selection = Deluge.Torrents.getSelectionModel().getSelections();
-	var ids = new Array();
-	$each(selection, function(record) {
-		ids.include(record.id);
-	});
-	
-	switch (item.id) {
-		case "remove":
-			Deluge.Client.core.remove_torrent(ids, null, {
-				onSuccess: function() {
-					Deluge.Ui.update();
-				}
-			});
-			break;
-		case "pause":
-			Deluge.Client.core.pause_torrent(ids, {
-				onSuccess: function() {
-					Deluge.Ui.update();
-				}
-			});
-			break;
-		case "resume":
-			Deluge.Client.core.resume_torrent(ids, {
-				onSuccess: function() {
-					Deluge.Ui.update();
-				}
-			});
-			break;
-		case "up":
-			Deluge.Client.core.queue_up(ids, {
-				onSuccess: function() {
-					Deluge.Ui.update();
-				}
-			});
-			break;
-		case "down":
-			Deluge.Client.core.queue_down(ids, {
-				onSuccess: function() {
-					Deluge.Ui.update();
-				}
-			});
-			break;
-		case "connectionman":
-			Deluge.Connections.Window.show();
-			break;
-	}	
 }
 
 Deluge.ToolBar.Bar = new Ext.Toolbar({
@@ -73,61 +73,61 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			disabled: true,
 			text: _('Create'),
 			icon: '/icons/16/create.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'add',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Add'),
 			icon: '/icons/16/add.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'remove',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Remove'),
 			icon: '/icons/16/remove.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'pause',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Pause'),
 			icon: '/icons/16/pause.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'resume',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Resume'),
 			icon: '/icons/16/start.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'up',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Up'),
 			icon: '/icons/16/up.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'down',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Down'),
 			icon: '/icons/16/down.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'preferences',
 			cls: 'x-btn-text-icon',
 			text: _('Preferences'),
 			icon: '/icons/16/preferences.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'connectionman',
 			cls: 'x-btn-text-icon',
 			text: _('Connection Manager'),
 			icon: '/icons/16/connection_manager.png',
-			handler: torrentAction
+			handler: Deluge.ToolBar.onTorrentAction
 		}
 	],		
 	listeners: {'render': Deluge.ToolBar.onToolbarRender, scope: Deluge.ToolBar}
