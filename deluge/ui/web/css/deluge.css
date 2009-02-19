@@ -68,3 +68,14 @@ html, body {
 .deluge-status dd.torrent_name, .deluge-status dd.tracker, .deluge-status dd.path {
 	width: 500px;
 }
+
+
+/* Statusbar */
+#deluge-statusbar .x-not-connected {
+	background: url('/icons/16/error.png') no-repeat 2px;
+	padding-left: 20px;
+}
+
+#deluge-statusbar .x-connected {
+	background: transparent;
+}

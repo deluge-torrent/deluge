@@ -177,7 +177,31 @@ Deluge.SideBar = {
 	margins: '5 0 0 5'
 };
 
-Deluge.StatusBar = new Ext.StatusBar({
+Deluge.StatusBar = {
+	onRender: function() {
+		this.bound = {
+			onConnect: this.onConnect.bindWithEvent(this)
+		}
+		Deluge.Events.on('connect', this.bound.onConnect);
+		Deluge.Events.on('disconnect', this.bound.onDisconnect);
+	},
+	
+	onConnect: function() {
+		this.Bar.setStatus({
+			iconCls: 'x-connected',
+			text: ''
+		});
+	},
+	
+	onDisconnect: function() {
+		this.Bar.clearStatus({useDefaults:true});
+	}
+}
+
+Deluge.StatusBar.Bar = new Ext.StatusBar({
+	id: 'deluge-statusbar',
+	defaultIconCls: 'x-not-connected',
+	defaultText: _('Not Connected'),
 	/*items: [{
 		id: 'statusbar-connections',
 		text: '200 (200)',
@@ -207,4 +231,5 @@ Deluge.StatusBar = new Ext.StatusBar({
 		cls: 'x-btn-text-icon',
 		icon: '/icons/16/dht.png'
 	}]*/
+	listeners: {'render': {scope: Deluge.StatusBar, fn: Deluge.StatusBar.onRender}}
 });

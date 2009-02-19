@@ -8,7 +8,7 @@ Deluge.Ui = {
 			layout: 'border',
 			tbar: Deluge.ToolBar.Bar,
 			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents],
-			bbar: Deluge.StatusBar
+			bbar: Deluge.StatusBar.Bar
 		});
 
 		this.Viewport = new Ext.Viewport({
