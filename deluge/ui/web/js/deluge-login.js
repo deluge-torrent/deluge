@@ -6,6 +6,7 @@ Deluge.Login = {
                 if (result == true) {
                     Deluge.Login.Window.hide();
                     Deluge.Connections.Window.show();
+                    Deluge.Events.fire('login')
                 } else {
                     Ext.MessageBox.show({
                         title: _('Login Failed'),

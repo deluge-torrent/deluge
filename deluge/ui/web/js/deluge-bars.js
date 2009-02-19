@@ -15,8 +15,8 @@ Deluge.ToolBar = {
 		}, this);
 	},
 	
-	onLogout: function() {
-		
+	onLogin: function() {
+		this.Bar.items.get('logout').enable();
 	},
 	
 	onTorrentAction: function(item) {
@@ -27,49 +27,50 @@ Deluge.ToolBar = {
 		});
 		
 		switch (item.id) {
-			case "remove":
+			case 'remove':
 				Deluge.Client.core.remove_torrent(ids, null, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
-			case "pause":
+			case 'pause':
 				Deluge.Client.core.pause_torrent(ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
-			case "resume":
+			case 'resume':
 				Deluge.Client.core.resume_torrent(ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
-			case "up":
+			case 'up':
 				Deluge.Client.core.queue_up(ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
-			case "down":
+			case 'down':
 				Deluge.Client.core.queue_down(ids, {
 					onSuccess: function() {
 						Deluge.Ui.update();
 					}
 				});
 				break;
-			case "connectionman":
+			case 'connectionman':
 				Deluge.Connections.Window.show();
 				break;
 		}
 	},
 	
 	onToolbarRender: function(toolbar) {
-		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
+		Deluge.Events.on('connect', this.onConnect.bindWithEvent(this));
+		Deluge.Events.on('login', this.onLogin.bindWithEvent(this));
 	}
 }
 
