@@ -11,7 +11,6 @@ Deluge.Details.Status = {
 	onRender: function(panel) {
 		this.panel = panel;
 		this.progressBar = new Ext.ProgressBar({
-			text: '0% Stopped',
 			id: 'pbar-status',
 			cls: 'deluge-status-progressbar'
 		});
