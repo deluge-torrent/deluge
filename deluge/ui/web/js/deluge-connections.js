@@ -12,6 +12,7 @@ Deluge.Connections = {
 		$clear(Deluge.Connections.running);
 		Deluge.Connections.Window.hide();
 		var selected = Deluge.Connections.Grid.getSelectionModel().getSelected();
+		if (!selected) return;
 		var id = selected.id;
 		Deluge.Client.web.connect(id, {
 			onSuccess: function(methods) {
