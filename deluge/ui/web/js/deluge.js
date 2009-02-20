@@ -6,11 +6,13 @@ var Deluge = {
 Deluge.Events = {
 	_events: new Hash(),
 	
-	fire: function(eventName, arg) {
+	fire: function() {
+		arguments = $A(arguments);
+		var eventName = arguments.shift();
+		var eventArgs = arguments;
 		if (!this._events[eventName]) return;
 		$each(this._events[eventName], function(fn) {
-			if ($type(fn) != 'function') return;
-			fn(arg);
+			fn.attempt(eventArgs);
 		});
 	},
 	
