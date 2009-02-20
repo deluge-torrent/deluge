@@ -31,7 +31,7 @@ Deluge.ToolBar = {
 	},
 	
 	onTorrentAction: function(item) {
-		var selection = Deluge.Torrents.getSelectionModel().getSelections();
+		var selection = Deluge.Torrents.getSelections();
 		var ids = new Array();
 		$each(selection, function(record) {
 			ids.include(record.id);
