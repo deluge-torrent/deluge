@@ -1,10 +1,10 @@
-Deluge 1.1.0 - "" (In Development)
- Core:
+=== Deluge 1.1.0 - "" (In Development) ===
+==== Core ====
   * Implement #79 ability to change outgoing port range
   * Implement #296 ability to change peer TOS byte
   * Add per-torrent move on completed settings
   * Implement #414 use async save_resume_data method
-  * FilterManager with torrent filtering in get_torrents_status , for sidebar and plugins.
+  * Filter Manager with torrent filtering in get_torrents_status , for sidebar and plugins.
   * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
   * Remove remaining gtk functions in common
   * Tracker icons.
@@ -13,14 +13,14 @@ Deluge 1.1.0 - "" (In Development)
   * Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
   * Add -P, --pidfile option to deluged
 
- GtkUI:
+==== GtkUI ====
   * Add peer progress to the peers tab
   * Add ability to manually add peers
   * Sorting # column will place downloaders above seeds
   * Remove dependency on libtorrent for add torrent dialog
   * Allow adding multiple trackers at once in the edit tracker dialog
   * Implement #28 Create Torrent Dialog
-  * Redesiged sidebar with filters for Active and Tracker (see FilterManager)
+  * Redesiged sidebar with filters for Active and Tracker (see Filter Manager)
   * Implement #428 the ability to rename files and directories
   * Implement #229 add date added column
   * Implement #596 show speeds in title
@@ -33,7 +33,7 @@ Deluge 1.1.0 - "" (In Development)
   * Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
   * Make active port test use internal graphic instead of launching browser
 
- WebUi:
+==== WebUI ====
   * Lots of smaller tweaks.
   * All details tabs have the same features as in gtk-ui 1.0.x
   * Persistent sessions #486
@@ -43,18 +43,18 @@ Deluge 1.1.0 - "" (In Development)
   * Easier apache mod_proxy use.
   * Redesigned sidebar
 
- AjaxUI:
+==== AjaxUI ====
   * Hosted in a webui template.
 
- ConsoleUI:
+==== ConsoleUI ====
   * New ConsoleUI written by Idoa01
   * Callable from command-line for scripts.
 
- Plugins:
+==== Plugins ====
   * Stats plugin for graphs.
   * Label plugin for grouping torrents and per torrent settings.
 
- Misc:
+==== Misc ====
   * Implement #478 display UI options in usage help
   * Fix #547 add description to name field per HIG entry 2.1.1.1
   * Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
