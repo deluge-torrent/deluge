@@ -47,8 +47,8 @@ Deluge.Torrents = {
 		return this.Grid.getSelectionModel().getSelected();
 	},
 	
-	getSelection: function() {
-		return this.Grid.getSelectionModel().getSelection();
+	getSelections: function() {
+		return this.Grid.getSelectionModel().getSelections();
 	}
 }
 Deluge.Torrents.Store.setDefaultSort("queue");
