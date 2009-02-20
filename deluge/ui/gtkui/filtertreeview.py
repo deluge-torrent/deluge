@@ -241,7 +241,7 @@ class FilterTreeView(component.Component):
         try: #assume we could get trashed images here..
             pix = gtk.gdk.pixbuf_new_from_file_at_size(filename, 16, 16)
         except Exception, e:
-            log.debug(e.message)
+            log.debug(e)
 
         if not pix:
             pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
