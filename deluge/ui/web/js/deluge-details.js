@@ -15,19 +15,19 @@ Deluge.Details.Status = {
 			border: false,
 			listeners: {'render': Deluge.Details.Status.onStatusRender}
 		});
+		this.panel.update = this.update.bind(this);
 	},
 	
 	onStatusRender: function(panel) {
 		this.status = panel;
 		this.status.load({
 			url: "/render/tab_statistics.html",
-			text: _("Loading") + "...",
-			callback: this.onStatusLoaded
+			text: _("Loading") + "..."
 		});
 	},
 	
-	onStatusLoaded: function() {
-		alert("loaded");
+	update: function(torrentId) {
+		alert(torrentId);
 	}
 }
 
@@ -41,8 +41,14 @@ Deluge.Details.Details = {
 
 $extend(Deluge.Details, {
 
-	update: function(torrentId) {
+	update: function() {		
+		var torrent = Deluge.Torrents.getSelected();
+		if (!torrent) return;
 		
+		var tab = this.Panel.getActiveTab();
+		if (tab.update) {
+			tab.update(torrent.id);
+		}
 	},
 	
 	Panel: new Ext.TabPanel({
@@ -56,11 +62,11 @@ $extend(Deluge.Details, {
 		items: [{
 			id: 'status',
 			title: _('Status'),
-			listeners: {'render': Deluge.Details.Status.onRender}
+			listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
 		},{
 			id: 'details',
 			title: _('Details'),
-			listeners: {'render': Deluge.Details.Details.onRender}
+			listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Status}}
 		},{
 			id: 'files',
 			title: _('Files')
@@ -73,31 +79,3 @@ $extend(Deluge.Details, {
 		}]
 	})
 });
-
-/*Deluge.Details.Status = {
-	onShow: function(panel) {
-		this.panel = panel;
-	},
-	
-	initialize: function() {
-		this.Panel = Deluge.Details.Panel.items.get('status');
-		this.ProgressBar = new Ext.ProgressBar({
-			text: "0% Stopped",
-			id: "pbar-status",
-			cls: 'deluge-status-progressbar'
-		});
-		this.Panel.add(this.ProgressBar);
-		
-		
-		this.Panel.add({
-			id: 'status-details',
-			cls: 'deluge-status',
-			border: false
-		});
-		
-		//this.Details = Deluge.Details.Status.Panel.items.get("status-details").load({
-		//	url: "/render/tab_statistics.html"
-		//});
-		
-	}
-}*/

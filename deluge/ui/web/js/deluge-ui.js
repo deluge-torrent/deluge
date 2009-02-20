@@ -7,7 +7,7 @@ Deluge.Ui = {
 			title: 'Deluge',
 			layout: 'border',
 			tbar: Deluge.ToolBar.Bar,
-			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents],
+			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents.Grid],
 			bbar: Deluge.StatusBar.Bar
 		});
 
@@ -29,6 +29,7 @@ Deluge.Ui = {
 			onSuccess: this.onUpdate.bindWithEvent(this),
 			onFailure: this.onUpdateError.bindWithEvent(this)
 		});
+		Deluge.Details.update();
 		Deluge.Client.web.connected({
 			onSuccess: this.onConnectedCheck.bindWithEvent(this)
 		});
@@ -73,7 +74,7 @@ Deluge.Ui = {
 				id
 			]);
 		});
-		Deluge.Torrents.store.loadData(torrents);
+		Deluge.Torrents.Store.loadData(torrents);
 		Deluge.StatusBar.update(data['stats']);
 		this.errorCount = 0;
 	},

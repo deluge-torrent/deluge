@@ -22,30 +22,40 @@ function avail(value) {
 	return value.toFixed(3);
 }
 
-var torrentStore = new Ext.data.SimpleStore({
-	fields: [
-		{name: 'queue'},
-		{name: 'name'},
-		{name: 'size', type: 'int'},
-		{name: 'state'},
-		{name: 'progress', type: 'float'},
-		{name: 'seeds', type: 'int'},
-		{name: 'total_seeds', type: 'int'},
-		{name: 'peers', type: 'int'},
-		{name: 'total_peers', type: 'int'},
-		{name: 'downspeed', type: 'int'},
-		{name: 'upspeed', type: 'int'},
-		{name: 'eta', type: 'int'},
-		{name: 'ratio', type: 'float'},
-		{name: 'avail', type: 'float'}
-	],
-	id: 14
-});
-torrentStore.setDefaultSort("queue");
+Deluge.Torrents = {
+	Store: new Ext.data.SimpleStore({
+		fields: [
+			{name: 'queue'},
+			{name: 'name'},
+			{name: 'size', type: 'int'},
+			{name: 'state'},
+			{name: 'progress', type: 'float'},
+			{name: 'seeds', type: 'int'},
+			{name: 'total_seeds', type: 'int'},
+			{name: 'peers', type: 'int'},
+			{name: 'total_peers', type: 'int'},
+			{name: 'downspeed', type: 'int'},
+			{name: 'upspeed', type: 'int'},
+			{name: 'eta', type: 'int'},
+			{name: 'ratio', type: 'float'},
+			{name: 'avail', type: 'float'}
+		],
+		id: 14
+	}),
+	
+	getSelected: function() {
+		return this.Grid.getSelectionModel().getSelected();
+	},
+	
+	getSelection: function() {
+		return this.Grid.getSelectionModel().getSelection();
+	}
+}
+Deluge.Torrents.Store.setDefaultSort("queue");
 
-Deluge.Torrents = new Ext.grid.GridPanel({
+Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 	region: 'center',
-	store: torrentStore,
+	store: Deluge.Torrents.Store,
 	cls: 'deluge-torrents',
 	columns: [
 		{id:'queue',header: "#", width: 30, sortable: true, renderer: queue, dataIndex: 'queue'},
