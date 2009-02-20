@@ -97,7 +97,7 @@ Deluge.Keys = {
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed'
     ],
-    Statistics: [
+    Status: [
         'total_done', 'total_payload_download', 'total_uploaded',
         'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
         'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
@@ -119,4 +119,4 @@ Deluge.Keys = {
         'remove_at_ratio', 'private', 'prioritize_first_last'
     ]
 };
-Deluge.Keys.Statistics.extend(Deluge.Keys.Grid);
+Deluge.Keys.Status.extend(Deluge.Keys.Grid);

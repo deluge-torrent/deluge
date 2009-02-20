@@ -57,6 +57,10 @@ html, body {
 	height: 19px;
 }
 
+.deluge-status dd.downloaded, .deluge-status dd.uploaded, .deluge-status dd.share, .deluge-status dd.announce, .deluge-status dd.tracker_status, .deluge-status dd.active_time {
+	width: 170px;
+}
+
 .deluge-status dd.downspeed, .deluge-status dd.upspeed, .deluge-status dd.eta, .deluge-status dd.pieces {
 	margin-left: 75px;
 }

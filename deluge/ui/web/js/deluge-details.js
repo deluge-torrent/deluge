@@ -1,11 +1,18 @@
 Deluge.Details = {}
 
+/*Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
+	initComponent: function() {
+		Deluge.ProgressBar.superClass.initComponent.call(this);
+	}
+});
+Ext.reg('deluge-progress', Deluge.ProgressBar);*/
+
 Deluge.Details.Status = {
 	onRender: function(panel) {
 		this.panel = panel;
 		this.progressBar = new Ext.ProgressBar({
-			text: "0% Stopped",
-			id: "pbar-status",
+			text: '0% Stopped',
+			id: 'pbar-status',
 			cls: 'deluge-status-progressbar'
 		});
 		this.panel.add(this.progressBar);
@@ -21,20 +28,59 @@ Deluge.Details.Status = {
 	onStatusRender: function(panel) {
 		this.status = panel;
 		this.status.load({
-			url: "/render/tab_statistics.html",
-			text: _("Loading") + "..."
+			url: '/render/tab_status.html',
+			text: _('Loading') + '...'
 		});
 	},
 	
+	onRequestComplete: function(status) {
+		var fsize = Deluge.Formatters.size, ftime = Deluge.Formatters.timeRemaining, fspeed = Deluge.Formatters.speed;
+		var data = {
+			downloaded: fsize(status.total_done) + ' (' + fsize(status.total_payload_download) + ')',
+            uploaded: fsize(status.total_uploaded) + ' (' + fsize(status.total_payload_upload) + ')',
+            share: status.ratio.toFixed(3),
+            announce: ftime(status.next_announce),
+            tracker_status: status.tracker_status,
+            downspeed: fspeed(status.download_payload_rate),
+            upspeed: fspeed(status.upload_payload_rate),
+            eta: ftime(status.eta),
+            pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
+            seeders: status.num_seeds + ' (' + status.total_seeds + ')',
+            peers: status.num_peers + ' (' + status.total_peers + ')',
+            avail: status.distributed_copies.toFixed(3),
+            active_time: ftime(status.active_time),
+            seeding_time: ftime(status.seeding_time),
+            seed_rank: status.seed_rank,
+			auto_managed: 'False'
+		}
+		if (status.is_auto_managed) {data.auto_managed = 'True'}
+		this.fields.each(function(value, key) {
+			value.set('text', data[key]);
+		}, this);
+		var text = status.state + ' ' + status.progress.toFixed(2) + '%';
+		this.progressBar.updateProgress(status.progress, text);
+	},
+	
+	getFields: function() {
+		var panel = this.panel.items.get('status-details');
+		this.fields = new Hash();
+		panel.body.dom.getElements('dd').each(function(item) {
+			this.fields[item.getProperty('class')] = item;
+		}, this);
+	},
+	
 	update: function(torrentId) {
-		alert(torrentId);
+		if (!this.fields) this.getFields();
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
+			onSuccess: this.onRequestComplete.bind(this)
+		});
 	}
 }
 
 Deluge.Details.Details = {
 	onRender: function(panel) {
 		this.panel = panel.load({
-			url: "/render/tab_details.html"
+			url: '/render/tab_details.html'
 		});
 	}
 }
