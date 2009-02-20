@@ -55,7 +55,7 @@ def fetch_url(url, valid_subtypes=None):
         if not data:
             raise Exception("No data")
     except Exception, e:
-        log.debug("%s %s %s" % (url, e, e.message))
+        log.debug("%s %s" % (url, e))
         return None
 
     return data

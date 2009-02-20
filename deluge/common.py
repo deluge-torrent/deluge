@@ -30,10 +30,10 @@ import time
 import subprocess
 import platform
 import sys
-	
-if sys.version_info > (2, 6):
+
+try:
     import json
-else:
+except ImportError:
     import simplejson as json
 
 import pkg_resources

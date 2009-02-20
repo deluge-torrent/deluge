@@ -25,10 +25,11 @@
 import os
 import sys
 
-if sys.version_info > (2, 6):
+try:
     from hashlib import sha1 as sha
-else:
+except ImportError:
     from sha import sha
+
 import urlparse
 
 from deluge import bencode
