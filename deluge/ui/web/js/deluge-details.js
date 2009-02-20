@@ -1,16 +1,34 @@
 Deluge.Details = {}
 
-/*Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
+Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 	initComponent: function() {
-		Deluge.ProgressBar.superClass.initComponent.call(this);
+		Deluge.ProgressBar.superclass.initComponent.call(this);
+	},
+	
+	updateProgress: function(value, text, animate) {
+		this.value = value || 0;
+		if (text) {
+			this.updateText(text);
+		}
+		
+		if (this.rendered) {
+			var w = Math.floor(value*this.el.dom.firstChild.offsetWidth / 100.0);
+	        this.progressBar.setWidth(w, animate === true || (animate !== false && this.animate));
+	        if(this.textTopEl){
+	            //textTopEl should be the same width as the bar so overflow will clip as the bar moves
+	            this.textTopEl.removeClass('x-hidden').setWidth(w);
+	        }
+		}
+		this.fireEvent('update', this, value, text);
+		return this;
 	}
 });
-Ext.reg('deluge-progress', Deluge.ProgressBar);*/
+Ext.reg('deluge-progress', Deluge.ProgressBar);
 
 Deluge.Details.Status = {
 	onRender: function(panel) {
 		this.panel = panel;
-		this.progressBar = new Ext.ProgressBar({
+		this.progressBar = new Deluge.ProgressBar({
 			id: 'pbar-status',
 			cls: 'deluge-status-progressbar'
 		});
