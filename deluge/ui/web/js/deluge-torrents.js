@@ -43,6 +43,10 @@ Deluge.Torrents = {
 		id: 14
 	}),
 	
+	getTorrent: function(rowIndex) {
+		return this.Grid.store.getAt(rowIndex);
+	},
+	
 	getSelected: function() {
 		return this.Grid.getSelectionModel().getSelected();
 	},

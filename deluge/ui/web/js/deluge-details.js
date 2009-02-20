@@ -1,4 +1,23 @@
-Deluge.Details = {}
+Deluge.Details = {
+
+	update: function() {		
+		var torrent = Deluge.Torrents.getSelected();
+		if (!torrent) return;
+		
+		var tab = this.Panel.getActiveTab();
+		if (tab.update) {
+			tab.update(torrent.id);
+		}
+	},
+
+	onRender: function(panel) {
+		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
+	},
+	
+	onTorrentsClick: function(grid, rowIndex, e) {
+		this.update();
+	}
+}
 
 Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 	initComponent: function() {
@@ -102,43 +121,31 @@ Deluge.Details.Details = {
 	}
 }
 
-$extend(Deluge.Details, {
-
-	update: function() {		
-		var torrent = Deluge.Torrents.getSelected();
-		if (!torrent) return;
-		
-		var tab = this.Panel.getActiveTab();
-		if (tab.update) {
-			tab.update(torrent.id);
-		}
-	},
-	
-	Panel: new Ext.TabPanel({
-		region: 'south',
-		split: true,
-		height: 200,
-		minSize: 100,
-		collapsible: true,
-		margins: '0 5 5 5',
-		activeTab: 0,
-		items: [{
-			id: 'status',
-			title: _('Status'),
-			listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
-		},{
-			id: 'details',
-			title: _('Details'),
-			listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Status}}
-		},{
-			id: 'files',
-			title: _('Files')
-		},{
-			id: 'peers',
-			title: _('Peers')
-		},{
-			id: 'options',
-			title: _('Options')
-		}]
-	})
+Deluge.Details.Panel = new Ext.TabPanel({
+	region: 'south',
+	split: true,
+	height: 200,
+	minSize: 100,
+	collapsible: true,
+	margins: '0 5 5 5',
+	activeTab: 0,
+	items: [{
+		id: 'status',
+		title: _('Status'),
+		listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
+	},{
+		id: 'details',
+		title: _('Details'),
+		listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Status}}
+	},{
+		id: 'files',
+		title: _('Files')
+	},{
+		id: 'peers',
+		title: _('Peers')
+	},{
+		id: 'options',
+		title: _('Options')
+	}],
+	listeners: {'render': {fn: Deluge.Details.onRender, scope: Deluge.Details}}
 });
