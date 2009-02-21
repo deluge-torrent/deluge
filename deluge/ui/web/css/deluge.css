@@ -33,8 +33,7 @@ html, body {
 
 /* Torrent Details */
 .deluge-status-progressbar {
-    /*margin: 5px;*/
-	text-align: center;
+    margin: 5px;
 }
 
 .deluge-status {
