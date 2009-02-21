@@ -17,7 +17,8 @@
 
 ; Dependencies
 
-    !define LIBTORRENT
+    !define LIBTORRENT "libtorrent.msi"
+    !define LIBTORRENT_URL "http://waix.dl.sourceforge.net/sourceforge/libtorrent/python-libtorrent-0.14.2.win32-py2.5.msi"
 
 ; Interface Settings
 
@@ -87,7 +88,6 @@ SubSectionEnd
 
 Section "Uninstall"
 
-    Delete "$INSTDIR\README"
     Delete "$INSTDIR\uninstall.exe"
 
     RMDir "$INSTDIR"
