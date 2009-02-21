@@ -30,13 +30,6 @@
         InstType "Upgrade"
     !endif
 	
-; Macros
-	
-	!macro install installer_name
-		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-		delete "$TEMP\${installer_name}"
-	!macroend
-	
 ; Defines
 
     ; Base URL for installers
@@ -52,6 +45,7 @@
     !define SETUPTOOLS_INSTALLER "setuptools-0.6c9.win32-py2.5.exe"
     !define LIBTORRENT_INSTALLER "python-libtorrent-0.14.2.win32-py2.5.msi"
     !define LIBTORRENT_DLL "MSVCP71.DLL"
+    !define LIBTORRENT_DLL_ZIP "${LIBTORRENT_DLL}.zip"
 
     ; Installer URLs
     !define DELUGE_INSTALLER_URL "${BASE}\DELUGE_INSTALLER"
@@ -62,11 +56,13 @@
     !define PYXDG_INSTALLER_URL "${BASE}\PYXDG_INSTALLER"
     !define SETUPTOOLS_INSTALLER_URL "${BASE}\SETUPTOOLS_INSTALLER"
     !define LIBTORRENT_INSTALLER_URL "${BASE}\LIBTORRENT_INSTALLER"
-    !define LIBTORRENT_DLL_URL "${BASE}\LIBTORRENT_DLL"
+    !define LIBTORRENT_DLL_ZIP_URL "${BASE}\LIBTORRENT_DLL_ZIP"
 
     ; Redefine macros/functions
     !define download "NSISdl::download"
-    !define install "!insertmacro install"
+    !define install_NSIS "!insertmacro install_NSIS"
+    !define install_MSI "!insertmacro install_MSI"
+    !define install_ZIP "!insertmacro install_ZIP"
 
 
 ; Interface Settings
@@ -107,6 +103,26 @@
     !insertmacro MUI_LANGUAGE "English"
     ; Should put all languages deluge supports here
 
+; Macros
+	
+    !macro install_NSIS installer_name install_dir
+		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK+'
+		delete "$TEMP\${${installer_name}}"
+    !macroend
+
+	!macro install_MSI installer_name install_dir
+		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}" TARGETDIR="${install_dir}'
+		delete "$TEMP\${${installer_name}}"
+	!macroend
+
+    !macro install_ZIP installer_name install_dir
+		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        nsisunz::Unzip "$TEMP\${${installer_name}}" "${install_dir}"
+		delete "$TEMP\${${installer_name}}"
+    !macroend
+	
 ; Installer Sections
 
 SubSection /e "Core" core
@@ -115,7 +131,7 @@ SubSection /e "Core" core
 
         SectionIn RO
 
-        ${install} DELUGE_INSTALLER
+        ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
 
         WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
 
@@ -129,7 +145,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} PYTHON_INSTALLER
+        ${install_MSI} PYTHON_INSTALLER "$INSTDIR\Python"
 
     SectionEnd
 
@@ -137,7 +153,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} PYWIN32_INSTALLER
+        ${install_ZIP} PYWIN32_INSTALLER "$INSTDIR\Python\site-packages"
 
     SectionEnd
 
@@ -145,7 +161,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} GTK+_INSTALLER
+        ${install_NSIS} GTK+_INSTALLER "$INSTDIR\GTK+"
 
     SectionEnd
 
@@ -153,7 +169,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} PYGTK_INSTALLER
+        ${install_ZIP} PYGTK_INSTALLER "$INSTDIR\Python\site-packages"
 
     SectionEnd
 
@@ -161,7 +177,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} PYXDG_INSTALLER
+        ${install_MSI} PYXDG_INSTALLER "$INSTDIR\Python\site-packages"
 
     SectionEnd
 
@@ -169,7 +185,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} SETUPTOOLS_INSTALLER
+        ${install_ZIP} SETUPTOOLS_INSTALLER "$INSTDIR\Python\site-packages"
 
     SectionEnd
 
@@ -177,8 +193,8 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install} LIBTORRENT_INSTALLER
-        ${install} LIBTORRENT_DLL
+        ${install_MSI} LIBTORRENT_INSTALLER "$INSTDIR\Python\site-packages"
+        ${install_ZIP} LIBTORRENT_DLL_ZIP "$SYSDIR\${LIBTORRENT_DLL}"
 
     SectionEnd
 
