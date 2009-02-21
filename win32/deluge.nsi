@@ -24,7 +24,7 @@
     ; Installation
 
         !insertmacro MUI_PAGE_WELCOME
-        !insertmacro MUI_PAGE_LICENSE "..\deluge\LICENSE"
+        !insertmacro MUI_PAGE_LICENSE "..\LICENSE"
         !insertmacro MUI_PAGE_COMPONENTS
         !insertmacro MUI_PAGE_DIRECTORY
         !insertmacro MUI_PAGE_INSTFILES
@@ -49,7 +49,7 @@ Section "Deluge" deluge
 
     SetOutPath "$INSTDIR"
     
-        file "..\deluge\README"
+        file "..\README"
 
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
