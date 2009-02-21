@@ -10,7 +10,7 @@
 
 	; Version
 	!define DELUGE_VERSION "1.1.3"
-	!define SCRIPT_VERSION "0.1"
+	!define SCRIPT_VERSION "0.2"
 
     ; Name
     Name "Deluge ${DELUGE_VERSION}"
@@ -194,7 +194,8 @@ SubSection /e "Dependencies" dependencies
         SectionIn 1
 
         ${install_MSI} LIBTORRENT_INSTALLER "$INSTDIR\Python\site-packages"
-        ${install_ZIP} LIBTORRENT_DLL_ZIP "$SYSDIR\${LIBTORRENT_DLL}"
+        ${install_ZIP} LIBTORRENT_DLL_ZIP "$SYSDIR"
+        RegDLL "$SYSDIR\${LIBTORRENT_DLL}"
 
     SectionEnd
 
