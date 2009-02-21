@@ -157,11 +157,11 @@ Deluge.Details.Details = {
 		}
 	},
 	
-	onRequestComplete: function(torrent) {
+	onRequestComplete: function(torrent, torrentId) {
 		var fsize = Deluge.Formatters.size;
 		var data = {
             torrent_name: torrent.name,
-            hash: torrent.id,
+            hash: torrentId,
             path: torrent.save_path,
             size: fsize(torrent.total_size),
             files: torrent.num_files,
@@ -182,12 +182,12 @@ Deluge.Details.Details = {
 	
 	update: function(torrentId) {
 		if (!this.fields) {
-			this.getFields(torrentId);
+			this.getFields();
 			// the pane isn't loaded yet and subsequently needs to pause
 			if (!this.fields) return;
 		}
 		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
-			onSuccess: this.onRequestComplete.bind(this)
+			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
 		});
 	}
 }
