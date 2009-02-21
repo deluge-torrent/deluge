@@ -29,8 +29,23 @@ function name(value, p, r) {
 	return String.format('<div class="torrent-name {0}">{1}</div>', r.data['state'].toLowerCase(), value);
 }
 
+var tpl = '<div class="x-progress-wrap">' +
+		'<div class="x-progress-inner">' +
+			'<div class="x-progress-bar" style="width:{2}%;">' +
+				'<div class="x-progress-text">' +
+					'<div>&#160;</div>' +
+				'</div>' +
+			'</div>' +
+			'<div class="x-progress-text x-progress-text-back deluge-torrent-progress">' +
+				'<div>{1} {0}%</div>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+
 function progress(value, p, r) {
-	return String.format('<div class="deluge-torrent-progress">{1} {0}%</div>', value.toFixed(2), r.data['state']);
+	var width = p['style'].match(/width:\s*(\d+)px/)[1].toInt()
+	var progress = value.toInt();
+	return String.format(tpl, value.toFixed(2), r.data['state'], progress);
 }
 
 function seeds(value, p, r) {
@@ -88,7 +103,7 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 		{id:'queue',header: "#", width: 30, sortable: true, renderer: queue, dataIndex: 'queue'},
 		{id:'name', header: "Name", width: 150, sortable: true, renderer: name, dataIndex: 'name'},
 		{header: "Size", width: 75, sortable: true, renderer: Deluge.Formatters.size, dataIndex: 'size'},
-		{header: "Progress", width: 125, sortable: true, renderer: progress, dataIndex: 'progress'},
+		{header: "Progress", width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
 		{header: "Seeds", width: 60, sortable: true, renderer: seeds, dataIndex: 'seeds'},
 		{header: "Peers", width: 60, sortable: true, renderer: peers, dataIndex: 'peers'},
 		{header: "Down Speed", width: 80, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'downspeed'},
