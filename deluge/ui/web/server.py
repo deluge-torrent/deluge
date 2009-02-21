@@ -532,7 +532,7 @@ class Flag(resource.Resource):
         path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
         filename = pkg_resources.resource_filename("deluge",
                                                    os.path.join(*path))
-        if filename:
+        if os.path.exists(filename):
             request.setHeader("cache-control", "public, must-revalidate, max-age=86400")
             request.setHeader("content-type", "image/png")
             data = open(filename, "rb")
