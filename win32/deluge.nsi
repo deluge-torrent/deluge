@@ -15,10 +15,6 @@
     ; Default install dir
     InstallDir "$PROGRAMFILES\Deluge"
 
-    ; Request privileges for Vista
-    RequestExecutionLevel user
-
-
 ; Interface Settings
 
     !define MUI_ABORTWARNING
@@ -73,6 +69,7 @@ SectionEnd
 
 Section "Uninstall"
 
+    Delete "$INSTDIR\README"
     Delete "$INSTDIR\uninstall.exe"
 
     RMDir "$INSTDIR"
