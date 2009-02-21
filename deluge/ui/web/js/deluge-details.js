@@ -233,9 +233,9 @@ Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
 		{name: 'country'},
 		{name: 'address'},
 		{name: 'client'},
-		{name: 'progress'},
-		{name: 'downspeed'},
-		{name: 'upspeed'}
+		{name: 'progress', type: 'float'},
+		{name: 'downspeed', type: 'int'},
+		{name: 'upspeed', type: 'int'}
 	],
 	id: 0
 });
@@ -289,7 +289,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		title: _('Peers'),
 		store: Deluge.Details.Peers.Store,
 		columns: [
-			{header: '&nbsp;', width: 30, renderer: flag, dataIndex: 'country'},
+			{header: '&nbsp;', width: 30, sortable: true, renderer: flag, dataIndex: 'country'},
 			{header: 'Address', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'address'},
 			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
 			{header: 'Progress', width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
