@@ -245,7 +245,7 @@ Deluge.Details.Peers = {
 	onRequestComplete: function(torrent) {
 		var peers = new Array();
 		torrent.peers.each(function(peer) {
-			peers.include([peer.country, peer.ip, peer.client, peer.progress, peer.down_speed, peer.up_speed]);
+			peers.include([peer.country, peer.ip, peer.client, peer.progress, peer.down_speed, peer.up_speed, peer.seed]);
 		}, this);
 		this.Store.loadData(peers);
 	},
@@ -261,11 +261,16 @@ Deluge.Details.Peers = {
 	}
 }
 
-function flag(val) {
-	return String.format('<img src="/flag/{0}" />', val);
+function flag(value) {
+	return String.format('<img src="/flag/{0}" />', value);
 }
 
-function peer_progress(value, p, r) {
+function peer_address(value, p, record) {
+	var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer'
+	return String.format('<div class="{0}">{1}</div>', seed, value);
+}
+
+function peer_progress(value) {
 	var progress = (value * 100).toInt();
 	return String.format(tpl, progress, '', progress);
 }
@@ -277,7 +282,8 @@ Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
 		{name: 'client'},
 		{name: 'progress', type: 'float'},
 		{name: 'downspeed', type: 'int'},
-		{name: 'upspeed', type: 'int'}
+		{name: 'upspeed', type: 'int'},
+		{name: 'seed', type: 'int'}
 	],
 	id: 0
 });
@@ -335,10 +341,11 @@ Deluge.Details.Panel = new Ext.TabPanel({
 	}), new Ext.grid.GridPanel({
 		id: 'peers',
 		title: _('Peers'),
+		cls: 'x-deluge-peers',
 		store: Deluge.Details.Peers.Store,
 		columns: [
 			{header: '&nbsp;', width: 30, sortable: true, renderer: flag, dataIndex: 'country'},
-			{header: 'Address', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'address'},
+			{header: 'Address', width: 125, sortable: true, renderer: peer_address, dataIndex: 'address'},
 			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
 			{header: 'Progress', width: 150, sortable: true, renderer: peer_progress, dataIndex: 'progress'},
 			{header: 'Down Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'downspeed'},
