@@ -25,7 +25,14 @@
         InstType "Full"
         InstType "Upgrade"
     !endif
-
+	
+; Macros
+	
+	!macro install installer_name
+		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+		delete "$TEMP\${installer_name}"
+	!macroend
+	
 ; Defines
 
     ; Base URL for installers
@@ -189,9 +196,3 @@ Section "Uninstall"
     RMDir "$INSTDIR"
 
 SectionEnd
-
-; Macros
-!macro install installer_name
-    ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-    delete "$TEMP\${installer_name}"
-!macroend
