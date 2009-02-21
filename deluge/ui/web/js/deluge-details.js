@@ -54,6 +54,12 @@ Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 Ext.reg('deluge-progress', Deluge.ProgressBar);
 
 Deluge.Details = {
+	clear: function() {
+		this.Panel.items.each(function(item) {
+			if (item.clear) item.clear();
+		});
+	},
+	
 	update: function(tab) {	
 		var torrent = Deluge.Torrents.getSelected();
 		if (!torrent) return;
@@ -66,6 +72,7 @@ Deluge.Details = {
 
 	onRender: function(panel) {
 		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
+		Deluge.Events.on('disconnect', this.clear.bind(this));
 	},
 	
 	onTabChange: function(panel, tab) {
@@ -92,6 +99,7 @@ Deluge.Details.Status = {
 			listeners: {'render': Deluge.Details.Status.onStatusRender}
 		});
 		this.panel.update = this.update.bind(this);
+		this.panel.clear = this.clear.bind(this);
 	},
 	
 	onStatusRender: function(panel) {
@@ -142,6 +150,14 @@ Deluge.Details.Status = {
 		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
 			onSuccess: this.onRequestComplete.bind(this)
 		});
+	},
+	
+	clear: function() {
+		if (!this.fields) return;
+		this.progressBar.updateProgress(0, ' ');
+		this.fields.each(function(value, key) {
+			value.set('text', '');
+		}, this);
 	}
 }
 
@@ -154,6 +170,7 @@ Deluge.Details.Details = {
 		});
 		this.doUpdate = false;
 		this.panel.update = this.update.bind(this);
+		this.panel.clear = this.clear.bind(this);
 	},
 	
 	onLoaded: function() {
@@ -192,12 +209,25 @@ Deluge.Details.Details = {
 		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
 		});
+	},
+	
+	clear: function() {
+		if (!this.fields) return;
+		this.fields.each(function(value, key) {
+			value.set('text', '');
+		}, this);
 	}
 }
 
 Deluge.Details.Files = {
 	onRender: function(panel) {
 		this.panel = panel;
+		this.panel.clear = this.clear.bind(this);
+		this.panel.update = this.update.bind(this);
+	},
+	
+	clear: function() {
+		
 	},
 	
 	update: function(torrentId) {
@@ -209,6 +239,7 @@ Deluge.Details.Peers = {
 	onRender: function(panel) {
 		this.panel = panel;
 		this.panel.update = this.update.bind(this);
+		this.panel.clear = this.clear.bind(this);
 	},
 	
 	onRequestComplete: function(torrent) {
@@ -217,6 +248,10 @@ Deluge.Details.Peers = {
 			peers.include([peer.country, peer.ip, peer.client, peer.down_speed, peer.up_speed]);
 		}, this);
 		this.Store.loadData(peers);
+	},
+	
+	clear: function() {
+		this.Store.loadData([]);
 	},
 	
 	update: function(torrentId) {
