@@ -245,7 +245,7 @@ Deluge.Details.Peers = {
 	onRequestComplete: function(torrent) {
 		var peers = new Array();
 		torrent.peers.each(function(peer) {
-			peers.include([peer.country, peer.ip, peer.client, peer.down_speed, peer.up_speed]);
+			peers.include([peer.country, peer.ip, peer.client, peer.progress, peer.down_speed, peer.up_speed]);
 		}, this);
 		this.Store.loadData(peers);
 	},
@@ -265,8 +265,9 @@ function flag(val) {
 	return String.format('<img src="/flag/{0}" />', val);
 }
 
-function progress(val) {
-	return val.toFixed(1);
+function peer_progress(value, p, r) {
+	var progress = (value * 100).toInt();
+	return String.format(tpl, progress, '', progress);
 }
 
 Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
@@ -339,7 +340,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			{header: '&nbsp;', width: 30, sortable: true, renderer: flag, dataIndex: 'country'},
 			{header: 'Address', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'address'},
 			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
-			{header: 'Progress', width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
+			{header: 'Progress', width: 150, sortable: true, renderer: peer_progress, dataIndex: 'progress'},
 			{header: 'Down Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'downspeed'},
 			{header: 'Up Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'upspeed'}
 		],	
