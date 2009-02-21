@@ -65,9 +65,12 @@ SubSection /e "Dependencies" deps
         SectionIn 1
 
         ; Download MSI
-        NSIS:dl download ${LIBTORRENT_URL} "$TEMP\${LIBTORRENT}"
+        NSISdl::download ${LIBTORRENT_URL} "$TEMP\${LIBTORRENT}"
 
         ; Install MSI
+        ExecWait 'msiexec /i "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}" /passive TARGETDIR="$INSTDIR\Libtorrent"'
+
+        ; Clean up
         delete "$TEMP\${LIBTORRENT}"
 
     SectionEnd
