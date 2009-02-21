@@ -106,7 +106,27 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 	autoExpandColumn: 'host',
 	deferredRender:false,
 	autoScroll:true,
-	margins: '0 0 0 0'
+	margins: '0 0 0 0',
+	bbar: new Ext.Toolbar({
+		items: [
+			{
+				id: 'add',
+				cls: 'x-btn-text-icon',
+				text: _('Add'),
+				icon: '/icons/16/add.png'
+			}, {
+				id: 'remove',
+				cls: 'x-btn-text-icon',
+				text: _('Remove'),
+				icon: '/icons/16/remove.png'
+			}, '->', {
+				id: 'stop',
+				cls: 'x-btn-text-icon',
+				text: _('Stop Daemon'),
+				icon: '/icons/16/error.png'
+			}
+		]
+	})
 });
 
 Deluge.Connections.Window = new Ext.Window({
