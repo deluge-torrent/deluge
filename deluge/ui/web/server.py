@@ -522,6 +522,26 @@ class Tracker(resource.Resource):
             request.setResponseCode(http.NOT_FOUND)
             return ""
 
+class Flag(resource.Resource):
+    def getChild(self, path, request):
+        request.country = path
+        return self
+    
+    def render(self, request):
+        headers = {}
+        path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
+        filename = pkg_resources.resource_filename("deluge",
+                                                   os.path.join(*path))
+        if filename:
+            request.setHeader("cache-control", "public, must-revalidate, max-age=86400")
+            request.setHeader("content-type", "image/png")
+            data = open(filename, "rb")
+            request.setResponseCode(http.OK)
+            return data.read()
+        else:
+            request.setResponseCode(http.NOT_FOUND)
+            return ""
+
 class TopLevel(resource.Resource):
     addSlash = True
     
@@ -529,6 +549,7 @@ class TopLevel(resource.Resource):
         resource.Resource.__init__(self)
         self.putChild("css", static.File(rpath("css")))
         self.putChild("gettext.js", GetText())
+        self.putChild("flag", Flag())
         self.putChild("icons", static.File(rpath("icons")))
         self.putChild("images", static.File(rpath("images")))
         self.putChild("js", static.File(rpath("js")))
