@@ -53,6 +53,13 @@ Deluge.Connections = {
 		selection.selectRow(Deluge.Connections.selectedRow);
 	},
 	
+	onRender: function() {
+		Deluge.Events.on('logout', function(e) {
+			Deluge.Connections.disconnect();
+			Deluge.Connections.Window.hide();
+		});
+	},
+	
 	onSelect: function(selModel, rowIndex, record) {
 		Deluge.Connections.selectedRow = rowIndex;
 	},
@@ -60,10 +67,6 @@ Deluge.Connections = {
 	onShow: function(window) {
 		Deluge.Connections.running = Deluge.Connections.runCheck.periodical(2000);
 		Deluge.Connections.runCheck();
-		Deluge.Events.on('logout', function(e) {
-			Deluge.Connections.disconnect();
-			Deluge.Connections.Window.hide();
-		});
 	},
 	
 	runCheck: function() {
@@ -126,6 +129,7 @@ Deluge.Connections.Window = new Ext.Window({
     }],
 	listeners: {
 		'hide': Deluge.Connections.onClose,
-		'show': Deluge.Connections.onShow
+		'show': Deluge.Connections.onShow,
+		'render': Deluge.Connections.onRender
 	}
 });

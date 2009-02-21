@@ -134,7 +134,7 @@ Deluge.Ui = {
 		if (this.running) {
             $clear(this.running);
             this.running = false;
-			Deluge.Torrents.store.loadData([]);
+			Deluge.Torrents.Store.loadData([]);
         }
 	}
 }
