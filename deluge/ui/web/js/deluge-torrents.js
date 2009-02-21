@@ -43,7 +43,6 @@ var tpl = '<div class="x-progress-wrap">' +
 	'</div>';
 
 function progress(value, p, r) {
-	var width = p['style'].match(/width:\s*(\d+)px/)[1].toInt()
 	var progress = value.toInt();
 	return String.format(tpl, value.toFixed(2), r.data['state'], progress);
 }
