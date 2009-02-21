@@ -70,6 +70,7 @@
     ; Installer
     !define MUI_ICON "..\deluge\data\pixmaps\deluge.ico"
     !define MUI_HEADERIMAGE
+	!define MUI_HEADERIMAGE_RIGHT
     !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
     !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
     !define MUI_ABORTWARNING
