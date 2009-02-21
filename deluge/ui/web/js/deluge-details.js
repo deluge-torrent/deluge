@@ -1,5 +1,28 @@
-Deluge.Details = {
+/*
+Script: deluge-details.js
+    Contains all objects and functions related to the lower details panel and
+	it's containing tabs.
 
+Copyright:
+	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 3, or (at your option)
+	any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, write to:
+		The Free Software Foundation, Inc.,
+		51 Franklin Street, Fifth Floor
+		Boston, MA  02110-1301, USA.
+*/
+
+Deluge.Details = {
 	update: function() {		
 		var torrent = Deluge.Torrents.getSelected();
 		if (!torrent) return;
