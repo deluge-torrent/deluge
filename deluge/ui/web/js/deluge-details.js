@@ -22,26 +22,6 @@ Copyright:
 		Boston, MA  02110-1301, USA.
 */
 
-Deluge.Details = {
-	update: function() {		
-		var torrent = Deluge.Torrents.getSelected();
-		if (!torrent) return;
-		
-		var tab = this.Panel.getActiveTab();
-		if (tab.update) {
-			tab.update(torrent.id);
-		}
-	},
-
-	onRender: function(panel) {
-		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
-	},
-	
-	onTorrentsClick: function(grid, rowIndex, e) {
-		this.update();
-	}
-}
-
 Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 	initComponent: function() {
 		Deluge.ProgressBar.superclass.initComponent.call(this);
@@ -56,7 +36,7 @@ Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 		if (this.rendered) {
 			var w = Math.floor(value*this.el.dom.firstChild.offsetWidth / 100.0);
 	        this.progressBar.setWidth(w, animate === true || (animate !== false && this.animate));
-	        if(this.textTopEl){
+	        if (this.textTopEl) {
 	            //textTopEl should be the same width as the bar so overflow will clip as the bar moves
 	            this.textTopEl.removeClass('x-hidden').setWidth(w);
 	        }
@@ -66,6 +46,30 @@ Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 	}
 });
 Ext.reg('deluge-progress', Deluge.ProgressBar);
+
+Deluge.Details = {
+	update: function(tab) {	
+		var torrent = Deluge.Torrents.getSelected();
+		if (!torrent) return;
+		
+		tab = tab || this.Panel.getActiveTab();
+		if (tab.update) {
+			tab.update(torrent.id);
+		}
+	},
+
+	onRender: function(panel) {
+		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
+	},
+	
+	onTabChange: function(panel, tab) {
+		this.update(tab);
+	},
+	
+	onTorrentsClick: function(grid, rowIndex, e) {
+		this.update();
+	}
+}
 
 Deluge.Details.Status = {
 	onRender: function(panel) {
@@ -139,7 +143,51 @@ Deluge.Details.Status = {
 Deluge.Details.Details = {
 	onRender: function(panel) {
 		this.panel = panel.load({
-			url: '/render/tab_details.html'
+			url: '/render/tab_details.html',
+			text: _('Loading') + '...',
+			callback: this.onLoaded.bindWithEvent(this)
+		});
+		this.panel.update = this.update.bind(this);
+	},
+	
+	onLoaded: function() {
+		this.getFields();
+		if (Deluge.Details.Panel.getActiveTab() == this.panel) {
+			Deluge.Details.update(this.panel);
+		}
+	},
+	
+	onRequestComplete: function(torrent) {
+		var fsize = Deluge.Formatters.size;
+		var data = {
+            torrent_name: torrent.name,
+            hash: torrent.id,
+            path: torrent.save_path,
+            size: fsize(torrent.total_size),
+            files: torrent.num_files,
+            status: torrent.tracker_status,
+            tracker: torrent.tracker
+        };
+		this.fields.each(function(value, key) {
+			value.set('text', data[key]);
+		}, this);
+	},
+	
+	getFields: function() {
+		this.fields = new Hash();
+		this.panel.body.dom.getElements('dd').each(function(item) {
+			this.fields[item.getProperty('class')] = item;
+		}, this);
+	},
+	
+	update: function(torrentId) {
+		if (!this.fields) {
+			this.getFields(torrentId);
+			// the pane isn't loaded yet and subsequently needs to pause
+			if (!this.fields) return;
+		}
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+			onSuccess: this.onRequestComplete.bind(this)
 		});
 	}
 }
@@ -155,11 +203,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 	items: [{
 		id: 'status',
 		title: _('Status'),
+		cls: 'deluge-status',
 		listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
 	},{
 		id: 'details',
 		title: _('Details'),
-		listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Status}}
+		cls: 'deluge-status',
+		listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Details}}
 	},{
 		id: 'files',
 		title: _('Files')
@@ -170,5 +220,8 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		id: 'options',
 		title: _('Options')
 	}],
-	listeners: {'render': {fn: Deluge.Details.onRender, scope: Deluge.Details}}
+	listeners: {
+		'render': {fn: Deluge.Details.onRender, scope: Deluge.Details},
+		'tabchange': {fn: Deluge.Details.onTabChange, scope: Deluge.Details}
+	}
 });
