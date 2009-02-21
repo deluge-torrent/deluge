@@ -147,11 +147,13 @@ Deluge.Details.Details = {
 			text: _('Loading') + '...',
 			callback: this.onLoaded.bindWithEvent(this)
 		});
+		this.doUpdate = false;
 		this.panel.update = this.update.bind(this);
 	},
 	
 	onLoaded: function() {
 		this.getFields();
+		this.doUpdate = true;
 		if (Deluge.Details.Panel.getActiveTab() == this.panel) {
 			Deluge.Details.update(this.panel);
 		}
@@ -181,16 +183,39 @@ Deluge.Details.Details = {
 	},
 	
 	update: function(torrentId) {
-		if (!this.fields) {
-			this.getFields();
-			// the pane isn't loaded yet and subsequently needs to pause
-			if (!this.fields) return;
-		}
+		if (!this.doUpdate) return;
+		if (!this.fields) this.getFields();
 		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
 		});
 	}
 }
+
+Deluge.Details.Files = {
+	onRender: function(panel) {
+		this.panel = panel;
+	},
+	
+	update: function(torrentId) {
+		
+	}
+}
+
+Deluge.Details.Peers = {
+	
+}
+
+Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
+	fields: [
+		{name: 'country'},
+		{name: 'address'},
+		{name: 'client'},
+		{name: 'progress'},
+		{name: 'downspeed'},
+		{name: 'upspeed'}
+	],
+	id: 0
+});
 
 Deluge.Details.Panel = new Ext.TabPanel({
 	region: 'south',
@@ -203,20 +228,56 @@ Deluge.Details.Panel = new Ext.TabPanel({
 	items: [{
 		id: 'status',
 		title: _('Status'),
-		cls: 'deluge-status',
 		listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
 	},{
 		id: 'details',
 		title: _('Details'),
 		cls: 'deluge-status',
 		listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Details}}
-	},{
+	}, new Ext.tree.ColumnTree({
 		id: 'files',
-		title: _('Files')
-	},{
+		title: _('Files'),
+		rootVisible: false,
+		autoScroll: true,
+		
+		columns: [{
+			header: _('Filename'),
+			width: 330,
+			dataIndex: 'filename'
+		},{
+			header: _('Size'),
+			width: 150,
+			dataIndex: 'size'
+		},{
+			header: _('Progress'),
+			width: 150,
+			dataIndex: 'progress'
+		},{
+			header: _('Priority'),
+			width: 150,
+			dataIndex: 'priority'
+		}],
+		
+		root: new Ext.tree.AsyncTreeNode({
+            text:'Tasks'
+        })
+	}), new Ext.grid.GridPanel({
 		id: 'peers',
-		title: _('Peers')
-	},{
+		title: _('Peers'),
+		store: Deluge.Details.Peers.Store,
+		columns: [
+			{width: 30, renderer: Deluge.Formatters.plain, dataIndex: 'country'},
+			{header: 'Address', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'address'},
+			{header: 'Client', width: 125, sortable: true, renderer: renderHost, dataIndex: 'client'},
+			{header: 'Progress', width: 150, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'progress'},
+			{header: 'Down Speed', width: 100, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'downspeed'},
+			{header: 'Up Speed', width: 100, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'upspeed'}
+		],	
+		stripeRows: true,
+		deferredRender:false,
+		autoScroll:true,
+		margins: '0 0 0 0'
+	}),{
 		id: 'options',
 		title: _('Options')
 	}],
