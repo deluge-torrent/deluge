@@ -13,7 +13,11 @@
     OutFile "deluge.exe"
 
     ; Default install dir
-    InstallDir "$PROGRAMFILES\Deluge"
+    InstallDir "$PROGRAMFILES"
+
+; Dependencies
+
+    !define LIBTORRENT
 
 ; Interface Settings
 
@@ -43,17 +47,31 @@
 
 ; Installer Sections
 
-Section "Deluge" deluge
+Section "Deluge Core" deluge
 
     SectionIn RO
 
-    SetOutPath "$INSTDIR"
-    
-        file "..\README"
+    SetOutPath "$INSTDIR\Deluge"
 
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
 SectionEnd
+
+SubSection /e "Dependencies" deps
+
+    Section "Libtorrent" libtorrent
+
+        SectionIn 1
+
+        ; Download MSI
+        NSIS:dl download ${LIBTORRENT_URL} "$TEMP\${LIBTORRENT}"
+
+        ; Install MSI
+        delete "$TEMP\${LIBTORRENT}"
+
+    SectionEnd
+
+SubSectionEnd
 
 ; Descriptions
 
