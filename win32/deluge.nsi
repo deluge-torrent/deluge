@@ -8,8 +8,12 @@
 
 ; General Settings
 
+	; Version
+	!define DELUGE_VERSION "1.1.3"
+	!define SCRIPT_VERSION "0.1"
+
     ; Name
-    Name "Deluge"
+    Name "Deluge ${DELUGE_VERSION}"
     OutFile "deluge.exe"
 
     ; Default install dir
@@ -19,7 +23,7 @@
     SetCompressor lzma
 
     ; Brand
-    BrandingText "Deluge Windows Installer"
+    BrandingText "Deluge Windows Installer v${SCRIPT_VERSION}"
 
     !ifndef NOINSTTYPES
         InstType "Full"
@@ -73,6 +77,7 @@
 	!define MUI_HEADERIMAGE_RIGHT
     !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
     !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
+	!define MUI_COMPONENTSPAGE_SMALLDESC
     !define MUI_ABORTWARNING
 
     ; Uninstaller
@@ -182,11 +187,13 @@ SubSectionEnd
 ; Descriptions
 
     ; Language strings
-    LangString DESC_deluge ${LANG_ENGLISH} "Core section."
+    LangString DESC_deluge ${LANG_ENGLISH} "Deluge 1.1.3"
+    LangString DESC_python ${LANG_ENGLISH} "Python 2.5.4"
 
     ; Assign language strings to sections
     !insertmacro  MUI_FUNCTION_DESCRIPTION_BEGIN
         !insertmacro MUI_DESCRIPTION_TEXT ${deluge} $(DESC_deluge)
+        !insertmacro MUI_DESCRIPTION_TEXT ${python} $(DESC_python)
     !insertmacro  MUI_FUNCTION_DESCRIPTION_END
 
 ; Uninstaller Section
