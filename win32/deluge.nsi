@@ -18,7 +18,7 @@
 ; Dependencies
 
     !define LIBTORRENT "libtorrent.msi"
-    !define LIBTORRENT_URL "http://waix.dl.sourceforge.net/sourceforge/libtorrent/python-libtorrent-0.14.2.win32-py2.5.msi"
+    !define LIBTORRENT_URL "http://transact.dl.sourceforge.net/sourceforge/libtorrent/python-libtorrent-0.14.2.win32-py2.5.msi"
 
 ; Interface Settings
 
@@ -60,7 +60,7 @@ SectionEnd
 
 SubSection /e "Dependencies" deps
 
-    Section "Libtorrent" libtorrent
+    Section "Libtorrent" SecLibtorrent
 
         SectionIn 1
 
@@ -68,7 +68,7 @@ SubSection /e "Dependencies" deps
         NSISdl::download ${LIBTORRENT_URL} "$TEMP\${LIBTORRENT}"
 
         ; Install MSI
-        ExecWait 'msiexec /i "$INSTDIR\${PYTHON_RUNTIME_INSTALLER}" /passive TARGETDIR="$INSTDIR\Libtorrent"'
+        ExecWait 'msiexec /i "$TEMP\${LIBTORRENT}" /passive TARGETDIR="$INSTDIR\LibTorrent"'
 
         ; Clean up
         delete "$TEMP\${LIBTORRENT}"
