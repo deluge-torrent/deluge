@@ -326,6 +326,8 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("entry_download_path").set_text(
                 options["download_location"])
 
+        self.glade.get_widget("radio_full").set_active(
+            not options["compact_allocation"])
         self.glade.get_widget("radio_compact").set_active(
             options["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(

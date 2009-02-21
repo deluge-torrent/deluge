@@ -2,6 +2,7 @@
 ==== GtkUI ====
   * Fix hiding bottom pane when no tabs are enabled upon restart
   * Fix saving file priorities when switching torrents in the addtorrentdialog
+  * Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
 
 === Deluge 1.1.3 - (15 February 2009) ===
 ==== Core ====
