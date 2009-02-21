@@ -66,6 +66,7 @@ Deluge.Formatters = {
 	},
 	
 	speed: function(bits) {
+		if (!bits || bits == 0) return '';
 		if (bits < 1024) { return bits.toFixed(1)  + ' b/s'; }
 		else { bits = bits / 1024; }
 	
@@ -114,6 +115,10 @@ Deluge.Formatters = {
 		return value;
 	}
 }
+
+var fsize = Deluge.Formatters.size;
+var fspeed = Deluge.Formatters.speed;
+var ftime = Deluge.Formatters.timeRemaining;
 
 Deluge.Keys = {
     Grid: [

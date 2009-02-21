@@ -97,7 +97,6 @@ Deluge.Details.Status = {
 	},
 	
 	onRequestComplete: function(status) {
-		var fsize = Deluge.Formatters.size, ftime = Deluge.Formatters.timeRemaining, fspeed = Deluge.Formatters.speed;
 		var data = {
 			downloaded: fsize(status.total_done) + ' (' + fsize(status.total_payload_download) + ')',
             uploaded: fsize(status.total_uploaded) + ' (' + fsize(status.total_payload_upload) + ')',
@@ -160,7 +159,6 @@ Deluge.Details.Details = {
 	},
 	
 	onRequestComplete: function(torrent, torrentId) {
-		var fsize = Deluge.Formatters.size;
 		var data = {
             torrent_name: torrent.name,
             hash: torrentId,
@@ -202,7 +200,32 @@ Deluge.Details.Files = {
 }
 
 Deluge.Details.Peers = {
+	onRender: function(panel) {
+		this.panel = panel;
+		this.panel.update = this.update.bind(this);
+	},
 	
+	onRequestComplete: function(torrent) {
+		var peers = new Array();
+		torrent.peers.each(function(peer) {
+			peers.include([peer.country, peer.ip, peer.client, peer.down_speed, peer.up_speed]);
+		}, this);
+		this.Store.loadData(peers);
+	},
+	
+	update: function(torrentId) {
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
+			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
+		});
+	}
+}
+
+function flag(val) {
+	return String.format('<img src="/flag/{0}" />', val);
+}
+
+function progress(val) {
+	return val.toFixed(1);
 }
 
 Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
@@ -266,17 +289,18 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		title: _('Peers'),
 		store: Deluge.Details.Peers.Store,
 		columns: [
-			{width: 30, renderer: Deluge.Formatters.plain, dataIndex: 'country'},
+			{header: '&nbsp;', width: 30, renderer: flag, dataIndex: 'country'},
 			{header: 'Address', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'address'},
-			{header: 'Client', width: 125, sortable: true, renderer: renderHost, dataIndex: 'client'},
-			{header: 'Progress', width: 150, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'progress'},
-			{header: 'Down Speed', width: 100, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'downspeed'},
-			{header: 'Up Speed', width: 100, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'upspeed'}
+			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
+			{header: 'Progress', width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
+			{header: 'Down Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'downspeed'},
+			{header: 'Up Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'upspeed'}
 		],	
 		stripeRows: true,
 		deferredRender:false,
 		autoScroll:true,
-		margins: '0 0 0 0'
+		margins: '0 0 0 0',
+		listeners: {'render': {fn: Deluge.Details.Peers.onRender, scope: Deluge.Details.Peers}}
 	}),{
 		id: 'options',
 		title: _('Options')
