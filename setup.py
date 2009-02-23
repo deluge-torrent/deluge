@@ -23,6 +23,7 @@
 import ez_setup
 ez_setup.use_setuptools()
 import glob
+import sys
 
 from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
@@ -258,12 +259,10 @@ class build_plugins(cmd.Command):
     def run(self):
         # Build the plugin eggs
         PLUGIN_PATH = "deluge/plugins/*"
-        if windows_check():
-            PLUGIN_PATH = "deluge\\plugins\\"
 
         for path in glob.glob(PLUGIN_PATH):
             if os.path.exists(os.path.join(path, "setup.py")):
-                os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
+                os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
 
 class build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
@@ -288,12 +287,10 @@ class clean_plugins(cmd.Command):
         print("Cleaning the plugin folders..")
 
         PLUGIN_PATH = "deluge/plugins/*"
-        if windows_check():
-            PLUGIN_PATH = "deluge\\plugins\\"
 
         for path in glob.glob(PLUGIN_PATH):
             if os.path.exists(os.path.join(path, "setup.py")):
-                c = "cd " + path + "&& python setup.py clean"
+                c = "cd " + path + "&& " + sys.executable + " setup.py clean"
                 if self.all:
                     c += " -a"
                 os.system(c)
