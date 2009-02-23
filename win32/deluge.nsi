@@ -142,6 +142,8 @@ SubSection /e "Core" core
 
         ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
 
+		SetOutPath "$INSTDIR\Deluge"
+		
         WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
 
     SectionEnd
@@ -227,6 +229,7 @@ SubSectionEnd
 Section "Uninstall"
 
     Delete "$INSTDIR\Deluge\uninstall.exe"
+	RMDir "$INSTDIR\Deluge"
     RMDir "$INSTDIR"
 
 SectionEnd
