@@ -33,7 +33,7 @@
 ; Defines
 
     ; Base URL for installers
-    !define BASE "http://download.deluge-torrent.org/windows/deps/"
+    !define BASE "http://download.deluge-torrent.org/windows/deps"
 
     ; Installer names
     !define DELUGE_INSTALLER "deluge-1.1.3.win32-py2.5.msi"
@@ -41,7 +41,7 @@
     !define PYWIN32_INSTALLER "pywin32-212.win32-py2.5.exe"
     !define GTK+_INSTALLER "gtk-2.12.9-win32-2.exe"
     !define PYGTK_INSTALLER "pygtk-2.12.1-2.win32-py2.5.exe"
-    !define PYXDG_INSTALLER "pyxdg-0.17.win32-py2.5.exe"
+    !define PYXDG_INSTALLER "pyxdg-0.17.win32-py2.5.msi"
     !define SETUPTOOLS_INSTALLER "setuptools-0.6c9.win32-py2.5.exe"
     !define LIBTORRENT_INSTALLER "python-libtorrent-0.14.2.win32-py2.5.msi"
     !define LIBTORRENT_DLL "MSVCP71.DLL"
@@ -110,9 +110,8 @@
         DetailPrint "Attempting to download ${url} as ${filename}"
         NSISdl::download ${url} ${filename}
         Pop $0
-        StrCmp $0 "success" +3
+        StrCmp $0 "success" +2
             DetailPrint "Download failed: $0"
-            Quit
     !macroend
 	
     !macro install_NSIS installer_name install_dir
