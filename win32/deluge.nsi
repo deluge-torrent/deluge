@@ -59,7 +59,7 @@
     !define LIBTORRENT_DLL_ZIP_URL "${BASE}\LIBTORRENT_DLL_ZIP"
 
     ; Redefine macros/functions
-    !define download "!insert macro download"
+    !define download "!insertmacro download"
     !define install_NSIS "!insertmacro install_NSIS"
     !define install_MSI "!insertmacro install_MSI"
     !define install_ZIP "!insertmacro install_ZIP"
