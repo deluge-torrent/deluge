@@ -74,6 +74,7 @@
     !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
     !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
 	!define MUI_COMPONENTSPAGE_SMALLDESC
+    !define MUI_FINISHPAGE_NOAUTOCLOSE
     !define MUI_ABORTWARNING
 
     ; Uninstaller
@@ -106,10 +107,11 @@
 ; Macros
 
     !macro download url filename
+        DetailPrint "Attempting to download ${url} as ${filename}"
         NSISdl::download ${url} ${filename}
         Pop $0
         StrCmp $0 "success" +3
-            MessageBox MB_OK "Download failed: $0"
+            DetailPrint "Download failed: $0"
             Quit
     !macroend
 	
