@@ -8,9 +8,9 @@
 
 ; General Settings
 
-	; Version
-	!define DELUGE_VERSION "1.1.3"
-	!define SCRIPT_VERSION "0.2"
+    ; Version
+    !define DELUGE_VERSION "1.1.3"
+    !define SCRIPT_VERSION "0.2"
 
     ; Name
     Name "Deluge ${DELUGE_VERSION}"
@@ -29,7 +29,7 @@
         InstType "Full"
         InstType "Upgrade"
     !endif
-	
+    
 ; Defines
 
     ; Base URL for installers
@@ -70,10 +70,10 @@
     ; Installer
     !define MUI_ICON "..\deluge\data\pixmaps\deluge.ico"
     !define MUI_HEADERIMAGE
-	!define MUI_HEADERIMAGE_RIGHT
+    !define MUI_HEADERIMAGE_RIGHT
     !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
     !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
-	!define MUI_COMPONENTSPAGE_SMALLDESC
+    !define MUI_COMPONENTSPAGE_SMALLDESC
     !define MUI_FINISHPAGE_NOAUTOCLOSE
     !define MUI_ABORTWARNING
 
@@ -113,25 +113,29 @@
         StrCmp $0 "success" +2
             DetailPrint "Download failed: $0"
     !macroend
-	
+    
     !macro install_NSIS installer_name install_dir
-		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
         ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK+'
-		delete "$TEMP\${${installer_name}}"
+        delete "$TEMP\${${installer_name}}"
     !macroend
 
-	!macro install_MSI installer_name install_dir
-		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+    !macro install_MSI installer_name install_dir
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
         ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}" TARGETDIR="${install_dir}'
-		delete "$TEMP\${${installer_name}}"
-	!macroend
+        delete "$TEMP\${${installer_name}}"
+    !macroend
 
     !macro install_ZIP installer_name install_dir
-		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        nsisunz::Unzip "$TEMP\${${installer_name}}" "${install_dir}"
-		delete "$TEMP\${${installer_name}}"
+        InitPluginsDir
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        nsisunz::UnzipToLog "$TEMP\${${installer_name}}" "${install_dir}"
+        Pop $0
+        StrCmp $0 "success" +2
+            DetailPrint "Error unzipping: $0"
+        delete "$TEMP\${${installer_name}}"
     !macroend
-	
+    
 ; Installer Sections
 
 SubSection /e "Core" core
@@ -142,8 +146,8 @@ SubSection /e "Core" core
 
         ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
 
-		SetOutPath "$INSTDIR\Deluge"
-		
+        SetOutPath "$INSTDIR\Deluge"
+        
         WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
 
     SectionEnd
@@ -229,7 +233,7 @@ SubSectionEnd
 Section "Uninstall"
 
     Delete "$INSTDIR\Deluge\uninstall.exe"
-	RMDir "$INSTDIR\Deluge"
+    RMDir "$INSTDIR\Deluge"
     RMDir "$INSTDIR"
 
 SectionEnd
