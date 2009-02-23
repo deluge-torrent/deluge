@@ -81,6 +81,7 @@
     !define MUI_UNICON "..\deluge\data\pixmaps\deluge.ico"
     !define MUI_HEADERIMAGE_UNBITMAP "installer-top.bmp"
     !define MUI_WELCOMEFINISHPAGE_UNBITMAP "installer-side.bmp"
+    !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 ; Pages
 
@@ -127,7 +128,6 @@
     !macroend
 
     !macro install_ZIP installer_name install_dir
-        InitPluginsDir
         ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
         nsisunz::UnzipToLog "$TEMP\${${installer_name}}" "${install_dir}"
         Pop $0
