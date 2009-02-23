@@ -1,7 +1,7 @@
 #
-# coreclient.py
+# core.py
 #
-# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,20 +22,23 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
-
+from deluge.log import LOG as log
+from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
+import deluge.configmanager
+from deluge.core.rpcserver import export
 
-class CoreClient(object):
-    """
-    provides the uiclient interface to core plugins
-    see http://dev.deluge-torrent.org/wiki/Development/UiClient
-    """
-    def __init__(self):
-        self.core = component.get("Core")
+class Core(CorePluginBase):
+    def enable(self):
+        log.debug("Example core plugin enabled!")
 
-    def __getattr__(self, func_name):
-        return self.core.funcs[func_name]
+    def disable(self):
+        log.debug("Example core plugin disabled!")
 
-client = CoreClient()
+    def update(self):
+        pass
 
+    ### Exported RPC methods ###
+    @export()
+    def example_method(self):
+        pass

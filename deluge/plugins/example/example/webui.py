@@ -1,7 +1,7 @@
 #
-# init.py
+# webui.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Martijn Voncken <mvoncken@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,26 +22,14 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-"""
-This base class is used in plugin's __init__ for the plugin entry points.
-"""
+
 from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge import component
 
-class PluginInitBase(object):
-    _plugin_cls = None
-    def __init__(self, plugin_name):
-        self.plugin = self._plugin_cls(plugin_name)
-
+class WebUI(WebPluginBase):
     def enable(self):
-        try:
-            self.plugin.enable()
-        except Exception, e:
-            log.error("Unable to enable plugin!")
-            log.exception(e)
+        log.debug("Example Web plugin enabled!")
 
     def disable(self):
-        try:
-            self.plugin.disable()
-        except Exception, e:
-            log.error("Unable to disable plugin!")
-            log.exception(e)
+        log.debug("Example Web plugin disabled!")

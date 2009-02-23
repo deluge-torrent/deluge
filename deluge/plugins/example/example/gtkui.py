@@ -1,7 +1,7 @@
 #
-# init.py
+# gtkui.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,26 +22,16 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-"""
-This base class is used in plugin's __init__ for the plugin entry points.
-"""
+import gtk
+
 from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge.plugins.pluginbase import GtkPluginBase
+import deluge.component as component
+import deluge.common
 
-class PluginInitBase(object):
-    _plugin_cls = None
-    def __init__(self, plugin_name):
-        self.plugin = self._plugin_cls(plugin_name)
-
+class GtkUI(GtkPluginBase):
     def enable(self):
-        try:
-            self.plugin.enable()
-        except Exception, e:
-            log.error("Unable to enable plugin!")
-            log.exception(e)
-
+        pass
     def disable(self):
-        try:
-            self.plugin.disable()
-        except Exception, e:
-            log.error("Unable to disable plugin!")
-            log.exception(e)
+        pass
