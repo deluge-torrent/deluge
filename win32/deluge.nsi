@@ -59,7 +59,7 @@
     !define LIBTORRENT_DLL_ZIP_URL "${BASE}\LIBTORRENT_DLL_ZIP"
 
     ; Redefine macros/functions
-    !define download "NSISdl::download"
+    !define download "!insert macro download"
     !define install_NSIS "!insertmacro install_NSIS"
     !define install_MSI "!insertmacro install_MSI"
     !define install_ZIP "!insertmacro install_ZIP"
@@ -104,6 +104,14 @@
     ; Should put all languages deluge supports here
 
 ; Macros
+
+    !macro download url filename
+        NSISdl::download ${url} ${filename}
+        Pop $0
+        StrCmp $0 "success" +3
+            MessageBox MB_OK "Download failed: $0"
+            Quit
+    !macroend
 	
     !macro install_NSIS installer_name install_dir
 		${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
