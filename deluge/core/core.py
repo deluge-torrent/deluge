@@ -173,7 +173,11 @@ class Core(
         # Load the GeoIP DB for country look-ups if available
         geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
         if os.path.exists(geoip_db):
-            self.session.load_country_db(geoip_db)
+            try:
+                self.session.load_country_db(geoip_db)
+            except Exception, e:
+                log.error("Unable to load geoip database!")
+                log.exception(e)
 
         # Set the user agent
         self.settings = lt.session_settings()
