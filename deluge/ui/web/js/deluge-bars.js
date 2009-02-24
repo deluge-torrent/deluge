@@ -27,6 +27,10 @@ Deluge.ToolBar = {
 		'create', 'add', 'remove', 'pause', 'resume', 'up', 'down'
 	],
 	
+	onTorrentAdd: function() {
+		Deluge.Add.Window.show();
+	},
+	
 	onConnect: function() {
 		$each(this.connected_buttons, function(button_id) {
 			this.Bar.items.get(button_id).enable();
@@ -109,7 +113,7 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			disabled: true,
 			text: _('Add'),
 			icon: '/icons/16/add.png',
-			handler: Deluge.ToolBar.onTorrentAction
+			handler: Deluge.ToolBar.onTorrentAdd
 		},{
 			id: 'remove',
 			cls: 'x-btn-text-icon',

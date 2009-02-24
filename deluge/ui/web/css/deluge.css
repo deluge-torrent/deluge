@@ -82,9 +82,14 @@ html, body {
 	
 }
 
-/* Login */
+/* Login Window */
 .x-deluge-login-window-icon {
 	background: url('/icons/16/login.png') no-repeat 2px;
+}
+
+/* Add Window */
+.x-deluge-add-window-icon {
+	background: url('/icons/16/add.png') no-repeat 2px;
 }
 
 /* Statusbar */
@@ -95,4 +100,29 @@ html, body {
 
 #deluge-statusbar .x-connected {
 	background: transparent;
+}
+
+.x-progress-wrap {
+	background: url('/themes/slate/panel/white-top-bottom.gif');
+	border: 1px solid Black;
+	border-top: none;
+}
+
+.x-progress-inner {
+	background: url('/themes/slate/panel/white-top-bottom.gif');
+}
+
+.x-progress-bar {
+	background: url('/themes/slate/toolbar/bg.gif');
+	margin-top: 1px;
+}
+
+.x-progress-text {
+	background: transparent;
+	color: White;
+}
+
+.x-progress-text-back {
+	background: transparent;
+	color: White;
 }
