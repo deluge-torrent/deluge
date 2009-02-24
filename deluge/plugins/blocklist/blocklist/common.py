@@ -1,7 +1,7 @@
 #
-# ui.py
+# common.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -26,15 +26,5 @@
 import pkg_resources
 import os.path
 
-class UI:
-    def __init__(self, plugin_api, plugin_name):
-        self.plugin = plugin_api
-
-    def enable(self):
-        pass
-
-    def disable(self):
-        pass
-
-    def get_resource(self, filename):
-        return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
+def get_resource(filename):
+    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))

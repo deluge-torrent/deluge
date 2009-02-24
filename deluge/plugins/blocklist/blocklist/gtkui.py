@@ -25,21 +25,23 @@
 import gtk
 
 from deluge.log import LOG as log
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
+from deluge.plugins.pluginbase import GtkPluginBase
+import common
 
-import ui
 from core import FORMATS
 
-class GtkUI(ui.UI):
+class GtkUI(GtkPluginBase):
     def enable(self):
         log.debug("Blocklist GtkUI enable..")
+        self.plugin = component.get("PluginManager")
 
         self.load_preferences_page()
 
         self.status_item = component.get("StatusBar").add_item(
-            image=self.get_resource("blocklist16.png"),
+            image=common.get_resource("blocklist16.png"),
             text="",
             callback=self._on_status_item_clicked,
             tooltip="Blocked IP Ranges")
@@ -114,7 +116,7 @@ class GtkUI(ui.UI):
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
 
-        client.blocklist.get_status(_on_get_status)
+        client.blocklist.get_status().addCallback(_on_get_status)
 
     def _on_show_prefs(self):
         def _on_get_config(config):
@@ -132,7 +134,7 @@ class GtkUI(ui.UI):
             self.glade.get_widget("chk_import_on_start").set_active(
                 config["load_on_start"])
 
-        client.blocklist.get_config(_on_get_config)
+        client.blocklist.get_config().addCallback(_on_get_config)
 
     def _on_apply_prefs(self):
         config = {}
@@ -141,15 +143,15 @@ class GtkUI(ui.UI):
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
-        client.blocklist.set_config(None, config)
+        client.blocklist.set_config(config)
 
     def _on_button_check_download_clicked(self, widget):
         self._on_apply_prefs()
-        client.blocklist.import_list(None, False)
+        client.blocklist.import_list(False)
 
     def _on_button_force_download_clicked(self, widget):
         self._on_apply_prefs()
-        client.blocklist.import_list(None, True)
+        client.blocklist.import_list(True)
 
     def _on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Blocklist")
@@ -157,7 +159,7 @@ class GtkUI(ui.UI):
     def load_preferences_page(self):
         """Initializes the preferences page and adds it to the preferences dialog"""
         # Load the preferences page
-        self.glade = gtk.glade.XML(self.get_resource("blocklist_pref.glade"))
+        self.glade = gtk.glade.XML(common.get_resource("blocklist_pref.glade"))
 
         self.progress_bar = self.glade.get_widget("progressbar")
         self.table_info = self.glade.get_widget("table_info")
@@ -187,10 +189,10 @@ class GtkUI(ui.UI):
 
         # Set button icons
         self.glade.get_widget("image_download").set_from_file(
-            self.get_resource("blocklist_download24.png"))
+            common.get_resource("blocklist_download24.png"))
 
         self.glade.get_widget("image_import").set_from_file(
-            self.get_resource("blocklist_import24.png"))
+            common.get_resource("blocklist_import24.png"))
 
         # Update the preferences page with config values from the core
         self._on_show_prefs()

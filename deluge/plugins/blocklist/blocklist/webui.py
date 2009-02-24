@@ -26,13 +26,13 @@
 
 import os
 from deluge.log import LOG as log
-from deluge.ui.client import sclient, aclient
+from deluge.ui.client import client
 from deluge import component
-import ui
+from deluge.plugins.pluginbase import WebPluginBase
 
-import deluge.ui.webui.lib.newforms_plus as forms
+#import deluge.ui.webui.lib.newforms_plus as forms
 
-config_page_manager = component.get("ConfigPageManager")
+#config_page_manager = component.get("ConfigPageManager")
 
 FORMAT_LIST =  [
        ('gzmule',_("Emule IP list (GZip)")),
@@ -41,68 +41,11 @@ FORMAT_LIST =  [
        ('p2bgz',_("PeerGuardian P2B (GZip)"))
 ]
 
-class BlockListCfgForm(forms.Form):
-    """
-    a config form based on django forms.
-    see webui.lib.newforms_plus, config_forms, etc.
-    """
-    #meta:
-    title = _("BlockList")
-
-    #load/save:
-    def initial_data(self):
-        data = sclient.blocklist.get_config()
-        return data
-
-    def save(self, data):
-        cfg = dict(data)
-        del cfg["btn_import_now"]
-        del cfg["btn_force_download"]
-        sclient.blocklist.set_config(cfg)
-        if data.btn_import_now:
-            sclient.blocklist.import_list(data.btn_force_download)
-
-    #input fields :
-    listtype = forms.ChoiceField(FORMAT_LIST)
-    url = forms.CharField(label=_("Url"))
-    check_after_days = forms.IntegerField(label=_("Check for every (days)"), min_value=-1, max_value=14)
-    timeout =  forms.IntegerField(label=_("Timeout (seconds)"), min_value=15, max_value=360)
-    try_times = forms.IntegerField(label=_("Times to attempt download"), min_value=1, max_value=5)
-    load_on_start = forms.CheckBox(_('Import on daemon startup'))
-
-    btn_import_now = forms.CheckBox(_('Import Now'))
-    btn_force_download = forms.CheckBox(_('Force Download'))
-
-    def post_html(self):
-        "show blocklist status"
-        status = sclient.blocklist.get_status()
-
-        if status["state"] == "Downloading":
-            txt = _("Downloading %.2f%%") % (status["file_progress"] * 100)
-        elif status["state"] == "Importing":
-            txt = _("Importing %s") % str(status["num_blocked"])
-        elif status["state"] == "Idle":
-            txt = _("Blocked Ranges: %s") % str(status["num_blocked"])
-        else:
-            txt = _("Inactive")
-
-        return """
-        <h3>Status</h3>
-        <div class="info">
-            %s<br><form method="GET"><input type="submit" value="%s"></form>
-        </div>
-        """ % (txt, _("Refresh status"))
-
-
-class WebUI(ui.UI):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("Calling UI init")
-        # Call UI constructor
-        ui.UI.__init__(self, plugin_api, plugin_name)
-        log.debug("Blocklist WebUI plugin initalized..")
-
+class WebUI(WebPluginBase):
     def enable(self):
-        config_page_manager.register('plugins','blocklist',BlockListCfgForm)
+        #config_page_manager.register('plugins','blocklist',BlockListCfgForm)
+        pass
 
     def disable(self):
-        config_page_manager.deregister('blocklist')
+        #config_page_manager.deregister('blocklist')
+        pass

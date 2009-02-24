@@ -32,7 +32,7 @@ import time
 import shutil
 
 from deluge.log import LOG as log
-from deluge.plugins.corepluginbase import CorePluginBase
+from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
@@ -94,29 +94,29 @@ class Core(CorePluginBase):
         pass
 
     ## Exported RPC methods ###
-    @export
+    @export()
     def download_list(self, _import=False):
         """Download the blocklist specified in the config as url"""
         self.download_blocklist(_import)
 
-    @export
+    @export()
     def import_list(self, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
         threading.Thread(target=self.import_blocklist, kwargs={"force": force}).start()
 
-    @export
+    @export()
     def get_config(self):
         """Returns the config dictionary"""
         return self.config.config
 
-    @export
+    @export()
     def set_config(self, config):
         """Sets the config based on values in 'config'"""
         for key in config.keys():
             self.config[key] = config[key]
 
-    @export
+    @export()
     def get_status(self):
         """Returns the status of the plugin."""
         status = {}
