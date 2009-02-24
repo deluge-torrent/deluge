@@ -72,7 +72,7 @@
     !define GTK_INSTALLER "gtk-${GTK_VERSION}-win32-2.exe"
     !define PYCAIRO_INSTALLER "pycairo-${PYCAIRO_VERSION}-1.win32-py${PYTHON_VERSION}.exe"
     !define PYGAME_INSTALLER "pygame-${PYGAME_VERSION}release.win32-py${PYTHON_VERSION}.msi"
-    !define PYGOBJECT_INSTALLER "pygobject-${PYGOBJECT_VERSION}.win32-py${PYTHON_VERSION}.exe"
+    !define PYGOBJECT_INSTALLER "pygobject-${PYGOBJECT_VERSION}-1.win32-py${PYTHON_VERSION}.exe"
     !define PYGTK_INSTALLER "pygtk-${PYGTK_VERSION}-2.win32-py${PYTHON_VERSION}.exe"
     !define PYOPENSSL_INSTALLER "pyOpenSSL-${PYOPENSSL_VERSION}.winxp32-py${PYTHON_VERSION}.msi"
     !define PYXDG_INSTALLER "pyxdg-${PYXDG_VERSION}.win32-py${PYTHON_VERSION}.msi"
@@ -286,8 +286,7 @@ SubSectionEnd
 
 Section "Uninstall"
 
-    Delete "$INSTDIR\Deluge\uninstall.exe"
-    RMDir "$INSTDIR\Deluge"
+    Delete "$INSTDIR\uninstall.exe"
     RMDir "$INSTDIR"
 
 SectionEnd
