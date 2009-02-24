@@ -108,7 +108,7 @@
 ; Macros
 
     !macro download url filename
-        DetailPrint "Attempting to download ${url} as ${filename}"
+        DetailPrint "Downloading: ${url}"
         NSISdl::download ${url} ${filename}
         Pop $0
         StrCmp $0 "success" +2
@@ -137,22 +137,6 @@
     !macroend
     
 ; Installer Sections
-
-SubSection /e "Core" core
-
-    Section "Deluge" deluge
-
-        SectionIn RO
-
-        ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
-
-        SetOutPath "$INSTDIR\Deluge"
-        
-        WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
-
-    SectionEnd
-
-SubSectionEnd
 
 SubSection /e "Dependencies" dependencies
 
@@ -237,3 +221,19 @@ Section "Uninstall"
     RMDir "$INSTDIR"
 
 SectionEnd
+
+SubSection /e "Core" core
+
+    Section "Deluge" deluge
+
+        SectionIn RO
+
+        ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
+
+        SetOutPath "$INSTDIR\Deluge"
+        
+        WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
+
+    SectionEnd
+
+SubSectionEnd
