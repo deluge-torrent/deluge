@@ -194,7 +194,22 @@ SubSection /e "Dependencies" dependencies
 
         ${install_MSI} LIBTORRENT_INSTALLER "$INSTDIR\Python\site-packages"
         ${install_ZIP} LIBTORRENT_DLL_ZIP "$SYSDIR"
-        RegDLL "$SYSDIR\${LIBTORRENT_DLL}"
+
+    SectionEnd
+
+SubSectionEnd
+
+SubSection /e "Core" core
+
+    Section "Deluge" deluge
+
+        SectionIn RO
+
+        ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
+
+        SetOutPath "$INSTDIR\Deluge"
+        
+        WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
 
     SectionEnd
 
@@ -221,19 +236,3 @@ Section "Uninstall"
     RMDir "$INSTDIR"
 
 SectionEnd
-
-SubSection /e "Core" core
-
-    Section "Deluge" deluge
-
-        SectionIn RO
-
-        ${install_MSI} DELUGE_INSTALLER "$INSTDIR\Deluge"
-
-        SetOutPath "$INSTDIR\Deluge"
-        
-        WriteUninstaller "$INSTDIR\Deluge\uninstall.exe"
-
-    SectionEnd
-
-SubSectionEnd
