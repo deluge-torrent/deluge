@@ -6,6 +6,41 @@
 
     !include "MUI2.nsh"
 
+; Macros
+
+    !macro get_url installer
+        !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${{installer}}"
+    !macroend
+
+    !macro download url filename
+        DetailPrint "Downloading: ${url}"
+        NSISdl::download ${url} ${filename}
+        Pop $R0
+        StrCmp $R0 "success" +2
+            DetailPrint "Download failed: $R0"
+    !macroend
+    
+    !macro install_NSIS installer_name install_dir
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK'
+        delete "$TEMP\${${installer_name}}"
+    !macroend
+
+    !macro install_MSI installer_name install_dir
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}" TARGETDIR="${install_dir}'
+        delete "$TEMP\${${installer_name}}"
+    !macroend
+
+    !macro install_ZIP installer_name install_dir
+        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
+        nsisunz::UnzipToLog "$TEMP\${${installer_name}}" "${install_dir}"
+        Pop $R0
+        StrCmp $R0 "success" +2
+            DetailPrint "Error unzipping: $R0"
+        delete "$TEMP\${${installer_name}}"
+    !macroend
+    
 ; Defines
 
     ; Redefine macros/functions
@@ -124,41 +159,6 @@
     !insertmacro MUI_LANGUAGE "English"
     ; Should put all languages deluge supports here
 
-; Macros
-
-    !macro get_url installer
-        !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${{installer}}"
-    !macroend
-
-    !macro download url filename
-        DetailPrint "Downloading: ${url}"
-        NSISdl::download ${url} ${filename}
-        Pop $R0
-        StrCmp $R0 "success" +2
-            DetailPrint "Download failed: $R0"
-    !macroend
-    
-    !macro install_NSIS installer_name install_dir
-        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK'
-        delete "$TEMP\${${installer_name}}"
-    !macroend
-
-    !macro install_MSI installer_name install_dir
-        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}" TARGETDIR="${install_dir}'
-        delete "$TEMP\${${installer_name}}"
-    !macroend
-
-    !macro install_ZIP installer_name install_dir
-        ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        nsisunz::UnzipToLog "$TEMP\${${installer_name}}" "${install_dir}"
-        Pop $R0
-        StrCmp $R0 "success" +2
-            DetailPrint "Error unzipping: $R0"
-        delete "$TEMP\${${installer_name}}"
-    !macroend
-    
 ; Installer Sections
 
 SubSection /e "Dependencies" dependencies
