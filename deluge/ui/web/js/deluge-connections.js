@@ -139,6 +139,7 @@ Deluge.Connections.Window = new Ext.Window({
     closable: true,
     plain: true,
     title: _('Connection Manager'),
+    iconCls: 'x-deluge-connect-window-icon',
     items: [Deluge.Connections.Grid],
     buttons: [{
         text: _('Close'),
