@@ -9,7 +9,7 @@
 ; Macros
 
     !macro get_url installer
-        !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${{installer}}"
+        !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${${installer}}"
     !macroend
 
     !macro download url filename
