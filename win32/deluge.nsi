@@ -8,8 +8,12 @@
 
 ; Defines
 
-    ; Base URL for installers
-    !define BASE "http://download.deluge-torrent.org/windows/deps"
+    ; Redefine macros/functions
+    !define get_url "!insertmacro get_url"
+    !define download "!insertmacro download"
+    !define install_NSIS "!insertmacro install_NSIS"
+    !define install_MSI "!insertmacro install_MSI"
+    !define install_ZIP "!insertmacro install_ZIP"
 
     ; Installer versions
     !define DELUGE_VERSION "1.1.3"
@@ -43,21 +47,19 @@
     !define LIBTORRENT_DLL_ZIP "${LIBTORRENT_DLL}.zip"
 
     ; Installer URLs
-    !define DELUGE_INSTALLER_URL "${BASE}/${DELUGE_INSTALLER}"
-    !define PYTHON_INSTALLER_URL "${BASE}/${PYTHON_INSTALLER}"
-    !define PYWIN32_INSTALLER_URL "${BASE}/${PYWIN32_INSTALLER}"
-    !define GTK_INSTALLER_URL "${BASE}/${GTK_INSTALLER}"
-    !define PYGTK_INSTALLER_URL "${BASE}/${PYGTK_INSTALLER}"
-    !define PYXDG_INSTALLER_URL "${BASE}/${PYXDG_INSTALLER}"
-    !define SETUPTOOLS_INSTALLER_URL "${BASE}/${SETUPTOOLS_INSTALLER}"
-    !define LIBTORRENT_INSTALLER_URL "${BASE}/${LIBTORRENT_INSTALLER}"
-    !define LIBTORRENT_DLL_ZIP_URL "${BASE}/${LIBTORRENT_DLL_ZIP}"
-
-    ; Redefine macros/functions
-    !define download "!insertmacro download"
-    !define install_NSIS "!insertmacro install_NSIS"
-    !define install_MSI "!insertmacro install_MSI"
-    !define install_ZIP "!insertmacro install_ZIP"
+    ${get_url} DELUGE_INSTALLER
+    ${get_url} PYTHON_INSTALLER
+    ${get_url} PYWIN32_INSTALLER
+    ${get_url} GTK_INSTALLER
+    ${get_url} PYCAIRO_INSTALLER
+    ${get_url} PYGAME_INSTALLER
+    ${get_url} PYGOBJECT_INSTALLER
+    ${get_url} PYGTK_INSTALLER
+    ${get_url} PYOPENSSL_INSTALLER
+    ${get_url} PYXDG_INSTALLER
+    ${get_url} SETUPTOOLS_INSTALLER
+    ${get_url} LIBTORRENT_INSTALLER
+    ${get_url} LIBTORRENT_DLL_ZIP
 
 ; General Settings
 
@@ -123,6 +125,10 @@
     ; Should put all languages deluge supports here
 
 ; Macros
+
+    !macro get_url installer
+        !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${{installer}}"
+    !macroend
 
     !macro download url filename
         DetailPrint "Downloading: ${url}"
