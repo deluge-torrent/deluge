@@ -151,6 +151,7 @@
     ; Uninstallation
     
         !insertmacro MUI_UNPAGE_CONFIRM
+        !insertmacro MUI_UNPAGE_COMPONENTS
         !insertmacro MUI_UNPAGE_INSTFILES
         !insertmacro MUI_UNPAGE_FINISH
 
@@ -270,6 +271,91 @@ SectionGroup /e "Core" core
 
 SectionGroupEnd
 
+; Uninstaller Section
+
+SectionGroup /e "un.Dependencies" undependencies
+
+    Section "un.Python" unpython
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.Python Win32 Extensions" unpywin32
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.GTK+ Runtime" ungtk+
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.PyGTK" unpygtk
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "PyCairo"
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.PyGame" unpygame
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.PyGObject" unpygobject
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.PyOpenSSL" unpyopenssl
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.PyXdg" unpyxdg
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.Setuptools" unsetuptools
+
+        SectionIn 1
+
+    SectionEnd
+
+    Section "un.libtorrent" unlibtorrent
+
+        SectionIn 1
+
+    SectionEnd
+
+SectionGroupEnd
+
+SectionGroup /e "un.Core" uncore
+
+    Section "un.Deluge" undeluge
+
+        SectionIn RO
+
+        Delete "$INSTDIR\uninstall.exe"
+        RMDIR "$INSTDIR"
+
+    SectionEnd
+
+SectionGroupEnd
+
 ; Descriptions
 
     ; Language strings
@@ -281,12 +367,3 @@ SectionGroupEnd
         !insertmacro MUI_DESCRIPTION_TEXT ${deluge} $(DESC_deluge)
         !insertmacro MUI_DESCRIPTION_TEXT ${python} $(DESC_python)
     !insertmacro  MUI_FUNCTION_DESCRIPTION_END
-
-; Uninstaller Section
-
-Section "Uninstall"
-
-    Delete "$INSTDIR\uninstall.exe"
-    RMDir "$INSTDIR"
-
-SectionEnd
