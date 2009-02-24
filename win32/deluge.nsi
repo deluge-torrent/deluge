@@ -161,7 +161,7 @@
 
 ; Installer Sections
 
-SubSection /e "Dependencies" dependencies
+SectionGroup /e "Dependencies" dependencies
 
     Section "Python" python
 
@@ -252,9 +252,9 @@ SubSection /e "Dependencies" dependencies
 
     SectionEnd
 
-SubSectionEnd
+SectionGroupEnd
 
-SubSection /e "Core" core
+SectionGroup /e "Core" core
 
     Section "Deluge" deluge
 
@@ -268,7 +268,7 @@ SubSection /e "Core" core
 
     SectionEnd
 
-SubSectionEnd
+SectionGroupEnd
 
 ; Descriptions
 
