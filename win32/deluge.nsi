@@ -36,7 +36,7 @@
     !define BASE "http://download.deluge-torrent.org/windows/deps"
 
     ; Installer names
-    !define DELUGE_INSTALLER "deluge-1.1.3.win32-py2.5.msi"
+    !define DELUGE_INSTALLER "deluge-${DELUGE_VERSION}.win32-py2.5.msi"
     !define PYTHON_INSTALLER "python-2.5.4.msi"
     !define PYWIN32_INSTALLER "pywin32-212.win32-py2.5.exe"
     !define GTK+_INSTALLER "gtk-2.12.9-win32-2.exe"
