@@ -8,7 +8,7 @@
 
 ; Macros
 
-    !macro get_url installer
+    !macro create_url installer
         !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${${installer}}"
     !macroend
 
@@ -44,7 +44,7 @@
 ; Defines
 
     ; Redefine macros/functions
-    !define get_url "!insertmacro get_url"
+    !define create_url "!insertmacro create_url"
     !define download "!insertmacro download"
     !define install_NSIS "!insertmacro install_NSIS"
     !define install_MSI "!insertmacro install_MSI"
@@ -82,19 +82,19 @@
     !define LIBTORRENT_DLL_ZIP "${LIBTORRENT_DLL}.zip"
 
     ; Installer URLs
-    ${get_url} DELUGE_INSTALLER
-    ${get_url} PYTHON_INSTALLER
-    ${get_url} PYWIN32_INSTALLER
-    ${get_url} GTK_INSTALLER
-    ${get_url} PYCAIRO_INSTALLER
-    ${get_url} PYGAME_INSTALLER
-    ${get_url} PYGOBJECT_INSTALLER
-    ${get_url} PYGTK_INSTALLER
-    ${get_url} PYOPENSSL_INSTALLER
-    ${get_url} PYXDG_INSTALLER
-    ${get_url} SETUPTOOLS_INSTALLER
-    ${get_url} LIBTORRENT_INSTALLER
-    ${get_url} LIBTORRENT_DLL_ZIP
+    ${create_url} DELUGE_INSTALLER
+    ${create_url} PYTHON_INSTALLER
+    ${create_url} PYWIN32_INSTALLER
+    ${create_url} GTK_INSTALLER
+    ${create_url} PYCAIRO_INSTALLER
+    ${create_url} PYGAME_INSTALLER
+    ${create_url} PYGOBJECT_INSTALLER
+    ${create_url} PYGTK_INSTALLER
+    ${create_url} PYOPENSSL_INSTALLER
+    ${create_url} PYXDG_INSTALLER
+    ${create_url} SETUPTOOLS_INSTALLER
+    ${create_url} LIBTORRENT_INSTALLER
+    ${create_url} LIBTORRENT_DLL_ZIP
 
 ; General Settings
 
