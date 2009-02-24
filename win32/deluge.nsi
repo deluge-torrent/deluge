@@ -127,9 +127,9 @@
     !macro download url filename
         DetailPrint "Downloading: ${url}"
         NSISdl::download ${url} ${filename}
-        Pop $0
-        StrCmp $0 "success" +2
-            DetailPrint "Download failed: $0"
+        Pop $R0
+        StrCmp $R0 "success" +2
+            DetailPrint "Download failed: $R0"
     !macroend
     
     !macro install_NSIS installer_name install_dir
@@ -147,9 +147,9 @@
     !macro install_ZIP installer_name install_dir
         ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
         nsisunz::UnzipToLog "$TEMP\${${installer_name}}" "${install_dir}"
-        Pop $0
-        StrCmp $0 "success" +2
-            DetailPrint "Error unzipping: $0"
+        Pop $R0
+        StrCmp $R0 "success" +2
+            DetailPrint "Error unzipping: $R0"
         delete "$TEMP\${${installer_name}}"
     !macroend
     
@@ -186,6 +186,38 @@ SubSection /e "Dependencies" dependencies
         SectionIn 1
 
         ${install_ZIP} PYGTK_INSTALLER "$INSTDIR\Python\site-packages"
+
+    SectionEnd
+
+    Section "PyCairo"
+
+        SectionIn 1
+
+        ${install_ZIP} PYCAIRO_INSTALLER "$INSTDIR\Python\site-packages"
+
+    SectionEnd
+
+    Section "PyGame" pygame
+
+        SectionIn 1
+
+        ${install_MSI} PYGAME_INSTALLER "$INSTDIR\Python\site-packages"
+
+    SectionEnd
+
+    Section "PyGObject" pygobject
+
+        SectionIn 1
+
+        ${install_ZIP} PYGOBJECT_INSTALLER "$INSTDIR\Python\site-packages"
+
+    SectionEnd
+
+    Section "PyOpenSSL" pyopenssl
+
+        SectionIn 1
+
+        ${install_MSI} PYOPENSSL_INSTALLER "$INSTDIR\Python\site-packages"
 
     SectionEnd
 
