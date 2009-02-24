@@ -6,10 +6,62 @@
 
     !include "MUI2.nsh"
 
+; Defines
+
+    ; Base URL for installers
+    !define BASE "http://download.deluge-torrent.org/windows/deps"
+
+    ; Installer versions
+    !define DELUGE_VERSION "1.1.3"
+    !define PYTHON_VERSION "2.5"
+    !define PYTHON_VERSION_FULL "${PYTHON_VERSION}.4"
+    !define PYWIN32_VERSION "212"
+    !define GTK_VERSION "2.12.1"
+    !define PYCAIRO_VERSION "1.4.12"
+    !define PYGAME_VERSION "1.8.1"
+    !define PYGOBJECT_VERSION "2.14.1"
+    !define PYGTK_VERSION "2.12.1"
+    !define PYOPENSSL_VERSION "0.8"
+    !define PYXDG_VERSION "0.17"
+    !define SETUPTOOLS_VERSION "0.6c9"
+    !define LIBTORRENT_VERSION "0.14.2"
+
+    ; Installer names
+    !define DELUGE_INSTALLER "deluge-${DELUGE_VERSION}.win32-py${PYTHON_VERSION}.msi"
+    !define PYTHON_INSTALLER "python-${PYTHON_VERSION_FULL}.msi"
+    !define PYWIN32_INSTALLER "pywin32-${PYWIN32_VERSION}.win32-py${PYTHON_VERSION}.exe"
+    !define GTK_INSTALLER "gtk-${GTK_VERSION}-win32-2.exe"
+    !define PYCAIRO_INSTALLER "pycairo-${PYCAIRO_VERSION}-1.win32-py${PYTHON_VERSION}.exe"
+    !define PYGAME_INSTALLER "pygame-${PYGAME_VERSION}release.win32-py${PYTHON_VERSION}.msi"
+    !define PYGOBJECT_INSTALLER "pygobject-${PYGOBJECT_VERSION}.win32-py${PYTHON_VERSION}.exe"
+    !define PYGTK_INSTALLER "pygtk-${PYGTK_VERSION}-2.win32-py${PYTHON_VERSION}.exe"
+    !define PYOPENSSL_INSTALLER "pyOpenSSL-${PYOPENSSL_VERSION}.winxp32-py${PYTHON_VERSION}.msi"
+    !define PYXDG_INSTALLER "pyxdg-${PYXDG_VERSION}.win32-py${PYTHON_VERSION}.msi"
+    !define SETUPTOOLS_INSTALLER "setuptools-${SETUPTOOLS_VERSION}.win32-py${PYTHON_VERSION}.exe"
+    !define LIBTORRENT_INSTALLER "python-libtorrent-${LIBTORRENT_VERSION}.win32-py${PYTHON_VERSION}.msi"
+    !define LIBTORRENT_DLL "MSVCP71.DLL"
+    !define LIBTORRENT_DLL_ZIP "${LIBTORRENT_DLL}.zip"
+
+    ; Installer URLs
+    !define DELUGE_INSTALLER_URL "${BASE}/${DELUGE_INSTALLER}"
+    !define PYTHON_INSTALLER_URL "${BASE}/${PYTHON_INSTALLER}"
+    !define PYWIN32_INSTALLER_URL "${BASE}/${PYWIN32_INSTALLER}"
+    !define GTK_INSTALLER_URL "${BASE}/${GTK_INSTALLER}"
+    !define PYGTK_INSTALLER_URL "${BASE}/${PYGTK_INSTALLER}"
+    !define PYXDG_INSTALLER_URL "${BASE}/${PYXDG_INSTALLER}"
+    !define SETUPTOOLS_INSTALLER_URL "${BASE}/${SETUPTOOLS_INSTALLER}"
+    !define LIBTORRENT_INSTALLER_URL "${BASE}/${LIBTORRENT_INSTALLER}"
+    !define LIBTORRENT_DLL_ZIP_URL "${BASE}/${LIBTORRENT_DLL_ZIP}"
+
+    ; Redefine macros/functions
+    !define download "!insertmacro download"
+    !define install_NSIS "!insertmacro install_NSIS"
+    !define install_MSI "!insertmacro install_MSI"
+    !define install_ZIP "!insertmacro install_ZIP"
+
 ; General Settings
 
     ; Version
-    !define DELUGE_VERSION "1.1.3"
     !define SCRIPT_VERSION "0.2"
 
     ; Name
@@ -30,41 +82,6 @@
         InstType "Upgrade"
     !endif
     
-; Defines
-
-    ; Base URL for installers
-    !define BASE "http://download.deluge-torrent.org/windows/deps"
-
-    ; Installer names
-    !define DELUGE_INSTALLER "deluge-${DELUGE_VERSION}.win32-py2.5.msi"
-    !define PYTHON_INSTALLER "python-2.5.4.msi"
-    !define PYWIN32_INSTALLER "pywin32-212.win32-py2.5.exe"
-    !define GTK+_INSTALLER "gtk-2.12.9-win32-2.exe"
-    !define PYGTK_INSTALLER "pygtk-2.12.1-2.win32-py2.5.exe"
-    !define PYXDG_INSTALLER "pyxdg-0.17.win32-py2.5.msi"
-    !define SETUPTOOLS_INSTALLER "setuptools-0.6c9.win32-py2.5.exe"
-    !define LIBTORRENT_INSTALLER "python-libtorrent-0.14.2.win32-py2.5.msi"
-    !define LIBTORRENT_DLL "MSVCP71.DLL"
-    !define LIBTORRENT_DLL_ZIP "${LIBTORRENT_DLL}.zip"
-
-    ; Installer URLs
-    !define DELUGE_INSTALLER_URL "${BASE}/${DELUGE_INSTALLER}"
-    !define PYTHON_INSTALLER_URL "${BASE}/${PYTHON_INSTALLER}"
-    !define PYWIN32_INSTALLER_URL "${BASE}/${PYWIN32_INSTALLER}"
-    !define GTK+_INSTALLER_URL "${BASE}/${GTK+_INSTALLER}"
-    !define PYGTK_INSTALLER_URL "${BASE}/${PYGTK_INSTALLER}"
-    !define PYXDG_INSTALLER_URL "${BASE}/${PYXDG_INSTALLER}"
-    !define SETUPTOOLS_INSTALLER_URL "${BASE}/${SETUPTOOLS_INSTALLER}"
-    !define LIBTORRENT_INSTALLER_URL "${BASE}/${LIBTORRENT_INSTALLER}"
-    !define LIBTORRENT_DLL_ZIP_URL "${BASE}/${LIBTORRENT_DLL_ZIP}"
-
-    ; Redefine macros/functions
-    !define download "!insertmacro download"
-    !define install_NSIS "!insertmacro install_NSIS"
-    !define install_MSI "!insertmacro install_MSI"
-    !define install_ZIP "!insertmacro install_ZIP"
-
-
 ; Interface Settings
 
     ; Installer
@@ -117,7 +134,7 @@
     
     !macro install_NSIS installer_name install_dir
         ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK+'
+        ExecWait '"$TEMP\${${installer_name}}" /S /D=${install_dir}\GTK'
         delete "$TEMP\${${installer_name}}"
     !macroend
 
@@ -160,7 +177,7 @@ SubSection /e "Dependencies" dependencies
 
         SectionIn 1
 
-        ${install_NSIS} GTK+_INSTALLER "$INSTDIR\GTK+"
+        ${install_NSIS} GTK_INSTALLER "$INSTDIR\GTK"
 
     SectionEnd
 
