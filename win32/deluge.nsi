@@ -196,7 +196,7 @@ SectionGroup /e "Dependencies" dependencies
 
     SectionEnd
 
-    Section "PyCairo"
+    Section "PyCairo" pycairo
 
         SectionIn 1
 
@@ -277,67 +277,45 @@ SectionGroup /e "un.Dependencies" undependencies
 
     Section "un.Python" unpython
 
-        SectionIn 1
-
     SectionEnd
 
     Section "un.Python Win32 Extensions" unpywin32
-
-        SectionIn 1
 
     SectionEnd
 
     Section "un.GTK+ Runtime" ungtk+
 
-        SectionIn 1
-
     SectionEnd
 
     Section "un.PyGTK" unpygtk
 
-        SectionIn 1
-
     SectionEnd
 
-    Section "PyCairo"
-
-        SectionIn 1
+    Section "un.PyCairo" unpycairo
 
     SectionEnd
 
     Section "un.PyGame" unpygame
 
-        SectionIn 1
-
     SectionEnd
 
     Section "un.PyGObject" unpygobject
-
-        SectionIn 1
 
     SectionEnd
 
     Section "un.PyOpenSSL" unpyopenssl
 
-        SectionIn 1
-
     SectionEnd
 
     Section "un.PyXdg" unpyxdg
-
-        SectionIn 1
 
     SectionEnd
 
     Section "un.Setuptools" unsetuptools
 
-        SectionIn 1
-
     SectionEnd
 
     Section "un.libtorrent" unlibtorrent
-
-        SectionIn 1
 
     SectionEnd
 
