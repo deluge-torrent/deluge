@@ -26,6 +26,7 @@
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge import component
+from deluge.plugins.pluginbase import WebPluginBase
 
 class WebUI(WebPluginBase):
     def enable(self):

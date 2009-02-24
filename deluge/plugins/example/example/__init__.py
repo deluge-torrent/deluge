@@ -22,7 +22,6 @@
 #     Boston, MA    02110-1301, USA.
 #
 
-from deluge.log import LOG as log
 from deluge.plugins.init import PluginInitBase
 
 class CorePlugin(PluginInitBase):

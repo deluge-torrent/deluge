@@ -92,66 +92,50 @@ def create_plugin():
 
 
 CORE = """
-import deluge
 from deluge.log import LOG as log
-from deluge.plugins.corepluginbase import CorePluginBase
-from deluge import component
-#from deluge.plugins.coreclient import client #1.1 and later only
-#client: see http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
+from deluge.plugins.pluginbase import CorePluginBase
+import deluge.component as component
+import deluge.configmanager
+from deluge.core.rpcserver import export
 
 DEFAULT_PREFS = {
     "test":"NiNiNi"
 }
 
 class Core(CorePluginBase):
-
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("%(safe_name)s.conf", DEFAULT_PREFS)
 
     def disable(self):
         pass
 
-    def export_set_config(self, config):
+    def update(self):
+        pass
+
+    @export()
+    def set_config(self, config):
         "sets the config dictionary"
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
-    def export_get_config(self):
+    @export()
+    def get_config(self):
         "returns the config dictionary"
         return self.config.config
 """
 
 INIT = """
-from deluge.log import LOG as log
+from deluge.plugins.init import PluginInitBase
 
-from deluge.plugins.init import PluginBase
+class CorePlugin(PluginInitBase):
+    from core import Core as _plugin_cls
 
-class CorePlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the Core portion of the plugin
-        try:
-            from core import Core
-            self.plugin = Core(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a Core plugin: %%s", e)
+class GtkUIPlugin(PluginInitBase):
+    from gtkui import GtkUI as _plugin_cls
 
-class WebUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        try:
-            from webui import WebUI
-            self.plugin = WebUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a WebUI plugin: %%s", e)
-
-class GtkUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the GtkUI portion of the plugin
-        try:
-            from gtkui import GtkUI
-            self.plugin = GtkUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a GtkUI plugin: %%s", e)
+class WebUIPlugin(PluginInitBase):
+    from webui import WebUI as _plugin_cls
 """
 
 
@@ -193,15 +177,15 @@ setup(
 """
 
 GTKUI = """
-from deluge.log import LOG as log
-from deluge.ui.client import aclient
 import gtk
 
-class GtkUI(object):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("Calling %(name)s UI init")
-        self.plugin = plugin_api
+from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge.plugins.pluginbase import GtkPluginBase
+import deluge.component as component
+import deluge.common
 
+class GtkUI(GtkPluginBase):
     def enable(self):
         self.glade = gtk.glade.XML(self.get_resource("config.glade"))
 
@@ -220,10 +204,10 @@ class GtkUI(object):
         config = {
             "test":self.glade.get_widget("txt_test").get_text()
         }
-        aclient.%(safe_name)s_set_config(None, config)
+        client.%(safe_name)s.set_config(config)
 
     def on_show_prefs(self):
-        aclient.%(safe_name)s_get_config(self.cb_get_config)
+        client.%(safe_name)s.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):
         "callback for on show_prefs"
@@ -264,44 +248,17 @@ GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 """
 
 WEBUI = """
-import os
 from deluge.log import LOG as log
-from deluge.ui.client import sclient, aclient
-from deluge.plugins.webuipluginbase import WebUIPluginBase
+from deluge.ui.client import client
 from deluge import component
+from deluge.plugins.pluginbase import WebPluginBase
 
-api = component.get("WebPluginApi")
-forms = api.forms
-
-class %(safe_name)s_page:
-    @api.deco.deluge_page
-    def GET(self, args):
-        return api.render.%(safe_name)s.default("parameter1", "parameter2") #push data to templates/default.html
-
-class WebUI(WebUIPluginBase):
-    #map url's to classes: [(url,class), ..]
-    urls = [('/%(safe_name)s/example', %(safe_name)s_page)]
-
+class WebUI(WebPluginBase):
     def enable(self):
-        api.config_page_manager.register('plugins', '%(safe_name)s' ,ConfigForm)
+        pass
 
     def disable(self):
-        api.config_page_manager.deregister('%(safe_name)s')
-
-class ConfigForm(forms.Form):
-    #meta:
-    title = _("%(name)s")
-
-    #load/save:
-    def initial_data(self):
-        return sclient.%(safe_name)s_get_config()
-
-    def save(self, data):
-        cfg = dict(data)
-        sclient.%(safe_name)s_set_config(cfg)
-
-    #django newforms magic: define config fields:
-    test = forms.CharField(label=_("Test config value"))
+        pass
 """
 
 DEFAULT_HTML = """$def with (value1, value2)
@@ -323,7 +280,7 @@ GPL = """#
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
