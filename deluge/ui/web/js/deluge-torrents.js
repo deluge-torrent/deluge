@@ -29,6 +29,11 @@ function name(value, p, r) {
 	return String.format('<div class="torrent-name {0}">{1}</div>', r.data['state'].toLowerCase(), value);
 }
 
+function torrent_speed(value) {
+	if (!value) return;
+	return fspeed(value);
+}
+
 var tpl = '<div class="x-progress-wrap">' +
 		'<div class="x-progress-inner">' +
 			'<div class="x-progress-bar" style="width:{2}%;">' +
@@ -101,13 +106,13 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 	columns: [
 		{id:'queue',header: "#", width: 30, sortable: true, renderer: queue, dataIndex: 'queue'},
 		{id:'name', header: "Name", width: 150, sortable: true, renderer: name, dataIndex: 'name'},
-		{header: "Size", width: 75, sortable: true, renderer: Deluge.Formatters.size, dataIndex: 'size'},
+		{header: "Size", width: 75, sortable: true, renderer: fsize, dataIndex: 'size'},
 		{header: "Progress", width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
 		{header: "Seeds", width: 60, sortable: true, renderer: seeds, dataIndex: 'seeds'},
 		{header: "Peers", width: 60, sortable: true, renderer: peers, dataIndex: 'peers'},
-		{header: "Down Speed", width: 80, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'downspeed'},
-		{header: "Up Speed", width: 80, sortable: true, renderer: Deluge.Formatters.speed, dataIndex: 'upspeed'},
-		{header: "ETA", width: 60, sortable: true, renderer: Deluge.Formatters.timeRemaining, dataIndex: 'eta'},
+		{header: "Down Speed", width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'downspeed'},
+		{header: "Up Speed", width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'upspeed'},
+		{header: "ETA", width: 60, sortable: true, renderer: ftime, dataIndex: 'eta'},
 		{header: "Ratio", width: 60, sortable: true, renderer: avail, dataIndex: 'ratio'},
 		{header: "Avail.", width: 60, sortable: true, renderer: avail, dataIndex: 'avail'}
 	],	
