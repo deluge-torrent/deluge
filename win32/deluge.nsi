@@ -362,7 +362,7 @@ SectionGroupEnd
 
 Function autodetect_python
     Pop $0
-    ReadRegStr "" HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    ReadRegStr $1 HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
     IfErrors 0 +3
         SectionSetInstTypes $0 3
         SetCurInstType 0
