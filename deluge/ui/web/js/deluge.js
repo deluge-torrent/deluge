@@ -53,8 +53,7 @@ Deluge.Events = {
 
 Deluge.Formatters = {
 	size: function(bytes) {
-		if (bytes < 1024) { return bytes.toFixed(1)  + ' B'; }
-		else { bytes = bytes / 1024; }
+		bytes = bytes / 1024.0;
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
 		else { bytes = bytes / 1024; }
@@ -66,14 +65,7 @@ Deluge.Formatters = {
 	},
 	
 	speed: function(bits) {
-		if (!bits || bits == 0) return '';
-		if (bits < 1024) { return bits.toFixed(1)  + ' b/s'; }
-		else { bits = bits / 1024; }
-	
-		if (bits < 1024) { return bits.toFixed(1)  + ' KiB/s'; }
-		else { bits = bits / 1024; }
-	
-		return bits.toFixed(2) + ' MiB/s'
+		return fsize(bits) + '/s'
 	},
 	
 	timeRemaining: function(time) {
