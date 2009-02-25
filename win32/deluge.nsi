@@ -107,25 +107,6 @@
 
     var PYTHONDIR
 
-; Functions
-
-Function autodetect_python
-    Pop $0
-    ReadRegStr "" HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
-    IfErrors 0 +2
-        SectionSetInstTypes $0 3
-FunctionEnd
-
-Function set_python_dir
-    ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
-    IfErrors 0 +2
-        StrCpy $PYTHONDIR "$INSTDIR\Python"
-FunctionEnd
-
-Function .onInit
-    Call set_python_dir
-FunctionEnd
-
 ; General Settings
 
     ; Version
@@ -376,3 +357,24 @@ SectionGroupEnd
         !insertmacro MUI_DESCRIPTION_TEXT ${deluge} $(DESC_deluge)
         !insertmacro MUI_DESCRIPTION_TEXT ${python} $(DESC_python)
     !insertmacro  MUI_FUNCTION_DESCRIPTION_END
+
+; Functions
+
+Function autodetect_python
+    Pop $0
+    ReadRegStr "" HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    IfErrors 0 +3
+        SectionSetInstTypes $0 3
+        SetCurInstType 0
+FunctionEnd
+
+Function set_python_dir
+    ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    IfErrors 0 +2
+        StrCpy $PYTHONDIR "$INSTDIR\Python"
+FunctionEnd
+
+Function .onInit
+    Call set_python_dir
+    ${autodetect} python
+FunctionEnd
