@@ -12,6 +12,12 @@
         !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${${installer}}"
     !macroend
 
+    !macro autodetect component
+        Call autodetect_${component}
+        Pop $0
+        SectionIn $0
+    !macroend
+
     !macro download url filename
         DetailPrint "Downloading: ${url}"
         NSISdl::download ${url} ${filename}
@@ -45,6 +51,7 @@
 
     ; Redefine macros/functions
     !define create_url "!insertmacro create_url"
+    !define autodetect "!insertmacro autodetect"
     !define download "!insertmacro download"
     !define install_NSIS "!insertmacro install_NSIS"
     !define install_MSI "!insertmacro install_MSI"
@@ -103,6 +110,14 @@
 
 ; Functions
 
+Function autodetect_python
+    StrCpy $0 "1 2"
+    ReadRegStr $1 HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    IfErrors 0 +2
+        StrCpy $0 "2"
+    Push $0
+FunctionEnd
+
 Function set_python_dir
     ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
     IfErrors 0 +2
@@ -132,6 +147,7 @@ FunctionEnd
     BrandingText "Deluge Windows Installer v${SCRIPT_VERSION}"
 
     !ifndef NOINSTTYPES
+        InstType "Auto-detect"
         InstType "Full"
         InstType "Upgrade"
     !endif
@@ -183,7 +199,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "Python" python
 
-        SectionIn 1
+        ${autodetect} python
 
         ${install_MSI} PYTHON_INSTALLER "$INSTDIR\Python"
 
@@ -191,7 +207,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "Python Win32 Extensions" pywin32
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_ZIP} PYWIN32_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -199,7 +215,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "GTK+ Runtime" gtk+
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_NSIS} GTK_INSTALLER "$INSTDIR\GTK"
 
@@ -207,7 +223,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyGTK" pygtk
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_ZIP} PYGTK_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -215,7 +231,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyCairo" pycairo
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_ZIP} PYCAIRO_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -223,7 +239,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyGame" pygame
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_MSI} PYGAME_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -231,7 +247,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyGObject" pygobject
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_ZIP} PYGOBJECT_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -239,7 +255,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyOpenSSL" pyopenssl
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_MSI} PYOPENSSL_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -247,7 +263,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "PyXdg" pyxdg
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_MSI} PYXDG_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -255,7 +271,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "Setuptools" setuptools
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_ZIP} SETUPTOOLS_INSTALLER "$INSTDIR\Python\site-packages"
 
@@ -263,7 +279,7 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "libtorrent" libtorrent
 
-        SectionIn 1
+        SectionIn 2
 
         ${install_MSI} LIBTORRENT_INSTALLER "$INSTDIR\Python\site-packages"
         ${install_ZIP} LIBTORRENT_DLL_ZIP "$SYSDIR"
