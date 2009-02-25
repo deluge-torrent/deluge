@@ -27,17 +27,82 @@ Deluge.Add = {
 	}
 }
 
+Deluge.Add.Store = new Ext.data.SimpleStore({
+	fields: [
+		{name: 'torrent', mapping: 1}
+	],
+	id: 0
+});
+
+Deluge.Add.Grid = new Ext.grid.GridPanel({
+	store: Deluge.Add.Store,
+	region: 'center',
+	columns: [
+		{id: 'torrent', width: 150, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'torrent'}
+	],	
+	stripeRows: true,
+	selModel: new Ext.grid.RowSelectionModel({
+		singleSelect: true,
+		listeners: {'rowselect': Deluge.Connections.onSelect}
+	}),
+	hideHeaders: true,
+	autoExpandColumn: 'torrent',
+	deferredRender: false,
+	autoScroll: true,
+	margins: '5 5 5 5',
+	bbar: new Ext.Toolbar({
+		items: [
+			{
+				id: 'file',
+				cls: 'x-btn-text-icon',
+				text: _('File'),
+				icon: '/icons/16/add.png'
+			}, {
+				id: 'url',
+				cls: 'x-btn-text-icon',
+				text: _('Url'),
+				icon: '/icons/16/remove.png'
+			}, {
+				id: 'infohash',
+				cls: 'x-btn-text-icon',
+				text: _('Info Hash'),
+				icon: '/icons/16/error.png'
+			}, '->', {
+				id: 'remove',
+				cls: 'x-btn-text-icon',
+				text: _('Remove'),
+				icon: '/icons/16/remove.png'
+			}
+		]
+	})
+});
+
+Deluge.Add.Options = new Ext.TabPanel({
+	region: 'south',
+	margins: '5 5 5 5',
+	activeTab: 0,
+	height: 200,
+	items: [{
+		id: 'files',
+		title: _('Files')
+	},{
+		id: 'options',
+		title: _('Options')
+	}]
+});
+
 Deluge.Add.Window = new Ext.Window({
-	layout: 'fit',
-    width: 300,
-    height: 150,
+	layout: 'border',
+    width: 400,
+    height: 450,
+    bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
     closeAction: 'hide',
     closable: true,
     plain: true,
-    title: _('Add Torrent'),
+    title: _('Add Torrents'),
     iconCls: 'x-deluge-add-window-icon',
-    items: [],
+    items: [Deluge.Add.Grid, Deluge.Add.Options],
     buttons: [{
         text: _('Cancel')
     }, {
