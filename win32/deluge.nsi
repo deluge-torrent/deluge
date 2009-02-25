@@ -13,9 +13,8 @@
     !macroend
 
     !macro autodetect component
+        Push ${${component}}
         Call autodetect_${component}
-        Pop $0
-        SectionIn $0
     !macroend
 
     !macro download url filename
@@ -111,11 +110,10 @@
 ; Functions
 
 Function autodetect_python
-    StrCpy $0 "1 2"
-    ReadRegStr $1 HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    Pop $0
+    ReadRegStr "" HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
     IfErrors 0 +2
-        StrCpy $0 "2"
-    Push $0
+        SectionSetInstTypes $0 3
 FunctionEnd
 
 Function set_python_dir
