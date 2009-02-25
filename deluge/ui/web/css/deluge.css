@@ -7,6 +7,10 @@ html, body {
 	height:100%;
 }
 
+.x-deluge-main-panel {
+	background-image: url('/icons/16/deluge.png');
+}
+
 .deluge-torrents td, .x-deluge-peers td {
 	height: 16px;
     line-height: 16px;

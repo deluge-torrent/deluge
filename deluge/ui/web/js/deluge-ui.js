@@ -28,6 +28,7 @@ Deluge.Ui = {
 		Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
+			iconCls: 'x-deluge-main-panel',
 			title: 'Deluge',
 			layout: 'border',
 			tbar: Deluge.ToolBar.Bar,
