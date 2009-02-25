@@ -27,6 +27,38 @@ Deluge.Add = {
 	}
 }
 
+Deluge.Add.Files = new Ext.tree.ColumnTree({
+	id: 'files',
+	layout: 'fit',
+	rootVisible: false,
+	autoScroll: true,
+	height: 200,
+	border: false,
+	
+	columns: [{
+		width: 40,
+		dataIndex: 'enabled'
+	},{
+		header: _('Filename'),
+		width: 250,
+		dataIndex: 'filename'
+	},{
+		header: _('Size'),
+		width: 80,
+		dataIndex: 'size'
+	}],
+	
+	loader: new Deluge.FilesTreeLoader({
+		uiProviders: {
+			'col': Ext.tree.ColumnNodeUI
+		}
+	}),
+	
+	root: new Ext.tree.AsyncTreeNode({
+		text:'Tasks'
+	})
+})
+
 Deluge.Add.Store = new Ext.data.SimpleStore({
 	fields: [
 		{name: 'torrent', mapping: 1}
@@ -84,7 +116,8 @@ Deluge.Add.Options = new Ext.TabPanel({
 	height: 200,
 	items: [{
 		id: 'files',
-		title: _('Files')
+		title: _('Files'),
+		items: [Deluge.Add.Files]
 	},{
 		id: 'options',
 		title: _('Options')
