@@ -103,10 +103,14 @@
 
 ; Functions
 
-Function .onInit
+Function set_python_dir
     ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
     IfErrors 0 +2
         StrCpy $PYTHONDIR "$INSTDIR\Python"
+FunctionEnd
+
+Function .onInit
+    Call set_python_dir
 FunctionEnd
 
 ; General Settings
