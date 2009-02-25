@@ -28,7 +28,7 @@
 
     !macro install_MSI installer_name install_dir
         ${download} "${${installer_name}_URL}" "$TEMP\${${installer_name}}"
-        ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}" TARGETDIR="${install_dir}'
+        ExecWait 'msiexec /qn /i "$TEMP\${${installer_name}}"'
         delete "$TEMP\${${installer_name}}"
     !macroend
 
@@ -95,6 +95,19 @@
     ${create_url} SETUPTOOLS_INSTALLER
     ${create_url} LIBTORRENT_INSTALLER
     ${create_url} LIBTORRENT_DLL_ZIP
+
+
+; Variables
+
+    var PYTHONDIR
+
+; Functions
+
+Function .onInit
+    ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    IfErrors 0 +2
+        StrCpy $PYTHONDIR "$INSTDIR\Python"
+FunctionEnd
 
 ; General Settings
 
@@ -337,8 +350,8 @@ SectionGroupEnd
 ; Descriptions
 
     ; Language strings
-    LangString DESC_deluge ${LANG_ENGLISH} "Deluge 1.1.3"
-    LangString DESC_python ${LANG_ENGLISH} "Python 2.5.4"
+    LangString DESC_deluge ${LANG_ENGLISH} "Deluge ${DELUGE_VERSION}"
+    LangString DESC_python ${LANG_ENGLISH} "Python ${PYTHON_VERSION}"
 
     ; Assign language strings to sections
     !insertmacro  MUI_FUNCTION_DESCRIPTION_BEGIN
