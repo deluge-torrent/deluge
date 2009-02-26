@@ -180,6 +180,8 @@ class Preferences(component.Component):
 
             # This starts a series of client.core requests prior to showing the window
             client.core.get_config().addCallback(_on_get_config)
+        else:
+            self._show()
 
     def _show(self):
         if self.core_config != {} and self.core_config != None:
