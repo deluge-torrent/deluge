@@ -41,7 +41,8 @@ class EventManager(component.Component):
         # Call any handlers for the event
         if event.name in self.handlers:
             for handler in self.handlers[event.name]:
-                handler(event.args)
+                #log.debug("Running handler %s for event %s with args: %s", event.name, handler, event.args)
+                handler(*event.args)
 
     def register_event_handler(self, event, handler):
         """

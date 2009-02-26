@@ -207,7 +207,7 @@ class TorrentView(listview.ListView, component.Component):
         client.core.get_session_state().addCallback(self._on_session_state)
 
     def _on_session_state(self, state):
-        log.debug("on_session_state")
+        log.debug("on_session_state: %s", state)
         self.treeview.freeze_child_notify()
         model = self.treeview.get_model()
         for torrent_id in state:
@@ -323,6 +323,11 @@ class TorrentView(listview.ListView, component.Component):
 
     def add_row(self, torrent_id, update=True):
         """Adds a new torrent row to the treeview"""
+        # Make sure this torrent isn't already in the list
+        for row in self.liststore:
+            if row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
+                # Row already in the list
+                return
         # Insert a new row to the liststore
         row = self.liststore.append()
         # Store the torrent id

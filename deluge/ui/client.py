@@ -387,7 +387,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.disconnect_callback = cb
 
 class DaemonClassicProxy(DaemonProxy):
-    def __init__(self):
+    def __init__(self, event_handlers={}):
         import deluge.core.daemon
         self.__daemon = deluge.core.daemon.Daemon(classic=True)
         log.debug("daemon created!")
@@ -395,12 +395,16 @@ class DaemonClassicProxy(DaemonProxy):
         self.host = "localhost"
         self.port = 58846
         self.user = "localclient"
+        # Register the event handlers
+        for event in event_handlers:
+            for handler in event_handlers[event]:
+                self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
     def disconnect(self):
         self.__daemon = None
 
     def call(self, method, *args, **kwargs):
-        log.debug("call: %s %s %s", method, args, kwargs)
+        #log.debug("call: %s %s %s", method, args, kwargs)
 
         d = defer.Deferred()
         try:
@@ -418,6 +422,27 @@ class DaemonClassicProxy(DaemonProxy):
             d.callback(result)
         return d
 
+    def register_event_handler(self, event, handler):
+        """
+        Registers a handler function to be called when `:param:event` is received
+        from the daemon.
+
+        :param event: str, the name of the event to handle
+        :param handler: function, the function to be called when `:param:event`
+            is emitted from the daemon
+
+        """
+        self.__daemon.core.eventmanager.register_event_handler(event, handler)
+
+    def deregister_event_handler(self, event, handler):
+        """
+        Deregisters a event handler.
+
+        :param event: str, the name of the event
+        :param handler: function, the function registered
+
+        """
+        self.__daemon.core.eventmanager.deregister_event_handler(event, handler)
 
 class DottedObject(object):
     """
@@ -451,6 +476,7 @@ class Client(object):
     def __init__(self):
         self._daemon_proxy = None
         self.disconnect_callback = None
+        self.__started_in_classic = False
 
     def connect(self, host="127.0.0.1", port=58846, username="", password=""):
         """
@@ -486,7 +512,8 @@ class Client(object):
         """
         Starts a daemon in the same process as the client.
         """
-        self._daemon_proxy = DaemonClassicProxy()
+        self._daemon_proxy = DaemonClassicProxy(self.__event_handlers)
+        self.__started_in_classic = True
 
     def start_daemon(self, port, config):
         """
@@ -520,6 +547,15 @@ class Client(object):
             isinstance(self._daemon_proxy, DaemonClassicProxy):
             return True
         return False
+
+    def is_classicmode(self):
+        """
+        Checks to see if the client has been started in classic mode.
+
+        :returns: bool, True if in classic mode
+
+        """
+        return self.__started_in_classic
 
     def connected(self):
         """

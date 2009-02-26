@@ -244,6 +244,7 @@ class GtkUI:
 
         if self.config["classic_mode"]:
             client.start_classic_mode()
+            component.start()
             return
 
     def __on_disconnect(self):

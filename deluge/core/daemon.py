@@ -28,6 +28,7 @@ import gettext
 import locale
 import pkg_resources
 from twisted.internet import reactor
+import twisted.internet.error
 
 import deluge.component as component
 import deluge.configmanager
@@ -108,7 +109,10 @@ class Daemon(object):
     @export()
     def shutdown(self, *args, **kwargs):
         component.shutdown()
-        reactor.stop()
+        try:
+            reactor.stop()
+        except twisted.internet.error.ReactorNotRunning:
+            log.debug("Tried to stop the reactor but it is not running..")
 
     @export()
     def info(self):

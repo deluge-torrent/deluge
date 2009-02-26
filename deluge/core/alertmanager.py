@@ -57,10 +57,6 @@ class AlertManager(component.Component):
     def update(self):
         self.handle_alerts()
 
-    def shutdown(self):
-        del self.session
-        del self.handlers
-
     def register_handler(self, alert_type, handler):
         """Registers a function that will be called when 'alert_type' is pop'd
         in handle_alerts.  The handler function should look like:
