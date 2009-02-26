@@ -41,12 +41,10 @@ import twisted.internet.error
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
         data = deluge.rencode.loads(data)
-        log.debug("Data received: %s", data)
         process_args(data)
 
 class IPCProtocolClient(Protocol):
     def connectionMade(self):
-        log.debug("Connection made!")
         self.transport.write(deluge.rencode.dumps(self.factory.args))
         self.transport.loseConnection()
     def connectionLost(self, reason):
@@ -55,7 +53,6 @@ class IPCProtocolClient(Protocol):
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
-        log.debug("args: %s", args)
         if not os.path.exists(deluge.configmanager.get_config_dir("ipc")):
             os.makedirs(deluge.configmanager.get_config_dir("ipc"))
 
@@ -73,6 +70,8 @@ class IPCInterface(component.Component):
             reactor.connectUNIX(socket, self.factory, checkPID=True)
             reactor.run()
             sys.exit(0)
+        else:
+            process_args(args)
 
 def process_args(args):
     """Process arguments sent to already running Deluge"""
