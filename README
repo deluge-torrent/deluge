@@ -49,7 +49,6 @@ Dependencies:
     gettext
 
   Gtk:
-    dbus-python
     python-notify (libnotify python wrapper)
     pygame
     pygtk >= 2.10

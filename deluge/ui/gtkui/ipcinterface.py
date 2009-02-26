@@ -1,7 +1,7 @@
 #
 # ipcinterface.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2008-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -27,53 +27,57 @@ import sys
 import os.path
 import base64
 
+import deluge.rencode
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
+from twisted.internet.protocol import Factory, Protocol, ClientFactory
+from twisted.internet import reactor
+import twisted.internet.error
+
+class IPCProtocolServer(Protocol):
+    def dataReceived(self, data):
+        data = deluge.rencode.loads(data)
+        log.debug("Data received: %s", data)
+        process_args(data)
+
+class IPCProtocolClient(Protocol):
+    def connectionMade(self):
+        log.debug("Connection made!")
+        self.transport.write(deluge.rencode.dumps(self.factory.args))
+        self.transport.loseConnection()
+    def connectionLost(self, reason):
+        reactor.stop()
+
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
+        log.debug("args: %s", args)
+        if not os.path.exists(deluge.configmanager.get_config_dir("ipc")):
+            os.makedirs(deluge.configmanager.get_config_dir("ipc"))
 
-        if deluge.common.windows_check():
-            # If we're on windows we need to check the global mutex to see if deluge is
-            # already running.
-            import win32event
-            import win32api
-            import winerror
-            self.mutex = win32event.CreateMutex(None, False, "deluge")
-            if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
-                # We already have a running session, send a XMLRPC to the existing session
-                config = ConfigManager("gtkui.conf")
-                # XXX: Need new IPC method
-             #   uri = "http://localhost:" + str(config["signal_port"])
-             #   import deluge.xmlrpclib as xmlrpclib
-             #   rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
-             #   rpc.emit_signal("args_from_external", args)
-                sys.exit(0)
-            else:
-                process_args(args)
-        else:
-            try:
-                import dbusinterface
-                self.dbusinterface = dbusinterface.DbusInterface(args)
-            except Exception, e:
-                log.warning("Unable to start DBUS component: %s", e)
+        socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
 
-    def shutdown(self):
-        if deluge.common.windows_check():
-            import win32api
-            win32api.CloseHandle(self.mutex)
+        try:
+            self.factory = Factory()
+            self.factory.protocol = IPCProtocolServer
+            reactor.listenUNIX(socket, self.factory, wantPID=True)
+        except twisted.internet.error.CannotListenError, e:
+            log.info("Deluge is already running! Sending arguments to running instance..")
+            self.factory = ClientFactory()
+            self.factory.args = args
+            self.factory.protocol = IPCProtocolClient
+            reactor.connectUNIX(socket, self.factory, checkPID=True)
+            reactor.run()
+            sys.exit(0)
 
 def process_args(args):
     """Process arguments sent to already running Deluge"""
-    # Pythonize the values from Dbus
-    dbus_args = args
-    args = []
-    for arg in dbus_args:
-        args.append(str(arg))
+    # Make sure args is a list
+    args = list(args)
     log.debug("Processing args from other process: %s", args)
     if not client.connected():
         # We're not connected so add these to the queue
