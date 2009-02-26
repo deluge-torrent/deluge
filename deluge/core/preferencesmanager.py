@@ -214,7 +214,7 @@ class PreferencesManager(component.Component):
 
     # Config set functions
     def _on_config_value_change(self, key, value):
-        component.get("RPCServer").emit_event(ConfigValueChangedEvent(key, value))
+        component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:

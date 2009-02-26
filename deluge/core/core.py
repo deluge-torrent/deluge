@@ -54,6 +54,7 @@ from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
 from deluge.core.authmanager import AuthManager
+from deluge.core.eventmanager import EventManager
 from deluge.core.rpcserver import export
 
 STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
@@ -115,6 +116,7 @@ class Core(component.Component):
         self.session.add_extension(lt.create_smart_ban_plugin)
 
         # Create the components
+        self.eventmanager = EventManager()
         self.preferencesmanager = PreferencesManager()
         self.alertmanager = AlertManager(self.session)
         self.pluginmanager = PluginManager(self)
@@ -216,7 +218,7 @@ class Core(component.Component):
                             return 1
 
             if VersionSplit(self.new_release) > VersionSplit(deluge.common.get_version()):
-                component.get("RPCServer").emit_event(NewVersionAvailableEvent(self.new_release))
+                component.get("EventManager").emit(NewVersionAvailableEvent(self.new_release))
                 return self.new_release
         return False
 
@@ -368,7 +370,7 @@ class Core(component.Component):
     def resume_all_torrents(self):
         """Resume all torrents in the session"""
         self.session.resume()
-        component.get("RPCServer").emit_event(SessionResumedEvent())
+        component.get("EventManager").emit(SessionResumedEvent())
 
     @export()
     def resume_torrent(self, torrent_ids):
@@ -678,7 +680,7 @@ class Core(component.Component):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_top(torrent_id):
-                    component.get("RPCServer").emit_event(TorrentQueueChangedEvent())
+                    component.get("EventManager").emit(TorrentQueueChangedEvent())
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -692,7 +694,7 @@ class Core(component.Component):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_up(torrent_id):
-                    component.get("RPCServer").emit_event(TorrentQueueChangedEvent())
+                    component.get("EventManager").emit(TorrentQueueChangedEvent())
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -706,7 +708,7 @@ class Core(component.Component):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_down(torrent_id):
-                    component.get("RPCServer").emit_event(TorrentQueueChangedEvent())
+                    component.get("EventManager").emit(TorrentQueueChangedEvent())
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -717,7 +719,7 @@ class Core(component.Component):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_bottom(torrent_id):
-                    component.get("RPCServer").emit_event(TorrentQueueChangedEvent())
+                    component.get("EventManager").emit(TorrentQueueChangedEvent())
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 

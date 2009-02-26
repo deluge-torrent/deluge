@@ -679,7 +679,7 @@ class Torrent:
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
             # the torrent_paused alert from libtorrent will not be generated.
             self.update_state()
-            component.get("RPCServer").emit_event(TorrentStateChangedEvent(self.torrent_id, "Paused"))
+            component.get("EventManager").emit(TorrentStateChangedEvent(self.torrent_id, "Paused"))
         else:
             try:
                 self.handle.pause()

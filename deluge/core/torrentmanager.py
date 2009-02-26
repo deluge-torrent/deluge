@@ -404,7 +404,7 @@ class TorrentManager(component.Component):
             self.save_state()
 
         # Emit the torrent_added signal
-        component.get("RPCServer").emit_event(TorrentAddedEvent(torrent.torrent_id))
+        component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id))
 
         return torrent.torrent_id
 
@@ -451,7 +451,7 @@ class TorrentManager(component.Component):
         self.save_state()
 
         # Emit the signal to the clients
-        component.get("RPCServer").emit_event(TorrentRemovedEvent(torrent_id))
+        component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
 
         return True
 
@@ -636,7 +636,7 @@ class TorrentManager(component.Component):
         torrent.is_finished = True
         torrent.update_state()
         torrent.save_resume_data()
-        component.get("RPCServer").emit_event(TorrentFinishedEvent(torrent_id))
+        component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
@@ -644,7 +644,7 @@ class TorrentManager(component.Component):
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
         self.torrents[torrent_id].update_state()
-        component.get("RPCServer").emit_event(TorrentStateChangedEvent(torrent_id, "Paused"))
+        component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, "Paused"))
 
         # Write the fastresume file
         self.torrents[torrent_id].save_resume_data()
@@ -732,13 +732,13 @@ class TorrentManager(component.Component):
         torrent = self.torrents[torrent_id]
         torrent.is_finished = torrent.handle.is_seed()
         torrent.update_state()
-        component.get("RPCServer").emit_event(TorrentResumedEvent(torrent_id))
+        component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
         log.debug("on_alert_state_changed")
         torrent_id = str(alert.handle.info_hash())
         self.torrents[torrent_id].update_state()
-        component.get("RPCServer").emit_event(TorrentStateChangedEvent(torrent_id, self.torrents[torrent_id].state))
+        component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, self.torrents[torrent_id].state))
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
@@ -764,7 +764,7 @@ class TorrentManager(component.Component):
                 folder_rename = True
                 if len(wait_on_folder[2]) == 1:
                     # This is the last alert we were waiting for, time to send signal
-                    component.get("RPCServer").emit_event(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
+                    component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
                     del torrent.waiting_on_folder_rename[i]
                     break
                 # This isn't the last file to be renamed in this folder, so just
@@ -773,7 +773,7 @@ class TorrentManager(component.Component):
 
         if not folder_rename:
             # This is just a regular file rename so send the signal
-            component.get("RPCServer").emit_event(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
+            component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
 
     def on_alert_metadata_received(self, alert):
         log.debug("on_alert_metadata_received")
