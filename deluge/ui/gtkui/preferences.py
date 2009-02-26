@@ -479,8 +479,12 @@ class Preferences(component.Component):
         # Now show the dialog
         self.pref_dialog.show()
 
-    def set_config(self):
-        """Sets all altered config values in the core"""
+    def set_config(self, hide=False):
+        """
+        Sets all altered config values in the core.
+
+        :param hide: bool, if True, will not re-show the dialog and will hide it instead
+        """
         try:
             from hashlib import sha1 as sha_hash
         except ImportError:
@@ -719,8 +723,11 @@ class Preferences(component.Component):
             # Update the configuration
             self.core_config.update(config_to_set)
 
-        # Re-show the dialog to make sure everything has been updated
-        self.show()
+        if hide:
+            self.hide()
+        else:
+            # Re-show the dialog to make sure everything has been updated
+            self.show()
 
     def hide(self):
         self.pref_dialog.hide()
@@ -772,8 +779,7 @@ class Preferences(component.Component):
 
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
-        self.set_config()
-        self.hide()
+        self.set_config(hide=True)
         return True
 
     def on_button_apply_clicked(self, data):
