@@ -38,9 +38,13 @@ class Component(object):
         self._interval = interval
         self._timer = None
         self._state = COMPONENT_STATE.index("Stopped")
+        self._name = name
 
     def get_state(self):
         return self._state
+
+    def get_component_name(self):
+        return self._name
 
     def start(self):
         pass

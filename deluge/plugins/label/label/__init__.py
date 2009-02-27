@@ -22,33 +22,13 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+from deluge.plugins.init import PluginInitBase
 
-from deluge.log import LOG as log
-from deluge.plugins.init import PluginBase
+class CorePlugin(PluginInitBase):
+    from core import Core as _plugin_cls
 
-class CorePlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the Core portion of the plugin
-        try:
-            from core import Core
-            self.plugin = Core(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a Core plugin: %s", e)
+class GtkUIPlugin(PluginInitBase):
+    from gtkui import GtkUI as _plugin_cls
 
-class WebUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        try:
-            from webui import WebUI
-            self.plugin = WebUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a WebUI plugin: %s", e)
-
-class GtkUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the GtkUI portion of the plugin
-        try:
-            from gtkui import GtkUI
-            self.plugin = GtkUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a GtkUI plugin: %s", e)
-
+class WebUIPlugin(PluginInitBase):
+    from webui import WebUI as _plugin_cls

@@ -30,7 +30,7 @@ import gtk.glade
 import deluge.component as component
 import deluge.common
 from deluge.log import LOG as log
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 
 NO_LABEL = "No Label"
 
@@ -81,7 +81,7 @@ class LabelSidebarMenu(object):
         self.add_dialog.show()
 
     def on_remove(self, event=None):
-        aclient.label.remove(None, self.treeview.value)
+        client.label.remove(self.treeview.value)
 
     def on_options (self, event=None):
         self.options_dialog.show(self.treeview.value)
@@ -137,7 +137,7 @@ class AddDialog(object):
 
     def on_ok(self, event=None):
         value = self.glade.get_widget("txt_add").get_text()
-        aclient.label.add(None, value)
+        client.label.add(value)
         self.dialog.destroy()
 
     def on_cancel(self, event=None):
@@ -179,7 +179,7 @@ class OptionsDialog(object):
             chk = self.glade.get_widget(chk_id)
             chk.connect("toggled",self.apply_sensitivity)
 
-        aclient.label.get_options(self.load_options, self.label)
+        client.label.get_options(self.label).addCallback(self.load_options)
 
         self.dialog.run()
 
@@ -212,7 +212,7 @@ class OptionsDialog(object):
         options["auto_add_trackers"] = [x for x in tracker_lst if x] #filter out empty lines.
 
         log.debug(options)
-        aclient.label.set_options(None, self.label, options)
+        client.label.set_options(self.label, options)
         self.dialog.destroy()
 
     def apply_sensitivity(self, event=None):

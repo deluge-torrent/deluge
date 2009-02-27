@@ -197,7 +197,8 @@ class FilterManager(component.Component):
         self.tree_fields[field] = init_func
 
     def deregister_tree_field(self, field):
-        del self.tree_fields[field]
+        if field in self.tree_fields:
+            del self.tree_fields[field]
 
     def filter_state_active(self, torrent_ids):
         get_status = self.core.get_torrent_status

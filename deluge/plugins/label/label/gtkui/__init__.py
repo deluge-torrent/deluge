@@ -27,9 +27,9 @@ import os
 import pkg_resources    # access plugin egg
 from deluge.log import LOG as log
 from deluge import component    # for systray
-import ui
+from deluge.plugins.pluginbase import GtkPluginBase
 import gtk, gobject
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 
 import sidebar_menu
 import label_config
@@ -43,16 +43,16 @@ NO_LABEL = "No Label"
 def cell_data_label(column, cell, model, row, data):
     cell.set_property('text', str(model.get_value(row, data)))
 
-class GtkUI(ui.UI):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("Calling UI init")
-        # Call UI constructor
-        ui.UI.__init__(self, plugin_api, plugin_name)
-        log.debug("Label GtkUI plugin initalized..")
-        self.labelcfg = None
-        self.sidebar_menu = None
+class GtkUI(GtkPluginBase):
+    def start(self):
+        if self.label_menu:
+            self.label_menu.on_show()
 
     def enable(self):
+        self.plugin = component.get("PluginManager")
+        self.label_menu = None
+        self.labelcfg = None
+        self.sidebar_menu = None
         self.load_interface()
 
     def disable(self):

@@ -121,6 +121,8 @@ class PluginManagerBase:
                 log.error("Unable to instantiate plugin!")
                 log.exception(e)
             instance.enable()
+            if self.get_state() == "Started":
+                component.start(instance.get_component_name())
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:

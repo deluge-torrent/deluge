@@ -29,7 +29,7 @@ import pkg_resources    # access plugin egg
 import deluge.component as component
 import deluge.common
 from deluge.log import LOG as log
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 
 
 class LabelConfig(object):
@@ -60,7 +60,7 @@ class LabelConfig(object):
         return pkg_resources.resource_filename("label", os.path.join("data", filename))
 
     def load_settings(self, widget=None, data=None):
-        aclient.label.get_config(self.cb_global_options)
+        client.label.get_config().addCallback(self.cb_global_options)
 
     def cb_global_options(self, options):
         log.debug("options=%s" % options)
@@ -72,4 +72,4 @@ class LabelConfig(object):
     def on_apply_prefs(self):
         options = {}
         #update options dict here.
-        aclient.label.set_config(None, options)
+        client.label.set_config(options)

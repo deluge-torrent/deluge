@@ -27,7 +27,7 @@ adds a status field for tracker.
 """
 
 from deluge.log import LOG as log
-from deluge.plugins.corepluginbase import CorePluginBase
+from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
 from deluge.configmanager import ConfigManager
 import deluge.component as component
@@ -84,7 +84,7 @@ class Core(CorePluginBase):
     """
     def enable(self):
         log.info("*** Start Label plugin ***")
-
+        self.plugin = component.get("CorePluginManager")
         self.plugin.register_status_field("label", self._status_get_label)
 
         #__init__
@@ -177,12 +177,12 @@ class Core(CorePluginBase):
         if changed:
             self.config.save()
 
-    @export
+    @export()
     def get_labels(self):
         return sorted(self.labels.keys())
 
     #Labels:
-    @export
+    @export()
     def add(self, label_id):
         """add a label
         see label_set_options for more options.
@@ -238,7 +238,7 @@ class Core(CorePluginBase):
                     return True
         return False
 
-    @export
+    @export()
     def set_options(self, label_id, options_dict , apply = False):
         """update the label options
 
@@ -275,12 +275,12 @@ class Core(CorePluginBase):
 
         self.config.save()
 
-    @export
+    @export()
     def get_options(self, label_id):
         """returns the label options"""
         return self.labels[label_id]
 
-    @export
+    @export()
     def set_torrent(self, torrent_id , label_id):
         """
         assign a label to a torrent
@@ -302,12 +302,12 @@ class Core(CorePluginBase):
 
         self.config.save()
 
-    @export
+    @export()
     def get_config(self):
         "see : label_set_config"
         return dict((key, self.config[key]) for key in CORE_OPTIONS if key in self.config.config)
 
-    @export
+    @export()
     def set_config(self, options):
         """global_options:"""
         if options:

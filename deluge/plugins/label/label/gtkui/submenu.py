@@ -27,9 +27,8 @@ import os
 import pkg_resources    # access plugin egg
 from deluge.log import LOG as log
 from deluge import component    # for systray
-import ui
 import gtk, gobject
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 
 from deluge.configmanager import ConfigManager
 config  = ConfigManager("label.conf")
@@ -46,22 +45,15 @@ class LabelMenu(gtk.MenuItem):
         #attach..
         torrentmenu = component.get("MenuBar").torrentmenu
         self.sub_menu.connect("show", self.on_show, None)
-        aclient.connect_on_new_core(self._on_new_core)
-
-
-    def _on_new_core(self, data = None):
-        self.on_show()
 
     def get_torrent_ids(self):
         return component.get("TorrentView").get_selected_torrents()
 
-
     def on_show(self, widget=None, data=None):
         log.debug("label-on-show")
-        aclient.label.get_labels(self.cb_labels)
-        aclient.force_call(block=True)
+        client.label.get_labels().addCallback(self.cb_labels)
 
-    def cb_labels(self , labels):
+    def cb_labels(self, labels):
         for child in self.sub_menu.get_children():
             self.sub_menu.remove(child)
         for label in [NO_LABEL] + labels:
@@ -70,8 +62,7 @@ class LabelMenu(gtk.MenuItem):
             self.sub_menu.append(item)
         self.show_all()
 
-    def on_select_label(self, widget=None, label_id = None):
+    def on_select_label(self, widget=None, label_id=None):
         log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
         for torrent_id in self.get_torrent_ids():
-            aclient.label.set_torrent(None, torrent_id, label_id)
-        #aclient.force_call(block=True)
+            client.label.set_torrent(torrent_id, label_id)
