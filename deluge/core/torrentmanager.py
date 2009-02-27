@@ -165,6 +165,8 @@ class TorrentManager(component.Component):
             self.on_alert_file_renamed)
         self.alerts.register_handler("metadata_received_alert",
             self.on_alert_metadata_received)
+        self.alerts.register_handler("file_error_alert",
+            self.on_alert_file_error)
 
     def start(self):
         # Get the pluginmanager reference
@@ -784,3 +786,8 @@ class TorrentManager(component.Component):
         log.debug("on_alert_metadata_received")
         torrent = self.torrents[str(alert.handle.info_hash())]
         torrent.write_torrentfile()
+
+    def on_alert_file_error(self, alert):
+        log.debug("on_alert_file_error: %s", alert.message())
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        torrent.update_state()

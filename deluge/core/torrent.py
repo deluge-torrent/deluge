@@ -357,11 +357,12 @@ class Torrent:
 
         # First we check for an error from libtorrent, and set the state to that
         # if any occurred.
-        if self.handle.is_paused() and len(self.handle.status().error) > 0:
+        if len(self.handle.status().error) > 0:
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(self.handle.status().error)
-            self.handle.auto_managed(False)
+            if self.handle.is_paused():
+                self.handle.auto_managed(False)
             return
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:

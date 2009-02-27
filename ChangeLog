@@ -1,4 +1,7 @@
 === Deluge 1.1.4 - (In Development) ===
+==== Core ====
+  * Fix displaying file errors when the torrent isn't paused
+
 ==== GtkUI ====
   * Fix hiding bottom pane when no tabs are enabled upon restart
   * Fix saving file priorities when switching torrents in the addtorrentdialog
