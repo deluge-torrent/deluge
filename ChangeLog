@@ -1,4 +1,14 @@
-=== Deluge 1.1.0 - "" (In Development) ===
+=== Deluge 1.2.0 (In Development) ===
+==== Core ====
+  * Implement new RPC protocol DelugeRPC replacing XMLRPC
+  * Move to a twisted framework
+
+==== GtkUI ====
+  * Remove SignalReceiver
+  * Implemented a cross-platform IPC method thus removing the DBUS dependency
+  * Implement a "True" Classic Mode where there is no longer a separate daemon process
+
+=== Deluge 1.1.0 (Released) ===
 ==== Core ====
   * Implement #79 ability to change outgoing port range
   * Implement #296 ability to change peer TOS byte
