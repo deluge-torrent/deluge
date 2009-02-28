@@ -12,9 +12,13 @@
         !define ${installer}_URL "http://download.deluge-torrent.org/windows/deps/${${installer}}"
     !macroend
 
-    !macro autodetect component
-        Push ${${component}}
-        Call autodetect_${component}
+    !macro create_detect component reg_path reg_key
+        Function detect_${component}
+            ReadRegStr $0 HKLM ${reg_path} ${reg_key}
+            IfErrors 0 +3
+                SectionSetInstTypes ${${component}} ${AUTO_FULL_INST}
+                SetCurInstType ${AUTODETECT_INST}
+        FunctionEnd
     !macroend
 
     !macro download url filename
@@ -50,11 +54,15 @@
 
     ; Redefine macros/functions
     !define create_url "!insertmacro create_url"
-    !define autodetect "!insertmacro autodetect"
+    !define create_detect "!insertmacro create_detect"
     !define download "!insertmacro download"
     !define install_NSIS "!insertmacro install_NSIS"
     !define install_MSI "!insertmacro install_MSI"
     !define install_ZIP "!insertmacro install_ZIP"
+
+    ; Installation types
+    !define AUTO_FULL_INST 3
+    !define AUTODETECT_INST 0
 
     ; Installer versions
     !define DELUGE_VERSION "1.1.3"
@@ -102,6 +110,13 @@
     ${create_url} LIBTORRENT_INSTALLER
     ${create_url} LIBTORRENT_DLL_ZIP
 
+    ; Installer registry paths
+    !define PYTHON_REG_PATH "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath"
+    !define GTK_REG_PATH "SOFTWARE\GTK\2.0"
+
+    ; Installer registry keys
+    !define PYTHON_REG_KEY ""
+    !define GTK_REG_KEY "Path"
 
 ; Variables
 
@@ -360,21 +375,17 @@ SectionGroupEnd
 
 ; Functions
 
-Function autodetect_python
-    Pop $0
-    ReadRegStr $1 HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
-    IfErrors 0 +3
-        SectionSetInstTypes $0 3
-        SetCurInstType 0
-FunctionEnd
+${create_detect} python ${PYTHON_REG_PATH} ${PYTHON_REG_KEY}
+${create_detect} gtk ${GTK_REG_PATH} ${GTK_REG_KEY}
 
 Function set_python_dir
-    ReadRegStr $PYTHONDIR HKLM "SOFTWARE\Python\PythonCore\${PYTHON_VERSION}\InstallPath" ""
+    ReadRegStr $PYTHONDIR HKLM ${PYTHON_REG_PATH} ${PYTHON_REG_KEY}
     IfErrors 0 +2
         StrCpy $PYTHONDIR "$INSTDIR\Python"
 FunctionEnd
 
 Function .onInit
     Call set_python_dir
-    ${autodetect} python
+    Call detect_python
+    Call detect_gtk
 FunctionEnd
