@@ -743,9 +743,14 @@ class TorrentManager(component.Component):
 
     def on_alert_state_changed(self, alert):
         log.debug("on_alert_state_changed")
-        torrent_id = str(alert.handle.info_hash())
-        self.torrents[torrent_id].update_state()
-        component.get("SignalManager").emit("torrent_state_changed", torrent_id)
+        try:
+            torrent_id = str(alert.handle.info_hash())
+        except RuntimeError:
+            return
+
+        if torrent_id in self.torrents:
+            self.torrents[torrent_id].update_state()
+            component.get("SignalManager").emit("torrent_state_changed", torrent_id)
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
