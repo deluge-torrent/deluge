@@ -212,7 +212,7 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            if self.config["stop_seed_at_ratio"] or torrent.options["stop_at_ratio"]:
+            if self.config["stop_seed_at_ratio"] or torrent.options["stop_at_ratio"] and torrent.state not in ("Checking", "Allocating"):
                 stop_ratio = self.config["stop_seed_ratio"]
                 if torrent.options["stop_at_ratio"]:
                     stop_ratio = torrent.options["stop_ratio"]
