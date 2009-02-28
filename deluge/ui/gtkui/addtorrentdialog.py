@@ -190,6 +190,8 @@ class AddTorrentDialog(component.Component):
                 [info.info_hash, info.name, filename])
             self.files[info.info_hash] = info.files
             self.infos[info.info_hash] = info.metadata
+            self.listview_torrents.get_selection().select_iter(new_row)
+            self.set_default_options()
             self.save_torrent_options(new_row)
 
         (model, row) = self.listview_torrents.get_selection().get_selected()
@@ -215,6 +217,8 @@ class AddTorrentDialog(component.Component):
                 [info_hash, name, uri])
             self.files[info_hash] = []
             self.infos[info_hash] = None
+            self.listview_torrents.get_selection().select_iter(new_row)
+            self.set_default_options()
             self.save_torrent_options(new_row)
 
         (model, row) = self.listview_torrents.get_selection().get_selected()
