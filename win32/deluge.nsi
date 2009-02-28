@@ -14,7 +14,7 @@
 
     !macro create_detect component reg_path reg_key
         Function detect_${component}
-            ReadRegStr $0 HKLM ${reg_path} ${reg_key}
+            ReadRegStr $0 HKLM "${reg_path}" "${reg_key}"
             IfErrors 0 +3
                 SectionSetInstTypes ${${component}} ${AUTO_FULL_INST}
                 SetCurInstType ${AUTODETECT_INST}
@@ -193,8 +193,6 @@ SectionGroup /e "Dependencies" dependencies
 
     Section "Python" python
 
-        ${autodetect} python
-
         ${install_MSI} PYTHON_INSTALLER "$INSTDIR\Python"
 
     SectionEnd
@@ -207,7 +205,7 @@ SectionGroup /e "Dependencies" dependencies
 
     SectionEnd
 
-    Section "GTK+ Runtime" gtk+
+    Section "GTK+ Runtime" gtk
 
         SectionIn 2
 
@@ -310,7 +308,7 @@ SectionGroup /e "un.Dependencies" undependencies
 
     SectionEnd
 
-    Section "un.GTK+ Runtime" ungtk+
+    Section "un.GTK+ Runtime" ungtk
 
     SectionEnd
 
@@ -375,11 +373,11 @@ SectionGroupEnd
 
 ; Functions
 
-${create_detect} python ${PYTHON_REG_PATH} ${PYTHON_REG_KEY}
-${create_detect} gtk ${GTK_REG_PATH} ${GTK_REG_KEY}
+${create_detect} python "${PYTHON_REG_PATH}" "${PYTHON_REG_KEY}"
+${create_detect} gtk "${GTK_REG_PATH}" "${GTK_REG_KEY}"
 
 Function set_python_dir
-    ReadRegStr $PYTHONDIR HKLM ${PYTHON_REG_PATH} ${PYTHON_REG_KEY}
+    ReadRegStr $PYTHONDIR HKLM "${PYTHON_REG_PATH}" "${PYTHON_REG_KEY}"
     IfErrors 0 +2
         StrCpy $PYTHONDIR "$INSTDIR\Python"
 FunctionEnd
