@@ -57,16 +57,9 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         # Enable plugins that are enabled in the config
         self.enable_plugins()
 
-        # Set update timer to call update() in plugins every second
-        self.update_timer = LoopingCall(self.update_plugins)
-        self.update_timer.start(1)
-
     def stop(self):
         # Disable all enabled plugins
         self.disable_plugins()
-        # Stop the update timer
-        if self.update_timer.running:
-            self.update_timer.stop()
 
     def shutdown(self):
         self.stop()
