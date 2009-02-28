@@ -633,11 +633,11 @@ class TorrentManager(component.Component):
             if move_path:
                 if torrent.options["download_location"] != move_path:
                     torrent.move_storage(move_path)
+            torrent.is_finished = True
+            component.get("SignalManager").emit("torrent_finished", torrent_id)
 
-        torrent.is_finished = True
         torrent.update_state()
         torrent.save_resume_data()
-        component.get("SignalManager").emit("torrent_finished", torrent_id)
 
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
