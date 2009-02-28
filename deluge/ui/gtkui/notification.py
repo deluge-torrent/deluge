@@ -95,7 +95,7 @@ class Notification:
                 "Finished torrent %s" % (status["name"]))
         text = _("This email is to inform you that Deluge has finished downloading %s , \
             which includes %i files.\nTo stop receiving these alerts, simply turn off \
-            email notification in Deluge's preferences.\n\nThank you,\nDeluge")
+            email notification in Deluge's preferences.\n\nThank you,\nDeluge") % (status["name"], status["num_files"])
         message = headers + text
         if self.config["ntf_security"] == 'SSL':
             port = 465

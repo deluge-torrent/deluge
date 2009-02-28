@@ -7,6 +7,7 @@
   * Fix saving file priorities when switching torrents in the addtorrentdialog
   * Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
   * Fix #655 issue where default torrent options wouldn't be set for new torrents added to the addtorrentdialog
+  * Fix #817 email notifications fail to substitute format strings
 
 === Deluge 1.1.3 - (15 February 2009) ===
 ==== Core ====
