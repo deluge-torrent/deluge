@@ -110,7 +110,7 @@ class TorrentManager(component.Component):
     session for use on restart."""
 
     def __init__(self, session, alerts):
-        component.Component.__init__(self, "TorrentManager", interval=5000, depend=["CorePluginManager"])
+        component.Component.__init__(self, "TorrentManager", interval=5, depend=["CorePluginManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
