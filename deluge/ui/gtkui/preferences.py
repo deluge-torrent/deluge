@@ -434,7 +434,7 @@ class Preferences(component.Component):
         self.glade.get_widget("chk_ntf_tray_blink").set_active(
             self.gtkui_config["ntf_tray_blink"])
         if deluge.common.windows_check():
-            self.gtkui_config["ntf_popup"].set_sensitive(False)
+            self.glade.get_widget("chk_ntf_popup").set_sensitive(False)
         else:
             self.glade.get_widget("chk_ntf_popup").set_active(
                 self.gtkui_config["ntf_popup"])
