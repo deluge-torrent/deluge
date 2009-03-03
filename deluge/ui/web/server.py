@@ -145,26 +145,13 @@ class JSON(resource.Resource):
             "web.connect": self.connect,
             "web.connected": self.connected
         }
-        for entry in open(common.get_default_config_dir("auth")):
-            parts = entry.split(":")
-            if len(parts) > 1:
-                username, password = parts[0], parts[1]
-            else:
-                continue
-
-            if username != "localclient":
-                continue
-            self.local_username = username
-            self.local_password = password
     
-    def _connect(self, host="localhost", port=58846, username=None, password=None):
+    def _connect(self, host="localhost", port=58846, username="", password=""):
         """
         Connects the client to a daemon
         """
-        username = username or self.local_username
-        password = password or self.local_password
         d = Deferred()
-        _d = client.connect(host=host, username=username, password=password)
+        _d = client.connect(host, port, username, password)
         
         def on_get_methods(methods):
             """
@@ -556,7 +543,7 @@ class TopLevel(resource.Resource):
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
-        self.putChild("test", static.File("test.html"))
+        self.putChild("test", static.File(rpath("test.html")))
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
     
