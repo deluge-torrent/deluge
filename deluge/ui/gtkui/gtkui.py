@@ -111,9 +111,6 @@ DEFAULT_PREFS = {
 
 class GtkUI:
     def __init__(self, args):
-        # Initialize gdk threading
-        gtk.gdk.threads_init()
-        gobject.threads_init()
 
         # Initialize gettext
         try:
@@ -141,7 +138,6 @@ class GtkUI:
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             from win32con import CTRL_SHUTDOWN_EVENT
-            result = 0
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
@@ -152,33 +148,18 @@ class GtkUI:
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
-        # We need to check for the existence of 'deluged' in the system path
-        # before allowing to continue in classic mode.
-        if self.config["classic_mode"]:
-            try:
-                if deluge.common.windows_check():
-                    import win32api
-                    win32api.WinExec("deluged --version")
-                else:
-                    import subprocess
-                    retcode = subprocess.call("deluged" + " --version", shell=True)
-                    log.debug("retcode: %s", retcode)
-                    if retcode == 127:
-                        log.error("Unable to find deluged!")
-                        self.config["classic_mode"] = False
-            except Exception, e:
-                log.error("Unable to find deluged: %s", e)
-                self.config["classic_mode"] = False
-
         # We need to check on exit if it was started in classic mode to ensure we
         # shutdown the daemon.
         self.started_in_classic = self.config["classic_mode"]
 
-        # Start the Dbus Interface before anything else.. Just in case we are
+        # Start the IPC Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
-
         self.ipcinterface = IPCInterface(args)
+
+        # Initialize gdk threading
+        gtk.gdk.threads_init()
+        gobject.threads_init()
 
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)

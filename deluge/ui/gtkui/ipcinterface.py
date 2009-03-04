@@ -56,22 +56,61 @@ class IPCInterface(component.Component):
         if not os.path.exists(deluge.configmanager.get_config_dir("ipc")):
             os.makedirs(deluge.configmanager.get_config_dir("ipc"))
 
+        # Make the args absolute paths
+        _args = []
+        for arg in args:
+            _args.append(os.path.abspath(arg))
+        args = _args
+
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
 
-        try:
-            self.factory = Factory()
-            self.factory.protocol = IPCProtocolServer
-            reactor.listenUNIX(socket, self.factory, wantPID=True)
-        except twisted.internet.error.CannotListenError, e:
-            log.info("Deluge is already running! Sending arguments to running instance..")
-            self.factory = ClientFactory()
-            self.factory.args = args
-            self.factory.protocol = IPCProtocolClient
-            reactor.connectUNIX(socket, self.factory, checkPID=True)
-            reactor.run()
-            sys.exit(0)
+        if deluge.common.windows_check():
+            # If we're on windows we need to check the global mutex to see if deluge is
+            # already running.
+            import win32event
+            import win32api
+            import winerror
+            self.mutex = win32event.CreateMutex(None, False, "deluge")
+            if win32api.GetLastError() != winerror.ERROR_ALREADY_EXISTS:
+                # Create listen socket
+                self.factory = Factory()
+                self.factory.protocol = IPCProtocolServer
+                import random
+                port = random.randrange(20000, 65535)
+                reactor.listenTCP(port, self.factory)
+                # Store the port number in the socket file
+                open(socket, "w").write(str(port))
+                # We need to process any args when starting this process
+                process_args(args)
+            else:
+                # Send to existing deluge process
+                port = int(open(socket, "r").readline())
+                self.factory = ClientFactory()
+                self.factory.args = args
+                self.factory.protocol = IPCProtocolClient
+                reactor.connectTCP("127.0.0.1", port, self.factory)
+                reactor.run()
+                sys.exit(0)
         else:
-            process_args(args)
+            try:
+                self.factory = Factory()
+                self.factory.protocol = IPCProtocolServer
+                reactor.listenUNIX(socket, self.factory, wantPID=True)
+            except twisted.internet.error.CannotListenError, e:
+                log.info("Deluge is already running! Sending arguments to running instance..")
+                self.factory = ClientFactory()
+                self.factory.args = args
+                self.factory.protocol = IPCProtocolClient
+                reactor.connectUNIX(socket, self.factory, checkPID=True)
+                reactor.run()
+                sys.exit(0)
+            else:
+                process_args(args)
+
+    def shutdown(self):
+        if deluge.common.windows_check():
+            import win32api
+            win32api.CloseHandle(self.mutex)
 
 def process_args(args):
     """Process arguments sent to already running Deluge"""
