@@ -38,7 +38,7 @@ import socket
 
 from deluge.log import LOG as log
 
-class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
+class SignalReceiver(SimpleXMLRPCServer.SimpleXMLRPCServer):
 
     def __init__(self):
         log.debug("SignalReceiver init..")
