@@ -45,7 +45,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         # Set to true so that the receiver thread will exit
 
         self.signals = {}
-        self.emitted_signals = []
 
         self.remote = False
 
@@ -78,21 +77,26 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         # Register the emit_signal function
         self.register_function(self.emit_signal)
 
+        self.socket.setblocking(False)
+
+        gobject.io_add_watch(self.socket.fileno(), gobject.IO_IN | gobject.IO_OUT | gobject.IO_PRI | gobject.IO_ERR | gobject.IO_HUP, self._on_socket_activity)
+        #gobject.timeout_add(50, self.handle_signals)
+
+    def _on_socket_activity(self, source, condition):
+        """This gets called when there is activity on the socket, ie, data to read
+        or to write."""
+        self.handle_request()
+        return True
+
     def shutdown(self):
         """Shutdowns receiver thread"""
         log.debug("Shutting down signalreceiver")
-        self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
         try:
             client.deregister_client()
             client.force_call()
         except Exception, e:
             log.debug("Unable to deregister client from server: %s", e)
-
-        self.socket.shutdown(socket.SHUT_RDWR)
-        log.debug("Joining listening thread..")
-        self.listening_thread.join(1.0)
-        return
 
     def set_remote(self, remote):
         self.remote = remote
@@ -101,25 +105,7 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     def run(self):
         """This gets called when we start the thread"""
         # Register the signal receiver with the core
-        self._shutdown = False
         client.register_client(str(self.port))
-
-        self.listening_thread = threading.Thread(target=self.handle_thread)
-
-        gobject.timeout_add(50, self.handle_signals)
-
-        try:
-            self.listening_thread.start()
-        except Exception, e:
-            log.debug("Thread: %s", e)
-
-    def handle_thread(self):
-        try:
-            while not self._shutdown:
-                self.handle_request()
-            self._shutdown = False
-        except Exception, e:
-            log.debug("handle_thread: %s", e)
 
     def get_port(self):
         """Get the port that the SignalReceiver is listening on"""
@@ -127,20 +113,12 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
 
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""
-        self.emitted_signals.append((signal, data))
-        return
+        try:
+            for callback in self.signals[signal]:
+                gobject.idle_add(callback, *data)
 
-    def handle_signals(self):
-        for signal, data in self.emitted_signals:
-            try:
-                for callback in self.signals[signal]:
-                    gobject.idle_add(callback, *data)
-
-            except Exception, e:
-                log.warning("Unable to call callback for signal %s: %s", signal, e)
-
-        self.emitted_signals = []
-        return True
+        except Exception, e:
+            log.warning("Unable to call callback for signal %s: %s", signal, e)
 
     def connect_to_signal(self, signal, callback):
         """Connect to a signal"""
@@ -149,4 +127,3 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
                 self.signals[signal].append(callback)
         except KeyError:
             self.signals[signal] = [callback]
-
