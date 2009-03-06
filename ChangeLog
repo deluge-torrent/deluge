@@ -8,6 +8,10 @@
   * Implemented a cross-platform IPC method thus removing the DBUS dependency
   * Implement a "True" Classic Mode where there is no longer a separate daemon process
 
+==== WebUI ====
+  * Move over to using Twisted-Web for the webserver.
+  * Move to only AJAX interface built upon Ext-JS.
+
 === Deluge 1.1.0 (Released) ===
 ==== Core ====
   * Implement #79 ability to change outgoing port range
