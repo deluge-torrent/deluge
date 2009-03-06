@@ -83,7 +83,7 @@ CONFIG_DEFAULTS = {
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
 DEFAULT_HOSTS = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
+    "hosts": [[hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", ""]]
 }
 
 HOSTLIST_COL_ID = 0
@@ -491,7 +491,8 @@ class Tracker(resource.Resource):
         headers = {}
         filename = self.tracker_icons.get(request.tracker_name)
         if filename:
-            request.setHeader("cache-control", "public, must-revalidate, max-age=86400")
+            request.setHeader("cache-control",
+                              "public, must-revalidate, max-age=86400")
             if filename.endswith(".ico"):
                 request.setHeader("content-type", "image/x-icon")
             elif filename.endwith(".png"):
@@ -514,7 +515,8 @@ class Flag(resource.Resource):
         filename = pkg_resources.resource_filename("deluge",
                                                    os.path.join(*path))
         if os.path.exists(filename):
-            request.setHeader("cache-control", "public, must-revalidate, max-age=86400")
+            request.setHeader("cache-control",
+                              "public, must-revalidate, max-age=86400")
             request.setHeader("content-type", "image/png")
             data = open(filename, "rb")
             request.setResponseCode(http.OK)
@@ -522,6 +524,16 @@ class Flag(resource.Resource):
         else:
             request.setResponseCode(http.NOT_FOUND)
             return ""
+
+class Icons(resource.Resource):
+    def getChild(self, path, request):
+        request.icon = path
+        return self
+    
+    def render(self, request):
+        headers = {}
+        print request.icon
+        return ""
 
 class TopLevel(resource.Resource):
     addSlash = True
