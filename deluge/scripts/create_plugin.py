@@ -9,12 +9,14 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 
 from optparse import OptionParser
 import os
+import deluge.common
 parser = OptionParser()
 parser.add_option("-n", "--name", dest="name",help="plugin name")
 parser.add_option("-p", "--basepath", dest="path",help="base path")
 parser.add_option("-a", "--author-name", dest="author_name",help="author name,for the GPL header")
 parser.add_option("-e", "--author-email", dest="author_email",help="author email,for the GPL header")
 parser.add_option("-u", "--url", dest="url", help="Homepage URL")
+parser.add_option("-c", "--config", dest="configdir", help="location of deluge configuration")
 
 
 (options, args) = parser.parse_args()
@@ -41,6 +43,9 @@ def create_plugin():
         print "basepath does not exist"
         return
 
+    if not options.configdir:
+        options.configdir = deluge.common.get_default_config_dir()
+
     name = options.name.replace(" ", "_")
     safe_name = name.lower()
     plugin_base = os.path.realpath(os.path.join(options.path, name))
@@ -58,7 +63,8 @@ def create_plugin():
             "safe_name":safe_name,
             "filename":filename,
             "plugin_base":plugin_base,
-            "url": options.url
+            "url": options.url,
+            "configdir": options.configdir
         }
 
         filename = os.path.join(path, filename)
@@ -350,7 +356,7 @@ cd %(plugin_base)s
 mkdir temp
 export PYTHONPATH=./temp
 python setup.py build develop --install-dir ./temp
-cp ./temp/%(name)s.egg-link ~/.config/deluge/plugins
+cp ./temp/%(name)s.egg-link %(configdir)s/plugins
 rm -fr ./temp
 """
 
