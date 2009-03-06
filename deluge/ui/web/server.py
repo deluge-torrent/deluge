@@ -26,6 +26,7 @@ import os
 import time
 import locale
 import shutil
+import signal
 import urllib
 import gettext
 import hashlib
@@ -39,7 +40,7 @@ from twisted.web import http, resource, server, static
 
 from mako.template import Template as MakoTemplate
 
-from deluge import common
+from deluge import common, component
 from deluge.configmanager import ConfigManager
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
@@ -67,24 +68,16 @@ current_dir = os.path.dirname(__file__)
 
 CONFIG_DEFAULTS = {
     "port": 8112,
-    "button_style": 2,
-    "auto_refresh": False,
-    "auto_refresh_secs": 10,
-    "template": "white",
+    "template": "slate",
     "pwd_salt": "2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
     "pwd_md5": ".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
-    "cache_templates": True,
-    "connections": [],
-    "daemon": "http://localhost:58846",
     "base": "",
-    "disallow": {},
     "sessions": [],
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
     "show_keyword_search": False,
     "show_sidebar": True,
-    "https": False,
-    "refresh_secs": 10
+    "https": False
 }
 
 DEFAULT_HOST = "127.0.0.1"
@@ -101,7 +94,6 @@ HOSTLIST_COL_USER = 4
 HOSTLIST_COL_PASS = 5
 HOSTLIST_COL_VERSION = 6
 
-config = ConfigManager("webui06.conf", CONFIG_DEFAULTS)
 hostlist = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
 
 def rpath(path):
@@ -126,7 +118,7 @@ class JSONException(Exception):
         self.inner_exception = inner_exception
         Exception.__init__(self, str(inner_exception))
 
-class JSON(resource.Resource):
+class JSON(resource.Resource, component.Component):
     """
     A Twisted Web resource that exposes a JSON-RPC interface for web clients
     to use.
@@ -134,6 +126,7 @@ class JSON(resource.Resource):
     
     def __init__(self):
         resource.Resource.__init__(self)
+        component.Component.__init__(self, "JSON")
         self._remote_methods = []
         self._local_methods = {
             "web.update_ui": self.update_ui,
@@ -379,6 +372,7 @@ class JSON(resource.Resource):
     def login(self, password):
         """Method to allow the webui to authenticate
         """
+        config = component.get("DelugeWeb").config
         m = hashlib.md5()
         m.update(config['pwd_salt'])
         m.update(password)
@@ -558,10 +552,31 @@ class TopLevel(resource.Resource):
         request.setHeader("content-type", "text/html; charset=utf-8")
         return template.render()
 
-class DelugeWeb:
+class DelugeWeb(component.Component):
     def __init__(self):
+        super(DelugeWeb, self).__init__("DelugeWeb")
         self.site = server.Site(TopLevel())
-        self.port = config["port"]
+        self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
+        self.port = self.config["port"]
+        
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
+        if not common.windows_check():
+            signal.signal(signal.SIGHUP, self.shutdown)
+        else:
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT
+            from win32con import CTRL_SHUTDOWN_EVENT
+            def win_handler(ctrl_type):
+                log.debug("ctrl_type: %s", ctrl_type)
+                if ctrl_type == CTRL_CLOSE_EVENT or \
+                   ctrl_type == CTRL_SHUTDOWN_EVENT:
+                    self.__shutdown()
+                    return 1
+            SetConsoleCtrlHandler(win_handler)
+
+    def shutdown(self):
+        self.config.save()
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()

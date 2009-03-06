@@ -24,9 +24,16 @@
 
 from twisted.internet import reactor
 
+
 class WebUI:
     def __init__(self, args):
-        import server        
+        import os
+        import server
+        print "Starting server in PID %s." % os.getpid()
         deluge_web = server.DelugeWeb()
         reactor.listenTCP(deluge_web.port, deluge_web.site)
+        
+        print "serving on 0.0.0.0:%(port)s view at http://127.0.0.1:%(port)s" % {
+            "port": deluge_web.port
+        }
         reactor.run()
