@@ -537,7 +537,6 @@ class TopLevel(resource.Resource):
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
-        self.putChild("test", static.File(rpath("test.html")))
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
     
