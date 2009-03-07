@@ -63,5 +63,5 @@ class UI:
                 ui = ConsoleUI(ui_args).run()
         except ImportError, e:
             log.exception(e)
-            log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
+            log.error("Unable to start the requested UI: %s.  Please examine the above traceback for more information on what you're missing.  You may also select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
             sys.exit(0)
