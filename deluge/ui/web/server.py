@@ -35,6 +35,7 @@ import tempfile
 import pkg_resources
 
 from twisted.application import service, internet
+from twisted.internet import reactor
 from twisted.internet.defer import Deferred
 from twisted.web import http, resource, server, static
 
@@ -69,8 +70,8 @@ current_dir = os.path.dirname(__file__)
 CONFIG_DEFAULTS = {
     "port": 8112,
     "template": "slate",
-    "pwd_salt": "2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
-    "pwd_md5": ".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
+    "pwd_salt": u"2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
+    "pwd_md5": u".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
     "base": "",
     "sessions": [],
     "sidebar_show_zero": False,
@@ -585,9 +586,19 @@ class DelugeWeb(component.Component):
                     self.__shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
+    
+    def start(self):
+        print "Starting server in PID %s." % os.getpid()
+        reactor.listenTCP(self.port, self.site)
+        print "serving on 0.0.0.0:%(port)s view at http://127.0.0.1:%(port)s" % {
+            "port": self.port
+        }
+        reactor.run()
 
-    def shutdown(self):
+    def shutdown(self, *args):
+        log.info("Shutting down webserver")
         self.config.save()
+        reactor.stop()
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()
@@ -596,7 +607,5 @@ if __name__ == "__builtin__":
     i = internet.TCPServer(deluge_web.port, deluge_web.site)
     i.setServiceParent(sc)
 elif __name__ == "__main__":
-    from twisted.internet import reactor
     deluge_web = DelugeWeb()
-    reactor.listenTCP(deluge_web.port, deluge_web.site)
-    reactor.run()
+    deluge_web.start()
