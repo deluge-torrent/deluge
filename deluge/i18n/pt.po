@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-08 14:19+0000\n"
-"Last-Translator: Tiago Silva <Unknown>\n"
+"PO-Revision-Date: 2009-03-04 23:09+0000\n"
+"Last-Translator: test666 <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-02-10 00:12+0000\n"
+"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -50,7 +50,7 @@ msgstr "KiB/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
-msgstr "Envios:\t"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
@@ -235,11 +235,11 @@ msgstr "<b>Largura de Banda</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
-msgstr "Adicionar em estado _Pausado"
+msgstr "Adicionar em Estado _Pausado"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
-msgstr "Dar Prioridade às Primeiras/Últimas partes"
+msgstr "Dar Prioridade às Primeiras/Últimas Partes"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2524
@@ -495,7 +495,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
-msgstr "TOS Byte Pare:"
+msgstr "TOS Byte do Par:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:838
 msgid "0x00"
@@ -1000,7 +1000,7 @@ msgstr "Servidor:"
 #: deluge/ui/webui/config_tabs_deluge.py:93
 #: deluge/ui/webui/scripts/template_strings.py:68
 msgid "None"
-msgstr "Nenhum(a)"
+msgstr "Nenhum"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3971
 msgid "SSL"
@@ -1220,7 +1220,7 @@ msgstr "Adicionar este torrent à sessão"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
 msgid "Enter Remote Path"
-msgstr "Insira uma Localização Remota"
+msgstr "Inserir Localização Remota"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
 msgid "<b>Remote Path</b>"
@@ -1460,7 +1460,7 @@ msgstr "<b>Pares:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:943
 msgid "<b>Seeders:</b>"
-msgstr "<b>Sementes:</b>"
+msgstr "Semeadores:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:961
 msgid "<b>Pieces:</b>"
@@ -1477,7 +1477,7 @@ msgstr "<b>Velocidade:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1046
 msgid "<b>Next Announce:</b>"
-msgstr "<b>Próximo anúncio:</b>"
+msgstr "<b>Próximo Anúncio:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1065
 msgid "<b>Share Ratio:</b>"
@@ -1533,7 +1533,7 @@ msgstr "_Detalhes"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
-msgstr "_Ficheiros"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
@@ -1601,7 +1601,7 @@ msgstr "<i>Versão Disponível:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2495
 msgid "<i>Current Version:</i>"
-msgstr "<i>Versão Actual:</i>"
+msgstr "<i>Versão em Uso:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2517
 msgid "Do not show this dialog in the future"
@@ -1638,7 +1638,7 @@ msgstr "Erro"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
-msgstr ""
+msgstr "Erro ao definir as opções de etiqueta"
 
 #: deluge/plugins/label/label/webui.py:123
 msgid "apply_max"
@@ -1950,12 +1950,12 @@ msgstr "Deluge"
 #: deluge/ui/gtkui/systemtray.py:197
 #: deluge/ui/webui/scripts/template_strings.py:37
 msgid "Down"
-msgstr "Descer"
+msgstr "Receber"
 
 #: deluge/ui/gtkui/systemtray.py:198
 #: deluge/ui/webui/scripts/template_strings.py:116
 msgid "Up"
-msgstr "Subir"
+msgstr "Enviar"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"

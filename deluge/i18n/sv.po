@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-01-24 22:33+0000\n"
-"Last-Translator: Christian Widell <Christian_widell@hotmail.com>\n"
+"PO-Revision-Date: 2009-03-01 21:24+0000\n"
+"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-02-10 00:12+0000\n"
+"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -155,11 +155,11 @@ msgstr "Namn:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
-msgstr "Lägg till torrents"
+msgstr "Lägg till torrentfiler"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
-msgstr "<big><b>Lägg till torrentss</b></big>"
+msgstr "<big><b>Lägg till torrentfiler</b></big>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
@@ -185,7 +185,7 @@ msgstr "<b>Torrent-filer</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
-msgstr "Fi_ler"
+msgstr "Fil_er"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:126
@@ -492,6 +492,8 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"TOS byte inställd i IP-huvudet för varje paket skickat till klienter "
+"(inklusive webbdistributörer).  Förväntar ett hex-värde."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
@@ -662,10 +664,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Om kryssad kommer estimerad TCP/IP-overhead att tas från frekvensgränserna "
+"för att undvika att gränserna överstigs med totala trafiken"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Frekvensgräns för IP-overhead"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
@@ -736,7 +740,7 @@ msgstr "Ta fram dialog till fokus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1847
 msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Lägg till torrents dialog</b>"
+msgstr "<b>Lägg till torrentfiler</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
 msgid "Enable system tray icon"
@@ -980,7 +984,7 @@ msgstr "Blinkande informationsfältikon."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
 msgid "Not available on Windows"
-msgstr ""
+msgstr "Inte tillgängligt på Windows"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
@@ -1368,12 +1372,12 @@ msgstr "Community"
 #: deluge/ui/gtkui/glade/main_window.glade:313
 #: deluge/ui/webui/scripts/template_strings.py:9
 msgid "Add torrent"
-msgstr "Lägg Till Torrent"
+msgstr "Lägg till torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:314
 #: deluge/ui/webui/scripts/template_strings.py:7
 msgid "Add Torrent"
-msgstr "Lägg Till Torrent"
+msgstr "Lägg till torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:327
 #: deluge/ui/webui/scripts/template_strings.py:88
@@ -1405,7 +1409,7 @@ msgstr "Flytta torrent-fil uppåt i kön"
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
-msgstr "Kö upp"
+msgstr "Upp i kö"
 
 #: deluge/ui/gtkui/glade/main_window.glade:400
 msgid "Queue Torrent Down"
@@ -1414,7 +1418,7 @@ msgstr "Flytta torrent-fil nedåt i kön"
 #: deluge/ui/gtkui/glade/main_window.glade:401
 #: deluge/ui/webui/register_menu.py:48
 msgid "Queue Down"
-msgstr "Kön Nere"
+msgstr "Ner i kö"
 
 #: deluge/ui/gtkui/glade/main_window.glade:551
 msgid "_Expand All"
@@ -1543,7 +1547,7 @@ msgstr "_Filer"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "_Peers"
+msgstr "_Klienter"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -1644,7 +1648,7 @@ msgstr "Fel"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
-msgstr ""
+msgstr "Fel vid inställning av etikettalternativ"
 
 #: deluge/plugins/label/label/webui.py:123
 msgid "apply_max"
@@ -1862,7 +1866,7 @@ msgstr "Sändningshastighet"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Protokolltrafik hämtning/sändning"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
@@ -1886,12 +1890,12 @@ msgstr "Annan..."
 #: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/systemtray.py:325
 #: deluge/ui/gtkui/menubar.py:407
 msgid "Set Maximum Download Speed"
-msgstr "Sätt maximal nedladdningshastighet"
+msgstr "Ställ in maximal hämtningshastighet"
 
 #: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
-msgstr "Sätt Maximal Uppladdningshastighet"
+msgstr "Ställ in maximal sändningshastighet"
 
 #: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
 msgid "Set Maximum Connections"
@@ -2008,7 +2012,7 @@ msgstr "Välj en mapp att flytta filer till"
 
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
-msgstr "Sätt maximalt antal uppladdningar"
+msgstr "Ställ in maximalt antal sändningar"
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2050,10 +2054,10 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"Detta email vill informera dig om att Deluge är klar med att ladda ner %s "
-",som inkluderar %i filer.\n"
-"För att inte längre ta emot dessa meddelanden, stäng av emailnotifikation i "
-"Delugeinställningarna.\n"
+"Detta meddelande vill informera dig om att Deluge nu är klar med att hämta "
+"%s, som inkluderar %i filer.\n"
+"Stäng av e-postnotifieringen i Deluge-inställningarna om du inte längre vill "
+"få dessa meddelanden.\n"
 "\n"
 "Tack,\n"
 "Deluge"
@@ -2111,7 +2115,7 @@ msgstr "Tracker"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
-msgstr "Nerladdningar"
+msgstr "Hämtningar"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Network"
@@ -2447,7 +2451,7 @@ msgstr "Maximalt antal anslutningsförsök per sekund"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Frekvensgräns för IP-overhead"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2820,7 +2824,7 @@ msgstr "... och ta bor alla filer"
 
 #: deluge/ui/webui/scripts/template_strings.py:3
 msgid "... and delete Downloaded files"
-msgstr "... och ta bort nedladdade filer"
+msgstr "... och ta bort hämtade filer"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "... and delete Torrent file"
@@ -2872,7 +2876,7 @@ msgstr "Anslutningsgräns"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "D/L Speed Limit"
-msgstr ""
+msgstr "Hastighetsgräns för hämtning"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"
@@ -2904,7 +2908,7 @@ msgstr "Diskutrymme"
 
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Do not download"
-msgstr "Ladda inte ner"
+msgstr "Hämta inte"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Downloaded"
@@ -3088,7 +3092,7 @@ msgstr "Sant"
 
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
-msgstr ""
+msgstr "Hastighetsgräns för sändning"
 
 #: deluge/ui/webui/scripts/template_strings.py:118
 msgid "Update"

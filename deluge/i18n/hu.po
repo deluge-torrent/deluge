@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-01 08:48+0000\n"
-"Last-Translator: Gábor Balázs <badophb@yahoo.com>\n"
+"PO-Revision-Date: 2009-02-28 12:57+0000\n"
+"Last-Translator: Mihály MÉSZÁROS <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-02-10 00:12+0000\n"
+"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -737,7 +737,7 @@ msgstr "Ikon megjelenítése az értesítési területen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
 msgid "Minimize to tray on close"
-msgstr "Minimalizáskor menjen az értesítési területre"
+msgstr "Minimalizáláskor menjen az értesítési területre"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
 msgid "Start in tray"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "Yes, please send anonymous statistics"
-msgstr "Igen, küldök anoním statisztikákat."
+msgstr "Igen, küldök anonim statisztikákat."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
 msgid "<b>System Information</b>"
@@ -1278,7 +1278,7 @@ msgstr "Mindet _Elindít"
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
-msgstr "Kilépés & Kiszolgáló Letállítása"
+msgstr "Kilépés & Kiszolgáló leállítása"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
@@ -2246,7 +2246,7 @@ msgstr "Részletek"
 #: deluge/ui/webui/register_menu.py:41
 #: deluge/ui/webui/scripts/template_strings.py:48
 msgid "Files"
-msgstr "Fáljok"
+msgstr "Fájlok"
 
 #: deluge/ui/webui/register_menu.py:43
 msgid "Add"
@@ -2373,7 +2373,7 @@ msgstr "HTTP W/ Auth"
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
-msgstr "Tipus"
+msgstr "Típus"
 
 #: deluge/ui/webui/config_tabs_deluge.py:96
 msgid "Host"

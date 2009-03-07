@@ -1,8 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -15,6 +10,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -1530,7 +1527,8 @@ msgid "Remove Torrent?"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2238
-msgid "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2289
@@ -1888,8 +1886,8 @@ msgid ""
 "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
 "Public License for more details. You should have received a copy of the GNU "
-"General Public License along with this program; if not, see <http://www.gnu."
-"org/licenses>."
+"General Public License along with this program; if not, see "
+"<http://www.gnu.org/licenses>."
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:197
@@ -1983,8 +1981,8 @@ msgstr ""
 #: deluge/ui/gtkui/notification.py:96
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %"
-"s ,             which includes %i files.\n"
+"This email is to inform you that Deluge has finished downloading %s ,        "
+"     which includes %i files.\n"
 "To stop receiving these alerts, simply turn off             email "
 "notification in Deluge's preferences.\n"
 "\n"
@@ -2454,7 +2452,8 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:299
 #: deluge/ui/webui/lib/newforms_portable/fields.py:560
-msgid "Select a valid choice. That choice is not one of the available choices."
+msgid ""
+"Select a valid choice. That choice is not one of the available choices."
 msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
@@ -2495,7 +2494,8 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:125
 #, python-format
-msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgid ""
+"Ensure this value has at least %(min)d characters (it has %(length)d)."
 msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
@@ -2533,7 +2533,8 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
-msgid "Ensure that there are no more than %s digits before the decimal point."
+msgid ""
+"Ensure that there are no more than %s digits before the decimal point."
 msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263

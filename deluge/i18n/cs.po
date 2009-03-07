@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-02 23:06+0000\n"
-"Last-Translator: ToTo <Unknown>\n"
+"PO-Revision-Date: 2009-03-06 19:55+0000\n"
+"Last-Translator: Rinu <rinu@seznam.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-02-10 00:12+0000\n"
+"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -658,6 +658,8 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Je-li zaškrtnuto, nebude TCP/IP režie přenosu započítána do celkových "
+"limitů, může dojít k jejich prekročení."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
@@ -1310,11 +1312,11 @@ msgstr "_Panel nástrojů"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
-msgstr "_Bočnípanel"
+msgstr "_Boční panel"
 
 #: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "Status_bar"
-msgstr "_Statuspanel"
+msgstr "_Status panel"
 
 #: deluge/ui/gtkui/glade/main_window.glade:176
 msgid "T_abs"
@@ -1845,11 +1847,11 @@ msgstr "Spojení"
 
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
-msgstr "Rychlost stahování"
+msgstr "Stahování"
 
 #: deluge/ui/gtkui/statusbar.py:154
 msgid "Upload Speed"
-msgstr "Rychlost odesílání"
+msgstr "Odesílání"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
@@ -1933,12 +1935,13 @@ msgstr ""
 "Tento program je volný software; můžete jej šířit a modifikovat podle "
 "ustanovení Obecné veřejné licence GNU, vydávané Free Software Foundation; a "
 "to buď verze 3 této licence anebo (podle vašeho uvážení) kterékoli pozdější "
-"verze. Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ "
-"JAKÉKOLI ZÁRUKY; neposkytují se ani odvozené záruky PRODEJNOSTI anebo "
-"VHODNOSTI PRO URČITÝ ÚČEL. Další podrobnosti hledejte v Obecné veřejné "
-"licenci GNU. Kopii Obecné veřejné licence GNU by jste měl obdržet spolu s "
-"tímto programem; pokud se tak nestalo, navštivte "
-"<http://www.gnu.org/licenses>."
+"verze. Tento program je šířen v naději, že bude užitečný, avšak BEZ JAKÉKOLI "
+"ZÁRUKY; neposkytují se ani odvozené záruky PRODEJNOSTI anebo VHODNOSTI PRO "
+"URČITÝ ÚČEL. Další podrobnosti hledejte v Obecné veřejné licenci GNU. Kopii "
+"Obecné veřejné licence GNU by jste měli obdržet spolu s tímto programem; "
+"pokud se tak nestalo, navštivte <http://www.gnu.org/licenses>. Tento překlad "
+"neni závazný, GNU General Public License platí pouze v originále, proto "
+"tento překlad berte pouze jako orientační."
 
 #: deluge/ui/gtkui/systemtray.py:197
 msgid "Deluge"
@@ -2171,7 +2174,7 @@ msgstr "Peerů"
 #: deluge/ui/gtkui/torrentview.py:163
 #: deluge/ui/webui/scripts/template_strings.py:41
 msgid "ETA"
-msgstr "Zbývající čas"
+msgstr "Zbývá"
 
 #: deluge/ui/gtkui/torrentview.py:167
 #: deluge/ui/webui/scripts/template_strings.py:85
@@ -2209,7 +2212,7 @@ msgstr "∞"
 
 #: deluge/ui/webui/config_forms.py:90
 msgid "These changes were saved"
-msgstr "Tyto změny byli uloženy"
+msgstr "Tyto změny byly uloženy"
 
 #: deluge/ui/webui/config_forms.py:96
 msgid "Correct the errors above and try again"
@@ -2307,7 +2310,7 @@ msgstr "Náhodný"
 
 #: deluge/ui/webui/config_tabs_deluge.py:68
 msgid "Extra's"
-msgstr ""
+msgstr "Extra"
 
 #: deluge/ui/webui/config_tabs_deluge.py:69
 msgid "Mainline DHT"
@@ -2550,13 +2553,13 @@ msgstr "Vlož platnou hodnotu."
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-msgstr ""
+msgstr "Zajisti, aby měla hodnota nejvíce %(max)d znaků (má %(length)d)."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:125
 #, python-format
 msgid ""
 "Ensure this value has at least %(min)d characters (it has %(length)d)."
-msgstr ""
+msgstr "Zajisti, aby měla hodnota nejméně %(min)d znaků (má %(length)d)."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
@@ -2584,18 +2587,18 @@ msgstr "Vložte číslo."
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
 msgid "Ensure that there are no more than %s digits in total."
-msgstr "Zajisěte že zde není víc jak %s číslic."
+msgstr "Zajisti aby zde nebylo víc jak %s číslic."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:214
 #, python-format
 msgid "Ensure that there are no more than %s decimal places."
-msgstr "Zajisěte že zde není víc jak %s desetiných míst."
+msgstr "Zajisti aby zde nebylo víc jak %s desetiných míst."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
 msgid ""
 "Ensure that there are no more than %s digits before the decimal point."
-msgstr "Zajisěte že zde není víc jak %s číslic před desetinou čárkou."
+msgstr "Zajisti aby zde nebylo víc jak %s číslic před desetinou čárkou."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
@@ -2617,21 +2620,23 @@ msgstr "Vložte platnou e-mailovou adresu."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:433
 msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
+msgstr "Žádný soubor nebyl nahrán. Zkontroluj znakovou sadu stránky."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:434
 msgid "No file was submitted."
-msgstr ""
+msgstr "Žádný soubor nebyl nahrán."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:435
 msgid "The submitted file is empty."
-msgstr ""
+msgstr "Nahraný soubor je prázdný."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:459
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Nahraj správný obrázek. Soubor který jsi nahrál není obrázek nebo je "
+"poškozený."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:497
 msgid "Enter a valid URL."
@@ -2639,12 +2644,12 @@ msgstr "Vložte platné URL."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:498
 msgid "This URL appears to be a broken link."
-msgstr "Toto URL se zdá být rozbité."
+msgstr "Tato URL nikam neodkazuje."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:599
 #, python-format
 msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
+msgstr "Vyber správnou volbu. %(value)s není ve výběru."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:780
 msgid "Enter a valid IPv4 address."
@@ -2656,7 +2661,7 @@ msgstr "obnovení musí být > 0"
 
 #: deluge/ui/webui/pages.py:316
 msgid "no uri"
-msgstr ""
+msgstr "žádná url"
 
 #: deluge/ui/webui/torrent_move.py:37
 msgid "Move To"
@@ -2693,7 +2698,7 @@ msgstr "Automatická obnova (sekundy)"
 
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
-msgstr ""
+msgstr "Ulož šablonu do mezipaměti"
 
 #: deluge/ui/webui/config_tabs_webui.py:57
 msgid "Server"
@@ -2710,12 +2715,12 @@ msgstr "Https"
 #: deluge/ui/webui/config_tabs_webui.py:70
 #, python-format
 msgid "Certificate not found at '%s'"
-msgstr ""
+msgstr "Certifikát nenalezen na '%s'"
 
 #: deluge/ui/webui/config_tabs_webui.py:73
 #, python-format
 msgid "Key not found at '%s'"
-msgstr ""
+msgstr "Klíč nenalezen na '%s'"
 
 #: deluge/ui/webui/config_tabs_webui.py:84
 msgid "Current Password"
@@ -2903,7 +2908,7 @@ msgstr "Čas"
 
 #: deluge/ui/webui/scripts/template_strings.py:46
 msgid "False"
-msgstr "Nepravda"
+msgstr "Ne"
 
 #: deluge/ui/webui/scripts/template_strings.py:47
 msgid "File"
@@ -2911,7 +2916,7 @@ msgstr "Soubor"
 
 #: deluge/ui/webui/scripts/template_strings.py:49
 msgid "Filter on a keyword"
-msgstr ""
+msgstr "Filtruj podle klíčového slova"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Force Recheck"
@@ -2935,7 +2940,7 @@ msgstr "Vysoká priorita"
 
 #: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Highest priority"
-msgstr "Nejvyžší priorita"
+msgstr "Nejvyšší priorita"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Keyword"
@@ -3071,7 +3076,7 @@ msgstr "Stav trackeru"
 
 #: deluge/ui/webui/scripts/template_strings.py:113
 msgid "True"
-msgstr "Pravda"
+msgstr "Ano"
 
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
