@@ -22,8 +22,6 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-import sys
-
 import deluge.configmanager
 
 from deluge.log import LOG as log
@@ -63,6 +61,15 @@ class UI:
                 from deluge.ui.console.main import ConsoleUI
                 ui = ConsoleUI(ui_args).run()
         except ImportError, e:
-            log.exception(e)
-            log.error("Unable to start the requested UI: %s.  Please examine the above traceback for more information on what you're missing.  You may also select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
-            sys.exit(0)
+            import sys
+            import traceback
+            error_type, error_value, tb = sys.exc_info()
+            stack = traceback.extract_tb(tb)
+            last_frame = stack[-1]
+            if last_frame[0] == __file__:
+                log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' option or alternatively use the '-s' option to select a different default UI.", selected_ui)
+            else:
+                log.exception(e)
+                log.error("There was an error whilst launching the request UI: %s", selected_ui)
+                log.error("Look at the traceback above for more information.")
+            sys.exit(1)
