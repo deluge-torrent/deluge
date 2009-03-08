@@ -1,4 +1,4 @@
-=== Deluge 1.1.4 - (In Development) ===
+=== Deluge 1.1.4 - (08 March 2009) ===
 ==== Core ====
   * Fix displaying file errors when the torrent isn't paused
   * Fix issue where torrents being check would get removed due to "stop at ratio" rules
