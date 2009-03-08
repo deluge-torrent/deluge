@@ -191,7 +191,14 @@ class OptionsDialog(object):
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options[id]))
 
-        self.glade.get_widget("move_completed_path").set_filename(options["move_completed_path"])
+        if client.is_localhost():
+            self.glade.get_widget("move_completed_path").set_filename(options["move_completed_path"])
+            self.glade.get_widget("move_completed_path").show()
+            self.glade.get_widget("move_completed_path_entry").hide()
+        else:
+            self.glade.get_widget("move_completed_path_entry").set_text(options["move_completed_path"])
+            self.glade.get_widget("move_completed_path_entry").show()
+            self.glade.get_widget("move_completed_path").hide()
 
         self.glade.get_widget("auto_add_trackers").get_buffer().set_text("\n".join(options["auto_add_trackers"]))
 
@@ -206,7 +213,11 @@ class OptionsDialog(object):
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
 
-        options["move_completed_path"] = self.glade.get_widget("move_completed_path").get_filename()
+        if client.is_localhost():
+            options["move_completed_path"] = self.glade.get_widget("move_completed_path").get_filename()
+        else:
+            options["move_completed_path"] = self.glade.get_widget("move_completed_path_entry").get_text()
+
         buff = self.glade.get_widget("auto_add_trackers").get_buffer() #sometimes I hate gtk...
         tracker_lst =  buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split("\n")
         options["auto_add_trackers"] = [x for x in tracker_lst if x] #filter out empty lines.
