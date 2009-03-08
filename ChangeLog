@@ -11,6 +11,9 @@
   * Fix #817 email notifications fail to substitute format strings
   * Change SignalReceiver to use non-blocking socket
 
+==== Plugins ====
+  * Label: Fix setting 'Move on completed' folder when connected to a remote daemon
+
 === Deluge 1.1.3 - (15 February 2009) ===
 ==== Core ====
   * Fix issue where checking queue would stop
