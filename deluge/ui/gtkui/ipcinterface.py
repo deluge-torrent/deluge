@@ -46,7 +46,7 @@ class IPCInterface(component.Component):
             if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
                 # We already have a running session, send a XMLRPC to the existing session
                 config = ConfigManager("gtkui.conf")
-                uri = "http://localhost:" + str(config["signal_port"])
+                uri = "http://127.0.0.1:" + str(config["signal_port"])
                 import deluge.xmlrpclib as xmlrpclib
                 rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
                 rpc.emit_signal("args_from_external", args)
