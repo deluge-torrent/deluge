@@ -3,6 +3,7 @@
   * Fix displaying file errors when the torrent isn't paused
   * Fix issue where torrents being check would get removed due to "stop at ratio" rules
   * Fix #790 tracker hosts not correct for some .uk trackers
+  * Make sure config files, resume data and state are fsync'd when saved.  This should help prevent data losses on crashes/improper shutdowns.
 
 ==== GtkUI ====
   * Fix hiding bottom pane when no tabs are enabled upon restart

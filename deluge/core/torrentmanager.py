@@ -540,6 +540,8 @@ class TorrentManager(component.Component):
                 os.path.join(self.config["state_location"], "torrents.state.new"),
                                                                         "wb")
             cPickle.dump(state, state_file)
+            state_file.flush()
+            os.fsync(state_file.fileno())
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")

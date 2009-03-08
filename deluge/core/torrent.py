@@ -762,6 +762,8 @@ class Torrent:
             log.debug("Saving fastresume file: %s", path)
             fastresume = open(path, "wb")
             fastresume.write(resume_data)
+            fastresume.flush()
+            os.fsync(fastresume.fileno())
             fastresume.close()
         except IOError:
             log.warning("Error trying to save fastresume file")

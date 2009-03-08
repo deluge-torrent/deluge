@@ -264,11 +264,24 @@ class Config(object):
 
         self.__save_timer = None
 
+        # Save the new config and make sure it's written to disk
         try:
             log.debug("Saving new config file %s", filename + ".new")
-            pickle.dump(self.__config, open(filename + ".new", "wb"))
+            f = open(filename + ".new", "w")
+            pickle.dump(self.__config, f)
+            f.flush()
+            os.fsync(f.fileno())
+            f.close()
         except Exception, e:
             log.error("Error writing new config file: %s", e)
+            return
+
+        # Make a backup of the old config
+        try:
+            log.debug("Backing up old config file to %s~", filename)
+            shutil.move(filename, filename + "~")
+        except Exception, e:
+            log.error("Error backing up old config..")
             return
 
         # The new config file has been written successfully, so let's move it over
