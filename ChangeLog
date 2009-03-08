@@ -2,6 +2,7 @@
 ==== Core ====
   * Fix displaying file errors when the torrent isn't paused
   * Fix issue where torrents being check would get removed due to "stop at ratio" rules
+  * Fix #790 tracker hosts not correct for some .uk trackers
 
 ==== GtkUI ====
   * Fix hiding bottom pane when no tabs are enabled upon restart
@@ -9,7 +10,6 @@
   * Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
   * Fix #655 issue where default torrent options wouldn't be set for new torrents added to the addtorrentdialog
   * Fix #817 email notifications fail to substitute format strings
-  * Change SignalReceiver to use non-blocking socket
 
 ==== Plugins ====
   * Label: Fix setting 'Move on completed' folder when connected to a remote daemon
