@@ -282,7 +282,6 @@ class Config(object):
             shutil.move(filename, filename + "~")
         except Exception, e:
             log.error("Error backing up old config..")
-            return
 
         # The new config file has been written successfully, so let's move it over
         # the existing one.
