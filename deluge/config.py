@@ -243,7 +243,7 @@ class Config(object):
             self.__config.update(json.load(open(filename, "r")))
         except Exception, e:
             try:
-                self.__config.update(pickle.load(open(filename, "rb")))
+                self.__config.update(pickle.load(open(filename, "r")))
             except Exception, e:
                 log.warning("Unable to load config file: %s", filename)
 
