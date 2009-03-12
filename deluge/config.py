@@ -240,10 +240,10 @@ class Config(object):
         if not filename:
             filename = self.__config_file
         try:
-            self.__config.update(json.load(open(filename, "r")))
+            self.__config.update(json.load(open(filename, "rb")))
         except Exception, e:
             try:
-                self.__config.update(pickle.load(open(filename, "r")))
+                self.__config.update(pickle.load(open(filename, "rb")))
             except Exception, e:
                 log.warning("Unable to load config file: %s", filename)
 
@@ -261,7 +261,7 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            if self.__config == json.load(open(filename, "r")):
+            if self.__config == json.load(open(filename, "rb")):
                 # The config has not changed so lets just return
                 self.__save_timer = None
                 return
@@ -273,7 +273,7 @@ class Config(object):
         # Save the new config and make sure it's written to disk
         try:
             log.debug("Saving new config file %s", filename + ".new")
-            f = open(filename + ".new", "w")
+            f = open(filename + ".new", "wb")
             json.dump(self.__config, f, indent=2)
             f.flush()
             os.fsync(f.fileno())
