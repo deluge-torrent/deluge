@@ -244,10 +244,22 @@ function peer_progress(value) {
 	return String.format(tpl, progress, '', progress);
 }
 
+function sort_address(value) {
+	var m = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
+	var address = 0;
+	var parts = [m[1], m[2], m[3], m[4]];
+	$each(parts, function(part, index) {
+		part = parseInt(part);
+		address = address | part << ((3 - index) * 8);
+		alert("Total: " + address + "\nPart: " + part + "\nIndex: " + index + "\nCalc: " + (part << ((3 - index) * 8)));
+	});
+	return address;
+}
+
 Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
 	fields: [
 		{name: 'country'},
-		{name: 'address'},
+		{name: 'address', sortType: sort_address},
 		{name: 'client'},
 		{name: 'progress', type: 'float'},
 		{name: 'downspeed', type: 'int'},
