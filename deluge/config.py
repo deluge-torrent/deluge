@@ -237,7 +237,7 @@ class Config(object):
         if not filename:
             filename = self.__config_file
         try:
-            self.__config.update(pickle.load(open(filename, "rb")))
+            self.__config.update(pickle.load(open(filename, "r")))
         except Exception, e:
             log.warning("Unable to load config file: %s", filename)
 
@@ -255,7 +255,7 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            if self.__config == pickle.load(open(filename, "rb")):
+            if self.__config == pickle.load(open(filename, "r")):
                 # The config has not changed so lets just return
                 self.__save_timer = None
                 return
