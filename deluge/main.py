@@ -90,14 +90,6 @@ def start_ui():
         if not os.path.exists(deluge.common.get_default_config_dir()):
             os.makedirs(deluge.common.get_default_config_dir())
 
-    # Always log to a file in Windows
-    if deluge.common.windows_check() and not options.logfile:
-        if options.config:
-            options.logfile = os.path.join(options.config, "deluge.log")
-        else:
-            config_dir = deluge.common.get_default_config_dir()
-            options.logfile = os.path.join(config_dir, "deluge.log")
-
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
     if options.logfile:
