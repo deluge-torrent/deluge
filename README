@@ -53,6 +53,7 @@ Dependencies:
     pygame
     pygtk >= 2.10
     librsvg
+    xdg-utils
 
   Web:
     mako
