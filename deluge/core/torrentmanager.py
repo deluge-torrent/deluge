@@ -497,8 +497,7 @@ class TorrentManager(component.Component):
                 log.error("Torrent state file is either corrupt or incompatible!")
                 break
 
-        # Run the post_session_load plugin hooks
-        self.plugins.run_post_session_load()
+        component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""

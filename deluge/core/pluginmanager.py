@@ -39,13 +39,6 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
 
     def __init__(self, core):
         component.Component.__init__(self, "CorePluginManager")
-        self.core = core
-        # Set up the hooks dictionary
-        self.hooks = {
-            "post_torrent_add": [],
-            "post_torrent_remove": [],
-            "post_session_load": []
-        }
 
         self.status_fields = {}
 
@@ -66,15 +59,22 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
 
     def update_plugins(self):
         for plugin in self.plugins.keys():
-            try:
-                self.plugins[plugin].update()
-            except AttributeError:
-                # We don't care if this doesn't work
-                pass
+            if hasattr(self.plugins[plugin], "update"):
+                try:
+                    self.plugins[plugin].update()
+                except Exception, e:
+                    log.exception(e)
 
-    def get_core(self):
-        """Returns a reference to the core"""
-        return self.core
+    def get_status(self, torrent_id, fields):
+        """Return the value of status fields for the selected torrent_id."""
+        status = {}
+        for field in fields:
+            try:
+                status[field] = self.status_fields[field](torrent_id)
+            except KeyError:
+                log.warning("Status field %s is not registered with the\
+                    PluginManager.", field)
+        return status
 
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
@@ -89,61 +89,3 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             del self.status_fields[field]
         except:
             log.warning("Unable to deregister status field %s", field)
-
-    def get_status(self, torrent_id, fields):
-        """Return the value of status fields for the selected torrent_id."""
-        status = {}
-        for field in fields:
-            try:
-                status[field] = self.status_fields[field](torrent_id)
-            except KeyError:
-                log.warning("Status field %s is not registered with the\
-                    PluginManager.", field)
-        return status
-
-    def register_hook(self, hook, function):
-        """Register a hook function with the plugin manager"""
-        try:
-            self.hooks[hook].append(function)
-        except KeyError:
-            log.warning("Plugin attempting to register invalid hook.")
-
-    def deregister_hook(self, hook, function):
-        """Deregisters a hook function"""
-        try:
-            self.hooks[hook].remove(function)
-        except:
-            log.warning("Unable to deregister hook %s", hook)
-
-    def run_post_torrent_add(self, torrent_id):
-        """This hook is run after a torrent has been added to the session."""
-        log.debug("run_post_torrent_add")
-        for function in self.hooks["post_torrent_add"]:
-            function(torrent_id)
-
-    def run_post_torrent_remove(self, torrent_id):
-        """This hook is run after a torrent has been removed from the session.
-        """
-        log.debug("run_post_torrent_remove")
-        for function in self.hooks["post_torrent_remove"]:
-            function(torrent_id)
-
-    def run_post_session_load(self):
-        """This hook is run after all the torrents have been loaded into the
-        session from the saved state.  It is called prior to resuming the
-        torrents and they all will have a 'Paused' state."""
-        log.debug("run_post_session_load")
-        for function in self.hooks["post_session_load"]:
-            function()
-
-    def get_torrent_list(self):
-        """Returns a list of torrent_id's in the current session."""
-        return component.get("TorrentManager").get_torrent_list()
-
-    def block_ip_range(self, range):
-        """Blocks the ip range in the core"""
-        return self.core.export_block_ip_range(range)
-
-    def reset_ip_filter(self):
-        """Resets the ip filter"""
-        return self.core.export_reset_ip_filter()

@@ -140,6 +140,13 @@ class NewVersionAvailableEvent(DelugeEvent):
         """
         self._args = [new_release]
 
+class SessionStartedEvent(DelugeEvent):
+    """
+    Emitted when a session has started.  This typically only happens once when
+    the daemon is initially started.
+    """
+    pass
+
 class SessionPausedEvent(DelugeEvent):
     """
     Emitted when the session has been paused.

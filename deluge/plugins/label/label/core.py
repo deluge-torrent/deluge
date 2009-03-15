@@ -88,7 +88,7 @@ class Core(CorePluginBase):
         self.plugin.register_status_field("label", self._status_get_label)
 
         #__init__
-        core = self.plugin.get_core()
+        core = component.get("Core")
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
         #self.set_config_defaults()
@@ -99,9 +99,9 @@ class Core(CorePluginBase):
         self.torrent_labels = self.config["torrent_labels"]
 
         self.clean_initial_config()
-        #todo: register to torrent_added event.
-        self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
-        self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
+
+        component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
+        component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
         #register tree:
         component.get("FilterManager").register_tree_field("label", self.init_filter_dict)
@@ -110,8 +110,6 @@ class Core(CorePluginBase):
 
     def disable(self):
         self.plugin.deregister_status_field("label")
-        self.plugin.deregister_hook("post_torrent_add", self.post_torrent_add)
-        self.plugin.deregister_hook("post_torrent_remove", self.post_torrent_remove)
         component.get("FilterManager").deregister_tree_field("label")
 
     def update(self):

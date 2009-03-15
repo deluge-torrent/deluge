@@ -246,9 +246,6 @@ class Core(component.Component):
         except Exception, e:
             log.error("There was an error adding the torrent file %s", filename)
             log.exception(e)
-        else:
-            # Run the plugin hooks for 'post_torrent_add'
-            self.pluginmanager.run_post_torrent_add(torrent_id)
 
     @export()
     def add_torrent_url(self, url, options):
@@ -286,17 +283,11 @@ class Core(component.Component):
 
             torrent_id = self.torrentmanager.add(magnet=uri, options=option)
 
-            # Run the plugin hooks for 'post_torrent_add'
-            self.pluginmanager.run_post_torrent_add(torrent_id)
-
-
     @export()
     def remove_torrent(self, torrent_ids, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
         for torrent_id in torrent_ids:
-            if self.torrentmanager.remove(torrent_id, remove_data):
-                # Run the plugin hooks for 'post_torrent_remove'
-                self.pluginmanager.run_post_torrent_remove(torrent_id)
+            self.torrentmanager.remove(torrent_id, remove_data)
 
     @export()
     def get_stats(self):
