@@ -1,3 +1,10 @@
+=== Deluge 1.1.5 - (In Development) ===
+==== Core ====
+  * Fix config file saving when no current config file exists
+
+==== GtkUI ====
+  * Add 'Comments' field to the Details tab
+
 === Deluge 1.1.4 - (08 March 2009) ===
 ==== Core ====
   * Fix displaying file errors when the torrent isn't paused
