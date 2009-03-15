@@ -4,6 +4,7 @@
 
 ==== GtkUI ====
   * Add 'Comments' field to the Details tab
+  * Fix #841 maximum upload slots tooltip
 
 === Deluge 1.1.4 - (08 March 2009) ===
 ==== Core ====
