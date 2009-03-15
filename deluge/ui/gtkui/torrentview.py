@@ -305,8 +305,6 @@ class TorrentView(listview.ListView, component.Component):
                         except Exception, e:
                             log.debug("%s", e)
 
-        # Update the toolbar buttons just in case some state has changed
-        component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
 
         self.prev_status = status
@@ -431,7 +429,6 @@ class TorrentView(listview.ListView, component.Component):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
         component.get("TorrentDetails").update()
-        component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):

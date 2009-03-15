@@ -68,15 +68,10 @@ class ToolBar(component.Component):
 
         # Hide if necessary
         self.visible(self.config["show_toolbar"])
-        client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
-        client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
-        client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
-        client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
 
     def start(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
-        self.update_buttons()
 
     def stop(self):
         for widget in self.change_sensitivity:
@@ -133,19 +128,6 @@ class ToolBar(component.Component):
         self.toolbar.remove(widget)
 
     ### Callbacks ###
-    def on_torrentstatechanged_event(self, torrent_id, state):
-        if state == "Paused":
-            self.update_buttons()
-
-    def on_torrentresumed_event(self, torrent_id):
-        self.update_buttons()
-
-    def on_sessionpaused_event(self):
-        self.update_buttons()
-
-    def on_sessionresumed_event(self):
-        self.update_buttons()
-
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
         # Use the menubar's callback
@@ -183,57 +165,3 @@ class ToolBar(component.Component):
     def on_toolbutton_queue_down_clicked(self, data):
         log.debug("on_toolbutton_queue_down_clicked")
         component.get("MenuBar").on_menuitem_queue_down_activate(data)
-
-    def update_buttons(self, action=None, torrent_id=None):
-        if action == None:
-            # If all the selected torrents are paused, then disable the 'Pause'
-            # button.
-            # The same goes for the 'Resume' button.
-            pause = False
-            resume = False
-
-            selected = component.get('TorrentView').get_selected_torrents()
-            if not selected:
-                selected = []
-
-            for torrent in selected:
-                try:
-                    status = component.get("TorrentView").get_torrent_status(torrent)['state']
-                except KeyError, e:
-                    log.debug("Error getting torrent state: %s", e)
-                    continue
-                if status == "Paused" or status == "Error":
-                    resume = True
-                else:
-                    pause = True
-                if pause and resume:
-                    break
-
-            # Enable the 'Remove Torrent' button only if there's some selected
-            # torrent.
-            remove = (len(selected) > 0)
-
-            for name, sensitive in (("toolbutton_pause", pause),
-                                    ("toolbutton_resume", resume),
-                                    ("toolbutton_remove", remove)):
-                self.window.main_glade.get_widget(name).set_sensitive(sensitive)
-
-
-            return False
-
-        pause = False
-        resume = False
-        if action == "paused":
-            pause = False
-            resume = True
-        elif action == "resumed":
-            pause = True
-            resume = False
-        selected = component.get('TorrentView').get_selected_torrents()
-        if torrent_id == None or (torrent_id in selected and len(selected) == 1):
-            self.window.main_glade.get_widget("toolbutton_pause").set_sensitive(pause)
-            self.window.main_glade.get_widget("toolbutton_resume").set_sensitive(resume)
-        else:
-            self.update_buttons()
-
-        return False
