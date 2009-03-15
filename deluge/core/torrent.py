@@ -600,6 +600,14 @@ class Torrent:
             "upload_payload_rate": self.status.upload_payload_rate
         }
 
+        def ti_comment():
+            if self.handle.has_metadata():
+                try:
+                    return self.torrent_info.comment().decode("utf8", "ignore")
+                except UnicodeDecodeError:
+                    return self.torrent_info.comment()
+            return ""
+
         def ti_name():
             if self.handle.has_metadata():
                 try:
@@ -630,6 +638,7 @@ class Torrent:
             return 0
 
         fns = {
+            "comment": ti_comment,
             "eta": self.get_eta,
             "file_progress": self.get_file_progress,
             "is_seed": self.handle.is_seed,

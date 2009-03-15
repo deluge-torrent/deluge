@@ -317,7 +317,7 @@
                 <signal name="clicked" handler="on_toolbutton_add_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
@@ -329,17 +329,13 @@
                 <signal name="clicked" handler="on_toolbutton_remove_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
               <widget class="GtkSeparatorToolItem" id="separatortoolitem1">
                 <property name="visible">True</property>
               </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">False</property>
-              </packing>
             </child>
             <child>
               <widget class="GtkToolButton" id="toolbutton_pause">
@@ -352,7 +348,7 @@
                 <signal name="clicked" handler="on_toolbutton_pause_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
@@ -366,17 +362,13 @@
                 <signal name="clicked" handler="on_toolbutton_resume_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
               <widget class="GtkSeparatorToolItem" id="separatortoolitem2">
                 <property name="visible">True</property>
               </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">False</property>
-              </packing>
             </child>
             <child>
               <widget class="GtkToolButton" id="toolbutton_queue_up">
@@ -389,7 +381,7 @@
                 <signal name="clicked" handler="on_toolbutton_queue_up_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
@@ -403,7 +395,7 @@
                 <signal name="clicked" handler="on_toolbutton_queue_down_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
@@ -411,10 +403,6 @@
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
               </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">False</property>
-              </packing>
             </child>
             <child>
               <widget class="GtkToolButton" id="toolbutton_preferences">
@@ -426,7 +414,7 @@
                 <signal name="clicked" handler="on_toolbutton_preferences_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
@@ -439,7 +427,7 @@
                 <signal name="clicked" handler="on_toolbutton_connectionmanager_clicked"/>
               </widget>
               <packing>
-                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
           </widget>
@@ -482,7 +470,6 @@
                           <widget class="GtkTreeView" id="torrent_view">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="reorderable">True</property>
                             <property name="rules_hint">True</property>
                             <property name="enable_search">False</property>
                           </widget>
@@ -1253,8 +1240,9 @@
                     <child>
                       <widget class="GtkTable" id="table9">
                         <property name="visible">True</property>
-                        <property name="n_rows">7</property>
+                        <property name="n_rows">8</property>
                         <property name="n_columns">4</property>
+                        <property name="column_spacing">5</property>
                         <property name="row_spacing">2</property>
                         <child>
                           <placeholder/>
@@ -1267,6 +1255,36 @@
                         </child>
                         <child>
                           <placeholder/>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="summary_comments">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="wrap_mode">PANGO_WRAP_CHAR</property>
+                            <property name="selectable">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">4</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label27">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="ypad">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Comments:&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkLabel" id="summary_num_files">
@@ -1339,8 +1357,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">4</property>
-                            <property name="top_attach">6</property>
-                            <property name="bottom_attach">7</property>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -1353,8 +1371,8 @@
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">6</property>
-                            <property name="bottom_attach">7</property>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -1465,8 +1483,8 @@
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">5</property>
-                            <property name="bottom_attach">6</property>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -1481,8 +1499,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">4</property>
-                            <property name="top_attach">5</property>
-                            <property name="bottom_attach">6</property>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>

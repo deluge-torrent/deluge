@@ -2,6 +2,7 @@
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
   * Move to a twisted framework
+  * Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
 
 ==== GtkUI ====
   * Remove SignalReceiver
@@ -12,7 +13,7 @@
   * Move over to using Twisted-Web for the webserver.
   * Move to only AJAX interface built upon Ext-JS.
 
-=== Deluge 1.1.0 (Released) ===
+=== Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
   * Implement #79 ability to change outgoing port range
   * Implement #296 ability to change peer TOS byte
