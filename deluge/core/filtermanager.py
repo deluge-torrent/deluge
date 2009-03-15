@@ -67,14 +67,18 @@ def filter_one_keyword(torrent_ids, keyword):
                     break
 
 def tracker_error_filter(torrent_ids, values):
-    # We only care about Error here
+    filtered_torrent_ids = []
+    tm = component.get("TorrentManager")
+
+    # If this is a tracker_host, then we need to filter on it
     if values[0] != "Error":
-        return torrent_ids
+        for torrent_id in torrent_ids:
+            if values[0] in tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
+                filtered_torrent_ids.append(torrent_id)
+        return filtered_torrent_ids
 
     # Check all the torrent's tracker_status for 'Error:' and only return torrent_ids
     # that have this substring in their tracker_status
-    filtered_torrent_ids = []
-    tm = component.get("TorrentManager")
     for torrent_id in torrent_ids:
         if "Error:" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
             filtered_torrent_ids.append(torrent_id)
