@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Mar 15 10:56:11 2009 -->
+<!--Generated with glade3 3.4.5 on Sun Mar 15 11:36:01 2009 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -1324,7 +1324,7 @@ Disabled</property>
                                             <child>
                                               <widget class="GtkLabel" id="label15">
                                                 <property name="visible">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="tooltip" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Maximum Upload Slots:</property>
                                               </widget>
