@@ -207,6 +207,7 @@ class Preferences(component.Component):
                 "chk_prioritize_first_last_pieces": \
                     ("active",
                         self.core_config["prioritize_first_last_pieces"]),
+                "chk_add_paused": ("active", self.core_config["add_paused"]),
                 "spin_port_min": ("value", self.core_config["listen_ports"][0]),
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
                 "active_port_label": ("text", str(self.active_port)),
@@ -347,6 +348,7 @@ class Preferences(component.Component):
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
+                "chk_add_paused",
                 "spin_port_min",
                 "spin_port_max",
                 "active_port_label",
@@ -532,6 +534,8 @@ class Preferences(component.Component):
         new_core_config["prioritize_first_last_pieces"] = \
             self.glade.get_widget(
                 "chk_prioritize_first_last_pieces").get_active()
+        new_core_config["add_paused"] = \
+            self.glade.get_widget("chk_add_paused").get_active()
 
         ## Network tab ##
         listen_ports = []

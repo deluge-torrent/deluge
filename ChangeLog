@@ -8,6 +8,7 @@
   * Remove SignalReceiver
   * Implemented a cross-platform IPC method thus removing the DBUS dependency
   * Implement a "True" Classic Mode where there is no longer a separate daemon process
+  * Add preferences option "Add torrent in paused state"
 
 ==== WebUI ====
   * Move over to using Twisted-Web for the webserver.
