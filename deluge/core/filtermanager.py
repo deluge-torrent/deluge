@@ -66,6 +66,20 @@ def filter_one_keyword(torrent_ids, keyword):
                     yield torrent_id
                     break
 
+def tracker_error_filter(torrent_ids, values):
+    # We only care about Error here
+    if values[0] != "Error":
+        return torrent_ids
+
+    # Check all the torrent's tracker_status for 'Error:' and only return torrent_ids
+    # that have this substring in their tracker_status
+    filtered_torrent_ids = []
+    tm = component.get("TorrentManager")
+    for torrent_id in torrent_ids:
+        if "Error:" in tm[torrent_id].get_status(["tracker_status"])["tracker_status"]:
+            filtered_torrent_ids.append(torrent_id)
+
+    return filtered_torrent_ids
 
 class FilterManager(component.Component):
     """FilterManager
@@ -81,7 +95,11 @@ class FilterManager(component.Component):
         self.tree_fields = {}
 
         self.register_tree_field("state", self._init_state_tree)
-        self.register_tree_field("tracker_host")
+        def _init_tracker_tree():
+            return {"Error": 0}
+        self.register_tree_field("tracker_host", _init_tracker_tree)
+
+        self.register_filter("tracker_host", tracker_error_filter)
 
     def filter_torrent_ids(self, filter_dict):
         """
@@ -162,6 +180,8 @@ class FilterManager(component.Component):
             for field in tree_keys:
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
+
+        items["tracker_host"]["Error"] = len(tracker_error_filter(torrent_ids, ("Error",)))
 
         if "state" in tree_keys and not show_zero_hits:
             self._hide_state_items(items["state"])
