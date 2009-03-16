@@ -48,6 +48,27 @@ Deluge.Menus = {
 					}
 				});
 				break;
+			case 'update':
+				Deluge.Client.core.force_reannounce(ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case 'remove':
+				Deluge.Client.core.remove_torrent(ids, null, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case 'recheck':
+				Deluge.Client.core.force_recheck(ids, {
+					onSuccess: function() {	
+						Deluge.Ui.update();
+					}
+				});
+				break;
 		}
 	}
 }
@@ -144,6 +165,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 					}]
 				})
 			}, {
+				id: 'auto_managed',
 				text: _('Auto Managed'),
 				checked: false
 			}]
@@ -179,26 +201,31 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 			}]
 		})
 	}, '-', {
+		id: 'update',
 		text: _('Update Tracker'),
 		icon: '/icons/16/update.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
+		edit: 'edit_trackers',
 		text: _('Edit Trackers'),
 		icon: '/icons/16/edit_trackers.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
+		id: 'remove',
 		text: _('Remove Torrent'),
 		icon: '/icons/16/remove.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
+		id: 'recheck',
 		text: _('Force Recheck'),
 		icon: '/icons/16/recheck.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
+		id: 'move',
 		text: _('Move Storage'),
 		icon: '/icons/16/move.png',
 		handler: Deluge.Menus.onTorrentAction,
