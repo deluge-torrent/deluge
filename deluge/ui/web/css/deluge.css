@@ -25,10 +25,14 @@ html, body {
 	text-align: center;
 }
 
+.x-deluge-downloading, .x-deluge-seeding {
+	background-repeat: no-repeat;
+}
+
 #labels .all { background-image: url('/icons/16/all.png'); }
 #labels .active { background-image: url('/icons/16/active.png'); }
-#labels .downloading, .deluge-torrents .downloading, .x-deluge-peer { background-image: url('/icons/16/downloading.png'); }
-#labels .seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('/icons/16/seeding.png'); }
+.x-deluge-downloading, .x-deluge-peer { background-image: url('/icons/16/downloading.png'); }
+.x-deluge-seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('/icons/16/seeding.png'); }
 #labels .queued, .deluge-torrents .queued { background-image: url('/icons/16/queued.png'); }
 #labels .paused, .deluge-torrents .paused { background-image: url('/icons/16/inactive.png'); }
 #labels .error, .deluge-torrents .error { background-image: url('/icons/16/alert.png'); }
@@ -128,7 +132,7 @@ html, body {
 
 .x-progress-text {
 	background: transparent;
-	color: White;
+	color: transparent;
 }
 
 .x-progress-text-back {
