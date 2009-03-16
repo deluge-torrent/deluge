@@ -132,8 +132,9 @@ class AddTorrentDialog(component.Component):
         self.update_core_config()
 
     def show(self, focus=False):
-        self.update_core_config()
+        self.update_core_config(True, focus)
 
+    def _show(self, focus=False):
         if client.is_localhost():
             self.glade.get_widget("button_location").show()
             self.glade.get_widget("entry_download_path").hide()
@@ -159,12 +160,12 @@ class AddTorrentDialog(component.Component):
         self.dialog.set_transient_for(component.get("MainWindow").window)
         return None
 
-    def update_core_config(self):
-        self.core_config = {}
-
+    def update_core_config(self, show=False, focus=False):
         def _on_config_values(config):
             self.core_config = config
             self.set_default_options()
+            if show:
+                self._show(focus)
 
         # Send requests to the core for these config values
         client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
