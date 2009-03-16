@@ -367,7 +367,7 @@ class WebApi(JSONComponent):
             if all(map(lambda x: x[3] is not None, hosts.values())):
                 main_deferred.callback(hosts.values())
         
-        def on_connect(result, c, host_id):
+        def on_connect(connected, c, host_id):
             def on_info(info, c):
                 hosts[host_id][3] = _("Online")
                 hosts[host_id][4] = info
@@ -378,7 +378,7 @@ class WebApi(JSONComponent):
                 hosts[host_id][3] = _("Offline")
                 run_check()
             
-            if not c.connected():
+            if not connected:
                 hosts[host_id][3] = _("Offline")
                 run_check()
                 return
