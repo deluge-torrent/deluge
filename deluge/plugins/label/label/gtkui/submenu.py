@@ -56,7 +56,7 @@ class LabelMenu(gtk.MenuItem):
     def cb_labels(self, labels):
         for child in self.sub_menu.get_children():
             self.sub_menu.remove(child)
-        for label in [NO_LABEL] + labels:
+        for label in [NO_LABEL] + list(labels):
             item = gtk.MenuItem(label.replace("_","__"))
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
