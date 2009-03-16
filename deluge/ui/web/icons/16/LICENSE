@@ -1,32 +1,3 @@
-icons in this folder are copied from the kde oxygen set
-
-http://www.oxygen-icons.org/?page_id=4
-
-LICENCE:
-Oxygen icon theme is dual licensed.
-You may copy it under the Creative Common Attribution-ShareAlike 3.0 License
-or the GNU Library General Public License.
-
-ICONS FROM FUGUE ICON SET:
-http://www.pinvoke.com
-Licensed under the Creative Common Attribution-ShareAlike 3.0 License.
-
- - add.png
- - add_file.png
- - add_magnet.png
- - add_url.png
- - connection_manager.png
- - create.png
- - down.png
- - error.png
- - go-bottom.png
- - go-top.png
- - help.png
- - login.png
- - logout.png
- - pause.png
- - preferences.png
- - remove.png
- - start.png
- - up.png
- - warning.png
+Icons in this folder are copied from the fruge icon set, taken from
+http://www.pinvoke.com, licensed under the Creative Common
+Attribution-ShareAlike 3.0 License.
