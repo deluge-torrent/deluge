@@ -34,6 +34,7 @@ from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import ssl, reactor
 
 from OpenSSL import crypto, SSL
+from types import FunctionType
 
 import deluge.rencode as rencode
 from deluge.log import LOG as log
@@ -60,7 +61,12 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
         func._rpcserver_auth_level = auth_level
         return func
 
-    return wrap
+    if type(auth_level) is FunctionType:
+        func = auth_level
+        auth_level = AUTH_LEVEL_DEFAULT
+        return wrap(func)
+    else:
+        return wrap
 
 class DelugeError(Exception):
     pass
