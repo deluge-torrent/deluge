@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-02 20:10+0000\n"
+"PO-Revision-Date: 2009-03-12 06:57+0000\n"
 "Last-Translator: Ilari Oras <happo1472583@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
+"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1663,7 +1663,7 @@ msgstr "yhteyksiä_enimillään"
 
 #: deluge/plugins/label/label/webui.py:130
 msgid "apply_queue"
-msgstr ""
+msgstr "käytä_jonoa"
 
 #: deluge/plugins/label/label/webui.py:131
 msgid "is_auto_managed"
@@ -1683,7 +1683,7 @@ msgstr "Poista_ration_jälkeen"
 
 #: deluge/plugins/label/label/webui.py:137
 msgid "apply_move_completed"
-msgstr ""
+msgstr "käytä_siirrä_valmiit"
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "move_completed"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-26 19:23+0000\n"
+"PO-Revision-Date: 2009-03-10 16:21+0000\n"
 "Last-Translator: Simone Oberti <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
+"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -399,7 +399,7 @@ msgstr "Copia dei file .torrent in:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:179
 msgid "Auto add .torrents from:"
-msgstr "Aggiungi automaticamente .torrent da:"
+msgstr "Aggiungere automaticamente .torrent da:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:301
 msgid "<b>Folders</b>"
@@ -1268,11 +1268,11 @@ msgstr "<b>AggiungipPeer</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
-msgstr "nomehost:porta"
+msgstr "nome host:porta"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr "_Mostra Deluge"
+msgstr "_Mostrare Deluge"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
 #: deluge/ui/gtkui/glade/main_window.glade:28

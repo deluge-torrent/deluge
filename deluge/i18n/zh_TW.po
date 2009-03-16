@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-16 04:03+0000\n"
-"Last-Translator: Jay <jayscorpio1114@gmail.com>\n"
+"PO-Revision-Date: 2009-03-11 09:36+0000\n"
+"Last-Translator: Wei Hsiang Hung <weihsiang.hung@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-07 23:28+0000\n"
+"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -340,7 +340,7 @@ msgstr "強制重新檢查 (_F)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
-msgstr ""
+msgstr "更改儲存位置"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
@@ -358,7 +358,7 @@ msgstr "最大連接數量(_C)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "上傳連接數限制"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -370,11 +370,11 @@ msgstr "<big><b>刪除選取的 torrent ？</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "若刪除本資料，它將永久消失。"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr ""
+msgstr "與資料一起刪除(_D)"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -400,7 +400,7 @@ msgstr "複製 .torrent 檔案到："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:179
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "自動從這裡新增 .torrent ："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:301
 msgid "<b>Folders</b>"
@@ -431,7 +431,7 @@ msgstr "先下載種子的頭尾部份"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:407
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "優先下載torrent的開頭和最後的部份"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:422
 msgid "<b>Options</b>"
@@ -596,7 +596,7 @@ msgstr "<b><i><big>流量</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1234
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr "最大總上傳區段。若不限制，請設為 -1。"
+msgstr "最大總上傳連接數。若不限制，請設為 -1。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1323
@@ -622,7 +622,7 @@ msgstr "允許的最大連線數。若不限制請設為-1。"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
 msgid "Maximum Upload Slots:"
-msgstr "最大上傳區段:"
+msgstr "最大上傳連接數："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
@@ -669,7 +669,7 @@ msgstr "各種子最大連線數。若不限制，請設為 -1。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1602
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "各種子最大上傳區段。若不限制，請設為 -1。"
+msgstr "各種子最大上傳連接數。若不限制，請設為 -1。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1625
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -855,11 +855,11 @@ msgstr "<b>活躍的Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2759
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "做種時間 (分鐘)："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "Seed Time Ratio:"
-msgstr ""
+msgstr "做種時間率："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2783
 msgid "Share Ratio Limit:"
@@ -937,7 +937,7 @@ msgstr "主機："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3114
 msgid "<b>Peer</b>"
-msgstr ""
+msgstr "<b>用戶</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
 msgid "<b>Web Seed</b>"
@@ -1085,12 +1085,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "連線時自動加入torrents"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:62
 msgid "Move Storage"
-msgstr ""
+msgstr "變更儲存位置"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
 msgid "<b>Move Storage</b>"
@@ -1238,11 +1238,11 @@ msgstr "標籤"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
 msgid "Add Peer"
-msgstr "加入 Peer"
+msgstr "加入用戶"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr "<b>加入使用者</b>"
+msgstr "<b>Add用戶</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
@@ -1268,7 +1268,7 @@ msgstr "全部續傳(_R)"
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
-msgstr ""
+msgstr "離開並關閉常駐"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
@@ -1524,7 +1524,7 @@ msgstr "檔案(_F)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "使用者(_P)"
+msgstr "用戶(_P)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -1599,7 +1599,7 @@ msgstr "前往網站(_G)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "以IP加入一個用戶"
 
 #: deluge/core/torrentmanager.py:668
 msgid "Announce OK"
@@ -1632,19 +1632,19 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:124
 msgid "max_download_speed"
-msgstr ""
+msgstr "最高下載速度"
 
 #: deluge/plugins/label/label/webui.py:125
 msgid "max_upload_speed"
-msgstr ""
+msgstr "最低上傳速度"
 
 #: deluge/plugins/label/label/webui.py:126
 msgid "max_upload_slots"
-msgstr ""
+msgstr "最大上傳連接數"
 
 #: deluge/plugins/label/label/webui.py:127
 msgid "max_connections"
-msgstr ""
+msgstr "最大連線數目"
 
 #: deluge/plugins/label/label/webui.py:130
 msgid "apply_queue"
@@ -1680,11 +1680,11 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
-msgstr ""
+msgstr "自動新增"
 
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
-msgstr ""
+msgstr "自動新增trackers"
 
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -1761,7 +1761,7 @@ msgstr "網址"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:71
 msgid "Check for every (days)"
-msgstr ""
+msgstr "每 (天) 檢查"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:72
 msgid "Timeout (seconds)"
@@ -1919,6 +1919,11 @@ msgid ""
 "General Public License along with this program; if not, see "
 "<http://www.gnu.org/licenses>."
 msgstr ""
+"本程式為自由軟體：您可以在符合 自由軟體基金會(Free Software Foundation) 發佈的 GNU通用公共許可證(GNU General "
+"Public License) "
+"限制下重新散佈、修改本軟體；您可以選擇第三版或任何後續的版本。期望本程式能帶來幫助，但不包含任何保證；即便是可售性或適用於任何特定目的的保證。細節請參閱 "
+"GNU通用公共許可證(GNU General Public License)。GNU通用公共許可證(GNU General Public "
+"License) 您應該會隨著本程式一起取得；如果找不到，請參閱 <http://www.gnu.org/licenses> 。"
 
 #: deluge/ui/gtkui/systemtray.py:197
 msgid "Deluge"
@@ -1979,7 +1984,7 @@ msgstr "選擇要移動的目的資料夾"
 
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "設定最大同時上傳數"
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2021,6 +2026,11 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"這封郵件是Deluge通知你%s(共包含%i個檔案)已經下載完成。\n"
+"想要停止收取這類的通知，只有關閉Deluge偏好設定中的電子郵件通知即可。\n"
+"\n"
+"謝謝你，\n"
+"Deluge"
 
 #: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
 msgid "Filters"
@@ -2044,11 +2054,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
-msgstr ""
+msgstr "下載："
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Up:"
-msgstr ""
+msgstr "上傳："
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Torrents"
@@ -2328,11 +2338,11 @@ msgstr "等級"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
-msgstr ""
+msgstr "Socksv4"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5"
-msgstr ""
+msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
@@ -2340,7 +2350,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
@@ -2522,7 +2532,7 @@ msgstr "請輸入合法的值"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-msgstr ""
+msgstr "確保本值至多到 %(max)d 個字元(共有 %(length)d)"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:125
 #, python-format
@@ -2532,26 +2542,26 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
-msgstr ""
+msgstr "輸入一個整數。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:153
 #: deluge/ui/webui/lib/newforms_portable/fields.py:182
 #: deluge/ui/webui/lib/newforms_portable/fields.py:211
 #, python-format
 msgid "Ensure this value is less than or equal to %s."
-msgstr ""
+msgstr "確認這個值小於等於%s。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:154
 #: deluge/ui/webui/lib/newforms_portable/fields.py:183
 #: deluge/ui/webui/lib/newforms_portable/fields.py:212
 #, python-format
 msgid "Ensure this value is greater than or equal to %s."
-msgstr ""
+msgstr "確認這個值大於等於%s。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
 msgid "Enter a number."
-msgstr ""
+msgstr "輸入一個數字。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
@@ -2581,7 +2591,7 @@ msgstr "輸入有效時間。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:335
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "輸入有效的日期/時間。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
 msgid "Enter a valid e-mail address."
@@ -2611,7 +2621,7 @@ msgstr "輸入有效的網址。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:498
 msgid "This URL appears to be a broken link."
-msgstr ""
+msgstr "這個網址有錯。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:599
 #, python-format
@@ -2677,7 +2687,7 @@ msgstr "手動重新啟動網頁介面以套用變更。"
 
 #: deluge/ui/webui/config_tabs_webui.py:61
 msgid "Https"
-msgstr ""
+msgstr "Https"
 
 #: deluge/ui/webui/config_tabs_webui.py:70
 #, python-format
@@ -2903,7 +2913,7 @@ msgstr "一般"
 
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
-msgstr ""
+msgstr "高優先權"
 
 #: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Highest priority"
@@ -3063,7 +3073,7 @@ msgstr "上傳"
 
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
-msgstr ""
+msgstr "上傳連接數限制"
 
 #: deluge/ui/webui/scripts/template_strings.py:122
 msgid "Uploaded"
