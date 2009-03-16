@@ -22,8 +22,33 @@ Copyright:
 */
 
 Deluge.Menus = {
-	onTorrentAction: function(e) {
+	onTorrentAction: function(item, e) {
+		var selection = Deluge.Torrents.getSelections();
+		var ids = new Array();
+		$each(selection, function(record) {
+			ids.include(record.id);
+		});
 		
+		switch (item.id) {
+			case 'pause':
+			case 'resume':
+				Deluge.Client.core[item.id + '_torrent'](ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+			case 'top':
+			case 'up':
+			case 'down':
+			case 'bottom':
+				Deluge.Client.core['queue_' + item.id](ids, {
+					onSuccess: function() {
+						Deluge.Ui.update();
+					}
+				});
+				break;
+		}
 	}
 }
 
@@ -32,13 +57,15 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 	items: [{
 		id: 'pause',
 		text: _('Pause'),
+		icon: '/icons/16/pause.png',
 		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus,
-		icon: '/icons/16/pause.png'
+		scope: Deluge.Menus
 	}, {
 		id: 'resume',
 		text: _('Resume'),
-		icon: '/icons/16/start.png'
+		icon: '/icons/16/start.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}, '-', {
 		id: 'options',
 		text: _('Options'),
@@ -126,34 +153,56 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 		icon: '/icons/16/queue.png',
 		menu: new Ext.menu.Menu({
 			items: [{
+				id: 'top',
 				text: _('Top'),
-				icon: '/icons/16/top.png'
+				icon: '/icons/16/top.png',
+				handler: Deluge.Menus.onTorrentAction,
+				scope: Deluge.Menus
 			},{
+				id: 'up',
 				text: _('Up'),
-				icon: '/icons/16/up.png'
+				icon: '/icons/16/up.png',
+				handler: Deluge.Menus.onTorrentAction,
+				scope: Deluge.Menus
 			},{
+				id: 'down',
 				text: _('Down'),
-				icon: '/icons/16/down.png'
+				icon: '/icons/16/down.png',
+				handler: Deluge.Menus.onTorrentAction,
+				scope: Deluge.Menus
 			},{
+				id: 'bottom',
 				text: _('Bottom'),
-				icon: '/icons/16/bottom.png'
+				icon: '/icons/16/bottom.png',
+				handler: Deluge.Menus.onTorrentAction,
+				scope: Deluge.Menus
 			}]
 		})
 	}, '-', {
 		text: _('Update Tracker'),
-		icon: '/icons/16/update.png'
+		icon: '/icons/16/update.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}, {
 		text: _('Edit Trackers'),
-		icon: '/icons/16/edit_trackers.png'
+		icon: '/icons/16/edit_trackers.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}, '-', {
 		text: _('Remove Torrent'),
-		icon: '/icons/16/remove.png'
+		icon: '/icons/16/remove.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}, '-', {
 		text: _('Force Recheck'),
-		icon: '/icons/16/recheck.png'
+		icon: '/icons/16/recheck.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}, {
 		text: _('Move Storage'),
-		icon: '/icons/16/move.png'
+		icon: '/icons/16/move.png',
+		handler: Deluge.Menus.onTorrentAction,
+		scope: Deluge.Menus
 	}]
 });
 
