@@ -120,5 +120,13 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 	autoExpandColumn: 'name',
 	deferredRender:false,
 	autoScroll:true,
-	margins: '5 5 0 0'
+	margins: '5 5 0 0',
+	listeners: {
+		'rowcontextmenu': {
+			fn: function(grid, rowIndex, e) {
+				e.stopEvent();
+				Deluge.Menus.Torrent.showAt(e.getPoint());
+			}
+		}
+	}
 })
