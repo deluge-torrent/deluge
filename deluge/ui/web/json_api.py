@@ -34,6 +34,7 @@ from twisted.web import http, resource, server
 
 from deluge import common, component
 from deluge.configmanager import ConfigManager
+from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
 from deluge.ui.web.auth import *
 from deluge.ui.web.common import _
