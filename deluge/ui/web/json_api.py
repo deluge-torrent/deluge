@@ -29,6 +29,7 @@ import hashlib
 import logging
 import tempfile
 
+from types import FunctionType
 from twisted.internet.defer import Deferred
 from twisted.web import http, resource, server
 
@@ -56,7 +57,12 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
         func._json_auth_level = auth_level
         return func
 
-    return wrap
+    if type(auth_level) is FunctionType:
+        func = auth_level
+        auth_level = AUTH_LEVEL_DEFAULT
+        return wrap(func)
+    else:
+        return wrap
 
 class JSONException(Exception):
     def __init__(self, inner_exception):
@@ -252,7 +258,7 @@ class WebApi(JSONComponent):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
     
-    @export()
+    @export
     def connect(self, host_id):
         d = Deferred()
         def on_connected(methods):
@@ -263,13 +269,13 @@ class WebApi(JSONComponent):
             self._json.connect(*host[1:]).addCallback(on_connected)
         return d
     
-    @export()
+    @export
     def connected(self):
         d = Deferred()
         d.callback(client.connected())
         return d
     
-    @export()
+    @export
     def update_ui(self, keys, filter_dict):
 
         ui_info = {
@@ -294,7 +300,7 @@ class WebApi(JSONComponent):
         client.core.get_torrents_status(filter_dict, keys).addCallback(got_torrents)
         return d
 
-    @export()
+    @export
     def download_torrent_from_url(self, url):
         """
         input:
@@ -310,7 +316,7 @@ class WebApi(JSONComponent):
         d.callback(filename)
         return d
     
-    @export()
+    @export
     def get_torrent_info(self, filename):
         """
         Goal:
@@ -332,7 +338,7 @@ class WebApi(JSONComponent):
         d.callback(uicommon.get_torrent_info(filename.strip()))
         return d
 
-    @export()
+    @export
     def add_torrents(self, torrents):
         """
         input:
@@ -349,7 +355,7 @@ class WebApi(JSONComponent):
         d.callback(True)
         return d
     
-    @export()
+    @export
     def login(self, password):
         """Method to allow the webui to authenticate
         """
@@ -361,7 +367,7 @@ class WebApi(JSONComponent):
         d.callback(m.hexdigest() == config['pwd_md5'])
         return d
     
-    @export()
+    @export
     def get_hosts(self):
         """Return the hosts in the hostlist"""
         hosts = dict((host[0], host[:]) for host in self.host_list["hosts"])
