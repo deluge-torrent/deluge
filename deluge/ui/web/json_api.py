@@ -22,9 +22,12 @@
 #   Boston, MA    02110-1301, USA.
 #
 
+import os
 import time
+import urllib
 import hashlib
 import logging
+import tempfile
 
 from twisted.internet.defer import Deferred
 from twisted.web import http, resource, server
