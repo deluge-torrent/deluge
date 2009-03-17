@@ -100,6 +100,11 @@ html, body {
 	background: url('/icons/16/add.png') no-repeat 2px;
 }
 
+/* Add Url Window */
+.x-deluge-add-url-window-icon {
+	background: url('/icons/16/add_url.png') no-repeat 2px;
+}
+
 /* Connect Window */
 .x-deluge-connect-window-icon {
 	background: url('/icons/16/connection_manager.png') no-repeat 2px;

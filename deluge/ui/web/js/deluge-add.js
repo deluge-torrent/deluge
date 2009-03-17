@@ -24,6 +24,14 @@ Copyright:
 Deluge.Add = {
 	onRender: function(window) {
 		
+	},
+	
+	onTorrentAdded: function(info) {
+		this.Store.loadData([[info['info_hash'], info['name']]], true);
+	},
+	
+	onUrl: function(button, event) {
+		this.Url.Window.show();
 	}
 }
 
@@ -93,7 +101,9 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 				id: 'url',
 				cls: 'x-btn-text-icon',
 				text: _('Url'),
-				icon: '/icons/16/add_url.png'
+				icon: '/icons/16/add_url.png',
+				handler: Deluge.Add.onUrl,
+				scope: Deluge.Add
 			}, {
 				id: 'infohash',
 				cls: 'x-btn-text-icon',
@@ -122,6 +132,71 @@ Deluge.Add.Options = new Ext.TabPanel({
 		id: 'options',
 		title: _('Options')
 	}]
+});
+
+Deluge.Add.Url = {
+	onAdd: function(field, e) {
+		if (field.id == 'url' && e.getKey() != e.ENTER) return;
+
+		var field = this.Form.items.get('url');
+		var url = field.getValue();
+		
+		Deluge.Client.web.download_torrent_from_url(url, {
+			onSuccess: this.onDownload.bindWithEvent(this)
+		});
+		this.Window.hide();
+	},
+	
+	onDownload: function(filename) {
+		Deluge.Client.web.get_torrent_info(filename, {
+			onSuccess: this.onGotInfo.bindWithEvent(this)
+		});
+	},
+	
+	onGotInfo: function(info) {
+		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
+		bound(info);
+	}
+}
+
+Deluge.Add.Url.Form = new Ext.form.FormPanel({
+    defaultType: 'textfield',
+    id: 'urlAddForm',
+    baseCls: 'x-plain',
+    labelWidth: 55,
+    items: [{
+        fieldLabel: _('Url'),
+        id: 'url',
+        name: 'url',
+        inputType: 'url',
+        anchor: '100%',
+        listeners: {
+            'specialkey': {
+                fn: Deluge.Add.Url.onAdd,
+                scope: Deluge.Add.Url
+            }
+        }
+    }]
+});
+
+Deluge.Add.Url.Window = new Ext.Window({
+	layout: 'fit',
+    width: 300,
+    height: 150,
+    bodyStyle: 'padding: 10px 5px;',
+    buttonAlign: 'center',
+    closeAction: 'hide',
+    closable: false,
+    modal: true,
+    plain: true,
+    title: _('Add from Url'),
+    iconCls: 'x-deluge-add-url-window-icon',
+    items: Deluge.Add.Url.Form,
+    buttons: [{
+        text: _('Add'),
+        handler: Deluge.Add.Url.onAdd,
+		scope: Deluge.Add.Url
+    }]
 });
 
 Deluge.Add.Window = new Ext.Window({
