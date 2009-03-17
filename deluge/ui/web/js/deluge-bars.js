@@ -183,20 +183,6 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 	listeners: {'render': Deluge.ToolBar.onToolbarRender, scope: Deluge.ToolBar}
 });
 
-
-
-Deluge.SideBar = {
-	region: 'west',
-	id: 'sidebar',
-	cls: 'deluge-sidebar',
-	title: _('Sidebar'),
-	split: true,
-	width: 200,
-	minSize: 175,
-	collapsible: true,
-	margins: '5 0 0 5'
-};
-
 Deluge.StatusBar = {
 	onRender: function() {
 		this.bound = {
@@ -342,3 +328,33 @@ Deluge.StatusBar.Bar = new Ext.StatusBar({
 	defaultText: _('Not Connected'),
 	listeners: {'render': {scope: Deluge.StatusBar, fn: Deluge.StatusBar.onRender}}
 });
+
+Deluge.SideBar = {
+	
+	onRender: function(bar) {
+		this.Bar = bar;
+		Deluge.Events.on("disconnect", this.onDisconnect);
+	},
+	
+	onDisconnect: function() {
+		
+	},
+	
+	update: function(filters) {
+		
+	}
+};
+
+Deluge.SideBar.Config = {
+	region: 'west',
+	id: 'sidebar',
+	cls: 'deluge-sidebar',
+	title: _('Sidebar'),
+	layout: 'accordion',
+	split: true,
+	width: 200,
+	minSize: 175,
+	collapsible: true,
+	margins: '5 0 0 5',
+	listeners: {'render': {scope: Deluge.SideBar, fn: Deluge.SideBar.onRender}}
+}

@@ -32,7 +32,11 @@ Deluge.Ui = {
 			title: 'Deluge',
 			layout: 'border',
 			tbar: Deluge.ToolBar.Bar,
-			items: [Deluge.SideBar, Deluge.Details.Panel,  Deluge.Torrents.Grid],
+			items: [
+				Deluge.SideBar.Config,
+				Deluge.Details.Panel,
+				Deluge.Torrents.Grid
+			],
 			bbar: Deluge.StatusBar.Bar
 		});
 
@@ -45,8 +49,6 @@ Deluge.Ui = {
 		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');
-
-		Deluge.SideBar = this.MainPanel.items.get('sidebar');
 	},
 	
 	update: function() {
@@ -101,6 +103,7 @@ Deluge.Ui = {
 		});
 		Deluge.Torrents.Store.loadData(torrents);
 		Deluge.StatusBar.update(data['stats']);
+		Deluge.SideBar.update(data['filters']);
 		this.errorCount = 0;
 	},
 	
