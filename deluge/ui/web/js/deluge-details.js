@@ -158,7 +158,8 @@ Deluge.Details.Details = {
             size: fsize(torrent.total_size),
             files: torrent.num_files,
             status: torrent.tracker_status,
-            tracker: torrent.tracker
+            tracker: torrent.tracker,
+			comment: torrent.comment
         };
 		this.fields.each(function(value, key) {
 			value.set('text', data[key]);

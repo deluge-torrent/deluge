@@ -77,7 +77,7 @@ html, body {
 	clear: left;
 }
 
-.deluge-status dd.torrent_name, .deluge-status dd.status, .deluge-status dd.tracker, .deluge-status dd.path {
+.deluge-status dd.torrent_name, .deluge-status dd.status, .deluge-status dd.tracker, .deluge-status dd.path, .deluge-status dd.comment {
 	width: 500px;
 }
 

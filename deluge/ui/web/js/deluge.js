@@ -133,7 +133,7 @@ Deluge.Keys = {
     ],
     Details: [
         'name', 'save_path', 'total_size', 'num_files', 'tracker_status',
-        'tracker'
+        'tracker', 'comment'
     ],
     Options: [
         'max_download_speed', 'max_upload_speed', 'max_connections',
