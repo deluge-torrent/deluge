@@ -50,7 +50,7 @@ html, body {
 
 .deluge-status dl {
 	float: left;
-	min-height: 100px;
+	min-height: 120px;
 }
 
 .deluge-status dl dt {
@@ -66,11 +66,11 @@ html, body {
 }
 
 .deluge-status dd.downloaded, .deluge-status dd.uploaded, .deluge-status dd.share, .deluge-status dd.announce, .deluge-status dd.tracker_status, .deluge-status dd.active_time {
-	width: 170px;
+	width: 200px;
 }
 
 .deluge-status dd.downspeed, .deluge-status dd.upspeed, .deluge-status dd.eta, .deluge-status dd.pieces {
-	margin-left: 75px;
+	margin-left: 100px;
 }
 
 .deluge-status form br {

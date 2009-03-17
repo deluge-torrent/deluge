@@ -273,7 +273,7 @@ Deluge.Details.Peers.Store = new Ext.data.SimpleStore({
 Deluge.Details.Panel = new Ext.TabPanel({
 	region: 'south',
 	split: true,
-	height: 200,
+	height: 220,
 	minSize: 100,
 	collapsible: true,
 	margins: '0 5 5 5',
