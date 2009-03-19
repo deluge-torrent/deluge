@@ -7,6 +7,10 @@ html, body {
 	height:100%;
 }
 
+input {
+	color: Black;
+}
+
 .x-deluge-main-panel {
 	background-image: url('/icons/16/deluge.png');
 }
