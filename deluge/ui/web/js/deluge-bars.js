@@ -330,6 +330,7 @@ Deluge.StatusBar.Bar = new Ext.StatusBar({
 });
 
 Deluge.SideBar = {
+	panels: new Hash(),
 	
 	onRender: function(bar) {
 		this.Bar = bar;
@@ -341,6 +342,53 @@ Deluge.SideBar = {
 	},
 	
 	update: function(filters) {
+		$each(filters, function(states, filter) {
+			if (this.panels.has(filter)) {
+				
+			} else {
+				this.createFilter(filter, states);
+			}
+		}, this);
+	},
+	
+	createFilter: function(filter, states) {
+		var store = new Ext.data.SimpleStore({
+			fields: [
+				{name: 'filter'}
+			]
+		});
+		
+		var title = filter.replace('_', ' ');
+		var parts = title.split(' ');
+        title = '';
+        parts.each(function(part) {
+            firstLetter = part.substring(0, 1);
+            firstLetter = firstLetter.toUpperCase();
+            part = firstLetter + part.substring(1);
+            title += part + ' ';
+        });
+		
+		var panel = new Ext.grid.GridPanel({
+			store: store,
+			title: title,
+			columns: [
+				{id: 'filter', sortable: false, renderer: Deluge.Formatters.plain, dataIndex: 'filter'}
+			],	
+			stripeRows: false,
+			hideHeaders: true,
+			autoExpandColumn: 'filter',
+			deferredRender: false,
+			autoScroll: true,
+			margins: '5 5 5 5'
+		});
+		store.loadData(states);
+		this.Bar.add(panel);
+		this.Bar.doLayout();
+		
+		this.panels[filter] = panel;
+	},
+	
+	updateFilter: function(filter, states) {
 		
 	}
 };
