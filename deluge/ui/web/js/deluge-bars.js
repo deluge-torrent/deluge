@@ -357,11 +357,18 @@ Deluge.SideBar = {
 	update: function(filters) {
 		$each(filters, function(states, filter) {
 			if (this.panels.has(filter)) {
-				
+				this.updateFilter(filter, states);
 			} else {
 				this.createFilter(filter, states);
 			}
 		}, this);
+		
+		// Perform a cleanup of fitlers that aren't enabled
+		$each(this.panels.getKeys(), function(filter) {
+			if (!fitlers.has(filter)) {
+				// We need to remove the panel
+			}
+		});
 	},
 	
 	createFilter: function(filter, states) {
@@ -405,7 +412,7 @@ Deluge.SideBar = {
 	},
 	
 	updateFilter: function(filter, states) {
-		
+		this.panels[filter].store.loadData(states);
 	}
 };
 
