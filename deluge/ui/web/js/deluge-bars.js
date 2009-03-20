@@ -45,7 +45,6 @@ Deluge.ToolBar = {
 	
 	onLogin: function() {
 		this.Bar.items.get('logout').enable();
-		
 	},
 	
 	onLogout: function() {
@@ -334,12 +333,15 @@ Deluge.SideBar = {
 	
 	onRender: function(bar) {
 		this.Bar = bar;
-		Deluge.Events.on("disconnect", this.onDisconnect);
+		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
 		this.selected = null;
 	},
 	
 	onDisconnect: function() {
-		
+		this.Bar.items.each(function(panel) {
+			panel.destroy();
+		});
+		this.panels.empty();
 	},
 	
 	renderer: function(value, p, r) {

@@ -27,6 +27,11 @@ Deluge.Connections = {
 	},
 	
 	loginShow: function() {
+		Deluge.Events.on('logout', function(e) {
+			Deluge.Connections.disconnect();
+			Deluge.Connections.Window.hide();
+		});
+
 		Deluge.Client.web.connected({
 			onSuccess: function(connected) {
 				if (connected) {
@@ -67,13 +72,6 @@ Deluge.Connections = {
 		Deluge.Connections.Store.loadData(hosts);
 		var selection = Deluge.Connections.Grid.getSelectionModel();
 		selection.selectRow(Deluge.Connections.selectedRow);
-	},
-	
-	onRender: function() {
-		Deluge.Events.on('logout', function(e) {
-			Deluge.Connections.disconnect();
-			Deluge.Connections.Window.hide();
-		});
 	},
 	
 	onSelect: function(selModel, rowIndex, record) {
@@ -186,7 +184,6 @@ Deluge.Connections.Window = new Ext.Window({
     }],
 	listeners: {
 		'hide': Deluge.Connections.onClose,
-		'show': Deluge.Connections.onShow,
-		'render': Deluge.Connections.onRender
+		'show': Deluge.Connections.onShow
 	}
 });
