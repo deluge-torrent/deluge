@@ -347,7 +347,9 @@ Deluge.SideBar = {
 		
 		var image = '';		
 		if (r.store.id == 'tracker_host') {
-			image = String.format('url(/tracker/{0})', value);
+			if (value != 'Error') {
+				image = String.format('url(/tracker/{0})', value);
+			}
 		}
 		return String.format('<div class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</div>', value, r.data['count'], lname, image);
 	},
