@@ -383,7 +383,7 @@ Deluge.SideBar = {
 			}
 		}, this);
 		
-		// Perform a cleanup of fitlers that aren't enabled
+		// Perform a cleanup of fitlers that aren't enabled any more
 		$each(this.panels.getKeys(), function(filter) {
 			if (!filters.has(filter)) {
 				// We need to remove the panel

@@ -46,6 +46,7 @@ Deluge.Ui = {
 		});
 
 		Deluge.Login.Window.show();
+		
 		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');

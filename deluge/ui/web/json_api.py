@@ -432,6 +432,12 @@ class WebApi(JSONComponent):
     
     @export
     def stop_daemon(self, connection_id):
+        """
+        Stops a running daemon.
+
+        :param connection_Id: str, the hash id of the connection
+
+        """
         main_deferred = Deferred()
         host = self.get_host(connection_id)
         if not host:
@@ -457,3 +463,47 @@ class WebApi(JSONComponent):
         except:
             main_deferred.callback((False, "An error occured"))
         return main_deferred
+    
+    @export
+    def add_host(self, host, port, username="", password=""):
+        """
+        Adds a host to the list.
+
+        :param host: str, the hostname
+        :param port: int, the port
+        :param username: str, the username to login as
+        :param password: str, the password to login with
+
+        """
+        d = Deferred()
+        # Check to see if there is already an entry for this host and return
+        # if thats the case
+        for entry in self.host_list["hosts"]:
+            if (entry[0], entry[1], entry[2]) == (host, port, username):
+                d.callback(False)
+        
+        # Host isn't in the list, so lets add it
+        connection_id = hashlib.sha1(str(time.time())).hexdigest()
+        self.host_list["hosts"].append([connection_id, host, port, username,
+            password])
+        self.host_list.save()
+        d.callback(True)
+        return d
+    
+    @export
+    def remove_host(self, connection_id):
+        """
+        Removes a host for the list
+
+        :param connection_Id: str, the hash id of the connection
+
+        """
+        d = Deferred()
+        host = self.get_host(connection_id)
+        if host is None:
+            d.callback(False)
+        
+        self.host_list["hosts"].remove(host)
+        self.host_list.save()
+        d.callback(True)
+        return d

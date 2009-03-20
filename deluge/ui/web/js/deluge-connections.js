@@ -44,7 +44,33 @@ Deluge.Connections = {
 	},
 	
 	onAdd: function(button, e) {
-		//Deluge.Connections.Add.show();
+		Deluge.Connections.Add.show();
+	},
+	
+	onAddHost: function() {
+		var form = Deluge.Connections.Add.items.first();
+		var host = form.items.get('host').getValue();
+		var port = form.items.get('port').getValue();
+		var username = form.items.get('username').getValue();
+		var password = form.items.get('password').getValue();
+		
+		Deluge.Client.web.add_host(host, port, username, password, {
+			onSuccess: function(result) {
+				if (!result) {
+					Ext.MessageBox.show({
+                        title: _('Error'),
+                        msg: "Unable to add host",
+                        buttons: Ext.MessageBox.OK,
+                        modal: false,
+                        icon: Ext.MessageBox.ERROR,
+                        iconCls: 'x-deluge-icon-error'
+                    });
+				} else {
+					Deluge.Connections.runCheck();
+				}
+				Deluge.Connections.Add.hide();
+			}
+		});
 	},
 	
     onClose: function(e) {
@@ -72,6 +98,26 @@ Deluge.Connections = {
 		Deluge.Connections.Store.loadData(hosts);
 		var selection = Deluge.Connections.Grid.getSelectionModel();
 		selection.selectRow(Deluge.Connections.selectedRow);
+	},
+	
+	onRemove: function(button) {
+		var connection = Deluge.Connections.Grid.getSelectionModel().getSelected();
+		Deluge.Client.web.remove_host(connection.id, {
+			onSuccess: function(result) {
+				if (!result) {
+					Ext.MessageBox.show({
+                        title: _('Error'),
+                        msg: result[1],
+                        buttons: Ext.MessageBox.OK,
+                        modal: false,
+                        icon: Ext.MessageBox.ERROR,
+                        iconCls: 'x-deluge-icon-error'
+                    });
+				} else {
+					Deluge.Connections.Grid.store.remove(connection);
+				}
+			}
+		});
 	},
 	
 	onSelect: function(selModel, rowIndex, record) {
@@ -151,7 +197,8 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 				id: 'remove',
 				cls: 'x-btn-text-icon',
 				text: _('Remove'),
-				icon: '/icons/16/remove.png'
+				icon: '/icons/16/remove.png',
+				handler: Deluge.Connections.onRemove
 			}, '->', {
 				id: 'stop',
 				cls: 'x-btn-text-icon',
@@ -161,6 +208,58 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 			}
 		]
 	})
+});
+
+Deluge.Connections.Add = new Ext.Window({
+	layout: 'fit',
+    width: 300,
+    height: 220,
+    bodyStyle: 'padding: 10px 5px;',
+    buttonAlign: 'right',
+    closeAction: 'hide',
+    closable: true,
+    plain: true,
+    title: _('Add Connection'),
+    iconCls: 'x-deluge-add-window-icon',
+    items: [new Ext.form.FormPanel({
+		defaultType: 'textfield',
+		id: 'connectionAddForm',
+		baseCls: 'x-plain',
+		labelWidth: 55,
+		items: [{
+			fieldLabel: _('Host'),
+			id: 'host',
+			name: 'host',
+			anchor: '100%',
+			listeners: {}
+		},{
+			fieldLabel: _('Port'),
+			id: 'port',
+			name: 'port',
+			value: '58846',
+			anchor: '100%',
+			listeners: {}
+		},{
+			fieldLabel: _('Username'),
+			id: 'username',
+			name: 'username',
+			anchor: '100%',
+			listeners: {}
+		},{
+			fieldLabel: _('Password'),
+			id: 'password',
+			name: 'password',
+			inputType: 'password',
+			anchor: '100%',
+			listeners: {}
+		}]
+	})],
+    buttons: [{
+        text: _('Close')
+    },{
+        text: _('Add'),
+		handler: Deluge.Connections.onAddHost
+    }]
 });
 
 Deluge.Connections.Window = new Ext.Window({
