@@ -26,7 +26,7 @@ function queue(value) {
 }
 
 function name(value, p, r) {
-	return String.format('<div class="torrent-name {0}">{1}</div>', r.data['state'].toLowerCase(), value);
+	return String.format('<div class="torrent-name x-deluge-{0}">{1}</div>', r.data['state'].toLowerCase(), value);
 }
 
 function torrent_speed(value) {
