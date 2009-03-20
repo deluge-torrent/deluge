@@ -470,7 +470,7 @@ Deluge.SideBar.Config = {
 	region: 'west',
 	id: 'sidebar',
 	cls: 'deluge-sidebar',
-	title: _('Sidebar'),
+	title: _('Filters'),
 	layout: 'accordion',
 	split: true,
 	width: 200,
