@@ -286,6 +286,9 @@ class WebApi(JSONComponent):
         
         d = Deferred()
         
+        log.info("Updating ui with keys '%r' and filters '%r'", keys,
+            filter_dict)
+        
         def got_stats(stats):
             ui_info["stats"] = stats
             d.callback(ui_info)
