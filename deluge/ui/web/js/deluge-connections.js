@@ -84,7 +84,7 @@ Deluge.Connections = {
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,
-                        iconCls: 'x-deluge-error'
+                        iconCls: 'x-deluge-icon-error'
                     });
 				}
 			}

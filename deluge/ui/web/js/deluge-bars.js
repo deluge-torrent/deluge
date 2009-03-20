@@ -343,8 +343,7 @@ Deluge.SideBar = {
 	},
 	
 	renderer: function(value, p, r) {
-		var lname = value.toLowerCase();
-		lname = lname.replace('.', '_');
+		var lname = value.toLowerCase().replace('.', '_');
 		
 		var image = '';		
 		if (r.store.id == 'tracker_host') {
