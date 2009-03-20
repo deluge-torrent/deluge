@@ -414,14 +414,14 @@ class WebApi(JSONComponent):
             host_id, host, port, user, password = host[0:5]
             hosts[host_id][3:4] = (None, None)
             
-            if client.connected() and \
-               (host, port, user) == client.connection_info():
+            if client.connected() and (host, port, "localclient" if not \
+                user and host in ("127.0.0.1", "localhost") else \
+                user)  == client.connection_info():
                 def on_info(info):
                     hosts[host_id][4] = info
                     run_check()
-                host[5] = _("Connected")
+                hosts[host_id][3] = _("Connected")
                 client.daemon.info().addCallback(on_info)
-                hosts[host_id] = host
                 continue
             
             c = Client()
