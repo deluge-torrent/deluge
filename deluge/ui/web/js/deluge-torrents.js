@@ -125,6 +125,10 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 		'rowcontextmenu': {
 			fn: function(grid, rowIndex, e) {
 				e.stopEvent();
+				var selection = grid.getSelectionModel();
+				if (!selection.hasSelection()) {
+					selection.selectRow(rowIndex);
+				}
 				Deluge.Menus.Torrent.showAt(e.getPoint());
 			}
 		}
