@@ -149,9 +149,14 @@ input {
 	color: White;
 }
 
+/* Sidebar styles */
+.x-deluge-filters .x-grid3-col-filter {
+	height: 16px;
+	line-height: 16px;
+	padding: 2px;
+}
 
-.x-deluge-filter {
+.x-deluge-filters .x-deluge-filter {
 	background-repeat: no-repeat;
 	padding-left: 20px;
-	height: 25px;
 }

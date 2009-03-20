@@ -349,7 +349,7 @@ Deluge.SideBar = {
 		if (r.store.id == 'tracker_host') {
 			image = String.format('url(/tracker/{0})', value);
 		}
-		return String.format('<span class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</span>', value, r.data['count'], lname, image);
+		return String.format('<div class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</div>', value, r.data['count'], lname, image);
 	},
 	
 	update: function(filters) {
@@ -384,6 +384,7 @@ Deluge.SideBar = {
 		var panel = new Ext.grid.GridPanel({
 			store: store,
 			title: title,
+			cls: 'x-deluge-filters',
 			columns: [
 				{id: 'filter', sortable: false, renderer: this.renderer, dataIndex: 'filter'}
 			],	
