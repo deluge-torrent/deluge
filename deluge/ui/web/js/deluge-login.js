@@ -38,7 +38,7 @@ Deluge.Login = {
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.WARNING,
-                        iconCls: '.x-deluge-warning'
+                        iconCls: 'x-deluge-warning'
                     });
                 }
             }
