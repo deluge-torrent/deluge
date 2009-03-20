@@ -26,6 +26,10 @@ Deluge.Connections = {
 		Deluge.Events.fire('disconnect');
 	},
 	
+	onAdd: function(button, e) {
+		//Deluge.Connections.Add.show();
+	},
+	
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
 		Deluge.Connections.Window.hide();
@@ -67,6 +71,24 @@ Deluge.Connections = {
 	onShow: function(window) {
 		Deluge.Connections.running = Deluge.Connections.runCheck.periodical(2000);
 		Deluge.Connections.runCheck();
+	},
+	
+	onStop: function(button, e) {
+		var connection = Deluge.Connections.Grid.getSelectionModel().getSelected();
+		Deluge.Client.web.stop_daemon(connection.id, {
+			onSuccess: function(result) {
+				if (!result[0]) {
+					Ext.MessageBox.show({
+                        title: _('Error'),
+                        msg: result[1],
+                        buttons: Ext.MessageBox.OK,
+                        modal: false,
+                        icon: Ext.MessageBox.ERROR,
+                        iconCls: 'x-deluge-error'
+                    });
+				}
+			}
+		});
 	},
 	
 	runCheck: function() {
@@ -112,7 +134,8 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 				id: 'add',
 				cls: 'x-btn-text-icon',
 				text: _('Add'),
-				icon: '/icons/16/add.png'
+				icon: '/icons/16/add.png',
+				handler: Deluge.Connections.onAdd
 			}, {
 				id: 'remove',
 				cls: 'x-btn-text-icon',
@@ -122,7 +145,8 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 				id: 'stop',
 				cls: 'x-btn-text-icon',
 				text: _('Stop Daemon'),
-				icon: '/icons/16/error.png'
+				icon: '/icons/16/error.png',
+				handler: Deluge.Connections.onStop
 			}
 		]
 	})

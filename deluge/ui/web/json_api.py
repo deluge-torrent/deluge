@@ -258,6 +258,11 @@ class WebApi(JSONComponent):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
     
+    def get_host(self, connection_id):
+        for host in self.host_list["hosts"]:
+            if host[0] == connection_id:
+                return host
+    
     @export
     def connect(self, host_id):
         d = Deferred()
@@ -423,4 +428,32 @@ class WebApi(JSONComponent):
             d = c.connect(host, port, user, password)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
+        return main_deferred
+    
+    @export
+    def stop_daemon(self, connection_id):
+        main_deferred = Deferred()
+        host = self.get_host(connection_id)
+        if not host:
+            main_deferred.callback((False, _("Daemon doesn't exist")))
+            return main_deferred
+        
+        try:
+            def on_connect(connected, c):
+                if not connected:
+                    main_deferred.callback((False, _("Daemon not running")))
+                    return
+                c.daemon.shutdown()
+                main_deferred.callback((True, ))
+            
+            def on_connect_failed(reason):
+                main_deferred.callback((False, reason))
+
+            host, port, user, password = host[1:5]
+            c = Client()
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c)
+            d.addErrback(on_connect_failed)
+        except:
+            main_deferred.callback((False, "An error occured"))
         return main_deferred
