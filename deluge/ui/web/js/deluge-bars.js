@@ -341,6 +341,17 @@ Deluge.SideBar = {
 		
 	},
 	
+	renderer: function(value, p, r) {
+		var lname = value.toLowerCase();
+		lname = lname.replace('.', '_');
+		
+		var image = '';		
+		if (r.store.id == 'tracker_host') {
+			image = String.format('url(/tracker/{0})', value);
+		}
+		return String.format('<span class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</span>', value, r.data['count'], lname, image);
+	},
+	
 	update: function(filters) {
 		$each(filters, function(states, filter) {
 			if (this.panels.has(filter)) {
@@ -353,8 +364,10 @@ Deluge.SideBar = {
 	
 	createFilter: function(filter, states) {
 		var store = new Ext.data.SimpleStore({
+			id: filter,
 			fields: [
-				{name: 'filter'}
+				{name: 'filter'},
+				{name: 'count'}
 			]
 		});
 		
@@ -372,7 +385,7 @@ Deluge.SideBar = {
 			store: store,
 			title: title,
 			columns: [
-				{id: 'filter', sortable: false, renderer: Deluge.Formatters.plain, dataIndex: 'filter'}
+				{id: 'filter', sortable: false, renderer: this.renderer, dataIndex: 'filter'}
 			],	
 			stripeRows: false,
 			hideHeaders: true,

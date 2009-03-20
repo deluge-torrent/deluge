@@ -33,14 +33,14 @@ input {
 	background-repeat: no-repeat;
 }
 
-#labels .all { background-image: url('/icons/16/all.png'); }
-#labels .active { background-image: url('/icons/16/active.png'); }
+.x-deluge-all { background-image: url('/icons/16/all.png'); }
+.x-deluge-active { background-image: url('/icons/16/active.png'); }
 .x-deluge-downloading, .x-deluge-peer { background-image: url('/icons/16/downloading.png'); }
 .x-deluge-seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('/icons/16/seeding.png'); }
-#labels .queued, .deluge-torrents .queued { background-image: url('/icons/16/queued.png'); }
-#labels .paused, .deluge-torrents .paused { background-image: url('/icons/16/inactive.png'); }
-#labels .error, .deluge-torrents .error { background-image: url('/icons/16/alert.png'); }
-#labels .checking, .deluge-torrents .checking { background-image: url('/icons/16/checking.png'); }
+.x-deluge-queued, .deluge-torrents .queued { background-image: url('/icons/16/queued.png'); }
+.x-deluge-paused, .deluge-torrents .paused { background-image: url('/icons/16/inactive.png'); }
+.x-deluge-error, .deluge-torrents .error { background-image: url('/icons/16/alert.png'); }
+.x-deluge-checking, .deluge-torrents .checking { background-image: url('/icons/16/checking.png'); }
 
 
 /* Torrent Details */
@@ -147,4 +147,11 @@ input {
 .x-progress-text-back {
 	background: transparent;
 	color: White;
+}
+
+
+.x-deluge-filter {
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	height: 25px;
 }
