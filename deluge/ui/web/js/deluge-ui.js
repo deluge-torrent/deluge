@@ -52,7 +52,8 @@ Deluge.Ui = {
 	},
 	
 	update: function() {
-		Deluge.Client.web.update_ui(Deluge.Keys.Grid, {}, {
+		var filters = Deluge.SideBar.getFilters();
+		Deluge.Client.web.update_ui(Deluge.Keys.Grid, filters, {
 			onSuccess: this.onUpdate.bindWithEvent(this),
 			onFailure: this.onUpdateError.bindWithEvent(this)
 		});

@@ -335,6 +335,7 @@ Deluge.SideBar = {
 	onRender: function(bar) {
 		this.Bar = bar;
 		Deluge.Events.on("disconnect", this.onDisconnect);
+		this.selected = null;
 	},
 	
 	onDisconnect: function() {
@@ -354,8 +355,26 @@ Deluge.SideBar = {
 		return String.format('<div class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</div>', value, r.data['count'], lname, image);
 	},
 	
+	getFilters: function() {
+		var filters = {}
+		if (!this.selected) {
+			return filters;
+		}
+		if (!this.selected.filter || !this.selected.panel) {
+			return filters;
+		}
+		var filterType = this.selected.panel.store.id;
+		if (filterType == "state" && this.selected.filter == "All") {
+			return filters;
+		}
+		
+		filters[filterType] = this.selected.filter;
+		return filters;
+	},
+	
 	update: function(filters) {
-		$each(filters, function(states, filter) {
+		filters = new Hash(filters);
+		filters.each(function(states, filter) {
 			if (this.panels.has(filter)) {
 				this.updateFilter(filter, states);
 			} else {
@@ -365,7 +384,7 @@ Deluge.SideBar = {
 		
 		// Perform a cleanup of fitlers that aren't enabled
 		$each(this.panels.getKeys(), function(filter) {
-			if (!fitlers.has(filter)) {
+			if (!filters.has(filter)) {
 				// We need to remove the panel
 			}
 		});
@@ -398,6 +417,12 @@ Deluge.SideBar = {
 				{id: 'filter', sortable: false, renderer: this.renderer, dataIndex: 'filter'}
 			],	
 			stripeRows: false,
+			selModel: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
+				listeners: {
+					'rowselect': this.onSelect.bindWithEvent(this)
+				}
+			}),
 			hideHeaders: true,
 			autoExpandColumn: 'filter',
 			deferredRender: false,
@@ -408,11 +433,36 @@ Deluge.SideBar = {
 		this.Bar.add(panel);
 		this.Bar.doLayout();
 		
+		if (!this.selected) {
+			panel.getSelectionModel().selectFirstRow();
+			this.selected = {
+				row: 0,
+				filter: states[0][0],
+				panel: panel
+			}
+		}
+		
 		this.panels[filter] = panel;
+	},
+	
+	onSelect: function(selModel, rowIndex, record) {
+		if (!this.selected) needsUpdate = true;
+		else if (this.selected.row != rowIndex) needsUpdate = true;
+		else needsUpdate = false;
+		this.selected = {
+			row: rowIndex,
+			filter: record.get('filter'),
+			panel: this.panels[record.store.id]
+		}
+		
+		if (needsUpdate) Deluge.Ui.update();
 	},
 	
 	updateFilter: function(filter, states) {
 		this.panels[filter].store.loadData(states);
+		if (this.selected && this.selected.panel == this.panels[filter]) {
+			this.panels[filter].getSelectionModel().selectRow(this.selected.row);
+		}
 	}
 };
 

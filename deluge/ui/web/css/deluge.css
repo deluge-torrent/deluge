@@ -154,6 +154,7 @@ input {
 	height: 16px;
 	line-height: 16px;
 	padding: 2px;
+	cursor: pointer;
 }
 
 .x-deluge-filters .x-deluge-filter {
