@@ -26,6 +26,18 @@ Deluge.Connections = {
 		Deluge.Events.fire('disconnect');
 	},
 	
+	loginShow: function() {
+		Deluge.Client.web.connected({
+			onSuccess: function(connected) {
+				if (connected) {
+					Deluge.Events.fire('connect');
+				} else {
+					Deluge.Connections.Window.show();
+				}
+			}
+		});
+	},
+	
 	onAdd: function(button, e) {
 		//Deluge.Connections.Add.show();
 	},
@@ -91,9 +103,10 @@ Deluge.Connections = {
 		});
 	},
 	
-	runCheck: function() {
+	runCheck: function(callback) {
+		callback = $pick(callback, Deluge.Connections.onGetHosts);
 		Deluge.Client.web.get_hosts({
-			onSuccess: Deluge.Connections.onGetHosts
+			onSuccess: callback
 		});
 	}
 }

@@ -28,7 +28,7 @@ Deluge.Login = {
             onSuccess: function(result) {
                 if (result == true) {
                     Deluge.Login.Window.hide();
-                    Deluge.Connections.Window.show();
+                    Deluge.Connections.loginShow();
                     passwordField.setRawValue('');
                     Deluge.Events.fire('login')
                 } else {
