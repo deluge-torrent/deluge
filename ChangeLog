@@ -1,6 +1,7 @@
 === Deluge 1.1.6 - (In Development) ===
 ==== Core ====
   * Fix udp trackers being classified as DHT source
+  * Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
 
 === Deluge 1.1.5 - (16 March 2009) ===
 ==== Core ====
