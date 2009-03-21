@@ -338,10 +338,11 @@ Deluge.SideBar = {
 	},
 	
 	onDisconnect: function() {
-		this.Bar.items.each(function(panel) {
-			panel.destroy();
-		});
+		this.panels.getKeys().each(function(el) {
+			this.Bar.remove(el + '-panel');
+		}, this);
 		this.panels.empty();
+		this.selected = null;
 	},
 	
 	renderer: function(value, p, r) {
@@ -411,6 +412,7 @@ Deluge.SideBar = {
         });
 		
 		var panel = new Ext.grid.GridPanel({
+			id: filter + '-panel',
 			store: store,
 			title: title,
 			cls: 'x-deluge-filters',
@@ -432,7 +434,9 @@ Deluge.SideBar = {
 		});
 		store.loadData(states);
 		this.Bar.add(panel);
+		
 		this.Bar.doLayout();
+		this.panels[filter] = panel;
 		
 		if (!this.selected) {
 			panel.getSelectionModel().selectFirstRow();
@@ -442,8 +446,6 @@ Deluge.SideBar = {
 				panel: panel
 			}
 		}
-		
-		this.panels[filter] = panel;
 	},
 	
 	onSelect: function(selModel, rowIndex, record) {
