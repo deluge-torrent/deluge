@@ -31,7 +31,10 @@ Deluge.Details = {
 	
 	update: function(tab) {	
 		var torrent = Deluge.Torrents.getSelected();
-		if (!torrent) return;
+		if (!torrent) {
+			this.clear();
+			return;
+		}
 		
 		tab = tab || this.Panel.getActiveTab();
 		if (tab.update) {
