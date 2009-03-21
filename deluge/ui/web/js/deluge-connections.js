@@ -73,6 +73,15 @@ Deluge.Connections = {
 		});
 	},
 	
+	onAddWindowHide: function() {
+		// Tidy up the form to ensure all the values are default.
+		var form = Deluge.Connections.Add.items.first();
+		form.items.get('host').reset();
+		form.items.get('port').reset();
+		form.items.get('username').reset();
+		form.items.get('password').reset();
+	},
+	
     onClose: function(e) {
 		$clear(Deluge.Connections.running);
 		Deluge.Connections.Window.hide();
@@ -213,7 +222,7 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 Deluge.Connections.Add = new Ext.Window({
 	layout: 'fit',
     width: 300,
-    height: 220,
+    height: 195,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
     closeAction: 'hide',
@@ -235,11 +244,14 @@ Deluge.Connections.Add = new Ext.Window({
 		},{
 			fieldLabel: _('Port'),
 			id: 'port',
+			xtype: 'uxspinner',
+			ctCls: 'x-form-uxspinner',
 			name: 'port',
+			strategy: Ext.ux.form.Spinner.NumberStrategy(),
 			value: '58846',
-			anchor: '100%',
+			anchor: '50%',
 			listeners: {}
-		},{
+		}, {
 			fieldLabel: _('Username'),
 			id: 'username',
 			name: 'username',
@@ -247,25 +259,30 @@ Deluge.Connections.Add = new Ext.Window({
 			listeners: {}
 		},{
 			fieldLabel: _('Password'),
-			id: 'password',
-			name: 'password',
-			inputType: 'password',
 			anchor: '100%',
-			listeners: {}
+			id: '_password',
+			name: '_password',
+			inputType: 'password'
 		}]
 	})],
     buttons: [{
-        text: _('Close')
+        text: _('Close'),
+		handler: function() {
+			Deluge.Connections.Add.hide();
+		}
     },{
         text: _('Add'),
 		handler: Deluge.Connections.onAddHost
-    }]
+    }],
+	listeners: {
+		'hide': Deluge.Connections.onAddWindowHide
+	}
 });
 
 Deluge.Connections.Window = new Ext.Window({
     layout: 'fit',
     width: 300,
-    height: 200,
+    height: 220,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
     closeAction: 'hide',
