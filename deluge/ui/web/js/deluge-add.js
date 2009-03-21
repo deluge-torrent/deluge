@@ -22,12 +22,30 @@ Copyright:
 */
 
 Deluge.Add = {
+	torrents: new Hash(),
+	
+	onAdd: function() {
+		torrents = new Array();
+		this.torrents.each(function(info, hash) {
+			torrents.include({
+				path: info['filename'],
+				options: {}
+			});
+		});
+		Deluge.Client.web.add_torrents(torrents, {
+			onSuccess: function(result) {
+			}
+		})
+		this.Window.hide();
+	},
+	
 	onRender: function(window) {
 		
 	},
 	
 	onTorrentAdded: function(info) {
 		this.Store.loadData([[info['info_hash'], info['name']]], true);
+		this.torrents[info['info_hash']] = info;
 	},
 	
 	onUrl: function(button, event) {
@@ -181,12 +199,11 @@ Deluge.Add.Url.Form = new Ext.form.FormPanel({
 
 Deluge.Add.Url.Window = new Ext.Window({
 	layout: 'fit',
-    width: 300,
-    height: 150,
+    width: 350,
+    height: 115,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'center',
     closeAction: 'hide',
-    closable: false,
     modal: true,
     plain: true,
     title: _('Add from Url'),
@@ -214,7 +231,9 @@ Deluge.Add.Window = new Ext.Window({
     buttons: [{
         text: _('Cancel')
     }, {
-		text: _('Add')
+		text: _('Add'),
+		handler: Deluge.Add.onAdd,
+		scope: Deluge.Add
 	}],
     listeners: {'render': {fn: Deluge.Add.onRender, scope: Deluge.Add}}
 });

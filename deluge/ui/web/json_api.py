@@ -24,6 +24,7 @@
 
 import os
 import time
+import base64
 import urllib
 import hashlib
 import logging
@@ -357,8 +358,10 @@ class WebApi(JSONComponent):
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
-            fdump = open(torrent["path"], "r").read()
-            client.add_torrent_file(filename, fdump, torrent["options"])
+            fdump = base64.encodestring(open(torrent["path"], "r").read())
+            log.info("Adding torrent from file `%s` with options `%r`",
+                filename, torrent["options"])
+            client.core.add_torrent_file(filename, fdump, torrent["options"])
         d = Deferred()
         d.callback(True)
         return d
