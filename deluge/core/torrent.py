@@ -522,7 +522,7 @@ class Torrent:
             tracker = self.trackers[0]["url"]
 
         if tracker:
-            url = urlparse(tracker)
+            url = urlparse(tracker.replace("udp://", "http://"))
             if hasattr(url, "hostname"):
                 host = (url.hostname or 'DHT')
                 # Check if hostname is an IP address and just return it if that's the case
