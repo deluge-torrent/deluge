@@ -31,10 +31,7 @@ Deluge.Details = {
 	
 	update: function(tab) {	
 		var torrent = Deluge.Torrents.getSelected();
-		if (!torrent) {
-			this.clear();
-			return;
-		}
+		if (!torrent) return;
 		
 		tab = tab || this.Panel.getActiveTab();
 		if (tab.update) {
@@ -44,6 +41,13 @@ Deluge.Details = {
 
 	onRender: function(panel) {
 		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
+		
+		var selModel = Deluge.Torrents.Grid.getSelectionModel();
+		selModel.on('selectionchange', function(selModel) {
+			if (!selModel.hasSelection()) {
+				this.clear.delay(10, this);
+			}
+		}.bindWithEvent(this));
 		Deluge.Events.on('disconnect', this.clear.bind(this));
 	},
 	
