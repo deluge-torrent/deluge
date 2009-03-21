@@ -181,7 +181,7 @@ var renderHost = function(value, p, r) {
 Deluge.Connections.Grid = new Ext.grid.GridPanel({
 	store: Deluge.Connections.Store,
 	columns: [
-		{header: 'Status', width: 55, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'status'},
+		{header: 'Status', width: 65, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'status'},
 		{id:'host', header: 'Host', width: 150, sortable: true, renderer: renderHost, dataIndex: 'host'},
 		{header: 'Version', width: 75, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'version'}
 	],	
