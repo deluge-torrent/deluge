@@ -52,6 +52,18 @@ Deluge.Events = {
 };
 
 Deluge.Formatters = {
+	date: function(timestamp) {
+		function zeroPad(num, count) {
+			var numZeropad = num + '';
+			while (numZeropad.length < count) {
+				numZeropad = '0' + numZeropad;
+			}
+			return numZeropad;
+		}
+		timestamp = timestamp * 1000;
+		var date = new Date(timestamp);
+		return String.format('{0}/{1}/{2}', zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear());
+	},
 	size: function(bytes) {
 		bytes = bytes / 1024.0;
 	
@@ -111,13 +123,14 @@ Deluge.Formatters = {
 var fsize = Deluge.Formatters.size;
 var fspeed = Deluge.Formatters.speed;
 var ftime = Deluge.Formatters.timeRemaining;
+var fdate = Deluge.Formatters.date;
 
 Deluge.Keys = {
     Grid: [
         'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
         'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
-        'is_auto_managed'
+        'is_auto_managed', 'time_added', 'tracker_host'
     ],
     Status: [
         'total_done', 'total_payload_download', 'total_uploaded',

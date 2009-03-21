@@ -100,6 +100,8 @@ Deluge.Ui = {
 				torrent.eta,
 				torrent.ratio,
 				torrent.distributed_copies,
+				torrent.time_added,
+				torrent.tracker_host,
 				id
 			]);
 		});

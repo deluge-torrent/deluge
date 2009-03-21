@@ -80,9 +80,11 @@ Deluge.Torrents = {
 			{name: 'upspeed', type: 'int'},
 			{name: 'eta', type: 'int'},
 			{name: 'ratio', type: 'float'},
-			{name: 'avail', type: 'float'}
+			{name: 'avail', type: 'float'},
+			{name: 'added', type: 'int'},
+			{name: 'tracker'}
 		],
-		id: 14
+		id: 16
 	}),
 	
 	getTorrent: function(rowIndex) {
@@ -114,7 +116,9 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 		{header: "Up Speed", width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'upspeed'},
 		{header: "ETA", width: 60, sortable: true, renderer: ftime, dataIndex: 'eta'},
 		{header: "Ratio", width: 60, sortable: true, renderer: avail, dataIndex: 'ratio'},
-		{header: "Avail.", width: 60, sortable: true, renderer: avail, dataIndex: 'avail'}
+		{header: "Avail.", width: 60, sortable: true, renderer: avail, dataIndex: 'avail'},
+		{header: "Added", width: 80, sortable: true, renderer: fdate, dataIndex: 'added'},
+		{header: "Tracker", width: 120, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'tracker'}
 	],	
 	stripeRows: true,
 	autoExpandColumn: 'name',
