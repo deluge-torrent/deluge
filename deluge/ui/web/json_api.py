@@ -480,14 +480,20 @@ class WebApi(JSONComponent):
         # if thats the case
         for entry in self.host_list["hosts"]:
             if (entry[0], entry[1], entry[2]) == (host, port, username):
-                d.callback(False)
+                d.callback((False, "Host already in the list"))
+        
+        try:
+            port = int(port)
+        except:
+            d.callback((False, "Port is invalid"))
+            return d
         
         # Host isn't in the list, so lets add it
         connection_id = hashlib.sha1(str(time.time())).hexdigest()
         self.host_list["hosts"].append([connection_id, host, port, username,
             password])
         self.host_list.save()
-        d.callback(True)
+        d.callback((True,))
         return d
     
     @export

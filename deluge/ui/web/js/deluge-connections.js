@@ -52,14 +52,14 @@ Deluge.Connections = {
 		var host = form.items.get('host').getValue();
 		var port = form.items.get('port').getValue();
 		var username = form.items.get('username').getValue();
-		var password = form.items.get('password').getValue();
+		var password = form.items.get('_password').getValue();
 		
 		Deluge.Client.web.add_host(host, port, username, password, {
 			onSuccess: function(result) {
-				if (!result) {
+				if (!result[0]) {
 					Ext.MessageBox.show({
                         title: _('Error'),
-                        msg: "Unable to add host",
+                        msg: "Unable to add host: " + result[1],
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,
@@ -79,7 +79,7 @@ Deluge.Connections = {
 		form.items.get('host').reset();
 		form.items.get('port').reset();
 		form.items.get('username').reset();
-		form.items.get('password').reset();
+		form.items.get('_password').reset();
 	},
 	
     onClose: function(e) {
