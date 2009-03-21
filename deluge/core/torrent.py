@@ -838,6 +838,7 @@ class Torrent:
         """Forces a recheck of the torrents pieces"""
         try:
             self.handle.force_recheck()
+            self.handle.resume()
         except Exception, e:
             log.debug("Unable to force recheck: %s", e)
             return False
