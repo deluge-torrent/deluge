@@ -282,6 +282,13 @@ class WebApi(JSONComponent):
         return d
     
     @export
+    def disconnect(self):
+        d =  Deferred()
+        client.disconnect()
+        d.callback(True)
+        return d
+    
+    @export
     def update_ui(self, keys, filter_dict):
 
         ui_info = {

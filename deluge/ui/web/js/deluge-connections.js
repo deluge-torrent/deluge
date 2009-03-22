@@ -88,19 +88,30 @@ Deluge.Connections = {
     },
     
     onConnect: function(e) {
-		$clear(Deluge.Connections.running);
-		Deluge.Connections.Window.hide();
+		
 		var selected = Deluge.Connections.Grid.getSelectionModel().getSelected();
 		if (!selected) return;
-		var id = selected.id;
-		Deluge.Client.web.connect(id, {
-			onSuccess: function(methods) {
-				Deluge.Client = new JSON.RPC('/json', {
-					methods: methods
-				});
-				Deluge.Events.fire('connect');
-			}
-		});
+		
+		if (selected.get('status') == _('Connected')) {
+			Deluge.Client.web.disconnect({
+				onSuccess: function(result) {
+					Deluge.Connections.runCheck();
+					Deluge.Events.fire('disconnect');
+				}
+			});
+		} else {
+			var id = selected.id;
+			Deluge.Client.web.connect(id, {
+				onSuccess: function(methods) {
+					Deluge.Client = new JSON.RPC('/json', {
+						methods: methods
+					});
+					Deluge.Events.fire('connect');
+				}
+			});
+			$clear(Deluge.Connections.running);
+			Deluge.Connections.Window.hide();
+		}
     },
 	
 	onGetHosts: function(hosts) {
@@ -131,6 +142,12 @@ Deluge.Connections = {
 	
 	onSelect: function(selModel, rowIndex, record) {
 		Deluge.Connections.selectedRow = rowIndex;
+		var button = Deluge.Connections.Window.buttons[1];
+		if (record.get('status') == _('Connected')) {
+			button.setText(_('Disconnect'));
+		} else {
+			button.setText(_('Connect'));
+		}
 	},
 	
 	onShow: function(window) {
