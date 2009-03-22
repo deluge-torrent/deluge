@@ -34,17 +34,17 @@ class PluginBase(component.Component):
 
 class CorePluginBase(PluginBase):
     def __init__(self, plugin_name):
-        component.Component.__init__(self, "CorePlugin." + plugin_name)
+        super(PluginBase, self).__init__("CorePlugin." + plugin_name)
         # Register RPC methods
         component.get("RPCServer").register_object(self, plugin_name.lower())
         log.debug("CorePlugin initialized..")
 
 class GtkPluginBase(PluginBase):
     def __init__(self, plugin_name):
-        component.Component.__init__(self, "GtkPlugin." + plugin_name)
+        super(GtkPluginBase, self).__init__("GtkPlugin." + plugin_name)
         log.debug("GtkPlugin initialized..")
 
 class WebPluginBase(PluginBase):
     def __init__(self, plugin_name):
-        component.Component.__init__(self, "WebPlugin." + plugin_name)
+        super(WebPluginBase, self).__init__("WebPlugin." + plugin_name)
         log.debug("WebPlugin initialized..")
