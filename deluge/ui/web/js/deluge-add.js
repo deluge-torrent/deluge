@@ -52,18 +52,18 @@ Deluge.Add = {
 			$each(files, function(item, file) {
 				if ($type(item) == 'object') {
 					var child = new Ext.tree.TreeNode({
-						filename: file,
 						text: file
 					});
 					walk(item, child);
 					parent.appendChild(child);
 				} else {
+					var test = item[1];
 					parent.appendChild(new Ext.tree.TreeNode({
-						enabled: item[1],
+						enabled: '<input type="checkbox" />',
 						filename: file,
-						size: item[0],
+						size: fsize(item[0]),
 						leaf: true,
-						text: file
+						uiProvider: Ext.tree.ColumnNodeUI
 					}));	
 				}
 			});
@@ -90,15 +90,15 @@ Deluge.Add.Files = new Ext.tree.ColumnTree({
 	layout: 'fit',
 	rootVisible: false,
 	autoScroll: true,
-	height: 200,
+	height: 170,
 	border: false,
 	
 	columns: [{
-		width: 40,
+		width: 70,
 		dataIndex: 'enabled'
 	},{
 		header: _('Filename'),
-		width: 250,
+		width: 200,
 		dataIndex: 'filename'
 	},{
 		header: _('Size'),
