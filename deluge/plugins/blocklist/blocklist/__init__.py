@@ -26,10 +26,19 @@
 from deluge.plugins.init import PluginInitBase
 
 class CorePlugin(PluginInitBase):
-    from core import Core as _plugin_cls
+    def __init__(self, plugin_name):
+        from core import Core as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(CorePlugin, self).__init__(plugin_name)
 
 class GtkUIPlugin(PluginInitBase):
-    from gtkui import GtkUI as _plugin_cls
+    def __init__(self, plugin_name):
+        from gtkui import GtkUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(GtkUIPlugin, self).__init__(plugin_name)
 
 class WebUIPlugin(PluginInitBase):
-    from webui import WebUI as _plugin_cls
+    def __init__(self, plugin_name):
+        from webui import WebUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(WebUIPlugin, self).__init__(plugin_name)
