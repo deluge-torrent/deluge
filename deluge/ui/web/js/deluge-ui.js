@@ -25,6 +25,9 @@ Copyright:
 Deluge.Ui = {
 	initialize: function() {
 		this.errorCount = 0;
+		this.roar = new Roar({
+			position: 'lowerRight'
+		});
 		Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
@@ -50,6 +53,10 @@ Deluge.Ui = {
 		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
 		Deluge.Client = new JSON.RPC('/json');
+	},
+	
+	notify: function(title, message) {
+		this.roar.alert(title, message);
 	},
 	
 	update: function() {
@@ -128,6 +135,7 @@ Deluge.Ui = {
 	
 	onDisconnect: function() {
 		this.stop();
+		this.notify('Disconnected', 'Deluge has disconnected from the daemon');
 	},
 	
 	/*
