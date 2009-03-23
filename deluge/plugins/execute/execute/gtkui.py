@@ -23,6 +23,7 @@
 #
 
 import os
+import gtk
 import pkg_resources
 
 from deluge.log import LOG as log
@@ -30,8 +31,6 @@ from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
-
-gtk = None
 
 EXECUTE_ID = 0
 EXECUTE_EVENT = 1
@@ -47,8 +46,6 @@ EVENTS = ["complete", "added"]
 class ExecutePreferences(object):
     def __init__(self, plugin):
         self.plugin = plugin
-        global gtk
-        import gtk
     
     def load(self):
         log.debug("Adding Execute Preferences page")
