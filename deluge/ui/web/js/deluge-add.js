@@ -57,9 +57,14 @@ Deluge.Add = {
 					walk(item, child);
 					parent.appendChild(child);
 				} else {
+					if (item[1]) {
+						var checkbox = '<input type="checkbox" checked="checked" />';
+					} else {
+						var checkbox = '<input type="checkbox" />';
+					}
 					var test = item[1];
 					parent.appendChild(new Ext.tree.TreeNode({
-						enabled: '<input type="checkbox" />',
+						enabled: checkbox,
 						filename: file,
 						size: fsize(item[0]),
 						leaf: true,
