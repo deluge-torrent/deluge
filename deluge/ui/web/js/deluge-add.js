@@ -36,11 +36,39 @@ Deluge.Add = {
 			onSuccess: function(result) {
 			}
 		})
+		this.Store.loadData([]);
+		this.torrents.empty();
 		this.Window.hide();
 	},
 	
 	onRender: function(window) {
 		
+	},
+	
+	onSelect: function(selModel, rowIndex, record) {
+		var torrentInfo = Deluge.Add.torrents[record.id];
+		
+		function walk(files, parent) {
+			$each(files, function(item, file) {
+				if ($type(item) == 'object') {
+					var child = new Ext.tree.TreeNode({
+						filename: file,
+						text: file
+					});
+					walk(item, child);
+					parent.appendChild(child);
+				} else {
+					parent.appendChild(new Ext.tree.TreeNode({
+						enabled: item[1],
+						filename: file,
+						size: item[0],
+						leaf: true,
+						text: file
+					}));	
+				}
+			});
+		}
+		walk(torrentInfo['files'], Deluge.Add.Files.getRootNode());
 	},
 	
 	onTorrentAdded: function(info) {
@@ -50,6 +78,10 @@ Deluge.Add = {
 	
 	onUrl: function(button, event) {
 		this.Url.Window.show();
+	},
+	
+	onRemove: function() {
+		
 	}
 }
 
@@ -74,14 +106,8 @@ Deluge.Add.Files = new Ext.tree.ColumnTree({
 		dataIndex: 'size'
 	}],
 	
-	loader: new Deluge.FilesTreeLoader({
-		uiProviders: {
-			'col': Ext.tree.ColumnNodeUI
-		}
-	}),
-	
-	root: new Ext.tree.AsyncTreeNode({
-		text:'Tasks'
+	root: new Ext.tree.TreeNode({
+		text: 'Files'
 	})
 })
 
@@ -101,7 +127,7 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 	stripeRows: true,
 	selModel: new Ext.grid.RowSelectionModel({
 		singleSelect: true,
-		listeners: {'rowselect': Deluge.Connections.onSelect}
+		listeners: {'rowselect': Deluge.Add.onSelect}
 	}),
 	hideHeaders: true,
 	autoExpandColumn: 'torrent',
@@ -229,7 +255,10 @@ Deluge.Add.Window = new Ext.Window({
     iconCls: 'x-deluge-add-window-icon',
     items: [Deluge.Add.Grid, Deluge.Add.Options],
     buttons: [{
-        text: _('Cancel')
+        text: _('Cancel'),
+		handler: function() {
+			Deluge.Add.Window.hide();
+		}
     }, {
 		text: _('Add'),
 		handler: Deluge.Add.onAdd,
