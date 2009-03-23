@@ -169,6 +169,7 @@ def get_torrent_info(filename):
         metadata = bencode.bdecode(open(filename, "rb").read())
     except Exception, e:
         log.warning("Unable to open %s: %s", filename, e)
+        raise e
 
     info_hash = sha(bencode.bencode(metadata["info"])).hexdigest()
 
