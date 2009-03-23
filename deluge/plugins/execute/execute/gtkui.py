@@ -23,7 +23,6 @@
 #
 
 import os
-import gtk
 import pkg_resources
 
 from deluge.log import LOG as log
@@ -32,17 +31,24 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
+gtk = None
+
 EXECUTE_ID = 0
 EXECUTE_EVENT = 1
 EXECUTE_COMMAND = 2
 
 EVENT_MAP = {
-    "complete": _("Torrent Complete")
+    "complete": _("Torrent Complete"),
+    "added": _("Torrent Added")
 }
+
+EVENTS = ["complete", "added"]
 
 class ExecutePreferences(object):
     def __init__(self, plugin):
         self.plugin = plugin
+        global gtk
+        import gtk
     
     def load(self):
         log.debug("Adding Execute Preferences page")
@@ -54,7 +60,9 @@ class ExecutePreferences(object):
         events = self.glade.get_widget("event_combobox")
         
         store = gtk.ListStore(str, str)
-        store.append((_("Torrent Complete"), "complete"))
+        for event in EVENTS:
+            event_label = EVENT_MAP[event]
+            store.append((event_label, event))
         events.set_model(store)
 
         self.plugin.add_preferences_page(_("Execute"),
