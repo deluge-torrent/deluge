@@ -48,7 +48,30 @@ class TorrentInfo(object):
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
-        # Get list of files from torrent info
+        """# Get list of files from torrent info
+        paths = {}
+        if metadata["info"].has_key("files"):
+            prefix = ""
+            if len(metadata["info"]["files"]) > 1:
+                prefix = metadata["info"]["name"]
+    
+            for f in metadata["info"]["files"]:
+                path = os.path.join(prefix, *f["path"])
+                paths[path] = f
+            
+            def walk(path, item):
+                if type(item) is dict:
+                    return item
+                return [paths[path]['length'], True]
+            
+            file_tree = FileTree(paths)
+            file_tree.walk(walk)
+            self.__m_files = file_tree.get_tree()
+        else:
+            self.__m_files = {
+                metadata["info"]["name"]: (metadata["info"]["length"], True)
+            }"""
+        
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
@@ -84,6 +107,57 @@ class TorrentInfo(object):
     def metadata(self):
         return self.__m_metadata
 
+class FileTree(object):
+    def __init__(self, paths):
+        self.tree = {}
+
+        def get_parent(path):
+            parent = self.tree
+            while "/" in path:
+                directory, path = path.split("/", 1)
+                child = parent.get(directory)
+                if child is None:
+                    parent[directory] = {}
+                parent = parent[directory]
+            return parent, path
+    
+        for path in paths:
+            if path[-1] == "/":
+                path = path[:-1]
+                parent, path = get_parent(path)
+                parent[path] = {}
+            else:
+                parent, path = get_parent(path)
+                parent[path] = []
+    
+    def get_tree(self):
+        def to_tuple(path, item):
+            if type(item) is dict:
+                return item
+            return tuple(item)
+        self.walk(to_tuple)
+        return self.tree
+    
+    def walk(self, callback):
+        def walk(directory, parent_path):
+            for path in directory.keys():
+                full_path = os.path.join(parent_path, path)
+                if type(directory[path]) is dict:
+                    directory[path] = callback(full_path, directory[path]) or \
+                             directory[path]
+                    walk(directory[path], full_path)
+                else:
+                    directory[path] = callback(full_path, directory[path]) or \
+                             directory[path]
+        walk(self.tree, "")
+    
+    def __str__(self):
+        lines = []
+        def write(path, item):
+            lines.append("  " * path.count("/") + str(type(item)))
+        self.walk(write)
+        return "\n".join(lines)
+
 def get_torrent_info(filename):
     """
     Return the metadata of a torrent file
@@ -99,24 +173,28 @@ def get_torrent_info(filename):
     info_hash = sha(bencode.bencode(metadata["info"])).hexdigest()
 
     # Get list of files from torrent info
-    files = []
+    paths = {}
     if metadata["info"].has_key("files"):
         prefix = ""
         if len(metadata["info"]["files"]) > 1:
             prefix = metadata["info"]["name"]
 
         for f in metadata["info"]["files"]:
-            files.append({
-                'path': os.path.join(prefix, *f["path"]),
-                'size': f["length"],
-                'download': True
-            })
+            path = os.path.join(prefix, *f["path"])
+            paths[path] = f
+        
+        def walk(path, item):
+            if type(item) is dict:
+                return item
+            return [paths[path]['length'], True]
+        
+        file_tree = FileTree(paths)
+        file_tree.walk(walk)
+        files = file_tree.get_tree()
     else:
-        files.append({
-            "path": metadata["info"]["name"],
-            "size": metadata["info"]["length"],
-            "download": True
-        })
+        files = {
+            metadata["info"]["name"]: (metadata["info"]["length"], True)
+        }
 
     return {
         "filename": filename,
