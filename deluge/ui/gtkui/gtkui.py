@@ -218,15 +218,25 @@ class GtkUI:
 
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
-        if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
-            # XXX: We need to call a simulate() here, but this could be a bug in twisted
-            reactor.simulate()
-            self.connectionmanager.show()
-
         if self.config["classic_mode"]:
             client.start_classic_mode()
             component.start()
             return
+
+        # Autoconnect to a host
+        if self.config["autoconnect"]:
+            for host in self.connectionmanager.config["hosts"]:
+                if host[0] == self.config["autoconnect_host_id"]:
+                    def on_connect(connector):
+                        component.start()
+                    client.connect(*host[1:]).addCallback(on_connect)
+
+        if self.config["show_connection_manager_on_start"]:
+            # XXX: We need to call a simulate() here, but this could be a bug in twisted
+            reactor.simulate()
+            self.connectionmanager.show()
+
+
 
     def __on_disconnect(self):
         """
