@@ -254,6 +254,8 @@ DEFAULT_HOSTS = {
         DEFAULT_HOST, DEFAULT_PORT, "", "")]
 }
 
+FILES_KEYS = ["files", "file_progress", "file_priorities"]
+
 class WebApi(JSONComponent):
     def __init__(self):
         super(WebApi, self).__init__("Web")
@@ -315,6 +317,34 @@ class WebApi(JSONComponent):
             client.core.get_filter_tree().addCallback(got_filters)
         client.core.get_torrents_status(filter_dict, keys).addCallback(got_torrents)
         return d
+    
+    def _on_got_files(self, torrent, d):
+        files = torrent.get("files")
+        file_progress = torrent.get("file_progress")
+
+        paths = []
+        info = {}
+        for index, torrent_file in enumerate(files):
+            path = torrent_file["path"]
+            paths.append(path)
+            torrent_file["progress"] = file_progress[index]
+            info[path] = torrent_file
+        
+        def walk(path, item):
+            if type(item) is dict:
+                return item
+            return [info[path]["size"], info[path]["progress"]]
+
+        file_tree = uicommon.FileTree(paths)
+        file_tree.walk(walk)
+        d.callback(file_tree.get_tree())
+    
+    @export
+    def get_torrent_files(self, torrent_id):        
+        main_deferred = Deferred()        
+        d = client.core.get_torrent_status(torrent_id, FILES_KEYS)        
+        d.addCallback(self._on_got_files, main_deferred)
+        return main_deferred
 
     @export
     def download_torrent_from_url(self, url):
