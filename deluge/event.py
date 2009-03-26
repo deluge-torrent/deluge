@@ -69,6 +69,16 @@ class TorrentRemovedEvent(DelugeEvent):
         """
         self._args = [torrent_id]
 
+class PreTorrentRemovedEvent(DelugeEvent):
+    """
+    Emitted when a torrent is about to be removed from the session.
+    """
+    def __init__(self, torrent_id):
+        """
+        :param torrent_id: str, the torrent_id
+        """
+        self._args = [torrent_id]
+
 class TorrentStateChangedEvent(DelugeEvent):
     """
     Emitted when a torrent changes state.

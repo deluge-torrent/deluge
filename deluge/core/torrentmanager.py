@@ -430,6 +430,9 @@ class TorrentManager(component.Component):
 
     def remove(self, torrent_id, remove_data=False):
         """Remove a torrent from the manager"""
+        # Emit the signal to the clients
+        component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
+
         try:
             self.session.remove_torrent(self.torrents[torrent_id].handle,
                 1 if remove_data else 0)
