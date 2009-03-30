@@ -162,6 +162,10 @@ input {
 	padding-left: 20px;
 }
 
+.x-grid3-row-selected table td div {
+	font-weight: Bold;
+}
+
 /* MessageBox icon styles */
 .x-deluge-icon-warning {
 	background: url('/icons/16/warning.png') no-repeat 2px;
@@ -169,4 +173,12 @@ input {
 
 .x-deluge-icon-error {
 	background: url('/icons/16/error.png') no-repeat 2px;
+}
+
+.x-deluge-add-file, .x-tree-node-icon {
+	background: url('/icons/16/document.png') no-repeat 2px;
+}
+
+.x-deluge-add-file-checkbox {
+	margin-top: 2px;
 }
