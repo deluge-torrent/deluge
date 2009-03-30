@@ -203,12 +203,47 @@ Deluge.Details.Files = {
 		this.panel.update = this.update.bind(this);
 	},
 	
+	onRequestComplete: function(files) {
+		function walk(files, parent) {
+			$each(files, function(item, file) {
+				var child = parent.findChild('id', file);
+				if ($type(item) == 'object') {
+					if (!child) {
+						child = new Ext.tree.TreeNode({
+							id: file,
+							text: file
+						});
+						parent.appendChild(child);
+					}
+					walk(item, child);
+				} else {
+					if (!child) {
+						child = new Ext.tree.TreeNode({
+							id: file,
+							filename: file,
+							size: fsize(item[0]),
+							progress: item[1],
+							leaf: true,
+							iconCls: 'x-deluge-file',
+							uiProvider: Ext.tree.ColumnNodeUI
+						});
+						parent.appendChild(child);
+					}
+				}
+			});
+		}
+		var root = this.panel.getRootNode();
+		walk(files, root);
+	},
+	
 	clear: function() {
 		
 	},
 	
 	update: function(torrentId) {
-		
+		Deluge.Client.web.get_torrent_files(torrentId, {
+			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
+		});
 	}
 }
 
@@ -318,15 +353,10 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			dataIndex: 'priority'
 		}],
 		
-		loader: new Deluge.FilesTreeLoader({
-			uiProviders: {
-				'col': Ext.tree.ColumnNodeUI
-			}
-		}),
-		
-		root: new Ext.tree.AsyncTreeNode({
-            text:'Tasks'
-        })
+		root: new Ext.tree.TreeNode({
+            text: 'Files'
+        }),
+		listeners: {'render': {fn: Deluge.Details.Files.onRender, scope: Deluge.Details.Files}}
 	}), new Ext.grid.GridPanel({
 		id: 'peers',
 		title: _('Peers'),
