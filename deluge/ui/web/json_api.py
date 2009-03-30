@@ -253,6 +253,17 @@ DEFAULT_HOSTS = {
     "hosts": [(hashlib.sha1(str(time.time())).hexdigest(),
         DEFAULT_HOST, DEFAULT_PORT, "", "")]
 }
+HOSTLIST_ID = 0
+HOSTLIST_NAME = 1
+HOSTLIST_PORT = 2
+HOSTLIST_USER = 3
+HOSTLIST_PASS = 4
+
+HOSTS_ID = HOSTLIST_ID
+HOSTS_NAME = HOSTLIST_NAME
+HOSTS_PORT = HOSTLIST_PORT
+HOSTS_STATUS = 3
+HOSTS_INFO = 4
 
 FILES_KEYS = ["files", "file_progress", "file_priorities"]
 
@@ -418,26 +429,27 @@ class WebApi(JSONComponent):
     @export
     def get_hosts(self):
         """Return the hosts in the hostlist"""
-        hosts = dict((host[0], host[:]) for host in self.host_list["hosts"])
+        hosts = dict((host[HOSTLIST_ID], host[:]) for \
+            host in self.host_list["hosts"])
         
         main_deferred = Deferred()
         def run_check():
-            if all(map(lambda x: x[3] is not None, hosts.values())):
+            if all(map(lambda x: x[HOSTS_STATUS] is not None, hosts.values())):
                 main_deferred.callback(hosts.values())
         
         def on_connect(connected, c, host_id):
             def on_info(info, c):
-                hosts[host_id][3] = _("Online")
-                hosts[host_id][4] = info
+                hosts[host_id][HOSTS_STATUS] = _("Online")
+                hosts[host_id][HOSTS_INFO] = info
                 c.disconnect()
                 run_check()
             
             def on_info_fail(reason):
-                hosts[host_id][3] = _("Offline")
+                hosts[host_id][HOSTS_STATUS] = _("Offline")
                 run_check()
             
             if not connected:
-                hosts[host_id][3] = _("Offline")
+                hosts[host_id][HOSTS_STATUS] = _("Offline")
                 run_check()
                 return
 
@@ -447,20 +459,20 @@ class WebApi(JSONComponent):
             
         def on_connect_failed(reason, host_id):
             log.exception(reason)
-            hosts[host_id][3] = _("Offline")
+            hosts[host_id][HOSTS_STATUS] = _("Offline")
             run_check()
         
         for host in hosts.values():
-            host_id, host, port, user, password = host[0:5]
-            hosts[host_id][3:4] = (None, None)
+            host_id, host, port, user, password = host
+            hosts[host_id][HOSTS_STATUS:HOSTS_INFO] = (None, None)
             
             if client.connected() and (host, port, "localclient" if not \
                 user and host in ("127.0.0.1", "localhost") else \
                 user)  == client.connection_info():
                 def on_info(info):
-                    hosts[host_id][4] = info
+                    hosts[host_id][HOSTS_INFO] = info
                     run_check()
-                hosts[host_id][3] = _("Connected")
+                hosts[host_id][HOSTS_STATUS] = _("Connected")
                 client.daemon.info().addCallback(on_info)
                 continue
             
