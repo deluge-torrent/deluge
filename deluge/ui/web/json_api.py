@@ -487,7 +487,7 @@ class WebApi(JSONComponent):
         """
         Stops a running daemon.
 
-        :param connection_Id: str, the hash id of the connection
+        :param connection_id: str, the hash id of the connection
 
         """
         main_deferred = Deferred()
