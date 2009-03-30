@@ -203,7 +203,11 @@ Deluge.Details.Files = {
 		this.panel.update = this.update.bind(this);
 	},
 	
-	onRequestComplete: function(files) {
+	onRequestComplete: function(files, torrentId) {
+		if (this.torrentId !=  torrentId) {
+			this.clear();
+			this.torrentId = torrentId;
+		}
 		function walk(files, parent) {
 			$each(files, function(item, file) {
 				var child = parent.findChild('id', file);
@@ -224,7 +228,7 @@ Deluge.Details.Files = {
 							size: fsize(item[0]),
 							progress: item[1],
 							leaf: true,
-							iconCls: 'x-deluge-file',
+							icon: '/icons/16/document.png',
 							uiProvider: Ext.tree.ColumnNodeUI
 						});
 						parent.appendChild(child);
@@ -237,7 +241,13 @@ Deluge.Details.Files = {
 	},
 	
 	clear: function() {
-		
+		var root = this.panel.getRootNode();
+		if (!root.hasChildNodes()) return;
+		root.cascade(function(node) {
+			var parent = node.parentNode;
+			if (!parent) return;
+			parent.removeChild(node);
+		});
 	},
 	
 	update: function(torrentId) {
