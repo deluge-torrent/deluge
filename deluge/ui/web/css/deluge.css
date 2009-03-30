@@ -162,7 +162,7 @@ input {
 	padding-left: 20px;
 }
 
-#sidebar .x-grid3-row-selected table td div {
+#sidebar .x-grid3-row-selected td {
 	font-weight: Bold;
 }
 
