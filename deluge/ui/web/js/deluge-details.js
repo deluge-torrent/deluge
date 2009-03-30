@@ -228,7 +228,7 @@ Deluge.Details.Files = {
 							size: fsize(item[0]),
 							progress: item[1],
 							leaf: true,
-							icon: '/icons/16/document.png',
+							iconCls: 'x-deluge-file',
 							uiProvider: Ext.tree.ColumnNodeUI
 						});
 						parent.appendChild(child);
