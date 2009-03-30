@@ -57,17 +57,12 @@ Deluge.Add = {
 					walk(item, child);
 					parent.appendChild(child);
 				} else {
-					if (item[1]) {
-						var checkbox = '<input type="checkbox" checked="checked" />';
-					} else {
-						var checkbox = '<input type="checkbox" />';
-					}
-					var test = item[1];
 					parent.appendChild(new Ext.tree.TreeNode({
-						enabled: checkbox,
 						filename: file,
 						size: fsize(item[0]),
 						leaf: true,
+						checked: item[1],
+						iconCls: 'x-deluge-add-file',
 						uiProvider: Ext.tree.ColumnNodeUI
 					}));	
 				}
@@ -97,11 +92,9 @@ Deluge.Add.Files = new Ext.tree.ColumnTree({
 	autoScroll: true,
 	height: 170,
 	border: false,
+	animate: false,
 	
 	columns: [{
-		width: 70,
-		dataIndex: 'enabled'
-	},{
 		header: _('Filename'),
 		width: 200,
 		dataIndex: 'filename'
@@ -111,7 +104,7 @@ Deluge.Add.Files = new Ext.tree.ColumnTree({
 		dataIndex: 'size'
 	}],
 	
-	root: new Ext.tree.TreeNode({
+	root: new Ext.tree.AsyncTreeNode({
 		text: 'Files'
 	})
 })
