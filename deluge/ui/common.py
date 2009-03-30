@@ -48,30 +48,31 @@ class TorrentInfo(object):
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
-        """# Get list of files from torrent info
+        # Get list of files from torrent info
         paths = {}
-        if metadata["info"].has_key("files"):
+        if self.__m_metadata["info"].has_key("files"):
             prefix = ""
-            if len(metadata["info"]["files"]) > 1:
-                prefix = metadata["info"]["name"]
-    
-            for f in metadata["info"]["files"]:
+            if len(self.__m_metadata["info"]["files"]) > 1:
+                prefix = self.__m_metadata["info"]["name"]
+
+            for index, f in enumerate(self.__m_metadata["info"]["files"]):
                 path = os.path.join(prefix, *f["path"])
+                f["index"] = index
                 paths[path] = f
-            
+
             def walk(path, item):
                 if type(item) is dict:
                     return item
-                return [paths[path]['length'], True]
-            
+                return [paths[path]['index'], paths[path]['length'], True]
+
             file_tree = FileTree(paths)
             file_tree.walk(walk)
-            self.__m_files = file_tree.get_tree()
+            self.__m_files_tree = file_tree.get_tree()
         else:
-            self.__m_files = {
-                metadata["info"]["name"]: (metadata["info"]["length"], True)
-            }"""
-        
+            self.__m_files_tree = {
+                self.__m_metadata["info"]["name"]: (self.__m_metadata["info"]["length"], True)
+            }
+
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
@@ -104,6 +105,10 @@ class TorrentInfo(object):
         return self.__m_files
 
     @property
+    def files_tree(self):
+        return self.__m_files_tree
+
+    @property
     def metadata(self):
         return self.__m_metadata
 
@@ -120,7 +125,7 @@ class FileTree(object):
                     parent[directory] = {}
                 parent = parent[directory]
             return parent, path
-    
+
         for path in paths:
             if path[-1] == "/":
                 path = path[:-1]
@@ -129,7 +134,7 @@ class FileTree(object):
             else:
                 parent, path = get_parent(path)
                 parent[path] = []
-    
+
     def get_tree(self):
         def to_tuple(path, item):
             if type(item) is dict:
@@ -137,7 +142,7 @@ class FileTree(object):
             return tuple(item)
         self.walk(to_tuple)
         return self.tree
-    
+
     def walk(self, callback):
         def walk(directory, parent_path):
             for path in directory.keys():
@@ -150,7 +155,7 @@ class FileTree(object):
                     directory[path] = callback(full_path, directory[path]) or \
                              directory[path]
         walk(self.tree, "")
-    
+
     def __str__(self):
         lines = []
         def write(path, item):
@@ -183,12 +188,12 @@ def get_torrent_info(filename):
         for f in metadata["info"]["files"]:
             path = os.path.join(prefix, *f["path"])
             paths[path] = f
-        
+
         def walk(path, item):
             if type(item) is dict:
                 return item
             return [paths[path]['length'], True]
-        
+
         file_tree = FileTree(paths)
         file_tree.walk(walk)
         files = file_tree.get_tree()
