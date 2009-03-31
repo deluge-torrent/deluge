@@ -29,10 +29,6 @@ input {
 	text-align: center;
 }
 
-/*.x-deluge-downloading, .x-deluge-seeding {
-	background-repeat: no-repeat;
-}*/
-
 /* Icon classes */
 .x-deluge-all { background-image: url('/icons/all.png'); }
 .x-deluge-active { background-image: url('/icons/active.png'); }
