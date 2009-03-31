@@ -138,24 +138,24 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 				id: 'file',
 				cls: 'x-btn-text-icon',
 				text: _('File'),
-				icon: '/icons/16/add_file.png'
+				icon: '/icons/add_file.png'
 			}, {
 				id: 'url',
 				cls: 'x-btn-text-icon',
 				text: _('Url'),
-				icon: '/icons/16/add_url.png',
+				icon: '/icons/add_url.png',
 				handler: Deluge.Add.onUrl,
 				scope: Deluge.Add
 			}, {
 				id: 'infohash',
 				cls: 'x-btn-text-icon',
 				text: _('Infohash'),
-				icon: '/icons/16/add_magnet.png'
+				icon: '/icons/add_magnet.png'
 			}, '->', {
 				id: 'remove',
 				cls: 'x-btn-text-icon',
 				text: _('Remove'),
-				icon: '/icons/16/remove.png'
+				icon: '/icons/remove.png'
 			}
 		]
 	})

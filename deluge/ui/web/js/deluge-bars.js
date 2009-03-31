@@ -104,75 +104,75 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Create'),
-			icon: '/icons/16/create.png',
+			icon: '/icons/create.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'add',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Add'),
-			icon: '/icons/16/add.png',
+			icon: '/icons/add.png',
 			handler: Deluge.ToolBar.onTorrentAdd
 		},{
 			id: 'remove',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Remove'),
-			icon: '/icons/16/remove.png',
+			icon: '/icons/remove.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'pause',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Pause'),
-			icon: '/icons/16/pause.png',
+			icon: '/icons/pause.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'resume',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Resume'),
-			icon: '/icons/16/start.png',
+			icon: '/icons/start.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'up',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Up'),
-			icon: '/icons/16/up.png',
+			icon: '/icons/up.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'down',
 			cls: 'x-btn-text-icon',
 			disabled: true,
 			text: _('Down'),
-			icon: '/icons/16/down.png',
+			icon: '/icons/down.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},'|',{
 			id: 'preferences',
 			cls: 'x-btn-text-icon',
 			text: _('Preferences'),
-			icon: '/icons/16/preferences.png',
+			icon: '/icons/preferences.png',
 			handler: Deluge.ToolBar.onTorrentAction
 		},{
 			id: 'connectionman',
 			cls: 'x-btn-text-icon',
 			text: _('Connection Manager'),
-			icon: '/icons/16/connection_manager.png',
+			iconCls: 'x-deluge-connections',
 			handler: Deluge.ToolBar.onConnectionManagerClick,
 			scope: Deluge.ToolBar
 		},'->',{
 			id: 'help',
 			cls: 'x-btn-text-icon',
 			disabled: true,
-			icon: '/icons/16/help.png',
+			icon: '/icons/help.png',
 			text: _('Help'),
 			handler: Deluge.ToolBar.onHelpClick,
 			scope: Deluge.ToolBar
 		},{
 			id: 'logout',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/logout.png',
+			icon: '/icons/logout.png',
 			disabled: true,
 			text: _('Logout'),
 			handler: Deluge.ToolBar.onLogout,
@@ -198,30 +198,30 @@ Deluge.StatusBar = {
 			id: 'statusbar-connections',
 			text: '200 (200)',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/connection_manager.png',
+			iconCls: 'x-deluge-connections',
 			menu: Deluge.Menus.Connections
 		}, '-', {
 			id: 'statusbar-downspeed',
 			text: '9.8KiB/s (30 KiB/s)',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/downloading.png',
+			iconCls: 'x-deluge-downloading',
 			menu: Deluge.Menus.Download
 		}, '-', {
 			id: 'statusbar-upspeed',
 			text: '9.8KiB/s (30 KiB/s)',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/seeding.png',
+			iconCls: 'x-deluge-seeding',
 			menu: Deluge.Menus.Upload
 		}, '-', {
 			id: 'statusbar-traffic',
 			text: '1.53/2,65 KiB/s',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/traffic.png'
+			iconCls: 'x-deluge-traffic'
 		}, '-', {
 			id: 'statusbar-dht',
 			text: '161',
 			cls: 'x-btn-text-icon',
-			icon: '/icons/16/dht.png'
+			iconCls: 'x-deluge-dht'
 		});
 		this.created = true;
 	},

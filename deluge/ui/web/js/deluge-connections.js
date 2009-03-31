@@ -217,19 +217,19 @@ Deluge.Connections.Grid = new Ext.grid.GridPanel({
 				id: 'add',
 				cls: 'x-btn-text-icon',
 				text: _('Add'),
-				icon: '/icons/16/add.png',
+				icon: '/icons/add.png',
 				handler: Deluge.Connections.onAdd
 			}, {
 				id: 'remove',
 				cls: 'x-btn-text-icon',
 				text: _('Remove'),
-				icon: '/icons/16/remove.png',
+				icon: '/icons/remove.png',
 				handler: Deluge.Connections.onRemove
 			}, '->', {
 				id: 'stop',
 				cls: 'x-btn-text-icon',
 				text: _('Stop Daemon'),
-				icon: '/icons/16/error.png',
+				icon: '/icons/error.png',
 				handler: Deluge.Connections.onStop
 			}
 		]

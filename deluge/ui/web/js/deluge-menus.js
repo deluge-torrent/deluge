@@ -78,19 +78,19 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 	items: [{
 		id: 'pause',
 		text: _('Pause'),
-		icon: '/icons/16/pause.png',
+		icon: '/icons/pause.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
 		id: 'resume',
 		text: _('Resume'),
-		icon: '/icons/16/start.png',
+		icon: '/icons/start.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
 		id: 'options',
 		text: _('Options'),
-		icon: '/icons/16/preferences.png',
+		icon: '/icons/preferences.png',
 		menu: new Ext.menu.Menu({
 			items: [{
 				text: _('D/L Speed Limit'),
@@ -130,7 +130,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				})
 			}, {
 				text: _('Connection Limit'),
-				icon: '/icons/16/connections.png',
+				iconCls: 'x-deluge-connections',
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('50'),
@@ -148,7 +148,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				})
 			}, {
 				text: _('Upload Slot Limit'),
-				icon: '/icons/16/upload_slots.png',
+				icon: '/icons/upload_slots.png',
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('0'),
@@ -172,30 +172,30 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 		})
 	}, '-', {
 		text: _('Queue'),
-		icon: '/icons/16/queue.png',
+		icon: '/icons/queue.png',
 		menu: new Ext.menu.Menu({
 			items: [{
 				id: 'top',
 				text: _('Top'),
-				icon: '/icons/16/top.png',
+				icon: '/icons/top.png',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
 				id: 'up',
 				text: _('Up'),
-				icon: '/icons/16/up.png',
+				icon: '/icons/up.png',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
 				id: 'down',
 				text: _('Down'),
-				icon: '/icons/16/down.png',
+				icon: '/icons/down.png',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
 				id: 'bottom',
 				text: _('Bottom'),
-				icon: '/icons/16/bottom.png',
+				icon: '/icons/bottom.png',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			}]
@@ -203,31 +203,31 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 	}, '-', {
 		id: 'update',
 		text: _('Update Tracker'),
-		icon: '/icons/16/update.png',
+		icon: '/icons/update.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
 		edit: 'edit_trackers',
 		text: _('Edit Trackers'),
-		icon: '/icons/16/edit_trackers.png',
+		icon: '/icons/edit_trackers.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
 		id: 'remove',
 		text: _('Remove Torrent'),
-		icon: '/icons/16/remove.png',
+		icon: '/icons/remove.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
 		id: 'recheck',
 		text: _('Force Recheck'),
-		icon: '/icons/16/recheck.png',
+		icon: '/icons/recheck.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
 		id: 'move',
 		text: _('Move Storage'),
-		icon: '/icons/16/move.png',
+		icon: '/icons/move.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}]
