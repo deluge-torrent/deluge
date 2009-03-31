@@ -89,15 +89,6 @@ input {
 	width: auto;
 }
 
-/* Peers Grid */
-.x-deluge-peer {
-	
-}
-
-.x-deluge-seed {
-	
-}
-
 /* Login Window */
 .x-deluge-login-window-icon {
 	background: url('/icons/login.png') no-repeat 2px;
@@ -152,6 +143,19 @@ input {
 	background: transparent;
 	color: White;
 }
+
+/* Adjust progressbar for torrent files tree */
+.x-tree .x-progress-bar, .x-tree .x-progress-inner {
+	height: 10px;
+}
+
+.x-tree .x-progress-text-back, .x-tree .x-progress-text {
+	font-size: 10px;
+	vertical-align: top;
+	font-weight: normal;
+	padding-top: 0px;
+}
+
 
 /* Sidebar styles */
 .x-deluge-filters .x-grid3-col-filter {

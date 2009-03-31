@@ -356,7 +356,8 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		},{
 			header: _('Progress'),
 			width: 150,
-			dataIndex: 'progress'
+			dataIndex: 'progress',
+			renderer: peer_progress
 		},{
 			header: _('Priority'),
 			width: 150,
