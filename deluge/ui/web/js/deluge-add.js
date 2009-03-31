@@ -197,6 +197,7 @@ Deluge.Add.Url = {
 	
 	onGotInfo: function(info) {
 		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
+		this.Form.items.get('url').setValue('');
 		bound(info);
 	}
 }
