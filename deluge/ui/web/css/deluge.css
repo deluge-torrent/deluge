@@ -142,7 +142,7 @@ input {
 
 /* Adjust progressbar for torrent files tree */
 .x-tree .x-progress-bar, .x-tree .x-progress-inner {
-	height: 10px;
+	height: 12px;
 }
 
 .x-tree .x-progress-text-back, .x-tree .x-progress-text {
