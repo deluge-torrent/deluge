@@ -68,7 +68,14 @@ Deluge.Add = {
 				}
 			});
 		}
-		walk(torrentInfo['files'], Deluge.Add.Files.getRootNode());
+		
+		var root = Deluge.Add.Files.getRootNode();
+		if (!root.hasChildNodes()) return;
+		root.cascade(function(node) {
+			if (!node.parentNode || !node.getOwnerTree()) return;
+			node.remove();
+		});
+		walk(torrentInfo['files'], root);
 	},
 	
 	onTorrentAdded: function(info) {
