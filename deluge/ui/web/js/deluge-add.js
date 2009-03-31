@@ -62,7 +62,7 @@ Deluge.Add = {
 						size: fsize(item[0]),
 						leaf: true,
 						checked: item[1],
-						iconCls: 'x-deluge-add-file',
+						iconCls: 'x-deluge-file',
 						uiProvider: Ext.tree.ColumnNodeUI
 					}));	
 				}
