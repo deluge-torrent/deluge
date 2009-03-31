@@ -114,6 +114,11 @@ class TorrentInfo(object):
 
 class FileTree(object):
     def __init__(self, paths):
+        """
+        Convert a list of paths in a file tree.
+        
+        :param paths: list, The paths to be converted.
+        """
         self.tree = {}
 
         def get_parent(path):
@@ -136,6 +141,11 @@ class FileTree(object):
                 parent[path] = []
 
     def get_tree(self):
+        """
+        Return the tree, after first converting all file lists to a tuple.
+        
+        :returns: dict, the file tree.
+        """
         def to_tuple(path, item):
             if type(item) is dict:
                 return item
@@ -144,6 +154,14 @@ class FileTree(object):
         return self.tree
 
     def walk(self, callback):
+        """
+        Walk through the file tree calling the callback function on each item
+        contained.
+        
+        :param callback: function, The function to be used as a callback, it
+            should have the signature func(item, path) where item is a `tuple`
+            for a file and `dict` for a directory.
+        """
         def walk(directory, parent_path):
             for path in directory.keys():
                 full_path = os.path.join(parent_path, path)
@@ -159,7 +177,10 @@ class FileTree(object):
     def __str__(self):
         lines = []
         def write(path, item):
-            lines.append("  " * path.count("/") + str(type(item)))
+            depth = path.count("/")
+            path = os.path.basename(path)
+            path = type(item) is dict and path + "/" or path
+            lines.append("  " * depth + path)
         self.walk(write)
         return "\n".join(lines)
 
