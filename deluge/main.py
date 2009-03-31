@@ -186,10 +186,6 @@ def start_daemon():
 
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-    if options.logfile:
-        sys.stdout = None
-        sys.stderr = None
-        sys.stdin = None
 
     try:
         from deluge.core.daemon import Daemon

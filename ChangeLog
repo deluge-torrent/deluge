@@ -2,6 +2,7 @@
 ==== Core ====
   * Fix udp trackers being classified as DHT source
   * Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
+  * Fix #862 deluged crash when access http://localhost:58846
 
 === Deluge 1.1.5 - (16 March 2009) ===
 ==== Core ====
