@@ -151,12 +151,15 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 	margins: '5 5 5 5',
 	bbar: new Ext.Toolbar({
 		items: [
-			{
+			new Ext.form.FileUploadField({
 				id: 'file',
-				cls: 'x-btn-text-icon',
-				text: _('File'),
-				icon: '/icons/add_file.png'
-			}, {
+				buttonOnly: true,
+				buttonCfg: {
+					cls: 'x-btn-text-icon',
+					icon: '/icons/add_file.png',
+					text: _('File')
+				}
+			}), {
 				id: 'url',
 				cls: 'x-btn-text-icon',
 				text: _('Url'),
