@@ -415,7 +415,6 @@ Deluge.SideBar = {
 			id: filter + '-panel',
 			store: store,
 			title: title,
-			cls: 'x-deluge-filters',
 			columns: [
 				{id: 'filter', sortable: false, renderer: this.renderer, dataIndex: 'filter'}
 			],	

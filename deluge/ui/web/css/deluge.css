@@ -154,14 +154,14 @@ input {
 
 
 /* Sidebar styles */
-.x-deluge-filters .x-grid3-col-filter {
+#sidebar .x-grid3-col-filter {
 	height: 16px;
 	line-height: 16px;
 	padding: 2px;
 	cursor: pointer;
 }
 
-.x-deluge-filters .x-deluge-filter {
+#sidebar .x-deluge-filter {
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }
