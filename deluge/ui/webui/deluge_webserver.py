@@ -25,6 +25,7 @@ import gettext
 import locale
 import deluge.common
 from deluge.configmanager import ConfigManager
+import deluge.configmanager
 import pkg_resources
 from deluge.ui.client import sclient
 import components
@@ -113,9 +114,8 @@ def create_webserver(debug = False, base_url =None):
     https = False
     if config["https"]:
         import os
-        from deluge.common import get_default_config_dir
-        cert_path = os.path.join(get_default_config_dir("ssl") ,"deluge.cert.pem" )
-        key_path = os.path.join(get_default_config_dir("ssl") ,"deluge.key.pem" )
+        cert_path = deluge.configmanager.get_config_dir("ssl/deluge.cert.pem")
+        key_path = deluge.configmanager.get_config_dir("ssl/deluge.key.pem")
         if os.path.exists (key_path) and os.path.exists (cert_path):
             server.ssl_certificate = cert_path
             server.ssl_private_key = key_path
