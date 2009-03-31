@@ -24,6 +24,15 @@ Copyright:
 Deluge.Add = {
 	torrents: new Hash(),
 	
+	clearFiles: function() {
+		var root = this.Files.getRootNode();
+		if (!root.hasChildNodes()) return;
+		root.cascade(function(node) {
+			if (!node.parentNode || !node.getOwnerTree()) return;
+			node.remove();
+		});
+	},
+	
 	onAdd: function() {
 		torrents = new Array();
 		this.torrents.each(function(info, hash) {
@@ -69,13 +78,8 @@ Deluge.Add = {
 			});
 		}
 		
-		var root = Deluge.Add.Files.getRootNode();
-		if (!root.hasChildNodes()) return;
-		root.cascade(function(node) {
-			if (!node.parentNode || !node.getOwnerTree()) return;
-			node.remove();
-		});
-		walk(torrentInfo['files'], root);
+		this.clearFiles();
+		walk(torrentInfo['files'], this.Files.getRootNode());
 	},
 	
 	onTorrentAdded: function(info) {
@@ -88,7 +92,13 @@ Deluge.Add = {
 	},
 	
 	onRemove: function() {
+		var selection = this.Grid.getSelectionModel();
+		if (!selection.hasSelection()) return;
+		var torrent = selection.getSelected();
 		
+		delete this.torrents[torrent.id];
+		this.Store.remove(torrent);
+		this.clearFiles();
 	}
 }
 
@@ -132,7 +142,7 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 	stripeRows: true,
 	selModel: new Ext.grid.RowSelectionModel({
 		singleSelect: true,
-		listeners: {'rowselect': Deluge.Add.onSelect}
+		listeners: {'rowselect': {fn: Deluge.Add.onSelect, scope: Deluge.Add}}
 	}),
 	hideHeaders: true,
 	autoExpandColumn: 'torrent',
@@ -162,7 +172,9 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 				id: 'remove',
 				cls: 'x-btn-text-icon',
 				text: _('Remove'),
-				icon: '/icons/remove.png'
+				icon: '/icons/remove.png',
+				handler: Deluge.Add.onRemove,
+				scope: Deluge.Add
 			}
 		]
 	})
