@@ -195,3 +195,26 @@ input {
 .x-deluge-add-file-checkbox {
 	margin-top: 2px;
 }
+
+/* Filepriority styles */
+.x-no-download, .x-normal-download, .x-high-download, .x-highest-download {
+	padding-left: 20px;
+	background-repeat: no-repeat;
+	line-height: 16px;
+}
+
+.x-no-download {
+	background-image: url(/icons/no_download.png);
+}
+
+.x-normal-download {
+	background-image: url(/icons/normal.png);
+}
+
+.x-high-download {
+	background-image: url(/icons/high.png);
+}
+
+.x-highest-download {
+	background-image: url(/icons/highest.png);
+}

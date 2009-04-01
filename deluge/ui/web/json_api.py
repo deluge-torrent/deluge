@@ -332,6 +332,7 @@ class WebApi(JSONComponent):
     def _on_got_files(self, torrent, d):
         files = torrent.get("files")
         file_progress = torrent.get("file_progress")
+        file_priorities = torrent.get("file_priorities")
 
         paths = []
         info = {}
@@ -339,12 +340,14 @@ class WebApi(JSONComponent):
             path = torrent_file["path"]
             paths.append(path)
             torrent_file["progress"] = file_progress[index]
+            torrent_file["priority"] = file_priorities[index]
             info[path] = torrent_file
         
         def walk(path, item):
             if type(item) is dict:
                 return item
-            return [info[path]["size"], info[path]["progress"]]
+            return [info[path]["size"], info[path]["progress"],
+                info[path]["priority"]]
 
         file_tree = uicommon.FileTree(paths)
         file_tree.walk(walk)

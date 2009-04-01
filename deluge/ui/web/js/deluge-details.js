@@ -232,6 +232,7 @@ Deluge.Details.Files = {
 							text: file, // this needs to be here for sorting
 							size: fsize(item[0]),
 							progress: item[1],
+							priority: item[2],
 							leaf: true,
 							iconCls: 'x-deluge-file',
 							uiProvider: Ext.tree.ColumnNodeUI
@@ -298,9 +299,20 @@ function peer_address(value, p, record) {
 	return String.format('<div class="{0}">{1}</div>', seed, value);
 }
 
-function peer_progress(value) {
+function progress_renderer(value) {
 	var progress = (value * 100).toInt();
 	return String.format(tpl, progress, '', progress);
+}
+
+FILE_PRIORITY_CSS = {
+	0: 'x-no-download',
+	1: 'x-normal-download',
+	2: 'x-high-download',
+	5: 'x-highest-download'
+}
+
+function priority_renderer(value) {
+	return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 }
 
 function sort_address(value) {
@@ -363,11 +375,12 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			header: _('Progress'),
 			width: 150,
 			dataIndex: 'progress',
-			renderer: peer_progress
+			renderer: progress_renderer
 		},{
 			header: _('Priority'),
 			width: 150,
-			dataIndex: 'priority'
+			dataIndex: 'priority',
+			renderer: priority_renderer
 		}],
 		
 		root: new Ext.tree.TreeNode({
@@ -383,7 +396,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			{header: '&nbsp;', width: 30, sortable: true, renderer: flag, dataIndex: 'country'},
 			{header: 'Address', width: 125, sortable: true, renderer: peer_address, dataIndex: 'address'},
 			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
-			{header: 'Progress', width: 150, sortable: true, renderer: peer_progress, dataIndex: 'progress'},
+			{header: 'Progress', width: 150, sortable: true, renderer: progress_renderer, dataIndex: 'progress'},
 			{header: 'Down Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'downspeed'},
 			{header: 'Up Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'upspeed'}
 		],	
