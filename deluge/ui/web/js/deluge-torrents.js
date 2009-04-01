@@ -53,11 +53,19 @@ function progress(value, p, r) {
 }
 
 function seeds(value, p, r) {
-	return String.format("{0} ({1})", value, r.data['total_seeds']);
+	if (r.data['total_seeds'] > -1) {
+		return String.format("{0} ({1})", value, r.data['total_seeds']);
+	} else {
+		return value;
+	}
 }
 
 function peers(value, p, r) {
-	return String.format("{0} ({1})", value, r.data['total_peers']);
+	if (r.data['total_peers'] > -1) {
+		return String.format("{0} ({1})", value, r.data['total_peers']);
+	} else {
+		return value;
+	}
 }
 
 function avail(value) {
