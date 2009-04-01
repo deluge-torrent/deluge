@@ -386,10 +386,84 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		autoScroll:true,
 		margins: '0 0 0 0',
 		listeners: {'render': {fn: Deluge.Details.Peers.onRender, scope: Deluge.Details.Peers}}
-	}),{
+	}), new Ext.form.FormPanel({
 		id: 'options',
-		title: _('Options')
-	}],
+		title: _('Options'),
+		frame: true,
+		items: [{
+			layout: 'column',
+			border: false,
+			defaults: {
+				columnWidth: '.33',
+				border: false
+			},
+			
+			items: [{
+				bodyStyle: 'padding-right:5px;',
+				items: [{
+					xtype: 'fieldset',
+					title: _('Bandwidth'),
+					autoHeight: true,
+					defaultType: 'uxspinner',
+					items: [{
+						fieldLabel: _('Max Download Speed'),
+						name: 'max_download_speed'
+					}, {
+						fieldLabel: _('Max Upload Speed'),
+						name: 'max_upload_speed'
+					}, {
+						fieldLabel: _('Max Connections'),
+						name: 'max_connections'
+					}, {
+						fieldLabel: _('Max Upload Slots'),
+						name: 'max_upload_slots'
+					}]
+				}]
+			}, {
+				bodyStyle: 'padding-left: 5px; padding-right:5px;',
+				items: [{
+					xtype: 'fieldset',
+					title: _('Queue'),
+					autoHeight: true,
+					defaultType: 'checkbox',
+					items: [{
+						fieldLabel: '',
+						boxLabel: _('Auto Managed'),
+						name: 'auto_managed'
+					}, {
+						fieldLabel: '',
+						boxLabel: _('Stop seed at ratio'),
+						name: 'stop_ratio'
+					}, {
+						fieldLabel: '',
+						boxLabel: _('Remove at ratio'),
+						name: 'remove_ratio'
+					}, {
+						fieldLabel: '',
+						boxLabel: _('Move Completed'),
+						name: 'move_completed'
+					}]
+				}]
+			}, {
+				bodyStyle: 'padding-left:5px;',
+				items: [{
+					xtype: 'fieldset',
+					title: _('General'),
+					autoHeight: true,
+					defaultType: 'checkbox',
+					items: [{
+						fieldLabel: '',
+						boxLabel: _('Private'),
+						name: 'private'
+					}, {
+						fieldLabel: '',
+						boxLabel: _('Prioritize First/Last'),
+						name: 'prioritize_first'
+					}]
+				}]
+			}],
+		}]
+	})],
 	listeners: {
 		'render': {fn: Deluge.Details.onRender, scope: Deluge.Details},
 		'tabchange': {fn: Deluge.Details.onTabChange, scope: Deluge.Details}
