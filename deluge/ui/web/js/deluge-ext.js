@@ -89,6 +89,8 @@ Ext.tree.ColumnTreeNode = Ext.extend(Ext.tree.TreeNode, {
 	setColumnValue: function(index, value) {
 		var t = this.getOwnerTree();
 		var oldValue = this[t.columns[index].dataIndex];
+		this[t.columns[index].dataIndex] = value;
+		this.attributes[[t.columns[index].dataIndex]] = value;
 		if (this.rendered) {
 			this.ui.onColumnValueChange(this, index, value, oldValue);
 		}

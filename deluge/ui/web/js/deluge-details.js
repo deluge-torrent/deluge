@@ -210,7 +210,11 @@ Deluge.Details.Files = {
 	
 	onContextMenu: function(node, e) {
 		e.stopEvent();
-		node.select();
+		var selModel = this.panel.getSelectionModel();
+		if (selModel.getSelectedNodes().length < 2) {
+			selModel.clearSelections();
+			node.select();
+		}
 		Deluge.Menus.FilePriorities.showAt(e.getPoint());
 	},
 	
@@ -222,13 +226,24 @@ Deluge.Details.Files = {
 			default:
 				var indexes = new Hash();
 				function walk(node) {
-					if (!node.attributes.fileIndex) return;
+					if (!$defined(node.attributes.fileIndex)) return;
 					indexes[node.attributes.fileIndex] = node.attributes.priority;
 				}
 				this.panel.getRootNode().cascade(walk);
 				
-				var node = this.panel.getSelectionModel().getSelectedNode();
-				indexes[node.attributes.fileIndex] = baseItem.filePriority;
+				alert(JSON.encode(indexes));
+				var nodes = this.panel.getSelectionModel().getSelectedNodes();
+				$each(nodes, function(node) {
+					if (!$defined(node.attributes.fileIndex)) return;
+					indexes[node.attributes.fileIndex] = baseItem.filePriority;
+				});
+				
+				alert(JSON.encode(indexes));
+				
+				/*var keys = indexes.getKeys();
+				alert(keys);
+				keys.sort(function(a, b) { return a - b; });
+				alert(keys);*/
 				
 				priorities = new Array(indexes.getLength());
 				indexes.each(function(priority, index) {
@@ -238,7 +253,7 @@ Deluge.Details.Files = {
 				Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
 					onSuccess: function() {
 						this.update(this.torrentId);
-					}
+					}.bind(this)
 				});
 				break;
 		}
@@ -403,6 +418,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		title: _('Files'),
 		rootVisible: false,
 		autoScroll: true,
+		selModel: new Ext.tree.MultiSelectionModel(),
 		
 		columns: [{
 			header: _('Filename'),
