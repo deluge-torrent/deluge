@@ -87,6 +87,8 @@ Deluge.Details.Status = {
 	},
 	
 	onRequestComplete: function(status) {
+		seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds
+		peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers
 		var data = {
 			downloaded: fsize(status.total_done) + ' (' + fsize(status.total_payload_download) + ')',
             uploaded: fsize(status.total_uploaded) + ' (' + fsize(status.total_payload_upload) + ')',
@@ -97,8 +99,8 @@ Deluge.Details.Status = {
             upspeed: fspeed(status.upload_payload_rate),
             eta: ftime(status.eta),
             pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
-            seeders: status.num_seeds + ' (' + status.total_seeds + ')',
-            peers: status.num_peers + ' (' + status.total_peers + ')',
+            seeders: seeders,
+            peers: peers,
             avail: status.distributed_copies.toFixed(3),
             active_time: ftime(status.active_time),
             seeding_time: ftime(status.seeding_time),
