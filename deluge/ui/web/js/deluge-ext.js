@@ -84,8 +84,27 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
     }
 });
 
+Ext.tree.ColumnTreeNode = Ext.extend(Ext.tree.TreeNode, {
+	
+	setColumnValue: function(index, value) {
+		var t = this.getOwnerTree();
+		var oldValue = this[t.columns[index].dataIndex];
+		if (this.rendered) {
+			this.ui.onColumnValueChange(this, index, value, oldValue);
+		}
+		this.fireEvent('columnvaluechange', this, index, value, oldValue);
+	}
+});
+
 Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     focus: Ext.emptyFn, // prevent odd scrolling behavior
+	
+	onColumnValueChange: function(n, colIndex, value, oldValue) {
+		if (this.rendered) {
+			var c = n.getOwnerTree().columns[colIndex];
+			this.columnNodes[colIndex].innerHTML = (c.renderer ? c.renderer(value, n, null) : value);
+		}
+	},
 
     renderElements : function(n, a, targetNode, bulkRender){
         this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
@@ -134,8 +153,18 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         this.indentNode = cs[0];
         this.ecNode = cs[1];
         this.iconNode = cs[2];
-        this.anchor = cs[3];
-        this.textNode = cs[3].firstChild;
+		var index = 3;
+        if(cb){
+            this.checkbox = cs[3];
+			// fix for IE6
+			this.checkbox.defaultChecked = this.checkbox.checked;			
+            index++;
+        }
+        this.anchor = cs[index];
+		this.columnNodes = [cs[index].firstChild];
+		for(var i = 1, len = cols.length; i < len; i++){
+			this.columnNodes[i] = this.elNode.childNodes[i].firstChild;
+		}
     }
 });
 

@@ -226,11 +226,11 @@ Deluge.Details.Files = {
 					walk(item, child);
 				} else {
 					if (!child) {
-						child = new Ext.tree.TreeNode({
+						child = new Ext.tree.ColumnTreeNode({
 							id: file,
 							filename: file,
 							text: file, // this needs to be here for sorting
-							size: fsize(item[0]),
+							size: item[0],
 							progress: item[1],
 							priority: item[2],
 							leaf: true,
@@ -239,6 +239,9 @@ Deluge.Details.Files = {
 						});
 						parent.appendChild(child);
 					}
+					child.setColumnValue(1, item[0]);
+					child.setColumnValue(2, item[1]);
+					child.setColumnValue(3, item[2]);
 				}
 			});
 		}
@@ -370,7 +373,8 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		},{
 			header: _('Size'),
 			width: 150,
-			dataIndex: 'size'
+			dataIndex: 'size',
+			renderer: fsize
 		},{
 			header: _('Progress'),
 			width: 150,
