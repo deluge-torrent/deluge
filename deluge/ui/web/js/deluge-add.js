@@ -51,7 +51,9 @@ Deluge.Add = {
 	},
 	
 	onRender: function(window) {
-		
+		new Ext.tree.TreeSorter(this.Files, {
+			folderSort: true
+		});
 	},
 	
 	onSelect: function(selModel, rowIndex, record) {
@@ -68,6 +70,7 @@ Deluge.Add = {
 				} else {
 					parent.appendChild(new Ext.tree.TreeNode({
 						filename: file,
+						text: file, // this needs to be here for sorting reasons
 						size: fsize(item[0]),
 						leaf: true,
 						checked: item[1],
@@ -79,7 +82,10 @@ Deluge.Add = {
 		}
 		
 		this.clearFiles();
-		walk(torrentInfo['files'], this.Files.getRootNode());
+		
+		var root = this.Files.getRootNode();
+		walk(torrentInfo['files'], root);
+		root.firstChild.expand();
 	},
 	
 	onTorrentAdded: function(info) {

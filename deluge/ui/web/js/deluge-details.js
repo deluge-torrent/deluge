@@ -201,6 +201,10 @@ Deluge.Details.Files = {
 		this.panel = panel;
 		this.panel.clear = this.clear.bind(this);
 		this.panel.update = this.update.bind(this);
+		
+		new Ext.tree.TreeSorter(this.panel, {
+			folderSort: true
+		});
 	},
 	
 	onRequestComplete: function(files, torrentId) {
@@ -225,6 +229,7 @@ Deluge.Details.Files = {
 						child = new Ext.tree.TreeNode({
 							id: file,
 							filename: file,
+							text: file, // this needs to be here for sorting
 							size: fsize(item[0]),
 							progress: item[1],
 							leaf: true,
@@ -238,6 +243,7 @@ Deluge.Details.Files = {
 		}
 		var root = this.panel.getRootNode();
 		walk(files, root);
+		root.firstChild.expand();
 	},
 	
 	clear: function() {
