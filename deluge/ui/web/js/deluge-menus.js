@@ -374,6 +374,31 @@ Deluge.Menus.Upload = new Ext.menu.Menu({
 	}]
 });
 
+Deluge.Menus.FilePriorities = new Ext.menu.Menu({
+	id: 'filePrioritiesMenu',
+	items: [{
+		id: 'expandAll',
+		text: _('Expand All'),
+		icon: '/icons/expand_all.png'
+	}, '-', {
+		id: 'no_download',
+		text: _('Do Not Download'),
+		icon: '/icons/no_download.png'
+	}, {
+		id: 'normal',
+		text: _('Normal Priority'),
+		icon: '/icons/normal.png'
+	}, {
+		id: 'high',
+		text: _('High Priority'),
+		icon: '/icons/high.png'
+	}, {
+		id: 'highest',
+		text: _('Highest Priority'),
+		icon: '/icons/highest.png'
+	}]
+});
+
 function onLimitChanged(item, checked) {
 	if (item.id == "other") {
 	} else {

@@ -207,6 +207,12 @@ Deluge.Details.Files = {
 		});
 	},
 	
+	onContextMenu: function(node, e) {
+		e.stopEvent();
+		node.select();
+		Deluge.Menus.FilePriorities.showAt(e.getPoint());
+	},
+	
 	onRequestComplete: function(files, torrentId) {
 		if (this.torrentId !=  torrentId) {
 			this.clear();
@@ -390,7 +396,16 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		root: new Ext.tree.TreeNode({
             text: 'Files'
         }),
-		listeners: {'render': {fn: Deluge.Details.Files.onRender, scope: Deluge.Details.Files}}
+		listeners: {
+			'render': {
+				fn: Deluge.Details.Files.onRender,
+				scope: Deluge.Details.Files
+			},
+			'contextmenu': {
+				fn: Deluge.Details.Files.onContextMenu,
+				scope: Deluge.Details.Files
+			}
+		}
 	}), new Ext.grid.GridPanel({
 		id: 'peers',
 		title: _('Peers'),
