@@ -119,7 +119,7 @@ Deluge.Add.Files = new Ext.tree.ColumnTree({
 	
 	columns: [{
 		header: _('Filename'),
-		width: 200,
+		width: 275,
 		dataIndex: 'filename'
 	},{
 		header: _('Size'),
