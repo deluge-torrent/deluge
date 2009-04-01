@@ -231,19 +231,11 @@ Deluge.Details.Files = {
 				}
 				this.panel.getRootNode().cascade(walk);
 				
-				alert(JSON.encode(indexes));
 				var nodes = this.panel.getSelectionModel().getSelectedNodes();
 				$each(nodes, function(node) {
 					if (!$defined(node.attributes.fileIndex)) return;
 					indexes[node.attributes.fileIndex] = baseItem.filePriority;
 				});
-				
-				alert(JSON.encode(indexes));
-				
-				/*var keys = indexes.getKeys();
-				alert(keys);
-				keys.sort(function(a, b) { return a - b; });
-				alert(keys);*/
 				
 				priorities = new Array(indexes.getLength());
 				indexes.each(function(priority, index) {
