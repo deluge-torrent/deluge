@@ -205,6 +205,7 @@ Deluge.Details.Files = {
 		new Ext.tree.TreeSorter(this.panel, {
 			folderSort: true
 		});
+		Deluge.Menus.FilePriorities.on('itemclick', this.onItemClick.bindWithEvent(this));
 	},
 	
 	onContextMenu: function(node, e) {
@@ -213,8 +214,38 @@ Deluge.Details.Files = {
 		Deluge.Menus.FilePriorities.showAt(e.getPoint());
 	},
 	
+	onItemClick: function(baseItem, e) {
+		switch (baseItem.id) {
+			case 'expandAll':
+				this.panel.expandAll();
+				break;
+			default:
+				var indexes = new Hash();
+				function walk(node) {
+					if (!node.attributes.fileIndex) return;
+					indexes[node.attributes.fileIndex] = node.attributes.priority;
+				}
+				this.panel.getRootNode().cascade(walk);
+				
+				var node = this.panel.getSelectionModel().getSelectedNode();
+				indexes[node.attributes.fileIndex] = baseItem.filePriority;
+				
+				priorities = new Array(indexes.getLength());
+				indexes.each(function(priority, index) {
+					priorities[index] = priority;
+				});
+				
+				Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
+					onSuccess: function() {
+						this.update(this.torrentId);
+					}
+				});
+				break;
+		}
+	},
+	
 	onRequestComplete: function(files, torrentId) {
-		if (this.torrentId !=  torrentId) {
+		if (this.torrentId != torrentId) {
 			this.clear();
 			this.torrentId = torrentId;
 		}
@@ -236,18 +267,19 @@ Deluge.Details.Files = {
 							id: file,
 							filename: file,
 							text: file, // this needs to be here for sorting
-							size: item[0],
-							progress: item[1],
-							priority: item[2],
+							fileIndex: item[0],
+							size: item[1],
+							progress: item[2],
+							priority: item[3],
 							leaf: true,
 							iconCls: 'x-deluge-file',
 							uiProvider: Ext.tree.ColumnNodeUI
 						});
 						parent.appendChild(child);
 					}
-					child.setColumnValue(1, item[0]);
-					child.setColumnValue(2, item[1]);
-					child.setColumnValue(3, item[2]);
+					child.setColumnValue(1, item[1]);
+					child.setColumnValue(2, item[2]);
+					child.setColumnValue(3, item[3]);
 				}
 			});
 		}

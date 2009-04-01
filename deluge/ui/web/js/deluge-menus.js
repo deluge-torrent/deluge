@@ -383,19 +383,23 @@ Deluge.Menus.FilePriorities = new Ext.menu.Menu({
 	}, '-', {
 		id: 'no_download',
 		text: _('Do Not Download'),
-		icon: '/icons/no_download.png'
+		icon: '/icons/no_download.png',
+		filePriority: 0
 	}, {
 		id: 'normal',
 		text: _('Normal Priority'),
-		icon: '/icons/normal.png'
+		icon: '/icons/normal.png',
+		filePriority: 1
 	}, {
 		id: 'high',
 		text: _('High Priority'),
-		icon: '/icons/high.png'
+		icon: '/icons/high.png',
+		filePriority: 2
 	}, {
 		id: 'highest',
 		text: _('Highest Priority'),
-		icon: '/icons/highest.png'
+		icon: '/icons/highest.png',
+		filePriority: 5
 	}]
 });
 

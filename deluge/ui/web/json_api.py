@@ -341,13 +341,14 @@ class WebApi(JSONComponent):
             paths.append(path)
             torrent_file["progress"] = file_progress[index]
             torrent_file["priority"] = file_priorities[index]
+            torrent_file["index"] = index
             info[path] = torrent_file
         
         def walk(path, item):
             if type(item) is dict:
                 return item
-            return [info[path]["size"], info[path]["progress"],
-                info[path]["priority"]]
+            return [info[path]["index"], info[path]["size"],
+                info[path]["progress"], info[path]["priority"]]
 
         file_tree = uicommon.FileTree(paths)
         file_tree.walk(walk)
