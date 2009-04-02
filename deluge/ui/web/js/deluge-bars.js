@@ -66,6 +66,7 @@ Deluge.ToolBar = {
 		
 		switch (item.id) {
 			case 'remove':
+				Deluge.Events.fire('torrentRemoved', ids);
 				Deluge.Client.core.remove_torrent(ids, null, {
 					onSuccess: function() {
 						Deluge.Ui.update();

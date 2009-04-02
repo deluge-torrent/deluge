@@ -105,6 +105,22 @@ Deluge.Torrents = {
 	
 	getSelections: function() {
 		return this.Grid.getSelectionModel().getSelections();
+	},
+	
+	onRender: function() {
+		Deluge.Events.on('torrentRemoved', this.onTorrentRemoved.bindWithEvent(this));
+	},
+	
+	onTorrentRemoved: function(torrentIds) {
+		var selModel = this.Grid.getSelectionModel();
+		$each(torrentIds, function(torrentId) {
+			var record = this.Store.getById(torrentId);
+			if (selModel.isSelected(record)) {
+				selModel.deselectRow(this.Store.indexOf(record));
+			}
+			this.Store.remove(record);
+			
+		}, this);
 	}
 }
 Deluge.Torrents.Store.setDefaultSort("queue");
@@ -134,6 +150,10 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 	autoScroll:true,
 	margins: '5 5 0 0',
 	listeners: {
+		'render': {
+			fn: Deluge.Torrents.onRender,
+			scope: Deluge.Torrents
+		},
 		'rowcontextmenu': {
 			fn: function(grid, rowIndex, e) {
 				e.stopEvent();
