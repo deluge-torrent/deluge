@@ -397,7 +397,8 @@ class WebApi(JSONComponent):
         """
         d = Deferred()
         try:
-            d.callback(uicommon.get_torrent_info(filename.strip()))
+            torrent_info = uicommon.TorrentInfo(filename.strip())
+            d.callback(torrent_info.as_dict("name", "info_hash", "files_tree"))
         except:
             d.callback(False)
         return d

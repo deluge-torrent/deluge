@@ -93,7 +93,7 @@ Deluge.Add = {
 		this.clearFiles();
 		
 		var root = this.Files.getRootNode();
-		walk(torrentInfo['files'], root);
+		walk(torrentInfo['files_tree'], root);
 		root.firstChild.expand();
 	},
 	
