@@ -745,8 +745,8 @@ body.x-body-masked .x-window-mc, body.x-body-masked .x-window-plain .x-window-mc
 
 /* Progress Bars */
 
-.x-progress-bar{
-	background:#fbefb4 url(/themes/slate/progress/progress-bg.gif) repeat-x left center;
+.x-progress-bar {
+	background: url('/themes/slate/toolbar/bg.gif');
 	border-top:1px solid #ddd;
 	border-bottom:1px solid #ddd;
 }
@@ -754,10 +754,10 @@ body.x-body-masked .x-window-mc, body.x-body-masked .x-window-plain .x-window-mc
 	background:#e0e8f3 url(/themes/slate/qtip/bg.gif) repeat-x scroll 0 0;
 }
 .x-progress-text{
-	color:#9ab;
+	color: White;
 }
 .x-progress-text-back{
-	color:#789;
+	color: Black;
 }
 .x-progress-wrap{
 	border:1px solid #b0b8c4;

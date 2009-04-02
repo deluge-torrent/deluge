@@ -361,9 +361,15 @@ function peer_address(value, p, record) {
 	return String.format('<div class="{0}">{1}</div>', seed, value);
 }
 
-function progress_renderer(value) {
+function file_progress(value) {
+	var progress = value * 100;
+	return progressBar(progress, this.width - 50, progress.toFixed(2) + '%');
+}
+
+function peer_progress(value) {
 	var progress = (value * 100).toInt();
-	return String.format(tpl, progress, '', progress);
+	var width = this.style.match(/\w+:\s*(\d+)\w+/)[1].toInt() - 8;
+	return progressBar(progress, width, progress + '%');
 }
 
 FILE_PRIORITY_CSS = {
@@ -449,7 +455,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			header: _('Progress'),
 			width: 150,
 			dataIndex: 'progress',
-			renderer: progress_renderer
+			renderer: file_progress
 		}, {
 			header: _('Priority'),
 			width: 150,
@@ -479,7 +485,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			{header: '&nbsp;', width: 30, sortable: true, renderer: flag, dataIndex: 'country'},
 			{header: 'Address', width: 125, sortable: true, renderer: peer_address, dataIndex: 'address'},
 			{header: 'Client', width: 125, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'client'},
-			{header: 'Progress', width: 150, sortable: true, renderer: progress_renderer, dataIndex: 'progress'},
+			{header: 'Progress', width: 150, sortable: true, renderer: peer_progress, dataIndex: 'progress'},
 			{header: 'Down Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'downspeed'},
 			{header: 'Up Speed', width: 100, sortable: true, renderer: fspeed, dataIndex: 'upspeed'}
 		],	
@@ -513,7 +519,6 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					xtype: 'fieldset',
 					title: _('Bandwidth'),
 					layout: 'table',
-					bodyStyle:'padding:5px',
 					layoutConfig: {columns: 3},
 					autoHeight: true,
 					labelWidth: 150,
@@ -642,12 +647,16 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						xtype: 'button',
 						text: _('Edit Trackers'),
 						cls: 'x-btn-text-icon',
-						iconCls: 'x-deluge-edit-trackers'
+						iconCls: 'x-deluge-edit-trackers',
+						columnWidth: '.50',
+						width: 100
 					}, {
 						id: 'apply',
 						xtype: 'button',
 						text: _('Apply'),
-						style: 'margin-left: 10px'
+						style: 'margin-left: 10px',
+						columnWidth: '.50',
+						width: 100
 					}]
 				}]
 			}]

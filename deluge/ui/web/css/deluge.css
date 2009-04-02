@@ -125,41 +125,40 @@ input {
 	background: transparent;
 }
 
-.x-progress-wrap {
-	background: url('/themes/slate/panel/white-top-bottom.gif');
-	border: 1px solid Black;
-	border-top: none;
+/* Styles for renderered progress bars */
+.x-progress-renderered .x-progress-bar {
+	height: 16px;
 }
 
-.x-progress-inner {
-	background: url('/themes/slate/panel/white-top-bottom.gif');
-}
-
-.x-progress-bar {
-	background: url('/themes/slate/toolbar/bg.gif');
-	margin-top: 1px;
-}
-
-.x-progress-text {
-	background: transparent;
-	color: transparent;
-}
-
-.x-progress-text-back {
-	background: transparent;
-	color: White;
+.x-progress-renderered .x-progress-bar .x-progress-text {
+	margin-top: -1px;
+	height: 18px;
 }
 
 /* Adjust progressbar for torrent files tree */
-.x-tree .x-progress-bar, .x-tree .x-progress-inner {
+.x-tree .x-progress-wrap {
+	width: 100px;
+}
+
+.x-tree .x-progress-renderered .x-progress-inner {
 	height: 12px;
 }
 
-.x-tree .x-progress-text-back, .x-tree .x-progress-text {
-	font-size: 10px;
+.x-tree .x-progress-renderered .x-progress-bar {
+	height: 12px;
+}
+
+.x-tree .x-progress-renderered .x-progress-text {
 	vertical-align: top;
+	height: 12px;
+	font-size: 11px;
 	font-weight: normal;
-	padding-top: 0px;
+	padding: 0px;
+	margin-top: -1px;
+}
+
+.x-tree .x-progress-renderered .x-progress-bar .x-progress-text {
+	margin-top: 0px;
 }
 
 /* Options Tab Styles */

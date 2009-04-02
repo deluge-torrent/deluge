@@ -34,22 +34,31 @@ function torrent_speed(value) {
 	return fspeed(value);
 }
 
-var tpl = '<div class="x-progress-wrap">' +
-		'<div class="x-progress-inner">' +
-			'<div class="x-progress-bar" style="width:{2}%;">' +
-				'<div class="x-progress-text">' +
-					'<div>&#160;</div>' +
-				'</div>' +
-			'</div>' +
-			'<div class="x-progress-text x-progress-text-back deluge-torrent-progress">' +
-				'<div>{1} {0}%</div>' +
-			'</div>' +
+var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
+    '<div class="x-progress-inner">' +
+        '<div style="width: {2}px" class="x-progress-bar">' +
+            '<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
+                '<div style="width: {1}px;">{0}</div>' +
+            '</div>' +
+        '</div>' +
+		'<div class="x-progress-text x-progress-text-back">' +
+			'<div style="width: {1}px;">{0}</div>' +
 		'</div>' +
-	'</div>';
+	'</div>' +
+'</div>';
 
 function progress(value, p, r) {
 	var progress = value.toInt();
-	return String.format(tpl, value.toFixed(2), r.data['state'], progress);
+	var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
+	var width = this.style.match(/\w+:\s*(\d+)\w+/)[1].toInt() - 8;
+	return progressBar(value.toInt(), width, text);
+}
+
+function progressBar(progress, width, text) {
+	var progressWidth = (width / 100.0) * progress;
+	var barWidth = progressWidth.toInt() - 1;
+	var textWidth = ((progressWidth.toInt() - 10) > 0 ? progressWidth.toInt() - 10 : 0);
+	return String.format(tpl, text, width, barWidth, textWidth);
 }
 
 function seeds(value, p, r) {
