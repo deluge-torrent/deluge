@@ -525,7 +525,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						cls: 'x-deluge-options-label'
 					}, {
 						id: 'max_download_speed',
-						width: 100
+						width: 100,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
 					}, {
 						xtype: 'label',
 						text: 'KiB/s',
@@ -537,7 +543,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						cls: 'x-deluge-options-label'
 					}, {
 						id: 'max_upload_speed',
-						width: 100
+						width: 100,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
 					}, {
 						xtype: 'label',
 						text: 'KiB/s',
@@ -550,7 +562,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					}, {
 						id: 'max_connections',
 						colspan: 2,
-						width: 100
+						width: 100,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
 					}, {
 						xtype: 'label',
 						text: _('Max Upload Slots'),
@@ -559,7 +577,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					}, {
 						id: 'max_upload_slots',
 						colspan: 2,
-						width: 100
+						width: 100,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
 					}]
 				}]
 			}, {
