@@ -346,7 +346,9 @@ Deluge.Details.Peers = {
 
 Deluge.Details.Options = {
 	onRender: function(panel) {
-		
+		panel.layout = new Ext.layout.FormLayout();
+		panel.layout.setContainer(panel);
+		panel.doLayout();
 	}
 }
 
@@ -497,6 +499,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		frame: true,
 		autoScroll:true,
 		deferredRender:false,
+		
 		items: [{
 			layout: 'column',
 			defaults: {
