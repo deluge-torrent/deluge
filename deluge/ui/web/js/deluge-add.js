@@ -97,7 +97,7 @@ Deluge.Add = {
 		root.firstChild.expand();
 	},
 	
-	onTorrentAdded: function(info) {
+	onTorrentAdded: function(info, filename) {
 		if (!info) {
 			Ext.MessageBox.show({
 				title: _('Error'),
@@ -109,6 +109,7 @@ Deluge.Add = {
 			});
 			return;
 		}
+		info['filename'] = filename;
 		this.Store.loadData([[info['info_hash'], info['name']]], true);
 		this.torrents[info['info_hash']] = info;
 	},
@@ -254,7 +255,7 @@ Deluge.Add.File = {
 		var filename = upload.result.toString();
 		this.form.items.get('torrentFile').setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add)
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add, filename)
 		});
 	}
 }
@@ -312,7 +313,7 @@ Deluge.Add.Url = {
 	onDownload: function(filename) {
 		this.form.items.get('url').setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add)
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add, filename)
 		});
 	}
 }
