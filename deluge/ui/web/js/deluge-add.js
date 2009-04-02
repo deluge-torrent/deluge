@@ -50,6 +50,10 @@ Deluge.Add = {
 		this.Window.hide();
 	},
 	
+	onFile: function() {
+		this.File.Window.show();
+	},
+	
 	onRender: function(window) {
 		new Ext.tree.TreeSorter(this.Files, {
 			folderSort: true
@@ -160,8 +164,10 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 			{
 				id: 'file',
 				cls: 'x-btn-text-icon',
-				icon: '/icons/add_file.png',
-				text: _('File')
+				iconCls: 'x-deluge-add-file',
+				text: _('File'),
+				handler: Deluge.Add.onFile,
+				scope: Deluge.Add
 			}, {
 				id: 'url',
 				cls: 'x-btn-text-icon',
@@ -201,11 +207,52 @@ Deluge.Add.Options = new Ext.TabPanel({
 	}]
 });
 
+Deluge.Add.File = {
+	
+}
+
+Deluge.Add.File.form = new Ext.form.FormPanel({
+    defaultType: 'textfield',
+    id: 'fileAddForm',
+    baseCls: 'x-plain',
+    labelWidth: 55,
+    items: [new Ext.form.FileUploadField({
+        fieldLabel: _('File'),
+        id: 'file',
+        name: 'file',
+        listeners: {
+            'specialkey': {
+                fn: Deluge.Add.File.onAdd,
+                scope: Deluge.Add.File
+            }
+        }
+    })]
+});
+
+Deluge.Add.File.Window = new Ext.Window({
+	layout: 'fit',
+    width: 350,
+    height: 115,
+    bodyStyle: 'padding: 10px 5px;',
+    buttonAlign: 'center',
+    closeAction: 'hide',
+    modal: true,
+    plain: true,
+    title: _('Add from File'),
+    iconCls: 'x-deluge-add-file',
+    items: Deluge.Add.File.form,
+    buttons: [{
+        text: _('Add'),
+        handler: Deluge.Add.File.onAdd,
+		scope: Deluge.Add.File
+    }]
+});
+
 Deluge.Add.Url = {
 	onAdd: function(field, e) {
 		if (field.id == 'url' && e.getKey() != e.ENTER) return;
 
-		var field = this.Form.items.get('url');
+		var field = this.form.items.get('url');
 		var url = field.getValue();
 		
 		Deluge.Client.web.download_torrent_from_url(url, {
@@ -222,12 +269,12 @@ Deluge.Add.Url = {
 	
 	onGotInfo: function(info) {
 		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
-		this.Form.items.get('url').setValue('');
+		this.form.items.get('url').setValue('');
 		bound(info);
 	}
 }
 
-Deluge.Add.Url.Form = new Ext.form.FormPanel({
+Deluge.Add.Url.form = new Ext.form.FormPanel({
     defaultType: 'textfield',
     id: 'urlAddForm',
     baseCls: 'x-plain',
@@ -258,7 +305,7 @@ Deluge.Add.Url.Window = new Ext.Window({
     plain: true,
     title: _('Add from Url'),
     iconCls: 'x-deluge-add-url-window-icon',
-    items: Deluge.Add.Url.Form,
+    items: Deluge.Add.Url.form,
     buttons: [{
         text: _('Add'),
         handler: Deluge.Add.Url.onAdd,
@@ -288,5 +335,10 @@ Deluge.Add.Window = new Ext.Window({
 		handler: Deluge.Add.onAdd,
 		scope: Deluge.Add
 	}],
-    listeners: {'render': {fn: Deluge.Add.onRender, scope: Deluge.Add}}
+    listeners: {
+		'render': {
+			fn: Deluge.Add.onRender,
+			scope: Deluge.Add
+		}
+	}
 });
