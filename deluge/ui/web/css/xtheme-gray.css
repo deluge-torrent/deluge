@@ -100,6 +100,10 @@
 	background-image:url(/themes/gray/button/btn-sprite.gif);
 }
 
+.x-btn button {
+    color: Black;
+}
+
 /* Layout classes */
 
 .x-border-layout-ct {
