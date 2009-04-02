@@ -97,15 +97,15 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				iconCls: 'x-deluge-downloading',
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('5 KiB/s'),
+						text: _('5 KiB/s')
 					}, {
-						text: _('10 KiB/s'),
+						text: _('10 KiB/s')
 					}, {
-						text: _('30 KiB/s'),
+						text: _('30 KiB/s')
 					}, {
-						text: _('80 KiB/s'),
+						text: _('80 KiB/s')
 					}, {
-						text: _('300 KiB/s'),
+						text: _('300 KiB/s')
 					},{
 						text: _('Unlimited')
 					}]
@@ -115,15 +115,15 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				iconCls: 'x-deluge-seeding',
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('5 KiB/s'),
+						text: _('5 KiB/s')
 					}, {
-						text: _('10 KiB/s'),
+						text: _('10 KiB/s')
 					}, {
-						text: _('30 KiB/s'),
+						text: _('30 KiB/s')
 					}, {
-						text: _('80 KiB/s'),
+						text: _('80 KiB/s')
 					}, {
-						text: _('300 KiB/s'),
+						text: _('300 KiB/s')
 					},{
 						text: _('Unlimited')
 					}]
@@ -133,15 +133,15 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				iconCls: 'x-deluge-connections',
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('50'),
+						text: _('50')
 					}, {
-						text: _('100'),
+						text: _('100')
 					}, {
-						text: _('200'),
+						text: _('200')
 					}, {
-						text: _('300'),
+						text: _('300')
 					}, {
-						text: _('500'),
+						text: _('500')
 					},{
 						text: _('Unlimited')
 					}]
@@ -151,15 +151,15 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				icon: '/icons/upload_slots.png',
 				menu: new Ext.menu.Menu({
 					items: [{
-						text: _('0'),
+						text: _('0')
 					}, {
-						text: _('1'),
+						text: _('1')
 					}, {
-						text: _('2'),
+						text: _('2')
 					}, {
-						text: _('3'),
+						text: _('3')
 					}, {
-						text: _('5'),
+						text: _('5')
 					},{
 						text: _('Unlimited')
 					}]

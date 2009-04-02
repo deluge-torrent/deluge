@@ -21,12 +21,6 @@ Copyright:
 		Boston, MA  02110-1301, USA.
 */
 
-Deluge.FilesTreeLoader = Ext.extend(Ext.tree.TreeLoader, {
-	initComponent: function() {
-		Deluge.FilesTreeLoader.superclass.initComponent.call(this);
-	},
-});
-
 Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 	initComponent: function() {
 		Deluge.ProgressBar.superclass.initComponent.call(this);

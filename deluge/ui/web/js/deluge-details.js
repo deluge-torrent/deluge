@@ -118,7 +118,7 @@ Deluge.Details.Status = {
 	getFields: function() {
 		var panel = this.panel.items.get('status-details');
 		this.fields = new Hash();
-		panel.body.dom.getElements('dd').each(function(item) {
+		$(panel.body.dom).getElements('dd').each(function(item) {
 			this.fields[item.getProperty('class')] = item;
 		}, this);
 	},
@@ -141,7 +141,8 @@ Deluge.Details.Status = {
 
 Deluge.Details.Details = {
 	onRender: function(panel) {
-		this.panel = panel.load({
+		this.panel = panel;
+		panel.load({
 			url: '/render/tab_details.html',
 			text: _('Loading') + '...',
 			callback: this.onLoaded.bindWithEvent(this)
@@ -177,7 +178,7 @@ Deluge.Details.Details = {
 	
 	getFields: function() {
 		this.fields = new Hash();
-		this.panel.body.dom.getElements('dd').each(function(item) {
+		$(this.panel.body.dom.firstChild).getElements('dd').each(function(item) {
 			this.fields[item.getProperty('class')] = item;
 		}, this);
 	},
@@ -342,6 +343,12 @@ Deluge.Details.Peers = {
 	}
 }
 
+Deluge.Details.Options = {
+	onRender: function(panel) {
+		
+	}
+}
+
 function flag(value) {
 	return String.format('<img src="/flag/{0}" />', value);
 }
@@ -403,12 +410,22 @@ Deluge.Details.Panel = new Ext.TabPanel({
 	items: [{
 		id: 'status',
 		title: _('Status'),
-		listeners: {'render': {fn: Deluge.Details.Status.onRender, scope: Deluge.Details.Status}}
-	},{
+		listeners: {
+			'render': {
+				fn: Deluge.Details.Status.onRender,
+				scope: Deluge.Details.Status
+			}
+		}
+	}, {
 		id: 'details',
 		title: _('Details'),
 		cls: 'deluge-status',
-		listeners: {'render': {fn: Deluge.Details.Details.onRender, scope: Deluge.Details.Details}}
+		listeners: {
+			'render': {
+				fn: Deluge.Details.Details.onRender,
+				scope: Deluge.Details.Details
+			}
+		}
 	}, new Ext.tree.ColumnTree({
 		id: 'files',
 		title: _('Files'),
@@ -420,17 +437,17 @@ Deluge.Details.Panel = new Ext.TabPanel({
 			header: _('Filename'),
 			width: 330,
 			dataIndex: 'filename'
-		},{
+		}, {
 			header: _('Size'),
 			width: 150,
 			dataIndex: 'size',
 			renderer: fsize
-		},{
+		}, {
 			header: _('Progress'),
 			width: 150,
 			dataIndex: 'progress',
 			renderer: progress_renderer
-		},{
+		}, {
 			header: _('Priority'),
 			width: 150,
 			dataIndex: 'priority',
@@ -467,38 +484,57 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		deferredRender:false,
 		autoScroll:true,
 		margins: '0 0 0 0',
-		listeners: {'render': {fn: Deluge.Details.Peers.onRender, scope: Deluge.Details.Peers}}
+		listeners: {
+			'render': {
+				fn: Deluge.Details.Peers.onRender,
+				scope: Deluge.Details.Peers
+			}
+		}
 	}), new Ext.form.FormPanel({
 		id: 'options',
 		title: _('Options'),
 		frame: true,
+		autoScroll:true,
+		deferredRender:false,
 		items: [{
 			layout: 'column',
 			border: false,
 			defaults: {
-				columnWidth: '.33',
+				columnWidth: '.25',
 				border: false
 			},
 			
 			items: [{
-				bodyStyle: 'padding-right:5px;',
+				bodyStyle: 'padding-left: 5px; padding-right:5px;',
 				items: [{
 					xtype: 'fieldset',
 					title: _('Bandwidth'),
+					layout: 'table',
+					bodyStyle:'padding:5px',
+					layoutConfig: {columns: 2},
 					autoHeight: true,
+					labelWidth: 150,
 					defaultType: 'uxspinner',
 					items: [{
 						fieldLabel: _('Max Download Speed'),
-						name: 'max_download_speed'
+						name: 'max_download_speed',
+						html: '1,1'
+					}, {
+						xtype: 'label',
+						text: 'KiB/s',
+						html: '1,2'
 					}, {
 						fieldLabel: _('Max Upload Speed'),
-						name: 'max_upload_speed'
+						name: 'max_upload_speed',
+						width: 100
 					}, {
 						fieldLabel: _('Max Connections'),
-						name: 'max_connections'
+						name: 'max_connections',
+						width: 100
 					}, {
 						fieldLabel: _('Max Upload Slots'),
-						name: 'max_upload_slots'
+						name: 'max_upload_slots',
+						width: 100
 					}]
 				}]
 			}, {
@@ -507,21 +543,26 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					xtype: 'fieldset',
 					title: _('Queue'),
 					autoHeight: true,
+					labelWidth: 10,
 					defaultType: 'checkbox',
 					items: [{
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Auto Managed'),
 						name: 'auto_managed'
 					}, {
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Stop seed at ratio'),
 						name: 'stop_ratio'
 					}, {
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Remove at ratio'),
 						name: 'remove_ratio'
 					}, {
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Move Completed'),
 						name: 'move_completed'
 					}]
@@ -535,16 +576,24 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					defaultType: 'checkbox',
 					items: [{
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Private'),
 						name: 'private'
 					}, {
 						fieldLabel: '',
+						labelSeparator: '',
 						boxLabel: _('Prioritize First/Last'),
 						name: 'prioritize_first'
 					}]
 				}]
 			}],
-		}]
+		}],
+		listeners: {
+			'render': {
+				fn: Deluge.Details.Options.onRender,
+				scope: Deluge.Details.Options
+			}
+		}
 	})],
 	listeners: {
 		'render': {fn: Deluge.Details.onRender, scope: Deluge.Details},
