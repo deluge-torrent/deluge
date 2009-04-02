@@ -65,8 +65,9 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 	opacity: 0;
 	z-index: 2;
     height: 22px;
+	cursor: pointer;
 }
-.x-form-file-wrap .x-form-file-btn {
+.x-form-file-wrap .x-btn {
 	position: absolute;
 	right: 0;
 	z-index: 1;

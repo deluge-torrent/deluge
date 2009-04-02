@@ -96,15 +96,6 @@ input {
 	background: url('/icons/add.png') no-repeat 2px;
 }
 
-/*.x-deluge-add-file {
-	background: url('/icons/add_file.png');
-	padding-left: 20px;
-}*/
-
-.x-form-file-wrap, .x-form-file {
-	cursor: pointer;
-}
-
 /* Add Url Window */
 .x-deluge-add-file, .x-btn .x-deluge-add-file {
 	background: url('/icons/add_file.png') no-repeat 2px;
