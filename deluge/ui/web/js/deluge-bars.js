@@ -349,13 +349,21 @@ Deluge.SideBar = {
 	renderer: function(value, p, r) {
 		var lname = value.toLowerCase().replace('.', '_');
 		
-		var image = '';		
+		var image = '';	
 		if (r.store.id == 'tracker_host') {
 			if (value != 'Error') {
 				image = String.format('url(/tracker/{0})', value);
+			} else {
+				lname = null;
 			}
 		}
-		return String.format('<div class="x-deluge-filter x-deluge-{2}" style="background-image: {3};">{0} ({1})</div>', value, r.data['count'], lname, image);
+		if (image) {
+			return String.format('<div class="x-deluge-filter" style="background-image: {2};">{0} ({1})</div>', value, r.data['count'], image);
+		} else if (lname) {
+			return String.format('<div class="x-deluge-filter x-deluge-{2}">{0} ({1})</div>', value, r.data['count'], lname);
+		} else {
+			return String.format('<div class="x-deluge-filter">{0} ({1})</div>', value, r.data['count']);
+		}
 	},
 	
 	getFilters: function() {
