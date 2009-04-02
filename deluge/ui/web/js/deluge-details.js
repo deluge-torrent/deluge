@@ -646,18 +646,22 @@ Deluge.Details.Panel = new Ext.TabPanel({
 				}, {
 					layout: 'column',
 					items: [{
-						id: 'edit_trackers',
-						xtype: 'button',
-						text: _('Edit Trackers'),
-						cls: 'x-btn-text-icon',
-						iconCls: 'x-deluge-edit-trackers',
-						width: 100
+						items: [{
+							id: 'edit_trackers',
+							xtype: 'button',
+							text: _('Edit Trackers'),
+							cls: 'x-btn-text-icon',
+							iconCls: 'x-deluge-edit-trackers',
+							width: 100
+						}]
 					}, {
-						id: 'apply',
-						xtype: 'button',
-						text: _('Apply'),
-						style: 'margin-left: 10px',
-						width: 100
+						items: [{
+							id: 'apply',
+							xtype: 'button',
+							text: _('Apply'),
+							style: 'margin-left: 10px',
+							width: 100
+						}]
 					}]
 				}]
 			}]
