@@ -95,29 +95,30 @@ class Upload(resource.Resource):
     Twisted Web resource to handle file uploads
     """
     
-    def http_POST(self, request):
+    def render(self, request):
         """
         Saves all uploaded files to the disk and returns a list of filenames,
         each on a new line.
         """
+        
+        # Block all other HTTP methods.
+        if request.method != "POST":
+            request.setResponseCode(http.NOT_ALLOWED)
+            return ""
+        
         tempdir = os.path.join(tempfile.gettempdir(), "delugeweb")
         if not os.path.isdir(tempdir):
             os.mkdir(tempdir)
 
         filenames = []
-        for files in request.files.values():
-            for upload in files:
-                fn = os.path.join(tempdir, upload[0])
-                f = open(fn, upload[2].mode)
-                shutil.copyfileobj(upload[2], f)
-                filenames.append(fn)
-        return http.Response(http.OK, stream="\n".join(filenames))
-    
-    def render(self, request):
-        """
-        Block all other HTTP methods.
-        """
-        return http.Response(http.NOT_ALLOWED)
+        for upload in request.args.get("file"):
+            f = tempfile.NamedTemporaryFile(dir=tempdir, delete=False)
+            f.write(upload)
+            filenames.append(f.name)
+            f.close()
+        request.setHeader("content-type", "text/plain")
+        request.setResponseCode(http.OK)
+        return "\n".join(filenames)
 
 class Render(resource.Resource):
 
