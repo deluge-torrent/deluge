@@ -221,7 +221,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 	region: 'south',
 	margins: '5 5 5 5',
 	activeTab: 0,
-	height: 200,
+	height: 220,
 	items: [{
 		id: 'addFilesTab',
 		title: _('Files'),
@@ -253,41 +253,21 @@ Deluge.Add.Options = new Ext.TabPanel({
 				},
 				items: [{
 					xtype: 'fieldset',
-					bodyStyle: 'margin-left: 5px; margin-right:5px;',
-					title: _('Allocation'),
-					defaultType: 'radio',
-					autoHeight: true,
-					labelWidth: 1,
-					width: 100,
-					items: [{
-						fieldLabel: '',
-						labelSeparator: '',
-						boxLabel: _('Full'),
-						inputValue: 'false',
-						name: 'compact_allocation'
-					},{
-						fieldLabel: '',
-						labelSeparator: '',
-						boxLabel: _('Compact'),
-						inputValue: 'true',
-						name: 'compact_allocation'
-					}]
-				}, {
-					xtype: 'fieldset',
 					title: _('Bandwidth'),
 					layout: 'table',
 					layoutConfig: {columns: 3},
 					autoHeight: true,
 					defaultType: 'uxspinner',
-					width: 220,
+					width: 250,
 					items: [{
 						xtype: 'label',
 						text: _('Max Down Speed'),
-						forId: 'max_download_speed',
+						forId: 'add_max_download_speed',
 						cls: 'x-deluge-options-label',
-						width: 100,
+						width: 120,
+						style: 'margin-left: 10px;'
 					}, {
-						id: 'max_download_speed',
+						id: 'add_max_download_speed',
 						width: 60,
 						value: 1024,
 						strategy: new Ext.ux.form.Spinner.NumberStrategy({
@@ -302,10 +282,11 @@ Deluge.Add.Options = new Ext.TabPanel({
 					}, {
 						xtype: 'label',
 						text: _('Max Up Speed'),
-						forId: 'max_upload_speed',
-						cls: 'x-deluge-options-label'
+						forId: 'add_max_upload_speed',
+						cls: 'x-deluge-options-label',
+						style: 'margin-left: 10px;'
 					}, {
-						id: 'max_upload_speed',
+						id: 'add_max_upload_speed',
 						width: 60,
 						value: -1,
 						strategy: new Ext.ux.form.Spinner.NumberStrategy({
@@ -320,10 +301,11 @@ Deluge.Add.Options = new Ext.TabPanel({
 					}, {
 						xtype: 'label',
 						text: _('Max Connections'),
-						forId: 'max_connections',
-						cls: 'x-deluge-options-label'
+						forId: 'add_max_connections',
+						cls: 'x-deluge-options-label',
+						style: 'margin-left: 10px;'
 					}, {
-						id: 'max_connections',
+						id: 'add_max_connections',
 						colspan: 2,
 						width: 60,
 						value: -1,
@@ -335,10 +317,11 @@ Deluge.Add.Options = new Ext.TabPanel({
 					}, {
 						xtype: 'label',
 						text: _('Max Upload Slots'),
-						forId: 'max_upload_slots',
-						cls: 'x-deluge-options-label'
+						forId: 'add_max_upload_slots',
+						cls: 'x-deluge-options-label',
+						style: 'margin-left: 10px;'
 					}, {
-						id: 'max_upload_slots',
+						id: 'add_max_upload_slots',
 						colspan: 2,
 						width: 60,
 						value: -1,
@@ -349,22 +332,53 @@ Deluge.Add.Options = new Ext.TabPanel({
 						})
 					}]
 				}, {
-					xtype: 'fieldset',
-					title: _('General'),
-					autoHeight: true,
-					labelWidth: 1,
-					defaultType: 'checkbox',
-					width: 180,
 					items: [{
-						fieldLabel: '',
-						labelSeparator: '',
-						boxLabel: _('Add In Paused State'),
-						id: 'add_paused'
+						xtype: 'fieldset',
+						bodyStyle: 'margin-left: 5px; margin-right:5px;',
+						title: _('Allocation'),
+						defaultType: 'radio',
+						autoHeight: true,
+						border: false,
+						labelWidth: 1,
+						layout: 'table',
+						layoutConfig: {
+							columns: 2
+						},
+						width: 140,
+						items: [{
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Full'),
+							inputValue: 'false',
+							name: 'compact_allocation',
+							width: 50
+						},{
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Compact'),
+							inputValue: 'true',
+							name: 'compact_allocation',
+							width: 75
+						}]
 					}, {
-						fieldLabel: '',
-						labelSeparator: '',
-						boxLabel: _('Prioritize First/Last Piece'),
-						id: 'prioritize_first_last'
+						xtype: 'fieldset',
+						title: _('General'),
+						autoHeight: true,
+						border: false,
+						labelWidth: 10,
+						defaultType: 'checkbox',
+						width: 190,
+						items: [{
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Add In Paused State'),
+							id: 'add_paused'
+						}, {
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Prioritize First/Last Piece'),
+							id: 'prioritize_first_last'
+						}]
 					}]
 				}]
 			}]
