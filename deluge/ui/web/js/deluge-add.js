@@ -220,7 +220,21 @@ Deluge.Add.Options = new Ext.TabPanel({
 		items: [Deluge.Add.Files]
 	},{
 		id: 'options',
-		title: _('Options')
+		title: _('Options'),
+		items: [new Ext.form.FormPanel({
+			xtype: 'form',
+			defaultType: 'textfield',
+			items: [{
+				xtype: 'fieldset',
+				title: _('Download Location'),
+				items: [{
+					fieldLabel: '',
+					id: 'download_location',
+					name: 'download_location',
+					anchor: '100%'
+				}]
+			}]
+		})]
 	}]
 });
 
@@ -240,7 +254,7 @@ Deluge.Add.File = {
 		var filename = upload.result.toString();
 		this.form.items.get('torrentFile').setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(this)
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add)
 		});
 	}
 }
@@ -298,7 +312,7 @@ Deluge.Add.Url = {
 	onDownload: function(filename) {
 		this.form.items.get('url').setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(this)
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(Deluge.Add)
 		});
 	}
 }
