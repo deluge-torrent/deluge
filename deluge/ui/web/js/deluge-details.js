@@ -509,12 +509,13 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		items: [{
 			layout: 'column',
 			defaults: {
-				columnWidth: '.33',
+				//columnWidth: '.33',
 				border: false
 			},
 			
 			items: [{
 				bodyStyle: 'padding-left: 5px; padding-right:5px;',
+				width: 300,
 				items: [{
 					xtype: 'fieldset',
 					title: _('Bandwidth'),
@@ -593,6 +594,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 				}]
 			}, {
 				bodyStyle: 'padding-left: 5px; padding-right:5px;',
+				width: 200,
 				items: [{
 					xtype: 'fieldset',
 					title: _('Queue'),
@@ -623,6 +625,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 				}]
 			}, {
 				bodyStyle: 'padding-left:5px;',
+				width: 200,
 				items: [{
 					xtype: 'fieldset',
 					title: _('General'),
@@ -648,14 +651,12 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						text: _('Edit Trackers'),
 						cls: 'x-btn-text-icon',
 						iconCls: 'x-deluge-edit-trackers',
-						columnWidth: '.50',
 						width: 100
 					}, {
 						id: 'apply',
 						xtype: 'button',
 						text: _('Apply'),
 						style: 'margin-left: 10px',
-						columnWidth: '.50',
 						width: 100
 					}]
 				}]
