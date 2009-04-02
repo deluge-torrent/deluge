@@ -59,11 +59,18 @@ Deluge.Add = {
 		this.File.Window.show();
 	},
 	
+	onOptionsRender: function(panel) {
+		panel.layout = new Ext.layout.FormLayout();
+		panel.layout.setContainer(panel);
+		panel.doLayout();
+	},
+	
 	onRender: function(window) {
 		new Ext.tree.TreeSorter(this.Files, {
 			folderSort: true
 		});
 	},
+	
 	
 	onSelect: function(selModel, rowIndex, record) {
 		var torrentInfo = Deluge.Add.torrents[record.id];
@@ -216,26 +223,158 @@ Deluge.Add.Options = new Ext.TabPanel({
 	activeTab: 0,
 	height: 200,
 	items: [{
-		id: 'files',
+		id: 'addFilesTab',
 		title: _('Files'),
 		items: [Deluge.Add.Files]
 	},{
-		id: 'options',
+		id: 'addOptionsTab',
 		title: _('Options'),
+		layout: 'fit',
 		items: [new Ext.form.FormPanel({
 			xtype: 'form',
-			defaultType: 'textfield',
-			items: [{
+			id: 'addOptionsForm',
+			bodyStyle: 'padding: 5px;',
+			items: [/*{
 				xtype: 'fieldset',
 				title: _('Download Location'),
+				border: false,
 				items: [{
+					xtype: 'textfield',
 					fieldLabel: '',
 					id: 'download_location',
 					name: 'download_location',
 					anchor: '100%'
 				}]
+			}, */{
+				layout: 'column',
+				border: false,
+				defaults: {
+					border: false
+				},
+				items: [{
+					xtype: 'fieldset',
+					bodyStyle: 'margin-left: 5px; margin-right:5px;',
+					title: _('Allocation'),
+					defaultType: 'radio',
+					autoHeight: true,
+					labelWidth: 1,
+					width: 100,
+					items: [{
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Full'),
+						inputValue: 'false',
+						name: 'compact_allocation'
+					},{
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Compact'),
+						inputValue: 'true',
+						name: 'compact_allocation'
+					}]
+				}, {
+					xtype: 'fieldset',
+					title: _('Bandwidth'),
+					layout: 'table',
+					layoutConfig: {columns: 3},
+					autoHeight: true,
+					defaultType: 'uxspinner',
+					width: 220,
+					items: [{
+						xtype: 'label',
+						text: _('Max Down Speed'),
+						forId: 'max_download_speed',
+						cls: 'x-deluge-options-label',
+						width: 100,
+					}, {
+						id: 'max_download_speed',
+						width: 60,
+						value: 1024,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
+					}, {
+						xtype: 'label',
+						text: 'KiB/s',
+						style: 'margin-left: 5px;'
+					}, {
+						xtype: 'label',
+						text: _('Max Up Speed'),
+						forId: 'max_upload_speed',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_upload_speed',
+						width: 60,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
+					}, {
+						xtype: 'label',
+						text: 'KiB/s',
+						style: 'margin-left: 5px;'
+					}, {
+						xtype: 'label',
+						text: _('Max Connections'),
+						forId: 'max_connections',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_connections',
+						colspan: 2,
+						width: 60,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
+					}, {
+						xtype: 'label',
+						text: _('Max Upload Slots'),
+						forId: 'max_upload_slots',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_upload_slots',
+						colspan: 2,
+						width: 60,
+						value: -1,
+						strategy: new Ext.ux.form.Spinner.NumberStrategy({
+							minValue: -1,
+							maxValue: 99999,
+							incrementValue: 1
+						})
+					}]
+				}, {
+					xtype: 'fieldset',
+					title: _('General'),
+					autoHeight: true,
+					labelWidth: 1,
+					defaultType: 'checkbox',
+					width: 180,
+					items: [{
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Add In Paused State'),
+						id: 'add_paused'
+					}, {
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Prioritize First/Last Piece'),
+						id: 'prioritize_first_last'
+					}]
+				}]
 			}]
-		})]
+		})],
+		listeners: {
+			'render': {
+				fn: Deluge.Add.onOptionsRender,
+				scope: Deluge.Add
+			}
+		}
 	}]
 });
 
@@ -359,7 +498,7 @@ Deluge.Add.Url.Window = new Ext.Window({
 
 Deluge.Add.Window = new Ext.Window({
 	layout: 'border',
-    width: 400,
+    width: 500,
     height: 450,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
