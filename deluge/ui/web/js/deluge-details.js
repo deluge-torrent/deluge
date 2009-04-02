@@ -306,6 +306,7 @@ Deluge.Details.Files = {
 		root.cascade(function(node) {
 			var parent = node.parentNode;
 			if (!parent) return;
+			if (!parent.ownerTree) return;
 			parent.removeChild(node);
 		});
 	},
