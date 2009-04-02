@@ -498,7 +498,6 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		deferredRender:false,
 		items: [{
 			layout: 'column',
-			border: false,
 			defaults: {
 				columnWidth: '.25',
 				border: false
@@ -586,7 +585,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						name: 'prioritize_first'
 					}]
 				}]
-			}],
+			}]
 		}],
 		listeners: {
 			'render': {
