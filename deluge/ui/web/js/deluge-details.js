@@ -503,7 +503,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 		items: [{
 			layout: 'column',
 			defaults: {
-				columnWidth: '.25',
+				columnWidth: '.33',
 				border: false
 			},
 			
@@ -514,29 +514,51 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					title: _('Bandwidth'),
 					layout: 'table',
 					bodyStyle:'padding:5px',
-					layoutConfig: {columns: 2},
+					layoutConfig: {columns: 3},
 					autoHeight: true,
 					labelWidth: 150,
 					defaultType: 'uxspinner',
 					items: [{
-						fieldLabel: _('Max Download Speed'),
-						name: 'max_download_speed',
-						html: '1,1'
+						xtype: 'label',
+						text: _('Max Download Speed'),
+						forId: 'max_download_speed',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_download_speed',
+						width: 100
 					}, {
 						xtype: 'label',
 						text: 'KiB/s',
-						html: '1,2'
+						style: 'margin-left: 10px;'
 					}, {
-						fieldLabel: _('Max Upload Speed'),
-						name: 'max_upload_speed',
+						xtype: 'label',
+						text: _('Max Upload Speed'),
+						forId: 'max_upload_speed',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_upload_speed',
 						width: 100
 					}, {
-						fieldLabel: _('Max Connections'),
-						name: 'max_connections',
+						xtype: 'label',
+						text: 'KiB/s',
+						style: 'margin-left: 10px;'
+					}, {
+						xtype: 'label',
+						text: _('Max Connections'),
+						forId: 'max_connections',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_connections',
+						colspan: 2,
 						width: 100
 					}, {
-						fieldLabel: _('Max Upload Slots'),
-						name: 'max_upload_slots',
+						xtype: 'label',
+						text: _('Max Upload Slots'),
+						forId: 'max_upload_slots',
+						cls: 'x-deluge-options-label'
+					}, {
+						id: 'max_upload_slots',
+						colspan: 2,
 						width: 100
 					}]
 				}]
@@ -546,28 +568,28 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					xtype: 'fieldset',
 					title: _('Queue'),
 					autoHeight: true,
-					labelWidth: 10,
+					labelWidth: 1,
 					defaultType: 'checkbox',
 					items: [{
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Auto Managed'),
-						name: 'auto_managed'
+						id: 'auto_managed'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Stop seed at ratio'),
-						name: 'stop_ratio'
+						id: 'stop_ratio'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Remove at ratio'),
-						name: 'remove_ratio'
+						id: 'remove_ratio'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Move Completed'),
-						name: 'move_completed'
+						id: 'move_completed'
 					}]
 				}]
 			}, {
@@ -577,16 +599,31 @@ Deluge.Details.Panel = new Ext.TabPanel({
 					title: _('General'),
 					autoHeight: true,
 					defaultType: 'checkbox',
+					labelWidth: 1,
 					items: [{
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Private'),
-						name: 'private'
+						id: 'private'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Prioritize First/Last'),
-						name: 'prioritize_first'
+						id: 'prioritize_first'
+					}]
+				}, {
+					layout: 'column',
+					items: [{
+						id: 'edit_trackers',
+						xtype: 'button',
+						text: _('Edit Trackers'),
+						cls: 'x-btn-text-icon',
+						iconCls: 'x-deluge-edit-trackers'
+					}, {
+						id: 'apply',
+						xtype: 'button',
+						text: _('Apply'),
+						style: 'margin-left: 10px'
 					}]
 				}]
 			}]

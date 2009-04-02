@@ -41,6 +41,7 @@ input {
 .x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('/icons/dht.png'); }
 .x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('/icons/connections.png') }
 .x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('/icons/traffic.png') }
+.x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('/icons/edit_trackers.png'); }
 
 
 /* Torrent Details */
@@ -159,6 +160,11 @@ input {
 	vertical-align: top;
 	font-weight: normal;
 	padding-top: 0px;
+}
+
+/* Options Tab Styles */
+.x-deluge-options-label {
+	margin-right: 10px;
 }
 
 
