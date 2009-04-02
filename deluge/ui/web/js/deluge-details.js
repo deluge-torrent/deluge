@@ -246,7 +246,9 @@ Deluge.Details.Files = {
 				
 				Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
 					onSuccess: function() {
-						this.update(this.torrentId);
+						$each(nodes, function(node) {
+							node.setColumnValue(3, baseItem.filePriority);
+						});
 					}.bind(this)
 				});
 				break;
