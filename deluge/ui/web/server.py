@@ -106,6 +106,10 @@ class Upload(resource.Resource):
             request.setResponseCode(http.NOT_ALLOWED)
             return ""
         
+        if "file" not in request.args:
+            request.setResponseCode(http.OK)
+            return ""
+        
         tempdir = os.path.join(tempfile.gettempdir(), "delugeweb")
         if not os.path.isdir(tempdir):
             os.mkdir(tempdir)
