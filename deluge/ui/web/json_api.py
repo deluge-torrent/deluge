@@ -396,7 +396,10 @@ class WebApi(JSONComponent):
         }
         """
         d = Deferred()
-        d.callback(uicommon.get_torrent_info(filename.strip()))
+        try:
+            d.callback(uicommon.get_torrent_info(filename.strip()))
+        except:
+            d.callback(False)
         return d
 
     @export

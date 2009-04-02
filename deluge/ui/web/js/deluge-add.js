@@ -98,6 +98,17 @@ Deluge.Add = {
 	},
 	
 	onTorrentAdded: function(info) {
+		if (!info) {
+			Ext.MessageBox.show({
+				title: _('Error'),
+				msg: _('Not a valid torrent'),
+				buttons: Ext.MessageBox.OK,
+				modal: false,
+				icon: Ext.MessageBox.ERROR,
+				iconCls: 'x-deluge-icon-error'
+			});
+			return;
+		}
 		this.Store.loadData([[info['info_hash'], info['name']]], true);
 		this.torrents[info['info_hash']] = info;
 	},
@@ -226,15 +237,10 @@ Deluge.Add.File = {
 	onUploadSuccess: function(fp, upload) {
 		this.Window.hide();
 		var filename = upload.result.toString();
-		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: this.onGotInfo.bindWithEvent(this)
-		});
-	},
-	
-	onGotInfo: function(info) {
-		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
 		this.form.items.get('torrentFile').setValue('');
-		bound(info);
+		Deluge.Client.web.get_torrent_info(filename, {
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(this)
+		});
 	}
 }
 
@@ -289,15 +295,10 @@ Deluge.Add.Url = {
 	},
 	
 	onDownload: function(filename) {
-		Deluge.Client.web.get_torrent_info(filename, {
-			onSuccess: this.onGotInfo.bindWithEvent(this)
-		});
-	},
-	
-	onGotInfo: function(info) {
-		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
 		this.form.items.get('url').setValue('');
-		bound(info);
+		Deluge.Client.web.get_torrent_info(filename, {
+			onSuccess: Deluge.Add.onTorrentAdded.bindWithEvent(this)
+		});
 	}
 }
 
