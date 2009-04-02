@@ -69,7 +69,7 @@ Deluge.ToolBar = {
 				Deluge.Events.fire('torrentRemoved', ids);
 				Deluge.Client.core.remove_torrent(ids, null, {
 					onSuccess: function() {
-						Deluge.Ui.update();
+						Deluge.UI.update();
 					}
 				});
 				break;
@@ -77,7 +77,7 @@ Deluge.ToolBar = {
 			case 'resume':
 				Deluge.Client.core[item.id + '_torrent'](ids, {
 					onSuccess: function() {
-						Deluge.Ui.update();
+						Deluge.UI.update();
 					}
 				});
 				break;
@@ -85,7 +85,7 @@ Deluge.ToolBar = {
 			case 'down':
 				Deluge.Client.core['queue_' + item.id](ids, {
 					onSuccess: function() {
-						Deluge.Ui.update();
+						Deluge.UI.update();
 					}
 				});
 				break;
@@ -466,7 +466,7 @@ Deluge.SideBar = {
 			panel: this.panels[record.store.id]
 		}
 		
-		if (needsUpdate) Deluge.Ui.update();
+		if (needsUpdate) Deluge.UI.update();
 	},
 	
 	updateFilter: function(filter, states) {

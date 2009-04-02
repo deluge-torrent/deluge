@@ -22,7 +22,7 @@ Copyright:
 		Boston, MA  02110-1301, USA.
 */
 
-Deluge.Ui = {
+Deluge.UI = {
 	initialize: function() {
 		this.errorCount = 0;
 		this.roar = new Roar({
@@ -156,5 +156,5 @@ Deluge.Ui = {
 }
 
 document.addEvent('domready', function(e) {
-	Deluge.Ui.initialize();
+	Deluge.UI.initialize();
 });
