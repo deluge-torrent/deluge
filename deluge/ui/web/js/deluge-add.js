@@ -24,6 +24,12 @@ Copyright:
 Deluge.Add = {
 	torrents: new Hash(),
 	
+	clear: function() {
+		this.clearFiles();
+		this.Store.loadData([]);
+		this.torrents.empty();
+	},
+	
 	clearFiles: function() {
 		var root = this.Files.getRootNode();
 		if (!root.hasChildNodes()) return;
@@ -45,8 +51,7 @@ Deluge.Add = {
 			onSuccess: function(result) {
 			}
 		})
-		this.Store.loadData([]);
-		this.torrents.empty();
+		this.clear();
 		this.Window.hide();
 	},
 	
@@ -350,6 +355,7 @@ Deluge.Add.Window = new Ext.Window({
     buttons: [{
         text: _('Cancel'),
 		handler: function() {
+			Deluge.Add.clear();
 			Deluge.Add.Window.hide();
 		}
     }, {
