@@ -208,25 +208,47 @@ Deluge.Add.Options = new Ext.TabPanel({
 });
 
 Deluge.Add.File = {
+	onAdd: function() {
+		if (this.form.getForm().isValid()) {
+			this.form.getForm().submit({
+				url: '/upload',
+				waitMsg: _('Uploading your torrent...'),
+				success: this.onUploadSuccess.bindWithEvent(this)
+			});
+		}
+	},
 	
+	onUploadSuccess: function(fp, upload) {
+		this.Window.hide();
+		var filename = upload.result.toString();
+		Deluge.Client.web.get_torrent_info(filename, {
+			onSuccess: this.onGotInfo.bindWithEvent(this)
+		});
+	},
+	
+	onGotInfo: function(info) {
+		var bound = Deluge.Add.onTorrentAdded.bind(Deluge.Add)
+		this.form.items.get('torrentFile').setValue('');
+		bound(info);
+	}
 }
 
 Deluge.Add.File.form = new Ext.form.FormPanel({
-    defaultType: 'textfield',
+	fileUpload: true,
     id: 'fileAddForm',
     baseCls: 'x-plain',
     labelWidth: 55,
-    items: [new Ext.form.FileUploadField({
+	autoHeight: true,
+    items: [{
+		xtype: 'fileuploadfield',
+		id: 'torrentFile',
+		emptyText: _('Select a torrent'),
         fieldLabel: _('File'),
-        id: 'file',
         name: 'file',
-        listeners: {
-            'specialkey': {
-                fn: Deluge.Add.File.onAdd,
-                scope: Deluge.Add.File
-            }
-        }
-    })]
+		buttonCfg: {
+			text: _('Browse...')
+		}
+    }]
 });
 
 Deluge.Add.File.Window = new Ext.Window({
