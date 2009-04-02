@@ -24,7 +24,7 @@ Copyright:
 
 Deluge.ToolBar = {
 	connected_buttons: [
-		'create', 'add', 'remove', 'pause', 'resume', 'up', 'down'
+		'add', 'remove', 'pause', 'resume', 'up', 'down'
 	],
 	
 	onTorrentAdd: function() {

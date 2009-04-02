@@ -195,7 +195,8 @@ Deluge.Add.Grid = new Ext.grid.GridPanel({
 				id: 'infohash',
 				cls: 'x-btn-text-icon',
 				text: _('Infohash'),
-				icon: '/icons/add_magnet.png'
+				icon: '/icons/add_magnet.png',
+				disabled: true
 			}, '->', {
 				id: 'remove',
 				cls: 'x-btn-text-icon',
