@@ -267,13 +267,13 @@ Deluge.Menus.Connections = new Ext.menu.Menu({
 		checkHandler: onLimitChanged
 	},{
 		id: '-1',
-		text: 'Unlimited',
+		text: _('Unlimited'),
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
 		id: 'other',
-		text: 'Other',
+		text: _('Other'),
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
@@ -314,13 +314,13 @@ Deluge.Menus.Download = new Ext.menu.Menu({
 		checkHandler: onLimitChanged
 	},{
 		id: '-1',
-		text: 'Unlimited',
+		text: _('Unlimited'),
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
 		id: 'other',
-		text: 'Other',
+		text: _('Other'),
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
@@ -361,13 +361,13 @@ Deluge.Menus.Upload = new Ext.menu.Menu({
 		checkHandler: onLimitChanged
 	},{
 		id: '-1',
-		text: 'Unlimited',
+		text: _('Unlimited'),
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
 		id: 'other',
-		text: 'Other',
+		text: _('Other'),
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
