@@ -91,6 +91,15 @@ class TorrentInfo(object):
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
+    
+    def as_dict(self, *keys):
+        """
+        Return the torrent info as a dictionary, only including the passed in
+        keys.
+        
+        :param *keys: str, a number of key strings
+        """
+        return dict([(key, getattr(self, key)) for key in keys])
 
     @property
     def name(self):
@@ -183,52 +192,6 @@ class FileTree(object):
             lines.append("  " * depth + path)
         self.walk(write)
         return "\n".join(lines)
-
-def get_torrent_info(filename):
-    """
-    Return the metadata of a torrent file
-    """
-
-    # Get the torrent data from the torrent file
-    try:
-        log.debug("Attempting to open %s.", filename)
-        metadata = bencode.bdecode(open(filename, "rb").read())
-    except Exception, e:
-        log.warning("Unable to open %s: %s", filename, e)
-        raise e
-
-    info_hash = sha(bencode.bencode(metadata["info"])).hexdigest()
-
-    # Get list of files from torrent info
-    paths = {}
-    if metadata["info"].has_key("files"):
-        prefix = ""
-        if len(metadata["info"]["files"]) > 1:
-            prefix = metadata["info"]["name"]
-
-        for f in metadata["info"]["files"]:
-            path = os.path.join(prefix, *f["path"])
-            paths[path] = f
-
-        def walk(path, item):
-            if type(item) is dict:
-                return item
-            return [paths[path]['length'], True]
-
-        file_tree = FileTree(paths)
-        file_tree.walk(walk)
-        files = file_tree.get_tree()
-    else:
-        files = {
-            metadata["info"]["name"]: (metadata["info"]["length"], True)
-        }
-
-    return {
-        "filename": filename,
-        "name": metadata["info"]["name"],
-        "files": files,
-        "info_hash": info_hash
-    }
 
 def get_localhost_auth():
     """
