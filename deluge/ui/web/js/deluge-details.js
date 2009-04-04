@@ -349,6 +349,36 @@ Deluge.Details.Options = {
 		panel.layout = new Ext.layout.FormLayout();
 		panel.layout.setContainer(panel);
 		panel.doLayout();
+		this.form = panel.getForm();
+	},
+	
+	onRequestComplete: function(torrent) {
+		
+	},
+	
+	clear: function() {
+		this.form.findField('max_download_speed').setValue(0);
+		this.form.findField('max_upload_speed').setValue(0);
+		this.form.findField('max_connections').setValue(0);
+		this.form.findField('max_upload_slots').setValue(0);
+		this.form.findField('stop_ratio').setValue(0);
+		this.form.findField('is_auto_managed').setValue(false);
+		this.form.findField('stop_at_ratio').setValue(false);
+		this.form.findField('remove_at_ratio').setValue(false);
+		this.form.findField('private').setValue(false);
+		this.form.findField('prioritize_first_last').setValue(false);
+	},
+	
+	update: function(torrentId) {
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
+			onSuccess: this.onRequestComplete.bindWithEvent(this, torrentId)
+		});
+	},
+	
+	reset: function() {
+		if (this.torrentId) {
+			delete this.changed[this.torrentId];
+		}
 	}
 }
 
@@ -605,17 +635,17 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Auto Managed'),
-						id: 'auto_managed'
+						id: 'is_auto_managed'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Stop seed at ratio'),
-						id: 'stop_ratio'
+						id: 'stop_at_ratio'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Remove at ratio'),
-						id: 'remove_ratio'
+						id: 'remove_at_ratio'
 					}, {
 						fieldLabel: '',
 						labelSeparator: '',
@@ -641,7 +671,7 @@ Deluge.Details.Panel = new Ext.TabPanel({
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Prioritize First/Last'),
-						id: 'prioritize_first'
+						id: 'prioritize_first_last'
 					}]
 				}, {
 					layout: 'column',
