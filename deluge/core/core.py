@@ -22,13 +22,12 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-import glob
-import shutil
 import os
-import os.path
+import glob
+import base64
+import shutil
 import threading
 import pkg_resources
-import base64
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
