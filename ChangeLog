@@ -4,6 +4,9 @@
   * Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
   * Fix #862 deluged crash when access http://localhost:58846
 
+==== GtkUI ====
+  * Fix displaying torrents with non-utf8 encodings in add torrent dialog
+
 ==== WebUI ====
   * Fix #870 use proper config location for loading ssl cert
 

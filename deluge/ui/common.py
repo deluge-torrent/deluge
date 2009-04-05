@@ -46,29 +46,34 @@ class TorrentInfo(object):
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
+        # Get encoding from torrent file if available
+        self.encoding = "UTF-8"
+        if "encoding" in self.__m_metadata:
+            self.encoding = self.__m_metadata["encoding"]
+
         # Get list of files from torrent info
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"]
+                prefix = self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': os.path.join(prefix, *f["path"]),
+                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding).encode("utf8"),
                     'size': f["length"],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_metadata["info"]["name"],
+                "path": self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8"),
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
 
     @property
     def name(self):
-        return self.__m_metadata["info"]["name"]
+        return self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
 
     @property
     def info_hash(self):
