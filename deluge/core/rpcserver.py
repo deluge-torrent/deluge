@@ -134,16 +134,22 @@ class DelugeRPCProtocol(Protocol):
                     continue
 
                 # Format the RPCRequest message for debug printing
-                s = call[1] + "("
-                if call[2]:
-                    s += ", ".join([str(x) for x in call[2]])
-                if call[3]:
+                try:
+                    s = call[1] + "("
                     if call[2]:
-                        s += ", "
-                    s += ", ".join([key + "=" + str(value) for key, value in call[3].items()])
-                s += ")"
+                        s += ", ".join([str(x) for x in call[2]])
+                    if call[3]:
+                        if call[2]:
+                            s += ", "
+                        s += ", ".join([key + "=" + str(value) for key, value in call[3].items()])
+                    s += ")"
+                except UnicodeEncodeError:
+                    pass
+                    #log.debug("RPCRequest had some non-ascii text..")
+                else:
+                    pass
+                    #log.debug("RPCRequest: %s", s)
 
-                #log.debug("RPCRequest: %s", s)
                 reactor.callLater(0, self._dispatch, *call)
 
     def sendData(self, data):

@@ -48,15 +48,20 @@ class TorrentInfo(object):
 
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
+        # Get encoding from torrent file if available
+        self.encoding = "UTF-8"
+        if "encoding" in self.__m_metadata:
+            self.encoding = self.__m_metadata["encoding"]
+
         # Get list of files from torrent info
         paths = {}
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"]
+                prefix = self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
 
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
-                path = os.path.join(prefix, *f["path"])
+                path = os.path.join(prefix, *f["path"]).decode(self.encoding).encode("utf8")
                 f["index"] = index
                 paths[path] = f
 
@@ -70,40 +75,40 @@ class TorrentInfo(object):
             self.__m_files_tree = file_tree.get_tree()
         else:
             self.__m_files_tree = {
-                self.__m_metadata["info"]["name"]: (self.__m_metadata["info"]["length"], True)
+                self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8"): (self.__m_metadata["info"]["length"], True)
             }
 
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"]
+                prefix = self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': os.path.join(prefix, *f["path"]),
+                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding).encode("utf8"),
                     'size': f["length"],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_metadata["info"]["name"],
+                "path": self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8"),
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
-    
+
     def as_dict(self, *keys):
         """
         Return the torrent info as a dictionary, only including the passed in
         keys.
-        
+
         :param *keys: str, a number of key strings
         """
         return dict([(key, getattr(self, key)) for key in keys])
 
     @property
     def name(self):
-        return self.__m_metadata["info"]["name"]
+        return self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
 
     @property
     def info_hash(self):
@@ -125,7 +130,7 @@ class FileTree(object):
     def __init__(self, paths):
         """
         Convert a list of paths in a file tree.
-        
+
         :param paths: list, The paths to be converted.
         """
         self.tree = {}
@@ -152,7 +157,7 @@ class FileTree(object):
     def get_tree(self):
         """
         Return the tree, after first converting all file lists to a tuple.
-        
+
         :returns: dict, the file tree.
         """
         def to_tuple(path, item):
@@ -166,7 +171,7 @@ class FileTree(object):
         """
         Walk through the file tree calling the callback function on each item
         contained.
-        
+
         :param callback: function, The function to be used as a callback, it
             should have the signature func(item, path) where item is a `tuple`
             for a file and `dict` for a directory.
