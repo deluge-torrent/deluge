@@ -259,7 +259,7 @@ class BaseClient(object):
             # Open the .torrent file for reading because we need to send it's
             # contents to the core.
             try:
-                f = open(torrent_file, "rb")
+                f = open(unicode(torrent_file), "rb")
             except Exception, e:
                 log.warning("Unable to open %s: %s", torrent_file, e)
                 continue
