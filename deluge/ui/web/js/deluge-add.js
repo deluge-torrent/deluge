@@ -255,7 +255,8 @@ Deluge.Add.Options = new Ext.TabPanel({
 						style: 'padding-left: 5px;',
 						items: [{
 							xtype: 'button',
-							text: _('Browse') + '...'
+							text: _('Browse') + '...',
+							disabled: true
 						}]
 					}]
 				}]
@@ -273,6 +274,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 					autoHeight: true,
 					border: false,
 					labelWidth: 1,
+					width: 100,
 					items: [{
 						fieldLabel: '',
 						labelSeparator: '',
@@ -495,7 +497,7 @@ Deluge.Add.Url.Window = new Ext.Window({
 
 Deluge.Add.Window = new Ext.Window({
 	layout: 'border',
-    width: 460,
+    width: 470,
     height: 450,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
