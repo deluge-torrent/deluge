@@ -39,6 +39,37 @@ Deluge.Add = {
 		});
 	},
 	
+	getDefaults: function() {
+		var keys = [
+            'add_paused',
+            'compact_allocation',
+            'download_location',
+            'max_connections_per_torrent',
+            'max_download_speed_per_torrent',
+            'max_upload_slots_per_torrent',
+            'max_upload_speed_per_torrent',
+            'prioritize_first_last_pieces'
+        ]
+        Deluge.Client.core.get_config_values(keys, {
+            onSuccess: function(config) {
+				this.defaults = config;
+				$each(config, function(value, key) {
+					var field = this.form.findField(key);
+					if (!field) return;
+					field.setValue(value);
+				}, this);
+				var field = this.form.findField('compact_allocation');
+				if (config['compact_allocation']) {
+					field.items.get('compact_allocation_true').setValue(true);
+					field.items.get('compact_allocation_false').setValue(false);
+				} else {
+					field.items.get('compact_allocation_false').setValue(true);
+					field.items.get('compact_allocation_true').setValue(false);
+				}
+			}.bindWithEvent(this)
+        });
+	},
+	
 	onAdd: function() {
 		torrents = new Array();
 		this.torrents.each(function(info, hash) {
@@ -63,6 +94,8 @@ Deluge.Add = {
 		panel.layout = new Ext.layout.FormLayout();
 		panel.layout.setContainer(panel);
 		panel.doLayout();
+		this.form = panel.getForm();
+		this.getDefaults();
 	},
 	
 	onRender: function(window) {
@@ -70,7 +103,6 @@ Deluge.Add = {
 			folderSort: true
 		});
 	},
-	
 	
 	onSelect: function(selModel, rowIndex, record) {
 		var torrentInfo = Deluge.Add.torrents[record.id];
@@ -271,26 +303,28 @@ Deluge.Add.Options = new Ext.TabPanel({
 					xtype: 'fieldset',
 					bodyStyle: 'margin-left: 5px; margin-right:5px;',
 					title: _('Allocation'),
-					defaultType: 'radio',
 					autoHeight: true,
 					border: false,
 					labelWidth: 1,
 					width: 100,
-					items: [{
-						fieldLabel: '',
-						labelSeparator: '',
-						boxLabel: _('Full'),
-						inputValue: 'false',
+					items: [new Ext.form.RadioGroup({
+						id: 'compact_allocation',
 						name: 'compact_allocation',
-						width: 50
-					},{
-						fieldLabel: '',
+						columns: 1,
 						labelSeparator: '',
-						boxLabel: _('Compact'),
-						inputValue: 'true',
-						name: 'compact_allocation',
-						width: 75
-					}]
+						items: [{
+							boxLabel: _('Full'),
+							inputValue: 'false',
+							id: 'compact_allocation_false',
+							name: 'compact_allocation',
+							checked: true
+						},{
+							boxLabel: _('Compact'),
+							inputValue: 'true',
+							id: 'compact_allocation_true',
+							name: 'compact_allocation'
+						}]
+					})]
 				}, {
 					xtype: 'fieldset',
 					title: _('Bandwidth'),
@@ -299,7 +333,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 					defaultType: 'uxspinner',
 					labelWidth: 100,
 					items: [{
-						id: 'add_max_download_speed',
+						id: 'max_download_speed_per_torrent',
 						fieldLabel: _('Max Down Speed'),
 						width: 60,
 						value: -1,
@@ -309,7 +343,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 							incrementValue: 1
 						})
 					}, {
-						id: 'add_max_upload_speed',
+						id: 'max_upload_speed_per_torrent',
 						fieldLabel: _('Max Up Speed'),
 						width: 60,
 						value: -1,
@@ -319,7 +353,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 							incrementValue: 1
 						})
 					}, {
-						id: 'add_max_connections',
+						id: 'max_connections_per_torrent',
 						fieldLabel: _('Max Connections'),
 						width: 60,
 						value: -1,
@@ -329,7 +363,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 							incrementValue: 1
 						})
 					}, {
-						id: 'add_max_upload_slots',
+						id: 'max_upload_slots_per_torrent',
 						fieldLabel: _('Max Upload Slots'),
 						colspan: 2,
 						width: 60,
@@ -356,7 +390,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 						fieldLabel: '',
 						labelSeparator: '',
 						boxLabel: _('Prioritize First/Last Piece'),
-						id: 'prioritize_first_last'
+						id: 'prioritize_first_last_pieces'
 					}, {
 						xtype: 'button',
 						text: _('Apply to All'),
@@ -367,14 +401,14 @@ Deluge.Add.Options = new Ext.TabPanel({
 						style: 'margin-left: 20px; margin-top: 5px;'
 					}]
 				}]
-			}]
-		})],
-		listeners: {
-			'render': {
-				fn: Deluge.Add.onOptionsRender,
-				scope: Deluge.Add
+			}],
+			listeners: {
+				'render': {
+					fn: Deluge.Add.onOptionsRender,
+					scope: Deluge.Add
+				}
 			}
-		}
+		})]
 	}]
 });
 
