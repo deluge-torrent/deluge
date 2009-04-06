@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-19 17:00+0000\n"
-"Last-Translator: CrabMan <oleg-min@ukr.net>\n"
+"PO-Revision-Date: 2009-04-03 15:44+0000\n"
+"Last-Translator: Bogdan Golovchenko <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -191,7 +191,7 @@ msgstr "Файли"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:237
 #: deluge/ui/gtkui/glade/main_window.glade:1955
 msgid "Select A Folder"
-msgstr "Оберіть теку"
+msgstr "Виберіть теку"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
@@ -272,7 +272,7 @@ msgstr "<b>З URL-адреси</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
 msgid "URL:"
-msgstr "Адреса URL:"
+msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
@@ -490,6 +490,8 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
+"TOS байт, що знаходиться в заголовку IP пакета, відправляється учасникам "
+"(включаючи інтернет-роздачі). Використовується шістнадцяткове значення."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
@@ -513,7 +515,7 @@ msgstr "DHT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:912
 msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
+msgstr "Локальна служба виявлення знайшла локальних пірів у вашій мережі."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:913
 #: deluge/ui/webui/config_tabs_deluge.py:73
@@ -523,11 +525,11 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:927
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:928
 msgid "Peer Exchange"
-msgstr "Обмін вузлами"
+msgstr "Обмін пірами"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:944
 msgid "NAT Port Mapping Protocol"
-msgstr "NAT Port Mapping Protocol"
+msgstr "Протокол NAT перенаправлення порту"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:945
 #: deluge/ui/webui/config_tabs_deluge.py:71
@@ -536,7 +538,7 @@ msgstr "NAT-PMP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:961
 msgid "Universal Plug and Play"
-msgstr "Універсальний Plug and Play"
+msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:962
 msgid "UPnP"
@@ -659,10 +661,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Якщо обрано, приблизні витрати TCP/IP врахуваються обмежниками швидкості, "
+"щоб уникнути перевищення сумарного трафіку"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Обмеження швидкості з урахуванням витрат протоколу IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
@@ -973,7 +977,7 @@ msgstr "Блимаюча ікона в системному лотку"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
 msgid "Not available on Windows"
-msgstr ""
+msgstr "Недоступно для Windows"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
@@ -1188,7 +1192,7 @@ msgstr "Інформація"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
-msgstr ""
+msgstr "Веб-сідери"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
@@ -1332,7 +1336,7 @@ msgstr "Бічна панель"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "Відображати нульові елементи"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1611,7 +1615,7 @@ msgstr "Відвідати веб-сайт"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Додати піра по IP"
 
 #: deluge/core/torrentmanager.py:668
 msgid "Announce OK"
@@ -1636,11 +1640,11 @@ msgstr "Помилка"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
-msgstr ""
+msgstr "Помилка встановлення опцій мітки"
 
 #: deluge/plugins/label/label/webui.py:123
 msgid "apply_max"
-msgstr ""
+msgstr "використовувати максимальне"
 
 #: deluge/plugins/label/label/webui.py:124
 msgid "max_download_speed"
@@ -1652,7 +1656,7 @@ msgstr "Макс. шв-сть роздачі"
 
 #: deluge/plugins/label/label/webui.py:126
 msgid "max_upload_slots"
-msgstr ""
+msgstr "максимальна_кількість_слотів_видачі"
 
 #: deluge/plugins/label/label/webui.py:127
 msgid "max_connections"
@@ -1660,43 +1664,43 @@ msgstr "Макс. к-сть з'єднань"
 
 #: deluge/plugins/label/label/webui.py:130
 msgid "apply_queue"
-msgstr ""
+msgstr "застосувати_чергу"
 
 #: deluge/plugins/label/label/webui.py:131
 msgid "is_auto_managed"
-msgstr ""
+msgstr "чи_автоматичне_управління"
 
 #: deluge/plugins/label/label/webui.py:132
 msgid "stop_at_ratio"
-msgstr ""
+msgstr "запунитися_при_рейтингу"
 
 #: deluge/plugins/label/label/webui.py:133
 msgid "stop_ratio"
-msgstr ""
+msgstr "рейтинг_зупинки"
 
 #: deluge/plugins/label/label/webui.py:134
 msgid "remove_at_ratio"
-msgstr ""
+msgstr "видалити_при_рейтингу"
 
 #: deluge/plugins/label/label/webui.py:137
 msgid "apply_move_completed"
-msgstr ""
+msgstr "застосувати_переміщення_закінчених"
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "move_completed"
-msgstr ""
+msgstr "перемістити_закінчені"
 
 #: deluge/plugins/label/label/webui.py:139
 msgid "move_completed_path"
-msgstr ""
+msgstr "перемістит_закінчені_в"
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
-msgstr ""
+msgstr "автоматичне_додавання"
 
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
-msgstr ""
+msgstr "автоматичне_додавання_трекерів"
 
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -1821,7 +1825,7 @@ msgstr "Оновити статус"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:55
 #: deluge/plugins/blocklist/blocklist/gtkui.py:194
 msgid "Blocklist"
-msgstr ""
+msgstr "Чорний список"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -2152,7 +2156,7 @@ msgstr "Виберіть додаток"
 
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Модуль Eggs"
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2364,7 +2368,7 @@ msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
-msgstr ""
+msgstr "SOCKSv5 з аутентифікацією"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
@@ -2372,7 +2376,7 @@ msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
-msgstr ""
+msgstr "HTTP з аутентифікацією"
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
@@ -2439,11 +2443,11 @@ msgstr "Максимальна кількість спроб з'єднань з�
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Обмежувати швидкість із урахуванням витрат протоколу IP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
-msgstr ""
+msgstr "На торрент"
 
 #: deluge/ui/webui/config_tabs_deluge.py:130
 #: deluge/ui/webui/scripts/template_strings.py:39
@@ -2753,7 +2757,7 @@ msgstr "Показати бічну панель"
 
 #: deluge/ui/webui/config_tabs_webui.py:105
 msgid "Show zero hits"
-msgstr ""
+msgstr "Відображати нульові елементи"
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
@@ -2885,7 +2889,7 @@ msgstr "Deluge : список торрентів"
 
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Deluge Login"
-msgstr ""
+msgstr "Вхід до Deluge"
 
 #: deluge/ui/webui/scripts/template_strings.py:34
 msgid "Disable"

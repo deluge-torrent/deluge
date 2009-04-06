@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-28 12:57+0000\n"
-"Last-Translator: Mihály MÉSZÁROS <Unknown>\n"
+"PO-Revision-Date: 2009-03-23 13:53+0000\n"
+"Last-Translator: lisovszki <lisovszki@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -299,7 +299,7 @@ msgstr "_Mindent kijelöl"
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
-msgstr "Kiválasztott torrentek folytatása"
+msgstr "Kiválasztott torrentek folytatása."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
@@ -626,7 +626,7 @@ msgstr "Megengedett kapcsolatok maximális száma.  Korlátlanhoz -1."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
 msgid "Maximum Upload Slots:"
-msgstr "Maximum Feltültései Szálak:"
+msgstr "Maximális feltöltési szálak:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
@@ -737,7 +737,7 @@ msgstr "Ikon megjelenítése az értesítési területen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
 msgid "Minimize to tray on close"
-msgstr "Minimalizáláskor menjen az értesítési területre"
+msgstr "Minimalizáláskor a rendszertálcára ül"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
 msgid "Start in tray"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "Yes, please send anonymous statistics"
-msgstr "Igen, küldök anonim statisztikákat."
+msgstr "Igen, küldök anoním statisztikákat."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
 msgid "<b>System Information</b>"
@@ -1278,7 +1278,7 @@ msgstr "Mindet _Elindít"
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
-msgstr "Kilépés & Kiszolgáló leállítása"
+msgstr "Kilépés és a kiszolgáló leállítása"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
@@ -2149,7 +2149,7 @@ msgstr "Bővítmény kiválasztása"
 
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Bővítmény fájlok"
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2178,7 +2178,7 @@ msgstr "Arány"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
-msgstr "Elérhető"
+msgstr "Elérhetőség"
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"

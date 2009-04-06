@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-06 19:55+0000\n"
-"Last-Translator: Rinu <rinu@seznam.cz>\n"
+"PO-Revision-Date: 2009-03-31 08:29+0000\n"
+"Last-Translator: Tomas Brabenec <info@brabenec.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -82,7 +82,7 @@ msgstr "Automatická správa"
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
-msgstr "Zastavit sdílení jako zdroj při poměru:"
+msgstr "Zastavit odesílání při poměru:"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1919
@@ -103,7 +103,7 @@ msgstr "Fronta"
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
 msgid "Move completed to:"
-msgstr "Kompletní přesunout do:"
+msgstr "Dokončené přesunout do:"
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 msgid "Apply location settings:"
@@ -152,7 +152,7 @@ msgstr "Název:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
-msgstr "Přidat Torrent"
+msgstr "Přidat Torrenty"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
@@ -843,7 +843,7 @@ msgstr "<i><b><big>Fronta</big></b></i>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2511
 #: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Queue new torrents to top"
-msgstr "Nové torrenty zařadit na vrch fronty"
+msgstr "Nové torrenty zařadit na začátek fronty"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2565
 msgid "Total active downloading:"

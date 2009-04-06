@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-01 00:49+0000\n"
-"Last-Translator: Umarzuki Bin Mochlis Moktar <umarzuki@gmail.com>\n"
+"PO-Revision-Date: 2009-03-29 16:21+0000\n"
+"Last-Translator: Muhammad Zul 'Izzi M.Z <babylon2233@gmail.com>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -70,14 +70,16 @@ msgstr "Untuk pilihan maksima setiap torrent:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
-msgstr "Maksima"
+msgstr ""
+"_: Polisi Saiz\n"
+"Maksimum"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1860
 #: deluge/ui/webui/torrent_options.py:48
 #: deluge/ui/webui/scripts/template_strings.py:12
 msgid "Auto Managed"
-msgstr ""
+msgstr "Diurus secara auto"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
@@ -88,11 +90,11 @@ msgstr "Berhenti seed pada nisbah:"
 #: deluge/ui/gtkui/glade/main_window.glade:1919
 #: deluge/ui/webui/torrent_options.py:51
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Buang pada kadar"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Tetapkan aturan Barisan:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
@@ -125,11 +127,11 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(1baris setiap penjejak)</i>"
+msgstr "<i>(1 baris setiap penjejak)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 msgid "Automatically apply label:"
-msgstr "Gunakan label dengan automatik:"
+msgstr "Tetapkan label secara automatik:"
 
 #: deluge/plugins/label/label/data/label_options.glade:585
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -170,7 +172,7 @@ msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
-msgstr ""
+msgstr "Maklumat_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
@@ -226,7 +228,7 @@ msgstr "Sambungan Maksima:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:598
 #: deluge/ui/gtkui/glade/main_window.glade:1797
 msgid "Max Upload Slots:"
-msgstr "Slot Maksima Muat Naik:"
+msgstr "Slot Maksimum Muat Naik"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:667
 #: deluge/ui/gtkui/glade/main_window.glade:1830
@@ -275,20 +277,20 @@ msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
-msgstr ""
+msgstr "Tambah Infohash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
 msgid "<b>From Infohash</b>"
-msgstr ""
+msgstr "<b>Dari maklumat hash</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
 msgid "Infohash:"
-msgstr ""
+msgstr "Maklumat hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 msgid "Trackers:"
-msgstr ""
+msgstr "Penjejak:"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
@@ -309,7 +311,7 @@ msgstr "_Buka lipatan"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr ""
+msgstr "Sam_bung"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
@@ -334,7 +336,7 @@ msgstr "_Buang Torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_Paksa Periksa semula"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
@@ -499,11 +501,11 @@ msgstr "Bit TOS Peer:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:838
 msgid "0x00"
-msgstr ""
+msgstr "0x00"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:855
 msgid "<b>TOS</b>"
-msgstr ""
+msgstr "<b>TOS</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:893
 msgid "Distributed hash table may improve the amount of active connections."
@@ -976,7 +978,7 @@ msgstr "Ikon dulang berkerdip"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
 msgid "Not available on Windows"
-msgstr ""
+msgstr "Tidak terdapat pada Windows"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
@@ -1466,7 +1468,7 @@ msgstr "<b>Penyumbang:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:961
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>Cebisan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:983
 msgid "<b>ETA:</b>"
@@ -1475,7 +1477,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1005
 #: deluge/ui/gtkui/glade/main_window.glade:1027
 msgid "<b>Speed:</b>"
-msgstr ""
+msgstr "<b>Kelajuan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1046
 msgid "<b>Next Announce:</b>"
@@ -1483,7 +1485,7 @@ msgstr "<b>Pengumuman Seterusnya:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1065
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>Kadar Kongsi:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1084
 msgid "<b>Uploaded:</b>"
@@ -1495,11 +1497,11 @@ msgstr "<b>Jumlah Muat-Turun:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1164
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Tarikh ditambah:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1219
 msgid "_Status"
-msgstr ""
+msgstr "_Status"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1290
 msgid "<b># of files:</b>"
@@ -1507,7 +1509,7 @@ msgstr "<b># gagal</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1322
 msgid "<b>Hash:</b>"
-msgstr ""
+msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1352
 msgid "<b>Tracker:</b>"
@@ -1527,7 +1529,7 @@ msgstr "<>Haluan:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Status:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1530
 msgid "_Details"
@@ -1539,23 +1541,23 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr ""
+msgstr "_Rakan"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Kelajuan Muatnaik Maksima:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1760
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Kelajuan Muatnaik Maksima:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1935
 msgid "Move completed:"
-msgstr ""
+msgstr "Pindah Telah Selesai:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1992
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>Baris</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2029
 #: deluge/ui/webui/scripts/template_strings.py:81
@@ -1565,16 +1567,16 @@ msgstr "Persendirian"
 #: deluge/ui/gtkui/glade/main_window.glade:2042
 #: deluge/ui/webui/torrent_options.py:45
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Utamakan Mula/Akhir"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2202
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Buang Torrent?"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2238
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Anda pasti untuk membuang torrent dipilih?</b></big>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2289
 msgid "<i>The associated .torrent will be deleted!</i>"
@@ -1582,47 +1584,47 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2328
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Data yang telah dimuaturun akan dipadam!</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2372
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Buang Torrent Dipilih"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2390
 msgid "New Release"
-msgstr ""
+msgstr "Keluaran Baru"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2421
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Ada Keluaran Baru!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2472
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Versi Yang Ada:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2495
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "<i>Versi Sekarang:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2517
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Jangan paparkan dialog ini lagi"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2557
 msgid "_Goto Website"
-msgstr ""
+msgstr "_Pergi Ke Laman Sesawang"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "Tambah rakan berdasarkan IPnya"
 
 #: deluge/core/torrentmanager.py:668
 msgid "Announce OK"
-msgstr ""
+msgstr "Pengumuman OK"
 
 #: deluge/core/torrentmanager.py:689
 msgid "Announce Sent"
-msgstr ""
+msgstr "Pengumuman telah dihantar"
 
 #: deluge/core/torrentmanager.py:698
 msgid "Alert"
@@ -1643,7 +1645,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:123
 msgid "apply_max"
-msgstr ""
+msgstr "tentu_maksima"
 
 #: deluge/plugins/label/label/webui.py:124
 msgid "max_download_speed"
@@ -1651,55 +1653,55 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:125
 msgid "max_upload_speed"
-msgstr ""
+msgstr "maksima_muatnaik_kelajuan"
 
 #: deluge/plugins/label/label/webui.py:126
 msgid "max_upload_slots"
-msgstr ""
+msgstr "maksima_muatnaik_slot"
 
 #: deluge/plugins/label/label/webui.py:127
 msgid "max_connections"
-msgstr ""
+msgstr "maksima_sambungan"
 
 #: deluge/plugins/label/label/webui.py:130
 msgid "apply_queue"
-msgstr ""
+msgstr "tentu_barisan"
 
 #: deluge/plugins/label/label/webui.py:131
 msgid "is_auto_managed"
-msgstr ""
+msgstr "adalah_auto_diuruskan"
 
 #: deluge/plugins/label/label/webui.py:132
 msgid "stop_at_ratio"
-msgstr ""
+msgstr "henti_pada_kadar"
 
 #: deluge/plugins/label/label/webui.py:133
 msgid "stop_ratio"
-msgstr ""
+msgstr "henti_kadar"
 
 #: deluge/plugins/label/label/webui.py:134
 msgid "remove_at_ratio"
-msgstr ""
+msgstr "buang_pada_kadar"
 
 #: deluge/plugins/label/label/webui.py:137
 msgid "apply_move_completed"
-msgstr ""
+msgstr "tentu_pindah_selesai"
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "move_completed"
-msgstr ""
+msgstr "pindah_selesai"
 
 #: deluge/plugins/label/label/webui.py:139
 msgid "move_completed_path"
-msgstr ""
+msgstr "pindah_selesai_haluan"
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
-msgstr ""
+msgstr "auto_tambah"
 
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
-msgstr ""
+msgstr "auto_tambah_penjejak"
 
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -1713,61 +1715,61 @@ msgstr "Label"
 
 #: deluge/plugins/label/label/webui.py:155
 msgid "Work in progress.."
-msgstr ""
+msgstr "Kerja sedang dijalankan.."
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:55
 msgid "Label _Options"
-msgstr ""
+msgstr "Label_pilihan"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:56
 msgid "_Remove Label"
-msgstr ""
+msgstr "_Buang Label"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:57
 msgid "_Add Label"
-msgstr ""
+msgstr "_Tambah Label"
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr ""
+msgstr "Label tidak sah, karekter sah:[a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Empty Label"
-msgstr ""
+msgstr "Label Kosong"
 
 #: deluge/plugins/label/label/core.py:190
 msgid "Label already exists"
-msgstr ""
+msgstr "Label sudah wujud"
 
 #: deluge/plugins/label/label/core.py:196
 #: deluge/plugins/label/label/core.py:252
 #: deluge/plugins/label/label/core.py:285
 msgid "Unknown Label"
-msgstr ""
+msgstr "Label Tidak Diketahui"
 
 #: deluge/plugins/label/label/core.py:286
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Torrent Tidak Diketahui"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:38
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Senarai IP Emule (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:39
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "Teks SafePeer (Zip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:40
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "Teks PeerGuardian (Tiadak dimampat)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:41
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "P2B PeerGuardian (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "BlockList"
-msgstr ""
+msgstr "BlockList"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:70
 #: deluge/ui/webui/torrent_add.py:57
@@ -1776,59 +1778,59 @@ msgstr "Url"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:71
 msgid "Check for every (days)"
-msgstr ""
+msgstr "Periksa setiap (hari)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:72
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Masakeluar (saat)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:73
 msgid "Times to attempt download"
-msgstr ""
+msgstr "Masa untuk cuba muaturun"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:74
 msgid "Import on daemon startup"
-msgstr ""
+msgstr "Import sebagai daemon startup"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:76
 msgid "Download Now"
-msgstr ""
+msgstr "Muaturun Sekarang"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:77
 msgid "Import Now"
-msgstr ""
+msgstr "Import Sekarang"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:84
 #, python-format
 msgid "Downloading %.2f%%"
-msgstr ""
+msgstr "Memuaturun %.2f%%"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:86
 #, python-format
 msgid "Importing %s"
-msgstr ""
+msgstr "Mengimport %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:88
 #, python-format
 msgid "Blocked Ranges: %s"
-msgstr ""
+msgstr "Jarak Dihalang: %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:90
 msgid "Inactive"
-msgstr ""
+msgstr "Tidak aktif"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:97
 msgid "Refresh status"
-msgstr ""
+msgstr "Segarkan status"
 
 #: deluge/plugins/blocklist/blocklist/gtkui.py:55
 #: deluge/plugins/blocklist/blocklist/gtkui.py:194
 msgid "Blocklist"
-msgstr ""
+msgstr "Senarai halang"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
-msgstr ""
+msgstr "Petunjuk tidak sah"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
 msgid "Invalid magic code"
@@ -1840,7 +1842,7 @@ msgstr "Versi salah"
 
 #: deluge/ui/gtkui/statusbar.py:129
 msgid "Not Connected"
-msgstr ""
+msgstr "Tidak disambungkan"
 
 #: deluge/ui/gtkui/statusbar.py:144
 #: deluge/ui/webui/scripts/template_strings.py:25
@@ -1849,19 +1851,19 @@ msgstr "Sambungan-sambungan"
 
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
-msgstr ""
+msgstr "Kelajuan Muaturun"
 
 #: deluge/ui/gtkui/statusbar.py:154
 msgid "Upload Speed"
-msgstr ""
+msgstr "Kelajuan Muatnaik"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Trafik Protokol Muaturun/Muatnaik"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Tiada Sambungan Datang!"
 
 #: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
 #: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
@@ -1881,20 +1883,20 @@ msgstr "Lain-lain..."
 #: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/systemtray.py:325
 #: deluge/ui/gtkui/menubar.py:407
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "Tetap Kelajuan Muaturun Maksima"
 
 #: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/systemtray.py:329
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "Tetap Kelajuan Muatnaik Maksima"
 
 #: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "Tetap Sambungan Maksimum"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:83 deluge/ui/gtkui/queuedtorrents.py:64
 msgid "Torrent"
-msgstr ""
+msgstr "Torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:91 deluge/ui/gtkui/files_tab.py:98
 #: deluge/ui/gtkui/createtorrentdialog.py:65
@@ -1934,6 +1936,14 @@ msgid ""
 "General Public License along with this program; if not, see "
 "<http://www.gnu.org/licenses>."
 msgstr ""
+"Program ini adalah free software; kamu boleh mengedarkan/atau ubahsuai "
+"dibawah terma-terma GNU General Public License seperti diterbitkan oleh Free "
+"Software Foundation; sama ada versi 3 lesen ini, atau (pilihan anda) versi "
+"selepasnya. Program ini diedarkan dengan harapan ia akan berguna, tetapi "
+"TANPA SEBARANG JAMINAN; walau jaminan tersirat dari DAGANGAN atau KECOCOKAN "
+"UNTUK TUJUAN TERTENTU. Lihat GNU General Public License untuk maklumat "
+"lanjut. Kamu patut telah menerima salinan GNU General Public License bersama "
+"program ini; jika tidak, lihat <http://www.gnu.org/licenses>."
 
 #: deluge/ui/gtkui/systemtray.py:197
 msgid "Deluge"
@@ -1973,15 +1983,15 @@ msgstr "Keutamaan"
 
 #: deluge/ui/gtkui/menubar.py:66
 msgid "Set Unlimited"
-msgstr ""
+msgstr "Tetap Tanpa Had"
 
 #: deluge/ui/gtkui/menubar.py:70
 msgid "Other.."
-msgstr ""
+msgstr "Lain-lain.."
 
 #: deluge/ui/gtkui/menubar.py:78
 msgid "On"
-msgstr ""
+msgstr "Hidup"
 
 #: deluge/ui/gtkui/menubar.py:81
 #: deluge/ui/webui/scripts/template_strings.py:71
@@ -1990,11 +2000,11 @@ msgstr "Padam"
 
 #: deluge/ui/gtkui/menubar.py:301
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Pilih direktori untuk pindah fail"
 
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Tetap Slot Muaturun Maksima"
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2009,12 +2019,12 @@ msgstr "Klien"
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
 #: deluge/ui/webui/scripts/template_strings.py:38
 msgid "Down Speed"
-msgstr ""
+msgstr "Kelajuan turun"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
 #: deluge/ui/webui/scripts/template_strings.py:117
 msgid "Up Speed"
-msgstr ""
+msgstr "Kelajuan Naik"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
@@ -2023,7 +2033,7 @@ msgstr "Torrent habis"
 #: deluge/ui/gtkui/notification.py:68
 #, python-format
 msgid "Including %i files"
-msgstr ""
+msgstr "Termasuk %i fail"
 
 #: deluge/ui/gtkui/notification.py:96
 #, python-format
@@ -2036,38 +2046,45 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Email ini untuk memberitahu anda bahawa Deluge telah selesai memuaturun %s , "
+"yang mengandungi %i fail.\n"
+"Untuk berhenti dari menerima pemberitahuan seperti ini, hanya matikan "
+"pengumuman email pada kesesuaian Deluge.\n"
+"\n"
+"Terima kasih,\n"
+"Deluge"
 
 #: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
 msgid "Filters"
-msgstr ""
+msgstr "Tapisan"
 
 #: deluge/ui/gtkui/filtertreeview.py:134
 msgid "State"
-msgstr ""
+msgstr "Keadaan"
 
 #: deluge/ui/gtkui/filtertreeview.py:214
 msgid "no label"
-msgstr ""
+msgstr "tiada label"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
-msgstr ""
+msgstr " Torrent Dibariskan"
 
 #: deluge/ui/gtkui/queuedtorrents.py:126
 msgid " Torrent Queued"
-msgstr ""
+msgstr " Torrent Queued"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
-msgstr ""
+msgstr "Turun:"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Up:"
-msgstr ""
+msgstr "Naik:"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Torrents"
-msgstr ""
+msgstr "Torrent:"
 
 #: deluge/ui/gtkui/common.py:57
 msgid "Activated"
@@ -2075,12 +2092,12 @@ msgstr "Telah diaktifkan"
 
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
-msgstr ""
+msgstr "Torrent melebihi kadar henti."
 
 #: deluge/ui/gtkui/edittrackersdialog.py:74
 #: deluge/ui/gtkui/createtorrentdialog.py:88
 msgid "Tier"
-msgstr ""
+msgstr "Deretan"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
 #: deluge/ui/gtkui/createtorrentdialog.py:90
@@ -2090,11 +2107,11 @@ msgstr "Penjejak"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
-msgstr ""
+msgstr "Muaturun-muaturun"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Network"
-msgstr ""
+msgstr "Jaringan"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Bandwidth"
@@ -2102,7 +2119,7 @@ msgstr "Bandwidth"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
-msgstr ""
+msgstr "Antaramuka"
 
 #: deluge/ui/gtkui/preferences.py:61
 #: deluge/ui/webui/scripts/template_strings.py:74
@@ -2115,15 +2132,15 @@ msgstr "Daemon"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Proxy"
-msgstr ""
+msgstr "Proksi"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Notification"
-msgstr ""
+msgstr "Pemberitahuan"
 
 #: deluge/ui/gtkui/preferences.py:61
 msgid "Plugins"
-msgstr ""
+msgstr "Plugin"
 
 #: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Enabled"
@@ -2135,7 +2152,7 @@ msgstr "Plugin"
 
 #: deluge/ui/gtkui/preferences.py:835
 msgid "Select the Plugin"
-msgstr ""
+msgstr "Pilih Plugin"
 
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
@@ -2168,40 +2185,40 @@ msgstr "Nisbah"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
-msgstr ""
+msgstr "Ada"
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"
-msgstr ""
+msgstr "Ditambah"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:117
 msgid "Choose a file"
-msgstr ""
+msgstr "Pilih satu fail"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:144
 msgid "Choose a folder"
-msgstr ""
+msgstr "Pilih satu folder"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:209
 msgid "Save .torrent file"
-msgstr ""
+msgstr "Simpan fail .torrent"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:329
 #, python-format
 msgid "%.2f%%"
-msgstr ""
+msgstr "%.2f%%"
 
 #: deluge/ui/webui/render.py:169
 msgid "∞"
-msgstr ""
+msgstr "∞"
 
 #: deluge/ui/webui/config_forms.py:90
 msgid "These changes were saved"
-msgstr ""
+msgstr "Perubahan telah disimpan"
 
 #: deluge/ui/webui/config_forms.py:96
 msgid "Correct the errors above and try again"
-msgstr ""
+msgstr "Betulkan masalah diatas dan cuba semula"
 
 #: deluge/ui/webui/register_menu.py:31
 #: deluge/ui/webui/scripts/template_strings.py:20
@@ -2226,7 +2243,7 @@ msgstr "Logkeluar"
 #: deluge/ui/webui/register_menu.py:36
 #: deluge/ui/webui/scripts/template_strings.py:105
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
 #: deluge/ui/webui/scripts/template_strings.py:33
@@ -2244,7 +2261,7 @@ msgstr "Tambah"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
-msgstr ""
+msgstr "Padam"
 
 #: deluge/ui/webui/register_menu.py:45
 #: deluge/ui/webui/scripts/template_strings.py:106
@@ -2258,11 +2275,11 @@ msgstr "Mula"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
-msgstr ""
+msgstr "Susun Ke Atas"
 
 #: deluge/ui/webui/register_menu.py:50
 msgid "Queue Bottom"
-msgstr ""
+msgstr "Susun Ke Bawah"
 
 #: deluge/ui/webui/register_menu.py:52
 #: deluge/ui/webui/scripts/template_strings.py:61
@@ -2271,11 +2288,11 @@ msgstr "Pindah"
 
 #: deluge/ui/webui/register_menu.py:53
 msgid "Reannounce"
-msgstr ""
+msgstr "Umum Semula"
 
 #: deluge/ui/webui/register_menu.py:54
 msgid "Recheck"
-msgstr ""
+msgstr "Periksa Semula"
 
 #: deluge/ui/webui/config_tabs_deluge.py:37
 msgid "Ports"
@@ -2311,7 +2328,7 @@ msgstr "Tukar-Rakan"
 
 #: deluge/ui/webui/config_tabs_deluge.py:78
 msgid "Encryption"
-msgstr ""
+msgstr "Enkripsi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Forced"
@@ -2319,11 +2336,11 @@ msgstr "Dipaksakan"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Disabled"
-msgstr ""
+msgstr "Dilumpuhkan"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Handshake"
-msgstr ""
+msgstr "Jabat Tangan"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Either"
@@ -2331,7 +2348,7 @@ msgstr "Keduanya"
 
 #: deluge/ui/webui/config_tabs_deluge.py:83
 msgid "Inbound"
-msgstr ""
+msgstr "Mendatang"
 
 #: deluge/ui/webui/config_tabs_deluge.py:84
 msgid "Outbound"
@@ -2343,31 +2360,31 @@ msgstr "Tahap"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
-msgstr ""
+msgstr "Socksv4"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5"
-msgstr ""
+msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
-msgstr ""
+msgstr "Socksv5 W/ Auth"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
-msgstr ""
+msgstr "HTTP W/ Auth"
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
-msgstr ""
+msgstr "Jenis"
 
 #: deluge/ui/webui/config_tabs_deluge.py:96
 msgid "Host"
-msgstr ""
+msgstr "Hos"
 
 #: deluge/ui/webui/config_tabs_deluge.py:97
 #: deluge/ui/webui/config_tabs_deluge.py:144
@@ -2414,11 +2431,11 @@ msgstr "Kelajuan Muatnaik Maksimum (Kib/s)"
 #: deluge/ui/webui/config_tabs_deluge.py:125
 #: deluge/ui/webui/torrent_options.py:42 deluge/ui/webui/torrent_add.py:44
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Slot Muatnaik Maksima"
 
 #: deluge/ui/webui/config_tabs_deluge.py:111
 msgid "Maximum Half-Open Connections"
-msgstr ""
+msgstr "Sambungan Separuk-buka Maksima"
 
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
@@ -2426,7 +2443,7 @@ msgstr "Cubaan Maksimum Setiap Saat"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Kadar Had Pengeluaran Tambahan IP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2451,15 +2468,15 @@ msgstr "Tambah folder auto"
 
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
-msgstr ""
+msgstr "Benarkan Penambahan Auto"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "Utamakan cebisan pertama dan akhir"
 
 #: deluge/ui/webui/config_tabs_deluge.py:143
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "Mulakan semula deamon dan webui selepas ubah ketetapan ini"
 
 #: deluge/ui/webui/config_tabs_deluge.py:151
 msgid "-1 = unlimited"
@@ -2475,23 +2492,23 @@ msgstr "Jumlah muaturun aktif"
 
 #: deluge/ui/webui/config_tabs_deluge.py:159
 msgid "Total active seeding"
-msgstr ""
+msgstr "Jumlah semaian aktif"
 
 #: deluge/ui/webui/config_tabs_deluge.py:166
 msgid "Stop seeding when ratio reaches"
-msgstr ""
+msgstr "Henti semai bila kadar mencecah"
 
 #: deluge/ui/webui/config_tabs_deluge.py:168
 msgid "Remove torrent when ratio reached"
-msgstr ""
+msgstr "Buang torrent bila kadar mencecah"
 
 #: deluge/ui/webui/config_tabs_deluge.py:188
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "Benarkan Plugin"
 
 #: deluge/ui/webui/lib/newforms_plus.py:145
 msgid "This folder does not exist."
-msgstr ""
+msgstr "Folder ini tidak wujud."
 
 #: deluge/ui/webui/lib/newforms_portable/django/utils/translation.py:2
 msgid "translate something"
@@ -2502,17 +2519,19 @@ msgstr "alih bahasa sesuatu"
 msgid ""
 "Select a valid choice. That choice is not one of the available choices."
 msgstr ""
+"Pilih pilihan yang sah. Pilihan itu tidak berada dalam salah satu pilihan "
+"yang sedia ada."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
 #: deluge/ui/webui/lib/newforms_portable/fields.py:662
 msgid "Enter a list of values."
-msgstr ""
+msgstr "Masukkan senarai nilai."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
-msgstr ""
+msgstr "Pilih pilihan yang sah. %s bukan salah satu pilihan yang ada."
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Unknown"
@@ -2520,87 +2539,88 @@ msgstr "Tidak Diketahui"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "No"
-msgstr ""
+msgstr "Tidak"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:46
 msgid "This field is required."
-msgstr ""
+msgstr "Ruang ini diperlukan."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Masukkan satu nilai sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-msgstr ""
+msgstr "Pastikan nilai ini tidak sampai %(max)d karekter (hanya %(length)d)"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:125
 #, python-format
 msgid ""
 "Ensure this value has at least %(min)d characters (it has %(length)d)."
 msgstr ""
+"Tentukan nilai ini sekurang-kurangnya %(min)d karekter (hanya %(length)d)."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
-msgstr ""
+msgstr "Masukkan nombor bulat."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:153
 #: deluge/ui/webui/lib/newforms_portable/fields.py:182
 #: deluge/ui/webui/lib/newforms_portable/fields.py:211
 #, python-format
 msgid "Ensure this value is less than or equal to %s."
-msgstr ""
+msgstr "Pastikan nilai ini kurang atau sama dengan %s."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:154
 #: deluge/ui/webui/lib/newforms_portable/fields.py:183
 #: deluge/ui/webui/lib/newforms_portable/fields.py:212
 #, python-format
 msgid "Ensure this value is greater than or equal to %s."
-msgstr ""
+msgstr "Pastikan nilai ini lebih atau sama dengan %s."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
 msgid "Enter a number."
-msgstr ""
+msgstr "Masukkan satu nombor."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
 msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
+msgstr "Pastikan tidak lebih dari %s digit keseluruhan."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:214
 #, python-format
 msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
+msgstr "Pastikan tidak lebih dari %s tempat perpuluhan."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
 msgid ""
 "Ensure that there are no more than %s digits before the decimal point."
-msgstr ""
+msgstr "Pastikan tidak lebih dari %s digit sebelum titik perpuluhan."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
 msgid "Enter a valid date."
-msgstr ""
+msgstr "Masuukkan tarikh yang sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:296
 #: deluge/ui/webui/lib/newforms_portable/fields.py:752
 msgid "Enter a valid time."
-msgstr ""
+msgstr "Masukkan masa yang sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:335
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "Masukkan tarikh/masa yang sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
 msgid "Enter a valid e-mail address."
-msgstr ""
+msgstr "Masukkan alamat e-mail yang sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:433
 msgid "No file was submitted. Check the encoding type on the form."
@@ -2619,10 +2639,12 @@ msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Muatnaik imej yang sah. Fail yang kamu muatnaik sama ada bukan imej atau "
+"imej yang telah rosak."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:497
 msgid "Enter a valid URL."
-msgstr ""
+msgstr "Masukkan URL yang sah."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:498
 msgid "This URL appears to be a broken link."
@@ -3078,7 +3100,7 @@ msgstr "Muat naik"
 
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
-msgstr ""
+msgstr "Had Slot Muatnaik"
 
 #: deluge/ui/webui/scripts/template_strings.py:122
 msgid "Uploaded"

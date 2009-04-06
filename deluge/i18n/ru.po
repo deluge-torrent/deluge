@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-03 21:34+0000\n"
-"Last-Translator: Vadim Gusev <Unknown>\n"
+"PO-Revision-Date: 2009-03-20 05:54+0000\n"
+"Last-Translator: Maxim S. <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -86,7 +86,7 @@ msgstr "Автоматический режим"
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
-msgstr "Остановить раздачу при коэффициенте:"
+msgstr "Остановить раздачу при рейтинге:"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1919
@@ -884,19 +884,19 @@ msgstr "Время раздачи (минут):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "Seed Time Ratio:"
-msgstr "Коэффициент времени раздачи:"
+msgstr "Рейтинг времени раздачи:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2783
 msgid "Share Ratio Limit:"
-msgstr "Ограничение коэффициента раздачи:"
+msgstr "Ограничение рейтинга:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
 msgid "Stop seeding when share ratio reaches:"
-msgstr "Прекратить раздачу про коэффициенте:"
+msgstr "Остановить раздачу при рейтинге:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2846
 msgid "Remove torrent when share ratio reached"
-msgstr "Удалить торрент когда коэффициент достиг"
+msgstr "Удалить торрент когда рейтинг достигнут"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
 msgid "<b>Seeding</b>"
@@ -2102,7 +2102,7 @@ msgstr "Активно"
 
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
-msgstr "Торрент достиг коэффициента остановки."
+msgstr "Торрент достиг рейтига остановки."
 
 #: deluge/ui/gtkui/edittrackersdialog.py:74
 #: deluge/ui/gtkui/createtorrentdialog.py:88
@@ -2506,11 +2506,11 @@ msgstr "Всего активных раздач"
 
 #: deluge/ui/webui/config_tabs_deluge.py:166
 msgid "Stop seeding when ratio reaches"
-msgstr "Прекратить раздачу когда достигнут коэффициент"
+msgstr "Остановить раздачу при достижении рейтинга"
 
 #: deluge/ui/webui/config_tabs_deluge.py:168
 msgid "Remove torrent when ratio reached"
-msgstr "Удалить торрент при рейтинге"
+msgstr "Удалить торрент при достижении рейтинга"
 
 #: deluge/ui/webui/config_tabs_deluge.py:188
 msgid "Enabled Plugins"
@@ -2789,7 +2789,7 @@ msgstr "Максимальная скорость отдачи"
 
 #: deluge/ui/webui/torrent_options.py:49
 msgid "Stop seed at ratio"
-msgstr "Прекратить раздачу при коэффициенте"
+msgstr "Остановить раздачу при рейтинге"
 
 #: deluge/ui/webui/torrent_options.py:63 deluge/ui/webui/torrent_add.py:96
 msgid "Error in torrent options."
@@ -3065,7 +3065,7 @@ msgstr "Установить таймаут"
 
 #: deluge/ui/webui/scripts/template_strings.py:101
 msgid "Share Ratio"
-msgstr "Коэффициент отданного к скачанному"
+msgstr "Рейтинг"
 
 #: deluge/ui/webui/scripts/template_strings.py:103
 msgid "Speed"

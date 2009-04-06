@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-04 21:58+0000\n"
+"PO-Revision-Date: 2009-04-03 19:22+0000\n"
 "Last-Translator: Timetear <timetear@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1698,7 +1698,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/webui.py:138
 msgid "move_completed"
-msgstr ""
+msgstr "Déplacer une fois terminé"
 
 #: deluge/plugins/label/label/webui.py:139
 msgid "move_completed_path"
@@ -2023,7 +2023,7 @@ msgstr "Choisissez un répertoire où déplacer les fichiers"
 
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
-msgstr ""
+msgstr "Définir le nombre d'emplacement d'upload maximum"
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2319,11 +2319,11 @@ msgstr "Ports"
 
 #: deluge/ui/webui/config_tabs_deluge.py:38
 msgid "From"
-msgstr ""
+msgstr "À partir de"
 
 #: deluge/ui/webui/config_tabs_deluge.py:39
 msgid "To"
-msgstr ""
+msgstr "Vers"
 
 #: deluge/ui/webui/config_tabs_deluge.py:40
 msgid "Random"
@@ -2331,7 +2331,7 @@ msgstr "Aléatoire"
 
 #: deluge/ui/webui/config_tabs_deluge.py:68
 msgid "Extra's"
-msgstr ""
+msgstr "Extra"
 
 #: deluge/ui/webui/config_tabs_deluge.py:69
 msgid "Mainline DHT"
@@ -2524,7 +2524,7 @@ msgstr "Supprimer le torrent quand le ratio est atteint"
 
 #: deluge/ui/webui/config_tabs_deluge.py:188
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "Greffons activés"
 
 #: deluge/ui/webui/lib/newforms_plus.py:145
 msgid "This folder does not exist."

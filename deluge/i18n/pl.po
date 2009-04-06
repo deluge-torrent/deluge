@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-10 20:58+0000\n"
-"Last-Translator: Hubert Życiński <Unknown>\n"
+"PO-Revision-Date: 2009-03-21 18:03+0000\n"
+"Last-Translator: Krzysztof Grygiencz <ffiasd@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-16 17:36+0000\n"
+"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1340,7 +1340,7 @@ msgstr "_Boczny panel"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr "Pokaż  _zerowe trafienia"
+msgstr "Wyświetl puste kategorie"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1544,7 +1544,7 @@ msgstr "_Pliki"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "_Uczestnicy"
+msgstr "_Uczestników"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -2175,7 +2175,7 @@ msgstr "Rozsiewających"
 #: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
 #: deluge/ui/webui/scripts/template_strings.py:79
 msgid "Peers"
-msgstr "Uczestnicy"
+msgstr "Uczestników"
 
 #: deluge/ui/gtkui/torrentview.py:163
 #: deluge/ui/webui/scripts/template_strings.py:41
@@ -2764,7 +2764,7 @@ msgstr "Pokaż panel boczny"
 
 #: deluge/ui/webui/config_tabs_webui.py:105
 msgid "Show zero hits"
-msgstr "Pokaż zerowe trafienia"
+msgstr "Wyświetl puste kategorie"
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
