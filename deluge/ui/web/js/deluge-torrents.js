@@ -34,6 +34,13 @@ function torrent_speed(value) {
 	return fspeed(value);
 }
 
+function progress(value, p, r) {
+	var progress = value.toInt();
+	var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
+	var width = this.style.match(/\w+:\s*(\d+)\w+/)[1].toInt() - 8;
+	return progressBar(value.toInt(), width, text);
+}
+
 var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
     '<div class="x-progress-inner">' +
         '<div style="width: {2}px" class="x-progress-bar">' +
@@ -46,13 +53,6 @@ var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
 		'</div>' +
 	'</div>' +
 '</div>';
-
-function progress(value, p, r) {
-	var progress = value.toInt();
-	var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-	var width = this.style.match(/\w+:\s*(\d+)\w+/)[1].toInt() - 8;
-	return progressBar(value.toInt(), width, text);
-}
 
 function progressBar(progress, width, text) {
 	var progressWidth = (width / 100.0) * progress;
@@ -79,6 +79,10 @@ function peers(value, p, r) {
 
 function avail(value) {
 	return value.toFixed(3);
+}
+
+function tracker(value) {
+	return String.format('<div style="background: url(/tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 }
 
 Deluge.Torrents = {
@@ -151,7 +155,7 @@ Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 		{header: "Ratio", width: 60, sortable: true, renderer: avail, dataIndex: 'ratio'},
 		{header: "Avail.", width: 60, sortable: true, renderer: avail, dataIndex: 'avail'},
 		{header: "Added", width: 80, sortable: true, renderer: fdate, dataIndex: 'added'},
-		{header: "Tracker", width: 120, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'tracker'}
+		{header: "Tracker", width: 120, sortable: true, renderer: tracker, dataIndex: 'tracker'}
 	],	
 	stripeRows: true,
 	autoExpandColumn: 'name',
