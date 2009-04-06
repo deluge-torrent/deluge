@@ -382,7 +382,7 @@ setup(
                                 "ui/web/gettext.js",
                                 "ui/web/index.html",
                                 "ui/web/css/*.css",
-                                "ui/web/icons/16/*.png",
+                                "ui/web/icons/*.png",
                                 "ui/web/images/*.png",
                                 "ui/web/js/*.js",
                                 "ui/web/render/*.html",
