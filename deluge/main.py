@@ -51,7 +51,7 @@ def start_ui():
         \t web -- A web-based interface (http://localhost:8112)\n
         \t console -- A console or command-line interface""", action="store", type="str")
     parser.add_option("-c", "--config", dest="config",
-        help="Set the config location", action="store", type="str")
+        help="Set the config folder location", action="store", type="str")
     parser.add_option("-l", "--logfile", dest="logfile",
         help="Output to designated logfile instead of stdout", action="store", type="str")
     parser.add_option("-a", "--args", dest="args",
@@ -80,6 +80,10 @@ def start_ui():
         options.loglevel = "none"
 
     if options.config:
+        if not os.path.isdir(options.config):
+            print "Config option needs to be a directory!"
+            sys.exit(1)
+
         if not os.path.exists(options.config):
             # Try to create the config folder if it doesn't exist
             try:
