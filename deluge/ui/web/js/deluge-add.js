@@ -249,7 +249,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 						id: 'download_location',
 						fieldLabel: '',
 						labelSeparator: '',
-						width: 300
+						width: 330
 					}, {
 						border: false,
 						style: 'padding-left: 5px;',
@@ -495,7 +495,7 @@ Deluge.Add.Url.Window = new Ext.Window({
 
 Deluge.Add.Window = new Ext.Window({
 	layout: 'border',
-    width: 500,
+    width: 460,
     height: 450,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
