@@ -233,6 +233,7 @@ Deluge.Add.Options = new Ext.TabPanel({
 		items: [new Ext.form.FormPanel({
 			id: 'addOptionsForm',
 			bodyStyle: 'padding: 5px;',
+			border: false,
 			items: [{
 				xtype: 'fieldset',
 				style: 'padding: 0px; padding-top: 5px;',
