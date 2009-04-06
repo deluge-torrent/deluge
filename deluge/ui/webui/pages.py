@@ -25,6 +25,7 @@
 
 
 #todo: remove useless imports.
+import base64
 
 from utils import *
 import utils #todo remove the line above.
