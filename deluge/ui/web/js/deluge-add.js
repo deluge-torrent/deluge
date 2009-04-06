@@ -344,7 +344,6 @@ Deluge.Add.Options = new Ext.TabPanel({
 					border: false,
 					labelWidth: 10,
 					defaultType: 'checkbox',
-					width: 190,
 					items: [{
 						fieldLabel: '',
 						labelSeparator: '',
@@ -355,6 +354,14 @@ Deluge.Add.Options = new Ext.TabPanel({
 						labelSeparator: '',
 						boxLabel: _('Prioritize First/Last Piece'),
 						id: 'prioritize_first_last'
+					}, {
+						xtype: 'button',
+						text: _('Apply to All'),
+						style: 'margin-left: 20px; margin-top: 5px;'
+					}, {
+						xtype: 'button',
+						text: _('Revert to Defaults'),
+						style: 'margin-left: 20px; margin-top: 5px;'
 					}]
 				}]
 			}]
@@ -402,7 +409,7 @@ Deluge.Add.File.form = new Ext.form.FormPanel({
         fieldLabel: _('File'),
         name: 'file',
 		buttonCfg: {
-			text: _('Browse...')
+			text: _('Browse') + '...'
 		}
     }]
 });
@@ -488,7 +495,7 @@ Deluge.Add.Url.Window = new Ext.Window({
 
 Deluge.Add.Window = new Ext.Window({
 	layout: 'border',
-    width: 460,
+    width: 500,
     height: 450,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
