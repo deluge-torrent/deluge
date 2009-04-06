@@ -231,21 +231,35 @@ Deluge.Add.Options = new Ext.TabPanel({
 		title: _('Options'),
 		layout: 'fit',
 		items: [new Ext.form.FormPanel({
-			xtype: 'form',
 			id: 'addOptionsForm',
 			bodyStyle: 'padding: 5px;',
-			items: [/*{
+			items: [{
 				xtype: 'fieldset',
+				style: 'padding: 0px; padding-top: 5px;',
 				title: _('Download Location'),
 				border: false,
+				autoHeight: true,
+				border: false,
+				labelWidth: 1,
 				items: [{
-					xtype: 'textfield',
-					fieldLabel: '',
-					id: 'download_location',
-					name: 'download_location',
-					anchor: '100%'
+					layout: 'column',
+					border: false,
+					items: [{
+						xtype: 'textfield',
+						id: 'download_location',
+						fieldLabel: '',
+						labelSeparator: '',
+						width: 300
+					}, {
+						border: false,
+						style: 'padding-left: 5px;',
+						items: [{
+							xtype: 'button',
+							text: _('Browse') + '...'
+						}]
+					}]
 				}]
-			}, */{
+			}, {
 				layout: 'column',
 				border: false,
 				defaults: {
@@ -253,40 +267,47 @@ Deluge.Add.Options = new Ext.TabPanel({
 				},
 				items: [{
 					xtype: 'fieldset',
+					bodyStyle: 'margin-left: 5px; margin-right:5px;',
+					title: _('Allocation'),
+					defaultType: 'radio',
+					autoHeight: true,
+					border: false,
+					labelWidth: 1,
+					items: [{
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Full'),
+						inputValue: 'false',
+						name: 'compact_allocation',
+						width: 50
+					},{
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Compact'),
+						inputValue: 'true',
+						name: 'compact_allocation',
+						width: 75
+					}]
+				}, {
+					xtype: 'fieldset',
 					title: _('Bandwidth'),
-					layout: 'table',
-					layoutConfig: {columns: 3},
+					layout: 'form',
 					autoHeight: true,
 					defaultType: 'uxspinner',
-					width: 250,
+					labelWidth: 100,
 					items: [{
-						xtype: 'label',
-						text: _('Max Down Speed'),
-						forId: 'add_max_download_speed',
-						cls: 'x-deluge-options-label',
-						width: 120,
-						style: 'margin-left: 10px;'
-					}, {
 						id: 'add_max_download_speed',
+						fieldLabel: _('Max Down Speed'),
 						width: 60,
-						value: 1024,
+						value: -1,
 						strategy: new Ext.ux.form.Spinner.NumberStrategy({
 							minValue: -1,
 							maxValue: 99999,
 							incrementValue: 1
 						})
-					}, {
-						xtype: 'label',
-						text: 'KiB/s',
-						style: 'margin-left: 5px;'
-					}, {
-						xtype: 'label',
-						text: _('Max Up Speed'),
-						forId: 'add_max_upload_speed',
-						cls: 'x-deluge-options-label',
-						style: 'margin-left: 10px;'
 					}, {
 						id: 'add_max_upload_speed',
+						fieldLabel: _('Max Up Speed'),
 						width: 60,
 						value: -1,
 						strategy: new Ext.ux.form.Spinner.NumberStrategy({
@@ -294,19 +315,9 @@ Deluge.Add.Options = new Ext.TabPanel({
 							maxValue: 99999,
 							incrementValue: 1
 						})
-					}, {
-						xtype: 'label',
-						text: 'KiB/s',
-						style: 'margin-left: 5px;'
-					}, {
-						xtype: 'label',
-						text: _('Max Connections'),
-						forId: 'add_max_connections',
-						cls: 'x-deluge-options-label',
-						style: 'margin-left: 10px;'
 					}, {
 						id: 'add_max_connections',
-						colspan: 2,
+						fieldLabel: _('Max Connections'),
 						width: 60,
 						value: -1,
 						strategy: new Ext.ux.form.Spinner.NumberStrategy({
@@ -315,13 +326,8 @@ Deluge.Add.Options = new Ext.TabPanel({
 							incrementValue: 1
 						})
 					}, {
-						xtype: 'label',
-						text: _('Max Upload Slots'),
-						forId: 'add_max_upload_slots',
-						cls: 'x-deluge-options-label',
-						style: 'margin-left: 10px;'
-					}, {
 						id: 'add_max_upload_slots',
+						fieldLabel: _('Max Upload Slots'),
 						colspan: 2,
 						width: 60,
 						value: -1,
@@ -332,53 +338,23 @@ Deluge.Add.Options = new Ext.TabPanel({
 						})
 					}]
 				}, {
+					xtype: 'fieldset',
+					title: _('General'),
+					autoHeight: true,
+					border: false,
+					labelWidth: 10,
+					defaultType: 'checkbox',
+					width: 190,
 					items: [{
-						xtype: 'fieldset',
-						bodyStyle: 'margin-left: 5px; margin-right:5px;',
-						title: _('Allocation'),
-						defaultType: 'radio',
-						autoHeight: true,
-						border: false,
-						labelWidth: 1,
-						layout: 'table',
-						layoutConfig: {
-							columns: 2
-						},
-						width: 140,
-						items: [{
-							fieldLabel: '',
-							labelSeparator: '',
-							boxLabel: _('Full'),
-							inputValue: 'false',
-							name: 'compact_allocation',
-							width: 50
-						},{
-							fieldLabel: '',
-							labelSeparator: '',
-							boxLabel: _('Compact'),
-							inputValue: 'true',
-							name: 'compact_allocation',
-							width: 75
-						}]
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Add In Paused State'),
+						id: 'add_paused'
 					}, {
-						xtype: 'fieldset',
-						title: _('General'),
-						autoHeight: true,
-						border: false,
-						labelWidth: 10,
-						defaultType: 'checkbox',
-						width: 190,
-						items: [{
-							fieldLabel: '',
-							labelSeparator: '',
-							boxLabel: _('Add In Paused State'),
-							id: 'add_paused'
-						}, {
-							fieldLabel: '',
-							labelSeparator: '',
-							boxLabel: _('Prioritize First/Last Piece'),
-							id: 'prioritize_first_last'
-						}]
+						fieldLabel: '',
+						labelSeparator: '',
+						boxLabel: _('Prioritize First/Last Piece'),
+						id: 'prioritize_first_last'
 					}]
 				}]
 			}]
@@ -512,7 +488,7 @@ Deluge.Add.Url.Window = new Ext.Window({
 
 Deluge.Add.Window = new Ext.Window({
 	layout: 'border',
-    width: 500,
+    width: 460,
     height: 450,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'right',
