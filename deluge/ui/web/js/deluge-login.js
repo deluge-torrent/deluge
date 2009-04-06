@@ -81,7 +81,7 @@ Deluge.Login.Form = new Ext.form.FormPanel({
 Deluge.Login.Window = new Ext.Window({
     layout: 'fit',
     width: 300,
-    height: 150,
+    height: 120,
     bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'center',
     closeAction: 'hide',
