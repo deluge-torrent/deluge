@@ -37,4 +37,5 @@ class Template(MakoTemplate):
     
     def render(self, *args, **data):
         data.update(self.builtins)
-        return MakoTemplate.render(self, *args, **data)
+        rendered = MakoTemplate.render_unicode(self, *args, **data)
+        return rendered.encode('utf-8', 'replace')

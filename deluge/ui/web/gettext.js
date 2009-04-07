@@ -1,4 +1,3 @@
-## -*- coding: utf-8 -*-
 /*
  * Script: gettext.js
  *  A script file that is run through the template renderer in order for
