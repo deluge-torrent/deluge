@@ -220,9 +220,10 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
+        debug = request.args.get('debug', ['false'])[-1] == 'true'
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        return template.render()
+        return template.render(debug=debug)
 
 class DelugeWeb(component.Component):
     def __init__(self):

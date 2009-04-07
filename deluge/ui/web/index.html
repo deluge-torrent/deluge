@@ -16,7 +16,11 @@
         <!-- Javascript -->
         <script type="text/javascript" src="/js/mootools-1.2.1-core-yc.js"></script>
         <script type="text/javascript" src="/js/ext-mootools-adapter.js"></script>
+        %if debug:
+        <script type="text/javascript" src="/js/ext-all-debug.js"></script>
+        %else:
         <script type="text/javascript" src="/js/ext-all.js"></script>
+        %endif
         <script type="text/javascript" src="/js/Spinner.js"></script>
         <script type="text/javascript" src="/js/SpinnerStrategy.js"></script>
         <script type="text/javascript" src="/js/SpinnerPlugin.js"></script>
