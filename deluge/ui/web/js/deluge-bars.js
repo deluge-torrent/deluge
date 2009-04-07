@@ -57,6 +57,10 @@ Deluge.ToolBar = {
 		Deluge.Connections.Window.show();
 	},
 	
+	onPreferencesClick: function() {
+		Deluge.Preferences.show();
+	},
+	
 	onTorrentAction: function(item) {
 		var selection = Deluge.Torrents.getSelections();
 		var ids = new Array();
@@ -154,7 +158,8 @@ Deluge.ToolBar.Bar = new Ext.Toolbar({
 			cls: 'x-btn-text-icon',
 			text: _('Preferences'),
 			icon: '/icons/preferences.png',
-			handler: Deluge.ToolBar.onTorrentAction
+			handler: Deluge.ToolBar.onPreferencesClick,
+			scope: Deluge.ToolBar
 		},{
 			id: 'connectionman',
 			cls: 'x-btn-text-icon',
@@ -488,5 +493,6 @@ Deluge.SideBar.Config = {
 	minSize: 175,
 	collapsible: true,
 	margins: '5 0 0 5',
+	cmargins: '5 5 0 5',
 	listeners: {'render': {scope: Deluge.SideBar, fn: Deluge.SideBar.onRender}}
 }
