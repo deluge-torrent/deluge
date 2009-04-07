@@ -39,6 +39,7 @@ input {
 .x-deluge-error, .deluge-torrents .error { background-image: url('/icons/alert.png'); }
 .x-deluge-checking, .deluge-torrents .checking { background-image: url('/icons/checking.png'); }
 .x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('/icons/dht.png'); }
+.x-deluge-preferences, .x-btn .x-deluge-preferences { background-image: url('/icons/preferences.png') }
 .x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('/icons/connections.png') }
 .x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('/icons/traffic.png') }
 .x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('/icons/edit_trackers.png'); }
