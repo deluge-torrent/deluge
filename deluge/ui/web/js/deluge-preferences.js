@@ -22,81 +22,85 @@ Copyright:
 */
 
 (function() {
-	PreferencesWindow = Ext.extend(Ext.Window, {
-		layout: 'border',
-		width: 450,
-		height: 450,
-		buttonAlign: 'right',
-		closeAction: 'hide',
-		closable: true,
-		iconCls: 'x-deluge-preferences',
-		plain: true,
-		resizable: false,
-		title: _('Preferences'),
-		buttons: [{
+	PreferencesWindow = function(config) {
+		Ext.apply(this, config);
+		this.layout = 'border';
+		this.width = 450;
+		this.height = 450;
+		this.buttonAlign = 'right';
+		this.closeAction = 'hide';
+		this.closable = true;
+		this.iconCls = 'x-deluge-preferences';
+		this.plain = true;
+		this.resizable = false;
+		this.title = _('Preferences');
+		this.buttons = [{
 			text: _('Close')
 		},{
 			text: _('Apply')
 		},{
 			text: _('Ok')
-		}],
-			
+		}];
+		this.currentPage = false;
+		this.items = [{
+			xtype: 'grid',
+			region: 'west',
+			title: _('Categories'),
+			store: new Ext.data.SimpleStore({
+				fields: [{name: 'name', mapping: 0}]
+			}),
+			columns: [{id: 'name', renderer: fplain, dataIndex: 'name'}],
+			sm: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
+				listeners: {'rowselect': {fn: this.onPageSelect, scope: this}}
+			}),
+			hideHeaders: true,
+			autoExpandColumn: 'name',
+			deferredRender: false,
+			autoScroll: true,
+			margins: '5 0 5 5',
+			cmargins: '5 0 5 5',
+			width: 120,
+			collapsible: true
+		}, {
+			region: 'center',
+			title: 'Test',
+			margins: '5 5 5 5',
+			cmargins: '5 5 5 5'
+		}];
+		PreferencesWindow.superclass.constructor.call(this);
+	};
+	
+	Ext.extend(PreferencesWindow, Ext.Window, {			
 		initComponent: function() {
 			PreferencesWindow.superclass.initComponent.call(this);
-			
-			this.categoriesGrid = this.add({
-				xtype: 'grid',
-				region: 'west',
-				title: _('Categories'),
-				store: new Ext.data.SimpleStore({
-					fields: [{name: 'name', mapping: 0}]
-				}),
-				columns: [{id: 'name', renderer: fplain, dataIndex: 'name'}],
-				/*selModel: new Ext.grid.RowSelectionModel({
-					singleSelect: true,
-					listeners: {'rowselect': {fn: this.onPageSelect, scope: this}}
-				}),*/
-				hideHeaders: true,
-				autoExpandColumn: 'name',
-				margins: '5 0 5 5',
-				cmargins: '5 0 5 5',
-				width: 120,
-				collapsible: true
-			});
-			
-			this.configPanel = this.add({
-				region: 'center',
-				title: 'Test',
-				margins: '5 5 5 5',
-				cmargins: '5 5 5 5'
-			});
-			
-			this.currentPage = null;
+			this.categoriesGrid = this.items.get(0);
+			this.configPanel = this.items.get(1);
+			this.on('show', this.onShow.bindWithEvent(this));
 		},
 		
 		addPage: function(name, page) {
 			var store = this.categoriesGrid.getStore();
 			store.loadData([[name]], true);
-			
-			if (this.currentPage == null) {
-				this.configPanel.setTitle(name);
-				this.currentPage = 0;
-			}
 		},
 		
 		onPageSelect: function(selModel, rowIndex, r) {
+			this.currentPage = rowIndex;
 			this.configPanel.setTitle(r.get('name'));
 		},
 		
-		onRender: function(ct, position) {
-			PreferencesWindow.superclass.onRender.call(this, ct, position);
-			//this.categoriesGrid.getSelectionModel().selectFirstRow();
+		onShow: function() {
+			if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
+				this.categoriesGrid.getSelectionModel().selectFirstRow();
+			}
 		}
 	});
 	
 	Deluge.Preferences = new PreferencesWindow();
 })();
-Deluge.Preferences.addPage('Downloads', {});
+Deluge.Preferences.addPage('Downloads', {
+	
+});
 Deluge.Preferences.addPage('Network', {});
 Deluge.Preferences.addPage('Bandwidth', {});
 Deluge.Preferences.addPage('Interface', {});
