@@ -86,7 +86,7 @@ def rpath(path):
 
 class GetText(resource.Resource):
     def render(self, request):
-        request.setHeader("content-type", "text/javascript")
+        request.setHeader("content-type", "text/javascript; encoding=utf-8")
         template = Template(filename=rpath("gettext.js"))
         return template.render()
 
@@ -116,10 +116,10 @@ class Upload(resource.Resource):
 
         filenames = []
         for upload in request.args.get("file"):
-            f = tempfile.NamedTemporaryFile(dir=tempdir, delete=False)
-            f.write(upload)
-            filenames.append(f.name)
-            f.close()
+            fd, fn = tempfile.mkstemp('.torrent', dir=tempdir)
+            os.write(fd, upload)
+            os.close(fd)
+            filenames.append(fn)
         request.setHeader("content-type", "text/plain")
         request.setResponseCode(http.OK)
         return "\n".join(filenames)
@@ -250,10 +250,12 @@ class DelugeWeb(component.Component):
             SetConsoleCtrlHandler(win_handler)
     
     def start(self):
-        print "Starting server in PID %s." % os.getpid()
+        print "%s %s." % (_("Starting server in PID"), os.getpid())
         reactor.listenTCP(self.port, self.site)
-        print "serving on 0.0.0.0:%(port)s view at http://127.0.0.1:%(port)s" % {
-            "port": self.port
+        print "%(serve)s 0.0.0.0:%(port)s %(view)s http://127.0.0.1:%(port)s" % {
+            "port": self.port,
+            "serve": _("serving on"),
+            "view": _("view at")
         }
         reactor.run()
 
