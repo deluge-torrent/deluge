@@ -64,7 +64,8 @@ Copyright:
 			collapsible: true
 		}, {
 			region: 'center',
-			title: 'Test',
+			title: ' ',
+			layout: 'fit',
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		}];
@@ -76,37 +77,69 @@ Copyright:
 			PreferencesWindow.superclass.initComponent.call(this);
 			this.categoriesGrid = this.items.get(0);
 			this.configPanel = this.items.get(1);
+			this.pages = {};
 			this.on('show', this.onShow.bindWithEvent(this));
 		},
 		
 		addPage: function(name, page) {
 			var store = this.categoriesGrid.getStore();
 			store.loadData([[name]], true);
+			this.pages[name] = page;
 		},
 		
 		onPageSelect: function(selModel, rowIndex, r) {
+			this.configPanel.removeAll();
 			this.currentPage = rowIndex;
-			this.configPanel.setTitle(r.get('name'));
+			var name = r.get('name');
+			this.configPanel.setTitle(name);
+			this.pages[name] = this.configPanel.add(this.pages[name]);
+			this.doLayout();
 		},
 		
 		onShow: function() {
-			if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
-				this.categoriesGrid.getSelectionModel().selectFirstRow();
-			}
+
 		}
 	});
 	
 	Deluge.Preferences = new PreferencesWindow();
 })();
 Deluge.Preferences.addPage(_('Downloads'), {
-	
+	border: false,
+	html: 'downloads'
 });
-Deluge.Preferences.addPage(_('Network'), {});
-Deluge.Preferences.addPage(_('Bandwidth'), {});
-Deluge.Preferences.addPage(_('Interface'), {});
-Deluge.Preferences.addPage(_('Other'), {});
-Deluge.Preferences.addPage(_('Daemon'), {});
-Deluge.Preferences.addPage(_('Queue'), {});
-Deluge.Preferences.addPage(_('Proxy'), {});
-Deluge.Preferences.addPage(_('Notification'), {});
-Deluge.Preferences.addPage(_('Plugins'), {});
+Deluge.Preferences.addPage(_('Network'), {
+	border: false,
+	html: 'network'
+});
+Deluge.Preferences.addPage(_('Bandwidth'), {
+	border: false,
+	html: 'bandwidth'
+});
+Deluge.Preferences.addPage(_('Interface'), {
+	border: false,
+	html: 'interface'
+});
+Deluge.Preferences.addPage(_('Other'), {
+	border: false,
+	html: 'other'
+});
+Deluge.Preferences.addPage(_('Daemon'), {
+	border: false,
+	html: 'daemon'
+});
+Deluge.Preferences.addPage(_('Queue'), {
+	border: false,
+	html: 'queue'
+});
+Deluge.Preferences.addPage(_('Proxy'), {
+	border: false,
+	html: 'proxy'
+});
+Deluge.Preferences.addPage(_('Notification'), {
+	border: false,
+	html: 'notification'
+});
+Deluge.Preferences.addPage(_('Plugins'), {
+	border: false,
+	html: 'plugins'
+});
