@@ -90,16 +90,21 @@ Copyright:
 		addPage: function(name, page) {
 			var store = this.categoriesGrid.getStore();
 			store.loadData([[name]], true);
-			this.pages[name] = page;
+			page['bodyStyle'] = 'margin: 5px';
+			page['hidden'] = true;
+			this.pages[name] = this.configPanel.add(page);
+			this.doLayout();
 		},
 		
 		onPageSelect: function(selModel, rowIndex, r) {
-			this.configPanel.removeAll();
-			this.currentPage = rowIndex;
+			if (this.currentPage) {
+				this.currentPage.hide();
+			}
 			var name = r.get('name');
+			
+			this.pages[name].show();
 			this.configPanel.setTitle(name);
-			this.pages[name] = this.configPanel.add(this.pages[name]);
-			this.doLayout();
+			this.currentPage = this.pages[name];
 		},
 		
 		onShow: function() {
@@ -125,7 +130,31 @@ Deluge.Preferences.addPage(_('Bandwidth'), {
 });
 Deluge.Preferences.addPage(_('Interface'), {
 	border: false,
-	html: 'interface'
+	xtype: 'form',
+	items: [{
+		xtype: 'fieldset',
+		border: false,
+		title: _('Window'),
+		labelWidth: 10,
+		items: [{
+			xtype: 'checkbox',
+			fieldLabel: '',
+			labelSeparator: '',
+			boxLabel: _('Show session speed in titlebar'),
+			id: 'show_session_speed'
+		}]
+	}, {
+		xtype: 'fieldset',
+		border: false,
+		title: _('Sidebar'),
+		items: [{
+			xtype: 'checkbox',
+			fieldLabel: '',
+			labelSeparator: '',
+			boxLabel: _('Hide filters with 0 torrents'),
+			id: 'hide_sidebar_zero'
+		}]
+	}]
 });
 Deluge.Preferences.addPage(_('Other'), {
 	border: false,
