@@ -334,6 +334,10 @@ Deluge.StatusBar.Bar = new Ext.StatusBar({
 	listeners: {'render': {scope: Deluge.StatusBar, fn: Deluge.StatusBar.onRender}}
 });
 
+
+// These are just so gen_gettext.js pick up the strings
+// _('State')
+// _('Tracker Host')
 Deluge.SideBar = {
 	panels: new Hash(),
 	
@@ -428,7 +432,7 @@ Deluge.SideBar = {
 		var panel = new Ext.grid.GridPanel({
 			id: filter + '-panel',
 			store: store,
-			title: title,
+			title: _(title),
 			columns: [
 				{id: 'filter', sortable: false, renderer: this.renderer, dataIndex: 'filter'}
 			],	

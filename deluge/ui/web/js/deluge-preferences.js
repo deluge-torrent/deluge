@@ -98,15 +98,15 @@ Copyright:
 	
 	Deluge.Preferences = new PreferencesWindow();
 })();
-Deluge.Preferences.addPage('Downloads', {
+Deluge.Preferences.addPage(_('Downloads'), {
 	
 });
-Deluge.Preferences.addPage('Network', {});
-Deluge.Preferences.addPage('Bandwidth', {});
-Deluge.Preferences.addPage('Interface', {});
-Deluge.Preferences.addPage('Other', {});
-Deluge.Preferences.addPage('Daemon', {});
-Deluge.Preferences.addPage('Queue', {});
-Deluge.Preferences.addPage('Proxy', {});
-Deluge.Preferences.addPage('Notification', {});
-Deluge.Preferences.addPage('Plugins', {});
+Deluge.Preferences.addPage(_('Network'), {});
+Deluge.Preferences.addPage(_('Bandwidth'), {});
+Deluge.Preferences.addPage(_('Interface'), {});
+Deluge.Preferences.addPage(_('Other'), {});
+Deluge.Preferences.addPage(_('Daemon'), {});
+Deluge.Preferences.addPage(_('Queue'), {});
+Deluge.Preferences.addPage(_('Proxy'), {});
+Deluge.Preferences.addPage(_('Notification'), {});
+Deluge.Preferences.addPage(_('Plugins'), {});

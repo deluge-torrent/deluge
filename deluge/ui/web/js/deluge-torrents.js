@@ -22,7 +22,7 @@ Copyright:
 */
 
 function queue(value) {
-	return (value == -1) ? "" : value + 1;
+	return (value == -1) ? '' : value + 1;
 }
 
 function name(value, p, r) {
@@ -63,7 +63,7 @@ function progressBar(progress, width, text) {
 
 function seeds(value, p, r) {
 	if (r.data['total_seeds'] > -1) {
-		return String.format("{0} ({1})", value, r.data['total_seeds']);
+		return String.format('{0} ({1})', value, r.data['total_seeds']);
 	} else {
 		return value;
 	}
@@ -71,7 +71,7 @@ function seeds(value, p, r) {
 
 function peers(value, p, r) {
 	if (r.data['total_peers'] > -1) {
-		return String.format("{0} ({1})", value, r.data['total_peers']);
+		return String.format('{0} ({1})', value, r.data['total_peers']);
 	} else {
 		return value;
 	}
@@ -136,26 +136,26 @@ Deluge.Torrents = {
 		}, this);
 	}
 }
-Deluge.Torrents.Store.setDefaultSort("queue");
+Deluge.Torrents.Store.setDefaultSort('queue');
 
 Deluge.Torrents.Grid = new Ext.grid.GridPanel({
 	region: 'center',
 	store: Deluge.Torrents.Store,
 	cls: 'deluge-torrents',
 	columns: [
-		{id:'queue',header: "#", width: 30, sortable: true, renderer: queue, dataIndex: 'queue'},
-		{id:'name', header: "Name", width: 150, sortable: true, renderer: name, dataIndex: 'name'},
-		{header: "Size", width: 75, sortable: true, renderer: fsize, dataIndex: 'size'},
-		{header: "Progress", width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
-		{header: "Seeds", width: 60, sortable: true, renderer: seeds, dataIndex: 'seeds'},
-		{header: "Peers", width: 60, sortable: true, renderer: peers, dataIndex: 'peers'},
-		{header: "Down Speed", width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'downspeed'},
-		{header: "Up Speed", width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'upspeed'},
-		{header: "ETA", width: 60, sortable: true, renderer: ftime, dataIndex: 'eta'},
-		{header: "Ratio", width: 60, sortable: true, renderer: avail, dataIndex: 'ratio'},
-		{header: "Avail.", width: 60, sortable: true, renderer: avail, dataIndex: 'avail'},
-		{header: "Added", width: 80, sortable: true, renderer: fdate, dataIndex: 'added'},
-		{header: "Tracker", width: 120, sortable: true, renderer: tracker, dataIndex: 'tracker'}
+		{id:'queue',header: _('#'), width: 30, sortable: true, renderer: queue, dataIndex: 'queue'},
+		{id:'name', header: _('Name'), width: 150, sortable: true, renderer: name, dataIndex: 'name'},
+		{header: _('Size'), width: 75, sortable: true, renderer: fsize, dataIndex: 'size'},
+		{header: _('Progress'), width: 150, sortable: true, renderer: progress, dataIndex: 'progress'},
+		{header: _('Seeders'), width: 60, sortable: true, renderer: seeds, dataIndex: 'seeds'},
+		{header: _('Peers'), width: 60, sortable: true, renderer: peers, dataIndex: 'peers'},
+		{header: _('Down Speed'), width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'downspeed'},
+		{header: _('Up Speed'), width: 80, sortable: true, renderer: torrent_speed, dataIndex: 'upspeed'},
+		{header: _('ETA'), width: 60, sortable: true, renderer: ftime, dataIndex: 'eta'},
+		{header: _('Ratio'), width: 60, sortable: true, renderer: avail, dataIndex: 'ratio'},
+		{header: _('Avail'), width: 60, sortable: true, renderer: avail, dataIndex: 'avail'},
+		{header: _('Added'), width: 80, sortable: true, renderer: fdate, dataIndex: 'added'},
+		{header: _('Tracker'), width: 120, sortable: true, renderer: tracker, dataIndex: 'tracker'}
 	],	
 	stripeRows: true,
 	autoExpandColumn: 'name',

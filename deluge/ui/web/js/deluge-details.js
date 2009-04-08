@@ -105,7 +105,8 @@ Deluge.Details.Status = {
             active_time: ftime(status.active_time),
             seeding_time: ftime(status.seeding_time),
             seed_rank: status.seed_rank,
-			auto_managed: 'False'
+			auto_managed: 'False',
+			time_added: fdate(status.time_added)
 		}
 		if (status.is_auto_managed) {data.auto_managed = 'True'}
 		this.fields.each(function(value, key) {
