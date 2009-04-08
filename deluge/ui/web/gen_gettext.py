@@ -41,7 +41,7 @@ for filename in files:
         for match in string_re.finditer(line):
             string = match.group(1)
             locations = strings.get(string, [])
-            locations.append((os.path.basename(filename), line_num))
+            locations.append((os.path.basename(filename), line_num + 1))
             strings[string] = locations
 keys = strings.keys()
 keys.sort()
