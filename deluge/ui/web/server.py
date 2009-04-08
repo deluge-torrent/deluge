@@ -252,11 +252,8 @@ class DelugeWeb(component.Component):
     def start(self):
         print "%s %s." % (_("Starting server in PID"), os.getpid())
         reactor.listenTCP(self.port, self.site)
-        print "%(serve)s 0.0.0.0:%(port)s %(view)s http://127.0.0.1:%(port)s" % {
-            "port": self.port,
-            "serve": _("serving on"),
-            "view": _("view at")
-        }
+        print "serving on %s:%s view at http://127.0.0.1:%s" % ("0.0.0.0",
+            self.port, self.port)
         reactor.run()
 
     def shutdown(self, *args):
