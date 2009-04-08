@@ -35,7 +35,9 @@ Copyright:
 		this.resizable = false;
 		this.title = _('Preferences');
 		this.buttons = [{
-			text: _('Close')
+			text: _('Close'),
+			handler: this.onCloseButtonClick,
+			scope: this
 		},{
 			text: _('Apply')
 		},{
@@ -81,6 +83,10 @@ Copyright:
 			this.on('show', this.onShow.bindWithEvent(this));
 		},
 		
+		onCloseButtonClick: function() {
+			this.hide();
+		},
+		
 		addPage: function(name, page) {
 			var store = this.categoriesGrid.getStore();
 			store.loadData([[name]], true);
@@ -97,7 +103,9 @@ Copyright:
 		},
 		
 		onShow: function() {
-
+			if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
+				this.categoriesGrid.getSelectionModel().selectFirstRow();
+			}
 		}
 	});
 	
