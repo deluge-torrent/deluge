@@ -446,8 +446,7 @@ Deluge.SideBar = {
 			hideHeaders: true,
 			autoExpandColumn: 'filter',
 			deferredRender: false,
-			autoScroll: true,
-			margins: '5 5 5 5'
+			autoScroll: true
 		});
 		store.loadData(states);
 		this.Bar.add(panel);
