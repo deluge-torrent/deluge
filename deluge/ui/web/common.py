@@ -26,12 +26,10 @@ import gettext
 from mako.template import Template as MakoTemplate
 from deluge import common
 
-_ = gettext.gettext
-
 class Template(MakoTemplate):
     
     builtins = {
-        "_": _,
+        "_": lambda x: gettext.gettext(x).decode("utf-8"),
         "version": common.get_version()
     }
     
