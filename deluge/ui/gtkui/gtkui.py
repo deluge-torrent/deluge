@@ -121,6 +121,8 @@ class GtkUI:
             gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
             gettext.textdomain("deluge")
             gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+            gtk.glade.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+            gtk.glade.textdomain("deluge")
         except Exception, e:
             log.error("Unable to initialize gettext/locale!")
             log.exception(e)
