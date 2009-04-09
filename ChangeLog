@@ -1,3 +1,7 @@
+=== Deluge 1.1.7 - (In Development) ===
+==== GtkUI ====
+  * Fix #883 segfault if locale is not using UTF-8 encoding
+
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
   * Fix udp trackers being classified as DHT source
