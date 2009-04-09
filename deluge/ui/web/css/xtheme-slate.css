@@ -10,6 +10,10 @@
  * Slate Theme
  * Originally created by JC Bize
  */
+ 
+html, body {
+	color: Black;
+}
 
 /* Masks */
 .ext-el-mask{
