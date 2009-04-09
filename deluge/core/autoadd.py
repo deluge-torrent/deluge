@@ -40,7 +40,7 @@ MAX_NUM_ATTEMPTS = 10
 
 class AutoAdd(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "AutoAdd", depend=["TorrentManager"], interval=5000)
+        component.Component.__init__(self, "AutoAdd", depend=["TorrentManager"], interval=5)
         # Get the core config
         self.config = ConfigManager("core.conf")
 
