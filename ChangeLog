@@ -1,6 +1,7 @@
 === Deluge 1.1.7 - (In Development) ===
 ==== GtkUI ====
   * Fix #883 segfault if locale is not using UTF-8 encoding
+  * Fix for adding torrents with invalid filename encodings
 
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====

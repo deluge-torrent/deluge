@@ -271,13 +271,17 @@ class BaseClient(object):
             # Open the .torrent file for reading because we need to send it's
             # contents to the core.
             try:
-                f = open(unicode(torrent_file), "rb")
+                f = open(torrent_file, "rb")
             except Exception, e:
                 log.warning("Unable to open %s: %s", torrent_file, e)
                 continue
 
-            # Get the filename because the core doesn't want a path.
-            (path, filename) = os.path.split(torrent_file)
+            # Get the name of the torrent from the TorrentInfo object because
+            # it does better handling of encodings
+            import deluge.ui.common
+            ti = deluge.ui.common.TorrentInfo(torrent_file)
+            filename = ti.name
+
             fdump = xmlrpclib.Binary(f.read())
             f.close()
 

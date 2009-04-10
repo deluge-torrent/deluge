@@ -62,6 +62,8 @@ class TorrentInfo(object):
         self.encoding = "UTF-8"
         if "encoding" in self.__m_metadata:
             self.encoding = self.__m_metadata["encoding"]
+        elif "codepage" in self.__m_metadata:
+            self.encoding = str(self.__m_metadata["codepage"])
 
         # Get list of files from torrent info
         self.__m_files = []

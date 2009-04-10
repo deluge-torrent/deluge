@@ -186,14 +186,12 @@ class AddTorrentDialog(component.Component):
         new_row = None
 
         for filename in filenames:
-            # Convert the path to unicode
-            filename = unicode(filename)
-
             # Get the torrent data from the torrent file
             try:
                 info = deluge.ui.common.TorrentInfo(filename)
             except Exception, e:
                 log.debug("Unable to open torrent file: %s", e)
+                log.exception(e)
                 continue
 
             if info.info_hash in self.files:
