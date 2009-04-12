@@ -250,9 +250,9 @@ class DelugeWeb(component.Component):
             SetConsoleCtrlHandler(win_handler)
     
     def start(self):
-        print "%s %s." % (_("Starting server in PID"), os.getpid())
+        log.info("%s %s.", _("Starting server in PID"), os.getpid())
         reactor.listenTCP(self.port, self.site)
-        print "serving on %s:%s view at http://127.0.0.1:%s" % ("0.0.0.0",
+        log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
         reactor.run()
 
