@@ -73,7 +73,7 @@ class PeersTab(Tab):
         self.listview = glade.get_widget("peers_listview")
         self.listview.connect("button-press-event", self._on_button_press_event)
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon, progress
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf, float)
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, float, gtk.gdk.Pixbuf, float)
         self.cached_flag_pixbufs = {}
 
         self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
@@ -308,8 +308,17 @@ class PeersTab(Tab):
                 # Peer is not in list so we need to add it
 
                 # Create an int IP address for sorting purposes
-                ip_int = sum([int(byte) << shift
-                    for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                if peer["ip"].count(":") == 1:
+                    # This is an IPv4 address
+                    ip_int = sum([int(byte) << shift
+                        for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                else:
+                    # This is an IPv6 address
+                    import socket
+                    import binascii
+                    # Split out the :port
+                    ip = ":".join(peer["ip"].split(":")[:-1])
+                    ip_int = long(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
 
                 if peer["seed"]:
                     icon = self.seed_pixbuf
@@ -323,7 +332,7 @@ class PeersTab(Tab):
                     peer["down_speed"],
                     peer["up_speed"],
                     peer["country"],
-                    ip_int,
+                    float(ip_int),
                     icon,
                     peer["progress"]])
 

@@ -2,6 +2,7 @@
 ==== GtkUI ====
   * Fix #883 segfault if locale is not using UTF-8 encoding
   * Fix for adding torrents with invalid filename encodings
+  * Fix displaying IPv6 peers in the Peers tab
 
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
