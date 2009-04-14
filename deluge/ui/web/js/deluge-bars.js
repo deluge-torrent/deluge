@@ -50,7 +50,7 @@ Deluge.ToolBar = {
 	onLogout: function() {
 		this.Bar.items.get('logout').disable();
 		Deluge.Events.fire('logout');
-		Deluge.Login.Window.show();
+		Deluge.Login.show();
 	},
 	
 	onConnectionManagerClick: function(item) {

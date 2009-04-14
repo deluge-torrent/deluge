@@ -48,7 +48,7 @@ Deluge.UI = {
 			items: [this.MainPanel]
 		});
 
-		Deluge.Login.Window.show();
+		Deluge.Login.show();
 		
 		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
 		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
@@ -56,7 +56,7 @@ Deluge.UI = {
 	},
 	
 	notify: function(title, message) {
-		this.roar.alert(title, message);
+		//this.roar.alert(title, message);
 	},
 	
 	update: function() {
