@@ -491,6 +491,9 @@ class ConnectionManager(component.Component):
         # Spawn a local daemon
         if deluge.common.windows_check():
             win32api.WinExec("deluged -p %s" % port)
+        elif deluge.common.osx_check():
+            subprocess.call(["nohup", "deluged", "--port=%s" % port,
+                "--config=%s" % deluge.configmanager.get_config_dir()])
         else:
             subprocess.call(["deluged", "--port=%s" % port,
                 "--config=%s" % deluge.configmanager.get_config_dir()])
