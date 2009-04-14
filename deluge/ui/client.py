@@ -527,6 +527,8 @@ class Client(object):
         try:
             if deluge.common.windows_check():
                 win32api.WinExec("deluged --port=%s --config=%s" % (port, config))
+            elif deluge.common.osx_check():
+                subprocess.call(["nohup", "deluged", "--port=%s" % port, "--config=%s" % config])
             else:
                 subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
         except Exception, e:
