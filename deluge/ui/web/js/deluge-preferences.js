@@ -25,7 +25,7 @@ Copyright:
 	PreferencesWindow = function(config) {
 		Ext.apply(this, config);
 		this.layout = 'border';
-		this.width = 450;
+		this.width = 475;
 		this.height = 450;
 		this.buttonAlign = 'right';
 		this.closeAction = 'hide';
@@ -68,6 +68,7 @@ Copyright:
 			region: 'center',
 			title: ' ',
 			layout: 'fit',
+			height: 400,
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		}];
@@ -91,9 +92,8 @@ Copyright:
 			var store = this.categoriesGrid.getStore();
 			store.loadData([[name]], true);
 			page['bodyStyle'] = 'margin: 5px';
-			page['hidden'] = true;
 			this.pages[name] = this.configPanel.add(page);
-			this.doLayout();
+			this.pages[name].hide();
 		},
 		
 		onPageSelect: function(selModel, rowIndex, r) {
@@ -105,6 +105,7 @@ Copyright:
 			this.pages[name].show();
 			this.configPanel.setTitle(name);
 			this.currentPage = this.pages[name];
+			this.configPanel.doLayout();
 		},
 		
 		onShow: function() {
@@ -115,68 +116,194 @@ Copyright:
 	});
 	
 	Deluge.Preferences = new PreferencesWindow();
+	Deluge.Preferences.addPage(_('Downloads'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: [{
+			xtype: 'fieldset',
+			border: false,
+			title: _('Folders'),
+			labelWidth: 140,
+			defaultType: 'textfield',
+			autoHeight: true,
+			items: [{
+				name: 'download_location',
+				fieldLabel: _('Download to'),
+				width: 125
+			}, {
+				name: 'move_completed',
+				fieldLabel: _('Move completed to'),
+				width: 125
+			}, {
+				name: 'copy_torrent_files',
+				fieldLabel: _('Copy of .torrent files to'),
+				width: 125
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Allocation'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'radio',
+			items: [{
+				name: 'compact_allocation',
+				labelSeparator: '',
+				boxLabel: _('Compact')
+			}, {
+				name: 'compact_allocation',
+				labelSeparator: '',
+				boxLabel: _('Full')
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Options'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'checkbox',
+			items: [{
+				name: 'prioritize_first_last',
+				labelSeparator: '',
+				boxLabel: _('Prioritize first and last pieces of torrent')
+			}, {
+				name: 'add_paused',
+				labelSeparator: '',
+				boxLabel: _('Add torrents in Paused state')
+			}]
+		}]
+	});
+	/*Deluge.Preferences.addPage(_('Network'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});
+	Deluge.Preferences.addPage(_('Bandwidth'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});*/
+	Deluge.Preferences.addPage(_('Interface'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: [{
+			xtype: 'fieldset',
+			border: false,
+			title: _('Window'),
+			autoHeight: true,
+			labelWidth: 1,
+			items: [{
+				xtype: 'checkbox',
+				fieldLabel: '',
+				labelSeparator: '',
+				boxLabel: _('Show session speed in titlebar'),
+				id: 'show_session_speed'
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Sidebar'),
+			autoHeight: true,
+			labelWidth: 1,
+			items: [{
+				xtype: 'checkbox',
+				fieldLabel: '',
+				labelSeparator: '',
+				boxLabel: _('Hide filters with 0 torrents'),
+				id: 'hide_sidebar_zero'
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Password'),
+			autoHeight: true,
+			defaultType: 'textfield',
+			items: [{
+				fieldLabel: 'New Password',
+				inputType: 'password',
+				id: 'new_password'
+			}, {
+				inputType: 'password',
+				fieldLabel: 'Confirm Password',
+				id: 'confirm_password'
+			}]
+		}]
+	});
+	/*Deluge.Preferences.addPage(_('Other'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});*/
+	Deluge.Preferences.addPage(_('Daemon'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: [{
+			xtype: 'fieldset',
+			border: false,
+			title: _('Port'),
+			autoHeight: true,
+			defaultType: 'uxspinner',
+			items: [{
+				fieldLabel: _('Daemon port'),
+				id: 'daemon_port'
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Connections'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'checkbox',
+			items: [{
+				fieldLabel: '',
+				labelSeparator: '',
+				boxLabel: _('Allow Remote Connections'),
+				id: 'allow_remote'
+			}]
+		}, {
+			xtype: 'fieldset',
+			border: false,
+			title: _('Other'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'checkbox',
+			items: [{
+				fieldLabel: '',
+				labelSeparator: '',
+				height: 40,
+				boxLabel: _('Periodically check the website for new releases'),
+				id: 'new_releases'
+			}]
+		}]
+	});
+	/*Deluge.Preferences.addPage(_('Queue'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});
+	Deluge.Preferences.addPage(_('Proxy'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});
+	Deluge.Preferences.addPage(_('Notification'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});
+	Deluge.Preferences.addPage(_('Plugins'), {
+		border: false,
+		xtype: 'form',
+		layout: 'form',
+		items: []
+	});*/
 })();
-Deluge.Preferences.addPage(_('Downloads'), {
-	border: false,
-	html: 'downloads'
-});
-Deluge.Preferences.addPage(_('Network'), {
-	border: false,
-	html: 'network'
-});
-Deluge.Preferences.addPage(_('Bandwidth'), {
-	border: false,
-	html: 'bandwidth'
-});
-Deluge.Preferences.addPage(_('Interface'), {
-	border: false,
-	xtype: 'form',
-	items: [{
-		xtype: 'fieldset',
-		border: false,
-		title: _('Window'),
-		labelWidth: 10,
-		items: [{
-			xtype: 'checkbox',
-			fieldLabel: '',
-			labelSeparator: '',
-			boxLabel: _('Show session speed in titlebar'),
-			id: 'show_session_speed'
-		}]
-	}, {
-		xtype: 'fieldset',
-		border: false,
-		title: _('Sidebar'),
-		items: [{
-			xtype: 'checkbox',
-			fieldLabel: '',
-			labelSeparator: '',
-			boxLabel: _('Hide filters with 0 torrents'),
-			id: 'hide_sidebar_zero'
-		}]
-	}]
-});
-Deluge.Preferences.addPage(_('Other'), {
-	border: false,
-	html: 'other'
-});
-Deluge.Preferences.addPage(_('Daemon'), {
-	border: false,
-	html: 'daemon'
-});
-Deluge.Preferences.addPage(_('Queue'), {
-	border: false,
-	html: 'queue'
-});
-Deluge.Preferences.addPage(_('Proxy'), {
-	border: false,
-	html: 'proxy'
-});
-Deluge.Preferences.addPage(_('Notification'), {
-	border: false,
-	html: 'notification'
-});
-Deluge.Preferences.addPage(_('Plugins'), {
-	border: false,
-	html: 'plugins'
-});
