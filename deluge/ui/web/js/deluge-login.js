@@ -101,7 +101,7 @@ Copyright:
 							iconCls: 'x-deluge-icon-warning'
 						});
 					}
-				}.bindWithEvent(this);
+				}.bindWithEvent(this)
 			});
 		},
 		

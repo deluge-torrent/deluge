@@ -226,7 +226,7 @@ class TopLevel(resource.Resource):
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
-        self.putChild("themes", LookupResource("Themes", rpath("themes")))
+        self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
     
     def getChild(self, path, request):
