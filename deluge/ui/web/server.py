@@ -32,6 +32,7 @@ import gettext
 import hashlib
 import logging
 import tempfile
+import mimetypes
 import pkg_resources
 
 from twisted.application import service, internet
@@ -186,31 +187,46 @@ class Flag(resource.Resource):
             request.setResponseCode(http.NOT_FOUND)
             return ""
 
-class Icons(resource.Resource):
+class LookupResource(resource.Resource, component.Component):
+    
+    def __init__(self, name, *directories):        
+        resource.Resource.__init__(self)
+        component.Component.__init__(self, name)
+        self.__directories = directories
+    
+    @property
+    def directories(self):
+        return self.__directories
+    
     def getChild(self, path, request):
-        request.icon = path
+        request.path = path
         return self
     
     def render(self, request):
-        headers = {}
-        print request.icon
-        return ""
+        for lookup in self.directories:
+            if request.path in os.listdir(lookup):
+                path = os.path.join(lookup, request.path)
+                mime_type = mimetypes.guess_type(path)
+                request.setHeader("content-type", mime_type[0])
+                return open(path).read()
+        request.setResponseCode(http.NOT_FOUND)
+        return "<h1>404 - Not Found</h1>"
 
 class TopLevel(resource.Resource):
     addSlash = True
     
     def __init__(self):
         resource.Resource.__init__(self)
-        self.putChild("css", static.File(rpath("css")))
+        self.putChild("css", LookupResource("Css", rpath("css")))
         self.putChild("gettext.js", GetText())
         self.putChild("flag", Flag())
-        self.putChild("icons", static.File(rpath("icons")))
-        self.putChild("images", static.File(rpath("images")))
-        self.putChild("js", static.File(rpath("js")))
+        self.putChild("icons", LookupResource("Icons", rpath("icons")))
+        self.putChild("images", LookupResource("Images", rpath("images")))
+        self.putChild("js", LookupResource("Javascript", rpath("js")))
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
-        self.putChild("themes", static.File(rpath("themes")))
+        self.putChild("themes", LookupResource("Themes", rpath("themes")))
         self.putChild("tracker", Tracker())
     
     def getChild(self, path, request):
