@@ -94,11 +94,14 @@ Copyright:
 							msg: _('You entered an incorrect password'),
 							buttons: Ext.MessageBox.OK,
 							modal: false,
+							fn: function() {
+								passwordField.focus();
+							},
 							icon: Ext.MessageBox.WARNING,
 							iconCls: 'x-deluge-icon-warning'
 						});
 					}
-				}.bindWithEvent(this)
+				}.bindWithEvent(this);
 			});
 		},
 		
