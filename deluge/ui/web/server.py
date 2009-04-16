@@ -228,6 +228,41 @@ class TopLevel(resource.Resource):
         self.putChild("render", Render())
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
+        
+        self.__stylesheets = [
+            "/css/ext-all.css",
+            "/css/xtheme-slate.css",
+            "/css/Spinner.css",
+            "/css/deluge.css"
+        ]
+        self.__scripts = [
+            "/js/mootools-1.2.1-core-yc.js",
+            "/js/ext-mootools-adapter.js",
+            "/js/ext-all.js",
+            "/js/Spinner.js",
+            "/js/SpinnerStrategy.js",
+            "/js/rpc.js",
+            "/gettext.js",
+            "/js/deluge.js",
+            "/js/deluge-ext.js",
+            "/js/deluge-login.js",
+            "/js/deluge-menus.js",
+            "/js/deluge-bars.js",
+            "/js/deluge-connections.js",
+            "/js/deluge-torrents.js",
+            "/js/deluge-details.js",
+            "/js/deluge-add.js",
+            "/js/deluge-preferences.js",
+            "/js/deluge-ui.js"
+        ]
+    
+    @property
+    def scripts(self):
+        return self.__scripts
+    
+    @property
+    def stylesheets(self):
+        return self.__stylesheets
     
     def getChild(self, path, request):
         if path == "":
@@ -236,15 +271,19 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-        debug = request.args.get('debug', ['false'])[-1] == 'true'
+        scripts = self.scripts[:]
+        if request.args.get('debug', ['false'])[-1] == 'true':
+            i = scripts.index("/js/ext-all.js")
+            scripts[i] = "/js/ext-all-debug.js"
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        return template.render(debug=debug)
+        return template.render(scripts=scripts, stylesheets=self.stylesheets)
 
 class DelugeWeb(component.Component):
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
-        self.site = server.Site(TopLevel())
+        self.top_level = TopLevel()
+        self.site = server.Site(self.top_level)
         self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
         self.port = self.config["port"]
         self.web_api = WebApi()
@@ -264,7 +303,7 @@ class DelugeWeb(component.Component):
                     self.__shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
-    
+
     def start(self):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
         reactor.listenTCP(self.port, self.site)

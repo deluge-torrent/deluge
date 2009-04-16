@@ -7,37 +7,14 @@
         <link rel="icon" href="/icons/deluge.png" type="image/png" />
         
         <!-- Stylesheets -->
-        <link rel="stylesheet" type="text/css" href="/css/ext-all.css" />
-        <link rel="stylesheet" type="text/css" href="/css/xtheme-slate.css" />
-        <link rel="stylesheet" type="text/css" href="/css/Spinner.css" />
-        <link rel="stylesheet" type="text/css" href="/css/Roar.css" />
-        <link rel="stylesheet" type="text/css" href="/css/deluge.css" />
+        %for stylesheet in stylesheets:
+        <link rel="stylesheet" type="text/css" href="${stylesheet}" />
+        %endfor
 
         <!-- Javascript -->
-        <script type="text/javascript" src="/js/mootools-1.2.1-core-yc.js"></script>
-        <script type="text/javascript" src="/js/ext-mootools-adapter.js"></script>
-        %if debug:
-        <script type="text/javascript" src="/js/ext-all-debug.js"></script>
-        %else:
-        <script type="text/javascript" src="/js/ext-all.js"></script>
-        %endif
-        <script type="text/javascript" src="/js/Spinner.js"></script>
-        <script type="text/javascript" src="/js/SpinnerStrategy.js"></script>
-        <script type="text/javascript" src="/js/SpinnerPlugin.js"></script>
-        <script type="text/javascript" src="/js/Roar.js"></script>
-        <script type="text/javascript" src="/js/rpc.js"></script>
-        <script type="text/javascript" src="/gettext.js"></script>
-        <script type="text/javascript" src="/js/deluge.js"></script>
-        <script type="text/javascript" src="/js/deluge-ext.js"></script>
-        <script type="text/javascript" src="/js/deluge-login.js"></script>
-        <script type="text/javascript" src="/js/deluge-menus.js"></script>
-        <script type="text/javascript" src="/js/deluge-bars.js"></script>
-        <script type="text/javascript" src="/js/deluge-connections.js"></script>
-        <script type="text/javascript" src="/js/deluge-torrents.js"></script>
-        <script type="text/javascript" src="/js/deluge-details.js"></script>
-        <script type="text/javascript" src="/js/deluge-add.js"></script>
-        <script type="text/javascript" src="/js/deluge-preferences.js"></script>
-        <script type="text/javascript" src="/js/deluge-ui.js"></script>
+        %for script in scripts:
+        <script type="text/javascript" src="${script}"></script>
+        %endfor
     </head>
     <body></body>
 </html>
