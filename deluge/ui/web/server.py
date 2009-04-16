@@ -46,6 +46,7 @@ from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi
+from deluge.ui.web.pluginmanager import PluginManager
 log = logging.getLogger(__name__)
 
 # Initialize gettext
@@ -303,6 +304,9 @@ class DelugeWeb(component.Component):
                     self.__shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
+        
+        # Initalize the plugins
+        self.plugins = PluginManager()
 
     def start(self):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())

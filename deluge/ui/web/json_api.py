@@ -81,6 +81,7 @@ class JSON(resource.Resource, component.Component):
         component.Component.__init__(self, "JSON")
         self._remote_methods = []
         self._local_methods = {}
+        client.disconnect_callback = self._on_client_disconnect
     
     def connect(self, host="localhost", port=58846, username="", password=""):
         """
@@ -105,8 +106,12 @@ class JSON(resource.Resource, component.Component):
             """
             d = client.daemon.get_method_list()
             d.addCallback(on_get_methods)
+            component.get("PluginManager").start()
         _d.addCallback(on_client_connected)
         return d
+    
+    def _on_client_disconnect(self, *args):
+        component.get("PluginManager").stop()
     
     def _exec_local(self, method, params):
         """
