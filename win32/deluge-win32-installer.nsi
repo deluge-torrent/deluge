@@ -1,5 +1,5 @@
 # Deluge Windows installer script
-# Version 0.3.1, 17-Apr-2009
+# Version 0.3.1, 18-Apr-2009
 
 # Copyright (C) 2009 by
 #   Jesper Lund <mail@jesperlund.com>
@@ -70,8 +70,8 @@
 # Welcome page
 !insertmacro MUI_PAGE_WELCOME
 
-# License page; the license file *must* have Windows/DOS CRLF line endings
-!insertmacro MUI_PAGE_LICENSE "LICENSE"
+# License page
+!insertmacro MUI_PAGE_LICENSE "..\LICENSE"
 
 # Components page
 !insertmacro MUI_PAGE_COMPONENTS
@@ -140,7 +140,7 @@ Section "Deluge Bittorrent Client" Section1
     
   SetOverwrite ifnewer
   SetOutPath $INSTDIR
-  File "LICENSE"
+  File "..\LICENSE"
   File "StartX.exe"
   File "deluge.ico"
   
