@@ -318,13 +318,13 @@ class DaemonSSLProxy(DaemonProxy):
             is emitted from the daemon
 
         """
-        if event not in self.factory.event_handlers:
+        if event not in self.__factory.event_handlers:
             # This is a new event to handle, so we need to tell the daemon
             # that we're interested in receiving this type of event
             self.event_handlers[event] = []
             self.call("daemon.set_event_interest", [event])
 
-        self.factory.event_handlers[event].append(handler)
+        self.__factory.event_handlers[event].append(handler)
 
     def deregister_event_handler(self, event, handler):
         """
