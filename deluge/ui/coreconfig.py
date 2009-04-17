@@ -30,7 +30,7 @@ from deluge.log import LOG as log
 class CoreConfig(component.Component):
     def __init__(self):
         log.debug("CoreConfig init..")
-        component.Component.__init__(self, "CoreConfig", ["Signals"])
+        component.Component.__init__(self, "CoreConfig")
         self.config = {}
         client.register_event_handler("ConfigValueChangedEvent", self.on_configvaluechanged_event)
 

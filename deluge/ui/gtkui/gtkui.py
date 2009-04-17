@@ -54,7 +54,6 @@ from ipcinterface import IPCInterface
 
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
-from coreconfig import CoreConfig
 import deluge.configmanager
 import deluge.common
 
@@ -178,8 +177,6 @@ class GtkUI:
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
-
-        self.coreconfig = CoreConfig()
 
         # Initalize the plugins
         self.plugins = PluginManager()
