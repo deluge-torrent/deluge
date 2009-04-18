@@ -35,7 +35,7 @@ class CoreConfig(component.Component):
         client.register_event_handler("ConfigValueChangedEvent", self.on_configvaluechanged_event)
 
     def start(self):
-        client.core.get_config().addCallback(self._on_get_config)
+        self.start_defer = client.core.get_config().addCallback(self._on_get_config)
 
     def stop(self):
         self.config = {}
