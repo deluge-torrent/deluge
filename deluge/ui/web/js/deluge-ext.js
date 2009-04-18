@@ -44,7 +44,7 @@ Deluge.ProgressBar = Ext.extend(Ext.ProgressBar, {
 		return this;
 	}
 });
-Ext.reg('deluge-progress', Deluge.ProgressBar);
+Ext.reg('deluge-progressbar', Deluge.ProgressBar);
 
 Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
     lines:false,
