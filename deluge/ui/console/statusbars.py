@@ -39,12 +39,14 @@ class StatusBars(component.Component):
         self.upload = ""
         self.dht = 0
 
+        # This lets us know when the CoreConfig component is ready
+        self.__core_config_ready = False
+
     def start(self):
         def on_coreconfig_ready(result):
             self.__core_config_ready = True
             self.update()
 
-        self.__core_config_ready = False
         # We need to add a callback to wait for the CoreConfig to be ready
         self.config.start_defer.addCallback(on_coreconfig_ready)
 
@@ -89,12 +91,12 @@ class StatusBars(component.Component):
         self.screen.bottombar += " D: %s/s" % self.download
 
         if self.config["max_download_speed"] > -1:
-            self.screen.bottombar += " (%s/s)" % deluge.common.fsize(self.config["max_download_speed"])
+            self.screen.bottombar += " (%s/s)" % self.config["max_download_speed"]
 
         self.screen.bottombar += " U: %s/s" % self.upload
 
         if self.config["max_upload_speed"] > -1:
-            self.screen.bottombar += " (%s/s)" % deluge.common.fsize(self.config["max_upload_speed"])
+            self.screen.bottombar += " (%s/s)" % self.config["max_upload_speed"]
 
         if self.config["dht"]:
             self.screen.bottombar += " DHT: %s" % self.dht

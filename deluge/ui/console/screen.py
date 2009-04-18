@@ -167,6 +167,9 @@ class Screen(CursesStdIO):
         for index, line in enumerate(lines):
             self.add_string(index + 1, line)
 
+        # Add the input string
+        self.add_string(self.rows - 1, self.input)
+
         # Move the cursor
         self.stdscr.move(self.rows - 1, self.input_cursor)
         self.stdscr.refresh()
@@ -252,7 +255,6 @@ class Screen(CursesStdIO):
                 self.input_cursor += 1
 
         # Update the input string on the screen
-        #self.stdscr.addstr(self.rows - 1, 0, self.input + " " * (self.cols - len(self.input) - 2), curses.color_pair(1))
         self.add_string(self.rows - 1, self.input)
         self.stdscr.move(self.rows - 1, self.input_cursor)
         self.stdscr.refresh()
