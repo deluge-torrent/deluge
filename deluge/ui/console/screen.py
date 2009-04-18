@@ -44,16 +44,21 @@ LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
 class Screen(CursesStdIO):
-    def __init__(self, stdscr, command_parser):
+    def __init__(self, stdscr, command_parser, tab_completer=None):
         """
         A curses screen designed to run as a reader in a twisted reactor.
 
         :param command_parser: a function that will be passed a string when the
             user hits enter
+        :param tab_completer: a function that is sent the `:prop:input` string when
+            the user hits tab.  It's intended purpose is to modify the input string.
+            It should return a 2-tuple (input string, input cursor).
+
         """
         log.debug("Screen init!")
         # Function to be called with commands
         self.command_parser = command_parser
+        self.tab_completer = tab_completer
         self.stdscr = stdscr
         # Make the input calls non-blocking
         self.stdscr.nodelay(1)
@@ -67,6 +72,9 @@ class Screen(CursesStdIO):
         self.input_history = []
         self.input_history_index = 0
 
+        # Keep track of double-tabs
+        self.tab_count = 0
+
         # Strings for the 2 status bars
         self.topbar = ""
         self.bottombar = ""
@@ -78,13 +86,7 @@ class Screen(CursesStdIO):
         # The offset to display lines
         self.display_lines_offset = 0
 
-        # Create some color pairs, should probably be moved to colors.py
-        # Regular text
-        #curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        # Status bar
-        #curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
-
-
+        # Refresh the screen to display everything right away
         self.refresh()
 
     def connectionLost(self, reason):
@@ -117,7 +119,7 @@ class Screen(CursesStdIO):
         self.lines.extend(text.splitlines())
         while len(self.lines) > LINES_BUFFER_SIZE:
             # Remove the oldest line if the max buffer size has been reached
-            self.lines.remove(0)
+            del self.lines[0]
 
         self.refresh()
 
@@ -197,13 +199,29 @@ class Screen(CursesStdIO):
                 if len(self.input_history) == INPUT_HISTORY_SIZE:
                     # Remove the oldest input history if the max history size
                     # is reached.
-                    self.input_history.remove(0)
+                    del self.input_history[0]
                 self.input_history.append(self.input)
                 self.input_history_index = len(self.input_history)
                 self.input = ""
                 self.input_incomplete = ""
                 self.input_cursor = 0
                 self.stdscr.refresh()
+
+        # Run the tab completer function
+        elif c == 9:
+            # Keep track of tab hit count to know when it's double-hit
+            self.tab_count += 1
+            if self.tab_count > 1:
+                second_hit = True
+                self.tab_count = 0
+            else:
+                second_hit = False
+
+            if self.tab_completer:
+                # We only call the tab completer function if we're at the end of
+                # the input string on the cursor is on a space
+                if self.input_cursor == len(self.input) or self.input[self.input_cursor] == " ":
+                    self.input, self.input_cursor = self.tab_completer(self.input, self.input_cursor, second_hit)
 
         # We use the UP and DOWN keys to cycle through input history
         elif c == curses.KEY_UP:
@@ -253,6 +271,10 @@ class Screen(CursesStdIO):
                     self.input = self.input[:self.input_cursor] + chr(c) + self.input[self.input_cursor:]
                 # Move the cursor forward
                 self.input_cursor += 1
+
+        # We remove the tab count if the key wasn't a tab
+        if c != 9:
+            self.tab_count = 0
 
         # Update the input string on the screen
         self.add_string(self.rows - 1, self.input)

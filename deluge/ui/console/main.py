@@ -161,7 +161,7 @@ class ConsoleUI(component.Component):
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
-        self.screen = screen.Screen(stdscr, self.do_command)
+        self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer)
         self.statusbars = StatusBars()
 
         self.screen.topbar = "{{status}}Deluge " + deluge.common.get_version() + " Console"
@@ -176,7 +176,19 @@ class ConsoleUI(component.Component):
         reactor.run()
 
     def start(self):
-        pass
+        # Maintain a list of (torrent_id, name) for use in tab completion
+        self.torrents = []
+        def on_session_state(result):
+            def on_torrents_status(torrents):
+                for torrent_id, status in torrents.items():
+                    self.torrents.append((torrent_id, status["name"]))
+
+            client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
+        client.core.get_session_state().addCallback(on_session_state)
+
+        # Register some event handlers to keep the torrent list up-to-date
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
+        client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed_event)
 
     def update(self):
         pass
@@ -227,3 +239,87 @@ class ConsoleUI(component.Component):
                 raise
             except Exception, e:
                 self.write("{{error}}" + str(e))
+
+    def tab_completer(self, line, cursor, second_hit):
+        """
+        Called when the user hits 'tab' and will autocomplete or show options.
+
+        :param line: str, the current input string
+        :param cursor: int, the cursor position in the line
+        :param second_hit: bool, if this is the second time in a row the tab key
+            has been pressed
+
+        :returns: 2-tuple (string, cursor position)
+
+        """
+        # First check to see if there is no space, this will mean that it's a
+        # command that needs to be completed.
+        if " " not in line:
+            if len(line) == 0:
+                # We only print these out if it's a second_hit
+                if second_hit:
+                    # There is nothing in line so just print out all possible commands
+                    # and return.
+                    self.write(" ")
+                    for cmd in self._commands:
+                        self.write(cmd)
+                return ("", 0)
+            # Iterate through the commands looking for ones that startwith the
+            # line.
+            possible_matches = []
+            for cmd in self._commands:
+                if cmd.startswith(line):
+                    possible_matches.append(cmd)
+
+            line_prefix = ""
+
+        else:
+            # This isn't a command so treat it as a torrent_id or torrent name
+            name = line.split(" ")[-1]
+            if len(name) == 0:
+                # There is nothing in the string, so just display all possible options
+                if second_hit:
+                    self.write(" ")
+                    # Display all torrent_ids and torrent names
+                    for torrent_id, name in self.torrents:
+                        self.write(torrent_id)
+                        self.write(name)
+                return (line, cursor)
+
+            # Find all possible matches
+            possible_matches = []
+            for torrent_id, torrent_name in self.torrents:
+                if torrent_id.startswith(name):
+                    possible_matches.append(torrent_id)
+                elif torrent_name.startswith(name):
+                    possible_matches.append(torrent_name)
+
+            # Set the line prefix that should be prepended to any input line match
+            line_prefix = " ".join(line.split(" ")[:-1]) + " "
+
+        # No matches, so just return what we got passed
+        if len(possible_matches) == 0:
+            return (line, cursor)
+        # If we only have 1 possible match, then just modify the line and
+        # return it, else we need to print out the matches without modifying
+        # the line.
+        elif len(possible_matches) == 1:
+            new_line = line_prefix + possible_matches[0] + " "
+            return (new_line, len(new_line))
+        else:
+            if second_hit:
+                # Only print these out if it's a second_hit
+                self.write(" ")
+                for cmd in possible_matches:
+                    self.write(cmd)
+            return (line, cursor)
+
+    def on_torrent_added_event(self, torrent_id):
+        def on_torrent_status(status):
+            self.torrents.append(torrent_id, status["name"])
+        client.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
+
+    def on_torrent_removed_event(self, torrent_id):
+        for index, (tid, name) in enumerate(self.torrents):
+            if torrent_id == tid:
+                del self.torrents[index]
