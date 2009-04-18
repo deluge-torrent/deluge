@@ -59,7 +59,7 @@ class UI:
             elif selected_ui == "console":
                 log.info("Starting ConsoleUI..")
                 from deluge.ui.console.main import ConsoleUI
-                ui = ConsoleUI(ui_args).run()
+                ui = ConsoleUI(ui_args)
         except ImportError, e:
             import sys
             import traceback
