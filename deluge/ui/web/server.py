@@ -216,6 +216,41 @@ class LookupResource(resource.Resource, component.Component):
 class TopLevel(resource.Resource):
     addSlash = True
     
+    __stylesheets = [
+        "/css/ext-all.css",
+        "/css/xtheme-slate.css",
+        "/css/Spinner.css",
+        "/css/deluge.css"
+    ]
+    
+    __scripts = [
+        "/js/mootools-1.2.1-core-yc.js",
+        "/js/ext-mootools-adapter.js",
+        "/js/ext-all.js",
+        "/js/ext-extensions.js",
+        "/gettext.js",
+        "/js/deluge-yc.js"
+    ]
+    
+    __debug_scripts = [
+        "/js/mootools-1.2.1-core-yc.js",
+        "/js/ext-mootools-adapter.js",
+        "/js/ext-all-debug.js",
+        "/js/ext-extensions-debug.js",
+        "/gettext.js",
+        "/js/rpc.js",
+        "/js/deluge.js",
+        "/js/deluge-login.js",
+        "/js/deluge-menus.js",
+        "/js/deluge-bars.js",
+        "/js/deluge-connections.js",
+        "/js/deluge-torrents.js",
+        "/js/deluge-details.js",
+        "/js/deluge-add.js",
+        "/js/deluge-preferences.js",
+        "/js/deluge-ui.js"
+    ]
+    
     def __init__(self):
         resource.Resource.__init__(self)
         self.putChild("css", LookupResource("Css", rpath("css")))
@@ -229,37 +264,14 @@ class TopLevel(resource.Resource):
         self.putChild("render", Render())
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
-        
-        self.__stylesheets = [
-            "/css/ext-all.css",
-            "/css/xtheme-slate.css",
-            "/css/Spinner.css",
-            "/css/deluge.css"
-        ]
-        self.__scripts = [
-            "/js/mootools-1.2.1-core-yc.js",
-            "/js/ext-mootools-adapter.js",
-            "/js/ext-all.js",
-            "/js/Spinner.js",
-            "/js/SpinnerStrategy.js",
-            "/js/rpc.js",
-            "/gettext.js",
-            "/js/deluge.js",
-            "/js/deluge-ext.js",
-            "/js/deluge-login.js",
-            "/js/deluge-menus.js",
-            "/js/deluge-bars.js",
-            "/js/deluge-connections.js",
-            "/js/deluge-torrents.js",
-            "/js/deluge-details.js",
-            "/js/deluge-add.js",
-            "/js/deluge-preferences.js",
-            "/js/deluge-ui.js"
-        ]
-    
+
     @property
     def scripts(self):
         return self.__scripts
+    
+    @property
+    def debug_scripts(self):
+        return self.__debug_scripts
     
     @property
     def stylesheets(self):
@@ -272,10 +284,11 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-        scripts = self.scripts[:]
         if request.args.get('debug', ['false'])[-1] == 'true':
-            i = scripts.index("/js/ext-all.js")
-            scripts[i] = "/js/ext-all-debug.js"
+            scripts = self.debug_scripts[:]
+        else:
+            scripts = self.scripts[:]
+            
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
         return template.render(scripts=scripts, stylesheets=self.stylesheets)
