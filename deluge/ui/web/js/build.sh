@@ -1,4 +1,4 @@
-DELUGE_FILES="rpc.js deluge.js deluge-ext.js deluge-login.js deluge-menus.js deluge-bars.js deluge-connections.js deluge-torrents.js deluge-details.js deluge-add.js deluge-preferences.js deluge-ui.js"
+DELUGE_FILES="rpc.js deluge.js deluge-login.js deluge-menus.js deluge-bars.js deluge-connections.js deluge-torrents.js deluge-details.js deluge-add.js deluge-preferences.js deluge-ui.js"
 ALL_FILES="ext-extensions-debug.js $DELUGE_FILES"
 
 scan() {
