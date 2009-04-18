@@ -156,7 +156,7 @@ class TrackerIcons(object):
             threading.Thread(target=self. _fetch_icon_thread,
                 args=(tracker_host, callback)).start()
 
-    def  get(self, tracker_host):
+    def get(self, tracker_host):
         """
         returns None if the icon is not fetched(yet) or not fond.
         """

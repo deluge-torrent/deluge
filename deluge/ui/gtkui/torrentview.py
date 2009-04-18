@@ -37,6 +37,7 @@ import deluge.component as component
 from deluge.ui.client import client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
+from deluge.ui.tracker_icons import TrackerIcons
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
@@ -72,6 +73,17 @@ def cell_data_statusicon(column, cell, model, row, data):
             cell.set_property("pixbuf", icon)
     except KeyError:
         pass
+
+def cell_data_trackericon(column, cell, model, row, data):
+    icon_path = TrackerIcons().get(model[row][data])
+    if icon_path:
+        try:
+            icon = gtk.gdk.pixbuf_new_from_file(icon_path)
+        except Exception, e:
+            pass
+        if cell.get_property("pixbuf") != icon:
+            cell.set_property("pixbuf", icon)
+
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
@@ -176,7 +188,8 @@ class TorrentView(listview.ListView, component.Component):
                                             listview.cell_data_date,
                                             [float],
                                             status_field=["time_added"])
-        self.add_text_column(_("Tracker"), status_field=["tracker_host"])
+        self.add_texticon_column(_("Tracker"), status_field=["tracker_host", "tracker_host"],
+                                    function=cell_data_trackericon)
 
         # Set filter to None for now
         self.filter = None
