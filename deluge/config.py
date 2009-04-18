@@ -71,7 +71,6 @@ class Config(object):
     """
     def __init__(self, filename, defaults=None, config_dir=None):
         self.__config = {}
-        self.__previous_config = {}
         self.__set_functions = {}
         self.__change_callback = None
         # This will get set with a gobject.timeout_add whenever a config option
@@ -135,8 +134,6 @@ class Config(object):
 
         log.debug("Setting '%s' to %s of %s", key, value, type(value))
 
-        # Make a copy of the current config prior to changing it
-        self.__previous_config.update(self.__config)
         self.__config[key] = value
         # Run the set_function for this key if any
         try:
