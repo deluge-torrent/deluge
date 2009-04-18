@@ -231,7 +231,7 @@ class DelugeRPCProtocol(Protocol):
                     self.transport.loseConnection()
             finally:
                 return
-        elif method == "daemon.set_event_interest":
+        elif method == "daemon.set_event_interest" and self.transport.sessionno in self.factory.authorized_sessions:
             # This special case is to allow clients to set which events they are
             # interested in receiving.
             # We are expecting a sequence from the client.
@@ -246,7 +246,7 @@ class DelugeRPCProtocol(Protocol):
             finally:
                 return
 
-        if method in self.factory.methods:
+        if method in self.factory.methods and self.transport.sessionno in self.factory.authorized_sessions:
             try:
                 method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
                 auth_level = self.factory.authorized_sessions[self.transport.sessionno]
