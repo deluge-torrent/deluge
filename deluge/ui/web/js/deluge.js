@@ -120,15 +120,19 @@ Deluge.Formatters = {
 	}
 }
 
+// _('Do Not Download')
+// _('Normal Priority')
+// _('High Priority')
+// _('Highest Priority')
 FILE_PRIORITY = {
-    0: _('Do Not Download'),
-    1: _('Normal Priority'),
-    2: _('High Priority'),
-    5: _('Highest Priority'),
-    _('Do Not Download'): 0,
-    _('Normal Priority'): 1,
-    _('High Priority'): 2,
-    _('Highest Priority'): 5
+    0: 'Do Not Download',
+    1: 'Normal Priority',
+    2: 'High Priority',
+    5: 'Highest Priority',
+    'Do Not Download': 0,
+    'Normal Priority': 1,
+    'High Priority': 2,
+    'Highest Priority': 5
 }
 
 FILE_PRIORITY_CSS = {
