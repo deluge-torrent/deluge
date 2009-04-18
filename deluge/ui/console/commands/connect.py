@@ -23,14 +23,19 @@
 # 	Boston, MA    02110-1301, USA.
 #
 from deluge.ui.console.main import BaseCommand
-from deluge.ui.console.colors import templates, default_style as style
-from deluge.ui.client import aclient as client
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
 
 class Command(BaseCommand):
     """Connect to a new deluge server."""
-    def handle(self, host='localhost', port='58846', **options):
+    def handle(self, host='localhost', port='58846', username="", password="", **options):
         port = int(port)
-        if host[:7] != "http://":
-            host = "http://" + host
-        client.set_core_uri("%s:%d" % (host, port))
-        print templates.SUCCESS('connected to %s:%d' % (host, port))
+        d = client.connect(host, port, username, password)
+        def on_connect(result):
+            print templates.SUCCESS('Connected to %s:%d!' % (host, port))
+
+        def on_connect_fail(result):
+            print templates.ERROR("Failed to connect to %s:%d!" % (host, port))
+
+        d.addCallback(on_connect)
+        d.addErrback(on_connect_fail)

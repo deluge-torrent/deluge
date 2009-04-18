@@ -22,7 +22,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.client import aclient as client
+from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
 
 class Command(BaseCommand):
@@ -31,4 +31,3 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print "Thanks!"
         raise StopIteration
-

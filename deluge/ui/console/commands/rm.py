@@ -24,8 +24,8 @@
 #
 from deluge.ui.console.main import BaseCommand, match_torrents
 from deluge.ui.console import mapping
-from deluge.ui.console.colors import templates
-from deluge.ui.client import aclient as client
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
 from optparse import make_option
 import os
 

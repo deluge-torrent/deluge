@@ -24,8 +24,8 @@
 #
 from deluge.ui.console.main import BaseCommand, match_torrents
 from deluge.ui.console import mapping
-from deluge.ui.client import aclient as client
-from deluge.ui.console.colors import templates, default_style as style
+from deluge.ui.client import client
+import deluge.ui.console.colors as colors
 
 class Command(BaseCommand):
     """Resume a torrent"""
@@ -49,4 +49,3 @@ class Command(BaseCommand):
         torrents = match_torrents()
         names = mapping.get_names(torrents)
         return [ x[1] for x in names if x[1].startswith(text) ]
-

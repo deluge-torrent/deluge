@@ -23,8 +23,8 @@
 # 	Boston, MA    02110-1301, USA.
 #
 from deluge.ui.console.main import BaseCommand
-from deluge.ui.client import aclient as client
-from deluge.ui.console.colors import templates, default_style as style
+from deluge.ui.client import client
+import deluge.ui.console.colors as colors
 import logging
 
 class Command(BaseCommand):

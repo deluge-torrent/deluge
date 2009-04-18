@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # add.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -24,10 +24,11 @@
 #
 from deluge.ui.console.main import BaseCommand, match_torrents
 from deluge.ui.console import mapping
-from deluge.ui.console.colors import templates
-from deluge.ui.client import aclient as client
+import deluge.ui.console.colors as colors
+from deluge.ui.client import client
 from optparse import make_option
 import os
+import base64
 
 class Command(BaseCommand):
     """Add a torrent"""
@@ -39,19 +40,18 @@ class Command(BaseCommand):
     usage = "Usage: add [-p <save-location>] <torrent-file> [<torrent-file> ...]"
 
     def handle(self, *args, **options):
-        if options['path'] is None:
-            def _got_config(configs):
-                global save_path
-                save_path = configs['download_location']
-            client.get_config(_got_config)
-            client.force_call()
-            options['path'] = save_path
-        else:
-            client.set_config({'download_location': options['path']})
-        if not options['path']:
-            print templates.ERROR("There's no save-path specified. You must specify a path to save the downloaded files.")
-            return
-        try:
-            client.add_torrent_file(args)
-        except Exception, msg:
-            print templates.ERROR("Error: %s" % str(msg))
+        t_options = {}
+        if options["path"]:
+            t_options["download_location"] = options["path"]
+
+        for arg in args:
+            self.write("{{info}}Attempting to add torrent: %s" % arg)
+            filename = os.path.split(arg)[-1]
+            filedump = base64.encodestring(open(arg).read())
+
+            def on_success(result):
+                self.write("{{success}}Torrent added!")
+            def on_fail(result):
+                self.write("{{error}}Torrent was not added! %s" % result)
+
+            client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)

@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # main.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,16 +22,23 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-import logging
-logging.disable(logging.ERROR)
+
 import os, sys
 import optparse
 from deluge.ui.console import UI_PATH
-from deluge.ui.console.colors import Template, make_style, templates, default_style as style
-from deluge.ui.client import aclient as client
-from deluge.ui.common import get_localhost_auth_uri
-import shlex
+#from deluge.ui.console.colors import Template, make_style, templates, default_style as style
+import deluge.component as component
+from deluge.ui.client import client
+import deluge.common
+from deluge.ui.coreconfig import CoreConfig
+from deluge.ui.console.statusbars import StatusBars
 
+from twisted.internet import defer, reactor
+import shlex
+import screen
+import colors
+
+from deluge.log import LOG as log
 
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
@@ -48,7 +55,6 @@ class OptionParser(optparse.OptionParser):
            should either exit or raise an exception.
         """
         raise
-
 
 class BaseCommand(object):
 
@@ -79,24 +85,24 @@ class BaseCommand(object):
                             epilog = self.epilog,
                             option_list = self.option_list)
 
-def match_torrents(array=None):
-    global torrents
-    if array is None:
-        array = list()
-    torrents = []
+
+def match_torrents(array=[]):
+    # Make sure we don't have any duplicates
     array = set(array)
+    # We return this defer and it will be fired once we received the session
+    # state and intersect the data.
+    d = defer.Deferred()
+
     def _got_session_state(tors):
         if not array:
-            torrents.extend(tors)
-            return
-        tors = set(tors)
-        torrents.extend(list(tors.intersection(array)))
-        return
-    client.get_session_state(_got_session_state)
-    client.force_call()
-    return torrents
+            d.callback(tors)
+        d.callback(list(tors.intersection(array)))
 
-def load_commands(command_dir, exclude=[]):
+    client.core.get_session_state().addCallback(_got_session_state)
+
+    return d
+
+def load_commands(command_dir, write_func, exclude=[]):
     def get_command(name):
         return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
 
@@ -106,6 +112,8 @@ def load_commands(command_dir, exclude=[]):
             if filename.split('.')[0] in exclude or filename.startswith('_') or not filename.endswith('.py'):
                 continue
             cmd = get_command(filename[:-3])
+            # Hack to give the commands a write function
+            cmd.write = write_func
             aliases = [ filename[:-3] ]
             aliases.extend(cmd.aliases)
             for a in aliases:
@@ -114,80 +122,103 @@ def load_commands(command_dir, exclude=[]):
     except OSError, e:
         return {}
 
-class ConsoleUI(object):
-    prompt = '>>> '
-
+class ConsoleUI(component.Component):
     def __init__(self, args=None):
-        client.set_core_uri(get_localhost_auth_uri("http://localhost:58846"))
-        self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
+        component.Component.__init__(self, "ConsoleUI", 2)
+        # Load all the commands
+        self._commands = load_commands(os.path.join(UI_PATH, 'commands'), self.write)
+
+        # Try to connect to the localhost daemon
+        def on_connect(result):
+            component.start()
+        client.connect().addCallback(on_connect)
+
+        # Set the interactive flag to indicate where we should print the output
+        self.interactive = True
         if args:
-            self.precmd()
+            self.interactive = False
+            # If we have args, lets process them and quit
             #allow multiple commands split by ";"
             for arg in args.split(";"):
-                self.onecmd(arg)
-                self.postcmd()
+                self.do_command(arg)
             sys.exit(0)
 
-    def completedefault(self, *ignored):
-        """Method called to complete an input line when no command-specific
-        method is available.
+        self.coreconfig = CoreConfig()
 
-        By default, it returns an empty list.
+        # We use the curses.wrapper function to prevent the console from getting
+        # messed up if an uncaught exception is experienced.
+        import curses.wrapper
+        curses.wrapper(self.run)
+
+    def run(self, stdscr):
+        """
+        This method is called by the curses.wrapper to start the mainloop and
+        screen.
+
+        :param stdscr: curses screen passed in from curses.wrapper
 
         """
-        return []
+        # We want to do an interactive session, so start up the curses screen and
+        # pass it the function that handles commands
+        colors.init_colors()
+        self.screen = screen.Screen(stdscr, self.do_command)
+        self.statusbars = StatusBars()
 
-    def completenames(self, text, *ignored):
-        return [n for n in self._commands.keys() if n.startswith(text)]
+        self.screen.topbar = "{{status}}Deluge " + deluge.common.get_version() + " Console"
+        self.screen.bottombar = "{{status}}"
+        self.screen.refresh()
 
-    def complete(self, text, state):
-        """Return the next possible completion for 'text'.
-        If a command has not been entered, then complete against command list.
-        Otherwise try to call complete_<command> to get list of completions.
+        # The Screen object is designed to run as a twisted reader so that it
+        # can use twisted's select poll for non-blocking user input.
+        reactor.addReader(self.screen)
+
+        # Start the twisted mainloop
+        reactor.run()
+
+    def start(self):
+        pass
+
+    def update(self):
+        pass
+
+    def write(self, line):
         """
-        if state == 0:
-            import readline
-            origline = readline.get_line_buffer()
-            line = origline.lstrip()
-            stripped = len(origline) - len(line)
-            begidx = readline.get_begidx() - stripped
-            endidx = readline.get_endidx() - stripped
-            if begidx>0:
-                cmd = line.split()[0]
-                if cmd == '':
-                    compfunc = self.completedefault
-                else:
-                    try:
-                        compfunc = getattr(self._commands[cmd], 'complete')
-                    except AttributeError:
-                        compfunc = self.completedefault
-            else:
-                compfunc = self.completenames
-            self.completion_matches = compfunc(text, line, begidx, endidx)
-        try:
-            return self.completion_matches[state]
-        except IndexError:
-            return None
+        Writes a line out depending on if we're in interactive mode or not.
 
-    def preloop(self):
-        pass
+        :param line: str, the line to print
 
-    def postloop(self):
-        pass
+        """
+        if self.interactive:
+            self.screen.add_line(line)
+        else:
+            print(line)
 
-    def precmd(self):
-        pass
+    def do_command(self, cmd):
+        """
+        Processes a command.
 
-    def onecmd(self, line):
-        if not line:
+        :param cmd: str, the command string
+
+        """
+        if not cmd:
             return
-        cmd, _, line = line.partition(' ')
+        cmd, _, line = cmd.partition(' ')
         try:
             parser = self._commands[cmd].create_parser()
         except KeyError:
-            print templates.ERROR('unknown command: %s' % cmd)
+            self.write("{{error}}Unknown command: %s" % cmd)
             return
         args = self._commands[cmd].split(line)
+
+        # Do a little hack here to print 'command --help' properly
+        parser._print_help = parser.print_help
+        def print_help(f=None):
+            if self.interactive:
+                self.write(parser.format_help())
+            else:
+                parser._print_help(f)
+        parser.print_help = print_help
+
         options, args = parser.parse_args(args)
         if not getattr(options, '_exit', False):
             try:
@@ -195,41 +226,4 @@ class ConsoleUI(object):
             except StopIteration, e:
                 raise
             except Exception, e:
-                print templates.ERROR(str(e))
-
-    def postcmd(self):
-        client.force_call()
-
-    def cmdloop(self):
-        self.preloop()
-        try:
-            import readline
-            self.old_completer = readline.get_completer()
-            readline.set_completer(self.complete)
-            readline.parse_and_bind("tab: complete")
-        except ImportError:
-            pass
-
-        while True:
-            try:
-                line = raw_input(templates.prompt(self.prompt)).strip()
-            except EOFError:
-                break
-            except Exception, e:
-                print e
-                continue
-            try:
-                self.precmd()
-                self.onecmd(line)
-                self.postcmd()
-            except StopIteration:
-                break
-        self.postloop()
-        print
-    run = cmdloop
-
-if __name__ == '__main__':
-    ui = ConsoleUI()
-    ui.precmd()
-    ui.onecmd(' '.join(sys.argv[1:]))
-    ui.postcmd()
+                self.write("{{error}}" + str(e))

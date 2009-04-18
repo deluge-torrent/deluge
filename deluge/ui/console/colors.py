@@ -1,8 +1,7 @@
-#!/usr/bin/env python
 #
 # colors.py
 #
-# Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,87 +21,108 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-import re, sys
 
-def color(string, fg=None, attrs=[], bg=None, keep_open=False, input=False):
-    if isinstance(attrs, basestring):
-        attrs = [attrs]
-    attrs = map(str.lower, attrs)
-    ansi_reset = "\x1b[0m"
-    if input:
-        ansi_reset = '\001'+ansi_reset+'\002'
-    if len(attrs) == 1 and 'reset' in attrs:
-        return ansi_reset
-    colors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
-    attributes = ['reset', 'bright', 'dim', None, 'underscore', 'blink', 'reverse', 'hidden']
-    _fg = 30 + colors.index(fg.lower()) if fg and fg.lower() in colors else None
-    _bg = 40 + colors.index(bg.lower()) if bg and bg.lower() in colors else None
-    _attrs = [ str(attributes.index(a)) for a in attrs if a in attributes]
-    color_vals = map(str, filter(lambda x: x is not None, [_fg, _bg]))
-    color_vals.extend(_attrs)
-    reset_cmd = ansi_reset if not keep_open else ''
-    color_code = '\x1b['+';'.join(color_vals)+'m'
-    if input:
-        color_code = '\001'+color_code+'\002'
-    return color_code+string+reset_cmd
+import curses
 
-def make_style(*args, **kwargs):
-    return lambda text: color(text, *args, **kwargs)
+colors = [
+    'COLOR_BLACK',
+    'COLOR_BLUE',
+    'COLOR_CYAN',
+    'COLOR_GREEN',
+    'COLOR_MAGENTA',
+    'COLOR_RED',
+    'COLOR_WHITE',
+    'COLOR_YELLOW'
+]
 
-default_style = {
-    'black' : make_style(fg='black'),
-    'red' : make_style(fg='red'),
-    'green' : make_style(fg='green'),
-    'yellow' : make_style(fg='yellow'),
-    'blue' : make_style(fg='blue'),
-    'magenta' : make_style(fg='magenta'),
-    'cyan' : make_style(fg='cyan'),
-    'white' : make_style(fg='white'),
-
-    'bold_black' : make_style(fg='black', attrs='bright'),
-    'bold_red' : make_style(fg='red', attrs='bright'),
-    'bold_green' : make_style(fg='green', attrs='bright'),
-    'bold_yellow' : make_style(fg='yellow', attrs='bright'),
-    'bold_blue' : make_style(fg='blue', attrs='bright'),
-    'bold_magenta' : make_style(fg='magenta', attrs='bright'),
-    'bold_cyan' : make_style(fg='cyan', attrs='bright'),
-    'bold_white' : make_style(fg='white', attrs='bright'),
+# {(fg, bg): pair_number, ...}
+color_pairs = {
+    ("white", "black"): 0 # Special case, can't be changed
 }
 
-class Template(str):
-    regex = re.compile(r'{{\s*(?P<style>.*?)\((?P<arg>.*?)\)\s*}}')
-    style = default_style
-    def __new__(self, text):
-        return str.__new__(self, Template.regex.sub(lambda mo: Template.style[mo.group('style')](mo.group('arg')), text))
+# Some default color schemes
+schemes = {
+    "input": ("white", "black"),
+    "status": ("yellow", "blue", "bold"),
+    "info": ("white", "black", "bold"),
+    "error": ("red", "black", "bold"),
+    "success": ("green", "black", "bold")
+}
 
-    def __call__(self, *args, **kwargs):
-        if kwargs:
-            return str(self) % kwargs
-        else:
-            return str(self) % args
 
-class InputTemplate(Template):
-    """This class is similar to Template, but the escapes are wrapped in \001
-       and \002 so that readline can properly know the length of each line and
-       can wrap lines accordingly.  Use this class for any colored text which
-       needs to be used in input prompts, such as in calls to raw_input()."""
-    input_codes = re.compile('(\x1b\[.*?m)')
-    def __new__(self, text):
-        regular_string = InputTemplate.regex.sub(lambda mo: InputTemplate.style[mo.group('style')](mo.group('arg')) , text)
-        return str.__new__(self, InputTemplate.input_codes.sub(r'\001\1\002', regular_string))
+def init_colors():
+    # Create the color_pairs dict
+    counter = 1
+    for fg in colors:
+        for bg in colors:
+            if fg == "COLOR_WHITE" and bg == "COLOR_BLACK":
+                continue
+            color_pairs[(fg[6:].lower(), bg[6:].lower())] = counter
+            curses.init_pair(counter, getattr(curses, fg), getattr(curses, bg))
+            counter += 1
 
-class struct(object):
+class BadColorString(Exception):
     pass
 
-templates = struct()
-templates.prompt = InputTemplate('{{bold_white(%s)}}')
-templates.ERROR = Template('{{bold_red( * %s)}}')
-templates.SUCCESS = Template('{{bold_green( * %s)}}')
-templates.help = Template(' * {{bold_blue(%-*s)}} %s')
-templates.info_general = Template('{{bold_blue(*** %s:)}} %s')
-templates.info_transfers = Template('{{bold_green(*** %s:)}} %s')
-templates.info_network = Template('{{bold_white(*** %s:)}} %s')
-templates.info_files_header = Template('{{bold_cyan(*** %s:)}}')
-templates.info_peers_header = Template('{{bold_magenta(*** %s:)}}')
-templates.info_peers = Template('\t * {{bold_blue(%-22s)}} {{bold_green(%-25s)}} {{bold_cyan(Up: %-12s)}} {{bold_magenta(Down: %-12s)}}')
-templates.config_display = Template(' * {{bold_blue(%s)}}: %s')
+def parse_color_string(s):
+    """
+    Parses a string and returns a list of 2-tuples (color, string).
+
+    :param s:, string to parse
+
+    """
+    ret = []
+    # Keep track of where the strings
+    col_index = 0
+    while s.find("{{") != -1:
+        begin = s.find("{{")
+        end = s.find("}}")
+        if end == -1:
+            raise BadColorString("Missing closing '}}'")
+
+        # Get a list of attributes in the bracketed section
+        attrs = s[begin+2:end].split(",")
+
+        if len(attrs) == 1 and not attrs:
+            raise BadColorString("No description in {{ }}")
+
+        def apply_attrs(cp, a):
+            # This function applies any additional attributes as necessary
+            if len(a) > 2:
+                for attr in a[2:]:
+                    cp |= getattr(curses, "A_" + attr.upper())
+            return cp
+
+        # Check for a builtin type first
+        if attrs[0] in schemes:
+            # Get the color pair number
+            color_pair = curses.color_pair(color_pairs[(schemes[attrs[0]][0], schemes[attrs[0]][1])])
+            color_pair = apply_attrs(color_pair, schemes[attrs[0]])
+
+        else:
+            # This is a custom color scheme
+            fg = attrs[0]
+            if len(attrs) > 1:
+                bg = attrs[1]
+            else:
+                # Default to 'black' if no bg is chosen
+                bg = "black"
+
+            color_pair = curses.color_pair(color_pairs[(fg, bg)])
+            # Check for additional attributes and OR them to the color_pair
+            color_pair = apply_attrs(color_pair, attrs)
+
+        # We need to find the text now, so lets try to find another {{ and if
+        # there isn't one, then it's the rest of the string
+        next_begin = s.find("{{", end)
+        if next_begin == -1:
+            ret.append((color_pair, s[end+2:]))
+            break
+        else:
+            ret.append((color_pair, s[end+2:next_begin]))
+            s = s[next_begin:]
+
+    if not ret:
+        # There was no color scheme so we add it with a 0 for white on black
+        ret = [(0, s)]
+    return ret

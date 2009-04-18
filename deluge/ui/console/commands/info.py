@@ -25,8 +25,9 @@
 
 from deluge.ui.console.main import BaseCommand, match_torrents
 from deluge.ui.console import mapping
-from deluge.ui.console.colors import templates
-from deluge.ui.client import aclient as client
+import deluge.ui.console.colors as colors
+#from deluge.ui.console.colors import templates
+from deluge.ui.client import client
 import deluge.common as common
 from optparse import make_option
 
@@ -72,15 +73,18 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        args = mapping.to_ids(args)
-        self.torrents = match_torrents(args)
-        for tor in self.torrents:
-            self.show_info(tor, options.get('verbose'))
+        def on_to_ids(result):
+            def on_match_torrents(torrents):
+                for torrent in torrents:
+                    self.show_info(torrent, options.get("verbose"))
 
-    def complete(self, text, *args):
-        torrents = match_torrents()
-        names = mapping.get_names(torrents)
-        return [ x[1] for x in names if x[1].startswith(text) ]
+            match_torrents(result).addCallback(on_match_torrents)
+        mapping.to_ids(args).addCallback(on_to_ids)
+
+#    def complete(self, text, *args):
+#        torrents = match_torrents()
+#        names = mapping.get_names(torrents)
+#        return [ x[1] for x in names if x[1].startswith(text) ]
 
     def show_info(self, torrent, verbose):
         def _got_torrent_status(state):
@@ -124,4 +128,4 @@ class Command(BaseCommand):
                     print templates.info_peers(str(peer['ip']), unicode(client_str),
                                         str(common.fspeed(peer['up_speed'])), str(common.fspeed(peer['down_speed'])))
             print ""
-        client.get_torrent_status(_got_torrent_status, torrent, status_keys)
+        client.core.get_torrent_status(torrent, status_keys).addCallback(_got_torrent_status)
