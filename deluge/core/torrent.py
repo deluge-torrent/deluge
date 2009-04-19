@@ -362,7 +362,10 @@ class Torrent:
             return
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            self.state = "Checking"
+            if self.handle.is_paused():
+                self.state = "Paused"
+            else:
+                self.state = "Checking"
             return
         elif ltstate == LTSTATE["Downloading"] or ltstate == LTSTATE["Downloading Metadata"]:
             self.state = "Downloading"
