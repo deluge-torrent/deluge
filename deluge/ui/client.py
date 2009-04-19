@@ -321,10 +321,12 @@ class DaemonSSLProxy(DaemonProxy):
         if event not in self.__factory.event_handlers:
             # This is a new event to handle, so we need to tell the daemon
             # that we're interested in receiving this type of event
-            self.event_handlers[event] = []
+            self.__factory.event_handlers[event] = []
             self.call("daemon.set_event_interest", [event])
 
-        self.__factory.event_handlers[event].append(handler)
+        # Only add the handler if it's not already registered
+        if handler not in self.__factory.event_handlers[event]:
+            self.__factory.event_handlers[event].append(handler)
 
     def deregister_event_handler(self, event, handler):
         """
@@ -334,8 +336,8 @@ class DaemonSSLProxy(DaemonProxy):
         :param handler: function, the function registered
 
         """
-        if event in self.event_handlers and handler in self.event_handlers[event]:
-            self.event_handlers[event].remove(handler)
+        if event in self.__factory.event_handlers and handler in self.__factory.event_handlers[event]:
+            self.__factory.event_handlers[event].remove(handler)
 
     def __rpcError(self, error_data):
         """
