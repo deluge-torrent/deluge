@@ -649,8 +649,10 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
+        old_state = self.torrents[torrent_id].state
         self.torrents[torrent_id].update_state()
-        component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, "Paused"))
+        if self.torrents[torrent_id].state != old_state:
+            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, self.torrents[torrent_id].state))
 
         # Write the fastresume file
         self.torrents[torrent_id].save_resume_data()
@@ -746,7 +748,11 @@ class TorrentManager(component.Component):
         torrent_id = str(alert.handle.info_hash())
         torrent = self.torrents[torrent_id]
         torrent.is_finished = torrent.handle.is_seed()
+        old_state = torrent.state
         torrent.update_state()
+        if torrent.state != old_state:
+            # We need to emit a TorrentStateChangedEvent too
+            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
         component.get("EventManager").emit(TorrentResumedEvent(torrent_id))
 
     def on_alert_state_changed(self, alert):
@@ -757,8 +763,11 @@ class TorrentManager(component.Component):
             return
 
         if torrent_id in self.torrents:
+            old_state = self.torrents[torrent_id].state
             self.torrents[torrent_id].update_state()
-            component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, self.torrents[torrent_id].state))
+            # Only emit a state changed event if the state has actually changed
+            if self.torrents[torrent_id].state != old_state:
+                component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, self.torrents[torrent_id].state))
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
