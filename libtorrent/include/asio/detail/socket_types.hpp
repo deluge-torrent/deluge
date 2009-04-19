@@ -28,11 +28,15 @@
 # endif // defined(_WINSOCKAPI_) && !defined(_WINSOCK2API_)
 # if !defined(_WIN32_WINNT) && !defined(_WIN32_WINDOWS)
 #  if defined(_MSC_VER) || defined(__BORLANDC__)
-#   pragma message("Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately")
-#   pragma message("Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target)")
+#   pragma message( \
+  "Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:\n"\
+  "- add -D_WIN32_WINNT=0x0501 to the compiler command line; or\n"\
+  "- add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.\n"\
+  "Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).")
 #  else // defined(_MSC_VER) || defined(__BORLANDC__)
-#   warning Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately
-#   warning Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target)
+#   warning Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately.
+#   warning For example, add -D_WIN32_WINNT=0x0501 to the compiler command line.
+#   warning Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
 #  endif // defined(_MSC_VER) || defined(__BORLANDC__)
 #  define _WIN32_WINNT 0x0501
 # endif // !defined(_WIN32_WINNT) && !defined(_WIN32_WINDOWS)
@@ -187,7 +191,12 @@ const int shutdown_both = SHUT_RDWR;
 const int message_peek = MSG_PEEK;
 const int message_out_of_band = MSG_OOB;
 const int message_do_not_route = MSG_DONTROUTE;
+# if defined(IOV_MAX)
 const int max_iov_len = IOV_MAX;
+# else
+// POSIX platforms are not required to define IOV_MAX.
+const int max_iov_len = 16;
+# endif
 #endif
 const int custom_socket_option_level = 0xA5100000;
 const int enable_connection_aborted_option = 1;
