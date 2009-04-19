@@ -46,7 +46,8 @@ schemes = {
     "status": ("yellow", "blue", "bold"),
     "info": ("white", "black", "bold"),
     "error": ("red", "black", "bold"),
-    "success": ("green", "black", "bold")
+    "success": ("green", "black", "bold"),
+    "event": ("magenta", "black", "bold")
 }
 
 

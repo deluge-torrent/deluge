@@ -26,12 +26,12 @@
 import os, sys
 import optparse
 from deluge.ui.console import UI_PATH
-#from deluge.ui.console.colors import Template, make_style, templates, default_style as style
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.console.statusbars import StatusBars
+from deluge.ui.console.eventlog import EventLog
 
 from twisted.internet import defer, reactor
 import shlex
@@ -163,6 +163,7 @@ class ConsoleUI(component.Component):
         colors.init_colors()
         self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer)
         self.statusbars = StatusBars()
+        self.eventlog = EventLog()
 
         self.screen.topbar = "{{status}}Deluge " + deluge.common.get_version() + " Console"
         self.screen.bottombar = "{{status}}"
@@ -313,6 +314,21 @@ class ConsoleUI(component.Component):
                 for cmd in possible_matches:
                     self.write(cmd)
             return (line, cursor)
+
+    def get_torrent_name(self, torrent_id):
+        """
+        Gets a torrent name from the torrents list.
+
+        :param torrent_id: str, the torrent_id
+
+        :returns: the name of the torrent or None
+        """
+
+        for tid, name in self.torrents:
+            if torrent_id == tid:
+                return name
+
+        return None
 
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
