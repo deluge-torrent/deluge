@@ -116,7 +116,74 @@ class Screen(CursesStdIO):
         """
         log.debug("adding line: %s", text)
 
-        self.lines.extend(text.splitlines())
+        def get_line_length(line):
+            """
+            Returns the string length without the color formatting.
+
+            """
+            while line.find("{{") != -1:
+                line = line[:line.find("{{")] + line[line.find("}}") + 2:]
+
+            return len(line)
+
+        def get_line_chunks(line):
+            """
+            Returns a list of 2-tuples (color string, text)
+
+            """
+            chunks = []
+            num_chunks = line.count("{{")
+            for i in range(num_chunks):
+                # Find the beginning and end of the color tag
+                beg = line.find("{{")
+                end = line.find("}}") + 2
+                color = line[beg:end]
+                line = line[end:]
+
+                # Check to see if this is the last chunk
+                if i + 1 == num_chunks:
+                    text = line
+                else:
+                    # Not the last chunk so get the text up to the next tag
+                    # and remove the text from line
+                    text = line[:line.find("{{")]
+                    line = line[line.find("{{"):]
+
+                chunks.append((color, text))
+
+            return chunks
+
+        for line in text.splitlines():
+            # We need to check for line lengths here and split as necessary
+            line_length = get_line_length(line)
+            if line_length >= (self.cols - 1):
+                s = ""
+                # The length of the text without the color tags
+                s_len = 0
+                # We need to split this over multiple lines
+                for chunk in get_line_chunks(line):
+                    if (len(chunk[1]) + s_len) < (self.cols - 1):
+                        # This chunk plus the current string in 's' isn't over
+                        # the maximum width, so just append the color tag and text
+                        s += chunk[0] + chunk[1]
+                        s_len += len(chunk[1])
+                    else:
+                        # The chunk plus the current string in 's' is too long.
+                        # We need to take as much of the chunk and put it into 's'
+                        # with the color tag.
+                        remain = (self.cols - 1) - s_len
+                        s += chunk[0] + chunk[1][:remain]
+                        # We append the line since it's full
+                        self.lines.append(s)
+                        # Start a new 's' with the remainder chunk
+                        s = chunk[0] + chunk[1][remain:]
+                        s_len = len(chunk[1][remain:])
+                # Append the final string which may or may not be the full width
+                if s:
+                    self.lines.append(s)
+            else:
+                self.lines.append(line)
+
         while len(self.lines) > LINES_BUFFER_SIZE:
             # Remove the oldest line if the max buffer size has been reached
             del self.lines[0]
