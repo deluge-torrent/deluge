@@ -361,6 +361,9 @@ setup(
     entry_points = """
         [console_scripts]
             deluge = deluge.main:start_ui
+            deluge-console = deluge.ui.console:start
+            deluge-gtk = deluge.ui.gtkui:start
+            deluge-web = deluge.ui.web:start
             deluged = deluge.main:start_daemon
     """,
     ext_package = "deluge",

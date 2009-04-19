@@ -22,9 +22,32 @@
 #   Boston, MA    02110-1301, USA.
 #
 
+import server
+from deluge.ui.ui import _UI
+from optparse import OptionGroup
 
-class WebUI:
-    def __init__(self, args):
-        import server
-        deluge_web = server.DelugeWeb()
-        deluge_web.start()
+class Web(_UI):
+
+    help = """Starts the Deluge web interface"""
+    
+    def __init__(self):
+        super(Web, self).__init__()
+        self.__server = server.DelugeWeb()
+        
+        group = OptionGroup(self.parser, "Web Options")
+        group.add_option("-p", "--port", dest="port", type="int",
+            help="Sets the port to be used for the webserver",
+            action="store", default=None)
+        self.parser.add_option_group(group)
+    
+    @property
+    def server(self):
+        return self.__server
+    
+    def start(self):
+        super(Web, self).start()
+        if self.options.port: self.server.port =  self.options.port
+        self.server.start()
+
+web = Web()
+start = web.start

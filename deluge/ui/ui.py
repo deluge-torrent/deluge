@@ -22,6 +22,8 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+from optparse import OptionParser, OptionGroup
+import deluge.common
 import deluge.configmanager
 
 from deluge.log import LOG as log
@@ -29,6 +31,48 @@ from deluge.log import LOG as log
 DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
+
+class _UI(object):
+    
+    def __init__(self, name="gtk"):
+        log.debug("NewUI init...")
+        self.__name = name
+
+        usage="%prog [options] [actions]", 
+        
+        self.__parser = OptionParser(version=deluge.common.get_version())
+        
+        group = OptionGroup(self.parser, "Common Options")
+        group.add_option("-c", "--config", dest="config",
+            help="Set the config folder location", action="store", type="str")
+        group.add_option("-l", "--logfile", dest="logfile",
+            help="Output to designated logfile instead of stdout", action="store", type="str")
+        group.add_option("-a", "--args", dest="args",
+            help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
+        group.add_option("-L", "--loglevel", dest="loglevel",
+            help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
+        group.add_option("-q", "--quiet", dest="quiet",
+            help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+        self.parser.add_option_group(group)
+    
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def parser(self):
+        return self.__parser
+    
+    @property
+    def options(self):
+        return self.__options
+    
+    @property
+    def args(self):
+        return self._args
+    
+    def start(self):
+        (self.__options, self.__args) = self.parser.parse_args()
 
 class UI:
     def __init__(self, options, args, ui_args):
