@@ -78,7 +78,7 @@ def cell_data_trackericon(column, cell, model, row, data):
     icon_path = TrackerIcons().get(model[row][data])
     if icon_path:
         try:
-            icon = gtk.gdk.pixbuf_new_from_file(icon_path)
+            icon = gtk.gdk.pixbuf_new_from_file_at_size(icon_path, 16, 16)
         except Exception, e:
             pass
         if cell.get_property("pixbuf") != icon:
