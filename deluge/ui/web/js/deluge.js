@@ -26,6 +26,28 @@ var Deluge = {
 	version: '1.2-dev'
 };
 
+(function() {
+	var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
+		'<div class="x-progress-inner">' +
+			'<div style="width: {2}px" class="x-progress-bar">' +
+				'<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
+					'<div style="width: {1}px;">{0}</div>' +
+				'</div>' +
+			'</div>' +
+			'<div class="x-progress-text x-progress-text-back">' +
+				'<div style="width: {1}px;">{0}</div>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	
+	Deluge.progressBar =  function(progress, width, text) {
+		var progressWidth = (width / 100.0) * progress;
+		var barWidth = progressWidth.toInt() - 1;
+		var textWidth = ((progressWidth.toInt() - 10) > 0 ? progressWidth.toInt() - 10 : 0);
+		return String.format(tpl, text, width, barWidth, textWidth);
+	}
+})();
+
 Deluge.Events = {
 	_events: new Hash(),
 	
