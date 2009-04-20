@@ -354,12 +354,14 @@ class Core(component.Component):
     @export
     def pause_all_torrents(self):
         """Pause all torrents in the session"""
-        self.session.pause()
+        for torrent in self.torrentmanager.torrents.values():
+            torrent.pause()
 
     @export
     def resume_all_torrents(self):
         """Resume all torrents in the session"""
-        self.session.resume()
+        for torrent in self.torrentmanager.torrents.values():
+            torrent.resume()
         component.get("EventManager").emit(SessionResumedEvent())
 
     @export
