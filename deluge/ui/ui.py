@@ -98,7 +98,7 @@ class UI:
                 ui = GtkUI(args)
             elif selected_ui == "web":
                 log.info("Starting WebUI..")
-                from deluge.ui.web.webui import WebUI
+                from deluge.ui.web.web import WebUI
                 ui = WebUI(args)
             elif selected_ui == "console":
                 log.info("Starting ConsoleUI..")

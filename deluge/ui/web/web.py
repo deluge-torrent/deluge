@@ -23,8 +23,14 @@
 #
 
 import server
-from deluge.ui.ui import _UI
+from deluge.ui.ui import _UI, UI
 from optparse import OptionGroup
+
+class WebUI(UI):
+    def __init__(self, args):
+        import server
+        deluge_web = server.DelugeWeb()
+        deluge_web.start()
 
 class Web(_UI):
 
