@@ -31,7 +31,7 @@ class Web(_UI):
     help = """Starts the Deluge web interface"""
     
     def __init__(self):
-        super(Web, self).__init__()
+        super(Web, self).__init__("web")
         self.__server = server.DelugeWeb()
         
         group = OptionGroup(self.parser, "Web Options")
