@@ -204,12 +204,14 @@ class LookupResource(resource.Resource, component.Component):
         return self
     
     def render(self, request):
+        log.debug("Requested path: '%s'", request.path)
         for lookup in self.directories:
             if request.path in os.listdir(lookup):
                 path = os.path.join(lookup, request.path)
+                log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
-                return open(path).read()
+                return open(path, "rb").read()
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
 
