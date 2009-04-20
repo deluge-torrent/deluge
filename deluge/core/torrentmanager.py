@@ -634,8 +634,11 @@ class TorrentManager(component.Component):
     def on_alert_torrent_finished(self, alert):
         log.debug("on_alert_torrent_finished")
         # Get the torrent_id
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent_id = str(alert.handle.info_hash())
-        torrent = self.torrents[torrent_id]
         log.debug("%s is finished..", torrent_id)
         # Move completed download to completed folder if needed
         if not torrent.is_finished:
@@ -655,14 +658,18 @@ class TorrentManager(component.Component):
 
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        self.torrents[torrent_id].update_state()
+        torrent.update_state()
         component.get("SignalManager").emit("torrent_paused", torrent_id)
 
         # Write the fastresume file
-        self.torrents[torrent_id].save_resume_data()
+        torrent.save_resume_data()
 
         if torrent_id in self.shutdown_torrent_pause_list:
             self.shutdown_torrent_pause_list.remove(torrent_id)
@@ -670,20 +677,23 @@ class TorrentManager(component.Component):
     def on_alert_torrent_checked(self, alert):
         log.debug("on_alert_torrent_checked")
         # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         # Set the torrent state
-        self.torrents[torrent_id].update_state()
+        torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
         log.debug("on_alert_tracker_reply: %s", alert.message())
         # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
-        # Set the tracker status for the torrent
         try:
-            if alert.message() != "Got peers from DHT":
-                self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
+        # Set the tracker status for the torrent
+        if alert.message() != "Got peers from DHT":
+            tracker.set_tracker_status(_("Announce OK"))
 
         # Check to see if we got any peer information from the tracker
         if alert.handle.status().num_complete == -1 or \
@@ -695,92 +705,98 @@ class TorrentManager(component.Component):
         log.debug("on_alert_tracker_announce")
         # Get the torrent_id
         try:
-            torrent_id = str(alert.handle.info_hash())
-        except RuntimeError:
-            log.debug("Invalid torrent handle.")
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
             return
 
         # Set the tracker status for the torrent
-        try:
-            self.torrents[torrent_id].set_tracker_status(_("Announce Sent"))
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
+        torrent.set_tracker_status(_("Announce Sent"))
 
     def on_alert_tracker(self, alert):
         log.debug("on_alert_tracker")
         # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
+
         tracker_status = "%s: %s" % \
             (_("Alert"), str(alert.message()).strip('"')[8:])
         # Set the tracker status for the torrent
-        try:
-            self.torrents[torrent_id].set_tracker_status(tracker_status)
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
+        torrent.set_tracker_status(tracker_status)
 
     def on_alert_tracker_warning(self, alert):
         log.debug("on_alert_tracker_warning")
         # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         tracker_status = '%s: %s' % (_("Warning"), str(alert.message()))
         # Set the tracker status for the torrent
-        try:
-            self.torrents[torrent_id].set_tracker_status(tracker_status)
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
-
+        torrent.set_tracker_status(tracker_status)
+       
     def on_alert_tracker_error(self, alert):
         log.debug("on_alert_tracker_error")
-        torrent = self.torrents[str(alert.handle.info_hash())]
-        tracker_status = "%s: %s" % (_("Error"), alert.msg)
         try:
-            torrent.set_tracker_status(tracker_status)
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
-
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
+        tracker_status = "%s: %s" % (_("Error"), alert.msg)
+        torrent.set_tracker_status(tracker_status)
+  
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
-        log.debug("save_path: %s", alert.handle.save_path())
-        # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
         try:
-            log.debug("save_path2: %s", self.torrents[torrent_id].handle.save_path())
-            self.torrents[torrent_id].set_save_path(alert.handle.save_path())
-        except KeyError:
-            log.debug("torrent_id doesn't exist.")
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
+        torrent.set_save_path(alert.handle.save_path())
 
     def on_alert_torrent_resumed(self, alert):
         log.debug("on_alert_torrent_resumed")
-        torrent = self.torrents[str(alert.handle.info_hash())]
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent.is_finished = torrent.handle.is_seed()
         torrent.update_state()
 
     def on_alert_state_changed(self, alert):
         log.debug("on_alert_state_changed")
         try:
-            torrent_id = str(alert.handle.info_hash())
-        except RuntimeError:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
             return
-
-        if torrent_id in self.torrents:
-            self.torrents[torrent_id].update_state()
-            component.get("SignalManager").emit("torrent_state_changed", torrent_id)
+        torrent_id = str(alert.handle.info_hash())
+        torrent.update_state()
+        component.get("SignalManager").emit("torrent_state_changed", torrent_id)
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
-        torrent = self.torrents[str(alert.handle.info_hash())]
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent.write_resume_data(alert.resume_data)
 
     def on_alert_save_resume_data_failed(self, alert):
         log.debug("on_alert_save_resume_data_failed: %s", alert.message())
-        torrent = self.torrents[str(alert.handle.info_hash())]
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent.waiting_on_resume_data = False
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
         log.debug("index: %s name: %s", alert.index, alert.name)
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent_id = str(alert.handle.info_hash())
-        torrent = self.torrents[torrent_id]
+
         torrent.files[alert.index]["path"] = alert.name
 
         # We need to see if this file index is in a waiting_on_folder list
@@ -803,10 +819,16 @@ class TorrentManager(component.Component):
 
     def on_alert_metadata_received(self, alert):
         log.debug("on_alert_metadata_received")
-        torrent = self.torrents[str(alert.handle.info_hash())]
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent.write_torrentfile()
 
     def on_alert_file_error(self, alert):
         log.debug("on_alert_file_error: %s", alert.message())
-        torrent = self.torrents[str(alert.handle.info_hash())]
+        try:
+            torrent = self.torrents[str(alert.handle.info_hash())]
+        except:
+            return
         torrent.update_state()
