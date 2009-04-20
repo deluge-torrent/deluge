@@ -24,10 +24,13 @@
 #
 from deluge.ui.client import client
 from deluge.ui.console.main import BaseCommand
+from twisted.internet import reactor
 
 class Command(BaseCommand):
     """Exit from the client."""
     aliases = ['exit']
     def handle(self, *args, **options):
-        print "Thanks!"
-        raise StopIteration
+        if client.connected():
+            def on_disconnect(result):
+                reactor.stop()
+            client.disconnect().addCallback(on_disconnect)
