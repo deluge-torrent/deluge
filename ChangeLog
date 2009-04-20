@@ -1,4 +1,7 @@
 === Deluge 1.1.7 - (In Development) ===
+==== Core ====
+  * Fix issue where cannot resume torrent after doing a 'Pause All'
+  
 ==== GtkUI ====
   * Fix #883 segfault if locale is not using UTF-8 encoding
   * Fix for adding torrents with invalid filename encodings

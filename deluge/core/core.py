@@ -519,11 +519,13 @@ class Core(
 
     def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
-        self.session.pause()
+        for torrent in self.torrentmanager.torrents.values():
+            torrent.pause()
 
     def export_resume_all_torrents(self):
         """Resume all torrents in the session"""
-        self.session.resume()
+        for torrent in self.torrentmanager.torrents.values():
+            torrent.resume()
         self.signals.emit("torrent_all_resumed")
 
     def export_resume_torrent(self, torrent_ids):
