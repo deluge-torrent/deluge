@@ -31,13 +31,13 @@ Deluge.UI = {
 			iconCls: 'x-deluge-main-panel',
 			title: 'Deluge',
 			layout: 'border',
-			tbar: Deluge.ToolBar.Bar,
+			tbar: Deluge.Toolbar,
 			items: [
-				Deluge.SideBar.Config,
-				Deluge.Details.Panel,
+				Deluge.Sidebar,
+				Deluge.Details,
 				Deluge.Torrents
 			],
-			bbar: Deluge.StatusBar.Bar
+			bbar: Deluge.Statusbar
 		});
 
 		this.Viewport = new Ext.Viewport({
@@ -47,20 +47,23 @@ Deluge.UI = {
 
 		Deluge.Login.show();
 		
-		Deluge.Events.on("connect", this.onConnect.bindWithEvent(this));
-		Deluge.Events.on("disconnect", this.onDisconnect.bindWithEvent(this));
-		Deluge.Client = new JSON.RPC('/json');
+		Deluge.Events.on("connect", this.onConnect, this);
+		Deluge.Events.on("disconnect", this.onDisconnect, this);
+		Deluge.Client = new Ext.ux.util.RpcClient({url: '/json'});
+		this.update = this.update.bind(this);
 	},
 	
 	update: function() {
-		var filters = Deluge.SideBar.getFilters();
+		var filters = Deluge.Sidebar.getFilters();
 		Deluge.Client.web.update_ui(Deluge.Keys.Grid, filters, {
-			onSuccess: this.onUpdate.bindWithEvent(this),
-			onFailure: this.onUpdateError.bindWithEvent(this)
+			success: this.onUpdate,
+			failure: this.onUpdateError,
+			scope: this
 		});
 		Deluge.Details.update();
 		Deluge.Client.web.connected({
-			onSuccess: this.onConnectedCheck.bindWithEvent(this)
+			success: this.onConnectedCheck,
+			scope: this
 		});
 	},
 	
@@ -83,10 +86,10 @@ Deluge.UI = {
 	},
 	
 	onUpdate: function(data) {
-		var torrents = new Array();
-		$each(data['torrents'], function(torrent, id) {
-			torrents.include([
-				torrent.queue,
+		var torrents = [];
+		for (var torrentId in data['torrents']) {
+			var torrent = data['torrents'][torrentId];
+			torrents.push([torrent.queue,
 				torrent.name,
 				torrent.total_size,
 				torrent.state,
@@ -102,12 +105,12 @@ Deluge.UI = {
 				torrent.distributed_copies,
 				torrent.time_added,
 				torrent.tracker_host,
-				id
+				torrentId
 			]);
-		});
+		}
 		Deluge.Torrents.getStore().loadData(torrents);
-		Deluge.StatusBar.update(data['stats']);
-		Deluge.SideBar.update(data['filters']);
+		Deluge.Statusbar.update(data['stats']);
+		Deluge.Sidebar.update(data['filters']);
 		this.errorCount = 0;
 	},
 	
@@ -121,14 +124,13 @@ Deluge.UI = {
     */
 	onConnect: function() {
 		if (!this.running) {
-			this.running = this.update.periodical(2000, this);
+			this.running = setInterval(this.update, 2000);
 			this.update();
 		}
 	},
 	
 	onDisconnect: function() {
 		this.stop();
-		this.notify('Disconnected', 'Deluge has disconnected from the daemon');
 	},
 	
 	/*
@@ -141,13 +143,13 @@ Deluge.UI = {
     */
 	stop: function() {
 		if (this.running) {
-            $clear(this.running);
+            clearInterval(this.running);
             this.running = false;
-			Deluge.Torrents.Store.loadData([]);
+			Deluge.Torrents.getStore().loadData([]);
         }
 	}
 }
 
-document.addEvent('domready', function(e) {
+Ext.onReady(function(e) {
 	Deluge.UI.initialize();
 });

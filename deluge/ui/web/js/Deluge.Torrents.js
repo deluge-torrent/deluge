@@ -22,7 +22,6 @@ Copyright:
 */
 
 (function() {
-	
 	/* Renderers for the Torrent Grid */
 	function queueRenderer(value) {
 		return (value == -1) ? '' : value + 1;
@@ -35,10 +34,11 @@ Copyright:
 		return fspeed(value);
 	}
 	function torrentProgressRenderer(value, p, r) {
-		var progress = value.toInt();
+		value = new Number(value);
+		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-		var width = this.style.match(/\w+:\s*(\d+)\w+/)[1].toInt() - 8;
-		return Deluge.progressBar(value.toInt(), width, text);
+		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]) - 8;
+		return Deluge.progressBar(value, width, text);
 	}
 	function seedsRenderer(value, p, r) {
 		if (r.data['total_seeds'] > -1) {
@@ -55,15 +55,25 @@ Copyright:
 		}
 	}
 	function availRenderer(value, p, r)	{
-		value.toFixed(3);
+		return new Number(value).toFixed(3);
 	}
 	function trackerRenderer(value, p, r) {
 		return String.format('<div style="background: url(/tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 	}
 	
-	Ext.namespace("Ext.deluge");
+	/**
+	* Ext.deluge.TorrentGrid Class
+	*
+	* @author Damien Churchill <damoxc@gmail.com>
+	* @version 1.2
+	*
+	* @class Ext.deluge.TorrentGrid
+	* @extends Ext.grid.GridPanel
+	* @constructor
+	* @param {Object} config Configuration options
+	*/
 	Ext.deluge.TorrentGrid = function(config) {
-		Ext.deluge.TorrentGrid.superclass.constructor.call(this, {
+		config = Ext.apply({
 			id: 'torrentGrid',
 			store: new Ext.data.SimpleStore({
 				fields: [
@@ -174,7 +184,8 @@ Copyright:
 			deferredRender:false,
 			autoScroll:true,
 			margins: '5 5 0 0'
-		});
+		}, config);
+		Ext.deluge.TorrentGrid.superclass.constructor.call(this, config);
 	}
 	
 	Ext.extend(Ext.deluge.TorrentGrid, Ext.grid.GridPanel, {
@@ -191,6 +202,12 @@ Copyright:
 			});
 		},
 		
+		/**
+		 * Returns the record representing the torrent at the specified index.
+		 *
+		 * @param {int} The row index of the torrent you wish to retrieve.
+		 * @param {Ext.data.Record} The record representing the torrent.
+		 */
 		getTorrent: function(rowIndex) {
 			return this.getStore().getAt(rowIndex);
 		},
@@ -203,6 +220,7 @@ Copyright:
 			return this.getSelectionModel().getSelections();
 		},
 		
+		// private
 		onTorrentRemoved: function(torrentIds) {
 			var selModel = this.Grid.getSelectionModel();
 			$each(torrentIds, function(torrentId) {

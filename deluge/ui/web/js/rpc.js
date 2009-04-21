@@ -40,7 +40,7 @@ Example:
 Returns:
 	The proxy that can be used to directly call methods on the server.
 */
-JSON.RPC = new Class({
+RPC = new Class({
 	Implements: Options,
 
 	options: {

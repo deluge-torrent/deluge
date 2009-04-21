@@ -22,29 +22,28 @@ Copyright:
 */
 
 (function(){
-	var LoginWindow = function(config) {
-		Ext.apply(this, {
-			layout: 'fit',
-			width: 300,
-			height: 120,
-			bodyStyle: 'padding: 10px 5px;',
-			buttonAlign: 'center',
-			closeAction: 'hide',
-			closable: false,
-			modal: true,
-			plain: true,
-			resizable: false,
-			title: _('Login'),
-			iconCls: 'x-deluge-login-window-icon'
-		});
-		Ext.apply(this, config);
-		LoginWindow.superclass.constructor.call(this);
-	};
-	
-	Ext.extend(LoginWindow, Ext.Window, {
+	Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
+		constructor: function(config) {
+			config = Ext.apply({
+				layout: 'fit',
+				width: 300,
+				height: 120,
+				bodyStyle: 'padding: 10px 5px;',
+				buttonAlign: 'center',
+				closeAction: 'hide',
+				closable: false,
+				modal: true,
+				plain: true,
+				resizable: false,
+				title: _('Login'),
+				iconCls: 'x-deluge-login-window-icon'
+			}, config);
+			Ext.deluge.LoginWindow.superclass.constructor.call(this, config);
+		},
+		
 		initComponent: function() {
-			LoginWindow.superclass.initComponent.call();
-			Deluge.Events.on('logout', this.onLogout);
+			Ext.deluge.LoginWindow.superclass.initComponent.call(this);
+			Deluge.Events.on('logout', this.onLogout, this);
 			this.on('show', this.onShow, this);
 			
 			this.addButton({
@@ -72,7 +71,7 @@ Copyright:
 						}
 					}
 				}]
-			});
+			})
 		},
 		
 		onKey: function(field, e) {
@@ -82,12 +81,11 @@ Copyright:
 		onLogin: function() {
 			var passwordField = this.loginForm.items.get('password');
 			Deluge.Client.web.login(passwordField.getValue(), {
-				onSuccess: function(result) {
+				success: function(result) {
 					if (result == true) {
+						Deluge.Events.fire('login');
 						this.hide();
-						Deluge.Connections.loginShow();
 						passwordField.setRawValue('');
-						Deluge.Events.fire('login')
 					} else {
 						Ext.MessageBox.show({
 							title: _('Login Failed'),
@@ -101,7 +99,8 @@ Copyright:
 							iconCls: 'x-deluge-icon-warning'
 						});
 					}
-				}.bindWithEvent(this)
+				},
+				scope: this
 			});
 		},
 		
@@ -115,5 +114,5 @@ Copyright:
 		}
 	});
 	
-	Deluge.Login = new LoginWindow();
+	Deluge.Login = new Ext.deluge.LoginWindow();
 })();
