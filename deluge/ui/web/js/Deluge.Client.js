@@ -92,7 +92,7 @@ Ext.namespace('Ext.ux.util');
             errorObj = {
                 id: options.options.id
             }
-            alert(Ext.encode(errorObj));
+            //alert(Ext.encode(errorObj));
         },
         
         _onSuccess: function(response, requestOptions) {
