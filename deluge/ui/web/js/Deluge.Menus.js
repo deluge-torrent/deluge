@@ -24,16 +24,16 @@ Copyright:
 Deluge.Menus = {
 	onTorrentAction: function(item, e) {
 		var selection = Deluge.Torrents.getSelections();
-		var ids = new Array();
-		$each(selection, function(record) {
-			ids.include(record.id);
+		var ids = [];
+		Ext.each(selection, function(record) {
+			ids.push(record.id);
 		});
 		
 		switch (item.id) {
 			case 'pause':
 			case 'resume':
 				Deluge.Client.core[item.id + '_torrent'](ids, {
-					onSuccess: function() {
+					success: function() {
 						Deluge.UI.update();
 					}
 				});
@@ -43,14 +43,14 @@ Deluge.Menus = {
 			case 'down':
 			case 'bottom':
 				Deluge.Client.core['queue_' + item.id](ids, {
-					onSuccess: function() {
+					success: function() {
 						Deluge.UI.update();
 					}
 				});
 				break;
 			case 'update':
 				Deluge.Client.core.force_reannounce(ids, {
-					onSuccess: function() {
+					success: function() {
 						Deluge.UI.update();
 					}
 				});
@@ -58,14 +58,14 @@ Deluge.Menus = {
 			case 'remove':
 				Deluge.Events.fire('torrentRemoved', ids);
 				Deluge.Client.core.remove_torrent(ids, null, {
-					onSuccess: function() {
+					success: function() {
 						Deluge.UI.update();
 					}
 				});
 				break;
 			case 'recheck':
 				Deluge.Client.core.force_recheck(ids, {
-					onSuccess: function() {	
+					success: function() {	
 						Deluge.UI.update();
 					}
 				});
@@ -410,7 +410,7 @@ function onLimitChanged(item, checked) {
 		config = {}
 		config[item.group] = item.id
 		Deluge.Client.core.set_config(config, {
-			onSuccess: function() {
+			success: function() {
 				Deluge.UI.update();
 			}
 		});
