@@ -9,6 +9,9 @@ scan() {
 }
 
 check_file() {
+    # No build data is stored so return 1 since we can't make any guesses.
+    [ ! -e .build_data ] && return 1;
+
     FILE=$1
     LAST_BUILD=`grep $FILE .build_data`
     if [ $? == 1 ]; then return 1; fi;
@@ -31,8 +34,7 @@ build_deluge() {
 
     echo "Building deluge-yc.js"
     cat $DELUGE_FILES > deluge-yc.js.tmp
-    yuicompressor --type=js -o "deluge-yc.js" "deluge-yc.js.tmp"
-    rm "deluge-yc.js.tmp"
+    yuicompressor --type=js -o "deluge-yc.js" "deluge-yc.js.tmp" && rm "deluge-yc.js.tmp"
 }
 
 build_ext() {
