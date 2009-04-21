@@ -25,6 +25,8 @@ Ext.namespace('Ext.ux.util');
 (function() {
     Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
+        _components: [],
+        
         _methods: [],
         
         _requests: {},
@@ -47,7 +49,13 @@ Ext.namespace('Ext.ux.util');
                  */
                  'ready'
             );
-            
+            this.reloadMethods();
+        },
+        
+        reloadMethods: function() {
+            Ext.each(this._components, function(component) {
+                delete this[component];
+            }, this);
             this._execute('system.listMethods', {
                 success: this._setMethods,
                 scope: this
@@ -152,6 +160,7 @@ Ext.namespace('Ext.ux.util');
                 self[name] = components[name];
             }
             
+            this._components = Ext.keys(components);
             this.fireEvent('ready', this);
         }
     });
