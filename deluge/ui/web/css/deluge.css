@@ -46,44 +46,44 @@ input {
 
 
 /* Torrent Details */
-.deluge-status-progressbar {
+.x-deluge-status-progressbar {
     margin: 5px;
 }
 
-.deluge-status {
+.x-deluge-status {
 	margin: 10px;
 }
 
-.deluge-status dl {
+.x-deluge-status dl {
 	float: left;
 	min-height: 120px;
 }
 
-.deluge-status dl dt {
+.x-deluge-status dl dt {
 	float: left;
 	font-weight: bold;
 	height: 19px;
 }
 
-.deluge-status dl dd {
+.x-deluge-status dl dd {
 	margin-left: 100px;
 	width: 140px;
 	height: 19px;
 }
 
-.deluge-status dd.downloaded, .deluge-status dd.uploaded, .deluge-status dd.share, .deluge-status dd.announce, .deluge-status dd.tracker_status, .deluge-status dd.active_time {
+.x-deluge-status dd.downloaded, .x-deluge-status dd.uploaded, .x-deluge-status dd.share, .x-deluge-status dd.announce, .x-deluge-status dd.tracker_status, .x-deluge-status dd.active_time {
 	width: 200px;
 }
 
-.deluge-status dd.downspeed, .deluge-status dd.upspeed, .deluge-status dd.eta, .deluge-status dd.pieces {
+.x-deluge-status dd.downspeed, .x-deluge-status dd.upspeed, .x-deluge-status dd.eta, .x-deluge-status dd.pieces {
 	margin-left: 100px;
 }
 
-.deluge-status form br {
+.x-deluge-status form br {
 	clear: left;
 }
 
-.deluge-status dd.torrent_name, .deluge-status dd.status, .deluge-status dd.tracker, .deluge-status dd.path, .deluge-status dd.comment {
+.x-deluge-status dd.torrent_name, .x-deluge-status dd.status, .x-deluge-status dd.tracker, .x-deluge-status dd.path, .x-deluge-status dd.comment {
 	width: auto;
 }
 

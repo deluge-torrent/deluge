@@ -226,8 +226,7 @@ class TopLevel(resource.Resource):
     ]
     
     __scripts = [
-        "/js/mootools-1.2.1-core-yc.js",
-        "/js/ext-mootools-adapter.js",
+        "/js/ext-base.js",
         "/js/ext-all.js",
         "/js/ext-extensions.js",
         "/gettext.js",
@@ -235,22 +234,40 @@ class TopLevel(resource.Resource):
     ]
     
     __debug_scripts = [
-        "/js/mootools-1.2.1-core-yc.js",
-        "/js/ext-mootools-adapter.js",
+        "/js/ext-base.js",
         "/js/ext-all-debug.js",
         "/js/ext-extensions-debug.js",
         "/gettext.js",
-        "/js/rpc.js",
-        "/js/deluge.js",
-        "/js/deluge-login.js",
-        "/js/deluge-menus.js",
-        "/js/deluge-bars.js",
-        "/js/deluge-connections.js",
-        "/js/deluge-torrents.js",
-        "/js/deluge-details.js",
-        "/js/deluge-add.js",
-        "/js/deluge-preferences.js",
-        "/js/deluge-ui.js"
+        "/js/Deluge.js",
+        "/js/Deluge.Formatters.js",
+        "/js/Deluge.Menus.js",
+        "/js/Deluge.Events.js",
+        "/js/Deluge.Client.js",
+        "/js/Deluge.ConnectionManager.js",
+        "/js/Deluge.Details.js",
+        "/js/Deluge.Details.Status.js",
+        "/js/Deluge.Details.Details.js",
+        "/js/Deluge.Details.Files.js",
+        "/js/Deluge.Details.Peers.js",
+        "/js/Deluge.Details.Options.js",
+        "/js/Deluge.Keys.js",
+        "/js/Deluge.Login.js",
+        "/js/Deluge.Preferences.js",
+        "/js/Deluge.Preferences.Downloads.js",
+        "/js/Deluge.Preferences.Network.js",
+        "/js/Deluge.Preferences.Bandwidth.js",
+        "/js/Deluge.Preferences.Interface.js",
+        "/js/Deluge.Preferences.Other.js",
+        "/js/Deluge.Preferences.Daemon.js",
+        "/js/Deluge.Preferences.Queue.js",
+        "/js/Deluge.Preferences.Proxy.js",
+        "/js/Deluge.Preferences.Notification.js",
+        "/js/Deluge.Preferences.Plugins.js",
+        "/js/Deluge.Sidebar.js",
+        "/js/Deluge.Statusbar.js",
+        "/js/Deluge.Toolbar.js",
+        "/js/Deluge.Torrents.js",
+        "/js/Deluge.UI.js"
     ]
     
     def __init__(self):
