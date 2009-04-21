@@ -21,59 +21,57 @@ Copyright:
 		Boston, MA  02110-1301, USA.
 */
 
-(function() {
-	Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
-		title: _('Details'),
-		cls: 'x-deluge-status',
-		
-		onRender: function(ct, position) {
-			Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
-			this.load({
-				url: '/render/tab_details.html',
-				text: _('Loading') + '...'
-			});
-			this.getUpdater().on('update', this.onPanelUpdate, this);
-		},
-		
-		clear: function() {
-			if (!this.fields) return;
-			for (var k in this.fields) {
-				this.fields[k].innerHTML = '';
-			}
-		},
-		
-		update: function(torrentId) {
-			if (!this.fields) this.getFields();
-			Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
-				success: this.onRequestComplete,
-				scope: this,
-				torrentId: torrentId
-			});
-		},
-		
-		onPanelUpdate: function(el, response) {
-			this.fields = {};
-			Ext.each(Ext.query('dd', this.body.dom), function(field) {
-				this.fields[field.className] = field;
-			}, this);
-		},
-		
-		onRequestComplete: function(torrent, options) {
-			var data = {
-				torrent_name: torrent.name,
-				hash: options.torrentId,
-				path: torrent.save_path,
-				size: fsize(torrent.total_size),
-				files: torrent.num_files,
-				status: torrent.tracker_status,
-				tracker: torrent.tracker,
-				comment: torrent.comment
-			};
-			
-			for (var field in this.fields) {
-				this.fields[field].innerHTML = data[field];
-			}
+Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
+	title: _('Details'),
+	cls: 'x-deluge-status',
+	
+	onRender: function(ct, position) {
+		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+		this.load({
+			url: '/render/tab_details.html',
+			text: _('Loading') + '...'
+		});
+		this.getUpdater().on('update', this.onPanelUpdate, this);
+	},
+	
+	clear: function() {
+		if (!this.fields) return;
+		for (var k in this.fields) {
+			this.fields[k].innerHTML = '';
 		}
-	});
-	Deluge.Details.add(new Ext.deluge.details.DetailsTab());
-})();
+	},
+	
+	update: function(torrentId) {
+		if (!this.fields) this.getFields();
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+			success: this.onRequestComplete,
+			scope: this,
+			torrentId: torrentId
+		});
+	},
+	
+	onPanelUpdate: function(el, response) {
+		this.fields = {};
+		Ext.each(Ext.query('dd', this.body.dom), function(field) {
+			this.fields[field.className] = field;
+		}, this);
+	},
+	
+	onRequestComplete: function(torrent, options) {
+		var data = {
+			torrent_name: torrent.name,
+			hash: options.torrentId,
+			path: torrent.save_path,
+			size: fsize(torrent.total_size),
+			files: torrent.num_files,
+			status: torrent.tracker_status,
+			tracker: torrent.tracker,
+			comment: torrent.comment
+		};
+		
+		for (var field in this.fields) {
+			this.fields[field].innerHTML = data[field];
+		}
+	}
+});
+Deluge.Details.add(new Ext.deluge.details.DetailsTab());
