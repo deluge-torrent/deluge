@@ -31,7 +31,9 @@ GetText = {
     }
 }
 
-var _ = GetText.get.bind(GetText);
+function _(string) {
+    return GetText.get(string);
+}
 
 """
 
