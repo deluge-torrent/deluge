@@ -50,6 +50,15 @@ schemes = {
     "event": ("magenta", "black", "bold")
 }
 
+# Colors for various torrent states
+state_color = {
+    "Seeding": "{{blue,black,bold}}",
+    "Downloading": "{{green,black,bold}}",
+    "Paused": "{{white,black}}",
+    "Checking": "{{green,black}}",
+    "Queued": "{{yellow,black}}",
+    "Error": "{{red,black,bold}}"
+}
 
 def init_colors():
     # Create the color_pairs dict
@@ -65,6 +74,19 @@ def init_colors():
 class BadColorString(Exception):
     pass
 
+def get_line_length(line):
+    """
+    Returns the string length without the color formatting.
+
+    """
+    if line.count("{{") != line.count ("}}"):
+        raise BadColorString("Number of {{ does not equal number of }}")
+
+    while line.find("{{") != -1:
+        line = line[:line.find("{{")] + line[line.find("}}") + 2:]
+
+    return len(line)
+
 def parse_color_string(s):
     """
     Parses a string and returns a list of 2-tuples (color, string).
@@ -72,6 +94,9 @@ def parse_color_string(s):
     :param s:, string to parse
 
     """
+    if s.count("{{") != s.count ("}}"):
+        raise BadColorString("Number of {{ does not equal number of }}")
+
     ret = []
     # Keep track of where the strings
     col_index = 0

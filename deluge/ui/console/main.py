@@ -25,6 +25,10 @@
 
 import os, sys
 import optparse
+import shlex
+
+from twisted.internet import defer, reactor
+
 from deluge.ui.console import UI_PATH
 import deluge.component as component
 from deluge.ui.client import client
@@ -32,13 +36,13 @@ import deluge.common
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
-
-from twisted.internet import defer, reactor
-import shlex
-import screen
-import colors
-
+import deluge.ui.console.screen as screen
+import deluge.ui.console.colors as colors
 from deluge.log import LOG as log
+
+# XXX: Remove when the commands are all fixed up
+def match_torrents(a=[]):
+    pass
 
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
@@ -62,7 +66,6 @@ class BaseCommand(object):
     option_list = tuple()
     aliases = []
 
-
     def complete(self, text, *args):
         return []
     def handle(self, *args, **options):
@@ -85,24 +88,7 @@ class BaseCommand(object):
                             epilog = self.epilog,
                             option_list = self.option_list)
 
-
-def match_torrents(array=[]):
-    # Make sure we don't have any duplicates
-    array = set(array)
-    # We return this defer and it will be fired once we received the session
-    # state and intersect the data.
-    d = defer.Deferred()
-
-    def _got_session_state(tors):
-        if not array:
-            d.callback(tors)
-        d.callback(list(tors.intersection(array)))
-
-    client.core.get_session_state().addCallback(_got_session_state)
-
-    return d
-
-def load_commands(command_dir, write_func, exclude=[]):
+def load_commands(command_dir, exclude=[]):
     def get_command(name):
         return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
 
@@ -112,8 +98,6 @@ def load_commands(command_dir, write_func, exclude=[]):
             if filename.split('.')[0] in exclude or filename.startswith('_') or not filename.endswith('.py'):
                 continue
             cmd = get_command(filename[:-3])
-            # Hack to give the commands a write function
-            cmd.write = write_func
             aliases = [ filename[:-3] ]
             aliases.extend(cmd.aliases)
             for a in aliases:
@@ -126,7 +110,7 @@ class ConsoleUI(component.Component):
     def __init__(self, args=None):
         component.Component.__init__(self, "ConsoleUI", 2)
         # Load all the commands
-        self._commands = load_commands(os.path.join(UI_PATH, 'commands'), self.write)
+        self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
 
         # Try to connect to the localhost daemon
         def on_connect(result):
@@ -236,10 +220,11 @@ class ConsoleUI(component.Component):
         if not getattr(options, '_exit', False):
             try:
                 self._commands[cmd].handle(*args, **options.__dict__)
-            except StopIteration, e:
-                raise
             except Exception, e:
                 self.write("{{error}}" + str(e))
+                log.exception(e)
+                import traceback
+                self.write("%s" % traceback.format_exc())
 
     def tab_completer(self, line, cursor, second_hit):
         """
@@ -330,9 +315,27 @@ class ConsoleUI(component.Component):
 
         return None
 
+    def match_torrent(self, string):
+        """
+        Returns a list of torrent_id matches for the string.  It will search both
+        torrent_ids and torrent names, but will only return torrent_ids.
+
+        :param string: str, the string to match on
+
+        :returns: list of matching torrent_ids. Will return an empty list if
+            no matches are found.
+
+        """
+        ret = []
+        for tid, name in self.torrents:
+            if tid.startswith(string) or name.startswith(string):
+                ret.append(tid)
+
+        return ret
+
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
-            self.torrents.append(torrent_id, status["name"])
+            self.torrents.append((torrent_id, status["name"]))
         client.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):

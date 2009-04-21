@@ -22,10 +22,11 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.console.main import BaseCommand, match_torrents
-from deluge.ui.console import mapping
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+import deluge.component as component
+
 from optparse import make_option
 import os
 import base64
@@ -40,18 +41,20 @@ class Command(BaseCommand):
     usage = "Usage: add [-p <save-location>] <torrent-file> [<torrent-file> ...]"
 
     def handle(self, *args, **options):
+        self.console = component.get("ConsoleUI")
+
         t_options = {}
         if options["path"]:
             t_options["download_location"] = options["path"]
 
         for arg in args:
-            self.write("{{info}}Attempting to add torrent: %s" % arg)
+            self.console.write("{{info}}Attempting to add torrent: %s" % arg)
             filename = os.path.split(arg)[-1]
             filedump = base64.encodestring(open(arg).read())
 
             def on_success(result):
-                self.write("{{success}}Torrent added!")
+                self.console.write("{{success}}Torrent added!")
             def on_fail(result):
-                self.write("{{error}}Torrent was not added! %s" % result)
+                self.console.write("{{error}}Torrent was not added! %s" % result)
 
             client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)

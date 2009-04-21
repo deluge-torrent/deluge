@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # pause.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,30 +22,27 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.console.main import BaseCommand, match_torrents
-from deluge.ui.console import mapping
+from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
 import deluge.ui.console.colors as colors
+import deluge.component as component
 
 class Command(BaseCommand):
     """Pause a torrent"""
-    usage = "Usage: pause [ all | <torrent-id> [<torrent-id> ...] ]"
+    usage = "Usage: pause [ * | <torrent-id> [<torrent-id> ...] ]"
     def handle(self, *args, **options):
-        if len(args) == 0:
-            print self.usage
-            return
-        if len(args) == 1 and args[0] == 'all':
-            args = tuple() # empty tuple means everything
-        try:
-            args = mapping.to_ids(args)
-            torrents = match_torrents(args)
-            client.pause_torrent(torrents)
-        except Exception, msg:
-            print templates.ERROR(str(msg))
-        else:
-            print templates.SUCCESS('torrent%s successfully paused' % ('s' if len(args) > 1 else ''))
+        self.console = component.get("ConsoleUI")
 
-    def complete(self, text, *args):
-        torrents = match_torrents()
-        names = mapping.get_names(torrents)
-        return [ x[1] for x in names if x[1].startswith(text) ]
+        if len(args) == 0:
+            self.console.write(self.usage)
+            return
+        if len(args) > 0 and args[0].lower() == '*':
+            client.core.pause_all_torrents()
+            return
+
+        torrent_ids = []
+        for arg in args:
+            torrent_ids.extend(self.console.match_torrent(arg))
+
+        if torrent_ids:
+            client.core.pause_torrent(torrent_ids)

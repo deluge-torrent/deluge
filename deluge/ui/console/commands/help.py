@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # help.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,46 +22,44 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.console import UI_PATH
-from deluge.ui.console.main import BaseCommand, load_commands
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
-#from deluge.ui.console.colors import templates
-import os
+import deluge.component as component
 
 class Command(BaseCommand):
     """displays help on other commands"""
 
     usage =  "Usage: help [command]"
 
-    def __init__(self):
-        BaseCommand.__init__(self)
+#    def __init__(self):
+#        BaseCommand.__init__(self)
         # get a list of commands, exclude 'help' so we won't run into a recursive loop.
-        self._commands = load_commands(os.path.join(UI_PATH,'commands'), None, exclude=['help'])
-        self._commands['help'] = self
+        #self._commands = load_commands(os.path.join(UI_PATH,'commands'), None, exclude=['help'])
+
+#        self._commands['help'] = self
 
     def handle(self, *args, **options):
+        self.console = component.get("ConsoleUI")
+        self._commands = self.console._commands
         if args:
             if len(args) > 1:
                 #print usage
-                self.write(usage)
+                self.console.write(usage)
                 return
             try:
                 cmd = self._commands[args[0]]
             except KeyError:
                 #print templates.ERROR('unknown command %r' % args[0])
-                self.write("{{error}}Unknown command %r" % args[0])
+                self.console.write("{{error}}Unknown command %r" % args[0])
                 return
             try:
                 parser = cmd.create_parser()
-                self.write(parser.format_help())
+                self.console.write(parser.format_help())
             except AttributeError, e:
-                self.write(cmd.__doc__ or 'No help for this command')
+                self.console.write(cmd.__doc__ or 'No help for this command')
         else:
             max_length = max( len(k) for k in self._commands)
             for cmd in sorted(self._commands):
-                self.write("{{info}}" + cmd + "{{input}} - " + self._commands[cmd].__doc__ or '')
-            self.write("")
-            self.write('For help on a specific command, use "<command> --help"')
-
-    def complete(self, text, *args):
-        return [ x for x in self._commands.keys() if x.startswith(text) ]
+                self.console.write("{{info}}" + cmd + "{{input}} - " + self._commands[cmd].__doc__ or '')
+            self.console.write("")
+            self.console.write('For help on a specific command, use "<command> --help"')

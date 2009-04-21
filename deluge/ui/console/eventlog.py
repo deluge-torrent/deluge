@@ -25,6 +25,7 @@
 
 import deluge.component as component
 import deluge.common
+import colors
 from deluge.ui.client import client
 
 from deluge.log import LOG as log
@@ -58,16 +59,8 @@ class EventLog(component.Component):
     def on_torrent_state_changed_event(self, torrent_id, state):
         log.debug("on_torrent_state_changed_event!")
         # Modify the state string color
-        state_color = {
-            "Seeding": "{{blue,black,bold}}",
-            "Downloading": "{{green,black,bold}}",
-            "Paused": "{{white,black}}",
-            "Checking": "{{green,black}}",
-            "Queued": "{{yellow,black}}",
-            "Error": "{{red,black,bold}}"
-        }
-        if state in state_color:
-            state = state_color[state] + state
+        if state in colors.state_color:
+            state = colors.state_color[state] + state
 
         self.console.write("{{event}}* TorrentStateChanged: %s {{info}}%s (%s)" %
             (state, self.console.get_torrent_name(torrent_id), torrent_id))

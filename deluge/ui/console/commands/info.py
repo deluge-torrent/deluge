@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # info.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -23,13 +23,13 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-from deluge.ui.console.main import BaseCommand, match_torrents
-from deluge.ui.console import mapping
+from optparse import make_option
+
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
-#from deluge.ui.console.colors import templates
 from deluge.ui.client import client
 import deluge.common as common
-from optparse import make_option
+import deluge.component as component
 
 status_keys = ["state",
         "save_path",
@@ -73,25 +73,58 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        def on_to_ids(result):
-            def on_match_torrents(torrents):
-                for torrent in torrents:
-                    self.show_info(torrent, options.get("verbose"))
+        self.console = component.get("ConsoleUI")
+        # Compile a list of torrent_ids to request the status of
+        torrent_ids = []
+        for arg in args:
+            torrent_ids.extend(self.console.match_torrent(arg))
 
-            match_torrents(result).addCallback(on_match_torrents)
-        mapping.to_ids(args).addCallback(on_to_ids)
+        def on_torrents_status(status):
+            # Print out the information for each torrent
+            for key, value in status.items():
+                self.show_info(key, value, options["verbose"])
 
-#    def complete(self, text, *args):
-#        torrents = match_torrents()
-#        names = mapping.get_names(torrents)
-#        return [ x[1] for x in names if x[1].startswith(text) ]
+        def on_torrents_status_fail(reason):
+            self.console.write("{{error}}Error getting torrent info: %s" % reason)
 
-    def show_info(self, torrent, verbose):
+        d = client.core.get_torrents_status({"id": torrent_ids}, status_keys)
+        d.addCallback(on_torrents_status)
+        d.addErrback(on_torrents_status_fail)
+
+    def show_info(self, torrent_id, status, verbose=False):
+        """
+        Writes out the torrents information to the screen.
+
+        :param torrent_id: str, the torrent_id
+        :param status: dict, the torrents status, this should have the same keys
+            as status_keys
+        :param verbose: bool, if true, we print out more information about the
+            the torrent
+        """
+        self.console.write(" ")
+        self.console.write("{{info}}Name: {{input}}%s" % (status["name"]))
+        self.console.write("{{info}}ID: {{input}}%s" % (torrent_id))
+        s = "{{info}}State: %s%s" % (colors.state_color[status["state"]], status["state"])
+        # Only show speed if active
+        if status["state"] in ("Seeding", "Downloading"):
+            if status["state"] != "Seeding":
+                s += " {{info}}Down Speed: {{input}}%s" % common.fspeed(status["download_payload_rate"])
+            s += " {{info}}Up Speed: {{input}}%s" % common.fspeed(status["upload_payload_rate"])
+
+            if common.ftime(status["eta"]):
+                s += " {{info}}ETA: {{input}}%s" % common.ftime(status["eta"])
+
+        self.console.write(s)
+
+        s = "{{info}}Seeds: {{input}}%s (%s)" % (status["num_seeds"], status["total_seeds"])
+        s += " {{info}}Peers: {{input}}%s (%s)" % (status["num_peers"], status["total_peers"])
+        s += " {{info}}Ratio: {{input}}%.3f" % status["ratio"]
+        s += " {{info}}Availibility: {{input}}%.2f" % status["distributed_copies"]
+        self.console.write(s)
+
+
+"""    def __show_info(self, torrent, verbose):
         def _got_torrent_status(state):
-            print templates.info_general('ID', torrent)
-            print templates.info_general('Name', state['name'])
-            #self._mapping[state['name']] = torrent # update mapping
-            print templates.info_general('Path', state['save_path'])
 
             if verbose or not state['is_seed']:
                 print templates.info_transfers("Completed", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size']))
@@ -129,3 +162,4 @@ class Command(BaseCommand):
                                         str(common.fspeed(peer['up_speed'])), str(common.fspeed(peer['down_speed'])))
             print ""
         client.core.get_torrent_status(torrent, status_keys).addCallback(_got_torrent_status)
+"""

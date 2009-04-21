@@ -116,15 +116,6 @@ class Screen(CursesStdIO):
         """
         log.debug("adding line: %s", text)
 
-        def get_line_length(line):
-            """
-            Returns the string length without the color formatting.
-
-            """
-            while line.find("{{") != -1:
-                line = line[:line.find("{{")] + line[line.find("}}") + 2:]
-
-            return len(line)
 
         def get_line_chunks(line):
             """
@@ -155,7 +146,12 @@ class Screen(CursesStdIO):
 
         for line in text.splitlines():
             # We need to check for line lengths here and split as necessary
-            line_length = get_line_length(line)
+            try:
+                line_length = colors.get_line_length(line)
+            except colors.BadColorString:
+                log.error("Passed a bad colored string..")
+                line_length = len(line)
+
             if line_length >= (self.cols - 1):
                 s = ""
                 # The length of the text without the color tags
@@ -198,7 +194,12 @@ class Screen(CursesStdIO):
 
         """
         col = 0
-        parsed = colors.parse_color_string(string)
+        try:
+            parsed = colors.parse_color_string(string)
+        except colors.BadColorString:
+            log.error("Cannot add bad color string: %s", string)
+            return
+
         for index, (color, s) in enumerate(parsed):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it

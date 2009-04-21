@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # connect.py
 #
@@ -25,17 +24,20 @@
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+import deluge.component as component
 
 class Command(BaseCommand):
     """Connect to a new deluge server."""
-    def handle(self, host='localhost', port='58846', username="", password="", **options):
+    def handle(self, host="", port="58846", username="", password="", **options):
+        self.console = component.get("ConsoleUI")
+
         port = int(port)
         d = client.connect(host, port, username, password)
         def on_connect(result):
-            print templates.SUCCESS('Connected to %s:%d!' % (host, port))
+            self.console.write("{{success}}Connected to %s:%s!" % (host, port))
 
         def on_connect_fail(result):
-            print templates.ERROR("Failed to connect to %s:%d!" % (host, port))
+            self.console.write("{{error}}Failed to connect to %s:%s!" % (host, port))
 
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)

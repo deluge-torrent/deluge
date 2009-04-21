@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # halt.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,12 +22,20 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.console.main import BaseCommand, match_torrents
-from deluge.ui.console import mapping
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+import deluge.component as component
 
 class Command(BaseCommand):
     "Shutdown the deluge server."
     def handle(self, **options):
-        client.daemon.shutdown(None)
+        self.console = component.get("ConsoleUI")
+
+        def on_shutdown(result):
+            self.write("{{success}}Daemon was shutdown")
+
+        def on_shutdown_fail(reason):
+            self.write("{{error}}Unable to shutdown daemon: %s" % reason)
+
+        client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)

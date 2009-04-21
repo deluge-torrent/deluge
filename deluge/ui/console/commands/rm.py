@@ -1,8 +1,8 @@
-#!/usr/bin/env python
 #
 # rm.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
+# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -22,12 +22,13 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
-from deluge.ui.console.main import BaseCommand, match_torrents
-from deluge.ui.console import mapping
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+import deluge.component as component
+
 from optparse import make_option
-import os
+
 
 class Command(BaseCommand):
     """Remove a torrent"""
@@ -40,14 +41,12 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        try:
-            args = mapping.to_ids(args)
-            torrents = match_torrents(args)
-            client.remove_torrent(torrents, options['remove_data'])
-        except Exception, msg:
-            print template.ERROR(str(msg))
+        self.console = component.get("ConsoleUI")
+        if len(args) == 0:
+            self.console.write(usage)
 
-    def complete(self, text, *args):
-        torrents = match_torrents()
-        names = mapping.get_names(torrents)
-        return [ x[1] for x in names if x[1].startswith(text) ]
+        torrent_ids = []
+        for arg in args:
+            torrent_ids.extend(self.console.match_torrent(arg))
+
+        client.core.remove_torrent(torrent_ids, options['remove_data'])
