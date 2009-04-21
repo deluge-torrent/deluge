@@ -134,7 +134,7 @@ def makeinfo(path, piece_length, progress, name = None,
                 raise Exception('Could not convert file/directory name %r to '
                                   'Unicode. Either the assumed filesystem '
                                   'encoding "%s" is wrong or the filename contains '
-                                  'illegal bytes.') % (name, get_filesystem_encoding())
+                                  'illegal bytes.' % (name, get_filesystem_encoding()))
 
         if u.translate(noncharacter_translate) != u:
             raise Exception('File/directory name "%s" contains reserved '
