@@ -442,7 +442,7 @@ class WebApi(JSONComponent):
     @export
     def get_hosts(self):
         """Return the hosts in the hostlist"""
-        hosts = dict((host[HOSTLIST_ID], host[:]) for \
+        hosts = dict((host[HOSTLIST_ID], list(host[:])) for \
             host in self.host_list["hosts"])
         
         main_deferred = Deferred()
