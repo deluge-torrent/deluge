@@ -35,7 +35,7 @@ Deluge.UI = {
 			items: [
 				Deluge.SideBar.Config,
 				Deluge.Details.Panel,
-				Deluge.Torrents.Grid
+				Deluge.Torrents
 			],
 			bbar: Deluge.StatusBar.Bar
 		});
@@ -105,7 +105,7 @@ Deluge.UI = {
 				id
 			]);
 		});
-		Deluge.Torrents.Store.loadData(torrents);
+		Deluge.Torrents.getStore().loadData(torrents);
 		Deluge.StatusBar.update(data['stats']);
 		Deluge.SideBar.update(data['filters']);
 		this.errorCount = 0;

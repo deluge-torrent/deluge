@@ -40,9 +40,9 @@ Deluge.Details = {
 	},
 
 	onRender: function(panel) {
-		Deluge.Torrents.Grid.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
+		Deluge.Torrents.on('rowclick', this.onTorrentsClick.bindWithEvent(this));
 		
-		var selModel = Deluge.Torrents.Grid.getSelectionModel();
+		var selModel = Deluge.Torrents.getSelectionModel();
 		selModel.on('selectionchange', function(selModel) {
 			if (!selModel.hasSelection()) {
 				this.clear.delay(10, this);
@@ -63,7 +63,7 @@ Deluge.Details = {
 Deluge.Details.Status = {
 	onRender: function(panel) {
 		this.panel = panel;
-		this.progressBar = new Deluge.ProgressBar({
+		this.progressBar = new Ext.ux.FullProgressBar({
 			id: 'pbar-status',
 			cls: 'deluge-status-progressbar'
 		});
