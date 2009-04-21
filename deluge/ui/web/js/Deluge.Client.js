@@ -91,14 +91,14 @@ Ext.namespace('Ext.ux.util');
             var responseObj = Ext.decode(response.responseText);
             var options = requestOptions.options;
             if (responseObj.error) {
-                if (!options.failure) return;
+                if (Ext.type(options.failure) != 'function') return;
                 if (options.scope) {
                     options.failure.call(options.scope, responseObj.error, responseObj, response);
                 } else {
                     options.failure(responseObj.error, responseObj, response);
                 }
             } else {
-                if (!options.success) return;
+                if (Ext.type(options.success) != 'function') return;
                 if (options.scope) {
                     options.success.call(options.scope, responseObj.result, responseObj, response);
                 } else {
