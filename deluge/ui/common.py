@@ -58,10 +58,10 @@ class TorrentInfo(object):
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
+                prefix = self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
 
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
-                path = os.path.join(prefix, *f["path"]).decode(self.encoding).encode("utf8")
+                path = os.path.join(prefix, *f["path"]).decode(self.encoding, "replace").encode("utf8")
                 f["index"] = index
                 paths[path] = f
 
@@ -75,24 +75,24 @@ class TorrentInfo(object):
             self.__m_files_tree = file_tree.get_tree()
         else:
             self.__m_files_tree = {
-                self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8"): (self.__m_metadata["info"]["length"], True)
+                self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8"): (self.__m_metadata["info"]["length"], True)
             }
 
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
+                prefix = self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding).encode("utf8"),
+                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding, "replace").encode("utf8"),
                     'size': f["length"],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8"),
+                "path": self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8"),
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
