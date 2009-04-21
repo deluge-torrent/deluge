@@ -747,7 +747,8 @@ class TorrentManager(component.Component):
     def on_alert_state_changed(self, alert):
         log.debug("on_alert_state_changed")
         try:
-            torrent = self.torrents[str(alert.handle.info_hash())]
+            torrent_id = str(alert.handle.info_hash())
+            torrent = self.torrents[torrent_id]
         except:
             return
             
