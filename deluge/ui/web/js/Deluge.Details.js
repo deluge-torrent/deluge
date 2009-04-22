@@ -61,6 +61,7 @@ Copyright:
 			Ext.deluge.details.TabPanel.superclass.onRender.call(this, ct, position);
 			Deluge.Events.on('disconnect', this.clear, this);
 			Deluge.Torrents.on('rowclick', this.onTorrentsClick, this);
+			this.on('tabchange', this.onTabChange, this);
 			
 			Deluge.Torrents.getSelectionModel().on('selectionchange', function(selModel) {
 				if (!selModel.hasSelection()) this.clear();
