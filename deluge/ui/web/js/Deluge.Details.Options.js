@@ -25,12 +25,201 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	title: _('Options'),
 	cls: 'x-deluge-options',
 	
+	constructor: function(config) {
+		config = Ext.apply({
+			title: _('Options'),
+			frame: true,
+			autoScroll:true,
+			deferredRender:false,
+			
+			items: [{
+				layout: 'column',
+				defaults: {
+					//columnWidth: '.33',
+					border: false
+				},
+				
+				items: [{
+					bodyStyle: 'padding-left: 5px; padding-right:5px;',
+					width: 300,
+					items: [{
+						xtype: 'fieldset',
+						title: _('Bandwidth'),
+						layout: 'table',
+						layoutConfig: {columns: 3},
+						autoHeight: true,
+						labelWidth: 150,
+						defaultType: 'uxspinner',
+						items: [{
+							xtype: 'label',
+							text: _('Max Download Speed'),
+							forId: 'max_download_speed',
+							cls: 'x-deluge-options-label'
+						}, {
+							id: 'max_download_speed',
+							width: 100,
+							value: -1,
+							strategy: new Ext.ux.form.Spinner.NumberStrategy({
+								minValue: -1,
+								maxValue: 99999,
+								incrementValue: 1
+							})
+						}, {
+							xtype: 'label',
+							text: 'KiB/s',
+							style: 'margin-left: 10px;'
+						}, {
+							xtype: 'label',
+							text: _('Max Upload Speed'),
+							forId: 'max_upload_speed',
+							cls: 'x-deluge-options-label'
+						}, {
+							id: 'max_upload_speed',
+							width: 100,
+							value: -1,
+							strategy: new Ext.ux.form.Spinner.NumberStrategy({
+								minValue: -1,
+								maxValue: 99999,
+								incrementValue: 1
+							})
+						}, {
+							xtype: 'label',
+							text: 'KiB/s',
+							style: 'margin-left: 10px;'
+						}, {
+							xtype: 'label',
+							text: _('Max Connections'),
+							forId: 'max_connections',
+							cls: 'x-deluge-options-label'
+						}, {
+							id: 'max_connections',
+							colspan: 2,
+							width: 100,
+							value: -1,
+							strategy: new Ext.ux.form.Spinner.NumberStrategy({
+								minValue: -1,
+								maxValue: 99999,
+								incrementValue: 1
+							})
+						}, {
+							xtype: 'label',
+							text: _('Max Upload Slots'),
+							forId: 'max_upload_slots',
+							cls: 'x-deluge-options-label'
+						}, {
+							id: 'max_upload_slots',
+							colspan: 2,
+							width: 100,
+							value: -1,
+							strategy: new Ext.ux.form.Spinner.NumberStrategy({
+								minValue: -1,
+								maxValue: 99999,
+								incrementValue: 1
+							})
+						}]
+					}]
+				}, {
+					bodyStyle: 'padding-left: 5px; padding-right:5px;',
+					width: 200,
+					items: [{
+						xtype: 'fieldset',
+						title: _('Queue'),
+						autoHeight: true,
+						labelWidth: 1,
+						defaultType: 'checkbox',
+						items: [{
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Auto Managed'),
+							id: 'is_auto_managed'
+						}, {
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Stop seed at ratio'),
+							id: 'stop_at_ratio'
+						}, {
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Remove at ratio'),
+							id: 'remove_at_ratio'
+						}, {
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Move Completed'),
+							id: 'move_completed'
+						}]
+					}]
+				}, {
+					bodyStyle: 'padding-left:5px;',
+					width: 200,
+					items: [{
+						xtype: 'fieldset',
+						title: _('General'),
+						autoHeight: true,
+						defaultType: 'checkbox',
+						labelWidth: 1,
+						items: [{
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Private'),
+							id: 'private'
+						}, {
+							fieldLabel: '',
+							labelSeparator: '',
+							boxLabel: _('Prioritize First/Last'),
+							id: 'prioritize_first_last'
+						}]
+					}, {
+						layout: 'column',
+						items: [{
+							items: [{
+								id: 'edit_trackers',
+								xtype: 'button',
+								text: _('Edit Trackers'),
+								cls: 'x-btn-text-icon',
+								iconCls: 'x-deluge-edit-trackers',
+								width: 100
+							}]
+						}, {
+							items: [{
+								id: 'apply',
+								xtype: 'button',
+								text: _('Apply'),
+								style: 'margin-left: 10px',
+								width: 100
+							}]
+						}]
+					}]
+				}]
+			}]
+		}, config);
+		Ext.deluge.details.OptionsTab.superclass.constructor.call(this, config);
+	},
+	
 	onRender: function(ct, position) {
 		Ext.deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
+		this.layout = new Ext.layout.FormLayout();
+		this.layout.setContainer(this);
+		this.doLayout();
 	},
 	
 	clear: function() {
-
+		this.findField('max_download_speed').setValue(0);
+		this.findField('max_upload_speed').setValue(0);
+		this.findField('max_connections').setValue(0);
+		this.findField('max_upload_slots').setValue(0);
+		this.findField('stop_ratio').setValue(0);
+		this.findField('is_auto_managed').setValue(false);
+		this.findField('stop_at_ratio').setValue(false);
+		this.findField('remove_at_ratio').setValue(false);
+		this.findField('private').setValue(false);
+		this.findField('prioritize_first_last').setValue(false);
+	},
+	
+	reset: function() {
+		if (this.torrentId) {
+			delete this.changed[this.torrentId];
+		}
 	},
 	
 	update: function(torrentId) {
