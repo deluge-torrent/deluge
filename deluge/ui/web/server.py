@@ -220,7 +220,7 @@ class TopLevel(resource.Resource):
     
     __stylesheets = [
         "/css/ext-all.css",
-        "/css/Spinner.css",
+        "/css/ext-extensions.css",
         "/css/deluge.css"
     ]
     
@@ -284,7 +284,7 @@ class TopLevel(resource.Resource):
         self.putChild("tracker", Tracker())
         
         theme = component.get("DelugeWeb").config["theme"]
-        self.__stylesheets.insert(1, "/css/xtheme-%s.css" % theme)
+        self.__stylesheets.append("/css/xtheme-%s.css" % theme)
 
     @property
     def scripts(self):
