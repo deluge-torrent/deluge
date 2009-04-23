@@ -353,7 +353,9 @@ class DelugeWeb(component.Component):
 
     def shutdown(self, *args):
         log.info("Shutting down webserver")
+        log.debug("Saving configuration file")
         self.config.save()
+        log.debug("Stopping reactor")
         reactor.stop()
 
 if __name__ == "__builtin__":
