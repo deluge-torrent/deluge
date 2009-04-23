@@ -210,7 +210,7 @@ class DelugeRPCProtocol(Protocol):
                 RPC_ERROR,
                 request_id,
                 (exceptionType.__name__,
-                exceptionValue.message,
+                exceptionValue.args[0] if len(exceptionValue.args) == 1 else "",
                 "".join(traceback.format_tb(exceptionTraceback)))
             ))
 
