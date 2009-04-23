@@ -342,11 +342,6 @@ class DelugeWeb(component.Component):
         log.info("Shutting down webserver")
         log.debug("Saving configuration file")
         self.config.save()
-        
-        try:
-            reactor.stop()
-        except error.ReactorNotRunning:
-            log.debug("Tried to stop the reactor but it is not running..")
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()
