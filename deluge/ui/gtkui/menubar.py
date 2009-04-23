@@ -293,8 +293,10 @@ class MenuBar(component.Component):
 
     def on_menuitem_remove_activate(self, data=None):
         log.debug("on_menuitem_remove_activate")
-        from removetorrentdialog import RemoveTorrentDialog
-        RemoveTorrentDialog(component.get("TorrentView").get_selected_torrents()).run()
+        torrent_ids = component.get("TorrentView").get_selected_torrents()
+        if torrent_ids:
+            from removetorrentdialog import RemoveTorrentDialog
+            RemoveTorrentDialog().run()
 
     def on_menuitem_recheck_activate(self, data=None):
         log.debug("on_menuitem_recheck_activate")
