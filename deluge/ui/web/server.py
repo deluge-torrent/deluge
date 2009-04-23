@@ -68,7 +68,7 @@ current_dir = os.path.dirname(__file__)
 
 CONFIG_DEFAULTS = {
     "port": 8112,
-    "template": "slate",
+    "theme": "slate",
     "pwd_salt": "16f65d5c79b7e93278a28b60fed2431e",
     "pwd_md5": "2c9baa929ca38fb5c9eb5b054474d1ce",
     "base": "",
@@ -220,7 +220,6 @@ class TopLevel(resource.Resource):
     
     __stylesheets = [
         "/css/ext-all.css",
-        "/css/xtheme-slate.css",
         "/css/Spinner.css",
         "/css/deluge.css"
     ]
@@ -283,6 +282,9 @@ class TopLevel(resource.Resource):
         self.putChild("render", Render())
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
+        
+        theme = component.get("DelugeWeb").config["theme"]
+        self.__stylesheets.insert(1, "/css/xtheme-%s.css" % theme)
 
     @property
     def scripts(self):
@@ -313,11 +315,13 @@ class TopLevel(resource.Resource):
         return template.render(scripts=scripts, stylesheets=self.stylesheets)
 
 class DelugeWeb(component.Component):
+    
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
+        self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
+        
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
-        self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
         self.port = self.config["port"]
         self.web_api = WebApi()
         

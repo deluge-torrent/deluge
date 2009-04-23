@@ -55,5 +55,6 @@ class Web(_UI):
         if self.options.port: self.server.port =  self.options.port
         self.server.start()
 
-web = Web()
-start = web.start
+def start():
+    web = Web()
+    web.start()
