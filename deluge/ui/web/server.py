@@ -26,7 +26,6 @@ import os
 import time
 import locale
 import shutil
-import signal
 import urllib
 import gettext
 import hashlib
@@ -36,7 +35,7 @@ import mimetypes
 import pkg_resources
 
 from twisted.application import service, internet
-from twisted.internet import reactor
+from twisted.internet import reactor, error
 from twisted.web import http, resource, server, static
 
 from deluge import common, component
@@ -325,21 +324,9 @@ class DelugeWeb(component.Component):
         self.port = self.config["port"]
         self.web_api = WebApi()
         
-        signal.signal(signal.SIGINT, self.shutdown)
-        signal.signal(signal.SIGTERM, self.shutdown)
-        if not common.windows_check():
-            signal.signal(signal.SIGHUP, self.shutdown)
-        else:
-            from win32api import SetConsoleCtrlHandler
-            from win32con import CTRL_CLOSE_EVENT
-            from win32con import CTRL_SHUTDOWN_EVENT
-            def win_handler(ctrl_type):
-                log.debug("ctrl_type: %s", ctrl_type)
-                if ctrl_type == CTRL_CLOSE_EVENT or \
-                   ctrl_type == CTRL_SHUTDOWN_EVENT:
-                    self.__shutdown()
-                    return 1
-            SetConsoleCtrlHandler(win_handler)
+        # Since twisted assigns itself all the signals may as well make
+        # use of it.
+        reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
         
         # Initalize the plugins
         self.plugins = PluginManager()
@@ -351,12 +338,15 @@ class DelugeWeb(component.Component):
             self.port, self.port)
         reactor.run()
 
-    def shutdown(self, *args):
+    def shutdown(self):
         log.info("Shutting down webserver")
         log.debug("Saving configuration file")
         self.config.save()
-        log.debug("Stopping reactor")
-        reactor.stop()
+        
+        try:
+            reactor.stop()
+        except error.ReactorNotRunning:
+            log.debug("Tried to stop the reactor but it is not running..")
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()
