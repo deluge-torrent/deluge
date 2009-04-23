@@ -39,30 +39,7 @@ def gmtime():
     return time.mktime(time.gmtime())
 
 def get_filesystem_encoding():
-    default_encoding = 'utf8'
-
-    if os.path.supports_unicode_filenames:
-        encoding = None
-    else:
-        try:
-            encoding = sys.getfilesystemencoding()
-        except AttributeError:
-            log.debug("This version of Python cannot detect filesystem encoding.")
-
-
-        if encoding is None:
-            encoding = default_encoding
-            log.debug("Python failed to detect filesystem encoding. "
-                      "Assuming '%s' instead.", default_encoding)
-        else:
-            try:
-                'a1'.decode(encoding)
-            except:
-                log.debug("Filesystem encoding '%s' is not supported. Using '%s' instead.",
-                          encoding, default_encoding)
-                encoding = default_encoding
-
-    return encoding
+    return sys.getfilesystemencoding()
 
 def decode_from_filesystem(path):
     encoding = get_filesystem_encoding()
@@ -155,7 +132,8 @@ def makeinfo(path, piece_length, progress, name = None,
         for p, f in subs:
             totalsize += os.path.getsize(f)
         if totalsize >= piece_length:
-            num_pieces = totalsize / piece_length
+            import math
+            num_pieces = math.ceil(float(totalsize) / float(piece_length))
         else:
             num_pieces = 1
 
@@ -172,13 +150,13 @@ def makeinfo(path, piece_length, progress, name = None,
             while pos < size:
                 a = min(size - pos, piece_length - done)
                 sh.update(h.read(a))
-                piece_count += 1
                 done += a
                 pos += a
                 totalhashed += a
 
                 if done == piece_length:
                     pieces.append(sh.digest())
+                    piece_count += 1
                     done = 0
                     sh = sha()
                 progress(piece_count, num_pieces)
