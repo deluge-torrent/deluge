@@ -8,9 +8,11 @@
   * Fix displaying IPv6 peers in the Peers tab
   * Fix starting the daemon in OS X
   * Fix loading improperly created torrents with mismatched encodings
+  * Fix displaying improper progress when creating torrent
 
 ==== Windows ====
   * Fix freezing in create torrent dialog
+  * Fix creating torrents in Windows
 
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
