@@ -331,9 +331,13 @@ class CreateTorrentDialog:
             private=private,
             created_by=created_by,
             httpseeds=httpseeds)
-        self.glade.get_widget("progress_dialog").hide_all()
-        if add_to_session:
-            client.add_torrent_file([target])
+
+        def finish_up(target):
+            self.glade.get_widget("progress_dialog").hide_all()
+            if add_to_session:
+                client.add_torrent_file([target])
+
+        gobject.idle_add(finish_up, target)
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)
@@ -392,5 +396,3 @@ class CreateTorrentDialog:
         log.debug("_on_button_remove_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
         self.trackers_liststore.remove(row)
-
-

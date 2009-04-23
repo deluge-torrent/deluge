@@ -9,6 +9,9 @@
   * Fix starting the daemon in OS X
   * Fix loading improperly created torrents with mismatched encodings
 
+==== Windows ====
+  * Fix freezing in create torrent dialog
+
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
   * Fix udp trackers being classified as DHT source
