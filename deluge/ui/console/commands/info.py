@@ -175,16 +175,25 @@ class Command(BaseCommand):
                 s = ""
                 for peer in status["peers"]:
                     if peer["seed"]:
-                        s += "%sSeed{{input}}" % colors.state_color["Seeding"]
+                        s += "%sSeed\t{{input}}" % colors.state_color["Seeding"]
                     else:
-                        s += "%sPeer{{input}}" % colors.state_color["Downloading"]
+                        s += "%sPeer\t{{input}}" % colors.state_color["Downloading"]
 
-                    s += " " + peer["country"]
-                    s += " " + peer["ip"]
-                    s += "\t" + peer["client"].encode(sys.getdefaultencoding(), "replace")
+                    s += peer["country"] + "\t"
+                    s += peer["ip"]
 
+                    c = peer["client"].encode(sys.getdefaultencoding(), "replace")
+                    s += "\t" + c
 
-                    s += "{{input}}\t%s\t%s" % (common.fspeed(peer["up_speed"]), common.fspeed(peer["down_speed"]))
+                    if len(c) < 16:
+                        s += "\t\t"
+                    else:
+                        s += "\t"
+                    s += "%s%s\t%s%s" % (
+                        colors.state_color["Seeding"],
+                        common.fspeed(peer["up_speed"]),
+                        colors.state_color["Downloading"],
+                        common.fspeed(peer["down_speed"]))
                     s += "\n"
 
                 self.console.write(s[:-1])

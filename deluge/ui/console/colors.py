@@ -74,6 +74,16 @@ def init_colors():
 class BadColorString(Exception):
     pass
 
+def replace_tabs(line):
+    """
+    Returns a string with tabs replaced with spaces.
+
+    """
+    for i in range(line.count("\t")):
+        tab_length = 8 - (len(line[:line.find("\t")]) % 8)
+        line = line.replace("\t", " " * tab_length, 1)
+    return line
+
 def get_line_length(line):
     """
     Returns the string length without the color formatting.
@@ -82,9 +92,12 @@ def get_line_length(line):
     if line.count("{{") != line.count ("}}"):
         raise BadColorString("Number of {{ does not equal number of }}")
 
+    # Remove all the color tags
     while line.find("{{") != -1:
         line = line[:line.find("{{")] + line[line.find("}}") + 2:]
 
+    # Replace tabs with the appropriate amount of spaces
+    line = replace_tabs(line)
     return len(line)
 
 def parse_color_string(s):
@@ -96,6 +109,7 @@ def parse_color_string(s):
     """
     if s.count("{{") != s.count ("}}"):
         raise BadColorString("Number of {{ does not equal number of }}")
+
 
     ret = []
     # Keep track of where the strings
@@ -144,11 +158,12 @@ def parse_color_string(s):
         # We need to find the text now, so lets try to find another {{ and if
         # there isn't one, then it's the rest of the string
         next_begin = s.find("{{", end)
+
         if next_begin == -1:
-            ret.append((color_pair, s[end+2:]))
+            ret.append((color_pair, replace_tabs(s[end+2:])))
             break
         else:
-            ret.append((color_pair, s[end+2:next_begin]))
+            ret.append((color_pair, replace_tabs(s[end+2:next_begin])))
             s = s[next_begin:]
 
     if not ret:
