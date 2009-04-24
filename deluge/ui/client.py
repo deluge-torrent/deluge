@@ -322,7 +322,8 @@ class DaemonSSLProxy(DaemonProxy):
             # This is a new event to handle, so we need to tell the daemon
             # that we're interested in receiving this type of event
             self.__factory.event_handlers[event] = []
-            self.call("daemon.set_event_interest", [event])
+            if self.connected:
+                self.call("daemon.set_event_interest", [event])
 
         # Only add the handler if it's not already registered
         if handler not in self.__factory.event_handlers[event]:
@@ -498,7 +499,7 @@ class Client(object):
             import common
             username, password = common.get_localhost_auth()
 
-        self._daemon_proxy = DaemonSSLProxy(self.__event_handlers)
+        self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port, username, password)
         return d
