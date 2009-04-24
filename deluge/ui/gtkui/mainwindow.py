@@ -55,7 +55,7 @@ from deluge.log import LOG as log
 
 class MainWindow(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "MainWindow")
+        component.Component.__init__(self, "MainWindow", interval=2)
         self.config = ConfigManager("gtkui.conf")
         # Get the glade file for the main window
         self.main_glade = gtk.glade.XML(
