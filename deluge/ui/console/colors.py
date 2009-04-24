@@ -102,6 +102,9 @@ def parse_color_string(s):
     col_index = 0
     while s.find("{{") != -1:
         begin = s.find("{{")
+        if begin > 0:
+            ret.append((curses.color_pair(color_pairs[(schemes["input"][0], schemes["input"][1])]), s[:begin]))
+
         end = s.find("}}")
         if end == -1:
             raise BadColorString("Missing closing '}}'")
