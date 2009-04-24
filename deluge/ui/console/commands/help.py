@@ -31,25 +31,16 @@ class Command(BaseCommand):
 
     usage =  "Usage: help [command]"
 
-#    def __init__(self):
-#        BaseCommand.__init__(self)
-        # get a list of commands, exclude 'help' so we won't run into a recursive loop.
-        #self._commands = load_commands(os.path.join(UI_PATH,'commands'), None, exclude=['help'])
-
-#        self._commands['help'] = self
-
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         self._commands = self.console._commands
         if args:
             if len(args) > 1:
-                #print usage
                 self.console.write(usage)
                 return
             try:
                 cmd = self._commands[args[0]]
             except KeyError:
-                #print templates.ERROR('unknown command %r' % args[0])
                 self.console.write("{{error}}Unknown command %r" % args[0])
                 return
             try:
@@ -61,5 +52,5 @@ class Command(BaseCommand):
             max_length = max( len(k) for k in self._commands)
             for cmd in sorted(self._commands):
                 self.console.write("{{info}}" + cmd + "{{input}} - " + self._commands[cmd].__doc__ or '')
-            self.console.write("")
+            self.console.write(" ")
             self.console.write('For help on a specific command, use "<command> --help"')
