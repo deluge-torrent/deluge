@@ -24,6 +24,7 @@
 #
 
 from optparse import make_option
+import sys
 
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
@@ -55,7 +56,27 @@ status_keys = ["state",
         "file_progress",
         "peers",
         "is_seed",
+        "is_finished"
         ]
+
+
+def format_progressbar(progress, width):
+    """
+    Returns a string of a progress bar.
+
+    :param progress: float, a value between 0-100
+
+    :returns: str, a progress bar based on width
+
+    """
+
+    w = width - 2 # we use a [] for the beginning and end
+    s = "["
+    p = int(round((progress/100) * w))
+    s += "#" * p
+    s += "~" * (w - p)
+    s += "]"
+    return s
 
 
 class Command(BaseCommand):
@@ -116,50 +137,54 @@ class Command(BaseCommand):
 
         self.console.write(s)
 
-        s = "{{info}}Seeds: {{input}}%s (%s)" % (status["num_seeds"], status["total_seeds"])
-        s += " {{info}}Peers: {{input}}%s (%s)" % (status["num_peers"], status["total_peers"])
+        if status["state"] in ("Seeding", "Downloading", "Queued"):
+            s = "{{info}}Seeds: {{input}}%s (%s)" % (status["num_seeds"], status["total_seeds"])
+            s += " {{info}}Peers: {{input}}%s (%s)" % (status["num_peers"], status["total_peers"])
+            s += " {{info}}Availibility: {{input}}%.2f" % status["distributed_copies"]
+            self.console.write(s)
+
+        s = "{{info}}Size: {{input}}%s/%s" % (common.fsize(status["total_done"]), common.fsize(status["total_size"]))
         s += " {{info}}Ratio: {{input}}%.3f" % status["ratio"]
-        s += " {{info}}Availibility: {{input}}%.2f" % status["distributed_copies"]
         self.console.write(s)
 
+        if not status["is_finished"]:
+            pbar = format_progressbar(status["progress"], self.console.screen.cols - (13 + len("%.2f%%" % status["progress"])))
+            s = "{{info}}Progress: {{input}}%.2f%% %s" % (status["progress"], pbar)
+            self.console.write(s)
 
-"""    def __show_info(self, torrent, verbose):
-        def _got_torrent_status(state):
 
-            if verbose or not state['is_seed']:
-                print templates.info_transfers("Completed", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size']))
-            print templates.info_transfers("Status", state['state'])
+        if verbose:
+            self.console.write("  {{info}}::Files")
+            for i, f in enumerate(status["files"]):
+                s = "    {{input}}%s (%s)" % (f["path"], common.fsize(f["size"]))
+                s += " {{info}}Progress: {{input}}%.2f%%" % (status["file_progress"][i] * 100)
+                s += " {{info}}Priority:"
+                fp = common.FILE_PRIORITY[status["file_priorities"][i]].replace("Priority", "")
+                if fp == "Do Not Download":
+                    s += "{{error}}"
+                else:
+                    s += "{{success}}"
 
-            if verbose or state['state'] == 'Downloading':
-                print templates.info_transfers("Download Speed", common.fspeed(state['download_payload_rate']))
-            if verbose or state['state'] in ('Downloading', 'Seeding'):
-                print templates.info_transfers("Upload Speed", common.fspeed(state['upload_payload_rate']))
-                print templates.info_transfers("Share Ratio", "%.1f" % state['ratio'])
-            if state['state'] == ('Downloading'):
-                print templates.info_transfers("ETA", common.ftime(state['eta']))
+                s += " %s" % (fp)
+                self.console.write(s)
 
-            if verbose:
-                print templates.info_network("Seeders", "%s (%s)" % (state['num_seeds'], state['total_seeds']))
-                print templates.info_network("Peers", "%s (%s)" % (state['num_peers'], state['total_peers']))
-                print templates.info_network("Availability", "%.1f" % state['distributed_copies'])
-                print templates.info_files_header("Files")
-                for i, file in enumerate(state['files']):
-                    status = ""
-                    if not state['is_seed']:
-                        if state['file_priorities'][i] == 0:
-                            status = " - Do not download"
-                        else:
-                            status = " - %1.f%% completed" % (state['file_progress'][i] * 100)
-                    print "\t* %s (%s)%s" % (file['path'], common.fsize(file['size']), status)
+            self.console.write("  {{info}}::Peers")
+            if len(status["peers"]) == 0:
+                self.console.write("    None")
+            else:
+                s = ""
+                for peer in status["peers"]:
+                    if peer["seed"]:
+                        s += "%sSeed{{input}}" % colors.state_color["Seeding"]
+                    else:
+                        s += "%sPeer{{input}}" % colors.state_color["Downloading"]
 
-                print templates.info_peers_header("Peers")
-                if len(state['peers']) == 0:
-                    print "\t* None"
-                for peer in state['peers']:
-                    client_str = unicode(peer['client'])
-                    client_str += unicode(peer['seed']) if peer['seed'] else ''
-                    print templates.info_peers(str(peer['ip']), unicode(client_str),
-                                        str(common.fspeed(peer['up_speed'])), str(common.fspeed(peer['down_speed'])))
-            print ""
-        client.core.get_torrent_status(torrent, status_keys).addCallback(_got_torrent_status)
-"""
+                    s += " " + peer["country"]
+                    s += " " + peer["ip"]
+                    s += "\t" + peer["client"].encode(sys.getdefaultencoding(), "replace")
+
+
+                    s += "{{input}}\t%s\t%s" % (common.fspeed(peer["up_speed"]), common.fspeed(peer["down_speed"]))
+                    s += "\n"
+
+                self.console.write(s[:-1])
