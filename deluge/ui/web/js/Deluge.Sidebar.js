@@ -183,8 +183,8 @@ Copyright:
 			}
 			
 			// Perform a cleanup of fitlers that aren't enabled any more
-			Ext.each(Ext.getKeys(this.panels), function(filter) {
-				if (Ext.getKeys(filters).indexOf(filter) == -1) {
+			Ext.each(Ext.keys(this.panels), function(filter) {
+				if (Ext.keys(filters).indexOf(filter) == -1) {
 					// We need to remove the panel
 				}
 			});
