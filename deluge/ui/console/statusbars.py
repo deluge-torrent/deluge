@@ -22,7 +22,6 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
 import deluge.component as component
 import deluge.common
 from deluge.ui.client import client
@@ -91,12 +90,12 @@ class StatusBars(component.Component):
         self.screen.bottombar += " D: %s/s" % self.download
 
         if self.config["max_download_speed"] > -1:
-            self.screen.bottombar += " (%s/s)" % self.config["max_download_speed"]
+            self.screen.bottombar += " (%s KiB/s)" % self.config["max_download_speed"]
 
         self.screen.bottombar += " U: %s/s" % self.upload
 
         if self.config["max_upload_speed"] > -1:
-            self.screen.bottombar += " (%s/s)" % self.config["max_upload_speed"]
+            self.screen.bottombar += " (%s KiB/s)" % self.config["max_upload_speed"]
 
         if self.config["dht"]:
             self.screen.bottombar += " DHT: %s" % self.dht
