@@ -23,11 +23,6 @@ Copyright:
 
 Ext.namespace('Ext.deluge');
 
-var Deluge = {
-	author: 'Damien Churchill <damoxc@gmail.com>',
-	version: '1.2-dev'
-};
-
 (function() {
 	/* Add some helper functions to Ext */
 	Ext.apply(Function.prototype, {

@@ -85,6 +85,19 @@ def rpath(path):
     """
     return os.path.join(current_dir, path)
 
+class Config(resource.Resource):
+    """
+    Writes out a javascript file that contains the WebUI configuration
+    available as Deluge.Config.
+    """
+    
+    def render(self, request):
+        return """Deluge = {
+    author: 'Damien Churchill <damoxc@gmail.com>',
+    version: '1.2-dev',
+    config: %s
+}""" % common.json.dumps(component.get("DelugeWeb").config.config)
+
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
@@ -227,6 +240,7 @@ class TopLevel(resource.Resource):
         "/js/ext-base.js",
         "/js/ext-all.js",
         "/js/ext-extensions.js",
+        "/config.js",
         "/gettext.js",
         "/js/deluge-yc.js"
     ]
@@ -235,6 +249,7 @@ class TopLevel(resource.Resource):
         "/js/ext-base.js",
         "/js/ext-all-debug.js",
         "/js/ext-extensions-debug.js",
+        "/config.js",
         "/gettext.js",
         "/js/Deluge.js",
         "/js/Deluge.Formatters.js",
@@ -270,6 +285,7 @@ class TopLevel(resource.Resource):
     
     def __init__(self):
         resource.Resource.__init__(self)
+        self.putChild("config.js", Config())
         self.putChild("css", LookupResource("Css", rpath("css")))
         self.putChild("gettext.js", GetText())
         self.putChild("flag", Flag())
