@@ -26,8 +26,6 @@ from optparse import OptionParser, OptionGroup
 import deluge.common
 import deluge.configmanager
 
-from deluge.log import LOG as log
-
 DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
@@ -35,7 +33,6 @@ DEFAULT_PREFS = {
 class _UI(object):
     
     def __init__(self, name="gtk"):
-        log.debug("NewUI init...")
         self.__name = name
 
         usage="%prog [options] [actions]", 
@@ -69,13 +66,30 @@ class _UI(object):
     
     @property
     def args(self):
-        return self._args
+        return self.__args
     
     def start(self):
         (self.__options, self.__args) = self.__parser.parse_args()
+        if self.options.quiet:
+            self.options.loglevel = "none"
+        
+        # Setup the logger
+        import deluge.log
+        deluge.log.setupLogger(
+            level=self.options.loglevel,
+            filename=self.options.logfile
+        )
+        
+        import deluge.common
+        log = deluge.log.LOG
+        log.info('Deluge %s ui %s', self.name, deluge.common.get_version())
+        log.debug('options: %s', self.options)
+        log.debug('args: %s', self.args)
+        log.info('Starting ui...')
 
 class UI:
     def __init__(self, options, args, ui_args):
+        from deluge.log import LOG as log
         log.debug("UI init..")
 
         # Set the config directory
