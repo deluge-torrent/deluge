@@ -23,9 +23,13 @@ Copyright:
 */
 
 Deluge.UI = {
+
+	cookies: new Ext.state.CookieProvider(),
+	
+	errorCount: 0,
+	
 	initialize: function() {
-		this.errorCount = 0;
-		Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+		Ext.state.Manager.setProvider(this.cookies);		
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
 			iconCls: 'x-deluge-main-panel',
@@ -44,7 +48,7 @@ Deluge.UI = {
 			layout: 'fit',
 			items: [this.MainPanel]
 		});
-
+		
 		Deluge.Login.show();
 		
 		Deluge.Events.on("connect", this.onConnect, this);
