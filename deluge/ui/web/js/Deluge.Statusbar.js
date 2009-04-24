@@ -19,30 +19,30 @@
 		createButtons: function() {
 			this.add({
 				id: 'statusbar-connections',
-				text: '200 (200)',
+				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-connections',
 				menu: Deluge.Menus.Connections
 			}, '-', {
 				id: 'statusbar-downspeed',
-				text: '9.8KiB/s (30 KiB/s)',
+				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-downloading',
 				menu: Deluge.Menus.Download
 			}, '-', {
 				id: 'statusbar-upspeed',
-				text: '9.8KiB/s (30 KiB/s)',
+				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-seeding',
 				menu: Deluge.Menus.Upload
 			}, '-', {
 				id: 'statusbar-traffic',
-				text: '1.53/2,65 KiB/s',
+				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-traffic'
 			}, '-', {
 				id: 'statusbar-dht',
-				text: '161',
+				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-dht'
 			});
