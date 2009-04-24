@@ -336,7 +336,7 @@ class ConsoleUI(component.Component):
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
             self.torrents.append((torrent_id, status["name"]))
-        client.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
+        client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
         for index, (tid, name) in enumerate(self.torrents):
