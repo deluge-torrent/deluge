@@ -301,15 +301,18 @@ class Screen(CursesStdIO):
                 # Going back in the history
                 self.input_history_index -= 1
                 self.input = self.input_history[self.input_history_index]
+                self.input_cursor = len(self.input)
         elif c == curses.KEY_DOWN:
             if self.input_history_index + 1 < len(self.input_history):
                 # Going forward in the history
                 self.input_history_index += 1
                 self.input = self.input_history[self.input_history_index]
+                self.input_cursor = len(self.input)
             elif self.input_history_index + 1 == len(self.input_history):
                 # We're moving back down to an incomplete input
                 self.input_history_index += 1
                 self.input = self.input_incomplete
+                self.input_cursor = len(self.input)
 
         # Cursor movement
         elif c == curses.KEY_LEFT:
