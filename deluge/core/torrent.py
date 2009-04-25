@@ -473,7 +473,11 @@ class Torrent:
     def get_peers(self):
         """Returns a list of peers and various information about them"""
         ret = []
-        peers = self.handle.get_peer_info()
+        try:
+            peers = self.handle.get_peer_info()
+        except IndexError, e:
+            log.error("There was an error getting peer info! This may be a bug in libtorrent.  Please upgrade to libtorrent >= 0.14.3.")
+            return ret
 
         for peer in peers:
             # We do not want to report peers that are half-connected
