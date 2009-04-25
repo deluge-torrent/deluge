@@ -569,6 +569,7 @@ class Torrent:
             "files": self.files,
             "hash": self.torrent_id,
             "is_auto_managed": self.options["auto_managed"],
+            "is_finished": self.is_finished,
             "max_connections": self.options["max_connections"],
             "max_download_speed": self.options["max_download_speed"],
             "max_upload_slots": self.options["max_upload_slots"],
