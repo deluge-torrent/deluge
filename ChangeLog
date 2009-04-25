@@ -1,6 +1,8 @@
 === Deluge 1.1.7 - (In Development) ===
 ==== Core ====
   * Fix issue where cannot resume torrent after doing a 'Pause All'
+  * Add workaround for 'address_v4 from unsigned long' bug experienced by users
+    with 64-bit machines.  This bug is fixed in libtorrent 0.14.3.
 
 ==== GtkUI ====
   * Fix #883 segfault if locale is not using UTF-8 encoding

@@ -195,7 +195,14 @@ class Torrent:
                 self.trackers.append(tracker)
 
         # Various torrent options
-        self.handle.resolve_countries(True)
+        # XXX: Disable resolve_countries if using a 64-bit long and on lt 0.14.2 or lower.
+        # This is a workaround for a bug in lt.
+        import sys
+        if sys.maxint > 0xFFFFFFFF and lt.version < "0.14.3.0":
+            self.handle.resolve_countries(False)
+        else:
+            self.handle.resolve_countries(True)
+
         self.set_options(self.options)
 
         # Status message holds error info about the torrent
@@ -697,7 +704,13 @@ class Torrent:
         self.handle.set_upload_limit(int(self.max_upload_speed * 1024))
         self.handle.set_download_limit(int(self.max_download_speed * 1024))
         self.handle.prioritize_files(self.file_priorities)
-        self.handle.resolve_countries(True)
+        # XXX: Disable resolve_countries if using a 64-bit long and on lt 0.14.2 or lower.
+        # This is a workaround for a bug in lt.
+        import sys
+        if sys.maxint > 0xFFFFFFFF and lt.version < "0.14.3.0":
+            self.handle.resolve_countries(False)
+        else:
+            self.handle.resolve_countries(True)
 
     def pause(self):
         """Pause this torrent"""
