@@ -13,6 +13,7 @@
 ==== Windows ====
   * Fix freezing in create torrent dialog
   * Fix creating torrents in Windows
+  * Fix free space check
 
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
