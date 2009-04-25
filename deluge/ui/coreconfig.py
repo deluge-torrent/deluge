@@ -51,3 +51,7 @@ class CoreConfig(component.Component):
 
     def on_configvaluechanged_event(self, key, value):
         self.config[key] = value
+
+    def __getattr__(self, attr):
+        # We treat this directly interacting with the dictionary
+        return getattr(self.config, attr)
