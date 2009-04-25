@@ -23,9 +23,12 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-from deluge.ui.console.main import BaseCommand, match_torrents
+from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
+import deluge.component as component
+from deluge.log import LOG as log
+
 from optparse import make_option
 import re
 
@@ -78,34 +81,46 @@ class Command(BaseCommand):
             "       config --set key value"
 
     def handle(self, *args, **options):
+        self.console = component.get("ConsoleUI")
         if options['set']:
             self._set_config(*args, **options)
         else:
             self._get_config(*args, **options)
 
     def _get_config(self, *args, **options):
-        def _on_get_config(config):
-            keys = config.keys()
-            keys.sort()
-            for key in keys:
-                if args and key not in args:
-                    continue
-                color = 'white'
-                value = config[key]
-                if isinstance(value, bool):
-                    color = 'yellow'
-                elif isinstance(value, int) or isinstance(value, float):
-                    color = 'green'
-                elif isinstance(value, str):
-                    color = 'cyan'
-                elif isinstance(value, list):
-                    color = 'magenta'
+        config = component.get("CoreConfig")
 
-                print templates.config_display(key, style[color](str(value)))
-        client.get_config(_on_get_config)
+        keys = config.keys()
+        keys.sort()
+        s = ""
+        for key in keys:
+            if args and key not in args:
+                continue
+            color = 'white'
+            value = config[key]
+            if isinstance(value, bool):
+                color = 'yellow'
+            elif isinstance(value, int) or isinstance(value, float):
+                color = 'green'
+            elif isinstance(value, str):
+                color = 'cyan'
+            elif isinstance(value, list):
+                color = 'magenta'
+            elif isinstance(value, dict):
+                import pprint
+                value = pprint.pformat(value, 2, 80)
+                new_value = []
+                for line in value.splitlines():
+                    new_value.append("{!%s,black,bold!}%s" % (color, line))
+                value = "\n".join(new_value)
+
+            s += "  %s: {!%s,black,bold!}%s\n" % (key, color, value)
+
+        self.console.write(s)
 
     def _set_config(self, *args, **options):
-        def _got_config_value(config_val):
+        pass
+"""        def _got_config_value(config_val):
             global c_val
             c_val = config_val
         key = args[0]
@@ -135,4 +150,4 @@ class Command(BaseCommand):
         return [ k for k in keys if k.startswith(text) ]
 
     def split(self, text):
-        return str.split(text)
+        return str.split(text)"""

@@ -49,11 +49,11 @@ class EventLog(component.Component):
 
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
-            self.console.write("{{event}}* TorrentAdded: {{info}}%s (%s)" % (status["name"], torrent_id))
+            self.console.write("{!event!}* TorrentAdded: {!info!}%s (%s)" % (status["name"], torrent_id))
         client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
-        self.console.write("{{event}}* TorrentRemovedEvent: {{info}}%s (%s)" %
+        self.console.write("{!event!}* TorrentRemovedEvent: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
@@ -62,27 +62,27 @@ class EventLog(component.Component):
         if state in colors.state_color:
             state = colors.state_color[state] + state
 
-        self.console.write("{{event}}* TorrentStateChanged: %s {{info}}%s (%s)" %
+        self.console.write("{!event!}* TorrentStateChanged: %s {!info!}%s (%s)" %
             (state, self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_paused_event(self, torrent_id):
-        self.console.write("{{event}}* TorrentPaused: {{info}}%s (%s)" %
+        self.console.write("{!event!}* TorrentPaused: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
-        self.console.write("{{event}}* TorrentFinished: {{info}}%s (%s)" %
+        self.console.write("{!event!}* TorrentFinished: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_new_version_available_event(self, version):
-        self.console.write("{{event}}* NewVersionAvailable: {{info}}%s" %
+        self.console.write("{!event!}* NewVersionAvailable: {!info!}%s" %
             (version))
 
     def on_session_paused_event(self):
-        self.console.write("{{event}}* SessionPaused")
+        self.console.write("{!event!}* SessionPaused")
 
     def on_session_resumed_event(self):
-        self.console.write("{{event}}* SessionResumed")
+        self.console.write("{!event!}* SessionResumed")
 
     def on_config_value_changed_event(self, key, value):
-        self.console.write("{{event}}* ConfigValueChanged: %s: %s" %
+        self.console.write("{!event!}* ConfigValueChanged: %s: %s" %
             (key, value))

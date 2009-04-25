@@ -48,13 +48,13 @@ class Command(BaseCommand):
             t_options["download_location"] = options["path"]
 
         for arg in args:
-            self.console.write("{{info}}Attempting to add torrent: %s" % arg)
+            self.console.write("{!info!}Attempting to add torrent: %s" % arg)
             filename = os.path.split(arg)[-1]
             filedump = base64.encodestring(open(arg).read())
 
             def on_success(result):
-                self.console.write("{{success}}Torrent added!")
+                self.console.write("{!success!}Torrent added!")
             def on_fail(result):
-                self.console.write("{{error}}Torrent was not added! %s" % result)
+                self.console.write("{!error!}Torrent was not added! %s" % result)
 
             client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)

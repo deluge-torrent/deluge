@@ -74,7 +74,7 @@ class StatusBars(component.Component):
 
     def update_statusbars(self):
         # Update the topbar string
-        self.screen.topbar = "{{status}}Deluge %s Console - " % deluge.common.get_version()
+        self.screen.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
         if client.connected():
             info = client.connection_info()
             self.screen.topbar += "%s@%s:%s" % (info[2], info[0], info[1])
@@ -82,7 +82,7 @@ class StatusBars(component.Component):
             self.screen.topbar += "Not Connected"
 
         # Update the bottombar string
-        self.screen.bottombar = "{{status}}C: %s" % self.connections
+        self.screen.bottombar = "{!status!}C: %s" % self.connections
 
         if self.config["max_connections_global"] > -1:
             self.screen.bottombar += " (%s)" % self.config["max_connections_global"]

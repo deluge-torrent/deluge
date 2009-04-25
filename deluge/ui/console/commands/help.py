@@ -41,7 +41,7 @@ class Command(BaseCommand):
             try:
                 cmd = self._commands[args[0]]
             except KeyError:
-                self.console.write("{{error}}Unknown command %r" % args[0])
+                self.console.write("{!error!}Unknown command %r" % args[0])
                 return
             try:
                 parser = cmd.create_parser()
@@ -51,6 +51,6 @@ class Command(BaseCommand):
         else:
             max_length = max( len(k) for k in self._commands)
             for cmd in sorted(self._commands):
-                self.console.write("{{info}}" + cmd + "{{input}} - " + self._commands[cmd].__doc__ or '')
+                self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
             self.console.write(" ")
             self.console.write('For help on a specific command, use "<command> --help"')

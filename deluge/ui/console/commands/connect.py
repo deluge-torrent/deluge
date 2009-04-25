@@ -34,10 +34,10 @@ class Command(BaseCommand):
         port = int(port)
         d = client.connect(host, port, username, password)
         def on_connect(result):
-            self.console.write("{{success}}Connected to %s:%s!" % (host, port))
+            self.console.write("{!success!}Connected to %s:%s!" % (host, port))
 
         def on_connect_fail(result):
-            self.console.write("{{error}}Failed to connect to %s:%s!" % (host, port))
+            self.console.write("{!error!}Failed to connect to %s:%s!" % (host, port))
 
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)

@@ -52,12 +52,12 @@ schemes = {
 
 # Colors for various torrent states
 state_color = {
-    "Seeding": "{{blue,black,bold}}",
-    "Downloading": "{{green,black,bold}}",
-    "Paused": "{{white,black}}",
-    "Checking": "{{green,black}}",
-    "Queued": "{{yellow,black}}",
-    "Error": "{{red,black,bold}}"
+    "Seeding": "{!blue,black,bold!}",
+    "Downloading": "{!green,black,bold!}",
+    "Paused": "{!white,black!}",
+    "Checking": "{!green,black!}",
+    "Queued": "{!yellow,black!}",
+    "Error": "{!red,black,bold!}"
 }
 
 def init_colors():
@@ -89,12 +89,12 @@ def get_line_length(line):
     Returns the string length without the color formatting.
 
     """
-    if line.count("{{") != line.count ("}}"):
-        raise BadColorString("Number of {{ does not equal number of }}")
+    if line.count("{!") != line.count("!}"):
+        raise BadColorString("Number of {! is not equal to number of !}")
 
     # Remove all the color tags
-    while line.find("{{") != -1:
-        line = line[:line.find("{{")] + line[line.find("}}") + 2:]
+    while line.find("{!") != -1:
+        line = line[:line.find("{!")] + line[line.find("!}") + 2:]
 
     # Replace tabs with the appropriate amount of spaces
     line = replace_tabs(line)
@@ -107,27 +107,26 @@ def parse_color_string(s):
     :param s:, string to parse
 
     """
-    if s.count("{{") != s.count ("}}"):
-        raise BadColorString("Number of {{ does not equal number of }}")
-
+    if s.count("{!") != s.count("!}"):
+        raise BadColorString("Number of {! is not equal to number of !}")
 
     ret = []
     # Keep track of where the strings
     col_index = 0
-    while s.find("{{") != -1:
-        begin = s.find("{{")
+    while s.find("{!") != -1:
+        begin = s.find("{!")
         if begin > 0:
             ret.append((curses.color_pair(color_pairs[(schemes["input"][0], schemes["input"][1])]), s[:begin]))
 
-        end = s.find("}}")
+        end = s.find("!}")
         if end == -1:
-            raise BadColorString("Missing closing '}}'")
+            raise BadColorString("Missing closing '!}'")
 
         # Get a list of attributes in the bracketed section
         attrs = s[begin+2:end].split(",")
 
         if len(attrs) == 1 and not attrs:
-            raise BadColorString("No description in {{ }}")
+            raise BadColorString("No description in {! !}")
 
         def apply_attrs(cp, a):
             # This function applies any additional attributes as necessary
@@ -151,13 +150,17 @@ def parse_color_string(s):
                 # Default to 'black' if no bg is chosen
                 bg = "black"
 
-            color_pair = curses.color_pair(color_pairs[(fg, bg)])
+            try:
+                color_pair = curses.color_pair(color_pairs[(fg, bg)])
+            except KeyError:
+                raise BadColorString("Bad color value in tag: %s,%s" % (fg, bg))
+
             # Check for additional attributes and OR them to the color_pair
             color_pair = apply_attrs(color_pair, attrs)
 
-        # We need to find the text now, so lets try to find another {{ and if
+        # We need to find the text now, so lets try to find another {! and if
         # there isn't one, then it's the rest of the string
-        next_begin = s.find("{{", end)
+        next_begin = s.find("{!", end)
 
         if next_begin == -1:
             ret.append((color_pair, replace_tabs(s[end+2:])))

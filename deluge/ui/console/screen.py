@@ -97,25 +97,23 @@ class Screen(CursesStdIO):
         Add a line to the screen.  This will be showed between the two bars.
         The text can be formatted with color using the following format:
 
-        "{{fg, bg, attributes, ...}}"
+        "{!fg, bg, attributes, ...!}"
 
         See: http://docs.python.org/library/curses.html#constants for attributes.
 
         Alternatively, it can use some built-in scheme for coloring.
         See colors.py for built-in schemes.
 
-        "{{scheme}}"
+        "{!scheme!}"
 
         Examples:
 
-        "{{blue, black, bold}}My Text is {{white, black}}cool"
-        "{{info}}I am some info text!"
-        "{{error}}Uh oh!"
+        "{!blue, black, bold!}My Text is {!white, black!}cool"
+        "{!info!}I am some info text!"
+        "{!error!}Uh oh!"
 
         :param text: str, the text to show
         """
-        log.debug("adding line: %s", text)
-
 
         def get_line_chunks(line):
             """
@@ -123,11 +121,11 @@ class Screen(CursesStdIO):
 
             """
             chunks = []
-            num_chunks = line.count("{{")
+            num_chunks = line.count("{!")
             for i in range(num_chunks):
                 # Find the beginning and end of the color tag
-                beg = line.find("{{")
-                end = line.find("}}") + 2
+                beg = line.find("{!")
+                end = line.find("!}") + 2
                 color = line[beg:end]
                 line = line[end:]
 
@@ -137,8 +135,8 @@ class Screen(CursesStdIO):
                 else:
                     # Not the last chunk so get the text up to the next tag
                     # and remove the text from line
-                    text = line[:line.find("{{")]
-                    line = line[line.find("{{"):]
+                    text = line[:line.find("{!")]
+                    line = line[line.find("{!"):]
 
                 chunks.append((color, text))
 
@@ -196,8 +194,8 @@ class Screen(CursesStdIO):
         col = 0
         try:
             parsed = colors.parse_color_string(string)
-        except colors.BadColorString:
-            log.error("Cannot add bad color string: %s", string)
+        except colors.BadColorString, e:
+            log.error("Cannot add bad color string %s: %s", string, e)
             return
 
         for index, (color, s) in enumerate(parsed):

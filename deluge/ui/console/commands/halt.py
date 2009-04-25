@@ -33,9 +33,9 @@ class Command(BaseCommand):
         self.console = component.get("ConsoleUI")
 
         def on_shutdown(result):
-            self.write("{{success}}Daemon was shutdown")
+            self.write("{!success!}Daemon was shutdown")
 
         def on_shutdown_fail(reason):
-            self.write("{{error}}Unable to shutdown daemon: %s" % reason)
+            self.write("{!error!}Unable to shutdown daemon: %s" % reason)
 
         client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)

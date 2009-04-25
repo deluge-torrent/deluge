@@ -40,10 +40,6 @@ import deluge.ui.console.screen as screen
 import deluge.ui.console.colors as colors
 from deluge.log import LOG as log
 
-# XXX: Remove when the commands are all fixed up
-def match_torrents(a=[]):
-    pass
-
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
     def exit(self, status=0, msg=None):
@@ -149,8 +145,8 @@ class ConsoleUI(component.Component):
         self.statusbars = StatusBars()
         self.eventlog = EventLog()
 
-        self.screen.topbar = "{{status}}Deluge " + deluge.common.get_version() + " Console"
-        self.screen.bottombar = "{{status}}"
+        self.screen.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
+        self.screen.bottombar = "{!status!}"
         self.screen.refresh()
 
         # The Screen object is designed to run as a twisted reader so that it
@@ -203,7 +199,7 @@ class ConsoleUI(component.Component):
         try:
             parser = self._commands[cmd].create_parser()
         except KeyError:
-            self.write("{{error}}Unknown command: %s" % cmd)
+            self.write("{!error!}Unknown command: %s" % cmd)
             return
         args = self._commands[cmd].split(line)
 
@@ -221,7 +217,7 @@ class ConsoleUI(component.Component):
             try:
                 self._commands[cmd].handle(*args, **options.__dict__)
             except Exception, e:
-                self.write("{{error}}" + str(e))
+                self.write("{!error!}" + str(e))
                 log.exception(e)
                 import traceback
                 self.write("%s" % traceback.format_exc())
