@@ -37,6 +37,7 @@ class EventLog(component.Component):
     def __init__(self):
         component.Component.__init__(self, "EventLog")
         self.console = component.get("ConsoleUI")
+        self.prefix = "{!event!}* "
 
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
         client.register_event_handler("PreTorrentRemovedEvent", self.on_torrent_removed_event)
@@ -49,44 +50,43 @@ class EventLog(component.Component):
 
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
-            self.console.write("{!event!}* TorrentAdded: {!info!}%s (%s)" % (status["name"], torrent_id))
+            self.console.write(self.prefix + "TorrentAdded: {!info!}%s (%s)" % (status["name"], torrent_id))
         client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
-        self.console.write("{!event!}* TorrentRemovedEvent: {!info!}%s (%s)" %
+        self.console.write(self.prefix + "TorrentRemoved: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
-        log.debug("on_torrent_state_changed_event!")
         # Modify the state string color
         if state in colors.state_color:
             state = colors.state_color[state] + state
 
-        self.console.write("{!event!}* TorrentStateChanged: %s {!info!}%s (%s)" %
+        self.console.write(self.prefix + "TorrentStateChanged: %s {!info!}%s (%s)" %
             (state, self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_paused_event(self, torrent_id):
-        self.console.write("{!event!}* TorrentPaused: {!info!}%s (%s)" %
+        self.console.write(self.prefix + "TorrentPaused: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
-        self.console.write("{!event!}* TorrentFinished: {!info!}%s (%s)" %
+        self.console.write(self.prefix + "TorrentFinished: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_new_version_available_event(self, version):
-        self.console.write("{!event!}* NewVersionAvailable: {!info!}%s" %
+        self.console.write(self.prefix + "NewVersionAvailable: {!info!}%s" %
             (version))
 
     def on_session_paused_event(self):
-        self.console.write("{!event!}* SessionPaused")
+        self.console.write(self.prefix + "SessionPaused")
 
     def on_session_resumed_event(self):
-        self.console.write("{!event!}* SessionResumed")
+        self.console.write(self.prefix + "SessionResumed")
 
     def on_config_value_changed_event(self, key, value):
         color = "{!white,black,bold!}"
         if type(value) in colors.type_color:
             color = colors.type_color[type(value)]
 
-        self.console.write("{!event!}* ConfigValueChanged: {!input!}%s: %s%s" %
+        self.console.write(self.prefix + "ConfigValueChanged: {!input!}%s: %s%s" %
             (key, color, value))
