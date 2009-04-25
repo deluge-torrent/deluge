@@ -96,51 +96,45 @@ class Command(BaseCommand):
         for key in keys:
             if args and key not in args:
                 continue
-            color = 'white'
+            color = "{!white,black,bold!}"
             value = config[key]
-            if isinstance(value, bool):
-                color = 'yellow'
-            elif isinstance(value, int) or isinstance(value, float):
-                color = 'green'
-            elif isinstance(value, str):
-                color = 'cyan'
-            elif isinstance(value, list):
-                color = 'magenta'
-            elif isinstance(value, dict):
+            if type(value) in colors.type_color:
+                color = colors.type_color[type(value)]
+
+            # We need to format dicts for printing
+            if isinstance(value, dict):
                 import pprint
                 value = pprint.pformat(value, 2, 80)
                 new_value = []
                 for line in value.splitlines():
-                    new_value.append("{!%s,black,bold!}%s" % (color, line))
+                    new_value.append("%s%s" % (color, line))
                 value = "\n".join(new_value)
 
-            s += "  %s: {!%s,black,bold!}%s\n" % (key, color, value)
+            s += "  %s: %s%s\n" % (key, color, value)
 
         self.console.write(s)
 
     def _set_config(self, *args, **options):
-        pass
-"""        def _got_config_value(config_val):
-            global c_val
-            c_val = config_val
+        config = component.get("CoreConfig")
         key = args[0]
+        if key not in config.keys():
+            self.console.write("{!error!}The key '%s' is invalid!" % key)
+            return
         try:
             val = simple_eval(' '.join(args[1:]))
-        except SyntaxError,e:
-            print templates.ERROR(str(e))
+        except SyntaxError, e:
+            self.console.write("{!error!}%s" % e)
             return
-        client.get_config_value(_got_config_value, key)
-        client.force_call()
-        if c_val is None:
-            print templates.ERROR("Invalid configuration name '%s'" % key)
-            return
-        if type(c_val) != type(val):
-            print templates.ERROR("Configuration value provided has incorrect type.")
-            return
-        client.set_config({key: val})
-        client.force_call()
-        print templates.SUCCESS("Configuration value successfully updated.")
 
+        if type(config[key]) != type(val):
+            self.config.write("{!error!}Configuration value provided has incorrect type.")
+            return
+
+        def on_set_config(result):
+            self.console.write("{!success!}Configuration value successfully updated.")
+        client.core.set_config({key: val}).addCallback(on_set_config)
+
+"""
     def complete(self, text, *args):
         keys = []
         def _on_get_config(config):

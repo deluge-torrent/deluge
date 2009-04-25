@@ -84,5 +84,9 @@ class EventLog(component.Component):
         self.console.write("{!event!}* SessionResumed")
 
     def on_config_value_changed_event(self, key, value):
-        self.console.write("{!event!}* ConfigValueChanged: %s: %s" %
-            (key, value))
+        color = "{!white,black,bold!}"
+        if type(value) in colors.type_color:
+            color = colors.type_color[type(value)]
+
+        self.console.write("{!event!}* ConfigValueChanged: {!input!}%s: %s%s" %
+            (key, color, value))

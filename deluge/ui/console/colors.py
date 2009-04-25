@@ -60,6 +60,15 @@ state_color = {
     "Error": "{!red,black,bold!}"
 }
 
+type_color = {
+    bool: "{!yellow,black,bold!}",
+    int: "{!green,black,bold!}",
+    float: "{!green,black,bold!}",
+    str: "{!cyan,black,bold!}",
+    list: "{!magenta,black,bold!}",
+    dict: "{!white,black,bold!}"
+}
+
 def init_colors():
     # Create the color_pairs dict
     counter = 1
