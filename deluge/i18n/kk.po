@@ -1,7 +1,7 @@
 # Kazakh translation for deluge
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2008.
 #
 msgid ""
 msgstr ""
@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: KAZAKHSTAN\n"
 "X-Poedit-Language: Kazakh\n"
@@ -48,7 +48,7 @@ msgstr "<b>Белгі опциялары</b>"
 #: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
 #: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/systemtray.py:339
 msgid "KiB/s"
-msgstr "КиБ/с"
+msgstr "Кб/с"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -64,11 +64,11 @@ msgstr "Алу жылдамдығы:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
-msgstr "Байланыстар:"
+msgstr "Байланыстар саны:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr "Торренттер үшін максималды баптаулар:"
+msgstr "Торрент үшін максималды баптаулар:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
@@ -79,7 +79,7 @@ msgstr "Максимум"
 #: deluge/ui/webui/torrent_options.py:48
 #: deluge/ui/webui/scripts/template_strings.py:12
 msgid "Auto Managed"
-msgstr "Автоматты басқару"
+msgstr "Авто басқару"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
@@ -123,7 +123,7 @@ msgid ""
 msgstr ""
 "tracker1.org\n"
 "tracker2.com\n"
-"бұл әзірше ешнәсе істеп тұрған жоқ..\n"
+"бұл әзірше ешнәрсе істеп тұрған жоқ..\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
@@ -233,7 +233,7 @@ msgstr "Тарату слоттар максимумы:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:667
 #: deluge/ui/gtkui/glade/main_window.glade:1830
 msgid "<b>Bandwidth</b>"
-msgstr "<b>Шектеулер</b>"
+msgstr "<b>Желі</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
@@ -362,7 +362,7 @@ msgstr "Тарату слоттар максимумы"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
-msgstr "_Автоматты басқарылады"
+msgstr "_Авто басқарылады"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
@@ -374,7 +374,7 @@ msgstr "Ақпарат толығымен өшіріледі."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Мәліметтерді қоса өшіру"
+msgstr "Мәліметтерімен қоса өшіру"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -458,7 +458,7 @@ msgstr "Кездейсоқ порттарды қолдану"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 msgid "Active Port:"
-msgstr "Активті порт:"
+msgstr "Белсенді порт:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:549
 msgid "0000"
@@ -467,16 +467,16 @@ msgstr "0000"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:576
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:724
 msgid "From:"
-msgstr "Қайдан:"
+msgstr "Басы:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:604
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:752
 msgid "To:"
-msgstr "Қайда:"
+msgstr "Соңы:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:636
 msgid "Test Active Port"
-msgstr "Активті портты тексеру"
+msgstr "Белсенді портты тексеру"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:675
 msgid "<b>Incoming Ports</b>"
@@ -491,7 +491,7 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
-"TOS байт, әр IP дестесінің басында орналасады, пирлерге беріледі (интернет-"
+"TOS байт әр IP дестесінің басында орналасады, пирлерге беріледі (интернет-"
 "сидерлерді қоса). Оналтылық мән."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
@@ -848,15 +848,15 @@ msgstr "Жаңа торренттерді кезек басына қосу"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2565
 msgid "Total active downloading:"
-msgstr "Барлығы активті жүктемелер:"
+msgstr "Белсенді жүктемелердің саны:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2596
 msgid "Total active:"
-msgstr "Барлығы активті:"
+msgstr "Барлығы белсенді:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2606
 msgid "Total active seeding:"
-msgstr "Барлығы активті таратулар:"
+msgstr "Белсенді таратулардың саны:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2654
 msgid "Do not count slow torrents"
@@ -864,7 +864,7 @@ msgstr "Баяу торренттерді ескермеу"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2670
 msgid "<b>Active Torrents</b>"
-msgstr "<b>Активті торренттер</b>"
+msgstr "<b>Белсенді торренттер</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2759
 msgid "Seed Time (m):"
@@ -872,11 +872,11 @@ msgstr "Тарату уақыты (мин.)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "Seed Time Ratio:"
-msgstr "Тарату уақытының коэффициенті:"
+msgstr "Тарату уақытының рейтингі:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2783
 msgid "Share Ratio Limit:"
-msgstr "Тарату коэффициентін шектеу:"
+msgstr "Тарату рейтингін шектеу:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
 msgid "Stop seeding when share ratio reaches:"
@@ -1024,7 +1024,7 @@ msgstr "<i><b><big>Плагиндер</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4182
 msgid "Author Email:"
-msgstr "Автор E-mail:"
+msgstr "Автордың E-mail-ы:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4195
 msgid "Homepage:"
@@ -1119,7 +1119,7 @@ msgstr "Хостты қосу"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:25
 msgid "Hostname:"
-msgstr "Хост атауы:"
+msgstr "Хост аты:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:201
 #: deluge/ui/gtkui/glade/main_window.glade:436
@@ -1823,7 +1823,7 @@ msgstr "Күйін жаңарту"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:55
 #: deluge/plugins/blocklist/blocklist/gtkui.py:194
 msgid "Blocklist"
-msgstr "Блоклист"
+msgstr "Блоктізім"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -2089,7 +2089,7 @@ msgstr "Белсенді"
 
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
-msgstr "Торрент тоқтау коэффициентіне жетті."
+msgstr "Торрент тоқтау рейтингіге жетті."
 
 #: deluge/ui/gtkui/edittrackersdialog.py:74
 #: deluge/ui/gtkui/createtorrentdialog.py:88
@@ -3034,7 +3034,7 @@ msgstr "Іздеу"
 
 #: deluge/ui/webui/scripts/template_strings.py:95
 msgid "Seed rank"
-msgstr "Тарату коэффициенті"
+msgstr "Тарату рейтингі"
 
 #: deluge/ui/webui/scripts/template_strings.py:97
 msgid "Seeding time"

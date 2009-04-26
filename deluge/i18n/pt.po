@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-26 20:59+0000\n"
-"Last-Translator: Major Kong <major.t.kong@gmail.com>\n"
+"PO-Revision-Date: 2009-04-09 23:29+0000\n"
+"Last-Translator: Bruno Guerreiro <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -575,9 +575,6 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Cumprimento\n"
-"Stream Completo\n"
-"Ambos"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
 msgid "Outbound:"
@@ -749,7 +746,7 @@ msgstr "Iniciar na área de notificação"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1934
 msgid "Password protect system tray"
-msgstr "Proteger ícone da barra de sistema com palavra-passe"
+msgstr "Proteger icone da barra de sistema com palavra passe"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
@@ -886,7 +883,7 @@ msgstr "Parar de semear quando o rácio de semente atingir:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2846
 msgid "Remove torrent when share ratio reached"
-msgstr "Remover torrent quando o rácio de semente atingir:"
+msgstr "Remover torrent quando o rácio de semente for atingido:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
 msgid "<b>Seeding</b>"
@@ -1253,7 +1250,7 @@ msgstr "etiqueta"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
 msgid "Add Peer"
-msgstr "Adicionar par"
+msgstr "Adicionar Par"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
@@ -1462,7 +1459,7 @@ msgstr "<b>Pares:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:943
 msgid "<b>Seeders:</b>"
-msgstr "Semeadores:"
+msgstr "<b>Sementes:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:961
 msgid "<b>Pieces:</b>"
@@ -1470,12 +1467,7 @@ msgstr "<b>Peças:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:983
 msgid "<b>ETA:</b>"
-msgstr ""
-"Tempo Estimado de Chegada\r\n"
-"\r\n"
-"*****************************************************************\r\n"
-"NOTA : O ACRÓNIMO TEC NÂO É COMUM; ETA É TALVEZ MELHOR\r\n"
-"*****************************************************************"
+msgstr "<b>Tempo Restante Estimado:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1005
 #: deluge/ui/gtkui/glade/main_window.glade:1027
@@ -1685,7 +1677,7 @@ msgstr "parar_rácio"
 
 #: deluge/plugins/label/label/webui.py:134
 msgid "remove_at_ratio"
-msgstr "remover_ao_ratio"
+msgstr "remover_no_rácio"
 
 #: deluge/plugins/label/label/webui.py:137
 msgid "apply_move_completed"
@@ -1697,7 +1689,7 @@ msgstr "movimentação_completada"
 
 #: deluge/plugins/label/label/webui.py:139
 msgid "move_completed_path"
-msgstr ""
+msgstr "mover_caminho_completo"
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
@@ -2181,7 +2173,7 @@ msgstr "Pares"
 #: deluge/ui/gtkui/torrentview.py:163
 #: deluge/ui/webui/scripts/template_strings.py:41
 msgid "ETA"
-msgstr "TEC"
+msgstr "ETA"
 
 #: deluge/ui/gtkui/torrentview.py:167
 #: deluge/ui/webui/scripts/template_strings.py:85
@@ -2915,7 +2907,7 @@ msgstr "Descarregado"
 
 #: deluge/ui/webui/scripts/template_strings.py:45
 msgid "Eta"
-msgstr "TEC"
+msgstr "Eta"
 
 #: deluge/ui/webui/scripts/template_strings.py:46
 msgid "False"

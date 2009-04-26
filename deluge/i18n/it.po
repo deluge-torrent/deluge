@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-10 16:21+0000\n"
+"PO-Revision-Date: 2009-04-24 21:28+0000\n"
 "Last-Translator: Simone Oberti <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
-"<i>Usa la barra laterale per aggiungere, modificare e rimuovere le "
+"<i>Usare la barra laterale per aggiungere, modificare e rimuovere le "
 "etichette. </i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
@@ -67,7 +67,7 @@ msgstr "Connessioni:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr "Applica le impostazioni massime al torrent:"
+msgstr "Applica al torrent le massime impostazioni:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
@@ -99,7 +99,7 @@ msgstr "Applicare le impostazioni di coda:"
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
 #: deluge/ui/webui/scripts/template_strings.py:83
 msgid "Queue"
-msgstr "Accoda"
+msgstr "In coda"
 
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
@@ -126,7 +126,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(1 linea per tracker)</i>"
+msgstr "<i>(1 linea per server traccia)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 msgid "Automatically apply label:"
@@ -136,7 +136,7 @@ msgstr "Applica automaticamente l'etichetta:"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 #: deluge/ui/webui/register_menu.py:39
 msgid "Trackers"
-msgstr "Tracker"
+msgstr "Server traccia"
 
 #: deluge/plugins/label/label/data/label_options.glade:638
 msgid "Add Label"
@@ -171,7 +171,7 @@ msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
-msgstr "Info hash"
+msgstr "Info _hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
@@ -236,7 +236,7 @@ msgstr "<b>Banda</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
-msgstr "Aggiungi in _pausa"
+msgstr "Aggiungere in _pausa"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
@@ -289,7 +289,7 @@ msgstr "Infohash:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 msgid "Trackers:"
-msgstr "Tracker"
+msgstr "Server traccia:"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
@@ -322,12 +322,12 @@ msgstr "A_ccoda"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr "_Aggiorna tracker"
+msgstr "_Aggiorna server traccia"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:2078
 msgid "_Edit Trackers"
-msgstr "_Modifica tracker"
+msgstr "_Modifica server traccia"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
@@ -490,12 +490,12 @@ msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
-"Il byteset TOS nell'intestazione di ogni pacchetto inviato ai peers (incluso "
-"i web seeds).  Necessario valore esadecimale."
+"Il byte TOS impostato nell'intestazione IP di ogni pacchetto inviato ai nodi "
+"(inclusa la condivisione web). Necessario valore esadecimale."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
-msgstr "TOS Byte dei peer:"
+msgstr "Byte TOS del nodo:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:838
 msgid "0x00"
@@ -517,7 +517,7 @@ msgstr "DHT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:912
 msgid "Local Service Discovery finds local peers on your network."
-msgstr "LSD ha trovato peers locali sulla tua rete"
+msgstr "LSD ha trovato nodi locali sulla tua rete"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:913
 #: deluge/ui/webui/config_tabs_deluge.py:73
@@ -527,7 +527,7 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:927
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:928
 msgid "Peer Exchange"
-msgstr "Scambio di nodi"
+msgstr "Scambio nodo"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:944
 msgid "NAT Port Mapping Protocol"
@@ -959,7 +959,7 @@ msgstr "Host:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3114
 msgid "<b>Peer</b>"
-msgstr "<b>Peer</b>"
+msgstr "<b>Nodo</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
 msgid "<b>Web Seed</b>"
@@ -967,7 +967,7 @@ msgstr "<b>Condivisione web</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
-msgstr "<b>Tracker</b>"
+msgstr "<b>Server traccia</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
 msgid "<b>DHT</b>"
@@ -1067,11 +1067,11 @@ msgstr "_Ricarica plugin"
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
 msgid "Edit Trackers"
-msgstr "Modifica tracker"
+msgstr "Modifica server traccia"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Modifica tracker</b></big>"
+msgstr "<big><b>Modifica server traccia</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:122
 msgid "gtk-edit"
@@ -1079,23 +1079,23 @@ msgstr "gtk-modifica"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
-msgstr "Aggiungi tracker"
+msgstr "Aggiungi server traccia"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Aggiungi tracker</b>"
+msgstr "<b>Aggiungi server traccia</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
-msgstr "Modifica tracker"
+msgstr "Modifica server traccia"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr "<b>Modifica tracker</b>"
+msgstr "<b>Modifica server traccia</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
-msgstr "Tracker:"
+msgstr "Server traccia:"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -1198,7 +1198,7 @@ msgstr "Informazioni"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
-msgstr "Webseeds"
+msgstr "Distributori web"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
@@ -1260,11 +1260,11 @@ msgstr "etichetta"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
 msgid "Add Peer"
-msgstr "Aggiungi peer"
+msgstr "Aggiungi nodo"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr "<b>AggiungipPeer</b>"
+msgstr "<b>Aggiungi nodo</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
@@ -1346,7 +1346,7 @@ msgstr "Mostrare _zero corrispondenze"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
-msgstr "Mostrare _Trackers"
+msgstr "Mostrare _Server traccia"
 
 #: deluge/ui/gtkui/glade/main_window.glade:226
 msgid "_Help"
@@ -1437,7 +1437,7 @@ msgstr "Priorità _alta"
 
 #: deluge/ui/gtkui/glade/main_window.glade:616
 msgid "Hi_ghest Priority"
-msgstr "Mas_sima priorità"
+msgstr "Priorità _massima"
 
 #: deluge/ui/gtkui/glade/main_window.glade:694
 msgid "<b>Auto Managed:</b>"
@@ -1457,7 +1457,7 @@ msgstr "<b>Tempo attivo:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:833
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>Stato del tracker:</b>"
+msgstr "<b>Stato del server traccia:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:863
 msgid "<b>Availability:</b>"
@@ -1465,11 +1465,11 @@ msgstr "<b>Disponibilità:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:917
 msgid "<b>Peers:</b>"
-msgstr "<b>Peer:</b>"
+msgstr "<b>Nodi:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:943
 msgid "<b>Seeders:</b>"
-msgstr "<b>Seeder:</b>"
+msgstr "<b>Fonti complete:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:961
 msgid "<b>Pieces:</b>"
@@ -1518,7 +1518,7 @@ msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1352
 msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
+msgstr "<b>Server traccia:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1372
 msgid "<b>Total Size:</b>"
@@ -1546,7 +1546,7 @@ msgstr "_File"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "_Peers"
+msgstr "_Nodi"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -1622,7 +1622,7 @@ msgstr "_Vai al sito Web"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "Add a peer by its IP"
-msgstr "Aggiungi peer dal suo IP"
+msgstr "Aggiungi un nodo dal suo IP"
 
 #: deluge/core/torrentmanager.py:668
 msgid "Announce OK"
@@ -1707,7 +1707,7 @@ msgstr "aggiungi_automaticamente"
 
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
-msgstr "aggiungi_automaticamente_trackers"
+msgstr "aggiungi_automaticamente_server traccia"
 
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -2110,7 +2110,7 @@ msgstr "Ordine"
 #: deluge/ui/gtkui/createtorrentdialog.py:90
 #: deluge/ui/webui/scripts/template_strings.py:111
 msgid "Tracker"
-msgstr "Tracker"
+msgstr "Server traccia"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
@@ -2178,7 +2178,7 @@ msgstr "Distributori"
 #: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
 #: deluge/ui/webui/scripts/template_strings.py:79
 msgid "Peers"
-msgstr "Peers"
+msgstr "Nodi"
 
 #: deluge/ui/gtkui/torrentview.py:163
 #: deluge/ui/webui/scripts/template_strings.py:41
@@ -2331,7 +2331,7 @@ msgstr "UPnP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:72
 msgid "Peer-Exchange"
-msgstr "Scambio Peer"
+msgstr "Scambio nodo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:78
 msgid "Encryption"
@@ -2503,7 +2503,7 @@ msgstr "Condivisioni attive"
 
 #: deluge/ui/webui/config_tabs_deluge.py:166
 msgid "Stop seeding when ratio reaches"
-msgstr "Fermare la condivisionequando il rapporto raggiunge"
+msgstr "Fermare la condivisione quando il rapporto raggiunge"
 
 #: deluge/ui/webui/config_tabs_deluge.py:168
 msgid "Remove torrent when ratio reached"
@@ -2770,7 +2770,7 @@ msgstr "Mostra zero corrispondenze"
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
-msgstr "Mostra trackers"
+msgstr "Mostra server traccia"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
@@ -2786,7 +2786,7 @@ msgstr "Velocità Massima in Download"
 
 #: deluge/ui/webui/torrent_options.py:49
 msgid "Stop seed at ratio"
-msgstr "Ferma il seeding al rapporto"
+msgstr "Fermare la condivisione al rapporto"
 
 #: deluge/ui/webui/torrent_options.py:63 deluge/ui/webui/torrent_add.py:96
 msgid "Error in torrent options."
@@ -3042,11 +3042,11 @@ msgstr "Cerca"
 
 #: deluge/ui/webui/scripts/template_strings.py:95
 msgid "Seed rank"
-msgstr "Posizione Seed"
+msgstr "Posizione condivisione"
 
 #: deluge/ui/webui/scripts/template_strings.py:97
 msgid "Seeding time"
-msgstr "Tempo in Seeding"
+msgstr "Tempo in condivisione"
 
 #: deluge/ui/webui/scripts/template_strings.py:98
 msgid "Select All"
@@ -3086,7 +3086,7 @@ msgstr "Dimensione totale"
 
 #: deluge/ui/webui/scripts/template_strings.py:112
 msgid "Tracker Status"
-msgstr "Stato del tracker"
+msgstr "Stato del server traccia"
 
 #: deluge/ui/webui/scripts/template_strings.py:113
 msgid "True"
@@ -3102,7 +3102,7 @@ msgstr "Aggiorna"
 
 #: deluge/ui/webui/scripts/template_strings.py:119
 msgid "Update Tracker"
-msgstr "Aggiorna tracker"
+msgstr "Aggiorna server traccia"
 
 #: deluge/ui/webui/scripts/template_strings.py:120
 msgid "Upload"

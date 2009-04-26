@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-18 06:47+0000\n"
+"PO-Revision-Date: 2009-04-12 02:57+0000\n"
 "Last-Translator: Wei Hsiang Hung <weihsiang.hung@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -127,7 +127,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(每個 tracker 一行)</i>"
+msgstr "<i>(每個追蹤伺服器一行)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:568
 msgid "Automatically apply label:"
@@ -290,7 +290,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 msgid "Trackers:"
-msgstr ""
+msgstr "追蹤伺服器："
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
@@ -323,12 +323,12 @@ msgstr "佇列(_Q)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr "更新 Tracker 伺服器(_U)"
+msgstr "更新追蹤伺服器(_U)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:2078
 msgid "_Edit Trackers"
-msgstr "編輯發佈站台網址（_E）"
+msgstr "編輯追蹤伺服器（_E）"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
@@ -717,7 +717,7 @@ msgstr "永遠顯示"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1830
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "取得對話框焦點"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1847
 msgid "<b>Add Torrents Dialog</b>"
@@ -945,7 +945,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
-msgstr ""
+msgstr "<b>追蹤伺服器</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
 msgid "<b>DHT</b>"
@@ -961,7 +961,7 @@ msgstr "閃爍系統列圖示"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
 msgid "Not available on Windows"
-msgstr ""
+msgstr "在Windows上不支援"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
@@ -1045,11 +1045,11 @@ msgstr "重新掃描外掛(_R)"
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
 msgid "Edit Trackers"
-msgstr "編輯伺服器"
+msgstr "編輯追蹤伺服器"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>編輯Trackers</b></big>"
+msgstr "<big><b>編輯追蹤伺服器</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:122
 msgid "gtk-edit"
@@ -1057,23 +1057,23 @@ msgstr "gtk-edit"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
-msgstr "增加Tracker"
+msgstr "加入追蹤伺服器"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>增加 Tracker</b>"
+msgstr "<b>增加追蹤伺服器</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
-msgstr "編輯 Tracker"
+msgstr "編輯追蹤伺服器"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr "<b>編輯 Tracker</b>"
+msgstr "<b>編輯追蹤伺服器</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
-msgstr "Tracker:"
+msgstr "追蹤伺服器："
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -1324,7 +1324,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
-msgstr "顯示 Tracker(_T)"
+msgstr "顯示追蹤伺服器(_T)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:226
 msgid "_Help"
@@ -1684,7 +1684,7 @@ msgstr "自動新增"
 
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
-msgstr "自動新增trackers"
+msgstr "自動新增追蹤伺服器"
 
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
@@ -1842,7 +1842,7 @@ msgstr "上傳速度"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "下載/上傳協定流量"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
@@ -1963,7 +1963,7 @@ msgstr "優先權"
 
 #: deluge/ui/gtkui/menubar.py:66
 msgid "Set Unlimited"
-msgstr ""
+msgstr "設為無限制"
 
 #: deluge/ui/gtkui/menubar.py:70
 msgid "Other.."
@@ -2046,7 +2046,7 @@ msgstr "沒有標籤"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
-msgstr ""
+msgstr " Torrent 在佇列中"
 
 #: deluge/ui/gtkui/queuedtorrents.py:126
 msgid " Torrent Queued"
@@ -2081,7 +2081,7 @@ msgstr ""
 #: deluge/ui/gtkui/createtorrentdialog.py:90
 #: deluge/ui/webui/scripts/template_strings.py:111
 msgid "Tracker"
-msgstr "伺服器"
+msgstr "追蹤伺服器"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
@@ -2163,7 +2163,7 @@ msgstr "分享率"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
-msgstr ""
+msgstr "可得性"
 
 #: deluge/ui/gtkui/torrentview.py:175
 msgid "Added"
@@ -2478,7 +2478,7 @@ msgstr "比例到達時停止作種"
 
 #: deluge/ui/webui/config_tabs_deluge.py:168
 msgid "Remove torrent when ratio reached"
-msgstr ""
+msgstr "分享率到達時移除種子檔案"
 
 #: deluge/ui/webui/config_tabs_deluge.py:188
 msgid "Enabled Plugins"
@@ -2607,7 +2607,7 @@ msgstr "沒有檔案被寄出。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:435
 msgid "The submitted file is empty."
-msgstr ""
+msgstr "提交的檔案是空的。"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:459
 msgid ""
@@ -2733,7 +2733,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
-msgstr ""
+msgstr "顯示追蹤伺服器"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
@@ -2841,7 +2841,7 @@ msgstr "連線限制"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "D/L Speed Limit"
-msgstr ""
+msgstr "上傳/下載速度限制"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"

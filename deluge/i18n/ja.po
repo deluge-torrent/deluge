@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-02-17 17:06+0000\n"
-"Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
+"PO-Revision-Date: 2009-04-12 16:20+0000\n"
+"Last-Translator: bonpu <webmaster@minawa.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1075,15 +1075,15 @@ msgstr "トラッカー:"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
-msgstr ""
+msgstr "キュー済みトレント"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>キュー済みトレントを追加</b></big>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "接続しているトレントを自動的に追加"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:62
@@ -2048,11 +2048,11 @@ msgstr "ラベルなし"
 
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
-msgstr ""
+msgstr " トレントキュー済み"
 
 #: deluge/ui/gtkui/queuedtorrents.py:126
 msgid " Torrent Queued"
-msgstr ""
+msgstr " トレントキュー済み"
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
@@ -2819,7 +2819,7 @@ msgstr "可用性"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
-msgstr ""
+msgstr "下端"
 
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
@@ -2887,7 +2887,7 @@ msgstr "残り時間"
 
 #: deluge/ui/webui/scripts/template_strings.py:46
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: deluge/ui/webui/scripts/template_strings.py:47
 msgid "File"
@@ -2903,11 +2903,11 @@ msgstr "強制再チェック"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "From Session"
-msgstr ""
+msgstr "セッションから"
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "From Url"
-msgstr ""
+msgstr "URLから"
 
 #: deluge/ui/webui/scripts/template_strings.py:53
 msgid "General"
@@ -3039,7 +3039,7 @@ msgstr "送信"
 
 #: deluge/ui/webui/scripts/template_strings.py:108
 msgid "Top"
-msgstr ""
+msgstr "上端"
 
 #: deluge/ui/webui/scripts/template_strings.py:109
 msgid "Torrent list"
@@ -3055,7 +3055,7 @@ msgstr "トラッカー状態"
 
 #: deluge/ui/webui/scripts/template_strings.py:113
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
