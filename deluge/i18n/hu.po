@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-23 13:53+0000\n"
-"Last-Translator: lisovszki <lisovszki@gmail.com>\n"
+"PO-Revision-Date: 2009-04-21 10:39+0000\n"
+"Last-Translator: Peter Avramucz <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -2293,11 +2293,11 @@ msgstr "Portok"
 
 #: deluge/ui/webui/config_tabs_deluge.py:38
 msgid "From"
-msgstr "Feladó"
+msgstr "Ettől:"
 
 #: deluge/ui/webui/config_tabs_deluge.py:39
 msgid "To"
-msgstr "Címzett"
+msgstr "Eddig:"
 
 #: deluge/ui/webui/config_tabs_deluge.py:40
 msgid "Random"

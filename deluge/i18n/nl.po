@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-25 13:39+0000\n"
-"Last-Translator: Robin Vincent <Unknown>\n"
+"PO-Revision-Date: 2009-04-07 14:52+0000\n"
+"Last-Translator: MarniX <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -667,7 +667,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Beperk IP overhead samen met doorvoersnelheid."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
@@ -2162,7 +2162,7 @@ msgstr "Selecteer de Plugin"
 
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Plugin eieren"
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2449,7 +2449,7 @@ msgstr "Maximum aantal verbindingspogingen per seconde"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Beperk IP overhead samen met doorvoersnelheid."
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2776,7 +2776,7 @@ msgstr "Trackers tonen"
 
 #: deluge/ui/webui/config_tabs_webui.py:107
 msgid "Show keyword search"
-msgstr ""
+msgstr "Toon sleutelwoordzoeken"
 
 #: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
 msgid "Maximum Down Speed"

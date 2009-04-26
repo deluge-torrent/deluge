@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-20 05:54+0000\n"
-"Last-Translator: Maxim S. <Unknown>\n"
+"PO-Revision-Date: 2009-04-20 18:39+0000\n"
+"Last-Translator: Andrey S. Bobryshev <heeppy@yandex.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -50,7 +50,7 @@ msgstr "<b>Опции Метки</b>"
 #: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
 #: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/systemtray.py:339
 msgid "KiB/s"
-msgstr "KиБ/с"
+msgstr "Кбит/с"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -111,7 +111,7 @@ msgstr "Перемещать завершённые в:"
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 msgid "Apply location settings:"
-msgstr "Применить локальные настройки:"
+msgstr "Применить настройки расположения"
 
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
@@ -230,7 +230,7 @@ msgstr "Максимум соединений:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:598
 #: deluge/ui/gtkui/glade/main_window.glade:1797
 msgid "Max Upload Slots:"
-msgstr "Максимум слотов на отдачу:"
+msgstr "Максимум слотов отдачи"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:667
 #: deluge/ui/gtkui/glade/main_window.glade:1830
@@ -239,7 +239,7 @@ msgstr "<b>Ограничения</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
-msgstr "Добавить остановленным"
+msgstr "Не запускать торрент"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
@@ -254,7 +254,7 @@ msgstr "<b>Общие</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:793
 msgid "Revert To Defaults"
-msgstr "По умолчанию"
+msgstr "Вернуться к настройкам по умолчанию"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:847
 msgid "Apply To All"
@@ -267,7 +267,7 @@ msgstr "Параметры"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:970
 msgid "Add URL"
-msgstr "Добавить ссылку"
+msgstr "Добавить URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1006
 msgid "<b>From URL</b>"
@@ -275,7 +275,7 @@ msgstr "<b>По ссылке</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
 msgid "URL:"
-msgstr "Ссылка:"
+msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
@@ -356,11 +356,11 @@ msgstr "О_граничение скорости отдачи"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
-msgstr "Лимит _соединений"
+msgstr "Ограничение подключений"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr "Лимит слотов отдачи"
+msgstr "Ограничение слотов отдачи"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -394,7 +394,7 @@ msgstr "<b><i><big>Загрузки</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:109
 msgid "Download to:"
-msgstr "Загружать в:"
+msgstr "Загрузить в:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:163
 msgid "Copy of .torrent files to:"
@@ -418,25 +418,24 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:338
 msgid "Use Full Allocation"
-msgstr "Полное"
+msgstr "Полное резервирование"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:353
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
-"Компактное резервирование выделяет место под торрент по необходимости"
+msgstr "Резервирование места под торрент только по необходимости"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:354
 #: deluge/ui/webui/config_tabs_deluge.py:135
 msgid "Use Compact Allocation"
-msgstr "Компактное"
+msgstr "Компактное резервирование"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:406
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Приоритет у первой и последней части файлов в торренте"
+msgstr "Приоритет первой и последней части файлов торрента"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:407
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Приоритет у первой и последней части торрента"
+msgstr "Приоритет первой и последней части торрента"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:422
 msgid "<b>Options</b>"
@@ -622,7 +621,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Максимальная скорость приёма для всех торрентов. Установите -1 для "
+"Максимальная скорость загрузки для всех торрентов. Установите -1 для "
 "неограниченной."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1293

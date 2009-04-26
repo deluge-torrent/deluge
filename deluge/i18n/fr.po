@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-03 19:22+0000\n"
-"Last-Translator: Timetear <timetear@gmail.com>\n"
+"PO-Revision-Date: 2009-04-12 14:12+0000\n"
+"Last-Translator: Arkos <clemsbox@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -1868,7 +1868,7 @@ msgstr "Vitesse d'émission"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Trafic du protocole (réception/envoi)"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
@@ -1971,12 +1971,12 @@ msgstr "Deluge"
 #: deluge/ui/gtkui/systemtray.py:197
 #: deluge/ui/webui/scripts/template_strings.py:37
 msgid "Down"
-msgstr "Bas"
+msgstr "Réception"
 
 #: deluge/ui/gtkui/systemtray.py:198
 #: deluge/ui/webui/scripts/template_strings.py:116
 msgid "Up"
-msgstr "Haut"
+msgstr "Envoi"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
@@ -2175,7 +2175,7 @@ msgstr "Selectionnez le Plugin"
 
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Module Eggs"
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2450,7 +2450,7 @@ msgstr "Vitesse d'envoi maximale (Kib/s)"
 #: deluge/ui/webui/config_tabs_deluge.py:125
 #: deluge/ui/webui/torrent_options.py:42 deluge/ui/webui/torrent_add.py:44
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Nombre max. de slots d'envoi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:111
 msgid "Maximum Half-Open Connections"
@@ -2491,7 +2491,7 @@ msgstr "Ajout automatique activé"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "Télécharger en priorité les premier et dernier blocs"
 
 #: deluge/ui/webui/config_tabs_deluge.py:143
 msgid "Restart daemon and webui after changing these settings"
@@ -2552,10 +2552,11 @@ msgstr "Entrer une liste de valeurs"
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr ""
+"Sélectionnez un choix valide. %s ne fait pas partie des choix possibles."
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu(e)"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -2571,7 +2572,7 @@ msgstr "Ce champ est requis."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Entrez une valeur valide."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
@@ -2889,7 +2890,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"
-msgstr ""
+msgstr "Nœuds DHT"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Delete .torrent file"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-12 06:57+0000\n"
-"Last-Translator: Ilari Oras <happo1472583@gmail.com>\n"
+"PO-Revision-Date: 2009-04-20 14:14+0000\n"
+"Last-Translator: Pekka \"PEXI\" Niemistö <pexinet@kotikone.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-06 21:05+0000\n"
+"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -659,10 +659,12 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Jos·valittuna,·arvioitu·TCP/IP·on·pois·suljettu·nopeusrajoittimelta.Näin·vält"
+"ytään·rajojen·ylityksiltä·kokonaisliikenteessä."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "Nopeusraja IP.n yläpuolella"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1222,7 +1224,7 @@ msgstr "Lisää tämä torrentti avoimeen istuntoon"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "Anna etäpolku"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
 msgid "<b>Remote Path</b>"
@@ -1335,7 +1337,7 @@ msgstr "S_ivupalkki"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "Näytä _nollapiste osumat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1643,7 +1645,7 @@ msgstr "Virhe asetettaessa nimikevalintoja"
 
 #: deluge/plugins/label/label/webui.py:123
 msgid "apply_max"
-msgstr ""
+msgstr "käytä_ylärajaa"
 
 #: deluge/plugins/label/label/webui.py:124
 msgid "max_download_speed"
@@ -1857,7 +1859,7 @@ msgstr "Lähetysnopeus"
 
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "Protokollaliikenne Sisään/Ulos"
 
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
@@ -2367,7 +2369,7 @@ msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv5 W/ Auth"
-msgstr ""
+msgstr "Socksv5 W/ Auth"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
@@ -2375,7 +2377,7 @@ msgstr "HTTP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP W/ Auth"
-msgstr ""
+msgstr "HTTP W/ Auth"
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
@@ -2442,7 +2444,7 @@ msgstr "Suurin yhteysyritysten määrä sekunnissa"
 
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Nopeusraja IP:n yläpuolella"
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
