@@ -1,3 +1,6 @@
+=== Deluge 1.1.8 - (In Development) ===
+  * Fix pause all/resume all
+
 === Deluge 1.1.7 - (25 April 2009) ===
 ==== Core ====
   * Fix issue where cannot resume torrent after doing a 'Pause All'
