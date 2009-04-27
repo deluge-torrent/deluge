@@ -27,6 +27,7 @@ import time
 import locale
 import shutil
 import signal
+import signal
 import urllib
 import gettext
 import hashlib
@@ -348,6 +349,19 @@ class DelugeWeb(component.Component):
         # Since twisted assigns itself all the signals may as well make
         # use of it.
         reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
+
+        # Twisted doesn't handle windows specific signals so we still
+        # need to attach to those to handle the close correctly.
+        if common.windows_check():
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT
+            def win_handler(ctrl_type):
+                log.debug("ctrl type: %s", ctrl_type)
+                if ctrl_type == CTRL_CLOSE_EVENT or \
+                   ctrl_type == CTRL_SHUTDOWN_EVENT:
+                    self.shutdown()
+                    return 1
+            SetConsoleCtrlHandler(win_handler)
         
         # Initalize the plugins
         self.plugins = PluginManager()
@@ -359,10 +373,14 @@ class DelugeWeb(component.Component):
             self.port, self.port)
         reactor.run()
 
-    def shutdown(self):
+    def shutdown(self, *args):
         log.info("Shutting down webserver")
         log.debug("Saving configuration file")
         self.config.save()
+        try:
+            reactor.stop()
+        except error.ReactorNotRunning:
+            log.debug("Reactor not running")
 
 if __name__ == "__builtin__":
     deluge_web = DelugeWeb()
