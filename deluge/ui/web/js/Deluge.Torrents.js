@@ -222,14 +222,13 @@ Copyright:
 		
 		// private
 		onTorrentRemoved: function(torrentIds) {
-			var selModel = this.Grid.getSelectionModel();
-			$each(torrentIds, function(torrentId) {
-				var record = this.Store.getById(torrentId);
+			var selModel = this.getSelectionModel();
+			Ext.each(torrentIds, function(torrentId) {
+				var record = this.getStore().getById(torrentId);
 				if (selModel.isSelected(record)) {
-					selModel.deselectRow(this.Store.indexOf(record));
+					selModel.deselectRow(this.getStore().indexOf(record));
 				}
-				this.Store.remove(record);
-				
+				this.getStore().remove(record);
 			}, this);
 		}
 	});
