@@ -26,8 +26,6 @@ import os
 import time
 import locale
 import shutil
-import signal
-import signal
 import urllib
 import gettext
 import hashlib
@@ -92,7 +90,7 @@ class Config(resource.Resource):
     Writes out a javascript file that contains the WebUI configuration
     available as Deluge.Config.
     """
-    
+
     def render(self, request):
         return """Deluge = {
     author: 'Damien Churchill <damoxc@gmail.com>',
@@ -110,22 +108,22 @@ class Upload(resource.Resource):
     """
     Twisted Web resource to handle file uploads
     """
-    
+
     def render(self, request):
         """
         Saves all uploaded files to the disk and returns a list of filenames,
         each on a new line.
         """
-        
+
         # Block all other HTTP methods.
         if request.method != "POST":
             request.setResponseCode(http.NOT_ALLOWED)
             return ""
-        
+
         if "file" not in request.args:
             request.setResponseCode(http.OK)
             return ""
-        
+
         tempdir = os.path.join(tempfile.gettempdir(), "delugeweb")
         if not os.path.isdir(tempdir):
             os.mkdir(tempdir)
@@ -145,7 +143,7 @@ class Render(resource.Resource):
     def getChild(self, path, request):
         request.render_file = path
         return self
-    
+
     def render(self, request):
         if not hasattr(request, "render_file"):
             request.setResponseCode(http.INTERNAL_SERVER_ERROR)
@@ -159,11 +157,11 @@ class Render(resource.Resource):
 
 class Tracker(resource.Resource):
     tracker_icons = TrackerIcons()
-    
+
     def getChild(self, path, request):
         request.tracker_name = path
         return self
-    
+
     def render(self, request):
         headers = {}
         filename = self.tracker_icons.get(request.tracker_name)
@@ -185,7 +183,7 @@ class Flag(resource.Resource):
     def getChild(self, path, request):
         request.country = path
         return self
-    
+
     def render(self, request):
         headers = {}
         path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
@@ -203,20 +201,20 @@ class Flag(resource.Resource):
             return ""
 
 class LookupResource(resource.Resource, component.Component):
-    
-    def __init__(self, name, *directories):        
+
+    def __init__(self, name, *directories):
         resource.Resource.__init__(self)
         component.Component.__init__(self, name)
         self.__directories = directories
-    
+
     @property
     def directories(self):
         return self.__directories
-    
+
     def getChild(self, path, request):
         request.path = path
         return self
-    
+
     def render(self, request):
         log.debug("Requested path: '%s'", request.path)
         for lookup in self.directories:
@@ -231,13 +229,13 @@ class LookupResource(resource.Resource, component.Component):
 
 class TopLevel(resource.Resource):
     addSlash = True
-    
+
     __stylesheets = [
         "/css/ext-all.css",
         "/css/ext-extensions.css",
         "/css/deluge.css"
     ]
-    
+
     __scripts = [
         "/js/ext-base.js",
         "/js/ext-all.js",
@@ -246,7 +244,7 @@ class TopLevel(resource.Resource):
         "/gettext.js",
         "/js/deluge-yc.js"
     ]
-    
+
     __debug_scripts = [
         "/js/ext-base.js",
         "/js/ext-all-debug.js",
@@ -288,7 +286,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Torrents.js",
         "/js/Deluge.UI.js"
     ]
-    
+
     def __init__(self):
         resource.Resource.__init__(self)
         self.putChild("config.js", Config())
@@ -303,22 +301,22 @@ class TopLevel(resource.Resource):
         self.putChild("render", Render())
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
-        
+
         theme = component.get("DelugeWeb").config["theme"]
         self.__stylesheets.append("/css/xtheme-%s.css" % theme)
 
     @property
     def scripts(self):
         return self.__scripts
-    
+
     @property
     def debug_scripts(self):
         return self.__debug_scripts
-    
+
     @property
     def stylesheets(self):
         return self.__stylesheets
-    
+
     def getChild(self, path, request):
         if path == "":
             return self
@@ -330,22 +328,22 @@ class TopLevel(resource.Resource):
             scripts = self.debug_scripts[:]
         else:
             scripts = self.scripts[:]
-            
+
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
         return template.render(scripts=scripts, stylesheets=self.stylesheets)
 
 class DelugeWeb(component.Component):
-    
+
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
-        
+
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
         self.port = self.config["port"]
         self.web_api = WebApi()
-        
+
         # Since twisted assigns itself all the signals may as well make
         # use of it.
         reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
@@ -362,7 +360,7 @@ class DelugeWeb(component.Component):
                     self.shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
-        
+
         # Initalize the plugins
         self.plugins = PluginManager()
 

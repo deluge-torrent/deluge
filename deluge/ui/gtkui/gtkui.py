@@ -33,7 +33,6 @@ import gobject
 import gettext
 import locale
 import pkg_resources
-import signal
 import gtk, gtk.glade
 
 import deluge.component as component
@@ -132,8 +131,10 @@ class GtkUI:
             self.gnome_client.connect("die", self.shutdown)
         except:
             pass
-        signal.signal(signal.SIGINT, self.shutdown)
-        signal.signal(signal.SIGTERM, self.shutdown)
+
+        # Twisted catches signals to terminate, so just have it call the shutdown
+        # method.
+        reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
 
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler

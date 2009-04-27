@@ -22,8 +22,6 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-import signal
-
 import gettext
 import locale
 import pkg_resources
@@ -51,12 +49,12 @@ class Daemon(object):
         except Exception, e:
             log.error("Unable to initialize gettext/locale: %s", e)
 
-        # Setup signals
-        signal.signal(signal.SIGINT, self.shutdown)
-        signal.signal(signal.SIGTERM, self.shutdown)
-        if not deluge.common.windows_check():
-            signal.signal(signal.SIGHUP, self.shutdown)
-        else:
+        # Twisted catches signals to terminate, so just have it call the shutdown
+        # method.
+        reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
+
+        # Catch some Windows specific signals
+        if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             from win32con import CTRL_SHUTDOWN_EVENT
