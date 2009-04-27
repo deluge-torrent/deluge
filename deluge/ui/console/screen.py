@@ -324,6 +324,19 @@ class Screen(CursesStdIO):
         elif c == curses.KEY_END:
             self.input_cursor = len(self.input)
 
+        # Scrolling through buffer
+        elif c == curses.KEY_PPAGE:
+            self.display_lines_offset += self.rows - 3
+            if self.display_lines_offset > (len(self.lines) - 1 - self.rows - 3):
+                self.display_lines_offset = len(self.lines) - 1 - self.rows - 3
+
+            self.refresh()
+        elif c == curses.KEY_NPAGE:
+            self.display_lines_offset -= self.rows - 3
+            if self.display_lines_offset < 0:
+                self.display_lines_offset = 0
+            self.refresh()
+
         # Delete a character in the input string based on cursor position
         if c == curses.KEY_BACKSPACE or c == 127:
             if self.input and self.input_cursor > 0:
