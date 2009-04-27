@@ -1,5 +1,9 @@
 === Deluge 1.1.8 - (In Development) ===
+==== Core ====
   * Fix pause all/resume all
+
+==== GtkUI ====
+  * Fix high cpu usage when displaying speeds in titlebar
 
 === Deluge 1.1.7 - (25 April 2009) ===
 ==== Core ====
