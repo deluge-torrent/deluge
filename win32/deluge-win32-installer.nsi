@@ -1,5 +1,5 @@
 # Deluge Windows installer script
-# Version 0.3.1, 18-Apr-2009
+# Version 0.4 28-Apr-2009
 
 # Copyright (C) 2009 by
 #   Jesper Lund <mail@jesperlund.com>
@@ -25,16 +25,19 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+# Set default compressor
+SetCompressor lzma
+
 ###
-### --- Some of these !define's need to be updated with new Deluge versions ---
+### --- The PROGRAM_VERSION !define need to be updated with new Deluge versions ---
 ###
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "0.3.1"
+!define DELUGE_INSTALLER_VERSION "0.4"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.1.6"
+!define PROGRAM_VERSION "1.1.7"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
@@ -188,12 +191,15 @@ Section -StartMenu_Desktop_Links
   CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.cmd" "" "$INSTDIR\deluge.ico"
 SectionEnd
 
-Section -Uninstaller_Registry
+Section -Uninstaller
   WriteUninstaller "$INSTDIR\Deluge-uninst.exe"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" "$INSTDIR\Deluge-uninst.exe"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayIcon" "$INSTDIR\deluge.ico"
-  
+SectionEnd
+
+# Create file association for .torrent
+Section "Create .torrent file association for Deluge" Section2
   # Set up file association for .torrent files
   DeleteRegKey HKCR ".torrent"
   WriteRegStr HKCR ".torrent" "" "Deluge"
@@ -208,7 +214,7 @@ Section -Uninstaller_Registry
 SectionEnd
 
 # Install GTK+ 2.12
-Section "GTK+ 2.12 runtime" Section2
+Section "GTK+ 2.12 runtime" Section3
   # Check whether GTK+ 2.12 is installed on the system; if so skip this section
   # The criterion is whether the registry key HKLM\SOFTWARE\GTK\2.0\Version exists
   ReadRegStr $0 HKLM "SOFTWARE\GTK\2.0" "Version"
@@ -257,12 +263,14 @@ Section "GTK+ 2.12 runtime" Section2
 SectionEnd
 
 LangString DESC_Section1 ${LANG_ENGLISH} "Install Deluge Bittorrent client."
-LangString DESC_Section2 ${LANG_ENGLISH} "Download and install the GTK+ 2.12 runtime. \
+LangString DESC_Section2 ${LANG_ENGLISH} "Select this option unless you have another torrent client which you want to use for opening .torrent files."
+LangString DESC_Section3 ${LANG_ENGLISH} "Download and install the GTK+ 2.12 runtime. \
   This is skipped automatically if GTK+ is already installed."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section3)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
