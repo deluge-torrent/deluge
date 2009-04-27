@@ -187,7 +187,7 @@ Copyright:
 		},
 		
 		onTorrentAdd: function() {
-			Deluge.Add.Window.show();
+			Deluge.Add.show();
 		}
 	});
 	
