@@ -420,7 +420,7 @@ class WebApi(JSONComponent):
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
-            fdump = base64.encodestring(open(torrent["path"], "r").read())
+            fdump = base64.encodestring(open(torrent["path"], "rb").read())
             log.info("Adding torrent from file `%s` with options `%r`",
                 filename, torrent["options"])
             client.core.add_torrent_file(filename, fdump, torrent["options"])

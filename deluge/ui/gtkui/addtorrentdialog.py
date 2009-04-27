@@ -683,7 +683,7 @@ class AddTorrentDialog(component.Component):
             for i, f in enumerate(torrent_filenames):
                 client.core.add_torrent_file(
                     os.path.split(f)[-1],
-                    base64.encodestring(open(f).read()),
+                    base64.encodestring(open(f, "rb").read()),
                     torrent_options[i])
         if torrent_magnets:
             client.core.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
