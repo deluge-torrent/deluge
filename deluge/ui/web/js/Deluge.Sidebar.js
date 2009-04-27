@@ -155,7 +155,7 @@ Copyright:
 			Ext.each(Ext.getKeys(this.panels), function(filter) {
 				this.remove(filter + '-panel');
 			}, this);
-			this.panels.empty();
+			this.panels = {};
 			this.selected = null;
 		},
 		
