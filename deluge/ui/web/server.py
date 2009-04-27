@@ -67,6 +67,7 @@ current_dir = os.path.dirname(__file__)
 
 CONFIG_DEFAULTS = {
     "port": 8112,
+    "enabled_plugins": [],
     "theme": "slate",
     "pwd_salt": "16f65d5c79b7e93278a28b60fed2431e",
     "pwd_md5": "2c9baa929ca38fb5c9eb5b054474d1ce",
@@ -205,7 +206,7 @@ class LookupResource(resource.Resource, component.Component):
     def __init__(self, name, *directories):
         resource.Resource.__init__(self)
         component.Component.__init__(self, name)
-        self.__directories = directories
+        self.__directories = list(directories)
 
     @property
     def directories(self):
@@ -369,10 +370,12 @@ class DelugeWeb(component.Component):
         reactor.listenTCP(self.port, self.site)
         log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
+        self.plugins.enable_plugins()
         reactor.run()
 
     def shutdown(self, *args):
         log.info("Shutting down webserver")
+        self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
         try:
