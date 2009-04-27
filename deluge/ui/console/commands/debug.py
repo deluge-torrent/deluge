@@ -36,7 +36,7 @@ class Command(BaseCommand):
         elif state == 'off':
             deluge.log.setLoggerLevel("error")
         else:
-            console.write("{!error!}%s" %s usage)
+            console.write("{!error!}%s" % usage)
 
 #    def complete(self, text, *args):
 #        return [ x for x in ['on', 'off'] if x.startswith(text) ]
