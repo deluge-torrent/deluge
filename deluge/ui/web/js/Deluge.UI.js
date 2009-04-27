@@ -49,11 +49,14 @@ Deluge.UI = {
 			items: [this.MainPanel]
 		});
 		
-		Deluge.Login.show();
-		
 		Deluge.Events.on("connect", this.onConnect, this);
 		Deluge.Events.on("disconnect", this.onDisconnect, this);
-		Deluge.Client = new Ext.ux.util.RpcClient({url: '/json'});
+		Deluge.Client = new Ext.ux.util.RpcClient({
+			url: '/json'
+		});
+		Deluge.Client.on('connected', function(e) {
+			Deluge.Login.show();
+		});
 		this.update = this.update.bind(this);
 	},
 	

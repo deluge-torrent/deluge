@@ -23,6 +23,9 @@ Copyright:
 
 (function(){
 	Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
+		
+		firstShow: true,
+		
 		constructor: function(config) {
 			config = Ext.apply({
 				layout: 'fit',
@@ -45,6 +48,7 @@ Copyright:
 			Ext.deluge.LoginWindow.superclass.initComponent.call(this);
 			Deluge.Events.on('logout', this.onLogout, this);
 			this.on('show', this.onShow, this);
+			this.on('beforeshow', this.onBeforeShow, this);
 			
 			this.addButton({
 				text: _('Login'),
@@ -82,10 +86,11 @@ Copyright:
 			var passwordField = this.loginForm.items.get('password');
 			Deluge.Client.web.login(passwordField.getValue(), {
 				success: function(result) {
-					if (result == true) {
+					if (result) {
 						Deluge.Events.fire('login');
 						this.hide();
 						passwordField.setRawValue('');
+						Deluge.UI.cookies.set("session", result);
 					} else {
 						Ext.MessageBox.show({
 							title: _('Login Failed'),
@@ -105,7 +110,40 @@ Copyright:
 		},
 		
 		onLogout: function() {
-			this.show();
+			var session = Deluge.UI.cookies.get("session", false);
+			if (session) {
+				Deluge.Client.web.delete_session(session, {
+					success: function(result) {
+						Deluge.UI.cookies.set("session", false);
+						this.show();
+					},
+					scope: this
+				});
+			}
+		},
+		
+		onBeforeShow: function() {
+			var session = Deluge.UI.cookies.get("session", false);
+			if (session) {
+				Deluge.Client.web.check_session(session, {
+					success: function(result) {
+						if (result) {
+							Deluge.Events.fire('login');
+							this.loginForm.items.get('password').setRawValue('');
+							this.hide();
+						} else {
+							Deluge.UI.cookies.set("session", false);
+							this.show();
+						}
+					},
+					failure: function(result) {
+						Deluge.UI.cookies.set("session", false);
+						this.show();
+					},
+					scope: this
+				});
+				return false;
+			}
 		},
 		
 		onShow: function() {

@@ -26,6 +26,7 @@ import os
 import time
 import locale
 import shutil
+import signal
 import urllib
 import gettext
 import hashlib
@@ -71,7 +72,7 @@ CONFIG_DEFAULTS = {
     "pwd_salt": "16f65d5c79b7e93278a28b60fed2431e",
     "pwd_md5": "2c9baa929ca38fb5c9eb5b054474d1ce",
     "base": "",
-    "sessions": [],
+    "sessions": {},
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
     "show_keyword_search": False,

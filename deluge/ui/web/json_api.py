@@ -25,6 +25,7 @@
 import os
 import time
 import base64
+import random
 import urllib
 import hashlib
 import logging
@@ -427,6 +428,35 @@ class WebApi(JSONComponent):
         d.callback(True)
         return d
     
+    def _create_session(self, login='admin'):
+        m = hashlib.md5()
+        m.update(login)
+        m.update(str(time.time()))
+        m.update(str(random.getrandbits(999)))
+        m.update(m.hexdigest())
+        session_id = m.hexdigest()
+        
+        config = component.get("DelugeWeb").config
+        config["sessions"][session_id] = {
+            "login": login
+        }
+        return session_id
+    
+    @export
+    def check_session(self, session_id):
+        d = Deferred()
+        config = component.get("DelugeWeb").config
+        d.callback(session_id in config["sessions"])
+        return d
+    
+    @export
+    def delete_session(self, session_id):
+        d = Deferred()
+        config = component.get("DelugeWeb").config
+        del config["sessions"][session_id]
+        d.callback(True)
+        return d
+    
     @export
     def login(self, password):
         """Method to allow the webui to authenticate
@@ -436,7 +466,11 @@ class WebApi(JSONComponent):
         m.update(config['pwd_salt'])
         m.update(password)
         d = Deferred()
-        d.callback(m.hexdigest() == config['pwd_md5'])
+        if m.hexdigest() == config['pwd_md5']:
+            # Change this to return a session id
+            d.callback(self._create_session())
+        else:
+            d.callback(False)
         return d
     
     @export
