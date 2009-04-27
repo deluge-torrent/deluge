@@ -43,11 +43,11 @@ Ext.namespace('Ext.ux.util');
             this.addEvents(
                 // raw events
                 /**
-                 * @event ready
+                 * @event connected
                  * Fires when the client has retrieved the list of methods from the server.
                  * @param {Ext.ux.util.RpcClient} this
                  */
-                 'ready'
+                 'connected'
             );
             this.reloadMethods();
         },
@@ -85,14 +85,19 @@ Ext.namespace('Ext.ux.util');
             });
         },
         
-        _onFailure: function(response, options) {
-            if (response.status == 500) {
-                //error
-            }
+        _onFailure: function(response, requestOptions) {
+            var options = requestOptions.options;
             errorObj = {
-                id: options.options.id
+                id: options.id,
+                result: null,
+                error: 'HTTP' + response.status
+            }            
+            if (Ext.type(options.failure) != 'function') return;
+            if (options.scope) {
+                options.failure.call(options.scope, responseObj.error, responseObj, response);
+            } else {
+                options.failure(responseObj.error, responseObj, response);
             }
-            //alert(Ext.encode(errorObj));
         },
         
         _onSuccess: function(response, requestOptions) {
@@ -161,7 +166,7 @@ Ext.namespace('Ext.ux.util');
             }
             
             this._components = Ext.keys(components);
-            this.fireEvent('ready', this);
+            this.fireEvent('connected', this);
         }
     });
 })();
