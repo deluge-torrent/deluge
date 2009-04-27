@@ -21,17 +21,55 @@ Copyright:
 		Boston, MA  02110-1301, USA.
 */
 
-Deluge.Add = {
-	torrents: new Hash(),
+Ext.namespace('Ext.deluge.add');
+Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
+
+	constructor: function(config) {
+		config = Ext.apply({
+			region: 'south',
+			margins: '5 5 5 5',
+			activeTab: 0,
+			height: 220
+		}, config);
+		Ext.deluge.add.OptionsPanel.superclass.constructor.call(this, config);
+	},
+	
+	initComponent: function() {
+		Ext.deluge.add.OptionsPanel.superclass.initComponent.call(this);
+		this.files = this.add(new Ext.tree.ColumnTree({
+			layout: 'fit',
+			title: _('Files'),
+			rootVisible: false,
+			autoScroll: true,
+			height: 170,
+			border: false,
+			animate: false,
+			
+			columns: [{
+				header: _('Filename'),
+				width: 275,
+				dataIndex: 'filename'
+			},{
+				header: _('Size'),
+				width: 80,
+				dataIndex: 'size'
+			}],
+			
+			root: new Ext.tree.AsyncTreeNode({
+				text: 'Files'
+			})
+		}));
+		new Ext.tree.TreeSorter(this.files, {
+			folderSort: true
+		});
+	},
 	
 	clear: function() {
 		this.clearFiles();
-		this.Store.loadData([]);
-		this.torrents.empty();
 	},
 	
 	clearFiles: function() {
-		var root = this.Files.getRootNode();
+		var root = this.files.getRootNode();
 		if (!root.hasChildNodes()) return;
 		root.cascade(function(node) {
 			if (!node.parentNode || !node.getOwnerTree()) return;
@@ -68,23 +106,289 @@ Deluge.Add = {
 				}
 			}.bindWithEvent(this)
         });
+	}
+});
+
+Ext.deluge.add.Window = Ext.extend(Ext.Window, {
+	initComponent: function() {
+		Ext.deluge.add.Window.superclass.initComponent.call(this);
+		this.addEvents(
+			'beforeadd',
+			'add'
+		);
+	}
+});
+
+Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
+	constructor: function(config) {
+		config = Ext.apply({
+			layout: 'fit',
+			width: 350,
+			height: 115,
+			bodyStyle: 'padding: 10px 5px;',
+			buttonAlign: 'center',
+			closeAction: 'hide',
+			modal: true,
+			plain: true,
+			title: _('Add from Url'),
+			iconCls: 'x-deluge-add-url-window-icon',
+			buttons: [{
+				text: _('Add'),
+				handler: this.onAdd,
+				scope: this
+			}]
+		}, config);
+		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
+	},
+	
+	initComponent: function() {
+		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
+		this.form = this.add(new Ext.form.FormPanel({
+			defaultType: 'textfield',
+			baseCls: 'x-plain',
+			labelWidth: 55,
+			items: [{
+				fieldLabel: _('Url'),
+				id: 'url',
+				name: 'url',
+				inputType: 'url',
+				anchor: '100%',
+				listeners: {
+					'specialkey': {
+						fn: this.onAdd,
+						scope: this
+					}
+				}
+			}]
+		}));
+	},
+	
+	onAdd: function(field, e) {
+		if (field.id == 'url' && e.getKey() != e.ENTER) return;
+
+		var field = this.form.items.get('url');
+		var url = field.getValue();
+		
+		Deluge.Client.web.download_torrent_from_url(url, {
+			success: this.onDownload,
+			scope: this
+		});
+		this.hide();
+		this.fireEvent('beforeadd', url);
+	},
+	
+	onDownload: function(filename) {
+		this.form.items.get('url').setValue('');
+		Deluge.Client.web.get_torrent_info(filename, {
+			success: this.onGotInfo,
+			scope: this,
+			filename: filename
+		});
+	},
+	
+	onGotInfo: function(info, obj, response, request) {
+		info['filename'] = request.options.filename;
+		this.fireEvent('add', info);
+	}
+});
+
+Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
+	
+	torrents: {},
+	
+	constructor: function(config) {
+		config = Ext.apply({
+			title: _('Add Torrents'),
+			layout: 'border',
+			width: 470,
+			height: 450,
+			bodyStyle: 'padding: 10px 5px;',
+			buttonAlign: 'right',
+			closeAction: 'hide',
+			closable: true,
+			plain: true,
+			iconCls: 'x-deluge-add-window-icon'
+		}, config);
+		Ext.deluge.add.AddWindow.superclass.constructor.call(this, config);
+	},
+	
+	initComponent: function() {
+		Ext.deluge.add.AddWindow.superclass.initComponent.call(this);
+		
+		this.addButton(_('Cancel'), this.onCancel, this);
+		this.addButton(_('Add'), this.onAdd, this);
+		
+		this.grid = this.add({
+			xtype: 'grid',
+			region: 'center',
+			store: new Ext.data.SimpleStore({
+				fields: [{name: 'torrent', mapping: 1}],
+				id: 0
+			}),
+			columns: [{
+					id: 'torrent',
+					width: 150,
+					sortable: true,
+					renderer: fplain,
+					dataIndex: 'torrent'
+			}],	
+			stripeRows: true,
+			selModel: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
+				listeners: {
+					'rowselect': {
+						fn: this.onSelect,
+						scope: this
+					}
+				}
+			}),
+			hideHeaders: true,
+			autoExpandColumn: 'torrent',
+			deferredRender: false,
+			autoScroll: true,
+			margins: '5 5 5 5',
+			bbar: new Ext.Toolbar({
+				items: [{
+					id: 'file',
+					cls: 'x-btn-text-icon',
+					iconCls: 'x-deluge-add-file',
+					text: _('File'),
+					handler: this.onFile,
+					scope: this
+				}, {
+					id: 'url',
+					cls: 'x-btn-text-icon',
+					text: _('Url'),
+					icon: '/icons/add_url.png',
+					handler: this.onUrl,
+					scope: this
+				}, {
+					id: 'infohash',
+					cls: 'x-btn-text-icon',
+					text: _('Infohash'),
+					icon: '/icons/add_magnet.png',
+					disabled: true
+				}, '->', {
+					id: 'remove',
+					cls: 'x-btn-text-icon',
+					text: _('Remove'),
+					icon: '/icons/remove.png',
+					handler: this.onRemove,
+					scope: this
+				}]
+			})
+		});
+		
+		this.options = this.add(new Ext.deluge.add.OptionsPanel());
+		
+		this.url = new Ext.deluge.add.UrlWindow();
+		this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
+		this.url.on('add', this.onTorrentAdd, this);
+	},
+	
+	clear: function() {
+		this.torrents = {};
+		this.grid.getStore().removeAll();
+		this.options.clear();
 	},
 	
 	onAdd: function() {
-		torrents = new Array();
-		this.torrents.each(function(info, hash) {
-			torrents.include({
+		torrents = [];
+		for (var id in this.torrents) {
+			var info = this.torrents[id];
+			torrents.push({
 				path: info['filename'],
 				options: {}
 			});
-		});
+		}
 		Deluge.Client.web.add_torrents(torrents, {
-			onSuccess: function(result) {
+			success: function(result) {
 			}
 		})
 		this.clear();
-		this.Window.hide();
+		this.hide();
 	},
+	
+	onCancel: function() {
+		this.clear();
+		this.hide();
+	},
+	
+	onFile: function() {
+		this.file.show();
+	},
+	
+	onRemove: function() {
+		var selection = this.grid.getSelectionModel();
+		if (!selection.hasSelection()) return;
+		var torrent = selection.getSelected();
+		
+		delete this.torrents[torrent.id];
+		this.grid.getStore().remove(torrent);
+		this.clearFiles();
+	},
+	
+	onSelect: function(selModel, rowIndex, record) {
+		var torrentInfo = this.torrents[record.id];
+		
+		function walk(files, parent) {
+			for (var file in files) {
+				var item = files[file];
+				
+				if (Ext.type(item) == 'object') {
+					var child = new Ext.tree.TreeNode({
+						text: file
+					});
+					walk(item, child);
+					parent.appendChild(child);
+				} else {
+					parent.appendChild(new Ext.tree.TreeNode({
+						filename: file,
+						text: file, // this needs to be here for sorting reasons
+						size: fsize(item[0]),
+						leaf: true,
+						checked: item[1],
+						iconCls: 'x-deluge-file',
+						uiProvider: Ext.tree.ColumnNodeUI
+					}));	
+				}
+			}
+		}
+		
+		this.options.clearFiles();		
+		var root = this.options.files.getRootNode();
+		walk(torrentInfo['files_tree'], root);
+		root.firstChild.expand();
+	},
+	
+	onTorrentBeforeAdd: function(temptext) {
+	},
+	
+	onTorrentAdd: function(info) {
+		if (!info) {
+			Ext.MessageBox.show({
+				title: _('Error'),
+				msg: _('Not a valid torrent'),
+				buttons: Ext.MessageBox.OK,
+				modal: false,
+				icon: Ext.MessageBox.ERROR,
+				iconCls: 'x-deluge-icon-error'
+			});
+			return;
+		}
+		this.grid.getStore().loadData([[info['info_hash'], info['name']]], true);
+		this.torrents[info['info_hash']] = info;
+	},
+	
+	onUrl: function(button, event) {
+		this.url.show();
+	}
+});
+Deluge.Add = new Ext.deluge.add.AddWindow();
+
+/*Deluge.Add = {
+	
+	
 	
 	onFile: function() {
 		this.File.Window.show();
@@ -167,87 +471,6 @@ Deluge.Add = {
 		this.clearFiles();
 	}
 }
-
-Deluge.Add.Files = new Ext.tree.ColumnTree({
-	id: 'files',
-	layout: 'fit',
-	rootVisible: false,
-	autoScroll: true,
-	height: 170,
-	border: false,
-	animate: false,
-	
-	columns: [{
-		header: _('Filename'),
-		width: 275,
-		dataIndex: 'filename'
-	},{
-		header: _('Size'),
-		width: 80,
-		dataIndex: 'size'
-	}],
-	
-	root: new Ext.tree.AsyncTreeNode({
-		text: 'Files'
-	})
-})
-
-Deluge.Add.Store = new Ext.data.SimpleStore({
-	fields: [
-		{name: 'torrent', mapping: 1}
-	],
-	id: 0
-});
-
-Deluge.Add.Grid = new Ext.grid.GridPanel({
-	store: Deluge.Add.Store,
-	region: 'center',
-	columns: [
-		{id: 'torrent', width: 150, sortable: true, renderer: Deluge.Formatters.plain, dataIndex: 'torrent'}
-	],	
-	stripeRows: true,
-	selModel: new Ext.grid.RowSelectionModel({
-		singleSelect: true,
-		listeners: {'rowselect': {fn: Deluge.Add.onSelect, scope: Deluge.Add}}
-	}),
-	hideHeaders: true,
-	autoExpandColumn: 'torrent',
-	deferredRender: false,
-	autoScroll: true,
-	margins: '5 5 5 5',
-	bbar: new Ext.Toolbar({
-		items: [
-			{
-				id: 'file',
-				cls: 'x-btn-text-icon',
-				iconCls: 'x-deluge-add-file',
-				text: _('File'),
-				handler: Deluge.Add.onFile,
-				scope: Deluge.Add
-			}, {
-				id: 'url',
-				cls: 'x-btn-text-icon',
-				text: _('Url'),
-				icon: '/icons/add_url.png',
-				handler: Deluge.Add.onUrl,
-				scope: Deluge.Add
-			}, {
-				id: 'infohash',
-				cls: 'x-btn-text-icon',
-				text: _('Infohash'),
-				icon: '/icons/add_magnet.png',
-				disabled: true
-			}, '->', {
-				id: 'remove',
-				cls: 'x-btn-text-icon',
-				text: _('Remove'),
-				icon: '/icons/remove.png',
-				handler: Deluge.Add.onRemove,
-				scope: Deluge.Add
-			}
-		]
-	})
-});
 
 Deluge.Add.Options = new Ext.TabPanel({
 	region: 'south',
@@ -491,72 +714,5 @@ Deluge.Add.Url = {
 	}
 }
 
-Deluge.Add.Url.form = new Ext.form.FormPanel({
-    defaultType: 'textfield',
-    id: 'urlAddForm',
-    baseCls: 'x-plain',
-    labelWidth: 55,
-    items: [{
-        fieldLabel: _('Url'),
-        id: 'url',
-        name: 'url',
-        inputType: 'url',
-        anchor: '100%',
-        listeners: {
-            'specialkey': {
-                fn: Deluge.Add.Url.onAdd,
-                scope: Deluge.Add.Url
-            }
-        }
-    }]
-});
-
-Deluge.Add.Url.Window = new Ext.Window({
-	layout: 'fit',
-    width: 350,
-    height: 115,
-    bodyStyle: 'padding: 10px 5px;',
-    buttonAlign: 'center',
-    closeAction: 'hide',
-    modal: true,
-    plain: true,
-    title: _('Add from Url'),
-    iconCls: 'x-deluge-add-url-window-icon',
-    items: Deluge.Add.Url.form,
-    buttons: [{
-        text: _('Add'),
-        handler: Deluge.Add.Url.onAdd,
-		scope: Deluge.Add.Url
-    }]
-});
-
-Deluge.Add.Window = new Ext.Window({
-	layout: 'border',
-    width: 470,
-    height: 450,
-    bodyStyle: 'padding: 10px 5px;',
-    buttonAlign: 'right',
-    closeAction: 'hide',
-    closable: true,
-    plain: true,
-    title: _('Add Torrents'),
-    iconCls: 'x-deluge-add-window-icon',
-    items: [Deluge.Add.Grid, Deluge.Add.Options],
-    buttons: [{
-        text: _('Cancel'),
-		handler: function() {
-			Deluge.Add.clear();
-			Deluge.Add.Window.hide();
-		}
-    }, {
-		text: _('Add'),
-		handler: Deluge.Add.onAdd,
-		scope: Deluge.Add
-	}],
-    listeners: {
-		'render': {
-			fn: Deluge.Add.onRender,
-			scope: Deluge.Add
-		}
-	}
-});
+Deluge.Add.Url.form = ;
+*/

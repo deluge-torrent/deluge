@@ -256,6 +256,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Formatters.js",
         "/js/Deluge.Menus.js",
         "/js/Deluge.Events.js",
+        "/js/Deluge.Add.js",
         "/js/Deluge.Client.js",
         "/js/Deluge.ConnectionManager.js",
         "/js/Deluge.Details.js",
