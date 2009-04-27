@@ -206,7 +206,7 @@ Copyright:
 		 * Returns the record representing the torrent at the specified index.
 		 *
 		 * @param {int} The row index of the torrent you wish to retrieve.
-		 * @param {Ext.data.Record} The record representing the torrent.
+		 * @return {Ext.data.Record} The record representing the torrent.
 		 */
 		getTorrent: function(rowIndex) {
 			return this.getStore().getAt(rowIndex);
