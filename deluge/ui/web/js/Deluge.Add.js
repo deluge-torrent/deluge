@@ -1,5 +1,5 @@
 /*
-Script: deluge-add.js
+Script: Deluge.Add.js
     Contains the Add Torrent window.
 
 Copyright:
@@ -119,79 +119,6 @@ Ext.deluge.add.Window = Ext.extend(Ext.Window, {
 	}
 });
 
-Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
-	constructor: function(config) {
-		config = Ext.apply({
-			layout: 'fit',
-			width: 350,
-			height: 115,
-			bodyStyle: 'padding: 10px 5px;',
-			buttonAlign: 'center',
-			closeAction: 'hide',
-			modal: true,
-			plain: true,
-			title: _('Add from Url'),
-			iconCls: 'x-deluge-add-url-window-icon',
-			buttons: [{
-				text: _('Add'),
-				handler: this.onAdd,
-				scope: this
-			}]
-		}, config);
-		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
-	},
-	
-	initComponent: function() {
-		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
-		this.form = this.add(new Ext.form.FormPanel({
-			defaultType: 'textfield',
-			baseCls: 'x-plain',
-			labelWidth: 55,
-			items: [{
-				fieldLabel: _('Url'),
-				id: 'url',
-				name: 'url',
-				inputType: 'url',
-				anchor: '100%',
-				listeners: {
-					'specialkey': {
-						fn: this.onAdd,
-						scope: this
-					}
-				}
-			}]
-		}));
-	},
-	
-	onAdd: function(field, e) {
-		if (field.id == 'url' && e.getKey() != e.ENTER) return;
-
-		var field = this.form.items.get('url');
-		var url = field.getValue();
-		
-		Deluge.Client.web.download_torrent_from_url(url, {
-			success: this.onDownload,
-			scope: this
-		});
-		this.hide();
-		this.fireEvent('beforeadd', url);
-	},
-	
-	onDownload: function(filename) {
-		this.form.items.get('url').setValue('');
-		Deluge.Client.web.get_torrent_info(filename, {
-			success: this.onGotInfo,
-			scope: this,
-			filename: filename
-		});
-	},
-	
-	onGotInfo: function(info, obj, response, request) {
-		info['filename'] = request.options.filename;
-		this.fireEvent('add', info);
-	}
-});
-
 Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	torrents: {},
@@ -280,10 +207,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		});
 		
 		this.options = this.add(new Ext.deluge.add.OptionsPanel());
-		
-		this.url = new Ext.deluge.add.UrlWindow();
-		this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
-		this.url.on('add', this.onTorrentAdd, this);
+		this.on('show', this.onShow, this);
 	},
 	
 	clear: function() {
@@ -361,6 +285,20 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		root.firstChild.expand();
 	},
 	
+	onShow: function() {
+		if (!this.url) {
+			this.url = new Ext.deluge.add.UrlWindow();
+			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
+			this.url.on('add', this.onTorrentAdd, this);
+		}
+		
+		if (!this.file) {
+			this.file = new Ext.deluge.add.FileWindow();
+			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
+			this.file.on('add', this.onTorrentAdd, this);
+		}
+	},
+	
 	onTorrentBeforeAdd: function(temptext) {
 	},
 	
@@ -387,9 +325,6 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 Deluge.Add = new Ext.deluge.add.AddWindow();
 
 /*Deluge.Add = {
-	
-	
-	
 	onFile: function() {
 		this.File.Window.show();
 	},
