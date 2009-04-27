@@ -278,6 +278,8 @@ class TorrentManager(component.Component):
                 torrent_info = lt.torrent_info(lt.bdecode(filedump))
             except Exception, e:
                 log.error("Unable to decode torrent file!: %s", e)
+                # XXX: Probably should raise an exception here..
+                return
 
         if torrent_info is None and state:
             # We have no torrent_info so we need to add the torrent with information
@@ -751,7 +753,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[torrent_id]
         except:
             return
-            
+
         old_state = torrent.state
         torrent.update_state()
         # Only emit a state changed event if the state has actually changed
