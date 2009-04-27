@@ -97,6 +97,16 @@ input {
 	background: url('/icons/add.png') no-repeat 2px;
 }
 
+.x-deluge-add-torrent-name {
+	line-height: 20px;
+}
+
+.x-deluge-add-torrent-name-loading {
+	padding-left: 20px;
+	line-height: 20px;
+	background: url('/themes/default/tree/loading.gif') no-repeat 2px;
+}
+
 /* Add Url Window */
 .x-deluge-add-file, .x-btn .x-deluge-add-file {
 	background: url('/icons/add_file.png') no-repeat 2px;

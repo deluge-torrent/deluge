@@ -175,10 +175,10 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.addButton(_('Add'), this.onAdd, this);
 		
 		function torrentRenderer(value, p, r) {
-			if (r.data['infohash']) {
-				return String.format('<div class="x-add-torrent-name">{0}</div>', value);
+			if (r.data['info_hash']) {
+				return String.format('<div class="x-deluge-add-torrent-name">{0}</div>', value);
 			} else {
-				return String.format('<div class="x-add-torrent-name-loading">{0}</div>', value);
+				return String.format('<div class="x-deluge-add-torrent-name-loading">{0}</div>', value);
 			}
 		}
 		
