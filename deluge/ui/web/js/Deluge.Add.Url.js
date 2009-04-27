@@ -70,26 +70,29 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 
 		var field = this.form.items.get('url');
 		var url = field.getValue();
+		var torrentId = this.createTorrentId();
 		
 		Deluge.Client.web.download_torrent_from_url(url, {
 			success: this.onDownload,
-			scope: this
+			scope: this,
+			torrentId: torrentId
 		});
 		this.hide();
-		this.fireEvent('beforeadd', url);
+		this.fireEvent('beforeadd', torrentId, url);
 	},
 	
-	onDownload: function(filename) {
+	onDownload: function(filename, obj, resp, req) {
 		this.form.items.get('url').setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
 			success: this.onGotInfo,
 			scope: this,
-			filename: filename
+			filename: filename,
+			torrentId: req.options.torrentId
 		});
 	},
 	
 	onGotInfo: function(info, obj, response, request) {
 		info['filename'] = request.options.filename;
-		this.fireEvent('add', info);
+		this.fireEvent('add', request.options.torrentId, info);
 	}
 });

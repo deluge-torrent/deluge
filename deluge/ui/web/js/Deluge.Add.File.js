@@ -65,14 +65,21 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	onAdd: function(field, e) {
 		if (this.form.getForm().isValid()) {
+			this.torrentId = this.createTorrentId();
 			this.form.getForm().submit({
 				url: '/upload',
 				waitMsg: _('Uploading your torrent...'),
 				success: this.onUploadSuccess,
 				scope: this
 			});
+			var name = this.form.getForm().findField('torrentFile').value;
+			this.fireEvent('beforeadd', this.torrentId, name);
 		}
-		this.fireEvent('beforeadd', null);
+	},
+	
+	onGotInfo: function(info, obj, response, request) {
+		info['filename'] = request.options.filename;
+		this.fireEvent('add', this.torrentId, info);
 	},
 	
 	onUploadSuccess: function(fp, upload) {
@@ -84,10 +91,5 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			scope: this,
 			filename: filename
 		});
-	},
-	
-	onGotInfo: function(info, obj, response, request) {
-		info['filename'] = request.options.filename;
-		this.fireEvent('add', info);
 	}
 });
