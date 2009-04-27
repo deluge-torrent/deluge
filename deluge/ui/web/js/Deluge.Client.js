@@ -106,16 +106,16 @@ Ext.namespace('Ext.ux.util');
             if (responseObj.error) {
                 if (Ext.type(options.failure) != 'function') return;
                 if (options.scope) {
-                    options.failure.call(options.scope, responseObj.error, responseObj, response);
+                    options.failure.call(options.scope, responseObj.error, responseObj, response, requestOptions);
                 } else {
-                    options.failure(responseObj.error, responseObj, response);
+                    options.failure(responseObj.error, responseObj, response, requestOptions);
                 }
             } else {
                 if (Ext.type(options.success) != 'function') return;
                 if (options.scope) {
-                    options.success.call(options.scope, responseObj.result, responseObj, response);
+                    options.success.call(options.scope, responseObj.result, responseObj, response, requestOptions);
                 } else {
-                    options.success(responseObj.result, responseObj, response);
+                    options.success(responseObj.result, responseObj, response, requestOptions);
                 }
             }
         },
