@@ -327,8 +327,9 @@ class Screen(CursesStdIO):
         # Scrolling through buffer
         elif c == curses.KEY_PPAGE:
             self.display_lines_offset += self.rows - 3
-            if self.display_lines_offset > (len(self.lines) - 1 - self.rows - 3):
-                self.display_lines_offset = len(self.lines) - 1 - self.rows - 3
+            # We substract 3 for the unavailable lines and 1 extra due to len(self.lines)
+            if self.display_lines_offset > (len(self.lines) - 4 - self.rows):
+                self.display_lines_offset = len(self.lines) - 4 - self.rows
 
             self.refresh()
         elif c == curses.KEY_NPAGE:
