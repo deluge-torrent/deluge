@@ -225,7 +225,9 @@ Copyright:
 		
 		onLogout: function() {
 			this.disconnect();
-			this.hide();
+			if (!this.hidden && this.rendered) {
+				this.hide();
+			}
 		},
 		
 		onRemove: function(button) {
