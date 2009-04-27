@@ -114,7 +114,7 @@ Copyright:
 			if (session) {
 				Deluge.Client.web.delete_session(session, {
 					success: function(result) {
-						Deluge.UI.cookies.set("session", false);
+						Deluge.UI.cookies.clear("session");
 						this.show();
 					},
 					scope: this
@@ -132,12 +132,12 @@ Copyright:
 							this.loginForm.items.get('password').setRawValue('');
 							this.hide();
 						} else {
-							Deluge.UI.cookies.set("session", false);
+							Deluge.UI.cookies.clear("session");
 							this.show();
 						}
 					},
 					failure: function(result) {
-						Deluge.UI.cookies.set("session", false);
+						Deluge.UI.cookies.clear("session");
 						this.show();
 					},
 					scope: this
