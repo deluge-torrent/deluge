@@ -46,3 +46,7 @@ class Command(BaseCommand):
 
         if torrent_ids:
             client.core.pause_torrent(torrent_ids)
+
+    def complete(self, line):
+        # We use the ConsoleUI torrent tab complete method
+        return component.get("ConsoleUI").tab_complete_torrent(line)

@@ -92,7 +92,6 @@ class Command(BaseCommand):
     usage =  "Usage: info [<torrent-id> [<torrent-id> ...]]\n"\
              "       You can give the first few characters of a torrent-id to identify the torrent."
 
-
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         # Compile a list of torrent_ids to request the status of
@@ -197,3 +196,7 @@ class Command(BaseCommand):
                     s += "\n"
 
                 self.console.write(s[:-1])
+
+    def complete(self, line):
+        # We use the ConsoleUI torrent tab complete method
+        return component.get("ConsoleUI").tab_complete_torrent(line)

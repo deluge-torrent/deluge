@@ -134,14 +134,5 @@ class Command(BaseCommand):
             self.console.write("{!success!}Configuration value successfully updated.")
         client.core.set_config({key: val}).addCallback(on_set_config)
 
-"""
-    def complete(self, text, *args):
-        keys = []
-        def _on_get_config(config):
-            keys.extend(config.keys())
-        client.get_config(_on_get_config)
-        client.force_call()
-        return [ k for k in keys if k.startswith(text) ]
-
-    def split(self, text):
-        return str.split(text)"""
+    def complete(self, text):
+        return [ k for k in component.get("CoreConfig").keys() if k.startswith(text) ]

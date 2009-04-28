@@ -225,6 +225,8 @@ class ConsoleUI(component.Component):
     def tab_completer(self, line, cursor, second_hit):
         """
         Called when the user hits 'tab' and will autocomplete or show options.
+        If a command is already supplied in the line, this function will call the
+        complete method of the command.
 
         :param line: str, the current input string
         :param cursor: int, the cursor position in the line
@@ -237,47 +239,23 @@ class ConsoleUI(component.Component):
         # First check to see if there is no space, this will mean that it's a
         # command that needs to be completed.
         if " " not in line:
-            if len(line) == 0:
-                # We only print these out if it's a second_hit
-                if second_hit:
-                    # There is nothing in line so just print out all possible commands
-                    # and return.
-                    self.write(" ")
-                    for cmd in self._commands:
-                        self.write(cmd)
-                return ("", 0)
+            possible_matches = []
             # Iterate through the commands looking for ones that startwith the
             # line.
-            possible_matches = []
             for cmd in self._commands:
                 if cmd.startswith(line):
                     possible_matches.append(cmd)
 
             line_prefix = ""
-
         else:
-            # This isn't a command so treat it as a torrent_id or torrent name
-            name = line.split(" ")[-1]
-            if len(name) == 0:
-                # There is nothing in the string, so just display all possible options
-                if second_hit:
-                    self.write(" ")
-                    # Display all torrent_ids and torrent names
-                    for torrent_id, name in self.torrents:
-                        self.write(torrent_id)
-                        self.write(name)
+            cmd = line.split(" ")[0]
+            if cmd in self._commands:
+                # Call the command's complete method to get 'er done
+                possible_matches = self._commands[cmd].complete(line.split(" ")[-1])
+                line_prefix = " ".join(line.split(" ")[:-1]) + " "
+            else:
+                # This is a bogus command
                 return (line, cursor)
-
-            # Find all possible matches
-            possible_matches = []
-            for torrent_id, torrent_name in self.torrents:
-                if torrent_id.startswith(name):
-                    possible_matches.append(torrent_id)
-                elif torrent_name.startswith(name):
-                    possible_matches.append(torrent_name)
-
-            # Set the line prefix that should be prepended to any input line match
-            line_prefix = " ".join(line.split(" ")[:-1]) + " "
 
         # No matches, so just return what we got passed
         if len(possible_matches) == 0:
@@ -292,9 +270,30 @@ class ConsoleUI(component.Component):
             if second_hit:
                 # Only print these out if it's a second_hit
                 self.write(" ")
-                for cmd in possible_matches:
-                    self.write(cmd)
+                for match in possible_matches:
+                    self.write(match)
             return (line, cursor)
+
+    def tab_complete_torrent(self, line):
+        """
+        Completes torrent_ids or names.
+
+        :param line: str, the string to complete
+
+        :returns: list of matches
+
+        """
+
+        possible_matches = []
+
+        # Find all possible matches
+        for torrent_id, torrent_name in self.torrents:
+            if torrent_id.startswith(line):
+                possible_matches.append(torrent_id)
+            if torrent_name.startswith(line):
+                possible_matches.append(torrent_name)
+
+        return possible_matches
 
     def get_torrent_name(self, torrent_id):
         """

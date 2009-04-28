@@ -26,6 +26,7 @@ from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
 import deluge.ui.console.colors as colors
 import deluge.log
+import deluge.component as component
 
 class Command(BaseCommand):
     """Enable and disable debugging"""
@@ -36,7 +37,7 @@ class Command(BaseCommand):
         elif state == 'off':
             deluge.log.setLoggerLevel("error")
         else:
-            console.write("{!error!}%s" % usage)
+            component.get("ConsoleUI").write("{!error!}%s" % usage)
 
-#    def complete(self, text, *args):
-#        return [ x for x in ['on', 'off'] if x.startswith(text) ]
+    def complete(self, text):
+        return [x for x in ['on', 'off'] if x.startswith(text)]

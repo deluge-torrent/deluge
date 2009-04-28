@@ -54,3 +54,6 @@ class Command(BaseCommand):
                 self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
             self.console.write(" ")
             self.console.write('For help on a specific command, use "<command> --help"')
+
+    def complete(self, line):
+        return [x for x in component.get("ConsoleUI")._commands if x.startswith(line)]
