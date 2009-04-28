@@ -31,6 +31,7 @@ from deluge.log import LOG as log
 from deluge.common import get_pixmap
 import os
 import deluge.configmanager
+import deluge.component as component
 
 #some servers don't have their favicon at the expected location
 RENAMES = {
@@ -60,8 +61,9 @@ def fetch_url(url, valid_subtypes=None):
 
     return data
 
-class TrackerIcons(object):
+class TrackerIcons(component.Component):
     def __init__(self):
+        component.Component.__init__(self, "TrackerIcons")
         #set image cache dir
         self.image_dir = os.path.join(deluge.configmanager.get_config_dir(), "icons")
         if not os.path.exists(self.image_dir):
@@ -140,9 +142,10 @@ class TrackerIcons(object):
             f = open(filename,"wb")
             f.write(icon_data)
             f.close()
-            self.images[tracker_host] = filename
         else:
             filename = None
+
+        self.images[tracker_host] = filename
 
         if callback:
             gobject.idle_add(callback, filename)

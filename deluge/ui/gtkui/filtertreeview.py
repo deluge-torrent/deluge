@@ -30,7 +30,6 @@ import pkg_resources
 
 import deluge.component as component
 import deluge.common
-from deluge.ui.tracker_icons import TrackerIcons
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
@@ -71,7 +70,7 @@ class FilterTreeView(component.Component):
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.sidebar = component.get("SideBar")
         self.config = ConfigManager("gtkui.conf")
-        self.tracker_icons = TrackerIcons()
+        self.tracker_icons = component.get("TrackerIcons")
 
         self.label_view = gtk.TreeView()
         self.sidebar.add_tab(self.label_view, "filters", _("Filters"))

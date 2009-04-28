@@ -50,6 +50,7 @@ from statusbar import StatusBar
 from connectionmanager import ConnectionManager
 from pluginmanager import PluginManager
 from ipcinterface import IPCInterface
+from deluge.ui.tracker_icons import TrackerIcons
 
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
@@ -166,6 +167,7 @@ class GtkUI:
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
 
+        self.trackericons = TrackerIcons()
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
