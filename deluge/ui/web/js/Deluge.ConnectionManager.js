@@ -196,7 +196,9 @@ Copyright:
 				Deluge.Client.web.connect(id, {
 					success: function(methods) {
 						Deluge.Client.reloadMethods();
-						Deluge.Events.fire('connect');
+						Deluge.Client.on('connected', function(e) {
+							Deluge.Events.fire('connect');
+						}, this, {single: true});
 					}
 				});
 				if (this.running) window.clearInterval(this.running);
