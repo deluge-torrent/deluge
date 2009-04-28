@@ -361,7 +361,14 @@ class WebApi(JSONComponent):
         d.callback(file_tree.get_tree())
     
     @export
-    def get_torrent_files(self, torrent_id):        
+    def get_torrent_files(self, torrent_id):
+        """
+        Gets the files for a torrent in tree format
+        
+        :param torrent_id: string, the id of the torrent to retrieve.
+        :returns: The torrents files in a tree
+        :rtype: dict
+        """
         main_deferred = Deferred()        
         d = client.core.get_torrent_status(torrent_id, FILES_KEYS)        
         d.addCallback(self._on_got_files, main_deferred)
