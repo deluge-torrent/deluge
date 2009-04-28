@@ -113,7 +113,7 @@ Copyright:
 		onItemClick: function(baseItem, e) {
 			switch (baseItem.id) {
 				case 'expandAll':
-					this.panel.expandAll();
+					this.expandAll();
 					break;
 				default:
 					var indexes = {};
