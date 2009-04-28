@@ -268,6 +268,14 @@ Copyright:
 					record.set('tracker', torrent.tracker_host);
 				}
 			}
+			
+			var torrentIds = Ext.keys(torrents);
+			store.each(function(record) {
+				if (torrentIds.indexOf(record.id) == -1) {
+					// Torrent is no longer in the grid so we must remove it.
+					store.remove(record);
+				}
+			}, this);
 		},
 		
 		// private
