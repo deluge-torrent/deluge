@@ -4,7 +4,7 @@
 			config = Ext.apply({
 				id: 'deluge-statusbar',
 				defaultIconCls: 'x-not-connected',
-				defaultText: _('Not Connected'),
+				defaultText: _('Not Connected')
 			}, config);
 			Ext.deluge.Statusbar.superclass.constructor.call(this, config);
 		},
