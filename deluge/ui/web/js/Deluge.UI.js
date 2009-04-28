@@ -93,29 +93,7 @@ Deluge.UI = {
 	},
 	
 	onUpdate: function(data) {
-		var torrents = [];
-		for (var torrentId in data['torrents']) {
-			var torrent = data['torrents'][torrentId];
-			torrents.push([torrent.queue,
-				torrent.name,
-				torrent.total_size,
-				torrent.state,
-				torrent.progress,
-				torrent.num_seeds,
-				torrent.total_seeds,
-				torrent.num_peers,
-				torrent.total_peers,
-				torrent.download_payload_rate,
-				torrent.upload_payload_rate,
-				torrent.eta,
-				torrent.ratio,
-				torrent.distributed_copies,
-				torrent.time_added,
-				torrent.tracker_host,
-				torrentId
-			]);
-		}
-		Deluge.Torrents.getStore().loadData(torrents);
+		Deluge.Torrents.update(data['torrents']);
 		Deluge.Statusbar.update(data['stats']);
 		Deluge.Sidebar.update(data['filters']);
 		this.errorCount = 0;
