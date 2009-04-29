@@ -22,20 +22,22 @@ Copyright:
 */
 
 Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
+
 	title: _('Options'),
 	cls: 'x-deluge-options',
 	
 	constructor: function(config) {
-		config = Ext.apply({
-			title: _('Options'),
-			frame: true,
+		this.initialConfig = {
 			autoScroll:true,
-			deferredRender:false,
 			
+			deferredRender:false
+		}
+		config = Ext.apply({
 			items: [{
 				layout: 'column',
+				border: false,
+				bodyStyle: 'padding: 5px;',
 				defaults: {
-					//columnWidth: '.33',
 					border: false
 				},
 				
@@ -57,6 +59,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 							cls: 'x-deluge-options-label'
 						}, {
 							id: 'max_download_speed',
+							name: 'max_download_speed',
 							width: 100,
 							value: -1,
 							strategy: new Ext.ux.form.Spinner.NumberStrategy({
@@ -171,6 +174,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 						}]
 					}, {
 						layout: 'column',
+						border: false,
+						defaults: {border: false},
 						items: [{
 							items: [{
 								id: 'edit_trackers',
@@ -178,6 +183,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 								text: _('Edit Trackers'),
 								cls: 'x-btn-text-icon',
 								iconCls: 'x-deluge-edit-trackers',
+								border: false,
 								width: 100
 							}]
 						}, {
@@ -186,6 +192,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 								xtype: 'button',
 								text: _('Apply'),
 								style: 'margin-left: 10px',
+								border: false,
 								width: 100
 							}]
 						}]
@@ -198,22 +205,23 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	onRender: function(ct, position) {
 		Ext.deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
-		this.layout = new Ext.layout.FormLayout();
+		this.layout = new Ext.layout.ColumnLayout();
 		this.layout.setContainer(this);
 		this.doLayout();
 	},
 	
 	clear: function() {
-		this.findField('max_download_speed').setValue(0);
-		this.findField('max_upload_speed').setValue(0);
-		this.findField('max_connections').setValue(0);
-		this.findField('max_upload_slots').setValue(0);
-		this.findField('stop_ratio').setValue(0);
-		this.findField('is_auto_managed').setValue(false);
-		this.findField('stop_at_ratio').setValue(false);
-		this.findField('remove_at_ratio').setValue(false);
-		this.findField('private').setValue(false);
-		this.findField('prioritize_first_last').setValue(false);
+		var form = this.getForm();
+		//form.findField('max_download_speed').setValue(0);
+		//form.findField('max_upload_speed').setValue(0);
+		//form.findField('max_connections').setValue(0);
+		//form.findField('max_upload_slots').setValue(0);
+		//form.findField('stop_ratio').setValue(0);
+		//form.findField('is_auto_managed').setValue(false);
+		//form.findField('stop_at_ratio').setValue(false);
+		//form.findField('remove_at_ratio').setValue(false);
+		//form.findField('private').setValue(false);
+		//form.findField('prioritize_first_last').setValue(false);
 	},
 	
 	reset: function() {
