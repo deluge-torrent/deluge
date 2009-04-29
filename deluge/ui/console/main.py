@@ -244,7 +244,7 @@ class ConsoleUI(component.Component):
             # line.
             for cmd in self._commands:
                 if cmd.startswith(line):
-                    possible_matches.append(cmd)
+                    possible_matches.append(cmd + " ")
 
             line_prefix = ""
         else:
@@ -264,7 +264,7 @@ class ConsoleUI(component.Component):
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
-            new_line = line_prefix + possible_matches[0] + " "
+            new_line = line_prefix + possible_matches[0]
             return (new_line, len(new_line))
         else:
             if second_hit:
@@ -272,6 +272,12 @@ class ConsoleUI(component.Component):
                 self.write(" ")
                 for match in possible_matches:
                     self.write(match)
+            else:
+                p = " ".join(line.split(" ")[:-1])
+                new_line = " ".join([p, os.path.commonprefix(possible_matches)])
+                if len(new_line) > len(line):
+                    line = new_line
+                    cursor = len(line)
             return (line, cursor)
 
     def tab_complete_torrent(self, line):
@@ -289,9 +295,9 @@ class ConsoleUI(component.Component):
         # Find all possible matches
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
-                possible_matches.append(torrent_id)
+                possible_matches.append(torrent_id + " ")
             if torrent_name.startswith(line):
-                possible_matches.append(torrent_name)
+                possible_matches.append(torrent_name + " ")
 
         return possible_matches
 

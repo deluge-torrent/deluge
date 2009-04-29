@@ -48,6 +48,9 @@ class Command(BaseCommand):
             t_options["download_location"] = options["path"]
 
         for arg in args:
+            if not os.path.isfile(arg):
+                self.console.write("{!error!}This is a directory!")
+                continue
             self.console.write("{!info!}Attempting to add torrent: %s" % arg)
             filename = os.path.split(arg)[-1]
             filedump = base64.encodestring(open(arg).read())
@@ -58,3 +61,39 @@ class Command(BaseCommand):
                 self.console.write("{!error!}Torrent was not added! %s" % result)
 
             client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)
+
+    def complete(self, line):
+        line = os.path.abspath(os.path.expanduser(line))
+        ret = []
+        if os.path.exists(line):
+            # This is a correct path, check to see if it's a directory
+            if os.path.isdir(line):
+                # Directory, so we need to show contents of directory
+                #ret.extend(os.listdir(line))
+                for f in os.listdir(line):
+                    # Skip hidden
+                    if f.startswith("."):
+                        continue
+                    f = os.path.join(line, f)
+                    if os.path.isdir(f):
+                        f += "/"
+                    ret.append(f)
+            else:
+                # This is a file, but we could be looking for another file that
+                # shares a common prefix.
+                for f in os.listdir(os.path.dirname(line)):
+                    if f.startswith(os.path.split(line)[1]):
+                        ret.append(os.path.join( os.path.dirname(line), f))
+        else:
+            # This path does not exist, so lets do a listdir on it's parent
+            # and find any matches.
+            ret = []
+            for f in os.listdir(os.path.dirname(line)):
+                if f.startswith(os.path.split(line)[1]):
+                    p = os.path.join(os.path.dirname(line), f)
+
+                    if os.path.isdir(p):
+                        p += "/"
+                    ret.append(p)
+
+        return ret
