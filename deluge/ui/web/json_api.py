@@ -488,7 +488,7 @@ class WebApi(JSONComponent):
         
         main_deferred = Deferred()
         def run_check():
-            if all(map(lambda x: x[HOSTS_STATUS] is not None, hosts.values())):
+            if all([h[HOSTS_STATUS] is not None for h in hosts.values()]):
                 main_deferred.callback(hosts.values())
         
         def on_connect(connected, c, host_id):
