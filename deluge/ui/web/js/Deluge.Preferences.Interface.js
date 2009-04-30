@@ -1,5 +1,6 @@
-Deluge.Preferences.addPage(_('Interface'), {
+Deluge.Preferences.addPage({
 	border: false,
+	title: _('Interface'),
 	xtype: 'form',
 	layout: 'form',
 	items: [{

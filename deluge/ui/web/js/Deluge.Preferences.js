@@ -69,7 +69,7 @@ Copyright:
 					collapsible: true
 				}, {
 					region: 'center',
-					title: ' ',
+					header: false,
 					layout: 'fit',
 					height: 400,
 					margins: '5 5 5 5',
@@ -91,8 +91,9 @@ Copyright:
 			this.hide();
 		},
 		
-		addPage: function(name, page) {
+		addPage: function(page) {
 			var store = this.categoriesGrid.getStore();
+			var name = page.title;
 			store.loadData([[name]], true);
 			page['bodyStyle'] = 'margin: 5px';
 			this.pages[name] = this.configPanel.add(page);
@@ -106,7 +107,6 @@ Copyright:
 			var name = r.get('name');
 			
 			this.pages[name].show();
-			this.configPanel.setTitle(name);
 			this.currentPage = this.pages[name];
 			this.configPanel.doLayout();
 		},

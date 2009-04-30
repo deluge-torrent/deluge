@@ -239,7 +239,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onRequestComplete: function(torrent, options) {
-
+		
 	}
 });
 Deluge.Details.add(new Ext.deluge.details.OptionsTab());

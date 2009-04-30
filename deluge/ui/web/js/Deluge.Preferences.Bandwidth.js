@@ -1,5 +1,6 @@
-Deluge.Preferences.addPage(_('Bandwidth'), {
+Deluge.Preferences.addPage({
 	border: false,
+	title: _('Bandwidth'),
 	xtype: 'form',
 	layout: 'form',
 	labelWidth: 10,

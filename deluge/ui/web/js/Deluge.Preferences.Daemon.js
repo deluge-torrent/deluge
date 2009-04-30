@@ -1,5 +1,6 @@
-Deluge.Preferences.addPage(_('Daemon'), {
+Deluge.Preferences.addPage({
 	border: false,
+	title: _('Daemon'),
 	xtype: 'form',
 	layout: 'form',
 	items: [{
