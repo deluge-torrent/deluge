@@ -32,17 +32,15 @@ from deluge.plugins.pluginbase import WebPluginBase
 class WebUI(WebPluginBase):
     def enable(self):
         log.debug("Execute Web plugin enabled!")
-        deluge_web = component.get("DelugeWeb")
-        deluge_web.top_level.scripts.append("/js/deluge-execute.js")
-        deluge_web.top_level.debug_scripts.append("/js/deluge-execute.js")
+        deluge_web = component.get("DelugeWeb").top_level
+        deluge_web.scripts.append("/js/deluge-execute.js")
+        deluge_web.debug_scripts.append("/js/deluge-execute.js")
         
-        javascript = component.get("Javascript")
-        js_path = pkg_resources.resource_filename("execute", "data")
-        print js_path
-        javascript.directories.append(js_path)
+        javascript = component.get("Javascript").directories
+        javascript.append(pkg_resources.resource_filename("execute", "data"))
 
     def disable(self):
         log.debug("Execute Web plugin disabled!")
-        deluge_web = component.get("DelugeWeb")
-        deluge_web.top_level.scripts.remove("/js/deluge-execute.js")
-        deluge_web.top_level.debug_scripts.remove("/js/deluge-execute.js")
+        deluge_web = component.get("DelugeWeb").top_level
+        deluge_web.scripts.remove("/js/deluge-execute.js")
+        deluge_web.debug_scripts.remove("/js/deluge-execute.js")
