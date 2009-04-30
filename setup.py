@@ -134,7 +134,7 @@ else:
         '/usr/include/python' + python_version,
         sysconfig.get_config_var("INCLUDEDIR")
         ]
-    for include in os.environ["INCLUDEDIR"].split(":"):
+    for include in os.environ.get("INCLUDEDIR", "").split(":"):
         _include_dirs.append(include)
 
     _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
