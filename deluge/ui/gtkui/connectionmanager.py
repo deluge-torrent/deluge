@@ -380,6 +380,8 @@ class ConnectionManager(component.Component):
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
+        if not row:
+            return
         status = model[row][HOSTLIST_COL_STATUS]
         if status == "Connected":
             def on_disconnect(reason):
