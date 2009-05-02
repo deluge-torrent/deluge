@@ -86,6 +86,7 @@ def create_plugin():
     write_file(src,"gtkui.py", GTKUI)
     write_file(src,"webui.py", WEBUI)
     write_file(src,"core.py", CORE)
+    write_file(src, "common.py", COMMON)
     write_file(os.path.join(src,"data"),"config.glade", GLADE)
     write_file(template_dir,"default.html", DEFAULT_HTML)
 
@@ -175,7 +176,7 @@ setup(
     author_email=__author_email__,
     url=__url__,
     license=__license__,
-    long_description=__long_description__,
+    long_description=__long_description__ if __long_description__ else __description__,
 
     packages=[__plugin_name__.lower()],
     package_data = __pkg_data__,
@@ -191,6 +192,12 @@ setup(
 )
 """
 
+COMMON = """
+def get_resource(filename):
+    import pkg_resources, os
+    return pkg_resources.resource_filename("extractor", os.path.join("data", filename))
+"""
+
 GTKUI = """
 import gtk
 
@@ -200,19 +207,20 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
+from common import get_resource
+
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(self.get_resource("config.glade"))
+        self.glade = gtk.glade.XML(get_resource("config.glade"))
 
-        self.plugin.add_preferences_page("%(name)s", self.glade.get_widget("prefs_box"))
-        self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
-        self.plugin.register_hook("on_show_prefs", self.on_show_prefs)
-        self.on_show_prefs()
+        component.get("Preferences").add_page("%(name)s", self.glade.get_widget("prefs_box"))
+        component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
+        component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
 
     def disable(self):
-        self.plugin.remove_preferences_page("%(name)s")
-        self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
-        self.plugin.deregister_hook("on_show_prefs", self.on_show_prefs)
+        component.get("Preferences").remove_page("%(name)s")
+        component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
+        component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
 
     def on_apply_prefs(self):
         log.debug("applying prefs for %(name)s")
@@ -227,10 +235,6 @@ class GtkUI(GtkPluginBase):
     def cb_get_config(self, config):
         "callback for on show_prefs"
         self.glade.get_widget("txt_test").set_text(config["test"])
-
-    def get_resource(self, filename):
-        import pkg_resources, os
-        return pkg_resources.resource_filename("%(safe_name)s", os.path.join("data", filename))
 """
 
 GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -314,6 +318,16 @@ GPL = """#
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
+#
+#    In addition, as a special exception, the copyright holders give
+#    permission to link the code of portions of this program with the OpenSSL
+#    library.
+#    You must obey the GNU General Public License in all respects for all of
+#    the code used other than OpenSSL. If you modify file(s) with this
+#    exception, you may extend this exception to your version of the file(s),
+#    but you are not obligated to do so. If you do not wish to do so, delete
+#    this exception statement from your version. If you delete this exception
+#    statement from all source files in the program, then also delete it here.
 #
 """
 
