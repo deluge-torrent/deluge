@@ -165,13 +165,13 @@ class OptionsTab(Tab):
         if self.chk_remove_at_ratio.get_active() != self.prev_status["remove_at_ratio"]:
             client.core.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
         if self.chk_move_completed.get_active() != self.prev_status["move_on_completed"]:
-            client.core.set_torrent_move_on_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
-            if self.chk_move_completed.get_active():
-                if client.is_localhost():
-                    path = self.filechooser_move_completed.get_current_folder()
-                else:
-                    path = self.entry_move_completed.get_text()
-                client.core.set_torrent_move_on_completed_path(self.prev_torrent_id, path)
+            client.core.set_torrent_move_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
+        if self.chk_move_completed.get_active():
+            if client.is_localhost():
+                path = self.filechooser_move_completed.get_current_folder()
+            else:
+                path = self.entry_move_completed.get_text()
+            client.core.set_torrent_move_completed_path(self.prev_torrent_id, path)
 
 
     def _on_button_edit_trackers_clicked(self, button):

@@ -180,6 +180,7 @@ class Torrent:
 
         # Various torrent options
         self.handle.resolve_countries(True)
+
         self.set_options(self.options)
 
         # Status message holds error info about the torrent
@@ -271,6 +272,12 @@ class Torrent:
 
     def set_remove_at_ratio(self, remove_at_ratio):
         self.options["remove_at_ratio"] = remove_at_ratio
+
+    def set_move_completed(self, move_completed):
+        self.options["move_completed"] = move_completed
+
+    def set_move_completed_path(self, move_completed_path):
+        self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
         if len(file_priorities) != len(self.files):

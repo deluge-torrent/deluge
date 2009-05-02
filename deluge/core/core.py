@@ -564,14 +564,14 @@ class Core(component.Component):
         return self.torrentmanager[torrent_id].set_remove_at_ratio(value)
 
     @export
-    def set_torrent_move_on_completed(self, torrent_id, value):
+    def set_torrent_move_completed(self, torrent_id, value):
         """Sets the torrent to be moved when completed"""
-        return self.torrentmanager[torrent_id].set_move_on_completed(value)
+        return self.torrentmanager[torrent_id].set_move_completed(value)
 
     @export
-    def set_torrent_move_on_completed_path(self, torrent_id, value):
+    def set_torrent_move_completed_path(self, torrent_id, value):
         """Sets the path for the torrent to be moved when completed"""
-        return self.torrentmanager[torrent_id].set_move_on_completed_path(value)
+        return self.torrentmanager[torrent_id].set_move_completed_path(value)
 
     @export
     def block_ip_range(self, range):

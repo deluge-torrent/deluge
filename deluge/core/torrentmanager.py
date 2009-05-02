@@ -73,6 +73,8 @@ class TorrentState:
             stop_ratio=2.00,
             stop_at_ratio=False,
             remove_at_ratio=False,
+            move_completed=False,
+            move_completed_path=None,
             magnet=None,
             time_added=-1
         ):
@@ -99,6 +101,8 @@ class TorrentState:
         self.stop_ratio = stop_ratio
         self.stop_at_ratio = stop_at_ratio
         self.remove_at_ratio = remove_at_ratio
+        self.move_completed = move_completed
+        self.move_completed_path = move_completed_path
 
 class TorrentManagerState:
     def __init__(self):
@@ -296,6 +300,8 @@ class TorrentManager(component.Component):
             options["compact_allocation"] = state.compact
             options["download_location"] = state.save_path
             options["auto_managed"] = state.auto_managed
+            options["move_completed"] = state.move_completed
+            options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
 
             if not state.magnet:
@@ -477,10 +483,11 @@ class TorrentManager(component.Component):
 
         # Try to use an old state
         try:
-            if dir(state.torrents[0]) != dir(TorrentState()):
-                for attr in (set(dir(TorrentState())) - set(dir(state.torrents[0]))):
+            state_tmp = TorrentState()
+            if dir(state.torrents[0]) != dir(state_tmp):
+                for attr in (set(dir(state_tmp)) - set(dir(state.torrents[0]))):
                     for s in state.torrents:
-                        setattr(s, attr, getattr(TorrentState(), attr, None))
+                        setattr(s, attr, getattr(state_tmp, attr, None))
         except Exception, e:
             log.warning("Unable to update state file to a compatible version: %s", e)
 
@@ -533,6 +540,8 @@ class TorrentManager(component.Component):
                 torrent.options["stop_ratio"],
                 torrent.options["stop_at_ratio"],
                 torrent.options["remove_at_ratio"],
+                torrent.options["move_completed"],
+                torrent.options["move_completed_path"],
                 torrent.magnet,
                 torrent.time_added
             )
