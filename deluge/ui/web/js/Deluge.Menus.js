@@ -48,6 +48,9 @@ Deluge.Menus = {
 					}
 				});
 				break;
+			case 'edit_trackers':
+				Deluge.EditTrackers.show();
+				break;
 			case 'update':
 				Deluge.Client.core.force_reannounce(ids, {
 					success: function() {
@@ -208,7 +211,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
-		edit: 'edit_trackers',
+		id: 'edit_trackers',
 		text: _('Edit Trackers'),
 		icon: '/icons/edit_trackers.png',
 		handler: Deluge.Menus.onTorrentAction,

@@ -184,7 +184,9 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 								cls: 'x-btn-text-icon',
 								iconCls: 'x-deluge-edit-trackers',
 								border: false,
-								width: 100
+								width: 100,
+								handler: this.onEditTrackers,
+								scope: this
 							}]
 						}, {
 							items: [{
@@ -236,6 +238,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			scope: this,
 			torrentId: torrentId
 		});
+	},
+	
+	onEditTrackers: function() {
+		Deluge.EditTrackers.show();
 	},
 	
 	onRequestComplete: function(torrent, options) {
