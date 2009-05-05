@@ -190,22 +190,17 @@ class EditTrackersDialog:
         for tracker in trackers:
             # Figure out what tier number to use.. it's going to be the highest+1
             # Also check for duplicates
-            highest_tier = 0
-            duplicate = False
-            def tier_count(model, path, iter, data):
-                tier = model.get_value(iter, 0)
-                if tier > data[1]:
-                    data[1] = tier
-                tracker = model.get_value(iter, 1)
-                if data[0] == tracker:
-                    # We already have this tracker in the list
-                    data[2] = True
-
             # Check if there are any entries
+            duplicate = False
+            highest_tier = -1
             if self.liststore.iter_n_children(None) > 0:
-                self.liststore.foreach(tier_count, [tracker, highest_tier, duplicate])
-            else:
-                highest_tier = -1
+                for row in self.liststore:
+                    tier = row[0]
+                    if tier > highest_tier:
+                        highest_tier = tier
+                    if tracker == row[1]:
+                        duplicate = True
+                        break
 
             # If not a duplicate, then add it to the list
             if not duplicate:
