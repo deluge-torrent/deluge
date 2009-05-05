@@ -193,14 +193,13 @@ class EditTrackersDialog:
             # Check if there are any entries
             duplicate = False
             highest_tier = -1
-            if self.liststore.iter_n_children(None) > 0:
-                for row in self.liststore:
-                    tier = row[0]
-                    if tier > highest_tier:
-                        highest_tier = tier
-                    if tracker == row[1]:
-                        duplicate = True
-                        break
+            for row in self.liststore:
+                tier = row[0]
+                if tier > highest_tier:
+                    highest_tier = tier
+                if tracker == row[1]:
+                    duplicate = True
+                    break
 
             # If not a duplicate, then add it to the list
             if not duplicate:
