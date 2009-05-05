@@ -268,6 +268,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Details.Files.js",
         "/js/Deluge.Details.Peers.js",
         "/js/Deluge.Details.Options.js",
+        "/js/Deluge.EditTrackers.js",
         "/js/Deluge.Keys.js",
         "/js/Deluge.Login.js",
         "/js/Deluge.Preferences.js",
