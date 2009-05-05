@@ -44,7 +44,8 @@ Copyright:
 			Ext.deluge.AddTracker.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Save'), this.onSave, this);
+			this.addButton(_('Add'), this.onAdd, this);
+			this.addEvents('add');
 			
 			this.form = this.add({
 				xtype: 'form',
@@ -64,8 +65,19 @@ Copyright:
 			this.hide();
 		},
 		
-		onSave: function() {
+		onAdd: function() {
+			var trackers = this.form.getForm().findField('trackers').getValue();
+			trackers = trackers.split('\n');
 			
+			var cleaned = [];
+			Ext.each(trackers, function(tracker) {
+				if (Ext.form.VTypes.url(tracker)) {
+					cleaned.push(tracker);
+				}
+			}, this);
+			this.fireEvent('add', cleaned);
+			this.hide();
+			this.form.getForm().findField('trackers').setValue('');
 		}
 	});
 	
@@ -92,6 +104,7 @@ Copyright:
 			
 			this.addButton(_('Cancel'), this.onCancel, this);
 			this.addButton(_('Save'), this.onSave, this);
+			this.on('hide', this.onHide, this);
 			
 			this.form = this.add({
 				xtype: 'form',
@@ -114,12 +127,18 @@ Copyright:
 		},
 		
 		onCancel: function() {
-			this.form.getForm().findField('tracker').setValue('');
 			this.hide();
 		},
 		
+		onHide: function() {
+			this.form.getForm().findField('tracker').setValue('');
+		},
+		
 		onSave: function() {
-			
+			var url = this.form.getForm().findField('tracker').getValue();
+			this.record.set('url', url);
+			this.record.commit();
+			this.hide();
 		}
 	});
 	
@@ -147,10 +166,13 @@ Copyright:
 			
 			this.addButton(_('Cancel'), this.onCancel, this);
 			this.addButton(_('Ok'), this.onOk, this);
+			this.addEvents('save');
 			
 			this.on('show', this.onShow, this);
+			this.on('save', this.onSave, this);
 			
 			this.addWindow = new Ext.deluge.AddTracker();
+			this.addWindow.on('add', this.onAddTrackers, this);
 			this.editWindow = new Ext.deluge.EditTracker();
 			
 			this.grid = this.add({
@@ -227,6 +249,25 @@ Copyright:
 			this.addWindow.show();
 		},
 		
+		onAddTrackers: function(trackers) {
+			var store = this.grid.getStore();
+			Ext.each(trackers, function(tracker) {
+				var duplicate = false, heightestTier = -1;
+				store.each(function(record) {
+					if (record.get('tier') > heightestTier) {
+						heightestTier = record.get('tier');
+					}
+					if (tracker == record.get('tracker')) {
+						duplicate = true;
+						return false;
+					}
+				}, this);
+				if (!duplicate) {
+					store.loadData([[heightestTier + 1, tracker]], true);
+				}
+			}, this);
+		},
+		
 		onCancel: function() {
 			this.hide();
 		},
@@ -241,19 +282,26 @@ Copyright:
 		},
 		
 		onOk: function() {
+			var trackers = [];
+			this.grid.getStore().each(function(record) {
+				trackers.push({
+					'tier': record.get('tier'),
+					'url': record.get('url')
+				})
+			}, this);
+			
+			Deluge.Client.core.set_torrent_trackers(this.torrentId, trackers, {
+				failure: this.onSaveFail,
+				scope: this
+			});
+
 			this.hide();
 		},
 		
 		onRemove: function() {
 			// Remove from the grid
-			Deluge.Client.core.set_torrent_trackers(this.torrentId, trackers, {
-				failure: this.onRemoveFail,
-				scope: this
-			});
-		},
-		
-		onRemoveFail: function() {
-			
+			var r = this.grid.getSelectionModel().getSelected();
+			this.grid.getStore().remove(r);
 		},
 		
 		onRequestComplete: function(status) {
@@ -262,6 +310,10 @@ Copyright:
 				trackers.push([tracker['tier'], tracker['url']]);
 			});
 			this.grid.getStore().loadData(trackers);
+		},
+		
+		onSaveFail: function() {
+			
 		},
 		
 		onSelect: function(sm) {
