@@ -357,7 +357,7 @@ setup(
     data_files = _data_files,
     description = "Bittorrent Client",
     long_description = """Deluge is a bittorrent client that utilizes a
-        daemon/client model.  There are various user interfaces available for
+        daemon/client model. There are various user interfaces available for
         Deluge such as the GTKui, the webui and a console ui. Deluge uses
         libtorrent in it's backend to handle the bittorrent protocol.""",
     keywords = "torrent bittorrent p2p fileshare filesharing",
