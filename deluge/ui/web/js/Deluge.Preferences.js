@@ -1,5 +1,5 @@
 /*
-Script: deluge-preferences.js
+Script: Deluge.Preferences.js
     Contains the preferences window.
 
 Copyright:
