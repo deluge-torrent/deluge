@@ -46,12 +46,14 @@ Ext.deluge.EditTrackers = Ext.extend(Ext.Window, {
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Ok'), this.onOk, this);
 		
+		this.on('show', this.onShow, this);
+		
 		this.grid = this.add({
 			xtype: 'grid',
 			store: new Ext.data.SimpleStore({
 				fields: [
 					{name: 'tier', mapping: 0},
-					{name: 'tracker', mapping: 1}
+					{name: 'url', mapping: 1}
 				]
 			}),
 			columns: [{
@@ -65,7 +67,7 @@ Ext.deluge.EditTrackers = Ext.extend(Ext.Window, {
 				header: _('Tracker'),
 				sortable: true,
 				renderer: fplain,
-				dataIndex: 'tracker'
+				dataIndex: 'url'
 			}],
 			stripeRows: true,
 			selModel: new Ext.grid.RowSelectionModel({
@@ -126,7 +128,20 @@ Ext.deluge.EditTrackers = Ext.extend(Ext.Window, {
 		this.hide();
 	},
 	
+	onRequestComplete: function(status) {
+		var trackers = [];
+		Ext.each(status['trackers'], function(tracker) {
+			trackers.push([tracker['tier'], tracker['url']]);
+		});
+		this.grid.getStore().loadData(trackers);
+	},
+	
 	onShow: function() {
+		var r = Deluge.Torrents.getSelected();
+		Deluge.Client.core.get_torrent_status(r.id, ['trackers'], {
+			success: this.onRequestComplete,
+			scope: this
+		});
 	}
 });
 Deluge.EditTrackers = new Ext.deluge.EditTrackers();
