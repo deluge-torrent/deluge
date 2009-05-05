@@ -26,7 +26,7 @@ Copyright:
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Add Tracker'),
-				width: 300,
+				width: 375,
 				height: 150,
 				bodyStyle: 'padding: 5px',
 				layout: 'fit',
@@ -38,6 +38,34 @@ Copyright:
 				resizable: false
 			}, config);
 			Ext.deluge.AddTracker.superclass.constructor.call(this, config);
+		},
+		
+		initComponent: function() {
+			Ext.deluge.AddTracker.superclass.initComponent.call(this);
+			
+			this.addButton(_('Cancel'), this.onCancel, this);
+			this.addButton(_('Save'), this.onSave, this);
+			
+			this.form = this.add({
+				xtype: 'form',
+				defaultType: 'textarea',
+				baseCls: 'x-plain',
+				labelWidth: 55,
+				items: [{
+					fieldLabel: _('Trackers'),
+					name: 'trackers',
+					anchor: '100%'
+				}]
+			})
+		},
+		
+		onCancel: function() {
+			this.form.getForm().findField('trackers').setValue('');
+			this.hide();
+		},
+		
+		onSave: function() {
+			
 		}
 	});
 	
@@ -45,8 +73,8 @@ Copyright:
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Edit Tracker'),
-				width: 300,
-				height: 150,
+				width: 375,
+				height: 110,
 				bodyStyle: 'padding: 5px',
 				layout: 'fit',
 				buttonAlign: 'right',
@@ -57,6 +85,41 @@ Copyright:
 				resizable: false
 			}, config);
 			Ext.deluge.EditTracker.superclass.constructor.call(this, config);
+		},
+		
+		initComponent: function() {
+			Ext.deluge.EditTracker.superclass.initComponent.call(this);
+			
+			this.addButton(_('Cancel'), this.onCancel, this);
+			this.addButton(_('Save'), this.onSave, this);
+			
+			this.form = this.add({
+				xtype: 'form',
+				defaultType: 'textfield',
+				baseCls: 'x-plain',
+				labelWidth: 55,
+				items: [{
+					fieldLabel: _('Tracker'),
+					name: 'tracker',
+					anchor: '100%'
+				}]
+			});
+		},
+		
+		show: function(record) {
+			Ext.deluge.EditTracker.superclass.show.call(this);
+			
+			this.record = record;
+			this.form.getForm().findField('tracker').setValue(record.data['url']);
+		},
+		
+		onCancel: function() {
+			this.form.getForm().findField('tracker').setValue('');
+			this.hide();
+		},
+		
+		onSave: function() {
+			
 		}
 	});
 	
@@ -115,7 +178,7 @@ Copyright:
 				selModel: new Ext.grid.RowSelectionModel({
 					singleSelect: true,
 					listeners: {
-						'rowselect': {fn: this.onSelect, scope: this}
+						'selectionchange': {fn: this.onSelect, scope: this}
 					}
 				}),
 				autoExpandColumn: 'tracker',
@@ -169,7 +232,8 @@ Copyright:
 		},
 		
 		onEdit: function() {
-			this.editWindow.show();
+			var r = this.grid.getSelectionModel().getSelected();
+			this.editWindow.show(r);
 		},
 		
 		onHide: function() {
@@ -200,7 +264,14 @@ Copyright:
 			this.grid.getStore().loadData(trackers);
 		},
 		
+		onSelect: function(sm) {
+			if (sm.hasSelection()) {
+				this.grid.getBottomToolbar().items.get(4).enable();
+			}
+		},
+		
 		onShow: function() {
+			this.grid.getBottomToolbar().items.get(4).disable();
 			var r = Deluge.Torrents.getSelected();
 			this.torrentId = r.id;
 			Deluge.Client.core.get_torrent_status(r.id, ['trackers'], {
