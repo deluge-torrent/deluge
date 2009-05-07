@@ -47,6 +47,12 @@ class Auth(JSONComponent):
         super(Auth, self).__init__("Auth")
     
     def _create_session(self, login='admin'):
+        """
+        Creates a new session.
+        
+        :keyword login: str, the username of the user logging in, currently
+        only for future use.
+        """
         m = hashlib.md5()
         m.update(login)
         m.update(str(time.time()))
@@ -67,16 +73,32 @@ class Auth(JSONComponent):
     
     @export
     def change_password(self, new_password):
+        """
+        Change the password.
+        
+        :param new_password: str, the password to change to
+        """
+        log.debug("Changing password")
+        d = Deferred()
         salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
         s = hashlib.sha1(salt)
         s.update(new_password)
         config = component.get("DelugeWeb").config
         config["pwd_salt"] = salt
         config["pwd_sha1"] = s.hexdigest()
-        log.debug("Changing password")
+        d.callback(True)
+        return d
+        
     
     @export
     def check_session(self, session_id):
+        """
+        Check a session to see if it's still valid.
+        
+        :param session_id: str, the id for the session to remove
+        :returns: True if the session is valid, False if not.
+        :rtype: bool
+        """
         d = Deferred()
         config = component.get("DelugeWeb").config
         d.callback(session_id in config["sessions"])
@@ -84,6 +106,11 @@ class Auth(JSONComponent):
     
     @export
     def delete_session(self, session_id):
+        """
+        Removes a session.
+        
+        :param session_id: str, the id for the session to remove
+        """
         d = Deferred()
         config = component.get("DelugeWeb").config
         del config["sessions"][session_id]
@@ -92,7 +119,11 @@ class Auth(JSONComponent):
     
     @export
     def login(self, password):
-        """Method to allow the webui to authenticate
+        """
+        Test a password to see if it's valid.
+        
+        :param password: str, the password to test
+        :returns: a session id or False
         """
         config = component.get("DelugeWeb").config
         d = Deferred()
