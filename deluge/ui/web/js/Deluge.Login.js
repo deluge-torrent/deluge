@@ -84,7 +84,7 @@ Copyright:
 		
 		onLogin: function() {
 			var passwordField = this.loginForm.items.get('password');
-			Deluge.Client.web.login(passwordField.getValue(), {
+			Deluge.Client.auth.login(passwordField.getValue(), {
 				success: function(result) {
 					if (result) {
 						Deluge.Events.fire('login');
@@ -112,7 +112,7 @@ Copyright:
 		onLogout: function() {
 			var session = Deluge.UI.cookies.get("session", false);
 			if (session) {
-				Deluge.Client.web.delete_session(session, {
+				Deluge.Client.auth.delete_session(session, {
 					success: function(result) {
 						Deluge.UI.cookies.clear("session");
 						this.show();
@@ -125,7 +125,7 @@ Copyright:
 		onBeforeShow: function() {
 			var session = Deluge.UI.cookies.get("session", false);
 			if (session) {
-				Deluge.Client.web.check_session(session, {
+				Deluge.Client.auth.check_session(session, {
 					success: function(result) {
 						if (result) {
 							Deluge.Events.fire('login');

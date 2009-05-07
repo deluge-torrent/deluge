@@ -25,10 +25,9 @@
 import os
 import time
 import base64
-import random
 import urllib
-import hashlib
 import logging
+import hashlib
 import tempfile
 
 from types import FunctionType
@@ -39,11 +38,19 @@ from deluge import common, component
 from deluge.configmanager import ConfigManager
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
-from deluge.ui.web.auth import *
+
 from deluge.ui.web.common import _
 json = common.json
 
 log = logging.getLogger(__name__)
+
+AUTH_LEVEL_DEFAULT = None
+
+class JSONComponent(component.Component):
+    def __init__(self, name, interval=1, depend=None):
+        super(JSONComponent, self).__init__(name, interval, depend)
+        self._json = component.get("JSON")
+        self._json.register_object(self, name)
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
@@ -54,6 +61,10 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     :param auth_level: int, the auth level required to call this method
 
     """
+    global AUTH_LEVEL_DEFAULT
+    if AUTH_LEVEL_DEFAULT is None:
+        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT
+    
     def wrap(func, *args, **kwargs):
         func._json_export = True
         func._json_auth_level = auth_level
@@ -245,13 +256,6 @@ class JSON(resource.Resource, component.Component):
                 log.debug("Registering method: %s", name + "." + d)
                 self._local_methods[name + "." + d] = getattr(obj, d)
 
-class JSONComponent(component.Component):
-    def __init__(self, name, interval=1, depend=None):
-        super(JSONComponent, self).__init__(name, interval, depend)
-        self._json = component.get("JSON")
-        self._json.register_object(self, name)
-        
-
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
 
@@ -433,51 +437,6 @@ class WebApi(JSONComponent):
             client.core.add_torrent_file(filename, fdump, torrent["options"])
         d = Deferred()
         d.callback(True)
-        return d
-    
-    def _create_session(self, login='admin'):
-        m = hashlib.md5()
-        m.update(login)
-        m.update(str(time.time()))
-        m.update(str(random.getrandbits(999)))
-        m.update(m.hexdigest())
-        session_id = m.hexdigest()
-        
-        config = component.get("DelugeWeb").config
-        config["sessions"][session_id] = {
-            "login": login
-        }
-        return session_id
-    
-    @export
-    def check_session(self, session_id):
-        d = Deferred()
-        config = component.get("DelugeWeb").config
-        d.callback(session_id in config["sessions"])
-        return d
-    
-    @export
-    def delete_session(self, session_id):
-        d = Deferred()
-        config = component.get("DelugeWeb").config
-        del config["sessions"][session_id]
-        d.callback(True)
-        return d
-    
-    @export
-    def login(self, password):
-        """Method to allow the webui to authenticate
-        """
-        config = component.get("DelugeWeb").config
-        m = hashlib.md5()
-        m.update(config['pwd_salt'])
-        m.update(password)
-        d = Deferred()
-        if m.hexdigest() == config['pwd_md5']:
-            # Change this to return a session id
-            d.callback(self._create_session())
-        else:
-            d.callback(False)
         return d
     
     @export

@@ -28,3 +28,122 @@ AUTH_LEVEL_NORMAL = 5
 AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
+import time
+import random
+import hashlib
+import logging
+
+from twisted.internet.defer import Deferred
+
+from deluge import component
+from deluge.ui.web.json_api import JSONComponent, export
+
+log = logging.getLogger(__name__)
+
+class Auth(JSONComponent):
+    
+    def __init__(self):
+        super(Auth, self).__init__("Auth")
+    
+    def _create_session(self, login='admin'):
+        m = hashlib.md5()
+        m.update(login)
+        m.update(str(time.time()))
+        m.update(str(random.getrandbits(40)))
+        m.update(m.hexdigest())
+        session_id = m.hexdigest()
+        
+        log.debug("Creating session for %s", login)
+        config = component.get("DelugeWeb").config
+
+        if type(config["sessions"]) is list:
+            config.config["sessions"] = {}
+
+        config["sessions"][session_id] = {
+            "login": login
+        }
+        return session_id
+    
+    @export
+    def change_password(self, new_password):
+        salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
+        s = hashlib.sha1(salt)
+        s.update(new_password)
+        config = component.get("DelugeWeb").config
+        config["pwd_salt"] = salt
+        config["pwd_sha1"] = s.hexdigest()
+        log.debug("Changing password")
+    
+    @export
+    def check_session(self, session_id):
+        d = Deferred()
+        config = component.get("DelugeWeb").config
+        d.callback(session_id in config["sessions"])
+        return d
+    
+    @export
+    def delete_session(self, session_id):
+        d = Deferred()
+        config = component.get("DelugeWeb").config
+        del config["sessions"][session_id]
+        d.callback(True)
+        return d
+    
+    @export
+    def login(self, password):
+        """Method to allow the webui to authenticate
+        """
+        config = component.get("DelugeWeb").config
+        d = Deferred()
+        
+        if "old_pwd_md5" in config.config:
+            # We are using the 1.1 webui auth method
+            log.debug("Received a login via the 1.1 auth method")
+            from base64 import decodestring
+            m = hashlib.md5()
+            m.update(decodestring(config["old_pwd_salt"]))
+            m.update(password)
+            if m.digest() == decodestring(config["old_pwd_md5"]):
+                # We have a match, so we can create and return a session id.
+                d.callback(self._create_session())
+                
+                # We also want to move the password over to sha1 and remove
+                # the old passwords from the config file.
+                self.change_password(password)
+                del config.config["old_pwd_salt"]
+                del config.config["old_pwd_md5"]
+
+        elif "pwd_md5" in config.config:
+            # We are using the 1.2-dev auth method
+            log.debug("Received a login via the 1.2-dev auth method")
+            m = hashlib.md5()
+            m.update(config["pwd_salt"])
+            m.update(password)
+            if m.hexdigest() == config['pwd_md5']:
+                # We have a match, so we can create and return a session id.
+                d.callback(self._create_session())
+                
+                # We also want to move the password over to sha1 and remove
+                # the old passwords from the config file.
+                self.change_password(password)
+                del config.config["pwd_md5"]
+                del config.config["pwd_salt"]
+
+        elif "pwd_sha1" in config.config:
+            # We are using the 1.2 auth method
+            log.debug("Received a login via the 1.2 auth method")
+            s = hashlib.sha1()
+            s.update(config["pwd_salt"])
+            s.update(password)
+            if s.hexdigest() == config["pwd_sha1"]:
+                # We have a match, so we can create and return a session id.
+                d.callback(self._create_session())
+
+        else:
+            # Can't detect which method we should be using so just deny
+            # access.
+            log.debug("Failed to detect the login method")
+            d.callback(False)
+
+        return d

@@ -43,6 +43,7 @@ from deluge.configmanager import ConfigManager
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
+from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
@@ -69,16 +70,23 @@ CONFIG_DEFAULTS = {
     "port": 8112,
     "enabled_plugins": [],
     "theme": "slate",
-    "pwd_salt": "16f65d5c79b7e93278a28b60fed2431e",
-    "pwd_md5": "2c9baa929ca38fb5c9eb5b054474d1ce",
+    "pwd_salt": "c26ab3bbd8b137f99cd83c2c1c0963bcc1a35cad",
+    "pwd_sha1": "2ce1a410bcdcc53064129b6d950f2e9fee4edc1e",
     "base": "",
     "sessions": {},
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
     "show_keyword_search": False,
     "show_sidebar": True,
+    "cache_templates": False,
     "https": False
 }
+
+OLD_CONFIG_KEYS = (
+    "port", "enabled_plugins", "base", "sidebar_show_zero",
+    "sidebar_show_trackers", "show_keyword_search", "show_sidebar",
+    "cache_templates", "https"
+)
 
 def rpath(path):
     """Convert a relative path into an absolute path relative to the location
@@ -340,11 +348,34 @@ class DelugeWeb(component.Component):
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
+        
+        old_config = ConfigManager("webui06.conf")
+        if old_config.config:
+            # we have an old config file here to handle so we should move
+            # all the values across to the new config file, and then remove
+            # it.
+            for key in OLD_CONFIG_KEYS:
+                self.config[key] = old_config[key]
+            
+            # We need to base64 encode the passwords since utf-8 can't handle
+            # them otherwise.
+            from base64 import encodestring
+            self.config["old_pwd_md5"] = encodestring(old_config["pwd_md5"])
+            self.config["old_pwd_salt"] = encodestring(old_config["pwd_salt"])
+            
+            # Save our config and if it saved successfully then rename the
+            # old configuration file.
+            if self.config.save():
+                config_dir = os.path.dirname(old_config.config_file)
+                backup_path = os.path.join(config_dir, 'web.conf.old')
+                os.rename(old_config.config_file, backup_path)
+                del old_config
 
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
         self.port = self.config["port"]
         self.web_api = WebApi()
+        self.auth = Auth()
 
         # Since twisted assigns itself all the signals may as well make
         # use of it.
