@@ -128,7 +128,6 @@ class Auth(JSONComponent):
                 # the old passwords from the config file.
                 self.change_password(password)
                 del config.config["pwd_md5"]
-                del config.config["pwd_salt"]
 
         elif "pwd_sha1" in config.config:
             # We are using the 1.2 auth method
