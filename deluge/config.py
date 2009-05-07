@@ -294,6 +294,10 @@ class Config(object):
         except Exception, e:
             log.error("Error moving new config file: %s", e)
             return
+    
+    @property
+    def config_file(self):
+        return self.__config_file
 
     @prop
     def config():
