@@ -251,6 +251,8 @@ class Config(object):
         Save configuration to disk
 
         :param filename: if None, uses filename set in object initiliazation
+        :rtype bool:
+        :return: whether or not the save succeeded.
 
         """
         if not filename:
@@ -277,7 +279,7 @@ class Config(object):
             f.close()
         except Exception, e:
             log.error("Error writing new config file: %s", e)
-            return
+            return False
 
         # Make a backup of the old config
         try:
@@ -293,7 +295,9 @@ class Config(object):
             shutil.move(filename + ".new", filename)
         except Exception, e:
             log.error("Error moving new config file: %s", e)
-            return
+            return False
+        else:
+            return True
     
     @property
     def config_file(self):
