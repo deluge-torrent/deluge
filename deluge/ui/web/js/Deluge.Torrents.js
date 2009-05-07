@@ -266,6 +266,7 @@ Copyright:
 					record.set('avail', torrent.distributed_copies);
 					record.set('added', torrent.time_added);
 					record.set('tracker', torrent.tracker_host);
+					record.commit();
 				}
 			}
 			
