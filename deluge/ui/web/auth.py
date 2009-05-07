@@ -97,7 +97,27 @@ class Auth(JSONComponent):
         config = component.get("DelugeWeb").config
         d = Deferred()
         
-        if "old_pwd_md5" in config.config:
+        if "pwd_md5" in config.config:
+            # We are using the 1.2-dev auth method
+            log.debug("Received a login via the 1.2-dev auth method")
+            m = hashlib.md5()
+            m.update(config["pwd_salt"])
+            m.update(password)
+            if m.hexdigest() == config['pwd_md5']:
+                # We have a match, so we can create and return a session id.
+                d.callback(self._create_session())
+                
+                # We also want to move the password over to sha1 and remove
+                # the old passwords from the config file.
+                self.change_password(password)
+                del config.config["pwd_md5"]
+                
+                # Remove the older password if there is now.
+                if "old_pwd_md5" in config.config:
+                    del config.config["old_pwd_salt"]
+                    del config.config["old_pwd_md5"]
+        
+        elif "old_pwd_md5" in config.config:
             # We are using the 1.1 webui auth method
             log.debug("Received a login via the 1.1 auth method")
             from base64 import decodestring
@@ -113,21 +133,6 @@ class Auth(JSONComponent):
                 self.change_password(password)
                 del config.config["old_pwd_salt"]
                 del config.config["old_pwd_md5"]
-
-        elif "pwd_md5" in config.config:
-            # We are using the 1.2-dev auth method
-            log.debug("Received a login via the 1.2-dev auth method")
-            m = hashlib.md5()
-            m.update(config["pwd_salt"])
-            m.update(password)
-            if m.hexdigest() == config['pwd_md5']:
-                # We have a match, so we can create and return a session id.
-                d.callback(self._create_session())
-                
-                # We also want to move the password over to sha1 and remove
-                # the old passwords from the config file.
-                self.change_password(password)
-                del config.config["pwd_md5"]
 
         elif "pwd_sha1" in config.config:
             # We are using the 1.2 auth method
