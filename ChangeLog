@@ -5,6 +5,8 @@
 
 ==== GtkUI ====
   * Fix high cpu usage when displaying speeds in titlebar
+  * Fix showing non-utf8 encoded torrents in add torrent dialog -- this adds
+    an additional dependency on chardet.
 
 ==== WebUI ====
   * Fix starting when -l option is used

@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # deluge/ui/common.py
 #
 # Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+# Copyright (C) Andrew Resch 2009 <andrewresch@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,9 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-#
-
-
 import os
 try:
     from hashlib import sha1 as sha
@@ -45,6 +42,28 @@ import urlparse
 from deluge import bencode
 from deluge.log import LOG as log
 import deluge.configmanager
+
+def decode_string(s, encoding="utf8"):
+    """
+    Decodes a string and re-encodes it in utf8.  If it cannot decode using
+    `:param:encoding` then it will try to detect the string encoding and
+    decode it.
+
+    :param s: str to decode
+    :param encoding: str, the encoding to use in the decoding
+
+    """
+
+    try:
+        s = s.decode(encoding).encode("utf8")
+    except UnicodeDecodeError:
+        try:
+            import chardet
+        except ImportError:
+            s = s.decode(encoding, "replace").encode("utf8")
+        else:
+            s = s.decode(chardet.detect(s)["encoding"]).encode("utf8")
+    return s
 
 class TorrentInfo(object):
     def __init__(self, filename):
@@ -65,29 +84,31 @@ class TorrentInfo(object):
         elif "codepage" in self.__m_metadata:
             self.encoding = str(self.__m_metadata["codepage"])
 
+        self.__m_name = decode_string(self.__m_metadata["info"]["name"])
+
         # Get list of files from torrent info
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
+                prefix = self.__m_name
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding, "replace").encode("utf8"),
+                    'path': decode_string(os.path.join(prefix, *f["path"])),
                     'size': f["length"],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8"),
+                "path": self.__m_name,
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
 
     @property
     def name(self):
-        return self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
+        return self.__m_name
 
     @property
     def info_hash(self):
