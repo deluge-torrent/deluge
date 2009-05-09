@@ -1,6 +1,7 @@
 === Deluge 1.1.8 - (In Development) ===
 ==== Core ====
   * Fix pause all/resume all
+  * Torrent name is now changed when the root folder or file is renamed
 
 ==== GtkUI ====
   * Fix high cpu usage when displaying speeds in titlebar
