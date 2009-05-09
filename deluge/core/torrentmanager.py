@@ -687,7 +687,7 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
-        log.debug("on_alert_tracker_reply: %s", alert.message())
+        log.debug("on_alert_tracker_reply: %s", alert.message().decode("utf8"))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -787,7 +787,7 @@ class TorrentManager(component.Component):
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
-        log.debug("index: %s name: %s", alert.index, alert.name)
+        log.debug("index: %s name: %s", alert.index, alert.name.decode("utf8"))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
