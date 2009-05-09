@@ -637,7 +637,7 @@ class Torrent:
 
         def ti_name():
             if self.handle.has_metadata():
-                name = os.path.split(self.torrent_info.file_at(0).path)[0]
+                name = self.torrent_info.file_at(0).path.split("/")[0]
                 try:
                     return name.decode("utf8", "ignore")
                 except UnicodeDecodeError:
