@@ -104,10 +104,6 @@ def start_ui():
 
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-    if options.logfile:
-        sys.stdout = None
-        sys.stderr = None
-        sys.stdin = None
 
     version = deluge.common.get_version()
     if deluge.common.get_revision() != "":

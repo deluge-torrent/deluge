@@ -6,6 +6,9 @@
 ==== GtkUI ====
   * Fix high cpu usage when displaying speeds in titlebar
 
+==== WebUI ====
+  * Fix starting when -l option is used
+
 === Deluge 1.1.7 - (25 April 2009) ===
 ==== Core ====
   * Fix issue where cannot resume torrent after doing a 'Pause All'
