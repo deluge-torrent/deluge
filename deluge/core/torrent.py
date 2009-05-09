@@ -621,10 +621,11 @@ class Torrent:
 
         def ti_name():
             if self.handle.has_metadata():
+                name = os.path.split(self.torrent_info.file_at(0).path)[0]
                 try:
-                    return self.torrent_info.name().decode("utf8", "ignore")
+                    return name.decode("utf8", "ignore")
                 except UnicodeDecodeError:
-                    return self.torrent_info.name()
+                    return name
 
             return self.torrent_id
         def ti_priv():
