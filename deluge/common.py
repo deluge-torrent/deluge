@@ -36,6 +36,12 @@ try:
 except ImportError:
     import simplejson as json
 
+# Do a little hack here just in case the user has json-py installed since it
+# has a different api
+if not hasattr(json, "dumps"):
+    json.dumps = json.write
+    json.loads = json.read
+
 import pkg_resources
 import xdg, xdg.BaseDirectory
 
