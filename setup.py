@@ -159,7 +159,7 @@ else:
         if osx_check():
             dynamic_lib_extension = ".dylib"
 
-        _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
+        _lib_extensions = ['-mt_1_39', '-mt-1_38', '-mt-1_37', '-mt-1_36', '-mt-1_35', '-mt']
 
         # Modify the libs if necessary for systems with only -mt boost libs
         for lib in _libraries:
