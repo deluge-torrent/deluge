@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # deluge/ui/common.py
 #
 # Copyright (C) Damien Churchill 2008 <damoxc@gmail.com>
+# Copyright (C) Andrew Resch 2009 <andrewresch@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,17 +24,38 @@
 
 import os
 import sys
+import urlparse
 
 try:
     from hashlib import sha1 as sha
 except ImportError:
     from sha import sha
 
-import urlparse
-
 from deluge import bencode
 from deluge.log import LOG as log
 import deluge.configmanager
+
+def decode_string(s, encoding="utf8"):
+    """
+    Decodes a string and re-encodes it in utf8.  If it cannot decode using
+    `:param:encoding` then it will try to detect the string encoding and
+    decode it.
+
+    :param s: str to decode
+    :param encoding: str, the encoding to use in the decoding
+
+    """
+
+    try:
+        s = s.decode(encoding).encode("utf8")
+    except UnicodeDecodeError:
+        try:
+            import chardet
+        except ImportError:
+            s = s.decode(encoding, "replace").encode("utf8")
+        else:
+            s = s.decode(chardet.detect(s)["encoding"]).encode("utf8")
+    return s
 
 class TorrentInfo(object):
     def __init__(self, filename):
@@ -52,16 +73,22 @@ class TorrentInfo(object):
         self.encoding = "UTF-8"
         if "encoding" in self.__m_metadata:
             self.encoding = self.__m_metadata["encoding"]
+        elif "codepage" in self.__m_metadata:
+            self.encoding = str(self.__m_metadata["codepage"])
+
+        # We try to decode based on the encoding found and if we can't, we try
+        # to detect the encoding and decode that
+        self.__m_name = decode_string(self.__m_metadata["info"]["name"], self.encoding)
 
         # Get list of files from torrent info
         paths = {}
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
+                prefix = self.__m_name
 
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
-                path = os.path.join(prefix, *f["path"]).decode(self.encoding, "replace").encode("utf8")
+                path = decode_string(os.path.join(prefix, *f["path"]))
                 f["index"] = index
                 paths[path] = f
 
@@ -75,24 +102,24 @@ class TorrentInfo(object):
             self.__m_files_tree = file_tree.get_tree()
         else:
             self.__m_files_tree = {
-                self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8"): (self.__m_metadata["info"]["length"], True)
+                self.__m_name: (self.__m_metadata["info"]["length"], True)
             }
 
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
-                prefix = self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8")
+                prefix = self.__m_name
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': os.path.join(prefix, *f["path"]).decode(self.encoding, "replace").encode("utf8"),
+                    'path': decode_string(os.path.join(prefix, *f["path"])),
                     'size': f["length"],
                     'download': True
                 })
         else:
             self.__m_files.append({
-                "path": self.__m_metadata["info"]["name"].decode(self.encoding, "replace").encode("utf8"),
+                "path": self.__m_name,
                 "size": self.__m_metadata["info"]["length"],
                 "download": True
         })
@@ -108,7 +135,7 @@ class TorrentInfo(object):
 
     @property
     def name(self):
-        return self.__m_metadata["info"]["name"].decode(self.encoding).encode("utf8")
+        return self.__m_name
 
     @property
     def info_hash(self):

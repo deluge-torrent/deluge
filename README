@@ -54,6 +54,7 @@ Dependencies:
     pygtk >= 2.10
     librsvg
     xdg-utils
+    chardet
 
   Web:
     mako
