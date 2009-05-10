@@ -200,15 +200,8 @@ def open_url_in_browser(url):
 
     :param url: the url to open
     """
-    import threading
     import webbrowser
-    class BrowserThread(threading.Thread):
-        def __init__(self, url):
-            threading.Thread.__init__(self)
-            self.url = url
-        def run(self):
-            webbrowser.open(self.url)
-    BrowserThread(url).start()
+    webbrowser.open(url)
 
 ## Formatting text functions
 
