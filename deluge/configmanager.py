@@ -35,9 +35,15 @@ class _ConfigManager:
     def __init__(self):
         log.debug("ConfigManager started..")
         self.config_files = {}
-        self.config_directory = deluge.common.get_default_config_dir()
+        self.__config_directory = None
         # Set a 5 minute timer to call save()
         gobject.timeout_add(300000, self.save)
+    
+    @property
+    def config_directory(self):
+        if self.__config_directory is None:
+            self.__config_directory = deluge.common.get_default_config_dir()
+        return self.__config_directory
 
     def __del__(self):
         log.debug("ConfigManager stopping..")
@@ -55,7 +61,7 @@ class _ConfigManager:
             except Exception, e:
                 log.warning("Unable to make config directory: %s", e)
 
-        self.config_directory = directory
+        self.__config_directory = directory
 
     def get_config_dir(self):
         return self.config_directory
