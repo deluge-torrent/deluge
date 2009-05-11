@@ -282,13 +282,27 @@ class WebApi(JSONComponent):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
     
-    def get_host(self, connection_id):
+    def get_host(self, host_id):
+        """
+        Return the information about a host
+        
+        :param host_id: str, the id of the host
+        :returns: the host information
+        :rtype: list
+        """
         for host in self.host_list["hosts"]:
-            if host[0] == connection_id:
+            if host[0] == host_id:
                 return host
     
     @export
     def connect(self, host_id):
+        """
+        Connect the client to a daemon
+        
+        :param host_id: str, the id of the daemon in the host list
+        :returns: the methods the daemon supports
+        :rtype: list
+        """
         d = Deferred()
         def on_connected(methods):
             d.callback(methods)
@@ -300,12 +314,21 @@ class WebApi(JSONComponent):
     
     @export
     def connected(self):
+        """
+        The current connection state.
+        
+        :returns: True if the client is connected
+        :rtype: bool
+        """
         d = Deferred()
         d.callback(client.connected())
         return d
     
     @export
     def disconnect(self):
+        """
+        Disconnect the web interface from the connected daemon.
+        """
         d =  Deferred()
         client.disconnect()
         d.callback(True)
@@ -313,7 +336,14 @@ class WebApi(JSONComponent):
     
     @export
     def update_ui(self, keys, filter_dict):
-
+        """
+        Gather the information required for updating the web interface.
+        
+        :param keys: list, the information about the torrents to gather
+        :param filter_dict: dict, the filters to apply when selecting torrents.
+        :returns: The torrent and ui information.
+        :rtype: dict
+        """
         ui_info = {
             "torrents": None,
             "filters": None,
@@ -381,11 +411,11 @@ class WebApi(JSONComponent):
     @export
     def download_torrent_from_url(self, url):
         """
-        input:
-            url: the url of the torrent to download
-
-        returns:
-            filename: the temporary file name of the torrent file
+        Download a torrent file from a url to a temporary directory.
+        
+        :param url: str, the url of the torrent
+        :returns: the temporary file name of the torrent file
+        :rtype: str
         """
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
         filename, headers = urllib.urlretrieve(url, tmp_file)
@@ -397,13 +427,10 @@ class WebApi(JSONComponent):
     @export
     def get_torrent_info(self, filename):
         """
-        Goal:
-            allow the webui to retrieve data about the torrent
-
-        input:
-            filename: the filename of the torrent to gather info about
-
-        returns:
+        Return information about a torrent on the filesystem.
+        
+        :param filename: str, the path to the torrent
+        :returns:
         {
             "filename": the torrent file
             "name": the torrent name
@@ -423,11 +450,10 @@ class WebApi(JSONComponent):
     @export
     def add_torrents(self, torrents):
         """
-        input:
-            torrents [{
-                path: the path of the torrent file,
-                options: the torrent options
-            }]
+        Add torrents by file
+        
+        :param torrents: dict, a list of dictionaries containing the torrent
+        path and torrent options to add with.
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
