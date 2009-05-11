@@ -66,6 +66,20 @@ def start_ui():
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    if options.config:
+        if not os.path.exists(options.config):
+            # Try to create the config folder if it doesn't exist
+            try:
+                os.makedirs(options.config)
+            except Exception, e:
+                pass
+        elif not os.path.isdir(options.config):
+            print "Config option needs to be a directory!"
+            sys.exit(1)
+    else:
+        if not os.path.exists(deluge.common.get_default_config_dir()):
+            os.makedirs(deluge.common.get_default_config_dir())
+
     if options.default_ui:
         if options.config:
             deluge.configmanager.set_config_dir(options.config)
@@ -78,21 +92,6 @@ def start_ui():
 
     if options.quiet:
         options.loglevel = "none"
-
-    if options.config:
-        if not os.path.isdir(options.config):
-            print "Config option needs to be a directory!"
-            sys.exit(1)
-
-        if not os.path.exists(options.config):
-            # Try to create the config folder if it doesn't exist
-            try:
-                os.makedirs(options.config)
-            except Exception, e:
-                pass
-    else:
-        if not os.path.exists(deluge.common.get_default_config_dir()):
-            os.makedirs(deluge.common.get_default_config_dir())
 
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
