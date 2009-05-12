@@ -468,7 +468,7 @@ class PreferencesManager(component.Component):
                 72 * 60 * 60 * 1000, self._on_new_release_check, "new_release_check", True)
         else:
             if self.new_release_timer:
-                gobject.source.remove(self.new_release_timer)
+                gobject.source_remove(self.new_release_timer)
 
     def _on_set_proxies(self, key, value):
         for k, v in value.items():
