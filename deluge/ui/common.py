@@ -76,9 +76,12 @@ class TorrentInfo(object):
         elif "codepage" in self.__m_metadata:
             self.encoding = str(self.__m_metadata["codepage"])
 
-        # We try to decode based on the encoding found and if we can't, we try
-        # to detect the encoding and decode that
-        self.__m_name = decode_string(self.__m_metadata["info"]["name"], self.encoding)
+        # Check if 'name.utf-8' is in the torrent and if not try to decode the string
+        # using the encoding found.
+        if "name.utf-8" in self.__m_metadata["info"]:
+            self.__m_name = decode_string(self.__m_metadata["info"]["name.utf-8"])
+        else:
+            self.__m_name = decode_string(self.__m_metadata["info"]["name"], self.encoding)
 
         # Get list of files from torrent info
         paths = {}
@@ -88,7 +91,7 @@ class TorrentInfo(object):
                 prefix = self.__m_name
 
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
-                path = decode_string(os.path.join(prefix, *f["path"]))
+                path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]))))
                 f["index"] = index
                 paths[path] = f
 
@@ -113,7 +116,7 @@ class TorrentInfo(object):
 
             for f in self.__m_metadata["info"]["files"]:
                 self.__m_files.append({
-                    'path': decode_string(os.path.join(prefix, *f["path"])),
+                    'path': decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"])))),
                     'size': f["length"],
                     'download': True
                 })
