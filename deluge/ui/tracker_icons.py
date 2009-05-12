@@ -25,7 +25,8 @@
 
 
 import threading
-import gobject
+from twisted.internet import reactor
+
 from urllib import urlopen
 from deluge.log import LOG as log
 from deluge.common import get_pixmap
@@ -148,7 +149,7 @@ class TrackerIcons(component.Component):
         self.images[tracker_host] = filename
 
         if callback:
-            gobject.idle_add(callback, filename)
+            reactor.callLater(0, callback, filename)
 
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
