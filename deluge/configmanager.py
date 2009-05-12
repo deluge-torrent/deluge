@@ -24,8 +24,6 @@
 
 import os
 
-from twisted.internet.task import LoopingCall
-
 import deluge.common
 from deluge.log import LOG as log
 from deluge.config import Config
@@ -35,9 +33,6 @@ class _ConfigManager:
         log.debug("ConfigManager started..")
         self.config_files = {}
         self.__config_directory = None
-        # Set a 5 minute timer to call save()
-        self.__timer = LoopingCall(self.save)
-        self.__timer.start(300, False)
 
     @property
     def config_directory(self):
