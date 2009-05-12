@@ -47,6 +47,7 @@ Dependencies:
     simplejson (if python < 2.6)
     setuptools
     gettext
+    pyxdg
 
   Gtk:
     python-notify (libnotify python wrapper)
