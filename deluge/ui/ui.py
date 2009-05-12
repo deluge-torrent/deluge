@@ -25,67 +25,81 @@
 from optparse import OptionParser, OptionGroup
 import deluge.common
 import deluge.configmanager
+import deluge.log
+import os
 
 DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
 
 class _UI(object):
-    
+
     def __init__(self, name="gtk"):
         self.__name = name
 
-        usage="%prog [options] [actions]", 
-        
+        usage="%prog [options] [actions]",
+
         self.__parser = OptionParser(version=deluge.common.get_version())
-        
+
         group = OptionGroup(self.__parser, "Common Options")
         group.add_option("-c", "--config", dest="config",
             help="Set the config folder location", action="store", type="str")
         group.add_option("-l", "--logfile", dest="logfile",
             help="Output to designated logfile instead of stdout", action="store", type="str")
-        group.add_option("-a", "--args", dest="args",
-            help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
         group.add_option("-L", "--loglevel", dest="loglevel",
             help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
         group.add_option("-q", "--quiet", dest="quiet",
             help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
         self.__parser.add_option_group(group)
-    
+
     @property
     def name(self):
         return self.__name
-    
+
     @property
     def parser(self):
         return self.__parser
-    
+
     @property
     def options(self):
         return self.__options
-    
+
     @property
     def args(self):
         return self.__args
-    
+
     def start(self):
         (self.__options, self.__args) = self.__parser.parse_args()
-        if self.options.quiet:
-            self.options.loglevel = "none"
-        
+
+
+        if self.__options.quiet:
+            self.__options.loglevel = "none"
+
+        if self.__options.config:
+            if not os.path.isdir(self.__options.config):
+                print "Config option needs to be a directory!"
+                sys.exit(1)
+
+            if not os.path.exists(self.__options.config):
+                # Try to create the config folder if it doesn't exist
+                try:
+                    os.makedirs(self.__options.config)
+                except Exception, e:
+                    pass
+        else:
+            if not os.path.exists(deluge.common.get_default_config_dir()):
+                os.makedirs(deluge.common.get_default_config_dir())
+
         # Setup the logger
-        import deluge.log
-        deluge.log.setupLogger(
-            level=self.options.loglevel,
-            filename=self.options.logfile
-        )
-        
-        import deluge.common
+        deluge.log.setupLogger(level=self.__options.loglevel, filename=self.__options.logfile)
+
+        version = deluge.common.get_version()
+
         log = deluge.log.LOG
-        log.info('Deluge %s ui %s', self.name, deluge.common.get_version())
-        log.debug('options: %s', self.options)
-        log.debug('args: %s', self.args)
-        log.info('Starting ui...')
+        log.info("Deluge ui %s", version)
+        log.debug("options: %s", self.__options)
+        log.debug("args: %s", self.__args)
+        log.info("Starting ui..")
 
 class UI:
     def __init__(self, options, args, ui_args):
