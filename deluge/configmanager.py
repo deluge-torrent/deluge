@@ -22,10 +22,9 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-
-import gobject
 import os
-import os.path
+
+from twisted.internet.task import LoopingCall
 
 import deluge.common
 from deluge.log import LOG as log
@@ -37,8 +36,9 @@ class _ConfigManager:
         self.config_files = {}
         self.__config_directory = None
         # Set a 5 minute timer to call save()
-        gobject.timeout_add(300000, self.save)
-    
+        self.__timer = LoopingCall(self.save)
+        self.__timer.start(300, False)
+
     @property
     def config_directory(self):
         if self.__config_directory is None:
@@ -75,8 +75,8 @@ class _ConfigManager:
 
     def save(self):
         """Saves all the configs to disk."""
-        for key in self.config_files.keys():
-            self.config_files[key].save()
+        for value in self.config_files.values():
+            value.save()
         # We need to return True to keep the timer active
         return True
 
