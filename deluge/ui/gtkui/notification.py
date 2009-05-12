@@ -93,9 +93,9 @@ class Notification:
         headers = "From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n" % (
             self.config["ntf_email_add"], self.config["ntf_email_add"],
                 "Finished torrent %s" % (status["name"]))
-        text = _("This email is to inform you that Deluge has finished downloading %s , \
-            which includes %i files.\nTo stop receiving these alerts, simply turn off \
-            email notification in Deluge's preferences.\n\nThank you,\nDeluge") % (status["name"], status["num_files"])
+        text = _("This email is to inform you that Deluge has finished downloading %(name)s , \
+            which includes %(num_files)i files.\nTo stop receiving these alerts, simply turn off \
+            email notification in Deluge's preferences.\n\nThank you,\nDeluge") % {"name": status["name"], "num_files": status["num_files"]}
         message = headers + text
         if self.config["ntf_security"] == 'SSL':
             port = 465
