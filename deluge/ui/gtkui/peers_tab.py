@@ -39,6 +39,7 @@ import deluge.ui.gtkui.common as common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
+from deluge.countries import COUNTRIES
 
 def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, data)
@@ -59,7 +60,9 @@ class PeersTab(Tab):
             })
 
         self.listview = glade.get_widget("peers_listview")
+        self.listview.props.has_tooltip = True
         self.listview.connect("button-press-event", self._on_button_press_event)
+        self.listview.connect("query-tooltip", self._on_query_tooltip)
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon, progress
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, float, gtk.gdk.Pixbuf, float)
         self.cached_flag_pixbufs = {}
@@ -341,6 +344,22 @@ class PeersTab(Tab):
         if self.torrent_id and event.button == 3:
             self.peer_menu.popup(None, None, None, event.button, event.time)
             return True
+
+    def _on_query_tooltip(self, widget, x, y, keyboard_tip, tooltip):
+        if not widget.get_tooltip_context(x, y, keyboard_tip):
+            return False
+        else:
+            model, path, iter = widget.get_tooltip_context(x, y, keyboard_tip)
+            
+            country_code = model.get(iter, 5)[0]
+            if country_code != "  " and country_code in COUNTRIES:
+                tooltip.set_text(COUNTRIES[country_code])
+                # widget here is self.listview
+                widget.set_tooltip_cell(tooltip, path, widget.get_column(0), 
+                                        None)
+                return True
+            else:
+                return False
 
     def _on_menuitem_add_peer_activate(self, menuitem):
         """This is a callback for manually adding a peer"""

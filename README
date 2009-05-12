@@ -52,7 +52,7 @@ Dependencies:
   Gtk:
     python-notify (libnotify python wrapper)
     pygame
-    pygtk >= 2.10
+    pygtk >= 2.12
     librsvg
     xdg-utils
     chardet

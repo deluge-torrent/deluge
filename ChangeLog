@@ -9,10 +9,15 @@
   * Implemented a cross-platform IPC method thus removing the DBUS dependency
   * Implement a "True" Classic Mode where there is no longer a separate daemon process
   * Add preferences option "Add torrent in paused state"
+  * Add tracker icons to the Tracker column
+  * Implement #259 show tooltip with country name in the peers tab
 
 ==== WebUI ====
   * Move over to using Twisted-Web for the webserver.
   * Move to only AJAX interface built upon Ext-JS.
+
+==== Misc ====
+  * PyGTK dependency bumped to => 2.12 to use new tooltip system
 
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
