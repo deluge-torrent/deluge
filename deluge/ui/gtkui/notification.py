@@ -103,7 +103,12 @@ class Notification:
             port = 587
         elif self.config["ntf_security"] == None:
             port = 25
-        mailServer = smtplib.SMTP(self.config["ntf_server"], port)
+        try:
+            mailServer = smtplib.SMTP(self.config["ntf_server"], port)
+        except Exception, e:
+            log.error("There was an error sending the notification email: %s", e)
+            return
+
         if self.config["ntf_username"] and self.config["ntf_pass"]:
             if self.config["ntf_security"] == 'SSL' or 'TLS':
                 mailServer.ehlo('x')
