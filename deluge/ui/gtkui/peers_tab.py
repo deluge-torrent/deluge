@@ -39,7 +39,7 @@ import deluge.ui.gtkui.common as common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
-from deluge.countries import COUNTRIES
+from deluge.ui.countries import COUNTRIES
 
 def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, data)
@@ -350,12 +350,12 @@ class PeersTab(Tab):
             return False
         else:
             model, path, iter = widget.get_tooltip_context(x, y, keyboard_tip)
-            
+
             country_code = model.get(iter, 5)[0]
             if country_code != "  " and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])
                 # widget here is self.listview
-                widget.set_tooltip_cell(tooltip, path, widget.get_column(0), 
+                widget.set_tooltip_cell(tooltip, path, widget.get_column(0),
                                         None)
                 return True
             else:
