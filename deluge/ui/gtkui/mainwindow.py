@@ -132,7 +132,6 @@ class MainWindow(component.Component):
         return self.main_glade
 
     def quit(self):
-        del self.config
         gtk.main_quit()
 
     def load_window_state(self):
