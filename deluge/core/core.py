@@ -297,7 +297,7 @@ class Core(
     def save_session_state(self):
         """Saves the libtorrent session state"""
         try:
-            open(deluge.common.get_default_config_dir("session.state"), "wb").write(
+            open(deluge.configmanager.get_config_dir("session.state"), "wb").write(
                 lt.bencode(self.session.state()))
         except Exception, e:
             log.warning("Failed to save lt state: %s", e)
@@ -306,14 +306,14 @@ class Core(
         """Loads the libtorrent session state"""
         try:
             self.session.load_state(lt.bdecode(
-                open(deluge.common.get_default_config_dir("session.state"), "rb").read()))
+                open(deluge.configmanager.get_config_dir("session.state"), "rb").read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
 
     def save_dht_state(self):
         """Saves the dht state to a file"""
         try:
-            dht_data = open(deluge.common.get_default_config_dir("dht.state"), "wb")
+            dht_data = open(deluge.configmanager.get_config_dir("dht.state"), "wb")
             dht_data.write(lt.bencode(self.session.dht_state()))
             dht_data.close()
         except Exception, e:

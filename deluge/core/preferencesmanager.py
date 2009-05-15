@@ -287,7 +287,7 @@ class PreferencesManager(component.Component):
 
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
-        state_file = deluge.common.get_default_config_dir("dht.state")
+        state_file = deluge.configmanager.get_config_dir("dht.state")
         if value:
             state = None
             try:
