@@ -71,7 +71,7 @@ class AuthManager(component.Component):
 
         if self.__auth[username][0] == password:
             # Return the users auth level
-            return self.__auth[username][1]
+            return int(self.__auth[username][1])
 
         return 0
 
