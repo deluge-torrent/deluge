@@ -305,7 +305,6 @@
         <child>
           <widget class="GtkToolbar" id="toolbar">
             <property name="visible">True</property>
-            <property name="icon_size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
             <child>
               <widget class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
