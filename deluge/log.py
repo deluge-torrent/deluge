@@ -34,7 +34,7 @@ levels = {
     "none": logging.CRITICAL,
     "debug": logging.DEBUG
 }
-def setupLogger(level="error", filename=None):
+def setupLogger(level="error", filename=None, filemode="w"):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
     to that file instead of stdout.
@@ -51,7 +51,7 @@ def setupLogger(level="error", filename=None):
         format="[%(levelname)-8s] %(asctime)s %(module)s:%(lineno)d %(message)s",
         datefmt="%H:%M:%S",
         filename=filename,
-        filemode="w"
+        filemode=filemode
     )
 
 def setLoggerLevel(level):
