@@ -31,7 +31,7 @@ import hashlib
 import tempfile
 
 from types import FunctionType
-from twisted.internet.defer import Deferred
+from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
 from deluge import common, component
@@ -357,16 +357,27 @@ class WebApi(JSONComponent):
         
         def got_stats(stats):
             ui_info["stats"] = stats
-            d.callback(ui_info)
         
         def got_filters(filters):
             ui_info["filters"] = filters
-            client.core.get_stats().addCallback(got_stats)
             
         def got_torrents(torrents):
             ui_info["torrents"] = torrents
-            client.core.get_filter_tree().addCallback(got_filters)
-        client.core.get_torrents_status(filter_dict, keys).addCallback(got_torrents)
+
+        def on_complete(result):
+            d.callback(ui_info)
+        
+        d1 = client.core.get_torrents_status(filter_dict, keys)
+        d1.addCallback(got_torrents)
+
+        d2 = client.core.get_filter_tree()
+        d2.addCallback(got_filters)
+
+        d3 = client.core.get_stats()
+        d3.addCallback(got_stats)
+        
+        dl = DeferredList([d1, d2, d3], consumeErrors=True)
+	dl.addCallback(on_complete)
         return d
     
     def _on_got_files(self, torrent, d):
