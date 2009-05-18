@@ -317,7 +317,7 @@ GPL = """#
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
-# 	Boston, MA    02110-1301, USA.
+# 	Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
