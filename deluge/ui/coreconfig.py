@@ -32,10 +32,16 @@ class CoreConfig(component.Component):
         log.debug("CoreConfig init..")
         component.Component.__init__(self, "CoreConfig")
         self.config = {}
-        client.register_event_handler("ConfigValueChangedEvent", self.on_configvaluechanged_event)
+        def on_configvaluechanged_event(key, value):
+            self.config[key] = value
+        client.register_event_handler("ConfigValueChangedEvent", on_configvaluechanged_event)
 
     def start(self):
-        self.start_defer = client.core.get_config().addCallback(self._on_get_config)
+        def on_get_config(config):
+            self.config = config
+            return config
+
+        self.start_defer = client.core.get_config().addCallback(on_get_config)
 
     def stop(self):
         self.config = {}
@@ -45,12 +51,6 @@ class CoreConfig(component.Component):
 
     def __setitem__(self, key, value):
         client.core.set_config({key: value})
-
-    def _on_get_config(self, config):
-        self.config = config
-
-    def on_configvaluechanged_event(self, key, value):
-        self.config[key] = value
 
     def __getattr__(self, attr):
         # We treat this directly interacting with the dictionary
