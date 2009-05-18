@@ -45,18 +45,31 @@ class _ConfigManager:
         del self.config_files
 
     def set_config_dir(self, directory):
-        """Sets the config directory"""
-        if directory == None:
-            return
+        """
+        Sets the config directory.
+
+        :param directory: str, the directory where the config info should be
+
+        :returns bool: True if successfully changed directory, False if not
+        """
+
+        if not directory:
+            return False
+
         log.info("Setting config directory to: %s", directory)
         if not os.path.exists(directory):
             # Try to create the config folder if it doesn't exist
             try:
                 os.makedirs(directory)
             except Exception, e:
-                log.warning("Unable to make config directory: %s", e)
+                log.error("Unable to make config directory: %s", e)
+                return False
+        elif not os.path.isdir(directory):
+            log.error("Config directory needs to be a directory!")
+            return False
 
         self.__config_directory = directory
+        return True
 
     def get_config_dir(self):
         return self.config_directory

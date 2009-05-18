@@ -71,32 +71,19 @@ class _UI(object):
     def start(self):
         (self.__options, self.__args) = self.__parser.parse_args()
 
-
         if self.__options.quiet:
             self.__options.loglevel = "none"
 
-        if self.__options.config:
-            if not os.path.isdir(self.__options.config):
-                print "Config option needs to be a directory!"
-                sys.exit(1)
-
-            if not os.path.exists(self.__options.config):
-                # Try to create the config folder if it doesn't exist
-                try:
-                    os.makedirs(self.__options.config)
-                except Exception, e:
-                    pass
-        else:
-            if not os.path.exists(deluge.common.get_default_config_dir()):
-                os.makedirs(deluge.common.get_default_config_dir())
-
         # Setup the logger
         deluge.log.setupLogger(level=self.__options.loglevel, filename=self.__options.logfile)
-
-        version = deluge.common.get_version()
-
         log = deluge.log.LOG
-        log.info("Deluge ui %s", version)
+
+        if self.__options.config:
+            if not deluge.configmanager.set_config_dir(self.__options.config):
+                log.error("There was an error setting the config dir! Exiting..")
+                sys.exit(1)
+
+        log.info("Deluge ui %s", deluge.common.get_version())
         log.debug("options: %s", self.__options)
         log.debug("args: %s", self.__args)
         log.info("Starting ui..")
