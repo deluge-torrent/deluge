@@ -33,6 +33,6 @@ class Command(BaseCommand):
         if client.connected():
             def on_disconnect(result):
                 reactor.stop()
-            client.disconnect().addCallback(on_disconnect)
+            return client.disconnect().addCallback(on_disconnect)
         else:
             reactor.stop()

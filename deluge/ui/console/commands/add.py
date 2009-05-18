@@ -22,6 +22,8 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
+from twisted.internet import defer
+
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
@@ -47,6 +49,8 @@ class Command(BaseCommand):
         if options["path"]:
             t_options["download_location"] = options["path"]
 
+        # Keep a list of deferreds to make a DeferredList
+        deferreds = []
         for arg in args:
             if not os.path.isfile(arg):
                 self.console.write("{!error!}This is a directory!")
@@ -60,7 +64,9 @@ class Command(BaseCommand):
             def on_fail(result):
                 self.console.write("{!error!}Torrent was not added! %s" % result)
 
-            client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)
+            deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail))
+
+        return defer.DeferredList(deferreds)
 
     def complete(self, line):
         line = os.path.abspath(os.path.expanduser(line))

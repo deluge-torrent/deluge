@@ -36,9 +36,30 @@ import deluge.common
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
-import deluge.ui.console.screen as screen
-import deluge.ui.console.colors as colors
+import screen
+import colors
 from deluge.log import LOG as log
+from deluge.ui.ui import _UI
+
+class Console(_UI):
+
+    help = """Starts the Deluge console interface"""
+
+    def __init__(self):
+        super(Console, self).__init__("console")
+        cmds = load_commands(os.path.join(UI_PATH, 'commands'))
+
+        group = optparse.OptionGroup(self.parser, "Console Commands",
+            "\n".join(cmds.keys()))
+        self.parser.add_option_group(group)
+
+    def start(self):
+        super(Console, self).start()
+
+        ConsoleUI(self.args)
+
+def start():
+    Console().start()
 
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
@@ -108,27 +129,42 @@ class ConsoleUI(component.Component):
         # Load all the commands
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
 
-        # Try to connect to the localhost daemon
-        def on_connect(result):
-            component.start()
-        client.connect().addCallback(on_connect)
-
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         if args:
+            args = args[0]
             self.interactive = False
-            # If we have args, lets process them and quit
-            #allow multiple commands split by ";"
-            for arg in args.split(";"):
-                self.do_command(arg)
-            sys.exit(0)
+
+        # Try to connect to the localhost daemon
+        def on_connect(result):
+            component.start()
+            if not self.interactive:
+                def on_started(result):
+                    deferreds = []
+                    # If we have args, lets process them and quit
+                    # allow multiple commands split by ";"
+                    for arg in args.split(";"):
+                        deferreds.append(self.do_command(arg.strip()))
+
+                    def on_complete(result):
+                        self.do_command("quit")
+
+                    dl = defer.DeferredList(deferreds).addCallback(on_complete)
+
+                # We need to wait for the rpcs in start() to finish before processing
+                # any of the commands.
+                self.started_deferred.addCallback(on_started)
+
+        client.connect().addCallback(on_connect)
 
         self.coreconfig = CoreConfig()
-
-        # We use the curses.wrapper function to prevent the console from getting
-        # messed up if an uncaught exception is experienced.
-        import curses.wrapper
-        curses.wrapper(self.run)
+        if self.interactive:
+            # We use the curses.wrapper function to prevent the console from getting
+            # messed up if an uncaught exception is experienced.
+            import curses.wrapper
+            curses.wrapper(self.run)
+        else:
+            reactor.run()
 
     def run(self, stdscr):
         """
@@ -157,12 +193,16 @@ class ConsoleUI(component.Component):
         reactor.run()
 
     def start(self):
+        # This gets fired once we have received the torrents list from the core
+        self.started_deferred = defer.Deferred()
+
         # Maintain a list of (torrent_id, name) for use in tab completion
         self.torrents = []
         def on_session_state(result):
             def on_torrents_status(torrents):
                 for torrent_id, status in torrents.items():
                     self.torrents.append((torrent_id, status["name"]))
+                self.started_deferred.callback(True)
 
             client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
         client.core.get_session_state().addCallback(on_session_state)
@@ -184,7 +224,7 @@ class ConsoleUI(component.Component):
         if self.interactive:
             self.screen.add_line(line)
         else:
-            print(line)
+            print(colors.strip_colors(line))
 
     def do_command(self, cmd):
         """
@@ -215,12 +255,15 @@ class ConsoleUI(component.Component):
         options, args = parser.parse_args(args)
         if not getattr(options, '_exit', False):
             try:
-                self._commands[cmd].handle(*args, **options.__dict__)
+                ret = self._commands[cmd].handle(*args, **options.__dict__)
             except Exception, e:
                 self.write("{!error!}" + str(e))
                 log.exception(e)
                 import traceback
                 self.write("%s" % traceback.format_exc())
+                return defer.succeed(True)
+            else:
+                return ret
 
     def tab_completer(self, line, cursor, second_hit):
         """

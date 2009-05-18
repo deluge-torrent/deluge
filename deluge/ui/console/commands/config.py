@@ -23,6 +23,8 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
+from twisted.internet import defer
+
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
@@ -63,7 +65,7 @@ def simple_eval(source):
     taken from http://effbot.org/zone/simple-iterator-parser.htm"""
     src = cStringIO.StringIO(source).readline
     src = tokenize.generate_tokens(src)
-    src = (token for token in src if token[0] is not tokenize.NL)
+    src = (token for token in src if token[0] is not tokenize.NL37)
     res = atom(src.next, src.next())
     if src.next()[0] is not tokenize.ENDMARKER:
         raise SyntaxError("bogus data after expression")
@@ -83,38 +85,47 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         if options['set']:
-            self._set_config(*args, **options)
+            return self._set_config(*args, **options)
         else:
-            self._get_config(*args, **options)
+            return self._get_config(*args, **options)
 
     def _get_config(self, *args, **options):
-        config = component.get("CoreConfig")
+        deferred = defer.Deferred()
+        def on_get_config(result):
+            config = component.get("CoreConfig")
+            keys = config.keys()
+            keys.sort()
+            s = ""
+            for key in keys:
+                if args and key not in args:
+                    continue
+                color = "{!white,black,bold!}"
+                value = config[key]
+                if type(value) in colors.type_color:
+                    color = colors.type_color[type(value)]
 
-        keys = config.keys()
-        keys.sort()
-        s = ""
-        for key in keys:
-            if args and key not in args:
-                continue
-            color = "{!white,black,bold!}"
-            value = config[key]
-            if type(value) in colors.type_color:
-                color = colors.type_color[type(value)]
+                # We need to format dicts for printing
+                if isinstance(value, dict):
+                    import pprint
+                    value = pprint.pformat(value, 2, 80)
+                    new_value = []
+                    for line in value.splitlines():
+                        new_value.append("%s%s" % (color, line))
+                    value = "\n".join(new_value)
 
-            # We need to format dicts for printing
-            if isinstance(value, dict):
-                import pprint
-                value = pprint.pformat(value, 2, 80)
-                new_value = []
-                for line in value.splitlines():
-                    new_value.append("%s%s" % (color, line))
-                value = "\n".join(new_value)
+                s += "  %s: %s%s\n" % (key, color, value)
 
-            s += "  %s: %s%s\n" % (key, color, value)
+            self.console.write(s)
+            deferred.callback(True)
+            return config
 
-        self.console.write(s)
+        # We need to ensure the config dict has been received first
+        component.get("CoreConfig").start_defer.addCallback(on_get_config)
+
+        return deferred
 
     def _set_config(self, *args, **options):
+        deferred = defer.Deferred()
         config = component.get("CoreConfig")
         key = args[0]
         if key not in config.keys():
@@ -132,7 +143,10 @@ class Command(BaseCommand):
 
         def on_set_config(result):
             self.console.write("{!success!}Configuration value successfully updated.")
+            deferred.callback(True)
+
         client.core.set_config({key: val}).addCallback(on_set_config)
+        return deferred
 
     def complete(self, text):
         return [ k for k in component.get("CoreConfig").keys() if k.startswith(text) ]

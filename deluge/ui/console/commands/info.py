@@ -110,6 +110,7 @@ class Command(BaseCommand):
         d = client.core.get_torrents_status({"id": torrent_ids}, status_keys)
         d.addCallback(on_torrents_status)
         d.addErrback(on_torrents_status_fail)
+        return d
 
     def show_info(self, torrent_id, status, verbose=False):
         """

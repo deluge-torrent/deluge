@@ -42,3 +42,4 @@ class Command(BaseCommand):
 
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
+        return d

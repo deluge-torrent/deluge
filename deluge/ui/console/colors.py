@@ -93,6 +93,17 @@ def replace_tabs(line):
         line = line.replace("\t", " " * tab_length, 1)
     return line
 
+def strip_colors(line):
+    """
+    Returns a string with the color formatting removed.
+
+    """
+    # Remove all the color tags
+    while line.find("{!") != -1:
+        line = line[:line.find("{!")] + line[line.find("!}") + 2:]
+
+    return line
+
 def get_line_length(line):
     """
     Returns the string length without the color formatting.
@@ -102,8 +113,7 @@ def get_line_length(line):
         raise BadColorString("Number of {! is not equal to number of !}")
 
     # Remove all the color tags
-    while line.find("{!") != -1:
-        line = line[:line.find("{!")] + line[line.find("!}") + 2:]
+    line = strip_colors(line)
 
     # Replace tabs with the appropriate amount of spaces
     line = replace_tabs(line)

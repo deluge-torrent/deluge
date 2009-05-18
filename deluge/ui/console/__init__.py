@@ -22,3 +22,4 @@
 # 	Boston, MA    02110-1301, USA.
 #
 UI_PATH = __path__[0]
+from main import start

@@ -1,4 +1,3 @@
-#
 # help.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
@@ -22,6 +21,9 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
+
+from twisted.internet import defer
+
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 import deluge.component as component
@@ -34,15 +36,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         self._commands = self.console._commands
+        deferred = defer.succeed(True)
         if args:
             if len(args) > 1:
                 self.console.write(usage)
-                return
+                return deferred
             try:
                 cmd = self._commands[args[0]]
             except KeyError:
                 self.console.write("{!error!}Unknown command %r" % args[0])
-                return
+                return deferred
             try:
                 parser = cmd.create_parser()
                 self.console.write(parser.format_help())
@@ -54,6 +57,8 @@ class Command(BaseCommand):
                 self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
             self.console.write(" ")
             self.console.write('For help on a specific command, use "<command> --help"')
+
+        return deferred
 
     def complete(self, line):
         return [x for x in component.get("ConsoleUI")._commands if x.startswith(line)]

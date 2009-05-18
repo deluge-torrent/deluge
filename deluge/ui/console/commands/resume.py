@@ -22,6 +22,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
+
 from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
 import deluge.ui.console.colors as colors
@@ -45,7 +46,7 @@ class Command(BaseCommand):
             torrent_ids.extend(self.console.match_torrent(arg))
 
         if torrent_ids:
-            client.core.resume_torrent(torrent_ids)
+            return client.core.resume_torrent(torrent_ids)
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method

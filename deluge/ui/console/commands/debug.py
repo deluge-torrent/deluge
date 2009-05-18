@@ -22,6 +22,9 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA    02110-1301, USA.
 #
+
+from twisted.internet import defer
+
 from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
 import deluge.ui.console.colors as colors
@@ -38,6 +41,8 @@ class Command(BaseCommand):
             deluge.log.setLoggerLevel("error")
         else:
             component.get("ConsoleUI").write("{!error!}%s" % usage)
+
+        return defer.succeed(True)
 
     def complete(self, text):
         return [x for x in ['on', 'off'] if x.startswith(text)]
