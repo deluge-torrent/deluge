@@ -8,6 +8,7 @@
   * Fix showing non-utf8 encoded torrents in add torrent dialog -- this adds
     an additional dependency on chardet.
   * Fix exception when timing out trying to send notification email
+  * Set some sane defaults for peers/file tabs column widths
 
 ==== WebUI ====
   * Fix starting when -l option is used

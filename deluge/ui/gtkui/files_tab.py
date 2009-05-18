@@ -32,9 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-#
-
-
 import gtk, gtk.glade
 import gobject
 import gettext
@@ -122,7 +119,7 @@ class FilesTab(Tab):
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
-        column.set_min_width(10)
+        column.set_min_width(200)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
@@ -135,7 +132,7 @@ class FilesTab(Tab):
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
-        column.set_min_width(10)
+        column.set_min_width(50)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
@@ -148,7 +145,7 @@ class FilesTab(Tab):
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
-        column.set_min_width(10)
+        column.set_min_width(100)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
@@ -164,7 +161,7 @@ class FilesTab(Tab):
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
-        column.set_min_width(10)
+        column.set_min_width(100)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
