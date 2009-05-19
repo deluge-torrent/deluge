@@ -1,6 +1,6 @@
 /*
-Script: Deluge.Formatters.js
-    A collection of functions for string formatting values.
+Script:
+	Deluge.Formatters.ks
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
@@ -19,20 +19,31 @@ Copyright:
 		The Free Software Foundation, Inc.,
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+    In addition, as a special exception, the copyright holders give
+    permission to link the code of portions of this program with the OpenSSL
+    library.
+    You must obey the GNU General Public License in all respects for all of
+    the code used other than OpenSSL. If you modify file(s) with this
+    exception, you may extend this exception to your version of the file(s),
+    but you are not obligated to do so. If you do not wish to do so, delete
+    this exception statement from your version. If you delete this exception
+    statement from all source files in the program, then also delete it here.
 */
 
+/**
+ * @description A collection of functions for string formatting values.
+ * @namespace Deluge.Formatters
+ */
 Deluge.Formatters = {
+	/**
+	 * Formats a date string in the locale's date representation based on the
+	 * systems timezone.
+	 *
+	 * @param {number} timestamp time in seconds since the Epoch
+	 * @returns {string} a string in the locale's date representation or ""
+	 * if seconds < 0
+	 */
 	date: function(timestamp) {
 		function zeroPad(num, count) {
 			var numZeropad = num + '';
@@ -45,6 +56,13 @@ Deluge.Formatters = {
 		var date = new Date(timestamp);
 		return String.format('{0}/{1}/{2}', zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear());
 	},
+	
+	/**
+	 * Formats the bytes value into a string with KiB, MiB or GiB units.
+	 *
+	 * @param {number} bytes the filesize in bytes
+	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 */
 	size: function(bytes) {
 		bytes = bytes / 1024.0;
 	
@@ -57,10 +75,22 @@ Deluge.Formatters = {
 		return bytes.toFixed(1) + ' GiB'
 	},
 	
+	/**
+	 * Formats a string to display a transfer speed utilizing {@link Deluge.Formatters.size}
+	 *
+	 * @param {number} bytes the filesize in bytes
+	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 */
 	speed: function(bits) {
 		return fsize(bits) + '/s'
 	},
 	
+	/**
+	 * Formats a string to show time in a human readable form.
+	 *
+	 * @param {number} time the number of seconds
+	 * @returns {string} a formatted time string. will return '' if seconds == 0
+	 */
 	timeRemaining: function(time) {
 		if (time == 0) { return '∞' }
 		if (time < 60) { return time + 's'; }
@@ -96,6 +126,12 @@ Deluge.Formatters = {
 		}
 	},
 	
+	/**
+	 * Simply returns the value untouched, for when no formatting is required.
+	 *
+	 * @param value, the value to be displayed
+	 * @returns the untouched value.
+	 */
 	plain: function(value) {
 		return value;
 	}

@@ -19,17 +19,16 @@ Copyright:
 		The Free Software Foundation, Inc.,
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+    In addition, as a special exception, the copyright holders give
+    permission to link the code of portions of this program with the OpenSSL
+    library.
+    You must obey the GNU General Public License in all respects for all of
+    the code used other than OpenSSL. If you modify file(s) with this
+    exception, you may extend this exception to your version of the file(s),
+    but you are not obligated to do so. If you do not wish to do so, delete
+    this exception statement from your version. If you delete this exception
+    statement from all source files in the program, then also delete it here.
 */
 
 Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
@@ -201,6 +200,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'remove_at_ratio',
+			style: 'margin-left: 10px',
 			boxLabel: _('Remove at ratio')
 		});
 		
@@ -255,7 +255,9 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		
 		// The buttons below are required to be added to a panel
 		// first as simply adding them to the column layout throws an
-		// error c.getSize() does not exist
+		// error c.getSize() does not exist. This could be intentional
+		// or it may possible be a bug in ext-js. Take care when upgrading
+		// to ext-js 3.0.
 		
 		/*
 		 * Edit Trackers button
@@ -289,10 +291,14 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			width: 100,
 		});
+		
+		this.disable();
 	},
 	
 	onRender: function(ct, position) {
 		Ext.deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
+		
+		// This is another hack I think, so keep an eye out here when upgrading.
 		this.layout = new Ext.layout.ColumnLayout();
 		this.layout.setContainer(this);
 		this.doLayout();
@@ -317,10 +323,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	update: function(torrentId) {
+		this.torrentId = torrentId;
 		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
 			success: this.onRequestComplete,
-			scope: this,
-			torrentId: torrentId
+			scope: this
 		});
 	},
 	
@@ -329,7 +335,13 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onRequestComplete: function(torrent, options) {
-		
+		for (var key in torrent) {
+			if (this.fields[key]) {
+				this.fields[key].setValue(torrent[key])
+			} else {
+				//alert(key);
+			}
+		}
 	}
 });
 Deluge.Details.add(new Ext.deluge.details.OptionsTab());
