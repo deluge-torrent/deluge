@@ -62,7 +62,15 @@ class MainWindow(component.Component):
                                                     "glade/main_window.glade"))
 
         self.window = self.main_glade.get_widget("main_window")
-        self.window.set_icon(common.get_logo(32))
+
+        if deluge.common.windows_check():
+            self.window.set_icon(common.get_logo(32))
+        else:
+            try:
+                icon_theme = gtk.icon_theme_get_default()
+                self.window.set_icon(icon_theme.load_icon("deluge", 32, 0))
+            except:
+                self.window.set_icon(common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
 
         # Load the window state
