@@ -31,6 +31,7 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
+
 Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
 	constructor: function(config) {
@@ -291,8 +292,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			width: 100,
 		});
-		
-		this.disable();
 	},
 	
 	onRender: function(ct, position) {

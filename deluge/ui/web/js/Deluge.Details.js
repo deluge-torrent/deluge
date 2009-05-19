@@ -1,5 +1,5 @@
 /*
-Script: deluge-details.js
+Script: Deluge.Details.js
     Contains all objects and functions related to the lower details panel and
 	it's containing tabs.
 
@@ -20,17 +20,16 @@ Copyright:
 		The Free Software Foundation, Inc.,
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+    In addition, as a special exception, the copyright holders give
+    permission to link the code of portions of this program with the OpenSSL
+    library.
+    You must obey the GNU General Public License in all respects for all of
+    the code used other than OpenSSL. If you modify file(s) with this
+    exception, you may extend this exception to your version of the file(s),
+    but you are not obligated to do so. If you do not wish to do so, delete
+    this exception statement from your version. If you delete this exception
+    statement from all source files in the program, then also delete it here.
 */
 
 (function() {
@@ -56,9 +55,19 @@ Copyright:
 			});
 		},
 		
+		
 		update: function(tab) {
 			var torrent = Deluge.Torrents.getSelected();
-			if (!torrent) return;
+			if (!torrent) {
+				this.items.each(function(tab) {
+					tab.disable();
+				});
+				return;
+			}
+			
+			this.items.each(function(tab) {
+				tab.enable();
+			});
 			
 			tab = tab || this.getActiveTab();
 			if (tab.update) tab.update(torrent.id);
