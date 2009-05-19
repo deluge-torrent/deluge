@@ -295,10 +295,10 @@ class Torrent:
     def set_remove_at_ratio(self, remove_at_ratio):
         self.options["remove_at_ratio"] = remove_at_ratio
 
-    def set_move_completed(self, move_completed):
+    def set_move_on_completed(self, move_completed):
         self.options["move_completed"] = move_completed
 
-    def set_move_completed_path(self, move_completed_path):
+    def set_move_on_completed_path(self, move_completed_path):
         self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
