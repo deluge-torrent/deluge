@@ -47,6 +47,7 @@ from optparse import OptionParser
 import deluge.log
 import deluge.common
 import deluge.configmanager
+import deluge.error
 
 def start_ui():
     """Entry point for ui script"""
@@ -150,24 +151,14 @@ def start_daemon():
         options.loglevel = "none"
 
     if options.config:
-        if not os.path.exists(options.config):
-            # Try to create the config folder if it doesn't exist
-            try:
-                os.makedirs(options.config)
-            except Exception, e:
-                pass
-    else:
-        if not os.path.exists(deluge.common.get_default_config_dir()):
-            os.makedirs(deluge.common.get_default_config_dir())
+        if not deluge.configmanager.set_config_dir(options.config):
+            print("There was an error setting the config dir! Exiting..")
+            sys.exit(1)
 
     # Sets the options.logfile to point to the default location
     def open_logfile():
         if not options.logfile:
-            if options.config:
-                options.logfile = os.path.join(options.config, "deluged.log")
-            else:
-                config_dir = deluge.common.get_default_config_dir()
-                options.logfile = os.path.join(config_dir, "deluged.log")
+            options.logfile = deluge.configmanager.get_config_dir("deluged.log")
 
     # Writes out a pidfile if necessary
     def write_pidfile():
@@ -196,10 +187,14 @@ def start_daemon():
 
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
+    from deluge.log import LOG as log
 
     try:
         from deluge.core.daemon import Daemon
         Daemon(options, args)
+    except deluge.error.DaemonRunningError, e:
+        log.error(e)
+        sys.exit(1)
     except Exception, e:
-        from deluge.log import LOG as log
         log.exception(e)
+        sys.exit(1)
