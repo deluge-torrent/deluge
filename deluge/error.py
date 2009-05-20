@@ -43,3 +43,5 @@ class DelugeError(Exception):
 class NoCoreError(DelugeError):
     pass
 
+class DaemonRunningError(DelugeError):
+    pass

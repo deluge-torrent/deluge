@@ -1,7 +1,7 @@
 #
 # gtkui.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -62,11 +62,13 @@ from connectionmanager import ConnectionManager
 from pluginmanager import PluginManager
 from ipcinterface import IPCInterface
 from deluge.ui.tracker_icons import TrackerIcons
-
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
+import dialogs
+
 import deluge.configmanager
 import deluge.common
+import deluge.error
 
 DEFAULT_PREFS = {
     "classic_mode": True,
@@ -232,9 +234,24 @@ class GtkUI:
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
         if self.config["classic_mode"]:
-            client.start_classic_mode()
-            component.start()
-            return
+            try:
+                client.start_classic_mode()
+            except deluge.error.DaemonRunningError:
+                response = dialogs.YesNoDialog(
+                    "Turn off Classic Mode?",
+                    "It appears that a Deluge daemon process (deluged) is already running.\n\n\
+You will either need to stop the daemon or turn off Classic Mode to continue.").run()
+
+                self.started_in_classic = False
+                if response != gtk.RESPONSE_YES:
+                    # The user does not want to turn Classic Mode off, so just quit
+                    reactor.stop()
+                    return
+                # Turning off classic_mode
+                self.config["classic_mode"] = False
+            else:
+                component.start()
+                return
 
         # Autoconnect to a host
         if self.config["autoconnect"]:
@@ -248,7 +265,6 @@ class GtkUI:
             # XXX: We need to call a simulate() here, but this could be a bug in twisted
             reactor.simulate()
             self.connectionmanager.show()
-
 
 
     def __on_disconnect(self):

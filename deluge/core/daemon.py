@@ -1,7 +1,7 @@
 #
 # daemon.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,8 +31,8 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
 
+import os
 import gettext
 import locale
 import pkg_resources
@@ -44,9 +44,50 @@ import deluge.configmanager
 import deluge.common
 from deluge.core.rpcserver import RPCServer, export
 from deluge.log import LOG as log
+import deluge.error
 
 class Daemon(object):
     def __init__(self, options=None, args=None, classic=False):
+        # Check for another running instance of the daemon
+        if os.path.isfile(deluge.configmanager.get_config_dir("deluged.pid")):
+            # Get the PID and the port of the supposedly running daemon
+            (pid, port) = open(deluge.configmanager.get_config_dir("deluged.pid")).read().strip().split(";")
+            pid = int(pid)
+            port = int(port)
+
+            def process_running(pid):
+                if deluge.common.windows_check():
+                    # Do some fancy WMI junk to see if the PID exists in Windows
+                    from win32com.client import GetObject
+                    def get_proclist():
+                        WMI = GetObject('winmgmts:')
+                        processes = WMI.InstancesOf('Win32_Process')
+                        return [process.Properties_('ProcessID').Value for process in processes]
+                    return pid in get_proclist()
+                else:
+                    # We can just use os.kill on UNIX to test if the process is running
+                    try:
+                        os.kill(pid, 0)
+                    except OSError:
+                        return False
+                    else:
+                        return True
+
+            if process_running(pid):
+                # Ok, so a process is running with this PID, let's make doubly-sure
+                # it's a deluged process by trying to open a socket to it's port.
+                import socket
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    s.connect(("127.0.0.1", port))
+                except socket.error:
+                    # Can't connect, so it must not be a deluged process..
+                    pass
+                else:
+                    # This is a deluged!
+                    s.close()
+                    raise deluge.error.DaemonRunningError("There is a deluge daemon running with this config directory!")
+
         # Initialize gettext
         try:
             locale.setlocale(locale.LC_ALL, '')
@@ -77,8 +118,6 @@ class Daemon(object):
             SetConsoleCtrlHandler(win_handler)
 
         version = deluge.common.get_version()
-        if deluge.common.get_revision():
-            version = version + "r" + deluge.common.get_revision()
 
         log.info("Deluge daemon %s", version)
         log.debug("options: %s", options)
@@ -108,6 +147,11 @@ class Daemon(object):
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
 
+        # Write out a pid file all the time, we use this to see if a deluged is running
+        # We also include the running port number to do an additional test
+        open(deluge.configmanager.get_config_dir("deluged.pid"), "wb").write(
+            "%s;%s\n" % (os.getpid(), options.port if options.port else 58846))
+
         if not classic:
             component.start()
             try:
@@ -117,6 +161,12 @@ class Daemon(object):
 
     @export()
     def shutdown(self, *args, **kwargs):
+        try:
+            os.remove(deluge.configmanager.get_config_dir("deluged.pid"))
+        except Exception, e:
+            log.exception(e)
+            log.error("Error removing deluged.pid!")
+
         component.shutdown()
         try:
             reactor.stop()
