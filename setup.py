@@ -138,7 +138,9 @@ else:
     if osx_check():
         _include_dirs += [
             '/opt/local/include/boost-1_35',
-            '/opt/local/include/boost-1_36'
+            '/opt/local/include/boost-1_36',
+            '/sw/include/boost-1_35',
+            '/sw/include/boost'
         ]
     _libraries = [
         'boost_filesystem',
