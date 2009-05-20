@@ -75,6 +75,7 @@ class BaseDialog(gtk.Dialog):
         vbox.pack_start(tlabel, False, False)
         hbox.pack_start(vbox, False, False)
         self.vbox.pack_start(hbox, False, False)
+        self.vbox.set_spacing(5)
         self.vbox.show_all()
 
     def run(self):
@@ -92,11 +93,9 @@ class YesNoDialog(BaseDialog):
     """
     def __init__(self, header, text, parent=None):
         """
-        :param header: str, the header portion of the dialog, try to keep it short and to the point
-        :param text: str, the body of the dialog, this can be longer with a more
-            thorough explanation of the question
-        :param parent: gtkWindow, the parent window, if None it will default to the
-            MainWindow
+        :param header: see `:class:BaseDialog`
+        :param text: see `:class:BaseDialog`
+        :param parent: see `:class:BaseDialog`
         """
         super(YesNoDialog, self).__init__(
             header,
@@ -104,3 +103,39 @@ class YesNoDialog(BaseDialog):
             gtk.STOCK_DIALOG_QUESTION,
             (gtk.STOCK_YES, gtk.RESPONSE_YES, gtk.STOCK_NO, gtk.RESPONSE_NO),
             parent)
+
+class ErrorDialog(BaseDialog):
+    """
+    Displays an error dialog with optional details text for more information.
+
+    When run(), it will return a gtk.RESPONSE_CLOSE.
+    """
+    def __init__(self, header, text, parent=None, details=None):
+        """
+        :param header: see `:class:BaseDialog`
+        :param text: see `:class:BaseDialog`
+        :param parent: see `:class:BaseDialog`
+        :param details: str, extra information that will be displayed in a
+            scrollable textview
+        """
+        super(ErrorDialog, self).__init__(
+            header,
+            text,
+            gtk.STOCK_DIALOG_ERROR,
+            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
+            parent)
+
+        if details:
+            self.set_default_size(500, 400)
+            textview = gtk.TextView()
+            textview.set_editable(False)
+            textview.get_buffer().set_text(details)
+            sw = gtk.ScrolledWindow()
+            sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+            sw.set_shadow_type(gtk.SHADOW_IN)
+            sw.add(textview)
+            label = gtk.Label(_("Details:"))
+            label.set_alignment(0.0, 0.5)
+            self.vbox.pack_start(label, False, False)
+            self.vbox.pack_start(sw)
+            self.vbox.show_all()
