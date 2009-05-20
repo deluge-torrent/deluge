@@ -35,33 +35,31 @@
 import gtk
 import deluge.component as component
 
-class YesNoDialog(gtk.Dialog):
+class BaseDialog(gtk.Dialog):
     """
-    Displays a dialog asking the user to select Yes or No to a question.
-
-    When run(), it will return either a gtk.RESPONSE_YES or a gtk.RESPONSE_NO.
-
+    Base dialog class that should be used with all dialogs.
     """
-    def __init__(self, header, text, parent=None):
+    def __init__(self, header, text, icon, buttons, parent=None):
         """
-        :param header: str, the header portion of the dialog, try to keep it short and to the point
-        :param text: str, the body of the dialog, this can be longer with a more
-            thorough explanation of the question
+        :param header: str, the header portion of the dialog
+        :param text: str, the text body of the dialog
+        :param icon: gtk Stock ID, a stock id for the gtk icon to display
+        :param buttons: tuple, of gtk stock ids and responses
         :param parent: gtkWindow, the parent window, if None it will default to the
             MainWindow
         """
-        super(YesNoDialog, self).__init__(
+        super(BaseDialog, self).__init__(
             title="",
             parent=parent if parent else component.get("MainWindow").window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
-            buttons=(gtk.STOCK_YES, gtk.RESPONSE_YES, gtk.STOCK_NO, gtk.RESPONSE_NO))
+            buttons=buttons)
 
-        # XXX: All of this stuff should be moved to a base dialog class..
+        # Setup all the formatting and such to make our dialog look pretty
         self.set_border_width(5)
         self.set_default_size(200, 100)
         hbox = gtk.HBox(spacing=5)
         image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_DIALOG_QUESTION, gtk.ICON_SIZE_DIALOG)
+        image.set_from_stock(icon, gtk.ICON_SIZE_DIALOG)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False)
         vbox = gtk.VBox(spacing=5)
@@ -80,6 +78,29 @@ class YesNoDialog(gtk.Dialog):
         self.vbox.show_all()
 
     def run(self):
-        response = super(YesNoDialog, self).run()
+        # Destroy the dialog once we get a response and return it
+        response = super(BaseDialog, self).run()
         self.destroy()
         return response
+
+class YesNoDialog(BaseDialog):
+    """
+    Displays a dialog asking the user to select Yes or No to a question.
+
+    When run(), it will return either a gtk.RESPONSE_YES or a gtk.RESPONSE_NO.
+
+    """
+    def __init__(self, header, text, parent=None):
+        """
+        :param header: str, the header portion of the dialog, try to keep it short and to the point
+        :param text: str, the body of the dialog, this can be longer with a more
+            thorough explanation of the question
+        :param parent: gtkWindow, the parent window, if None it will default to the
+            MainWindow
+        """
+        super(YesNoDialog, self).__init__(
+            header,
+            text,
+            gtk.STOCK_DIALOG_QUESTION,
+            (gtk.STOCK_YES, gtk.RESPONSE_YES, gtk.STOCK_NO, gtk.RESPONSE_NO),
+            parent)
