@@ -156,11 +156,14 @@ class Daemon(object):
             component.start()
             try:
                 reactor.run()
-            except KeyboardInterrupt:
-                self.shutdown()
+            finally:
+                self._shutdown()
 
     @export()
     def shutdown(self, *args, **kwargs):
+        reactor.callLater(0, reactor.stop)
+
+    def _shutdown(self, *args, **kwargs):
         try:
             os.remove(deluge.configmanager.get_config_dir("deluged.pid"))
         except Exception, e:
