@@ -194,6 +194,8 @@ def start_daemon():
         Daemon(options, args)
     except deluge.error.DaemonRunningError, e:
         log.error(e)
+        log.error("You cannot run multiple daemons with the same config directory set.")
+        log.error("If you believe this is an error, you can force a start by deleting %s.", deluge.configmanager.get_config_dir("deluged.pid"))
         sys.exit(1)
     except Exception, e:
         log.exception(e)
