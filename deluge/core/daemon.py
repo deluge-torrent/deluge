@@ -147,12 +147,12 @@ class Daemon(object):
         # Make sure we start the PreferencesManager first
         component.start("PreferencesManager")
 
-        # Write out a pid file all the time, we use this to see if a deluged is running
-        # We also include the running port number to do an additional test
-        open(deluge.configmanager.get_config_dir("deluged.pid"), "wb").write(
-            "%s;%s\n" % (os.getpid(), options.port if options.port else 58846))
-
         if not classic:
+            # Write out a pid file all the time, we use this to see if a deluged is running
+            # We also include the running port number to do an additional test
+            open(deluge.configmanager.get_config_dir("deluged.pid"), "wb").write(
+                "%s;%s\n" % (os.getpid(), port))
+
             component.start()
             try:
                 reactor.run()
