@@ -14,8 +14,672 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/plugins/label/label/data/label_options.glade:336
+#: deluge/ui/gtkui/glade/main_window.glade:1860
+#: deluge/ui/webui/torrent_options.py:48
+#: deluge/ui/webui/scripts/template_strings.py:12
+msgid "Auto Managed"
+msgstr "مدیریت خودکار"
+
+#: deluge/plugins/label/label/data/label_options.glade:426
+#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
+#: deluge/ui/webui/scripts/template_strings.py:83
+msgid "Queue"
+msgstr "صف"
+
+#: deluge/plugins/label/label/data/label_options.glade:703
+msgid "Name:"
+msgstr "نام:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "پرونده"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
+#: deluge/ui/gtkui/glade/main_window.glade:1955
+msgid "Select A Folder"
+msgstr "یک پوشه انتخاب کنید"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Full"
+msgstr "پر"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
+msgid "URL:"
+msgstr "نشانی اینترنتی:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "تنظیمات‌"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
+msgid "Active Port:"
+msgstr "درگاه فعال:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
+msgid "0000"
+msgstr "0000"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
+msgid "From:"
+msgstr "از:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
+msgid "To:"
+msgstr "به:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:962
+msgid "UPnP"
+msgstr "UPnP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
+msgid "Level:"
+msgstr "سطح:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
+#: deluge/ui/webui/scripts/template_strings.py:43
+msgid "Enable"
+msgstr "فعال‌سازی"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
+#: deluge/ui/gtkui/glade/connection_manager.glade:129
+msgid "Password:"
+msgstr "رمز عبور:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2992
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3168
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3347
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3526
+msgid ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+msgstr ""
+"هیچ کدام\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:436
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
+#: deluge/ui/webui/register_menu.py:38
+#: deluge/ui/webui/scripts/template_strings.py:73
+msgid "Options"
+msgstr "گزینه‌ها"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:28
+msgid "_Add Torrent"
+msgstr "افزودن تورنت"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:146
+msgid "_Quit"
+msgstr "_خروج"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "ویرایش"
+
+#: deluge/ui/gtkui/glade/main_window.glade:128
+msgid "_Torrent"
+msgstr "تورنت"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_View"
+msgstr "نما"
+
+#: deluge/ui/gtkui/glade/main_window.glade:143
+msgid "_Toolbar"
+msgstr "_نوار ابزار"
+
+#: deluge/ui/gtkui/glade/main_window.glade:183
+msgid "_Columns"
+msgstr "ستون"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "راهنما"
+
+#: deluge/ui/gtkui/glade/main_window.glade:313
+#: deluge/ui/webui/scripts/template_strings.py:9
+msgid "Add torrent"
+msgstr "اضافه کردن تورنت"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "افزودن یک تورنت"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "حذف تورنت"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "مکث"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "ادامه"
+
+#: deluge/ui/gtkui/glade/main_window.glade:386
+msgid "Queue Torrent Up"
+msgstr "بالا بردن تورنت در صف"
+
+#: deluge/ui/gtkui/glade/main_window.glade:400
+msgid "Queue Torrent Down"
+msgstr "پایین بردن تورنت در صف"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1005
+#: deluge/ui/gtkui/glade/main_window.glade:1027
+msgid "<b>Speed:</b>"
+msgstr "<b>سرعت:<b/>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1372
+msgid "<b>Total Size:</b>"
+msgstr "<b>سایز کامل: </b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>نام:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1430
+msgid "<b>Path:</b>"
+msgstr "<b>:مسیر</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1530
+msgid "_Details"
+msgstr "جزئیات"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2029
+#: deluge/ui/webui/scripts/template_strings.py:81
+msgid "Private"
+msgstr "خصوصی"
+
+#: deluge/core/torrentmanager.py:698
+msgid "Alert"
+msgstr "هشدار"
+
+#: deluge/core/torrentmanager.py:709
+msgid "Warning"
+msgstr "هشدار"
+
+#: deluge/core/torrentmanager.py:719
+#: deluge/ui/webui/scripts/template_strings.py:44
+msgid "Error"
+msgstr "بروز خطا"
+
+#: deluge/plugins/label/label/webui.py:154
+#: deluge/plugins/label/label/gtkui/label_config.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:55
+#: deluge/plugins/label/label/gtkui/submenu.py:40
+#: deluge/plugins/label/label/gtkui/__init__.py:69
+#: deluge/plugins/label/label/gtkui/__init__.py:103
+#: deluge/ui/webui/scripts/template_strings.py:57
+msgid "Label"
+msgstr "برچسب"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:70
+#: deluge/ui/webui/torrent_add.py:57
+msgid "Url"
+msgstr "نشانی وب"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "اتصال‌ها"
+
+#: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
+#: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
+#: deluge/ui/gtkui/systemtray.py:192 deluge/ui/gtkui/systemtray.py:335
+#: deluge/ui/gtkui/common.py:54 deluge/ui/webui/lib/newforms_plus.py:197
+#: deluge/ui/webui/lib/newforms_plus.py:216
+#: deluge/ui/webui/scripts/template_strings.py:115
+msgid "Unlimited"
+msgstr "نامحدود"
+
+#: deluge/ui/gtkui/statusbar.py:368 deluge/ui/gtkui/statusbar.py:396
+#: deluge/ui/gtkui/statusbar.py:423 deluge/ui/gtkui/systemtray.py:338
+#: deluge/ui/gtkui/common.py:111 deluge/ui/gtkui/common.py:112
+msgid "Other..."
+msgstr "غیره..."
+
+#: deluge/ui/gtkui/addtorrentdialog.py:91 deluge/ui/gtkui/files_tab.py:98
+#: deluge/ui/gtkui/createtorrentdialog.py:65
+msgid "Filename"
+msgstr "نام پرونده"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "اندازه‌"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:508
+#: deluge/ui/gtkui/createtorrentdialog.py:221
+msgid "Torrent files"
+msgstr "پرونده‌های Torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:225
+msgid "All files"
+msgstr "همه‌ی پرونده‌ها"
+
+#: deluge/ui/gtkui/systemtray.py:197
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "Down"
+msgstr "پایین"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "بالا"
+
+#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/gtkui/torrentview.py:141
+#: deluge/ui/webui/scripts/template_strings.py:82
+msgid "Progress"
+msgstr "پیشرفت"
+
+#: deluge/ui/gtkui/files_tab.py:144
+msgid "Priority"
+msgstr "اولویت"
+
+#: deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/webui/scripts/template_strings.py:71
+msgid "Off"
+msgstr "خاموش"
+
+#: deluge/ui/gtkui/peers_tab.py:87
+#: deluge/ui/webui/scripts/template_strings.py:10
+msgid "Address"
+msgstr "نشانی"
+
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Down Speed"
+msgstr "سرعت بارگیری"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
+#: deluge/ui/webui/scripts/template_strings.py:117
+msgid "Up Speed"
+msgstr "سرعت بالا"
+
+#: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
+msgid "Filters"
+msgstr "صافی‌ها"
+
+#: deluge/ui/gtkui/common.py:57
+msgid "Activated"
+msgstr "فعال شده"
+
+#: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
+#: deluge/ui/gtkui/createtorrentdialog.py:90
+#: deluge/ui/webui/scripts/template_strings.py:111
+msgid "Tracker"
+msgstr "ردیاب"
+
+#: deluge/ui/gtkui/preferences.py:60
+msgid "Bandwidth"
+msgstr "پهنای باند"
+
+#: deluge/ui/gtkui/preferences.py:61
+#: deluge/ui/webui/scripts/template_strings.py:74
+msgid "Other"
+msgstr "غیره"
+
+#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Enabled"
+msgstr "فعال"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr "نام"
+
+#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
+#: deluge/ui/webui/scripts/template_strings.py:79
+msgid "Peers"
+msgstr "جفتها"
+
+#: deluge/ui/gtkui/torrentview.py:163
+#: deluge/ui/webui/scripts/template_strings.py:41
+msgid "ETA"
+msgstr "زمان باقی مانده"
+
+#: deluge/ui/gtkui/torrentview.py:167
+#: deluge/ui/webui/scripts/template_strings.py:85
+msgid "Ratio"
+msgstr "نسبت"
+
+#: deluge/ui/webui/register_menu.py:31
+#: deluge/ui/webui/scripts/template_strings.py:20
+msgid "Config"
+msgstr "پیکربندی"
+
+#: deluge/ui/webui/register_menu.py:32
+#: deluge/ui/webui/scripts/template_strings.py:21
+msgid "Connect"
+msgstr "اتصال"
+
+#: deluge/ui/webui/register_menu.py:33
+#: deluge/ui/webui/scripts/template_strings.py:5
+msgid "About"
+msgstr "درباره"
+
+#: deluge/ui/webui/register_menu.py:34
+#: deluge/ui/webui/scripts/template_strings.py:60
+msgid "Logout"
+msgstr "خروج"
+
+#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Details"
+msgstr "جزئیات‌"
+
+#: deluge/ui/webui/register_menu.py:41
+#: deluge/ui/webui/scripts/template_strings.py:48
+msgid "Files"
+msgstr "پرونده‌ها"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "افزودن"
+
+#: deluge/ui/webui/register_menu.py:45
+#: deluge/ui/webui/scripts/template_strings.py:106
+msgid "Stop"
+msgstr "متوقف کن"
+
+#: deluge/ui/webui/register_menu.py:46
+#: deluge/ui/webui/scripts/template_strings.py:104
+msgid "Start"
+msgstr "شروع"
+
+#: deluge/ui/webui/register_menu.py:52
+#: deluge/ui/webui/scripts/template_strings.py:61
+msgid "Move"
+msgstr "جابه‌جایی"
+
+#: deluge/ui/webui/config_tabs_deluge.py:37
+msgid "Ports"
+msgstr "درگاه‌ها"
+
+#: deluge/ui/webui/config_tabs_deluge.py:38
+msgid "From"
+msgstr "از"
+
+#: deluge/ui/webui/config_tabs_deluge.py:39
+msgid "To"
+msgstr "تا"
+
+#: deluge/ui/webui/config_tabs_deluge.py:40
+msgid "Random"
+msgstr "تصادفی‌"
+
+#: deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Disabled"
+msgstr "از کار افتاده"
+
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Either"
+msgstr "هر کدام"
+
+#: deluge/ui/webui/config_tabs_deluge.py:83
+msgid "Inbound"
+msgstr "ورودی"
+
+#: deluge/ui/webui/config_tabs_deluge.py:84
+msgid "Outbound"
+msgstr "خروجی"
+
+#: deluge/ui/webui/config_tabs_deluge.py:95
+msgid "Type"
+msgstr "نوع‌"
+
+#: deluge/ui/webui/config_tabs_deluge.py:97
+#: deluge/ui/webui/config_tabs_deluge.py:144
+#: deluge/ui/webui/config_tabs_webui.py:60
+msgid "Port"
+msgstr "درگاه‌"
+
+#: deluge/ui/webui/config_tabs_deluge.py:98
+msgid "Username"
+msgstr "نام کاربری"
+
+#: deluge/ui/webui/config_tabs_deluge.py:99
+#: deluge/ui/webui/config_tabs_webui.py:82
+#: deluge/ui/webui/scripts/template_strings.py:75
+msgid "Password"
+msgstr "کلمه عبور"
+
+#: deluge/ui/webui/config_tabs_deluge.py:104
+msgid "Global"
+msgstr "سراسری"
+
+#: deluge/ui/webui/config_tabs_deluge.py:106
+#: deluge/ui/webui/config_tabs_deluge.py:122
+#: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:43
+msgid "Maximum Connections"
+msgstr "بالاترین تعداد اتصال‌ها"
+
+#: deluge/ui/webui/config_tabs_deluge.py:120
+msgid "Per Torrent"
+msgstr "برای هر تورنت"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Download"
+msgstr "بارگیری"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "ناشناخته"
+
+#: deluge/ui/webui/config_tabs_webui.py:41
+#: deluge/ui/webui/config_tabs_webui.py:47
+msgid "Template"
+msgstr "قالب"
+
+#: deluge/ui/webui/config_tabs_webui.py:44
+msgid "Text and image"
+msgstr "متن و عکس"
+
+#: deluge/ui/webui/config_tabs_webui.py:44
+msgid "Image Only"
+msgstr "فقط عکس"
+
+#: deluge/ui/webui/config_tabs_webui.py:45
+msgid "Text Only"
+msgstr "فقط متن"
+
+#: deluge/ui/webui/config_tabs_webui.py:57
+msgid "Server"
+msgstr "کارگزار"
+
+#: deluge/ui/webui/config_tabs_webui.py:85
+msgid "New Password"
+msgstr "کلمه عبور جدید"
+
+#: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
+msgid "Maximum Down Speed"
+msgstr "بالاترین سرعت بارگیری"
+
+#: deluge/ui/webui/torrent_add.py:35
+msgid "Download Location"
+msgstr "محل بارگیری"
+
+#: deluge/ui/webui/torrent_add.py:59
+msgid "Upload torrent"
+msgstr "بارگزاری تورنت"
+
+#: deluge/ui/webui/torrent_add.py:122
+msgid "No data"
+msgstr "بدون داده"
+
+#: deluge/ui/webui/scripts/template_strings.py:1
+msgid "# Of Files"
+msgstr "تعداد فایل‌ها"
+
+#: deluge/ui/webui/scripts/template_strings.py:6
+msgid "Active time"
+msgstr "مدت زمان فعالیت"
+
+#: deluge/ui/webui/scripts/template_strings.py:11
+msgid "Admin"
+msgstr "مدیر"
+
+#: deluge/ui/webui/scripts/template_strings.py:13
+msgid "Auto refresh:"
+msgstr "بروز رسانی خودکار"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Availability"
+msgstr "دسترس‌پذیری"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "پاک کردن"
+
+#: deluge/ui/webui/scripts/template_strings.py:23
+msgid "Connected to"
+msgstr "متصل به"
+
+#: deluge/ui/webui/scripts/template_strings.py:30
+msgid "Delete downloaded files."
+msgstr "فایل‌های دانلود شده را پاک کن"
+
+#: deluge/ui/webui/scripts/template_strings.py:34
+msgid "Disable"
+msgstr "غیرفعال کردن‌"
+
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Downloaded"
+msgstr "بارگیری‌شده"
+
+#: deluge/ui/webui/scripts/template_strings.py:46
+msgid "False"
+msgstr "نادرست‌"
+
+#: deluge/ui/webui/scripts/template_strings.py:47
+msgid "File"
+msgstr "فایل"
+
+#: deluge/ui/webui/scripts/template_strings.py:53
+msgid "General"
+msgstr "کلیات"
+
+#: deluge/ui/webui/scripts/template_strings.py:56
+msgid "Keyword"
+msgstr "کلیدواژه"
+
+#: deluge/ui/webui/scripts/template_strings.py:59
+msgid "Login"
+msgstr "ورود"
+
+#: deluge/ui/webui/scripts/template_strings.py:65
+msgid "Next Announce"
+msgstr "اعلامیه بعدی"
+
+#: deluge/ui/webui/scripts/template_strings.py:76
+msgid "Password is invalid,try again"
+msgstr "کلمه عبور اشتباه می باشد, مجددا سعی کنید"
+
+#: deluge/ui/webui/scripts/template_strings.py:78
+msgid "Pause all"
+msgstr "مکث کردن همه"
+
+#: deluge/ui/webui/scripts/template_strings.py:80
+msgid "Pieces"
+msgstr "تکه‌ها"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "حذف"
+
+#: deluge/ui/webui/scripts/template_strings.py:89
+msgid "Remove torrent"
+msgstr "حذف تورنت"
+
+#: deluge/ui/webui/scripts/template_strings.py:90
+msgid "Restart"
+msgstr "راه‌اندازی دوباره"
+
+#: deluge/ui/webui/scripts/template_strings.py:93
+msgid "Save"
+msgstr "ذخیره کردن"
+
+#: deluge/ui/webui/scripts/template_strings.py:98
+msgid "Select All"
+msgstr "گزینش همه"
+
+#: deluge/ui/webui/scripts/template_strings.py:99
+msgid "Set"
+msgstr "تنظیم"
+
+#: deluge/ui/webui/scripts/template_strings.py:101
+msgid "Share Ratio"
+msgstr "ضریب اشتراک گذاری"
+
+#: deluge/ui/webui/scripts/template_strings.py:103
+msgid "Speed"
+msgstr "سرعت‌"
+
+#: deluge/ui/webui/scripts/template_strings.py:107
+msgid "Submit"
+msgstr "ارسال"
+
+#: deluge/ui/webui/scripts/template_strings.py:109
+msgid "Torrent list"
+msgstr "فهرست تورنت"
+
+#: deluge/ui/webui/scripts/template_strings.py:110
+msgid "Total Size"
+msgstr "اندازۀ کل"
+
+#: deluge/ui/webui/scripts/template_strings.py:112
+msgid "Tracker Status"
+msgstr "وضعیت ردیاب"
+
+#: deluge/ui/webui/scripts/template_strings.py:120
+msgid "Upload"
+msgstr "بارگذاری"
+
+#: deluge/ui/webui/scripts/template_strings.py:122
+msgid "Uploaded"
+msgstr "بارگذاری‌شده"
+
+#: deluge/ui/webui/scripts/template_strings.py:123
+msgid "seconds"
+msgstr "ثانیه"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -71,13 +735,6 @@ msgstr ""
 msgid "Maximum"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1860
-#: deluge/ui/webui/torrent_options.py:48
-#: deluge/ui/webui/scripts/template_strings.py:12
-msgid "Auto Managed"
-msgstr "مدیریت خودکار"
-
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
 msgid "Stop seed at ratio:"
@@ -92,12 +749,6 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
 msgstr ""
-
-#: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
-#: deluge/ui/webui/scripts/template_strings.py:83
-msgid "Queue"
-msgstr "صف"
 
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
@@ -141,10 +792,6 @@ msgstr ""
 msgid "<b>Add Label</b>"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_options.glade:703
-msgid "Name:"
-msgstr "نام:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
@@ -153,12 +800,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "پرونده"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
@@ -180,22 +821,9 @@ msgstr ""
 msgid "Fi_les"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
-#: deluge/ui/gtkui/glade/main_window.glade:1955
-msgid "Select A Folder"
-msgstr "یک پوشه انتخاب کنید"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Full"
-msgstr "پر"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
@@ -264,10 +892,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1006
 msgid "<b>From URL</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
-msgid "URL:"
-msgstr "نشانی اینترنتی:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
@@ -374,12 +998,6 @@ msgstr ""
 msgid "Remove _Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "تنظیمات‌"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
@@ -448,24 +1066,6 @@ msgstr ""
 msgid "Use Random Ports"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
-msgid "Active Port:"
-msgstr "درگاه فعال:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
-msgid "From:"
-msgstr "از:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
-msgid "To:"
-msgstr "به:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:636
 msgid "Test Active Port"
 msgstr ""
@@ -531,10 +1131,6 @@ msgstr ""
 msgid "Universal Plug and Play"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:962
-msgid "UPnP"
-msgstr "UPnP"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:979
 msgid "<b>Network Extras</b>"
 msgstr ""
@@ -542,10 +1138,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
 msgid "Inbound:"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
-msgid "Level:"
-msgstr "سطح:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1043
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1088
@@ -679,12 +1271,6 @@ msgid ""
 "setting to take effect."
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
-#: deluge/ui/webui/scripts/template_strings.py:43
-msgid "Enable"
-msgstr "فعال‌سازی"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
 msgstr ""
@@ -724,16 +1310,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1934
 msgid "Password protect system tray"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
-#: deluge/ui/gtkui/glade/connection_manager.glade:129
-msgid "Password:"
-msgstr "رمز عبور:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
 msgid "<b>System Tray</b>"
@@ -885,25 +1461,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3516
 msgid "Type:"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2992
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3168
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3347
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3526
-msgid ""
-"None\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-msgstr ""
-"هیچ کدام\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3046
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3222
@@ -1119,13 +1676,6 @@ msgstr ""
 msgid "Do not show this dialog on start-up"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:436
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
-#: deluge/ui/webui/register_menu.py:38
-#: deluge/ui/webui/scripts/template_strings.py:73
-msgid "Options"
-msgstr "گزینه‌ها"
-
 #: deluge/ui/gtkui/glade/connection_manager.glade:475
 msgid "gtk-connect"
 msgstr ""
@@ -1232,11 +1782,6 @@ msgstr ""
 msgid "_Show Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:28
-msgid "_Add Torrent"
-msgstr "افزودن تورنت"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
 msgstr ""
@@ -1250,33 +1795,13 @@ msgstr ""
 msgid "Quit & Shutdown Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:146
-msgid "_Quit"
-msgstr "_خروج"
-
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "ویرایش"
-
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "تورنت"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "نما"
-
-#: deluge/ui/gtkui/glade/main_window.glade:143
-msgid "_Toolbar"
-msgstr "_نوار ابزار"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
@@ -1290,10 +1815,6 @@ msgstr ""
 msgid "T_abs"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "_Columns"
-msgstr "ستون"
-
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
 msgstr ""
@@ -1305,10 +1826,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "راهنما"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
@@ -1326,51 +1843,18 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:313
-#: deluge/ui/webui/scripts/template_strings.py:9
-msgid "Add torrent"
-msgstr "اضافه کردن تورنت"
-
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "افزودن یک تورنت"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "حذف تورنت"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "مکث"
 
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "ادامه"
-
-#: deluge/ui/gtkui/glade/main_window.glade:386
-msgid "Queue Torrent Up"
-msgstr "بالا بردن تورنت در صف"
-
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:400
-msgid "Queue Torrent Down"
-msgstr "پایین بردن تورنت در صف"
 
 #: deluge/ui/gtkui/glade/main_window.glade:401
 #: deluge/ui/webui/register_menu.py:48
@@ -1437,11 +1921,6 @@ msgstr ""
 msgid "<b>ETA:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1005
-#: deluge/ui/gtkui/glade/main_window.glade:1027
-msgid "<b>Speed:</b>"
-msgstr "<b>سرعت:<b/>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1046
 msgid "<b>Next Announce:</b>"
 msgstr ""
@@ -1478,25 +1957,9 @@ msgstr ""
 msgid "<b>Tracker:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1372
-msgid "<b>Total Size:</b>"
-msgstr "<b>سایز کامل: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>نام:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1430
-msgid "<b>Path:</b>"
-msgstr "<b>:مسیر</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1530
-msgid "_Details"
-msgstr "جزئیات"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
@@ -1521,11 +1984,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1992
 msgid "<b>Queue</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2029
-#: deluge/ui/webui/scripts/template_strings.py:81
-msgid "Private"
-msgstr "خصوصی"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2042
 #: deluge/ui/webui/torrent_options.py:45
@@ -1588,19 +2046,6 @@ msgstr ""
 #: deluge/core/torrentmanager.py:689
 msgid "Announce Sent"
 msgstr ""
-
-#: deluge/core/torrentmanager.py:698
-msgid "Alert"
-msgstr "هشدار"
-
-#: deluge/core/torrentmanager.py:709
-msgid "Warning"
-msgstr "هشدار"
-
-#: deluge/core/torrentmanager.py:719
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Error"
-msgstr "بروز خطا"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
@@ -1666,16 +2111,6 @@ msgstr ""
 msgid "auto_add_trackers"
 msgstr ""
 
-#: deluge/plugins/label/label/webui.py:154
-#: deluge/plugins/label/label/gtkui/label_config.py:48
-#: deluge/plugins/label/label/gtkui/label_config.py:55
-#: deluge/plugins/label/label/gtkui/submenu.py:40
-#: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:103
-#: deluge/ui/webui/scripts/template_strings.py:57
-msgid "Label"
-msgstr "برچسب"
-
 #: deluge/plugins/label/label/webui.py:155
 msgid "Work in progress.."
 msgstr ""
@@ -1733,11 +2168,6 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "BlockList"
 msgstr ""
-
-#: deluge/plugins/blocklist/blocklist/webui.py:70
-#: deluge/ui/webui/torrent_add.py:57
-msgid "Url"
-msgstr "نشانی وب"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:71
 msgid "Check for every (days)"
@@ -1807,11 +2237,6 @@ msgstr ""
 msgid "Not Connected"
 msgstr ""
 
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "اتصال‌ها"
-
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
 msgstr ""
@@ -1827,21 +2252,6 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
 msgstr ""
-
-#: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
-#: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
-#: deluge/ui/gtkui/systemtray.py:192 deluge/ui/gtkui/systemtray.py:335
-#: deluge/ui/gtkui/common.py:54 deluge/ui/webui/lib/newforms_plus.py:197
-#: deluge/ui/webui/lib/newforms_plus.py:216
-#: deluge/ui/webui/scripts/template_strings.py:115
-msgid "Unlimited"
-msgstr "نامحدود"
-
-#: deluge/ui/gtkui/statusbar.py:368 deluge/ui/gtkui/statusbar.py:396
-#: deluge/ui/gtkui/statusbar.py:423 deluge/ui/gtkui/systemtray.py:338
-#: deluge/ui/gtkui/common.py:111 deluge/ui/gtkui/common.py:112
-msgid "Other..."
-msgstr "غیره..."
 
 #: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/systemtray.py:325
 #: deluge/ui/gtkui/menubar.py:407
@@ -1861,31 +2271,9 @@ msgstr ""
 msgid "Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:91 deluge/ui/gtkui/files_tab.py:98
-#: deluge/ui/gtkui/createtorrentdialog.py:65
-msgid "Filename"
-msgstr "نام پرونده"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "اندازه‌"
-
 #: deluge/ui/gtkui/addtorrentdialog.py:496
 msgid "Choose a .torrent file"
 msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:508
-#: deluge/ui/gtkui/createtorrentdialog.py:221
-msgid "Torrent files"
-msgstr "پرونده‌های Torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:512
-#: deluge/ui/gtkui/createtorrentdialog.py:225
-msgid "All files"
-msgstr "همه‌ی پرونده‌ها"
 
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid ""
@@ -1904,16 +2292,6 @@ msgstr ""
 msgid "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:197
-#: deluge/ui/webui/scripts/template_strings.py:37
-msgid "Down"
-msgstr "پایین"
-
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "بالا"
-
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
 msgstr ""
@@ -1923,16 +2301,6 @@ msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
-#: deluge/ui/gtkui/torrentview.py:141
-#: deluge/ui/webui/scripts/template_strings.py:82
-msgid "Progress"
-msgstr "پیشرفت"
-
-#: deluge/ui/gtkui/files_tab.py:144
-msgid "Priority"
-msgstr "اولویت"
 
 #: deluge/ui/gtkui/menubar.py:66
 msgid "Set Unlimited"
@@ -1946,11 +2314,6 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: deluge/ui/gtkui/menubar.py:81
-#: deluge/ui/webui/scripts/template_strings.py:71
-msgid "Off"
-msgstr "خاموش"
-
 #: deluge/ui/gtkui/menubar.py:301
 msgid "Choose a directory to move files to"
 msgstr ""
@@ -1959,25 +2322,10 @@ msgstr ""
 msgid "Set Maximum Upload Slots"
 msgstr ""
 
-#: deluge/ui/gtkui/peers_tab.py:87
-#: deluge/ui/webui/scripts/template_strings.py:10
-msgid "Address"
-msgstr "نشانی"
-
 #: deluge/ui/gtkui/peers_tab.py:103
 #: deluge/ui/webui/scripts/template_strings.py:19
 msgid "Client"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Down Speed"
-msgstr "سرعت بارگیری"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
-#: deluge/ui/webui/scripts/template_strings.py:117
-msgid "Up Speed"
-msgstr "سرعت بالا"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
@@ -1999,10 +2347,6 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
-msgid "Filters"
-msgstr "صافی‌ها"
 
 #: deluge/ui/gtkui/filtertreeview.py:134
 msgid "State"
@@ -2032,10 +2376,6 @@ msgstr ""
 msgid "Torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/common.py:57
-msgid "Activated"
-msgstr "فعال شده"
-
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
 msgstr ""
@@ -2044,12 +2384,6 @@ msgstr ""
 #: deluge/ui/gtkui/createtorrentdialog.py:88
 msgid "Tier"
 msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
-#: deluge/ui/gtkui/createtorrentdialog.py:90
-#: deluge/ui/webui/scripts/template_strings.py:111
-msgid "Tracker"
-msgstr "ردیاب"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
@@ -2060,17 +2394,8 @@ msgid "Network"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:60
-msgid "Bandwidth"
-msgstr "پهنای باند"
-
-#: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
 msgstr ""
-
-#: deluge/ui/gtkui/preferences.py:61
-#: deluge/ui/webui/scripts/template_strings.py:74
-msgid "Other"
-msgstr "غیره"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
 msgid "Daemon"
@@ -2088,10 +2413,6 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Enabled"
-msgstr "فعال"
-
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Plugin"
 msgstr ""
@@ -2104,30 +2425,10 @@ msgstr ""
 msgid "Plugin Eggs"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr "نام"
-
 #: deluge/ui/gtkui/torrentview.py:145
 #: deluge/ui/webui/scripts/template_strings.py:96
 msgid "Seeders"
 msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
-#: deluge/ui/webui/scripts/template_strings.py:79
-msgid "Peers"
-msgstr "جفتها"
-
-#: deluge/ui/gtkui/torrentview.py:163
-#: deluge/ui/webui/scripts/template_strings.py:41
-msgid "ETA"
-msgstr "زمان باقی مانده"
-
-#: deluge/ui/gtkui/torrentview.py:167
-#: deluge/ui/webui/scripts/template_strings.py:85
-msgid "Ratio"
-msgstr "نسبت"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
@@ -2166,58 +2467,14 @@ msgstr ""
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:31
-#: deluge/ui/webui/scripts/template_strings.py:20
-msgid "Config"
-msgstr "پیکربندی"
-
-#: deluge/ui/webui/register_menu.py:32
-#: deluge/ui/webui/scripts/template_strings.py:21
-msgid "Connect"
-msgstr "اتصال"
-
-#: deluge/ui/webui/register_menu.py:33
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "About"
-msgstr "درباره"
-
-#: deluge/ui/webui/register_menu.py:34
-#: deluge/ui/webui/scripts/template_strings.py:60
-msgid "Logout"
-msgstr "خروج"
-
 #: deluge/ui/webui/register_menu.py:36
 #: deluge/ui/webui/scripts/template_strings.py:105
 msgid "Statistics"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Details"
-msgstr "جزئیات‌"
-
-#: deluge/ui/webui/register_menu.py:41
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Files"
-msgstr "پرونده‌ها"
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "افزودن"
-
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:45
-#: deluge/ui/webui/scripts/template_strings.py:106
-msgid "Stop"
-msgstr "متوقف کن"
-
-#: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/webui/scripts/template_strings.py:104
-msgid "Start"
-msgstr "شروع"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
@@ -2227,11 +2484,6 @@ msgstr ""
 msgid "Queue Bottom"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:52
-#: deluge/ui/webui/scripts/template_strings.py:61
-msgid "Move"
-msgstr "جابه‌جایی"
-
 #: deluge/ui/webui/register_menu.py:53
 msgid "Reannounce"
 msgstr ""
@@ -2239,22 +2491,6 @@ msgstr ""
 #: deluge/ui/webui/register_menu.py:54
 msgid "Recheck"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:37
-msgid "Ports"
-msgstr "درگاه‌ها"
-
-#: deluge/ui/webui/config_tabs_deluge.py:38
-msgid "From"
-msgstr "از"
-
-#: deluge/ui/webui/config_tabs_deluge.py:39
-msgid "To"
-msgstr "تا"
-
-#: deluge/ui/webui/config_tabs_deluge.py:40
-msgid "Random"
-msgstr "تصادفی‌"
 
 #: deluge/ui/webui/config_tabs_deluge.py:68
 msgid "Extra's"
@@ -2280,25 +2516,9 @@ msgstr ""
 msgid "Forced"
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Disabled"
-msgstr "از کار افتاده"
-
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Handshake"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Either"
-msgstr "هر کدام"
-
-#: deluge/ui/webui/config_tabs_deluge.py:83
-msgid "Inbound"
-msgstr "ورودی"
-
-#: deluge/ui/webui/config_tabs_deluge.py:84
-msgid "Outbound"
-msgstr "خروجی"
 
 #: deluge/ui/webui/config_tabs_deluge.py:85
 msgid "Level"
@@ -2324,44 +2544,14 @@ msgstr ""
 msgid "HTTP W/ Auth"
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_deluge.py:95
-msgid "Type"
-msgstr "نوع‌"
-
 #: deluge/ui/webui/config_tabs_deluge.py:96
 msgid "Host"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:97
-#: deluge/ui/webui/config_tabs_deluge.py:144
-#: deluge/ui/webui/config_tabs_webui.py:60
-msgid "Port"
-msgstr "درگاه‌"
-
-#: deluge/ui/webui/config_tabs_deluge.py:98
-msgid "Username"
-msgstr "نام کاربری"
-
-#: deluge/ui/webui/config_tabs_deluge.py:99
-#: deluge/ui/webui/config_tabs_webui.py:82
-#: deluge/ui/webui/scripts/template_strings.py:75
-msgid "Password"
-msgstr "کلمه عبور"
-
-#: deluge/ui/webui/config_tabs_deluge.py:104
-msgid "Global"
-msgstr "سراسری"
 
 #: deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:121
 msgid "-1 = Unlimited"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:106
-#: deluge/ui/webui/config_tabs_deluge.py:122
-#: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:43
-msgid "Maximum Connections"
-msgstr "بالاترین تعداد اتصال‌ها"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 #: deluge/ui/webui/config_tabs_deluge.py:123
@@ -2390,15 +2580,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:114
 msgid "Rate Limit IP Overhead"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:120
-msgid "Per Torrent"
-msgstr "برای هر تورنت"
-
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/webui/scripts/template_strings.py:39
-msgid "Download"
-msgstr "بارگیری"
 
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
@@ -2476,10 +2657,6 @@ msgstr ""
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr ""
-
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr "ناشناخته"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -2616,23 +2793,6 @@ msgstr ""
 msgid "Error in Path."
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_webui.py:41
-#: deluge/ui/webui/config_tabs_webui.py:47
-msgid "Template"
-msgstr "قالب"
-
-#: deluge/ui/webui/config_tabs_webui.py:44
-msgid "Text and image"
-msgstr "متن و عکس"
-
-#: deluge/ui/webui/config_tabs_webui.py:44
-msgid "Image Only"
-msgstr "فقط عکس"
-
-#: deluge/ui/webui/config_tabs_webui.py:45
-msgid "Text Only"
-msgstr "فقط متن"
-
 #: deluge/ui/webui/config_tabs_webui.py:48
 msgid "Button style"
 msgstr ""
@@ -2644,10 +2804,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:57
-msgid "Server"
-msgstr "کارگزار"
 
 #: deluge/ui/webui/config_tabs_webui.py:58
 msgid "Manually restart webui to apply changes."
@@ -2670,10 +2826,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_webui.py:84
 msgid "Current Password"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:85
-msgid "New Password"
-msgstr "کلمه عبور جدید"
 
 #: deluge/ui/webui/config_tabs_webui.py:86
 msgid "New Password (Confirm)"
@@ -2707,10 +2859,6 @@ msgstr ""
 msgid "Show keyword search"
 msgstr ""
 
-#: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
-msgid "Maximum Down Speed"
-msgstr "بالاترین سرعت بارگیری"
-
 #: deluge/ui/webui/torrent_options.py:40 deluge/ui/webui/torrent_add.py:42
 msgid "Maximum Up Speed"
 msgstr ""
@@ -2723,10 +2871,6 @@ msgstr ""
 msgid "Error in torrent options."
 msgstr ""
 
-#: deluge/ui/webui/torrent_add.py:35
-msgid "Download Location"
-msgstr "محل بارگیری"
-
 #: deluge/ui/webui/torrent_add.py:36
 msgid "Compact Allocation"
 msgstr ""
@@ -2735,21 +2879,9 @@ msgstr ""
 msgid "Add In Paused State"
 msgstr ""
 
-#: deluge/ui/webui/torrent_add.py:59
-msgid "Upload torrent"
-msgstr "بارگزاری تورنت"
-
 #: deluge/ui/webui/torrent_add.py:110
 msgid "Choose an url or a torrent, not both."
 msgstr ""
-
-#: deluge/ui/webui/torrent_add.py:122
-msgid "No data"
-msgstr "بدون داده"
-
-#: deluge/ui/webui/scripts/template_strings.py:1
-msgid "# Of Files"
-msgstr "تعداد فایل‌ها"
 
 #: deluge/ui/webui/scripts/template_strings.py:2
 msgid "... and delete All files"
@@ -2763,25 +2895,9 @@ msgstr ""
 msgid "... and delete Torrent file"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:6
-msgid "Active time"
-msgstr "مدت زمان فعالیت"
-
-#: deluge/ui/webui/scripts/template_strings.py:11
-msgid "Admin"
-msgstr "مدیر"
-
-#: deluge/ui/webui/scripts/template_strings.py:13
-msgid "Auto refresh:"
-msgstr "بروز رسانی خودکار"
-
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Ava"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:15
-msgid "Availability"
-msgstr "دسترس‌پذیری"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
@@ -2791,17 +2907,9 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "پاک کردن"
-
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:23
-msgid "Connected to"
-msgstr "متصل به"
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 msgid "Connection Limit"
@@ -2819,10 +2927,6 @@ msgstr ""
 msgid "Delete .torrent file"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:30
-msgid "Delete downloaded files."
-msgstr "فایل‌های دانلود شده را پاک کن"
-
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Deluge : Torrent List"
 msgstr ""
@@ -2830,10 +2934,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Deluge Login"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "Disable"
-msgstr "غیرفعال کردن‌"
 
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Disk Space"
@@ -2843,21 +2943,9 @@ msgstr ""
 msgid "Do not download"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Downloaded"
-msgstr "بارگیری‌شده"
-
 #: deluge/ui/webui/scripts/template_strings.py:45
 msgid "Eta"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:46
-msgid "False"
-msgstr "نادرست‌"
-
-#: deluge/ui/webui/scripts/template_strings.py:47
-msgid "File"
-msgstr "فایل"
 
 #: deluge/ui/webui/scripts/template_strings.py:49
 msgid "Filter on a keyword"
@@ -2875,10 +2963,6 @@ msgstr ""
 msgid "From Url"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:53
-msgid "General"
-msgstr "کلیات"
-
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
 msgstr ""
@@ -2887,25 +2971,13 @@ msgstr ""
 msgid "Highest priority"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:56
-msgid "Keyword"
-msgstr "کلیدواژه"
-
 #: deluge/ui/webui/scripts/template_strings.py:58
 msgid "Label torrent"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:59
-msgid "Login"
-msgstr "ورود"
-
 #: deluge/ui/webui/scripts/template_strings.py:63
 msgid "Move torrent"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:65
-msgid "Next Announce"
-msgstr "اعلامیه بعدی"
 
 #: deluge/ui/webui/scripts/template_strings.py:66
 msgid "No Incoming Connections"
@@ -2927,18 +2999,6 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:76
-msgid "Password is invalid,try again"
-msgstr "کلمه عبور اشتباه می باشد, مجددا سعی کنید"
-
-#: deluge/ui/webui/scripts/template_strings.py:78
-msgid "Pause all"
-msgstr "مکث کردن همه"
-
-#: deluge/ui/webui/scripts/template_strings.py:80
-msgid "Pieces"
-msgstr "تکه‌ها"
-
 #: deluge/ui/webui/scripts/template_strings.py:84
 msgid "Queue Position"
 msgstr ""
@@ -2947,25 +3007,9 @@ msgstr ""
 msgid "Refresh page every:"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "حذف"
-
-#: deluge/ui/webui/scripts/template_strings.py:89
-msgid "Remove torrent"
-msgstr "حذف تورنت"
-
-#: deluge/ui/webui/scripts/template_strings.py:90
-msgid "Restart"
-msgstr "راه‌اندازی دوباره"
-
 #: deluge/ui/webui/scripts/template_strings.py:92
 msgid "Resume all"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:93
-msgid "Save"
-msgstr "ذخیره کردن"
 
 #: deluge/ui/webui/scripts/template_strings.py:94
 msgid "Search"
@@ -2979,45 +3023,13 @@ msgstr ""
 msgid "Seeding time"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:98
-msgid "Select All"
-msgstr "گزینش همه"
-
-#: deluge/ui/webui/scripts/template_strings.py:99
-msgid "Set"
-msgstr "تنظیم"
-
 #: deluge/ui/webui/scripts/template_strings.py:100
 msgid "Set Timeout"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:101
-msgid "Share Ratio"
-msgstr "ضریب اشتراک گذاری"
-
-#: deluge/ui/webui/scripts/template_strings.py:103
-msgid "Speed"
-msgstr "سرعت‌"
-
-#: deluge/ui/webui/scripts/template_strings.py:107
-msgid "Submit"
-msgstr "ارسال"
-
 #: deluge/ui/webui/scripts/template_strings.py:108
 msgid "Top"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:109
-msgid "Torrent list"
-msgstr "فهرست تورنت"
-
-#: deluge/ui/webui/scripts/template_strings.py:110
-msgid "Total Size"
-msgstr "اندازۀ کل"
-
-#: deluge/ui/webui/scripts/template_strings.py:112
-msgid "Tracker Status"
-msgstr "وضعیت ردیاب"
 
 #: deluge/ui/webui/scripts/template_strings.py:113
 msgid "True"
@@ -3035,21 +3047,6 @@ msgstr ""
 msgid "Update Tracker"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:120
-msgid "Upload"
-msgstr "بارگذاری"
-
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:122
-msgid "Uploaded"
-msgstr "بارگذاری‌شده"
-
-#: deluge/ui/webui/scripts/template_strings.py:123
-msgid "seconds"
-msgstr "ثانیه"
-
-#~ msgid "Date:"
-#~ msgstr "تاریخ:"

@@ -14,8 +14,158 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "_Bestân"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "Foarkarren"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:28
+msgid "_Add Torrent"
+msgstr "Torrent t_afoege"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "Be_wurkje"
+
+#: deluge/ui/gtkui/glade/main_window.glade:128
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_View"
+msgstr "By_ld"
+
+#: deluge/ui/gtkui/glade/main_window.glade:143
+msgid "_Toolbar"
+msgstr "Ar_kbalken"
+
+#: deluge/ui/gtkui/glade/main_window.glade:183
+msgid "_Columns"
+msgstr "_Kolommen"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "_Help"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "Torrent tavoegje"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "Torrent fuortsmite"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "Skoftsje"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "Ferfetsje"
+
+#: deluge/ui/gtkui/glade/main_window.glade:386
+msgid "Queue Torrent Up"
+msgstr "Torrent omheech yn rij"
+
+#: deluge/ui/gtkui/glade/main_window.glade:400
+msgid "Queue Torrent Down"
+msgstr "Torrent omleech yn rij"
+
+#: deluge/ui/gtkui/glade/main_window.glade:833
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Trackersteat:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1046
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Earstfolgjende oankondiging:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1290
+msgid "<b># of files:</b>"
+msgstr "<b>Oantal triemen:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1352
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>Namme:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1530
+msgid "_Details"
+msgstr "_Details"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "Grutte"
+
+#: deluge/ui/gtkui/systemtray.py:197
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "Down"
+msgstr "Omleech"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "Omheech"
+
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Down Speed"
+msgstr "Delhelsnelheid"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
+#: deluge/ui/webui/scripts/template_strings.py:117
+msgid "Up Speed"
+msgstr "Uploadsnelheid"
+
+#: deluge/ui/gtkui/torrentview.py:145
+#: deluge/ui/webui/scripts/template_strings.py:96
+msgid "Seeders"
+msgstr "Seeders"
+
+#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
+#: deluge/ui/webui/scripts/template_strings.py:79
+msgid "Peers"
+msgstr "Peers"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "Tavoegje"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Availability"
+msgstr "Beskikberheid"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "Opromje"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "Fuortsmite"
+
+#: deluge/ui/webui/scripts/template_strings.py:101
+msgid "Share Ratio"
+msgstr "Ratio"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -153,12 +303,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "_Bestân"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
@@ -373,12 +517,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "Foarkarren"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -1226,11 +1364,6 @@ msgstr ""
 msgid "_Show Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:28
-msgid "_Add Torrent"
-msgstr "Torrent t_afoege"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
 msgstr ""
@@ -1252,25 +1385,9 @@ msgstr ""
 msgid "_Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "Be_wurkje"
-
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "By_ld"
-
-#: deluge/ui/gtkui/glade/main_window.glade:143
-msgid "_Toolbar"
-msgstr "Ar_kbalken"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
@@ -1284,10 +1401,6 @@ msgstr ""
 msgid "T_abs"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "_Columns"
-msgstr "_Kolommen"
-
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
 msgstr ""
@@ -1299,10 +1412,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "_Help"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
@@ -1325,46 +1434,18 @@ msgstr ""
 msgid "Add torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "Torrent tavoegje"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "Torrent fuortsmite"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "Skoftsje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "Ferfetsje"
-
-#: deluge/ui/gtkui/glade/main_window.glade:386
-msgid "Queue Torrent Up"
-msgstr "Torrent omheech yn rij"
-
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:400
-msgid "Queue Torrent Down"
-msgstr "Torrent omleech yn rij"
 
 #: deluge/ui/gtkui/glade/main_window.glade:401
 #: deluge/ui/webui/register_menu.py:48
@@ -1407,10 +1488,6 @@ msgstr ""
 msgid "<b>Active Time:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:833
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Trackersteat:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:863
 msgid "<b>Availability:</b>"
 msgstr ""
@@ -1436,10 +1513,6 @@ msgstr ""
 msgid "<b>Speed:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1046
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Earstfolgjende oankondiging:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1065
 msgid "<b>Share Ratio:</b>"
 msgstr ""
@@ -1460,25 +1533,13 @@ msgstr ""
 msgid "_Status"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1290
-msgid "<b># of files:</b>"
-msgstr "<b>Oantal triemen:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1322
 msgid "<b>Hash:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1372
 msgid "<b>Total Size:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>Namme:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1430
 msgid "<b>Path:</b>"
@@ -1487,10 +1548,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1530
-msgid "_Details"
-msgstr "_Details"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
@@ -1860,13 +1917,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "Grutte"
-
 #: deluge/ui/gtkui/addtorrentdialog.py:496
 msgid "Choose a .torrent file"
 msgstr ""
@@ -1897,16 +1947,6 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:197
 msgid "Deluge"
 msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:197
-#: deluge/ui/webui/scripts/template_strings.py:37
-msgid "Down"
-msgstr "Omleech"
-
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "Omheech"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
@@ -1962,16 +2002,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:19
 msgid "Client"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Down Speed"
-msgstr "Delhelsnelheid"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
-#: deluge/ui/webui/scripts/template_strings.py:117
-msgid "Up Speed"
-msgstr "Uploadsnelheid"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
@@ -2103,16 +2133,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:145
-#: deluge/ui/webui/scripts/template_strings.py:96
-msgid "Seeders"
-msgstr "Seeders"
-
-#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
-#: deluge/ui/webui/scripts/template_strings.py:79
-msgid "Peers"
-msgstr "Peers"
-
 #: deluge/ui/gtkui/torrentview.py:163
 #: deluge/ui/webui/scripts/template_strings.py:41
 msgid "ETA"
@@ -2194,10 +2214,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:48
 msgid "Files"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "Tavoegje"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
@@ -2773,10 +2789,6 @@ msgstr ""
 msgid "Ava"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:15
-msgid "Availability"
-msgstr "Beskikberheid"
-
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
 msgstr ""
@@ -2784,10 +2796,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "Opromje"
 
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
@@ -2941,10 +2949,6 @@ msgstr ""
 msgid "Refresh page every:"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "Fuortsmite"
-
 #: deluge/ui/webui/scripts/template_strings.py:89
 msgid "Remove torrent"
 msgstr ""
@@ -2984,10 +2988,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:100
 msgid "Set Timeout"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:101
-msgid "Share Ratio"
-msgstr "Ratio"
 
 #: deluge/ui/webui/scripts/template_strings.py:103
 msgid "Speed"

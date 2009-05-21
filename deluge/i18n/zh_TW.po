@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-12 02:57+0000\n"
-"Last-Translator: Wei Hsiang Hung <weihsiang.hung@gmail.com>\n"
+"PO-Revision-Date: 2009-05-15 22:26+0000\n"
+"Last-Translator: Chien Cheng Wei <e.cwchien@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -277,15 +277,7 @@ msgstr "網址:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
-msgstr "添加哈希信息"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
-msgid "<b>From Infohash</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
-msgid "Infohash:"
-msgstr ""
+msgstr "新增資訊雜湊"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
@@ -484,23 +476,9 @@ msgstr "<b>連入通訊埠</b>"
 msgid "<b>Outgoing Ports</b>"
 msgstr "<b>連出通訊埠</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:826
-msgid "Peer TOS Byte:"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:838
 msgid "0x00"
 msgstr "0x00"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:855
-msgid "<b>TOS</b>"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:893
 msgid "Distributed hash table may improve the amount of active connections."
@@ -509,10 +487,6 @@ msgstr "分散式雜湊表 (DHT) 可以增加有效的連線數。"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:894
 msgid "DHT"
 msgstr "DHT"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:912
-msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:913
 #: deluge/ui/webui/config_tabs_deluge.py:73
@@ -646,16 +620,6 @@ msgstr "每秒嘗試的最大連線數:"
 #: deluge/ui/webui/config_tabs_deluge.py:113
 msgid "Ignore limits on local network"
 msgstr "本地網路忽略限制"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
-msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
-msgid "Rate limit IP overhead"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
@@ -939,10 +903,6 @@ msgstr "主機："
 msgid "<b>Peer</b>"
 msgstr "<b>用戶</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
-msgid "<b>Web Seed</b>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
 msgstr "<b>追蹤伺服器</b>"
@@ -1079,10 +1039,6 @@ msgstr "追蹤伺服器："
 msgid "Queued Torrents"
 msgstr "隊列中的Torrent"
 
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
 msgstr "連線時自動加入torrents"
@@ -1174,10 +1130,6 @@ msgstr "註解："
 msgid "Info"
 msgstr "資訊"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
 msgstr "片段大小:"
@@ -1200,10 +1152,6 @@ msgstr ""
 #: deluge/ui/webui/torrent_add.py:49
 msgid "Set Private Flag"
 msgstr "設定私人標籤"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
-msgid "Add this torrent to the session"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
 msgid "Enter Remote Path"
@@ -1317,10 +1265,6 @@ msgstr "欄位(_C)"
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
 msgstr "側邊欄(_i)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:200
-msgid "Show _Zero Hits"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1626,10 +1570,6 @@ msgstr "錯誤"
 msgid "Error setting label options"
 msgstr "標籤選項設定錯誤"
 
-#: deluge/plugins/label/label/webui.py:123
-msgid "apply_max"
-msgstr ""
-
 #: deluge/plugins/label/label/webui.py:124
 msgid "max_download_speed"
 msgstr "最高下載速度"
@@ -1645,38 +1585,6 @@ msgstr "最大上傳連接數"
 #: deluge/plugins/label/label/webui.py:127
 msgid "max_connections"
 msgstr "最大連線數目"
-
-#: deluge/plugins/label/label/webui.py:130
-msgid "apply_queue"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:131
-msgid "is_auto_managed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:132
-msgid "stop_at_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:133
-msgid "stop_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:134
-msgid "remove_at_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:137
-msgid "apply_move_completed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:138
-msgid "move_completed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:139
-msgid "move_completed_path"
-msgstr ""
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
@@ -1695,10 +1603,6 @@ msgstr "自動新增追蹤伺服器"
 #: deluge/ui/webui/scripts/template_strings.py:57
 msgid "Label"
 msgstr "標籤"
-
-#: deluge/plugins/label/label/webui.py:155
-msgid "Work in progress.."
-msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:55
 msgid "Label _Options"
@@ -1763,10 +1667,6 @@ msgstr "網址"
 msgid "Check for every (days)"
 msgstr "每 (天) 檢查"
 
-#: deluge/plugins/blocklist/blocklist/webui.py:72
-msgid "Timeout (seconds)"
-msgstr ""
-
 #: deluge/plugins/blocklist/blocklist/webui.py:73
 msgid "Times to attempt download"
 msgstr "下載嘗試次數"
@@ -1805,11 +1705,6 @@ msgstr "不活躍"
 #: deluge/plugins/blocklist/blocklist/webui.py:97
 msgid "Refresh status"
 msgstr "狀態重新整理"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:55
-#: deluge/plugins/blocklist/blocklist/gtkui.py:194
-msgid "Blocklist"
-msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -2036,10 +1931,6 @@ msgstr ""
 msgid "Filters"
 msgstr "過濾器"
 
-#: deluge/ui/gtkui/filtertreeview.py:134
-msgid "State"
-msgstr ""
-
 #: deluge/ui/gtkui/filtertreeview.py:214
 msgid "no label"
 msgstr "沒有標籤"
@@ -2047,10 +1938,6 @@ msgstr "沒有標籤"
 #: deluge/ui/gtkui/queuedtorrents.py:124
 msgid " Torrents Queued"
 msgstr " Torrent 在佇列中"
-
-#: deluge/ui/gtkui/queuedtorrents.py:126
-msgid " Torrent Queued"
-msgstr ""
 
 #: deluge/ui/gtkui/mainwindow.py:209
 msgid "Down:"
@@ -2067,15 +1954,6 @@ msgstr "種子"
 #: deluge/ui/gtkui/common.py:57
 msgid "Activated"
 msgstr "正在下載"
-
-#: deluge/ui/gtkui/signals.py:141
-msgid "Torrent is past stop ratio."
-msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:74
-#: deluge/ui/gtkui/createtorrentdialog.py:88
-msgid "Tier"
-msgstr ""
 
 #: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
 #: deluge/ui/gtkui/createtorrentdialog.py:90
@@ -2104,10 +1982,6 @@ msgstr "界面"
 msgid "Other"
 msgstr "其他"
 
-#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
-msgid "Daemon"
-msgstr ""
-
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Proxy"
 msgstr "代理伺服器"
@@ -2131,10 +2005,6 @@ msgstr "外掛模組"
 #: deluge/ui/gtkui/preferences.py:835
 msgid "Select the Plugin"
 msgstr "選取外掛"
-
-#: deluge/ui/gtkui/preferences.py:846
-msgid "Plugin Eggs"
-msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2180,11 +2050,6 @@ msgstr "選擇資料夾"
 #: deluge/ui/gtkui/createtorrentdialog.py:209
 msgid "Save .torrent file"
 msgstr "儲存 .torrent"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:329
-#, python-format
-msgid "%.2f%%"
-msgstr ""
 
 #: deluge/ui/webui/render.py:169
 msgid "∞"
@@ -2345,16 +2210,8 @@ msgid "Socksv5"
 msgstr "Socksv5"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
-msgid "Socksv5 W/ Auth"
-msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "HTTP"
 msgstr "HTTP"
-
-#: deluge/ui/webui/config_tabs_deluge.py:93
-msgid "HTTP W/ Auth"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:95
 msgid "Type"
@@ -2418,10 +2275,6 @@ msgstr "最大半開連結的數量"
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
 msgstr "每秒最大連接數量"
-
-#: deluge/ui/webui/config_tabs_deluge.py:114
-msgid "Rate Limit IP Overhead"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -2498,12 +2351,6 @@ msgid ""
 "Select a valid choice. That choice is not one of the available choices."
 msgstr "該選項不可用，請選擇正確的選項。"
 
-#: deluge/ui/webui/lib/newforms_portable/models.py:371
-#: deluge/ui/webui/lib/newforms_portable/fields.py:600
-#: deluge/ui/webui/lib/newforms_portable/fields.py:662
-msgid "Enter a list of values."
-msgstr ""
-
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
@@ -2534,12 +2381,6 @@ msgstr "請輸入合法的值"
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
 msgstr "確保本值至多到 %(max)d 個字元(共有 %(length)d)"
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:125
-#, python-format
-msgid ""
-"Ensure this value has at least %(min)d characters (it has %(length)d)."
-msgstr ""
-
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
 msgstr "輸入一個整數。"
@@ -2562,16 +2403,6 @@ msgstr "確認這個值大於等於%s。"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
 msgid "Enter a number."
 msgstr "輸入一個數字。"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:213
-#, python-format
-msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:214
-#, python-format
-msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
@@ -2622,11 +2453,6 @@ msgstr "輸入有效的網址。"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:498
 msgid "This URL appears to be a broken link."
 msgstr "這個網址有錯。"
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:599
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:780
 msgid "Enter a valid IPv4 address."
@@ -2727,10 +2553,6 @@ msgstr "側邊欄"
 msgid "Show sidebar"
 msgstr "顯示側邊欄"
 
-#: deluge/ui/webui/config_tabs_webui.py:105
-msgid "Show zero hits"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
 msgstr "顯示追蹤伺服器"
@@ -2799,10 +2621,6 @@ msgstr "... 與刪除 Torrent 檔案"
 msgid "Active time"
 msgstr "活動時間"
 
-#: deluge/ui/webui/scripts/template_strings.py:11
-msgid "Admin"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "Auto refresh:"
 msgstr "自動更新間隔:"
@@ -2826,10 +2644,6 @@ msgstr "取消"
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Clear"
 msgstr "清除"
-
-#: deluge/ui/webui/scripts/template_strings.py:22
-msgid "Connect to Daemon"
-msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:23
 msgid "Connected to"
@@ -2883,10 +2697,6 @@ msgstr "已下載"
 msgid "Eta"
 msgstr "完成時間"
 
-#: deluge/ui/webui/scripts/template_strings.py:46
-msgid "False"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:47
 msgid "File"
 msgstr "檔案"
@@ -2898,10 +2708,6 @@ msgstr "關鍵字篩選"
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Force Recheck"
 msgstr "強制重新檢查"
-
-#: deluge/ui/webui/scripts/template_strings.py:51
-msgid "From Session"
-msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "From Url"
@@ -3051,10 +2857,6 @@ msgstr "總大小"
 msgid "Tracker Status"
 msgstr "伺服器狀態"
 
-#: deluge/ui/webui/scripts/template_strings.py:113
-msgid "True"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:114
 msgid "U/L Speed Limit"
 msgstr "上傳速度限制"
@@ -3083,462 +2885,200 @@ msgstr "已上傳"
 msgid "seconds"
 msgstr "秒"
 
-#~ msgid "Graph"
-#~ msgstr "流量圖"
-
-#~ msgid "Days"
-#~ msgstr "日"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>設定</b>"
-
-#~ msgid "_Statistics"
-#~ msgstr "統計(_S)"
-
-#~ msgid "D/L"
-#~ msgstr "下載"
-
-#~ msgid "U/L"
-#~ msgstr "上傳"
-
-#~ msgid "Share %"
-#~ msgstr "分享率"
-
-#~ msgid "path"
-#~ msgstr "路徑"
-
-#~ msgid "size"
-#~ msgstr "大小"
-
-#~ msgid "offset"
-#~ msgstr "前置量"
-
-#~ msgid "download?"
-#~ msgstr "確定要下載？"
-
-#~ msgid "IP"
-#~ msgstr "IP 位址"
-
-#~ msgid "Connections: "
-#~ msgstr "連接數： "
-
-#~ msgid "Select Torrent"
-#~ msgstr "請選擇種子"
-
-#~ msgid "infinity"
-#~ msgstr "無限"
-
-#~ msgid "1 second"
-#~ msgstr "1 秒鐘"
-
-#~ msgid "1 minute"
-#~ msgstr "1 分鐘"
-
-#~ msgid "minutes"
-#~ msgstr "分"
-
-#~ msgid "1 hour"
-#~ msgstr "1 小時"
-
-#~ msgid "hours"
-#~ msgstr "時"
-
-#~ msgid "1 day"
-#~ msgstr "1 日"
-
-#~ msgid "days"
-#~ msgstr "日"
-
-#~ msgid "1 week"
-#~ msgstr "1 週"
-
-#~ msgid "weeks"
-#~ msgstr "週"
-
-#~ msgid "Search string"
-#~ msgstr "搜尋字串"
-
-#~ msgid "Deluge Bittorrent Client"
-#~ msgstr "Deluge BT 用戶端"
-
-#~ msgid "Add a Torrent"
-#~ msgstr "新增種子"
-
-#~ msgid "Deluge Support _Forums"
-#~ msgstr "Deluge 支援論壇 (_F)"
-
-#~ msgid "Force Pause/Resume Torrent"
-#~ msgstr "強制 暫停/恢復 下載"
-
-#~ msgid "Open the online support forums in your web browser"
-#~ msgstr "在瀏覽器內開啟線上支援論壇"
-
-#~ msgid "Show/Hide the Details Pane"
-#~ msgstr "顯示/隱藏詳細訊息面板"
-
-#~ msgid "<b>Bandwidth (KB/s):</b>"
-#~ msgstr "<b>頻寬 (KB/s)：</b>"
-
-#~ msgid "<b>Save Location:</b>"
-#~ msgstr "<b>儲存位置：</b>"
-
-#~ msgid "<b>Sharing:</b>"
-#~ msgstr "<b>分享：</b>"
-
-#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
-#~ msgstr "當分享率達到這數值時自動停止作種："
-
-#~ msgid "Deluge Preferences"
-#~ msgstr "Deluge 偏好設定"
-
-#~ msgid "Maximum Download Rate:"
-#~ msgstr "最大下載頻寬："
-
-#~ msgid "Maximum Upload Rate:"
-#~ msgstr "最大上傳頻寬："
-
-#~ msgid "Maximum number of Downloads:"
-#~ msgstr "最大同時下載數："
-
-#~ msgid "Maximum number of Uploads:"
-#~ msgstr "最大同時上傳數："
-
-#~ msgid "Save all downloads to:"
-#~ msgstr "儲存所有下載至："
-
-#~ msgid "Select a save location for each download"
-#~ msgstr "為每個下載選擇儲存位置"
-
-#~ msgid "gtk-add"
-#~ msgstr "新增"
-
-#~ msgid "gtk-remove"
-#~ msgstr "移除"
-
-#~ msgid "Force Pause"
-#~ msgstr "強制暫停"
-
-#~ msgid "Update Trackers"
-#~ msgstr "更新伺服器"
-
-#~ msgid "Paused"
-#~ msgstr "已暫停"
-
-#~ msgid "Queued"
-#~ msgstr "已排入佇列"
-
-#~ msgid "Waiting to check"
-#~ msgstr "等待測試"
-
-#~ msgid "Downloading (T?)"
-#~ msgstr "正在連線 (T？)"
-
-#~ msgid "Downloading Meta"
-#~ msgstr "下載資訊"
-
-#~ msgid "Finished"
-#~ msgstr "已完成"
-
-#~ msgid "Allocating"
-#~ msgstr "正在分配空間"
-
-#~ msgid "N/A"
-#~ msgstr "N/A"
-
-#~ msgid "INF"
-#~ msgstr "INF"
-
-#~ msgid "Invalid request"
-#~ msgstr "無效的要求"
-
-#~ msgid "File error"
-#~ msgstr "檔案錯誤"
-
-#~ msgid "Hash failed"
-#~ msgstr "雜湊失敗"
-
-#~ msgid "Peer banned"
-#~ msgstr "已列入黑名單的端點"
-
-#~ msgid "Fastresume rejected"
-#~ msgstr "快速恢復遭駁回"
-
-#~ msgid "Event"
-#~ msgstr "事件"
-
-#~ msgid "translator-credits"
-#~ msgstr ""
-#~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
-#~ "  Jacky Yeung https://launchpad.net/~xphk\n"
-#~ "  Jose Sun https://launchpad.net/~josesun\n"
-#~ "  Justzupi https://launchpad.net/~justzupi\n"
-#~ "  Neil Lin https://launchpad.net/~neillin\n"
-#~ "  Ronmi https://launchpad.net/~ronmi\n"
-#~ "  Yuren Ju https://launchpad.net/~yurenju\n"
-#~ "  josé https://launchpad.net/~jlgdot369\n"
-#~ "  kevintyk https://launchpad.net/~kevintyk\n"
-#~ "  蔡查理 https://launchpad.net/~charlie-tsai\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Jay https://launchpad.net/~jayscorpio1114\n"
-#~ "  Liu, Shuyuan https://launchpad.net/~victorangus\n"
-#~ "  Marcos Pinto https://launchpad.net/~markybob\n"
-#~ "  Wei Hsiang Hung https://launchpad.net/~weihsiang-hung"
-
-#~ msgid "Translate This Application..."
-#~ msgstr "翻譯這個應用程式..."
-
-#~ msgid ""
-#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
-#~ "name of the search engine to be used.  For URL, enter the url of the seach "
-#~ "page.  The user's search query will be added to the end of the url, or "
-#~ "replace any instances of %%query%% in the URL.\n"
-#~ "For example, a Google search would be:\n"
-#~ "Name: Google\n"
-#~ "URL: http://www.google.com/search?hl=en"
-#~ msgstr ""
-#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
-#~ "字樣。\n"
-#~ "例如：新增 Google 搜尋將會是：\n"
-#~ "名稱：Google\n"
-#~ "網址：http://www.google.com/search?hl=en"
-
-#~ msgid "Help"
-#~ msgstr "說明"
-
-#~ msgid "Are you sure you want to quit Deluge?"
-#~ msgstr "您確定要結束 Deluge？"
-
-#~ msgid "You have "
-#~ msgstr "您有 "
-
-#~ msgid " active torrent"
-#~ msgstr " 下載中的種子"
-
-#~ msgid "s"
-#~ msgstr "們"
-
-#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
-#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
-
-#~ msgid "Loaded torrents from previous session"
-#~ msgstr "已從上個作業階段載入種子"
-
-#~ msgid "Warning - all downloaded files for this torrent will be deleted!"
-#~ msgstr "警告 - 此種子下載的所有檔案將被刪除！"
-
-#~ msgid "No torrent is selected"
-#~ msgstr "尚未選擇種子"
-
-#~ msgid "Enter the URL of the .torrent file to open:"
-#~ msgstr "請輸入要開啟的種子檔網址："
-
-#~ msgid "No plugin is selected"
-#~ msgstr "尚未選擇插件"
-
-#~ msgid "You must activate a plugin before configuring it"
-#~ msgstr "您必須先啟用該插件才能設定它"
-
-#~ msgid "no information is listed for this plugin"
-#~ msgstr "沒有此插件的資訊"
-
-#~ msgid "The torrent file does not contain valid information."
-#~ msgstr "種子檔資訊是無效的。"
-
-#~ msgid "A filesystem error occurred when trying to open the torrent file."
-#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
-
-#~ msgid "The selected torrent is already present in the system."
-#~ msgstr "所選的種子已在系統中。"
-
-#~ msgid "N-A"
-#~ msgstr "N-A"
-
-#~ msgid " is updating its tracker"
-#~ msgstr " 正在更新它的伺服器"
-
-#~ msgid "Mark 'Do Not Download'"
-#~ msgstr "標記為 '不下載'"
-
-#~ msgid "Mark 'Download'"
-#~ msgstr "標記為 '下載'"
-
-#~ msgid "<b>Downloaded this session:</b>"
-#~ msgstr "<b>這次作業階段共下載：</b>"
-
-#~ msgid "<b>Percentage Done:</b>"
-#~ msgstr "<b>完成率：</b>"
-
-#~ msgid "<b>Total Downloaded:</b>"
-#~ msgstr "<b>總共下載：</b>"
-
-#~ msgid "<b>Total Uploaded:</b>"
-#~ msgstr "<b>總共上傳：</b>"
-
-#~ msgid "<b>Tracker Response:</b>"
-#~ msgstr "<b>伺服器回應：</b>"
-
-#~ msgid "<b>Uploaded This Session:</b>"
-#~ msgstr "<b>這次作業階段共上傳：</b>"
-
-#~ msgid "<b>Use compact storage allocation:</b>"
-#~ msgstr "<b>使用壓縮儲存：</b>"
-
-#~ msgid "Add a Torrent from File..."
-#~ msgstr "從檔案新增種子 ..."
-
-#~ msgid "Add a Torrent from URL..."
-#~ msgstr "從網址新增種子 ..."
-
-#~ msgid "New Torrent..."
-#~ msgstr "新增種子 ..."
-
-#~ msgid "Queue Torrent to Bottom"
-#~ msgstr "將種子排入佇列末端"
-
-#~ msgid "Remove selected Torrent"
-#~ msgstr "移除所選的種子"
-
-#~ msgid "_Manage Plugins"
-#~ msgstr "管理插件 (_M)"
-
-#~ msgid "gtk-about"
-#~ msgstr "關於"
-
-#~ msgid "<b>Advanced Network Options:</b>"
-#~ msgstr "<b>進階網路選項：</b>"
-
-#~ msgid "<b>Storage:</b>"
-#~ msgstr "<b>大小：</b>"
-
-#~ msgid "<b>TCP Port:</b>"
-#~ msgstr "<b>TCP 埠：</b>"
-
-#~ msgid "Active port:"
-#~ msgstr "啟用的埠："
-
-#~ msgid "Maximum number of connections:"
-#~ msgstr "最大容許連接數："
-
-#~ msgid "Test Port"
-#~ msgstr "測試連接埠"
-
-#~ msgid "Try from:"
-#~ msgstr "測試從："
-
-#~ msgid "Use compact storage allocation (save space)"
-#~ msgstr "使用壓縮儲存 (節省空間)"
-
-#~ msgid ""
-#~ "Warning - any change to these settings will only come into effect after a "
-#~ "restart!"
-#~ msgstr "警告 - 對這些設定做的任何改變將在重新啟動後生效！"
-
-#~ msgid ""
-#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
-#~ msgstr "<b>您確定要從 Deluge 中移除所選的種子(們)？</b>"
-
-#~ msgid ""
-#~ "CPU % must persist for following time (seconds) before either of the above:"
-#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
-
-#~ msgid "CPU Monitor Configuration"
-#~ msgstr "CPU 監控設定"
-
-#~ msgid "Fatal CPU % (Deluge will be shut down):"
-#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
-
-#~ msgid "Warning CPU % (notification only):"
-#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
-
-#~ msgid ""
-#~ "Notifications of the following Severity Level and above will be displayed:"
-#~ msgstr "危急程度高於此級的通知將會顯示："
-
-#~ msgid "Popup Notifier Configuration"
-#~ msgstr "彈出式通知設定"
-
-#~ msgid "Popup Notification"
-#~ msgstr "彈出式通知"
-
-#~ msgid "SafeDeluge Configuration"
-#~ msgstr "安全模式 Deluge 設定"
-
-#~ msgid "Use custom blocklist URL:"
-#~ msgstr "使用自訂的黑名單網址："
-
-#~ msgid "Use default blocklist URL"
-#~ msgstr "使用預設的黑名單網址"
-
-#~ msgid "Download:"
-#~ msgstr "下載："
-
-#~ msgid "Upload:"
-#~ msgstr "上傳："
-
-#~ msgid "There is suspicious activity in"
-#~ msgstr "發現可疑的活動於"
-
-#~ msgid "The torrent may be poisoned by the RIAA/MPAA. Found"
-#~ msgstr "此種子檔可能被植入 RIAA/MPAA。發現"
-
-#~ msgid "at prevalence"
-#~ msgstr "於向外連線時"
-
-#~ msgid "Shutting down Deluge immediately."
-#~ msgstr "正在緊急關閉 Deluge。"
-
-#~ msgid "Shutting down Deluge immediately (CPU overload)."
-#~ msgstr "正在緊急關閉 Deluge (CPU 負載過高)。"
-
-#~ msgid "CPU usage warning: more than"
-#~ msgstr "CPU 使用率警告：超過"
-
-#~ msgid "CPU usage for"
-#~ msgstr "CPU 使用率於"
-
-#~ msgid "No incoming connections"
-#~ msgstr "沒有可下載的連線"
-
-#~ msgid ""
-#~ "No incoming connections: you may be behind a firewall or router. Perhaps you "
-#~ "need to forward the relevant ports."
-#~ msgstr "沒有可下載的連線：您的主機可能在防火牆或路由器後面。或許您必須延伸相關連接埠。"
-
-#~ msgid "Health: OK"
-#~ msgstr "健康度：良好"
-
-#~ msgid ""
-#~ "PopupNotifier: not all necessary dependencies are installed. To install "
-#~ "them, on Ubuntu run: apt-get python-notify notification-daemon"
-#~ msgstr ""
-#~ "彈出式通知：必須的相依套件未全部安裝。若要安裝，於 Ubuntu 上執行：sudo apt-get install python-notify "
-#~ "notification-daemon"
-
-#~ msgid ""
-#~ "PopupNotifier: Cannot initialize pynotify, no notifications will be shown."
-#~ msgstr "彈出式通知：無法初始化 pynotify，將不會顯示任何通知。"
-
-#~ msgid "Informative - can be easily ignored"
-#~ msgstr "通知訊息 - 忽略無妨"
-
-#~ msgid "Warning - may be of interest"
-#~ msgstr "警告訊息 - 需要注意"
-
-#~ msgid "Critical - should never be ignored"
-#~ msgstr "緊急訊息 - 不可忽略"
-
-#~ msgid "Fatal - normal operation will probably not continue"
-#~ msgstr "危險訊息 - 可能無法繼續正常運作"
-
-#~ msgid "Retrieving blocklist from server"
-#~ msgstr "從伺服器取得黑名單"
-
-#~ msgid "Applying SafeDeluge blocklist"
-#~ msgstr "套用安全模式 Deluge 的黑名單"
-
-#~ msgid "The torrent file does not contain all necessary valid information."
-#~ msgstr "種子檔資訊部份是無效的。"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
+msgid "<b>From Infohash</b>"
+msgstr "<b>來自資訊雜湊</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
+msgid "Infohash:"
+msgstr "資訊雜湊："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
+msgid ""
+"The TOS byte set in the IP header of every packet sent to peers (including "
+"web seeds).  Expects a Hex value."
+msgstr "服務類型（TOS）位元組設定於每個送至用戶（包括網路種子）的封包 IP 標頭。應為一個十六進制（Hex）值。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:826
+msgid "Peer TOS Byte:"
+msgstr "用戶服務類型位元組："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:855
+msgid "<b>TOS</b>"
+msgstr "<b>服務類型</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:912
+msgid "Local Service Discovery finds local peers on your network."
+msgstr "本地服務探索可在您的網路上尋找本地用戶。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
+msgid ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
+msgstr "一旦勾選，估計的 TCP/IP 資料量將由流量管制器控制，以避免整體流量超出這些限制"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
+msgid "Rate limit IP overhead"
+msgstr "流量管制 IP 資訊量"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
+msgid "<b>Web Seed</b>"
+msgstr "<b>網路種子</b>"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>新增佇列的 Torrent 檔</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "網路種子"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
+msgid "Add this torrent to the session"
+msgstr "新增 torrent 檔至此工作階段"
+
+#: deluge/ui/gtkui/glade/main_window.glade:200
+msgid "Show _Zero Hits"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:123
+msgid "apply_max"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:130
+msgid "apply_queue"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:131
+msgid "is_auto_managed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:132
+msgid "stop_at_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:133
+msgid "stop_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:134
+msgid "remove_at_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:137
+msgid "apply_move_completed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:138
+msgid "move_completed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:139
+msgid "move_completed_path"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:155
+msgid "Work in progress.."
+msgstr ""
+
+#: deluge/plugins/blocklist/blocklist/webui.py:72
+msgid "Timeout (seconds)"
+msgstr "逾時(秒)"
+
+#: deluge/plugins/blocklist/blocklist/gtkui.py:55
+#: deluge/plugins/blocklist/blocklist/gtkui.py:194
+msgid "Blocklist"
+msgstr "阻擋清單"
+
+#: deluge/ui/gtkui/filtertreeview.py:134
+msgid "State"
+msgstr "狀態"
+
+#: deluge/ui/gtkui/queuedtorrents.py:126
+msgid " Torrent Queued"
+msgstr ""
+
+#: deluge/ui/gtkui/signals.py:141
+msgid "Torrent is past stop ratio."
+msgstr ""
+
+#: deluge/ui/gtkui/edittrackersdialog.py:74
+#: deluge/ui/gtkui/createtorrentdialog.py:88
+msgid "Tier"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
+msgid "Daemon"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:846
+msgid "Plugin Eggs"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:329
+#, python-format
+msgid "%.2f%%"
+msgstr "%.2f%%"
+
+#: deluge/ui/webui/config_tabs_deluge.py:93
+msgid "Socksv5 W/ Auth"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:93
+msgid "HTTP W/ Auth"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:114
+msgid "Rate Limit IP Overhead"
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/models.py:371
+#: deluge/ui/webui/lib/newforms_portable/fields.py:600
+#: deluge/ui/webui/lib/newforms_portable/fields.py:662
+msgid "Enter a list of values."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:125
+#, python-format
+msgid ""
+"Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:213
+#, python-format
+msgid "Ensure that there are no more than %s digits in total."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:214
+#, python-format
+msgid "Ensure that there are no more than %s decimal places."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:599
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:105
+msgid "Show zero hits"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:11
+msgid "Admin"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:22
+msgid "Connect to Daemon"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:46
+msgid "False"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:51
+msgid "From Session"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:113
+msgid "True"
+msgstr ""

@@ -14,12 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: deluge/plugins/label/label/data/label_pref.glade:22
-msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
@@ -47,10 +43,6 @@ msgstr "<b>Pengaturan Label</b>"
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/plugins/label/label/data/label_options.glade:158
-msgid "Upload Slots:\t"
-msgstr ""
-
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
 msgstr "Kecepatan mengunggah:"
@@ -70,13 +62,6 @@ msgstr "Terapkan aturan per torrent:"
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
 msgstr "Maksimal"
-
-#: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1860
-#: deluge/ui/webui/torrent_options.py:48
-#: deluge/ui/webui/scripts/template_strings.py:12
-msgid "Auto Managed"
-msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
@@ -104,10 +89,6 @@ msgstr "Antrian"
 msgid "Move completed to:"
 msgstr "Pindahkan yang telah selesai ke:"
 
-#: deluge/plugins/label/label/data/label_options.glade:493
-msgid "Apply location settings:"
-msgstr ""
-
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
 msgstr "_Lokasi:"
@@ -130,12 +111,6 @@ msgstr "<i>(1 baris per tracker)</i>"
 msgid "Automatically apply label:"
 msgstr "Otomatis pasang label:"
 
-#: deluge/plugins/label/label/data/label_options.glade:585
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
-#: deluge/ui/webui/register_menu.py:39
-msgid "Trackers"
-msgstr ""
-
 #: deluge/plugins/label/label/data/label_options.glade:638
 msgid "Add Label"
 msgstr "Tambah Label"
@@ -148,15 +123,6 @@ msgstr "<b>Tambah Label<b>"
 msgid "Name:"
 msgstr "Nama:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
-#: deluge/ui/webui/scripts/template_strings.py:8
-msgid "Add Torrents"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
-msgid "<big><b>Add Torrents</b></big>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/main_window.glade:20
@@ -167,6 +133,265 @@ msgstr "_Berkas"
 msgid "_URL"
 msgstr "_URL"
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
+msgid "<b>Torrents</b>"
+msgstr "<b>Torrent</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "<b>Download Location</b>"
+msgstr "<b>Lokasi Unduhan</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
+msgid "Compact"
+msgstr "Ringkas"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
+msgid "<b>Allocation</b>"
+msgstr "<b>Pengalokasian</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2524
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3806
+#: deluge/ui/gtkui/glade/main_window.glade:2103
+msgid "<b>General</b>"
+msgstr "<b>Umum</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
+msgid "URL:"
+msgstr "URL:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "Pengaturan"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
+msgid "Active Port:"
+msgstr "Port Aktif:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
+msgid "From:"
+msgstr "Dari:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
+msgid "To:"
+msgstr "Ke:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
+msgid "Enable system tray icon"
+msgstr "Aktifkan ikon system tray"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
+msgid "Minimize to tray on close"
+msgstr "Minimalkan ke tray ketika ditutup"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
+#: deluge/ui/gtkui/glade/connection_manager.glade:129
+msgid "Password:"
+msgstr "Kata Sandi:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4286
+msgid "<b>Info</b>"
+msgstr "<b>Info</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "_Edit"
+
+#: deluge/ui/gtkui/glade/main_window.glade:128
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_View"
+msgstr "_Tampilan"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "Tambah Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "HapusTorrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "Tunda"
+
+#: deluge/ui/gtkui/glade/main_window.glade:833
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Status Tracker:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:917
+msgid "<b>Peers:</b>"
+msgstr "<b>Peer:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:983
+msgid "<b>ETA:</b>"
+msgstr "<b>ETA:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1352
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1372
+msgid "<b>Total Size:</b>"
+msgstr "<b>Ukuran Total:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>Nama:</b>"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "Sambungan-sambungan"
+
+#: deluge/ui/gtkui/statusbar.py:149
+msgid "Download Speed"
+msgstr "Kecepatan Mengunduh"
+
+#: deluge/ui/gtkui/statusbar.py:154
+msgid "Upload Speed"
+msgstr "Kecepatan Mengunggah"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "Ukuran"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:496
+msgid "Choose a .torrent file"
+msgstr "Pilih berkas .torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:508
+#: deluge/ui/gtkui/createtorrentdialog.py:221
+msgid "Torrent files"
+msgstr "Bekas torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:225
+msgid "All files"
+msgstr "Semua berkas"
+
+#: deluge/ui/gtkui/systemtray.py:366
+msgid "Deluge is locked"
+msgstr "Deluge dikunci"
+
+#: deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Client"
+msgstr "Klien"
+
+#: deluge/ui/gtkui/preferences.py:60
+msgid "Bandwidth"
+msgstr "Lebar Pita"
+
+#: deluge/ui/gtkui/preferences.py:75
+msgid "Plugin"
+msgstr "Plugin"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr "Nama"
+
+#: deluge/ui/gtkui/torrentview.py:145
+#: deluge/ui/webui/scripts/template_strings.py:96
+msgid "Seeders"
+msgstr "Seeder"
+
+#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
+#: deluge/ui/webui/scripts/template_strings.py:79
+msgid "Peers"
+msgstr "Peer"
+
+#: deluge/ui/gtkui/torrentview.py:163
+#: deluge/ui/webui/scripts/template_strings.py:41
+msgid "ETA"
+msgstr "ETA"
+
+#: deluge/ui/webui/register_menu.py:31
+#: deluge/ui/webui/scripts/template_strings.py:20
+msgid "Config"
+msgstr "Konfigurasi"
+
+#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Details"
+msgstr "Detil"
+
+#: deluge/ui/webui/register_menu.py:41
+#: deluge/ui/webui/scripts/template_strings.py:48
+msgid "Files"
+msgstr "Berkas"
+
+#: deluge/ui/webui/register_menu.py:46
+#: deluge/ui/webui/scripts/template_strings.py:104
+msgid "Start"
+msgstr "Mulai"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Download"
+msgstr "Unduh"
+
+#: deluge/ui/webui/scripts/template_strings.py:120
+msgid "Upload"
+msgstr "Unggah"
+
+#: deluge/plugins/label/label/data/label_pref.glade:22
+msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
+msgstr ""
+
+#: deluge/plugins/label/label/data/label_options.glade:158
+msgid "Upload Slots:\t"
+msgstr ""
+
+#: deluge/plugins/label/label/data/label_options.glade:336
+#: deluge/ui/gtkui/glade/main_window.glade:1860
+#: deluge/ui/webui/torrent_options.py:48
+#: deluge/ui/webui/scripts/template_strings.py:12
+msgid "Auto Managed"
+msgstr ""
+
+#: deluge/plugins/label/label/data/label_options.glade:493
+msgid "Apply location settings:"
+msgstr ""
+
+#: deluge/plugins/label/label/data/label_options.glade:585
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#: deluge/ui/webui/register_menu.py:39
+msgid "Trackers"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
+#: deluge/ui/webui/scripts/template_strings.py:8
+msgid "Add Torrents"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
+msgid "<big><b>Add Torrents</b></big>"
+msgstr ""
+
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
 msgstr ""
@@ -174,10 +399,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
-msgid "<b>Torrents</b>"
-msgstr "<b>Torrent</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
@@ -191,23 +412,10 @@ msgstr ""
 msgid "Select A Folder"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "<b>Download Location</b>"
-msgstr "<b>Lokasi Unduhan</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Full"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
-msgid "Compact"
-msgstr "Ringkas"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
-msgid "<b>Allocation</b>"
-msgstr "<b>Pengalokasian</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:558
 msgid "Max Down Speed:"
@@ -240,13 +448,6 @@ msgstr ""
 msgid "Prioritize First/Last Pieces"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2524
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3806
-#: deluge/ui/gtkui/glade/main_window.glade:2103
-msgid "<b>General</b>"
-msgstr "<b>Umum</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:793
 msgid "Revert To Defaults"
 msgstr ""
@@ -267,10 +468,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1006
 msgid "<b>From URL</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
-msgid "URL:"
-msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
@@ -377,12 +574,6 @@ msgstr ""
 msgid "Remove _Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "Pengaturan"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
@@ -451,23 +642,9 @@ msgstr ""
 msgid "Use Random Ports"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
-msgid "Active Port:"
-msgstr "Port Aktif:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:549
 msgid "0000"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
-msgid "From:"
-msgstr "Dari:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
-msgid "To:"
-msgstr "Ke:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:636
 msgid "Test Active Port"
@@ -712,14 +889,6 @@ msgstr ""
 msgid "<b>Add Torrents Dialog</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
-msgid "Enable system tray icon"
-msgstr "Aktifkan ikon system tray"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
-msgid "Minimize to tray on close"
-msgstr "Minimalkan ke tray ketika ditutup"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
 msgid "Start in tray"
 msgstr ""
@@ -727,16 +896,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1934
 msgid "Password protect system tray"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
-#: deluge/ui/gtkui/glade/connection_manager.glade:129
-msgid "Password:"
-msgstr "Kata Sandi:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
 msgid "<b>System Tray</b>"
@@ -1012,10 +1171,6 @@ msgstr ""
 msgid "Details:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4286
-msgid "<b>Info</b>"
-msgstr "<b>Info</b>"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4336
 msgid "_Install Plugin"
 msgstr ""
@@ -1255,21 +1410,9 @@ msgstr ""
 msgid "_Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "_Edit"
-
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "_Tampilan"
 
 #: deluge/ui/gtkui/glade/main_window.glade:143
 msgid "_Toolbar"
@@ -1303,10 +1446,6 @@ msgstr ""
 msgid "Show _Trackers"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "_Bantuan"
-
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
 msgstr ""
@@ -1328,24 +1467,9 @@ msgstr ""
 msgid "Add torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "Tambah Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "HapusTorrent"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "Tunda"
 
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
@@ -1410,17 +1534,9 @@ msgstr ""
 msgid "<b>Active Time:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:833
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Status Tracker:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:863
 msgid "<b>Availability:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:917
-msgid "<b>Peers:</b>"
-msgstr "<b>Peer:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:943
 msgid "<b>Seeders:</b>"
@@ -1429,10 +1545,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:961
 msgid "<b>Pieces:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:983
-msgid "<b>ETA:</b>"
-msgstr "<b>ETA:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1005
 #: deluge/ui/gtkui/glade/main_window.glade:1027
@@ -1470,18 +1582,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1322
 msgid "<b>Hash:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1372
-msgid "<b>Total Size:</b>"
-msgstr "<b>Ukuran Total:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>Nama:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1430
 msgid "<b>Path:</b>"
@@ -1804,19 +1904,6 @@ msgstr ""
 msgid "Not Connected"
 msgstr ""
 
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "Sambungan-sambungan"
-
-#: deluge/ui/gtkui/statusbar.py:149
-msgid "Download Speed"
-msgstr "Kecepatan Mengunduh"
-
-#: deluge/ui/gtkui/statusbar.py:154
-msgid "Upload Speed"
-msgstr "Kecepatan Mengunggah"
-
 #: deluge/ui/gtkui/statusbar.py:159
 msgid "Protocol Traffic Download/Upload"
 msgstr ""
@@ -1863,27 +1950,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "Ukuran"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:496
-msgid "Choose a .torrent file"
-msgstr "Pilih berkas .torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:508
-#: deluge/ui/gtkui/createtorrentdialog.py:221
-msgid "Torrent files"
-msgstr "Bekas torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:512
-#: deluge/ui/gtkui/createtorrentdialog.py:225
-msgid "All files"
-msgstr "Semua berkas"
-
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
@@ -1910,10 +1976,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:116
 msgid "Up"
 msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:366
-msgid "Deluge is locked"
-msgstr "Deluge dikunci"
 
 #: deluge/ui/gtkui/systemtray.py:369
 msgid ""
@@ -1960,11 +2022,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "Address"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Client"
-msgstr "Klien"
 
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
 #: deluge/ui/webui/scripts/template_strings.py:38
@@ -2057,10 +2114,6 @@ msgid "Network"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:60
-msgid "Bandwidth"
-msgstr "Lebar Pita"
-
-#: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
 msgstr ""
 
@@ -2089,10 +2142,6 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:75
-msgid "Plugin"
-msgstr "Plugin"
-
 #: deluge/ui/gtkui/preferences.py:835
 msgid "Select the Plugin"
 msgstr ""
@@ -2100,26 +2149,6 @@ msgstr ""
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
 msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr "Nama"
-
-#: deluge/ui/gtkui/torrentview.py:145
-#: deluge/ui/webui/scripts/template_strings.py:96
-msgid "Seeders"
-msgstr "Seeder"
-
-#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
-#: deluge/ui/webui/scripts/template_strings.py:79
-msgid "Peers"
-msgstr "Peer"
-
-#: deluge/ui/gtkui/torrentview.py:163
-#: deluge/ui/webui/scripts/template_strings.py:41
-msgid "ETA"
-msgstr "ETA"
 
 #: deluge/ui/gtkui/torrentview.py:167
 #: deluge/ui/webui/scripts/template_strings.py:85
@@ -2163,11 +2192,6 @@ msgstr ""
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:31
-#: deluge/ui/webui/scripts/template_strings.py:20
-msgid "Config"
-msgstr "Konfigurasi"
-
 #: deluge/ui/webui/register_menu.py:32
 #: deluge/ui/webui/scripts/template_strings.py:21
 msgid "Connect"
@@ -2188,16 +2212,6 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Details"
-msgstr "Detil"
-
-#: deluge/ui/webui/register_menu.py:41
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Files"
-msgstr "Berkas"
-
 #: deluge/ui/webui/register_menu.py:43
 msgid "Add"
 msgstr ""
@@ -2210,11 +2224,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:106
 msgid "Stop"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/webui/scripts/template_strings.py:104
-msgid "Start"
-msgstr "Mulai"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
@@ -2391,11 +2400,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/webui/scripts/template_strings.py:39
-msgid "Download"
-msgstr "Unduh"
 
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
@@ -3032,10 +3036,6 @@ msgstr ""
 msgid "Update Tracker"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:120
-msgid "Upload"
-msgstr "Unggah"
-
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
 msgstr ""
@@ -3047,15 +3047,3 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr ""
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Cek daftar terbaru setiap:"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Pengaturan</b>"
-
-#~ msgid "File Size:"
-#~ msgstr "Ukuran Berkas:"
-
-#~ msgid "Date:"
-#~ msgstr "Tanggal:"

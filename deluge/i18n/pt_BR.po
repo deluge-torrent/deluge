@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -3122,39 +3122,3 @@ msgstr "Enviado"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "segundos"
-
-#~ msgid "Graph"
-#~ msgstr "Gráfico"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Verificar se há uma nova lista a cada:"
-
-#~ msgid "Days"
-#~ msgstr "Dias"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Importar lista de bloqueios ao iniciar"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Configurações</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Baixar a lista de bloqueados se necessário e importar o arquivo."
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Checar download e Importar"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Baixar uma nova lista de bloqueados e importá-la"
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Forçar Download e Importar"
-
-#~ msgid "File Size:"
-#~ msgstr "Tamanho do Arquivo:"
-
-#~ msgid "Date:"
-#~ msgstr "Data:"
-
-#~ msgid "_Statistics"
-#~ msgstr "E_statísticas"

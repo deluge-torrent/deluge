@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-21 10:39+0000\n"
-"Last-Translator: Peter Avramucz <Unknown>\n"
+"PO-Revision-Date: 2009-04-28 17:30+0000\n"
+"Last-Translator: N-drew <dcndrew@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -30,7 +30,7 @@ msgstr "<b>Címkék</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr "Címke Beállítások"
+msgstr "Címke beállítások"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
@@ -79,7 +79,7 @@ msgstr "Maximum"
 #: deluge/ui/webui/torrent_options.py:48
 #: deluge/ui/webui/scripts/template_strings.py:12
 msgid "Auto Managed"
-msgstr "Automatikusan kezel"
+msgstr "Automatikusan kezelt"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1880
@@ -94,7 +94,7 @@ msgstr "Eltávolítás ha az arány eléri"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr "Letöltési Sor beállításai:"
+msgstr "Letöltési sor beállításai:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
@@ -154,11 +154,11 @@ msgstr "Név:"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
-msgstr "Torrentek Hozzáadása"
+msgstr "Torrentek hozzáadása"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
-msgstr "<big><b>Torrentek Hozzáadása</b></big>"
+msgstr "<big><b>Torrentek hozzáadása</b></big>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
@@ -196,7 +196,7 @@ msgstr "Válasszon egy mappát"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
-msgstr "<b>Letöltések Helye</b>"
+msgstr "<b>Letöltések helye</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
@@ -210,25 +210,25 @@ msgstr "Tömör"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:372
 msgid "<b>Allocation</b>"
-msgstr "<b>Terület Lefoglalása</b>"
+msgstr "<b>Terület lefoglalása</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:558
 msgid "Max Down Speed:"
-msgstr "Max Letöltési Sebesség:"
+msgstr "Max letöltési sebesség:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:570
 msgid "Max Up Speed:"
-msgstr "Max Feltöltési Sebesség:"
+msgstr "Max feltöltési sebesség:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:584
 #: deluge/ui/gtkui/glade/main_window.glade:1734
 msgid "Max Connections:"
-msgstr "Kapcsolatok maximuma:"
+msgstr "Maximális kapcsolatok száma:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:598
 #: deluge/ui/gtkui/glade/main_window.glade:1797
 msgid "Max Upload Slots:"
-msgstr "Max. Feltöltési Szálak:"
+msgstr "Max. feltöltések száma:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:667
 #: deluge/ui/gtkui/glade/main_window.glade:1830
@@ -237,7 +237,7 @@ msgstr "<b>Sávszél</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:703
 msgid "Add In _Paused State"
-msgstr "Hozzádás _Szünetelt Állapotban"
+msgstr "Hozzádás _szünetelt állapotban"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
@@ -256,7 +256,7 @@ msgstr "Alapbeállítások visszaállítása"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:847
 msgid "Apply To All"
-msgstr "Mindre Alkalmaz"
+msgstr "Mindre alkalmaz"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:894
 #: deluge/ui/gtkui/glade/main_window.glade:2182
@@ -311,7 +311,7 @@ msgstr "Mappa _megnyitása"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr "Vissza_térés"
+msgstr "Foly_tatás"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
@@ -323,54 +323,54 @@ msgstr "_Várólista"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr "Tracker _Frissítése"
+msgstr "Tracker _frissítése"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:2078
 msgid "_Edit Trackers"
-msgstr "Tracker _Szerkesztése"
+msgstr "Tracker _szerkesztése"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
-msgstr "Torrent _Eltávolítása"
+msgstr "Torrent _eltávolítása"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
-msgstr "_Erőltetett Újraellenőrzés"
+msgstr "_Erőltetett újraellenőrzés"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
-msgstr "_Tároló Mozgatása"
+msgstr "_Tároló áthelyezése"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 msgid "_Download Speed Limit"
-msgstr "_Letöltési Sebesség Korlát"
+msgstr "_Letöltési sebességkorlát"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "_Feltöltési Sebesség Korlát"
+msgstr "_Feltöltési sebességkorlát"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
-msgstr "_Kapcsolat Korlát"
+msgstr "_Kapcsolat korlát"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr "Feltöltési _Szál Korlát"
+msgstr "Feltöltési _szál korlát"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
-msgstr "_Automatikusan Beállított"
+msgstr "_Automatikusan kezelt"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Kiválasztott torrent eltávolítása?</b></big>"
+msgstr "<big><b>Eltávolítja a torrentet?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr "Ha eltávolítod az adatot, örökre elveszik."
+msgstr "Ha eltávolítja, az adatok végleg elvesznek."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
@@ -378,7 +378,7 @@ msgstr "_Adat eltávolítása"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "_Torrent Eltávolítása"
+msgstr "_Torrent eltávolítása"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:6
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -400,7 +400,7 @@ msgstr ".torrent fájlok másolása ide:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:179
 msgid "Auto add .torrents from:"
-msgstr ".torrentek automata hozzáadása innen:"
+msgstr ".torrentek automatikus hozzáadása innen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:301
 msgid "<b>Folders</b>"
@@ -415,7 +415,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:338
 msgid "Use Full Allocation"
-msgstr "Teljes lefoglalás használata"
+msgstr "Szükséges terület lefoglalása előre"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:353
 msgid "Compact allocation only allocates space as needed"
@@ -453,7 +453,7 @@ msgstr "A Deluge minden indításkor másik portot fog használni."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:519
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:707
 msgid "Use Random Ports"
-msgstr "Portok Véletlenszerű Használata"
+msgstr "Véletlenszerűen választott port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 msgid "Active Port:"
@@ -479,11 +479,11 @@ msgstr "Aktív port tesztelése"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:675
 msgid "<b>Incoming Ports</b>"
-msgstr "<b>Bejövő Portok</b>"
+msgstr "<b>Bejövő portok</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:790
 msgid "<b>Outgoing Ports</b>"
-msgstr "<b>Kimenő Portok</b>"
+msgstr "<b>Kimenő portok</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:825
 msgid ""
@@ -525,7 +525,7 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:927
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:928
 msgid "Peer Exchange"
-msgstr "Peer Exchange"
+msgstr "Peer csere"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:944
 msgid "NAT Port Mapping Protocol"
@@ -538,7 +538,7 @@ msgstr "NAT-PMP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:961
 msgid "Universal Plug and Play"
-msgstr "Universal Plug and Play"
+msgstr "Univerzális Plug and Play"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:962
 msgid "UPnP"
@@ -644,7 +644,7 @@ msgstr "Maximum félig-nyitott kapcsolatok:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1373
 msgid "Maximum Connection Attempts per Second:"
-msgstr "Másodpercenkénti maximum kapcsolódási kísérlet"
+msgstr "Maximális kapcsolódási kísérlet másodpercenként:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1423
 #: deluge/ui/webui/config_tabs_deluge.py:113
@@ -665,7 +665,7 @@ msgstr "IP címek arányának felső korlátja"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Sávszélesség kihasználása</b>"
+msgstr "<b>Globális beállítás</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1500
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1518
@@ -679,7 +679,7 @@ msgstr "Feltöltési szálak maximális száma torrentenként. Korlátlanhoz -1.
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1625
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Sávszélesség kihasználása torrentenként</b>"
+msgstr "<b>Torrentenkénti beállítás</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 msgid "page 8"
@@ -696,10 +696,10 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-"A Klasszikus Mód elrejti a démon funkciókat, és a Deluge-nek egy egyszerű "
-"kinézetet kölcsönöz. Ezt akkor használd, ha nem szeretnéd a Deluge-t démon "
-"alkalmazásként futtatni. Újra kell indítanod a Deluge-t a beállítás érvénybe "
-"lépéséhez!"
+"A Klasszikus mód elrejti a kiszolgáló funkciók nagy részét, és a Deluge-nak "
+"egy egyszerű kinézetet kölcsönöz. Ezt akkor használja, ha nem szeretné a "
+"Deluge-t kiszolgálóként futtatni. A beállítás érvényesítéséhez újra kell "
+"indítani a Deluge-t!"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
@@ -709,7 +709,7 @@ msgstr "Engedélyez"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
-msgstr "<b>Klasszikus Mód</b>"
+msgstr "<b>Klasszikus mód</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1766
 msgid "Show session speed in titlebar"
@@ -721,23 +721,23 @@ msgstr "<b>Főablak</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1814
 msgid "Always show"
-msgstr "Mindig mutasd"
+msgstr "Mindig felül"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1830
 msgid "Bring the dialog to focus"
-msgstr "Párbeszéd előtérbe helyezése"
+msgstr "Párbeszéd ablak előtérbe hozása"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1847
 msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Torrentek Hozzáadása Ablak</b>"
+msgstr "<b>Torrentek hozzáadása ablak</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
 msgid "Enable system tray icon"
-msgstr "Ikon megjelenítése az értesítési területen"
+msgstr "Ikon megjelenítése a tálcán"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
 msgid "Minimize to tray on close"
-msgstr "Minimalizáláskor a rendszertálcára ül"
+msgstr "Bezáráskor a tálcára"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
 msgid "Start in tray"
@@ -774,11 +774,12 @@ msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
-"A Deluge ellenőrzi a szervereket majd tájékoztat ha újabb verzió jelent meg."
+"A Deluge ellenőrzi a szervereket, majd tájékoztat, ha újabb verzió jelent "
+"meg."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2096
 msgid "Be alerted about new releases"
-msgstr "Figyelmeztessen ha új verzió jelent meg"
+msgstr "Figyelmeztessen, ha új verzió jelent meg"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2115
 msgid "<b>Updates</b>"
@@ -790,7 +791,7 @@ msgid ""
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
 "Segíts minket azzal, hogy elküldöd a Python, PyGTK verziószámod, az OS- és "
-"processzortípusod. Semmilyen más információ nem kerül elküldésre."
+"processzortípusod. Semmilyen más információ nem lesz elküldve."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "Yes, please send anonymous statistics"
@@ -798,7 +799,7 @@ msgstr "Igen, küldök anoním statisztikákat."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
 msgid "<b>System Information</b>"
-msgstr "<b>Rendszer Információ</b>"
+msgstr "<b>Rendszerinformáció</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2216
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2437
@@ -820,7 +821,7 @@ msgstr "<b>Port</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2356
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "Allow Remote Connections"
-msgstr "Távoli Kapcsolatok Engedélyezése"
+msgstr "Távoli kapcsolatok engedélyezése"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2367
 msgid "<b>Connections</b>"
@@ -861,7 +862,7 @@ msgstr "Ne számold a lassú torrenteket"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2670
 msgid "<b>Active Torrents</b>"
-msgstr "<b>Aktív Torrentek</b>"
+msgstr "<b>Aktív torrentek</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2759
 msgid "Seed Time (m):"
@@ -869,11 +870,11 @@ msgstr "Feltöltési idő (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "Seed Time Ratio:"
-msgstr "Feltöltési Idő Arány:"
+msgstr "Feltöltési idő arány:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2783
 msgid "Share Ratio Limit:"
-msgstr "Megosztási Arány Korlát:"
+msgstr "Megosztási arány korlát:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
 msgid "Stop seeding when share ratio reaches:"
@@ -951,7 +952,7 @@ msgstr "<b>Peer</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
 msgid "<b>Web Seed</b>"
-msgstr "<b>Web Seed</b>"
+msgstr "<b>Webes seed</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
@@ -975,7 +976,7 @@ msgstr "Nem elérhető Windowson"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
-msgstr "Felbukkanó"
+msgstr "Felugró ablak"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3787
 msgid "Only OGG and WAV files are supported"
@@ -983,7 +984,7 @@ msgstr "Csak az OGG és WAV fájlok támogatottak"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3788
 msgid "Sound:"
-msgstr "Hang:"
+msgstr "Hang lejátszása"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3866
 msgid "Address:"
@@ -1013,7 +1014,7 @@ msgstr "Biztonság:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4025
 msgid "<b>Email</b>"
-msgstr "<b>E-mail</b>"
+msgstr "<b>Email</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4084
 msgid "<i><b><big>Plugins</big></b></i>"
@@ -1269,7 +1270,7 @@ msgstr "Torrent _Hozzáadása"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
-msgstr "Mindet _Megállít"
+msgstr "Összes f_elfüggesztése"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
 msgid "_Resume All"
@@ -1441,7 +1442,7 @@ msgstr "<b>Feltöltési Idő:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:776
 msgid "<b>Active Time:</b>"
-msgstr "<b>Aktív Idő:</b>"
+msgstr "Eltelt idő:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:833
 msgid "<b>Tracker Status:</b>"
@@ -1534,7 +1535,7 @@ msgstr "_Fájlok"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "_Partnerek"
+msgstr "Partnerek"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -2822,7 +2823,7 @@ msgstr "... és a torrent fájl törlése"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Active time"
-msgstr "Aktív idő"
+msgstr "Eltelt idő"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 msgid "Admin"
@@ -3107,39 +3108,3 @@ msgstr "Feltöltve"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "másodperc"
-
-#~ msgid "Graph"
-#~ msgstr "Grafikon"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Új lista keresése minden:"
-
-#~ msgid "Days"
-#~ msgstr "Napok"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Blokklista betöltése induláskor"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Beállítások</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Blokklista fájl letöltése ha szükséges és betöltés."
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Letöltés ellenőrzése és betöltés"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Új blokklista letöltése és betöltése."
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Letöltés erőltetése és betöltés"
-
-#~ msgid "File Size:"
-#~ msgstr "Fájlméret:"
-
-#~ msgid "Date:"
-#~ msgstr "Dátum:"
-
-#~ msgid "_Statistics"
-#~ msgstr "_Statisztikák"

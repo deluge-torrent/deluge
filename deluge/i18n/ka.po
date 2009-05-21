@@ -14,8 +14,959 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/plugins/label/label/data/label_options.glade:132
+#: deluge/plugins/label/label/data/label_options.glade:195
+#: deluge/ui/gtkui/glade/main_window.glade:1770
+#: deluge/ui/gtkui/glade/main_window.glade:1782
+#: deluge/ui/gtkui/statusbar.py:332 deluge/ui/gtkui/statusbar.py:342
+#: deluge/ui/gtkui/statusbar.py:347 deluge/ui/gtkui/statusbar.py:359
+#: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/statusbar.py:387
+#: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/status_tab.py:51
+#: deluge/ui/gtkui/systemtray.py:190 deluge/ui/gtkui/systemtray.py:194
+#: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
+#: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/systemtray.py:339
+msgid "KiB/s"
+msgstr "KiB/s"
+
+#: deluge/plugins/label/label/data/label_options.glade:703
+msgid "Name:"
+msgstr "სახელი:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "_ფაილი"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
+msgid "<b>Torrents</b>"
+msgstr "<b>ტორენტები</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
+#: deluge/ui/gtkui/glade/main_window.glade:1955
+msgid "Select A Folder"
+msgstr "საქაღალდის ამორჩევა"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "<b>Download Location</b>"
+msgstr "<b>ჩამოტვირთული ფაილების მდებარეობა</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
+msgid "<b>Allocation</b>"
+msgstr "განთავსება"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
+msgid "URL:"
+msgstr "URL:"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+msgid "_Queue"
+msgstr "რიგი"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+msgid "_Update Tracker"
+msgstr "მეთვალყურის განახლება"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2078
+msgid "_Edit Trackers"
+msgstr "მეთვალყურეთა რედაქტირება"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+msgid "_Remove Torrent"
+msgstr "ტორენტის ამოღება"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+msgid "_Download Speed Limit"
+msgstr "ჩამოტვირთვის სიჩქარის ლიმიტი"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+msgid "_Upload Speed Limit"
+msgstr "ატვირთვის სიჩქარის ლიმიტი"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "პარამეტრები"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+msgid ""
+"Full allocation preallocates all of the space that is needed for the torrent "
+"and prevents disk fragmentation"
+msgstr ""
+"სრული ლოკაცია წინასწარ მონიშნავს სივრცეს, რომელიც საჭიროა ტორენტისაგან და "
+"ამით გამორიცხავს ფრაგმენტაციას"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:338
+msgid "Use Full Allocation"
+msgstr "სრული განთავსების ათვისება"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:353
+msgid "Compact allocation only allocates space as needed"
+msgstr "სივრცის კომპაქტური თვისება მხოლოდ საჭიროების მიხედვით"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:354
+#: deluge/ui/webui/config_tabs_deluge.py:135
+msgid "Use Compact Allocation"
+msgstr "კომპაქტური განთავსების გამოყენება"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:406
+msgid "Prioritize first and last pieces of files in torrent"
+msgstr "პირველი და ბოლო ნაჭრების პრიორიზება ტორენტში"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:518
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "დელუჯი ავტომატურად შეარჩევს განსხვავებულ პორტს ყოველ ჯერზე."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
+msgid "Active Port:"
+msgstr "აქტიური პორტი:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
+msgid "0000"
+msgstr "0000"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
+msgid "From:"
+msgstr "საიდან:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
+msgid "To:"
+msgstr "სად:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:636
+msgid "Test Active Port"
+msgstr "აქტიური პორტის ტესტირება"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:893
+msgid "Distributed hash table may improve the amount of active connections."
+msgstr "დისტრიბუციული ჰეშ ცხრილი ხელს უწყობს აქტიურ შეერთებებს"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:894
+msgid "DHT"
+msgstr "DHT"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:927
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:928
+msgid "Peer Exchange"
+msgstr "პირების გაცვლა–გამოცვლა"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:944
+msgid "NAT Port Mapping Protocol"
+msgstr "NAT პორტების მინიჭების პროტოკოლი"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:945
+#: deluge/ui/webui/config_tabs_deluge.py:71
+msgid "NAT-PMP"
+msgstr "NAT-PMP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:961
+msgid "Universal Plug and Play"
+msgstr "Universal Plug and Play"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:962
+msgid "UPnP"
+msgstr "UPnP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:979
+msgid "<b>Network Extras</b>"
+msgstr "<b>ქსელური დანამატები</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
+msgid "Inbound:"
+msgstr "შემომავალი:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
+msgid "Level:"
+msgstr "დონე:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1051
+msgid ""
+"Handshake\n"
+"Full Stream\n"
+"Either"
+msgstr ""
+"ხელის ჩამორთმევა\n"
+"სრული დინება\n"
+"სხვა"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
+msgid "Outbound:"
+msgstr "გამავალი:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1126
+msgid "<b>Encryption</b>"
+msgstr "<b>დაშიფრვა</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1234
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr ""
+"ატვირთვის მაქსიმალური სლოტების რაოდენობა. მიუთითეთ –1 ლიმიტოს მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1323
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"მაქსიმალური ატვირთვის სიჩქარე ყველა ტორენტისათვის. მიუთითეთ –1 ლიმიტის "
+"მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1273
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"ყველა ტორენტის ჩამოტვირთვის მაქსიმალური სიჩქარე. დააყენეთ–1 ლიმიტის "
+"მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1550
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "ჩამოტვირთვის მაქსიმალური  სიჩქარე(KiB/s):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1305
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "შეერთებათა მაქსიმალური რაოდენობა. დააყენეთ–1 ლიმიტის მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
+msgid "Maximum Upload Slots:"
+msgstr "ატვირთვის მაქსიმალური სლოტები"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
+msgid "Maximum Connections:"
+msgstr "მაქსიმალური შეერთებები:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "ატვირთვის მაქსიმალური  სიჩქარე(KiB/s):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
+msgid "Maximum Half-Open Connections:"
+msgstr "მაქსიმალური ნახევრად ღია შეერთებები:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1373
+msgid "Maximum Connection Attempts per Second:"
+msgstr "შეერთების მცდელობების რაოდენობა ერთ წამში:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
+msgid "<b>Global Bandwidth Usage</b>"
+msgstr "<b>გამტარუანრიანობის გლობალური გამოყენება</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1500
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1518
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1586
+msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
+msgstr ""
+"მაქსიმალური შეერთებების რაოდენობა ტორენტზე. მიუთითეთ –1 ლიმიტოს მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1602
+msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
+msgstr ""
+"მაქსიმალური ატვირთვის სლოტები ტორენტზე. დააყენეთ – 1 ლიმიტის მოსახსნელად."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1625
+msgid "<b>Per Torrent Bandwidth Usage</b>"
+msgstr "<b>გამტარუნარიანობის გამოყენება ტორენტზე</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
+#: deluge/ui/webui/scripts/template_strings.py:43
+msgid "Enable"
+msgstr "ჩართვა"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
+msgid "Enable system tray icon"
+msgstr "სისტემური პანელის ხატულა"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
+msgid "Minimize to tray on close"
+msgstr "მინიმიზაცია სისტემურ პანელში დახურვისას"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
+msgid "Start in tray"
+msgstr "გაშვება სისტემურ პანელში"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1934
+msgid "Password protect system tray"
+msgstr "სისტემური პანელის პაროლით დაცვა"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
+#: deluge/ui/gtkui/glade/connection_manager.glade:129
+msgid "Password:"
+msgstr "პაროლი"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
+msgid "<b>System Tray</b>"
+msgstr "<b>სისტემური პანელი</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2095
+msgid ""
+"Deluge will check our servers and will tell you if a newer version has been "
+"released"
+msgstr ""
+"დელუჯი შეამოწმებს ჩვენს სერვერებს და შეგატყობინებთ ახალი ვერსიის გამოსვლის "
+"შესახებ"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2096
+msgid "Be alerted about new releases"
+msgstr "შეტყობინება ახალი ვერსის გამოსვლისას"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2115
+msgid "<b>Updates</b>"
+msgstr "განახლებები"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
+msgid "<b>System Information</b>"
+msgstr "<b>ინფორმაცია სისტემის შესახებ</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
+msgid "<b>Seeding</b>"
+msgstr "<b>თესვა</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2992
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3168
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3347
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3526
+msgid ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+msgstr ""
+"არცერთი\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
+msgid "<b>DHT</b>"
+msgstr "<b>DHT</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#: deluge/ui/webui/scripts/template_strings.py:42
+msgid "Edit Trackers"
+msgstr "მათვალყრეთა რედაქტირება"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "ანჭრის ზომა:"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "აჩვენე დელუჯი"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:28
+msgid "_Add Torrent"
+msgstr "ტორენტის დამატება"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+msgid "_Pause All"
+msgstr "სრული პაუზა"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "განაგრძე ყველა"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:146
+msgid "_Quit"
+msgstr "გასვლა"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "რ_ედაქტირება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:128
+msgid "_Torrent"
+msgstr "ტორენტი"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_View"
+msgstr "_ხედი"
+
+#: deluge/ui/gtkui/glade/main_window.glade:143
+msgid "_Toolbar"
+msgstr "ხელსაწყოთა _პანელი"
+
+#: deluge/ui/gtkui/glade/main_window.glade:183
+msgid "_Columns"
+msgstr "_კოლონები"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "დახმარება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:313
+#: deluge/ui/webui/scripts/template_strings.py:9
+msgid "Add torrent"
+msgstr "ტორენტის დამატება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "ტორენტის დამატება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "ტორენტის ამოღება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "პაუზა"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "გაგრძელება"
+
+#: deluge/ui/gtkui/glade/main_window.glade:386
+msgid "Queue Torrent Up"
+msgstr "ტორენტის რიგში მაღლა ატანა"
+
+#: deluge/ui/gtkui/glade/main_window.glade:400
+msgid "Queue Torrent Down"
+msgstr "ტორენტის რიგში დაბლა ჩამოტანა"
+
+#: deluge/ui/gtkui/glade/main_window.glade:401
+#: deluge/ui/webui/register_menu.py:48
+msgid "Queue Down"
+msgstr "რიგში უკან დაწევა"
+
+#: deluge/ui/gtkui/glade/main_window.glade:833
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>მეთვალყურის სტატუსი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:863
+msgid "<b>Availability:</b>"
+msgstr "<b>ხელმისაწვდომობა:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:917
+msgid "<b>Peers:</b>"
+msgstr "<b>პირები:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:943
+msgid "<b>Seeders:</b>"
+msgstr "<b>მთესველები:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:961
+msgid "<b>Pieces:</b>"
+msgstr "<b>ნაჭერი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:983
+msgid "<b>ETA:</b>"
+msgstr "<b>ETA:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1005
+#: deluge/ui/gtkui/glade/main_window.glade:1027
+msgid "<b>Speed:</b>"
+msgstr "<b>სიჩქარე:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1046
+msgid "<b>Next Announce:</b>"
+msgstr "<b>შემდეგი ანონსი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1065
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>საზიარო რეიტინგი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1084
+msgid "<b>Uploaded:</b>"
+msgstr "<b>ატვირთულია:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1103
+msgid "<b>Downloaded:</b>"
+msgstr "<b>ჩამოტვირთულია:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1290
+msgid "<b># of files:</b>"
+msgstr "<b># ფაილებიდან:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1352
+msgid "<b>Tracker:</b>"
+msgstr "<b>მეთვალყურე:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1372
+msgid "<b>Total Size:</b>"
+msgstr "<b>სრული ზომა:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>სახელი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1430
+msgid "<b>Path:</b>"
+msgstr "<b>გეზი:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1530
+msgid "_Details"
+msgstr "_დეტალები"
+
+#: deluge/core/torrentmanager.py:668
+msgid "Announce OK"
+msgstr "ანონსი OK"
+
+#: deluge/core/torrentmanager.py:698
+msgid "Alert"
+msgstr "გაფრთხილება"
+
+#: deluge/core/torrentmanager.py:709
+msgid "Warning"
+msgstr "ყურადღება"
+
+#: deluge/core/torrentmanager.py:719
+#: deluge/ui/webui/scripts/template_strings.py:44
+msgid "Error"
+msgstr "შეცდომა"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:38
+msgid "Emule IP list (GZip)"
+msgstr "Emule IP სია (GZip ფორმატში)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:39
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer ტექსტი (Zip ფორმატში)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:40
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian Text (შეკუმშვის გარეშე)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:41
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip ფორმატში)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:70
+#: deluge/ui/webui/torrent_add.py:57
+msgid "Url"
+msgstr "Url"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "არასწორი ლიდერი"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "არასწორი მაგიური კოდი"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "არასწორი ვერსია"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "შეერთებები"
+
+#: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
+#: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
+#: deluge/ui/gtkui/systemtray.py:192 deluge/ui/gtkui/systemtray.py:335
+#: deluge/ui/gtkui/common.py:54 deluge/ui/webui/lib/newforms_plus.py:197
+#: deluge/ui/webui/lib/newforms_plus.py:216
+#: deluge/ui/webui/scripts/template_strings.py:115
+msgid "Unlimited"
+msgstr "ლიმიტის გარეშე"
+
+#: deluge/ui/gtkui/statusbar.py:368 deluge/ui/gtkui/statusbar.py:396
+#: deluge/ui/gtkui/statusbar.py:423 deluge/ui/gtkui/systemtray.py:338
+#: deluge/ui/gtkui/common.py:111 deluge/ui/gtkui/common.py:112
+msgid "Other..."
+msgstr "სხვა..."
+
+#: deluge/ui/gtkui/addtorrentdialog.py:91 deluge/ui/gtkui/files_tab.py:98
+#: deluge/ui/gtkui/createtorrentdialog.py:65
+msgid "Filename"
+msgstr "ფაილის სახელი"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "ზომა"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:496
+msgid "Choose a .torrent file"
+msgstr "შეარჩიე .torrent ფაილი"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:508
+#: deluge/ui/gtkui/createtorrentdialog.py:221
+msgid "Torrent files"
+msgstr "ტორენტ ფაილები"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:225
+msgid "All files"
+msgstr "ყველა ფაილი"
+
+#: deluge/ui/gtkui/systemtray.py:197
+msgid "Deluge"
+msgstr "დელუჯი"
+
+#: deluge/ui/gtkui/systemtray.py:197
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "Down"
+msgstr "დაბლა"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "ზევით"
+
+#: deluge/ui/gtkui/systemtray.py:366
+msgid "Deluge is locked"
+msgstr "დელუჯი ბლოკირებულია"
+
+#: deluge/ui/gtkui/systemtray.py:369
+msgid ""
+"Deluge is password protected.\n"
+"To show the Deluge window, please enter your password"
+msgstr ""
+"დელუჯი დაცულია პაროლით.\n"
+"დელუჯის განჯრის გამოსახვისთვის აკიფეთ თქვენი პაროლი"
+
+#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/gtkui/torrentview.py:141
+#: deluge/ui/webui/scripts/template_strings.py:82
+msgid "Progress"
+msgstr "პროგრესი"
+
+#: deluge/ui/gtkui/files_tab.py:144
+msgid "Priority"
+msgstr "პრიორიტეტი"
+
+#: deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/webui/scripts/template_strings.py:71
+msgid "Off"
+msgstr "გამორთვა"
+
+#: deluge/ui/gtkui/menubar.py:301
+msgid "Choose a directory to move files to"
+msgstr "შეარჩიეთ დირექტორია ფაილების გადასატანად"
+
+#: deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Client"
+msgstr "კლიენტი"
+
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Down Speed"
+msgstr "ჩამოტვირთვის სიჩქარე"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
+#: deluge/ui/webui/scripts/template_strings.py:117
+msgid "Up Speed"
+msgstr "ატვირთვის სიჩქარე"
+
+#: deluge/ui/gtkui/notification.py:67
+msgid "Torrent complete"
+msgstr "ტორენტი დასრულდა"
+
+#: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
+msgid "Filters"
+msgstr "ფილტრები"
+
+#: deluge/ui/gtkui/common.py:57
+msgid "Activated"
+msgstr "აქტიურია"
+
+#: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
+#: deluge/ui/gtkui/createtorrentdialog.py:90
+#: deluge/ui/webui/scripts/template_strings.py:111
+msgid "Tracker"
+msgstr "მეთვალყურე"
+
+#: deluge/ui/gtkui/preferences.py:60
+msgid "Bandwidth"
+msgstr "გამტარუნარიანობა"
+
+#: deluge/ui/gtkui/preferences.py:61
+#: deluge/ui/webui/scripts/template_strings.py:74
+msgid "Other"
+msgstr "სხვა"
+
+#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Enabled"
+msgstr "ჩართულია"
+
+#: deluge/ui/gtkui/preferences.py:75
+msgid "Plugin"
+msgstr "მოდული"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr ""
+"_: instable.src#DLG_INSERT_TABLE.FT_NAME.fixedtext.text\n"
+"სახელი"
+
+#: deluge/ui/gtkui/torrentview.py:145
+#: deluge/ui/webui/scripts/template_strings.py:96
+msgid "Seeders"
+msgstr "მთესველები"
+
+#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
+#: deluge/ui/webui/scripts/template_strings.py:79
+msgid "Peers"
+msgstr "პირები"
+
+#: deluge/ui/gtkui/torrentview.py:163
+#: deluge/ui/webui/scripts/template_strings.py:41
+msgid "ETA"
+msgstr "ETA"
+
+#: deluge/ui/gtkui/torrentview.py:167
+#: deluge/ui/webui/scripts/template_strings.py:85
+msgid "Ratio"
+msgstr "რატიო"
+
+#: deluge/ui/webui/register_menu.py:31
+#: deluge/ui/webui/scripts/template_strings.py:20
+msgid "Config"
+msgstr "კონფიგურაცია"
+
+#: deluge/ui/webui/register_menu.py:33
+#: deluge/ui/webui/scripts/template_strings.py:5
+msgid "About"
+msgstr "პროგრამის შესახებ"
+
+#: deluge/ui/webui/register_menu.py:34
+#: deluge/ui/webui/scripts/template_strings.py:60
+msgid "Logout"
+msgstr "გამოსვლა"
+
+#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Details"
+msgstr "დეტალები"
+
+#: deluge/ui/webui/register_menu.py:41
+#: deluge/ui/webui/scripts/template_strings.py:48
+msgid "Files"
+msgstr "ფაილები"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "დამატება"
+
+#: deluge/ui/webui/register_menu.py:53
+msgid "Reannounce"
+msgstr "ხელახალი ანონსი"
+
+#: deluge/ui/webui/config_tabs_deluge.py:38
+msgid "From"
+msgstr "საიდან"
+
+#: deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Disabled"
+msgstr "გამორთული"
+
+#: deluge/ui/webui/config_tabs_deluge.py:95
+msgid "Type"
+msgstr "ტიპი"
+
+#: deluge/ui/webui/config_tabs_deluge.py:97
+#: deluge/ui/webui/config_tabs_deluge.py:144
+#: deluge/ui/webui/config_tabs_webui.py:60
+msgid "Port"
+msgstr "პორტი"
+
+#: deluge/ui/webui/config_tabs_deluge.py:98
+msgid "Username"
+msgstr "მომხმარებელი"
+
+#: deluge/ui/webui/config_tabs_deluge.py:99
+#: deluge/ui/webui/config_tabs_webui.py:82
+#: deluge/ui/webui/scripts/template_strings.py:75
+msgid "Password"
+msgstr "პაროლი"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Download"
+msgstr "ჩამოტვირთვა"
+
+#: deluge/ui/webui/lib/newforms_portable/django/utils/translation.py:2
+msgid "translate something"
+msgstr "რამის თარგმან"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "უცნობია"
+
+#: deluge/ui/webui/config_tabs_webui.py:41
+#: deluge/ui/webui/config_tabs_webui.py:47
+msgid "Template"
+msgstr "შაბლონი"
+
+#: deluge/ui/webui/config_tabs_webui.py:44
+msgid "Text and image"
+msgstr "ტექსტი და სურათები"
+
+#: deluge/ui/webui/config_tabs_webui.py:44
+msgid "Image Only"
+msgstr "მხოლოდ სურათები"
+
+#: deluge/ui/webui/config_tabs_webui.py:45
+msgid "Text Only"
+msgstr "მხოლოდ ტექსტი"
+
+#: deluge/ui/webui/config_tabs_webui.py:57
+msgid "Server"
+msgstr "სერვერი"
+
+#: deluge/ui/webui/config_tabs_webui.py:85
+msgid "New Password"
+msgstr "ახალი პაროლი"
+
+#: deluge/ui/webui/torrent_add.py:59
+msgid "Upload torrent"
+msgstr "ტორენტის ატვირთვა"
+
+#: deluge/ui/webui/scripts/template_strings.py:1
+msgid "# Of Files"
+msgstr "# ფალებიდან"
+
+#: deluge/ui/webui/scripts/template_strings.py:13
+msgid "Auto refresh:"
+msgstr "ავტომატური განახლება:"
+
+#: deluge/ui/webui/scripts/template_strings.py:14
+msgid "Ava"
+msgstr "Ava"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Availability"
+msgstr "ხელმისაწვდომობა"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "გაწმენდა"
+
+#: deluge/ui/webui/scripts/template_strings.py:29
+msgid "Delete .torrent file"
+msgstr "წაშალე .torrent ფაილი"
+
+#: deluge/ui/webui/scripts/template_strings.py:30
+msgid "Delete downloaded files."
+msgstr "ჩამოტვირთული ფაილების წაშლა"
+
+#: deluge/ui/webui/scripts/template_strings.py:34
+msgid "Disable"
+msgstr "გამორთვა"
+
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Downloaded"
+msgstr "ჩამოტვირთულია"
+
+#: deluge/ui/webui/scripts/template_strings.py:45
+msgid "Eta"
+msgstr "Eta"
+
+#: deluge/ui/webui/scripts/template_strings.py:59
+msgid "Login"
+msgstr "შესვლა"
+
+#: deluge/ui/webui/scripts/template_strings.py:65
+msgid "Next Announce"
+msgstr "შემდეგი ანონსი"
+
+#: deluge/ui/webui/scripts/template_strings.py:76
+msgid "Password is invalid,try again"
+msgstr "არასწორი პაროლი, კიდევ სცადეთ"
+
+#: deluge/ui/webui/scripts/template_strings.py:78
+msgid "Pause all"
+msgstr "ყველას პაუზა"
+
+#: deluge/ui/webui/scripts/template_strings.py:80
+msgid "Pieces"
+msgstr "ნაჭრები"
+
+#: deluge/ui/webui/scripts/template_strings.py:86
+msgid "Refresh page every:"
+msgstr "გვერდის განახლება ყოველ:"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "ამოღება"
+
+#: deluge/ui/webui/scripts/template_strings.py:92
+msgid "Resume all"
+msgstr "ყველას გაგრძელება"
+
+#: deluge/ui/webui/scripts/template_strings.py:98
+msgid "Select All"
+msgstr "ყველას მონიშვნა"
+
+#: deluge/ui/webui/scripts/template_strings.py:99
+msgid "Set"
+msgstr "მითითება"
+
+#: deluge/ui/webui/scripts/template_strings.py:100
+msgid "Set Timeout"
+msgstr "დროის მითითება"
+
+#: deluge/ui/webui/scripts/template_strings.py:101
+msgid "Share Ratio"
+msgstr "ზიარი რეიტინგი"
+
+#: deluge/ui/webui/scripts/template_strings.py:103
+msgid "Speed"
+msgstr "სიჩქარე"
+
+#: deluge/ui/webui/scripts/template_strings.py:107
+msgid "Submit"
+msgstr "გაგზავნა"
+
+#: deluge/ui/webui/scripts/template_strings.py:109
+msgid "Torrent list"
+msgstr "ტორენტების სია"
+
+#: deluge/ui/webui/scripts/template_strings.py:110
+msgid "Total Size"
+msgstr "სრული ზომა"
+
+#: deluge/ui/webui/scripts/template_strings.py:112
+msgid "Tracker Status"
+msgstr "მეთვალყურის სტატუსი"
+
+#: deluge/ui/webui/scripts/template_strings.py:120
+msgid "Upload"
+msgstr "ატვირთვა"
+
+#: deluge/ui/webui/scripts/template_strings.py:122
+msgid "Uploaded"
+msgstr "ატვირთულია"
+
+#: deluge/ui/webui/scripts/template_strings.py:123
+msgid "seconds"
+msgstr "წამები"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -32,20 +983,6 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
 msgstr ""
-
-#: deluge/plugins/label/label/data/label_options.glade:132
-#: deluge/plugins/label/label/data/label_options.glade:195
-#: deluge/ui/gtkui/glade/main_window.glade:1770
-#: deluge/ui/gtkui/glade/main_window.glade:1782
-#: deluge/ui/gtkui/statusbar.py:332 deluge/ui/gtkui/statusbar.py:342
-#: deluge/ui/gtkui/statusbar.py:347 deluge/ui/gtkui/statusbar.py:359
-#: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/statusbar.py:387
-#: deluge/ui/gtkui/statusbar.py:398 deluge/ui/gtkui/status_tab.py:51
-#: deluge/ui/gtkui/systemtray.py:190 deluge/ui/gtkui/systemtray.py:194
-#: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
-#: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/systemtray.py:339
-msgid "KiB/s"
-msgstr "KiB/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -141,10 +1078,6 @@ msgstr ""
 msgid "<b>Add Label</b>"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_options.glade:703
-msgid "Name:"
-msgstr "სახელი:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
@@ -153,12 +1086,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "_ფაილი"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
@@ -172,25 +1099,9 @@ msgstr ""
 msgid "_Remove"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
-msgid "<b>Torrents</b>"
-msgstr "<b>ტორენტები</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
-#: deluge/ui/gtkui/glade/main_window.glade:1955
-msgid "Select A Folder"
-msgstr "საქაღალდის ამორჩევა"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "<b>Download Location</b>"
-msgstr "<b>ჩამოტვირთული ფაილების მდებარეობა</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
@@ -200,11 +1111,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
-msgid "<b>Allocation</b>"
-msgstr "განთავსება"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:558
 msgid "Max Down Speed:"
@@ -265,10 +1171,6 @@ msgstr ""
 msgid "<b>From URL</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
-msgid "URL:"
-msgstr "URL:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
 msgstr ""
@@ -311,23 +1213,6 @@ msgstr ""
 msgid "Opt_ions"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
-msgid "_Queue"
-msgstr "რიგი"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
-msgid "_Update Tracker"
-msgstr "მეთვალყურის განახლება"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2078
-msgid "_Edit Trackers"
-msgstr "მეთვალყურეთა რედაქტირება"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
-msgid "_Remove Torrent"
-msgstr "ტორენტის ამოღება"
-
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
 msgstr ""
@@ -335,16 +1220,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-msgid "_Download Speed Limit"
-msgstr "ჩამოტვირთვის სიჩქარის ლიმიტი"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-msgid "_Upload Speed Limit"
-msgstr "ატვირთვის სიჩქარის ლიმიტი"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -374,12 +1249,6 @@ msgstr ""
 msgid "Remove _Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "პარამეტრები"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
@@ -400,31 +1269,6 @@ msgstr ""
 msgid "<b>Folders</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
-msgid ""
-"Full allocation preallocates all of the space that is needed for the torrent "
-"and prevents disk fragmentation"
-msgstr ""
-"სრული ლოკაცია წინასწარ მონიშნავს სივრცეს, რომელიც საჭიროა ტორენტისაგან და "
-"ამით გამორიცხავს ფრაგმენტაციას"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:338
-msgid "Use Full Allocation"
-msgstr "სრული განთავსების ათვისება"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:353
-msgid "Compact allocation only allocates space as needed"
-msgstr "სივრცის კომპაქტური თვისება მხოლოდ საჭიროების მიხედვით"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:354
-#: deluge/ui/webui/config_tabs_deluge.py:135
-msgid "Use Compact Allocation"
-msgstr "კომპაქტური განთავსების გამოყენება"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:406
-msgid "Prioritize first and last pieces of files in torrent"
-msgstr "პირველი და ბოლო ნაჭრების პრიორიზება ტორენტში"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:407
 msgid "Prioritize first and last pieces of torrent"
 msgstr ""
@@ -441,36 +1285,10 @@ msgstr ""
 msgid "<b><i><big>Network</big></i></b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:518
-msgid "Deluge will automatically choose a different port to use every time."
-msgstr "დელუჯი ავტომატურად შეარჩევს განსხვავებულ პორტს ყოველ ჯერზე."
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:519
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:707
 msgid "Use Random Ports"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
-msgid "Active Port:"
-msgstr "აქტიური პორტი:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
-msgid "From:"
-msgstr "საიდან:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
-msgid "To:"
-msgstr "სად:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:636
-msgid "Test Active Port"
-msgstr "აქტიური პორტის ტესტირება"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:675
 msgid "<b>Incoming Ports</b>"
@@ -498,14 +1316,6 @@ msgstr ""
 msgid "<b>TOS</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:893
-msgid "Distributed hash table may improve the amount of active connections."
-msgstr "დისტრიბუციული ჰეშ ცხრილი ხელს უწყობს აქტიურ შეერთებებს"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:894
-msgid "DHT"
-msgstr "DHT"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:912
 msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
@@ -515,40 +1325,6 @@ msgstr ""
 msgid "LSD"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:927
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:928
-msgid "Peer Exchange"
-msgstr "პირების გაცვლა–გამოცვლა"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:944
-msgid "NAT Port Mapping Protocol"
-msgstr "NAT პორტების მინიჭების პროტოკოლი"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:945
-#: deluge/ui/webui/config_tabs_deluge.py:71
-msgid "NAT-PMP"
-msgstr "NAT-PMP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:961
-msgid "Universal Plug and Play"
-msgstr "Universal Plug and Play"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:962
-msgid "UPnP"
-msgstr "UPnP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:979
-msgid "<b>Network Extras</b>"
-msgstr "<b>ქსელური დანამატები</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
-msgid "Inbound:"
-msgstr "შემომავალი:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
-msgid "Level:"
-msgstr "დონე:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1043
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1088
 msgid ""
@@ -557,27 +1333,9 @@ msgid ""
 "Disabled"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1051
-msgid ""
-"Handshake\n"
-"Full Stream\n"
-"Either"
-msgstr ""
-"ხელის ჩამორთმევა\n"
-"სრული დინება\n"
-"სხვა"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
-msgid "Outbound:"
-msgstr "გამავალი:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1103
 msgid "Encrypt entire stream"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1126
-msgid "<b>Encryption</b>"
-msgstr "<b>დაშიფრვა</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1160
 msgid "page 7"
@@ -586,59 +1344,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1191
 msgid "<b><i><big>Bandwidth</big></i></b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1234
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"ატვირთვის მაქსიმალური სლოტების რაოდენობა. მიუთითეთ –1 ლიმიტოს მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1323
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"მაქსიმალური ატვირთვის სიჩქარე ყველა ტორენტისათვის. მიუთითეთ –1 ლიმიტის "
-"მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1273
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"ყველა ტორენტის ჩამოტვირთვის მაქსიმალური სიჩქარე. დააყენეთ–1 ლიმიტის "
-"მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1550
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "ჩამოტვირთვის მაქსიმალური  სიჩქარე(KiB/s):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1305
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "შეერთებათა მაქსიმალური რაოდენობა. დააყენეთ–1 ლიმიტის მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
-msgid "Maximum Upload Slots:"
-msgstr "ატვირთვის მაქსიმალური სლოტები"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
-msgid "Maximum Connections:"
-msgstr "მაქსიმალური შეერთებები:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "ატვირთვის მაქსიმალური  სიჩქარე(KiB/s):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
-msgid "Maximum Half-Open Connections:"
-msgstr "მაქსიმალური ნახევრად ღია შეერთებები:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1373
-msgid "Maximum Connection Attempts per Second:"
-msgstr "შეერთების მცდელობების რაოდენობა ერთ წამში:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1423
 #: deluge/ui/webui/config_tabs_deluge.py:113
@@ -655,26 +1360,6 @@ msgstr ""
 msgid "Rate limit IP overhead"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
-msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>გამტარუანრიანობის გლობალური გამოყენება</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1500
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1518
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1586
-msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-"მაქსიმალური შეერთებების რაოდენობა ტორენტზე. მიუთითეთ –1 ლიმიტოს მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1602
-msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
-"მაქსიმალური ატვირთვის სლოტები ტორენტზე. დააყენეთ – 1 ლიმიტის მოსახსნელად."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1625
-msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>გამტარუნარიანობის გამოყენება ტორენტზე</b>"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 msgid "page 8"
 msgstr ""
@@ -690,12 +1375,6 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
-#: deluge/ui/webui/scripts/template_strings.py:43
-msgid "Enable"
-msgstr "ჩართვა"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
@@ -721,36 +1400,6 @@ msgstr ""
 msgid "<b>Add Torrents Dialog</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1879
-msgid "Enable system tray icon"
-msgstr "სისტემური პანელის ხატულა"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1894
-msgid "Minimize to tray on close"
-msgstr "მინიმიზაცია სისტემურ პანელში დახურვისას"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1913
-msgid "Start in tray"
-msgstr "გაშვება სისტემურ პანელში"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1934
-msgid "Password protect system tray"
-msgstr "სისტემური პანელის პაროლით დაცვა"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
-#: deluge/ui/gtkui/glade/connection_manager.glade:129
-msgid "Password:"
-msgstr "პაროლი"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
-msgid "<b>System Tray</b>"
-msgstr "<b>სისტემური პანელი</b>"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2022
 msgid "page 10"
 msgstr ""
@@ -758,22 +1407,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2053
 msgid "<i><b><big>Other</big></b></i>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2095
-msgid ""
-"Deluge will check our servers and will tell you if a newer version has been "
-"released"
-msgstr ""
-"დელუჯი შეამოწმებს ჩვენს სერვერებს და შეგატყობინებთ ახალი ვერსიის გამოსვლის "
-"შესახებ"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2096
-msgid "Be alerted about new releases"
-msgstr "შეტყობინება ახალი ვერსის გამოსვლისას"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2115
-msgid "<b>Updates</b>"
-msgstr "განახლებები"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2151
 msgid ""
@@ -784,10 +1417,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "Yes, please send anonymous statistics"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
-msgid "<b>System Information</b>"
-msgstr "<b>ინფორმაცია სისტემის შესახებ</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2216
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2437
@@ -872,10 +1501,6 @@ msgstr ""
 msgid "Remove torrent when share ratio reached"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
-msgid "<b>Seeding</b>"
-msgstr "<b>თესვა</b>"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2896
 msgid "page 12"
 msgstr ""
@@ -899,25 +1524,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3516
 msgid "Type:"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2992
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3168
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3347
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3526
-msgid ""
-"None\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-msgstr ""
-"არცერთი\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3046
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3222
@@ -945,10 +1551,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
-msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
 msgid "<b><i><big>Notification</big></i></b>"
@@ -1040,11 +1642,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4378
 msgid "_Rescan Plugins"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-#: deluge/ui/webui/scripts/template_strings.py:42
-msgid "Edit Trackers"
-msgstr "მათვალყრეთა რედაქტირება"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
@@ -1177,10 +1774,6 @@ msgstr ""
 msgid "Webseeds"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "ანჭრის ზომა:"
-
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
 msgid ""
 "32 KiB\n"
@@ -1242,55 +1835,18 @@ msgstr ""
 msgid "hostname:port"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "აჩვენე დელუჯი"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:28
-msgid "_Add Torrent"
-msgstr "ტორენტის დამატება"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "სრული პაუზა"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "განაგრძე ყველა"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:146
-msgid "_Quit"
-msgstr "გასვლა"
-
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "რ_ედაქტირება"
-
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "ტორენტი"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "_ხედი"
-
-#: deluge/ui/gtkui/glade/main_window.glade:143
-msgid "_Toolbar"
-msgstr "ხელსაწყოთა _პანელი"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
@@ -1304,10 +1860,6 @@ msgstr ""
 msgid "T_abs"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "_Columns"
-msgstr "_კოლონები"
-
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
 msgstr ""
@@ -1319,10 +1871,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "დახმარება"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
@@ -1340,56 +1888,18 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:313
-#: deluge/ui/webui/scripts/template_strings.py:9
-msgid "Add torrent"
-msgstr "ტორენტის დამატება"
-
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "ტორენტის დამატება"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "ტორენტის ამოღება"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "პაუზა"
 
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "გაგრძელება"
-
-#: deluge/ui/gtkui/glade/main_window.glade:386
-msgid "Queue Torrent Up"
-msgstr "ტორენტის რიგში მაღლა ატანა"
-
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:400
-msgid "Queue Torrent Down"
-msgstr "ტორენტის რიგში დაბლა ჩამოტანა"
-
-#: deluge/ui/gtkui/glade/main_window.glade:401
-#: deluge/ui/webui/register_menu.py:48
-msgid "Queue Down"
-msgstr "რიგში უკან დაწევა"
 
 #: deluge/ui/gtkui/glade/main_window.glade:551
 msgid "_Expand All"
@@ -1427,51 +1937,6 @@ msgstr ""
 msgid "<b>Active Time:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:833
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>მეთვალყურის სტატუსი:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:863
-msgid "<b>Availability:</b>"
-msgstr "<b>ხელმისაწვდომობა:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:917
-msgid "<b>Peers:</b>"
-msgstr "<b>პირები:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:943
-msgid "<b>Seeders:</b>"
-msgstr "<b>მთესველები:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:961
-msgid "<b>Pieces:</b>"
-msgstr "<b>ნაჭერი:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:983
-msgid "<b>ETA:</b>"
-msgstr "<b>ETA:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1005
-#: deluge/ui/gtkui/glade/main_window.glade:1027
-msgid "<b>Speed:</b>"
-msgstr "<b>სიჩქარე:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1046
-msgid "<b>Next Announce:</b>"
-msgstr "<b>შემდეგი ანონსი:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1065
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>საზიარო რეიტინგი:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1084
-msgid "<b>Uploaded:</b>"
-msgstr "<b>ატვირთულია:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1103
-msgid "<b>Downloaded:</b>"
-msgstr "<b>ჩამოტვირთულია:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1164
 msgid "<b>Date Added:</b>"
 msgstr ""
@@ -1480,37 +1945,13 @@ msgstr ""
 msgid "_Status"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1290
-msgid "<b># of files:</b>"
-msgstr "<b># ფაილებიდან:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1322
 msgid "<b>Hash:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Tracker:</b>"
-msgstr "<b>მეთვალყურე:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1372
-msgid "<b>Total Size:</b>"
-msgstr "<b>სრული ზომა:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>სახელი:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1430
-msgid "<b>Path:</b>"
-msgstr "<b>გეზი:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1530
-msgid "_Details"
-msgstr "_დეტალები"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
@@ -1595,26 +2036,9 @@ msgstr ""
 msgid "Add a peer by its IP"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:668
-msgid "Announce OK"
-msgstr "ანონსი OK"
-
 #: deluge/core/torrentmanager.py:689
 msgid "Announce Sent"
 msgstr ""
-
-#: deluge/core/torrentmanager.py:698
-msgid "Alert"
-msgstr "გაფრთხილება"
-
-#: deluge/core/torrentmanager.py:709
-msgid "Warning"
-msgstr "ყურადღება"
-
-#: deluge/core/torrentmanager.py:719
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Error"
-msgstr "შეცდომა"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
@@ -1728,30 +2152,9 @@ msgstr ""
 msgid "Unknown Torrent"
 msgstr ""
 
-#: deluge/plugins/blocklist/blocklist/webui.py:38
-msgid "Emule IP list (GZip)"
-msgstr "Emule IP სია (GZip ფორმატში)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:39
-msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer ტექსტი (Zip ფორმატში)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:40
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian Text (შეკუმშვის გარეშე)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:41
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip ფორმატში)"
-
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "BlockList"
 msgstr ""
-
-#: deluge/plugins/blocklist/blocklist/webui.py:70
-#: deluge/ui/webui/torrent_add.py:57
-msgid "Url"
-msgstr "Url"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:71
 msgid "Check for every (days)"
@@ -1805,26 +2208,9 @@ msgstr ""
 msgid "Blocklist"
 msgstr ""
 
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "არასწორი ლიდერი"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "არასწორი მაგიური კოდი"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "არასწორი ვერსია"
-
 #: deluge/ui/gtkui/statusbar.py:129
 msgid "Not Connected"
 msgstr ""
-
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "შეერთებები"
 
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
@@ -1841,21 +2227,6 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
 msgstr ""
-
-#: deluge/ui/gtkui/statusbar.py:366 deluge/ui/gtkui/statusbar.py:394
-#: deluge/ui/gtkui/statusbar.py:421 deluge/ui/gtkui/systemtray.py:188
-#: deluge/ui/gtkui/systemtray.py:192 deluge/ui/gtkui/systemtray.py:335
-#: deluge/ui/gtkui/common.py:54 deluge/ui/webui/lib/newforms_plus.py:197
-#: deluge/ui/webui/lib/newforms_plus.py:216
-#: deluge/ui/webui/scripts/template_strings.py:115
-msgid "Unlimited"
-msgstr "ლიმიტის გარეშე"
-
-#: deluge/ui/gtkui/statusbar.py:368 deluge/ui/gtkui/statusbar.py:396
-#: deluge/ui/gtkui/statusbar.py:423 deluge/ui/gtkui/systemtray.py:338
-#: deluge/ui/gtkui/common.py:111 deluge/ui/gtkui/common.py:112
-msgid "Other..."
-msgstr "სხვა..."
 
 #: deluge/ui/gtkui/statusbar.py:370 deluge/ui/gtkui/systemtray.py:325
 #: deluge/ui/gtkui/menubar.py:407
@@ -1875,32 +2246,6 @@ msgstr ""
 msgid "Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:91 deluge/ui/gtkui/files_tab.py:98
-#: deluge/ui/gtkui/createtorrentdialog.py:65
-msgid "Filename"
-msgstr "ფაილის სახელი"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "ზომა"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:496
-msgid "Choose a .torrent file"
-msgstr "შეარჩიე .torrent ფაილი"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:508
-#: deluge/ui/gtkui/createtorrentdialog.py:221
-msgid "Torrent files"
-msgstr "ტორენტ ფაილები"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:512
-#: deluge/ui/gtkui/createtorrentdialog.py:225
-msgid "All files"
-msgstr "ყველა ფაილი"
-
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
@@ -1914,42 +2259,6 @@ msgid ""
 "<http://www.gnu.org/licenses>."
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:197
-msgid "Deluge"
-msgstr "დელუჯი"
-
-#: deluge/ui/gtkui/systemtray.py:197
-#: deluge/ui/webui/scripts/template_strings.py:37
-msgid "Down"
-msgstr "დაბლა"
-
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "ზევით"
-
-#: deluge/ui/gtkui/systemtray.py:366
-msgid "Deluge is locked"
-msgstr "დელუჯი ბლოკირებულია"
-
-#: deluge/ui/gtkui/systemtray.py:369
-msgid ""
-"Deluge is password protected.\n"
-"To show the Deluge window, please enter your password"
-msgstr ""
-"დელუჯი დაცულია პაროლით.\n"
-"დელუჯის განჯრის გამოსახვისთვის აკიფეთ თქვენი პაროლი"
-
-#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
-#: deluge/ui/gtkui/torrentview.py:141
-#: deluge/ui/webui/scripts/template_strings.py:82
-msgid "Progress"
-msgstr "პროგრესი"
-
-#: deluge/ui/gtkui/files_tab.py:144
-msgid "Priority"
-msgstr "პრიორიტეტი"
-
 #: deluge/ui/gtkui/menubar.py:66
 msgid "Set Unlimited"
 msgstr ""
@@ -1962,15 +2271,6 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: deluge/ui/gtkui/menubar.py:81
-#: deluge/ui/webui/scripts/template_strings.py:71
-msgid "Off"
-msgstr "გამორთვა"
-
-#: deluge/ui/gtkui/menubar.py:301
-msgid "Choose a directory to move files to"
-msgstr "შეარჩიეთ დირექტორია ფაილების გადასატანად"
-
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
 msgstr ""
@@ -1979,25 +2279,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "Address"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Client"
-msgstr "კლიენტი"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Down Speed"
-msgstr "ჩამოტვირთვის სიჩქარე"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
-#: deluge/ui/webui/scripts/template_strings.py:117
-msgid "Up Speed"
-msgstr "ატვირთვის სიჩქარე"
-
-#: deluge/ui/gtkui/notification.py:67
-msgid "Torrent complete"
-msgstr "ტორენტი დასრულდა"
 
 #: deluge/ui/gtkui/notification.py:68
 #, python-format
@@ -2015,10 +2296,6 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
-msgid "Filters"
-msgstr "ფილტრები"
 
 #: deluge/ui/gtkui/filtertreeview.py:134
 msgid "State"
@@ -2048,10 +2325,6 @@ msgstr ""
 msgid "Torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/common.py:57
-msgid "Activated"
-msgstr "აქტიურია"
-
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
 msgstr ""
@@ -2060,12 +2333,6 @@ msgstr ""
 #: deluge/ui/gtkui/createtorrentdialog.py:88
 msgid "Tier"
 msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:76 deluge/ui/gtkui/torrentview.py:179
-#: deluge/ui/gtkui/createtorrentdialog.py:90
-#: deluge/ui/webui/scripts/template_strings.py:111
-msgid "Tracker"
-msgstr "მეთვალყურე"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Downloads"
@@ -2076,17 +2343,8 @@ msgid "Network"
 msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:60
-msgid "Bandwidth"
-msgstr "გამტარუნარიანობა"
-
-#: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
 msgstr ""
-
-#: deluge/ui/gtkui/preferences.py:61
-#: deluge/ui/webui/scripts/template_strings.py:74
-msgid "Other"
-msgstr "სხვა"
 
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
 msgid "Daemon"
@@ -2104,14 +2362,6 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Enabled"
-msgstr "ჩართულია"
-
-#: deluge/ui/gtkui/preferences.py:75
-msgid "Plugin"
-msgstr "მოდული"
-
 #: deluge/ui/gtkui/preferences.py:835
 msgid "Select the Plugin"
 msgstr ""
@@ -2119,33 +2369,6 @@ msgstr ""
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
 msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr ""
-"_: instable.src#DLG_INSERT_TABLE.FT_NAME.fixedtext.text\n"
-"სახელი"
-
-#: deluge/ui/gtkui/torrentview.py:145
-#: deluge/ui/webui/scripts/template_strings.py:96
-msgid "Seeders"
-msgstr "მთესველები"
-
-#: deluge/ui/gtkui/torrentview.py:150 deluge/ui/webui/register_menu.py:40
-#: deluge/ui/webui/scripts/template_strings.py:79
-msgid "Peers"
-msgstr "პირები"
-
-#: deluge/ui/gtkui/torrentview.py:163
-#: deluge/ui/webui/scripts/template_strings.py:41
-msgid "ETA"
-msgstr "ETA"
-
-#: deluge/ui/gtkui/torrentview.py:167
-#: deluge/ui/webui/scripts/template_strings.py:85
-msgid "Ratio"
-msgstr "რატიო"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
@@ -2184,44 +2407,15 @@ msgstr ""
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:31
-#: deluge/ui/webui/scripts/template_strings.py:20
-msgid "Config"
-msgstr "კონფიგურაცია"
-
 #: deluge/ui/webui/register_menu.py:32
 #: deluge/ui/webui/scripts/template_strings.py:21
 msgid "Connect"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:33
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "About"
-msgstr "პროგრამის შესახებ"
-
-#: deluge/ui/webui/register_menu.py:34
-#: deluge/ui/webui/scripts/template_strings.py:60
-msgid "Logout"
-msgstr "გამოსვლა"
-
 #: deluge/ui/webui/register_menu.py:36
 #: deluge/ui/webui/scripts/template_strings.py:105
 msgid "Statistics"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Details"
-msgstr "დეტალები"
-
-#: deluge/ui/webui/register_menu.py:41
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Files"
-msgstr "ფაილები"
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "დამატება"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
@@ -2250,10 +2444,6 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:53
-msgid "Reannounce"
-msgstr "ხელახალი ანონსი"
-
 #: deluge/ui/webui/register_menu.py:54
 msgid "Recheck"
 msgstr ""
@@ -2261,10 +2451,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:37
 msgid "Ports"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:38
-msgid "From"
-msgstr "საიდან"
 
 #: deluge/ui/webui/config_tabs_deluge.py:39
 msgid "To"
@@ -2297,10 +2483,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Forced"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Disabled"
-msgstr "გამორთული"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Handshake"
@@ -2342,29 +2524,9 @@ msgstr ""
 msgid "HTTP W/ Auth"
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_deluge.py:95
-msgid "Type"
-msgstr "ტიპი"
-
 #: deluge/ui/webui/config_tabs_deluge.py:96
 msgid "Host"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:97
-#: deluge/ui/webui/config_tabs_deluge.py:144
-#: deluge/ui/webui/config_tabs_webui.py:60
-msgid "Port"
-msgstr "პორტი"
-
-#: deluge/ui/webui/config_tabs_deluge.py:98
-msgid "Username"
-msgstr "მომხმარებელი"
-
-#: deluge/ui/webui/config_tabs_deluge.py:99
-#: deluge/ui/webui/config_tabs_webui.py:82
-#: deluge/ui/webui/scripts/template_strings.py:75
-msgid "Password"
-msgstr "პაროლი"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 msgid "Global"
@@ -2412,11 +2574,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/webui/scripts/template_strings.py:39
-msgid "Download"
-msgstr "ჩამოტვირთვა"
 
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
@@ -2474,10 +2631,6 @@ msgstr ""
 msgid "This folder does not exist."
 msgstr ""
 
-#: deluge/ui/webui/lib/newforms_portable/django/utils/translation.py:2
-msgid "translate something"
-msgstr "რამის თარგმან"
-
 #: deluge/ui/webui/lib/newforms_portable/models.py:299
 #: deluge/ui/webui/lib/newforms_portable/fields.py:560
 msgid ""
@@ -2494,10 +2647,6 @@ msgstr ""
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr ""
-
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr "უცნობია"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -2634,23 +2783,6 @@ msgstr ""
 msgid "Error in Path."
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_webui.py:41
-#: deluge/ui/webui/config_tabs_webui.py:47
-msgid "Template"
-msgstr "შაბლონი"
-
-#: deluge/ui/webui/config_tabs_webui.py:44
-msgid "Text and image"
-msgstr "ტექსტი და სურათები"
-
-#: deluge/ui/webui/config_tabs_webui.py:44
-msgid "Image Only"
-msgstr "მხოლოდ სურათები"
-
-#: deluge/ui/webui/config_tabs_webui.py:45
-msgid "Text Only"
-msgstr "მხოლოდ ტექსტი"
-
 #: deluge/ui/webui/config_tabs_webui.py:48
 msgid "Button style"
 msgstr ""
@@ -2662,10 +2794,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:57
-msgid "Server"
-msgstr "სერვერი"
 
 #: deluge/ui/webui/config_tabs_webui.py:58
 msgid "Manually restart webui to apply changes."
@@ -2688,10 +2816,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_webui.py:84
 msgid "Current Password"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:85
-msgid "New Password"
-msgstr "ახალი პაროლი"
 
 #: deluge/ui/webui/config_tabs_webui.py:86
 msgid "New Password (Confirm)"
@@ -2753,10 +2877,6 @@ msgstr ""
 msgid "Add In Paused State"
 msgstr ""
 
-#: deluge/ui/webui/torrent_add.py:59
-msgid "Upload torrent"
-msgstr "ტორენტის ატვირთვა"
-
 #: deluge/ui/webui/torrent_add.py:110
 msgid "Choose an url or a torrent, not both."
 msgstr ""
@@ -2764,10 +2884,6 @@ msgstr ""
 #: deluge/ui/webui/torrent_add.py:122
 msgid "No data"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:1
-msgid "# Of Files"
-msgstr "# ფალებიდან"
 
 #: deluge/ui/webui/scripts/template_strings.py:2
 msgid "... and delete All files"
@@ -2789,18 +2905,6 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:13
-msgid "Auto refresh:"
-msgstr "ავტომატური განახლება:"
-
-#: deluge/ui/webui/scripts/template_strings.py:14
-msgid "Ava"
-msgstr "Ava"
-
-#: deluge/ui/webui/scripts/template_strings.py:15
-msgid "Availability"
-msgstr "ხელმისაწვდომობა"
-
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
 msgstr ""
@@ -2808,10 +2912,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "გაწმენდა"
 
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
@@ -2833,14 +2933,6 @@ msgstr ""
 msgid "DHT Nodes"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:29
-msgid "Delete .torrent file"
-msgstr "წაშალე .torrent ფაილი"
-
-#: deluge/ui/webui/scripts/template_strings.py:30
-msgid "Delete downloaded files."
-msgstr "ჩამოტვირთული ფაილების წაშლა"
-
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Deluge : Torrent List"
 msgstr ""
@@ -2849,10 +2941,6 @@ msgstr ""
 msgid "Deluge Login"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "Disable"
-msgstr "გამორთვა"
-
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Disk Space"
 msgstr ""
@@ -2860,14 +2948,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Do not download"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Downloaded"
-msgstr "ჩამოტვირთულია"
-
-#: deluge/ui/webui/scripts/template_strings.py:45
-msgid "Eta"
-msgstr "Eta"
 
 #: deluge/ui/webui/scripts/template_strings.py:46
 msgid "False"
@@ -2913,17 +2993,9 @@ msgstr ""
 msgid "Label torrent"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:59
-msgid "Login"
-msgstr "შესვლა"
-
 #: deluge/ui/webui/scripts/template_strings.py:63
 msgid "Move torrent"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:65
-msgid "Next Announce"
-msgstr "შემდეგი ანონსი"
 
 #: deluge/ui/webui/scripts/template_strings.py:66
 msgid "No Incoming Connections"
@@ -2945,29 +3017,9 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:76
-msgid "Password is invalid,try again"
-msgstr "არასწორი პაროლი, კიდევ სცადეთ"
-
-#: deluge/ui/webui/scripts/template_strings.py:78
-msgid "Pause all"
-msgstr "ყველას პაუზა"
-
-#: deluge/ui/webui/scripts/template_strings.py:80
-msgid "Pieces"
-msgstr "ნაჭრები"
-
 #: deluge/ui/webui/scripts/template_strings.py:84
 msgid "Queue Position"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:86
-msgid "Refresh page every:"
-msgstr "გვერდის განახლება ყოველ:"
-
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "ამოღება"
 
 #: deluge/ui/webui/scripts/template_strings.py:89
 msgid "Remove torrent"
@@ -2976,10 +3028,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:90
 msgid "Restart"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:92
-msgid "Resume all"
-msgstr "ყველას გაგრძელება"
 
 #: deluge/ui/webui/scripts/template_strings.py:93
 msgid "Save"
@@ -2997,45 +3045,9 @@ msgstr ""
 msgid "Seeding time"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:98
-msgid "Select All"
-msgstr "ყველას მონიშვნა"
-
-#: deluge/ui/webui/scripts/template_strings.py:99
-msgid "Set"
-msgstr "მითითება"
-
-#: deluge/ui/webui/scripts/template_strings.py:100
-msgid "Set Timeout"
-msgstr "დროის მითითება"
-
-#: deluge/ui/webui/scripts/template_strings.py:101
-msgid "Share Ratio"
-msgstr "ზიარი რეიტინგი"
-
-#: deluge/ui/webui/scripts/template_strings.py:103
-msgid "Speed"
-msgstr "სიჩქარე"
-
-#: deluge/ui/webui/scripts/template_strings.py:107
-msgid "Submit"
-msgstr "გაგზავნა"
-
 #: deluge/ui/webui/scripts/template_strings.py:108
 msgid "Top"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:109
-msgid "Torrent list"
-msgstr "ტორენტების სია"
-
-#: deluge/ui/webui/scripts/template_strings.py:110
-msgid "Total Size"
-msgstr "სრული ზომა"
-
-#: deluge/ui/webui/scripts/template_strings.py:112
-msgid "Tracker Status"
-msgstr "მეთვალყურის სტატუსი"
 
 #: deluge/ui/webui/scripts/template_strings.py:113
 msgid "True"
@@ -3053,21 +3065,6 @@ msgstr ""
 msgid "Update Tracker"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:120
-msgid "Upload"
-msgstr "ატვირთვა"
-
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:122
-msgid "Uploaded"
-msgstr "ატვირთულია"
-
-#: deluge/ui/webui/scripts/template_strings.py:123
-msgid "seconds"
-msgstr "წამები"
-
-#~ msgid "Graph"
-#~ msgstr "გრაფიკი"

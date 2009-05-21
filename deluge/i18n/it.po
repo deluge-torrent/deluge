@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-24 21:28+0000\n"
+"PO-Revision-Date: 2009-05-04 13:45+0000\n"
 "Last-Translator: Simone Oberti <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -175,7 +175,7 @@ msgstr "Info _hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
-msgstr ""
+msgstr "_Rimuovi"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
 msgid "<b>Torrents</b>"
@@ -3119,55 +3119,3 @@ msgstr "Inviato"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "secondi"
-
-#~ msgid "Graphs"
-#~ msgstr "Grafici"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seeds/Peers"
-
-#~ msgid "Stats"
-#~ msgstr "Statistiche"
-
-#~ msgid "Graph"
-#~ msgstr "Grafico"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Controlla per una nuova lista ogni:"
-
-#~ msgid "Days"
-#~ msgstr "Giorni"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Importa la lista nera all'avvio"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Impostazioni</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Se necessario scarica a lista nera e importa il file"
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Controlla il Download e Importa"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Scarica una nuova lista nera e importala"
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Forza Download e Importa"
-
-#~ msgid "File Size:"
-#~ msgstr "Dimensione File:"
-
-#~ msgid "Date:"
-#~ msgstr "Data:"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Procedura di configurazione guidata"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr ""
-#~ "La procedura guidata ti aiuterà a configurare Deluge come preferisci."
-
-#~ msgid "_Statistics"
-#~ msgstr "_Statistiche"

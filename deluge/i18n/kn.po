@@ -14,8 +14,451 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/plugins/label/label/data/label_options.glade:426
+#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
+#: deluge/ui/webui/scripts/template_strings.py:83
+msgid "Queue"
+msgstr "ಸರದಿ"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Full"
+msgstr "ಸಂಪೂರ್ಣ"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
+#: deluge/ui/webui/scripts/template_strings.py:43
+msgid "Enable"
+msgstr "ಸಕ್ರಿಯಗೊಳಿಸು"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:436
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
+#: deluge/ui/webui/register_menu.py:38
+#: deluge/ui/webui/scripts/template_strings.py:73
+msgid "Options"
+msgstr "ಆದ್ಯತೆಗಳು"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
+#: deluge/ui/webui/torrent_add.py:49
+msgid "Set Private Flag"
+msgstr "ಖಾಸಗಿಯಾಗಿ ವರ್ಗೀಕರಿಸು"
+
+#: deluge/ui/gtkui/glade/main_window.glade:313
+#: deluge/ui/webui/scripts/template_strings.py:9
+msgid "Add torrent"
+msgstr "ಟೊರೆಂಟ್ ಸೇರಿಸು"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸು"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "ಪುನರಾರಂಭಿಸು"
+
+#: deluge/ui/gtkui/glade/main_window.glade:401
+#: deluge/ui/webui/register_menu.py:48
+msgid "Queue Down"
+msgstr "ಡೌನ್ಲೋಡ್ ಸರದಿ"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2029
+#: deluge/ui/webui/scripts/template_strings.py:81
+msgid "Private"
+msgstr "ಖಾಸಗಿ"
+
+#: deluge/core/torrentmanager.py:668
+msgid "Announce OK"
+msgstr "ಪ್ರಕಟಣೆ ಸರಿಯಾಗಿದೆ"
+
+#: deluge/core/torrentmanager.py:689
+msgid "Announce Sent"
+msgstr "ಪ್ರಕಟಣೆ ಕಳುಹಿಸಲಾಗಿದೆ"
+
+#: deluge/core/torrentmanager.py:698
+msgid "Alert"
+msgstr "ಜಾಗ್ರತೆ"
+
+#: deluge/core/torrentmanager.py:709
+msgid "Warning"
+msgstr "ಎಚ್ಚರಿಕೆ"
+
+#: deluge/core/torrentmanager.py:719
+#: deluge/ui/webui/scripts/template_strings.py:44
+msgid "Error"
+msgstr "ದೋಷ"
+
+#: deluge/plugins/label/label/webui.py:154
+#: deluge/plugins/label/label/gtkui/label_config.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:55
+#: deluge/plugins/label/label/gtkui/submenu.py:40
+#: deluge/plugins/label/label/gtkui/__init__.py:69
+#: deluge/plugins/label/label/gtkui/__init__.py:103
+#: deluge/ui/webui/scripts/template_strings.py:57
+msgid "Label"
+msgstr "ಶೀರ್ಷಿಕೆ"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "ಸಂಪರ್ಕ"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "ಗಾತ್ರ"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "ಅಪ್ಲೋಡ್"
+
+#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/gtkui/torrentview.py:141
+#: deluge/ui/webui/scripts/template_strings.py:82
+msgid "Progress"
+msgstr "ಪ್ರಗತಿ"
+
+#: deluge/ui/gtkui/peers_tab.py:87
+#: deluge/ui/webui/scripts/template_strings.py:10
+msgid "Address"
+msgstr "ವಿಳಾಸ"
+
+#: deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Client"
+msgstr "ಕಕ್ಷಿ"
+
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Down Speed"
+msgstr "ಡೌನ್ಲೋಡ್ ವೇಗ"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
+#: deluge/ui/webui/scripts/template_strings.py:117
+msgid "Up Speed"
+msgstr "ಅಪ್ಲೋಡ್ ವೇಗ"
+
+#: deluge/ui/gtkui/preferences.py:61
+#: deluge/ui/webui/scripts/template_strings.py:74
+msgid "Other"
+msgstr "ಇತರೆ"
+
+#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Enabled"
+msgstr "ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr "ಹೆಸರು"
+
+#: deluge/ui/gtkui/torrentview.py:163
+#: deluge/ui/webui/scripts/template_strings.py:41
+msgid "ETA"
+msgstr "ಬೇಕಾಗುವ ಸಮಯ"
+
+#: deluge/ui/gtkui/torrentview.py:167
+#: deluge/ui/webui/scripts/template_strings.py:85
+msgid "Ratio"
+msgstr "ಅನುಪಾತ"
+
+#: deluge/ui/webui/register_menu.py:32
+#: deluge/ui/webui/scripts/template_strings.py:21
+msgid "Connect"
+msgstr "ಸೇರಿಕೊ"
+
+#: deluge/ui/webui/register_menu.py:33
+#: deluge/ui/webui/scripts/template_strings.py:5
+msgid "About"
+msgstr "ಕುರಿತು"
+
+#: deluge/ui/webui/register_menu.py:34
+#: deluge/ui/webui/scripts/template_strings.py:60
+msgid "Logout"
+msgstr "ನಿರ್ಗಮಿಸು"
+
+#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Details"
+msgstr "ವಿವರಗಳು"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "ಸೇರಿಸು"
+
+#: deluge/ui/webui/register_menu.py:46
+#: deluge/ui/webui/scripts/template_strings.py:104
+msgid "Start"
+msgstr "ಆರಂಭಿಸು"
+
+#: deluge/ui/webui/register_menu.py:52
+#: deluge/ui/webui/scripts/template_strings.py:61
+msgid "Move"
+msgstr "ವರ್ಗಾಯಿಸು"
+
+#: deluge/ui/webui/register_menu.py:53
+msgid "Reannounce"
+msgstr "ಮರುಪ್ರಕಟಣೆ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:38
+msgid "From"
+msgstr "ಇಲ್ಲಿಂದ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:39
+msgid "To"
+msgstr "ಇಲ್ಲಿಗೆ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Forced"
+msgstr "ಬಲವಂತವಾಗಿ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:80
+msgid "Disabled"
+msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Handshake"
+msgstr "ಹಸ್ತಲಾಘವ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Either"
+msgstr "ಇವೆರಡರಲ್ಲಿ ಒಂದು"
+
+#: deluge/ui/webui/config_tabs_deluge.py:83
+msgid "Inbound"
+msgstr "ಒಳಬರುವ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:84
+msgid "Outbound"
+msgstr "ಹೊರಹೋಗುವ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:85
+msgid "Level"
+msgstr "ಮಟ್ಟ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:99
+#: deluge/ui/webui/config_tabs_webui.py:82
+#: deluge/ui/webui/scripts/template_strings.py:75
+msgid "Password"
+msgstr "ಗುಪ್ತಪದ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:104
+msgid "Global"
+msgstr "ಜಾಗತಿಕ"
+
+#: deluge/ui/webui/config_tabs_deluge.py:106
+#: deluge/ui/webui/config_tabs_deluge.py:122
+#: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:43
+msgid "Maximum Connections"
+msgstr "ಗರಿಷ್ಠ ಸಂಪರ್ಕಗಳು"
+
+#: deluge/ui/webui/config_tabs_deluge.py:107
+#: deluge/ui/webui/config_tabs_deluge.py:123
+msgid "Maximum Download Speed (Kib/s)"
+msgstr "ಗರಿಷ್ಠ ಡೌನ್ಲೋಡ್ ವೇಗ (Kib/s)"
+
+#: deluge/ui/webui/config_tabs_deluge.py:108
+#: deluge/ui/webui/config_tabs_deluge.py:124
+msgid "Maximum Upload Speed (Kib/s)"
+msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವೇಗ (Kib/s)"
+
+#: deluge/ui/webui/config_tabs_deluge.py:109
+#: deluge/ui/webui/config_tabs_deluge.py:125
+#: deluge/ui/webui/torrent_options.py:42 deluge/ui/webui/torrent_add.py:44
+msgid "Maximum Upload Slots"
+msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವಿಭಾಗಗಳು"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Download"
+msgstr "ಡೌನ್ಲೋಡ್"
+
+#: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
+msgid "Prioritize first and last pieces"
+msgstr "ಮೊದಲ ಹಾಗು ಕೊನೆಯ ಭಾಗಗಳಿಗೆ ಆಧ್ಯತೆ ಕೊಡು"
+
+#: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
+msgid "Maximum Down Speed"
+msgstr "ಗರಿಷ್ಠ ಡೌನ್ಲೋಡ್ ವೇಗ"
+
+#: deluge/ui/webui/torrent_options.py:40 deluge/ui/webui/torrent_add.py:42
+msgid "Maximum Up Speed"
+msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವೇಗ"
+
+#: deluge/ui/webui/torrent_add.py:35
+msgid "Download Location"
+msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಬೇಕಾದ ಸ್ಥಳ"
+
+#: deluge/ui/webui/torrent_add.py:48
+msgid "Add In Paused State"
+msgstr "ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸಿದ ಸ್ಥಿತಿಯಲ್ಲಿ ಸೇರಿಸು"
+
+#: deluge/ui/webui/torrent_add.py:59
+msgid "Upload torrent"
+msgstr "ಅಪ್ಲೋಡ್ ಟೊರೆಂಟ್"
+
+#: deluge/ui/webui/torrent_add.py:122
+msgid "No data"
+msgstr "ಯಾವುದೆ ದತ್ತಾಂಶ ಇಲ್ಲ"
+
+#: deluge/ui/webui/scripts/template_strings.py:1
+msgid "# Of Files"
+msgstr "# ಕಡತಗಳು"
+
+#: deluge/ui/webui/scripts/template_strings.py:6
+msgid "Active time"
+msgstr "ಸಕ್ರಿಯ ಸಮಯ"
+
+#: deluge/ui/webui/scripts/template_strings.py:11
+msgid "Admin"
+msgstr "ಕಾರ್ಯನಿರ್ವಾಹಕ"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Availability"
+msgstr "ಲಭ್ಯತೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "ತೆರವುಗೊಳಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:23
+msgid "Connected to"
+msgstr "ಇದಕ್ಕೆ ಸೇರಿಕೊಂಡಿದೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:29
+msgid "Delete .torrent file"
+msgstr ".torrent ಕಡತಗಳನ್ನು ಅಳಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:30
+msgid "Delete downloaded files."
+msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಿದ ಕಡತಗಳನ್ನು ಅಳಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:31
+msgid "Deluge : Torrent List"
+msgstr "ಡೆಲ್ಯ್ಲೂಜ್ : ಟೊರೆಂಟ್ ಪಟ್ಟಿ"
+
+#: deluge/ui/webui/scripts/template_strings.py:32
+msgid "Deluge Login"
+msgstr "ಡೆಲ್ಯ್ಲೂಜ್ ಪ್ರವೇಶಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:34
+msgid "Disable"
+msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Downloaded"
+msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಲಾಗಿದೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:45
+msgid "Eta"
+msgstr "ಬೇಕಾಗುವ ಸಮಯ"
+
+#: deluge/ui/webui/scripts/template_strings.py:46
+msgid "False"
+msgstr "ತಪ್ಪು"
+
+#: deluge/ui/webui/scripts/template_strings.py:47
+msgid "File"
+msgstr "ಕಡತ"
+
+#: deluge/ui/webui/scripts/template_strings.py:49
+msgid "Filter on a keyword"
+msgstr "ಸೂಚ್ಯ ಪದದ ಆಧಾರದ ಮೇಲೆ ಶೋಧಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:53
+msgid "General"
+msgstr "ಸಾಮಾನ್ಯ"
+
+#: deluge/ui/webui/scripts/template_strings.py:56
+msgid "Keyword"
+msgstr "ಸೂಚ್ಯ ಪದ"
+
+#: deluge/ui/webui/scripts/template_strings.py:58
+msgid "Label torrent"
+msgstr "ಟೊರೆಂಟ್ ಶೀರ್ಷಿಕೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:59
+msgid "Login"
+msgstr "ಪ್ರವೇಶಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:63
+msgid "Move torrent"
+msgstr "ಟೊರೆಂಟ್ ಅನ್ನು ವರ್ಗಾಯಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:65
+msgid "Next Announce"
+msgstr "ಮುಂದಿನ ಪ್ರಕಟಣೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:76
+msgid "Password is invalid,try again"
+msgstr "ತಪ್ಪು ಗುಪ್ತಪದ, ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
+
+#: deluge/ui/webui/scripts/template_strings.py:78
+msgid "Pause all"
+msgstr "ಎಲ್ಲವನ್ನು ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:80
+msgid "Pieces"
+msgstr "ವಿಭಾಗ"
+
+#: deluge/ui/webui/scripts/template_strings.py:84
+msgid "Queue Position"
+msgstr "ಸರದಿಯ ಸ್ಥಿತಿ"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "ತೆಗೆದುಹಾಕು"
+
+#: deluge/ui/webui/scripts/template_strings.py:89
+msgid "Remove torrent"
+msgstr "ಟೊರೆಂಟ್ ಅನ್ನು ತೆಗೆದುಹಾಕು"
+
+#: deluge/ui/webui/scripts/template_strings.py:90
+msgid "Restart"
+msgstr "ಪುನರಾರಂಭಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:92
+msgid "Resume all"
+msgstr "ಎಲ್ಲವನ್ನು ಪುನರಾರಂಭಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:93
+msgid "Save"
+msgstr "ಉಳಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:103
+msgid "Speed"
+msgstr "ವೇಗ"
+
+#: deluge/ui/webui/scripts/template_strings.py:107
+msgid "Submit"
+msgstr "ಸಲ್ಲಿಸು"
+
+#: deluge/ui/webui/scripts/template_strings.py:109
+msgid "Torrent list"
+msgstr "ಟೊರೆಂಟ್ ಪಟ್ಟಿ"
+
+#: deluge/ui/webui/scripts/template_strings.py:110
+msgid "Total Size"
+msgstr "ಒಟ್ಟು ಗಾತ್ರ"
+
+#: deluge/ui/webui/scripts/template_strings.py:120
+msgid "Upload"
+msgstr "ಅಪ್ಲೋಡ್"
+
+#: deluge/ui/webui/scripts/template_strings.py:122
+msgid "Uploaded"
+msgstr "ಅಪ್ಲೋಡ್ ಮಾಡಲಾಗಿದೆ"
+
+#: deluge/ui/webui/scripts/template_strings.py:123
+msgid "seconds"
+msgstr "ಸೆಕೆಂಡುಗಳು"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -92,12 +535,6 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
 msgstr ""
-
-#: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
-#: deluge/ui/webui/scripts/template_strings.py:83
-msgid "Queue"
-msgstr "ಸರದಿ"
 
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
@@ -191,11 +628,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Full"
-msgstr "ಸಂಪೂರ್ಣ"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
@@ -679,12 +1111,6 @@ msgid ""
 "setting to take effect."
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
-#: deluge/ui/webui/scripts/template_strings.py:43
-msgid "Enable"
-msgstr "ಸಕ್ರಿಯಗೊಳಿಸು"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
 msgstr ""
@@ -1113,13 +1539,6 @@ msgstr ""
 msgid "Do not show this dialog on start-up"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:436
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
-#: deluge/ui/webui/register_menu.py:38
-#: deluge/ui/webui/scripts/template_strings.py:73
-msgid "Options"
-msgstr "ಆದ್ಯತೆಗಳು"
-
 #: deluge/ui/gtkui/glade/connection_manager.glade:475
 msgid "gtk-connect"
 msgstr ""
@@ -1169,11 +1588,6 @@ msgid ""
 "256 KiB\n"
 "512 KiB"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
-#: deluge/ui/webui/torrent_add.py:49
-msgid "Set Private Flag"
-msgstr "ಖಾಸಗಿಯಾಗಿ ವರ್ಗೀಕರಿಸು"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
 msgid "Add this torrent to the session"
@@ -1320,11 +1734,6 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:313
-#: deluge/ui/webui/scripts/template_strings.py:9
-msgid "Add torrent"
-msgstr "ಟೊರೆಂಟ್ ಸೇರಿಸು"
-
 #: deluge/ui/gtkui/glade/main_window.glade:314
 #: deluge/ui/webui/scripts/template_strings.py:7
 msgid "Add Torrent"
@@ -1339,19 +1748,9 @@ msgstr ""
 msgid "Pause the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸು"
-
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "ಪುನರಾರಂಭಿಸು"
 
 #: deluge/ui/gtkui/glade/main_window.glade:386
 msgid "Queue Torrent Up"
@@ -1365,11 +1764,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:400
 msgid "Queue Torrent Down"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:401
-#: deluge/ui/webui/register_menu.py:48
-msgid "Queue Down"
-msgstr "ಡೌನ್ಲೋಡ್ ಸರದಿ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:551
 msgid "_Expand All"
@@ -1516,11 +1910,6 @@ msgstr ""
 msgid "<b>Queue</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:2029
-#: deluge/ui/webui/scripts/template_strings.py:81
-msgid "Private"
-msgstr "ಖಾಸಗಿ"
-
 #: deluge/ui/gtkui/glade/main_window.glade:2042
 #: deluge/ui/webui/torrent_options.py:45
 msgid "Prioritize First/Last"
@@ -1574,27 +1963,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "Add a peer by its IP"
 msgstr ""
-
-#: deluge/core/torrentmanager.py:668
-msgid "Announce OK"
-msgstr "ಪ್ರಕಟಣೆ ಸರಿಯಾಗಿದೆ"
-
-#: deluge/core/torrentmanager.py:689
-msgid "Announce Sent"
-msgstr "ಪ್ರಕಟಣೆ ಕಳುಹಿಸಲಾಗಿದೆ"
-
-#: deluge/core/torrentmanager.py:698
-msgid "Alert"
-msgstr "ಜಾಗ್ರತೆ"
-
-#: deluge/core/torrentmanager.py:709
-msgid "Warning"
-msgstr "ಎಚ್ಚರಿಕೆ"
-
-#: deluge/core/torrentmanager.py:719
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Error"
-msgstr "ದೋಷ"
 
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
@@ -1659,16 +2027,6 @@ msgstr ""
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
 msgstr ""
-
-#: deluge/plugins/label/label/webui.py:154
-#: deluge/plugins/label/label/gtkui/label_config.py:48
-#: deluge/plugins/label/label/gtkui/label_config.py:55
-#: deluge/plugins/label/label/gtkui/submenu.py:40
-#: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:103
-#: deluge/ui/webui/scripts/template_strings.py:57
-msgid "Label"
-msgstr "ಶೀರ್ಷಿಕೆ"
 
 #: deluge/plugins/label/label/webui.py:155
 msgid "Work in progress.."
@@ -1801,11 +2159,6 @@ msgstr ""
 msgid "Not Connected"
 msgstr ""
 
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "ಸಂಪರ್ಕ"
-
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
 msgstr ""
@@ -1860,13 +2213,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "ಗಾತ್ರ"
-
 #: deluge/ui/gtkui/addtorrentdialog.py:496
 msgid "Choose a .torrent file"
 msgstr ""
@@ -1903,11 +2249,6 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "ಅಪ್ಲೋಡ್"
-
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
 msgstr ""
@@ -1917,12 +2258,6 @@ msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
-#: deluge/ui/gtkui/torrentview.py:141
-#: deluge/ui/webui/scripts/template_strings.py:82
-msgid "Progress"
-msgstr "ಪ್ರಗತಿ"
 
 #: deluge/ui/gtkui/files_tab.py:144
 msgid "Priority"
@@ -1952,26 +2287,6 @@ msgstr ""
 #: deluge/ui/gtkui/menubar.py:410
 msgid "Set Maximum Upload Slots"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:87
-#: deluge/ui/webui/scripts/template_strings.py:10
-msgid "Address"
-msgstr "ವಿಳಾಸ"
-
-#: deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Client"
-msgstr "ಕಕ್ಷಿ"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Down Speed"
-msgstr "ಡೌನ್ಲೋಡ್ ವೇಗ"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
-#: deluge/ui/webui/scripts/template_strings.py:117
-msgid "Up Speed"
-msgstr "ಅಪ್ಲೋಡ್ ವೇಗ"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
@@ -2061,11 +2376,6 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:61
-#: deluge/ui/webui/scripts/template_strings.py:74
-msgid "Other"
-msgstr "ಇತರೆ"
-
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
 msgid "Daemon"
 msgstr ""
@@ -2082,10 +2392,6 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:73 deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Enabled"
-msgstr "ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
-
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Plugin"
 msgstr ""
@@ -2098,11 +2404,6 @@ msgstr ""
 msgid "Plugin Eggs"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr "ಹೆಸರು"
-
 #: deluge/ui/gtkui/torrentview.py:145
 #: deluge/ui/webui/scripts/template_strings.py:96
 msgid "Seeders"
@@ -2112,16 +2413,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:79
 msgid "Peers"
 msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:163
-#: deluge/ui/webui/scripts/template_strings.py:41
-msgid "ETA"
-msgstr "ಬೇಕಾಗುವ ಸಮಯ"
-
-#: deluge/ui/gtkui/torrentview.py:167
-#: deluge/ui/webui/scripts/template_strings.py:85
-msgid "Ratio"
-msgstr "ಅನುಪಾತ"
 
 #: deluge/ui/gtkui/torrentview.py:171
 msgid "Avail"
@@ -2165,39 +2456,15 @@ msgstr ""
 msgid "Config"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:32
-#: deluge/ui/webui/scripts/template_strings.py:21
-msgid "Connect"
-msgstr "ಸೇರಿಕೊ"
-
-#: deluge/ui/webui/register_menu.py:33
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "About"
-msgstr "ಕುರಿತು"
-
-#: deluge/ui/webui/register_menu.py:34
-#: deluge/ui/webui/scripts/template_strings.py:60
-msgid "Logout"
-msgstr "ನಿರ್ಗಮಿಸು"
-
 #: deluge/ui/webui/register_menu.py:36
 #: deluge/ui/webui/scripts/template_strings.py:105
 msgid "Statistics"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Details"
-msgstr "ವಿವರಗಳು"
-
 #: deluge/ui/webui/register_menu.py:41
 #: deluge/ui/webui/scripts/template_strings.py:48
 msgid "Files"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "ಸೇರಿಸು"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
@@ -2208,11 +2475,6 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/webui/scripts/template_strings.py:104
-msgid "Start"
-msgstr "ಆರಂಭಿಸು"
-
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
 msgstr ""
@@ -2221,15 +2483,6 @@ msgstr ""
 msgid "Queue Bottom"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:52
-#: deluge/ui/webui/scripts/template_strings.py:61
-msgid "Move"
-msgstr "ವರ್ಗಾಯಿಸು"
-
-#: deluge/ui/webui/register_menu.py:53
-msgid "Reannounce"
-msgstr "ಮರುಪ್ರಕಟಣೆ"
-
 #: deluge/ui/webui/register_menu.py:54
 msgid "Recheck"
 msgstr ""
@@ -2237,14 +2490,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:37
 msgid "Ports"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:38
-msgid "From"
-msgstr "ಇಲ್ಲಿಂದ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:39
-msgid "To"
-msgstr "ಇಲ್ಲಿಗೆ"
 
 #: deluge/ui/webui/config_tabs_deluge.py:40
 msgid "Random"
@@ -2269,34 +2514,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:78
 msgid "Encryption"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Forced"
-msgstr "ಬಲವಂತವಾಗಿ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:80
-msgid "Disabled"
-msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Handshake"
-msgstr "ಹಸ್ತಲಾಘವ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Either"
-msgstr "ಇವೆರಡರಲ್ಲಿ ಒಂದು"
-
-#: deluge/ui/webui/config_tabs_deluge.py:83
-msgid "Inbound"
-msgstr "ಒಳಬರುವ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:84
-msgid "Outbound"
-msgstr "ಹೊರಹೋಗುವ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:85
-msgid "Level"
-msgstr "ಮಟ್ಟ"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Socksv4"
@@ -2336,42 +2553,10 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_deluge.py:99
-#: deluge/ui/webui/config_tabs_webui.py:82
-#: deluge/ui/webui/scripts/template_strings.py:75
-msgid "Password"
-msgstr "ಗುಪ್ತಪದ"
-
-#: deluge/ui/webui/config_tabs_deluge.py:104
-msgid "Global"
-msgstr "ಜಾಗತಿಕ"
-
 #: deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:121
 msgid "-1 = Unlimited"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:106
-#: deluge/ui/webui/config_tabs_deluge.py:122
-#: deluge/ui/webui/torrent_options.py:41 deluge/ui/webui/torrent_add.py:43
-msgid "Maximum Connections"
-msgstr "ಗರಿಷ್ಠ ಸಂಪರ್ಕಗಳು"
-
-#: deluge/ui/webui/config_tabs_deluge.py:107
-#: deluge/ui/webui/config_tabs_deluge.py:123
-msgid "Maximum Download Speed (Kib/s)"
-msgstr "ಗರಿಷ್ಠ ಡೌನ್ಲೋಡ್ ವೇಗ (Kib/s)"
-
-#: deluge/ui/webui/config_tabs_deluge.py:108
-#: deluge/ui/webui/config_tabs_deluge.py:124
-msgid "Maximum Upload Speed (Kib/s)"
-msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವೇಗ (Kib/s)"
-
-#: deluge/ui/webui/config_tabs_deluge.py:109
-#: deluge/ui/webui/config_tabs_deluge.py:125
-#: deluge/ui/webui/torrent_options.py:42 deluge/ui/webui/torrent_add.py:44
-msgid "Maximum Upload Slots"
-msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವಿಭಾಗಗಳು"
 
 #: deluge/ui/webui/config_tabs_deluge.py:111
 msgid "Maximum Half-Open Connections"
@@ -2389,11 +2574,6 @@ msgstr ""
 msgid "Per Torrent"
 msgstr ""
 
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/webui/scripts/template_strings.py:39
-msgid "Download"
-msgstr "ಡೌನ್ಲೋಡ್"
-
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
 msgstr ""
@@ -2409,10 +2589,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:134
 msgid "Auto Add enabled"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
-msgid "Prioritize first and last pieces"
-msgstr "ಮೊದಲ ಹಾಗು ಕೊನೆಯ ಭಾಗಗಳಿಗೆ ಆಧ್ಯತೆ ಕೊಡು"
 
 #: deluge/ui/webui/config_tabs_deluge.py:143
 msgid "Restart daemon and webui after changing these settings"
@@ -2701,14 +2877,6 @@ msgstr ""
 msgid "Show keyword search"
 msgstr ""
 
-#: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
-msgid "Maximum Down Speed"
-msgstr "ಗರಿಷ್ಠ ಡೌನ್ಲೋಡ್ ವೇಗ"
-
-#: deluge/ui/webui/torrent_options.py:40 deluge/ui/webui/torrent_add.py:42
-msgid "Maximum Up Speed"
-msgstr "ಗರಿಷ್ಠ ಅಪ್ಲೋಡ್ ವೇಗ"
-
 #: deluge/ui/webui/torrent_options.py:49
 msgid "Stop seed at ratio"
 msgstr ""
@@ -2717,33 +2885,13 @@ msgstr ""
 msgid "Error in torrent options."
 msgstr ""
 
-#: deluge/ui/webui/torrent_add.py:35
-msgid "Download Location"
-msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಬೇಕಾದ ಸ್ಥಳ"
-
 #: deluge/ui/webui/torrent_add.py:36
 msgid "Compact Allocation"
 msgstr ""
 
-#: deluge/ui/webui/torrent_add.py:48
-msgid "Add In Paused State"
-msgstr "ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸಿದ ಸ್ಥಿತಿಯಲ್ಲಿ ಸೇರಿಸು"
-
-#: deluge/ui/webui/torrent_add.py:59
-msgid "Upload torrent"
-msgstr "ಅಪ್ಲೋಡ್ ಟೊರೆಂಟ್"
-
 #: deluge/ui/webui/torrent_add.py:110
 msgid "Choose an url or a torrent, not both."
 msgstr ""
-
-#: deluge/ui/webui/torrent_add.py:122
-msgid "No data"
-msgstr "ಯಾವುದೆ ದತ್ತಾಂಶ ಇಲ್ಲ"
-
-#: deluge/ui/webui/scripts/template_strings.py:1
-msgid "# Of Files"
-msgstr "# ಕಡತಗಳು"
 
 #: deluge/ui/webui/scripts/template_strings.py:2
 msgid "... and delete All files"
@@ -2757,14 +2905,6 @@ msgstr ""
 msgid "... and delete Torrent file"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:6
-msgid "Active time"
-msgstr "ಸಕ್ರಿಯ ಸಮಯ"
-
-#: deluge/ui/webui/scripts/template_strings.py:11
-msgid "Admin"
-msgstr "ಕಾರ್ಯನಿರ್ವಾಹಕ"
-
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "Auto refresh:"
 msgstr ""
@@ -2772,10 +2912,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Ava"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:15
-msgid "Availability"
-msgstr "ಲಭ್ಯತೆ"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
@@ -2785,17 +2921,9 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "ತೆರವುಗೊಳಿಸು"
-
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:23
-msgid "Connected to"
-msgstr "ಇದಕ್ಕೆ ಸೇರಿಕೊಂಡಿದೆ"
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 msgid "Connection Limit"
@@ -2809,26 +2937,6 @@ msgstr ""
 msgid "DHT Nodes"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:29
-msgid "Delete .torrent file"
-msgstr ".torrent ಕಡತಗಳನ್ನು ಅಳಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:30
-msgid "Delete downloaded files."
-msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಿದ ಕಡತಗಳನ್ನು ಅಳಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:31
-msgid "Deluge : Torrent List"
-msgstr "ಡೆಲ್ಯ್ಲೂಜ್ : ಟೊರೆಂಟ್ ಪಟ್ಟಿ"
-
-#: deluge/ui/webui/scripts/template_strings.py:32
-msgid "Deluge Login"
-msgstr "ಡೆಲ್ಯ್ಲೂಜ್ ಪ್ರವೇಶಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "Disable"
-msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸು"
-
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Disk Space"
 msgstr ""
@@ -2836,26 +2944,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:36
 msgid "Do not download"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Downloaded"
-msgstr "ಡೌನ್ಲೋಡ್ ಮಾಡಲಾಗಿದೆ"
-
-#: deluge/ui/webui/scripts/template_strings.py:45
-msgid "Eta"
-msgstr "ಬೇಕಾಗುವ ಸಮಯ"
-
-#: deluge/ui/webui/scripts/template_strings.py:46
-msgid "False"
-msgstr "ತಪ್ಪು"
-
-#: deluge/ui/webui/scripts/template_strings.py:47
-msgid "File"
-msgstr "ಕಡತ"
-
-#: deluge/ui/webui/scripts/template_strings.py:49
-msgid "Filter on a keyword"
-msgstr "ಸೂಚ್ಯ ಪದದ ಆಧಾರದ ಮೇಲೆ ಶೋಧಿಸು"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Force Recheck"
@@ -2869,10 +2957,6 @@ msgstr ""
 msgid "From Url"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:53
-msgid "General"
-msgstr "ಸಾಮಾನ್ಯ"
-
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
 msgstr ""
@@ -2880,26 +2964,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Highest priority"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:56
-msgid "Keyword"
-msgstr "ಸೂಚ್ಯ ಪದ"
-
-#: deluge/ui/webui/scripts/template_strings.py:58
-msgid "Label torrent"
-msgstr "ಟೊರೆಂಟ್ ಶೀರ್ಷಿಕೆ"
-
-#: deluge/ui/webui/scripts/template_strings.py:59
-msgid "Login"
-msgstr "ಪ್ರವೇಶಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:63
-msgid "Move torrent"
-msgstr "ಟೊರೆಂಟ್ ಅನ್ನು ವರ್ಗಾಯಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:65
-msgid "Next Announce"
-msgstr "ಮುಂದಿನ ಪ್ರಕಟಣೆ"
 
 #: deluge/ui/webui/scripts/template_strings.py:66
 msgid "No Incoming Connections"
@@ -2921,45 +2985,9 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:76
-msgid "Password is invalid,try again"
-msgstr "ತಪ್ಪು ಗುಪ್ತಪದ, ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
-
-#: deluge/ui/webui/scripts/template_strings.py:78
-msgid "Pause all"
-msgstr "ಎಲ್ಲವನ್ನು ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:80
-msgid "Pieces"
-msgstr "ವಿಭಾಗ"
-
-#: deluge/ui/webui/scripts/template_strings.py:84
-msgid "Queue Position"
-msgstr "ಸರದಿಯ ಸ್ಥಿತಿ"
-
 #: deluge/ui/webui/scripts/template_strings.py:86
 msgid "Refresh page every:"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "ತೆಗೆದುಹಾಕು"
-
-#: deluge/ui/webui/scripts/template_strings.py:89
-msgid "Remove torrent"
-msgstr "ಟೊರೆಂಟ್ ಅನ್ನು ತೆಗೆದುಹಾಕು"
-
-#: deluge/ui/webui/scripts/template_strings.py:90
-msgid "Restart"
-msgstr "ಪುನರಾರಂಭಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:92
-msgid "Resume all"
-msgstr "ಎಲ್ಲವನ್ನು ಪುನರಾರಂಭಿಸು"
-
-#: deluge/ui/webui/scripts/template_strings.py:93
-msgid "Save"
-msgstr "ಉಳಿಸು"
 
 #: deluge/ui/webui/scripts/template_strings.py:94
 msgid "Search"
@@ -2989,25 +3017,9 @@ msgstr ""
 msgid "Share Ratio"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:103
-msgid "Speed"
-msgstr "ವೇಗ"
-
-#: deluge/ui/webui/scripts/template_strings.py:107
-msgid "Submit"
-msgstr "ಸಲ್ಲಿಸು"
-
 #: deluge/ui/webui/scripts/template_strings.py:108
 msgid "Top"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:109
-msgid "Torrent list"
-msgstr "ಟೊರೆಂಟ್ ಪಟ್ಟಿ"
-
-#: deluge/ui/webui/scripts/template_strings.py:110
-msgid "Total Size"
-msgstr "ಒಟ್ಟು ಗಾತ್ರ"
 
 #: deluge/ui/webui/scripts/template_strings.py:112
 msgid "Tracker Status"
@@ -3029,18 +3041,6 @@ msgstr ""
 msgid "Update Tracker"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:120
-msgid "Upload"
-msgstr "ಅಪ್ಲೋಡ್"
-
 #: deluge/ui/webui/scripts/template_strings.py:121
 msgid "Upload Slot Limit"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:122
-msgid "Uploaded"
-msgstr "ಅಪ್ಲೋಡ್ ಮಾಡಲಾಗಿದೆ"
-
-#: deluge/ui/webui/scripts/template_strings.py:123
-msgid "seconds"
-msgstr "ಸೆಕೆಂಡುಗಳು"

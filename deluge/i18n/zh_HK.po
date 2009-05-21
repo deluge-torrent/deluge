@@ -14,8 +14,123 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
+#: deluge/ui/webui/scripts/template_strings.py:43
+msgid "Enable"
+msgstr "啟用"
+
+#: deluge/core/torrentmanager.py:698
+msgid "Alert"
+msgstr "警告"
+
+#: deluge/core/torrentmanager.py:709
+msgid "Warning"
+msgstr "警告"
+
+#: deluge/core/torrentmanager.py:719
+#: deluge/ui/webui/scripts/template_strings.py:44
+msgid "Error"
+msgstr "錯誤"
+
+#: deluge/plugins/label/label/webui.py:154
+#: deluge/plugins/label/label/gtkui/label_config.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:55
+#: deluge/plugins/label/label/gtkui/submenu.py:40
+#: deluge/plugins/label/label/gtkui/__init__.py:69
+#: deluge/plugins/label/label/gtkui/__init__.py:103
+#: deluge/ui/webui/scripts/template_strings.py:57
+msgid "Label"
+msgstr "標籤"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "連線"
+
+#: deluge/ui/gtkui/peers_tab.py:87
+#: deluge/ui/webui/scripts/template_strings.py:10
+msgid "Address"
+msgstr "網址"
+
+#: deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Client"
+msgstr "用戶端"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr "名稱"
+
+#: deluge/ui/webui/register_menu.py:31
+#: deluge/ui/webui/scripts/template_strings.py:20
+msgid "Config"
+msgstr "設定"
+
+#: deluge/ui/webui/register_menu.py:32
+#: deluge/ui/webui/scripts/template_strings.py:21
+msgid "Connect"
+msgstr "連線"
+
+#: deluge/ui/webui/register_menu.py:33
+#: deluge/ui/webui/scripts/template_strings.py:5
+msgid "About"
+msgstr "關於"
+
+#: deluge/ui/webui/register_menu.py:34
+#: deluge/ui/webui/scripts/template_strings.py:60
+msgid "Logout"
+msgstr "登出"
+
+#: deluge/ui/webui/register_menu.py:52
+#: deluge/ui/webui/scripts/template_strings.py:61
+msgid "Move"
+msgstr "移動"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/scripts/template_strings.py:39
+msgid "Download"
+msgstr "下載"
+
+#: deluge/ui/webui/scripts/template_strings.py:13
+msgid "Auto refresh:"
+msgstr "自動更新"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "清除"
+
+#: deluge/ui/webui/scripts/template_strings.py:30
+msgid "Delete downloaded files."
+msgstr "刪除已下載的檔案"
+
+#: deluge/ui/webui/scripts/template_strings.py:34
+msgid "Disable"
+msgstr "停用"
+
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Downloaded"
+msgstr "已下載"
+
+#: deluge/ui/webui/scripts/template_strings.py:47
+msgid "File"
+msgstr "檔案"
+
+#: deluge/ui/webui/scripts/template_strings.py:53
+msgid "General"
+msgstr "一般"
+
+#: deluge/ui/webui/scripts/template_strings.py:56
+msgid "Keyword"
+msgstr "關鍵字"
+
+#: deluge/ui/webui/scripts/template_strings.py:59
+msgid "Login"
+msgstr "登入"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -678,12 +793,6 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
-#: deluge/ui/webui/scripts/template_strings.py:43
-msgid "Enable"
-msgstr "啟用"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
@@ -1583,19 +1692,6 @@ msgstr ""
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:698
-msgid "Alert"
-msgstr "警告"
-
-#: deluge/core/torrentmanager.py:709
-msgid "Warning"
-msgstr "警告"
-
-#: deluge/core/torrentmanager.py:719
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Error"
-msgstr "錯誤"
-
 #: deluge/plugins/label/label/webui.py:63
 msgid "Error setting label options"
 msgstr ""
@@ -1659,16 +1755,6 @@ msgstr ""
 #: deluge/plugins/label/label/webui.py:143
 msgid "auto_add_trackers"
 msgstr ""
-
-#: deluge/plugins/label/label/webui.py:154
-#: deluge/plugins/label/label/gtkui/label_config.py:48
-#: deluge/plugins/label/label/gtkui/label_config.py:55
-#: deluge/plugins/label/label/gtkui/submenu.py:40
-#: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:103
-#: deluge/ui/webui/scripts/template_strings.py:57
-msgid "Label"
-msgstr "標籤"
 
 #: deluge/plugins/label/label/webui.py:155
 msgid "Work in progress.."
@@ -1800,11 +1886,6 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:129
 msgid "Not Connected"
 msgstr ""
-
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "連線"
 
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
@@ -1953,16 +2034,6 @@ msgstr ""
 msgid "Set Maximum Upload Slots"
 msgstr ""
 
-#: deluge/ui/gtkui/peers_tab.py:87
-#: deluge/ui/webui/scripts/template_strings.py:10
-msgid "Address"
-msgstr "網址"
-
-#: deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Client"
-msgstr "用戶端"
-
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
 #: deluge/ui/webui/scripts/template_strings.py:38
 msgid "Down Speed"
@@ -2098,11 +2169,6 @@ msgstr ""
 msgid "Plugin Eggs"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr "名稱"
-
 #: deluge/ui/gtkui/torrentview.py:145
 #: deluge/ui/webui/scripts/template_strings.py:96
 msgid "Seeders"
@@ -2160,26 +2226,6 @@ msgstr ""
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:31
-#: deluge/ui/webui/scripts/template_strings.py:20
-msgid "Config"
-msgstr "設定"
-
-#: deluge/ui/webui/register_menu.py:32
-#: deluge/ui/webui/scripts/template_strings.py:21
-msgid "Connect"
-msgstr "連線"
-
-#: deluge/ui/webui/register_menu.py:33
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "About"
-msgstr "關於"
-
-#: deluge/ui/webui/register_menu.py:34
-#: deluge/ui/webui/scripts/template_strings.py:60
-msgid "Logout"
-msgstr "登出"
-
 #: deluge/ui/webui/register_menu.py:36
 #: deluge/ui/webui/scripts/template_strings.py:105
 msgid "Statistics"
@@ -2220,11 +2266,6 @@ msgstr ""
 #: deluge/ui/webui/register_menu.py:50
 msgid "Queue Bottom"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:52
-#: deluge/ui/webui/scripts/template_strings.py:61
-msgid "Move"
-msgstr "移動"
 
 #: deluge/ui/webui/register_menu.py:53
 msgid "Reannounce"
@@ -2388,11 +2429,6 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
 msgstr ""
-
-#: deluge/ui/webui/config_tabs_deluge.py:130
-#: deluge/ui/webui/scripts/template_strings.py:39
-msgid "Download"
-msgstr "下載"
 
 #: deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Store all downoads in"
@@ -2765,10 +2801,6 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:13
-msgid "Auto refresh:"
-msgstr "自動更新"
-
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Ava"
 msgstr ""
@@ -2784,10 +2816,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "清除"
 
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
@@ -2813,10 +2841,6 @@ msgstr ""
 msgid "Delete .torrent file"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:30
-msgid "Delete downloaded files."
-msgstr "刪除已下載的檔案"
-
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Deluge : Torrent List"
 msgstr ""
@@ -2824,10 +2848,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Deluge Login"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "Disable"
-msgstr "停用"
 
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Disk Space"
@@ -2837,10 +2857,6 @@ msgstr ""
 msgid "Do not download"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Downloaded"
-msgstr "已下載"
-
 #: deluge/ui/webui/scripts/template_strings.py:45
 msgid "Eta"
 msgstr ""
@@ -2848,10 +2864,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:46
 msgid "False"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:47
-msgid "File"
-msgstr "檔案"
 
 #: deluge/ui/webui/scripts/template_strings.py:49
 msgid "Filter on a keyword"
@@ -2869,10 +2881,6 @@ msgstr ""
 msgid "From Url"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:53
-msgid "General"
-msgstr "一般"
-
 #: deluge/ui/webui/scripts/template_strings.py:54
 msgid "High priority"
 msgstr ""
@@ -2881,17 +2889,9 @@ msgstr ""
 msgid "Highest priority"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:56
-msgid "Keyword"
-msgstr "關鍵字"
-
 #: deluge/ui/webui/scripts/template_strings.py:58
 msgid "Label torrent"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:59
-msgid "Login"
-msgstr "登入"
 
 #: deluge/ui/webui/scripts/template_strings.py:63
 msgid "Move torrent"

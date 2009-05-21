@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-03 13:41+0000\n"
-"Last-Translator: Darren <darren.hoo@gmail.com>\n"
+"PO-Revision-Date: 2009-04-28 16:22+0000\n"
+"Last-Translator: astolia <Unknown>\n"
 "Language-Team: Chinese (China) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -102,7 +102,7 @@ msgstr "队列"
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
 msgid "Move completed to:"
-msgstr "移动完成的文件到:"
+msgstr "将已完成的文件移动到："
 
 #: deluge/plugins/label/label/data/label_options.glade:493
 msgid "Apply location settings:"
@@ -161,19 +161,19 @@ msgstr "<big><b>添加任务</b></big>"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/main_window.glade:20
 msgid "_File"
-msgstr "文件(_F)"
+msgstr "文件 (_F)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
-msgstr "网络地址(_U)"
+msgstr "网络地址 (_U)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
-msgstr "哈希信息(_h)"
+msgstr "哈希信息 (_H)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
-msgstr "删除(_R)"
+msgstr "删除 (_R)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
 msgid "<b>Torrents</b>"
@@ -181,7 +181,7 @@ msgstr "<b>种子文件</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
-msgstr "文件(_l)"
+msgstr "文件 (_l)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:126
@@ -245,7 +245,7 @@ msgstr "优先下载首尾块"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3806
 #: deluge/ui/gtkui/glade/main_window.glade:2103
 msgid "<b>General</b>"
-msgstr "<b>概况</b>"
+msgstr "<b>常规</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:793
 msgid "Revert To Defaults"
@@ -258,7 +258,7 @@ msgstr "应用到所有"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:894
 #: deluge/ui/gtkui/glade/main_window.glade:2182
 msgid "_Options"
-msgstr "选项(_O)"
+msgstr "选项 (_O)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:970
 msgid "Add URL"
@@ -291,7 +291,7 @@ msgstr "Trackers："
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
-msgstr "全选(_S)"
+msgstr "全选 (_S)"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
@@ -300,36 +300,36 @@ msgstr "继续已选任务"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
-msgstr "继续所有(_m)"
+msgstr "继续所有 (_M)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr "打开文件夹(_O)"
+msgstr "打开文件夹 (_O)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr "继续(_m)"
+msgstr "继续 (_M)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
-msgstr "设置(_i)"
+msgstr "设置 (_I)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
-msgstr "队列(_Q)"
+msgstr "队列 (_Q)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr "更新Tracker(_U)"
+msgstr "更新Tracker (_U)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:2078
 msgid "_Edit Trackers"
-msgstr "编辑Trackers(_E)"
+msgstr "编辑Trackers (_E)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
-msgstr "删除种子(_R)"
+msgstr "删除种子 (_R)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
@@ -337,17 +337,17 @@ msgstr "强制重检查（_F）"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
-msgstr "改变存放位置(_S)"
+msgstr "移动存放位置 (_S)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 msgid "_Download Speed Limit"
-msgstr "限制下载速度(_D)"
+msgstr "限制下载速度 (_D)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "限制上传速度(_U)"
+msgstr "限制上传速度 (_U)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -371,11 +371,11 @@ msgstr "如果你删除这些数据,它将永久丢失"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "同时删除数据(_D)"
+msgstr "同时删除数据 (_D)"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "删除任务(_T)"
+msgstr "删除任务 (_T)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:6
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -393,7 +393,7 @@ msgstr "下载到："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:163
 msgid "Copy of .torrent files to:"
-msgstr "复制种子文件到:"
+msgstr "将种子文件复制到:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:179
 msgid "Auto add .torrents from:"
@@ -475,11 +475,11 @@ msgstr "测试活动端口"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:675
 msgid "<b>Incoming Ports</b>"
-msgstr "链入端口"
+msgstr "连入端口"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:790
 msgid "<b>Outgoing Ports</b>"
-msgstr "链出端口"
+msgstr "连出端口"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:825
 msgid ""
@@ -540,7 +540,7 @@ msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:979
 msgid "<b>Network Extras</b>"
-msgstr "<b>附加外部网络</b>"
+msgstr "<b>其他网络技术</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
 msgid "Inbound:"
@@ -702,7 +702,7 @@ msgstr "<b>标准模式</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1766
 msgid "Show session speed in titlebar"
-msgstr "在标题栏显示会话速度"
+msgstr "在标题栏显示速度"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1778
 msgid "<b>Main Window</b>"
@@ -851,7 +851,7 @@ msgstr "<b>活跃任务</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2759
 msgid "Seed Time (m):"
-msgstr "做种时间（m）"
+msgstr "做种时间（分钟）:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "Seed Time Ratio:"
@@ -859,7 +859,7 @@ msgstr "做种时间比率："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2783
 msgid "Share Ratio Limit:"
-msgstr "限制共享率："
+msgstr "共享率上限："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
 msgid "Stop seeding when share ratio reaches:"
@@ -1032,11 +1032,11 @@ msgstr "<b>信息</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4336
 msgid "_Install Plugin"
-msgstr "安装插件(_I)"
+msgstr "安装插件 (_I)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4378
 msgid "_Rescan Plugins"
-msgstr "重新扫描插件(_R)"
+msgstr "重新扫描插件 (_R)"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
@@ -1152,11 +1152,11 @@ msgstr "<big><b>新建种子</b></big>"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
-msgstr "文件夹(_d)"
+msgstr "文件夹 (_D)"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
 msgid "_Remote Path"
-msgstr "远程路径(_R)"
+msgstr "远程路径 (_R)"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
@@ -1246,20 +1246,20 @@ msgstr "主机名：端口"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr "显示Deluge(_S)"
+msgstr "显示 Deluge (_S)"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
 #: deluge/ui/gtkui/glade/main_window.glade:28
 msgid "_Add Torrent"
-msgstr "添加种子(_A)"
+msgstr "添加种子 (_A)"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
-msgstr "全部暂停(_P)"
+msgstr "全部暂停 (_P)"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
 msgid "_Resume All"
-msgstr "全部继续(_R)"
+msgstr "全部继续 (_R)"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
@@ -1268,35 +1268,35 @@ msgstr "退出并关闭后台进程"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
-msgstr "退出(_Q)"
+msgstr "退出 (_Q)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
-msgstr "创建种子(_C)"
+msgstr "创建种子 (_C)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:93
 msgid "_Edit"
-msgstr "编辑(_E)"
+msgstr "编辑 (_E)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
-msgstr "连接管理(_C)"
+msgstr "连接管理 (_C)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:128
 msgid "_Torrent"
-msgstr "种子(_T)"
+msgstr "种子 (_T)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:135
 msgid "_View"
-msgstr "查看(_V)"
+msgstr "查看 (_V)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:143
 msgid "_Toolbar"
-msgstr "工具栏(_T)"
+msgstr "工具栏 (_T)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
-msgstr "侧变栏(_S)"
+msgstr "侧边栏 (_S)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "Status_bar"
@@ -1304,27 +1304,27 @@ msgstr "状态栏（_B）"
 
 #: deluge/ui/gtkui/glade/main_window.glade:176
 msgid "T_abs"
-msgstr "标签页(_a)"
+msgstr "标签页 (_A)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:183
 msgid "_Columns"
-msgstr "列(_C)"
+msgstr "列 (_C)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
-msgstr "侧边栏(_i)"
+msgstr "侧边栏 (_I)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr "显示值为0的项(_Z)"
+msgstr "显示空项目 (_Z)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
-msgstr "显示Tracker(_T)"
+msgstr "显示Tracker (_T)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:226
 msgid "_Help"
-msgstr "帮助(_H)"
+msgstr "帮助 (_H)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
@@ -1395,7 +1395,7 @@ msgstr "向下移动"
 
 #: deluge/ui/gtkui/glade/main_window.glade:551
 msgid "_Expand All"
-msgstr "全部展开(_E)"
+msgstr "全部展开 (_E)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:571
 msgid "_Do Not Download"
@@ -1480,7 +1480,7 @@ msgstr "<b>添加日期：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1219
 msgid "_Status"
-msgstr "状态(_S)"
+msgstr "状态 (_S)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1290
 msgid "<b># of files:</b>"
@@ -1512,15 +1512,15 @@ msgstr "<b>状态：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1530
 msgid "_Details"
-msgstr "详细信息(_D)"
+msgstr "详细信息 (_D)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
-msgstr "文件(_F)"
+msgstr "文件 (_F)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1628
 msgid "_Peers"
-msgstr "对等连接(_P)"
+msgstr "对等连接 (_P)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1747
 msgid "Max Upload Speed:"
@@ -1702,11 +1702,11 @@ msgstr "标签选项"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:56
 msgid "_Remove Label"
-msgstr "移除标签(_R)"
+msgstr "移除标签 (_R)"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:57
 msgid "_Add Label"
-msgstr "添加标签(_A)"
+msgstr "添加标签 (_A)"
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -1813,7 +1813,7 @@ msgstr "非法的前导字符"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
 msgid "Invalid magic code"
-msgstr "无效magic代码"
+msgstr "无效特征码"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
@@ -1926,12 +1926,12 @@ msgstr "Deluge"
 #: deluge/ui/gtkui/systemtray.py:197
 #: deluge/ui/webui/scripts/template_strings.py:37
 msgid "Down"
-msgstr "下移"
+msgstr "下载"
 
 #: deluge/ui/gtkui/systemtray.py:198
 #: deluge/ui/webui/scripts/template_strings.py:116
 msgid "Up"
-msgstr "上移"
+msgstr "上传"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
@@ -2432,7 +2432,7 @@ msgstr "存储所有下载到"
 
 #: deluge/ui/webui/config_tabs_deluge.py:132
 msgid "Save .torrent files to"
-msgstr "保存种子文件到"
+msgstr "将种子文件保存到"
 
 #: deluge/ui/webui/config_tabs_deluge.py:133
 msgid "Auto Add folder"
@@ -3076,1129 +3076,3 @@ msgstr "已上传"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "秒"
-
-#~ msgid "Graph"
-#~ msgstr "图表"
-
-#~ msgid "Deluge Bittorrent Client"
-#~ msgstr "Deluge BT客户端"
-
-#~ msgid "Deluge Preferences"
-#~ msgstr "Deluge首选项"
-
-#~ msgid "Queued"
-#~ msgstr "已入队列"
-
-#~ msgid "Finished"
-#~ msgstr "已完成"
-
-#~ msgid "Allocating"
-#~ msgstr "正在分配存储空间"
-
-#~ msgid "Invalid request"
-#~ msgstr "无效请求"
-
-#~ msgid "File error"
-#~ msgstr "文件错误"
-
-#~ msgid "translator-credits"
-#~ msgstr ""
-#~ "Launchpad Contributions:\n"
-#~ "  Abcx <https://launchpad.net/~xinwen87-gmail>\n"
-#~ "  Jack Shen <https://launchpad.net/~anticlockwise5>\n"
-#~ "  XavierToo <https://launchpad.net/~xaviertoo>\n"
-#~ "  Xiaodong Xu <https://launchpad.net/~xxdlhy>\n"
-#~ "  butely <https://launchpad.net/~moosefly>\n"
-#~ "  darh00 <https://launchpad.net/~darren-hoo>\n"
-#~ "  duan <https://launchpad.net/~duanzhiwei>\n"
-#~ "  oldbeggar <https://launchpad.net/~chen-gang1983>\n"
-#~ "  qubicllj <https://launchpad.net/~qubicllj-gmail>\n"
-#~ "  rainofchaos <https://launchpad.net/~rainofchaos>\n"
-#~ "  smoke <https://launchpad.net/~minir4id>\n"
-#~ "  xyb <https://launchpad.net/~xieyanbo>\n"
-#~ "  zissan <https://launchpad.net/~zissan>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Aaron Wang Shi <https://launchpad.net/~aarons-wang>\n"
-#~ "  Abcx <https://launchpad.net/~xinwen87-gmail>\n"
-#~ "  Jack Shen <https://launchpad.net/~anticlockwise5>\n"
-#~ "  Wentao Tang <https://launchpad.net/~wisetang>\n"
-#~ "  XavierToo <https://launchpad.net/~xaviertoo>\n"
-#~ "  Xiaodong Xu <https://launchpad.net/~xxdlhy>\n"
-#~ "  butely <https://launchpad.net/~moosefly>\n"
-#~ "  darh00 <https://launchpad.net/~darren-hoo>\n"
-#~ "  duan <https://launchpad.net/~duanzhiwei>\n"
-#~ "  oldbeggar <https://launchpad.net/~chen-gang1983>\n"
-#~ "  qubicllj <https://launchpad.net/~qubicllj-gmail>\n"
-#~ "  rainofchaos <https://launchpad.net/~rainofchaos>\n"
-#~ "  smoke <https://launchpad.net/~minir4id>\n"
-#~ "  xyb <https://launchpad.net/~xieyanbo>\n"
-#~ "  zissan <https://launchpad.net/~zissan>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Aaron Wang Shi <https://launchpad.net/~aarons-wang>\n"
-#~ "  Abcx <https://launchpad.net/~xinwen87-gmail>\n"
-#~ "  Jack Shen <https://launchpad.net/~anticlockwise5>\n"
-#~ "  Wentao Tang <https://launchpad.net/~wisetang>\n"
-#~ "  XavierToo <https://launchpad.net/~xaviertoo>\n"
-#~ "  Xiaodong Xu <https://launchpad.net/~xxdlhy>\n"
-#~ "  butely <https://launchpad.net/~moosefly>\n"
-#~ "  darh00 <https://launchpad.net/~darren-hoo>\n"
-#~ "  duan <https://launchpad.net/~duanzhiwei>\n"
-#~ "  laughterwym <https://launchpad.net/~edwin.wang>\n"
-#~ "  oldbeggar <https://launchpad.net/~chen-gang1983>\n"
-#~ "  qubicllj <https://launchpad.net/~qubicllj-gmail>\n"
-#~ "  rainofchaos <https://launchpad.net/~rainofchaos>\n"
-#~ "  smoke <https://launchpad.net/~minir4id>\n"
-#~ "  xyb <https://launchpad.net/~xieyanbo>\n"
-#~ "  zissan <https://launchpad.net/~zissan>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Aaron Wang Shi https://launchpad.net/~aarons-wang\n"
-#~ "  Abcx https://launchpad.net/~xinwen87-gmail\n"
-#~ "  Jack Shen https://launchpad.net/~anticlockwise5\n"
-#~ "  Wentao Tang https://launchpad.net/~wisetang\n"
-#~ "  XavierToo https://launchpad.net/~xaviertoo\n"
-#~ "  Xiaodong Xu https://launchpad.net/~xxdlhy\n"
-#~ "  Zissan https://launchpad.net/~zissan\n"
-#~ "  butely https://launchpad.net/~moosefly\n"
-#~ "  darh00 https://launchpad.net/~darren-hoo\n"
-#~ "  duan https://launchpad.net/~duanzhiwei\n"
-#~ "  ibear https://launchpad.net/~bearsprite\n"
-#~ "  laughterwym https://launchpad.net/~edwin.wang\n"
-#~ "  oldbeggar https://launchpad.net/~chen-gang1983\n"
-#~ "  qubicllj https://launchpad.net/~qubicllj-gmail\n"
-#~ "  rainofchaos https://launchpad.net/~rainofchaos\n"
-#~ "  smoke https://launchpad.net/~minir4id\n"
-#~ "  xyb https://launchpad.net/~xieyanbo\n"
-#~ "  zhuqin_83 https://launchpad.net/~zhuqin-83\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Aaron Wang Shi https://launchpad.net/~aarons-wang\n"
-#~ "  Abcx https://launchpad.net/~xinwen87-gmail\n"
-#~ "  Chen Tao https://launchpad.net/~pro711\n"
-#~ "  Darren https://launchpad.net/~darren-hoo\n"
-#~ "  Jack Shen https://launchpad.net/~anticlockwise5\n"
-#~ "  Larry Wei Liu https://launchpad.net/~larryweiliu\n"
-#~ "  MercuryCC https://launchpad.net/~mercurycc\n"
-#~ "  Wentao Tang https://launchpad.net/~wisetang\n"
-#~ "  XavierToo https://launchpad.net/~xaviertoo\n"
-#~ "  Xiaodong Xu https://launchpad.net/~xxdlhy\n"
-#~ "  Zissan https://launchpad.net/~zissan\n"
-#~ "  butely https://launchpad.net/~moosefly\n"
-#~ "  duan https://launchpad.net/~duanzhiwei\n"
-#~ "  ibear https://launchpad.net/~bearsprite\n"
-#~ "  laughterwym https://launchpad.net/~edwin.wang\n"
-#~ "  luojie-dune https://launchpad.net/~luojie-dune\n"
-#~ "  oldbeggar https://launchpad.net/~chen-gang1983\n"
-#~ "  qubicllj https://launchpad.net/~qubicllj-gmail\n"
-#~ "  rainofchaos https://launchpad.net/~rainofchaos\n"
-#~ "  smoke https://launchpad.net/~minir4id\n"
-#~ "  xyb https://launchpad.net/~xieyanbo\n"
-#~ "  zhuqin https://launchpad.net/~zhuqin\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Darren https://launchpad.net/~darren-hoo\n"
-#~ "  damo_yu https://launchpad.net/~yuzhonghao\n"
-#~ "  ibear https://launchpad.net/~bearsprite\n"
-#~ "  qubicllj https://launchpad.net/~qubicllj-gmail\n"
-#~ "  rainofchaos https://launchpad.net/~rainofchaos"
-
-#~ msgid "Help"
-#~ msgstr "帮助"
-
-#~ msgid "Warning - all downloaded files for this torrent will be deleted!"
-#~ msgstr "警告：该种子的所有文件都将会被删除！"
-
-#~ msgid "Manage Search Plugins"
-#~ msgstr "管理搜索插件"
-
-#~ msgid "Ask where to save each download"
-#~ msgstr "每次下载时询问保存目录"
-
-#~ msgid "Queue torrents to bottom when they begin seeding"
-#~ msgstr "当开始做种时，移动到队列末尾"
-
-#~ msgid "Enable Mainline DHT"
-#~ msgstr "启用主干DHT"
-
-#~ msgid "<b>Torrent Info</b>"
-#~ msgstr "<b>种子信息</b>"
-
-#~ msgid "Store all downloads in:"
-#~ msgstr "保存所有下载文件到:"
-
-#~ msgid "Peer Proxy"
-#~ msgstr "用代理连接伙伴"
-
-#~ msgid "_Top"
-#~ msgstr "顶部(_T)"
-
-#~ msgid "_Bottom"
-#~ msgstr "底部(_B)"
-
-#~ msgid "Plu_gins"
-#~ msgstr "插件(_G)"
-
-#~ msgid "Automatically clear torrents that reach the max share ratio"
-#~ msgstr "当种子达到最大分享率时自动从列表中删除"
-
-#~ msgid "Normal"
-#~ msgstr "正常"
-
-#~ msgid "Deluge Merge Tracker Lists"
-#~ msgstr "Deluge合并的Tracker列表"
-
-#~ msgid "KiB"
-#~ msgstr "KiB"
-
-#~ msgid "MiB"
-#~ msgstr "MiB"
-
-#~ msgid "GiB"
-#~ msgstr "GiB"
-
-#~ msgid "A torrent creator plugin"
-#~ msgstr "种子创建插件"
-
-#~ msgid "Add new torrent to queue"
-#~ msgstr "添加一个种子到队列"
-
-#~ msgid ""
-#~ "Network Activity Graph plugin\n"
-#~ "\n"
-#~ "Written by Kripkenstein"
-#~ msgstr ""
-#~ "网络统计图插件\n"
-#~ "\n"
-#~ "作者：Kripkenstein"
-
-#~ msgid "IPs"
-#~ msgstr "IP地址"
-
-#~ msgid "Download Speed (KiB/s):"
-#~ msgstr "下载速度(KiB/s):"
-
-#~ msgid "Torrent Upload Speed (KiB/s):"
-#~ msgstr "种子上传速度 (KiB/s):"
-
-#~ msgid "TiB"
-#~ msgstr "TiB"
-
-#~ msgid "PiB"
-#~ msgstr "PiB"
-
-#~ msgid "Maximum Active Torrents:"
-#~ msgstr "最大活动种子数："
-
-#~ msgid "FlexRSS"
-#~ msgstr "FlexRSS"
-
-#~ msgid "Threaded (experimental)"
-#~ msgstr "线程化（实验阶段）"
-
-#~ msgid "_Tracker Options"
-#~ msgstr "Tracker选项(_T)"
-
-#~ msgid "_Scrape Tracker"
-#~ msgstr "去除Tracker(_S)"
-
-#~ msgid "Clear Finished"
-#~ msgstr "清除已完成的种子"
-
-#~ msgid "Clear Finished Torrents"
-#~ msgstr "清除已完成种子"
-
-#~ msgid "Columns"
-#~ msgstr "列"
-
-#~ msgid "Choose an Engine"
-#~ msgstr "请选择一个搜索引擎"
-
-#~ msgid "gtk-cancel"
-#~ msgstr "取消"
-
-#~ msgid "Total Downloaded"
-#~ msgstr "总共已下载"
-
-#~ msgid "Total Uploaded"
-#~ msgstr "总共已上传"
-
-#~ msgid "Seeding"
-#~ msgstr "正在做种"
-
-#~ msgid "Checking"
-#~ msgstr "正在检查"
-
-#~ msgid "Downloading"
-#~ msgstr "正在下载"
-
-#~ msgid "Plugin Manager"
-#~ msgstr "插件管理器"
-
-#~ msgid "Delete downloaded files"
-#~ msgstr "删除已下载的文件"
-
-#~ msgid "Status"
-#~ msgstr "状态"
-
-#~ msgid "Time Remaining"
-#~ msgstr "剩余时间"
-
-#~ msgid "Show/Hide"
-#~ msgstr "显示/隐藏"
-
-#~ msgid "Add a Torrent..."
-#~ msgstr "添加种子..."
-
-#~ msgid "Use compact storage allocation"
-#~ msgstr "使用紧凑的存储分配"
-
-#~ msgid "Infinity"
-#~ msgstr "无穷大"
-
-#~ msgid "IP Address"
-#~ msgstr "IP地址"
-
-#~ msgid "Percent Complete"
-#~ msgstr "完成百分比"
-
-#~ msgid "Add torrent from URL"
-#~ msgstr "从URL添加种子"
-
-#~ msgid "Enter the URL of the .torrent to download"
-#~ msgstr "输入种子的URL以供下载"
-
-#~ msgid "Choose a download directory"
-#~ msgstr "请选择文件的保存目录"
-
-#~ msgid "File was not found"
-#~ msgstr "找不到文件"
-
-#~ msgid "Maximum simultaneous active torrents:"
-#~ msgstr "最大同时活动种子数:"
-
-#~ msgid ""
-#~ "Compact allocation will only allocate as much storage as it needs to keep "
-#~ "the pieces downloaded so far."
-#~ msgstr "使用紧凑分配下载，仅申请用于保存当前下载区块的空间。"
-
-#~ msgid "Stop seeding torrents when their share ratio reaches:"
-#~ msgstr "停止做种需要分享率达到:"
-
-#~ msgid "<b>Bandwidth Usage</b>"
-#~ msgstr "<b>所占用带宽</b>"
-
-#~ msgid ""
-#~ "<b>Please Note - Changes to these settings will only be applied the next "
-#~ "time Deluge is restarted.</b>"
-#~ msgstr "<b>请注意：所有更改只有重新启动Deluge后才能生效！</b>"
-
-#~ msgid "<b>TCP Port</b>"
-#~ msgstr "<b>TCP端口</b>"
-
-#~ msgid ""
-#~ "Disabled\n"
-#~ "Enabled\n"
-#~ "Forced"
-#~ msgstr ""
-#~ "关闭\n"
-#~ "启动\n"
-#~ "强制"
-
-#~ msgid ""
-#~ "Handshake\n"
-#~ "Either\n"
-#~ "Full Stream"
-#~ msgstr ""
-#~ "握手（低）\n"
-#~ "两者之一（中）\n"
-#~ "全部数据流（高）"
-
-#~ msgid "GUI update interval (seconds)"
-#~ msgstr "界面更新间隔(秒)"
-
-#~ msgid "<b>Performance</b>"
-#~ msgstr "<b>性能</b>"
-
-#~ msgid ""
-#~ "An error occured while trying to add the torrent. It's possible your "
-#~ ".torrent file is corrupted."
-#~ msgstr "添加该种子时遇到错误，您的种子文件可能已损坏。"
-
-#~ msgid "There is not enough free disk space to complete your download."
-#~ msgstr "磁盘空间不足，不能继续下载。"
-
-#~ msgid "Space Needed:"
-#~ msgstr "需要空间:"
-
-#~ msgid "Available Space:"
-#~ msgstr "可用空间:"
-
-#~ msgid "Start or Pause torrent"
-#~ msgstr "开始或停止种子"
-
-#~ msgid "Change Deluge preferences"
-#~ msgstr "更改 Deluge 设置"
-
-#~ msgid "Open the plugins dialog"
-#~ msgstr "打开插件窗口"
-
-#~ msgid "Add _URL"
-#~ msgstr "添加 URL(_U)"
-
-#~ msgid "Pl_ugins"
-#~ msgstr "插件(_U)"
-
-#~ msgid "Help translate this application"
-#~ msgstr "帮助翻译此程序"
-
-#~ msgid "<b>Statistics</b>"
-#~ msgstr "<b>统计</b>"
-
-#~ msgid ""
-#~ "<span size=\"large\"><b>Are you sure you want to remove the selected "
-#~ "torrent(s) from Deluge?</b></span>"
-#~ msgstr "<span size=\"large\"><b>你确认要删除选中的种子吗？</b></span>"
-
-#~ msgid "Speed:"
-#~ msgstr "速度:"
-
-#~ msgid "Unselect All"
-#~ msgstr "取消全选"
-
-#~ msgid "Move completed downloads to (*same partition only*):"
-#~ msgstr "完成下载后把文件移动到(<b>仅限相同分区</b>):"
-
-#~ msgid "Move completed downloads to:"
-#~ msgstr "把下载完的文件移动到:"
-
-#~ msgid ""
-#~ "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-#~ msgstr "Deluge允许的最大同时活动种子数量。-1为无限制。"
-
-#~ msgid "µTorrent Peer-Exchange"
-#~ msgstr "与µTorrent交换对等伙伴"
-
-#~ msgid "µTorrent-PeX"
-#~ msgstr "µTorrent-Pex"
-
-#~ msgid ""
-#~ "Only affects HTTP tracker connections (UDP tracker connections are affected "
-#~ "if the given proxy supports UDP, e.g. SOCKS5)."
-#~ msgstr "只允许使用HTTP tracker连接（加入你的代理支持UDP（例如SOCK5），UDP tracker连接将会应用生效）"
-
-#~ msgid "Tracker Proxy"
-#~ msgstr "用代理连接Tracker"
-
-#~ msgid ""
-#~ "Affects the DHT messages. Since they are sent over UDP, it only has any "
-#~ "effect if the proxy supports UDP."
-#~ msgstr "这会影响到DHT信息传播。代理服务器支持UDP传输，才会生效。"
-
-#~ msgid "DHT Proxy"
-#~ msgstr "用代理连接DHT"
-
-#~ msgid "Proxy type"
-#~ msgstr "代理类型"
-
-#~ msgid "<b>Proxy</b>"
-#~ msgstr "<b>代理</b>"
-
-#~ msgid "_Up"
-#~ msgstr "上移(_U)"
-
-#~ msgid "_Down"
-#~ msgstr "下移(_D)"
-
-#~ msgid "_Clear Finished"
-#~ msgstr "_清除完成"
-
-#~ msgid "_Down Speed Limit"
-#~ msgstr "_下载速度限制"
-
-#~ msgid "_Up Speed Limit"
-#~ msgstr "_上存速度限制"
-
-#~ msgid "Pause/Resume"
-#~ msgstr "暂停/恢复"
-
-#~ msgid "Paused %s"
-#~ msgstr "%s已暂停"
-
-#~ msgid ""
-#~ "You cannot move torrent to a different partition.  Please fix your "
-#~ "preferences"
-#~ msgstr "您不能移动种子到另外一个分区。请修改设置"
-
-#~ msgid "Asked for a torrent that doesn't exist"
-#~ msgstr "找不到你所选择的种子"
-
-#~ msgid "bytes needed"
-#~ msgstr "所需空间"
-
-#~ msgid "Queue new torrents above completed ones"
-#~ msgstr "把新添加的种子放在已完成任务之上"
-
-#~ msgid "Don't download"
-#~ msgstr "不下载"
-
-#~ msgid "High"
-#~ msgstr "高"
-
-#~ msgid "Highest"
-#~ msgstr "最高"
-
-#~ msgid ""
-#~ "Torrent already detected in Deluge, would you like to merge the tracker "
-#~ "lists?"
-#~ msgstr "<b>该种子已存在于Deluge，你希望合并tracker列表吗？</b>"
-
-#~ msgid "Unknown duplicate torrent error."
-#~ msgstr "不明种子副本错误。"
-
-#~ msgid "Torrent Search"
-#~ msgstr "搜索种子"
-
-#~ msgid "Search String"
-#~ msgstr "搜索字符串"
-
-#~ msgid "Manage Engines"
-#~ msgstr "管理搜索引擎"
-
-#~ msgid "Search "
-#~ msgstr "搜索 "
-
-#~ msgid "Torrent Creator"
-#~ msgstr "种子创建者"
-
-#~ msgid "_New Torrent"
-#~ msgstr "新增种子 (_N)"
-
-#~ msgid "New Torrent"
-#~ msgstr "新增种子"
-
-#~ msgid "Create New Torrent"
-#~ msgstr "创建种子"
-
-#~ msgid "Save file as..."
-#~ msgstr "文件另存为..."
-
-#~ msgid "You must select a source for the torrent."
-#~ msgstr "你必须为种子选择一个来源"
-
-#~ msgid "You must select a file to save the torrent as."
-#~ msgstr "你必须选择一个文件以保存该种子。"
-
-#~ msgid "You must specify at least one tracker."
-#~ msgstr "你必须至少指定一个服务器器"
-
-#~ msgid "This torrent will be made from a directory"
-#~ msgstr "该种子将包含一个目录"
-
-#~ msgid "Folder:"
-#~ msgstr "文件夹:"
-
-#~ msgid "This torrent will be made from a single file"
-#~ msgstr "该种子只包含一个文件"
-
-#~ msgid "File:"
-#~ msgstr "文件:"
-
-#~ msgid "<b>Source</b>"
-#~ msgstr "<b>源</b>"
-
-#~ msgid "Save Torrent File As:"
-#~ msgstr "种子文件另存为："
-
-#~ msgid "Load this torrent into Deluge for seeding"
-#~ msgstr "加载一个种子到 Deluge 以做种"
-
-#~ msgid "<b>Author</b>"
-#~ msgstr "<b>种子创建者</b>"
-
-#~ msgid ""
-#~ "The smaller the piece sizes, the more efficient the transfers will be, but "
-#~ "the actual \".torrent\" file will be larger"
-#~ msgstr "较小的块文件容量，可提高传输效率，但会增大\".torrent\"文件"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-#~ msgstr ""
-#~ "32KiB\n"
-#~ "64KiB\n"
-#~ "128KiB\n"
-#~ "256KiB\n"
-#~ "512KiB\n"
-#~ "1024KiB\n"
-
-#~ msgid "_Not Set"
-#~ msgstr "未设置 (_N)"
-
-#~ msgid "Not Set"
-#~ msgstr "未设置"
-
-#~ msgid "Desired Ratio"
-#~ msgstr "预计分享率"
-
-#~ msgid "Set the desired ratio for a torrent."
-#~ msgstr "为种子设置一个你预期的分享率"
-
-#~ msgid "_Desired Ratio"
-#~ msgstr "预期分享率 (_D)"
-
-#~ msgid "Network Activity Graph"
-#~ msgstr "网络统计图"
-
-#~ msgid "Network Health Monitor"
-#~ msgstr "网络状态监视器"
-
-#~ msgid "RSS Broadcatcher"
-#~ msgstr "RSS猎手"
-
-#~ msgid ""
-#~ "\n"
-#~ "Download Torrents automatically from RSS Feeds\n"
-#~ "\n"
-#~ "The latest version of my RSS autodownloader, which uses the Universal Feed "
-#~ "parser (http://feedparser.org/). Add RSS feeds on the 'Feeds' tab, then add "
-#~ "filters for TV shows (or whatever) on the 'Filters' tab. Double-click "
-#~ "entries on the 'Torrents' tab to download extra torrents from the feeds. The "
-#~ "Options are pretty self-explanatary.\n"
-#~ "\n"
-#~ "Please message me (SatNav) on the forums and let me know how you get on..\n"
-#~ "\n"
-#~ "Enjoy!"
-#~ msgstr ""
-#~ "\n"
-#~ "自动从RSS下载种子"
-
-#~ msgid "URL"
-#~ msgstr "网址"
-
-#~ msgid "Last Entry Date"
-#~ msgstr "最后记录日期"
-
-#~ msgid "Feed"
-#~ msgstr "Feed"
-
-#~ msgid "Date"
-#~ msgstr "日期"
-
-#~ msgid "RSS"
-#~ msgstr "RSS"
-
-#~ msgid "New Filter"
-#~ msgstr "<b>新建过滤规则</b>"
-
-#~ msgid "All"
-#~ msgstr "所有"
-
-#~ msgid "RSS Broadcatcher Settings"
-#~ msgstr "RSS猎手设置"
-
-#~ msgid "Feed Name:"
-#~ msgstr "来源名称"
-
-#~ msgid "Feed URL:"
-#~ msgstr "来源 URL"
-
-#~ msgid "Filter Exp:"
-#~ msgstr "过滤表达式："
-
-#~ msgid "Filter Name:"
-#~ msgstr "过滤器名称："
-
-#~ msgid " Feed: "
-#~ msgstr " 来源： "
-
-#~ msgid "Update Interval (seconds): "
-#~ msgstr "更新时间间隔 "
-
-#~ msgid "Check feeds on Deluge start"
-#~ msgstr "<b>在Deluge启动时检查来源</b>"
-
-#~ msgid "Check Feeds Now"
-#~ msgstr "马上检查来源"
-
-#~ msgid "Blocklist Importer"
-#~ msgstr "黑名单加载器"
-
-#~ msgid "Couldn't open blocklist file"
-#~ msgstr "不能打开过滤列表文件"
-
-#~ msgid "Format error in blocklist"
-#~ msgstr "过滤列表格式错误"
-
-#~ msgid "Blocklist URL"
-#~ msgstr "过滤列表URL地址"
-
-#~ msgid "Download on start"
-#~ msgstr "当程序启动时开始下载"
-
-#~ msgid "Loading and installing blocklist"
-#~ msgstr "安装并加载黑名单"
-
-#~ msgid "Importing"
-#~ msgstr "导入"
-
-#~ msgid "Complete"
-#~ msgstr "完成"
-
-#~ msgid "Couldn't match on line"
-#~ msgstr "在该行中，找不到匹配的"
-
-#~ msgid "Imported"
-#~ msgstr "已导入"
-
-#~ msgid "entries"
-#~ msgstr "项"
-
-#~ msgid ""
-#~ "File priority can only be set when using full allocation.\n"
-#~ "Please change your preference to disable compact allocation, then remove and "
-#~ "readd this torrent."
-#~ msgstr ""
-#~ "文件优先级只能在使用预先分配磁盘空间的情况下使用。\n"
-#~ "请在选项中停用紧凑分配，删除并重新加入这个种子。"
-
-#~ msgid "Maximum Global Upload Slots:"
-#~ msgstr "全局最大上传通道："
-
-#~ msgid "Connecting"
-#~ msgstr "正在连接"
-
-#~ msgid "Downloading Metadata"
-#~ msgstr "正在下载元数据"
-
-#~ msgid "Announce sent"
-#~ msgstr "发送通告"
-
-#~ msgid "HTTP code"
-#~ msgstr "HTTP代码"
-
-#~ msgid "times in a row"
-#~ msgstr "一连串的时间点"
-
-#~ msgid "Random Ports"
-#~ msgstr "随机端口"
-
-#~ msgid "<b>TCP</b>"
-#~ msgstr "<b>TCP</b>"
-
-#~ msgid "Re_sume"
-#~ msgstr "继续(_S)"
-
-#~ msgid "_Pause"
-#~ msgstr "暂停(_P)"
-
-#~ msgid "Global _Down Speed Limit"
-#~ msgstr "全局下载速度限制(_D)"
-
-#~ msgid "Global _Up Speed Limit"
-#~ msgstr "全局上传速度限制(_U)"
-
-#~ msgid "Upload Speed (KiB/s):"
-#~ msgstr "上传速度(KiB/s):"
-
-#~ msgid "Torrent Pieces"
-#~ msgstr "种子分块"
-
-#~ msgid "peer speed: "
-#~ msgstr "连接速度： "
-
-#~ msgid "<b>Peer Proxy</b>"
-#~ msgstr "<b>用代理连接伙伴</b>"
-
-#~ msgid "<b>Tracker Proxy</b>"
-#~ msgstr "<b>用代理连接Tracker</b>"
-
-#~ msgid "<b>DHT Proxy</b>"
-#~ msgstr "<b>用代理连接DHT</b>"
-
-#~ msgid "Web Seed Proxy"
-#~ msgstr "用代理连接Web种子"
-
-#~ msgid "<b>Web Seed Proxy</b>"
-#~ msgstr "<b>用代理连接Web种子</b>"
-
-#~ msgid "Proxies"
-#~ msgstr "代理"
-
-#~ msgid "Torrent Peers"
-#~ msgstr "种子的用户"
-
-#~ msgid ""
-#~ "\n"
-#~ "This is just the peers tab as a plugin.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "本插件可以显示一个连接标签.\n"
-
-#~ msgid "Enable event sound (requires pygame)"
-#~ msgstr "开启声音提示（需要pygame）"
-
-#~ msgid "Enable popup notification (requires python-notify)"
-#~ msgstr "弹出提示（需要python-notify）"
-
-#~ msgid "Torrent Notification"
-#~ msgstr "种子提示"
-
-#~ msgid "Event Logging Preferences"
-#~ msgstr "事件日志选项"
-
-#~ msgid "Torrent finished"
-#~ msgstr "种子完成"
-
-#~ msgid "Peer messages"
-#~ msgstr "连接用户信息"
-
-#~ msgid "Fastresume rejected error"
-#~ msgstr "快速恢复拒绝错误"
-
-#~ msgid "Tracker announce"
-#~ msgstr "Tracker 通告"
-
-#~ msgid "Tracker reply"
-#~ msgstr "Tracker 回复"
-
-#~ msgid "Tracker alert"
-#~ msgstr "Tracker 警告"
-
-#~ msgid "Tracker warning"
-#~ msgstr "Tracker 警告"
-
-#~ msgid "Block downloading"
-#~ msgstr "阻止下载"
-
-#~ msgid "Block finished"
-#~ msgstr "阻止完成"
-
-#~ msgid "Peer blocked"
-#~ msgstr "连接被阻止"
-
-#~ msgid "Log files"
-#~ msgstr "日志文件"
-
-#~ msgid "Event Logging"
-#~ msgstr "事件日志"
-
-#~ msgid "Event Log"
-#~ msgstr "事件日志"
-
-#~ msgid "torrent: "
-#~ msgstr "种子: "
-
-#~ msgid "Peer message"
-#~ msgstr "连接用户信息"
-
-#~ msgid "ip address: "
-#~ msgstr "ip地址： "
-
-#~ msgid "client: "
-#~ msgstr "客户： "
-
-#~ msgid "piece index: "
-#~ msgstr "分块索引： "
-
-#~ msgid "status code: "
-#~ msgstr "状态代码： "
-
-#~ msgid "Times in a row: "
-#~ msgstr "时间线 "
-
-#~ msgid "block index: "
-#~ msgstr "阻止索引： "
-
-#~ msgid "Speed Limiter"
-#~ msgstr "速度限制"
-
-#~ msgid "Set the desired speed limit per torrent."
-#~ msgstr "限制每个种子的速度"
-
-#~ msgid "Torrent _Download Speed"
-#~ msgstr "种子下载速度 (_D)"
-
-#~ msgid "Torrent Upload _Speed"
-#~ msgstr "种子上传速度 (_S)"
-
-#~ msgid "Torrent Download Speed (KiB/s):"
-#~ msgstr "种子下载速度 (KiB/s):"
-
-#~ msgid "Piece shared with next file(s)"
-#~ msgstr "与下一个文件共享的分块"
-
-#~ msgid "Locations"
-#~ msgstr "位置"
-
-#~ msgid ""
-#~ "Automagically remembers relevant settings for different locations.\n"
-#~ "\n"
-#~ "When this plugin is active, it will remember a lot of useful network-"
-#~ "specific preferences, such as up- or download limits, open ports and proxy "
-#~ "information. Just change preferences to suit each location while connected, "
-#~ "and Deluge will automagically use those settings the next time you connect "
-#~ "at that location. There is no other configuration needed.\n"
-#~ "\n"
-#~ "The plugin determines location by identifying the unique MAC address of the "
-#~ "Gateway used for the connection. It is therefore possible to have different "
-#~ "settings for home and work, or for broadband, 3G and dial-up on the fly.\n"
-#~ msgstr ""
-#~ "自动记住对不同位置的相关设定。\n"
-#~ "\n"
-#~ "当插件被激活，它会记住大量有用的网络特定选项，例如上传下载限制、开发的端口、代理信息等。每次连接时，只需选择适合该位置的选项，Deluge就会在你再次连到"
-#~ "该地时，自动使用哪些设定。不需要任何其他配置。\n"
-#~ "\n"
-#~ "插件通过识别连接网关的唯一MAC地址来确定位置。对家庭和工作的不同情况，或者对广播、3G和拨号等不同连接形式都可以有不同的设置。\n"
-
-#~ msgid "Torrent Files"
-#~ msgstr "种子文件"
-
-#~ msgid ""
-#~ "\n"
-#~ "This is just the files tab as a plugin.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "这是文件标签插件\n"
-
-#~ msgid "Tracker Editing"
-#~ msgstr "正在编辑Tracker"
-
-#~ msgid "_Open File"
-#~ msgstr "打开文件(_O)"
-
-#~ msgid ""
-#~ "Konqueror\n"
-#~ "Nautilus\n"
-#~ "Thunar"
-#~ msgstr ""
-#~ "Konqueror\n"
-#~ "Nautilus\n"
-#~ "Thunar"
-
-#~ msgid "Custom:"
-#~ msgstr "自定义:"
-
-#~ msgid "Open folder with:"
-#~ msgstr "目录浏览程序:"
-
-#~ msgid "<b>Desktop File Manager</b>"
-#~ msgstr "<b>桌面文件管理器</b>"
-
-#~ msgid "_Open Containing Folder"
-#~ msgstr "打开下载目录(_O)"
-
-#~ msgid "Simple RSS"
-#~ msgstr "Simple RSS"
-
-#~ msgid ""
-#~ "\n"
-#~ "Download Torrents automatically from SimpleRSS Feeds\n"
-#~ "\n"
-#~ "Add RSS feeds on the 'Feeds' tab, then add filters for TV shows (or "
-#~ "whatever) on the 'Filters' tab. Double-click entries on the 'Torrents' tab "
-#~ "to download extra torrents from the feeds. The Options are pretty self-"
-#~ "explanatary.\n"
-#~ "\n"
-#~ "Please message me (SatNav) on the forums and let me know how you get on..\n"
-#~ "\n"
-#~ "Enjoy!"
-#~ msgstr ""
-#~ "\n"
-#~ "自动从 RSS 订阅中下载种子\n"
-#~ "\n"
-#~ "在 Feeds 标签添加 RSS 订阅，然后在 Filters 标签添加过滤规则。双击 Torrents 标签开始下载种子。\n"
-#~ "\n"
-#~ "请你在论坛发信息给我(SatNav)，以便让我知道你的进展。"
-
-#~ msgid "SimpleRSS Broadcatcher"
-#~ msgstr "SimpleRSS Broadcatcher"
-
-#~ msgid ""
-#~ "\n"
-#~ "Pieces tab now shows percentage instead\n"
-#~ "of progress bars.  There are no longer any tooltips.\n"
-#~ "\n"
-#~ "Peer speed uses following symbols:\n"
-#~ "fast is +\n"
-#~ "medium is =\n"
-#~ "slow is -\n"
-#~ "\n"
-#~ "monospace font is required for columns to be aligned.\n"
-#~ "\n"
-#~ "Font size and number of columns are configurable in the\n"
-#~ "preferences.\n"
-#~ "\n"
-#~ "Finished torrents do not show piece information, just\n"
-#~ "a message that the torrent is complete.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "分块标签现在显示进度条百分比。\n"
-#~ "不再有任何工具提示了。\n"
-#~ "\n"
-#~ "对等连接速度用下面的符号表示：\n"
-#~ "“快”是“+“\n"
-#~ "“中等”是“=“\n"
-#~ "“慢”是“-“\n"
-#~ "列对其需要等宽字体。\n"
-#~ "\n"
-#~ "列的字体和字号可以在首选项里设定。\n"
-#~ "\n"
-#~ "已完成的种子不显示分块信息，只显示种子已完成。\n"
-
-#~ msgid "Alltime Stats"
-#~ msgstr "Alltime Stats"
-
-#~ msgid ""
-#~ "\n"
-#~ "Shows alltime stats in the tray tooltip.\n"
-#~ "Tracks transfer amounts, ratio, number of torrents finished, and uptime.\n"
-#~ "Also show session uptime\n"
-#~ msgstr ""
-#~ "\n"
-#~ "在托盘工具提示里显示全程状态。\n"
-#~ "Tracks服务器流量，分享率，已完成种子数，和运行时间。\n"
-#~ "也显示本次回话运行时间\n"
-
-#~ msgid "Undefined"
-#~ msgstr "未定义"
-
-#~ msgid "Uptime"
-#~ msgstr "运行时间"
-
-#~ msgid "All-time Downloaded"
-#~ msgstr "全程已下载"
-
-#~ msgid "All-time Uploaded"
-#~ msgstr "全程已上传"
-
-#~ msgid "All-time Ratio"
-#~ msgstr "全程分享率"
-
-#~ msgid "Torrents completed"
-#~ msgstr "已完成种子"
-
-#~ msgid "All-time Uptime"
-#~ msgstr "全程运行时间"
-
-#~ msgid "Pieces Preferences"
-#~ msgstr "分块选项"
-
-#~ msgid "Select number of columns"
-#~ msgstr "选择列数"
-
-#~ msgid "Select font size"
-#~ msgstr "选择字体大小"
-
-#~ msgid "Peers Preferences"
-#~ msgstr "连接设置"
-
-#~ msgid "Enable flags"
-#~ msgstr "显示国旗"
-
-#~ msgid "Select size of flag"
-#~ msgstr "选择国旗大小"
-
-#~ msgid "18x12"
-#~ msgstr "18x12"
-
-#~ msgid "25x15"
-#~ msgstr "25x15"
-
-#~ msgid "Deluge File Selection"
-#~ msgstr "Deluge文件选择"
-
-#~ msgid "Set the private flag"
-#~ msgstr "设置私人标记"
-
-#~ msgid "not found"
-#~ msgstr "未找到"
-
-#~ msgid "Extra Stats"
-#~ msgstr "扩展统计"
-
-#~ msgid "Torrents Completed"
-#~ msgstr "种子已完成"
-
-#~ msgid "Running Time"
-#~ msgstr "已运行时间"
-
-#~ msgid "Move Torrent"
-#~ msgstr "移动种子"
-
-#~ msgid "_Move Torrent"
-#~ msgstr "移动种子(_M)"
-
-#~ msgid ""
-#~ "You cannot move torrent to a different partition. Please check your "
-#~ "preferences. Or perhalps you are trying to move torrent's files to the same "
-#~ "directory they are already stored?"
-#~ msgstr "您不能把种子移动到不同的另一个分区中。请检查设置。也许或者是您正在把种子文件移动到保存它们的同一个目录中？"
-
-#~ msgid "Web Seed"
-#~ msgstr "Web种子"
-
-#~ msgid "This plugin allows users to add web seeds to their torrents"
-#~ msgstr "本插件允许用户追加Web种子"
-
-#~ msgid "_Add Web Seed"
-#~ msgstr "添加Web种子 (_A)"
-
-#~ msgid "Open Containing Folder Preferences"
-#~ msgstr "打开下载文件夹参数"
-
-#~ msgid "First Launch Configuration"
-#~ msgstr "首次运行配置"
-
-#~ msgid ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1Mbit\n"
-#~ "2Mbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-#~ msgstr ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1Mbit\n"
-#~ "2Mbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-
-#~ msgid "_Run Configuration Wizard"
-#~ msgstr "运行配置向导(_R)"
-
-#~ msgid "Got format exception for zipfile:"
-#~ msgstr "发现压缩包格式异常："
-
-#~ msgid "Queue pos:"
-#~ msgstr "队列位置："

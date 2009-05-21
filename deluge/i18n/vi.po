@@ -14,8 +14,380 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/plugins/label/label/data/label_options.glade:703
+msgid "Name:"
+msgstr "Tên:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "_Tập tin"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
+msgid "<b>Torrents</b>"
+msgstr "<b>Torrents</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
+#: deluge/ui/gtkui/glade/main_window.glade:1955
+msgid "Select A Folder"
+msgstr "Lựa chọn một thư mục"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "<b>Download Location</b>"
+msgstr "<b>Địa điểm tải xuống</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
+msgid "<b>Allocation</b>"
+msgstr "<b>Cấp phát</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
+msgid "URL:"
+msgstr "URL:"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+msgid "_Queue"
+msgstr "_Hàng đợi"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+msgid "_Update Tracker"
+msgstr "_Cập nhật Tracker"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2078
+msgid "_Edit Trackers"
+msgstr "_Biên tập các Tracker"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+msgid "_Remove Torrent"
+msgstr "_Loại bỏ Torrent"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+msgid "_Download Speed Limit"
+msgstr "_Giới hạn tốc độ tải xuống"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+msgid "_Upload Speed Limit"
+msgstr "Giới _hạn tốc độ tải lên"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "Tuỳ thích"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+msgid ""
+"Full allocation preallocates all of the space that is needed for the torrent "
+"and prevents disk fragmentation"
+msgstr ""
+"Cấp pháp toàn bộ sẽ cấp phát trước toàn bộ dung lượng đĩa cần thiết cho "
+"torrentvà ngăn ngừa được sự phân mảnh tập tin"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:338
+msgid "Use Full Allocation"
+msgstr "Sử dụng cấp phát toàn bộ"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:353
+msgid "Compact allocation only allocates space as needed"
+msgstr "Cấp phát rút gọn chỉ cấp phát đúng dung lượng cần thiết tạm thời"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:354
+#: deluge/ui/webui/config_tabs_deluge.py:135
+msgid "Use Compact Allocation"
+msgstr "Sử dụng cấp phát rút gọn"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:518
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "Deluge sẽ tự động chọn 1 cổng khác để sử dụng"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
+msgid "Active Port:"
+msgstr "Cổng tích cực:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
+msgid "0000"
+msgstr "0000"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
+msgid "From:"
+msgstr "Từ:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
+msgid "To:"
+msgstr "Tới:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:636
+msgid "Test Active Port"
+msgstr "Thử cổng tích cực"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:893
+msgid "Distributed hash table may improve the amount of active connections."
+msgstr "Bảng băm phân tán (DHT) có thể cải thiện số lượng kết nối tích cực."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
+msgid "Inbound:"
+msgstr "Dữ liệu nhận"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
+msgid "Level:"
+msgstr "Cấp:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
+msgid "Outbound:"
+msgstr "Dữ liệu truyền đi"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1126
+msgid "<b>Encryption</b>"
+msgstr "Mã hóa"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1234
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Số đường tải lên nhiều nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
+"không giới hạn."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1323
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Tốc độ tải lên tối đa, áp dụng cho tất cả torrent. Đặt giá trị -1 là không "
+"giới hạn."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1273
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Tốc độ tải xuống lớn nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
+"không giới hạn."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1550
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "Tốc độ tải xuống lớn nhất (KiB/s):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1305
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "Số kết nối cho phép nhiều nhất. Đặt giá trị -1 là không giới hạn."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
+msgid "Maximum Upload Slots:"
+msgstr "Số đường tải lên lớn nhất:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
+msgid "Maximum Connections:"
+msgstr "Kết nối nhiều nhất:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "Tốc độ tải lên lớn nhất (KiB/s):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
+msgid "<b>Seeding</b>"
+msgstr "<b>Đang tải lên</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
+msgid "<b>DHT</b>"
+msgstr "<b>DHT</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+#: deluge/ui/webui/scripts/template_strings.py:42
+msgid "Edit Trackers"
+msgstr "Biên tập các Tracker"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "_Hiện Deluge"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:28
+msgid "_Add Torrent"
+msgstr "_Thêm torrent"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+msgid "_Pause All"
+msgstr "Tạm _dừng tất cả"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "_Tiếp tục tất cả"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:146
+msgid "_Quit"
+msgstr "_Thoát"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "_Hiệu chỉnh"
+
+#: deluge/ui/gtkui/glade/main_window.glade:128
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_View"
+msgstr "_Xem"
+
+#: deluge/ui/gtkui/glade/main_window.glade:143
+msgid "_Toolbar"
+msgstr "Thanh _Công cụ"
+
+#: deluge/ui/gtkui/glade/main_window.glade:183
+msgid "_Columns"
+msgstr "_Cột"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "_Trợ giúp"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "Thêm Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "Loại bỏ Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "Tạm dừng"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "Tiếp tục"
+
+#: deluge/ui/gtkui/glade/main_window.glade:833
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Trạng thái người theo dõi:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:961
+msgid "<b>Pieces:</b>"
+msgstr "<b>Số phân mảnh:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1005
+#: deluge/ui/gtkui/glade/main_window.glade:1027
+msgid "<b>Speed:</b>"
+msgstr "<b>Tốc độ:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1046
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Thông báo kế:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1065
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Tỷ lệ chia sẻ:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1084
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Đã tải lên:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1103
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Đã tải xuống:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1290
+msgid "<b># of files:</b>"
+msgstr "<b>Số tập tin:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1352
+msgid "<b>Tracker:</b>"
+msgstr "<b>Người theo dõi:<b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1372
+msgid "<b>Total Size:</b>"
+msgstr "<b>Kích thước tổng:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>Tên:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1430
+msgid "<b>Path:</b>"
+msgstr "<b>Đường dẫn:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1530
+msgid "_Details"
+msgstr "_Chi tiết"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
+#: deluge/ui/gtkui/torrentview.py:137
+#: deluge/ui/gtkui/createtorrentdialog.py:75
+#: deluge/ui/webui/scripts/template_strings.py:102
+msgid "Size"
+msgstr "Kích cỡ"
+
+#: deluge/ui/gtkui/systemtray.py:197
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "Down"
+msgstr "Xuống"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "Lên"
+
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:38
+msgid "Down Speed"
+msgstr "Tốc độ tải xuống"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
+#: deluge/ui/webui/scripts/template_strings.py:117
+msgid "Up Speed"
+msgstr "Tốc độ tải lên"
+
+#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
+#: deluge/ui/webui/scripts/template_strings.py:33
+msgid "Details"
+msgstr "Chi tiết"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "Thêm"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
+msgid "Availability"
+msgstr "Khả dụng"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "Xóa"
+
+#: deluge/ui/webui/scripts/template_strings.py:29
+msgid "Delete .torrent file"
+msgstr "Xoá tập tin .torrent"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "Loại bỏ"
+
+#: deluge/ui/webui/scripts/template_strings.py:98
+msgid "Select All"
+msgstr "Chọn tất cả"
+
+#: deluge/ui/webui/scripts/template_strings.py:101
+msgid "Share Ratio"
+msgstr "Tỷ lệ chia sẻ"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -141,10 +513,6 @@ msgstr ""
 msgid "<b>Add Label</b>"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_options.glade:703
-msgid "Name:"
-msgstr "Tên:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Add Torrents"
@@ -153,12 +521,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "_Tập tin"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
@@ -172,25 +534,9 @@ msgstr ""
 msgid "_Remove"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
-msgid "<b>Torrents</b>"
-msgstr "<b>Torrents</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:126
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:202
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:237
-#: deluge/ui/gtkui/glade/main_window.glade:1955
-msgid "Select A Folder"
-msgstr "Lựa chọn một thư mục"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "<b>Download Location</b>"
-msgstr "<b>Địa điểm tải xuống</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 #: deluge/ui/webui/config_tabs_deluge.py:81
@@ -200,11 +546,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
-msgid "<b>Allocation</b>"
-msgstr "<b>Cấp phát</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:558
 msgid "Max Down Speed:"
@@ -265,10 +606,6 @@ msgstr ""
 msgid "<b>From URL</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
-msgid "URL:"
-msgstr "URL:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
 msgid "Add Infohash"
 msgstr ""
@@ -311,23 +648,6 @@ msgstr ""
 msgid "Opt_ions"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
-msgid "_Queue"
-msgstr "_Hàng đợi"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
-msgid "_Update Tracker"
-msgstr "_Cập nhật Tracker"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2078
-msgid "_Edit Trackers"
-msgstr "_Biên tập các Tracker"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
-msgid "_Remove Torrent"
-msgstr "_Loại bỏ Torrent"
-
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
 msgstr ""
@@ -335,16 +655,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-msgid "_Download Speed Limit"
-msgstr "_Giới hạn tốc độ tải xuống"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-msgid "_Upload Speed Limit"
-msgstr "Giới _hạn tốc độ tải lên"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -374,12 +684,6 @@ msgstr ""
 msgid "Remove _Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "Tuỳ thích"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
@@ -399,27 +703,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:301
 msgid "<b>Folders</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
-msgid ""
-"Full allocation preallocates all of the space that is needed for the torrent "
-"and prevents disk fragmentation"
-msgstr ""
-"Cấp pháp toàn bộ sẽ cấp phát trước toàn bộ dung lượng đĩa cần thiết cho "
-"torrentvà ngăn ngừa được sự phân mảnh tập tin"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:338
-msgid "Use Full Allocation"
-msgstr "Sử dụng cấp phát toàn bộ"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:353
-msgid "Compact allocation only allocates space as needed"
-msgstr "Cấp phát rút gọn chỉ cấp phát đúng dung lượng cần thiết tạm thời"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:354
-#: deluge/ui/webui/config_tabs_deluge.py:135
-msgid "Use Compact Allocation"
-msgstr "Sử dụng cấp phát rút gọn"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:406
 msgid "Prioritize first and last pieces of files in torrent"
@@ -441,36 +724,10 @@ msgstr ""
 msgid "<b><i><big>Network</big></i></b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:518
-msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge sẽ tự động chọn 1 cổng khác để sử dụng"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:519
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:707
 msgid "Use Random Ports"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
-msgid "Active Port:"
-msgstr "Cổng tích cực:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:576
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:724
-msgid "From:"
-msgstr "Từ:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:752
-msgid "To:"
-msgstr "Tới:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:636
-msgid "Test Active Port"
-msgstr "Thử cổng tích cực"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:675
 msgid "<b>Incoming Ports</b>"
@@ -497,10 +754,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:855
 msgid "<b>TOS</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:893
-msgid "Distributed hash table may improve the amount of active connections."
-msgstr "Bảng băm phân tán (DHT) có thể cải thiện số lượng kết nối tích cực."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:894
 msgid "DHT"
@@ -541,14 +794,6 @@ msgstr ""
 msgid "<b>Network Extras</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
-msgid "Inbound:"
-msgstr "Dữ liệu nhận"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
-msgid "Level:"
-msgstr "Cấp:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1043
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1088
 msgid ""
@@ -564,17 +809,9 @@ msgid ""
 "Either"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
-msgid "Outbound:"
-msgstr "Dữ liệu truyền đi"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1103
 msgid "Encrypt entire stream"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1126
-msgid "<b>Encryption</b>"
-msgstr "Mã hóa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1160
 msgid "page 7"
@@ -583,52 +820,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1191
 msgid "<b><i><big>Bandwidth</big></i></b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1234
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Số đường tải lên nhiều nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
-"không giới hạn."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1323
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Tốc độ tải lên tối đa, áp dụng cho tất cả torrent. Đặt giá trị -1 là không "
-"giới hạn."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1273
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Tốc độ tải xuống lớn nhất, áp dụng cho tất cả torrent. Đặt giá trị -1 là "
-"không giới hạn."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1550
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "Tốc độ tải xuống lớn nhất (KiB/s):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1305
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Số kết nối cho phép nhiều nhất. Đặt giá trị -1 là không giới hạn."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1325
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1563
-msgid "Maximum Upload Slots:"
-msgstr "Số đường tải lên lớn nhất:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
-msgid "Maximum Connections:"
-msgstr "Kết nối nhiều nhất:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Tốc độ tải lên lớn nhất (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
 msgid "Maximum Half-Open Connections:"
@@ -866,10 +1057,6 @@ msgstr ""
 msgid "Remove torrent when share ratio reached"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
-msgid "<b>Seeding</b>"
-msgstr "<b>Đang tải lên</b>"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2896
 msgid "page 12"
 msgstr ""
@@ -933,10 +1120,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
-msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
 msgid "<b><i><big>Notification</big></i></b>"
@@ -1028,11 +1211,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4378
 msgid "_Rescan Plugins"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-#: deluge/ui/webui/scripts/template_strings.py:42
-msgid "Edit Trackers"
-msgstr "Biên tập các Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
@@ -1230,55 +1408,18 @@ msgstr ""
 msgid "hostname:port"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "_Hiện Deluge"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:28
-msgid "_Add Torrent"
-msgstr "_Thêm torrent"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "Tạm _dừng tất cả"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "_Tiếp tục tất cả"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
 msgid "Quit & Shutdown Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:146
-msgid "_Quit"
-msgstr "_Thoát"
-
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "_Hiệu chỉnh"
-
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "_Xem"
-
-#: deluge/ui/gtkui/glade/main_window.glade:143
-msgid "_Toolbar"
-msgstr "Thanh _Công cụ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
@@ -1292,10 +1433,6 @@ msgstr ""
 msgid "T_abs"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "_Columns"
-msgstr "_Cột"
-
 #: deluge/ui/gtkui/glade/main_window.glade:191
 msgid "S_idebar"
 msgstr ""
@@ -1307,10 +1444,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "_Trợ giúp"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
@@ -1333,33 +1466,13 @@ msgstr ""
 msgid "Add torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "Thêm Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "Loại bỏ Torrent"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "Tạm dừng"
-
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "Tiếp tục"
 
 #: deluge/ui/gtkui/glade/main_window.glade:386
 msgid "Queue Torrent Up"
@@ -1415,10 +1528,6 @@ msgstr ""
 msgid "<b>Active Time:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:833
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Trạng thái người theo dõi:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:863
 msgid "<b>Availability:</b>"
 msgstr ""
@@ -1431,34 +1540,9 @@ msgstr ""
 msgid "<b>Seeders:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:961
-msgid "<b>Pieces:</b>"
-msgstr "<b>Số phân mảnh:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:983
 msgid "<b>ETA:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1005
-#: deluge/ui/gtkui/glade/main_window.glade:1027
-msgid "<b>Speed:</b>"
-msgstr "<b>Tốc độ:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1046
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Thông báo kế:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1065
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Tỷ lệ chia sẻ:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1084
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Đã tải lên:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1103
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Đã tải xuống:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1164
 msgid "<b>Date Added:</b>"
@@ -1468,37 +1552,13 @@ msgstr ""
 msgid "_Status"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1290
-msgid "<b># of files:</b>"
-msgstr "<b>Số tập tin:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1322
 msgid "<b>Hash:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1352
-msgid "<b>Tracker:</b>"
-msgstr "<b>Người theo dõi:<b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1372
-msgid "<b>Total Size:</b>"
-msgstr "<b>Kích thước tổng:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>Tên:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1430
-msgid "<b>Path:</b>"
-msgstr "<b>Đường dẫn:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:1464
 msgid "<b>Status:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1530
-msgid "_Details"
-msgstr "_Chi tiết"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1579
 msgid "_Files"
@@ -1868,13 +1928,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:102 deluge/ui/gtkui/files_tab.py:118
-#: deluge/ui/gtkui/torrentview.py:137
-#: deluge/ui/gtkui/createtorrentdialog.py:75
-#: deluge/ui/webui/scripts/template_strings.py:102
-msgid "Size"
-msgstr "Kích cỡ"
-
 #: deluge/ui/gtkui/addtorrentdialog.py:496
 msgid "Choose a .torrent file"
 msgstr ""
@@ -1905,16 +1958,6 @@ msgstr ""
 #: deluge/ui/gtkui/systemtray.py:197
 msgid "Deluge"
 msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:197
-#: deluge/ui/webui/scripts/template_strings.py:37
-msgid "Down"
-msgstr "Xuống"
-
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "Lên"
 
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
@@ -1970,16 +2013,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:19
 msgid "Client"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Down Speed"
-msgstr "Tốc độ tải xuống"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:159
-#: deluge/ui/webui/scripts/template_strings.py:117
-msgid "Up Speed"
-msgstr "Tốc độ tải lên"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
@@ -2193,19 +2226,10 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:37 deluge/ui/webui/register_menu.py:51
-#: deluge/ui/webui/scripts/template_strings.py:33
-msgid "Details"
-msgstr "Chi tiết"
-
 #: deluge/ui/webui/register_menu.py:41
 #: deluge/ui/webui/scripts/template_strings.py:48
 msgid "Files"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "Thêm"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
@@ -2781,10 +2805,6 @@ msgstr ""
 msgid "Ava"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:15
-msgid "Availability"
-msgstr "Khả dụng"
-
 #: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Bottom"
 msgstr ""
@@ -2792,10 +2812,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:17
 msgid "Cancel"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "Xóa"
 
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
@@ -2816,10 +2832,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "DHT Nodes"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:29
-msgid "Delete .torrent file"
-msgstr "Xoá tập tin .torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:30
 msgid "Delete downloaded files."
@@ -2949,10 +2961,6 @@ msgstr ""
 msgid "Refresh page every:"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "Loại bỏ"
-
 #: deluge/ui/webui/scripts/template_strings.py:89
 msgid "Remove torrent"
 msgstr ""
@@ -2981,10 +2989,6 @@ msgstr ""
 msgid "Seeding time"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:98
-msgid "Select All"
-msgstr "Chọn tất cả"
-
 #: deluge/ui/webui/scripts/template_strings.py:99
 msgid "Set"
 msgstr ""
@@ -2992,10 +2996,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:100
 msgid "Set Timeout"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:101
-msgid "Share Ratio"
-msgstr "Tỷ lệ chia sẻ"
 
 #: deluge/ui/webui/scripts/template_strings.py:103
 msgid "Speed"

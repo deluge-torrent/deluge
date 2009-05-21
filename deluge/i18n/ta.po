@@ -14,8 +14,155 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: deluge/plugins/label/label/data/label_options.glade:426
+#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
+#: deluge/ui/webui/scripts/template_strings.py:83
+msgid "Queue"
+msgstr "வரிசை"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "கோப்பு (_F)"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
+#: deluge/ui/gtkui/glade/main_window.glade:422
+#: deluge/ui/gtkui/glade/main_window.glade:423
+msgid "Preferences"
+msgstr "விருப்பங்கள்"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
+msgid "0000"
+msgstr "0000"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
+#: deluge/ui/gtkui/glade/connection_manager.glade:129
+msgid "Password:"
+msgstr "கடவுச்சொல்:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
+msgid "<b>Seeding</b>"
+msgstr "<b>விதைத்தல்</b>"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:28
+msgid "_Add Torrent"
+msgstr "_டோர்றேன்ட் ஐ சேர்க்கவும்"
+
+#: deluge/ui/gtkui/glade/main_window.glade:93
+msgid "_Edit"
+msgstr "(_E)திருத்து"
+
+#: deluge/ui/gtkui/glade/main_window.glade:226
+msgid "_Help"
+msgstr "_உதவி"
+
+#: deluge/ui/gtkui/glade/main_window.glade:314
+#: deluge/ui/webui/scripts/template_strings.py:7
+msgid "Add Torrent"
+msgstr "டோர்றேன்ட் ஐ சேர்க்கவும்"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/webui/scripts/template_strings.py:88
+msgid "Remove Torrent"
+msgstr "டோர்றேன்ட் ஐ நீக்கவும்"
+
+#: deluge/ui/gtkui/glade/main_window.glade:349
+#: deluge/ui/webui/scripts/template_strings.py:77
+msgid "Pause"
+msgstr "தற்காலிகமாக நிறுத்து"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/webui/scripts/template_strings.py:91
+msgid "Resume"
+msgstr "மீண்டும் துவக்க"
+
+#: deluge/ui/gtkui/glade/main_window.glade:386
+msgid "Queue Torrent Up"
+msgstr "டோர்றேன்ட் - களை மேல் நோக்கி வரிசைப்படுத்துக"
+
+#: deluge/ui/gtkui/glade/main_window.glade:400
+msgid "Queue Torrent Down"
+msgstr "டோர்றேன்ட் - களை கீழ் நோக்கி வரிசைப்படுத்துக"
+
+#: deluge/ui/gtkui/glade/main_window.glade:961
+msgid "<b>Pieces:</b>"
+msgstr "<b>துண்டுகள்:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1410
+msgid "<b>Name:</b>"
+msgstr "<b>பெயர்:</b>"
+
+#: deluge/ui/gtkui/statusbar.py:144
+#: deluge/ui/webui/scripts/template_strings.py:25
+msgid "Connections"
+msgstr "இணைப்புகள்"
+
+#: deluge/ui/gtkui/systemtray.py:197
+#: deluge/ui/webui/scripts/template_strings.py:37
+msgid "Down"
+msgstr "கீழ்"
+
+#: deluge/ui/gtkui/systemtray.py:198
+#: deluge/ui/webui/scripts/template_strings.py:116
+msgid "Up"
+msgstr "மேல்"
+
+#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
+#: deluge/ui/gtkui/torrentview.py:141
+#: deluge/ui/webui/scripts/template_strings.py:82
+msgid "Progress"
+msgstr "முன்னேற்றம்"
+
+#: deluge/ui/gtkui/peers_tab.py:103
+#: deluge/ui/webui/scripts/template_strings.py:19
+msgid "Client"
+msgstr "வாங்கி"
+
+#: deluge/ui/gtkui/preferences.py:61
+#: deluge/ui/webui/scripts/template_strings.py:74
+msgid "Other"
+msgstr "ஏனையவை"
+
+#: deluge/ui/gtkui/torrentview.py:135
+#: deluge/ui/webui/scripts/template_strings.py:64
+msgid "Name"
+msgstr "பெயர்"
+
+#: deluge/ui/webui/register_menu.py:41
+#: deluge/ui/webui/scripts/template_strings.py:48
+msgid "Files"
+msgstr "கோப்புக்கள்"
+
+#: deluge/ui/webui/register_menu.py:43
+msgid "Add"
+msgstr "சேர்க்கவும்"
+
+#: deluge/ui/webui/register_menu.py:46
+#: deluge/ui/webui/scripts/template_strings.py:104
+msgid "Start"
+msgstr "தொடங்கு"
+
+#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
+msgid "Unknown"
+msgstr "தெரியாதவை"
+
+#: deluge/ui/webui/scripts/template_strings.py:18
+msgid "Clear"
+msgstr "காலியாக்கு"
+
+#: deluge/ui/webui/scripts/template_strings.py:87
+msgid "Remove"
+msgstr "நீக்கவும்"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -93,12 +240,6 @@ msgstr ""
 msgid "Apply Queue settings:"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
-#: deluge/ui/webui/scripts/template_strings.py:83
-msgid "Queue"
-msgstr "வரிசை"
-
 #: deluge/plugins/label/label/data/label_options.glade:465
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:148
 msgid "Move completed to:"
@@ -153,12 +294,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "கோப்பு (_F)"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
@@ -374,12 +509,6 @@ msgstr ""
 msgid "Remove _Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:6
-#: deluge/ui/gtkui/glade/main_window.glade:422
-#: deluge/ui/gtkui/glade/main_window.glade:423
-msgid "Preferences"
-msgstr "விருப்பங்கள்"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
@@ -451,10 +580,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 msgid "Active Port:"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:549
-msgid "0000"
-msgstr "0000"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:576
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:724
@@ -725,16 +850,6 @@ msgstr ""
 msgid "Password protect system tray"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1961
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3099
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3275
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
-#: deluge/ui/gtkui/glade/connection_manager.glade:129
-msgid "Password:"
-msgstr "கடவுச்சொல்:"
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
 msgid "<b>System Tray</b>"
 msgstr ""
@@ -857,10 +972,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2846
 msgid "Remove torrent when share ratio reached"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
-msgid "<b>Seeding</b>"
-msgstr "<b>விதைத்தல்</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2896
 msgid "page 12"
@@ -1226,11 +1337,6 @@ msgstr ""
 msgid "_Show Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:28
-msgid "_Add Torrent"
-msgstr "_டோர்றேன்ட் ஐ சேர்க்கவும்"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
 msgstr ""
@@ -1251,10 +1357,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "(_E)திருத்து"
 
 #: deluge/ui/gtkui/glade/main_window.glade:111
 msgid "_Connection Manager"
@@ -1300,10 +1402,6 @@ msgstr ""
 msgid "Show _Trackers"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "_உதவி"
-
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
 msgstr ""
@@ -1325,46 +1423,18 @@ msgstr ""
 msgid "Add torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:314
-#: deluge/ui/webui/scripts/template_strings.py:7
-msgid "Add Torrent"
-msgstr "டோர்றேன்ட் ஐ சேர்க்கவும்"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-#: deluge/ui/webui/scripts/template_strings.py:88
-msgid "Remove Torrent"
-msgstr "டோர்றேன்ட் ஐ நீக்கவும்"
-
 #: deluge/ui/gtkui/glade/main_window.glade:348
 msgid "Pause the selected torrents"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:349
-#: deluge/ui/webui/scripts/template_strings.py:77
-msgid "Pause"
-msgstr "தற்காலிகமாக நிறுத்து"
 
 #: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Resume the selected torrents"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
-#: deluge/ui/webui/scripts/template_strings.py:91
-msgid "Resume"
-msgstr "மீண்டும் துவக்க"
-
-#: deluge/ui/gtkui/glade/main_window.glade:386
-msgid "Queue Torrent Up"
-msgstr "டோர்றேன்ட் - களை மேல் நோக்கி வரிசைப்படுத்துக"
-
 #: deluge/ui/gtkui/glade/main_window.glade:387
 #: deluge/ui/webui/register_menu.py:47
 msgid "Queue Up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:400
-msgid "Queue Torrent Down"
-msgstr "டோர்றேன்ட் - களை கீழ் நோக்கி வரிசைப்படுத்துக"
 
 #: deluge/ui/gtkui/glade/main_window.glade:401
 #: deluge/ui/webui/register_menu.py:48
@@ -1423,10 +1493,6 @@ msgstr ""
 msgid "<b>Seeders:</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:961
-msgid "<b>Pieces:</b>"
-msgstr "<b>துண்டுகள்:</b>"
-
 #: deluge/ui/gtkui/glade/main_window.glade:983
 msgid "<b>ETA:</b>"
 msgstr ""
@@ -1475,10 +1541,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1372
 msgid "<b>Total Size:</b>"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1410
-msgid "<b>Name:</b>"
-msgstr "<b>பெயர்:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1430
 msgid "<b>Path:</b>"
@@ -1801,11 +1863,6 @@ msgstr ""
 msgid "Not Connected"
 msgstr ""
 
-#: deluge/ui/gtkui/statusbar.py:144
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Connections"
-msgstr "இணைப்புகள்"
-
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Download Speed"
 msgstr ""
@@ -1898,16 +1955,6 @@ msgstr ""
 msgid "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:197
-#: deluge/ui/webui/scripts/template_strings.py:37
-msgid "Down"
-msgstr "கீழ்"
-
-#: deluge/ui/gtkui/systemtray.py:198
-#: deluge/ui/webui/scripts/template_strings.py:116
-msgid "Up"
-msgstr "மேல்"
-
 #: deluge/ui/gtkui/systemtray.py:366
 msgid "Deluge is locked"
 msgstr ""
@@ -1917,12 +1964,6 @@ msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:131 deluge/ui/gtkui/peers_tab.py:116
-#: deluge/ui/gtkui/torrentview.py:141
-#: deluge/ui/webui/scripts/template_strings.py:82
-msgid "Progress"
-msgstr "முன்னேற்றம்"
 
 #: deluge/ui/gtkui/files_tab.py:144
 msgid "Priority"
@@ -1957,11 +1998,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "Address"
 msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:103
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Client"
-msgstr "வாங்கி"
 
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:155
 #: deluge/ui/webui/scripts/template_strings.py:38
@@ -2061,11 +2097,6 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:61
-#: deluge/ui/webui/scripts/template_strings.py:74
-msgid "Other"
-msgstr "ஏனையவை"
-
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:142
 msgid "Daemon"
 msgstr ""
@@ -2097,11 +2128,6 @@ msgstr ""
 #: deluge/ui/gtkui/preferences.py:846
 msgid "Plugin Eggs"
 msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:135
-#: deluge/ui/webui/scripts/template_strings.py:64
-msgid "Name"
-msgstr "பெயர்"
 
 #: deluge/ui/gtkui/torrentview.py:145
 #: deluge/ui/webui/scripts/template_strings.py:96
@@ -2190,15 +2216,6 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: deluge/ui/webui/register_menu.py:41
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Files"
-msgstr "கோப்புக்கள்"
-
-#: deluge/ui/webui/register_menu.py:43
-msgid "Add"
-msgstr "சேர்க்கவும்"
-
 #: deluge/ui/webui/register_menu.py:44
 msgid "Delete"
 msgstr ""
@@ -2207,11 +2224,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:106
 msgid "Stop"
 msgstr ""
-
-#: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/webui/scripts/template_strings.py:104
-msgid "Start"
-msgstr "தொடங்கு"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Queue Top"
@@ -2470,10 +2482,6 @@ msgstr ""
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
 msgstr ""
-
-#: deluge/ui/webui/lib/newforms_portable/widgets.py:231
-msgid "Unknown"
-msgstr "தெரியாதவை"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 msgid "Yes"
@@ -2785,10 +2793,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Clear"
-msgstr "காலியாக்கு"
-
 #: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Connect to Daemon"
 msgstr ""
@@ -2940,10 +2944,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:86
 msgid "Refresh page every:"
 msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:87
-msgid "Remove"
-msgstr "நீக்கவும்"
 
 #: deluge/ui/webui/scripts/template_strings.py:89
 msgid "Remove torrent"

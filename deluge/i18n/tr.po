@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -488,12 +488,6 @@ msgstr "<b>Giriş portları</b>"
 msgid "<b>Outgoing Ports</b>"
 msgstr "<b>Çıkış portları</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
 msgstr "Eş TOS Bayt:"
@@ -651,12 +645,6 @@ msgstr "Saniye Başı Azami Bağlantı Denemesi:"
 #: deluge/ui/webui/config_tabs_deluge.py:113
 msgid "Ignore limits on local network"
 msgstr "Yerel ağdaki sınırları yoksay"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
-msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
 msgid "Rate limit IP overhead"
@@ -1677,17 +1665,9 @@ msgstr "oranı_durdur"
 msgid "remove_at_ratio"
 msgstr "orana_ulaşınca_kaldır"
 
-#: deluge/plugins/label/label/webui.py:137
-msgid "apply_move_completed"
-msgstr ""
-
 #: deluge/plugins/label/label/webui.py:138
 msgid "move_completed"
 msgstr "taşıma_tamamlandı"
-
-#: deluge/plugins/label/label/webui.py:139
-msgid "move_completed_path"
-msgstr ""
 
 #: deluge/plugins/label/label/webui.py:142
 msgid "auto_add"
@@ -2028,18 +2008,6 @@ msgstr "Torrent tamamlandı"
 #, python-format
 msgid "Including %i files"
 msgstr "%i dosya içerir"
-
-#: deluge/ui/gtkui/notification.py:96
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading %s ,        "
-"     which includes %i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge"
-msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:77 deluge/ui/gtkui/filtertreeview.py:99
 msgid "Filters"
@@ -2427,10 +2395,6 @@ msgstr "Azami Yarı-Açık Bağlantı"
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
 msgstr "Saniye Başı Azami Bağlantı Denemesi"
-
-#: deluge/ui/webui/config_tabs_deluge.py:114
-msgid "Rate Limit IP Overhead"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
@@ -3099,60 +3063,38 @@ msgstr "Gönderilenler"
 msgid "seconds"
 msgstr "saniye"
 
-#~ msgid "Test config value:"
-#~ msgstr "Ayar değerini test et:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
+msgid ""
+"The TOS byte set in the IP header of every packet sent to peers (including "
+"web seeds).  Expects a Hex value."
+msgstr ""
 
-#~ msgid "Graphs"
-#~ msgstr "Grafikler"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
+msgid ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
+msgstr ""
 
-#~ msgid "Seeds/Peers"
-#~ msgstr "Yayıncılar/Eşler"
+#: deluge/plugins/label/label/webui.py:137
+msgid "apply_move_completed"
+msgstr ""
 
-#~ msgid "Stats"
-#~ msgstr "İstatistikler"
+#: deluge/plugins/label/label/webui.py:139
+msgid "move_completed_path"
+msgstr ""
 
-#~ msgid "Graph"
-#~ msgstr "Grafik"
+#: deluge/ui/gtkui/notification.py:96
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading %s ,        "
+"     which includes %i files.\n"
+"To stop receiving these alerts, simply turn off             email "
+"notification in Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge"
+msgstr ""
 
-#~ msgid "Test config value"
-#~ msgstr "Ayar değerini test et"
-
-#~ msgid "Days"
-#~ msgstr "Gün"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Engellenmişler istesini başlangıçta içe aktar"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Ayarlar</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr ""
-#~ "Engellenmişler listesinin dosyasını gerekliyse indir ve dosyayı içe aktar"
-
-#~ msgid "Check Download and Import"
-#~ msgstr "İndirmeyi Denetle ve İçe Aktar"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Yeni bir engellenmişler listesi dosyası indir ve içe aktar."
-
-#~ msgid "Force Download and Import"
-#~ msgstr "İndirmeye zorla ve İçe aktar"
-
-#~ msgid "File Size:"
-#~ msgstr "Dosya Boyutu:"
-
-#~ msgid "Date:"
-#~ msgstr "Tarih:"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge Kurulum Sihirbazı"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Bu sihirbaz Deluge'u isteklerinize göre kurmanıza yardım edecek"
-
-#~ msgid "All Finished!"
-#~ msgstr "Hepsi Bitti!"
-
-#~ msgid "_Statistics"
-#~ msgstr "_İstatistikler"
+#: deluge/ui/webui/config_tabs_deluge.py:114
+msgid "Rate Limit IP Overhead"
+msgstr ""

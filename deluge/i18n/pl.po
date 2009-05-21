@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-03-21 18:03+0000\n"
-"Last-Translator: Krzysztof Grygiencz <ffiasd@gmail.com>\n"
+"PO-Revision-Date: 2009-05-13 06:10+0000\n"
+"Last-Translator: Paweł Wysocki <pawel_wys@o2.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -3117,21 +3117,3 @@ msgstr "Wysłano"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "sekund"
-
-#~ msgid "Graphs"
-#~ msgstr "Wykresy"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Rozsiewający/Uczestnicy"
-
-#~ msgid "Stats"
-#~ msgstr "Statystyki"
-
-#~ msgid "Graph"
-#~ msgstr "Wykres"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Konfigurator Ustawień Deluge"
-
-#~ msgid "All Finished!"
-#~ msgstr "Wszystko zakończone!"

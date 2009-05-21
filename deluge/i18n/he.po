@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -29,10 +29,6 @@ msgstr "<b>תוויות</b>"
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
 msgstr "אפשרויות תווית"
-
-#: deluge/plugins/label/label/data/label_options.glade:36
-msgid "<b>Label Options</b>"
-msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -64,10 +60,6 @@ msgstr "מהירות הורדה:"
 msgid "Connections:"
 msgstr "חיבורים:"
 
-#: deluge/plugins/label/label/data/label_options.glade:270
-msgid "Apply per torrent max settings:"
-msgstr ""
-
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
 msgstr "מקסימום"
@@ -89,10 +81,6 @@ msgstr "הפסק לשתף כשיחס השיתוף מגיע ל:"
 #: deluge/ui/webui/torrent_options.py:51
 msgid "Remove at ratio"
 msgstr "הסרה ביחס שיתוף"
-
-#: deluge/plugins/label/label/data/label_options.glade:410
-msgid "Apply Queue settings:"
-msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:61 deluge/ui/webui/config_tabs_deluge.py:150
@@ -141,10 +129,6 @@ msgstr "טראקרים"
 msgid "Add Label"
 msgstr "הוסף תווית"
 
-#: deluge/plugins/label/label/data/label_options.glade:672
-msgid "<b>Add Label</b>"
-msgstr ""
-
 #: deluge/plugins/label/label/data/label_options.glade:703
 msgid "Name:"
 msgstr "שם:"
@@ -167,10 +151,6 @@ msgstr "_קובץ"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
 msgstr "_כתובת"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
-msgid "Info_hash"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
@@ -237,10 +217,6 @@ msgstr "<b>רוחב פס</b>"
 msgid "Add In _Paused State"
 msgstr "הוסף _במצב מושהה"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
-msgid "Prioritize First/Last Pieces"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2524
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3806
@@ -272,18 +248,6 @@ msgstr "<b>מכתובת</b>"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1040
 msgid "URL:"
 msgstr "URL:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
-msgid "Add Infohash"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
-msgid "<b>From Infohash</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
-msgid "Infohash:"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1222
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
@@ -362,21 +326,9 @@ msgstr "גבול _נקודות העלאה"
 msgid "_Auto Managed"
 msgstr "מנוהל _אוטומטית"
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
 msgstr "אם תסיר את המידע, הוא יאבד לעד."
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:6
 #: deluge/ui/gtkui/glade/main_window.glade:422
@@ -483,16 +435,6 @@ msgstr "<b>פורטים נכנסים</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:790
 msgid "<b>Outgoing Ports</b>"
 msgstr "<b>פורטים יוצאים</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:826
-msgid "Peer TOS Byte:"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:838
 msgid "0x00"
@@ -647,16 +589,6 @@ msgstr "מספר ניסיונות התחברות מקסימלי לשנייה:"
 msgid "Ignore limits on local network"
 msgstr "התעלם מהגבלות ברשת מקומית"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
-msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
-msgid "Rate limit IP overhead"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>שימוש כללי בתעבורה</b>"
@@ -683,14 +615,6 @@ msgstr "עמוד 8"
 msgid "<i><b><big>Interface</big></b></i>"
 msgstr "<i><b><big>מנשק</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
-msgid ""
-"Classic Mode will hide most of the daemon functionality and will make Deluge "
-"appear to be a single application.  Use this if you do not want to take "
-"advantage of running Deluge as a daemon. You need to restart Deluge for this "
-"setting to take effect."
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3840
 #: deluge/ui/webui/scripts/template_strings.py:43
@@ -700,10 +624,6 @@ msgstr "הפעל"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1730
 msgid "<b>Classic Mode</b>"
 msgstr "<b>מצב קלאסי</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1766
-msgid "Show session speed in titlebar"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1778
 msgid "<b>Main Window</b>"
@@ -864,14 +784,6 @@ msgstr "זמן יחס שיתוף:"
 msgid "Share Ratio Limit:"
 msgstr "גבול יחס שיתוף:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
-msgid "Stop seeding when share ratio reaches:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2846
-msgid "Remove torrent when share ratio reached"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2864
 msgid "<b>Seeding</b>"
 msgstr "<b>משתף</b>"
@@ -938,10 +850,6 @@ msgstr "מארח:"
 msgid "<b>Peer</b>"
 msgstr "<b>עמית</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
-msgid "<b>Web Seed</b>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
 msgstr "<b>עוקב</b>"
@@ -957,10 +865,6 @@ msgstr "<b><i><big>התרעות</big></i></b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3756
 msgid "Blinking tray icon"
 msgstr "הבהוב הסמל במגש המערכת"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
-msgid "Not available on Windows"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3771
 msgid "Popup"
@@ -1008,14 +912,6 @@ msgstr "<b>דואר אלקטרוני</b>"
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>תוספים</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4182
-msgid "Author Email:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4195
-msgid "Homepage:"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4208
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 msgid "Author:"
@@ -1036,10 +932,6 @@ msgstr "<b>מידע</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4336
 msgid "_Install Plugin"
 msgstr "_התקן תוסף"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4378
-msgid "_Rescan Plugins"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
@@ -1077,10 +969,6 @@ msgstr "טראקר:"
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
 msgstr "טורנטים בתהליך"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
@@ -1124,10 +1012,6 @@ msgstr "_התחל שרת מקומי"
 #: deluge/ui/gtkui/glade/connection_manager.glade:394
 msgid "Automatically connect to selected host on start-up"
 msgstr "התחבר למארח הנבחר בוטומטית בהפעלה"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:405
-msgid "Automatically start localhost if needed"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:419
 msgid "Do not show this dialog on start-up"
@@ -1173,10 +1057,6 @@ msgstr "הערות:"
 msgid "Info"
 msgstr "מידע"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
 msgstr "גודל החלק:"
@@ -1200,10 +1080,6 @@ msgstr ""
 msgid "Set Private Flag"
 msgstr "קביעת דגל פרטי"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
-msgid "Add this torrent to the session"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
 msgid "Enter Remote Path"
 msgstr "הזן נתיב מרוחק"
@@ -1221,14 +1097,6 @@ msgstr "נתיב:"
 msgid "Creating Torrent"
 msgstr "יצירת טורנט"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
-msgid "Save .torrent as"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
-msgid "<b>Save .torrent file</b>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:37
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
@@ -1242,10 +1110,6 @@ msgstr "הוסף עמית"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
 msgstr "<b>הוסף עמית</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -1312,18 +1176,6 @@ msgstr "ל_שוניות"
 #: deluge/ui/gtkui/glade/main_window.glade:183
 msgid "_Columns"
 msgstr "_עמודות"
-
-#: deluge/ui/gtkui/glade/main_window.glade:191
-msgid "S_idebar"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:200
-msgid "Show _Zero Hits"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:209
-msgid "Show _Trackers"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:226
 msgid "_Help"
@@ -1416,10 +1268,6 @@ msgstr "עדיפות _גבוהה"
 msgid "Hi_ghest Priority"
 msgstr "העדיפות הגבו_הה ביותר"
 
-#: deluge/ui/gtkui/glade/main_window.glade:694
-msgid "<b>Auto Managed:</b>"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/main_window.glade:735
 msgid "<b>Seed Rank:</b>"
 msgstr "<b>דרגת שיתוף:</b>"
@@ -1480,10 +1328,6 @@ msgstr "<b>ירד:</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:1164
 msgid "<b>Date Added:</b>"
 msgstr "<b>תאריך הוספה:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1219
-msgid "_Status"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1290
 msgid "<b># of files:</b>"
@@ -1621,70 +1465,6 @@ msgstr "אזהרה"
 msgid "Error"
 msgstr "שגיאה"
 
-#: deluge/plugins/label/label/webui.py:63
-msgid "Error setting label options"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:123
-msgid "apply_max"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:124
-msgid "max_download_speed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:125
-msgid "max_upload_speed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:126
-msgid "max_upload_slots"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:127
-msgid "max_connections"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:130
-msgid "apply_queue"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:131
-msgid "is_auto_managed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:132
-msgid "stop_at_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:133
-msgid "stop_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:134
-msgid "remove_at_ratio"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:137
-msgid "apply_move_completed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:138
-msgid "move_completed"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:139
-msgid "move_completed_path"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:142
-msgid "auto_add"
-msgstr ""
-
-#: deluge/plugins/label/label/webui.py:143
-msgid "auto_add_trackers"
-msgstr ""
-
 #: deluge/plugins/label/label/webui.py:154
 #: deluge/plugins/label/label/gtkui/label_config.py:48
 #: deluge/plugins/label/label/gtkui/label_config.py:55
@@ -1694,22 +1474,6 @@ msgstr ""
 #: deluge/ui/webui/scripts/template_strings.py:57
 msgid "Label"
 msgstr "תווית"
-
-#: deluge/plugins/label/label/webui.py:155
-msgid "Work in progress.."
-msgstr ""
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:55
-msgid "Label _Options"
-msgstr ""
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:56
-msgid "_Remove Label"
-msgstr ""
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:57
-msgid "_Add Label"
-msgstr ""
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -1769,10 +1533,6 @@ msgstr "פסק-זמן (שניות)"
 #: deluge/plugins/blocklist/blocklist/webui.py:73
 msgid "Times to attempt download"
 msgstr "מספר הפעמים בהם לנסות להוריד"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:74
-msgid "Import on daemon startup"
-msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:76
 msgid "Download Now"
@@ -1839,10 +1599,6 @@ msgstr "קצב הורדה"
 msgid "Upload Speed"
 msgstr "קצב העלאה"
 
-#: deluge/ui/gtkui/statusbar.py:159
-msgid "Protocol Traffic Download/Upload"
-msgstr ""
-
 #: deluge/ui/gtkui/statusbar.py:167
 msgid "No Incoming Connections!"
 msgstr "אין חיבורים נכנסים"
@@ -1871,10 +1627,6 @@ msgstr "קבע מהירות הורדה מקסימלית"
 #: deluge/ui/gtkui/menubar.py:408
 msgid "Set Maximum Upload Speed"
 msgstr "קבע מהירות העלאה מקסימלית"
-
-#: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
-msgid "Set Maximum Connections"
-msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:83 deluge/ui/gtkui/queuedtorrents.py:64
 msgid "Torrent"
@@ -1984,10 +1736,6 @@ msgstr "כבוי"
 #: deluge/ui/gtkui/menubar.py:301
 msgid "Choose a directory to move files to"
 msgstr "בחרו בתיקייה שיועברו עליה הקבצים"
-
-#: deluge/ui/gtkui/menubar.py:410
-msgid "Set Maximum Upload Slots"
-msgstr ""
 
 #: deluge/ui/gtkui/peers_tab.py:87
 #: deluge/ui/webui/scripts/template_strings.py:10
@@ -2118,10 +1866,6 @@ msgid "Proxy"
 msgstr "פרוקסי"
 
 #: deluge/ui/gtkui/preferences.py:61
-msgid "Notification"
-msgstr ""
-
-#: deluge/ui/gtkui/preferences.py:61
 msgid "Plugins"
 msgstr "תוספים"
 
@@ -2132,14 +1876,6 @@ msgstr "מופעל"
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Plugin"
 msgstr "תוסף"
-
-#: deluge/ui/gtkui/preferences.py:835
-msgid "Select the Plugin"
-msgstr ""
-
-#: deluge/ui/gtkui/preferences.py:846
-msgid "Plugin Eggs"
-msgstr ""
 
 #: deluge/ui/gtkui/torrentview.py:135
 #: deluge/ui/webui/scripts/template_strings.py:64
@@ -2181,15 +1917,6 @@ msgstr "בחר קובץ"
 #: deluge/ui/gtkui/createtorrentdialog.py:144
 msgid "Choose a folder"
 msgstr "בחר תיקייה"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:209
-msgid "Save .torrent file"
-msgstr ""
-
-#: deluge/ui/gtkui/createtorrentdialog.py:329
-#, python-format
-msgid "%.2f%%"
-msgstr ""
 
 #: deluge/ui/webui/render.py:169
 msgid "∞"
@@ -2293,10 +2020,6 @@ msgstr "אל"
 msgid "Random"
 msgstr "אקראי"
 
-#: deluge/ui/webui/config_tabs_deluge.py:68
-msgid "Extra's"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_deluge.py:69
 msgid "Mainline DHT"
 msgstr "מיינליין DHT"
@@ -2324,10 +2047,6 @@ msgstr "כבוי"
 #: deluge/ui/webui/config_tabs_deluge.py:81
 msgid "Handshake"
 msgstr "לחיצת יד"
-
-#: deluge/ui/webui/config_tabs_deluge.py:81
-msgid "Either"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:83
 msgid "Inbound"
@@ -2424,10 +2143,6 @@ msgstr "מקסימום חיבורים חצי-פתוחים"
 msgid "Maximum Connection Attempts per Second"
 msgstr "מספר ניסיונות התחברות מקסימלי לשנייה"
 
-#: deluge/ui/webui/config_tabs_deluge.py:114
-msgid "Rate Limit IP Overhead"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_deluge.py:120
 msgid "Per Torrent"
 msgstr "לכל טורנט"
@@ -2449,17 +2164,9 @@ msgstr "שבירת קבצי .torrent ב"
 msgid "Auto Add folder"
 msgstr "הוספת תיקייה אוטומטית"
 
-#: deluge/ui/webui/config_tabs_deluge.py:134
-msgid "Auto Add enabled"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_deluge.py:136 deluge/ui/webui/torrent_add.py:47
 msgid "Prioritize first and last pieces"
 msgstr "תן עדיפות לחלק אחרון וראשון"
-
-#: deluge/ui/webui/config_tabs_deluge.py:143
-msgid "Restart daemon and webui after changing these settings"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:151
 msgid "-1 = unlimited"
@@ -2573,17 +2280,6 @@ msgstr "הכנס מספר."
 msgid "Ensure that there are no more than %s digits in total."
 msgstr "נא לוודא שאין יותר מ-%s ספרות סך הכל."
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:214
-#, python-format
-msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:215
-#, python-format
-msgid ""
-"Ensure that there are no more than %s digits before the decimal point."
-msgstr ""
-
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
 msgid "Enter a valid date."
@@ -2614,12 +2310,6 @@ msgstr "לא נטען שום קובץ."
 msgid "The submitted file is empty."
 msgstr "הקובץ שנטען ריק."
 
-#: deluge/ui/webui/lib/newforms_portable/fields.py:459
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
 #: deluge/ui/webui/lib/newforms_portable/fields.py:497
 msgid "Enter a valid URL."
 msgstr "הכנס כתובת תקינה."
@@ -2627,11 +2317,6 @@ msgstr "הכנס כתובת תקינה."
 #: deluge/ui/webui/lib/newforms_portable/fields.py:498
 msgid "This URL appears to be a broken link."
 msgstr "נראה שהכתובת שבורה."
-
-#: deluge/ui/webui/lib/newforms_portable/fields.py:599
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:780
 msgid "Enter a valid IPv4 address."
@@ -2674,10 +2359,6 @@ msgstr "רק טקסט"
 msgid "Button style"
 msgstr "סגנון כפתור"
 
-#: deluge/ui/webui/config_tabs_webui.py:49
-msgid "Auto refresh (seconds)"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Cache templates"
 msgstr "שמור תבניות במטמון"
@@ -2685,24 +2366,6 @@ msgstr "שמור תבניות במטמון"
 #: deluge/ui/webui/config_tabs_webui.py:57
 msgid "Server"
 msgstr "שרת"
-
-#: deluge/ui/webui/config_tabs_webui.py:58
-msgid "Manually restart webui to apply changes."
-msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:61
-msgid "Https"
-msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:70
-#, python-format
-msgid "Certificate not found at '%s'"
-msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:73
-#, python-format
-msgid "Key not found at '%s'"
-msgstr ""
 
 #: deluge/ui/webui/config_tabs_webui.py:84
 msgid "Current Password"
@@ -2728,21 +2391,9 @@ msgstr "הסיסמה החדשה לא זהה לסיסמת האימות"
 msgid "Sidebar"
 msgstr "פנל צידי"
 
-#: deluge/ui/webui/config_tabs_webui.py:104
-msgid "Show sidebar"
-msgstr ""
-
-#: deluge/ui/webui/config_tabs_webui.py:105
-msgid "Show zero hits"
-msgstr ""
-
 #: deluge/ui/webui/config_tabs_webui.py:106
 msgid "Show trackers"
 msgstr "הצג טקראקרים"
-
-#: deluge/ui/webui/config_tabs_webui.py:107
-msgid "Show keyword search"
-msgstr ""
 
 #: deluge/ui/webui/torrent_options.py:38 deluge/ui/webui/torrent_add.py:40
 msgid "Maximum Down Speed"
@@ -2788,18 +2439,6 @@ msgstr "אין נתונים"
 msgid "# Of Files"
 msgstr "# מהקבצים"
 
-#: deluge/ui/webui/scripts/template_strings.py:2
-msgid "... and delete All files"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:3
-msgid "... and delete Downloaded files"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:4
-msgid "... and delete Torrent file"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Active time"
 msgstr "זמן פעילות"
@@ -2820,14 +2459,6 @@ msgstr "זמינות"
 msgid "Availability"
 msgstr "זמינות"
 
-#: deluge/ui/webui/scripts/template_strings.py:16
-msgid "Bottom"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:17
-msgid "Cancel"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Clear"
 msgstr "ניקוי"
@@ -2839,18 +2470,6 @@ msgstr "מחובר לשרת"
 #: deluge/ui/webui/scripts/template_strings.py:23
 msgid "Connected to"
 msgstr "מחובר ל"
-
-#: deluge/ui/webui/scripts/template_strings.py:24
-msgid "Connection Limit"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:27
-msgid "D/L Speed Limit"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:28
-msgid "DHT Nodes"
-msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Delete .torrent file"
@@ -2872,14 +2491,6 @@ msgstr "כניסה אל Deluge"
 msgid "Disable"
 msgstr "כיבוי"
 
-#: deluge/ui/webui/scripts/template_strings.py:35
-msgid "Disk Space"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:36
-msgid "Do not download"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Downloaded"
 msgstr "ירד"
@@ -2900,29 +2511,13 @@ msgstr "קובץ"
 msgid "Filter on a keyword"
 msgstr "סינון לפי מילת חיפוש"
 
-#: deluge/ui/webui/scripts/template_strings.py:50
-msgid "Force Recheck"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "From Session"
 msgstr "מהפעלה"
 
-#: deluge/ui/webui/scripts/template_strings.py:52
-msgid "From Url"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:53
 msgid "General"
 msgstr "כללי"
-
-#: deluge/ui/webui/scripts/template_strings.py:54
-msgid "High priority"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:55
-msgid "Highest priority"
-msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Keyword"
@@ -2944,25 +2539,9 @@ msgstr "העברת טורנט"
 msgid "Next Announce"
 msgstr "הכרזה הבאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:66
-msgid "No Incoming Connections"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:67
-msgid "No Label"
-msgstr ""
-
-#: deluge/ui/webui/scripts/template_strings.py:69
-msgid "Normal priority"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:70
 msgid "Not Connected to a daemon"
 msgstr "לא מחובר לתהליך השרת"
-
-#: deluge/ui/webui/scripts/template_strings.py:72
-msgid "Ok"
-msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:76
 msgid "Password is invalid,try again"
@@ -3004,10 +2583,6 @@ msgstr "הפעל הכל"
 msgid "Save"
 msgstr "שמור"
 
-#: deluge/ui/webui/scripts/template_strings.py:94
-msgid "Search"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:95
 msgid "Seed rank"
 msgstr "דרגת שיתוף"
@@ -3040,10 +2615,6 @@ msgstr "מהירות"
 msgid "Submit"
 msgstr "טען"
 
-#: deluge/ui/webui/scripts/template_strings.py:108
-msgid "Top"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:109
 msgid "Torrent list"
 msgstr "רשימת טורנטים"
@@ -3060,10 +2631,6 @@ msgstr "מצב הטראקר"
 msgid "True"
 msgstr "אמת"
 
-#: deluge/ui/webui/scripts/template_strings.py:114
-msgid "U/L Speed Limit"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:118
 msgid "Update"
 msgstr "עדכן"
@@ -3076,10 +2643,6 @@ msgstr "עדכן טראקר"
 msgid "Upload"
 msgstr "העלאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:121
-msgid "Upload Slot Limit"
-msgstr ""
-
 #: deluge/ui/webui/scripts/template_strings.py:122
 msgid "Uploaded"
 msgstr "הועלה"
@@ -3088,44 +2651,439 @@ msgstr "הועלה"
 msgid "seconds"
 msgstr "שניות"
 
-#~ msgid "Graphs"
-#~ msgstr "גרפים"
+#: deluge/plugins/label/label/data/label_options.glade:36
+msgid "<b>Label Options</b>"
+msgstr ""
 
-#~ msgid "Seeds/Peers"
-#~ msgstr "משתפים/מקורות"
+#: deluge/plugins/label/label/data/label_options.glade:270
+msgid "Apply per torrent max settings:"
+msgstr ""
 
-#~ msgid "Graph"
-#~ msgstr "גרף"
+#: deluge/plugins/label/label/data/label_options.glade:410
+msgid "Apply Queue settings:"
+msgstr ""
 
-#~ msgid "Check for new list every:"
-#~ msgstr "חפש רשימה חדשה כל:"
+#: deluge/plugins/label/label/data/label_options.glade:672
+msgid "<b>Add Label</b>"
+msgstr ""
 
-#~ msgid "Days"
-#~ msgstr "ימים"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
+msgid "Info_hash"
+msgstr ""
 
-#~ msgid "Import blocklist on startup"
-#~ msgstr "ייבא רשימת חסומים עם ההפעלה"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
+msgid "Prioritize First/Last Pieces"
+msgstr ""
 
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>הגדרות</b>"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1117
+msgid "Add Infohash"
+msgstr ""
 
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "הורדת קובץ רשימת החסומים לפי הצורך וייבא אותה."
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1153
+msgid "<b>From Infohash</b>"
+msgstr ""
 
-#~ msgid "Check Download and Import"
-#~ msgstr "בדוק הורדה ויבוא"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1187
+msgid "Infohash:"
+msgstr ""
 
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "הורד רשימת חסומים חדשה וייבא אותה."
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr ""
 
-#~ msgid "Force Download and Import"
-#~ msgstr "הכרח הורדה ויבוא"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr ""
 
-#~ msgid "File Size:"
-#~ msgstr "גודל הקובץ:"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr ""
 
-#~ msgid "Date:"
-#~ msgstr "תאריך:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:825
+msgid ""
+"The TOS byte set in the IP header of every packet sent to peers (including "
+"web seeds).  Expects a Hex value."
+msgstr ""
 
-#~ msgid "_Statistics"
-#~ msgstr "_סטטיסטיקה"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:826
+msgid "Peer TOS Byte:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
+msgid ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
+msgid "Rate limit IP overhead"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
+msgid ""
+"Classic Mode will hide most of the daemon functionality and will make Deluge "
+"appear to be a single application.  Use this if you do not want to take "
+"advantage of running Deluge as a daemon. You need to restart Deluge for this "
+"setting to take effect."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1766
+msgid "Show session speed in titlebar"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2801
+msgid "Stop seeding when share ratio reaches:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2846
+msgid "Remove torrent when share ratio reached"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
+msgid "<b>Web Seed</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
+msgid "Not available on Windows"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4182
+msgid "Author Email:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4195
+msgid "Homepage:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4378
+msgid "_Rescan Plugins"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:405
+msgid "Automatically start localhost if needed"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
+msgid "Add this torrent to the session"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
+msgid "Save .torrent as"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
+msgid "<b>Save .torrent file</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:191
+msgid "S_idebar"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:200
+msgid "Show _Zero Hits"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:209
+msgid "Show _Trackers"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:694
+msgid "<b>Auto Managed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1219
+msgid "_Status"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:63
+msgid "Error setting label options"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:123
+msgid "apply_max"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:124
+msgid "max_download_speed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:125
+msgid "max_upload_speed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:126
+msgid "max_upload_slots"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:127
+msgid "max_connections"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:130
+msgid "apply_queue"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:131
+msgid "is_auto_managed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:132
+msgid "stop_at_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:133
+msgid "stop_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:134
+msgid "remove_at_ratio"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:137
+msgid "apply_move_completed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:138
+msgid "move_completed"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:139
+msgid "move_completed_path"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:142
+msgid "auto_add"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:143
+msgid "auto_add_trackers"
+msgstr ""
+
+#: deluge/plugins/label/label/webui.py:155
+msgid "Work in progress.."
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:55
+msgid "Label _Options"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:56
+msgid "_Remove Label"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:57
+msgid "_Add Label"
+msgstr ""
+
+#: deluge/plugins/blocklist/blocklist/webui.py:74
+msgid "Import on daemon startup"
+msgstr ""
+
+#: deluge/ui/gtkui/statusbar.py:159
+msgid "Protocol Traffic Download/Upload"
+msgstr ""
+
+#: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/menubar.py:409
+msgid "Set Maximum Connections"
+msgstr ""
+
+#: deluge/ui/gtkui/menubar.py:410
+msgid "Set Maximum Upload Slots"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:61
+msgid "Notification"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:835
+msgid "Select the Plugin"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:846
+msgid "Plugin Eggs"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:209
+msgid "Save .torrent file"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:329
+#, python-format
+msgid "%.2f%%"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:68
+msgid "Extra's"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:81
+msgid "Either"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:114
+msgid "Rate Limit IP Overhead"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:134
+msgid "Auto Add enabled"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:143
+msgid "Restart daemon and webui after changing these settings"
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:214
+#, python-format
+msgid "Ensure that there are no more than %s decimal places."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:215
+#, python-format
+msgid ""
+"Ensure that there are no more than %s digits before the decimal point."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:459
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: deluge/ui/webui/lib/newforms_portable/fields.py:599
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:49
+msgid "Auto refresh (seconds)"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:58
+msgid "Manually restart webui to apply changes."
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:61
+msgid "Https"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:70
+#, python-format
+msgid "Certificate not found at '%s'"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:73
+#, python-format
+msgid "Key not found at '%s'"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:104
+msgid "Show sidebar"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:105
+msgid "Show zero hits"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_webui.py:107
+msgid "Show keyword search"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:2
+msgid "... and delete All files"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:3
+msgid "... and delete Downloaded files"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:4
+msgid "... and delete Torrent file"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:16
+msgid "Bottom"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:17
+msgid "Cancel"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:24
+msgid "Connection Limit"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:27
+msgid "D/L Speed Limit"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:28
+msgid "DHT Nodes"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:35
+msgid "Disk Space"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:36
+msgid "Do not download"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:50
+msgid "Force Recheck"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:52
+msgid "From Url"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:54
+msgid "High priority"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:55
+msgid "Highest priority"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:66
+msgid "No Incoming Connections"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:67
+msgid "No Label"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:69
+msgid "Normal priority"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:72
+msgid "Ok"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:94
+msgid "Search"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:108
+msgid "Top"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:114
+msgid "U/L Speed Limit"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:121
+msgid "Upload Slot Limit"
+msgstr ""

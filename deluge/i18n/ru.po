@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-20 18:39+0000\n"
-"Last-Translator: Andrey S. Bobryshev <heeppy@yandex.ru>\n"
+"PO-Revision-Date: 2009-05-12 16:45+0000\n"
+"Last-Translator: Meh <mehil@rambler.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -170,7 +170,7 @@ msgstr "Ф_айл"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "_URL"
-msgstr "Ссылка"
+msgstr "_Ссылка"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
 msgid "Info_hash"
@@ -243,7 +243,7 @@ msgstr "Не запускать торрент"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:718
 msgid "Prioritize First/Last Pieces"
-msgstr "Приоритет у первой/песледней части"
+msgstr "Приоритет у первой/последней части"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:736
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2524
@@ -263,7 +263,7 @@ msgstr "Применить ко всем"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:894
 #: deluge/ui/gtkui/glade/main_window.glade:2182
 msgid "_Options"
-msgstr "Параметры"
+msgstr "_Параметры"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:970
 msgid "Add URL"
@@ -368,7 +368,7 @@ msgstr "_Автоматическое управление"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Удалить выбранный torrent?</b></big>"
+msgstr "<big><b>Удалить выбранный торрент?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
@@ -702,7 +702,7 @@ msgstr "страница 8"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1683
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr "<i><b><big>Итерфейс</big></b></i>"
+msgstr "<i><b><big>Интерфейс</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
 msgid ""
@@ -2101,7 +2101,7 @@ msgstr "Активно"
 
 #: deluge/ui/gtkui/signals.py:141
 msgid "Torrent is past stop ratio."
-msgstr "Торрент достиг рейтига остановки."
+msgstr "Торрент достиг рейтинга остановки."
 
 #: deluge/ui/gtkui/edittrackersdialog.py:74
 #: deluge/ui/gtkui/createtorrentdialog.py:88
@@ -2444,7 +2444,7 @@ msgstr "Максимум слотов отдачи"
 
 #: deluge/ui/webui/config_tabs_deluge.py:111
 msgid "Maximum Half-Open Connections"
-msgstr "Максимум полуоткрытых соеденений"
+msgstr "Максимум полуоткрытых соединений"
 
 #: deluge/ui/webui/config_tabs_deluge.py:112
 msgid "Maximum Connection Attempts per Second"
@@ -2527,7 +2527,7 @@ msgstr "переведите что-нибудь"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:560
 msgid ""
 "Select a valid choice. That choice is not one of the available choices."
-msgstr "Сделайте корректниый выбор. Данная опция недоступна."
+msgstr "Сделайте корректный выбор. Данная опция недоступна."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
@@ -2800,7 +2800,7 @@ msgstr "Путь закачки"
 
 #: deluge/ui/webui/torrent_add.py:36
 msgid "Compact Allocation"
-msgstr "Компактная аллокация файлов"
+msgstr "Компактное резервирование"
 
 #: deluge/ui/webui/torrent_add.py:48
 msgid "Add In Paused State"
@@ -2832,7 +2832,7 @@ msgstr "... и удалить загруженные файлы"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "... and delete Torrent file"
-msgstr "... и удалить торент-файл"
+msgstr "... и удалить торрент-файл"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Active time"
@@ -3121,60 +3121,3 @@ msgstr "Отдано"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "секунд(ы)"
-
-#~ msgid "Test config value:"
-#~ msgstr "Проверка конфигурации:"
-
-#~ msgid "Graphs"
-#~ msgstr "Графики"
-
-#~ msgid "Stats"
-#~ msgstr "Статистика"
-
-#~ msgid "Graph"
-#~ msgstr "График"
-
-#~ msgid "Test config value"
-#~ msgstr "Тестировать значение"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Проверять список каждые:"
-
-#~ msgid "Days"
-#~ msgstr "Дней"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Импортировать блоклист при запуске"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Установки</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Скачать список заблокированных и если необходимо импортировать его."
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Проверить и скачать"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Скачать новый список заблокированных и импортировать его."
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Принудительно скачать"
-
-#~ msgid "File Size:"
-#~ msgstr "Размер файла:"
-
-#~ msgid "Date:"
-#~ msgstr "Дата:"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Мастер настройки Deluge"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Этот мастер поможет настроить Deluge"
-
-#~ msgid "All Finished!"
-#~ msgstr "Все завершено!"
-
-#~ msgid "_Statistics"
-#~ msgstr "_Статистика"

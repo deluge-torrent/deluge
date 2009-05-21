@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-20 14:14+0000\n"
+"PO-Revision-Date: 2009-04-30 12:02+0000\n"
 "Last-Translator: Pekka \"PEXI\" Niemistö <pexinet@kotikone.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:36+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
@@ -29,7 +29,7 @@ msgstr "<b>Nimikkeet</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr "Nimikevalinnat"
+msgstr "Valinnat nimikkeelle"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
@@ -47,7 +47,7 @@ msgstr "<b>Nimikevalinnat</b>"
 #: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:216
 #: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/systemtray.py:339
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr "Kt/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -67,7 +67,7 @@ msgstr "Yhteyksiä:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr "Käytä kunkin torrentin enimmäisasetuksina:"
+msgstr "Käytä torrentin asetuksia:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
@@ -112,7 +112,7 @@ msgstr "Käytä sijaintiasetuksia:"
 
 #: deluge/plugins/label/label/data/label_options.glade:509
 msgid "Location"
-msgstr "Sijainti"
+msgstr "Paikka"
 
 #: deluge/plugins/label/label/data/label_options.glade:541
 msgid ""
@@ -619,7 +619,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1550
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Enimmäislatausnopeus (KiB/s)"
+msgstr "Suurin latausnopeus (Kt/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1305
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
@@ -639,7 +639,7 @@ msgstr "Yhteyksiä enintään:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Enimmäislähetysnopeus (KiB/s)"
+msgstr "Enimmäis ulosmeno (Kt/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
 msgid "Maximum Half-Open Connections:"
@@ -974,7 +974,7 @@ msgstr "<b><i><big>Ilmoitus</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3756
 msgid "Blinking tray icon"
-msgstr "Vilkkuva ilmoitusalueen kuvake"
+msgstr "Ilmoitusalueen vilkkuva kuvake"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3770
 msgid "Not available on Windows"
@@ -1207,11 +1207,11 @@ msgid ""
 "256 KiB\n"
 "512 KiB"
 msgstr ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB"
+"32 Kt\n"
+"64 Kt\n"
+"128 Kt\n"
+"256 Kt\n"
+"512 Kt"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
 #: deluge/ui/webui/torrent_add.py:49
@@ -2421,12 +2421,12 @@ msgstr "Suurin yhteksien määrä"
 #: deluge/ui/webui/config_tabs_deluge.py:107
 #: deluge/ui/webui/config_tabs_deluge.py:123
 msgid "Maximum Download Speed (Kib/s)"
-msgstr "Enimmäislatausnopeus (Kib/s)"
+msgstr "Suurin latausnopeus (Kt/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 #: deluge/ui/webui/config_tabs_deluge.py:124
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr "Enimmäislähetysnopeus (Kib/s)"
+msgstr "Enimmäis ulosmeno (Kt/s):"
 
 #: deluge/ui/webui/config_tabs_deluge.py:109
 #: deluge/ui/webui/config_tabs_deluge.py:125
@@ -3113,65 +3113,3 @@ msgstr "Lähetetty"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "sekuntia"
-
-#~ msgid "Test config value:"
-#~ msgstr "Testaa konfiguroitu arvo:"
-
-#~ msgid "Graphs"
-#~ msgstr "Kuvaajat"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Jakajat / käyttäjät"
-
-#~ msgid "Stats"
-#~ msgstr "Tilastot"
-
-#~ msgid "Graph"
-#~ msgstr "Kuvaaja"
-
-#~ msgid "Test config value"
-#~ msgstr "Testaa konfiguraation arvo"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Tarkista uusi lista joka:"
-
-#~ msgid "Days"
-#~ msgstr "Päiviä"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Tuo estolista käynnistyksen yhteydessä"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Asetukset</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Lataa ja tuo estolista tarvittaessa."
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Tarkista lataus ja tuo"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Lataa uusi estolista ja tuo se"
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Pakota lataus ja tuonti"
-
-#~ msgid "File Size:"
-#~ msgstr "Tiedoston koko:"
-
-#~ msgid "Date:"
-#~ msgstr "Päivämäärä:"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Delugen ohjattu asennus"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr ""
-#~ "Tämä ohjattu asennus auttaa sinua asentamaan Delugen mieltymystesi "
-#~ "mukaiseksi."
-
-#~ msgid "All Finished!"
-#~ msgstr "Kaikki valmista!"
-
-#~ msgid "_Statistics"
-#~ msgstr "_Tilastot"

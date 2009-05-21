@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Asturian\n"
 
@@ -3106,38 +3106,3 @@ msgstr "Xubío"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "segundos"
-
-#~ msgid "Graph"
-#~ msgstr "Gráficu"
-
-#~ msgid "Days"
-#~ msgstr "Díes"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Importar llista de bloquéu al entamu"
-
-#~ msgid "<b>Settings</b>"
-#~ msgstr "<b>Preferencies</b>"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr ""
-#~ "Descargar l'archivu de llista de bloqueo si ye necesario ya importar "
-#~ "l'archivu."
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Verificar descarga ya importalu"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Descargar un nuevu ficheru de llista de bloquéu ya importalu."
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Forciar descarga ya importalu."
-
-#~ msgid "File Size:"
-#~ msgstr "Tamañu del archivu:"
-
-#~ msgid "Date:"
-#~ msgstr "Data:"
-
-#~ msgid "_Statistics"
-#~ msgstr "E_stadístiques"

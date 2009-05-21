@@ -1,21 +1,23 @@
 # Malay translation for deluge
 # Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
+# Mahrazi Mohd Kamal <mahrazi@gmail.com>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-09 17:27-0600\n"
-"PO-Revision-Date: 2009-04-13 04:47+0000\n"
-"Last-Translator: melayubuntu <zul.malc@gmail.com>\n"
+"PO-Revision-Date: 2009-04-29 05:27+0000\n"
+"Last-Translator: Mahrazi Mohd Kamal <mahrazi@gmail.com>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-25 23:37+0000\n"
+"X-Launchpad-Export-Date: 2009-05-21 19:17+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Country: Melaysia\n"
+"X-Poedit-Language: Malay\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -70,9 +72,7 @@ msgstr "Untuk pilihan maksima setiap torrent:"
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
-msgstr ""
-"_: Polisi Saiz\n"
-"Maksimum"
+msgstr "Maksimum"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1860
@@ -176,7 +176,7 @@ msgstr "Maklumat_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
-msgstr "/_Buang"
+msgstr "_Buang"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
 msgid "<b>Torrents</b>"
@@ -319,16 +319,16 @@ msgstr "Pili_han"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
-msgstr "_Queue"
+msgstr "_Baris"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
-msgstr "_Update Tracker"
+msgstr "_Kemaskini Penjejak"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 #: deluge/ui/gtkui/glade/main_window.glade:2078
 msgid "_Edit Trackers"
-msgstr "_Edit Trackers"
+msgstr "_Edit Penjejak"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
@@ -370,7 +370,7 @@ msgstr "<big><b>Buang torrent yang dipilih?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr "Jika data dibuang, ia akan hilang selama-lamanya ."
+msgstr "Jika data dibuang, ia akan hilang selama-lamanya."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
@@ -384,7 +384,7 @@ msgstr "Buang _Torrent"
 #: deluge/ui/gtkui/glade/main_window.glade:422
 #: deluge/ui/gtkui/glade/main_window.glade:423
 msgid "Preferences"
-msgstr "Kesukaan"
+msgstr "Keutamaan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:72
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -493,7 +493,7 @@ msgid ""
 "web seeds).  Expects a Hex value."
 msgstr ""
 "Bit TOS di set dalam kepala IP setiap paket yang dihantar kepada peer "
-"(termasuk seed web). Kecuali nilai Hex."
+"(termasuk seed web). Menjangka nilai Hex."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:826
 msgid "Peer TOS Byte:"
@@ -548,7 +548,7 @@ msgstr "UPnP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:979
 msgid "<b>Network Extras</b>"
-msgstr "<b>Network Extras</b>"
+msgstr "<b>Rangkaian Tambahan</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1017
 msgid "Inbound:"
@@ -556,7 +556,7 @@ msgstr "Inbound:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
 msgid "Level:"
-msgstr "Level:"
+msgstr "Aras:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1043
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1088
@@ -575,9 +575,9 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Handshake\n"
-"Full Stream\n"
-"Either"
+"Jabat Tangan\n"
+"Strim Penuh\n"
+"Mana-mana"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1078
 msgid "Outbound:"
@@ -637,7 +637,7 @@ msgstr "Slot Muat naik Maksimum:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1338
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
 msgid "Maximum Connections:"
-msgstr "Maximum Connections:"
+msgstr "Sambungan Maksimum:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1349
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1537
@@ -646,7 +646,7 @@ msgstr "Kelajuan Muat naik Maksimum (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
 msgid "Maximum Half-Open Connections:"
-msgstr "Maximum Half-Open Connections:"
+msgstr "Sambungan Buka-Separa Maksumum:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1373
 msgid "Maximum Connection Attempts per Second:"
@@ -671,13 +671,13 @@ msgstr "Kadar had overhed IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Global Bandwidth Usage</b>"
+msgstr "<b>Penggunaan Jalurlebar Global</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1500
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1518
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1586
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "Bilangan connection maksimum per torrent. Set -1 untuk tak terhad."
+msgstr "Bilangan sambungan maksimum per torrent. Set -1 untuk tak terhad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1602
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -685,7 +685,7 @@ msgstr "Had slot muat naik maksimum per torrent. Set -1 untuk tak terhad."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1625
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Per Torrent Bandwidth Usage</b>"
+msgstr "<b>Penggunaan Jalurlebar Per Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
 msgid "page 8"
@@ -765,7 +765,7 @@ msgstr "Kata laluan:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1996
 msgid "<b>System Tray</b>"
-msgstr "<b>System Tray</b>"
+msgstr "<b>Tray Sistem</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2022
 msgid "page 10"
@@ -954,7 +954,7 @@ msgstr "Hos:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3114
 msgid "<b>Peer</b>"
-msgstr "<b>Peer</b>"
+msgstr "<b>Rakan</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3290
 msgid "<b>Web Seed</b>"
@@ -962,7 +962,7 @@ msgstr "<b>Seed Web</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
 msgid "<b>Tracker</b>"
-msgstr "<b>Tracker</b>"
+msgstr "<b>Penjejak</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3648
 msgid "<b>DHT</b>"
@@ -1062,15 +1062,15 @@ msgstr "_Imbas Semula Pemalam"
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 #: deluge/ui/webui/scripts/template_strings.py:42
 msgid "Edit Trackers"
-msgstr "Edit Trackers"
+msgstr "Edit Penjejak"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Sunting Tracker</b></big>"
+msgstr "<big><b>Sunting Penjejak</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:122
 msgid "gtk-edit"
-msgstr "sunting-gtk"
+msgstr "gtk-edit"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
@@ -1078,19 +1078,19 @@ msgstr "Tambah Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Tambah Tracker</b>"
+msgstr "<b>Tambah Penjejak</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
-msgstr "Sunting Tracker"
+msgstr "Sunting Penjejak"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr "<b>Sunting Tracker</b>"
+msgstr "<b>Sunting Penjejak</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
-msgstr "Tracker:"
+msgstr "Penjejak:"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -1160,7 +1160,7 @@ msgstr "Pilihan"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:475
 msgid "gtk-connect"
-msgstr "gtk-hubungkan"
+msgstr "gtk-connect"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
 #: deluge/ui/webui/scripts/template_strings.py:26
@@ -1177,7 +1177,7 @@ msgstr "Direk_tori"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
 msgid "_Remote Path"
-msgstr "_laluan Jauh"
+msgstr "_Laluan Jauh"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
@@ -1197,7 +1197,7 @@ msgstr "Webseed"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
-msgstr "Saiz kepingan"
+msgstr "Saiz kepingan:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
 msgid ""
@@ -1224,7 +1224,7 @@ msgstr "Tambah torrent ini ke sesi"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
 msgid "Enter Remote Path"
-msgstr "Masukan Laluan Jauh"
+msgstr "Masukkan Laluan Jauh"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
 msgid "<b>Remote Path</b>"
@@ -1255,11 +1255,11 @@ msgstr "label"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 #: deluge/ui/gtkui/glade/main_window.glade:2584
 msgid "Add Peer"
-msgstr "Tambah Peer"
+msgstr "Tambah Rakan"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr "<b>Tambah Peer</b>"
+msgstr "<b>Tambah Rakan</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
@@ -1267,7 +1267,7 @@ msgstr "namahos:port"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr "_Show Deluge"
+msgstr "_Tunjuk Deluge"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
 #: deluge/ui/gtkui/glade/main_window.glade:28
@@ -1276,11 +1276,11 @@ msgstr "_Tambah Torrent"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
-msgstr "_Hentikan semua sementara"
+msgstr "_Tangguh Semua"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
 msgid "_Resume All"
-msgstr "_Resume All"
+msgstr "_Sambung Semua"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 #: deluge/ui/gtkui/glade/main_window.glade:61
@@ -1325,7 +1325,7 @@ msgstr "Bar_Status"
 
 #: deluge/ui/gtkui/glade/main_window.glade:176
 msgid "T_abs"
-msgstr "T_abs"
+msgstr "T_ab"
 
 #: deluge/ui/gtkui/glade/main_window.glade:183
 msgid "_Columns"
@@ -1513,7 +1513,7 @@ msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1352
 msgid "<b>Tracker:</b>"
-msgstr "<b>Pengesan:</b>"
+msgstr "<b>Penjejak:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1372
 msgid "<b>Total Size:</b>"
@@ -1628,7 +1628,7 @@ msgstr "Pengumuman telah dihantar"
 
 #: deluge/core/torrentmanager.py:698
 msgid "Alert"
-msgstr "Perhatian"
+msgstr "Waspada"
 
 #: deluge/core/torrentmanager.py:709
 msgid "Warning"
@@ -2028,7 +2028,7 @@ msgstr "Kelajuan Naik"
 
 #: deluge/ui/gtkui/notification.py:67
 msgid "Torrent complete"
-msgstr "Torrent habis"
+msgstr "Torrent selesai"
 
 #: deluge/ui/gtkui/notification.py:68
 #, python-format
@@ -2115,7 +2115,7 @@ msgstr "Jaringan"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Bandwidth"
-msgstr "Bandwidth"
+msgstr "Jalurlebar"
 
 #: deluge/ui/gtkui/preferences.py:60
 msgid "Interface"
@@ -2228,7 +2228,7 @@ msgstr "Konfig"
 #: deluge/ui/webui/register_menu.py:32
 #: deluge/ui/webui/scripts/template_strings.py:21
 msgid "Connect"
-msgstr "Sambungkan"
+msgstr "Sambung"
 
 #: deluge/ui/webui/register_menu.py:33
 #: deluge/ui/webui/scripts/template_strings.py:5
@@ -2308,7 +2308,7 @@ msgstr "Ke"
 
 #: deluge/ui/webui/config_tabs_deluge.py:40
 msgid "Random"
-msgstr "Rambang"
+msgstr "Rawak"
 
 #: deluge/ui/webui/config_tabs_deluge.py:68
 msgid "Extra's"
@@ -2332,7 +2332,7 @@ msgstr "Enkripsi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Forced"
-msgstr "Dipaksakan"
+msgstr "Dipaksa"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Disabled"
@@ -2654,6 +2654,7 @@ msgstr "URL ini kelihatannya seperti telah rosak."
 #, python-format
 msgid "Select a valid choice. %(value)s is not one of the available choices."
 msgstr ""
+"Memilih pilihan yang sah. %(value)s bukanlah antara pilihan yang ada."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:780
 msgid "Enter a valid IPv4 address."
@@ -3109,33 +3110,3 @@ msgstr "Dimuatnaik"
 #: deluge/ui/webui/scripts/template_strings.py:123
 msgid "seconds"
 msgstr "saat"
-
-#~ msgid "Graph"
-#~ msgstr "Graf"
-
-#~ msgid "Check for new list every:"
-#~ msgstr "Periksa untuk senarai baru setiap hari"
-
-#~ msgid "Days"
-#~ msgstr "Hari"
-
-#~ msgid "Import blocklist on startup"
-#~ msgstr "Import senaraiblok bila startup"
-
-#~ msgid "Download the blocklist file if necessary and import the file."
-#~ msgstr "Muaturun fail blocklist jika perlu dan import"
-
-#~ msgid "Check Download and Import"
-#~ msgstr "Periksa Muaturun dan Import"
-
-#~ msgid "Download a new blocklist file and import it."
-#~ msgstr "Muaturun fail senaraiblok baru dan import"
-
-#~ msgid "Force Download and Import"
-#~ msgstr "Paksa Muaturun dan Import"
-
-#~ msgid "File Size:"
-#~ msgstr "Saiz fail"
-
-#~ msgid "Date:"
-#~ msgstr "Tarikh:"
