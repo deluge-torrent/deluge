@@ -1,4 +1,4 @@
-=== Deluge 1.1.8 - (In Development) ===
+=== Deluge 1.1.8 - (21 May 2009) ===
 ==== Core ====
   * Fix pause all/resume all
   * Torrent name is now changed when the root folder or file is renamed

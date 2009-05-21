@@ -37,7 +37,7 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.1.7"
+!define PROGRAM_VERSION "1.1.8"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
@@ -120,7 +120,7 @@ FunctionEnd
 BrandingText "Deluge Windows Installer v${DELUGE_INSTALLER_VERSION}"
 
 Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
-OutFile "..\build-win32\Deluge-${PROGRAM_VERSION}-win32-setup.exe"
+OutFile "..\build-win32\deluge-${PROGRAM_VERSION}-win32-setup.exe"
 
 # The Python bbfreeze files will be placed here
 !define DELUGE_PYTHON_SUBDIR "$INSTDIR\Deluge-Python"
