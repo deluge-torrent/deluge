@@ -76,7 +76,7 @@ def simple_eval(source):
     taken from http://effbot.org/zone/simple-iterator-parser.htm"""
     src = cStringIO.StringIO(source).readline
     src = tokenize.generate_tokens(src)
-    src = (token for token in src if token[0] is not tokenize.NL37)
+    src = (token for token in src if token[0] is not tokenize.NL)
     res = atom(src.next, src.next())
     if src.next()[0] is not tokenize.ENDMARKER:
         raise SyntaxError("bogus data after expression")
