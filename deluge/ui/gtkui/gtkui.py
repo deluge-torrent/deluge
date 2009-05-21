@@ -238,9 +238,9 @@ class GtkUI:
                 client.start_classic_mode()
             except deluge.error.DaemonRunningError:
                 response = dialogs.YesNoDialog(
-                    "Turn off Classic Mode?",
-                    "It appears that a Deluge daemon process (deluged) is already running.\n\n\
-You will either need to stop the daemon or turn off Classic Mode to continue.").run()
+                    _("Turn off Classic Mode?"),
+                    _("It appears that a Deluge daemon process (deluged) is already running.\n\n\
+You will either need to stop the daemon or turn off Classic Mode to continue.")).run()
 
                 self.started_in_classic = False
                 if response != gtk.RESPONSE_YES:

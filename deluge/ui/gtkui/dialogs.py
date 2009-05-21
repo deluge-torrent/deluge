@@ -104,6 +104,25 @@ class YesNoDialog(BaseDialog):
             (gtk.STOCK_YES, gtk.RESPONSE_YES, gtk.STOCK_NO, gtk.RESPONSE_NO),
             parent)
 
+class InformationDialog(BaseDialog):
+    """
+    Displays an information dialog.
+
+    When run(), it will return a gtk.RESPONSE_CLOSE.
+    """
+    def __init__(self, header, text, parent=None):
+        """
+        :param header: see `:class:BaseDialog`
+        :param text: see `:class:BaseDialog`
+        :param parent: see `:class:BaseDialog`
+        """
+        super(InformationDialog, self).__init__(
+            header,
+            text,
+            gtk.STOCK_DIALOG_INFO,
+            (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
+            parent)
+
 class ErrorDialog(BaseDialog):
     """
     Displays an error dialog with optional details text for more information.
