@@ -153,17 +153,19 @@ class SystemTray(component.Component):
         self.__start()
 
     def stop(self):
-        try:
-            # Hide widgets in hide list because we're not connected to a host
-            for widget in self.hide_widget_list:
-                self.tray_glade.get_widget(widget).hide()
-        except Exception, e:
-            log.debug("Unable to hide system tray menu widgets: %s", e)
+        if self.config["enable_system_tray"]:
+            try:
+                # Hide widgets in hide list because we're not connected to a host
+                for widget in self.hide_widget_list:
+                    self.tray_glade.get_widget(widget).hide()
+            except Exception, e:
+                log.debug("Unable to hide system tray menu widgets: %s", e)
 
-        self.tray.set_tooltip(_("Deluge\nNot Connected.."))
+            self.tray.set_tooltip(_("Deluge\nNot Connected.."))
 
     def shutdown(self):
-        self.tray.set_visible(False)
+        if self.config["enable_system_tray"]:        
+            self.tray.set_visible(False)
 
     def send_status_request(self):
         client.core.get_download_rate().addCallback(self._on_get_download_rate)
