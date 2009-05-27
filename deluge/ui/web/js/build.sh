@@ -37,6 +37,11 @@ build_deluge() {
     yuicompressor --type=js -o "deluge-yc.js" "deluge-yc.js.tmp" && rm "deluge-yc.js.tmp"
 }
 
+build_docs() {
+    echo "building docs";
+    jsdoc-toolkit -d="../docs/" $ALL_FILES
+}
+
 build_ext() {
     check_file "ext-extensions-debug.js"
     if [ $? == 1 ]; then
@@ -45,8 +50,11 @@ build_ext() {
     fi;
 }
 
-scan
-build_ext
-build_deluge
-
-mv .build_data.tmp .build_data
+if [ "$1" = "doc" ]; then
+    build_docs
+else
+    scan
+    build_ext
+    build_deluge
+    mv .build_data.tmp .build_data
+fi;
