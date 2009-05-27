@@ -56,6 +56,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		Ext.deluge.details.OptionsTab.superclass.initComponent.call(this);
 		
 		this.fieldsets = {}, this.fields = {};
+		this.optionsManager = new Deluge.OptionsManager();
 		
 		/*
 		 * Bandwidth Options
@@ -317,7 +318,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	reset: function() {
 		if (this.torrentId) {
-			delete this.changed[this.torrentId];
+			this.optionsManager.resetOptions(this.torrentId);
 		}
 	},
 	
@@ -334,8 +335,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onRequestComplete: function(torrent, options) {
+		this.optionsManager.updateOptions(this.torrentId, torrent);
 		for (var key in torrent) {
 			if (this.fields[key]) {
+				//this.
 				this.fields[key].setValue(torrent[key])
 			} else {
 				//alert(key);

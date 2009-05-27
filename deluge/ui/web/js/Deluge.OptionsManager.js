@@ -36,16 +36,15 @@ Copyright:
  * @namespace Deluge
  * @class Deluge.OptionsManager
  */
-Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
-	
-	initComponent: function() {
-		Deluge.OptionsManager.superclass.initComponent.call(this);
-		this.changed = {};
-		this.options = {};
-	},
+Deluge.OptionsManager = function(config) {
+	this.changed = {};
+	this.options = {};
+	Deluge.OptionsManager.superclass.constructor.call(this);
+};
+Ext.extend(Deluge.OptionsManager, Ext.util.Observable, {
 
 	/**
-	 * Add a set of options and values for an id to the options manager
+	 * Add a set of default options and values for an id to the options manager
 	 * @param {String} id
 	 * @param {Object} options The default options for the id.
 	 */
@@ -76,10 +75,35 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	/**
 	 * Set the specified options for the passed in id.
 	 * @param {String} id
-	 * @param {object} options The option values to change.
+	 * @param {Object} options The option values to change.
 	 */
 	setOptions: function(id, options) {
 		if (!this.changed[id]) this.changed[id] = {};
 		this.changed[id] = Ext.extend(this.changed[id], options);
+	},
+	
+	/**
+	 * Update the default value for the specified option and id.
+	 * @param {String} id
+	 * @param {String} option
+	 * @param {Object} value;
+	 */
+	updateOption: function(id, option, value) {
+		this.options[id] = value;
+	},
+	
+	/**
+	 * Update the defaults for the specified id.
+	 * @param {String} id
+	 * @param {Object} options The option defaults to change.
+	 */
+	updateOptions: function(id, options) {
+		if (!this.options[id]) {
+			this.addOptions(id, options);
+		} else {
+			for (var key in options) {
+				this.setOption(id, key, options[key]);
+			}
+		}
 	}
 });
