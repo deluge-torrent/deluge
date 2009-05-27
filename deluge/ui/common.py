@@ -37,6 +37,8 @@ import os
 import sys
 import urlparse
 
+import chardet
+
 try:
     from hashlib import sha1 as sha
 except ImportError:
@@ -60,12 +62,7 @@ def decode_string(s, encoding="utf8"):
     try:
         s = s.decode(encoding).encode("utf8")
     except UnicodeDecodeError:
-        try:
-            import chardet
-        except ImportError:
-            s = s.decode(encoding, "replace").encode("utf8")
-        else:
-            s = s.decode(chardet.detect(s)["encoding"]).encode("utf8")
+        s = s.decode(chardet.detect(s)["encoding"]).encode("utf8")
     return s
 
 class TorrentInfo(object):
