@@ -311,6 +311,9 @@ class TorrentManager(component.Component):
             options["compact_allocation"] = state.compact
             options["download_location"] = state.save_path
             options["auto_managed"] = state.auto_managed
+            options["stop_at_ratio"] = state.stop_at_ratio
+            options["stop_ratio"] = state.stop_ratio
+            options["remove_at_ratio"] = state.remove_at_ratio
             options["move_completed"] = state.move_completed
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
@@ -657,10 +660,8 @@ class TorrentManager(component.Component):
             move_path = None
             if torrent.options["move_completed"]:
                 move_path = torrent.options["move_completed_path"]
-            elif self.config["move_completed"]:
-                move_path = self.config["move_completed_path"]
-            if move_path:
-                if torrent.options["download_location"] != move_path:
+                if torrent.options["download_location"] != move_path and \
+                   torrent.options["download_location"] == self.config["download_location"]:
                     torrent.move_storage(move_path)
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))

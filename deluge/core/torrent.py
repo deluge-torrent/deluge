@@ -57,59 +57,26 @@ TORRENT_STATE = deluge.common.TORRENT_STATE
 
 class TorrentOptions(dict):
     def __init__(self):
-        self.config = ConfigManager("core.conf")
-        self.default_keys = {
-            "add_paused": "add_paused",
-            "auto_managed": "auto_managed",
-            "compact_allocation": "compact_allocation",
-            "download_location": "download_location",
-            "file_priorities": [],
-            "max_connections": "max_connections_per_torrent",
-            "max_download_speed": "max_download_speed_per_torrent",
-            "max_upload_slots": "max_upload_slots_per_torrent",
-            "max_upload_speed": "max_upload_speed_per_torrent",
-            "move_completed": "move_completed",
-            "move_completed_path": "move_completed_path",
-            "prioritize_first_last_pieces": "prioritize_first_last_pieces"
-        }
-        super(TorrentOptions, self).__setitem__("stop_at_ratio", False)
-        super(TorrentOptions, self).__setitem__("stop_ratio", 2.0)
-        super(TorrentOptions, self).__setitem__("remove_at_ratio", False)
-
-    def items(self):
-        i = super(TorrentOptions, self).items()
-        for k in self.default_keys:
-            if k not in super(TorrentOptions, self).keys():
-                i.append((k, self.__getitem__(k)))
-
-        return i
-
-    def keys(self):
-        k = super(TorrentOptions, self).keys()
-        for key in self.default_keys.keys():
-            if key not in k:
-                k.append(key)
-        return k
-
-    def iteritems(self):
-        return self.items().iteritems()
-
-    def has_key(self, key):
-        return super(TorrentOptions, self).has_key(key) or key in self.default_keys
-
-    def __setitem__(self, key, value):
-        super(TorrentOptions, self).__setitem__(key, value)
-
-    def __getitem__(self, key):
-        if super(TorrentOptions, self).has_key(key):
-            return super(TorrentOptions, self).__getitem__(key)
-        elif key in self.default_keys:
-            if self.default_keys[key] and self.default_keys[key] in self.config.config:
-                return self.config[self.default_keys[key]]
-            else:
-                return self.default_keys[key]
-        else:
-            raise KeyError
+        config = ConfigManager("core.conf").config
+        options_conf_map = {
+                            "max_connections": "max_connections_per_torrent",
+                            "max_upload_slots": "max_upload_slots_per_torrent",
+                            "max_upload_speed": "max_upload_speed_per_torrent",
+                            "max_download_speed": "max_download_speed_per_torrent",
+                            "prioritize_first_last_pieces": "prioritize_first_last_pieces",
+                            "compact_allocation": "compact_allocation", 
+                            "download_location": "download_location",
+                            "auto_managed": "auto_managed",
+                            "stop_at_ratio": "stop_seed_at_ratio",
+                            "stop_ratio": "stop_seed_ratio",
+                            "remove_at_ratio": "remove_seed_at_ratio",
+                            "move_completed": "move_completed", 
+                            "move_completed_path": "move_completed_path",
+                            "add_paused": "add_paused", 
+                           }
+        for opt_k, conf_k in options_conf_map.iteritems():
+            self[opt_k] = config[conf_k]
+        self["file_priorities"] = []
 
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
@@ -175,10 +142,6 @@ class Torrent:
             # Set the filename
             self.filename = state.filename
             self.is_finished = state.is_finished
-            # Set the per-torrent queue options
-            self.options["stop_at_ratio"] = state.stop_at_ratio
-            self.options["stop_ratio"] = state.stop_ratio
-            self.options["remove_at_ratio"] = state.remove_at_ratio
         else:
             # Tracker list
             self.trackers = []
