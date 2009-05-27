@@ -63,6 +63,9 @@ EXTRACT_COMMANDS = {
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("extractor.conf", DEFAULT_PREFS)
+        if not self.config["extract_path"]:
+            self.config["extract_path"] = deluge.configmanager.ConfigManager("core.conf")["download_location"]
+
         component.get("EventManager").register_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
     def disable(self):
@@ -81,7 +84,7 @@ class Core(CorePluginBase):
         files = component.get("TorrentManager")[torrent_id].get_files()
         for f in files:
             ext = os.path.splitext(f["path"])
-            if ext in (".gz", ".bz2", ".lzma"):
+            if ext[1] in (".gz", ".bz2", ".lzma"):
                 # We need to check if this is a tar
                 if os.path.splitext(ext[0]) == ".tar":
                     cmd = EXTRACT_COMMANDS[".tar" + ext[1]]
@@ -108,7 +111,7 @@ class Core(CorePluginBase):
                 log.debug("Extract failed for %s", torrent_id)
 
             # Run the command and add some callbacks
-            d = getProcessValue(cmd[0], cmd[1:] + [fp], {}, dest)
+            d = getProcessValue(cmd[0], cmd[1].split() + [str(fp)], {}, str(dest))
             d.addCallback(on_extract_success, torrent_id)
             d.addErrback(on_extract_failed, torrent_id)
 
