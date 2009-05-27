@@ -129,26 +129,22 @@ Copyright:
 				default:
 					var indexes = {};
 					function walk(node) {
-						if (!node.attributes.fileIndex) return;
+						if (Ext.isEmpty(node.attributes.fileIndex)) return;
 						indexes[node.attributes.fileIndex] = node.attributes.priority;
 					}
 					this.getRootNode().cascade(walk);
 					
 					var nodes = this.getSelectionModel().getSelectedNodes();
 					Ext.each(nodes, function(node) {
-						if (!node.attributes.fileIndex) return;
+						if (Ext.isEmpty(node.attributes.fileIndex)) return;
 						indexes[node.attributes.fileIndex] = baseItem.filePriority;
 					});
 					
-					alert(Ext.keys(indexes));
-					
-					priorities = new Array(Ext.keys(indexes).length);
+					var priorities = new Array(Ext.keys(indexes).length);
 					for (var index in indexes) {
 						priorities[index] = indexes[index];
 					}
-					
-					alert(this.torrentId);
-					alert(priorities);
+
 					Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
 						success: function() {
 							Ext.each(nodes, function(node) {
