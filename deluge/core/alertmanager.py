@@ -65,7 +65,8 @@ class AlertManager(component.Component):
             lt.alert.category_t.storage_notification |
             lt.alert.category_t.tracker_notification |
             lt.alert.category_t.status_notification |
-            lt.alert.category_t.ip_block_notification)
+            lt.alert.category_t.ip_block_notification|
+            lt.alert.category_t.performance_warning)
 
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
