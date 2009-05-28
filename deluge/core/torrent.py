@@ -1,7 +1,7 @@
 #
 # torrent.py
 #
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,8 +31,6 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
-
 
 """Internal Torrent class"""
 
@@ -64,15 +62,15 @@ class TorrentOptions(dict):
                             "max_upload_speed": "max_upload_speed_per_torrent",
                             "max_download_speed": "max_download_speed_per_torrent",
                             "prioritize_first_last_pieces": "prioritize_first_last_pieces",
-                            "compact_allocation": "compact_allocation", 
+                            "compact_allocation": "compact_allocation",
                             "download_location": "download_location",
                             "auto_managed": "auto_managed",
                             "stop_at_ratio": "stop_seed_at_ratio",
                             "stop_ratio": "stop_seed_ratio",
                             "remove_at_ratio": "remove_seed_at_ratio",
-                            "move_completed": "move_completed", 
+                            "move_completed": "move_completed",
                             "move_completed_path": "move_completed_path",
-                            "add_paused": "add_paused", 
+                            "add_paused": "add_paused",
                            }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
@@ -165,6 +163,9 @@ class Torrent:
 
         # The tracker status
         self.tracker_status = ""
+
+        # This gets updated when get_tracker_host is called
+        self.tracker_host = None
 
         if state:
             self.time_added = state.time_added
@@ -293,6 +294,7 @@ class Torrent:
                 tracker["tier"] = value.tier
                 trackers.append(tracker)
             self.trackers = trackers
+            self.tracker_host = None
             return
 
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
@@ -313,6 +315,8 @@ class Torrent:
         if len(trackers) > 0:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
+
+        self.tracker_host = None
 
     ### End Options methods ###
 
@@ -494,6 +498,9 @@ class Torrent:
     def get_tracker_host(self):
         """Returns just the hostname of the currently connected tracker
         if no tracker is connected, it uses the 1st tracker."""
+        if self.tracker_host:
+            return self.tracker_host
+
         if not self.status:
             self.status = self.handle.status()
 
@@ -521,6 +528,7 @@ class Torrent:
                         host = ".".join(parts[-3:])
                     else:
                         host = ".".join(parts[-2:])
+                self.tracker_host = host
                 return host
         return ""
 
