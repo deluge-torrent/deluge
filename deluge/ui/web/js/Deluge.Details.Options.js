@@ -410,7 +410,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	onApply: function() {
 		var changed = this.optionsManager.getChanged(this.torrentId);
-		alert(Ext.encode(changed));
 		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
 				this.optionsManager.updateOptions(this.torrentId, changed);
