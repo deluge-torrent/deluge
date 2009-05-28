@@ -36,6 +36,35 @@
 
 """
 Deluge Config Module
+
+This module is used for loading and saving of configuration files.. or anything
+really.
+
+The format of the config file is as follows:
+
+<format version as int>
+<config file version as int>
+<content>
+
+The format version is controlled by the Config class.  It should only be changed
+when anything below it is changed directly by the Config class.  An example of
+this would be if we changed the serializer for the content to something different.
+
+The config file version is changed by the 'owner' of the config file.  This is
+to signify that there is a change in the naming of some config keys or something
+similar along those lines.
+
+The content is simply the dict to be saved and will be serialized before being
+written.
+
+Converting
+
+Since the format of the config could change, there needs to be a way to have
+the Config object convert to newer formats.  To do this, you will need to
+register conversion functions for various versions of the config file. Note that
+this can only be done for the 'config file version' and not for the 'format'
+version as this will be done internally.
+
 """
 
 import cPickle as pickle
@@ -74,6 +103,11 @@ class Config(object):
         self.__config = {}
         self.__set_functions = {}
         self.__change_callback = None
+
+        # These hold the version numbers and they will be set when loaded
+        self.__format_version = None
+        self.__file_version = None
+
         # This will get set with a reactor.callLater whenever a config option
         # is set.
         self.__save_timer = None
@@ -247,15 +281,39 @@ class Config(object):
         """
         if not filename:
             filename = self.__config_file
+        data = open(filename, "rb")
         try:
-            self.__config.update(json.load(open(filename, "rb")))
+            self.__format_version = int(data.readline())
+        except ValueError:
+            pass
+
+        try:
+            self.__file_version = int(data.readline())
+        except ValueError:
+            pass
+
+
+        if not self.__format_version:
+            data.seek(0)
+            self.__format_version = 1
+            self.__file_version = 1
+
+        fdata = data.read()
+        data.close()
+
+        try:
+            self.__config.update(json.loads(fdata))
         except Exception, e:
             try:
-                self.__config.update(pickle.load(open(filename, "rb")))
+                self.__config.update(pickle.loads(fdata))
             except Exception, e:
+                log.exception(e)
                 log.warning("Unable to load config file: %s", filename)
 
-        log.debug("Config %s loaded: %s", filename, self.__config)
+
+
+        log.debug("Config %s version: %s.%s loaded: %s", filename,
+            self.__format_version, self.__file_version, self.__config)
 
     def save(self, filename=None):
         """
@@ -271,7 +329,11 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            if self.__config == json.load(open(filename, "rb")):
+            data = open(filename, "rb")
+            data.seek(2)
+            loaded_data = json.load(data)
+            data.close()
+            if self.__config == loaded_data:
                 # The config has not changed so lets just return
                 self.__save_timer = None
                 return
@@ -284,6 +346,8 @@ class Config(object):
         try:
             log.debug("Saving new config file %s", filename + ".new")
             f = open(filename + ".new", "wb")
+            f.write(str(self.__format_version) + "\n")
+            f.write(str(self.__file_version) + "\n")
             json.dump(self.__config, f, indent=2)
             f.flush()
             os.fsync(f.fileno())
@@ -309,7 +373,40 @@ class Config(object):
             return False
         else:
             return True
-    
+
+    def run_converter(self, input_range, output_version, func):
+        """
+        Runs a function that will convert file versions in the `:param:input_range`
+        to the `:param:output_version`.
+
+        :param input_range: tuple, (int, int) the range of input versions this
+            function will accept
+        :param output_version: int, the version this function will return
+        :param func: func, the function that will do the conversion, it will take
+            the config dict as an argument and return the augmented dict
+
+        :raises ValueError: if the output_version is less than the input_range
+
+        """
+        if output_version in input_range or output_version <= max(input_range):
+            raise ValueError("output_version needs to be greater than input_range")
+
+        if self.__file_version not in input_range:
+            log.debug("File version %s is not in input_range %s, ignoring converter function..",
+                self.__file_version, input_range)
+            return
+
+        try:
+            self.__config = func(self.__config)
+        except Exception, e:
+            log.exception(e)
+            log.error("There was an exception try to convert config file %s %s to %s",
+                self.__config_file, self.__file_version, output_version)
+            raise e
+        else:
+            self.__file_version = output_version
+            self.save()
+
     @property
     def config_file(self):
         return self.__config_file
