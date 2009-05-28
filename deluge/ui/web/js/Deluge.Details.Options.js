@@ -93,7 +93,17 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				minValue: -1,
 				maxValue: 99999,
 				incrementValue: 1
-			})
+			}),
+			listeners: {
+				'spin': {
+					fn: this.onFieldChange,
+					scope: this
+				},
+				'keypress': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		this.fieldsets.bandwidth.add({
 			xtype: 'label',
@@ -119,7 +129,17 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				minValue: -1,
 				maxValue: 99999,
 				incrementValue: 1
-			})
+			}),
+			listeners: {
+				'spin': {
+					fn: this.onFieldChange,
+					scope: this
+				},
+				'keypress': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		this.fieldsets.bandwidth.add({
 			xtype: 'label',
@@ -145,7 +165,17 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				minValue: -1,
 				maxValue: 99999,
 				incrementValue: 1
-			})
+			}),
+			listeners: {
+				'spin': {
+					fn: this.onFieldChange,
+					scope: this
+				},
+				'keypress': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		this.fieldsets.bandwidth.add({xtype: 'label'});
 		
@@ -167,7 +197,17 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				minValue: -1,
 				maxValue: 99999,
 				incrementValue: 1
-			})
+			}),
+			listeners: {
+				'spin': {
+					fn: this.onFieldChange,
+					scope: this
+				},
+				'keypress': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 
 		/*
@@ -188,14 +228,26 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'is_auto_managed',
-			boxLabel: _('Auto Managed')
+			boxLabel: _('Auto Managed'),
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		this.fields.stop_at_ratio = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'stop_at_ratio',
-			boxLabel: _('Stop seed at ratio')
+			boxLabel: _('Stop seed at ratio'),
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		this.fields.remove_at_ratio = this.fieldsets.queue.add({
@@ -203,14 +255,26 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			id: 'remove_at_ratio',
 			style: 'margin-left: 10px',
-			boxLabel: _('Remove at ratio')
+			boxLabel: _('Remove at ratio'),
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		this.fields.move_completed = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'move_completed',
-			boxLabel: _('Move Completed')
+			boxLabel: _('Move Completed'),
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		
@@ -236,14 +300,26 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Private'),
-			id: 'private'
+			id: 'private',
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		this.fields.prioritize_first_last = this.fieldsets.general.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Prioritize First/Last'),
-			id: 'prioritize_first_last'
+			id: 'prioritize_first_last',
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
 		});
 		
 		/*
@@ -292,6 +368,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-left: 10px;',
 			border: false,
 			width: 100,
+			handler: this.onApply,
+			scope: this
 		});
 	},
 	
@@ -330,18 +408,33 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		});
 	},
 	
+	onApply: function() {
+		var changed = this.optionsManager.getChanged(this.torrentId);
+		alert(Ext.encode(changed));
+		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
+			success: function() {
+				this.optionsManager.updateOptions(this.torrentId, changed);
+				this.optionsManager.resetOptions(this.torrentId);
+			},
+			scope: this
+		});
+	},
+	
 	onEditTrackers: function() {
 		Deluge.EditTrackers.show();
+	},
+	
+	onFieldChange: function(field) {
+		if (field.getValue() != this.optionsManager.getDefault(this.torrentId, field.id)) {
+			this.optionsManager.setOption(this.torrentId, field.id, field.getValue());
+		}
 	},
 	
 	onRequestComplete: function(torrent, options) {
 		this.optionsManager.updateOptions(this.torrentId, torrent);
 		for (var key in torrent) {
-			if (this.fields[key]) {
-				//this.
+			if (this.fields[key] && !this.optionsManager.hasChanged(this.torrentId, key)) {
 				this.fields[key].setValue(torrent[key])
-			} else {
-				//alert(key);
 			}
 		}
 	}
