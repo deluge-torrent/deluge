@@ -1,7 +1,7 @@
 #
 # alertmanager.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,10 +31,15 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
 
+"""
 
-"""The AlertManager handles all the libtorrent alerts."""
+The AlertManager handles all the libtorrent alerts.
+
+This should typically only be used by the Core.  Plugins should utilize the
+`:mod:EventManager` for similar functionality.
+
+"""
 
 from twisted.internet import reactor
 
@@ -49,10 +54,10 @@ except ImportError:
 from deluge.log import LOG as log
 
 class AlertManager(component.Component):
-    def __init__(self, session):
+    def __init__(self):
         log.debug("AlertManager initialized..")
         component.Component.__init__(self, "AlertManager", interval=0.05)
-        self.session = session
+        self.session = component.get("Core").session
 
         self.session.set_alert_mask(
             lt.alert.category_t.error_notification |
@@ -69,12 +74,15 @@ class AlertManager(component.Component):
         self.handle_alerts()
 
     def register_handler(self, alert_type, handler):
-        """Registers a function that will be called when 'alert_type' is pop'd
-        in handle_alerts.  The handler function should look like:
-        handler(alert)
-        Where 'alert' is the actual alert object from libtorrent
         """
-        if alert_type not in self.handlers.keys():
+        Registers a function that will be called when 'alert_type' is pop'd
+        in handle_alerts.  The handler function should look like: handler(alert)
+        Where 'alert' is the actual alert object from libtorrent.
+
+        :param alert_type: str, this is string representation of the alert name
+        :param handler: func(alert), the function to be called when the alert is raised
+        """
+        if alert_type not in self.handlers:
             # There is no entry for this alert type yet, so lets make it with an
             # empty list.
             self.handlers[alert_type] = []
@@ -84,7 +92,11 @@ class AlertManager(component.Component):
         log.debug("Registered handler for alert %s", alert_type)
 
     def deregister_handler(self, handler):
-        """De-registers the 'handler' function from all alert types."""
+        """
+        De-registers the `:param:handler` function from all alert types.
+
+        :param handler: func, the handler function to deregister
+        """
         # Iterate through all handlers and remove 'handler' where found
         for (key, value) in self.handlers:
             if handler in value:
@@ -92,16 +104,21 @@ class AlertManager(component.Component):
                 value.remove(handler)
 
     def handle_alerts(self, wait=False):
-        """Pops all libtorrent alerts in the session queue and handles them
-        appropriately."""
+        """
+        Pops all libtorrent alerts in the session queue and handles them
+        appropriately.
+
+        :param wait: bool, if True then the handler functions will be run right
+            away and waited to return before processing the next alert
+        """
         alert = self.session.pop_alert()
+        # Loop through all alerts in the queue
         while alert is not None:
-            # Loop through all alerts in the queue
             alert_type = type(alert).__name__
             # Display the alert message
             log.debug("%s: %s", alert_type, alert.message())
             # Call any handlers for this alert type
-            if alert_type in self.handlers.keys():
+            if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
                     if not wait:
                         reactor.callLater(0, handler, alert)
@@ -109,6 +126,3 @@ class AlertManager(component.Component):
                         handler(alert)
 
             alert = self.session.pop_alert()
-
-        # Return True so that the timer continues
-        return True
