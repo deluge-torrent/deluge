@@ -128,7 +128,7 @@ class Core(component.Component):
         # Create the components
         self.eventmanager = EventManager()
         self.preferencesmanager = PreferencesManager()
-        self.alertmanager = AlertManager(self.session)
+        self.alertmanager = AlertManager()
         self.pluginmanager = PluginManager(self)
         self.torrentmanager = TorrentManager(self.session, self.alertmanager)
         self.filtermanager = FilterManager(self)
