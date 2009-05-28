@@ -143,6 +143,8 @@ def start_daemon():
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+    parser.add_option("--profile", dest="profile", action="store_true", default=False,
+        help="Profiles the daemon" )
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
@@ -189,6 +191,10 @@ def start_daemon():
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
     from deluge.log import LOG as log
 
+    if options.profile:
+        import hotshot
+        hsp = hotshot.Profile(deluge.configmanager.get_config_dir("deluged.profile"))
+        hsp.start()
     try:
         from deluge.core.daemon import Daemon
         Daemon(options, args)
@@ -200,3 +206,12 @@ def start_daemon():
     except Exception, e:
         log.exception(e)
         sys.exit(1)
+    finally:
+        if options.profile:
+            hsp.stop()
+            hsp.close()
+            import hotshot.stats
+            stats = hotshot.stats.load(deluge.configmanager.get_config_dir("deluged.profile"))
+            stats.strip_dirs()
+            stats.sort_stats("time", "calls")
+            stats.print_stats(400)
