@@ -155,6 +155,10 @@ class ConnectionManager(component.Component):
         self.__load_hostlist()
         self.__load_options()
 
+        # Select the first host if possible
+        if len(self.liststore) > 0:
+            self.hostlist.get_selection().select_path("0")
+            
         # Connect the signals to the handlers
         self.glade.signal_autoconnect(self)
         self.hostlist.get_selection().connect("changed", self.on_hostlist_selection_changed)
@@ -200,6 +204,7 @@ class ConnectionManager(component.Component):
         self.liststore[row][HOSTLIST_COL_PORT] = port
         self.liststore[row][HOSTLIST_COL_USER] = username
         self.liststore[row][HOSTLIST_COL_PASS] = password
+        self.liststore[row][HOSTLIST_COL_STATUS] = "Offline"
 
         # Save the host list to file
         self.__save_hostlist()
@@ -230,6 +235,7 @@ class ConnectionManager(component.Component):
             self.liststore[new_row][HOSTLIST_COL_PORT] = host[2]
             self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
             self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
+            self.liststore[new_row][HOSTLIST_COL_STATUS] = "Offline"
 
     def __get_host_row(self, host_id):
         """
