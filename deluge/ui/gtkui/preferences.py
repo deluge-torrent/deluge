@@ -101,7 +101,8 @@ class Preferences(component.Component):
             "on_toggle": self.on_toggle,
             "on_test_port_clicked": self.on_test_port_clicked,
             "on_button_plugin_install_clicked": self._on_button_plugin_install_clicked,
-            "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked
+            "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked,
+            "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked
         })
 
         # These get updated by requests done to the core
@@ -902,3 +903,6 @@ class Preferences(component.Component):
         component.get("PluginManager").scan_for_plugins()
         client.core.rescan_plugins()
         self.show()
+
+    def _on_button_find_plugins_clicked(self, widget):
+        deluge.common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Plugins")
