@@ -78,7 +78,7 @@ STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload
     'tracker_status', 'trackers', 'upload_payload_rate']
 
 class Core(component.Component):
-    def __init__(self):
+    def __init__(self, listen_interface=None):
         log.debug("Core init..")
         component.Component.__init__(self, "Core")
 
@@ -141,6 +141,13 @@ class Core(component.Component):
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
 
+        # If there was an interface value from the command line, use it, but
+        # store the one in the config so we can restore it on shutdown
+        self.__old_interface = None
+        if listen_interface:
+            self.__old_interface = self.config["listen_interface"]
+            self.config["listen_interface"] = listen_interface
+
     def start(self):
         """Starts the core"""
         # New release check information
@@ -152,6 +159,10 @@ class Core(component.Component):
             self.save_dht_state()
         # Save the libtorrent session state
         self.__save_session_state()
+
+        # We stored a copy of the old interface value
+        if self.__old_interface:
+            self.config["listen_interface"] = self.__old_interface
 
         # Make sure the config file has been saved
         self.config.save()

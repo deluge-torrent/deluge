@@ -131,6 +131,13 @@ def start_daemon():
                                            version=deluge.common.get_version())
     parser.add_option("-p", "--port", dest="port",
         help="Port daemon will listen on", action="store", type="int")
+    parser.add_option("-i", "--interface", dest="interface",
+        help="Interface daemon will listen for bittorrent connections on, \
+this should be an IP address",
+        action="store", type="str")
+    parser.add_option("-u", "--ui-interface", dest="ui_interface",
+        help="Interface daemon will listen for UI connections on, this should be\
+ an IP address", action="store", type="str")
     parser.add_option("-d", "--do-not-daemonize", dest="donot",
         help="Do not daemonize", action="store_true", default=False)
     parser.add_option("-c", "--config", dest="config",
@@ -144,7 +151,7 @@ def start_daemon():
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
     parser.add_option("--profile", dest="profile", action="store_true", default=False,
-        help="Profiles the daemon" )
+        help="Profiles the daemon")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()

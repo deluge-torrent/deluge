@@ -61,6 +61,7 @@ DEFAULT_PREFS = {
     "compact_allocation": False,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
+    "listen_interface": "",
     "copy_torrent_file": False,
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
@@ -162,6 +163,8 @@ class PreferencesManager(component.Component):
             self._on_set_state_location)
         self.config.register_set_function("listen_ports",
             self._on_set_listen_ports)
+        self.config.register_set_function("listen_interface",
+            self._on_set_listen_interface)
         self.config.register_set_function("random_port",
             self._on_set_random_port)
         self.config.register_set_function("outgoing_ports",
@@ -245,7 +248,11 @@ class PreferencesManager(component.Component):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:
             log.debug("listen port range set to %s-%s", value[0], value[1])
-            self.session.listen_on(value[0], value[1])
+            self.session.listen_on(value[0], value[1], str(self.config["listen_interface"]))
+
+    def _on_set_listen_interface(self, key, value):
+        # Call the random_port callback since it'll do what we need
+        self._on_set_random_port("random_port", self.config["random_port"])
 
     def _on_set_random_port(self, key, value):
         log.debug("random port value set to %s", value)
@@ -263,7 +270,7 @@ class PreferencesManager(component.Component):
         # Set the listen ports
         log.debug("listen port range set to %s-%s", listen_ports[0],
             listen_ports[1])
-        self.session.listen_on(listen_ports[0], listen_ports[1])
+        self.session.listen_on(listen_ports[0], listen_ports[1], str(self.config["listen_interface"]))
 
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:

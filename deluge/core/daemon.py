@@ -123,7 +123,7 @@ class Daemon(object):
         log.debug("options: %s", options)
         log.debug("args: %s", args)
         # Set the config directory
-        if options:
+        if options and options.config:
             deluge.configmanager.set_config_dir(options.config)
 
         from deluge.core.core import Core
@@ -133,10 +133,16 @@ class Daemon(object):
         port = self.core.config["daemon_port"]
         if options and options.port:
             port = options.port
+        if options and options.ui_interface:
+            interface = options.ui_interface
+        else:
+            interface = ""
+
         self.rpcserver = RPCServer(
             port=port,
             allow_remote=self.core.config["allow_remote"],
-            listen=not classic
+            listen=not classic,
+            interface=interface
         )
 
         # Register the daemon and the core RPCs
