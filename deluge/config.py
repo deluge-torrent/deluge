@@ -281,7 +281,13 @@ class Config(object):
         """
         if not filename:
             filename = self.__config_file
-        data = open(filename, "rb")
+
+        try:
+            data = open(filename, "rb")
+        except IOError, e:
+            log.warning("Unable to open config file %s: %s", filename, e)
+            return
+
         try:
             self.__format_version = int(data.readline())
         except ValueError:
