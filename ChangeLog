@@ -1,3 +1,6 @@
+=== Deluge 1.1.9 - (In Development) ===
+  * Fix #950 renaming a parent folder into multiple folders
+
 === Deluge 1.1.8 - (21 May 2009) ===
 ==== Core ====
   * Fix pause all/resume all
