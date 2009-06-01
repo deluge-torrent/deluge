@@ -19,34 +19,37 @@ Copyright:
 		The Free Software Foundation, Inc.,
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+
+    In addition, as a special exception, the copyright holders give
+    permission to link the code of portions of this program with the OpenSSL
+    library.
+    You must obey the GNU General Public License in all respects for all of
+    the code used other than OpenSSL. If you modify file(s) with this
+    exception, you may extend this exception to your version of the file(s),
+    but you are not obligated to do so. If you do not wish to do so, delete
+    this exception statement from your version. If you delete this exception
+    statement from all source files in the program, then also delete it here.
 */
 
 Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	title: _('Status'),
+	autoScroll: true,
 	
 	onRender: function(ct, position) {
 		Ext.deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 		
 		this.progressBar = this.add({
 			xtype: 'fullprogressbar',
-			cls: 'x-deluge-status-progressbar'
+			cls: 'x-deluge-status-progressbar',
+			width: 1000
 		});
 		
 		this.status = this.add({
 			cls: 'x-deluge-status',
 			id: 'deluge-details-status',
+			
 			border: false,
+			width: 1000,
 			listeners: {
 				'render': {
 					fn: function(panel) {
