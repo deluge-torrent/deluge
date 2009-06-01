@@ -40,8 +40,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		
 		this.progressBar = this.add({
 			xtype: 'fullprogressbar',
-			cls: 'x-deluge-status-progressbar',
-			width: 1000
+			cls: 'x-deluge-status-progressbar'
 		});
 		
 		this.status = this.add({
