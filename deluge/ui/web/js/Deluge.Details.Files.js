@@ -35,7 +35,7 @@ Copyright:
 	/* Renderers for the column tree */
 	function fileProgressRenderer(value) {
 		var progress = value * 100;
-		return Deluge.progressBar(progress, this.width - 50, progress.toFixed(2) + '%');
+		return Deluge.progressBar(progress, this.width - 50, progress.toFixed(2) + '%', 0);
 	}
 	function priorityRenderer(value) {
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));

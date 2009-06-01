@@ -77,10 +77,11 @@ Ext.namespace('Ext.deluge');
 		'</div>' +
 	'</div>';
 	
-	Deluge.progressBar =  function(progress, width, text) {
+	Deluge.progressBar =  function(progress, width, text, modifier) {
+		modifier = Ext.value(modifier, 10);
 		var progressWidth = ((width / 100.0) * progress).toFixed(0);
 		var barWidth = progressWidth - 1;
-		var textWidth = ((progressWidth - 10) > 0 ? progressWidth - 10 : 0);
+		var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
 		return String.format(tpl, text, width, barWidth, textWidth);
 	}
 })();
