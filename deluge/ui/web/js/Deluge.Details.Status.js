@@ -45,6 +45,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		
 		this.status = this.add({
 			cls: 'x-deluge-status',
+			id: 'deluge-details-status',
 			border: false,
 			listeners: {
 				'render': {
@@ -62,11 +63,11 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	},
 	
 	clear: function() {
-		if (!this.fields) return;
 		this.progressBar.updateProgress(0, ' ');
 		for (var k in this.fields) {
 			this.fields[k].innerHTML = '';
 		}
+		this.disable();
 	},
 	
 	update: function(torrentId) {
@@ -103,10 +104,9 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 			active_time: ftime(status.active_time),
 			seeding_time: ftime(status.seeding_time),
 			seed_rank: status.seed_rank,
-			auto_managed: 'False',
 			time_added: fdate(status.time_added)
 		}
-		if (status.is_auto_managed) {data.auto_managed = 'True'}
+		data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
 		
 		for (var field in this.fields) {
 			this.fields[field].innerHTML = data[field];
