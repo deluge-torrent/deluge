@@ -410,6 +410,15 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	onApply: function() {
 		var changed = this.optionsManager.getChanged(this.torrentId);
+		if (!Ext.isEmpty(changed['prioritize_first_last'])) {
+			var value = changed['prioritize_first_last'];
+			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
+				success: function() {
+					this.optionsManager.updateOption(this.torrentId, 'prioritize_first_last', value);
+				},
+				scope: this
+			});
+		}
 		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
 				this.optionsManager.updateOptions(this.torrentId, changed);
