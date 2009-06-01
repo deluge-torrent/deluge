@@ -740,8 +740,12 @@ class FilesTab(Tab):
                 # This means that a folder by this name already exists
                 self.reparent_iter(self.treestore.iter_children(old_folder_iter), new_folder_iter)
             else:
-                new_folder_iter = self.get_iter_at_path("/".join(new_split[:-1]) + "/")
-                self.reparent_iter(old_folder_iter, new_folder_iter)
+                parent = old_folder_iter_parent
+                for ns in new_split[:-1]:
+                    parent = self.treestore.append(parent, [ns + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+
+                self.treestore[old_folder_iter][0] = new_split[-1] + "/"
+                self.reparent_iter(old_folder_iter, parent)
 
             # We need to check if the old_folder_iter_parent no longer has children
             # and if so, we delete it
