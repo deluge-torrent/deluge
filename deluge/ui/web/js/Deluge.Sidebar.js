@@ -33,7 +33,7 @@ Copyright:
 
 */
 
-// These are just so gen_gettext.js will pick up the strings
+// These are just so gen_gettext.py will pick up the strings
 // _('State')
 // _('Tracker Host')
 
@@ -128,6 +128,11 @@ Copyright:
 				deferredRender: false,
 				autoScroll: true
 			});
+			
+			if (Deluge.config['sidebar_show_zero'] == false) {
+				states = this.removeZero(states);
+			}
+			
 			store.loadData(states);
 			this.add(panel);
 			
@@ -183,6 +188,19 @@ Copyright:
 			if (needsUpdate) Deluge.UI.update();
 		},
 		
+		/**
+		 * Remove the states with zero torrents in them.
+		 */
+		removeZero: function(states) {
+			var newStates = [];
+			Ext.each(states, function(state) {
+				if (state[1] > 0) {
+					newStates.push(state);
+				}
+			});
+			return newStates;
+		},
+		
 		update: function(filters) {
 			for (var filter in filters) {
 				var states = filters[filter];
@@ -197,11 +215,16 @@ Copyright:
 			Ext.each(Ext.keys(this.panels), function(filter) {
 				if (Ext.keys(filters).indexOf(filter) == -1) {
 					// We need to remove the panel
+					this.panels[filter]
 				}
 			});
 		},
 		
 		updateFilter: function(filter, states) {
+			if (Deluge.config['sidebar_show_zero'] == false) {
+				states = this.removeZero(states);
+			}
+			
 			this.panels[filter].store.loadData(states);
 			if (this.selected && this.selected.panel == this.panels[filter]) {
 				this.panels[filter].getSelectionModel().selectRow(this.selected.row);

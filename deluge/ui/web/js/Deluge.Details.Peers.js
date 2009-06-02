@@ -135,6 +135,7 @@ Copyright:
 		},
 		
 		onRequestComplete: function(torrent, options) {
+			if (!torrent) return;
 			var peers = new Array();
 			Ext.each(torrent.peers, function(peer) {
 				peers.push([peer.country, peer.ip, peer.client, peer.progress, peer.down_speed, peer.up_speed, peer.seed]);
