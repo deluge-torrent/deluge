@@ -48,9 +48,9 @@ def create_plugin():
 
     name = options.name.replace(" ", "_")
     safe_name = name.lower()
-    plugin_base = os.path.realpath(os.path.join(options.path, name))
+    plugin_base = os.path.realpath(os.path.join(options.path, safe_name))
     src = os.path.join(plugin_base, safe_name)
-    template_dir = os.path.join(src,"template")
+    template_dir = os.path.join(src, "template")
 
     if os.path.exists(plugin_base):
         print "the directory %s already exists, delete it first" % plugin_base
@@ -77,7 +77,7 @@ def create_plugin():
     print "creating folders.."
     os.mkdir(plugin_base)
     os.mkdir(src)
-    os.mkdir(os.path.join(src,"data"))
+    os.mkdir(os.path.join(src, "data"))
     os.mkdir(template_dir)
 
     print "creating files.."
@@ -195,7 +195,7 @@ setup(
 COMMON = """
 def get_resource(filename):
     import pkg_resources, os
-    return pkg_resources.resource_filename("extractor", os.path.join("data", filename))
+    return pkg_resources.resource_filename("%(safe_name)s", os.path.join("data", filename))
 """
 
 GTKUI = """
