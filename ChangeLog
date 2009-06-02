@@ -11,13 +11,23 @@
   * Add preferences option "Add torrent in paused state"
   * Add tracker icons to the Tracker column
   * Implement #259 show tooltip with country name in the peers tab
+  * Add an error category to the tracker sidebar list
+  * Add Find More Plugins button to Plugins preference page
+
+==== ConsoleUI ====
+  * Changed to use curses for a more interactive client
 
 ==== WebUI ====
   * Move over to using Twisted-Web for the webserver.
   * Move to only AJAX interface built upon Ext-JS.
 
+==== Plugins ====
+  * Add Scheduler plugin
+  * Add Extractor plugin
+
 ==== Misc ====
   * PyGTK dependency bumped to => 2.12 to use new tooltip system
+  * Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
 
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
