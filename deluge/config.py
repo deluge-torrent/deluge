@@ -271,6 +271,17 @@ class Config(object):
         for key, value in self.__set_functions.iteritems():
             value(key, self.__config[key])
 
+    def apply_set_functions(self, key):
+        """
+        Calls set functions for `:param:key`.
+
+        :param key: str, the config key
+
+        """
+        log.debug("Calling set functions for key %s..", key)
+        if key in self.__set_functions:
+            self.__set_functions[key](key, self.__config[key])
+
     def load(self, filename=None):
         """
         Load a config file
