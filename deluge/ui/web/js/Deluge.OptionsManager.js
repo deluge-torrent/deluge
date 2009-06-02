@@ -36,12 +36,19 @@ Copyright:
  * @namespace Deluge
  * @class Deluge.OptionsManager
  */
-Deluge.OptionsManager = function(config) {
-	this.changed = {};
-	this.options = {};
-	Deluge.OptionsManager.superclass.constructor.call(this);
-};
-Ext.extend(Deluge.OptionsManager, Ext.util.Observable, {
+Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
+	
+	constructor: function(config) {
+		this.changed = {};
+		this.options = {};
+		Deluge.OptionsManager.superclass.constructor.call(this);
+		
+		this.addEvents({
+			'add': true,
+			'changed': true,
+			'reset': true
+		});
+	},
 
 	/**
 	 * Add a set of default options and values for an id to the options manager
@@ -72,6 +79,16 @@ Ext.extend(Deluge.OptionsManager, Ext.util.Observable, {
 	},
 	
 	/**
+	 * Get the value for an option given an id and option name.
+	 * @param {String} id
+	 * @param {String} option
+	 * @returns {Object} the options value.
+	 */
+	 getValue: function(id, option) {
+	 	return (this.hasChanged(id, option)) ? this.changed[id][option] : this.options[id][option];
+	 },
+	
+	/**
 	 * Check to see if the option has been changed.
 	 * @param {String} id
 	 * @param {String} option
@@ -99,8 +116,10 @@ Ext.extend(Deluge.OptionsManager, Ext.util.Observable, {
 	setOption: function(id, option, value) {
 		if (!this.changed[id]) this.changed[id] = {};
 		
+		var oldValue = this.getValue(id, option);
 		if (this.options[id][option] == value) {
 			if (!Ext.isEmpty(this.changed[id][option])) delete this.changed[id][option];
+			this.fireEvent('changed', id, option, value, oldValue);
 			return;
 		}
 		
@@ -117,8 +136,9 @@ Ext.extend(Deluge.OptionsManager, Ext.util.Observable, {
 					break;
 			}
 		}
-		
+
 		this.changed[id][option] = value;
+		this.fireEvent('changed', id, option, value, oldValue);
 	},
 	
 	/**

@@ -68,7 +68,7 @@ Copyright:
 			}
 			
 			this.items.each(function(tab) {
-				tab.enable();
+				if (tab.disabled) tab.enable();
 			});
 			
 			tab = tab || this.getActiveTab();

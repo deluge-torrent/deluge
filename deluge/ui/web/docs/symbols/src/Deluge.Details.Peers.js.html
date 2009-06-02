@@ -26,17 +26,17 @@
 <span class='line'> 19</span> 		The Free Software Foundation, Inc.,
 <span class='line'> 20</span> 		51 Franklin Street, Fifth Floor
 <span class='line'> 21</span> 		Boston, MA  02110-1301, USA.
-<span class='line'> 22</span> #
-<span class='line'> 23</span> #    In addition, as a special exception, the copyright holders give
-<span class='line'> 24</span> #    permission to link the code of portions of this program with the OpenSSL
-<span class='line'> 25</span> #    library.
-<span class='line'> 26</span> #    You must obey the GNU General Public License in all respects for all of
-<span class='line'> 27</span> #    the code used other than OpenSSL. If you modify file(s) with this
-<span class='line'> 28</span> #    exception, you may extend this exception to your version of the file(s),
-<span class='line'> 29</span> #    but you are not obligated to do so. If you do not wish to do so, delete
-<span class='line'> 30</span> #    this exception statement from your version. If you delete this exception
-<span class='line'> 31</span> #    statement from all source files in the program, then also delete it here.
-<span class='line'> 32</span> #
+<span class='line'> 22</span> 
+<span class='line'> 23</span>     In addition, as a special exception, the copyright holders give
+<span class='line'> 24</span>     permission to link the code of portions of this program with the OpenSSL
+<span class='line'> 25</span>     library.
+<span class='line'> 26</span>     You must obey the GNU General Public License in all respects for all of
+<span class='line'> 27</span>     the code used other than OpenSSL. If you modify file(s) with this
+<span class='line'> 28</span>     exception, you may extend this exception to your version of the file(s),
+<span class='line'> 29</span>     but you are not obligated to do so. If you do not wish to do so, delete
+<span class='line'> 30</span>     this exception statement from your version. If you delete this exception
+<span class='line'> 31</span>     statement from all source files in the program, then also delete it here.
+<span class='line'> 32</span> 
 <span class='line'> 33</span> */</span><span class="WHIT">
 <span class='line'> 34</span> 
 <span class='line'> 35</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -142,12 +142,13 @@
 <span class='line'>135</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>136</span> </span><span class="WHIT">		
 <span class='line'>137</span> 		</span><span class="NAME">onRequestComplete</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">torrent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">peers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">			</span><span class="NAME">Ext.each</span><span class="PUNC">(</span><span class="NAME">torrent.peers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">peer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">				</span><span class="NAME">peers.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">peer.country</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.ip</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.client</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.progress</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.down_speed</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.up_speed</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.seed</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">			</span><span class="NAME">this.getStore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">loadData</span><span class="PUNC">(</span><span class="NAME">peers</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">	</span><span class="NAME">Deluge.Details.add</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ext.deluge.details.PeersTab</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>138</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">torrent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">peers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">			</span><span class="NAME">Ext.each</span><span class="PUNC">(</span><span class="NAME">torrent.peers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">peer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">				</span><span class="NAME">peers.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">peer.country</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.ip</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.client</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.progress</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.down_speed</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.up_speed</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">peer.seed</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">			</span><span class="NAME">this.getStore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">loadData</span><span class="PUNC">(</span><span class="NAME">peers</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="NAME">Deluge.Details.add</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Ext.deluge.details.PeersTab</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

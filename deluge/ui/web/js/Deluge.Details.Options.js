@@ -57,6 +57,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		
 		this.fieldsets = {}, this.fields = {};
 		this.optionsManager = new Deluge.OptionsManager();
+		this.optionsManager.on('changed', this.onOptionChanged, this);
 		
 		/*
 		 * Bandwidth Options
@@ -260,8 +261,9 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'uxspinner',
 			id: 'stop_ratio',
 			name: 'stop_ratio',
+			disabled: true,
 			width: 50,
-			value: -1,
+			value: 2.0,
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
 				maxValue: 99999,
@@ -285,6 +287,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			id: 'remove_at_ratio',
 			bodyStyle: 'padding-left: 10px',
 			boxLabel: _('Remove at ratio'),
+			disabled: true,
 			listeners: {
 				'check': {
 					fn: this.onFieldChange,
@@ -464,12 +467,21 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onFieldChange: function(field) {
-		if (field.getValue() != this.optionsManager.getDefault(this.torrentId, field.id)) {
-			this.optionsManager.setOption(this.torrentId, field.id, field.getValue());
+		this.optionsManager.setOption(this.torrentId, field.id, field.getValue());
+	},
+	
+	onOptionChanged: function(id, key, newValue, oldValue) {
+		//alert(String.format('Key: {0}\nValue: {1}\nOld Value: {2}', key, newValue, oldValue));
+		if (key == 'stop_at_ratio') {
+			this.fields.remove_at_ratio.setDisabled(!newValue);
+			this.fields.stop_ratio.setDisabled(!newValue);
 		}
 	},
 	
 	onRequestComplete: function(torrent, options) {
+		this.fields['private'].setDisabled(!torrent['private']);
+		delete torrent['private'];
+		
 		this.optionsManager.updateOptions(this.torrentId, torrent);
 		for (var key in torrent) {
 			if (this.fields[key] && !this.optionsManager.hasChanged(this.torrentId, key)) {
