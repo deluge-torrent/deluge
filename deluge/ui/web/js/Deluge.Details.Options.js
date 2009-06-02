@@ -72,7 +72,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			
 			style: 'margin-left: 10px; margin-right: 5px; padding: 5px',
 			title: _('Bandwidth'),
-			width: 300
+			width: 250
 		});
 		
 		/*
@@ -87,12 +87,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.max_download_speed = this.fieldsets.bandwidth.add({
 			id: 'max_download_speed',
 			name: 'max_download_speed',
-			width: 100,
-			value: -1,
+			width: 70,
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
-				maxValue: 99999,
-				incrementValue: 1
+				maxValue: 99999
 			}),
 			listeners: {
 				'spin': {
@@ -123,7 +121,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.max_upload_speed = this.fieldsets.bandwidth.add({
 			id: 'max_upload_speed',
 			name: 'max_upload_speed',
-			width: 100,
+			width: 70,
 			value: -1,
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
@@ -159,7 +157,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.max_connections = this.fieldsets.bandwidth.add({
 			id: 'max_connections',
 			name: 'max_connections',
-			width: 100,
+			width: 70,
 			value: -1,
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
@@ -175,9 +173,9 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 					fn: this.onFieldChange,
 					scope: this
 				}
-			}
+			},
+			colspan: 2
 		});
-		this.fieldsets.bandwidth.add({xtype: 'label'});
 		
 		/*
 		 * Max Upload Slots
@@ -191,7 +189,78 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.max_upload_slots = this.fieldsets.bandwidth.add({
 			id: 'max_upload_slots',
 			name: 'max_upload_slots',
-			width: 100,
+			width: 70,
+			value: -1,
+			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+				minValue: -1,
+				maxValue: 99999,
+				incrementValue: 1
+			}),
+			listeners: {
+				'spin': {
+					fn: this.onFieldChange,
+					scope: this
+				},
+				'keypress': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			},
+			colspan: 2
+		});
+
+		/*
+		 * Queue Options
+		 */
+		this.fieldsets.queue = this.add({
+			xtype: 'fieldset',
+			title: _('Queue'),
+			style: 'margin-left: 5px; margin-right: 5px; padding: 5px',
+			width: 210,
+			
+			layout: 'table',
+			layoutConfig: {columns: 2},
+			labelWidth: 0,
+			
+			defaults: {
+				fieldLabel: '',
+				labelSeparator: ''
+			}
+		});
+		
+		this.fields.is_auto_managed = this.fieldsets.queue.add({
+			fieldLabel: '',
+			labelSeparator: '',
+			id: 'is_auto_managed',
+			boxLabel: _('Auto Managed'),
+			width: 200,
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			},
+			colspan: 2
+		});
+		
+		this.fields.stop_at_ratio = this.fieldsets.queue.add({
+			fieldLabel: '',
+			labelSeparator: '',
+			id: 'stop_at_ratio',
+			width: 110,
+			boxLabel: _('Stop seed at ratio'),
+			listeners: {
+				'check': {
+					fn: this.onFieldChange,
+					scope: this
+				}
+			}
+		});
+		this.fields.stop_ratio = this.fieldsets.queue.add({
+			xtype: 'uxspinner',
+			id: 'stop_ratio',
+			name: 'stop_ratio',
+			width: 50,
 			value: -1,
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
@@ -209,59 +278,20 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				}
 			}
 		});
-
-		/*
-		 * Queue Options
-		 */
-		this.fieldsets.queue = this.add({
-			xtype: 'fieldset',
-			title: _('Queue'),
-			style: 'margin-left: 5px; margin-right: 5px; padding: 5px',
-			width: 200,
-			defaults: {
-				fieldLabel: '',
-				labelSeparator: ''
-			}
-		});
-		
-		this.fields.is_auto_managed = this.fieldsets.queue.add({
-			fieldLabel: '',
-			labelSeparator: '',
-			id: 'is_auto_managed',
-			boxLabel: _('Auto Managed'),
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			}
-		});
-		
-		this.fields.stop_at_ratio = this.fieldsets.queue.add({
-			fieldLabel: '',
-			labelSeparator: '',
-			id: 'stop_at_ratio',
-			boxLabel: _('Stop seed at ratio'),
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			}
-		});
 		
 		this.fields.remove_at_ratio = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'remove_at_ratio',
-			style: 'margin-left: 10px',
+			bodyStyle: 'padding-left: 10px',
 			boxLabel: _('Remove at ratio'),
 			listeners: {
 				'check': {
 					fn: this.onFieldChange,
 					scope: this
 				}
-			}
+			},
+			colspan: 2
 		});
 		
 		this.fields.move_completed = this.fieldsets.queue.add({
@@ -274,7 +304,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 					fn: this.onFieldChange,
 					scope: this
 				}
-			}
+			},
+			colspan: 2
 		});
 		
 		
@@ -442,7 +473,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.optionsManager.updateOptions(this.torrentId, torrent);
 		for (var key in torrent) {
 			if (this.fields[key] && !this.optionsManager.hasChanged(this.torrentId, key)) {
-				this.fields[key].setValue(torrent[key])
+				if (!this.fields[key].disabled) this.fields[key].setValue(torrent[key]);
 			}
 		}
 	}

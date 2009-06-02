@@ -63,9 +63,7 @@ Copyright:
 		update: function(tab) {
 			var torrent = Deluge.Torrents.getSelected();
 			if (!torrent) {
-				/*this.items.each(function(tab) {
-					tab.disable();
-				});*/
+				this.clear();
 				return;
 			}
 			
