@@ -69,7 +69,6 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		for (var k in this.fields) {
 			this.fields[k].innerHTML = '';
 		}
-		this.disable();
 	},
 	
 	update: function(torrentId) {

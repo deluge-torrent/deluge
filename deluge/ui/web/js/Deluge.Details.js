@@ -39,6 +39,7 @@ Copyright:
 		constructor: function(config) {
 			config = Ext.apply({
 				region: 'south',
+				id: 'torrentDetails',
 				split: true,
 				height: 220,
 				minSize: 100,
@@ -51,7 +52,10 @@ Copyright:
 		
 		clear: function() {
 			this.items.each(function(panel) {
-				if (panel.clear) panel.clear();
+				if (panel.clear) {
+					panel.clear.defer(100, panel);
+					panel.disable();
+				}
 			});
 		},
 		
@@ -59,9 +63,9 @@ Copyright:
 		update: function(tab) {
 			var torrent = Deluge.Torrents.getSelected();
 			if (!torrent) {
-				this.items.each(function(tab) {
+				/*this.items.each(function(tab) {
 					tab.disable();
-				});
+				});*/
 				return;
 			}
 			

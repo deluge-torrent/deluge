@@ -34,7 +34,7 @@ Copyright:
 
 Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	title: _('Details'),
-	cls: 'x-deluge-status',
+	bodyStyle: 'padding 5px',
 	
 	onRender: function(ct, position) {
 		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
@@ -42,6 +42,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 			url: '/render/tab_details.html',
 			text: _('Loading') + '...'
 		});
+		this.body.setStyle('padding', '5px');
 		this.getUpdater().on('update', this.onPanelUpdate, this);
 	},
 	

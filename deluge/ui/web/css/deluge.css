@@ -46,29 +46,30 @@ input {
 
 
 /* Torrent Details */
+#torrentDetails dl {
+	float: left;
+	min-height: 120px;
+}
+
+#torrentDetails dl dt {
+	float: left;
+	font-weight: bold;
+	height: 19px;
+}
+
+#torrentDetails dl dd {
+	margin-left: 100px;
+	width: 140px;
+	height: 19px;
+}
+
+/* Torrent Details - Status Tab */
 .x-deluge-status-progressbar {
     margin: 5px;
 }
 
 .x-deluge-status {
 	margin: 10px;
-}
-
-.x-deluge-status dl {
-	float: left;
-	min-height: 120px;
-}
-
-.x-deluge-status dl dt {
-	float: left;
-	font-weight: bold;
-	height: 19px;
-}
-
-.x-deluge-status dl dd {
-	margin-left: 100px;
-	width: 140px;
-	height: 19px;
 }
 
 .x-deluge-status dd.downloaded,
@@ -94,11 +95,12 @@ input {
 	width: 100px;
 }
 
-.x-deluge-status form br {
-	clear: left;
-}
-
-.x-deluge-status dd.torrent_name, .x-deluge-status dd.status, .x-deluge-status dd.tracker, .x-deluge-status dd.path, .x-deluge-status dd.comment {
+/* Torrent Details - Details Tab */
+#torrentDetails dd.torrent_name,
+#torrentDetails dd.status,
+#torrentDetails dd.tracker,
+#torrentDetails dd.path,
+#torrentDetails dd.comment {
 	width: auto;
 }
 
