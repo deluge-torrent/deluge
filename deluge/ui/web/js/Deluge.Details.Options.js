@@ -471,7 +471,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onOptionChanged: function(id, key, newValue, oldValue) {
-		//alert(String.format('Key: {0}\nValue: {1}\nOld Value: {2}', key, newValue, oldValue));
 		if (key == 'stop_at_ratio') {
 			this.fields.remove_at_ratio.setDisabled(!newValue);
 			this.fields.stop_ratio.setDisabled(!newValue);
