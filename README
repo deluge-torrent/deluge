@@ -48,6 +48,7 @@ Dependencies:
     setuptools
     gettext
     pyxdg
+    geoip-database (optional)
 
   Gtk:
     python-notify (libnotify python wrapper)

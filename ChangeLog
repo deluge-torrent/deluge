@@ -3,6 +3,7 @@
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
   * Move to a twisted framework
   * Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
+  * Use system GeoIP database if available, this is now an optional dependency
 
 ==== GtkUI ====
   * Remove SignalReceiver
@@ -28,6 +29,7 @@
 ==== Misc ====
   * PyGTK dependency bumped to => 2.12 to use new tooltip system
   * Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
+  * Remove GeoIP database from the source tree
 
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
