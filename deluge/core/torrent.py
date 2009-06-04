@@ -189,9 +189,12 @@ class Torrent:
             self.trackers = []
             # Create a list of trackers
             for value in self.handle.trackers():
-                tracker = {}
-                tracker["url"] = value.url
-                tracker["tier"] = value.tier
+                if lt.version_minor < 15:
+                    tracker = {}
+                    tracker["url"] = value.url
+                    tracker["tier"] = value.tier
+                else:
+                    tracker = value
                 self.trackers.append(tracker)
 
         # Various torrent options
@@ -336,26 +339,32 @@ class Torrent:
         if trackers == None:
             trackers = []
             for value in self.handle.trackers():
-                tracker = {}
-                tracker["url"] = value.url
-                tracker["tier"] = value.tier
+                if lt.version_minor < 15:
+                    tracker = {}
+                    tracker["url"] = value.url
+                    tracker["tier"] = value.tier
+                else:
+                    tracker = value
                 trackers.append(tracker)
+
             self.trackers = trackers
             return
 
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
-        for tracker in trackers:
-            new_entry = lt.announce_entry(tracker["url"])
-            new_entry.tier = tracker["tier"]
-            tracker_list.append(new_entry)
-
-        self.handle.replace_trackers(tracker_list)
+        if lt.version_minor < 15:
+            for tracker in trackers:
+                new_entry = lt.announce_entry(tracker["url"])
+                new_entry.tier = tracker["tier"]
+                tracker_list.append(new_entry)
+            self.handle.replace_trackers(tracker_list)
+        else:
+            self.handle.replace_trackers(trackers)
 
         # Print out the trackers
-        for t in self.handle.trackers():
-            log.debug("tier: %s tracker: %s", t.tier, t.url)
+        #for t in self.handle.trackers():
+        #    log.debug("tier: %s tracker: %s", t.tier, t.url)
         # Set the tracker list in the torrent object
         self.trackers = trackers
         if len(trackers) > 0:

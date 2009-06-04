@@ -53,6 +53,7 @@ LT_TORRENT_STATE = {
     "Finished": 4,
     "Seeding": 5,
     "Allocating": 6,
+    "Checking Resume Data": 7,
     0: "Queued",
     1: "Checking",
     2: "Downloading Metadata",
@@ -60,6 +61,7 @@ LT_TORRENT_STATE = {
     4: "Finished",
     5: "Seeding",
     6: "Allocating",
+    7: "Checking Resume Data"
 }
 
 TORRENT_STATE = [
