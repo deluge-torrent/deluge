@@ -288,10 +288,11 @@ class CreateTorrentDialog:
                 piece_length,
                 comment,
                 result,
-                trackers,
+                None,
                 private,
                 author,
                 webseeds,
+                trackers,
                 add_to_session)
 
         else:
@@ -312,13 +313,14 @@ class CreateTorrentDialog:
                     private,
                     author,
                     webseeds,
+                    trackers,
                     add_to_session)).start()
 
         chooser.destroy()
         self.dialog.destroy()
 
     def create_torrent(self, path, tracker, piece_length, progress, comment, target,
-                        url_list, private, created_by, httpseeds, add_to_session):
+                        url_list, private, created_by, httpseeds, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -330,7 +332,8 @@ class CreateTorrentDialog:
             url_list=url_list,
             private=private,
             created_by=created_by,
-            httpseeds=httpseeds)
+            httpseeds=httpseeds,
+            trackers=trackers)
         self.glade.get_widget("progress_dialog").hide_all()
         if add_to_session:
             client.core.add_torrent_file(

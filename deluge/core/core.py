@@ -95,16 +95,6 @@ class Core(component.Component):
         # Load the session state if available
         self.__load_session_state()
 
-        # Load the GeoIP DB for country look-ups if available
-        geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
-        if os.path.exists(geoip_db):
-            try:
-                self.session.load_country_db(geoip_db)
-            except Exception, e:
-                log.error("Unable to load geoip database!")
-                log.exception(e)
-
-
         # Set the user agent
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
@@ -140,6 +130,22 @@ class Core(component.Component):
 
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
+
+        # Load the GeoIP DB for country look-ups if available
+        geoip_db = ""
+        if os.path.exists(self.config["geoip_db_location"]):
+            geoip_db = self.config["geoip_db_location"]
+        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
+            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        else:
+            log.warning("Unable to find GeoIP database file!")
+
+        if geoip_db:
+            try:
+                self.session.load_country_db(geoip_db)
+            except Exception, e:
+                log.error("Unable to load geoip database!")
+                log.exception(e)
 
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
@@ -626,7 +632,7 @@ class Core(component.Component):
 
     @export
     def create_torrent(self, path, tracker, piece_length, comment, target,
-                        url_list, private, created_by, httpseeds, add_to_session):
+                        url_list, private, created_by, httpseeds, trackers, add_to_session):
 
         log.debug("creating torrent..")
         threading.Thread(target=_create_torrent_thread,
@@ -640,10 +646,11 @@ class Core(component.Component):
                 private,
                 created_by,
                 httpseeds,
+                trackers,
                 add_to_session)).start()
 
     def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
-                    url_list, private, created_by, httpseeds, add_to_session):
+                    url_list, private, created_by, httpseeds, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -654,7 +661,8 @@ class Core(component.Component):
             url_list=url_list,
             private=private,
             created_by=created_by,
-            httpseeds=httpseeds)
+            httpseeds=httpseeds,
+            trackers=trackers)
         log.debug("torrent created!")
         if add_to_session:
             self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), None)

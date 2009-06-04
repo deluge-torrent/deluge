@@ -58,7 +58,7 @@ def dummy(v):
 def make_meta_file(path, url, piece_length, progress=dummy,
                    title=None, comment=None, safe=None, content_type=None,
                    target=None, url_list=None, name=None, private=False,
-                   created_by=None, httpseeds=None):
+                   created_by=None, httpseeds=None, trackers=None):
     data = {'creation date': int(gmtime())}
     if url:
         data['announce'] = url.strip()
@@ -88,6 +88,8 @@ def make_meta_file(path, url, piece_length, progress=dummy,
         data['created by'] = created_by
     if httpseeds:
         data['httpseeds'] = httpseeds
+    if trackers:
+        data['announce-list'] = trackers
 
     h.write(bencode(data))
     h.close()

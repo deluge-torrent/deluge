@@ -142,7 +142,8 @@ DEFAULT_PREFS = {
     "outgoing_ports": [0, 0],
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
-    "rate_limit_ip_overhead": True
+    "rate_limit_ip_overhead": True,
+    "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat"
 }
 
 class PreferencesManager(component.Component):
