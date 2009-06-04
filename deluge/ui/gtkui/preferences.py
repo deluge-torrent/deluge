@@ -235,6 +235,7 @@ class Preferences(component.Component):
                 "chk_lsd": ("active", self.core_config["lsd"]),
                 "chk_new_releases": ("active", self.core_config["new_release_check"]),
                 "chk_send_info": ("active", self.core_config["send_info"]),
+                "entry_geoip": ("text", self.core_config["geoip_db_location"]),
                 "combo_encin": ("active", self.core_config["enc_in_policy"]),
                 "combo_encout": ("active", self.core_config["enc_out_policy"]),
                 "combo_enclevel": ("active", self.core_config["enc_level"]),
@@ -376,6 +377,7 @@ class Preferences(component.Component):
                 "chk_lsd",
                 "chk_send_info",
                 "chk_new_releases",
+                "entry_geoip",
                 "combo_encin",
                 "combo_encout",
                 "combo_enclevel",
@@ -667,6 +669,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_show_new_releases").get_active()
         new_core_config["send_info"] = \
             self.glade.get_widget("chk_send_info").get_active()
+        new_core_config["geoip_db_location"] = \
+            self.glade.get_widget("entry_geoip").get_text()
 
         ## Daemon tab ##
         new_core_config["daemon_port"] = \

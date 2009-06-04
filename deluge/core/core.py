@@ -131,22 +131,6 @@ class Core(component.Component):
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
 
-        # Load the GeoIP DB for country look-ups if available
-        geoip_db = ""
-        if os.path.exists(self.config["geoip_db_location"]):
-            geoip_db = self.config["geoip_db_location"]
-        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
-        else:
-            log.warning("Unable to find GeoIP database file!")
-
-        if geoip_db:
-            try:
-                self.session.load_country_db(geoip_db)
-            except Exception, e:
-                log.error("Unable to load geoip database!")
-                log.exception(e)
-
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
         self.__old_interface = None

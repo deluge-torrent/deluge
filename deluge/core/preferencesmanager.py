@@ -36,6 +36,7 @@
 
 import os.path
 import threading
+import pkg_resources
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
@@ -224,6 +225,8 @@ class PreferencesManager(component.Component):
             self._on_new_release_check)
         self.config.register_set_function("rate_limit_ip_overhead",
             self._on_rate_limit_ip_overhead)
+        self.config.register_set_function("geoip_db_location",
+            self._on_geoip_db_location)
 
         self.config.register_change_callback(self._on_config_value_change)
 
@@ -495,3 +498,21 @@ class PreferencesManager(component.Component):
         log.debug("%s: %s", key, value)
         self.settings.rate_limit_ip_overhead = value
         self.session.set_settings(self.settings)
+
+    def _on_geoip_db_location(self, key, value):
+        log.debug("%s: %s", key, value)
+        # Load the GeoIP DB for country look-ups if available
+        geoip_db = ""
+        if os.path.exists(value):
+            geoip_db = value
+        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
+            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        else:
+            log.warning("Unable to find GeoIP database file!")
+
+        if geoip_db:
+            try:
+                self.session.load_country_db(geoip_db)
+            except Exception, e:
+                log.error("Unable to load geoip database!")
+                log.exception(e)
