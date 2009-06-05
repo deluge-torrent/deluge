@@ -96,9 +96,22 @@ class Core(CorePluginBase):
         except:
             pass
 
+        self.__apply_set_functions()
+
     def update(self):
         pass
 
+
+    def __apply_set_functions(self):
+        """
+        Have the core apply it's bandwidth settings as specified in core.conf.
+        """
+        core_config = deluge.configmanager.ConfigManager("core.conf")
+        core_config.apply_set_functions("max_download_speed")
+        core_config.apply_set_functions("max_upload_speed")
+        core_config.apply_set_functions("max_active_limit")
+        # Resume the session if necessary
+        component.get("Core").session.resume()
 
     def do_schedule(self, timer=True):
         """
@@ -110,12 +123,7 @@ class Core(CorePluginBase):
         if state == "Green":
             # This is Green (Normal) so we just make sure we've applied the
             # global defaults
-            core_config = deluge.configmanager.ConfigManager("core.conf")
-            core_config.apply_set_functions("max_download_speed")
-            core_config.apply_set_functions("max_upload_speed")
-            core_config.apply_set_functions("max_active_limit")
-            # Resume the session if necessary
-            component.get("Core").session.resume()
+            self.__apply_set_functions()
         elif state == "Yellow":
             # This is Yellow (Slow), so use the settings provided from the user
             session = component.get("Core").session
