@@ -400,7 +400,7 @@ Ext.extend(Ext.ux.form.Spinner.NumberStrategy, Ext.ux.form.Spinner.Strategy, {
         if(!this.allowDecimals || this.decimalPrecision == -1 || nan || !value){
             return nan ? '' : value;
         }
-        return parseFloat(parseFloat(value).toFixed(this.decimalPrecision));
+        return value.toFixed(this.decimalPrecision);
     }
 });
 

@@ -89,10 +89,12 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			id: 'max_download_speed',
 			name: 'max_download_speed',
 			width: 70,
-			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 1,
 				minValue: -1,
 				maxValue: 99999
-			}),
+			},
 			listeners: {
 				'spin': {
 					fn: this.onFieldChange,
@@ -124,11 +126,12 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			name: 'max_upload_speed',
 			width: 70,
 			value: -1,
-			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 1,
 				minValue: -1,
-				maxValue: 99999,
-				incrementValue: 1
-			}),
+				maxValue: 99999
+			},
 			listeners: {
 				'spin': {
 					fn: this.onFieldChange,
@@ -160,11 +163,12 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			name: 'max_connections',
 			width: 70,
 			value: -1,
-			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 0,
 				minValue: -1,
-				maxValue: 99999,
-				incrementValue: 1
-			}),
+				maxValue: 99999
+			},
 			listeners: {
 				'spin': {
 					fn: this.onFieldChange,
@@ -192,11 +196,12 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			name: 'max_upload_slots',
 			width: 70,
 			value: -1,
-			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 0,
 				minValue: -1,
-				maxValue: 99999,
-				incrementValue: 1
-			}),
+				maxValue: 99999
+			},
 			listeners: {
 				'spin': {
 					fn: this.onFieldChange,
@@ -264,12 +269,14 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			disabled: true,
 			width: 50,
 			value: 2.0,
-			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
+			strategy: {
+				xtype: 'number',
 				minValue: -1,
 				maxValue: 99999,
-				incrementValue: 1,
+				incrementValue: 0.1,
+				alternateIncrementValue: 1,
 				decimalPrecision: 1
-			}),
+			},
 			listeners: {
 				'spin': {
 					fn: this.onFieldChange,
