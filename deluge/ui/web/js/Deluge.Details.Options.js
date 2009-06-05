@@ -267,7 +267,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			stragegy: new Ext.ux.form.Spinner.NumberStrategy({
 				minValue: -1,
 				maxValue: 99999,
-				incrementValue: 1
+				incrementValue: 1,
+				decimalPrecision: 1
 			}),
 			listeners: {
 				'spin': {

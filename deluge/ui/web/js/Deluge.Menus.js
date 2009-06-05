@@ -239,12 +239,12 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 		icon: '/icons/recheck.png',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
-	}, {
+	/*}, {
 		id: 'move',
 		text: _('Move Storage'),
 		icon: '/icons/move.png',
 		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		scope: Deluge.Menus*/
 	}]
 });
 
