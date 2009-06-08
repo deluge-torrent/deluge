@@ -1,5 +1,9 @@
 === Deluge 1.1.9 - (In Development) ===
+==== GtkUI ====
   * Fix #950 renaming a parent folder into multiple folders
+
+==== WebUI ====
+  * Fix remote torrent add
 
 === Deluge 1.1.8 - (21 May 2009) ===
 ==== Core ====

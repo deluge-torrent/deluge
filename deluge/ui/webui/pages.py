@@ -379,12 +379,12 @@ class remote_torrent_add:
             return 'error:wrong password'
 
         if vars.data_b64: #b64 post (greasemonkey)
-            data_b64 = unicode(vars.data_b64)
+            data_b64 = base64.decodestring(unicode(vars.data_b64))
             torrent_name = vars.torrent_name
         else:  #file-post (curl)
             data_b64 = base64.b64encode(vars.torrent.file.read())
             torrent_name = vars.torrent.filename
-        proxy.add_torrent_filecontent(torrent_name, data_b64)
+        proxy.add_torrent_file_binary(torrent_name, data_b64)
         return 'ok'
 route("/remote/torrent/add(.*)", remote_torrent_add)
 
