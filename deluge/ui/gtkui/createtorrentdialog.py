@@ -258,11 +258,22 @@ class CreateTorrentDialog:
         # Get the path
         path = self.files_treestore[0][0]
         # Get a list of trackers
-        trackers = [t[1] for t in self.trackers_liststore]
-        if len(trackers) == 0:
+        trackers = []
+        if not len(self.trackers_liststore):
             tracker = None
         else:
-            tracker = trackers[0]
+            # Create a list of lists [[tier0, ...], [tier1, ...], ...]
+            for tier, tracker in self.trackers_liststore:
+                try:
+                    tier_list = trackers[tier]
+                except IndexError:
+                    trackers.insert(tier, [])
+
+                trackers[tier].append(tracker)
+
+            # Get the first tracker in the first tier
+            tracker = trackers[0][0]
+
         # Get a list of webseeds
         webseeds = []
         b = self.glade.get_widget("textview_webseeds").get_buffer()
@@ -288,10 +299,9 @@ class CreateTorrentDialog:
                 piece_length,
                 comment,
                 result,
-                None,
+                webseeds,
                 private,
                 author,
-                webseeds,
                 trackers,
                 add_to_session)
 
@@ -309,10 +319,9 @@ class CreateTorrentDialog:
                     self._on_create_torrent_progress,
                     comment,
                     result,
-                    trackers,
+                    webseeds,
                     private,
                     author,
-                    webseeds,
                     trackers,
                     add_to_session)).start()
 
@@ -320,7 +329,7 @@ class CreateTorrentDialog:
         self.dialog.destroy()
 
     def create_torrent(self, path, tracker, piece_length, progress, comment, target,
-                        url_list, private, created_by, httpseeds, trackers, add_to_session):
+                        webseeds, private, created_by, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -329,17 +338,16 @@ class CreateTorrentDialog:
             progress=progress,
             comment=comment,
             target=target,
-            url_list=url_list,
+            webseeds=webseeds,
             private=private,
             created_by=created_by,
-            httpseeds=httpseeds,
             trackers=trackers)
         self.glade.get_widget("progress_dialog").hide_all()
         if add_to_session:
             client.core.add_torrent_file(
                 os.path.split(target)[-1],
                 base64.encodestring(open(target).read()),
-                None)
+                {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)

@@ -57,8 +57,8 @@ def dummy(v):
 
 def make_meta_file(path, url, piece_length, progress=dummy,
                    title=None, comment=None, safe=None, content_type=None,
-                   target=None, url_list=None, name=None, private=False,
-                   created_by=None, httpseeds=None, trackers=None):
+                   target=None, webseeds=None, name=None, private=False,
+                   created_by=None, trackers=None):
     data = {'creation date': int(gmtime())}
     if url:
         data['announce'] = url.strip()
@@ -77,19 +77,33 @@ def make_meta_file(path, url, piece_length, progress=dummy,
 
     data['info'] = info
     if title:
-        data['title'] = title
+        data['title'] = title.encode("utf8")
     if comment:
-        data['comment'] = comment
+        data['comment'] = comment.encode("utf8")
     if safe:
-        data['safe'] = safe
+        data['safe'] = safe.encode("utf8")
+
+    httpseeds = []
+    url_list = []
+
+    if webseeds:
+        for webseed in webseeds:
+            if webseed.endswith(".php"):
+                httpseeds.append(webseed)
+            else:
+                url_list.append(webseed)
+
     if url_list:
         data['url-list'] = url_list
-    if created_by:
-        data['created by'] = created_by
     if httpseeds:
         data['httpseeds'] = httpseeds
+    if created_by:
+        data['created by'] = created_by.encode("utf8")
+
     if trackers:
         data['announce-list'] = trackers
+
+    data["encoding"] = "UTF-8"
 
     h.write(bencode(data))
     h.close()

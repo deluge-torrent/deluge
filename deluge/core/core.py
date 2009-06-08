@@ -616,7 +616,7 @@ class Core(component.Component):
 
     @export
     def create_torrent(self, path, tracker, piece_length, comment, target,
-                        url_list, private, created_by, httpseeds, trackers, add_to_session):
+                        webseeds, private, created_by, trackers, add_to_session):
 
         log.debug("creating torrent..")
         threading.Thread(target=_create_torrent_thread,
@@ -626,15 +626,14 @@ class Core(component.Component):
                 piece_length,
                 comment,
                 target,
-                url_list,
+                webseeds,
                 private,
                 created_by,
-                httpseeds,
                 trackers,
                 add_to_session)).start()
 
     def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
-                    url_list, private, created_by, httpseeds, trackers, add_to_session):
+                    webseeds, private, created_by, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -642,10 +641,9 @@ class Core(component.Component):
             piece_length,
             comment=comment,
             target=target,
-            url_list=url_list,
+            webseeds=webseeds,
             private=private,
             created_by=created_by,
-            httpseeds=httpseeds,
             trackers=trackers)
         log.debug("torrent created!")
         if add_to_session:
