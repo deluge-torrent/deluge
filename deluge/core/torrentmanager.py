@@ -647,7 +647,10 @@ class TorrentManager(component.Component):
                 move_path = torrent.options["move_completed_path"]
             elif self.config["move_completed"]:
                 move_path = self.config["move_completed_path"]
-            if move_path:
+            # Get the total_download and if it's 0, do not move.. It's likely
+            # that the torrent wasn't downloaded, but just added.
+            total_download = torrent.get_status(["total_payload_download"])["total_payload_download"]
+            if move_path and total_download:
                 if torrent.options["download_location"] != move_path:
                     torrent.move_storage(move_path)
             torrent.is_finished = True

@@ -1,4 +1,7 @@
 === Deluge 1.1.9 - (In Development) ===
+==== Core ====
+  * Only move a torrent due to 'move on complete' when some data has been downloaded
+
 ==== GtkUI ====
   * Fix #950 renaming a parent folder into multiple folders
 
