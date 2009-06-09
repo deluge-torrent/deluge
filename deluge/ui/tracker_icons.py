@@ -175,6 +175,9 @@ class TrackerIcons(component.Component):
         """
         returns None if the icon is not fetched(yet) or not fond.
         """
+        if not tracker_host:
+            return None
+
         if tracker_host in self.images:
             return self.images[tracker_host]
         else:
