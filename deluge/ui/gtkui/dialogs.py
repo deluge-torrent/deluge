@@ -33,7 +33,11 @@
 #
 
 import gtk
+
+from twisted.internet import defer
+
 import deluge.component as component
+
 
 class BaseDialog(gtk.Dialog):
     """
@@ -53,6 +57,9 @@ class BaseDialog(gtk.Dialog):
             parent=parent if parent else component.get("MainWindow").window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
+
+        self.connect("delete-event", self._on_delete_event)
+        self.connect("response", self._on_response)
 
         # Setup all the formatting and such to make our dialog look pretty
         self.set_border_width(5)
@@ -78,11 +85,22 @@ class BaseDialog(gtk.Dialog):
         self.vbox.set_spacing(5)
         self.vbox.show_all()
 
-    def run(self):
-        # Destroy the dialog once we get a response and return it
-        response = super(BaseDialog, self).run()
+    def _on_delete_event(self, widget, event):
+        self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
         self.destroy()
-        return response
+
+    def _on_response(self, widget, response):
+        self.deferred.callback(response)
+        self.destroy()
+
+    def run(self):
+        """
+        Shows the dialog and returns a Deferred object.  The deferred, when fired
+        will contain the response ID.
+        """
+        self.deferred = defer.Deferred()
+        self.show()
+        return self.deferred
 
 class YesNoDialog(BaseDialog):
     """
