@@ -36,14 +36,26 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+import pkg_resources
+
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
+from common import get_resource
+
 class WebUI(WebPluginBase):
     def enable(self):
-        pass
+        deluge_web = component.get("DelugeWeb").top_level
+        deluge_web.add_script("/js/scheduler.js")
+        
+        javascript = component.get("Javascript").directories
+        javascript.append(get_resource(""))
 
-    def disable(self):
-        pass
+    def disable(self):        
+        deluge_web = component.get("DelugeWeb").top_level
+        deluge_web.remove_script("/js/scheduler.js")
+        
+        javascript = component.get("Javascript").directories
+        javascript.remove(get_resource(""))
