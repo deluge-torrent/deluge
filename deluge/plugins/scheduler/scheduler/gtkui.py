@@ -170,6 +170,10 @@ class GtkUI(GtkPluginBase):
 
     def disable(self):
         component.get("Preferences").remove_page("Scheduler")
+        # Remove status item
+        component.get("StatusBar").remove_item(self.status_item)
+        del self.status_item
+
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
 
