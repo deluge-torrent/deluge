@@ -199,7 +199,7 @@ class GtkUI(GtkPluginBase):
 
     def on_scheduler_event(self, state):
         def on_state_deferred(s):
-           self.status_item.set_image_from_file(get_resource(state.lower() + ".png"))
+            self.status_item.set_image_from_file(get_resource(state.lower() + ".png"))
 
         self.state_deferred.addCallback(on_state_deferred)
 
