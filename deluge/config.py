@@ -102,7 +102,7 @@ class Config(object):
     def __init__(self, filename, defaults=None, config_dir=None):
         self.__config = {}
         self.__set_functions = {}
-        self.__change_callback = None
+        self.__change_callbacks = []
 
         # These hold the version numbers and they will be set when loaded
         self.__format_version = None
@@ -177,7 +177,10 @@ class Config(object):
         except KeyError:
             pass
         try:
-            reactor.callLater(0, self.__change_callback, key, value)
+            def do_change_callbacks(key, value):
+                for func in self.__change_callbacks:
+                    func(key, value)
+            reactor.callLater(0, do_change_callbacks, key, value)
         except:
             pass
 
@@ -225,7 +228,7 @@ class Config(object):
         >>> config.register_change_callback(cb)
 
         """
-        self.__change_callback = callback
+        self.__change_callbacks.append(callback)
 
     def register_set_function(self, key, function, apply_now=True):
         """
@@ -246,10 +249,14 @@ class Config(object):
 
         """
         log.debug("Registering function for %s key..", key)
-        self.__set_functions[key] = function
+        if key not in self.__set_functions:
+            self.__set_functions[key] = []
+
+        self.__set_functions[key].append(function)
+
         # Run the function now if apply_now is set
         if apply_now:
-            self.__set_functions[key](key, self.__config[key])
+            function(key, self.__config[key])
         return
 
     def apply_all(self):
@@ -269,7 +276,8 @@ class Config(object):
         """
         log.debug("Calling all set functions..")
         for key, value in self.__set_functions.iteritems():
-            value(key, self.__config[key])
+            for func in value:
+                func(key, self.__config[key])
 
     def apply_set_functions(self, key):
         """
@@ -280,7 +288,8 @@ class Config(object):
         """
         log.debug("Calling set functions for key %s..", key)
         if key in self.__set_functions:
-            self.__set_functions[key](key, self.__config[key])
+            for func in self.__set_functions[key]:
+                func(key, self.__config[key])
 
     def load(self, filename=None):
         """
