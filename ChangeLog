@@ -14,6 +14,7 @@
   * Implement #259 show tooltip with country name in the peers tab
   * Add an error category to the tracker sidebar list
   * Add Find More Plugins button to Plugins preference page
+  * Fix #518 remove header in add torrent dialog to save vertical space
 
 ==== ConsoleUI ====
   * Changed to use curses for a more interactive client
