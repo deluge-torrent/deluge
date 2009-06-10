@@ -173,7 +173,8 @@ class Config(object):
         # Run the set_function for this key if any
         from twisted.internet import reactor
         try:
-            reactor.callLater(0, self.__set_functions[key], key, value)
+            for func in self.__set_functions[key]:
+                reactor.callLater(0, func, key, value)
         except KeyError:
             pass
         try:
