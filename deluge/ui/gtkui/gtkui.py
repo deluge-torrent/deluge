@@ -237,34 +237,42 @@ class GtkUI:
             try:
                 client.start_classic_mode()
             except deluge.error.DaemonRunningError:
-                response = dialogs.YesNoDialog(
+                d = dialogs.YesNoDialog(
                     _("Turn off Classic Mode?"),
                     _("It appears that a Deluge daemon process (deluged) is already running.\n\n\
 You will either need to stop the daemon or turn off Classic Mode to continue.")).run()
 
                 self.started_in_classic = False
-                if response != gtk.RESPONSE_YES:
-                    # The user does not want to turn Classic Mode off, so just quit
-                    reactor.stop()
-                    return
-                # Turning off classic_mode
-                self.config["classic_mode"] = False
+                def on_dialog_response(response):
+                    if response != gtk.RESPONSE_YES:
+                        # The user does not want to turn Classic Mode off, so just quit
+                        reactor.stop()
+                        return
+                    # Turning off classic_mode
+                    self.config["classic_mode"] = False
+                    self.__start_non_classic()
+
+                d.addCallback(on_dialog_response)
             else:
                 component.start()
                 return
 
-        # Autoconnect to a host
-        if self.config["autoconnect"]:
-            for host in self.connectionmanager.config["hosts"]:
-                if host[0] == self.config["autoconnect_host_id"]:
-                    def on_connect(connector):
-                        component.start()
-                    client.connect(*host[1:]).addCallback(on_connect)
+        else:
+            self.__start_non_classic()
 
-        if self.config["show_connection_manager_on_start"]:
-            # XXX: We need to call a simulate() here, but this could be a bug in twisted
-            reactor.simulate()
-            self.connectionmanager.show()
+    def __start_non_classic(self):
+            # Autoconnect to a host
+            if self.config["autoconnect"]:
+                for host in self.connectionmanager.config["hosts"]:
+                    if host[0] == self.config["autoconnect_host_id"]:
+                        def on_connect(connector):
+                            component.start()
+                        client.connect(*host[1:]).addCallback(on_connect)
+
+            if self.config["show_connection_manager_on_start"]:
+                # XXX: We need to call a simulate() here, but this could be a bug in twisted
+                reactor.simulate()
+                self.connectionmanager.show()
 
 
     def __on_disconnect(self):
