@@ -347,7 +347,7 @@ class Config(object):
         # We will only write a new config file if there is a difference
         try:
             data = open(filename, "rb")
-            data.seek(2)
+            data.seek(4)
             loaded_data = json.load(data)
             data.close()
             if self.__config == loaded_data:
