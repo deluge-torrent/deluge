@@ -591,11 +591,11 @@ class Core(component.Component):
         self.ip_filter.add_rule(range[0], range[1], 1)
 
         # Start a 2 second timer (and remove the previous one if it exists)
-        #if self.__set_ip_filter_timer:
-        #    self.__set_ip_filter_timer.stop()
+        if self.__set_ip_filter_timer:
+            self.__set_ip_filter_timer.stop()
 
-        #self.__set_ip_filter_timer = LoopingCall(self.session.set_ip_filter, self.ip_filter)
-        #self.__set_ip_filter_timer.start(2, False)
+        self.__set_ip_filter_timer = LoopingCall(self.session.set_ip_filter, self.ip_filter)
+        self.__set_ip_filter_timer.start(2, False)
 
     @export
     def reset_ip_filter(self):

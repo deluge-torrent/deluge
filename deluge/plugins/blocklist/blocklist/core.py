@@ -33,14 +33,14 @@
 #
 #
 
-
-import threading
 import urllib
 import os
 import datetime
-import gobject
 import time
 import shutil
+
+from twisted.internet.task import LoopingCall
+from twisted.internet import reactor
 
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
@@ -91,9 +91,8 @@ class Core(CorePluginBase):
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
-        self.update_timer = gobject.timeout_add(
-            self.config["check_after_days"] * 24 * 60 * 60 * 1000,
-            self.download_blocklist, True)
+        self.update_timer = LoopingCall(self.download_blocklist)
+        self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60)
 
     def disable(self):
         log.debug("Reset IP Filter..")
@@ -114,7 +113,7 @@ class Core(CorePluginBase):
     def import_list(self, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
-        threading.Thread(target=self.import_blocklist, kwargs={"force": force}).start()
+        reactor.callInThread(self.import_blocklist, force=force)
 
     @export()
     def get_config(self):
@@ -222,16 +221,10 @@ class Core(CorePluginBase):
             return
 
         self.is_downloading = True
-        threading.Thread(
-            target=self.download_blocklist_thread,
-            args=(self.on_download_blocklist, load)).start()
+        reactor.callInThread(self.download_blocklist_thread, self.on_download_blocklist, load)
 
     def download_blocklist_thread(self, callback, load):
         """Downloads the blocklist specified by 'url' in the config"""
-        def _call_callback(callback, load):
-            callback(load)
-            return False
-
         def on_retrieve_data(count, block_size, total_blocks):
             fp = float(count * block_size) / total_blocks
             if fp > 1.0:
@@ -256,7 +249,7 @@ class Core(CorePluginBase):
                 log.debug("Blocklist successfully downloaded..")
                 self.config["file_date"] = datetime.datetime.strptime(headers["last-modified"],"%a, %d %b %Y %H:%M:%S GMT").ctime()
                 self.config["file_size"] = long(headers["content-length"])
-                gobject.idle_add(_call_callback, callback, load)
+                reactor.callLater(0, callback, load)
                 return
 
     def need_new_blocklist(self):
