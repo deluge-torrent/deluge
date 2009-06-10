@@ -338,6 +338,29 @@ class TopLevel(resource.Resource):
     @property
     def stylesheets(self):
         return self.__stylesheets
+    
+    def add_script(self, script):
+        """
+        Adds a script to the server so it is included in the <head> element
+        of the index page.
+        
+        :param script: The path to the script
+        :type script: string
+        """
+        
+        self.__scripts.append(script)
+        self.__debug_scripts.append(script)
+    
+    def remove_script(self, script):
+        """
+        Removes a script from the server.
+        
+        :param script: The path to the script
+        :type script: string
+        """
+        self.__scripts.remove(script)
+        self.__debug_scripts.remove(script)
+        
 
     def getChild(self, path, request):
         if path == "":
