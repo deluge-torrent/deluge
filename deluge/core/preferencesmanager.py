@@ -512,7 +512,7 @@ class PreferencesManager(component.Component):
 
         if geoip_db:
             try:
-                self.session.load_country_db(geoip_db)
+                self.session.load_country_db(str(geoip_db))
             except Exception, e:
                 log.error("Unable to load geoip database!")
                 log.exception(e)
