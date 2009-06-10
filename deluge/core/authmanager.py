@@ -86,16 +86,22 @@ class AuthManager(component.Component):
 
         return 0
 
+    def __create_localclient_account(self):
+        """
+        Returns the string.
+        """
+        # We create a 'localclient' account with a random password
+        try:
+            from hashlib import sha1 as sha_hash
+        except ImportError:
+            from sha import new as sha_hash
+        return "localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN) + "\n"
+
     def __load_auth_file(self):
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
-            # We create a 'localclient' account with a random password
-            try:
-                from hashlib import sha1 as sha_hash
-            except ImportError:
-                from sha import new as sha_hash
-            open(auth_file, "w").write("localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN) + "\n")
+            open(auth_file, "w").write(self.__create_localclient_account())
             # Change the permissions on the file so only this user can read/write it
             os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
@@ -121,3 +127,7 @@ class AuthManager(component.Component):
                 continue
 
             self.__auth[username.strip()] = (password.strip(), level)
+
+        f.close()
+        if "localclient" not in self.__auth:
+            open(auth_file, "a").write(self.__create_localclient_account())
