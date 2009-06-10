@@ -51,7 +51,7 @@ DEFAULT_PREFS = {
     "low_down": -1.0,
     "low_up": -1.0,
     "low_active": -1,
-    "button_state": [[1] * 7 for dummy in xrange(24)]
+    "button_state": [[0] * 7 for dummy in xrange(24)]
 }
 
 STATES = {
