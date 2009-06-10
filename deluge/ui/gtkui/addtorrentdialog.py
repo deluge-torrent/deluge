@@ -51,6 +51,7 @@ from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common
 import deluge.ui.common
+import dialogs
 
 class AddTorrentDialog(component.Component):
     def __init__(self):
@@ -194,10 +195,12 @@ class AddTorrentDialog(component.Component):
                 info = deluge.ui.common.TorrentInfo(filename)
             except Exception, e:
                 log.debug("Unable to open torrent file: %s", e)
+                dialogs.ErrorDialog(_("Invalid File"), e, self.dialog).run()
                 continue
 
             if info.info_hash in self.files:
                 log.debug("Trying to add a duplicate torrent!")
+                dialogs.ErrorDialog(_("Duplicate Torrent"), _("You cannot add the same torrent twice."), self.dialog).run()
                 continue
 
             name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
@@ -465,8 +468,7 @@ class AddTorrentDialog(component.Component):
         # Check to see if we can change file priorities
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if self.options[model[row][0]]["compact_allocation"]:
-            import dialogs
-            dialogs.InformationDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation.")).run()
+            dialogs.InformationDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation."), self.dialog).run()
             return
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
@@ -582,20 +584,62 @@ class AddTorrentDialog(component.Component):
         else:
             url = None
 
+        entry.set_text("")
+        dialog.hide()
+
         # This is where we need to fetch the .torrent file from the URL and
         # add it to the list.
         log.debug("url: %s", url)
-        if url != None:
+        if url:
             if deluge.common.is_url(url):
                 self.add_from_url(url)
             elif deluge.common.is_magnet(url):
                 self.add_from_magnets([url])
-
-        entry.set_text("")
-        dialog.hide()
+            else:
+                dialogs.ErrorDialog(_("Invalid URL"), _("%s is not a valid URL." % url), self.dialog).run()
 
     def add_from_url(self, url):
-        gobject.idle_add(self._download_from_url, url)
+        dialog = gtk.Dialog(
+            _("Downloading.."),
+            flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
+            parent=self.dialog)
+        dialog.set_transient_for(self.dialog)
+
+        pb = gtk.ProgressBar()
+        dialog.vbox.pack_start(pb, True, True)
+        dialog.show_all()
+
+        # Create a tmp file path
+        import tempfile
+        import os.path
+        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
+
+        def on_part(data, current_length, total_length):
+            if total_length:
+                percent = float(current_length) / float(total_length)
+                pb.set_fraction(percent)
+                pb.set_text("%.2f%% (%s / %s)" % (
+                    percent * 100,
+                    deluge.common.fsize(current_length),
+                    deluge.common.fsize(total_length)))
+            else:
+                pb.pulse()
+                pb.set_text("%s" % deluge.common.fsize(current_length))
+
+        def on_download_success(result):
+            log.debug("Download success!")
+            self.add_from_files([tmp_file])
+            dialog.destroy()
+
+        def on_download_fail(result):
+            log.debug("Download failed: %s", result)
+            dialog.destroy()
+            dialogs.ErrorDialog(_("Download Failed"), _("Failed to download : %s" % url), details=result.getErrorMessage(), parent=self.dialog).run()
+
+        import deluge.httpdownloader
+        d = deluge.httpdownloader.download_file(url, tmp_file, on_part)
+        d.addCallback(on_download_success)
+        d.addErrback(on_download_fail)
 
     def _download_from_url(self, url):
         import urllib
