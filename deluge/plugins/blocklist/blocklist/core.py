@@ -226,9 +226,13 @@ class Core(CorePluginBase):
     def download_blocklist_thread(self, callback, load):
         """Downloads the blocklist specified by 'url' in the config"""
         def on_retrieve_data(count, block_size, total_blocks):
-            fp = float(count * block_size) / total_blocks
-            if fp > 1.0:
-                fp = 1.0
+            if total_blocks:
+                fp = float(count * block_size) / total_blocks
+                if fp > 1.0:
+                    fp = 1.0
+            else:
+                fp = 0.0
+
             self.file_progress = fp
 
         import socket
