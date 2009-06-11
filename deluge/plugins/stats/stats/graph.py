@@ -49,7 +49,7 @@ port of old plugin by markybob.
 import time
 import cairo
 from deluge.log import LOG as log
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 
 black = (0, 0, 0)
 gray = (0.75, 0.75, 0.75)
@@ -101,10 +101,6 @@ class Graph:
             'color': color
             }
 
-    def async_request(self):
-        aclient.stats_get_stats(self.set_stats, self.stat_info.keys())
-        aclient.stats_get_config(self.set_config)
-
     def set_stats(self, stats):
         self.stats = stats
 
@@ -115,12 +111,15 @@ class Graph:
     def draw_to_context(self, context, width, height):
         self.ctx = context
         self.width, self.height = width, height
-        self.draw_rect(white, 0, 0, self.width, self.height)
-        self.draw_x_axis()
-        self.draw_left_axis()
+        try:
+            self.draw_rect(white, 0, 0, self.width, self.height)
+            self.draw_x_axis()
+            self.draw_left_axis()
 
-        if self.legend_selected:
-            self.draw_legend()
+            if self.legend_selected:
+                self.draw_legend()
+        except cairo.Error, e:
+            log.exception(e)
         return self.ctx
 
     def draw(self, width, height):

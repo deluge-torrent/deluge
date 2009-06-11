@@ -49,12 +49,15 @@ import gtk
 import gobject
 from gtk.glade import XML
 
+from twisted.internet import defer
+
 import graph
 from deluge import component
 from deluge.log import LOG as log
 from deluge.common import fspeed
-from deluge.ui.client import aclient
+from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.plugins.pluginbase import GtkPluginBase
 
 class GraphsTab(Tab):
     def __init__(self, glade):
@@ -72,8 +75,8 @@ class GraphsTab(Tab):
     def bandwidth_expose(self, widget, event):
         self.graph_widget = self.bandwidth_graph
         self.graph = graph.Graph()
-        self.graph.add_stat('download_rate', label='Download Rate', color=graph.green)
-        self.graph.add_stat('upload_rate', label='Upload Rate', color=graph.blue)
+        self.graph.add_stat('payload_download_rate', label='Download Rate', color=graph.green)
+        self.graph.add_stat('payload_upload_rate', label='Upload Rate', color=graph.blue)
         self.graph.set_left_axis(formatter=fspeed, min=10240)
         self.update_timer = gobject.timeout_add(2000, self.update_graph)
         self.update_graph()
@@ -81,21 +84,26 @@ class GraphsTab(Tab):
     def update_graph(self):
         width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height
         context = self.graph_widget.window.cairo_create()
-        self.graph.async_request()
-        aclient.force_call(True)
-        self.graph.draw_to_context(context, width, height)
+
+        log.debug("getstat keys: %s", self.graph.stat_info.keys())
+        d1 = client.stats.get_stats(self.graph.stat_info.keys())
+        d1.addCallback(self.graph.set_stats)
+        d2 = client.stats.get_config()
+        d2.addCallback(self.graph.set_config)
+        dl = defer.DeferredList([d1, d2])
+
+        def draw_context(result):
+            self.graph.draw_to_context(context, width, height)
+        dl.addCallback(draw_context)
+
         return True
 
-class GtkUI(object):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("Calling Stats UI init")
-        self.plugin = plugin_api
-
+class GtkUI(GtkPluginBase):
     def enable(self):
         self.glade = XML(self.get_resource("config.glade"))
-        self.plugin.add_preferences_page("Stats", self.glade.get_widget("prefs_box"))
-        self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
-        self.plugin.register_hook("on_show_prefs", self.on_show_prefs)
+        component.get("Preferences").add_page("Stats", self.glade.get_widget("prefs_box"))
+        component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
+        component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         self.on_show_prefs()
 
         self.graphs_tab = GraphsTab(XML(self.get_resource("tabs.glade")))
@@ -103,19 +111,19 @@ class GtkUI(object):
         self.torrent_details.notebook.append_page(self.graphs_tab.window, self.graphs_tab.label)
 
     def disable(self):
-        self.plugin.remove_preferences_page("Stats")
-        self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
-        self.plugin.deregister_hook("on_show_prefs", self.on_show_prefs)
+        component.get("Preferences").remove_page("Stats")
+        component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
+        component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
 
     def on_apply_prefs(self):
         log.debug("applying prefs for Stats")
         config = {
             "test":self.glade.get_widget("txt_test").get_text()
         }
-        aclient.stats_set_config(None, config)
+        client.stats.set_config(config)
 
     def on_show_prefs(self):
-        aclient.stats_get_config(self.cb_get_config)
+        client.stats.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):
         "callback for on show_prefs"

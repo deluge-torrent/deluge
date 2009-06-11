@@ -35,42 +35,23 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
 
-from deluge.log import LOG as log
+from deluge.plugins.init import PluginInitBase
 
-from deluge.plugins.init import PluginBase
+class CorePlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from core import Core as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(CorePlugin, self).__init__(plugin_name)
 
-class CorePlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the Core portion of the plugin
-        try:
-            from core import Core
-            self.plugin = Core(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a Core plugin: %s", e)
+class GtkUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from gtkui import GtkUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(GtkUIPlugin, self).__init__(plugin_name)
 
-class WebUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        try:
-            from webui import WebUI
-            self.plugin = WebUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a WebUI plugin: %s", e)
-
-class GtkUIPlugin(PluginBase):
-    def __init__(self, plugin_api, plugin_name):
-        # Load the GtkUI portion of the plugin
-        try:
-            from gtkui import GtkUI
-            self.plugin = GtkUI(plugin_api, plugin_name)
-        except Exception, e:
-            log.debug("Did not load a GtkUI plugin: %s", e)
+class WebUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from webui import WebUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(WebUIPlugin, self).__init__(plugin_name)
