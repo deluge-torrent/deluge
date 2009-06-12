@@ -227,6 +227,7 @@ class Preferences(component.Component):
                 "spin_outgoing_port_min": ("value", self.core_config["outgoing_ports"][0]),
                 "spin_outgoing_port_max": ("value", self.core_config["outgoing_ports"][1]),
                 "chk_random_outgoing_ports": ("active", self.core_config["random_outgoing_ports"]),
+                "entry_interface": ("text", self.core_config["listen_interface"]),
                 "entry_peer_tos": ("text", self.core_config["peer_tos"]),
                 "chk_dht": ("active", self.core_config["dht"]),
                 "chk_upnp": ("active", self.core_config["upnp"]),
@@ -369,6 +370,7 @@ class Preferences(component.Component):
                 "spin_outgoing_port_min",
                 "spin_outgoing_port_max",
                 "chk_random_outgoing_ports",
+                "entry_interface",
                 "entry_peer_tos",
                 "chk_dht",
                 "chk_upnp",
@@ -568,7 +570,7 @@ class Preferences(component.Component):
         new_core_config["outgoing_ports"] = outgoing_ports
         new_core_config["random_outgoing_ports"] = \
             self.glade.get_widget("chk_random_outgoing_ports").get_active()
-
+        new_core_config["listen_interface"] = self.glade.get_widget("entry_interface").get_text()
         new_core_config["peer_tos"] = self.glade.get_widget("entry_peer_tos").get_text()
         new_core_config["dht"] = self.glade.get_widget("chk_dht").get_active()
         new_core_config["upnp"] = self.glade.get_widget("chk_upnp").get_active()
