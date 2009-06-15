@@ -3,7 +3,7 @@
 
 # Copyright (C) 2009 by
 #   Jesper Lund <mail@jesperlund.com>
-#   Andrew Resch <andrewresch@gmail.com> 
+#   Andrew Resch <andrewresch@gmail.com>
 #   John Garland <johnnybg@gmail.com>
 
 # Deluge is free software.
@@ -37,7 +37,7 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.1.8"
+!define PROGRAM_VERSION "1.1.9"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
@@ -133,20 +133,20 @@ ShowUnInstDetails show
 # Install main application
 Section "Deluge Bittorrent Client" Section1
   SectionIn RO
-  
+
   Rmdir /r "${DELUGE_PYTHON_SUBDIR}"
   SetOutPath "${DELUGE_PYTHON_SUBDIR}"
   File /r "${DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR}\*.*"
-  
+
   # Clean up previous confusion between Deluge.ico and deluge.ico (seems to matter on Vista registry settings?)
-  Delete "$INSTDIR\Deluge.ico"    
-    
+  Delete "$INSTDIR\Deluge.ico"
+
   SetOverwrite ifnewer
   SetOutPath $INSTDIR
   File "..\LICENSE"
   File "StartX.exe"
   File "deluge.ico"
-  
+
   # Create deluge.cmd file
   fileOpen $0 "$INSTDIR\deluge.cmd" w
   fileWrite $0 '@ECHO OFF$\r$\n'
@@ -159,14 +159,14 @@ Section "Deluge Bittorrent Client" Section1
   fileWrite $0 '  %STARTX_APP% /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluge.exe "%1" "%2" "%3" "%4""$\r$\n'
   fileWrite $0 ')$\r$\n'
   fileClose $0
-  
+
   # Create deluged.cmd file
   fileOpen $0 "$INSTDIR\deluged.cmd" w
   fileWrite $0 '@ECHO OFF$\r$\n'
   fileWrite $0 'SET DELUGEFOLDER="$INSTDIR"$\r$\n'
   fileWrite $0 '"$INSTDIR\StartX.exe" /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluged.exe "%1" "%2" "%3" "%4""$\r$\n'
   fileClose $0
-  
+
   # Create deluge-webui.cmd file
   fileOpen $0 "$INSTDIR\deluge-webui.cmd" w
   fileWrite $0 '@ECHO OFF$\r$\n'
@@ -187,7 +187,7 @@ Section -StartMenu_Desktop_Links
   CreateShortCut "$SMPROGRAMS\Deluge\Deluge daemon.lnk" "$INSTDIR\deluged.cmd" "" "$INSTDIR\deluge.ico"
   CreateShortCut "$SMPROGRAMS\Deluge\Deluge webUI.lnk" "$INSTDIR\deluge-webui.cmd" "" "$INSTDIR\deluge.ico"
   CreateShortCut "$SMPROGRAMS\Deluge\Project homepage.lnk" "$INSTDIR\Homepage.url"
-  CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\Deluge-uninst.exe" 
+  CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\Deluge-uninst.exe"
   CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.cmd" "" "$INSTDIR\deluge.ico"
 SectionEnd
 
@@ -204,7 +204,7 @@ Section "Create .torrent file association for Deluge" Section2
   DeleteRegKey HKCR ".torrent"
   WriteRegStr HKCR ".torrent" "" "Deluge"
   WriteRegStr HKCR ".torrent" "Content Type" "application/x-bittorrent"
-    
+
   DeleteRegKey HKCR "Deluge"
   WriteRegStr HKCR "Deluge" "" "Deluge"
   WriteRegStr HKCR "Deluge\Content Type" "" "application/x-bittorrent"
@@ -219,21 +219,21 @@ Section "GTK+ 2.12 runtime" Section3
   # The criterion is whether the registry key HKLM\SOFTWARE\GTK\2.0\Version exists
   ReadRegStr $0 HKLM "SOFTWARE\GTK\2.0" "Version"
   IfErrors GTK_install_start 0
-  
+
   ${VersionCompare} $0 "2.11" $1
   StrCmp $1 "2" 0 +3
   MessageBox MB_ICONEXCLAMATION|MB_OK "Your GTK+ runtime version is $0 and Deluge will not work with GTK+ 2.10 or earlier. \
          The Deluge installer will not download and install GTK+ 2.12 runtime. Sorry, but you will have to resolve this conflict manually. \
          If in doubt, you can ask for help in the Deluge forum or IRC channel."
   Goto GTK_install_exit
-  
+
   ${VersionCompare} $0 "2.13" $1
   StrCmp $1 "1" 0 +3
   MessageBox MB_ICONEXCLAMATION|MB_OK "You have GTK+ $0 installed on your system. \
      The Deluge installer will not download and install the GTK+ 2.12 runtime. \
      Please note that GTK+ 2.14 has not been tested as thoroughly as the GTK+ 2.12 version, but it should work.."
-  Goto GTK_install_exit   
-  
+  Goto GTK_install_exit
+
   MessageBox MB_OK "You have GTK+ $0 installed on your system. The Deluge installer will not download and install the GTK+ runtime."
   Goto GTK_install_exit
 
@@ -243,22 +243,22 @@ Section "GTK+ 2.12 runtime" Section3
     The GTK+ runtime can be installed in any location, \
     because the GTK+ installer adds the location to the global PATH variable. \
     Please note that the GTK+ 2.12 runtime is not removed by the Deluge uninstaller. \
-    You must use the GTK+ 2.12 uninstaller if you want to remove it together with Deluge." 
-  
+    You must use the GTK+ 2.12 uninstaller if you want to remove it together with Deluge."
+
   # Download GTK+ installer to TEMP dir
   NSISdl::download http://download.deluge-torrent.org/windows/deps/${DELUGE_GTK_DEPENDENCY} "$TEMP\${DELUGE_GTK_DEPENDENCY}"
-  
+
   # Get return value (success, cancel, or string describing the network error)
   Pop $2
   StrCmp $2 "success" 0 GTK_download_error
 
   ExecWait "$TEMP\${DELUGE_GTK_DEPENDENCY}"
   Goto GTK_install_exit
-  
+
   GTK_download_error:
   MessageBox MB_ICONEXCLAMATION|MB_OK "Download of GTK+ 2.12 installer failed (return code: $2). \
       You must install the GTK+ 2.12 runtime manually, or Deluge will fail to run on your system."
-  
+
   GTK_install_exit:
 SectionEnd
 
@@ -278,7 +278,7 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Download and install the GTK+ 2.12 run
 
 Section Uninstall
   Rmdir /r "${DELUGE_PYTHON_SUBDIR}"
-  
+
   Delete "$INSTDIR\Deluge-uninst.exe"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\deluge.cmd"
@@ -287,26 +287,26 @@ Section Uninstall
   Delete "$INSTDIR\StartX.exe"
   Delete "$INSTDIR\Homepage.url"
   Delete "$INSTDIR\deluge.ico"
-    
+
   Delete "$SMPROGRAMS\Deluge\Deluge.lnk"
   Delete "$SMPROGRAMS\Deluge\Deluge daemon.lnk"
   Delete "$SMPROGRAMS\Deluge\Deluge webUI.lnk"
   Delete "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk"
   Delete "$SMPROGRAMS\Deluge\Project homepage.lnk"
   Delete "$DESKTOP\Deluge.lnk"
-  
+
   RmDir "$SMPROGRAMS\Deluge"
   RmDir "$INSTDIR"
 
   DeleteRegKey ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}"
-  
+
   # Only delete the .torrent association if Deluge owns it
   ReadRegStr $1 HKCR ".torrent" ""
   StrCmp $1 "Deluge" 0 DELUGE_skip_delete
-  
+
   # Delete the key since it is owned by Deluge; afterwards there is no .torrent association
-  DeleteRegKey HKCR ".torrent" 
-  
+  DeleteRegKey HKCR ".torrent"
+
   DELUGE_skip_delete:
   # This key is only used by Deluge, so we should always delete it
   DeleteRegKey HKCR "Deluge"

@@ -1,4 +1,4 @@
-build_version = "1.1.7"
+build_version = "1.1.9"
 python_path = "C:\\Python25\\"
 
 import shutil
