@@ -39,24 +39,51 @@ Copyright:
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	
 	constructor: function(config) {
+		this.binds = {};
 		this.changed = {};
+		this.defaults = config['defaults'] || {};
 		this.options = {};
-		Deluge.OptionsManager.superclass.constructor.call(this);
+		
 		
 		this.addEvents({
 			'add': true,
 			'changed': true,
 			'reset': true
 		});
+		this.on('changed', this.onChange, this);
+		
+		Deluge.OptionsManager.superclass.constructor.call(this);
 	},
 
 	/**
-	 * Add a set of default options and values for an id to the options manager
+	 * Add a set of default options and values to the options manager
 	 * @param {String} id
-	 * @param {Object} options The default options for the id.
+	 * @param {Object} options The default options.
 	 */
 	addOptions: function(id, options) {
 		this.options[id] = options;
+	},
+	
+	/**
+	 * Binds a form field to the specified option.
+	 * @param {String} option
+	 * @param {Ext.form.Field} field
+	 */
+	bind: function(option, field) {
+		this.binds[option] = field;
+		this.binds[field] = option;
+		
+		switch (field.getXType()) {
+			case 'checkbox':
+				field.on('check', this.onFieldChange, this);
+				break;
+			case 'uxspinner':
+				field.on('spin', this.onFieldChange, this);
+				field.on('keypress', this.onFieldChange, this);
+				break;
+			default:
+				break;
+		}
 	},
 	
 	/**
@@ -69,13 +96,13 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/**
-	 * Get the default value for an option given an id and option name
+	 * Get the default value for an option given an id and option name.
 	 * @param {String} id
 	 * @param {String} option
 	 * @returns {Object} the value of the option
 	 */
-	getDefault: function(id, option) {
-		return this.options[id][option];
+	getOption: function(id, option) {
+		return (this.hasOption(id, option)) ? this.options[id][option] : this.defaults[option];
 	},
 	
 	/**
@@ -85,7 +112,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @returns {Object} the options value.
 	 */
 	 getValue: function(id, option) {
-	 	return (this.hasChanged(id, option)) ? this.changed[id][option] : this.options[id][option];
+	 	return (this.hasChanged(id, option)) ? this.changed[id][option] : this.getOption(id, option);
 	 },
 	
 	/**
@@ -96,6 +123,17 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 */
 	hasChanged: function(id, option) {
 		return (this.changed[id] && !Ext.isEmpty(this.changed[id][option]));
+	},
+	
+	/**
+	 * Check to see if an id has had an option set to something other than the
+	 * default value.
+	 * @param {String} id
+	 * @param {String} option
+	 * @returns {Boolean} true if the id has an option, else false.
+	 */
+	hasOption: function(id, option) {
+		return (this.options[id] && !Ext.isEmpty(this.options[id][option]));
 	},
 
 	/**
@@ -111,20 +149,45 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * Set the specified option for the passed in id.
 	 * @param {String} id
 	 * @param {String} option
-	 * @param {Object} value The new value for the option
+	 * @param {Object} value The value for the option
 	 */
 	setOption: function(id, option, value) {
+		this.options[id][option] = value;
+	},
+	
+	/**
+	 * Set the specified options for the passed in id.
+	 * @param {String} id
+	 * @param {Object} options The option values to change.
+	 */
+	setOptions: function(id, options) {
+		if (!this.changed[id]) this.changed[id] = {};
+		for (var key in options) {
+			this.setOption(id, key, options[key]);
+		}
+	},
+	
+	/**
+	 * Update the value for the specified option and id.
+	 * @param {String} id
+	 * @param {String} option
+	 * @param {Object} value;
+	 */
+	updateOption: function(id, option, value) {
 		if (!this.changed[id]) this.changed[id] = {};
 		
 		var oldValue = this.getValue(id, option);
-		if (this.options[id][option] == value) {
+		if (oldValue == value) return;
+		
+		var defaultValue = this.getOption(id, option);
+		if (defaultValue == value) {
 			if (!Ext.isEmpty(this.changed[id][option])) delete this.changed[id][option];
 			this.fireEvent('changed', id, option, value, oldValue);
 			return;
 		}
 		
-		if (Ext.type(this.options[id][option]) != Ext.type(value)) {
-			switch (Ext.type(this.options[id][option])) {
+		if (Ext.type(defaultValue) != Ext.type(value)) {
+			switch (Ext.type(defaultValue)) {
 				case 'string':
 					value = String(value);
 					break;
@@ -142,39 +205,33 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/**
-	 * Set the specified options for the passed in id.
+	 * Update the options for the specified id.
 	 * @param {String} id
-	 * @param {Object} options The option values to change.
-	 */
-	setOptions: function(id, options) {
-		if (!this.changed[id]) this.changed[id] = {};
-		for (var key in options) {
-			this.setOption(id, key, options[key]);
-		}
-	},
-	
-	/**
-	 * Update the default value for the specified option and id.
-	 * @param {String} id
-	 * @param {String} option
-	 * @param {Object} value;
-	 */
-	updateOption: function(id, option, value) {
-		this.options[id][option] = value;
-	},
-	
-	/**
-	 * Update the defaults for the specified id.
-	 * @param {String} id
-	 * @param {Object} options The option defaults to change.
+	 * @param {Object} options The options to change.
 	 */
 	updateOptions: function(id, options) {
-		if (!this.options[id]) {
-			this.addOptions(id, options);
-		} else {
-			for (var key in options) {
-				this.updateOption(id, key, options[key]);
-			}
+		for (var key in options) {
+			this.updateOption(id, key, options[key]);
 		}
+	},
+	
+	/* Event Handlers */
+	
+	/**
+	 * Stops a form fields value from being blocked by the change functions
+	 * @param {Ext.form.Field} field
+	 * @private
+	 */
+	onFieldChange: function(field) {
+		var option = this.binds[field];
+		//alert(option);
+	},
+	
+	onChange: function(id, option, newValue, oldValue) {
+		// If we don't have a bind there's nothing to do.
+		if (Ext.isEmpty(this.binds[option])) return;
+		
+		// Set the form field to the new value.
+		this.binds[option].setValue(newValue);
 	}
 });

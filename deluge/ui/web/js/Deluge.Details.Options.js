@@ -56,7 +56,21 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		Ext.deluge.details.OptionsTab.superclass.initComponent.call(this);
 		
 		this.fieldsets = {}, this.fields = {};
-		this.optionsManager = new Deluge.OptionsManager();
+		this.optionsManager = new Deluge.OptionsManager({
+			defaults: {
+				'max_download_speed': -1,
+				'max_upload_speed': -1,
+				'max_connections': -1,
+				'max_upload_slots': -1,
+				'is_auto_managed': false,
+				'stop_at_ratio': false,
+				'stop_ratio': 2.0,
+				'remove_at_ratio': false,
+				'move_completed': null,
+				'private': false,
+				'prioritize_first_last': false
+			}
+		});
 		this.optionsManager.on('changed', this.onOptionChanged, this);
 		
 		/*
@@ -94,16 +108,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 1,
 				minValue: -1,
 				maxValue: 99999
-			},
-			listeners: {
-				'spin': {
-					fn: this.onFieldChange,
-					scope: this
-				},
-				'keypress': {
-					fn: this.onFieldChange,
-					scope: this
-				}
 			}
 		});
 		this.fieldsets.bandwidth.add({
@@ -131,16 +135,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 1,
 				minValue: -1,
 				maxValue: 99999
-			},
-			listeners: {
-				'spin': {
-					fn: this.onFieldChange,
-					scope: this
-				},
-				'keypress': {
-					fn: this.onFieldChange,
-					scope: this
-				}
 			}
 		});
 		this.fieldsets.bandwidth.add({
@@ -169,16 +163,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				minValue: -1,
 				maxValue: 99999
 			},
-			listeners: {
-				'spin': {
-					fn: this.onFieldChange,
-					scope: this
-				},
-				'keypress': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			},
 			colspan: 2
 		});
 		
@@ -201,16 +185,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
-			listeners: {
-				'spin': {
-					fn: this.onFieldChange,
-					scope: this
-				},
-				'keypress': {
-					fn: this.onFieldChange,
-					scope: this
-				}
 			},
 			colspan: 2
 		});
@@ -240,12 +214,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			id: 'is_auto_managed',
 			boxLabel: _('Auto Managed'),
 			width: 200,
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			},
 			colspan: 2
 		});
 		
@@ -253,15 +221,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'stop_at_ratio',
-			width: 110,
-			boxLabel: _('Stop seed at ratio'),
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			}
+			width: 120,
+			boxLabel: _('Stop seed at ratio')
 		});
+		
 		this.fields.stop_ratio = this.fieldsets.queue.add({
 			xtype: 'uxspinner',
 			id: 'stop_ratio',
@@ -276,16 +239,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				incrementValue: 0.1,
 				alternateIncrementValue: 1,
 				decimalPrecision: 1
-			},
-			listeners: {
-				'spin': {
-					fn: this.onFieldChange,
-					scope: this
-				},
-				'keypress': {
-					fn: this.onFieldChange,
-					scope: this
-				}
 			}
 		});
 		
@@ -296,12 +249,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			bodyStyle: 'padding-left: 10px',
 			boxLabel: _('Remove at ratio'),
 			disabled: true,
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			},
 			colspan: 2
 		});
 		
@@ -310,12 +257,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			id: 'move_completed',
 			boxLabel: _('Move Completed'),
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			},
 			colspan: 2
 		});
 		
@@ -342,27 +283,20 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Private'),
-			id: 'private',
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			}
+			id: 'private'
 		});
 		
 		this.fields.prioritize_first_last = this.fieldsets.general.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Prioritize First/Last'),
-			id: 'prioritize_first_last',
-			listeners: {
-				'check': {
-					fn: this.onFieldChange,
-					scope: this
-				}
-			}
+			id: 'prioritize_first_last'
 		});
+		
+		// Bind the fields so the options manager can manage them.
+		for (var id in this.fields) {
+			this.optionsManager.bind(id, this.fields[id]);
+		}
 		
 		/*
 		 * Buttons
@@ -425,15 +359,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	clear: function() {
-		this.fields.max_download_speed.setValue(0);
-		this.fields.max_upload_speed.setValue(0);
-		this.fields.max_connections.setValue(0);
-		this.fields.max_upload_slots.setValue(0);
-		this.fields.is_auto_managed.setValue(false);
-		this.fields.stop_at_ratio.setValue(false);
-		this.fields.remove_at_ratio.setValue(false);
-		this.fields['private'].setValue(false);
-		this.fields.prioritize_first_last.setValue(false);
+		this.optionsManager.resetOptions(this.torrentId);
 	},
 	
 	reset: function() {
@@ -456,14 +382,14 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			var value = changed['prioritize_first_last'];
 			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
 				success: function() {
-					this.optionsManager.updateOption(this.torrentId, 'prioritize_first_last', value);
+					this.optionsManager.setOption(this.torrentId, 'prioritize_first_last', value);
 				},
 				scope: this
 			});
 		}
 		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
-				this.optionsManager.updateOptions(this.torrentId, changed);
+				this.optionsManager.setOptions(this.torrentId, changed);
 				this.optionsManager.resetOptions(this.torrentId);
 			},
 			scope: this
@@ -472,10 +398,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	onEditTrackers: function() {
 		Deluge.EditTrackers.show();
-	},
-	
-	onFieldChange: function(field) {
-		this.optionsManager.setOption(this.torrentId, field.id, field.getValue());
 	},
 	
 	onOptionChanged: function(id, key, newValue, oldValue) {
@@ -490,11 +412,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		delete torrent['private'];
 		
 		this.optionsManager.updateOptions(this.torrentId, torrent);
-		for (var key in torrent) {
-			if (this.fields[key] && !this.optionsManager.hasChanged(this.torrentId, key)) {
-				if (!this.fields[key].disabled) this.fields[key].setValue(torrent[key]);
-			}
-		}
 	}
 });
 Deluge.Details.add(new Ext.deluge.details.OptionsTab());
