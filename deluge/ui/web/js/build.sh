@@ -53,7 +53,7 @@ build_ext() {
     fi;
 }
 
-if [ "$1" = "doc" ]; then
+if [ "$1" = "docs" ]; then
     build_docs
 else
     scan
