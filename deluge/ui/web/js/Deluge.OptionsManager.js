@@ -43,7 +43,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.changed = {};
 		this.defaults = config['defaults'] || {};
 		this.options = {};
-		
+		this.currentId = null;
 		
 		this.addEvents({
 			'add': true,
@@ -83,6 +83,18 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 				break;
 			default:
 				break;
+		}
+	},
+	
+	/**
+	 * Changes bound fields to use the specified id.
+	 * @param {String} id
+	 */
+	changeId: function(id) {
+		this.currentId = id;
+		for (var option in this.defaults) {
+			if (!this.binds[option]) continue;
+			this.binds[option].setValue(this.getValue(id, option));
 		}
 	},
 	
