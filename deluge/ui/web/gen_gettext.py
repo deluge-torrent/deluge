@@ -37,7 +37,7 @@ function _(string) {
 
 """
 
-files = glob.glob('js/deluge-*.js')
+files = glob.glob('js/Deluge*.js')
 for filename in files:
     for line_num, line in enumerate(open(filename)):
         for match in string_re.finditer(line):
@@ -52,6 +52,6 @@ fp = StringIO.StringIO()
 fp.write(gettext_tpl)
 for key in keys:
     fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
-    fp.write("GetText.add('%(key)s', '${_(\"%(key)s\")}');\n\n" % locals())
+    fp.write("GetText.add('%(key)s', '${_(\"%(key)s\").replace(\"'\", \"\\'\")}');\n\n" % locals())
 fp.seek(0)
 print fp.read()

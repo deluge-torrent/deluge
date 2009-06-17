@@ -25,454 +25,460 @@ function _(string) {
     return GetText.get(string);
 }
 
-// deluge-torrents.js:102
-GetText.add('#', '${_("#")}');
+// Deluge.Torrents.js:113
+GetText.add('#', '${_("#").replace("'", "\'")}');
 
-// deluge-menus.js:155
-GetText.add('0', '${_("0")}');
+// Deluge.Menus.js:169
+GetText.add('0', '${_("0").replace("'", "\'")}');
 
-// deluge-menus.js:157
-GetText.add('1', '${_("1")}');
+// Deluge.Menus.js:171
+GetText.add('1', '${_("1").replace("'", "\'")}');
 
-// deluge-menus.js:103, deluge-menus.js:121
-GetText.add('10 KiB/s', '${_("10 KiB/s")}');
+// Deluge.Menus.js:117, Deluge.Menus.js:135
+GetText.add('10 KiB/s', '${_("10 KiB/s").replace("'", "\'")}');
 
-// deluge-menus.js:139
-GetText.add('100', '${_("100")}');
+// Deluge.Menus.js:153
+GetText.add('100', '${_("100").replace("'", "\'")}');
 
-// deluge-menus.js:159
-GetText.add('2', '${_("2")}');
+// Deluge.Menus.js:173
+GetText.add('2', '${_("2").replace("'", "\'")}');
 
-// deluge-menus.js:141
-GetText.add('200', '${_("200")}');
+// Deluge.Menus.js:155
+GetText.add('200', '${_("200").replace("'", "\'")}');
 
-// deluge-menus.js:161
-GetText.add('3', '${_("3")}');
+// Deluge.Menus.js:175
+GetText.add('3', '${_("3").replace("'", "\'")}');
 
-// deluge-menus.js:105, deluge-menus.js:123
-GetText.add('30 KiB/s', '${_("30 KiB/s")}');
+// Deluge.Menus.js:119, Deluge.Menus.js:137
+GetText.add('30 KiB/s', '${_("30 KiB/s").replace("'", "\'")}');
 
-// deluge-menus.js:143
-GetText.add('300', '${_("300")}');
+// Deluge.Menus.js:157
+GetText.add('300', '${_("300").replace("'", "\'")}');
 
-// deluge-menus.js:109, deluge-menus.js:127
-GetText.add('300 KiB/s', '${_("300 KiB/s")}');
+// Deluge.Menus.js:123, Deluge.Menus.js:141
+GetText.add('300 KiB/s', '${_("300 KiB/s").replace("'", "\'")}');
 
-// deluge-menus.js:163
-GetText.add('5', '${_("5")}');
+// Deluge.Menus.js:177
+GetText.add('5', '${_("5").replace("'", "\'")}');
 
-// deluge-menus.js:101, deluge-menus.js:119
-GetText.add('5 KiB/s', '${_("5 KiB/s")}');
+// Deluge.Menus.js:115, Deluge.Menus.js:133
+GetText.add('5 KiB/s', '${_("5 KiB/s").replace("'", "\'")}');
 
-// deluge-menus.js:137
-GetText.add('50', '${_("50")}');
+// Deluge.Menus.js:151
+GetText.add('50', '${_("50").replace("'", "\'")}');
 
-// deluge-menus.js:145
-GetText.add('500', '${_("500")}');
+// Deluge.Menus.js:159
+GetText.add('500', '${_("500").replace("'", "\'")}');
 
-// deluge-menus.js:107, deluge-menus.js:125
-GetText.add('80 KiB/s', '${_("80 KiB/s")}');
+// Deluge.Menus.js:121, Deluge.Menus.js:139
+GetText.add('80 KiB/s', '${_("80 KiB/s").replace("'", "\'")}');
 
-// deluge-bars.js:41, deluge-add.js:467, deluge-add.js:527, deluge-add.js:552, deluge-connections.js:219, deluge-connections.js:291
-GetText.add('Add', '${_("Add")}');
+// Deluge.Toolbar.js:51, Deluge.Add.js:186, Deluge.Add.Url.js:49, Deluge.ConnectionManager.js:112, Deluge.ConnectionManager.js:370, Deluge.Add.File.js:49, Deluge.EditTrackers.js:58, Deluge.EditTrackers.js:237
+GetText.add('Add', '${_("Add").replace("'", "\'")}');
 
-// deluge-connections.js:248
-GetText.add('Add Connection', '${_("Add Connection")}');
+// Deluge.ConnectionManager.js:327
+GetText.add('Add Connection', '${_("Add Connection").replace("'", "\'")}');
 
-// deluge-add.js:387
-GetText.add('Add In Paused State', '${_("Add In Paused State")}');
+// Deluge.Add.js:168
+GetText.add('Add Torrents', '${_("Add Torrents").replace("'", "\'")}');
 
-// deluge-add.js:542
-GetText.add('Add Torrents', '${_("Add Torrents")}');
+// Deluge.EditTrackers.js:39
+GetText.add('Add Tracker', '${_("Add Tracker").replace("'", "\'")}');
 
-// deluge-add.js:463
-GetText.add('Add from File', '${_("Add from File")}');
+// Deluge.Add.File.js:46
+GetText.add('Add from File', '${_("Add from File").replace("'", "\'")}');
 
-// deluge-add.js:523
-GetText.add('Add from Url', '${_("Add from Url")}');
+// Deluge.Add.Url.js:46
+GetText.add('Add from Url', '${_("Add from Url").replace("'", "\'")}');
 
-// deluge-preferences.js:173
-GetText.add('Add torrents in Paused state', '${_("Add torrents in Paused state")}');
+// Deluge.Preferences.Downloads.js:56
+GetText.add('Add torrents in Paused state', '${_("Add torrents in Paused state").replace("'", "\'")}');
 
-// deluge-torrents.js:169
-GetText.add('Added', '${_("Added")}');
+// Deluge.Torrents.js:180
+GetText.add('Added', '${_("Added").replace("'", "\'")}');
 
-// deluge-add.js:305, deluge-preferences.js:146
-GetText.add('Allocation', '${_("Allocation")}');
+// Deluge.Preferences.Downloads.js:29
+GetText.add('Allocation', '${_("Allocation").replace("'", "\'")}');
 
-// deluge-preferences.js:355
-GetText.add('Allow Remote Connections', '${_("Allow Remote Connections")}');
+// Deluge.Preferences.Daemon.js:26
+GetText.add('Allow Remote Connections', '${_("Allow Remote Connections").replace("'", "\'")}');
 
-// deluge-details.js:692, deluge-preferences.js:42
-GetText.add('Apply', '${_("Apply")}');
+// Deluge.Details.Options.js:343, Deluge.Preferences.js:55
+GetText.add('Apply', '${_("Apply").replace("'", "\'")}');
 
-// deluge-add.js:396
-GetText.add('Apply to All', '${_("Apply to All")}');
+// Deluge.Details.Options.js:215, Deluge.Menus.js:184
+GetText.add('Auto Managed', '${_("Auto Managed").replace("'", "\'")}');
 
-// deluge-details.js:638, deluge-menus.js:170
-GetText.add('Auto Managed', '${_("Auto Managed")}');
+// Deluge.Torrents.js:174
+GetText.add('Avail', '${_("Avail").replace("'", "\'")}');
 
-// deluge-torrents.js:163
-GetText.add('Avail', '${_("Avail")}');
+// Deluge.Preferences.Bandwidth.js:3, Deluge.Details.Options.js:89
+GetText.add('Bandwidth', '${_("Bandwidth").replace("'", "\'")}');
 
-// deluge-details.js:552, deluge-add.js:330, deluge-preferences.js:183
-GetText.add('Bandwidth', '${_("Bandwidth")}');
+// Deluge.Menus.js:212
+GetText.add('Bottom', '${_("Bottom").replace("'", "\'")}');
 
-// deluge-menus.js:198
-GetText.add('Bottom', '${_("Bottom")}');
+// Deluge.Add.File.js:71
+GetText.add('Browse', '${_("Browse").replace("'", "\'")}');
 
-// deluge-add.js:291, deluge-add.js:449
-GetText.add('Browse', '${_("Browse")}');
+// Deluge.Add.js:185, Deluge.EditTrackers.js:57, Deluge.EditTrackers.js:116, Deluge.EditTrackers.js:178
+GetText.add('Cancel', '${_("Cancel").replace("'", "\'")}');
 
-// deluge-add.js:546
-GetText.add('Cancel', '${_("Cancel")}');
+// Deluge.Preferences.js:64
+GetText.add('Categories', '${_("Categories").replace("'", "\'")}');
 
-// deluge-preferences.js:50
-GetText.add('Categories', '${_("Categories")}');
+// Deluge.Preferences.js:51, Deluge.ConnectionManager.js:62, Deluge.ConnectionManager.js:365
+GetText.add('Close', '${_("Close").replace("'", "\'")}');
 
-// deluge-connections.js:286, deluge-connections.js:312, deluge-preferences.js:38
-GetText.add('Close', '${_("Close")}');
+// Deluge.Preferences.Downloads.js:36
+GetText.add('Compact', '${_("Compact").replace("'", "\'")}');
 
-// deluge-add.js:322, deluge-preferences.js:153
-GetText.add('Compact', '${_("Compact")}');
+// Deluge.ConnectionManager.js:63, Deluge.ConnectionManager.js:272
+GetText.add('Connect', '${_("Connect").replace("'", "\'")}');
 
-// deluge-connections.js:149, deluge-connections.js:315
-GetText.add('Connect', '${_("Connect")}');
+// Deluge.ConnectionManager.js:197, Deluge.ConnectionManager.js:269
+GetText.add('Connected', '${_("Connected").replace("'", "\'")}');
 
-// deluge-connections.js:95, deluge-connections.js:146
-GetText.add('Connected', '${_("Connected")}');
+// Deluge.Menus.js:147
+GetText.add('Connection Limit', '${_("Connection Limit").replace("'", "\'")}');
 
-// deluge-menus.js:133
-GetText.add('Connection Limit', '${_("Connection Limit")}');
+// Deluge.Toolbar.js:99, Deluge.ConnectionManager.js:50
+GetText.add('Connection Manager', '${_("Connection Manager").replace("'", "\'")}');
 
-// deluge-bars.js:89, deluge-connections.js:308
-GetText.add('Connection Manager', '${_("Connection Manager")}');
+// Deluge.Preferences.Daemon.js:19
+GetText.add('Connections', '${_("Connections").replace("'", "\'")}');
 
-// deluge-preferences.js:348
-GetText.add('Connections', '${_("Connections")}');
+// Deluge.Preferences.Downloads.js:23
+GetText.add('Copy of .torrent files to', '${_("Copy of .torrent files to").replace("'", "\'")}');
 
-// deluge-preferences.js:140
-GetText.add('Copy of .torrent files to', '${_("Copy of .torrent files to")}');
+// Deluge.Toolbar.js:44
+GetText.add('Create', '${_("Create").replace("'", "\'")}');
 
-// deluge-bars.js:34
-GetText.add('Create', '${_("Create")}');
+// Deluge.Menus.js:111
+GetText.add('D/L Speed Limit', '${_("D/L Speed Limit").replace("'", "\'")}');
 
-// deluge-menus.js:97
-GetText.add('D/L Speed Limit', '${_("D/L Speed Limit")}');
+// Deluge.Preferences.Daemon.js:3
+GetText.add('Daemon', '${_("Daemon").replace("'", "\'")}');
 
-// deluge-preferences.js:331
-GetText.add('Daemon', '${_("Daemon")}');
+// Deluge.Preferences.Daemon.js:13
+GetText.add('Daemon port', '${_("Daemon port").replace("'", "\'")}');
 
-// deluge-preferences.js:342
-GetText.add('Daemon port', '${_("Daemon port")}');
+// Deluge.Details.Details.js:36
+GetText.add('Details', '${_("Details").replace("'", "\'")}');
 
-// deluge-details.js:461
-GetText.add('Details', '${_("Details")}');
+// Deluge.ConnectionManager.js:270
+GetText.add('Disconnect', '${_("Disconnect").replace("'", "\'")}');
 
-// deluge-connections.js:147
-GetText.add('Disconnect', '${_("Disconnect")}');
+// Deluge.js:89, Deluge.Menus.js:400
+GetText.add('Do Not Download', '${_("Do Not Download").replace("'", "\'")}');
 
-// deluge-menus.js:386
-GetText.add('Do Not Download', '${_("Do Not Download")}');
+// Deluge.Toolbar.js:86, Deluge.Menus.js:206, Deluge.EditTrackers.js:231
+GetText.add('Down', '${_("Down").replace("'", "\'")}');
 
-// deluge-bars.js:76, deluge-menus.js:192
-GetText.add('Down', '${_("Down")}');
+// Deluge.Torrents.js:150
+GetText.add('Down Speed', '${_("Down Speed").replace("'", "\'")}');
 
-// deluge-torrents.js:139
-GetText.add('Down Speed', '${_("Down Speed")}');
+// Deluge.Add.js:88
+GetText.add('Download Location', '${_("Download Location").replace("'", "\'")}');
 
-// deluge-add.js:272
-GetText.add('Download Location', '${_("Download Location")}');
+// Deluge.Preferences.Downloads.js:15
+GetText.add('Download to', '${_("Download to").replace("'", "\'")}');
 
-// deluge-preferences.js:132
-GetText.add('Download to', '${_("Download to")}');
+// Deluge.Preferences.Downloads.js:3
+GetText.add('Downloads', '${_("Downloads").replace("'", "\'")}');
 
-// deluge-preferences.js:119
-GetText.add('Downloads', '${_("Downloads")}');
+// Deluge.Torrents.js:162
+GetText.add('ETA', '${_("ETA").replace("'", "\'")}');
 
-// deluge-torrents.js:151
-GetText.add('ETA', '${_("ETA")}');
+// Deluge.EditTrackers.js:243
+GetText.add('Edit', '${_("Edit").replace("'", "\'")}');
 
-// deluge-details.js:683, deluge-menus.js:212
-GetText.add('Edit Trackers', '${_("Edit Trackers")}');
+// Deluge.EditTrackers.js:98
+GetText.add('Edit Tracker', '${_("Edit Tracker").replace("'", "\'")}');
 
-// deluge-add.js:142, deluge-connections.js:61, deluge-connections.js:129, deluge-connections.js:164
-GetText.add('Error', '${_("Error")}');
+// Deluge.Details.Options.js:325, Deluge.Menus.js:226, Deluge.EditTrackers.js:160
+GetText.add('Edit Trackers', '${_("Edit Trackers").replace("'", "\'")}');
 
-// deluge-menus.js:382
-GetText.add('Expand All', '${_("Expand All")}');
+// Deluge.Add.js:361, Deluge.ConnectionManager.js:164, Deluge.ConnectionManager.js:252, Deluge.ConnectionManager.js:287
+GetText.add('Error', '${_("Error").replace("'", "\'")}');
 
-// deluge-add.js:224, deluge-add.js:446
-GetText.add('File', '${_("File")}');
+// Deluge.Menus.js:396
+GetText.add('Expand All', '${_("Expand All").replace("'", "\'")}');
 
-// deluge-details.js:477, deluge-add.js:181
-GetText.add('Filename', '${_("Filename")}');
+// Deluge.Add.js:233, Deluge.Add.File.js:68
+GetText.add('File', '${_("File").replace("'", "\'")}');
 
-// deluge-details.js:471, deluge-add.js:259
-GetText.add('Files', '${_("Files")}');
+// Deluge.Details.Files.js:53, Deluge.Add.js:60
+GetText.add('Filename', '${_("Filename").replace("'", "\'")}');
 
-// deluge-bars.js:509
-GetText.add('Filters', '${_("Filters")}');
+// Deluge.Details.Files.js:47, Deluge.Add.js:52
+GetText.add('Files', '${_("Files").replace("'", "\'")}');
 
-// deluge-preferences.js:126
-GetText.add('Folders', '${_("Folders")}');
+// Deluge.Sidebar.js:75
+GetText.add('Filters', '${_("Filters").replace("'", "\'")}');
 
-// deluge-menus.js:224
-GetText.add('Force Recheck', '${_("Force Recheck")}');
+// Deluge.Preferences.Downloads.js:9
+GetText.add('Folders', '${_("Folders").replace("'", "\'")}');
 
-// deluge-add.js:316, deluge-preferences.js:157
-GetText.add('Full', '${_("Full")}');
+// Deluge.Menus.js:238
+GetText.add('Force Recheck', '${_("Force Recheck").replace("'", "\'")}');
 
-// deluge-details.js:662, deluge-add.js:379
-GetText.add('General', '${_("General")}');
+// Deluge.Preferences.Downloads.js:40
+GetText.add('Full', '${_("Full").replace("'", "\'")}');
 
-// deluge-preferences.js:191
-GetText.add('Global Bandwidth Usage', '${_("Global Bandwidth Usage")}');
+// Deluge.Details.Options.js:278
+GetText.add('General', '${_("General").replace("'", "\'")}');
 
-// deluge-bars.js:98
-GetText.add('Help', '${_("Help")}');
+// Deluge.Preferences.Bandwidth.js:10
+GetText.add('Global Bandwidth Usage', '${_("Global Bandwidth Usage").replace("'", "\'")}');
 
-// deluge-preferences.js:305
-GetText.add('Hide filters with zero torrents', '${_("Hide filters with zero torrents")}');
+// Deluge.Toolbar.js:108
+GetText.add('Help', '${_("Help").replace("'", "\'")}');
 
-// deluge-menus.js:396
-GetText.add('High Priority', '${_("High Priority")}');
+// Deluge.Preferences.Interface.js:29
+GetText.add('Hide filters with zero torrents', '${_("Hide filters with zero torrents").replace("'", "\'")}');
 
-// deluge-menus.js:401
-GetText.add('Highest Priority', '${_("Highest Priority")}');
+// Deluge.js:91, Deluge.Menus.js:410
+GetText.add('High Priority', '${_("High Priority").replace("'", "\'")}');
 
-// deluge-connections.js:256
-GetText.add('Host', '${_("Host")}');
+// Deluge.js:92, Deluge.Menus.js:415
+GetText.add('Highest Priority', '${_("Highest Priority").replace("'", "\'")}');
 
-// deluge-preferences.js:238
-GetText.add('Ignore limits on local network', '${_("Ignore limits on local network")}');
+// Deluge.ConnectionManager.js:84, Deluge.ConnectionManager.js:335
+GetText.add('Host', '${_("Host").replace("'", "\'")}');
 
-// deluge-add.js:237
-GetText.add('Infohash', '${_("Infohash")}');
+// Deluge.Preferences.Bandwidth.js:57
+GetText.add('Ignore limits on local network', '${_("Ignore limits on local network").replace("'", "\'")}');
 
-// deluge-preferences.js:278
-GetText.add('Interface', '${_("Interface")}');
+// Deluge.Add.js:246
+GetText.add('Infohash', '${_("Infohash").replace("'", "\'")}');
 
-// deluge-details.js:85, deluge-details.js:148
-GetText.add('Loading', '${_("Loading")}');
+// Deluge.Preferences.Interface.js:3
+GetText.add('Interface', '${_("Interface").replace("'", "\'")}');
 
-// deluge-login.js:37, deluge-login.js:51
-GetText.add('Login', '${_("Login")}');
+// Deluge.Details.Options.js:115, Deluge.Details.Options.js:142
+GetText.add('KiB/s', '${_("KiB/s").replace("'", "\'")}');
 
-// deluge-login.js:93
-GetText.add('Login Failed', '${_("Login Failed")}');
+// Deluge.Details.Status.js:57, Deluge.Details.Details.js:43
+GetText.add('Loading', '${_("Loading").replace("'", "\'")}');
 
-// deluge-bars.js:106
-GetText.add('Logout', '${_("Logout")}');
+// Deluge.Login.js:52, Deluge.Login.js:65
+GetText.add('Login', '${_("Login").replace("'", "\'")}');
 
-// deluge-details.js:596, deluge-add.js:357
-GetText.add('Max Connections', '${_("Max Connections")}');
+// Deluge.Login.js:107
+GetText.add('Login Failed', '${_("Login Failed").replace("'", "\'")}');
 
-// deluge-add.js:337
-GetText.add('Max Down Speed', '${_("Max Down Speed")}');
+// Deluge.Toolbar.js:116
+GetText.add('Logout', '${_("Logout").replace("'", "\'")}');
 
-// deluge-details.js:560
-GetText.add('Max Download Speed', '${_("Max Download Speed")}');
+// Deluge.Details.Options.js:151
+GetText.add('Max Connections', '${_("Max Connections").replace("'", "\'")}');
 
-// deluge-add.js:347
-GetText.add('Max Up Speed', '${_("Max Up Speed")}');
+// Deluge.Details.Options.js:98
+GetText.add('Max Download Speed', '${_("Max Download Speed").replace("'", "\'")}');
 
-// deluge-details.js:611, deluge-add.js:367
-GetText.add('Max Upload Slots', '${_("Max Upload Slots")}');
+// Deluge.Details.Options.js:174
+GetText.add('Max Upload Slots', '${_("Max Upload Slots").replace("'", "\'")}');
 
-// deluge-details.js:578
-GetText.add('Max Upload Speed', '${_("Max Upload Speed")}');
+// Deluge.Details.Options.js:124
+GetText.add('Max Upload Speed', '${_("Max Upload Speed").replace("'", "\'")}');
 
-// deluge-preferences.js:223
-GetText.add('Maximum Connection Attempts per Second', '${_("Maximum Connection Attempts per Second")}');
+// Deluge.Preferences.Bandwidth.js:42
+GetText.add('Maximum Connection Attempts per Second', '${_("Maximum Connection Attempts per Second").replace("'", "\'")}');
 
-// deluge-preferences.js:198, deluge-preferences.js:257
-GetText.add('Maximum Connections', '${_("Maximum Connections")}');
+// Deluge.Preferences.Bandwidth.js:17, Deluge.Preferences.Bandwidth.js:76
+GetText.add('Maximum Connections', '${_("Maximum Connections").replace("'", "\'")}');
 
-// deluge-preferences.js:208, deluge-preferences.js:267
-GetText.add('Maximum Download Speed (KiB/s)', '${_("Maximum Download Speed (KiB/s)")}');
+// Deluge.Preferences.Bandwidth.js:27, Deluge.Preferences.Bandwidth.js:86
+GetText.add('Maximum Download Speed (KiB/s)', '${_("Maximum Download Speed (KiB/s)").replace("'", "\'")}');
 
-// deluge-preferences.js:218
-GetText.add('Maximum Half-Open Connections', '${_("Maximum Half-Open Connections")}');
+// Deluge.Preferences.Bandwidth.js:37
+GetText.add('Maximum Half-Open Connections', '${_("Maximum Half-Open Connections").replace("'", "\'")}');
 
-// deluge-preferences.js:203, deluge-preferences.js:262
-GetText.add('Maximum Upload Slots', '${_("Maximum Upload Slots")}');
+// Deluge.Preferences.Bandwidth.js:22, Deluge.Preferences.Bandwidth.js:81
+GetText.add('Maximum Upload Slots', '${_("Maximum Upload Slots").replace("'", "\'")}');
 
-// deluge-preferences.js:213, deluge-preferences.js:272
-GetText.add('Maximum Upload Speed (KiB/s)', '${_("Maximum Upload Speed (KiB/s)")}');
+// Deluge.Preferences.Bandwidth.js:32, Deluge.Preferences.Bandwidth.js:91
+GetText.add('Maximum Upload Speed (KiB/s)', '${_("Maximum Upload Speed (KiB/s)").replace("'", "\'")}');
 
-// deluge-details.js:653
-GetText.add('Move Completed', '${_("Move Completed")}');
+// Deluge.Details.Options.js:259
+GetText.add('Move Completed', '${_("Move Completed").replace("'", "\'")}');
 
-// deluge-menus.js:230
-GetText.add('Move Storage', '${_("Move Storage")}');
+// Deluge.Menus.js:244
+GetText.add('Move Storage', '${_("Move Storage").replace("'", "\'")}');
 
-// deluge-preferences.js:136
-GetText.add('Move completed to', '${_("Move completed to")}');
+// Deluge.Preferences.Downloads.js:19
+GetText.add('Move completed to', '${_("Move completed to").replace("'", "\'")}');
 
-// deluge-torrents.js:109
-GetText.add('Name', '${_("Name")}');
+// Deluge.Torrents.js:120
+GetText.add('Name', '${_("Name").replace("'", "\'")}');
 
-// deluge-preferences.js:177
-GetText.add('Network', '${_("Network")}');
+// Deluge.Preferences.Network.js:1
+GetText.add('Network', '${_("Network").replace("'", "\'")}');
 
-// deluge-menus.js:391
-GetText.add('Normal Priority', '${_("Normal Priority")}');
+// Deluge.js:90, Deluge.Menus.js:405
+GetText.add('Normal Priority', '${_("Normal Priority").replace("'", "\'")}');
 
-// deluge-bars.js:350
-GetText.add('Not Connected', '${_("Not Connected")}');
+// Deluge.Statusbar.js:7
+GetText.add('Not Connected', '${_("Not Connected").replace("'", "\'")}');
 
-// deluge-add.js:143
-GetText.add('Not a valid torrent', '${_("Not a valid torrent")}');
+// Deluge.Add.js:362
+GetText.add('Not a valid torrent', '${_("Not a valid torrent").replace("'", "\'")}');
 
-// deluge-preferences.js:386
-GetText.add('Notification', '${_("Notification")}');
+// Deluge.Preferences.Notification.js:1
+GetText.add('Notification', '${_("Notification").replace("'", "\'")}');
 
-// deluge-preferences.js:44
-GetText.add('Ok', '${_("Ok")}');
+// Deluge.Preferences.js:57, Deluge.EditTrackers.js:179
+GetText.add('Ok', '${_("Ok").replace("'", "\'")}');
 
-// deluge-details.js:535, deluge-add.js:263, deluge-menus.js:93, deluge-preferences.js:162
-GetText.add('Options', '${_("Options")}');
+// Deluge.Details.Options.js:50, Deluge.Add.js:81, Deluge.Menus.js:107, Deluge.Preferences.Downloads.js:45
+GetText.add('Options', '${_("Options").replace("'", "\'")}');
 
-// deluge-menus.js:277, deluge-menus.js:324, deluge-menus.js:371, deluge-preferences.js:325, deluge-preferences.js:361
-GetText.add('Other', '${_("Other")}');
+// Deluge.Menus.js:291, Deluge.Menus.js:338, Deluge.Menus.js:385, Deluge.Preferences.Other.js:1, Deluge.Preferences.Daemon.js:32
+GetText.add('Other', '${_("Other").replace("'", "\'")}');
 
-// deluge-connections.js:278, deluge-login.js:63, deluge-preferences.js:311
-GetText.add('Password', '${_("Password")}');
+// Deluge.Preferences.Interface.js:35, Deluge.Login.js:77, Deluge.ConnectionManager.js:357
+GetText.add('Password', '${_("Password").replace("'", "\'")}');
 
-// deluge-bars.js:55, deluge-menus.js:81
-GetText.add('Pause', '${_("Pause")}');
+// Deluge.Toolbar.js:65, Deluge.Menus.js:95
+GetText.add('Pause', '${_("Pause").replace("'", "\'")}');
 
-// deluge-details.js:512, deluge-torrents.js:133
-GetText.add('Peers', '${_("Peers")}');
+// Deluge.Torrents.js:144, Deluge.Details.Peers.js:64
+GetText.add('Peers', '${_("Peers").replace("'", "\'")}');
 
-// deluge-preferences.js:251
-GetText.add('Per Torrent Bandwidth Usage', '${_("Per Torrent Bandwidth Usage")}');
+// Deluge.Preferences.Bandwidth.js:70
+GetText.add('Per Torrent Bandwidth Usage', '${_("Per Torrent Bandwidth Usage").replace("'", "\'")}');
 
-// deluge-preferences.js:369
-GetText.add('Periodically check the website for new releases', '${_("Periodically check the website for new releases")}');
+// Deluge.Preferences.Daemon.js:40
+GetText.add('Periodically check the website for new releases', '${_("Periodically check the website for new releases").replace("'", "\'")}');
 
-// deluge-preferences.js:392
-GetText.add('Plugins', '${_("Plugins")}');
+// Deluge.Preferences.Plugins.js:1
+GetText.add('Plugins', '${_("Plugins").replace("'", "\'")}');
 
-// deluge-connections.js:262, deluge-preferences.js:338
-GetText.add('Port', '${_("Port")}');
+// Deluge.Preferences.Daemon.js:9, Deluge.ConnectionManager.js:341
+GetText.add('Port', '${_("Port").replace("'", "\'")}');
 
-// deluge-bars.js:82, deluge-preferences.js:36
-GetText.add('Preferences', '${_("Preferences")}');
+// Deluge.Toolbar.js:92, Deluge.Preferences.js:48
+GetText.add('Preferences', '${_("Preferences").replace("'", "\'")}');
 
-// deluge-details.js:674
-GetText.add('Prioritize First/Last', '${_("Prioritize First/Last")}');
+// Deluge.Details.Options.js:292
+GetText.add('Prioritize First/Last', '${_("Prioritize First/Last").replace("'", "\'")}');
 
-// deluge-add.js:392
-GetText.add('Prioritize First/Last Piece', '${_("Prioritize First/Last Piece")}');
+// Deluge.Preferences.Downloads.js:52
+GetText.add('Prioritize first and last pieces of torrent', '${_("Prioritize first and last pieces of torrent").replace("'", "\'")}');
 
-// deluge-preferences.js:169
-GetText.add('Prioritize first and last pieces of torrent', '${_("Prioritize first and last pieces of torrent")}');
+// Deluge.Details.Files.js:67
+GetText.add('Priority', '${_("Priority").replace("'", "\'")}');
 
-// deluge-details.js:491
-GetText.add('Priority', '${_("Priority")}');
+// Deluge.Details.Options.js:285
+GetText.add('Private', '${_("Private").replace("'", "\'")}');
 
-// deluge-details.js:669
-GetText.add('Private', '${_("Private")}');
+// Deluge.Details.Files.js:62, Deluge.Torrents.js:132
+GetText.add('Progress', '${_("Progress").replace("'", "\'")}');
 
-// deluge-details.js:486, deluge-torrents.js:121
-GetText.add('Progress', '${_("Progress")}');
+// Deluge.Preferences.Proxy.js:2
+GetText.add('Proxy', '${_("Proxy").replace("'", "\'")}');
 
-// deluge-preferences.js:380
-GetText.add('Proxy', '${_("Proxy")}');
+// Deluge.Details.Options.js:197, Deluge.Menus.js:189, Deluge.Preferences.Queue.js:2
+GetText.add('Queue', '${_("Queue").replace("'", "\'")}');
 
-// deluge-details.js:631, deluge-menus.js:175, deluge-preferences.js:374
-GetText.add('Queue', '${_("Queue")}');
+// Deluge.Preferences.Bandwidth.js:64
+GetText.add('Rate limit IP overhead', '${_("Rate limit IP overhead").replace("'", "\'")}');
 
-// deluge-preferences.js:245
-GetText.add('Rate limit IP overhead', '${_("Rate limit IP overhead")}');
+// Deluge.Torrents.js:168
+GetText.add('Ratio', '${_("Ratio").replace("'", "\'")}');
 
-// deluge-torrents.js:157
-GetText.add('Ratio', '${_("Ratio")}');
+// Deluge.Toolbar.js:58, Deluge.Add.js:252, Deluge.ConnectionManager.js:119, Deluge.EditTrackers.js:249
+GetText.add('Remove', '${_("Remove").replace("'", "\'")}');
 
-// deluge-bars.js:48, deluge-add.js:243, deluge-connections.js:225
-GetText.add('Remove', '${_("Remove")}');
+// Deluge.Menus.js:232
+GetText.add('Remove Torrent', '${_("Remove Torrent").replace("'", "\'")}');
 
-// deluge-menus.js:218
-GetText.add('Remove Torrent', '${_("Remove Torrent")}');
+// Deluge.Details.Options.js:250
+GetText.add('Remove at ratio', '${_("Remove at ratio").replace("'", "\'")}');
 
-// deluge-details.js:648
-GetText.add('Remove at ratio', '${_("Remove at ratio")}');
+// Deluge.Toolbar.js:72, Deluge.Menus.js:101
+GetText.add('Resume', '${_("Resume").replace("'", "\'")}');
 
-// deluge-bars.js:62, deluge-menus.js:87
-GetText.add('Resume', '${_("Resume")}');
+// Deluge.EditTrackers.js:117
+GetText.add('Save', '${_("Save").replace("'", "\'")}');
 
-// deluge-add.js:400
-GetText.add('Revert to Defaults', '${_("Revert to Defaults")}');
+// Deluge.Torrents.js:138
+GetText.add('Seeders', '${_("Seeders").replace("'", "\'")}');
 
-// deluge-torrents.js:127
-GetText.add('Seeders', '${_("Seeders")}');
+// Deluge.Add.File.js:67
+GetText.add('Select a torrent', '${_("Select a torrent").replace("'", "\'")}');
 
-// deluge-add.js:445
-GetText.add('Select a torrent', '${_("Select a torrent")}');
+// Deluge.Preferences.Interface.js:16
+GetText.add('Show session speed in titlebar', '${_("Show session speed in titlebar").replace("'", "\'")}');
 
-// deluge-preferences.js:292
-GetText.add('Show session speed in titlebar', '${_("Show session speed in titlebar")}');
+// Deluge.Preferences.Interface.js:22
+GetText.add('Sidebar', '${_("Sidebar").replace("'", "\'")}');
 
-// deluge-preferences.js:298
-GetText.add('Sidebar', '${_("Sidebar")}');
+// Deluge.Details.Files.js:57, Deluge.Torrents.js:126, Deluge.Add.js:64
+GetText.add('Size', '${_("Size").replace("'", "\'")}');
 
-// deluge-details.js:481, deluge-add.js:185, deluge-torrents.js:115
-GetText.add('Size', '${_("Size")}');
+// Deluge.Sidebar.js:37
+GetText.add('State', '${_("State").replace("'", "\'")}');
 
-// deluge-bars.js:356
-GetText.add('State', '${_("State")}');
+// Deluge.Details.Status.js:35, Deluge.ConnectionManager.js:77
+GetText.add('Status', '${_("Status").replace("'", "\'")}');
 
-// deluge-details.js:452
-GetText.add('Status', '${_("Status")}');
+// Deluge.ConnectionManager.js:126
+GetText.add('Stop Daemon', '${_("Stop Daemon").replace("'", "\'")}');
 
-// deluge-connections.js:231
-GetText.add('Stop Daemon', '${_("Stop Daemon")}');
+// Deluge.Details.Options.js:225
+GetText.add('Stop seed at ratio', '${_("Stop seed at ratio").replace("'", "\'")}');
 
-// deluge-details.js:643
-GetText.add('Stop seed at ratio', '${_("Stop seed at ratio")}');
+// Deluge.EditTrackers.js:198
+GetText.add('Tier', '${_("Tier").replace("'", "\'")}');
 
-// deluge-menus.js:180
-GetText.add('Top', '${_("Top")}');
+// Deluge.Menus.js:194
+GetText.add('Top', '${_("Top").replace("'", "\'")}');
 
-// deluge-torrents.js:175
-GetText.add('Tracker', '${_("Tracker")}');
+// Deluge.Torrents.js:186, Deluge.EditTrackers.js:126, Deluge.EditTrackers.js:205
+GetText.add('Tracker', '${_("Tracker").replace("'", "\'")}');
 
-// deluge-bars.js:357
-GetText.add('Tracker Host', '${_("Tracker Host")}');
+// Deluge.Sidebar.js:38
+GetText.add('Tracker Host', '${_("Tracker Host").replace("'", "\'")}');
 
-// deluge-menus.js:115
-GetText.add('U/L Speed Limit', '${_("U/L Speed Limit")}');
+// Deluge.EditTrackers.js:67
+GetText.add('Trackers', '${_("Trackers").replace("'", "\'")}');
 
-// deluge-menus.js:111, deluge-menus.js:129, deluge-menus.js:147, deluge-menus.js:165, deluge-menus.js:271, deluge-menus.js:318, deluge-menus.js:365
-GetText.add('Unlimited', '${_("Unlimited")}');
+// Deluge.Menus.js:129
+GetText.add('U/L Speed Limit', '${_("U/L Speed Limit").replace("'", "\'")}');
 
-// deluge-bars.js:69, deluge-menus.js:186
-GetText.add('Up', '${_("Up")}');
+// Deluge.Menus.js:125, Deluge.Menus.js:143, Deluge.Menus.js:161, Deluge.Menus.js:179, Deluge.Menus.js:285, Deluge.Menus.js:332, Deluge.Menus.js:379
+GetText.add('Unlimited', '${_("Unlimited").replace("'", "\'")}');
 
-// deluge-torrents.js:145
-GetText.add('Up Speed', '${_("Up Speed")}');
+// Deluge.Toolbar.js:79, Deluge.Menus.js:200, Deluge.EditTrackers.js:225
+GetText.add('Up', '${_("Up").replace("'", "\'")}');
 
-// deluge-menus.js:206
-GetText.add('Update Tracker', '${_("Update Tracker")}');
+// Deluge.Torrents.js:156
+GetText.add('Up Speed', '${_("Up Speed").replace("'", "\'")}');
 
-// deluge-menus.js:151
-GetText.add('Upload Slot Limit', '${_("Upload Slot Limit")}');
+// Deluge.Menus.js:220
+GetText.add('Update Tracker', '${_("Update Tracker").replace("'", "\'")}');
 
-// deluge-add.js:420
-GetText.add('Uploading your torrent...', '${_("Uploading your torrent...")}');
+// Deluge.Menus.js:165
+GetText.add('Upload Slot Limit', '${_("Upload Slot Limit").replace("'", "\'")}');
 
-// deluge-add.js:230, deluge-add.js:500
-GetText.add('Url', '${_("Url")}');
+// Deluge.Add.File.js:82
+GetText.add('Uploading your torrent...', '${_("Uploading your torrent...").replace("'", "\'")}');
 
-// deluge-connections.js:272
-GetText.add('Username', '${_("Username")}');
+// Deluge.Add.js:239, Deluge.Add.Url.js:64
+GetText.add('Url', '${_("Url").replace("'", "\'")}');
 
-// deluge-preferences.js:285
-GetText.add('Window', '${_("Window")}');
+// Deluge.ConnectionManager.js:351
+GetText.add('Username', '${_("Username").replace("'", "\'")}');
 
-// deluge-login.js:94
-GetText.add('You entered an incorrect password', '${_("You entered an incorrect password")}');
+// Deluge.ConnectionManager.js:90
+GetText.add('Version', '${_("Version").replace("'", "\'")}');
+
+// Deluge.Preferences.Interface.js:9
+GetText.add('Window', '${_("Window").replace("'", "\'")}');
+
+// Deluge.Login.js:108
+GetText.add('You entered an incorrect password', '${_("You entered an incorrect password").replace("'", "\'")}');
 
 
