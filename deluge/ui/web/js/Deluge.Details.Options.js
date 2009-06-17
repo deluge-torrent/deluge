@@ -359,7 +359,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	clear: function() {
-		this.optionsManager.resetOptions(this.torrentId);
+		this.optionsManager.changeId(null);
 	},
 	
 	reset: function() {
