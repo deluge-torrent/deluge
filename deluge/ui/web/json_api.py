@@ -474,8 +474,15 @@ class WebApi(JSONComponent):
         """
         Add torrents by file
         
-        :param torrents: dict, a list of dictionaries containing the torrent
+        :param torrents: A list of dictionaries containing the torrent
         path and torrent options to add with.
+        :type torrents: list
+        
+        **Usage**
+        >>> json_api.add_torrents([{
+                "path": "/tmp/deluge-web/some-torrent-file.torrent",
+                "options": {"download_path": "/home/deluge/"}
+            }])
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
