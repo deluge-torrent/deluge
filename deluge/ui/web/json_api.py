@@ -496,29 +496,36 @@ class WebApi(JSONComponent):
     
     @export
     def get_hosts(self):
-        """Return the hosts in the hostlist"""
-        hosts = dict((host[HOSTLIST_ID], list(host[:])) for \
-            host in self.host_list["hosts"])
-        
-        main_deferred = Deferred()
-        def run_check():
-            if all([h[HOSTS_STATUS] is not None for h in hosts.values()]):
-                main_deferred.callback(hosts.values())
-        
-        def on_connect(connected, c, host_id):
+        """
+        Return the hosts in the hostlist.
+        """
+        log.debug("get_hosts called")
+    	d = Deferred()
+    	d.callback([(host[HOSTS_ID:HOSTS_PORT+1] + [_("Offline"),]) for host in self.host_list["hosts"]])
+    	return d
+
+    @export
+    def get_host_status(self, host_id):
+    	"""
+    	Returns the current status for the specified host.
+    	"""
+    	main_deferred = Deferred()
+    	
+    	(host_id, host, port, user, password) = self.get_host(host_id)
+    	
+    	def callback(status, info=None):
+    		main_deferred.callback((host_id, host, port, status, info))
+    	
+    	def on_connect(connected, c, host_id):
             def on_info(info, c):
-                hosts[host_id][HOSTS_STATUS] = _("Online")
-                hosts[host_id][HOSTS_INFO] = info
                 c.disconnect()
-                run_check()
+                callback(_("Online"), info)
             
             def on_info_fail(reason):
-                hosts[host_id][HOSTS_STATUS] = _("Offline")
-                run_check()
+                callback(_("Offline"))
             
             if not connected:
-                hosts[host_id][HOSTS_STATUS] = _("Offline")
-                run_check()
+                callback(_("Offline"))
                 return
 
             d = c.daemon.info()
@@ -526,28 +533,20 @@ class WebApi(JSONComponent):
             d.addErrback(on_info_fail)
             
         def on_connect_failed(reason, host_id):
-            log.exception(reason)
-            hosts[host_id][HOSTS_STATUS] = _("Offline")
-            run_check()
+            callback(_("Offline"))
+            
+        if client.connected() and (host, port, "localclient" if not \
+            user and host in ("127.0.0.1", "localhost") else \
+            user)  == client.connection_info():
+            def on_info(info):
+                callback(_("Connected"), info)
+
+            client.daemon.info().addCallback(on_info)
         
-        for host in hosts.values():
-            host_id, host, port, user, password = host
-            hosts[host_id][HOSTS_STATUS:HOSTS_INFO] = (None, None)
-            
-            if client.connected() and (host, port, "localclient" if not \
-                user and host in ("127.0.0.1", "localhost") else \
-                user)  == client.connection_info():
-                def on_info(info):
-                    hosts[host_id][HOSTS_INFO] = info
-                    run_check()
-                hosts[host_id][HOSTS_STATUS] = _("Connected")
-                client.daemon.info().addCallback(on_info)
-                continue
-            
-            c = Client()
-            d = c.connect(host, port, user, password)
-            d.addCallback(on_connect, c, host_id)
-            d.addErrback(on_connect_failed, host_id)
+        c = Client()
+        d = c.connect(host, port, user, password)
+        d.addCallback(on_connect, c, host_id)
+        d.addErrback(on_connect_failed, host_id)
         return main_deferred
     
     @export

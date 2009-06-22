@@ -241,11 +241,20 @@ Copyright:
 			Deluge.Events.fire('disconnect');
 		},
 		
-		runCheck: function() {
+		loadHosts: function() {
 			Deluge.Client.web.get_hosts({
 				success: this.onGetHosts,
 				scope: this
 			});
+		},
+		
+		update: function(self) {
+			self.grid.getStore().each(function(r) {
+				Deluge.Client.web.get_host_status(r.id, {
+					success: self.onGetHostStatus,
+					scope: self
+				});
+			}, this);
 		},
 		
 		onAdd: function(button, e) {
@@ -272,7 +281,7 @@ Copyright:
 			if (selected.get('status') == _('Connected')) {
 				Deluge.Client.web.disconnect({
 					success: function(result) {
-						this.runCheck();
+						this.update();
 						Deluge.Events.fire('disconnect');
 					},
 					scope: this
@@ -293,9 +302,24 @@ Copyright:
 		},
 		
 		onGetHosts: function(hosts) {
-			this.grid.getStore().loadData(hosts);
-			var selection = this.grid.getSelectionModel();
-			selection.selectRow(this.selectedRow);
+			var store = this.grid.getStore();
+			Ext.each(hosts, function(host) {
+				var record = store.getById(host[0]);
+				if (!record) {
+					store.loadData([host], true);
+				}
+				Deluge.Client.web.get_host_status(host[0], {
+					success: this.onGetHostStatus,
+					scope: this
+				});
+			}, this);
+		},
+		
+		onGetHostStatus: function(host) {
+			var record = this.grid.getStore().getById(host[0]);
+			record.set('status', host[3])
+			record.set('version', host[4])
+			record.commit();
 		},
 		
 		onLogin: function() {
@@ -350,8 +374,8 @@ Copyright:
 		},
 		
 		onShow: function() {
-			this.runCheck();
-			this.running = window.setInterval(this.runCheck, 2000);
+			this.loadHosts();
+			this.running = window.setInterval(this.update, 2000, this);
 		},
 		
 		onStop: function(button, e) {
