@@ -20,7 +20,7 @@ import os
 import os.path
 import sys
 import time
-from sha import sha
+from hashlib import sha1 as sha
 
 from deluge.bencode import bencode
 from deluge.log import LOG as log
@@ -52,7 +52,7 @@ def decode_from_filesystem(path):
 
     return decoded_path
 
-def dummy(v):
+def dummy(*v):
     pass
 
 def make_meta_file(path, url, piece_length, progress=dummy,
