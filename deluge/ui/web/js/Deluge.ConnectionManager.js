@@ -40,7 +40,7 @@ Copyright:
 	Ext.deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
 		
 		constructor: function(config) {
-			config = Ext.extend({
+			config = Ext.apply({
 				layout: 'fit',
 				width: 300,
 				height: 195,
@@ -57,6 +57,8 @@ Copyright:
 		
 		initComponent: function() {
 			Ext.deluge.AddConnectionWindow.superclass.initComponent.call(this);
+			
+			this.addEvents('hostadded');
 			
 			this.addButton(_('Close'), this.hide, this);
 			this.addButton(_('Add'), this.onAdd, this);
@@ -75,7 +77,8 @@ Copyright:
 				fieldLabel: _('Host'),
 				id: 'host',
 				name: 'host',
-				anchor: '100%'
+				anchor: '100%',
+				value: ''
 			});
 			
 			this.portField = this.form.add({
@@ -93,7 +96,8 @@ Copyright:
 				fieldLabel: _('Username'),
 				id: 'username',
 				name: 'username',
-				anchor: '100%'
+				anchor: '100%',
+				value: ''
 			});
 			
 			this.passwordField = this.form.add({
@@ -101,15 +105,39 @@ Copyright:
 				anchor: '100%',
 				id: '_password',
 				name: '_password',
-				inputType: 'password'
+				inputType: 'password',
+				value: ''
 			});
 		},
 		
 		onAdd: function() {
+			var host = this.hostField.getValue();
+			var port = this.portField.getValue();
+			var username = this.usernameField.getValue();
+			var password = this.passwordField.getValue();
+			
+			Deluge.Client.web.add_host(host, port, username, password, {
+				success: function(result) {
+					if (!result[0]) {
+						Ext.MessageBox.show({
+							title: _('Error'),
+							msg: "Unable to add host: " + result[1],
+							buttons: Ext.MessageBox.OK,
+							modal: false,
+							icon: Ext.MessageBox.ERROR,
+							iconCls: 'x-deluge-icon-error'
+						});
+					} else {
+						this.fireEvent('hostadded');
+					}
+					this.hide();
+				},
+				scope: this
+			});
 		},
 		
 		onHide: function() {
-			
+			this.form.getForm().reset();
 		}
 	});
 
@@ -213,53 +241,23 @@ Copyright:
 			Deluge.Events.fire('disconnect');
 		},
 		
-		runCheck: function(callback, scope) {
-			callback = callback || this.onGetHosts;
-			scope = scope || this;
+		runCheck: function() {
 			Deluge.Client.web.get_hosts({
-				success: callback,
-				scope: scope
+				success: this.onGetHosts,
+				scope: this
 			});
 		},
 		
 		onAdd: function(button, e) {
-			if (!this.addWindow) this.addWindow = new Ext.deluge.AddConnectionWindow();
+			if (!this.addWindow) {
+				this.addWindow = new Ext.deluge.AddConnectionWindow();
+				this.addWindow.on('hostadded', this.onHostAdded, this);
+			}
 			this.addWindow.show();
 		},
 		
-		onAddHost: function() {
-			var form = this.addWindow.form;
-			var host = form.items.get('host').getValue();
-			var port = form.items.get('port').getValue();
-			var username = form.items.get('username').getValue();
-			var password = form.items.get('_password').getValue();
-			
-			Deluge.Client.web.add_host(host, port, username, password, {
-				onSuccess: function(result) {
-					if (!result[0]) {
-						Ext.MessageBox.show({
-							title: _('Error'),
-							msg: "Unable to add host: " + result[1],
-							buttons: Ext.MessageBox.OK,
-							modal: false,
-							icon: Ext.MessageBox.ERROR,
-							iconCls: 'x-deluge-icon-error'
-						});
-					} else {
-						this.runCheck();
-					}
-					this.addWindow.hide();
-				}
-			});
-		},
-		
-		onAddWindowHide: function() {
-			// Tidy up the form to ensure all the values are default.
-			var form = Deluge.Connections.Add.items.first();
-			form.items.get('host').reset();
-			form.items.get('port').reset();
-			form.items.get('username').reset();
-			form.items.get('_password').reset();
+		onHostAdded: function() {
+			this.runCheck();
 		},
 		
 		onClose: function(e) {
