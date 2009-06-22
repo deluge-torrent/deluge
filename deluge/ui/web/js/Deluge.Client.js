@@ -101,13 +101,13 @@ Ext.namespace('Ext.ux.util');
             errorObj = {
                 id: options.id,
                 result: null,
-                error: 'HTTP' + response.status
+                error: 'HTTP: ' + response.status + ' ' + response.statusText
             }            
             if (Ext.type(options.failure) != 'function') return;
             if (options.scope) {
-                options.failure.call(options.scope, responseObj.error, responseObj, response);
+                options.failure.call(options.scope, errorObj, response, requestOptions);
             } else {
-                options.failure(responseObj.error, responseObj, response);
+                options.failure(errorObj, response, requestOptions);
             }
         },
         
@@ -117,9 +117,9 @@ Ext.namespace('Ext.ux.util');
             if (responseObj.error) {
                 if (Ext.type(options.failure) != 'function') return;
                 if (options.scope) {
-                    options.failure.call(options.scope, responseObj.error, responseObj, response, requestOptions);
+                    options.failure.call(options.scope, responseObj, response, requestOptions);
                 } else {
-                    options.failure(responseObj.error, responseObj, response, requestOptions);
+                    options.failure(responseObj, response, requestOptions);
                 }
             } else {
                 if (Ext.type(options.success) != 'function') return;
