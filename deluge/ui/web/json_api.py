@@ -479,7 +479,7 @@ class WebApi(JSONComponent):
         :type torrents: list
         
         **Usage**
-        >>> json_api.add_torrents([{
+        >>> json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
                 "options": {"download_path": "/home/deluge/"}
             }])
