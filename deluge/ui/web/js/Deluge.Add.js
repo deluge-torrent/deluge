@@ -124,20 +124,28 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			defaultType: 'radio',
 			width: 100
 		});
-		fieldset.add({
-			name: 'compact_allocation',
-			value: 'false',
-			boxLabel: _('Full'),
-			fieldLabel: '',
+
+		this.optionsManager.bind('compact_allocation', fieldset.add({
+			xtype: 'radiogroup',
+			columns: 1,
+			vertical: true,
 			labelSeparator: '',
-		});
-		fieldset.add({
-			name: 'compact_allocation',
-			value: 'true',
-			boxLabel: _('Compact'),
-			fieldLabel: '',
-			labelSeparator: '',
-		});
+			items: [{
+				name: 'compact_allocation',
+				value: false,
+				inputValue: false,
+				boxLabel: _('Full'),
+				fieldLabel: '',
+				labelSeparator: ''
+			}, {
+				name: 'compact_allocation',
+				value: true,
+				inputValue: true,
+				boxLabel: _('Compact'),
+				fieldLabel: '',
+				labelSeparator: '',
+			}]
+		}));
 		
 		fieldset = panel.add({
 			title: _('Bandwidth'),
@@ -198,6 +206,8 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		form.layout = new Ext.layout.FormLayout();
 		form.layout.setContainer(form);
 		form.doLayout();
+		
+		this.optionsManager.changeId(null);
 	},
 	
 	clear: function() {
