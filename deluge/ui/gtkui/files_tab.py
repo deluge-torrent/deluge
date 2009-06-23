@@ -555,6 +555,10 @@ class FilesTab(Tab):
 
     def _on_torrent_file_renamed_signal(self, torrent_id, index, name):
         log.debug("index: %s name: %s", index, name)
+
+        if torrent_id not in self.files_list:
+            return
+
         old_name = self.files_list[torrent_id][index]["path"]
         self.files_list[torrent_id][index]["path"] = name
 
@@ -702,6 +706,9 @@ class FilesTab(Tab):
     def _on_torrent_folder_renamed_signal(self, torrent_id, old_folder, new_folder):
         log.debug("on_torrent_folder_renamed_signal")
         log.debug("old_folder: %s new_folder: %s", old_folder, new_folder)
+
+        if torrent_id not in self.files_list:
+            return
 
         if old_folder[-1] != "/":
             old_folder += "/"
