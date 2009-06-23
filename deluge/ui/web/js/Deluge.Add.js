@@ -314,15 +314,15 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 					var child = new Ext.tree.TreeNode({
 						text: file
 					});
-					walk(item, child);
 					parent.appendChild(child);
+					walk(item, child);	
 				} else {
 					parent.appendChild(new Ext.tree.TreeNode({
 						filename: file,
 						text: file, // this needs to be here for sorting reasons
-						size: fsize(item[0]),
+						size: fsize(item[1]),
 						leaf: true,
-						checked: item[1],
+						checked: item[2],
 						iconCls: 'x-deluge-file',
 						uiProvider: Ext.tree.ColumnNodeUI
 					}));	

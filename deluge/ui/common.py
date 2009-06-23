@@ -113,7 +113,7 @@ class TorrentInfo(object):
             self.__m_files_tree = file_tree.get_tree()
         else:
             self.__m_files_tree = {
-                self.__m_name: (self.__m_metadata["info"]["length"], True)
+                self.__m_name: (0, self.__m_metadata["info"]["length"], True)
             }
 
         self.__m_files = []
