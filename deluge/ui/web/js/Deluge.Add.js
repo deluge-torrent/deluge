@@ -74,29 +74,130 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			folderSort: true
 		});
 		
+		this.optionsManager = new Deluge.OptionsManager({
+		    defaults: {
+		        'add_paused': false,
+                'compact_allocation': false,
+                'download_location': '~',
+                'max_connections_per_torrent': -1,
+                'max_download_speed_per_torrent': -1,
+                'max_upload_slots_per_torrent': -1,
+                'max_upload_speed_per_torrent': -1,
+                'prioritize_first_last_pieces': false
+		    }
+		});
+		
 		this.form = this.add({
 			xtype: 'form',
 			labelWidth: 1,
-			frame: false,
 			title: _('Options'),
 			bodyStyle: 'padding: 5px;',
 			border: false,
-			
-			
-			items: [{
-				xtype: 'fieldset',
-				title: _('Download Location'),
-				border: false,
-				defaultType: 'textfield',
-				labelWidth: 1,
-				items: [{
-					fieldLabel: '',
-					labelSeperator: '',
-					name: 'download_location',
-					width: 330
-				}]
-			}]
+			height: 170
 		});
+		
+		var fieldset = this.form.add({
+			xtype: 'fieldset',
+			title: _('Download Location'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'textfield',
+			labelWidth: 1,
+			fieldLabel: ''
+		});
+		this.optionsManager.bind('download_location', fieldset.add({
+			fieldLabel: '',
+			name: 'download_location',
+			width: 400,
+			labelSeparator: ''
+		}));
+		
+		var panel = this.form.add({
+			border: false,
+			layout: 'column',
+			defaultType: 'fieldset'
+		});
+		fieldset = panel.add({
+			title: _('Allocation'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'radio',
+			width: 100
+		});
+		fieldset.add({
+			name: 'compact_allocation',
+			value: 'false',
+			boxLabel: _('Full'),
+			fieldLabel: '',
+			labelSeparator: '',
+		});
+		fieldset.add({
+			name: 'compact_allocation',
+			value: 'true',
+			boxLabel: _('Compact'),
+			fieldLabel: '',
+			labelSeparator: '',
+		});
+		
+		fieldset = panel.add({
+			title: _('Bandwidth'),
+			border: false,
+			autoHeight: true,
+			labelWidth: 100,
+			width: 200,
+			defaultType: 'uxspinner'
+		});
+		this.optionsManager.bind('max_download_speed_per_torrent', fieldset.add({
+			fieldLabel: _('Max Down Speed'),
+			/*labelStyle: 'margin-left: 10px',*/
+			name: 'max_download_speed_per_torrent',
+			width: 60
+		}));
+		this.optionsManager.bind('max_upload_speed_per_torrent', fieldset.add({
+			fieldLabel: _('Max Up Speed'),
+			/*labelStyle: 'margin-left: 10px',*/
+			name: 'max_upload_speed_per_torrent',
+			width: 60
+		}));
+		this.optionsManager.bind('max_connections_per_torrent', fieldset.add({
+			fieldLabel: _('Max Connections'),
+			/*labelStyle: 'margin-left: 10px',*/
+			name: 'max_connections_per_torrent',
+			width: 60
+		}));
+		this.optionsManager.bind('max_upload_slots_per_torrent', fieldset.add({
+			fieldLabel: _('Max Upload Slots'),
+			/*labelStyle: 'margin-left: 10px',*/
+			name: 'max_upload_slots_per_torrent',
+			width: 60
+		}));
+		
+		fieldset = panel.add({
+			title: _('General'),
+			border: false,
+			autoHeight: true,
+			defaultType: 'checkbox'
+		});
+		this.optionsManager.bind('add_paused', fieldset.add({
+			name: 'add_paused',
+			boxLabel: _('Add In Paused State'),
+			fieldLabel: '',
+			labelSeparator: '',
+		}));
+		this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
+			name: 'prioritize_first_last_pieces',
+			boxLabel: _('Prioritize First/Last Pieces'),
+			fieldLabel: '',
+			labelSeparator: '',
+		}));
+		
+		this.form.on('render', this.onFormRender, this);
+	},
+	
+	onFormRender: function(form) {
+		form.layout = new Ext.layout.FormLayout();
+		form.layout.setContainer(form);
+		form.doLayout();
 	},
 	
 	clear: function() {
@@ -257,14 +358,13 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			})
 		});
 		
-		this.options = this.add(new Ext.deluge.add.OptionsPanel());
+		this.optionsPanel = this.add(new Ext.deluge.add.OptionsPanel());
 		this.on('show', this.onShow, this);
 	},
 	
 	clear: function() {
 		this.torrents = {};
 		this.grid.getStore().removeAll();
-		this.options.clear();
 	},
 	
 	onAdd: function() {
