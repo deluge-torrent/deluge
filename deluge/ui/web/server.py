@@ -47,6 +47,7 @@ import pkg_resources
 
 from twisted.application import service, internet
 from twisted.internet import reactor, error
+from twisted.internet.ssl import SSL
 from twisted.web import http, resource, server, static
 
 from deluge import common, component
@@ -378,6 +379,15 @@ class TopLevel(resource.Resource):
         request.setHeader("content-type", "text/html; charset=utf-8")
         return template.render(scripts=scripts, stylesheets=self.stylesheets)
 
+class ServerContextFactory:
+    
+    def getContext(self):
+        """Creates an SSL context."""
+        ctx = SSL.Context(SSL.SSLv3_METHOD)
+        ctx.use_privatekey_file(common.get_default_config_dir(os.path.join('ssl', 'web.key')))
+        ctx.use_certificate_file(common.get_default_config_dir(os.path.join('ssl', 'web.crt')))
+        return ctx
+
 class DelugeWeb(component.Component):
 
     def __init__(self):
@@ -409,6 +419,7 @@ class DelugeWeb(component.Component):
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
         self.port = self.config["port"]
+        self.https = self.config["https"]
         self.web_api = WebApi()
         self.auth = Auth()
 
@@ -436,6 +447,14 @@ class DelugeWeb(component.Component):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
         reactor.listenTCP(self.port, self.site)
         log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
+            self.port, self.port)
+        self.plugins.enable_plugins()
+        reactor.run()
+    
+    def start_ssl(self):
+        log.info("%s %s.", _("Starting server in PID"), os.getpid())
+        reactor.listenSSL(self.port, self.site, ServerContextFactory())
+        log.info("serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
         self.plugins.enable_plugins()
         reactor.run()
