@@ -75,6 +75,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		
 		switch (field.getXType()) {
 			case 'checkbox':
+			case 'radiogroup':
 				field.on('check', this.onFieldChange, this);
 				break;
 			case 'uxspinner':
@@ -236,7 +237,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 */
 	onFieldChange: function(field) {
 		var option = this.binds[field];
-		//alert(option);
+		this.updateOption(this.currentId, option, field.getValue());
 	},
 	
 	onChange: function(id, option, newValue, oldValue) {
