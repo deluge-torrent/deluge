@@ -750,6 +750,16 @@ Ext.reg('fullprogressbar', Ext.ux.FullProgressBar);
 
 // Allow radiogroups to be treated as a single form element.
 Ext.override(Ext.form.RadioGroup, {
+
+	afterRender: function() {
+        var that = this;
+        this.items.each(function(i) {
+            that.relayEvents(i, ['check']);
+        });
+        
+        Ext.form.RadioGroup.superclass.afterRender.call(this)
+    },
+    
   	getName: function() {
     	return this.items.first().getName();
   	},
