@@ -55,7 +55,7 @@ class Web(_UI):
             help="Sets the port to be used for the webserver",
             action="store", default=None)
         group.add_option("--ssl", dest="ssl", action="store_true",
-            help="Tells the webserver to use ssl", default=False)
+            help="Forces the webserver to use ssl", default=False)
         self.parser.add_option_group(group)
     
     @property
