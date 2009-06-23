@@ -501,7 +501,7 @@ class WebApi(JSONComponent):
         """
         log.debug("get_hosts called")
     	d = Deferred()
-    	d.callback([(host[HOSTS_ID:HOSTS_PORT+1] + [_("Offline"),]) for host in self.host_list["hosts"]])
+    	d.callback([(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]])
     	return d
 
     @export
