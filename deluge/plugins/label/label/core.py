@@ -102,7 +102,6 @@ class Core(CorePluginBase):
         core = component.get("Core")
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
-        #self.set_config_defaults()
 
         #reduce typing, assigning some values to self...
         self.torrents = core.torrentmanager.torrents
@@ -130,8 +129,6 @@ class Core(CorePluginBase):
         return dict( [(label, 0) for label in self.labels.keys()])
 
     ## Plugin hooks ##
-
-
     def post_torrent_add(self, torrent_id):
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
@@ -139,14 +136,13 @@ class Core(CorePluginBase):
         for label_id, options in self.labels.iteritems():
             if options["auto_add"]:
                 if self._has_auto_match(torrent, options):
-                    self.export_set_torrent(torrent_id, label_id)
+                    self.set_torrent(torrent_id, label_id)
                     return
 
     def post_torrent_remove(self, torrent_id):
         log.debug("post_torrent_remove")
         if torrent_id in self.torrent_labels:
             del self.torrent_labels[torrent_id]
-
 
     ## Utils ##
     def clean_config(self):
@@ -175,16 +171,6 @@ class Core(CorePluginBase):
     def save_config(self):
         self.clean_config()
         self.config.save()
-
-    def set_config_defaults(self):
-        #TODO : there is a deluge builtin for this, use it!
-        changed = False
-        for key, value in CONFIG_DEFAULTS.iteritems():
-            if not key in self.config.config:
-                self.config[key] = value
-                changed = True
-        if changed:
-            self.config.save()
 
     @export()
     def get_labels(self):
