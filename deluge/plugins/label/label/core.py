@@ -102,7 +102,6 @@ class Core(CorePluginBase):
         core = self.plugin.get_core()
         self.config = ConfigManager("label.conf", defaults=CONFIG_DEFAULTS)
         self.core_cfg = ConfigManager("core.conf")
-        #self.set_config_defaults()
 
         #reduce typing, assigning some values to self...
         self.torrents = core.torrents.torrents
@@ -177,16 +176,6 @@ class Core(CorePluginBase):
     def save_config(self):
         self.clean_config()
         self.config.save()
-
-    def set_config_defaults(self):
-        #TODO : there is a deluge builtin for this, use it!
-        changed = False
-        for key, value in CONFIG_DEFAULTS.iteritems():
-            if not key in self.config.config:
-                self.config[key] = value
-                changed = True
-        if changed:
-            self.config.save()
 
     def export_get_labels(self):
         return sorted(self.labels.keys())
