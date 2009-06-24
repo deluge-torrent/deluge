@@ -37,10 +37,10 @@
 """TorrentManager handles Torrent objects"""
 
 import cPickle
-import os.path
 import os
 import time
 import shutil
+import operator
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -507,16 +507,9 @@ class TorrentManager(component.Component):
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
-        ordered_state = []
-        for torrent_state in state.torrents:
-            for t in ordered_state:
-                if torrent_state.queue < t.queue:
-                    ordered_state.insert(ordered_state.index(t), torrent_state)
-                    break
-            if torrent_state not in ordered_state:
-                ordered_state.append(torrent_state)
+        state.torrents.sort(key=operator.attrgetter("queue"))
 
-        for torrent_state in ordered_state:
+        for torrent_state in state.torrents:
             try:
                 self.add(state=torrent_state, save_state=False)
             except AttributeError, e:
