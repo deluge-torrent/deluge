@@ -458,9 +458,8 @@ class PreferencesManager(component.Component):
                         url = "http://deluge-torrent.org/stats_get.php?processor=" + \
                             platform.machine() + "&python=" + platform.python_version() \
                             + "&deluge=" + deluge.common.get_version() \
-                            + "&os=" + platform.system()
-                        for plugin in self.config["enabled_plugins"]:
-                            url += "&plugins=" + quote_plus(plugin)
+                            + "&os=" + platform.system() \
+                            + "&plugins=" + quote_plus(":".join(self.config["enabled_plugins"]))
                         urlopen(url)
                     except IOError, e:
                         log.debug("Network error while trying to send info: %s", e)
