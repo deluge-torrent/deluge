@@ -144,7 +144,9 @@ DEFAULT_PREFS = {
     "random_outgoing_ports": True,
     "peer_tos": "0x00",
     "rate_limit_ip_overhead": True,
-    "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat"
+    "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
+    "cache_size": 512,
+    "cache_expiry": 60
 }
 
 class PreferencesManager(component.Component):
@@ -227,6 +229,10 @@ class PreferencesManager(component.Component):
             self._on_rate_limit_ip_overhead)
         self.config.register_set_function("geoip_db_location",
             self._on_geoip_db_location)
+        self.config.register_set_function("cache_size",
+            self._on_cache_size)
+        self.config.register_set_function("cache_expiry",
+            self._on_cache_expiry)
 
         self.config.register_change_callback(self._on_config_value_change)
 
@@ -516,3 +522,13 @@ class PreferencesManager(component.Component):
             except Exception, e:
                 log.error("Unable to load geoip database!")
                 log.exception(e)
+
+    def _on_cache_size(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.settings.cache_size = value
+        self.session.set_settings(self.settings)
+
+    def _on_cache_expiry(self, key, value):
+        log.debug("%s: %s", key, value)
+        self.settings.cache_expiry = value
+        self.session.set_settings(self.settings)

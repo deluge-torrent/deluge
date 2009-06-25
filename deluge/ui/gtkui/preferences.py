@@ -69,7 +69,8 @@ class Preferences(component.Component):
         # Add the default categories
         i = 0
         for category in [_("Downloads"), _("Network"), _("Bandwidth"), _("Interface"),
-            _("Other"), _("Daemon"), _("Queue"), _("Proxy"), _("Notification"), _("Plugins")]:
+            _("Other"), _("Daemon"), _("Queue"), _("Proxy"), _("Notification"),
+            _("Cache"), _("Plugins")]:
             self.liststore.append([i, category])
             i += 1
 
@@ -188,6 +189,10 @@ class Preferences(component.Component):
 
             def _on_get_listen_port(port):
                 self.active_port = port
+                client.core.get_cache_status().addCallback(_on_get_cache_status)
+
+            def _on_get_cache_status(status):
+                self.cache_status = status
                 self._show()
 
             # This starts a series of client.core requests prior to showing the window
@@ -281,6 +286,8 @@ class Preferences(component.Component):
                 "chk_seed_ratio": ("active", self.core_config["stop_seed_at_ratio"]),
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
                 "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"]),
+                "spin_cache_size": ("value", self.core_config["cache_size"]),
+                "spin_cache_expiry": ("value", self.core_config["cache_expiry"])
             }
             # Add proxy stuff
             for t in ("peer", "web_seed", "tracker", "dht"):
@@ -409,6 +416,8 @@ class Preferences(component.Component):
                 "spin_share_ratio_limit",
                 "spin_seed_time_ratio_limit",
                 "spin_seed_time_limit",
+                "spin_cache_size",
+                "spin_cache_expiry"
             ]
             for t in ("peer", "web_seed", "tracker", "dht"):
                 core_widget_list.append("spin_proxy_port_%s" % t)
@@ -477,6 +486,9 @@ class Preferences(component.Component):
             self.glade.get_widget("rad_ntf_none").set_active(True)
         elif self.gtkui_config["ntf_security"] == 'TLS':
             self.glade.get_widget("rad_ntf_tls").set_active(True)
+
+        ## Cache tab ##
+        self.__update_cache_status()
 
         ## Plugins tab ##
         all_plugins = self.all_plugins
@@ -753,6 +765,25 @@ class Preferences(component.Component):
 
     def hide(self):
         self.pref_dialog.hide()
+
+    def __update_cache_status(self):
+        # Updates the cache status labels with the info in the dict
+        for widget in self.glade.get_widget_prefix("label_cache_"):
+            key = widget.get_name()[len("label_cache_"):]
+            value = self.cache_status[key]
+            if type(value) == float:
+                value = "%.2f" % value
+            else:
+                value = str(value)
+
+            widget.set_text(value)
+
+    def on_button_cache_refresh_clicked(self, widget):
+        def on_get_cache_status(status):
+            self.cache_status = status
+            self.__update_cache_status()
+
+        client.core.get_cache_status().addCallback(on_get_cache_status)
 
     def on_pref_dialog_delete_event(self, widget, event):
         self.hide()

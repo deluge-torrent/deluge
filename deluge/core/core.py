@@ -338,6 +338,35 @@ class Core(component.Component):
         return status
 
     @export
+    def get_cache_status(self):
+        """
+        Returns a dictionary of the session's cache status.
+
+        :returns: a dict of the cache status
+
+        """
+
+        status = self.session.get_cache_status()
+        cache = {}
+        for attr in dir(status):
+            if attr.startswith("_"):
+                continue
+            cache[attr] = getattr(status, attr)
+
+        # Add in a couple ratios
+        try:
+            cache["write_hit_ratio"] = float((cache["blocks_written"] - cache["writes"])) / float(cache["blocks_written"])
+        except ZeroDivisionError:
+            cache["write_hit_ratio"] = 0.0
+
+        try:
+            cache["read_hit_ratio"] = float(cache["blocks_read_hit"]) / float(cache["blocks_read"])
+        except ZeroDivisionError:
+            cache["read_hit_ratio"] = 0.0
+
+        return cache
+
+    @export
     def force_reannounce(self, torrent_ids):
         log.debug("Forcing reannouncment to: %s", torrent_ids)
         for torrent_id in torrent_ids:
