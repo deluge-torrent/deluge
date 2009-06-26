@@ -75,6 +75,7 @@ class TorrentOptions(dict):
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
+        self["mapped_files"] = {}
 
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.

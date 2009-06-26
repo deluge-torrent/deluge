@@ -340,6 +340,12 @@ class TorrentManager(component.Component):
                 o.update(options)
                 options = o
 
+            # Check for renamed files and if so, rename them in the torrent_info
+            # before adding to the session.
+            if options["mapped_files"]:
+                for index, name in options["mapped_files"].items():
+                    torrent_info.rename_file(index, name)
+
             add_torrent_params["ti"] = torrent_info
             add_torrent_params["resume_data"] = ""
 
