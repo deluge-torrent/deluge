@@ -215,6 +215,12 @@ class GtkUI:
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
 
+        component.stop()
+
+        # Process any pending gtk events since the mainloop has been quit
+        while gtk.events_pending():
+            gtk.main_iteration(False)
+
         # Shutdown all components
         component.shutdown()
         if self.started_in_classic:

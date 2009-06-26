@@ -200,9 +200,7 @@ class ListView:
         state = []
 
         # Get the list of TreeViewColumns from the TreeView
-        treeview_columns = self.treeview.get_columns()
-        counter = 0
-        for column in treeview_columns:
+        for counter, column in enumerate(self.treeview.get_columns()):
             sort = None
             id, order = self.model_filter.get_sort_column_id()
             if self.get_column_name(id) == column.get_title():
@@ -211,8 +209,6 @@ class ListView:
             state.append(ListViewColumnState(column.get_title(), counter,
                 column.get_width(), column.get_visible(),
                 sort, int(column.get_sort_order())))
-            # Increase the counter because this is how we determine position
-            counter += 1
 
         # Get the config location for saving the state file
         config_location = deluge.configmanager.get_config_dir()
