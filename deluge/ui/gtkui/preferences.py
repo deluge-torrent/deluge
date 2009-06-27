@@ -103,7 +103,8 @@ class Preferences(component.Component):
             "on_test_port_clicked": self.on_test_port_clicked,
             "on_button_plugin_install_clicked": self._on_button_plugin_install_clicked,
             "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked,
-            "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked
+            "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked,
+            "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked
         })
 
         # These get updated by requests done to the core
@@ -778,7 +779,7 @@ class Preferences(component.Component):
 
             widget.set_text(value)
 
-    def on_button_cache_refresh_clicked(self, widget):
+    def _on_button_cache_refresh_clicked(self, widget):
         def on_get_cache_status(status):
             self.cache_status = status
             self.__update_cache_status()
