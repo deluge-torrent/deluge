@@ -181,27 +181,3 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
 
     dialog.destroy()
     return value
-
-def add_peer_dialog():
-    dialog_glade = gtk.glade.XML(
-        pkg_resources.resource_filename("deluge.ui.gtkui",
-            "glade/dgtkpopups.glade"))
-    peer_dialog = dialog_glade.get_widget("connect_peer_dialog")
-    txt_ip = dialog_glade.get_widget("txt_ip")
-    response = peer_dialog.run()
-    if response:
-        value = txt_ip.get_text()
-        if ']' in value:
-            #ipv6
-            ip = value.split("]")[0][1:]
-            port = value.split("]")[1][1:]
-        else:
-            #ipv4
-            ip = value.split(":")[0]
-            port = value.split(":")[1]
-        if deluge.common.is_ip(ip):
-            id = component.get("TorrentView").get_selected_torrent()
-            log.debug("adding peer %s to %s", value, id)
-            client.core.connect_peer(id, ip, port)
-    peer_dialog.destroy()
-    return True
