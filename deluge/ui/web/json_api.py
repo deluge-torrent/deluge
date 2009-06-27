@@ -75,7 +75,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     global AUTH_LEVEL_DEFAULT
     if AUTH_LEVEL_DEFAULT is None:
         from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT
-    
+
     def wrap(func, *args, **kwargs):
         func._json_export = True
         func._json_auth_level = auth_level
@@ -98,21 +98,21 @@ class JSON(resource.Resource, component.Component):
     A Twisted Web resource that exposes a JSON-RPC interface for web clients
     to use.
     """
-    
+
     def __init__(self):
         resource.Resource.__init__(self)
         component.Component.__init__(self, "JSON")
         self._remote_methods = []
         self._local_methods = {}
         client.disconnect_callback = self._on_client_disconnect
-    
+
     def connect(self, host="localhost", port=58846, username="", password=""):
         """
         Connects the client to a daemon
         """
         d = Deferred()
         _d = client.connect(host, port, username, password)
-        
+
         def on_get_methods(methods):
             """
             Handles receiving the method names
@@ -121,7 +121,7 @@ class JSON(resource.Resource, component.Component):
             methods = list(self._remote_methods)
             methods.extend(self._local_methods)
             d.callback(methods)
-        
+
         def on_client_connected(connection_id):
             """
             Handles the client successfully connecting to the daemon and 
@@ -132,10 +132,10 @@ class JSON(resource.Resource, component.Component):
             component.get("PluginManager").start()
         _d.addCallback(on_client_connected)
         return d
-    
+
     def _on_client_disconnect(self, *args):
         component.get("PluginManager").stop()
-    
+
     def _exec_local(self, method, params):
         """
         Handles executing all local methods.
@@ -151,14 +151,14 @@ class JSON(resource.Resource, component.Component):
             # and any plugins.
             return self._local_methods[method](*params)
         raise JSONException("Unknown system method")
-    
+
     def _exec_remote(self, method, params):
         """
         Executes methods using the Deluge client.
         """
         component, method = method.split(".")
         return getattr(getattr(client, component), method)(*params)
-    
+
     def _handle_request(self, request):
         """
         Takes some json data as a string and attempts to decode it, and process
@@ -170,14 +170,14 @@ class JSON(resource.Resource, component.Component):
             request = json.loads(request)
         except ValueError:
             raise JSONException("JSON not decodable")
-        
+
         if "method" not in request or "id" not in request or \
            "params" not in request:
             raise JSONException("Invalid JSON request")
-        
+
         method, params = request["method"], request["params"]
         request_id = request["id"]
-        
+
         try:
             if method.startswith("system."):
                 return self._exec_local(method, params), request_id
@@ -190,7 +190,7 @@ class JSON(resource.Resource, component.Component):
             d = Deferred()
             d.callback(None)
             return d, request_id
-    
+
     def _on_rpc_request_finished(self, result, response, request):
         """
         Sends the response of any rpc calls back to the json-rpc client.
@@ -205,7 +205,7 @@ class JSON(resource.Resource, component.Component):
         print type(reason)
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
-    
+
     def _on_json_request(self, request):
         """
         Handler to take the json data as a string and pass it on to the
@@ -217,7 +217,7 @@ class JSON(resource.Resource, component.Component):
         d.addCallback(self._on_rpc_request_finished, response, request)
         d.addErrback(self._on_rpc_request_failed, response, request)
         return d
-    
+
     def _on_json_request_failed(self, reason, request):
         """
         Errback handler to return a HTTP code of 500.
@@ -225,13 +225,13 @@ class JSON(resource.Resource, component.Component):
         log.exception(reason)
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
-    
+
     def _send_response(self, request, response):
         response = json.dumps(response)
         request.setHeader("content-type", "application/x-json")
         request.write(response)
         request.finish()
-    
+
     def render(self, request):
         """
         Handles all the POST requests made to the /json controller.
@@ -240,7 +240,7 @@ class JSON(resource.Resource, component.Component):
         if request.method != "POST":
             request.setResponseCode(http.NOT_ALLOWED)
             return ""
-        
+
         try:
             request.content.seek(0)
             request.json = request.content.read()
@@ -248,7 +248,7 @@ class JSON(resource.Resource, component.Component):
             return server.NOT_DONE_YET
         except Exception, e:
             return self._on_json_request_failed(e, request)
-    
+
     def register_object(self, obj, name=None):
         """
         Registers an object to export it's rpc methods.  These methods should
@@ -272,7 +272,7 @@ DEFAULT_PORT = 58846
 
 DEFAULT_HOSTS = {
     "hosts": [(hashlib.sha1(str(time.time())).hexdigest(),
-        DEFAULT_HOST, DEFAULT_PORT, "", "")]
+               DEFAULT_HOST, DEFAULT_PORT, "", "")]
 }
 HOSTLIST_ID = 0
 HOSTLIST_NAME = 1
@@ -292,11 +292,11 @@ class WebApi(JSONComponent):
     def __init__(self):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
-    
+
     def get_host(self, host_id):
         """
         Return the information about a host
-        
+
         :param host_id: str, the id of the host
         :returns: the host information
         :rtype: list
@@ -304,12 +304,12 @@ class WebApi(JSONComponent):
         for host in self.host_list["hosts"]:
             if host[0] == host_id:
                 return host
-    
+
     @export
     def connect(self, host_id):
         """
         Connect the client to a daemon
-        
+
         :param host_id: str, the id of the daemon in the host list
         :returns: the methods the daemon supports
         :rtype: list
@@ -322,19 +322,19 @@ class WebApi(JSONComponent):
                 continue
             self._json.connect(*host[1:]).addCallback(on_connected)
         return d
-    
+
     @export
     def connected(self):
         """
         The current connection state.
-        
+
         :returns: True if the client is connected
         :rtype: bool
         """
         d = Deferred()
         d.callback(client.connected())
         return d
-    
+
     @export
     def disconnect(self):
         """
@@ -344,12 +344,12 @@ class WebApi(JSONComponent):
         client.disconnect()
         d.callback(True)
         return d
-    
+
     @export
     def update_ui(self, keys, filter_dict):
         """
         Gather the information required for updating the web interface.
-        
+
         :param keys: list, the information about the torrents to gather
         :param filter_dict: dict, the filters to apply when selecting torrents.
         :returns: The torrent and ui information.
@@ -360,24 +360,24 @@ class WebApi(JSONComponent):
             "filters": None,
             "stats": None
         }
-        
+
         d = Deferred()
-        
+
         log.info("Updating ui with keys '%r' and filters '%r'", keys,
-            filter_dict)
-        
+                 filter_dict)
+
         def got_stats(stats):
             ui_info["stats"] = stats
-        
+
         def got_filters(filters):
             ui_info["filters"] = filters
-            
+
         def got_torrents(torrents):
             ui_info["torrents"] = torrents
 
         def on_complete(result):
             d.callback(ui_info)
-        
+
         d1 = client.core.get_torrents_status(filter_dict, keys)
         d1.addCallback(got_torrents)
 
@@ -386,11 +386,11 @@ class WebApi(JSONComponent):
 
         d3 = client.core.get_stats()
         d3.addCallback(got_stats)
-        
+
         dl = DeferredList([d1, d2, d3], consumeErrors=True)
-	dl.addCallback(on_complete)
+        dl.addCallback(on_complete)
         return d
-    
+
     def _on_got_files(self, torrent, d):
         files = torrent.get("files")
         file_progress = torrent.get("file_progress")
@@ -405,22 +405,22 @@ class WebApi(JSONComponent):
             torrent_file["priority"] = file_priorities[index]
             torrent_file["index"] = index
             info[path] = torrent_file
-        
+
         def walk(path, item):
             if type(item) is dict:
                 return item
             return [info[path]["index"], info[path]["size"],
-                info[path]["progress"], info[path]["priority"]]
+                    info[path]["progress"], info[path]["priority"]]
 
         file_tree = uicommon.FileTree(paths)
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
-    
+
     @export
     def get_torrent_files(self, torrent_id):
         """
         Gets the files for a torrent in tree format
-        
+
         :param torrent_id: string, the id of the torrent to retrieve.
         :returns: The torrents files in a tree
         :rtype: dict
@@ -434,7 +434,7 @@ class WebApi(JSONComponent):
     def download_torrent_from_url(self, url):
         """
         Download a torrent file from a url to a temporary directory.
-        
+
         :param url: str, the url of the torrent
         :returns: the temporary file name of the torrent file
         :rtype: str
@@ -445,12 +445,12 @@ class WebApi(JSONComponent):
         d = Deferred()
         d.callback(filename)
         return d
-    
+
     @export
     def get_torrent_info(self, filename):
         """
         Return information about a torrent on the filesystem.
-        
+
         :param filename: str, the path to the torrent
         :returns:
         {
@@ -473,11 +473,11 @@ class WebApi(JSONComponent):
     def add_torrents(self, torrents):
         """
         Add torrents by file
-        
+
         :param torrents: A list of dictionaries containing the torrent
         path and torrent options to add with.
         :type torrents: list
-        
+
         **Usage**
         >>> json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
@@ -488,42 +488,42 @@ class WebApi(JSONComponent):
             filename = os.path.basename(torrent["path"])
             fdump = base64.encodestring(open(torrent["path"], "rb").read())
             log.info("Adding torrent from file `%s` with options `%r`",
-                filename, torrent["options"])
+                     filename, torrent["options"])
             client.core.add_torrent_file(filename, fdump, torrent["options"])
         d = Deferred()
         d.callback(True)
         return d
-    
+
     @export
     def get_hosts(self):
         """
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-    	d = Deferred()
-    	d.callback([(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]])
-    	return d
+        d = Deferred()
+        d.callback([(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]])
+        return d
 
     @export
     def get_host_status(self, host_id):
-    	"""
+        """
     	Returns the current status for the specified host.
     	"""
-    	main_deferred = Deferred()
-    	
-    	(host_id, host, port, user, password) = self.get_host(host_id)
-    	
-    	def callback(status, info=None):
-    		main_deferred.callback((host_id, host, port, status, info))
-    	
-    	def on_connect(connected, c, host_id):
+        main_deferred = Deferred()
+
+        (host_id, host, port, user, password) = self.get_host(host_id)
+
+        def callback(status, info=None):
+            main_deferred.callback((host_id, host, port, status, info))
+
+        def on_connect(connected, c, host_id):
             def on_info(info, c):
                 c.disconnect()
                 callback(_("Online"), info)
-            
+
             def on_info_fail(reason):
                 callback(_("Offline"))
-            
+
             if not connected:
                 callback(_("Offline"))
                 return
@@ -531,24 +531,24 @@ class WebApi(JSONComponent):
             d = c.daemon.info()
             d.addCallback(on_info, c)
             d.addErrback(on_info_fail)
-            
+
         def on_connect_failed(reason, host_id):
             callback(_("Offline"))
-            
+
         if client.connected() and (host, port, "localclient" if not \
-            user and host in ("127.0.0.1", "localhost") else \
-            user)  == client.connection_info():
+                                   user and host in ("127.0.0.1", "localhost") else \
+                                   user)  == client.connection_info():
             def on_info(info):
                 callback(_("Connected"), info)
 
             client.daemon.info().addCallback(on_info)
-        
+
         c = Client()
         d = c.connect(host, port, user, password)
         d.addCallback(on_connect, c, host_id)
         d.addErrback(on_connect_failed, host_id)
         return main_deferred
-    
+
     @export
     def stop_daemon(self, connection_id):
         """
@@ -562,7 +562,7 @@ class WebApi(JSONComponent):
         if not host:
             main_deferred.callback((False, _("Daemon doesn't exist")))
             return main_deferred
-        
+
         try:
             def on_connect(connected, c):
                 if not connected:
@@ -570,7 +570,7 @@ class WebApi(JSONComponent):
                     return
                 c.daemon.shutdown()
                 main_deferred.callback((True, ))
-            
+
             def on_connect_failed(reason):
                 main_deferred.callback((False, reason))
 
@@ -582,7 +582,7 @@ class WebApi(JSONComponent):
         except:
             main_deferred.callback((False, "An error occured"))
         return main_deferred
-    
+
     @export
     def add_host(self, host, port, username="", password=""):
         """
@@ -600,21 +600,21 @@ class WebApi(JSONComponent):
         for entry in self.host_list["hosts"]:
             if (entry[0], entry[1], entry[2]) == (host, port, username):
                 d.callback((False, "Host already in the list"))
-        
+
         try:
             port = int(port)
         except:
             d.callback((False, "Port is invalid"))
             return d
-        
+
         # Host isn't in the list, so lets add it
         connection_id = hashlib.sha1(str(time.time())).hexdigest()
         self.host_list["hosts"].append([connection_id, host, port, username,
-            password])
+                                        password])
         self.host_list.save()
         d.callback((True,))
         return d
-    
+
     @export
     def remove_host(self, connection_id):
         """
@@ -627,7 +627,7 @@ class WebApi(JSONComponent):
         host = self.get_host(connection_id)
         if host is None:
             d.callback(False)
-        
+
         self.host_list["hosts"].remove(host)
         self.host_list.save()
         d.callback(True)
