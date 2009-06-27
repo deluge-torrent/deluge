@@ -834,6 +834,11 @@ class AddTorrentDialog(component.Component):
                 if self.files_treestore.iter_has_child(row):
                     walk_tree(self.files_treestore.iter_children(row))
 
+                # Get the file path base once, since it will be the same for
+                # all siblings
+                file_path_base = self.get_file_path(self.files_treestore.iter_parent(row))
+
+                # Iterate through all the siblings at this level
                 while row:
                     index = self.files_treestore[row][3]
 
@@ -842,8 +847,7 @@ class AddTorrentDialog(component.Component):
                         return
 
                     # Get the new full path for this file
-                    file_path = self.get_file_path(self.files_treestore.iter_parent(row))
-                    file_path += self.files_treestore[row][1]
+                    file_path = file_path_base + self.files_treestore[row][1]
 
                     # Update the file path in the mapped_files dict
                     self.options[torrent_id]["mapped_files"][index] = file_path
