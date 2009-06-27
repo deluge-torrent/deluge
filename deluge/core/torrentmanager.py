@@ -344,6 +344,7 @@ class TorrentManager(component.Component):
             # before adding to the session.
             if options["mapped_files"]:
                 for index, name in options["mapped_files"].items():
+                    log.debug("renaming file index %s to %s", index, name)
                     torrent_info.rename_file(index, name)
 
             add_torrent_params["ti"] = torrent_info

@@ -87,6 +87,7 @@ class AddTorrentDialog(component.Component):
         self.infos = {}
         self.core_config = {}
         self.options = {}
+
         self.previous_selected_torrent = None
 
 
@@ -107,6 +108,8 @@ class AddTorrentDialog(component.Component):
         column.pack_start(render, False)
         column.add_attribute(render, "stock-id", 5)
         render = gtk.CellRendererText()
+        render.set_property("editable", True)
+        render.connect("edited", self._on_filename_edited)
         column.pack_start(render, True)
         column.add_attribute(render, "text", 1)
         column.set_expand(True)
@@ -377,7 +380,11 @@ class AddTorrentDialog(component.Component):
 
         torrent_id = self.torrent_liststore.get_value(row, 0)
 
-        options = {}
+        if torrent_id in self.options:
+            options = self.options[torrent_id]
+        else:
+            options = {}
+
         if client.is_localhost():
             options["download_location"] = \
                 self.glade.get_widget("button_location").get_current_folder()
@@ -778,3 +785,78 @@ class AddTorrentDialog(component.Component):
     def _on_delete_event(self, widget, event):
         self.hide()
         return True
+
+    def get_file_path(self, row, path=""):
+        if not row:
+            return path
+
+        path = self.files_treestore[row][1] + path
+        return self.get_file_path(self.files_treestore.iter_parent(row), path)
+
+    def _on_filename_edited(self, renderer, path, new_text):
+        index = self.files_treestore[path][3]
+
+        # Return if the text hasn't changed
+        if new_text == self.files_treestore[path][1]:
+            return
+
+        # Get the tree iter
+        itr = self.files_treestore.get_iter(path)
+
+        # Get the torrent_id
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        torrent_id = model[row][0]
+
+        if "mapped_files" not in self.options[torrent_id]:
+            self.options[torrent_id]["mapped_files"] = {}
+
+        if index > -1:
+            # We're renaming a file! Yay! That's easy!
+            file_path = self.get_file_path(self.files_treestore.iter_parent(itr))
+
+            file_path += new_text
+
+            # Update the row's text
+            self.files_treestore[itr][1] = new_text
+
+            # Update the mapped_files dict in the options with the index and new
+            # file path.
+            # We'll send this to the core when adding the torrent so it knows
+            # what to rename before adding.
+            self.options[torrent_id]["mapped_files"][index] = file_path
+        else:
+            # Folder!
+            def walk_tree(row):
+                if not row:
+                    return
+
+                # We recurse if there are children
+                if self.files_treestore.iter_has_child(row):
+                    walk_tree(self.files_treestore.iter_children(row))
+
+                while row:
+                    index = self.files_treestore[row][3]
+
+                    # Don't do anything if this is a folder
+                    if index == -1:
+                        return
+
+                    # Get the new full path for this file
+                    file_path = self.get_file_path(self.files_treestore.iter_parent(row))
+                    file_path += self.files_treestore[row][1]
+
+                    # Update the file path in the mapped_files dict
+                    self.options[torrent_id]["mapped_files"][index] = file_path
+
+                    # Get the next siblings iter
+                    row = self.files_treestore.iter_next(row)
+
+            # Update the treestore row first so that when walking the tree
+            # we can construct the new proper paths
+            if len(new_text) == 0 or new_text[-1] != "/":
+                new_text += "/"
+            self.files_treestore[itr][1] = new_text
+
+            # Walk through the tree from 'itr' and add all the new file paths
+            # to the 'mapped_files' option
+            walk_tree(itr)
