@@ -46,6 +46,7 @@ from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.component as component
 import deluge.common
+import common
 
 from deluge.log import LOG as log
 
@@ -673,29 +674,6 @@ class FilesTab(Tab):
 
         return path_iter
 
-    def reparent_iter(self, itr, parent, move_siblings=False):
-        """
-        This effectively moves itr plus it's children to be a child of parent
-
-        If move_siblings is True, it will move all itr's siblings to parent
-        """
-        src = itr
-        def move_children(i, dest):
-            while i:
-                n = self.treestore.append(dest, self.treestore.get(i, *xrange(self.treestore.get_n_columns())))
-                to_remove = i
-                if self.treestore.iter_children(i):
-                    move_children(self.treestore.iter_children(i), n)
-                if i != src:
-                    i = self.treestore.iter_next(i)
-                else:
-                    # This is the source iter, we don't want other iters in it's level
-                    if not move_siblings:
-                        i = None
-                self.treestore.remove(to_remove)
-
-        move_children(itr, parent)
-
     def remove_childless_folders(self, itr):
         """
         Goes up the tree removing childless itrs starting at itr
@@ -745,14 +723,14 @@ class FilesTab(Tab):
                 return
             if new_folder_iter:
                 # This means that a folder by this name already exists
-                self.reparent_iter(self.treestore.iter_children(old_folder_iter), new_folder_iter)
+                common.reparent_iter(self.treestore, self.treestore.iter_children(old_folder_iter), new_folder_iter)
             else:
                 parent = old_folder_iter_parent
                 for ns in new_split[:-1]:
                     parent = self.treestore.append(parent, [ns + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
 
                 self.treestore[old_folder_iter][0] = new_split[-1] + "/"
-                self.reparent_iter(old_folder_iter, parent)
+                common.reparent_iter(self.treestore, old_folder_iter, parent)
 
             # We need to check if the old_folder_iter_parent no longer has children
             # and if so, we delete it

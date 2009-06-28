@@ -52,6 +52,7 @@ from deluge.log import LOG as log
 import deluge.common
 import deluge.ui.common
 import dialogs
+import common
 
 class AddTorrentDialog(component.Component):
     def __init__(self):
@@ -859,7 +860,31 @@ class AddTorrentDialog(component.Component):
             # we can construct the new proper paths
             if len(new_text) == 0 or new_text[-1] != "/":
                 new_text += "/"
-            self.files_treestore[itr][1] = new_text
+
+            # We need to check if this folder has been split
+            split_text = new_text[:-1].split("/")
+            if len(split_text) > 1:
+                # It's been split, so we need to add new folders and then reparent
+                # itr.
+                parent = self.files_treestore.iter_parent(itr)
+                for s in split_text[:-1]:
+                    # We don't iterate over the last item because we'll just use
+                    # the existing itr and change the text
+                    parent = self.files_treestore.append(parent,
+                                [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
+
+                self.files_treestore[itr][1] = split_text[-1]
+
+                # Now reparent itr to parent
+                common.reparent_iter(self.files_treestore, itr, parent)
+
+                # We need to re-expand the view because it might contracted
+                # if we change the root iter
+                self.listview_files.expand_row("0", False)
+            else:
+                # This was a simple folder rename without any splits, so just
+                # change the path for itr
+                self.files_treestore[itr][1] = new_text
 
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option

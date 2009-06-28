@@ -181,3 +181,29 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
 
     dialog.destroy()
     return value
+
+def reparent_iter(treestore, itr, parent, move_siblings=False):
+    """
+    This effectively moves itr plus it's children to be a child of parent in treestore
+
+    :param treestore: gtkTreeStore, the treestore
+    :param itr: gtkTreeIter, the iter to move
+    :param parent: gtkTreeIter, the new parent for itr
+    :param move_siblings: bool. if True, it will move all itr's siblings to parent
+    """
+    src = itr
+    def move_children(i, dest):
+        while i:
+            n = treestore.append(dest, treestore.get(i, *xrange(treestore.get_n_columns())))
+            to_remove = i
+            if treestore.iter_children(i):
+                move_children(treestore.iter_children(i), n)
+            if i != src:
+                i = treestore.iter_next(i)
+            else:
+                # This is the source iter, we don't want other iters in it's level
+                if not move_siblings:
+                    i = None
+            treestore.remove(to_remove)
+
+    move_children(itr, parent)
