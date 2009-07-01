@@ -128,7 +128,7 @@ def start_daemon():
 
     if 'dev' not in deluge.common.get_version():
         import warnings
-        warnings.filterwarnings('ignore', module='twisted')
+        warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",

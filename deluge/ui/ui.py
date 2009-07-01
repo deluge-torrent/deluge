@@ -45,7 +45,7 @@ DEFAULT_PREFS = {
 
 if 'dev' not in deluge.common.get_version():
     import warnings
-    warnings.filterwarnings('ignore', module='twisted')
+    warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
 class _UI(object):
 
