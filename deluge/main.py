@@ -40,7 +40,6 @@
 """Main starting point for Deluge.  Contains the main() entry point."""
 
 import os
-import os.path
 import sys
 from optparse import OptionParser
 
