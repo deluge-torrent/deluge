@@ -32,7 +32,9 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from twisted.web import client
+from twisted.web import client, http
+from twisted.web.error import PageRedirect
+from twisted.python.failure import Failure
 from twisted.internet import reactor
 
 class HTTPDownloader(client.HTTPDownloader):
@@ -50,17 +52,25 @@ class HTTPDownloader(client.HTTPDownloader):
         self.current_length = 0
         client.HTTPDownloader.__init__(self, url, filename)
 
+    def gotStatus(self, version, status, message):
+        self.code = int(status)
+        client.HTTPDownloader.gotStatus(self, version, status, message)
+
     def gotHeaders(self, headers):
-        if self.status == "200":
+        if self.code == http.OK:
             if "content-length" in headers:
                 self.total_length = int(headers["content-length"][0])
             else:
                 self.total_length = 0
+        elif self.code in (http.TEMPORARY_REDIRECT, http.MOVED_PERMANENTLY):
+            location = headers["location"][0]
+            error = PageRedirect(self.code, location=location)
+            self.noPage(Failure(error))
 
         return client.HTTPDownloader.gotHeaders(self, headers)
 
     def pagePart(self, data):
-        if self.status == "200":
+        if self.code == http.OK:
             self.current_length += len(data)
             if self.__part_callback:
                 self.__part_callback(data, self.current_length, self.total_length)
