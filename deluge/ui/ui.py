@@ -38,10 +38,15 @@ import deluge.common
 import deluge.configmanager
 import deluge.log
 import os
+import warnings
 
 DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
+
+if 'dev' not in deluge.common.get_version():
+    warnings.filterwarnings('ignore', module='twisted.persisted.sob')
+    warnings.filterwarnings('ignore', module='twisted.python.filepath')
 
 class _UI(object):
 

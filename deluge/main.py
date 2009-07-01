@@ -48,6 +48,7 @@ import deluge.common
 import deluge.configmanager
 import deluge.error
 
+
 def start_ui():
     """Entry point for ui script"""
     import deluge.common
@@ -124,6 +125,10 @@ def start_ui():
 def start_daemon():
     """Entry point for daemon script"""
     import deluge.common
+
+    if 'dev' not in deluge.common.get_version():
+        import warnings
+        warnings.filterwarnings('ignore', module='twisted.internet._sslverify')
 
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",
