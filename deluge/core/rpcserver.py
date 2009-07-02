@@ -42,7 +42,7 @@ import stat
 import traceback
 
 from twisted.internet.protocol import Factory, Protocol
-from twisted.internet import ssl, reactor
+from twisted.internet import ssl, reactor, defer
 
 from OpenSSL import crypto, SSL
 from types import FunctionType
@@ -272,7 +272,23 @@ class DelugeRPCProtocol(Protocol):
                 if not isinstance(e, DelugeError):
                     log.exception("Exception calling RPC request: %s", e)
             else:
-                self.sendData((RPC_RESPONSE, request_id, ret))
+                # Check if the return value is a deferred, since we'll need to
+                # wait for it to fire before sending the RPC_RESPONSE
+                if isinstance(ret, defer.Deferred):
+                    def on_success(result):
+                        self.sendData((RPC_RESPONSE, request_id, ret))
+                        return result
+
+                    def on_fail(failure):
+                        try:
+                            failure.raiseException()
+                        except Exception, e:
+                            sendError()
+                        return failure
+
+                    ret.addCallbacks(on_success, on_fail)
+                else:
+                    self.sendData((RPC_RESPONSE, request_id, ret))
 
 class RPCServer(component.Component):
     """
