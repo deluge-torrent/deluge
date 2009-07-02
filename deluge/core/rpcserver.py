@@ -276,7 +276,7 @@ class DelugeRPCProtocol(Protocol):
                 # wait for it to fire before sending the RPC_RESPONSE
                 if isinstance(ret, defer.Deferred):
                     def on_success(result):
-                        self.sendData((RPC_RESPONSE, request_id, ret))
+                        self.sendData((RPC_RESPONSE, request_id, result))
                         return result
 
                     def on_fail(failure):
