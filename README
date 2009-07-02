@@ -68,7 +68,8 @@ sudo apt-get install g++ make python-all-dev python-all python-dbus \
     python-gtk2 python-notify librsvg2-common python-xdg python-support \
     subversion libboost-dev libboost-python-dev libboost-iostreams-dev \
     libboost-thread-dev libboost-date-time-dev libboost-filesystem-dev \
-    libboost-serialization-dev libssl-dev zlib1g-dev python-setuptools
+    libboost-serialization-dev libssl-dev zlib1g-dev python-setuptools \
+    python-mako python-twisted-web python-chardet 
 
 The names of the packages may vary depending on your OS / distro.
 
