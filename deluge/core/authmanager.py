@@ -33,7 +33,7 @@
 #
 #
 
-import os.path
+import os
 import random
 import stat
 
@@ -101,12 +101,19 @@ class AuthManager(component.Component):
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
-            open(auth_file, "w").write(self.__create_localclient_account())
+            localclient = self.__create_localclient_account()
+            fd = open(auth_file, "w")
+            fd.write(localclient)
+            fd.flush()
+            os.fsync(fd.fileno())
+            fd.close()
             # Change the permissions on the file so only this user can read/write it
             os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
+            f = [localclient]
+        else:
+            # Load the auth file into a dictionary: {username: password, ...}
+            f = open(auth_file, "r").readlines()
 
-        # Load the auth file into a dictionary: {username: password, ...}
-        f = open(auth_file, "r")
         for line in f:
             if line.startswith("#"):
                 # This is a comment line
@@ -128,6 +135,5 @@ class AuthManager(component.Component):
 
             self.__auth[username.strip()] = (password.strip(), level)
 
-        f.close()
         if "localclient" not in self.__auth:
             open(auth_file, "a").write(self.__create_localclient_account())
