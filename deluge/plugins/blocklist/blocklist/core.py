@@ -2,6 +2,7 @@
 # core.py
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 John Garland <johnnybg@gmail.com>
 #
 # Deluge is free software.
 #
@@ -33,20 +34,20 @@
 #
 #
 
-import urllib
 import os
 import datetime
-import time
 import shutil
 
 from twisted.internet.task import LoopingCall
-from twisted.internet import reactor
+from twisted.internet import reactor, threads
+from twisted.web import error
 
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+from deluge.httpdownloader import download_file
 
 from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip, PGTextReaderGzip
@@ -55,13 +56,11 @@ DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
     "load_on_start": False,
     "check_after_days": 4,
-    "listtype": "gzmule",
+    "list_type": "gzmule",
+    "last_update": "",
+    "list_size": 0,
     "timeout": 180,
     "try_times": 3,
-    "file_type": "",
-    "file_url": "",
-    "file_date": "",
-    "file_size": 0,
 }
 
 FORMATS =  {
@@ -76,8 +75,6 @@ class Core(CorePluginBase):
     def enable(self):
         log.debug('Blocklist: Plugin enabled..')
 
-        self.is_downloading = False
-        self.is_importing = False
         self.has_imported = False
         self.up_to_date = False
         self.num_blocked = 0
@@ -87,11 +84,14 @@ class Core(CorePluginBase):
 
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
-            self.import_list()
+            # TODO: Check if been more than check_after_days
+            self.use_cache = True
+            d = self.import_list()
+            d.addCallbacks(self.on_import_complete, self.on_import_error)
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
-        self.update_timer = LoopingCall(self.download_blocklist)
+        self.update_timer = LoopingCall(self.check_import)
         self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60)
 
     def disable(self):
@@ -105,15 +105,22 @@ class Core(CorePluginBase):
 
     ## Exported RPC methods ###
     @export()
-    def download_list(self, _import=False):
-        """Download the blocklist specified in the config as url"""
-        self.download_blocklist(_import)
+    def check_import(self, force=False):
+        """Imports latest blocklist specified by blocklist url.
+           Only downloads/imports if necessary or forced."""
 
-    @export()
-    def import_list(self, force=False):
-        """Import the blocklist from the blocklist.cache, if load is True, then
-        it will download the blocklist file if needed."""
-        reactor.callInThread(self.import_blocklist, force=force)
+        # Reset variables
+        self.force_download = force
+        self.use_cache = False
+        self.failed_attempts = 0
+        
+        # Start callback chain
+        d = self.download_list()
+        d.addCallbacks(self.on_download_complete, self.on_download_error)
+        d.addCallback(self.import_list)
+        d.addCallbacks(self.on_import_complete, self.on_import_error)
+
+        return d
 
     @export()
     def get_config(self):
@@ -137,97 +144,27 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
-        status["up_to_date"] = self.up_to_date
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
-        status["file_type"] = self.config["file_type"]
-        status["file_url"] = self.config["file_url"]
-        status["file_size"] = self.config["file_size"]
-        status["file_date"] = self.config["file_date"]
+        status["file_type"] = self.config["list_type"]
+        status["file_url"] = self.config["url"]
+        status["file_size"] = self.config["list_size"]
+        status["file_date"] = self.config["last_update"]
 
         return status
 
     ####
 
+    def update_info(self, blocklist):
+        """Updates blocklist info"""
+        self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+        self.config["list_size"] = os.path.getsize(blocklist)
 
-    def on_download_blocklist(self, load):
-        self.is_downloading = False
-        if load:
-            self.import_list()
-
-    def import_blocklist(self, force=False):
-        """Imports the downloaded blocklist into the session"""
-        if self.is_downloading:
-            return
-
-        if force or self.need_new_blocklist():
-            self.download_blocklist(True)
-            return
-
-        # If we have a newly downloaded file, lets try that before the .cache
-        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
-            bl_file = deluge.configmanager.get_config_dir("blocklist.download")
-            using_download = True
-        elif self.has_imported:
-            # Blocklist is up to date so doesn't need to be imported
-            log.debug("Latest blocklist is already imported")
-            return
-        else:
-            bl_file = deluge.configmanager.get_config_dir("blocklist.cache")
-            using_download = False
-
-        self.is_importing = True
-        log.debug("Reset IP Filter..")
-        component.get("Core").reset_ip_filter()
-
-        self.num_blocked = 0
-
-        # Open the file for reading
-        try:
-            read_list = FORMATS[self.config["listtype"]][1](bl_file)
-        except Exception, e:
-            log.debug("Unable to read blocklist file: %s", e)
-            self.is_importing = False
-            return
-
-        try:
-            log.debug("Blocklist import starting..")
-            ips = read_list.next()
-            while ips:
-                self.core.block_ip_range(ips)
-                self.num_blocked += 1
-                ips = read_list.next()
-            read_list.close()
-        except Exception, e:
-            log.debug("Exception during import: %s", e)
-        else:
-            log.debug("Blocklist import complete!")
-            # The import was successful so lets move this to blocklist.cache
-            if using_download:
-                log.debug("Moving blocklist.download to blocklist.cache")
-                shutil.move(bl_file, deluge.configmanager.get_config_dir("blocklist.cache"))
-            # Set information about the file
-            self.config["file_type"] = self.config["listtype"]
-            self.config["file_url"] = self.config["url"]
-
-        self.is_importing = False
-        self.has_imported = True
-
-    def download_blocklist(self, load=False):
-        """Runs download_blocklist_thread() in a thread and calls on_download_blocklist
-            when finished.  If load is True, then we will import the blocklist
-            upon download completion."""
-        if self.is_importing:
-            return
-
-        self.is_downloading = True
-        reactor.callInThread(self.download_blocklist_thread, self.on_download_blocklist, load)
-
-    def download_blocklist_thread(self, callback, load):
+    def download_list(self, url=None):
         """Downloads the blocklist specified by 'url' in the config"""
-        def on_retrieve_data(count, block_size, total_blocks):
-            if total_blocks:
-                fp = float(count * block_size) / total_blocks
+        def on_retrieve_data(data, current_length, total_length):
+            if total_length:
+                fp = float(current_length) / total_length
                 if fp > 1.0:
                     fp = 1.0
             else:
@@ -238,78 +175,100 @@ class Core(CorePluginBase):
         import socket
         socket.setdefaulttimeout(self.config["timeout"])
 
-        for i in xrange(self.config["try_times"]):
-            log.debug("Attempting to download blocklist %s", self.config["url"])
-            try:
-                (filename, headers) = urllib.urlretrieve(
-                    self.config["url"],
-                    deluge.configmanager.get_config_dir("blocklist.download"),
-                    on_retrieve_data)
-            except Exception, e:
-                log.debug("Error downloading blocklist: %s", e)
-                os.remove(deluge.configmanager.get_config_dir("blocklist.download"))
-                continue
-            else:
-                log.debug("Blocklist successfully downloaded..")
-                self.config["file_date"] = datetime.datetime.strptime(headers["last-modified"],"%a, %d %b %Y %H:%M:%S GMT").ctime()
-                self.config["file_size"] = long(headers["content-length"])
-                reactor.callLater(0, callback, load)
-                return
+        headers = {}
+        if not url:
+            url = self.config["url"]
 
-    def need_new_blocklist(self):
-        """Returns True if a new blocklist file should be downloaded"""
+        blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
+        if os.path.exists(blocklist) and not self.force_download:
+            last_modified = datetime.datetime.utcfromtimestamp(os.path.getmtime(blocklist))
+            headers['If-Modified-Since'] = last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
-        # Assume blocklist is not up to date
-        self.up_to_date = False
+        log.debug("Attempting to download blocklist %s", url)
+        self.is_downloading = True
+        return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), headers)
 
-        # Check to see if we've just downloaded a new blocklist
-        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.download")):
-            log.debug("New blocklist waiting to be imported")
-            return False
+    def on_download_complete(self, result):
+        """Runs any download clean up functions"""
+        log.debug("Blocklist download complete!")
+        self.is_downloading = False
+        return threads.deferToThread(self.update_info,
+                deluge.configmanager.ConfigManager("blocklist.download"))
 
-        if os.path.exists(deluge.configmanager.get_config_dir("blocklist.cache")):
-            # Check current block lists time stamp and decide if it needs to be replaced
-            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
-            list_size = long(list_stats.st_size)
-            list_checked = datetime.datetime.fromtimestamp(list_stats.st_mtime)
-            try:
-                list_time = datetime.datetime.strptime(self.config["file_date"], "%a %b %d %H:%M:%S %Y")
-            except:
-                list_time = list_checked
-            current_time = datetime.datetime.today()
+    def on_download_error(self, f):
+        """Recovers from download error"""
+        self.is_downloading = False
+        error_msg = f.getErrorMessage()
+        d = None
+        if f.check(error.PageRedirect):
+            # Handle redirect errors
+            location = error_msg.split(" to ")[1]
+            if "Moved Permanently" in error:
+                log.debug("Setting blocklist url to %s" % location)
+                self.config["url"] = location
+            f.trap(f.type)
+            d = self.download_list(url=location)
+            d.addCallbacks(self.on_download_complete, self.on_download_error)
         else:
-            log.debug("Blocklist doesn't exist")
+            if "Not Modified" in error_msg:
+                log.debug("Blocklist is up-to-date!")
+                d = threads.deferToThread(update_info,
+                        deluge.configmanager.ConfigManager("blocklist.cache"))
+                self.use_cache = True
+                f.trap(f.type)
+            elif self.failed_attempts < self.config["try_times"]:
+                log.warning("Blocklist download failed!")
+                self.failed_attempts += 1
+                f.trap(f.type)
+        return d
+
+    def import_list(self, force=False):
+        """Imports the downloaded blocklist into the session"""
+        if self.use_cache and self.has_imported:
+            log.debug("Latest blocklist is already imported")
             return True
 
-        # If local blocklist file exists but nothing is in it
-        if list_size == 0:
-            log.debug("Empty blocklist")
-            return True
+        self.is_importing = True
+        log.debug("Reset IP Filter..")
+        # Does this return a deferred?
+        self.core.reset_ip_filter()
 
-        # If blocklist has just started up, check for updates if over x days
-        if not self.has_imported and current_time < (list_checked + datetime.timedelta(days=self.config["check_after_days"])):
-            log.debug("Blocklist doesn't need checking yet")
-            return False
+        self.num_blocked = 0
 
-        import socket
-        socket.setdefaulttimeout(self.config["timeout"])
+        # TODO: Make non-blocking (use deferToThread)
 
-        try:
-            # Get remote blocklist time stamp and size
-            remote_stats = urllib.urlopen(self.config["url"]).info()
-            remote_size = long(remote_stats["content-length"])
-            remote_time = datetime.datetime.strptime(remote_stats["last-modified"],"%a, %d %b %Y %H:%M:%S GMT")
-        except Exception, e:
-            log.debug("Unable to get blocklist stats: %s", e)
-            return False
+        # Open the file for reading
+        read_list = FORMATS[self.config["listtype"]][1](bl_file)
+        log.debug("Blocklist import starting..")
+        ips = read_list.next()
+        while ips:
+            self.core.block_ip_range(ips)
+            self.num_blocked += 1
+            ips = read_list.next()
+        read_list.close()
 
-        # Check if remote blocklist is newer (in date or size)
-        if list_time < remote_time or list_size < remote_size:
-            log.debug("Newer blocklist exists (%s & %d vs %s & %d)", remote_time, remote_size, list_time, list_size)
-            return True
+    def on_import_complete(self, result):
+        """Runs any import clean up functions"""
+        d = None
+        self.is_importing = False
+        self.has_imported = True
+        log.debug("Blocklist import complete!")
+        # Move downloaded blocklist to cache
+        if not self.use_cache:
+            d = threads.deferToThread(shutil.move,
+                    deluge.configmanager.ConfigManager("blocklist.download"),
+                    deluge.configmanager.ConfigManager("blocklist.cache"))
+        return d
 
-        # Update last modified time of blocklist
-        os.utime(deluge.configmanager.get_config_dir("blocklist.cache"), None)
-        self.up_to_date = True
-        log.debug("Blocklist is up to date")
-        return False
+    def on_import_error(self, f):
+        """Recovers from import error"""
+        d = None
+        self.is_importing = False
+        blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
+        # If we have a backup and we haven't already used it
+        if os.path.exists(blocklist) and not self.use_cache:
+            e = f.trap(error.Error, IOError, TextException, PGException)
+            log.warning("Error reading blocklist: ", e)
+            d = self.import_list()
+            d.addCallbacks(on_import_complete, on_import_error)
+        return d
