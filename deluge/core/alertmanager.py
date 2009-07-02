@@ -99,7 +99,7 @@ class AlertManager(component.Component):
         :param handler: func, the handler function to deregister
         """
         # Iterate through all handlers and remove 'handler' where found
-        for (key, value) in self.handlers:
+        for (key, value) in self.handlers.items():
             if handler in value:
                 # Handler is in this alert type list
                 value.remove(handler)
