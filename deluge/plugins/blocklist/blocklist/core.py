@@ -179,10 +179,8 @@ class Core(CorePluginBase):
         if not url:
             url = self.config["url"]
 
-        blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
-        if os.path.exists(blocklist) and not self.force_download:
-            last_modified = datetime.datetime.utcfromtimestamp(os.path.getmtime(blocklist))
-            headers['If-Modified-Since'] = last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        if self.config["last_update"] and not self.force_download:
+            headers['If-Modified-Since'] = self.config["last_update"]
 
         log.debug("Attempting to download blocklist %s", url)
         self.is_downloading = True
