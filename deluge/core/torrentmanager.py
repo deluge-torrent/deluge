@@ -500,7 +500,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Opening torrent state file for load.")
             state_file = open(
-                os.path.join(self.config["state_location"], "torrents.state"), "rb")
+                os.path.join(deluge.configmanager.get_config_dir(), "state", "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
         except (EOFError, IOError, Exception), e:
@@ -569,7 +569,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Saving torrent state file.")
             state_file = open(
-                os.path.join(self.config["state_location"], "torrents.state.new"),
+                os.path.join(deluge.configmanager.get_config_dir(), "state", "torrents.state.new"),
                                                                         "wb")
             cPickle.dump(state, state_file)
             state_file.flush()
@@ -582,8 +582,8 @@ class TorrentManager(component.Component):
         # We have to move the 'torrents.state.new' file to 'torrents.state'
         try:
             shutil.move(
-                os.path.join(self.config["state_location"], "torrents.state.new"),
-                os.path.join(self.config["state_location"], "torrents.state"))
+                os.path.join(deluge.configmanager.get_config_dir(), "state", "torrents.state.new"),
+                os.path.join(deluge.configmanager.get_config_dir(), "state", "torrents.state"))
         except IOError:
             log.warning("Unable to save state file.")
             return True
