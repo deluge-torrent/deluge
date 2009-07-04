@@ -40,7 +40,7 @@ import shutil
 import threading
 import pkg_resources
 
-from twisted.internet import reactor
+from twisted.internet import reactor, defer
 from twisted.internet.task import LoopingCall
 import twisted.web.client
 
@@ -269,21 +269,28 @@ class Core(component.Component):
         :param url: str, the url pointing to the torrent file
         :param options: dict, the options to apply to the torrent on add
 
-        :returns: the torrent_id as a str or None
-
+        :returns: the torrent_id as a str or None, if calling locally, then it
+            will return a Deferred that fires once the torrent has been added
         """
         log.info("Attempting to add url %s", url)
         def on_get_page(page):
             # We got the data, so attempt adding it to the session
-            self.add_torrent_file(url.split("/")[-1], base64.encodestring(page), options)
+            try:
+                torrent_id = self.add_torrent_file(url.split("/")[-1], base64.encodestring(page), options)
+            except Exception, e:
+                d.errback(e)
+            else:
+                d.callback(torrent_id)
 
         def on_get_page_error(reason):
             log.error("Error occured downloading torrent from %s", url)
             log.error("Reason: %s", reason)
             # XXX: Probably should raise an exception to the client here
-            return
+            d.errback(reason)
 
         twisted.web.client.getPage(url).addCallback(on_get_page).addErrback(on_get_page_error)
+        d = defer.Deferred()
+        return d
 
     @export
     def add_torrent_magnets(self, uris, options):
