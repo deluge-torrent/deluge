@@ -84,10 +84,17 @@ class Core(CorePluginBase):
 
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
-            # TODO: Check if been more than check_after_days
-            self.use_cache = True
-            d = self.import_list()
-            d.addCallbacks(self.on_import_complete, self.on_import_error)
+            if self.config["last_update"]:
+                now = datetime.datetime.now()
+                last_update = datetime.datetime.strptime(self.config["last_update"],
+                                                            "%a, %d %b %Y %H:%M:%S GMT")
+                check_period = datetime.timedelta(days=self.config["check_after_days"])
+            if not self.config["last_update"] or last_update + check_period >= now:
+                d = self.check_import()
+            else:
+                self.use_cache = True
+                d = self.import_list()
+                d.addCallbacks(self.on_import_complete, self.on_import_error)
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
@@ -175,10 +182,10 @@ class Core(CorePluginBase):
         import socket
         socket.setdefaulttimeout(self.config["timeout"])
 
-        headers = {}
         if not url:
             url = self.config["url"]
 
+        headers = {}
         if self.config["last_update"] and not self.force_download:
             headers['If-Modified-Since'] = self.config["last_update"]
 
