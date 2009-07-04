@@ -236,6 +236,10 @@ class PreferencesManager(component.Component):
 
         self.config.register_change_callback(self._on_config_value_change)
 
+    def stop(self):
+        if self.new_release_timer:
+            self.new_release_timer.stop()
+
     # Config set functions
     def _on_config_value_change(self, key, value):
         component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
