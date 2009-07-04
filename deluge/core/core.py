@@ -258,6 +258,8 @@ class Core(component.Component):
             log.error("There was an error adding the torrent file %s", filename)
             log.exception(e)
 
+        return torrent_id
+
     @export
     def add_torrent_url(self, url, options):
         """
