@@ -813,12 +813,24 @@ class AddTorrentDialog(component.Component):
 
         if index > -1:
             # We're renaming a file! Yay! That's easy!
-            file_path = self.get_file_path(self.files_treestore.iter_parent(itr))
-
+            parent = self.files_treestore.iter_parent(itr)
+            file_path = self.get_file_path(parent)
             file_path += new_text
+            file_path = file_path.replace("//", "/")
 
-            # Update the row's text
-            self.files_treestore[itr][1] = new_text
+            if "/" in new_text:
+                # There are folders in this path, so we need to create them
+                # and then move the file iter to top
+                split_text = new_text.split("/")
+                for s in split_text[:-1]:
+                    parent = self.files_treestore.append(parent,
+                                [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
+
+                self.files_treestore[itr][1] = split_text[-1]
+                common.reparent_iter(self.files_treestore, itr, parent)
+            else:
+                # Update the row's text
+                self.files_treestore[itr][1] = new_text
 
             # Update the mapped_files dict in the options with the index and new
             # file path.
