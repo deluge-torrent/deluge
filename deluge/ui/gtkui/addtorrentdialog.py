@@ -884,9 +884,9 @@ class AddTorrentDialog(component.Component):
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
                     parent = self.files_treestore.append(parent,
-                                [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
+                                [True, s + "/", 0, -1, False, gtk.STOCK_DIRECTORY])
 
-                self.files_treestore[itr][1] = split_text[-1]
+                self.files_treestore[itr][1] = split_text[-1] + "/"
 
                 # Now reparent itr to parent
                 common.reparent_iter(self.files_treestore, itr, parent)
