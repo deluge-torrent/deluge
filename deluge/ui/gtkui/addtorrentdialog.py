@@ -844,16 +844,16 @@ class AddTorrentDialog(component.Component):
                 if not row:
                     return
 
-                # We recurse if there are children
-                if self.files_treestore.iter_has_child(row):
-                    walk_tree(self.files_treestore.iter_children(row))
-
                 # Get the file path base once, since it will be the same for
                 # all siblings
                 file_path_base = self.get_file_path(self.files_treestore.iter_parent(row))
 
                 # Iterate through all the siblings at this level
                 while row:
+                    # We recurse if there are children
+                    if self.files_treestore.iter_has_child(row):
+                        walk_tree(self.files_treestore.iter_children(row))
+
                     index = self.files_treestore[row][3]
 
                     # Don't do anything if this is a folder
