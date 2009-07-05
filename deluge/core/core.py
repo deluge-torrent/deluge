@@ -626,24 +626,6 @@ class Core(component.Component):
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
 
     @export
-    def block_ip_range(self, range):
-        """Block an ip range"""
-        self.ip_filter.add_rule(range[0], range[1], 1)
-
-        # Start a 2 second timer (and remove the previous one if it exists)
-        if self.__set_ip_filter_timer:
-            self.__set_ip_filter_timer.stop()
-
-        self.__set_ip_filter_timer = LoopingCall(self.session.set_ip_filter, self.ip_filter)
-        self.__set_ip_filter_timer.start(2, False)
-
-    @export
-    def reset_ip_filter(self):
-        """Clears the ip filter"""
-        self.ip_filter = lt.ip_filter()
-        self.session.set_ip_filter(self.ip_filter)
-
-    @export
     def get_health(self):
         """Returns True if we have established incoming connections"""
         return self.session.status().has_incoming_connections

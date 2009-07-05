@@ -190,7 +190,8 @@ class Core(CorePluginBase):
         if self.config["last_update"] and not self.force_download:
             headers['If-Modified-Since'] = self.config["last_update"]
 
-        log.debug("Attempting to download blocklist %s", url)
+        log.debug("Attempting to download blocklist %s" % url)
+        log.debug("Sending headers: %s" % headers)
         self.is_downloading = True
         return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), headers)
 
@@ -199,7 +200,7 @@ class Core(CorePluginBase):
         log.debug("Blocklist download complete!")
         self.is_downloading = False
         return threads.deferToThread(self.update_info,
-                deluge.configmanager.ConfigManager("blocklist.download"))
+                deluge.configmanager.get_config_dir("blocklist.download"))
 
     def on_download_error(self, f):
         """Recovers from download error"""
@@ -219,7 +220,7 @@ class Core(CorePluginBase):
             if "Not Modified" in error_msg:
                 log.debug("Blocklist is up-to-date!")
                 d = threads.deferToThread(update_info,
-                        deluge.configmanager.ConfigManager("blocklist.cache"))
+                        deluge.configmanager.get_config_dir("blocklist.cache"))
                 self.use_cache = True
                 f.trap(f.type)
             elif self.failed_attempts < self.config["try_times"]:
@@ -248,8 +249,8 @@ class Core(CorePluginBase):
         # Move downloaded blocklist to cache
         if not self.use_cache:
             d = threads.deferToThread(shutil.move,
-                    deluge.configmanager.ConfigManager("blocklist.download"),
-                    deluge.configmanager.ConfigManager("blocklist.cache"))
+                    deluge.configmanager.get_config_dir("blocklist.download"),
+                    deluge.configmanager.get_config_dir("blocklist.cache"))
         return d
 
     def on_import_error(self, f):
