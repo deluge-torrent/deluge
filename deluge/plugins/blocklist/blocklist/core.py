@@ -102,8 +102,6 @@ class Core(CorePluginBase):
         self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60)
 
     def disable(self):
-        log.debug("Reset IP Filter..")
-        component.get("Core").reset_ip_filter()
         self.config.save()
         log.debug('Blocklist: Plugin disabled')
 
@@ -193,7 +191,7 @@ class Core(CorePluginBase):
         log.debug("Attempting to download blocklist %s" % url)
         log.debug("Sending headers: %s" % headers)
         self.is_downloading = True
-        return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), headers)
+        return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), on_retrieve_data, headers)
 
     def on_download_complete(self, result):
         """Runs any download clean up functions"""
@@ -210,7 +208,7 @@ class Core(CorePluginBase):
         if f.check(error.PageRedirect):
             # Handle redirect errors
             location = error_msg.split(" to ")[1]
-            if "Moved Permanently" in error:
+            if "Moved Permanently" in error_msg:
                 log.debug("Setting blocklist url to %s" % location)
                 self.config["url"] = location
             f.trap(f.type)
@@ -227,6 +225,8 @@ class Core(CorePluginBase):
                 log.warning("Blocklist download failed!")
                 self.failed_attempts += 1
                 f.trap(f.type)
+            else:
+                log.error(error_msg)
         return d
 
     def import_list(self, force=False):
@@ -260,7 +260,7 @@ class Core(CorePluginBase):
         blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
         # If we have a backup and we haven't already used it
         if os.path.exists(blocklist) and not self.use_cache:
-            e = f.trap(error.Error, IOError, TextException, PGException)
+            e = f.trap(Exception)
             log.warning("Error reading blocklist: ", e)
             d = self.import_list()
             d.addCallbacks(on_import_complete, on_import_error)
