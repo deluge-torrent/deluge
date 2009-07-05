@@ -134,7 +134,7 @@ class GtkUI(GtkPluginBase):
             # Update the combo box. It's ugly, get over it.
             self.glade.get_widget("combobox_types").set_active_iter(
                 self.glade.get_widget("combobox_types").get_model().\
-                    get_iter(FORMATS[config["listtype"]][1]))
+                    get_iter(FORMATS[config["list_type"]][1]))
 
             self.glade.get_widget("entry_url").set_text(
                 config["url"])
@@ -149,7 +149,7 @@ class GtkUI(GtkPluginBase):
 
     def _on_apply_prefs(self):
         config = {}
-        config["listtype"] = self.glade.get_widget("combobox_types").\
+        config["list_type"] = self.glade.get_widget("combobox_types").\
             get_model()[self.glade.get_widget("combobox_types").get_active()][1]
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()

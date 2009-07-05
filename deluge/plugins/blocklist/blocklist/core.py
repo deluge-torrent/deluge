@@ -151,6 +151,7 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
+        status["up_to_date"] = False
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
         status["file_type"] = self.config["list_type"]
@@ -233,24 +234,10 @@ class Core(CorePluginBase):
             log.debug("Latest blocklist is already imported")
             return True
 
-        self.is_importing = True
-        log.debug("Reset IP Filter..")
-        # Does this return a deferred?
-        self.core.reset_ip_filter()
-
         self.num_blocked = 0
 
-        # TODO: Make non-blocking (use deferToThread)
-
-        # Open the file for reading
-        read_list = FORMATS[self.config["listtype"]][1](bl_file)
-        log.debug("Blocklist import starting..")
-        ips = read_list.next()
-        while ips:
-            self.core.block_ip_range(ips)
-            self.num_blocked += 1
-            ips = read_list.next()
-        read_list.close()
+        # TODO: Open blocklist with appropriate reader
+        # TODO: Import ranges
 
     def on_import_complete(self, result):
         """Runs any import clean up functions"""
