@@ -293,15 +293,17 @@ class Core(component.Component):
         return d
 
     @export
-    def add_torrent_magnets(self, uris, options):
-        for uri in uris:
-            log.debug("Attempting to add by magnet uri: %s", uri)
-            try:
-                option = options[uris.index(uri)]
-            except IndexError:
-                option = None
+    def add_torrent_magnet(self, uri, options):
+        """
+        Adds a torrent from a magnet link.
 
-            torrent_id = self.torrentmanager.add(magnet=uri, options=option)
+        :param uri: str, the magnet link
+        :param options: dict, the options to apply to the torrent on add
+
+        """
+        log.debug("Attempting to add by magnet uri: %s", uri)
+
+        return self.torrentmanager.add(magnet=uri, options=options)
 
     @export
     def remove_torrent(self, torrent_ids, remove_data):

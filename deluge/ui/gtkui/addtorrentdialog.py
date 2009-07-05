@@ -751,7 +751,8 @@ class AddTorrentDialog(component.Component):
                     base64.encodestring(open(f, "rb").read()),
                     torrent_options[i])
         if torrent_magnets:
-            client.core.add_torrent_magnets(torrent_magnets, torrent_magnet_options)
+            for i, m in enumerate(torrent_magnets):
+                client.core.add_torrent_magnet(m, torrent_magnet_options[i])
 
         client.force_call(False)
         self.hide()

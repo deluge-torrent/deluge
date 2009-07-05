@@ -152,7 +152,7 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_magnets([arg])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_magnets([arg], [])
+                client.core.add_torrent_magnet(arg, {})
         else:
             # Just a file
             log.debug("Attempting to add %s from external source..",
