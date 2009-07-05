@@ -105,8 +105,8 @@ class Config(object):
         self.__change_callbacks = []
 
         # These hold the version numbers and they will be set when loaded
-        self.__format_version = None
-        self.__file_version = None
+        self.__format_version = 1
+        self.__file_version = 1
 
         # This will get set with a reactor.callLater whenever a config option
         # is set.
@@ -331,6 +331,7 @@ class Config(object):
         try:
             self.__config.update(json.loads(fdata))
         except Exception, e:
+            log.exception(e)
             try:
                 self.__config.update(pickle.loads(fdata))
             except Exception, e:
@@ -357,8 +358,9 @@ class Config(object):
         # We will only write a new config file if there is a difference
         try:
             data = open(filename, "rb")
-            data.seek(4)
-            loaded_data = json.load(data)
+            data.readline()
+            data.readline()
+            loaded_data = json.loads(data.read())
             data.close()
             if self.__config == loaded_data:
                 # The config has not changed so lets just return
