@@ -163,7 +163,7 @@ class Core(CorePluginBase):
 
     def update_info(self, blocklist):
         """Updates blocklist info"""
-        self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+        self.config["last_update"] = str(datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT"))
         self.config["list_size"] = os.path.getsize(blocklist)
 
     def download_list(self, url=None):
