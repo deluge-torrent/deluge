@@ -142,7 +142,7 @@ class GtkUI:
         try:
             import gnome.ui
             self.gnome_client = gnome.ui.Client()
-            self.gnome_client.connect("die", self.shutdown)
+            self.gnome_client.connect("die", gtk.main_quit)
         except:
             pass
 
