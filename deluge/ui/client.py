@@ -384,6 +384,11 @@ class DaemonSSLProxy(DaemonProxy):
         self.login_deferred.callback(False)
 
     def __on_login(self, result, username):
+        if not result:
+            # We received a 0 auth level from the server which means it failed
+            self.login_deferred.errback(result)
+            return
+
         self.username = username
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:

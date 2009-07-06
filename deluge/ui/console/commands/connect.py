@@ -40,17 +40,29 @@ import deluge.component as component
 
 class Command(BaseCommand):
     """Connect to a new deluge server."""
-    def handle(self, host="", port="58846", username="", password="", **options):
+
+    usage = "Usage: connect <host[:port]> <username> <password>"
+
+    def handle(self, host="127.0.0.1:58846", username="", password="", **options):
         self.console = component.get("ConsoleUI")
+        try:
+            host, port = host.split(":")
+        except ValueError:
+            port = 58846
+        else:
+            port = int(port)
 
-        port = int(port)
-        d = client.connect(host, port, username, password)
-        def on_connect(result):
-            self.console.write("{!success!}Connected to %s:%s!" % (host, port))
+        def on_disconnect(result):
+            d = client.connect(host, port, username, password)
+            def on_connect(result):
+                self.console.write("{!success!}Connected to %s:%s!" % (host, port))
+                component.start()
 
-        def on_connect_fail(result):
-            self.console.write("{!error!}Failed to connect to %s:%s!" % (host, port))
+            def on_connect_fail(result):
+                self.console.write("{!error!}Failed to connect to %s:%s!" % (host, port))
 
-        d.addCallback(on_connect)
-        d.addErrback(on_connect_fail)
-        return d
+            d.addCallback(on_connect)
+            d.addErrback(on_connect_fail)
+            return d
+
+        client.disconnect().addCallback(on_disconnect)

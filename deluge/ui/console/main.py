@@ -140,6 +140,8 @@ class ConsoleUI(component.Component):
         # Load all the commands
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
 
+        client.set_disconnect_callback(self.on_client_disconnect)
+
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         if args:
@@ -166,7 +168,8 @@ class ConsoleUI(component.Component):
                 # any of the commands.
                 self.started_deferred.addCallback(on_started)
 
-        client.connect().addCallback(on_connect)
+        d = client.connect()
+        d.addCallback(on_connect)
 
         self.coreconfig = CoreConfig()
         if self.interactive:
@@ -397,3 +400,6 @@ class ConsoleUI(component.Component):
         for index, (tid, name) in enumerate(self.torrents):
             if torrent_id == tid:
                 del self.torrents[index]
+
+    def on_client_disconnect(self):
+        component.stop()
