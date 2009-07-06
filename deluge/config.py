@@ -312,18 +312,12 @@ class Config(object):
         try:
             self.__format_version = int(data.readline())
         except ValueError:
-            pass
-
-        try:
-            self.__file_version = int(data.readline())
-        except ValueError:
-            pass
-
-
-        if not self.__format_version:
             data.seek(0)
-            self.__format_version = 1
-            self.__file_version = 1
+        else:
+            try:
+                self.__file_version = int(data.readline())
+            except ValueError:
+                pass
 
         fdata = data.read()
         data.close()
