@@ -75,12 +75,16 @@ class Core(CorePluginBase):
     def enable(self):
         log.debug('Blocklist: Plugin enabled..')
 
+        self.is_downloading = False
+        self.is_importing = False
         self.has_imported = False
         self.up_to_date = False
         self.num_blocked = 0
         self.file_progress = 0.0
 
         self.core = component.get("Core")
+
+        update_now = False
 
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
@@ -90,7 +94,7 @@ class Core(CorePluginBase):
                                                             "%a, %d %b %Y %H:%M:%S GMT")
                 check_period = datetime.timedelta(days=self.config["check_after_days"])
             if not self.config["last_update"] or last_update + check_period >= now:
-                d = self.check_import()
+                update_now = True
             else:
                 self.use_cache = True
                 d = self.import_list()
@@ -99,7 +103,7 @@ class Core(CorePluginBase):
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
         self.update_timer = LoopingCall(self.check_import)
-        self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60)
+        self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60, update_now)
 
     def disable(self):
         self.config.save()
@@ -149,7 +153,7 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
-        status["up_to_date"] = False
+        status["up_to_date"] = self.up_to_date
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
         status["file_type"] = self.config["list_type"]
@@ -190,6 +194,7 @@ class Core(CorePluginBase):
 
         log.debug("Attempting to download blocklist %s" % url)
         log.debug("Sending headers: %s" % headers)
+        self.up_to_date = False
         self.is_downloading = True
         return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), on_retrieve_data, headers)
 
@@ -219,6 +224,7 @@ class Core(CorePluginBase):
                 log.debug("Blocklist is up-to-date!")
                 d = threads.deferToThread(update_info,
                         deluge.configmanager.get_config_dir("blocklist.cache"))
+                self.up_to_date = True
                 self.use_cache = True
                 f.trap(f.type)
             elif self.failed_attempts < self.config["try_times"]:
@@ -235,6 +241,7 @@ class Core(CorePluginBase):
             log.debug("Latest blocklist is already imported")
             return True
 
+        self.is_importing = True
         self.num_blocked = 0
 
         # TODO: Open blocklist with appropriate reader
