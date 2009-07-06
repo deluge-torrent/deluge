@@ -44,6 +44,8 @@ import deluge.common
 import deluge.configmanager
 from deluge.log import LOG as log
 
+import deluge.component as component
+
 METADATA_KEYS = [
     "Name",
     "License",
@@ -132,8 +134,8 @@ class PluginManagerBase:
                 log.error("Unable to instantiate plugin!")
                 log.exception(e)
             instance.enable()
-            if self.get_state() == "Started":
-                component.start(instance.get_component_name())
+            if self.get_state() == component.COMPONENT_STATE.index("Started"):
+                component.start(instance.plugin.get_component_name())
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
