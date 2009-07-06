@@ -163,7 +163,7 @@ class Core(CorePluginBase):
 
     def update_info(self, blocklist):
         """Updates blocklist info"""
-        self.config["last_update"] = str(datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT"))
+        self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
         self.config["list_size"] = os.path.getsize(blocklist)
 
     def download_list(self, url=None):
@@ -186,7 +186,7 @@ class Core(CorePluginBase):
 
         headers = {}
         if self.config["last_update"] and not self.force_download:
-            headers['If-Modified-Since'] = self.config["last_update"]
+            headers['If-Modified-Since'] = str(self.config["last_update"])
 
         log.debug("Attempting to download blocklist %s" % url)
         log.debug("Sending headers: %s" % headers)
