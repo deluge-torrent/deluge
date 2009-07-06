@@ -215,7 +215,8 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	
 	addTorrent: function(torrent) {
 		this.torrents[torrent['info_hash']] = torrent;
-		
+		this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
+		}, this);
 	},
 	
 	clear: function() {
@@ -263,23 +264,8 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		});
 	},
 	
-	getFilePriorities: function() {
-		var root = this.files.getRootNode();
-		var priorities = {};
+	getOptions: function(torrentId) {
 		
-		function getCheckedState(node) {
-			if (node.ui.checkbox) {
-				return node.ui.checkbox.checked;
-			} else {
-				return getCheckedState(node.parentNode);
-			}
-		}
-		
-		root.cascade(function(node) {
-			if (!node.isLeaf()) return;
-			priorities[node.attributes.fileindex] = getCheckedState(node);
-		});
-		return priorities;
 	},
 	
 	setTorrent: function(torrentId) {
@@ -292,11 +278,11 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 					text: filename,
 					checked: true
 				});
-				folder.on('checkchange', self.onFolderCheck, self);
+				folder.on('checkchange', this.onFolderCheck, self);
 				parent.appendChild(folder);
 				return folder;
 			} else {
-				parent.appendChild(new Ext.tree.TreeNode({
+				var node = new Ext.tree.TreeNode({
 					filename: filename,
 					fileindex: entry[0],
 					text: filename, // this needs to be here for sorting reasons
@@ -305,20 +291,27 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 					checked: entry[2],
 					iconCls: 'x-deluge-file',
 					uiProvider: Ext.tree.ColumnNodeUI
-				}));
+				});
+				node.on('checkchange', this.onNodeCheck, self);
+				parent.appendChild(node);
 			}
-		}, root);
+		}, this, root);
 		root.firstChild.expand();
 	},
 	
-	walkFileTree: function(files, callback, parent) {
+	walkFileTree: function(files, callback, scope, parent) {
 		for (var filename in files) {
 			var entry = files[filename];
 			var type = (Ext.type(entry) == 'object') ? 'dir' : 'file';
 			
-			var ret = callback(filename, type, entry, parent)
+			if (scope) {
+				var ret = callback.apply(scope, [filename, type, entry, parent]);
+			} else {
+				var ret = callback(filename, type, entry, parent);
+			}
+			
 			parent = (ret) ? ret : parent;
-			if (type == 'dir') this.walkFileTree(entry, callback, parent);
+			if (type == 'dir') this.walkFileTree(entry, callback, scope, parent);
 		}
 	},
 	
@@ -327,6 +320,10 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			if (!child.ui.checkbox) return;
 			child.ui.checkbox.checked = checked;
 		}, this);
+	},
+	
+	onNodeCheck: function(node, checked) {
+		
 	}
 });
 
