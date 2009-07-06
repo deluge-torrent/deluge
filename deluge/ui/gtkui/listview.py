@@ -165,6 +165,10 @@ class ListView:
         # created.
         self.checklist_menus = []
 
+        # Store removed columns state.  This is needed for plugins that remove
+        # their columns prior to having the state list saved on shutdown.
+        self.removed_columns_state = []
+
         # Create the model filter and column
         self.add_bool_column("filter", hidden=True)
 
@@ -193,6 +197,22 @@ class ListView:
                     column.sort_func,
                     column.sort_id)
 
+    def create_column_state(self, column, position=None):
+        if not position:
+            # Find the position
+            for index, c in enumerate(self.treeview.get_columns()):
+                if column.get_title() == c.get_title():
+                    position = index
+                    break
+        sort = None
+        sort_id, order = self.model_filter.get_sort_column_id()
+        if self.get_column_name(sort_id) == column.get_title():
+            sort = sort_id
+
+        return ListViewColumnState(column.get_title(), position,
+            column.get_width(), column.get_visible(),
+            sort, int(column.get_sort_order()))
+
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
             filename."""
@@ -201,14 +221,10 @@ class ListView:
 
         # Get the list of TreeViewColumns from the TreeView
         for counter, column in enumerate(self.treeview.get_columns()):
-            sort = None
-            id, order = self.model_filter.get_sort_column_id()
-            if self.get_column_name(id) == column.get_title():
-                sort = id
             # Append a new column state to the state list
-            state.append(ListViewColumnState(column.get_title(), counter,
-                column.get_width(), column.get_visible(),
-                sort, int(column.get_sort_order())))
+            state.append(self.create_column_state(column, counter))
+
+        state += self.removed_columns_state
 
         # Get the config location for saving the state file
         config_location = deluge.configmanager.get_config_dir()
@@ -338,6 +354,10 @@ class ListView:
 
     def remove_column(self, header):
         """Removes the column with the name 'header' from the listview"""
+        # Store a copy of this columns state in case it's re-added
+        state = self.create_column_state(self.columns[header].column)
+        self.removed_columns_state.append(state)
+
         # Start by removing this column from the treeview
         self.treeview.remove_column(self.columns[header].column)
         # Get the column indices
