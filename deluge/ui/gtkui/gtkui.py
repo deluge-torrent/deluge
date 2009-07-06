@@ -152,8 +152,8 @@ class GtkUI:
             from win32con import CTRL_SHUTDOWN_EVENT
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
-                if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
-                    self.shutdown()
+                if ctrl_type in (CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT):
+                    gtk.main_quit()
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
