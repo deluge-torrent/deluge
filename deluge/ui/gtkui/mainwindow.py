@@ -72,6 +72,7 @@ class MainWindow(component.Component):
             except:
                 self.window.set_icon(common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
+        self.initial_vpaned_position = self.config["window_pane_position"]
 
         # Load the window state
         self.load_window_state()
@@ -93,14 +94,18 @@ class MainWindow(component.Component):
 
         self.config.register_set_function("show_rate_in_title", self._on_set_show_rate_in_title, apply_now=False)
 
+        client.register_event_handler("NewVersionAvailableEvent", self.on_newversionavailable_event)
+        client.register_event_handler("TorrentFinishedEvent", self.on_torrentfinished_event)
+
+    def first_show(self):
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
             self.show()
-
-        client.register_event_handler("NewVersionAvailableEvent", self.on_newversionavailable_event)
-        client.register_event_handler("TorrentFinishedEvent", self.on_torrentfinished_event)
+            while gtk.events_pending():
+                gtk.main_iteration(False)
+            self.vpaned.set_position(self.initial_vpaned_position)
 
     def show(self):
         try:
@@ -111,6 +116,7 @@ class MainWindow(component.Component):
             pass
 
         self.window.show()
+
 
     def hide(self):
         component.pause("TorrentView")
@@ -162,8 +168,6 @@ class MainWindow(component.Component):
         self.window.resize(w, h)
         if self.config["window_maximized"]:
             self.window.maximize()
-        self.vpaned.set_position(
-            self.config["window_height"] - self.config["window_pane_position"])
 
     def on_window_configure_event(self, widget, event):
         if not self.config["window_maximized"] and self.visible:
@@ -204,7 +208,7 @@ class MainWindow(component.Component):
         return True
 
     def on_vpaned_position_event(self, obj, param):
-        self.config["window_pane_position"] = self.config["window_height"] - self.vpaned.get_position()
+        self.config["window_pane_position"] = self.vpaned.get_position()
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
         args = []

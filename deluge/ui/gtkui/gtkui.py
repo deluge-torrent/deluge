@@ -146,10 +146,6 @@ class GtkUI:
         except:
             pass
 
-        # Twisted catches signals to terminate, so just have it call the shutdown
-        # method.
-        reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
-
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
@@ -201,16 +197,11 @@ class GtkUI:
         self.connectionmanager = ConnectionManager()
 
         reactor.callWhenRunning(self._on_reactor_start)
-
         # Start the gtk main loop
-        try:
-            gtk.gdk.threads_enter()
-            reactor.run()
-            gtk.gdk.threads_leave()
-        except KeyboardInterrupt:
-            self.shutdown()
-        else:
-            self.shutdown()
+        gtk.gdk.threads_enter()
+        reactor.run()
+        self.shutdown()
+        gtk.gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
@@ -223,6 +214,7 @@ class GtkUI:
 
         # Shutdown all components
         component.shutdown()
+
         if self.started_in_classic:
             try:
                 client.daemon.shutdown()
@@ -232,13 +224,10 @@ class GtkUI:
         # Make sure the config is saved.
         self.config.save()
 
-        try:
-            gtk.main_quit()
-        except RuntimeError:
-            pass
-
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
+        self.mainwindow.first_show()
+
         if self.config["classic_mode"]:
             try:
                 client.start_classic_mode()
