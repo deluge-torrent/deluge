@@ -39,6 +39,7 @@ import stat
 
 import deluge.component as component
 import deluge.configmanager as configmanager
+import deluge.error
 
 from deluge.log import LOG as log
 
@@ -48,6 +49,9 @@ AUTH_LEVEL_NORMAL = 5
 AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
+class BadLoginError(deluge.error.DelugeError):
+    pass
 
 class AuthManager(component.Component):
     def __init__(self):
@@ -69,8 +73,10 @@ class AuthManager(component.Component):
 
         :param username: str, username
         :param password: str, password
-        :returns: int, the auth level for this user or 0 if not able to authenticate
+        :returns: int, the auth level for this user
         :rtype: int
+
+        :raises BadLoginError: if the username does not exist or password does not match
 
         """
 
@@ -78,13 +84,13 @@ class AuthManager(component.Component):
             # Let's try to re-load the file.. Maybe it's been updated
             self.__load_auth_file()
             if username not in self.__auth:
-                return 0
+                raise BadLoginError("Username does not exist")
 
         if self.__auth[username][0] == password:
             # Return the users auth level
             return int(self.__auth[username][1])
-
-        return 0
+        else:
+            raise BadLoginError("Password does not match")
 
     def __create_localclient_account(self):
         """

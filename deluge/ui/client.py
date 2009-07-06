@@ -373,6 +373,7 @@ class DaemonSSLProxy(DaemonProxy):
         msg += "\n" + error.traceback + "\n" + error.exception_type + ": " + error.exception_msg
         msg += "\n" + "-" * 80
         log.error(msg)
+        return error_data
 
     def __on_connect(self, result, username, password):
         self.__login_deferred = self.call("daemon.login", username, password)
@@ -381,14 +382,9 @@ class DaemonSSLProxy(DaemonProxy):
 
     def __on_connect_fail(self, reason):
         log.debug("connect_fail: %s", reason)
-        self.login_deferred.callback(False)
+        self.login_deferred.errback(reason)
 
     def __on_login(self, result, username):
-        if not result:
-            # We received a 0 auth level from the server which means it failed
-            self.login_deferred.errback(result)
-            return
-
         self.username = username
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
@@ -396,7 +392,8 @@ class DaemonSSLProxy(DaemonProxy):
         self.login_deferred.callback(result)
 
     def __on_login_fail(self, result):
-        self.login_deferred.callback(False)
+        log.debug("_on_login_fail(): %s", result)
+        self.login_deferred.errback(result)
 
     def set_disconnect_callback(self, cb):
         """
@@ -518,6 +515,12 @@ class Client(object):
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port, username, password)
+        def on_connect_fail(result):
+            log.debug("on_connect_fail: %s", result)
+            self.disconnect()
+            return result
+
+        d.addErrback(on_connect_fail)
         return d
 
     def disconnect(self):

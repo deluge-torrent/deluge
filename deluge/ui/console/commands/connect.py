@@ -52,17 +52,22 @@ class Command(BaseCommand):
         else:
             port = int(port)
 
-        def on_disconnect(result):
+        def do_connect():
             d = client.connect(host, port, username, password)
             def on_connect(result):
                 self.console.write("{!success!}Connected to %s:%s!" % (host, port))
                 component.start()
 
             def on_connect_fail(result):
-                self.console.write("{!error!}Failed to connect to %s:%s!" % (host, port))
+                self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, result.value.exception_msg))
 
             d.addCallback(on_connect)
             d.addErrback(on_connect_fail)
             return d
 
-        client.disconnect().addCallback(on_disconnect)
+        if client.connected():
+            def on_disconnect(result):
+                do_connect()
+            client.disconnect().addCallback(on_disconnect)
+        else:
+            do_connect()
