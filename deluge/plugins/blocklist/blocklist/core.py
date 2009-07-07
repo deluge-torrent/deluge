@@ -39,7 +39,7 @@ import datetime
 import shutil
 
 from twisted.internet.task import LoopingCall
-from twisted.internet import reactor, threads
+from twisted.internet import reactor, threads, defer
 from twisted.web import error
 
 from deluge.log import LOG as log
@@ -222,10 +222,10 @@ class Core(CorePluginBase):
         else:
             if "Not Modified" in error_msg:
                 log.debug("Blocklist is up-to-date!")
-                d = threads.deferToThread(update_info,
-                        deluge.configmanager.get_config_dir("blocklist.cache"))
                 self.up_to_date = True
                 self.use_cache = True
+                d = threads.deferToThread(update_info,
+                        deluge.configmanager.get_config_dir("blocklist.cache"))
                 f.trap(f.type)
             elif self.failed_attempts < self.config["try_times"]:
                 log.warning("Blocklist download failed!")
@@ -247,6 +247,8 @@ class Core(CorePluginBase):
         # TODO: Open blocklist with appropriate reader
         # TODO: Import ranges
 
+        return defer.succeed(None)
+
     def on_import_complete(self, result):
         """Runs any import clean up functions"""
         d = None
@@ -254,7 +256,8 @@ class Core(CorePluginBase):
         self.has_imported = True
         log.debug("Blocklist import complete!")
         # Move downloaded blocklist to cache
-        if not self.use_cache:
+        if not self.use_cache and not self.up_to_date:
+            log.debug("Moving blocklist.download to blocklist.cache")
             d = threads.deferToThread(shutil.move,
                     deluge.configmanager.get_config_dir("blocklist.download"),
                     deluge.configmanager.get_config_dir("blocklist.cache"))
@@ -270,5 +273,5 @@ class Core(CorePluginBase):
             e = f.trap(Exception)
             log.warning("Error reading blocklist: ", e)
             d = self.import_list()
-            d.addCallbacks(on_import_complete, on_import_error)
+            d.addCallbacks(self.on_import_complete, self.on_import_error)
         return d
