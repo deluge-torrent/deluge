@@ -54,8 +54,13 @@ class Web(_UI):
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
-        group.add_option("--ssl", dest="ssl", action="store_true",
-            help="Forces the webserver to use ssl", default=False)
+        try:
+            import OpenSSL
+        except:
+            pass
+        else:
+            group.add_option("--ssl", dest="ssl", action="store_true",
+                    help="Forces the webserver to use ssl", default=False)
         self.parser.add_option_group(group)
     
     @property
