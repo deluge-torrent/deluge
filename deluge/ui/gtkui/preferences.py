@@ -734,6 +734,12 @@ class Preferences(component.Component):
         new_core_config["seed_time_limit"] = \
             self.glade.get_widget("spin_seed_time_limit").get_value()
 
+        ## Cache tab ##
+        new_core_config["cache_size"] = \
+            self.glade.get_widget("spin_cache_size").get_value_as_int()
+        new_core_config["cache_expiry"] = \
+            self.glade.get_widget("spin_cache_expiry").get_value_as_int()
+
         # Run plugin hook to apply preferences
         component.get("PluginManager").run_on_apply_prefs()
 
