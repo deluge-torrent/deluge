@@ -203,6 +203,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		}));
 		
 		this.form.on('render', this.onFormRender, this);
+		this.form.disable();
 	},
 	
 	onFormRender: function(form) {
