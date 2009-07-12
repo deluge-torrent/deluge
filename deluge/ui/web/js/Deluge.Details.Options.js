@@ -364,7 +364,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	
 	reset: function() {
 		if (this.torrentId) {
-			this.optionsManager.resetOptions(this.torrentId);
+			this.optionsManager.reset(this.torrentId);
 		}
 	},
 	
@@ -382,15 +382,15 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			var value = changed['prioritize_first_last'];
 			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
 				success: function() {
-					this.optionsManager.setOption(this.torrentId, 'prioritize_first_last', value);
+					this.optionsManager.set(this.torrentId, 'prioritize_first_last', value);
 				},
 				scope: this
 			});
 		}
 		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
-				this.optionsManager.setOptions(this.torrentId, changed);
-				this.optionsManager.resetOptions(this.torrentId);
+				this.optionsManager.set(this.torrentId, changed);
+				this.optionsManager.reset(this.torrentId);
 			},
 			scope: this
 		});
@@ -411,7 +411,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields['private'].setDisabled(!torrent['private']);
 		delete torrent['private'];
 		
-		this.optionsManager.updateOptions(this.torrentId, torrent);
+		this.optionsManager.update(this.torrentId, torrent);
 	}
 });
 Deluge.Details.add(new Ext.deluge.details.OptionsTab());

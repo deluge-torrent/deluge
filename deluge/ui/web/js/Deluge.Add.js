@@ -80,7 +80,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			defaults: {
 				'add_paused': false,
 				'compact_allocation': false,
-				'download_location': '~',
+				'download_location': '',
 				'max_connections_per_torrent': -1,
 				'max_download_speed_per_torrent': -1,
 				'max_upload_slots_per_torrent': -1,
@@ -215,8 +215,17 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	
 	addTorrent: function(torrent) {
 		this.torrents[torrent['info_hash']] = torrent;
+		var fileIndexes = {};
 		this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
+			if (type != 'file') return;
+			fileIndexes[entry[0]] = entry[2];
 		}, this);
+		
+		var priorities = [];
+		Ext.each(Ext.keys(fileIndexes), function(index) {
+			priorities[index] = fileIndexes[index];
+		});
+		this.optionsManager.set(torrent['info_hash'], 'file_priorities', priorities);
 	},
 	
 	clear: function() {
@@ -233,52 +242,47 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	},
 	
 	getDefaults: function() {
-		var keys = [
-			'add_paused',
-			'compact_allocation',
-			'download_location',
-			'max_connections_per_torrent',
-			'max_download_speed_per_torrent',
-			'max_upload_slots_per_torrent',
-			'max_upload_speed_per_torrent',
-			'prioritize_first_last_pieces'
-		]
+		var keys = ['add_paused','compact_allocation','download_location',
+		'max_connections_per_torrent','max_download_speed_per_torrent',
+		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
+		'prioritize_first_last_pieces'];
+		
 		Deluge.Client.core.get_config_values(keys, {
 			success: function(config) {
-				this.defaults = config;
-				for (var key in config) {
-					var field = this.form.findField(key);
-					if (!field) return;
-					field.setValue(config[key]);
-				}
-				var field = this.form.findField('compact_allocation');
-				if (config['compact_allocation']) {
-					field.items.get('compact_allocation_true').setValue(true);
-					field.items.get('compact_allocation_false').setValue(false);
-				} else {
-					field.items.get('compact_allocation_false').setValue(true);
-					field.items.get('compact_allocation_true').setValue(false);
-				}
+				config['file_priorities'] = [];
+				this.optionsManager.defaults = config;
 			},
 			scope: this
 		});
 	},
 	
+	getFilename: function(torrentId) {
+		return this.torrents[torrentId]['filename'];
+	},
+	
 	getOptions: function(torrentId) {
-		
+		var options = this.optionsManager.get(torrentId);
+		Ext.each(options['file_priorities'], function(priority, index) {
+			options['file_priorities'][index] = (priority) ? 1 : 0;
+		});
+		return options;
 	},
 	
 	setTorrent: function(torrentId) {
-		var self = this;
+		this.torrentId = torrentId;
+		this.optionsManager.changeId(torrentId);
+		
 		this.clearFiles();
 		var root = this.files.getRootNode();
+		var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
+		
 		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parent) {
 			if (type == 'dir') {
 				var folder = new Ext.tree.TreeNode({
 					text: filename,
 					checked: true
 				});
-				folder.on('checkchange', this.onFolderCheck, self);
+				folder.on('checkchange', this.onFolderCheck, this);
 				parent.appendChild(folder);
 				return folder;
 			} else {
@@ -288,11 +292,11 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 					text: filename, // this needs to be here for sorting reasons
 					size: fsize(entry[1]),
 					leaf: true,
-					checked: entry[2],
+					checked: priorities[entry[0]],
 					iconCls: 'x-deluge-file',
 					uiProvider: Ext.tree.ColumnNodeUI
 				});
-				node.on('checkchange', this.onNodeCheck, self);
+				node.on('checkchange', this.onNodeCheck, this);
 				parent.appendChild(node);
 			}
 		}, this, root);
@@ -310,20 +314,27 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				var ret = callback(filename, type, entry, parent);
 			}
 			
-			parent = (ret) ? ret : parent;
-			if (type == 'dir') this.walkFileTree(entry, callback, scope, parent);
+			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
 		}
 	},
 	
 	onFolderCheck: function(node, checked) {
+		var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
 		node.cascade(function(child) {
-			if (!child.ui.checkbox) return;
-			child.ui.checkbox.checked = checked;
+			if (!child.ui.checkbox) {
+				child.attributes.checked = checked;
+			} else {
+				child.ui.checkbox.checked = checked;
+			}
+			priorities[child.attributes.fileindex] = checked;
 		}, this);
+		this.optionsManager.update(this.torrentId, 'file_priorities', priorities);
 	},
 	
 	onNodeCheck: function(node, checked) {
-		
+		var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
+		priorities[node.attributes.fileindex] = checked;
+		this.optionsManager.update(this.torrentId, 'file_priorities', priorities);
 	}
 });
 
@@ -447,16 +458,15 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 	
 	onAdd: function() {
-		var priorities = this.optionsPanel.getFilePriorities();
-		return;
-		torrents = [];
-		for (var id in this.torrents) {
-			var info = this.torrents[id];
+		var torrents = [];
+		this.grid.getStore().each(function(r) {
+			var id = r.get('info_hash');
 			torrents.push({
-				path: info['filename'],
-				options: {}
+				path: this.optionsPanel.getFilename(id),
+				options: this.optionsPanel.getOptions(id)
 			});
-		}
+		}, this);
+
 		Deluge.Client.web.add_torrents(torrents, {
 			success: function(result) {
 			}
@@ -500,6 +510,8 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.file.on('add', this.onTorrentAdd, this);
 		}
+		
+		this.optionsPanel.getDefaults();
 	},
 	
 	onTorrentBeforeAdd: function(torrentId, text) {
