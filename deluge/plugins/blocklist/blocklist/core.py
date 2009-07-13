@@ -113,7 +113,7 @@ class Core(CorePluginBase):
         self.force_download = force
         self.use_cache = False
         self.failed_attempts = 0
-        
+
         # Start callback chain
         d = self.download_list()
         d.addCallbacks(self.on_download_complete, self.on_download_error)
@@ -243,6 +243,7 @@ class Core(CorePluginBase):
 
         if not self.reader:
             # TODO: auto-detect reader
+            pass
 
         #return threads.deferToThread(self.reader.read(on_read_ip_range))
         return defer.succeed(None)
