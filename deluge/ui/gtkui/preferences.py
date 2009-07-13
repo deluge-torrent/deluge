@@ -419,7 +419,8 @@ class Preferences(component.Component):
                 "spin_seed_time_limit",
                 "spin_cache_size",
                 "spin_cache_expiry",
-                "button_cache_refresh"
+                "button_cache_refresh",
+                "btn_testport"
             ]
             for t in ("peer", "web_seed", "tracker", "dht"):
                 core_widget_list.append("spin_proxy_port_%s" % t)
