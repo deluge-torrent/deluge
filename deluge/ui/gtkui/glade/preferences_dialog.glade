@@ -4375,7 +4375,7 @@ HTTP W/ Auth</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">&#x25CF;</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">512 0 99999 1 10 10</property>
+                                                    <property name="adjustment">512 0 99999 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
                                                   </widget>
@@ -4393,7 +4393,7 @@ HTTP W/ Auth</property>
                                                     <property name="invisible_char">&#x25CF;</property>
                                                     <property name="width_chars">5</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">60 1 32000 1 10 10</property>
+                                                    <property name="adjustment">60 1 32000 1 10 0</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
