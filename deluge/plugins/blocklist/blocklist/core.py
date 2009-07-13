@@ -144,10 +144,6 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
-        if self.config["list_compression"]:
-            status["file_type"] = self.config["list_compression"] + " "
-                                  + self.config["list_type"]
-
         status["up_to_date"] = self.up_to_date
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
