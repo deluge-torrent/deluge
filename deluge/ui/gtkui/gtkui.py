@@ -45,6 +45,7 @@ import gettext
 import locale
 import pkg_resources
 import gtk, gtk.glade
+import sys
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -229,6 +230,16 @@ class GtkUI:
         self.mainwindow.first_show()
 
         if self.config["classic_mode"]:
+
+            def on_dialog_response(response):
+                if response != gtk.RESPONSE_YES:
+                    # The user does not want to turn Classic Mode off, so just quit
+                    reactor.stop()
+                    return
+                # Turning off classic_mode
+                self.config["classic_mode"] = False
+                self.__start_non_classic()
+
             try:
                 client.start_classic_mode()
             except deluge.error.DaemonRunningError:
@@ -238,16 +249,21 @@ class GtkUI:
 You will either need to stop the daemon or turn off Classic Mode to continue.")).run()
 
                 self.started_in_classic = False
-                def on_dialog_response(response):
-                    if response != gtk.RESPONSE_YES:
-                        # The user does not want to turn Classic Mode off, so just quit
-                        reactor.stop()
-                        return
-                    # Turning off classic_mode
-                    self.config["classic_mode"] = False
-                    self.__start_non_classic()
-
                 d.addCallback(on_dialog_response)
+            except Exception, e:
+                import traceback
+                tb = sys.exc_info()
+                ed = dialogs.ErrorDialog(
+                    _("Error Starting Core"),
+                    _("There was an error starting the core component which is required to run Deluge in Classic Mode.\n\n\
+Please see the details below for more information."), details=traceback.format_exc(tb[2])).run()
+                def on_ed_response(response):
+                    d = dialogs.YesNoDialog(
+                        _("Turn off Classic Mode?"),
+                        _("Since there was an error starting in Classic Mode would you like to continue by turning it off?")).run()
+                    self.started_in_classic = False
+                    d.addCallback(on_dialog_response)
+                ed.addCallback(on_ed_response)
             else:
                 component.start()
                 return
