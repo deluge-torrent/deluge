@@ -418,7 +418,8 @@ class Preferences(component.Component):
                 "spin_seed_time_ratio_limit",
                 "spin_seed_time_limit",
                 "spin_cache_size",
-                "spin_cache_expiry"
+                "spin_cache_expiry",
+                "button_cache_refresh"
             ]
             for t in ("peer", "web_seed", "tracker", "dht"):
                 core_widget_list.append("spin_proxy_port_%s" % t)
@@ -489,7 +490,8 @@ class Preferences(component.Component):
             self.glade.get_widget("rad_ntf_tls").set_active(True)
 
         ## Cache tab ##
-        self.__update_cache_status()
+        if client.connected():
+            self.__update_cache_status()
 
         ## Plugins tab ##
         all_plugins = self.all_plugins
