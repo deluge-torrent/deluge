@@ -42,8 +42,6 @@ import deluge.common
 from deluge.plugins.pluginbase import GtkPluginBase
 import common
 
-from core import FORMATS
-
 class GtkUI(GtkPluginBase):
     def enable(self):
         log.debug("Blocklist GtkUI enable..")
@@ -118,11 +116,6 @@ class GtkUI(GtkPluginBase):
                     deluge.common.fsize(status["file_size"]))
                 self.glade.get_widget("label_modified").set_text(
                     str(status["file_date"]))
-                try:
-                    self.glade.get_widget("label_type").set_text(
-                        FORMATS[status["file_type"]][0])
-                except KeyError:
-                    self.glade.get_widget("label_type").set_text("")
 
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
@@ -131,11 +124,6 @@ class GtkUI(GtkPluginBase):
 
     def _on_show_prefs(self):
         def _on_get_config(config):
-            # Update the combo box. It's ugly, get over it.
-            self.glade.get_widget("combobox_types").set_active_iter(
-                self.glade.get_widget("combobox_types").get_model().\
-                    get_iter(FORMATS[config["list_type"]][1]))
-
             self.glade.get_widget("entry_url").set_text(
                 config["url"])
 
@@ -149,8 +137,6 @@ class GtkUI(GtkPluginBase):
 
     def _on_apply_prefs(self):
         config = {}
-        config["list_type"] = self.glade.get_widget("combobox_types").\
-            get_model()[self.glade.get_widget("combobox_types").get_active()][1]
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
@@ -183,20 +169,6 @@ class GtkUI(GtkPluginBase):
             "on_button_check_download_clicked": self._on_button_check_download_clicked,
             "on_button_force_download_clicked": self._on_button_force_download_clicked
         })
-
-        # Setup types combobox
-        combo = self.glade.get_widget("combobox_types")
-        combo_list = gtk.ListStore(str, str)
-        combo.set_model(combo_list)
-        cell = gtk.CellRendererText()
-        combo.pack_start(cell, False)
-        combo.add_attribute(cell, "text", 0)
-
-        for k in FORMATS.keys():
-            i = combo_list.append([FORMATS[k][0], k])
-            FORMATS[k][1] = combo_list.get_path(i)
-
-        combo.set_active(0)
 
         # Set button icons
         self.glade.get_widget("image_download").set_from_file(

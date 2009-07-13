@@ -49,26 +49,16 @@ import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
 
-from peerguardian import PGReader, PGException
-from text import TextReader, GZMuleReader, PGZip, PGTextReaderGzip
-
 DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
     "load_on_start": False,
     "check_after_days": 4,
-    "list_type": "gzmule",
+    "list_compression": "",
+    "list_type": "",
     "last_update": "",
     "list_size": 0,
     "timeout": 180,
     "try_times": 3,
-}
-
-FORMATS =  {
-    'gzmule': ["Emule IP list (GZip)", GZMuleReader],
-    'spzip': ["SafePeer Text (Zipped)", PGZip],
-    'pgtext': ["PeerGuardian Text (Uncompressed)", TextReader],
-    'p2bgz': ["PeerGuardian P2B (GZip)", PGReader],
-    'pgtextgz': ["PeerGuardian Text (GZip)",  PGTextReaderGzip]
 }
 
 class Core(CorePluginBase):
@@ -81,6 +71,7 @@ class Core(CorePluginBase):
         self.up_to_date = False
         self.num_blocked = 0
         self.file_progress = 0.0
+        self.reader = None
 
         self.core = component.get("Core")
 
@@ -153,13 +144,19 @@ class Core(CorePluginBase):
         else:
             status["state"] = "Idle"
 
+        if self.config["list_compression"]:
+            status["file_type"] = self.config["list_compression"] + " "
+                                  + self.config["list_type"]
+
         status["up_to_date"] = self.up_to_date
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
-        status["file_type"] = self.config["list_type"]
         status["file_url"] = self.config["url"]
         status["file_size"] = self.config["list_size"]
         status["file_date"] = self.config["last_update"]
+        status["file_type"] = self.config["list_type"]
+        if self.config["list_compression"]:
+            status["file_type"] += " (%s)" % self.config["list_compression"]
 
         return status
 
@@ -237,6 +234,10 @@ class Core(CorePluginBase):
 
     def import_list(self, force=False):
         """Imports the downloaded blocklist into the session"""
+        def on_read_ip_range(ip_range):
+            # TODO: add to lt session
+            self.num_blocked += 1
+
         if self.use_cache and self.has_imported:
             log.debug("Latest blocklist is already imported")
             return True
@@ -244,9 +245,10 @@ class Core(CorePluginBase):
         self.is_importing = True
         self.num_blocked = 0
 
-        # TODO: Open blocklist with appropriate reader
-        # TODO: Import ranges
+        if not self.reader:
+            # TODO: auto-detect reader
 
+        #return threads.deferToThread(self.reader.read(on_read_ip_range))
         return defer.succeed(None)
 
     def on_import_complete(self, result):
