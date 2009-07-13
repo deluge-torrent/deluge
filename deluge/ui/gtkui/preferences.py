@@ -948,7 +948,8 @@ class Preferences(component.Component):
 
     def _on_button_rescan_plugins_clicked(self, widget):
         component.get("PluginManager").scan_for_plugins()
-        client.core.rescan_plugins()
+        if client.connected():
+            client.core.rescan_plugins()
         self.show()
 
     def _on_button_find_plugins_clicked(self, widget):
