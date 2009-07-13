@@ -210,7 +210,7 @@ class GtkUI:
 
         # Process any pending gtk events since the mainloop has been quit
         while gtk.events_pending():
-            gtk.main_iteration(False)
+            reactor.doIteration(0)
 
         # Shutdown all components
         component.shutdown()
