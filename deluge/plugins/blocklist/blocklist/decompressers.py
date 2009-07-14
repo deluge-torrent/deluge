@@ -34,26 +34,25 @@
 #
 
 import gzip, zipfile, bz2
-import new
 
-def Zip(reader):
+def Zipped(reader):
     """Blocklist reader for zipped blocklists"""
     def open(self):
         z = zipfile.ZipFile(self.file)
         return z.open(z.namelist()[0])
-    setattr(reader, "open", new.instancemethod(open, reader))
+    reader.open = open
     return reader
 
-def GZip(reader):
+def GZipped(reader):
     """Blocklist reader for gzipped blocklists"""
     def open(self):
         return gzip.open(self.file)
-    setattr(reader, "open", new.instancemethod(open, reader))
+    reader.open = open
     return reader
 
-def BZip2(reader):
+def BZipped2(reader):
     """Blocklist reader for bzipped2 blocklists"""
     def open(self):
         return bz2.BZ2File(self.file)
-    setattr(reader, "open", new.instancemethod(open, reader))
+    reader.open = open
     return reader
