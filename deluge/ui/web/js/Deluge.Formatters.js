@@ -93,6 +93,7 @@ Deluge.Formatters = {
 	 */
 	timeRemaining: function(time) {
 		if (time == 0) { return '∞' }
+        time = time.toFixed(0);
 		if (time < 60) { return time + 's'; }
 		else { time = time / 60; }
 	
