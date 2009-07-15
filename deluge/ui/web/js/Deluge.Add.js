@@ -454,8 +454,8 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 	
 	clear: function() {
-		this.torrents = {};
 		this.grid.getStore().removeAll();
+		this.optionsPanel.clear();
 	},
 	
 	onAdd: function() {
