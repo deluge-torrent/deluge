@@ -39,7 +39,7 @@ import datetime
 import shutil
 
 from twisted.internet.task import LoopingCall
-from twisted.internet import reactor, threads, defer
+from twisted.internet import threads, defer
 from twisted.web import error
 
 from deluge.log import LOG as log
@@ -48,6 +48,19 @@ import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
+from decompressers import Zipped, GZipped, BZipped2
+from readers import EmuleReader, SafePeerReader, PeerGuardianReader
+from detect import detect_compression, detect_format, UnknownFormatError
+
+try:
+    import deluge.libtorrent as lt
+except ImportError:
+    import libtorrent as lt
+    if not (lt.version_major == 0 and lt.version_minor == 14):
+        raise ImportError("This version of Deluge requires libtorrent 0.14!")
+
+# TODO: check return values for deferred callbacks
+# TODO: review class attributes for redundancy
 
 DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
@@ -61,6 +74,23 @@ DEFAULT_PREFS = {
     "try_times": 3,
 }
 
+DECOMPRESSERS = {
+    "Zip" : Zipped,
+    "GZip" : GZipped,
+    "BZip2" : BZipped2
+}
+
+READERS = {
+    "Emule" : EmuleReader,
+    "SafePeer" : SafePeerReader,
+    "PeerGuardian" : PeerGuardianReader
+}
+
+# Libtorrent IP filter constants
+START = 0
+END = 1
+BLOCK = 1
+
 class Core(CorePluginBase):
     def enable(self):
         log.debug('Blocklist: Plugin enabled..')
@@ -71,13 +101,15 @@ class Core(CorePluginBase):
         self.up_to_date = False
         self.num_blocked = 0
         self.file_progress = 0.0
-        self.reader = None
 
         self.core = component.get("Core")
+        self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
+
+        self.reader = READERS.get(self.config["list_type"])
+        if self.config["list_compression"]:
+            self.reader = DECOMPRESSERS.get(self.config["list_compression"])(self.reader)
 
         update_now = False
-
-        self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
             if self.config["last_update"]:
                 now = datetime.datetime.now()
@@ -231,22 +263,34 @@ class Core(CorePluginBase):
     def import_list(self, force=False):
         """Imports the downloaded blocklist into the session"""
         def on_read_ip_range(ip_range):
-            # TODO: add to lt session
+            self.blocklist.add_rule(ip_range[START], ip_range[END], BLOCK)
             self.num_blocked += 1
 
-        if self.use_cache and self.has_imported:
+        def on_finish_read(result):
+            # Add blocklist to session
+            self.core.session.set_ip_filter(self.blocklist)
+
+        # TODO: double check logic
+        if self.up_to_date and self.has_imported:
             log.debug("Latest blocklist is already imported")
-            return True
+            return defer.succeed(None)
 
         self.is_importing = True
         self.num_blocked = 0
+        self.blocklist = lt.ip_filter()
+
+        if self.use_cache:
+            blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
+        else:
+            blocklist = deluge.configmanager.get_config_dir("blocklist.download")
 
         if not self.reader:
-            # TODO: auto-detect reader
-            pass
+            self.auto_detect(blocklist)
 
-        #return threads.deferToThread(self.reader.read(on_read_ip_range))
-        return defer.succeed(None)
+        d = threads.deferToThread(self.reader(blocklist).read(on_read_ip_range))
+        d.addCallback(on_finish_read)
+
+        return d
 
     def on_import_complete(self, result):
         """Runs any import clean up functions"""
@@ -264,6 +308,8 @@ class Core(CorePluginBase):
 
     def on_import_error(self, f):
         """Recovers from import error"""
+        # TODO: catch invalid / corrupt list error
+        #       and reset self.reader
         d = None
         self.is_importing = False
         blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
@@ -274,3 +320,10 @@ class Core(CorePluginBase):
             d = self.import_list()
             d.addCallbacks(self.on_import_complete, self.on_import_error)
         return d
+
+    def auto_detect(self, blocklist):
+        self.config["list_compression"] = detect_compression(blocklist)
+        self.config["list_type"] = detect_format(blocklist)
+        if not self.config["list_type"]:
+            self.config["list_compression"] = ""
+            raise UnknownFormatError

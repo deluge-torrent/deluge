@@ -35,6 +35,8 @@
 
 from deluge.log import LOG as log
 
+# TODO: Create exception classes to be raised
+
 class BaseReader(object):
     """Base reader for blocklist files"""
     def __init__(self, file):
