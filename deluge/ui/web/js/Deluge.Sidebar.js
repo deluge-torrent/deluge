@@ -111,6 +111,7 @@ Copyright:
 			
 			var panel = new Ext.grid.GridPanel({
 				id: filter + '-panel',
+                border: false,
 				store: store,
 				title: _(title),
 				columns: [
