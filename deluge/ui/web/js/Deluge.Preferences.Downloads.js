@@ -1,39 +1,76 @@
-Deluge.Preferences.addPage({
-	border: false,
-	title: _('Downloads'),
-	xtype: 'form',
-	layout: 'form',
-	items: [{
-		xtype: 'fieldset',
-		border: false,
-		title: _('Folders'),
-		labelWidth: 140,
-		defaultType: 'textfield',
-		autoHeight: true,
+(function() {
+	DownloadPanel = Ext.extend(Ext.FormPanel, {
+		constructor: function(config) {
+			config = Ext.apply({
+				border: false,
+				title: _('Downloads'),
+				layout: 'form'
+			}, config);
+			DownloadPanel.superclass.constructor.call(this, config);
+		},
+		
+		initComponent: function() {
+			DownloadPanel.superclass.initComponent.call(this);
+			
+			this.fieldsets = {}
+			this.fields = {};
+			
+			this.fieldsets['folders'] = this.add({
+				xtype: 'fieldset',
+				border: false,
+				title: _('Folders'),
+				labelWidth: 140,
+				defaultType: 'textfield',
+				autoHeight: true
+			});
+			
+			this.fields['download_location'] = this.fieldsets['folders'].add({
+				name: 'download_location',
+				fieldLabel: _('Download to'),
+				width: 125
+			});
+			
+			this.fields['move_completed'] = this.fieldsets['folders'].add({
+				name: 'move_completed',
+				fieldLabel: _('Move completed to'),
+				width: 125
+			});
+			
+			this.fields['copy_torrent_files'] = this.fieldsets['folders'].add({
+				name: 'copy_torrent_files',
+				fieldLabel: _('Copy of .torrent files to'),
+				width: 125
+			});
+			
+			this.fieldsets['allocation'] = this.add({
+				xtype: 'fieldset',
+				border: false,
+				title: _('Allocation'),
+				autoHeight: true,
+				labelWidth: 1,
+				defaultType: 'radio'
+			});
+			
+			this.fields['compact_allocation'] = this.fieldsets['allocation'].add({
+				name: 'compact_allocation',
+				labelSeparator: '',
+				boxLabel: _('Compact')
+			});
+		},
+		
+		onShow: function() {
+			DownloadPanel.superclass.onShow.call(this);
+		}
+	});
+	Deluge.Preferences.addPage(new DownloadPanel());
+})();
+
+/*Deluge.Preferences.addPage({
+	
+	items: [, {
+		
 		items: [{
-			name: 'download_location',
-			fieldLabel: _('Download to'),
-			width: 125
-		}, {
-			name: 'move_completed',
-			fieldLabel: _('Move completed to'),
-			width: 125
-		}, {
-			name: 'copy_torrent_files',
-			fieldLabel: _('Copy of .torrent files to'),
-			width: 125
-		}]
-	}, {
-		xtype: 'fieldset',
-		border: false,
-		title: _('Allocation'),
-		autoHeight: true,
-		labelWidth: 1,
-		defaultType: 'radio',
-		items: [{
-			name: 'compact_allocation',
-			labelSeparator: '',
-			boxLabel: _('Compact')
+			
 		}, {
 			name: 'compact_allocation',
 			labelSeparator: '',
@@ -56,4 +93,4 @@ Deluge.Preferences.addPage({
 			boxLabel: _('Add torrents in Paused state')
 		}]
 	}]
-});
+});*/

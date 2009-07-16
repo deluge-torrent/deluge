@@ -60,6 +60,8 @@ Ext.namespace('Ext.deluge');
 		}
 	});
 	Ext.getKeys = Ext.keys;
+	
+	Ext.BLANK_IMAGE_URL = '/images/s.gif';
 })();
 
 (function() {
