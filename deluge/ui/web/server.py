@@ -384,8 +384,8 @@ class ServerContextFactory:
     def getContext(self):
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv3_METHOD)
-        ctx.use_privatekey_file(common.get_default_config_dir(os.path.join('ssl', 'web.key')))
-        ctx.use_certificate_file(common.get_default_config_dir(os.path.join('ssl', 'web.crt')))
+        ctx.use_privatekey_file(common.get_default_config_dir(os.path.join('ssl', 'daemon.pkey')))
+        ctx.use_certificate_file(common.get_default_config_dir(os.path.join('ssl', 'daemon.cert')))
         return ctx
 
 class DelugeWeb(component.Component):
