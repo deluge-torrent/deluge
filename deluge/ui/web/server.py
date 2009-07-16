@@ -91,7 +91,9 @@ CONFIG_DEFAULTS = {
     "show_keyword_search": False,
     "show_sidebar": True,
     "cache_templates": False,
-    "https": False
+    "https": False,
+    "pkey": "ssl/daemon.pkey",
+    "cert": "ssl/daemon.cert"
 }
 
 OLD_CONFIG_KEYS = (
@@ -384,8 +386,9 @@ class ServerContextFactory:
     def getContext(self):
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv3_METHOD)
-        ctx.use_privatekey_file(common.get_default_config_dir(os.path.join('ssl', 'daemon.pkey')))
-        ctx.use_certificate_file(common.get_default_config_dir(os.path.join('ssl', 'daemon.cert')))
+        deluge_web = component.get("DelugeWeb")
+        ctx.use_privatekey_file(common.get_default_config_dir(deluge_web.pkey))
+        ctx.use_certificate_file(common.get_default_config_dir(deluge_web.cert))
         return ctx
 
 class DelugeWeb(component.Component):
@@ -420,6 +423,8 @@ class DelugeWeb(component.Component):
         self.site = server.Site(self.top_level)
         self.port = self.config["port"]
         self.https = self.config["https"]
+        self.pkey = self.config["pkey"]
+        self.cert = self.config["cert"]
         self.web_api = WebApi()
         self.auth = Auth()
 
