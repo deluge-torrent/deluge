@@ -53,17 +53,18 @@ class BaseReader(object):
 
     def read(self, callback):
         """Calls callback on each ip range in the file"""
-        for ip_range in self.readranges():
-            callback(ip_range)
+        for start, end in self.readranges():
+            callback(start, end)
 
-    def is_valid(self, line):
-        return not line.startswith('#') and line.strip() != ""
+    def is_ignored(self, line):
+        """Ignore commented lines and blank lines"""
+        return line.startswith('#') or not line.strip()
 
     def readranges(self):
         """Yields each ip range from the file"""
         blocklist = self.open()
         for line in blocklist:
-            if self.is_valid(line):
+            if not self.is_ignored(line):
                 yield self.parse(line)
         blocklist.close()
 

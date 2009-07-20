@@ -86,10 +86,8 @@ READERS = {
     "PeerGuardian" : PeerGuardianReader
 }
 
-# Libtorrent IP filter constants
-START = 0
-END = 1
-BLOCK = 1
+# Constants
+BLOCK_RANGE = 1
 
 class Core(CorePluginBase):
     def enable(self):
@@ -262,8 +260,9 @@ class Core(CorePluginBase):
 
     def import_list(self, force=False):
         """Imports the downloaded blocklist into the session"""
-        def on_read_ip_range(ip_range):
-            self.blocklist.add_rule(ip_range[START], ip_range[END], BLOCK)
+        def on_read_ip_range(start, end):
+            """Add ip range to blocklist"""
+            self.blocklist.add_rule(start, end, BLOCK_RANGE)
             self.num_blocked += 1
 
         def on_finish_read(result):
