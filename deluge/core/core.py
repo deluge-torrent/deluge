@@ -44,6 +44,7 @@ from twisted.internet import reactor, defer
 from twisted.internet.task import LoopingCall
 import twisted.web.client
 
+from deluge.httpdownloader import download_file
 from deluge.log import LOG as log
 
 try:
@@ -261,35 +262,34 @@ class Core(component.Component):
         return torrent_id
 
     @export
-    def add_torrent_url(self, url, options):
+    def add_torrent_url(self, url, options, headers=None):
         """
         Adds a torrent from a url.  Deluge will attempt to fetch the torrent
         from url prior to adding it to the session.
 
         :param url: str, the url pointing to the torrent file
         :param options: dict, the options to apply to the torrent on add
+        :param headers: dict, any optional headers to send
 
         :returns: the torrent_id as a str or None, if calling locally, then it
             will return a Deferred that fires once the torrent has been added
         """
         log.info("Attempting to add url %s", url)
-        def on_get_page(page):
-            # We got the data, so attempt adding it to the session
-            try:
-                torrent_id = self.add_torrent_file(url.split("/")[-1], base64.encodestring(page), options)
-            except Exception, e:
-                d.errback(e)
-            else:
-                d.callback(torrent_id)
+        def on_get_file(result):
+            # We got the file, so add it to the session
+            data = open(filename, "rb").read()
+            return self.add_torrent_file(filename, base64.encodestring(data), options)
 
-        def on_get_page_error(reason):
+        def on_get_file_error(failure):
+            # Log the error and pass the failure onto the client
             log.error("Error occured downloading torrent from %s", url)
-            log.error("Reason: %s", reason)
-            # XXX: Probably should raise an exception to the client here
-            d.errback(reason)
+            log.error("Reason: %s", failure.getErrorMessage())
+            return failure
 
-        twisted.web.client.getPage(url).addCallback(on_get_page).addErrback(on_get_page_error)
-        d = defer.Deferred()
+        filename = url.split("/")[-1]
+        d = download_file(url, filename, headers=headers)
+        d.addCallback(on_get_file)
+        d.addErrback(on_get_file_error)
         return d
 
     @export
