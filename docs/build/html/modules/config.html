@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>deluge.config &mdash; deluge v1.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="deluge v1.1.0 documentation" href="../index.html" />
+    <link rel="prev" title="deluge.common" href="common.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="common.html" title="deluge.common"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-deluge.config">
+<h1><tt class="xref docutils literal"><span class="pre">deluge.config</span></tt><a class="headerlink" href="#module-deluge.config" title="Permalink to this headline">¶</a></h1>
+<p>Deluge Config Module</p>
+<p>This module is used for loading and saving of configuration files.. or anything
+really.</p>
+<p>The format of the config file is as follows:</p>
+<p>&lt;format version as int&gt;
+&lt;config file version as int&gt;
+&lt;content&gt;</p>
+<p>The format version is controlled by the Config class.  It should only be changed
+when anything below it is changed directly by the Config class.  An example of
+this would be if we changed the serializer for the content to something different.</p>
+<p>The config file version is changed by the &#8216;owner&#8217; of the config file.  This is
+to signify that there is a change in the naming of some config keys or something
+similar along those lines.</p>
+<p>The content is simply the dict to be saved and will be serialized before being
+written.</p>
+<p>Converting</p>
+<p>Since the format of the config could change, there needs to be a way to have
+the Config object convert to newer formats.  To do this, you will need to
+register conversion functions for various versions of the config file. Note that
+this can only be done for the &#8216;config file version&#8217; and not for the &#8216;format&#8217;
+version as this will be done internally.</p>
+<dl class="class">
+<dt id="deluge.config.Config">
+<em class="property">
+class </em><tt class="descclassname">deluge.config.</tt><tt class="descname">Config</tt><big>(</big><em>filename</em>, <em>defaults=None</em>, <em>config_dir=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>This class is used to access/create/modify config files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>filename</em> &#8211; the name of the config file</li>
+<li><em>defaults</em> &#8211; dictionary of default values</li>
+<li><em>config_dir</em> &#8211; the path to the config directory</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="deluge.config.Config.__setitem__">
+<tt class="descname">__setitem__</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.config.Config.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd>See
+<a title="deluge.config.Config.set_item" class="reference internal" href="#deluge.config.Config.set_item"><tt class="xref docutils literal"><span class="pre">set_item()</span></tt></a></dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.__getitem__">
+<tt class="descname">__getitem__</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge.config.Config.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd>See
+<a title="deluge.config.Config.get_item" class="reference internal" href="#deluge.config.Config.get_item"><tt class="xref docutils literal"><span class="pre">get_item()</span></tt></a></dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.apply_all">
+<tt class="descname">apply_all</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.config.Config.apply_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls all set functions</p>
+<p><strong>Usage</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;test.conf&quot;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="mf">5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">register_set_function</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">cb</span><span class="p">,</span> <span class="n">apply_now</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">apply_all</span><span class="p">()</span>
+<span class="go">test 5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.apply_set_functions">
+<tt class="descname">apply_set_functions</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge.config.Config.apply_set_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls set functions for <cite>:param:key</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>key</em> &#8211; str, the config key</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="deluge.config.Config.config">
+<tt class="descname">config</tt><a class="headerlink" href="#deluge.config.Config.config" title="Permalink to this definition">¶</a></dt>
+<dd>The config dictionary</dd></dl>
+
+<dl class="attribute">
+<dt id="deluge.config.Config.config_file">
+<tt class="descname">config_file</tt><a class="headerlink" href="#deluge.config.Config.config_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.get_item">
+<tt class="descname">get_item</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge.config.Config.get_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of item &#8216;key&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>key</em> &#8211; the item for which you want it&#8217;s value</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the value of item &#8216;key&#8217;</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises KeyError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">if &#8216;key&#8217; is not in the config dictionary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;test.conf&quot;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="mf">5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="p">[</span><span class="s">&quot;test&quot;</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.load">
+<tt class="descname">load</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a config file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>filename</em> &#8211; if None, uses filename set in object initialization</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.register_change_callback">
+<tt class="descname">register_change_callback</tt><big>(</big><em>callback</em><big>)</big><a class="headerlink" href="#deluge.config.Config.register_change_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a callback function that will be called when a value is changed in the config dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>callback</em> &#8211; the function, callback(key, value)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;test.conf&quot;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="mf">5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">register_change_callback</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.register_set_function">
+<tt class="descname">register_set_function</tt><big>(</big><em>key</em>, <em>function</em>, <em>apply_now=True</em><big>)</big><a class="headerlink" href="#deluge.config.Config.register_set_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a function to be called when a config value changes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>key</em> &#8211; the item to monitor for change</li>
+<li><em>function</em> &#8211; the function to call when the value changes, f(key, value)</li>
+<li><em>apply_now</em> &#8211; if True, the function will be called after it&#8217;s registered</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;test.conf&quot;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="mf">5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">register_set_function</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">cb</span><span class="p">,</span> <span class="n">apply_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go">test 5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.run_converter">
+<tt class="descname">run_converter</tt><big>(</big><em>input_range</em>, <em>output_version</em>, <em>func</em><big>)</big><a class="headerlink" href="#deluge.config.Config.run_converter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a function that will convert file versions in the <cite>:param:input_range</cite>
+to the <cite>:param:output_version</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>input_range</em> &#8211; tuple, (int, int) the range of input versions this
+function will accept</li>
+<li><em>output_version</em> &#8211; int, the version this function will return</li>
+<li><em>func</em> &#8211; func, the function that will do the conversion, it will take
+the config dict as an argument and return the augmented dict</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">if the output_version is less than the input_range</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.save">
+<tt class="descname">save</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#deluge.config.Config.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save configuration to disk</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>filename</em> &#8211; if None, uses filename set in object initiliazation</td>
+</tr>
+<tr class="field"><th class="field-name">Rtype bool:</th><td class="field-body"></td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">whether or not the save succeeded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="deluge.config.Config.set_item">
+<tt class="descname">set_item</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.config.Config.set_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets item &#8216;key&#8217; to &#8216;value&#8217; in the config dictionary, but does not allow
+changing the item&#8217;s type unless it is None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>key</em> &#8211; string, item to change to change</li>
+<li><em>value</em> &#8211; the value to change item to, must be same type as what is currently in the config</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">raised when the type of value is not the same as what is currently in the config</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;test.conf&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="p">[</span><span class="s">&quot;test&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="p">[</span><span class="s">&quot;test&quot;</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="common.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">deluge.common</span></tt></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/modules/config.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="common.html" title="deluge.common"
+             >previous</a> |</li>
+        <li><a href="../index.html">deluge v1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Andrew Resch.
+      Last updated on Jul 20, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.1.
+    </div>
+  </body>
+</html>
