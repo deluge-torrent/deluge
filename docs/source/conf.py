@@ -36,7 +36,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = 'deluge'
+project = 'Deluge'
 copyright = '2008, Andrew Resch'
 
 # The default replacements for |version| and |release|, also used in various
