@@ -441,13 +441,11 @@ class WebApi(JSONComponent):
         """
         
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
-        d = Deferred()
-        httpdownloader.download_file(url, tmp_file).addCallback(self._on_torrent_downloaded, tmp_file, d)
-        return d
+        return httpdownloader.download_file(url, tmp_file).addCallback(self._on_torrent_downloaded, tmp_file)
     
-    def _on_torrent_downloaded(self, result, filename, d):
+    def _on_torrent_downloaded(self, result, filename):
         log.debug("filename: %s", filename)
-        d.callback(filename)
+        return filename
 
     @export
     def get_torrent_info(self, filename):
