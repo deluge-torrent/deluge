@@ -387,6 +387,9 @@ class ServerContextFactory:
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv3_METHOD)
         deluge_web = component.get("DelugeWeb")
+        log.debug("Enabling SSL using:")
+        log.debug("Pkey: %s", deluge_web.pkey)
+        log.debug("Cert: %s", deluge_web.cert)
         ctx.use_privatekey_file(common.get_default_config_dir(deluge_web.pkey))
         ctx.use_certificate_file(common.get_default_config_dir(deluge_web.cert))
         return ctx
