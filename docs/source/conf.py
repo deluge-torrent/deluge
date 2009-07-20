@@ -12,6 +12,7 @@
 # serve to show the default value.
 
 import sys, os
+import deluge.common
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -42,9 +43,9 @@ copyright = '2008, Andrew Resch'
 # other places throughout the built documents.
 #
 # The short X.Y version.
-version = '1.1.0'
+version = deluge.common.get_version()
 # The full version, including alpha/beta/rc tags.
-release = '1.1.0'
+release = deluge.common.get_version()
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
