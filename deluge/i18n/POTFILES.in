@@ -17,7 +17,7 @@ deluge/ui/gtkui/glade/dgtkpopups.glade
 deluge/ui/gtkui/glade/tray_menu.glade
 deluge/ui/gtkui/glade/main_window.glade
 deluge/bencode.py
-deluge/docs/source/conf.py
+docs/source/conf.py
 deluge/core/autoadd.py
 deluge/core/preferencesmanager.py
 deluge/core/filtermanager.py
