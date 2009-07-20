@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deluge RPC &mdash; Deluge v1.2.0-dev documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.2.0-dev',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Deluge v1.2.0-dev documentation" href="../index.html" />
+    <link rel="up" title="The Deluge Core" href="index.html" />
+    <link rel="next" title="Deluge’s Interfaces" href="../interfaces/index.html" />
+    <link rel="prev" title="The Deluge Core" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../interfaces/index.html" title="Deluge’s Interfaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Deluge Core"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Deluge v1.2.0-dev documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The Deluge Core</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deluge-rpc">
+<h1>Deluge RPC<a class="headerlink" href="#deluge-rpc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="message-formats">
+<h2>Message Formats<a class="headerlink" href="#message-formats" title="Permalink to this headline">¶</a></h2>
+<p>DelugeRPC is a protocol used for daemon/client communication. There are four
+types of messages involved in the protocol: RPC Request, RPC Response,
+RPC Error and Event. All messages are zlib compressed rencoded strings and
+their data formats are detailed below.</p>
+<div class="section" id="rpc-request">
+<h3>RPC Request<a class="headerlink" href="#rpc-request" title="Permalink to this headline">¶</a></h3>
+<p>This message is created and sent by the client to the server requesting that a
+remote method be called. Multiple requests can be bundled in a list.</p>
+<p><strong>[[request_id, method, [args], {kwargs}], ...]</strong></p>
+<dl class="docutils">
+<dt><strong>request_id</strong> (int)</dt>
+<dd>An integer determined by the client that is used in replies from the server.
+This is used to ensure the client knows which request the data is in
+response to. Another alternative would be to respond in the same order the
+requests come in, but this could cause lag if an earlier request takes
+longer to process.</dd>
+<dt><strong>method</strong> (str)</dt>
+<dd>The name of the remote method to call. This name can be in dotted format to
+call other objects or plugins methods.</dd>
+<dt><strong>args</strong> (list)</dt>
+<dd>The arguments to call the method with.</dd>
+<dt><strong>kwargs</strong> (dict)</dt>
+<dd>The keyword arguments to call the method with.</dd>
+</dl>
+</div>
+<div class="section" id="rpc-response">
+<h3>RPC Response<a class="headerlink" href="#rpc-response" title="Permalink to this headline">¶</a></h3>
+<p>This message is created and sent in response to a RPC Request from a client. It
+will hold the return value of the requested method call. In the case of an
+error, a RPC Error message will be sent instead.</p>
+<p><strong>[message_type, request_id, [return_value]]</strong></p>
+<dl class="docutils">
+<dt><strong>message_type</strong> (int)</dt>
+<dd>This will be a RPC_RESPONSE type id. This is used on the client side to
+determine what kind of message is being received from the daemon.</dd>
+<dt><strong>request_id</strong> (int)</dt>
+<dd>The request_id is the same as the one sent by the client in the initial
+request. It used on the client side to determine what message this is in
+response to.</dd>
+<dt><strong>return_value</strong> (list)</dt>
+<dd>The return value of the method call.</dd>
+</dl>
+</div>
+<div class="section" id="rpc-error">
+<h3>RPC Error<a class="headerlink" href="#rpc-error" title="Permalink to this headline">¶</a></h3>
+<p>This message is created in response to an error generated while processing a
+RPC Request and will serve as a replacement for a RPC Response message.</p>
+<p><strong>[message_type, request_id, exception_type, exception_msg, traceback]</strong></p>
+<dl class="docutils">
+<dt><strong>message_type</strong> (int)</dt>
+<dd>This will be a RPC_ERROR type id.</dd>
+<dt><strong>request_id</strong> (int)</dt>
+<dd>The request_id is the same as the one sent by the client in the initial
+request.</dd>
+<dt><strong>exception_type</strong> (str)</dt>
+<dd>The type of exception raised.</dd>
+<dt><strong>exception_msg</strong> (str)</dt>
+<dd>The message as to why the exception was raised.</dd>
+<dt><strong>traceback</strong> (str)</dt>
+<dd>The traceback of the generated exception.</dd>
+</dl>
+</div>
+<div class="section" id="event">
+<h3>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h3>
+<p>This message is created by the daemon and sent to the clients without being in
+response to a RPC Request. Events are generally sent for changes in the
+daemon&#8217;s state that the clients need to be made aware of.</p>
+<p><strong>[message_type, event_name, data]</strong></p>
+<dl class="docutils">
+<dt><strong>message_type</strong> (int)</dt>
+<dd>This will be a RPC_EVENT type id.</dd>
+<dt><strong>event_name</strong> (str)</dt>
+<dd>This is the name of the event being emitted by the daemon.</dd>
+<dt><strong>data</strong> (list)</dt>
+<dd>Additional data to be sent with the event. This is dependent upon the event
+being emitted.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="remote-api">
+<h2>Remote API<a class="headerlink" href="#remote-api" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Deluge RPC</a><ul>
+<li><a class="reference external" href="#message-formats">Message Formats</a><ul>
+<li><a class="reference external" href="#rpc-request">RPC Request</a></li>
+<li><a class="reference external" href="#rpc-response">RPC Response</a></li>
+<li><a class="reference external" href="#rpc-error">RPC Error</a></li>
+<li><a class="reference external" href="#event">Event</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#remote-api">Remote API</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">The Deluge Core</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../interfaces/index.html"
+                                  title="next chapter">Deluge&#8217;s Interfaces</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/core/rpc.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../interfaces/index.html" title="Deluge’s Interfaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Deluge Core"
+             >previous</a> |</li>
+        <li><a href="../index.html">Deluge v1.2.0-dev documentation</a> &raquo;</li>
+          <li><a href="index.html" >The Deluge Core</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Andrew Resch.
+      Last updated on Jul 20, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.1.
+    </div>
+  </body>
+</html>
