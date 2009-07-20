@@ -50,8 +50,7 @@ from twisted.internet import reactor, error
 from twisted.internet.ssl import SSL
 from twisted.web import http, resource, server, static
 
-from deluge import common, component
-from deluge.configmanager import ConfigManager
+from deluge import common, component, configmanager
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
@@ -390,17 +389,17 @@ class ServerContextFactory:
         log.debug("Enabling SSL using:")
         log.debug("Pkey: %s", deluge_web.pkey)
         log.debug("Cert: %s", deluge_web.cert)
-        ctx.use_privatekey_file(common.get_default_config_dir(deluge_web.pkey))
-        ctx.use_certificate_file(common.get_default_config_dir(deluge_web.cert))
+        ctx.use_privatekey_file(configmanager.get_config_dir(deluge_web.pkey))
+        ctx.use_certificate_file(configmanager.get_config_dir(deluge_web.cert))
         return ctx
 
 class DelugeWeb(component.Component):
 
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
-        self.config = ConfigManager("web.conf", CONFIG_DEFAULTS)
+        self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
         
-        old_config = ConfigManager("webui06.conf")
+        old_config = configmanager.ConfigManager("webui06.conf")
         if old_config.config:
             # we have an old config file here to handle so we should move
             # all the values across to the new config file, and then remove
