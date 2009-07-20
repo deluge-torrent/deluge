@@ -45,7 +45,7 @@ from types import FunctionType
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
-from deluge import common, component
+from deluge import common, component, httpdownloader
 from deluge.configmanager import ConfigManager
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
@@ -439,12 +439,15 @@ class WebApi(JSONComponent):
         :returns: the temporary file name of the torrent file
         :rtype: str
         """
+        
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
-        filename, headers = urllib.urlretrieve(url, tmp_file)
-        log.debug("filename: %s", filename)
         d = Deferred()
-        d.callback(filename)
+        httpdownloader.download_file(url, tmp_file).addCallback(self._on_torrent_downloaded, tmp_file, d)
         return d
+    
+    def _on_torrent_downloaded(self, result, filename, d):
+        log.debug("filename: %s", filename)
+        d.callback(filename)
 
     @export
     def get_torrent_info(self, filename):
