@@ -271,8 +271,7 @@ class Core(component.Component):
         :param options: dict, the options to apply to the torrent on add
         :param headers: dict, any optional headers to send
 
-        :returns: the torrent_id as a str or None, if calling locally, then it
-            will return a Deferred that fires once the torrent has been added
+        :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info("Attempting to add url %s", url)
         def on_get_file(result):
