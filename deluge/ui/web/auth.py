@@ -53,6 +53,9 @@ from deluge.ui.web.json_api import JSONComponent, export
 log = logging.getLogger(__name__)
 
 class Auth(JSONComponent):
+    """
+    The component that implements authentification into the JSON interface.
+    """
     
     def __init__(self):
         super(Auth, self).__init__("Auth")
@@ -61,8 +64,9 @@ class Auth(JSONComponent):
         """
         Creates a new session.
         
-        :keyword login: str, the username of the user logging in, currently
+        :keyword login: the username of the user logging in, currently \
         only for future use.
+        :type login: string
         """
         m = hashlib.md5()
         m.update(login)
@@ -87,7 +91,8 @@ class Auth(JSONComponent):
         """
         Change the password.
         
-        :param new_password: str, the password to change to
+        :param new_password: the password to change to
+        :type new_password: string
         """
         log.debug("Changing password")
         d = Deferred()
@@ -106,9 +111,10 @@ class Auth(JSONComponent):
         """
         Check a session to see if it's still valid.
         
-        :param session_id: str, the id for the session to remove
+        :param session_id: the id for the session to remove
+        :type session_id: string
         :returns: True if the session is valid, False if not.
-        :rtype: bool
+        :rtype: booleon
         """
         d = Deferred()
         config = component.get("DelugeWeb").config
@@ -120,7 +126,8 @@ class Auth(JSONComponent):
         """
         Removes a session.
         
-        :param session_id: str, the id for the session to remove
+        :param session_id: the id for the session to remove
+        :type session_id: string
         """
         d = Deferred()
         config = component.get("DelugeWeb").config
@@ -133,8 +140,10 @@ class Auth(JSONComponent):
         """
         Test a password to see if it's valid.
         
-        :param password: str, the password to test
+        :param password: the password to test
+        :type password: string
         :returns: a session id or False
+        :rtype: string or False
         """
         config = component.get("DelugeWeb").config
         d = Deferred()

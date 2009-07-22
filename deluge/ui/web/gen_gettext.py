@@ -1,4 +1,7 @@
 #!/usr/bin/python
+"""
+Script to go through the javascript files and dynamically generate gettext.js
+"""
 
 import os
 import re

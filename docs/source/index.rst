@@ -25,6 +25,8 @@ Modules
 
 .. toctree::
    :maxdepth: 2
+   :glob:
 
-   modules/common
-   modules/config
+   modules/*
+   modules/*/*
+   modules/*/*/*

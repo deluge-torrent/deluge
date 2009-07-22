@@ -68,8 +68,10 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     Decorator function to register an object's method as an RPC.  The object
     will need to be registered with an `:class:RPCServer` to be effective.
 
-    :param func: function, the function to export
-    :param auth_level: int, the auth level required to call this method
+    :param func: the function to export
+    :type func: function
+    :keyword auth_level: the auth level required to call this method
+    :type auth_level: int
 
     """
     global AUTH_LEVEL_DEFAULT
@@ -254,8 +256,10 @@ class JSON(resource.Resource, component.Component):
         Registers an object to export it's rpc methods.  These methods should
         be exported with the export decorator prior to registering the object.
 
-        :param obj: object, the object that we want to export
-        :param name: str, the name to use, if None, it will be the class name of the object
+        :param obj: the object that we want to export
+        :type obj: object
+        :param name: the name to use, if None, it will be the class name of the object
+        :type name: string
         """
         name = name or obj.__class__.__name__
         name = name.lower()
@@ -289,6 +293,11 @@ HOSTS_INFO = 4
 FILES_KEYS = ["files", "file_progress", "file_priorities"]
 
 class WebApi(JSONComponent):
+    """
+    The component that implements all the methods required for managing
+    the web interface.
+    """
+    
     def __init__(self):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
@@ -297,7 +306,8 @@ class WebApi(JSONComponent):
         """
         Return the information about a host
 
-        :param host_id: str, the id of the host
+        :param host_id: the id of the host
+        :type host_id: string
         :returns: the host information
         :rtype: list
         """
@@ -310,7 +320,8 @@ class WebApi(JSONComponent):
         """
         Connect the client to a daemon
 
-        :param host_id: str, the id of the daemon in the host list
+        :param host_id: the id of the daemon in the host list
+        :type host_id: string
         :returns: the methods the daemon supports
         :rtype: list
         """
@@ -329,7 +340,7 @@ class WebApi(JSONComponent):
         The current connection state.
 
         :returns: True if the client is connected
-        :rtype: bool
+        :rtype: booleon
         """
         d = Deferred()
         d.callback(client.connected())
@@ -350,10 +361,12 @@ class WebApi(JSONComponent):
         """
         Gather the information required for updating the web interface.
 
-        :param keys: list, the information about the torrents to gather
-        :param filter_dict: dict, the filters to apply when selecting torrents.
+        :param keys: the information about the torrents to gather
+        :type keys: list
+        :param filter_dict: the filters to apply when selecting torrents.
+        :type filter_dict: dictionary
         :returns: The torrent and ui information.
-        :rtype: dict
+        :rtype: dictionary
         """
         ui_info = {
             "torrents": None,
@@ -421,9 +434,10 @@ class WebApi(JSONComponent):
         """
         Gets the files for a torrent in tree format
 
-        :param torrent_id: string, the id of the torrent to retrieve.
+        :param torrent_id: the id of the torrent to retrieve.
+        :type torrent_id: string
         :returns: The torrents files in a tree
-        :rtype: dict
+        :rtype: dictionary
         """
         main_deferred = Deferred()        
         d = client.core.get_torrent_status(torrent_id, FILES_KEYS)        
@@ -435,9 +449,10 @@ class WebApi(JSONComponent):
         """
         Download a torrent file from a url to a temporary directory.
 
-        :param url: str, the url of the torrent
+        :param url: the url of the torrent
+        :type url: string
         :returns: the temporary file name of the torrent file
-        :rtype: str
+        :rtype: string
         """
         
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
@@ -452,7 +467,8 @@ class WebApi(JSONComponent):
         """
         Return information about a torrent on the filesystem.
 
-        :param filename: str, the path to the torrent
+        :param filename: the path to the torrent
+        :type filename: string
         :returns:
         {
             "filename": the torrent file
@@ -461,6 +477,7 @@ class WebApi(JSONComponent):
             "files": the files the torrent contains
             "info_hash" the torrents info_hash
         }
+        :rtype: dictionary
         """
         d = Deferred()
         try:
@@ -509,6 +526,9 @@ class WebApi(JSONComponent):
     def get_host_status(self, host_id):
         """
     	Returns the current status for the specified host.
+        
+        :param host_id: the hash id of the host
+        :type host_id: string
     	"""
         main_deferred = Deferred()
 
@@ -551,12 +571,12 @@ class WebApi(JSONComponent):
         return main_deferred
 
     @export
-    def stop_daemon(self, connection_id):
+    def stop_daemon(self, host_id):
         """
         Stops a running daemon.
 
-        :param connection_id: str, the hash id of the connection
-
+        :param host_id: the hash id of the host
+        :type host_id: string
         """
         main_deferred = Deferred()
         host = self.get_host(connection_id)
@@ -589,10 +609,14 @@ class WebApi(JSONComponent):
         """
         Adds a host to the list.
 
-        :param host: str, the hostname
-        :param port: int, the port
-        :param username: str, the username to login as
-        :param password: str, the password to login with
+        :param host: the hostname
+        :type host: string
+        :param port: the port
+        :type port: int
+        :keyword username: the username to login as
+        :type username: string
+        :keyword password: the password to login with
+        :type password: string
 
         """
         d = Deferred()
@@ -621,8 +645,8 @@ class WebApi(JSONComponent):
         """
         Removes a host for the list
 
-        :param connection_Id: str, the hash id of the connection
-
+        :param host_id: the hash id of the host
+        :type host_id: string
         """
         d = Deferred()
         host = self.get_host(connection_id)

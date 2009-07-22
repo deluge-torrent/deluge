@@ -40,6 +40,9 @@ from deluge import common
 _ = lambda x: gettext.gettext(x).decode("utf-8")
 
 class Template(MakoTemplate):
+    """
+    A template that adds some built-ins to the rendering
+    """
     
     builtins = {
         "_": _,
