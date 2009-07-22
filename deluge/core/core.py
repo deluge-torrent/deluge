@@ -264,12 +264,15 @@ class Core(component.Component):
     @export
     def add_torrent_url(self, url, options, headers=None):
         """
-        Adds a torrent from a url.  Deluge will attempt to fetch the torrent
+        Adds a torrent from a url. Deluge will attempt to fetch the torrent
         from url prior to adding it to the session.
 
-        :param url: str, the url pointing to the torrent file
-        :param options: dict, the options to apply to the torrent on add
-        :param headers: dict, any optional headers to send
+        :param url: the url pointing to the torrent file
+        :type url: string
+        :param options: the options to apply to the torrent on add
+        :type options: dict
+        :param headers: any optional headers to send
+        :type headers: dict
 
         :returns: a Deferred which returns the torrent_id as a str or None
         """
