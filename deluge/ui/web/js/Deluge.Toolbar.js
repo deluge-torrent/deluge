@@ -171,12 +171,7 @@ Copyright:
 			
 			switch (item.id) {
 				case 'remove':
-					Deluge.Events.fire('torrentRemoved', ids);
-					Deluge.Client.core.remove_torrent(ids, null, {
-						success: function() {
-							Deluge.UI.update();
-						}
-					});
+					Deluge.RemoveWindow.show(ids);
 					break;
 				case 'pause':
 				case 'resume':

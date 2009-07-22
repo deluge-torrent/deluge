@@ -70,12 +70,7 @@ Deluge.Menus = {
 				});
 				break;
 			case 'remove':
-				Deluge.Events.fire('torrentRemoved', ids);
-				Deluge.Client.core.remove_torrent(ids, null, {
-					success: function() {
-						Deluge.UI.update();
-					}
-				});
+				Deluge.RemoveWindow.show(ids);
 				break;
 			case 'recheck':
 				Deluge.Client.core.force_recheck(ids, {
