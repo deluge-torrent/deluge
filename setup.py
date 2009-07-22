@@ -30,6 +30,7 @@ from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from setuptools.command.install import install as _install
+from sphinx.setup_command import BuildDoc
 
 import msgfmt
 import os
@@ -269,6 +270,38 @@ class build_plugins(cmd.Command):
             if os.path.exists(os.path.join(path, "setup.py")):
                 os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
 
+
+class build_docs(BuildDoc):
+    def finalize_options(self):
+        print self.user_options
+        print self.source_dir
+        BuildDoc.finalize_options(self)
+    def run(self):
+        print self.user_options
+        class FakeModule(object):
+            def __init__(self, *args, **kwargs): pass
+            
+            def __call__(self, *args, **kwargs):
+                return FakeModule()
+
+            def __getattr__(self, key):
+                return FakeModule()
+
+            def __setattr__(self, key, value):
+                self.__dict__[key] = value
+
+        old_import = __builtins__.__import__
+        def new_import(name, globals={}, locals={}, fromlist=[], level=-1):
+            try:
+                return old_import(name, globals, locals, fromlist, level)
+            except ImportError:
+                return FakeModule()
+            except:
+                raise
+        __builtins__.__import__ = new_import
+        
+        BuildDoc.run(self)
+
 class build(_build):
     sub_commands = [('build_trans', None), ('build_plugins', None)] + _build.sub_commands
     def run(self):
@@ -326,6 +359,7 @@ cmdclass = {
     'build': build,
     'build_trans': build_trans,
     'build_plugins': build_plugins,
+    'build_docs': build_docs,
     'clean_plugins': clean_plugins,
     'clean': clean,
     'install': install
