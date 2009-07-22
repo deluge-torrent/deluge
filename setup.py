@@ -396,7 +396,7 @@ setup(
                                 "ui/web/render/*.html",
                                 "ui/web/themes/*/*/*"
                                 ]},
-    packages = find_packages(exclude=["plugins"]),
+    packages = find_packages(exclude=["plugins", "docs", "tests"]),
     url = "http://deluge-torrent.org",
     version = "1.2.0",
 )
