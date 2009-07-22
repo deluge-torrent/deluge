@@ -1,7 +1,7 @@
 === Core ===
  * python >= 2.5
  * twisted >= 8.1
- * twisted-web
+ * twisted-web >= 8.1
  * pyopenssl
  * simplejson (if python < 2.6)
  * setuptools
