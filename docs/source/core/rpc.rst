@@ -101,7 +101,5 @@ daemon's state that the clients need to be made aware of.
 Remote API
 ----------
 
-.. autoclass:: deluge.core.core.Core
-    :members:
-.. autoclass:: deluge.core.daemon.Daemon
+.. autoclass:: deluge.__rpcapi.RpcApi
     :members:
