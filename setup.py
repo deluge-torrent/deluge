@@ -30,7 +30,12 @@ from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from setuptools.command.install import install as _install
-from sphinx.setup_command import BuildDoc
+try:
+    from sphinx.setup_command import BuildDoc
+except ImportError:
+    class BuildDoc(object):
+        pass
+
 
 import msgfmt
 import os
