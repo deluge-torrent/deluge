@@ -136,17 +136,12 @@ being emitted.</dd>
 <div class="section" id="remote-api">
 <h2>Remote API<a class="headerlink" href="#remote-api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="deluge._rpcapi.RpcApi">
+<dt id="deluge.core.core.Core">
 <em class="property">
-class </em><tt class="descclassname">deluge._rpcapi.</tt><tt class="descname">RpcApi</tt><a class="headerlink" href="#deluge._rpcapi.RpcApi" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="class">
-<dt id="deluge._rpcapi.RpcApi.core">
-<em class="property">
-class </em><tt class="descname">core</tt><a class="headerlink" href="#deluge._rpcapi.RpcApi.core" title="Permalink to this definition">¶</a></dt>
-<dd><p>Methods available in core</p>
-<dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.add_torrent_file">
-<tt class="descname">add_torrent_file</tt><big>(</big><em>filename</em>, <em>filedump</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.add_torrent_file" title="Permalink to this definition">¶</a></dt>
+class </em><tt class="descclassname">deluge.core.core.</tt><tt class="descname">Core</tt><big>(</big><em>listen_interface=None</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="deluge.core.core.Core.add_torrent_file">
+<tt class="descname">add_torrent_file</tt><big>(</big><em>filename</em>, <em>filedump</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.add_torrent_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a torrent file to the session.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -167,8 +162,8 @@ class </em><tt class="descname">core</tt><a class="headerlink" href="#deluge._rp
 </dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.add_torrent_magnet">
-<tt class="descname">add_torrent_magnet</tt><big>(</big><em>uri</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.add_torrent_magnet" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.add_torrent_magnet">
+<tt class="descname">add_torrent_magnet</tt><big>(</big><em>uri</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.add_torrent_magnet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a torrent from a magnet link.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -185,8 +180,8 @@ class </em><tt class="descname">core</tt><a class="headerlink" href="#deluge._rp
 </dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.add_torrent_url">
-<tt class="descname">add_torrent_url</tt><big>(</big><em>url</em>, <em>options</em>, <em>headers=None</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.add_torrent_url" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.add_torrent_url">
+<tt class="descname">add_torrent_url</tt><big>(</big><em>url</em>, <em>options</em>, <em>headers=None</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.add_torrent_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a torrent from a url.  Deluge will attempt to fetch the torrent
 from url prior to adding it to the session.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -200,8 +195,7 @@ from url prior to adding it to the session.</p>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the torrent_id as a str or None, if calling locally, then it
-will return a Deferred that fires once the torrent has been added</p>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Deferred which returns the torrent_id as a str or None</p>
 </td>
 </tr>
 </tbody>
@@ -209,18 +203,18 @@ will return a Deferred that fires once the torrent has been added</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.force_recheck">
-<tt class="descname">force_recheck</tt><big>(</big><em>torrent_ids</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.force_recheck" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.force_recheck">
+<tt class="descname">force_recheck</tt><big>(</big><em>torrent_ids</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.force_recheck" title="Permalink to this definition">¶</a></dt>
 <dd>Forces a data recheck on torrent_ids</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_available_plugins">
-<tt class="descname">get_available_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_available_plugins" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_available_plugins">
+<tt class="descname">get_available_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_available_plugins" title="Permalink to this definition">¶</a></dt>
 <dd>Returns a list of plugins available in the core</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_cache_status">
-<tt class="descname">get_cache_status</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_cache_status" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_cache_status">
+<tt class="descname">get_cache_status</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_cache_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary of the session&#8217;s cache status.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -233,70 +227,70 @@ will return a Deferred that fires once the torrent has been added</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_config">
-<tt class="descname">get_config</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_config" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_config">
+<tt class="descname">get_config</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_config" title="Permalink to this definition">¶</a></dt>
 <dd>Get all the preferences as a dictionary</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_config_value">
-<tt class="descname">get_config_value</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_config_value" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_config_value">
+<tt class="descname">get_config_value</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_config_value" title="Permalink to this definition">¶</a></dt>
 <dd>Get the config value for key</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_config_values">
-<tt class="descname">get_config_values</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_config_values" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_config_values">
+<tt class="descname">get_config_values</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_config_values" title="Permalink to this definition">¶</a></dt>
 <dd>Get the config values for the entered keys</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_dht_nodes">
-<tt class="descname">get_dht_nodes</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_dht_nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_dht_nodes">
+<tt class="descname">get_dht_nodes</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_dht_nodes" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the number of dht nodes</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_download_rate">
-<tt class="descname">get_download_rate</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_download_rate" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_download_rate">
+<tt class="descname">get_download_rate</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_download_rate" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the payload download rate</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_enabled_plugins">
-<tt class="descname">get_enabled_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_enabled_plugins" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_enabled_plugins">
+<tt class="descname">get_enabled_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_enabled_plugins" title="Permalink to this definition">¶</a></dt>
 <dd>Returns a list of enabled plugins in the core</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_filter_tree">
-<tt class="descname">get_filter_tree</tt><big>(</big><em>show_zero_hits=True</em>, <em>hide_cat=None</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_filter_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_filter_tree">
+<tt class="descname">get_filter_tree</tt><big>(</big><em>show_zero_hits=True</em>, <em>hide_cat=None</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_filter_tree" title="Permalink to this definition">¶</a></dt>
 <dd>returns {field: [(value,count)] }
 for use in sidebar(s)</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_health">
-<tt class="descname">get_health</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_health" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_health">
+<tt class="descname">get_health</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_health" title="Permalink to this definition">¶</a></dt>
 <dd>Returns True if we have established incoming connections</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_listen_port">
-<tt class="descname">get_listen_port</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_listen_port" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_listen_port">
+<tt class="descname">get_listen_port</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_listen_port" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the active listen port</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_num_connections">
-<tt class="descname">get_num_connections</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_num_connections" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_num_connections">
+<tt class="descname">get_num_connections</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_num_connections" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the current number of connections</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_path_size">
-<tt class="descname">get_path_size</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_path_size" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_path_size">
+<tt class="descname">get_path_size</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_path_size" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the size of the file or folder &#8216;path&#8217; and -1 if the path is
 unaccessible (non-existent or insufficient privs)</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_session_state">
-<tt class="descname">get_session_state</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_session_state" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_session_state">
+<tt class="descname">get_session_state</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_session_state" title="Permalink to this definition">¶</a></dt>
 <dd>Returns a list of torrent_ids in the session.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_session_status">
-<tt class="descname">get_session_status</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_session_status" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_session_status">
+<tt class="descname">get_session_status</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_session_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the session status values for &#8216;keys&#8217;</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -313,134 +307,144 @@ unaccessible (non-existent or insufficient privs)</dd></dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_stats">
-<tt class="descname">get_stats</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_stats" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_stats">
+<tt class="descname">get_stats</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_stats" title="Permalink to this definition">¶</a></dt>
 <dd>document me!!!</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_status_keys">
-<tt class="descname">get_status_keys</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_status_keys" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_status_keys">
+<tt class="descname">get_status_keys</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_status_keys" title="Permalink to this definition">¶</a></dt>
 <dd>returns all possible keys for the keys argument in get_torrent(s)_status.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_torrents_status">
-<tt class="descname">get_torrents_status</tt><big>(</big><em>filter_dict</em>, <em>keys</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_torrents_status" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_torrents_status">
+<tt class="descname">get_torrents_status</tt><big>(</big><em>filter_dict</em>, <em>keys</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_torrents_status" title="Permalink to this definition">¶</a></dt>
 <dd>returns all torrents , optionally filtered by filter_dict.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.get_upload_rate">
-<tt class="descname">get_upload_rate</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.get_upload_rate" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.get_upload_rate">
+<tt class="descname">get_upload_rate</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.get_upload_rate" title="Permalink to this definition">¶</a></dt>
 <dd>Returns the payload upload rate</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.pause_all_torrents">
-<tt class="descname">pause_all_torrents</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.pause_all_torrents" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.pause_all_torrents">
+<tt class="descname">pause_all_torrents</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.pause_all_torrents" title="Permalink to this definition">¶</a></dt>
 <dd>Pause all torrents in the session</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.rename_files">
-<tt class="descname">rename_files</tt><big>(</big><em>torrent_id</em>, <em>filenames</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.rename_files" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.rename_files">
+<tt class="descname">rename_files</tt><big>(</big><em>torrent_id</em>, <em>filenames</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.rename_files" title="Permalink to this definition">¶</a></dt>
 <dd>Renames files in &#8216;torrent_id&#8217;. The &#8216;filenames&#8217; parameter should be a
 list of (index, filename) pairs.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.rename_folder">
-<tt class="descname">rename_folder</tt><big>(</big><em>torrent_id</em>, <em>folder</em>, <em>new_folder</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.rename_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.rename_folder">
+<tt class="descname">rename_folder</tt><big>(</big><em>torrent_id</em>, <em>folder</em>, <em>new_folder</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.rename_folder" title="Permalink to this definition">¶</a></dt>
 <dd>Renames the &#8216;folder&#8217; to &#8216;new_folder&#8217; in &#8216;torrent_id&#8217;.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.rescan_plugins">
-<tt class="descname">rescan_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.rescan_plugins" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.rescan_plugins">
+<tt class="descname">rescan_plugins</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.rescan_plugins" title="Permalink to this definition">¶</a></dt>
 <dd>Rescans the plugin folders for new plugins</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.resume_all_torrents">
-<tt class="descname">resume_all_torrents</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.resume_all_torrents" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.resume_all_torrents">
+<tt class="descname">resume_all_torrents</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.resume_all_torrents" title="Permalink to this definition">¶</a></dt>
 <dd>Resume all torrents in the session</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_config">
-<tt class="descname">set_config</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_config" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.save_dht_state">
+<tt class="descname">save_dht_state</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.save_dht_state" title="Permalink to this definition">¶</a></dt>
+<dd>Saves the dht state to a file</dd></dl>
+
+<dl class="method">
+<dt id="deluge.core.core.Core.set_config">
+<tt class="descname">set_config</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_config" title="Permalink to this definition">¶</a></dt>
 <dd>Set the config with values from dictionary</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_auto_managed">
-<tt class="descname">set_torrent_auto_managed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_auto_managed" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_auto_managed">
+<tt class="descname">set_torrent_auto_managed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_auto_managed" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the auto managed flag for queueing purposes</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_file_priorities">
-<tt class="descname">set_torrent_file_priorities</tt><big>(</big><em>torrent_id</em>, <em>priorities</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_file_priorities" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_file_priorities">
+<tt class="descname">set_torrent_file_priorities</tt><big>(</big><em>torrent_id</em>, <em>priorities</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_file_priorities" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents file priorities</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_max_connections">
-<tt class="descname">set_torrent_max_connections</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_max_connections" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_max_connections">
+<tt class="descname">set_torrent_max_connections</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_max_connections" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents max number of connections</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_max_download_speed">
-<tt class="descname">set_torrent_max_download_speed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_max_download_speed" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_max_download_speed">
+<tt class="descname">set_torrent_max_download_speed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_max_download_speed" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents max download speed</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_max_upload_slots">
-<tt class="descname">set_torrent_max_upload_slots</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_max_upload_slots" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_max_upload_slots">
+<tt class="descname">set_torrent_max_upload_slots</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_max_upload_slots" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents max number of upload slots</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_max_upload_speed">
-<tt class="descname">set_torrent_max_upload_speed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_max_upload_speed" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_max_upload_speed">
+<tt class="descname">set_torrent_max_upload_speed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_max_upload_speed" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents max upload speed</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_move_completed">
-<tt class="descname">set_torrent_move_completed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_move_completed" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_move_completed">
+<tt class="descname">set_torrent_move_completed</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_move_completed" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the torrent to be moved when completed</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_move_completed_path">
-<tt class="descname">set_torrent_move_completed_path</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_move_completed_path" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_move_completed_path">
+<tt class="descname">set_torrent_move_completed_path</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_move_completed_path" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the path for the torrent to be moved when completed</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_options">
-<tt class="descname">set_torrent_options</tt><big>(</big><em>torrent_ids</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_options" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_options">
+<tt class="descname">set_torrent_options</tt><big>(</big><em>torrent_ids</em>, <em>options</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_options" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the torrent options for torrent_ids</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_prioritize_first_last">
-<tt class="descname">set_torrent_prioritize_first_last</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_prioritize_first_last" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_prioritize_first_last">
+<tt class="descname">set_torrent_prioritize_first_last</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_prioritize_first_last" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a higher priority to the first and last pieces</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_remove_at_ratio">
-<tt class="descname">set_torrent_remove_at_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_remove_at_ratio" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_remove_at_ratio">
+<tt class="descname">set_torrent_remove_at_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_remove_at_ratio" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the torrent to be removed at &#8216;stop_ratio&#8217;</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_stop_at_ratio">
-<tt class="descname">set_torrent_stop_at_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_stop_at_ratio" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_stop_at_ratio">
+<tt class="descname">set_torrent_stop_at_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_stop_at_ratio" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the torrent to stop at &#8216;stop_ratio&#8217;</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_stop_ratio">
-<tt class="descname">set_torrent_stop_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_stop_ratio" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_stop_ratio">
+<tt class="descname">set_torrent_stop_ratio</tt><big>(</big><em>torrent_id</em>, <em>value</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_stop_ratio" title="Permalink to this definition">¶</a></dt>
 <dd>Sets the ratio when to stop a torrent if &#8216;stop_at_ratio&#8217; is set</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.set_torrent_trackers">
-<tt class="descname">set_torrent_trackers</tt><big>(</big><em>torrent_id</em>, <em>trackers</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.set_torrent_trackers" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.set_torrent_trackers">
+<tt class="descname">set_torrent_trackers</tt><big>(</big><em>torrent_id</em>, <em>trackers</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.set_torrent_trackers" title="Permalink to this definition">¶</a></dt>
 <dd>Sets a torrents tracker list.  trackers will be [{&#8220;url&#8221;, &#8220;tier&#8221;}]</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.test_listen_port">
-<tt class="descname">test_listen_port</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.test_listen_port" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.start">
+<tt class="descname">start</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.start" title="Permalink to this definition">¶</a></dt>
+<dd>Starts the core</dd></dl>
+
+<dl class="method">
+<dt id="deluge.core.core.Core.test_listen_port">
+<tt class="descname">test_listen_port</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.core.Core.test_listen_port" title="Permalink to this definition">¶</a></dt>
 <dd>Checks if active port is open</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.core.upload_plugin">
-<tt class="descname">upload_plugin</tt><big>(</big><em>filename</em>, <em>plugin_data</em><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.core.upload_plugin" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.core.Core.upload_plugin">
+<tt class="descname">upload_plugin</tt><big>(</big><em>filename</em>, <em>plugin_data</em><big>)</big><a class="headerlink" href="#deluge.core.core.Core.upload_plugin" title="Permalink to this definition">¶</a></dt>
 <dd>This method is used to upload new plugins to the daemon.  It is used
 when connecting to the daemon remotely and installing a new plugin on
 the client side. &#8216;plugin_data&#8217; is a xmlrpc.Binary object of the file data,
@@ -449,18 +453,17 @@ ie, plugin_file.read()</dd></dl>
 </dd></dl>
 
 <dl class="class">
-<dt id="deluge._rpcapi.RpcApi.daemon">
+<dt id="deluge.core.daemon.Daemon">
 <em class="property">
-class </em><tt class="descclassname">RpcApi.</tt><tt class="descname">daemon</tt><a class="headerlink" href="#deluge._rpcapi.RpcApi.daemon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Methods available in daemon</p>
-<dl class="method">
-<dt id="deluge._rpcapi.RpcApi.daemon.get_method_list">
-<tt class="descname">get_method_list</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.daemon.get_method_list" title="Permalink to this definition">¶</a></dt>
+class </em><tt class="descclassname">deluge.core.daemon.</tt><tt class="descname">Daemon</tt><big>(</big><em>options=None</em>, <em>args=None</em>, <em>classic=False</em><big>)</big><a class="headerlink" href="#deluge.core.daemon.Daemon" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="deluge.core.daemon.Daemon.get_method_list">
+<tt class="descname">get_method_list</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.daemon.Daemon.get_method_list" title="Permalink to this definition">¶</a></dt>
 <dd>Returns a list of the exported methods.</dd></dl>
 
 <dl class="method">
-<dt id="deluge._rpcapi.RpcApi.daemon.info">
-<tt class="descname">info</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge._rpcapi.RpcApi.daemon.info" title="Permalink to this definition">¶</a></dt>
+<dt id="deluge.core.daemon.Daemon.info">
+<tt class="descname">info</tt><big>(</big><big>)</big><a class="headerlink" href="#deluge.core.daemon.Daemon.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns some info from the daemon.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -470,8 +473,6 @@ class </em><tt class="descclassname">RpcApi.</tt><tt class="descname">daemon</tt
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
 </dd></dl>
 
 </dd></dl>
@@ -549,7 +550,7 @@ class </em><tt class="descclassname">RpcApi.</tt><tt class="descname">daemon</tt
     </div>
     <div class="footer">
       &copy; Copyright 2008, Andrew Resch.
-      Last updated on Jul 20, 2009.
+      Last updated on Jul 22, 2009.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.1.
     </div>
   </body>
