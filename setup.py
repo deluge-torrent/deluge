@@ -272,12 +272,7 @@ class build_plugins(cmd.Command):
 
 
 class build_docs(BuildDoc):
-    def finalize_options(self):
-        print self.user_options
-        print self.source_dir
-        BuildDoc.finalize_options(self)
     def run(self):
-        print self.user_options
         class FakeModule(object):
             def __init__(self, *args, **kwargs): pass
             
