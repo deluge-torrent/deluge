@@ -304,6 +304,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Preferences.Proxy.js",
         "/js/Deluge.Preferences.Notification.js",
         "/js/Deluge.Preferences.Plugins.js",
+        "/js/Deluge.Remove.js",
         "/js/Deluge.Sidebar.js",
         "/js/Deluge.Statusbar.js",
         "/js/Deluge.Toolbar.js",

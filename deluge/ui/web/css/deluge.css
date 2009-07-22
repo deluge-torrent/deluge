@@ -109,6 +109,11 @@ input {
 	background: url('/icons/login.png') no-repeat 2px;
 }
 
+/* Remove Window */
+.x-deluge-remove-window-icon {
+	background: url('/icons/remove.png') no-repeat 2px;
+}
+
 /* Add Window */
 .x-deluge-add-window-icon {
 	background: url('/icons/add.png') no-repeat 2px;
