@@ -97,7 +97,7 @@ class JSONException(Exception):
 
 class JSON(resource.Resource, component.Component):
     """
-    A Twisted Web resource that exposes a JSON-RPC interface for web clients
+    A Twisted Web resource that exposes a JSON-RPC interface for web clients \
     to use.
     """
 
@@ -469,14 +469,19 @@ class WebApi(JSONComponent):
 
         :param filename: the path to the torrent
         :type filename: string
-        :returns:
-        {
-            "filename": the torrent file
-            "name": the torrent name
-            "size": the total size of the torrent
-            "files": the files the torrent contains
-            "info_hash" the torrents info_hash
-        }
+        
+        :returns: information about the torrent:
+        
+        ::
+        
+            {
+                "filename": the torrent file,
+                "name": the torrent name,
+                "size": the total size of the torrent,
+                "files": the files the torrent contains,
+                "info_hash" the torrents info_hash
+            }
+            
         :rtype: dictionary
         """
         d = Deferred()
@@ -492,15 +497,17 @@ class WebApi(JSONComponent):
         """
         Add torrents by file
 
-        :param torrents: A list of dictionaries containing the torrent
+        :param torrents: A list of dictionaries containing the torrent \
         path and torrent options to add with.
         :type torrents: list
 
         **Usage**
+        
         >>> json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
                 "options": {"download_path": "/home/deluge/"}
             }])
+            
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
