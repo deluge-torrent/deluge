@@ -33,6 +33,11 @@
 #
 #
 
+"""
+The ui common module contains methods and classes that are deemed useful for
+all the interfaces.
+"""
+
 import os
 import sys
 import urlparse
@@ -211,7 +216,8 @@ class FileTree(object):
     """
     Convert a list of paths in a file tree.
 
-    :param paths: list, The paths to be converted.
+    :param paths: The paths to be converted.
+    :type paths: list
     """
     
     def __init__(self, paths):
@@ -286,7 +292,8 @@ def get_localhost_auth():
     """
     Grabs the localclient auth line from the 'auth' file and creates a localhost uri
 
-    :returns: tuple, with the username and password to login as
+    :returns: with the username and password to login as
+    :rtype: tuple
     """
     auth_file = deluge.configmanager.get_config_dir("auth")
     if os.path.exists(auth_file):
