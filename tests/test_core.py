@@ -68,3 +68,15 @@ class CoreTestCase(unittest.TestCase):
 
         torrent_id = self.core.add_torrent_magnet(uri, options)
         self.assertEquals(torrent_id, info_hash)
+
+    def test_remove_torrent(self):
+        options = {}
+        filename = "../test.torrent"
+        import base64
+        torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
+        
+        self.core.remove_torrent(torrent_id, True)
+        
+        self.assertEquals(len(self.core.get_session_state()), 0)
+
+        

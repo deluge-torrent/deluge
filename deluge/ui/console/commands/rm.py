@@ -60,7 +60,8 @@ class Command(BaseCommand):
         for arg in args:
             torrent_ids.extend(self.console.match_torrent(arg))
 
-        return client.core.remove_torrent(torrent_ids, options['remove_data'])
+        for torrent_id in torrent_ids:
+            client.core.remove_torrent(torrent_id, options['remove_data'])
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method

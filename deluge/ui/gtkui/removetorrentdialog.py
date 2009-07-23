@@ -82,7 +82,8 @@ class RemoveTorrentDialog(object):
             button_data.set_label(pluralize_torrents(button_data.get_label()))
 
     def __remove_torrents(self, remove_data):
-        client.core.remove_torrent(self.__torrent_ids, remove_data)
+        for torrent_id in self.__torrent_ids:
+            client.core.remove_torrent(torrent_id, remove_data)
         # Unselect all to avoid issues with the selection changed event
         component.get("TorrentView").treeview.get_selection().unselect_all()
 

@@ -308,10 +308,18 @@ class Core(component.Component):
         return self.torrentmanager.add(magnet=uri, options=options)
 
     @export
-    def remove_torrent(self, torrent_ids, remove_data):
-        log.debug("Removing torrent %s from the core.", torrent_ids)
-        for torrent_id in torrent_ids:
-            self.torrentmanager.remove(torrent_id, remove_data)
+    def remove_torrent(self, torrent_id, remove_data):
+        """
+        Removes a torrent from the session.
+
+        :param torrent_id: the torrent_id of the torrent to remove
+        :type torrent_id: string
+        :param remove_data: if True, remove the data associated with this torrent
+        :type remove_data: boolean
+        
+        """
+        log.debug("Removing torrent %s from the core.", torrent_id)
+        self.torrentmanager.remove(torrent_id, remove_data)
 
     @export
     def get_stats(self):
