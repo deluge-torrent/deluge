@@ -38,7 +38,7 @@ class CoreTestCase(unittest.TestCase):
         self.assertEquals(torrent_id, info_hash)
 
     def test_add_torrent_url(self):
-        url = "http://torrent.ubuntu.com:6969/file?info_hash=%60%D5%D8%23%28%B4Tu%11%FD%EA%C9%BFM%01%12%DA%A0%CE%00"
+        url = "http://deluge-torrent.org/ubuntu-9.04-desktop-i386.iso.torrent"
         options = {}
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
@@ -75,8 +75,22 @@ class CoreTestCase(unittest.TestCase):
         import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         
-        self.core.remove_torrent(torrent_id, True)
+        import deluge.error
+        self.assertRaises(deluge.error.InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
         
+        ret = self.core.remove_torrent(torrent_id, True)
+        
+        self.assertTrue(ret)
         self.assertEquals(len(self.core.get_session_state()), 0)
 
+    def test_get_session_status(self):
+        status = self.core.get_session_status(["upload_rate", "download_rate"])
+        self.assertEquals(type(status), dict)
+        self.assertEquals(status["upload_rate"], 0.0)
         
+    def test_get_cache_status(self):
+        status = self.core.get_cache_status()
+        self.assertEquals(type(status), dict)
+        self.assertEquals(status["write_hit_ratio"], 0.0)
+        self.assertEquals(status["read_hit_ratio"], 0.0)
+                

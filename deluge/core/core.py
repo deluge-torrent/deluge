@@ -39,6 +39,8 @@ import base64
 import shutil
 import threading
 import pkg_resources
+import warnings
+
 
 from twisted.internet import reactor, defer
 from twisted.internet.task import LoopingCall
@@ -58,6 +60,7 @@ import deluge.configmanager
 import deluge.common
 import deluge.component as component
 from deluge.event import *
+from deluge.error import *
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
@@ -325,16 +328,25 @@ class Core(component.Component):
         :type torrent_id: string
         :param remove_data: if True, remove the data associated with this torrent
         :type remove_data: boolean
+        :returns: True if removed successfully
+        :rtype: bool
+        
+        :raises InvalidTorrentError: if the torrent_id does not exist in the session
         
         """
         log.debug("Removing torrent %s from the core.", torrent_id)
-        self.torrentmanager.remove(torrent_id, remove_data)
+        if torrent_id not in self.torrentmanager.torrents:
+            raise InvalidTorrentError("torrent_id not in session")
+    
+        return self.torrentmanager.remove(torrent_id, remove_data)
 
     @export
     def get_stats(self):
         """
-        document me!!!
+        Deprecated: please use get_session_status()
+        
         """
+        warnings.warn("Use get_session_status()", DeprecationWarning)
         stats = self.get_session_status(["payload_download_rate", "payload_upload_rate",
             "dht_nodes", "has_incoming_connections", "download_rate", "upload_rate"])
 
@@ -353,7 +365,8 @@ class Core(component.Component):
     @export
     def get_session_status(self, keys):
         """
-        Gets the session status values for 'keys'
+        Gets the session status values for 'keys', these keys are taking
+        from libtorrent's session status.
 
         :param keys: the keys for which we want values
         :type keys: list
@@ -537,16 +550,19 @@ class Core(component.Component):
     @export
     def get_dht_nodes(self):
         """Returns the number of dht nodes"""
+        warnings.warn("Use get_session_status().", DeprecationWarning)
         return self.session.status().dht_nodes
 
     @export
     def get_download_rate(self):
         """Returns the payload download rate"""
+        warnings.warn("Use get_session_status().", DeprecationWarning)
         return self.session.status().payload_download_rate
 
     @export
     def get_upload_rate(self):
         """Returns the payload upload rate"""
+        warnings.warn("Use get_session_status().", DeprecationWarning)
         return self.session.status().payload_upload_rate
 
     @export
@@ -649,6 +665,7 @@ class Core(component.Component):
     @export
     def get_health(self):
         """Returns True if we have established incoming connections"""
+        warnings.warn("Use get_session_status().", DeprecationWarning)
         return self.session.status().has_incoming_connections
 
     @export
