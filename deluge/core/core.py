@@ -240,11 +240,15 @@ class Core(component.Component):
         """
         Adds a torrent file to the session.
 
-        :param filename: str, the filename of the torrent
-        :param filedump: str, a base64 encoded string of the torrent file contents
-        :param options: dict, the options to apply to the torrent on add
+        :param filename: the filename of the torrent
+        :type filename: string
+        :param filedump:  a base64 encoded string of the torrent file contents
+        :type filedump: string
+        :param options: the options to apply to the torrent on add
+        :type options: dict
 
         :returns: the torrent_id as a str or None
+        :rtype: string
 
         """
         try:
@@ -299,8 +303,13 @@ class Core(component.Component):
         """
         Adds a torrent from a magnet link.
 
-        :param uri: str, the magnet link
-        :param options: dict, the options to apply to the torrent on add
+        :param uri: the magnet link
+        :type uri: string
+        :param options: the options to apply to the torrent on add
+        :type options: dict
+        
+        :returns: the torrent_id
+        :rtype: string
 
         """
         log.debug("Attempting to add by magnet uri: %s", uri)
@@ -346,7 +355,8 @@ class Core(component.Component):
         """
         Gets the session status values for 'keys'
 
-        :param keys: list of strings, the keys for which we want values
+        :param keys: the keys for which we want values
+        :type keys: list
         :returns: a dictionary of {key: value, ...}
         :rtype: dict
 
@@ -363,7 +373,8 @@ class Core(component.Component):
         """
         Returns a dictionary of the session's cache status.
 
-        :returns: a dict of the cache status
+        :returns: the cache status
+        :rtype: dict
 
         """
 
