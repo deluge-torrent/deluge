@@ -61,6 +61,19 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 		});
 	},
 	
+	remove: function(removeData) {
+		Ext.each(this.torrentIds, function(torrentId) {
+			Deluge.Client.core.remove_torrent(torrentId, removeData, {
+				success: function() {
+					this.onRemoved(torrentId);
+				},
+				scope: this,
+				torrentId: torrentId
+			});
+		}, this);
+		
+	},
+	
 	show: function(ids) {
 		Ext.deluge.RemoveWindow.superclass.show.call(this);
 		this.torrentIds = ids;
@@ -69,28 +82,19 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	onCancel: function() {
 		this.hide();
 		this.torrentIds = null;
-		this.chkgrp.setValue([false, false]);
 	},
 	
 	onRemove: function() {
-		Deluge.Client.core.remove_torrent(this.torrentIds, false, {
-			success: this.onRemoved,
-			scope: this
-		});
+		this.remove(false);
 	},
 	
 	onRemoveData: function() {
-		Deluge.Client.core.remove_torrent(this.torrentIds, true, {
-			success: this.onRemoved,
-			scope: this
-		});
+		this.remove(true);
 	},
 	
-	onRemoved: function() {
-		Deluge.Events.fire('torrentRemoved', this.torrentIds);
-		this.torrentIds = null;
+	onRemoved: function(torrentId) {
+		Deluge.Events.fire('torrentRemoved', torrentId);
 		this.hide();
-		this.chkgrp.setValue([false, false]);
 		Deluge.UI.update();
 	}
 });

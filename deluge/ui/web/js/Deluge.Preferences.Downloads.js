@@ -52,7 +52,7 @@
 				labelSeparator: '',
 				items: [
 					{boxLabel: _('Compact'), value: 'true'},
-					{boxLabel: _('Full'), value: 'false'}
+					{boxLabel: _('Full'), value: 'false',style: 'margin-right: 10px;'}
 				]
 			});
 			
