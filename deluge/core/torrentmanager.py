@@ -54,6 +54,7 @@ except ImportError:
 
 
 from deluge.event import *
+from deluge.error import *
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -462,7 +463,24 @@ class TorrentManager(component.Component):
         return filedump
 
     def remove(self, torrent_id, remove_data=False):
-        """Remove a torrent from the manager"""
+        """
+        Remove a torrent from the session.
+        
+        :param torrent_id: the torrent to remove
+        :type torrent_id: string
+        :param remove_data: if True, remove the downloaded data
+        :type remove_data: bool
+        
+        :returns: True if removed successfully, False if not
+        :rtype: bool
+        
+        :raises InvalidTorrentError: if the torrent_id is not in the session
+        
+        """
+        
+        if torrent_id not in self.torrents:
+            raise InvalidTorrentError("torrent_id not in session")
+            
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
 

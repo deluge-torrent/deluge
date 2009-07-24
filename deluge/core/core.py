@@ -335,9 +335,6 @@ class Core(component.Component):
         
         """
         log.debug("Removing torrent %s from the core.", torrent_id)
-        if torrent_id not in self.torrentmanager.torrents:
-            raise InvalidTorrentError("torrent_id not in session")
-    
         return self.torrentmanager.remove(torrent_id, remove_data)
 
     @export
