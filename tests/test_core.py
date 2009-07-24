@@ -11,6 +11,7 @@ import common
 from deluge.core.rpcserver import RPCServer
 from deluge.core.core import Core
 import deluge.component as component
+import deluge.error
 
 class CoreTestCase(unittest.TestCase):
     def setUp(self):
@@ -75,7 +76,6 @@ class CoreTestCase(unittest.TestCase):
         import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
         
-        import deluge.error
         self.assertRaises(deluge.error.InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
         
         ret = self.core.remove_torrent(torrent_id, True)
@@ -93,4 +93,11 @@ class CoreTestCase(unittest.TestCase):
         self.assertEquals(type(status), dict)
         self.assertEquals(status["write_hit_ratio"], 0.0)
         self.assertEquals(status["read_hit_ratio"], 0.0)
-                
+
+    def test_get_free_space(self):
+        space = self.core.get_free_space(".")
+        self.assertTrue(type(space) == int)
+        self.assertTrue(space >= 0)
+        self.assertRaises(deluge.error.InvalidPathError, self.core.get_free_space, "/someinvalidpath")
+        
+

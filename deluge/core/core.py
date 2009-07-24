@@ -803,3 +803,19 @@ class Core(component.Component):
             return 0
         else:
             return int(status)
+
+    @export
+    def get_free_space(self, path):
+        """
+        Returns the number of free bytes at path
+        
+        :param path: the path to check free space at
+        :type path: string
+        
+        :returns: the number of free bytes at path
+        :rtype: int
+        
+        :raises InvalidPathError: if the path is invalid
+        
+        """
+        return deluge.common.free_space(path)
