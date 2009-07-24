@@ -45,3 +45,6 @@ class NoCoreError(DelugeError):
 
 class DaemonRunningError(DelugeError):
     pass
+
+class InvalidTorrentError(DelugeError):
+    pass
