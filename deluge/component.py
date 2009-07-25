@@ -62,8 +62,8 @@ class Component(object):
 
     def _start(self):
         self._state = COMPONENT_STATE.index("Started")
-        if self._update():
-            self._timer = LoopingCall(self._update)
+        if hasattr(self, "update"):
+            self._timer = LoopingCall(self.update)
             self._timer.start(self._interval)
 
     def stop(self):
@@ -88,16 +88,6 @@ class Component(object):
 
     def shutdown(self):
         pass
-
-    def _update(self):
-        try:
-            self.update()
-        except AttributeError:
-            # This will stop the timer since the component doesn't have an
-            # update method.
-            return False
-        return True
-
 
 class ComponentRegistry:
     def __init__(self):
