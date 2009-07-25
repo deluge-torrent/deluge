@@ -100,4 +100,13 @@ class CoreTestCase(unittest.TestCase):
         self.assertTrue(space >= 0)
         self.assertRaises(deluge.error.InvalidPathError, self.core.get_free_space, "/someinvalidpath")
         
-
+    def test_test_listen_port(self):
+        d = self.core.test_listen_port()
+        
+        def result(r):
+            self.assertTrue(r in (True, False))
+        
+        d.addCallback(result)
+        return d
+        
+            

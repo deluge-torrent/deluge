@@ -121,17 +121,19 @@ class TorrentManagerState:
         self.torrents = []
 
 class TorrentManager(component.Component):
-    """TorrentManager contains a list of torrents in the current libtorrent
+    """
+    TorrentManager contains a list of torrents in the current libtorrent
     session.  This object is also responsible for saving the state of the
-    session for use on restart."""
+    session for use on restart.
+    """
 
-    def __init__(self, session, alerts):
+    def __init__(self):
         component.Component.__init__(self, "TorrentManager", interval=5, depend=["CorePluginManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
-        self.session = session
+        self.session = component.get("Core").session
         # Set the alertmanager
-        self.alerts = alerts
+        self.alerts = component.get("AlertManager")
         # Get the core config
         self.config = ConfigManager("core.conf")
 

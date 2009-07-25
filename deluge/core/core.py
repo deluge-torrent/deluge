@@ -71,16 +71,6 @@ from deluge.core.authmanager import AuthManager
 from deluge.core.eventmanager import EventManager
 from deluge.core.rpcserver import export
 
-STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
-    'file_priorities', 'file_progress', 'files', 'hash', 'is_auto_managed', 'is_seed', 'max_connections',
-    'max_download_speed', 'max_upload_slots', 'max_upload_speed', 'message', 'move_on_completed',
-    'move_on_completed_path', 'name', 'next_announce', 'num_files', 'num_peers', 'num_pieces',
-    'num_seeds', 'paused', 'peers', 'piece_length', 'prioritize_first_last', 'private', 'progress',
-    'queue', 'ratio', 'remove_at_ratio', 'save_path', 'seed_rank', 'seeding_time', 'state', 'stop_at_ratio',
-    'stop_ratio', 'time_added', 'total_done', 'total_payload_download', 'total_payload_upload', 'total_peers',
-    'total_seeds', 'total_size', 'total_uploaded', 'total_wanted', 'tracker', 'tracker_host',
-    'tracker_status', 'trackers', 'upload_payload_rate']
-
 class Core(component.Component):
     def __init__(self, listen_interface=None):
         log.debug("Core init..")
@@ -107,13 +97,6 @@ class Core(component.Component):
         self.settings.send_redundant_have = True
         self.session.set_settings(self.settings)
 
-        # Create an ip filter
-        self.ip_filter = lt.ip_filter()
-
-        # This keeps track of the timer to set the ip filter.. We do this a few
-        # seconds aftering adding a rule so that 'batch' adding of rules isn't slow.
-        self.__set_ip_filter_timer = None
-
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
         self.session.add_extension(lt.create_ut_metadata_plugin)
@@ -124,7 +107,7 @@ class Core(component.Component):
         self.preferencesmanager = PreferencesManager()
         self.alertmanager = AlertManager()
         self.pluginmanager = PluginManager(self)
-        self.torrentmanager = TorrentManager(self.session, self.alertmanager)
+        self.torrentmanager = TorrentManager()
         self.filtermanager = FilterManager(self)
         self.autoadd = AutoAdd()
         self.authmanager = AuthManager()
@@ -452,13 +435,6 @@ class Core(component.Component):
         log.debug("Resuming: %s", torrent_ids)
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].resume()
-
-    @export
-    def get_status_keys(self):
-        """
-        returns all possible keys for the keys argument in get_torrent(s)_status.
-        """
-        return STATUS_KEYS + self.pluginmanager.status_fields.keys()
 
     @export
     def get_torrent_status(self, torrent_id, keys):
@@ -790,16 +766,26 @@ class Core(component.Component):
 
     @export
     def test_listen_port(self):
-        """ Checks if active port is open """
-        import urllib
-        port = self.get_listen_port()
-        try:
-            status = urllib.urlopen("http://deluge-torrent.org/test_port.php?port=%s" % port).read()
-        except IOError:
-            log.debug("Network error while trying to check status of port %s", port)
-            return 0
-        else:
-            return int(status)
+        """
+        Checks if the active port is open
+        
+        :returns: True if the port is open, False if not
+        :rtype: bool
+        
+        """
+        from twisted.web.client import getPage
+        d = defer.Deferred()
+        
+        gp = getPage("http://deluge-torrent.org/test_port.php?port=%s" % self.get_listen_port())
+
+        def on_get_page(result):
+            d.callback(bool(int(result)))
+        def on_get_page_failure(result):
+            d.errback(result)
+
+        gp.addCallbacks(on_get_page, on_get_page_failure)
+
+        return d
 
     @export
     def get_free_space(self, path):
