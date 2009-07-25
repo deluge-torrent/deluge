@@ -52,13 +52,6 @@ from decompressers import Zipped, GZipped, BZipped2
 from readers import EmuleReader, SafePeerReader, PeerGuardianReader
 from detect import detect_compression, detect_format, UnknownFormatError
 
-try:
-    import deluge.libtorrent as lt
-except ImportError:
-    import libtorrent as lt
-    if not (lt.version_major == 0 and lt.version_minor == 14):
-        raise ImportError("This version of Deluge requires libtorrent 0.14!")
-
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
 
@@ -136,8 +129,14 @@ class Core(CorePluginBase):
     ## Exported RPC methods ###
     @export()
     def check_import(self, force=False):
-        """Imports latest blocklist specified by blocklist url.
-           Only downloads/imports if necessary or forced."""
+        """
+        Imports latest blocklist specified by blocklist url.
+        Only downloads/imports if necessary or forced.
+
+        :param force: optional argument to force download/import.
+        :type force: boolean
+        """
+
 
         # Reset variables
         self.force_download = force
@@ -159,7 +158,12 @@ class Core(CorePluginBase):
 
     @export()
     def set_config(self, config):
-        """Sets the config based on values in 'config'"""
+        """
+        Sets the config based on values in 'config'
+
+        :param config: config to set
+        :type config: dictionary
+        """
         for key in config.keys():
             self.config[key] = config[key]
 
@@ -189,12 +193,24 @@ class Core(CorePluginBase):
     ####
 
     def update_info(self, blocklist):
-        """Updates blocklist info"""
+        """
+        Updates blocklist info
+
+        :param blocklist: path of blocklist
+        :type blocklist: string
+        """
         self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
         self.config["list_size"] = os.path.getsize(blocklist)
 
     def download_list(self, url=None):
-        """Downloads the blocklist specified by 'url' in the config"""
+        """
+        Downloads the blocklist specified by 'url' in the config
+
+        :param url: optional url to download from, defaults to config value
+        :type url: string
+        :returns: a Deferred which fires once the blocklist has been downloaded
+        :rtype: Deferred
+        """
         def on_retrieve_data(data, current_length, total_length):
             if total_length:
                 fp = float(current_length) / total_length
@@ -225,14 +241,13 @@ class Core(CorePluginBase):
         """Runs any download clean up functions"""
         log.debug("Blocklist download complete!")
         self.is_downloading = False
-        return threads.deferToThread(self.update_info,
-                deluge.configmanager.get_config_dir("blocklist.download"))
+        return threads.deferToThread(self.update_info, result)
 
     def on_download_error(self, f):
         """Recovers from download error"""
         self.is_downloading = False
         error_msg = f.getErrorMessage()
-        d = None
+        d = f
         if f.check(error.PageRedirect):
             # Handle redirect errors
             location = error_msg.split(" to ")[1]
@@ -276,7 +291,7 @@ class Core(CorePluginBase):
 
         self.is_importing = True
         self.num_blocked = 0
-        self.blocklist = lt.ip_filter()
+        self.blocklist = self.core.session.get_ip_filter()
 
         if self.use_cache:
             blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
@@ -321,6 +336,13 @@ class Core(CorePluginBase):
         return d
 
     def auto_detect(self, blocklist):
+        """
+        Tries to auto-detect the blocklist type
+
+        :param blocklist: path of blocklist to auto-detect
+        :type blocklist: string
+        :raises UnknownFormatError: if the format cannot be detected
+        """
         self.config["list_compression"] = detect_compression(blocklist)
         self.config["list_type"] = detect_format(blocklist)
         if not self.config["list_type"]:
