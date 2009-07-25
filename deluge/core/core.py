@@ -267,7 +267,7 @@ class Core(component.Component):
         :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info("Attempting to add url %s", url)
-        def on_get_file(result):
+        def on_get_file(filename):
             # We got the file, so add it to the session
             data = open(filename, "rb").read()
             return self.add_torrent_file(filename, base64.encodestring(data), options)
@@ -278,8 +278,7 @@ class Core(component.Component):
             log.error("Reason: %s", failure.getErrorMessage())
             return failure
 
-        filename = url.split("/")[-1]
-        d = download_file(url, filename, headers=headers)
+        d = download_file(url, url.split("/")[-1], headers=headers)
         d.addCallback(on_get_file)
         d.addErrback(on_get_file_error)
         return d

@@ -636,7 +636,7 @@ class AddTorrentDialog(component.Component):
 
         def on_download_success(result):
             log.debug("Download success!")
-            self.add_from_files([tmp_file])
+            self.add_from_files([result])
             dialog.destroy()
 
         def on_download_fail(result):

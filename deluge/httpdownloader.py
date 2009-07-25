@@ -43,14 +43,19 @@ class HTTPDownloader(client.HTTPDownloader):
     """
     def __init__(self, url, filename, part_callback=None, headers=None):
         """
-        :param url: str, the url to download from
-        :param filename: str, the filename to save the file as
-        :param part_callback: func, a function to be called when a part of data
+        :param url: the url to download from
+        :type url: string
+        :param filename: the filename to save the file as
+        :type filename: string
+        :param part_callback: a function to be called when a part of data
             is received, it's signature should be: func(data, current_length, total_length)
-        :param headers: dict, any optional headers to send
+        :type part_callback: function
+        :param headers: any optional headers to send
+        :type headers: dictionary
         """
         self.__part_callback = part_callback
         self.current_length = 0
+        self.value = filename
         client.HTTPDownloader.__init__(self, url, filename, headers=headers)
 
     def gotStatus(self, version, status, message):
@@ -83,11 +88,19 @@ def download_file(url, filename, callback=None, headers=None):
     Downloads a file from a specific URL and returns a Deferred.  You can also
     specify a callback function to be called as parts are received.
 
-    :param url: str, the url to download from
-    :param filename: str, the filename to save the file as
-    :param callback: func, a function to be called when a part of data is received,
+    :param url: the url to download from
+    :type url: string
+    :param filename: the filename to save the file as
+    :type filename: string
+    :param callback: a function to be called when a part of data is received,
          it's signature should be: func(data, current_length, total_length)
-    :param headers: dict, any optional headers to send
+    :type callback: function
+    :param headers: any optional headers to send
+    :type headers: dictionary
+
+    :returns: the filename of the downloaded file
+    :rtype: Deferred
+
     :raises t.w.e.PageRedirect: when server responds with a temporary redirect
          or permanently moved.
     :raises t.w.e.Error: for all other HTTP response errors (besides OK)
