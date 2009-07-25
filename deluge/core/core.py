@@ -774,16 +774,13 @@ class Core(component.Component):
         
         """
         from twisted.web.client import getPage
-        d = defer.Deferred()
         
-        gp = getPage("http://deluge-torrent.org/test_port.php?port=%s" % self.get_listen_port())
+        d = getPage("http://deluge-torrent.org/test_port.php?port=%s" % self.get_listen_port())
 
         def on_get_page(result):
-            d.callback(bool(int(result)))
-        def on_get_page_failure(result):
-            d.errback(result)
+            return bool(int(result))
 
-        gp.addCallbacks(on_get_page, on_get_page_failure)
+        d.addCallback(on_get_page)
 
         return d
 
