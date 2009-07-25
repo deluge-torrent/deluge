@@ -9,6 +9,7 @@ from twisted.trial import unittest
 from deluge.ui.client import client
 
 # Start a daemon to test with and wait a couple seconds to make sure it's started
+config_directory = common.set_tmp_config_dir()
 client.start_daemon(58847, config_directory)
 import time
 time.sleep(2)
