@@ -109,8 +109,6 @@ def start_ui():
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
 
     version = deluge.common.get_version()
-    if deluge.common.get_revision() != "":
-        version = version + "r" + deluge.common.get_revision()
 
     from deluge.log import LOG as log
     log.info("Deluge ui %s", version)

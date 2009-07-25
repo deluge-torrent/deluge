@@ -56,6 +56,8 @@ if not hasattr(json, "dumps"):
 import pkg_resources
 import xdg, xdg.BaseDirectory
 
+from deluge.error import *
+
 LT_TORRENT_STATE = {
     "Queued": 0,
     "Checking": 1,
@@ -107,27 +109,10 @@ def get_version():
     """
     return pkg_resources.require("Deluge")[0].version
 
-def get_revision():
-    """
-    The svn revision of the build if available
-
-    :returns: the svn revision, or ""
-    :rtype: string
-
-    """
-    revision = ""
-    try:
-        f = open(pkg_resources.resource_filename("deluge", os.path.join("data", "revision")))
-        revision = f.read()
-        f.close()
-    except IOError, e:
-        pass
-
-    return revision
-
 def get_default_config_dir(filename=None):
     """
     :param filename: if None, only the config path is returned, if provided, a path including the filename will be returned
+    :type filename: string
     :returns: a file path to the config directory and optional filename
     :rtype: string
 
@@ -189,6 +174,7 @@ def get_pixmap(fname):
     Provides easy access to files in the deluge/data/pixmaps folder within the Deluge egg
 
     :param fname: the filename to look for
+    :type fname: string
     :returns: a path to a pixmap file included with Deluge
     :rtype: string
 
@@ -201,6 +187,7 @@ def open_file(path):
     Opens a file or folder using the system configured program
 
     :param path: the path to the file or folder to open
+    :type path: string
 
     """
     if windows_check():
@@ -213,6 +200,8 @@ def open_url_in_browser(url):
     Opens a url in the desktop's default browser
 
     :param url: the url to open
+    :type url: string
+    
     """
     import webbrowser
     webbrowser.open(url)
@@ -223,7 +212,8 @@ def fsize(fsize_b):
     """
     Formats the bytes value into a string with KiB, MiB or GiB units
 
-    :param fsize_b: int, the filesize in bytes
+    :param fsize_b: the filesize in bytes
+    :type fsize_b: int
     :returns: formatted string in KiB, MiB or GiB units
     :rtype: string
 
@@ -246,7 +236,8 @@ def fpcnt(dec):
     """
     Formats a string to display a percentage with two decimal places
 
-    :param dec: float, the ratio in the range [0.0, 1.0]
+    :param dec: the ratio in the range [0.0, 1.0]
+    :type dec: float
     :returns: a formatted string representing a percentage
     :rtype: string
 
@@ -262,7 +253,8 @@ def fspeed(bps):
     """
     Formats a string to display a transfer speed utilizing :func:`fsize`
 
-    :param bps: int, bytes per second
+    :param bps: bytes per second
+    :type bps: int
     :returns: a formatted string representing transfer speed
     :rtype: string
 
@@ -278,8 +270,10 @@ def fpeer(num_peers, total_peers):
     """
     Formats a string to show 'num_peers' ('total_peers')
 
-    :param num_peers: int, the number of connected peers
-    :param total_peers: int, the total number of peers
+    :param num_peers: the number of connected peers
+    :type num_peers: int
+    :param total_peers: the total number of peers
+    :type total_peers: int
     :returns: a formatted string: num_peers (total_peers), if total_peers < 0, then it will not be shown
     :rtype: string
 
@@ -300,7 +294,8 @@ def ftime(seconds):
     """
     Formats a string to show time in a human readable form
 
-    :param seconds: int, the number of seconds
+    :param seconds: the number of seconds
+    :type seconds: int
     :returns: a formatted time string, will return '' if seconds == 0
     :rtype: string
 
@@ -338,7 +333,8 @@ def fdate(seconds):
     """
     Formats a date string in the locale's date representation based on the systems timezone
 
-    :param seconds: float, time in seconds since the Epoch
+    :param seconds: time in seconds since the Epoch
+    :type seconds: float
     :returns: a string in the locale's date representation or "" if seconds < 0
     :rtype: string
 
@@ -351,7 +347,8 @@ def is_url(url):
     """
     A simple regex test to check if the URL is valid
 
-    :param url: string, the url to test
+    :param url: the url to test
+    :type url: string
     :returns: True or False
     :rtype: bool
 
@@ -368,7 +365,8 @@ def is_magnet(uri):
     """
     A check to determine if a uri is a valid bittorrent magnet uri
 
-    :param uri: string, the uri to check
+    :param uri: the uri to check
+    :type uri: string
     :returns: True or False
     :rtype: bool
 
@@ -386,7 +384,8 @@ def fetch_url(url):
     """
     Downloads a torrent file from a given URL and checks the file's validity
 
-    :param url: string, the url of the .torrent file to fetch
+    :param url: the url of the .torrent file to fetch
+    :type url: string
     :returns: the filepath to the downloaded file
     :rtype: string
 
@@ -409,9 +408,12 @@ def create_magnet_uri(infohash, name=None, trackers=[]):
     """
     Creates a magnet uri
 
-    :param infohash: string, the info-hash of the torrent
-    :param name: string, the name of the torrent (optional)
-    :param trackers: list of strings, the trackers to announce to (optional)
+    :param infohash: the info-hash of the torrent
+    :type infohash: string
+    :param name: the name of the torrent (optional)
+    :type name: string
+    :param trackers: the trackers to announce to (optional)
+    :type trackers: list of strings
 
     :returns: a magnet uri string
     :rtype: string
@@ -431,7 +433,8 @@ def get_path_size(path):
     """
     Gets the size in bytes of 'path'
 
-    :param path: string, the path to check for size
+    :param path: the path to check for size
+    :type path: string
     :returns: the size in bytes of the path or -1 if the path does not exist
     :rtype: int
 
@@ -453,11 +456,17 @@ def free_space(path):
     """
     Gets the free space available at 'path'
 
-    :param path: string, the path to check
+    :param path: the path to check
+    :type path: string
     :returns: the free space at path in bytes
     :rtype: int
+    
+    :raises InvalidPathError: if the path is not valid
 
     """
+    if not os.path.exists(path):
+        raise InvalidPathError("%s is not a valid path" % path)
+        
     if windows_check():
         import win32file
         sectors, bytes, free, total = map(long, win32file.GetDiskFreeSpace(path))
@@ -471,7 +480,8 @@ def is_ip(ip):
     """
     A simple test to see if 'ip' is valid
 
-    :param ip: string, the ip to check
+    :param ip: the ip to check
+    :type ip: string
     :returns: True or False
     :rtype: bool
 
