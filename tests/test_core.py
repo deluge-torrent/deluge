@@ -96,7 +96,7 @@ class CoreTestCase(unittest.TestCase):
 
     def test_get_free_space(self):
         space = self.core.get_free_space(".")
-        self.assertTrue(type(space) == int)
+        self.assertTrue(type(space) in (int, long))
         self.assertTrue(space >= 0)
         self.assertRaises(deluge.error.InvalidPathError, self.core.get_free_space, "/someinvalidpath")
         
