@@ -1,7 +1,7 @@
 #
 # core.py
 #
-# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -33,6 +33,8 @@
 #
 #
 
+from deluge._libtorrent import lt
+
 import os
 import glob
 import base64
@@ -49,12 +51,7 @@ import twisted.web.client
 from deluge.httpdownloader import download_file
 from deluge.log import LOG as log
 
-try:
-    import deluge.libtorrent as lt
-except ImportError:
-    import libtorrent as lt
-    if not (lt.version_major == 0 and lt.version_minor == 14):
-        raise ImportError("This version of Deluge requires libtorrent 0.14!")
+
 
 import deluge.configmanager
 import deluge.common

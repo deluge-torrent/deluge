@@ -40,12 +40,7 @@ import pickle
 import cPickle
 import shutil
 
-try:
-    import deluge.libtorrent as lt
-except ImportError:
-    import libtorrent as lt
-    if not (lt.version_major == 0 and lt.version_minor == 14):
-        raise ImportError("This version of Deluge requires libtorrent 0.14!")
+from deluge._libtorrent import lt
 
 from deluge.configmanager import ConfigManager
 import deluge.core.torrentmanager

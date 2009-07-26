@@ -44,12 +44,7 @@ This should typically only be used by the Core.  Plugins should utilize the
 from twisted.internet import reactor
 
 import deluge.component as component
-try:
-    import deluge.libtorrent as lt
-except ImportError:
-    import libtorrent as lt
-    if not (lt.version_major == 0 and lt.version_minor == 14):
-        raise ImportError("This version of Deluge requires libtorrent 0.14!")
+from deluge._libtorrent import lt
 
 from deluge.log import LOG as log
 
