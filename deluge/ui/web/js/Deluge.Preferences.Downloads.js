@@ -12,23 +12,13 @@
 		initComponent: function() {
 			DownloadPanel.superclass.initComponent.call(this);
 			
-			this.fieldsets = {}
-			this.fields = {};
-			
-			var optMan = Deluge.Preferences.getOptionsManager();			
-			optMan.addOptions({
-				'download_location': ''
-			});
-			
+			var optMan = Deluge.Preferences.getOptionsManager();
 			var fieldset = this.add({
 				xtype: 'fieldset',
 				border: false,
 				title: _('Folders'),
 				labelWidth: 140,
 				defaultType: 'textfield',
-				defaults: {
-					enableKeyEvents: true
-				},
 				autoHeight: true
 			});
 			optMan.bind('download_location', fieldset.add({
