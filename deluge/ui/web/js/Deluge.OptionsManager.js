@@ -20,26 +20,32 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 */
 
 Ext.namespace('Deluge');
 
 /**
- * @description A class that can be used to manage options throughout the ui.
- * @namespace Deluge
  * @class Deluge.OptionsManager
+ * @extends Ext.util.Observable
+ * A class that can be used to manage options throughout the ui.
+ * @constructor
+ * Creates a new OptionsManager
+ * @param {Object} config Configuration options
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	
+	/**
+	 * Create a new instance of the OptionsManager.
+	 */
 	constructor: function(config) {
 		config = config || {};
 		this.binds = {};
