@@ -15,6 +15,7 @@
 			this.fieldsets = {}
 			this.fields = {};
 			
+			var optMan = Deluge.Preferences.getOptionsManager();			
 			this.fieldsets['folders'] = this.add({
 				xtype: 'fieldset',
 				border: false,
@@ -51,8 +52,8 @@
 				name: 'compact_allocation',
 				labelSeparator: '',
 				items: [
-					{boxLabel: _('Compact'), value: 'true'},
-					{boxLabel: _('Full'), value: 'false',style: 'margin-right: 10px;'}
+					{boxLabel: _('Compact') + '&nbsp;', value: 'true'},
+					{boxLabel: _('Full'), value: 'false'}
 				]
 			});
 			

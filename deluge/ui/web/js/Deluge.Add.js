@@ -76,7 +76,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			folderSort: true
 		});
 		
-		this.optionsManager = new Deluge.OptionsManager({
+		this.optionsManager = new Deluge.MultiOptionsManager({
 			defaults: {
 				'add_paused': false,
 				'compact_allocation': false,

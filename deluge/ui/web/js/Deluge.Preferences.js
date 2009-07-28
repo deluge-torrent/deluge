@@ -94,6 +94,8 @@ Copyright:
 			Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
 			this.categoriesGrid = this.items.get(0);
 			this.configPanel = this.items.get(1);
+			this.optionsManager = new Deluge.OptionsManager();
+			
 			this.pages = {};
 			this.on('show', this.onShow, this);
 		},
@@ -109,6 +111,14 @@ Copyright:
 			page['bodyStyle'] = 'margin: 5px';
 			this.pages[name] = this.configPanel.add(page);
 			this.pages[name].hide();
+		},
+		
+		/**
+		* Return the options manager for the preferences window.
+		* @returns {Deluge.OptionsManager} the options manager
+		*/
+		getOptionsManager: function() {
+			return this.optionsManager;
 		},
 		
 		onPageSelect: function(selModel, rowIndex, r) {

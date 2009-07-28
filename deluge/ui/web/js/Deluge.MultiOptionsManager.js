@@ -1,6 +1,6 @@
 /*
 Script:
-	Deluge.OptionsManager.js
+	Deluge.MultiOptionsManager.js
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
@@ -31,20 +31,19 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Deluge');
-
 /**
  * @description A class that can be used to manage options throughout the ui.
  * @namespace Deluge
- * @class Deluge.OptionsManager
+ * @class Deluge.MultiOptionsManager
  */
-Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
+Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	
 	constructor: function(config) {
 		config = config || {};
+		this.options = {};
 		this.binds = {};
 		this.changed = {};
-		this.options = (config && config['options']) || {};
+		this.defaults = (config && config['defaults']) || {};
 		
 		this.addEvents({
 			'add': true,
@@ -53,16 +52,16 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		});
 		this.on('changed', this.onChange, this);
 		
-		Deluge.OptionsManager.superclass.constructor.call(this);
+		Deluge.MultiOptionsManager.superclass.constructor.call(this);
 	},
-
+	
 	/**
 	 * Add a set of default options and values to the options manager
 	 * @param {String} id
 	 * @param {Object} options The default options.
 	 */
 	addOptions: function(options) {
-		this.options = Ext.applyIf(this.options, options);
+		this.options[id] = options;
 	},
 	
 	/**
@@ -89,42 +88,52 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/**
-	 * Get the value for an option or options.
-	 * @param {String} [option] A single option or an array of options to return.
-	 * @returns {Object} the options value.
+	 * Changes bound fields to use the specified id.
+	 * @param {String} id
 	 */
-	get: function() {
-		var options = {};
-		Ext.each(arguments, function(option) {
-			if (!this.has(option)) return;
-			options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
-		});
-		return options;
+	changeId: function(id) {
+		this.currentId = id;
+		for (var option in this.defaults) {
+			if (!this.binds[option]) continue;
+			this.binds[option].setValue(this.get(id, option));
+		}
 	},
 	
 	/**
-	 * Get the default value for an option or options.
+	 * Get the value for an option
+	 * @param {String} id
+	 * @param {String|Array} [option] A single option or an array of options to return.
+	 * @returns {Object} the options value.
+	 */
+	get: function(id, option) {
+		if (!option) {
+			var values = {};
+			for (var key in this.defaults) {
+				values[key] = this.get(id, key);
+			}
+			return values;
+		} else {
+			return (this.hasChanged(id, option)) ? this.changed[id][option] : this.getDefault(id, option);
+		}
+	},
+	
+	/**
+	 * Returns the changed values.
+	 * @param {String} id
+	 * @returns {Object} the changed options
+	 */
+	getChanged: function(id) {
+		return (this.changed[id]) ? this.changed[id] : {};
+	},
+	
+	/**
+	 * Get the default value for an option.
+	 * @param {String} id
 	 * @param {String|Array} [option] A single option or an array of options to return.
 	 * @returns {Object} the value of the option
 	 */
-	getDefault: function(option) {
-		return this.options[option];
-	},
-	
-	/**
-	 * Returns the dirty (changed) values.
-	 * @returns {Object} the changed options
-	 */
-	getDirty: function() {
-		return this.changed;
-	},
-	
-	/**
-	 * @param {String} [option] The option to check
-	 * @returns {Boolean} true if the option has been changed from the default.
-	 */
-	isDirty: function(option) {
-		return !Ext.isEmpty(this.changed[option]);
+	getDefault: function(id, option) {
+		return (this.hasOption(id, option)) ? this.options[id][option] : this.defaults[option];
 	},
 	
 	/**
@@ -138,49 +147,63 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/**
-	 * Check to see if an option exists in the options manager
+	 * Check to see if an id has had an option set to something other than the
+	 * default value.
+	 * @param {String} id
 	 * @param {String} option
-	 * @returns {Boolean} true if the option exists, else false.
+	 * @returns {Boolean} true if the id has an option, else false.
 	 */
-	has: function(option) {
-		return (this.defaults[option]);
+	hasOption: function(id, option) {
+		return (this.options[id] && !Ext.isEmpty(this.options[id][option]));
 	},
 
 	/**
-	 * Reset the options back to the default values.
+	 * Reset the options back to the default values for the specified id.
 	 * @param {String} id
 	 */
-	reset: function() {
-		this.changed = {};
+	reset: function(id) {
+		if (!this.changed[id]) return;
+		delete this.changed[id];
 	},
 	
 	/**
 	 * Sets the value of specified option for the passed in id.
+	 * @param {String} id
 	 * @param {String} option
 	 * @param {Object} value The value for the option
 	 */
-	set: function(option, value) {
-		this.options[option] = value;
+	set: function(id, option, value) {
+		if (typeof value === undefined) {
+			for (var key in option) {
+				this.set(id, key, option[key]);
+			}
+		} else {
+			if (!this.options[id]) this.options[id] = {};
+			this.options[id][option] = value;
+		}
 	},
 	
 	/**
 	 * Update the value for the specified option and id.
+	 * @param {String} id
 	 * @param {String|Object} option or options to update
 	 * @param {Object} [value];
 	 */
-	update: function(option, value) {
+	update: function(id, option, value) {
 		if (typeof value === undefined) {
 			for (var key in option) {
-				this.update(key, option[key]);
+				this.update(id, key, option[key]);
 			}
 		} else {
-			var oldValue = this.get(option);
+			if (!this.changed[id]) this.changed[id] = {};
+			
+			var oldValue = this.get(id, option);
 			if (oldValue == value) return;
 			
-			var defaultValue = this.getDefault(option);
+			var defaultValue = this.getDefault(id, option);
 			if (defaultValue == value) {
-				if (this.isDirty(option)) delete this.changed[option];
-				this.fireEvent('changed', option, value, oldValue);
+				if (this.hasChanged(id, option)) delete this.changed[id][option];
+				this.fireEvent('changed', id, option, value, oldValue);
 				return;
 			}
 			
@@ -197,9 +220,9 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 						break;
 				}
 			}
-
-			this.changed[option] = value;
-			this.fireEvent('changed', option, value, oldValue);
+	
+			this.changed[id][option] = value;
+			this.fireEvent('changed', id, option, value, oldValue);
 		}
 	},
 	
@@ -212,10 +235,10 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 */
 	onFieldChange: function(field) {
 		var option = this.binds[field];
-		this.update(option, field.getValue());
+		this.update(this.currentId, option, field.getValue());
 	},
 	
-	onChange: function(option, newValue, oldValue) {
+	onChange: function(id, option, newValue, oldValue) {
 		// If we don't have a bind there's nothing to do.
 		if (Ext.isEmpty(this.binds[option])) return;
 		

@@ -56,7 +56,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		Ext.deluge.details.OptionsTab.superclass.initComponent.call(this);
 		
 		this.fieldsets = {}, this.fields = {};
-		this.optionsManager = new Deluge.OptionsManager({
+		this.optionsManager = new Deluge.MultiOptionsManager({
 			defaults: {
 				'max_download_speed': -1,
 				'max_upload_speed': -1,
