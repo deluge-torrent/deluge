@@ -45,6 +45,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.binds = {};
 		this.changed = {};
 		this.options = (config && config['options']) || {};
+		this.focused = null;
 		
 		this.addEvents({
 			'add': true,
@@ -74,18 +75,9 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.binds[option] = field;
 		this.binds[field] = option;
 		
-		switch (field.getXType()) {
-			case 'checkbox':
-			case 'radiogroup':
-				field.on('check', this.onFieldChange, this);
-				break;
-			case 'uxspinner':
-				field.on('spin', this.onFieldChange, this);
-				field.on('keypress', this.onFieldChange, this);
-				break;
-			default:
-				break;
-		}
+		field.on('focus', this.onFieldFocus, this);
+		field.on('blur', this.onFieldBlur, this);
+		field.on('change', this.onFieldChange, this);
 	},
 	
 	/**
@@ -98,7 +90,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		Ext.each(arguments, function(option) {
 			if (!this.has(option)) return;
 			options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
-		});
+		}, this);
 		return options;
 	},
 	
@@ -143,7 +135,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @returns {Boolean} true if the option exists, else false.
 	 */
 	has: function(option) {
-		return (this.defaults[option]);
+		return (this.options[option]);
 	},
 
 	/**
@@ -204,21 +196,43 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/* Event Handlers */
+	/**
+	 * Lets the option manager know when a field is blurred so if a value
+	 * so value changing operations can continue on that field.
+	 */
+	onFieldBlur: function(field, event) {
+		if (this.focused == field) {
+			this.focused = null;
+		}
+	},
 	
 	/**
 	 * Stops a form fields value from being blocked by the change functions
 	 * @param {Ext.form.Field} field
 	 * @private
 	 */
-	onFieldChange: function(field) {
+	onFieldChange: function(field, event) {
 		var option = this.binds[field];
 		this.update(option, field.getValue());
+	},
+	
+	/**
+	 * Lets the option manager know when a field is focused so if a value
+	 * changing operation is performed it won't change the value of the
+	 * field.
+	 */
+	onFieldFocus: function(field, event) {
+		this.focused = field;
 	},
 	
 	onChange: function(option, newValue, oldValue) {
 		// If we don't have a bind there's nothing to do.
 		if (Ext.isEmpty(this.binds[option])) return;
 		
+		// The field is currently focused so we don't want to change
+		// it.
+		if (this.binds[option] == this.focused) return;
+
 		// Set the form field to the new value.
 		this.binds[option].setValue(newValue);
 	}
