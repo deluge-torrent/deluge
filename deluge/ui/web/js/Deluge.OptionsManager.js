@@ -39,9 +39,10 @@ Copyright:
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	
 	constructor: function(config) {
+		config = config || {};
 		this.binds = {};
 		this.changed = {};
-		this.defaults = config['defaults'] || {};
+		this.defaults = (config && config['defaults']) || {};
 		this.options = {};
 		this.currentId = null;
 		
