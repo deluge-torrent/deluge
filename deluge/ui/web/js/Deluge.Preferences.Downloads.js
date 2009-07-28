@@ -16,31 +16,38 @@
 			this.fields = {};
 			
 			var optMan = Deluge.Preferences.getOptionsManager();			
-			this.fieldsets['folders'] = this.add({
+			optMan.addOptions({
+				'download_location': ''
+			});
+			
+			var fieldset = this.add({
 				xtype: 'fieldset',
 				border: false,
 				title: _('Folders'),
 				labelWidth: 140,
 				defaultType: 'textfield',
+				defaults: {
+					enableKeyEvents: true
+				},
 				autoHeight: true
 			});
-			this.fields['download_location'] = this.fieldsets['folders'].add({
+			optMan.bind('download_location', fieldset.add({
 				name: 'download_location',
 				fieldLabel: _('Download to'),
 				width: 125
-			});
-			this.fields['move_completed'] = this.fieldsets['folders'].add({
-				name: 'move_completed',
+			}));
+			optMan.bind('move_completed_path', fieldset.add({
+				name: 'move_completed_path',
 				fieldLabel: _('Move completed to'),
 				width: 125
-			});
-			this.fields['copy_torrent_files'] = this.fieldsets['folders'].add({
-				name: 'copy_torrent_files',
+			}));
+			optMan.bind('torrentfiles_location', fieldset.add({
+				name: 'torrentfiles_location',
 				fieldLabel: _('Copy of .torrent files to'),
 				width: 125
-			});
+			}));
 			
-			this.fieldsets['allocation'] = this.add({
+			fieldset = this.add({
 				xtype: 'fieldset',
 				border: false,
 				title: _('Allocation'),
@@ -48,16 +55,16 @@
 				labelWidth: 1,
 				defaultType: 'radiogroup'
 			});
-			this.fields['compact_allocation'] = this.fieldsets['allocation'].add({
+			optMan.bind('compact_allocation', fieldset.add({
 				name: 'compact_allocation',
 				labelSeparator: '',
 				items: [
 					{boxLabel: _('Compact') + '&nbsp;', value: 'true'},
 					{boxLabel: _('Full'), value: 'false'}
 				]
-			});
+			}));
 			
-			this.fieldsets['options'] = this.add({
+			fieldset = this.add({
 				xtype: 'fieldset',
 				border: false,
 				title: _('Options'),
@@ -65,16 +72,16 @@
 				labelWidth: 1,
 				defaultType: 'checkbox'
 			});
-			this.fields['prioritize_first_last'] = this.fieldsets['options'].add({
-				name: 'prioritize_first_last',
+			optMan.bind('prioritize_first_last_pieces', fieldset.add({
+				name: 'prioritize_first_last_pieces',
 				labelSeparator: '',
 				boxLabel: _('Prioritize first and last pieces of torrent')
-			});
-			this.fields['add_paused'] = this.fieldsets['options'].add({
+			}));
+			optMan.bind('add_paused', fieldset.add({
 				name: 'add_paused',
 				labelSeparator: '',
 				boxLabel: _('Add torrents in Paused state')
-			});
+			}));
 		},
 		
 		onShow: function() {

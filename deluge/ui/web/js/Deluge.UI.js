@@ -33,7 +33,6 @@ Copyright:
 */
 
 /**
- * @namespace Deluge
  * @static
  * @class Deluge.UI
  * The controller for the whole interface, that ties all the components

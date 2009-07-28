@@ -85,6 +85,14 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		field.on('blur', this.onFieldBlur, this);
 		field.on('change', this.onFieldChange, this);
 	},
+
+	/**
+	 * Changes all the changed values to be the default values
+	 */
+	commit: function() {
+		this.options = Ext.apply(this.options, this.changed);
+		this.reset();
+	},
 	
 	/**
 	 * Get the value for an option or options.

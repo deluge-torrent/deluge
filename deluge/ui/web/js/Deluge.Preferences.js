@@ -47,16 +47,6 @@ Copyright:
 				resizable: true,
 				title: _('Preferences'),
 				
-				buttons: [{
-					text: _('Close'),
-					handler: this.onCloseButtonClick,
-					scope: this
-				},{
-					text: _('Apply')
-				},{
-					text: _('Ok')
-				}],
-				
 				currentPage: false,
 				items: [{
 					xtype: 'grid',
@@ -94,13 +84,27 @@ Copyright:
 			Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
 			this.categoriesGrid = this.items.get(0);
 			this.configPanel = this.items.get(1);
+
+			this.addButton(_('Close'), this.onClose, this);
+			this.addButton(_('Apply'), this.onApply, this);
+			this.addButton(_('Ok'), this.onOk, this);
+			
 			this.optionsManager = new Deluge.OptionsManager();
 			
 			this.pages = {};
+			this.optionsManager = new Deluge.OptionsManager();
 			this.on('show', this.onShow, this);
 		},
 		
-		onCloseButtonClick: function() {
+		onApply: function(e) {
+			var changed = this.optionsManager.getDirty();
+			Deluge.Client.core.set_config(changed, {
+				success: this.onSetConfig,
+				scope: this
+			});
+		},
+		
+		onClose: function() {
 			this.hide();
 		},
 		
@@ -121,6 +125,10 @@ Copyright:
 			return this.optionsManager;
 		},
 		
+		onGotConfig: function(config) {
+			this.getOptionsManager().set(config);
+		},
+		
 		onPageSelect: function(selModel, rowIndex, r) {
 			if (this.currentPage) {
 				this.currentPage.hide();
@@ -132,10 +140,19 @@ Copyright:
 			this.configPanel.doLayout();
 		},
 		
+		onSetConfig: function() {
+			this.getOptionsManager().commit();
+		},
+		
 		onShow: function() {
 			if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
 				this.categoriesGrid.getSelectionModel().selectFirstRow();
 			}
+			
+			Deluge.Client.core.get_config({
+				success: this.onGotConfig,
+				scope: this
+			})
 		}
 	});
 
