@@ -322,7 +322,7 @@ class Core(component.Component):
         Deprecated: please use get_session_status()
         
         """
-        warnings.warn("Use get_session_status()", DeprecationWarning)
+        warnings.warn("Use get_session_status() instead of get_stats()", DeprecationWarning)
         stats = self.get_session_status(["payload_download_rate", "payload_upload_rate",
             "dht_nodes", "has_incoming_connections", "download_rate", "upload_rate"])
 
