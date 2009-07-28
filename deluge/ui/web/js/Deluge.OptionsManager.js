@@ -153,12 +153,21 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	},
 	
 	/**
-	 * Sets the value of specified option for the passed in id.
+	 * Sets the value of specified option(s) for the passed in id.
 	 * @param {String} option
 	 * @param {Object} value The value for the option
 	 */
 	set: function(option, value) {
-		this.options[option] = value;
+		if (typeof option == 'object') {
+			var options = option;
+			this.options = Ext.apply(this.options, options);
+			for (var option in options) {
+				this.onChange(option, options[option]);
+			}
+		} else {
+			this.options[option] = value;
+			this.onChange(option, value)
+		}
 	},
 	
 	/**
