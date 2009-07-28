@@ -79,7 +79,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 */
 	bind: function(option, field) {
 		this.binds[option] = field;
-		this.binds[field] = option;
+		field._doption = option;
 		
 		field.on('focus', this.onFieldFocus, this);
 		field.on('blur', this.onFieldBlur, this);
@@ -218,8 +218,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @private
 	 */
 	onFieldChange: function(field, event) {
-		var option = this.binds[field];
-		this.update(option, field.getValue());
+		this.update(field._doption, field.getValue());
 	},
 	
 	/**
