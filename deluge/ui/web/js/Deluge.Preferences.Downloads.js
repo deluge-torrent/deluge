@@ -24,17 +24,17 @@
 			optMan.bind('download_location', fieldset.add({
 				name: 'download_location',
 				fieldLabel: _('Download to'),
-				width: 125
+				width: 160
 			}));
 			optMan.bind('move_completed_path', fieldset.add({
 				name: 'move_completed_path',
 				fieldLabel: _('Move completed to'),
-				width: 125
+				width: 160
 			}));
 			optMan.bind('torrentfiles_location', fieldset.add({
 				name: 'torrentfiles_location',
 				fieldLabel: _('Copy of .torrent files to'),
-				width: 125
+				width: 160
 			}));
 			
 			fieldset = this.add({
@@ -49,8 +49,8 @@
 				name: 'compact_allocation',
 				labelSeparator: '',
 				items: [
-					{boxLabel: _('Compact') + '&nbsp;', value: true},
-					{boxLabel: _('Full'), value: false}
+					{boxLabel: _('Compact') + '&nbsp;', inputValue: true},
+					{boxLabel: _('Full'), inputValue: false}
 				]
 			}));
 			
