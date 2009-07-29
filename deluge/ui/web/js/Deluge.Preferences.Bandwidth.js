@@ -23,14 +23,14 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			autoHeight: true
 		});
-		optMan.bind('max_connections', fieldset.add({
-			name: 'max_connections',
+		optMan.bind('max_connections_global', fieldset.add({
+			name: 'max_connections_global',
 			fieldLabel: _('Maximum Connections'),
 			width: 60,
 			value: -1
 		}));
-		optMan.bind('max_upload_slots', fieldset.add({
-			name: 'max_upload_slots',
+		optMan.bind('max_upload_slots_global', fieldset.add({
+			name: 'max_upload_slots_global',
 			fieldLabel: _('Maximum Upload Slots'),
 			width: 60,
 			value: -1
@@ -54,7 +54,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			value: -1
 		}));
 		optMan.bind('max_connections_per_second', fieldset.add({
-			name: 'max_half_open_connections',
+			name: 'max_connections_per_second',
 			fieldLabel: _('Maximum Connection Attempts per Second'),
 			width: 60,
 			value: -1
@@ -68,14 +68,14 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			style: 'padding-top: 0px; margin-top: 0px; margin-bottom: 0px;',
 			autoHeight: true
 		});
-		optMan.bind('ignore_local', fieldset.add({
-			name: 'ignore_local',
+		optMan.bind('ignore_limits_on_local_network', fieldset.add({
+			name: 'ignore_limits_on_local_network',
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Ignore limits on local network'),
 		}));
-		optMan.bind('limit_ip_overhead', fieldset.add({
-			name: 'limit_ip_overhead',
+		optMan.bind('rate_limit_ip_overhead', fieldset.add({
+			name: 'rate_limit_ip_overhead',
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Rate limit IP overhead'),
