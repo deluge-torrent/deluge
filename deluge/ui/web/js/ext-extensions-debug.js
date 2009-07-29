@@ -777,7 +777,8 @@ Ext.override(Ext.form.RadioGroup, {
 	setValue: function(v) {
 		if (!this.items.each) return;
 		this.items.each(function(item) {
-			item.setValue((item.originalValue == v));
+			var checked = (item.el.getValue() == String(v));
+			item.setValue(checked);
 		});
 	}
 });
