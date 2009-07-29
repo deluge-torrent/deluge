@@ -49,8 +49,8 @@
 				name: 'compact_allocation',
 				labelSeparator: '',
 				items: [
-					{boxLabel: _('Compact') + '&nbsp;', value: 'true'},
-					{boxLabel: _('Full'), value: 'false'}
+					{boxLabel: _('Compact') + '&nbsp;', value: true},
+					{boxLabel: _('Full'), value: false}
 				]
 			}));
 			
