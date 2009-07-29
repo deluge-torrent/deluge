@@ -260,6 +260,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		}
 		this.fireEvent("spin", this);
 		this.fireEvent("spinup", this);
+		this.fireEvent("change", this);
 	},
 
 	//private
@@ -275,6 +276,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		}
 		this.fireEvent("spin", this);
 		this.fireEvent("spindown", this);
+		this.fireEvent("change", this);
 	},
 
 	//private
@@ -285,6 +287,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		this.strategy.onSpinUpAlternate(this);
 		this.fireEvent("spin", this);
 		this.fireEvent("spinup", this);
+		this.fireEvent("change", this);
 	},
 
 	//private
@@ -295,6 +298,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		this.strategy.onSpinDownAlternate(this);
 		this.fireEvent("spin", this);
 		this.fireEvent("spindown", this);
+		this.fireEvent("change", this);
 	}
 
 });

@@ -414,7 +414,7 @@ Deluge.Menus.FilePriorities = new Ext.menu.Menu({
 });
 
 function onLimitChanged(item, checked) {
-	if (item.id == "other") {
+	/*if (item.id == "other") {
 	} else {
 		config = {}
 		config[item.group] = item.id
@@ -423,5 +423,5 @@ function onLimitChanged(item, checked) {
 				Deluge.UI.update();
 			}
 		});
-	}
+	}*/
 }
