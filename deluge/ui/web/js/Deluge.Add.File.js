@@ -44,19 +44,17 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			modal: true,
 			plain: true,
 			title: _('Add from File'),
-			iconCls: 'x-deluge-add-file',
-			buttons: [{
-				text: _('Add'),
-				handler: this.onAdd,
-				scope: this
-			}]
+			iconCls: 'x-deluge-add-file'
 		}, config);
 		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
-		this.form = this.add(new Ext.form.FormPanel({
+		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		this.addButton(_('Add'), this.onAdd, this);
+		
+		this.form = this.add({
+			xtype: 'form',
 			baseCls: 'x-plain',
 			labelWidth: 55,
 			autoHeight: true,
@@ -71,7 +69,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 					text: _('Browse') + '...'
 				}
 			}]
-		}));
+		});
 	},
 	
 	onAdd: function(field, e) {

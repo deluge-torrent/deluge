@@ -37,49 +37,50 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 		config = Ext.apply({
 			layout: 'fit',
 			width: 350,
-			height: 115,
+			height: 155,
 			bodyStyle: 'padding: 10px 5px;',
 			buttonAlign: 'center',
 			closeAction: 'hide',
 			modal: true,
 			plain: true,
 			title: _('Add from Url'),
-			iconCls: 'x-deluge-add-url-window-icon',
-			buttons: [{
-				text: _('Add'),
-				handler: this.onAdd,
-				scope: this
-			}]
+			iconCls: 'x-deluge-add-url-window-icon'
 		}, config);
 		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
 		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
-		this.form = this.add(new Ext.form.FormPanel({
+		this.addButton(_('Add'), this.onAdd, this);
+		
+		var form = this.add({
+			xtype: 'form',
 			defaultType: 'textfield',
 			baseCls: 'x-plain',
-			labelWidth: 55,
-			items: [{
-				fieldLabel: _('Url'),
-				id: 'url',
-				name: 'url',
-				inputType: 'url',
-				anchor: '100%',
-				listeners: {
-					'specialkey': {
-						fn: this.onAdd,
-						scope: this
-					}
-				}
-			}]
-		}));
+			labelWidth: 55
+		});
+		
+		this.urlField = form.add({
+			fieldLabel: _('Url'),
+			id: 'url',
+			name: 'url',
+			anchor: '100%'
+		});
+		this.urlField.on('specialkey', this.onAdd, this);
+		
+		this.cookieField = form.add({
+			fieldLabel: _('Cookies'),
+			id: 'cookies',
+			name: 'cookies',
+			anchor: '100%'
+		});
+		this.cookieField.on('specialkey', this.onAdd, this);
 	},
 	
 	onAdd: function(field, e) {
 		if (field.id == 'url' && e.getKey() != e.ENTER) return;
 
-		var field = this.form.items.get('url');
+		var field = this.urlField;
 		var url = field.getValue();
 		var torrentId = this.createTorrentId();
 		
@@ -93,7 +94,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 	
 	onDownload: function(filename, obj, resp, req) {
-		this.form.items.get('url').setValue('');
+		this.urlField.setValue('');
 		Deluge.Client.web.get_torrent_info(filename, {
 			success: this.onGotInfo,
 			scope: this,
