@@ -156,9 +156,12 @@ class Upload(resource.Resource):
             os.write(fd, upload)
             os.close(fd)
             filenames.append(fn)
-        request.setHeader("content-type", "text/plain")
+        request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
-        return "\n".join(filenames)
+        return common.json.dumps({
+            'success': True,
+            'files': filenames
+        })
 
 class Render(resource.Resource):
 

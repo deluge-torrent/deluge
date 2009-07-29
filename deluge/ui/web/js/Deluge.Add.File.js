@@ -95,12 +95,14 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	onUploadSuccess: function(fp, upload) {
 		this.hide();
-		var filename = upload.result.toString();
-		this.form.getForm().findField('torrentFile').setValue('');
-		Deluge.Client.web.get_torrent_info(filename, {
-			success: this.onGotInfo,
-			scope: this,
-			filename: filename
-		});
+		if (upload.result.success) {
+			var filename = upload.result.files[0];
+			this.form.getForm().findField('torrentFile').setValue('');
+			Deluge.Client.web.get_torrent_info(filename, {
+				success: this.onGotInfo,
+				scope: this,
+				filename: filename
+			});
+		}
 	}
 });
