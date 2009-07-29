@@ -373,7 +373,15 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-        if request.args.get('debug', ['false'])[-1] == 'true':
+        debug = 'dev' in common.get_version()
+        if 'debug' in request.args:
+            debug_arg = request.args.get('debug')[-1]
+            if debug_arg == 'true':
+                debug = True
+            elif debug_arg == 'false':
+                debug = False
+        
+        if debug:
             scripts = self.debug_scripts[:]
         else:
             scripts = self.scripts[:]
