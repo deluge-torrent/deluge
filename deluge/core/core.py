@@ -668,13 +668,44 @@ class Core(component.Component):
 
     @export
     def rename_files(self, torrent_id, filenames):
-        """Renames files in 'torrent_id'. The 'filenames' parameter should be a
-        list of (index, filename) pairs."""
+        """
+        Rename files in torrent_id.  Since this is an asynchronous operation by
+        libtorrent, watch for the TorrentFileRenamedEvent to know when the 
+        files have been renamed.
+        
+        :param torrent_id: the torrent_id to rename files
+        :type torrent_id: string
+        :param filenames: a list of index, filename pairs
+        :type filenames: ((index, filename), ...)
+        
+        :raises InvalidTorrentError: if torrent_id is invalid
+        
+        """
+        if torrent_id not in self.torrentmanager.torrents:
+            raise InvalidTorrentError("torrent_id is not in session")
+            
         self.torrentmanager[torrent_id].rename_files(filenames)
 
     @export
     def rename_folder(self, torrent_id, folder, new_folder):
-        """Renames the 'folder' to 'new_folder' in 'torrent_id'."""
+        """
+        Renames the 'folder' to 'new_folder' in 'torrent_id'.  Watch for the
+        TorrentFolderRenamedEvent which is emitted when the folder has been
+        renamed successfully.
+        
+        :param torrent_id: the torrent to rename folder in
+        :type torrent_id: string
+        :param folder: the folder to rename
+        :type folder: string
+        :param new_folder: the new folder name
+        :type new_folder: string
+        
+        :raises InvalidTorrentError: if the torrent_id is invalid
+        
+        """
+        if torrent_id not in self.torrentmanager.torrents:
+            raise InvalidTorrentError("torrent_id is not in session")
+        
         self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
 
     @export
