@@ -17,24 +17,32 @@
 				xtype: 'fieldset',
 				border: false,
 				title: _('Folders'),
-				labelWidth: 140,
+				labelWidth: 150,
 				defaultType: 'textfield',
 				autoHeight: true
 			});
 			optMan.bind('download_location', fieldset.add({
 				name: 'download_location',
 				fieldLabel: _('Download to'),
-				width: 160
+				width: 150
 			}));
 			optMan.bind('move_completed_path', fieldset.add({
 				name: 'move_completed_path',
 				fieldLabel: _('Move completed to'),
-				width: 160
+				width: 150,
+				disabled: true
 			}));
 			optMan.bind('torrentfiles_location', fieldset.add({
 				name: 'torrentfiles_location',
 				fieldLabel: _('Copy of .torrent files to'),
-				width: 160
+				width: 150,
+				disabled: true
+			}));
+			optMan.bind('autoadd_location', fieldset.add({
+				name: 'autoadd_location',
+				fieldLabel: _('Auto add .torrent files from'),
+				width: 150,
+				disabled: true
 			}));
 			
 			fieldset = this.add({
