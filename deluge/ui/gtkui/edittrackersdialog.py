@@ -57,7 +57,14 @@ class EditTrackersDialog:
         self.edit_tracker_entry = self.glade.get_widget("edit_tracker_entry")
         self.edit_tracker_entry.set_transient_for(self.dialog)
 
-        self.dialog.set_icon(common.get_logo(32))
+        if deluge.common.windows_check():
+            self.dialog.set_icon(common.get_logo(32))
+        else:
+            try:
+                icon_theme = gtk.icon_theme_get_default()
+                self.dialog.set_icon(icon_theme.load_icon("deluge", 32, 0))
+            except:
+                self.dialog.set_icon(common.get_logo(32))
 
         if parent != None:
             self.dialog.set_transient_for(parent)

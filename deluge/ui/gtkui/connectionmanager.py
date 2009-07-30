@@ -122,7 +122,16 @@ class ConnectionManager(component.Component):
         # Setup the ConnectionManager dialog
         self.connection_manager = self.glade.get_widget("connection_manager")
         self.connection_manager.set_transient_for(self.window.window)
-        self.connection_manager.set_icon(common.get_logo(32))
+        
+        if deluge.common.windows_check():
+            self.connection_manager.set_icon(common.get_logo(32))
+        else:
+            try:
+                icon_theme = gtk.icon_theme_get_default()
+                self.connection_manager.set_icon(icon_theme.load_icon("deluge", 32, 0))
+            except:
+                self.connection_manager.set_icon(common.get_logo(32))
+
         self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
 
         self.hostlist = self.glade.get_widget("hostlist")

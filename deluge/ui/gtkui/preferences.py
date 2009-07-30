@@ -56,7 +56,14 @@ class Preferences(component.Component):
                     pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/preferences_dialog.glade"))
         self.pref_dialog = self.glade.get_widget("pref_dialog")
-        self.pref_dialog.set_icon(common.get_logo(32))
+        if deluge.common.windows_check():
+            self.pref_dialog.set_icon(common.get_logo(32))
+        else:
+            try:
+                icon_theme = gtk.icon_theme_get_default()
+                self.pref_dialog.set_icon(icon_theme.load_icon("deluge", 32, 0))
+            except:
+                self.pref_dialog.set_icon(common.get_logo(32))
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
