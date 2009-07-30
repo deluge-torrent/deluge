@@ -169,11 +169,7 @@ class MenuBar(component.Component):
             "menuitem_addtorrent"
         ]
 
-        if self.config["classic_mode"]:
-            # We need to remove the 'quit and shutdown daemon' menu item
-            self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
-            self.window.main_glade.get_widget("separatormenuitem").hide()
-            self.window.main_glade.get_widget("menuitem_connectionmanager").hide()
+        self.config.register_set_function("classic_mode", self._on_classic_mode)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
@@ -200,10 +196,6 @@ class MenuBar(component.Component):
 
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
-
-        if not self.config["classic_mode"]:
-            self.window.main_glade.get_widget("separatormenuitem").show()
-            self.window.main_glade.get_widget("menuitem_quitdaemon").show()
 
     def stop(self):
         for widget in self.change_sensitivity:
@@ -459,3 +451,19 @@ class MenuBar(component.Component):
     def on_menuitem_sidebar_trackers_toggled(self, widget):
         self.config["sidebar_show_trackers"] = widget.get_active()
         component.get("FilterTreeView").update()
+
+    def _on_classic_mode(self, key, value):
+        items = [
+            "menuitem_quitdaemon",
+            "separatormenuitem",
+            "menuitem_connectionmanager"
+        ]
+        
+        if value:
+            attr = "hide"
+        else:
+            attr = "show"
+        
+        for item in items:
+            getattr(self.window.main_glade.get_widget(item), attr)()
+

@@ -117,12 +117,6 @@ class SystemTray(component.Component):
         self.tray_glade.get_widget("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
 
-        if self.config["classic_mode"]:
-            self.hide_widget_list.remove("menuitem_quitdaemon")
-            self.hide_widget_list.remove("separatormenuitem4")
-            self.tray_glade.get_widget("menuitem_quitdaemon").hide()
-            self.tray_glade.get_widget("separatormenuitem4").hide()
-
         client.register_event_handler("ConfigValueChangedEvent", self.config_value_changed)
         if not client.connected():
         # Hide menu widgets because we're not connected to a host.
@@ -135,6 +129,13 @@ class SystemTray(component.Component):
 
     def __start(self):
         if self.config["enable_system_tray"]:
+
+            if self.config["classic_mode"]:
+                self.hide_widget_list.remove("menuitem_quitdaemon")
+                self.hide_widget_list.remove("separatormenuitem4")
+                self.tray_glade.get_widget("menuitem_quitdaemon").hide()
+                self.tray_glade.get_widget("separatormenuitem4").hide()
+
             # Show widgets in the hide list because we've connected to a host
             for widget in self.hide_widget_list:
                 self.tray_glade.get_widget(widget).show()
