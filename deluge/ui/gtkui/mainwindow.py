@@ -120,6 +120,7 @@ class MainWindow(component.Component):
 
     def hide(self):
         component.pause("TorrentView")
+        component.get("TorrentView").save_state()
         component.pause("StatusBar")
         component.pause("TorrentDetails")
         # Store the x, y positions for when we restore the window

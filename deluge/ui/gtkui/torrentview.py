@@ -253,8 +253,15 @@ class TorrentView(listview.ListView, component.Component):
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
-        self.save_state("torrentview.state")
+        if self.window.visible():
+            self.save_state()
 
+    def save_state(self):
+        """
+        Saves the state of the torrent view.
+        """
+        listview.ListView.save_state(self, "torrentview.state")
+                
     def set_filter(self, filter_dict):
         """Sets filters for the torrentview..
         see: core.get_torrents_status
