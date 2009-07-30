@@ -647,7 +647,9 @@ class Core(component.Component):
             trackers=trackers)
         log.debug("torrent created!")
         if add_to_session:
-            self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), None)
+            options = {}
+            options["download_location"] = os.path.split(path)[0]
+            self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), options)
 
     @export
     def upload_plugin(self, filename, plugin_data):
@@ -663,7 +665,9 @@ class Core(component.Component):
 
     @export
     def rescan_plugins(self):
-        """Rescans the plugin folders for new plugins"""
+        """
+        Rescans the plugin folders for new plugins
+        """
         component.get("CorePluginManager").scan_for_plugins()
 
     @export
