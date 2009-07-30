@@ -23,7 +23,14 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 		});
 		optMan.bind('daemon_port', fieldset.add({
 			fieldLabel: _('Daemon port'),
-			name: 'daemon_port'
+			name: 'daemon_port',
+			value: 58846,
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 0,
+				minValue: -1,
+				maxValue: 99999
+			},
 		}));
 		
 		fieldset = this.add({
