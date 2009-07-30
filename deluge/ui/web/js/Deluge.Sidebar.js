@@ -195,7 +195,7 @@ Copyright:
 		removeZero: function(states) {
 			var newStates = [];
 			Ext.each(states, function(state) {
-				if (state[1] > 0) {
+				if (state[1] > 0 || state[0] == _('All')) {
 					newStates.push(state);
 				}
 			});
