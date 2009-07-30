@@ -194,6 +194,9 @@ input {
 	margin-right: 10px;
 }
 
+.x-deluge-indent-checkbox {
+	padding-left: 10px;
+}
 
 /* Sidebar styles */
 #sidebar .x-grid3-col-filter {

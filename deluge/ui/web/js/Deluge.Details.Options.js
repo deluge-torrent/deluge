@@ -246,6 +246,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'remove_at_ratio',
+			ctCls: 'x-deluge-indent-checkbox',
 			bodyStyle: 'padding-left: 10px',
 			boxLabel: _('Remove at ratio'),
 			disabled: true,
