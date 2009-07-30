@@ -33,6 +33,9 @@ Copyright:
 */
 
 Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
+
+	currentPage: null,
+
 	constructor: function(config) {
 		config = Ext.apply({
 			layout: 'border',
@@ -45,8 +48,7 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 			plain: true,
 			resizable: false,
 			title: _('Preferences'),
-			
-			currentPage: false,
+
 			items: [{
 				xtype: 'grid',
 				region: 'west',
@@ -113,8 +115,6 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		store.loadData([[name]], true);
 		page['bodyStyle'] = 'margin: 5px';
 		this.pages[name] = this.configPanel.add(page);
-		this.pages[name].setWidth(365);
-		this.pages[name].setHeight(410);
 	},
 	
 	/**
@@ -130,9 +130,14 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onPageSelect: function(selModel, rowIndex, r) {
-		if (this.currentPage) {
+		if (this.currentPage == null) {
+			for (var page in this.pages) {
+				this.pages[page].hide();
+			}
+		} else {
 			this.currentPage.hide();
 		}
+
 		var name = r.get('name');
 		
 		this.pages[name].show();
