@@ -68,14 +68,7 @@ Copyright:
 					cmargins: '5 0 5 5',
 					width: 120,
 					collapsible: true
-				}, {
-					region: 'center',
-					header: false,
-					layout: 'fit',
-					height: 400,
-					margins: '5 5 5 5',
-					cmargins: '5 5 5 5'
-				}]
+				}, ]
 			}, config);
 			Ext.deluge.PreferencesWindow.superclass.constructor.call(this, config);
 		},
@@ -83,7 +76,14 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
 			this.categoriesGrid = this.items.get(0);
-			this.configPanel = this.items.get(1);
+			this.configPanel = this.add({
+				region: 'center',
+				header: false,
+				layout: 'fit',
+				height: 400,
+				margins: '5 5 5 5',
+				cmargins: '5 5 5 5'
+			});
 
 			this.addButton(_('Close'), this.onClose, this);
 			this.addButton(_('Apply'), this.onApply, this);
