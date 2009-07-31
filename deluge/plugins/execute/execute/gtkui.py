@@ -118,8 +118,8 @@ class GtkUI(GtkPluginBase):
     
     def enable(self):
         self.plugin = component.get("PluginManager")
-        self.prefences = ExecutePreferences(self.plugin)
-        self.prefences.load()
+        self.preferences = ExecutePreferences(self.plugin)
+        self.preferences.load()
 
     def disable(self):
-        pass
+        self.preferences.unload()
