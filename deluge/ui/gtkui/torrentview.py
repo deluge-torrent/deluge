@@ -481,8 +481,7 @@ class TorrentView(listview.ListView, component.Component):
         for row in self.liststore:
             if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
                 continue
-
-            row[self.get_column_index("Progress")[1]] = state
+            row[self.get_column_index(_("Progress"))[1]] = state
 
         self.mark_dirty(torrent_id)
 
