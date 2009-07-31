@@ -74,15 +74,7 @@ if not, see <http://www.gnu.org/licenses>."))
         self.about.set_website("http://deluge-torrent.org")
         self.about.set_website_label("http://deluge-torrent.org")
 
-        if deluge.common.windows_check():
-            self.about.set_icon(common.get_logo(32))
-        else:
-            try:
-                icon_theme = gtk.icon_theme_get_default()
-                self.about.set_icon(icon_theme.load_icon("deluge", 32, 0))
-            except:
-                self.about.set_icon(common.get_logo(32))
-                
+        self.about.set_icon(common.get_deluge_icon())
         self.about.set_logo(gtk.gdk.pixbuf_new_from_file(
                                 deluge.common.get_pixmap("deluge-about.png")))
 

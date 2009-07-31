@@ -207,3 +207,21 @@ def reparent_iter(treestore, itr, parent, move_siblings=False):
             treestore.remove(to_remove)
 
     move_children(itr, parent)
+
+def get_deluge_icon():
+    """
+    Returns the deluge icon for use in setting a dialogs icon.  It will first
+    attempt to get the icon from the theme and will fallback to using an image
+    that is distributed with the package.
+    
+    """
+    import deluge.common
+    if deluge.common.windows_check():
+        return deluge.common.get_logo(32)
+    else:
+        try:
+            icon_theme = gtk.icon_theme_get_default()
+            return icon_theme.load_icon("deluge", 32, 0)
+        except:
+            return deluge.common.get_logo(32)
+            

@@ -324,11 +324,7 @@ class MenuBar(component.Component):
                 gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
             chooser.set_local_only(True)
             if not deluge.common.windows_check():
-                try:
-                    icon_theme = gtk.icon_theme_get_default()
-                    chooser.set_icon(icon_theme.load_icon("deluge", 32, 0))
-                except:
-                    chooser.set_icon(common.get_logo(32))
+                chooser.set_icon(common.get_deluge_icon())
                 chooser.set_property("skip-taskbar-hint", True)
             chooser.set_current_folder(config["choose_directory_dialog_path"])
             if chooser.run() == gtk.RESPONSE_OK:
