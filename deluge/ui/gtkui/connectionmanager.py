@@ -414,7 +414,14 @@ class ConnectionManager(component.Component):
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
-        client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
+        def do_connect(*args):
+            client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
+
+        if client.connected():
+            client.disconnect().addCallback(do_connect)
+        else:    
+            do_connect()
+            
         self.connection_manager.response(gtk.RESPONSE_OK)
 
     def on_button_close_clicked(self, widget):
