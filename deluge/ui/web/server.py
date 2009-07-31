@@ -307,6 +307,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Preferences.Queue.js",
         "/js/Deluge.Preferences.Proxy.js",
         "/js/Deluge.Preferences.Notification.js",
+        "/js/Deluge.Preferences.Cache.js",
         "/js/Deluge.Preferences.Plugins.js",
         "/js/Deluge.Remove.js",
         "/js/Deluge.Sidebar.js",
