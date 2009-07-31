@@ -47,7 +47,7 @@ import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.log import LOG as log
-import deluge.ui.gtkui.listview as listview
+import listview
 from deluge.ui.tracker_icons import TrackerIcons
 
 # Status icons.. Create them from file only once to avoid constantly

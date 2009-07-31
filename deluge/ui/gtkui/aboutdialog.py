@@ -40,7 +40,7 @@ import gtk
 import pkg_resources
 
 import deluge.common
-import deluge.ui.gtkui.common as common
+import common
 
 class AboutDialog:
     def __init__(self):

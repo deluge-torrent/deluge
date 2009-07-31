@@ -45,7 +45,7 @@ from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
-import deluge.ui.gtkui.common as common
+import common
 
 class QueuedTorrents(component.Component):
     def __init__(self):

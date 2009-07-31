@@ -46,7 +46,7 @@ import pkg_resources
 
 from deluge.ui.client import client
 import deluge.component as component
-import deluge.ui.gtkui.listview as listview
+import listview
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common

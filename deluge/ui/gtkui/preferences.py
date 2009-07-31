@@ -44,7 +44,7 @@ from deluge.log import LOG as log
 from deluge.ui.client import client
 import deluge.common
 import deluge.error
-import deluge.ui.gtkui.common as common
+import common
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 

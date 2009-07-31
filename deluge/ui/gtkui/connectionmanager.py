@@ -42,7 +42,7 @@ from twisted.internet import reactor
 
 import deluge.component as component
 import deluge.common
-import deluge.ui.gtkui.common as common
+import common
 import deluge.configmanager
 from deluge.ui.client import client
 import deluge.ui.client

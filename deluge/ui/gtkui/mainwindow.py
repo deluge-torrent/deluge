@@ -48,7 +48,7 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
 
 import deluge.common
-import deluge.ui.gtkui.common as common
+import common
 
 from deluge.log import LOG as log
 

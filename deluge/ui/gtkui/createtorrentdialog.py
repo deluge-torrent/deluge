@@ -41,7 +41,7 @@ import gobject
 import base64
 
 from deluge.ui.client import client
-import deluge.ui.gtkui.listview as listview
+import listview
 import deluge.component as component
 import deluge.common
 from deluge.configmanager import ConfigManager

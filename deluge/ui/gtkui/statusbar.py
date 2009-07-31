@@ -40,7 +40,7 @@ import gobject
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
-import deluge.ui.gtkui.common as common
+import common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 

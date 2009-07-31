@@ -36,7 +36,7 @@
 
 import deluge.component as component
 import deluge.common
-import deluge.ui.gtkui.common as common
+import common
 from deluge.log import LOG as log
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
