@@ -194,6 +194,9 @@ class MenuBar(component.Component):
             for widget in non_remote_items:
                 self.torrentmenu_glade.get_widget(widget).set_no_show_all(False)
 
+        if not self.config["classic_mode"]:
+            self.window.main_glade.get_widget("separatormenuitem").show()
+            self.window.main_glade.get_widget("menuitem_quitdaemon").show()
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
