@@ -229,7 +229,7 @@ class Core(CorePluginBase):
 
         headers = {}
         if self.config["last_update"] and not self.force_download:
-            headers['If-Modified-Since'] = str(self.config["last_update"])
+            headers['If-Modified-Since'] = self.config["last_update"]
 
         log.debug("Attempting to download blocklist %s" % url)
         log.debug("Sending headers: %s" % headers)

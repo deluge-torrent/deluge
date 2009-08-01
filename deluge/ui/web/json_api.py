@@ -459,7 +459,7 @@ class WebApi(JSONComponent):
         log.debug("filename: %s", tmp_file)
         headers = {}
         if cookie:
-            headers["Cookie"] = str(cookie)
+            headers["Cookie"] = cookie
             log.debug("cookie: %s", cookie)
         return httpdownloader.download_file(url, tmp_file, headers=headers)
     

@@ -106,6 +106,11 @@ def download_file(url, filename, callback=None, headers=None):
     :raises t.w.e.Error: for all other HTTP response errors (besides OK)
     """
     url = str(url)
+    filename = str(filename)
+    if headers:
+        for key, value in headers.items():
+            headers[str(key)] = str(value)
+
     scheme, host, port, path = client._parse(url)
     factory = HTTPDownloader(url, filename, callback, headers)
     if scheme == "https":
