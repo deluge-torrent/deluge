@@ -159,10 +159,15 @@ class GtkUI(object):
         # Setup signals
         try:
             import gnome.ui
-            self.gnome_client = gnome.ui.Client()
-            self.gnome_client.connect("die", gtk.main_quit)
-        except:
-            pass
+            import gnome
+            self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
+            self.gnome_client = gnome.ui.master_client()
+            def on_die(*args):
+                gtk.main_quit()
+            self.gnome_client.connect("die", on_die)
+            log.debug("GNOME session 'die' handler registered!")
+        except Exception, e:
+            log.warning("Unable to register a 'die' handler with the GNOME session manager: %s", e)
 
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler

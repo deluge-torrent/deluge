@@ -17,6 +17,7 @@
   * Fix #518 remove header in add torrent dialog to save vertical space
   * Add a Cache preferences page to adjust cache settings and examine cache status
   * Add ability to rename files prior to adding them
+  * Fix shutdown handler with GNOME session manager
 
 ==== ConsoleUI ====
   * Changed to use curses for a more interactive client
