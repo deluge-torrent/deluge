@@ -270,6 +270,8 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	},
 	
 	setTorrent: function(torrentId) {
+		if (!torrentId) return;
+
 		this.torrentId = torrentId;
 		this.optionsManager.changeId(torrentId);
 		
@@ -492,7 +494,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		
 		delete this.torrents[torrent.id];
 		this.grid.getStore().remove(torrent);
-		this.options.clear();
+		this.optionsPanel.clear();
 	},
 	
 	onSelect: function(selModel, rowIndex, record) {

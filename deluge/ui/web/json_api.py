@@ -445,7 +445,7 @@ class WebApi(JSONComponent):
         return main_deferred
 
     @export
-    def download_torrent_from_url(self, url):
+    def download_torrent_from_url(self, url, cookie=None):
         """
         Download a torrent file from a url to a temporary directory.
 
@@ -457,7 +457,11 @@ class WebApi(JSONComponent):
         
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
         log.debug("filename: %s", tmp_file)
-        return httpdownloader.download_file(url, tmp_file)
+        headers = {}
+        if cookie:
+            headers["Cookie"] = str(cookie)
+            log.debug("cookie: %s", cookie)
+        return httpdownloader.download_file(url, tmp_file, headers=headers)
     
     @export
     def get_torrent_info(self, filename):

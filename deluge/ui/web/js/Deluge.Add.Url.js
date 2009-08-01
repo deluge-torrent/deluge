@@ -78,13 +78,14 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 	
 	onAdd: function(field, e) {
-		if (field.id == 'url' && e.getKey() != e.ENTER) return;
+		if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
 
 		var field = this.urlField;
 		var url = field.getValue();
+		var cookies = this.cookieField.getValue();
 		var torrentId = this.createTorrentId();
 		
-		Deluge.Client.web.download_torrent_from_url(url, {
+		Deluge.Client.web.download_torrent_from_url(url, cookies, {
 			success: this.onDownload,
 			scope: this,
 			torrentId: torrentId
