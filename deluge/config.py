@@ -40,15 +40,15 @@ Deluge Config Module
 This module is used for loading and saving of configuration files.. or anything
 really.
 
-The format of the config file is as follows:
+The format of the config file is two json encoded dicts:
 
-<format version as int>
-<config file version as int>
-<content>
+<version dict>
+<content dict>
 
-The format version is controlled by the Config class.  It should only be changed
-when anything below it is changed directly by the Config class.  An example of
-this would be if we changed the serializer for the content to something different.
+The version dict contains two keys: file and format.  The format version is 
+controlled by the Config class.  It should only be changed when anything below 
+it is changed directly by the Config class.  An example of this would be if we 
+changed the serializer for the content to something different.
 
 The config file version is changed by the 'owner' of the config file.  This is
 to signify that there is a change in the naming of some config keys or something
@@ -90,6 +90,37 @@ def prop(func):
     """
     return property(doc=func.__doc__, **func())
 
+def find_json_objects(s):
+    """
+    Find json objects in a string.
+    
+    :param s: the string to find json objects in
+    :type s: string
+    
+    :returns: a list of tuples containing start and end locations of json objects in the string `s`
+    :rtype: [(start, end), ...]
+    
+    """
+    objects = []
+    opens = 0
+    start = s.find("{")
+    offset = start
+
+    if start < 0:
+        return []
+
+    for index, c in enumerate(s[offset:]):
+        if c == "{":
+            opens += 1
+        elif c == "}":
+            opens -= 1
+        if opens == 0:
+            objects.append((start, index+offset+1))
+            start = index + offset + 1
+
+    return objects
+    
+    
 class Config(object):
     """
     This class is used to access/create/modify config files
@@ -105,12 +136,14 @@ class Config(object):
         self.__change_callbacks = []
 
         # These hold the version numbers and they will be set when loaded
-        self.__format_version = 1
-        self.__file_version = 1
+        self.__version = {
+            "format": 1,
+            "file": 1
+        }
 
         # This will get set with a reactor.callLater whenever a config option
         # is set.
-        self.__save_timer = None
+        self._save_timer = None
 
         if defaults:
             self.__config = defaults
@@ -134,12 +167,14 @@ class Config(object):
     def set_item(self, key, value):
         """
         Sets item 'key' to 'value' in the config dictionary, but does not allow
-        changing the item's type unless it is None
+        changing the item's type unless it is None.  If the types do not match,
+        it will attempt to convert it to the set type before raising a ValueError.
 
         :param key: string, item to change to change
         :param value: the value to change item to, must be same type as what is currently in the config
 
-        :raises ValueError: raised when the type of value is not the same as what is currently in the config
+        :raises ValueError: raised when the type of value is not the same as\
+what is currently in the config and it could not convert the value
 
         **Usage**
 
@@ -186,8 +221,8 @@ class Config(object):
             pass
 
         # We set the save_timer for 5 seconds if not already set
-        if not self.__save_timer or not self.__save_timer.active():
-            self.__save_timer = reactor.callLater(5, self.save)
+        if not self._save_timer or not self._save_timer.active():
+            self._save_timer = reactor.callLater(5, self.save)
 
     def __getitem__(self, key):
         """
@@ -304,38 +339,39 @@ class Config(object):
             filename = self.__config_file
 
         try:
-            data = open(filename, "rb")
+            data = open(filename, "rb").read()
         except IOError, e:
             log.warning("Unable to open config file %s: %s", filename, e)
             return
 
-        try:
-            self.__format_version = int(data.readline())
-        except ValueError:
-            data.seek(0)
-        else:
+        objects = find_json_objects(data)
+        
+        if not len(objects):
+            # No json objects found, try depickling it
             try:
-                self.__file_version = int(data.readline())
-            except ValueError:
-                pass
-
-        fdata = data.read()
-        data.close()
-
-        try:
-            self.__config.update(json.loads(fdata))
-        except Exception, e:
-            log.exception(e)
-            try:
-                self.__config.update(pickle.loads(fdata))
+                self.__config.update(pickle.loads(data))
             except Exception, e:
                 log.exception(e)
-                log.warning("Unable to load config file: %s", filename)
-
-
-
+                log.warning("Unable to load config file: %s", filename)                
+        elif len(objects) == 1:
+            start, end = objects[0]
+            try:
+                self.__config.update(json.loads(data[start:end]))
+            except Exception, e:
+                log.exception(e)
+                log.warning("Unable to load config file: %s", filename)                
+        elif len(objects) == 2:
+            try:
+                start, end = objects[0]
+                self.__version.update(json.loads(data[start:end]))
+                start, end = objects[1]
+                self.__config.update(json.loads(data[start:end]))
+            except Exception, e:
+                log.exception(e)
+                log.warning("Unable to load config file: %s", filename)                
+            
         log.debug("Config %s version: %s.%s loaded: %s", filename,
-            self.__format_version, self.__file_version, self.__config)
+            self.__version["format"], self.__version["file"], self.__config)
 
     def save(self, filename=None):
         """
@@ -351,26 +387,27 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            data = open(filename, "rb")
-            data.readline()
-            data.readline()
-            loaded_data = json.loads(data.read())
-            data.close()
-            if self.__config == loaded_data:
+            data = open(filename, "rb").read()
+            objects = find_json_objects(data)
+            start, end = objects[0]
+            version = json.loads(data[start:end])
+            start, end = objects[1]
+            loaded_data = json.loads(data[start:end])
+
+            if self.__config == loaded_data and self.__version == version:
                 # The config has not changed so lets just return
-                self.__save_timer = None
+                self._save_timer = None
                 return
         except Exception, e:
             log.warning("Unable to open config file: %s", filename)
 
-        self.__save_timer = None
+        self._save_timer = None
 
         # Save the new config and make sure it's written to disk
         try:
             log.debug("Saving new config file %s", filename + ".new")
             f = open(filename + ".new", "wb")
-            f.write(str(self.__format_version) + "\n")
-            f.write(str(self.__file_version) + "\n")
+            json.dump(self.__version, f, indent=2)            
             json.dump(self.__config, f, indent=2)
             f.flush()
             os.fsync(f.fileno())
@@ -414,9 +451,9 @@ class Config(object):
         if output_version in input_range or output_version <= max(input_range):
             raise ValueError("output_version needs to be greater than input_range")
 
-        if self.__file_version not in input_range:
+        if self.__version["file"] not in input_range:
             log.debug("File version %s is not in input_range %s, ignoring converter function..",
-                self.__file_version, input_range)
+                self.__version["file"], input_range)
             return
 
         try:
@@ -424,10 +461,10 @@ class Config(object):
         except Exception, e:
             log.exception(e)
             log.error("There was an exception try to convert config file %s %s to %s",
-                self.__config_file, self.__file_version, output_version)
+                self.__config_file, self.__version["file"], output_version)
             raise e
         else:
-            self.__file_version = output_version
+            self.__version["file"] = output_version
             self.save()
 
     @property

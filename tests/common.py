@@ -8,6 +8,7 @@ deluge.log.setupLogger("none")
 def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
+    return config_directory
 
 import gettext
 import locale
