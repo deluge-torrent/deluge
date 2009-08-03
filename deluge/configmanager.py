@@ -80,6 +80,13 @@ class _ConfigManager:
             return False
 
         self.__config_directory = directory
+
+        # Reset the config_files so we don't get config from old config folder
+        # XXX: Probably should have it go through the config_files dict and try
+        # to reload based on the new config directory
+        self.save()
+        self.config_files = {}
+
         return True
 
     def get_config_dir(self):
