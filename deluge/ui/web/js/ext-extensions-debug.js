@@ -30,6 +30,7 @@ Ext.ux.form.Spinner = function(config){
 		'spinup' : true,
 		'spindown' : true
 	});
+	this.initStrategy();
 }
 
 Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
@@ -103,30 +104,32 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		this.dd.endDrag = this.endDrag.createDelegate(this);
 		this.dd.startDrag = this.startDrag.createDelegate(this);
 		this.dd.onDrag = this.onDrag.createDelegate(this);
-
-        /*
-        jsakalos suggestion
-        http://extjs.com/forum/showthread.php?p=121850#post121850 */
-        if('object' == typeof this.strategy && this.strategy.xtype) {
-            switch(this.strategy.xtype) {
-                case 'number':
-                    this.strategy = new Ext.ux.form.Spinner.NumberStrategy(this.strategy);
-	                break;
-
-                case 'date':
-                    this.strategy = new Ext.ux.form.Spinner.DateStrategy(this.strategy);
-	                break;
-
-                case 'time':
-                    this.strategy = new Ext.ux.form.Spinner.TimeStrategy(this.strategy);
-                	break;
-
-                default:
-                    delete(this.strategy);
-                	break;
-            }
-            delete(this.strategy.xtype);
-        }
+	},
+	
+	initStrategy: function() {
+		/*
+		jsakalos suggestion
+		http://extjs.com/forum/showthread.php?p=121850#post121850 */
+		if('object' == typeof this.strategy && this.strategy.xtype) {
+		    switch(this.strategy.xtype) {
+			case 'number':
+			    this.strategy = new Ext.ux.form.Spinner.NumberStrategy(this.strategy);
+				break;
+	
+			case 'date':
+			    this.strategy = new Ext.ux.form.Spinner.DateStrategy(this.strategy);
+				break;
+	
+			case 'time':
+			    this.strategy = new Ext.ux.form.Spinner.TimeStrategy(this.strategy);
+				break;
+	
+			default:
+			    delete(this.strategy);
+				break;
+		    }
+		    delete(this.strategy.xtype);
+		}
 
 		if(this.strategy == undefined){
 			this.strategy = new Ext.ux.form.Spinner.NumberStrategy();
@@ -299,6 +302,11 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		this.fireEvent("spin", this);
 		this.fireEvent("spindown", this);
 		this.fireEvent("change", this);
+	},
+	
+	setValue: function(value) {
+		value = this.strategy.fixBoundries(value);
+		this.setRawValue(value);
 	}
 
 });
