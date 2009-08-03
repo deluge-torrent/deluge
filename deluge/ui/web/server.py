@@ -466,15 +466,16 @@ class DelugeWeb(component.Component):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-    def start(self):
+    def start(self, start_reactor=True):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
         if self.https:
             self.start_ssl()
         else:
             self.start_normal()
-
         self.plugins.enable_plugins()
-        reactor.run()
+
+        if start_reactor:
+            reactor.run()
         
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site)
@@ -491,8 +492,9 @@ class DelugeWeb(component.Component):
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
-        self.socket.stopListening()
-        self.socket = None
+        if self.socket:
+            self.socket.stopListening()
+            self.socket = None
 
     def shutdown(self, *args):
         self.stop()
