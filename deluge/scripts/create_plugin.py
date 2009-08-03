@@ -119,14 +119,14 @@ class Core(CorePluginBase):
     def update(self):
         pass
 
-    @export()
+    @export
     def set_config(self, config):
         "sets the config dictionary"
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
-    @export()
+    @export
     def get_config(self):
         "returns the config dictionary"
         return self.config.config
