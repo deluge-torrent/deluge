@@ -434,7 +434,7 @@ what is currently in the config and it could not convert the value
         else:
             return True
         finally:
-            if self._save_timer.active():
+            if self._save_timer and self._save_timer.active():
                 self._save_timer.cancel()
 
     def run_converter(self, input_range, output_version, func):
