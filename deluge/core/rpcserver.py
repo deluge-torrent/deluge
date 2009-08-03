@@ -329,7 +329,7 @@ class RPCServer(component.Component):
 
         log.info("Starting DelugeRPC server %s:%s", hostname, port)
 
-
+        # Check for SSL keys and generate some if needed
         check_ssl_keys()
 
         try:
