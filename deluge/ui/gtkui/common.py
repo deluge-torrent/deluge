@@ -215,13 +215,12 @@ def get_deluge_icon():
     that is distributed with the package.
     
     """
-    import deluge.common
     if deluge.common.windows_check():
-        return deluge.common.get_logo(32)
+        return get_logo(32)
     else:
         try:
             icon_theme = gtk.icon_theme_get_default()
             return icon_theme.load_icon("deluge", 32, 0)
         except:
-            return deluge.common.get_logo(32)
+            return get_logo(32)
             
