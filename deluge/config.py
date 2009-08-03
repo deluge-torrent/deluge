@@ -146,7 +146,7 @@ class Config(object):
         self._save_timer = None
 
         if defaults:
-            self.__config = defaults
+            self.__config = dict(defaults)
 
         # Load the config from file in the config_dir
         if config_dir:
@@ -401,7 +401,7 @@ what is currently in the config and it could not convert the value
         except Exception, e:
             log.warning("Unable to open config file: %s", filename)
 
-        self._save_timer.cancel()
+        
 
         # Save the new config and make sure it's written to disk
         try:
@@ -433,6 +433,9 @@ what is currently in the config and it could not convert the value
             return False
         else:
             return True
+        finally:
+            if self._save_timer.active():
+                self._save_timer.cancel()
 
     def run_converter(self, input_range, output_version, func):
         """

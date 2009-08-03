@@ -79,3 +79,21 @@ class ConfigTestCase(unittest.TestCase):
         self.assertEquals(config["string"], "baz")
         self.assertEquals(config["int"], 2)
 
+    def test_save_timer(self):
+        config = Config("test.conf", defaults=DEFAULTS, config_dir=self.config_dir)
+        config["string"] = "baz"
+        config["int"] = 2
+        self.assertTrue(config._save_timer.active())
+        
+        def check_config(config):
+            self.assertTrue(not config._save_timer.active())
+            del config
+            config = Config("test.conf", defaults=DEFAULTS, config_dir=self.config_dir)
+            self.assertEquals(config["string"], "baz")
+            self.assertEquals(config["int"], 2)
+            
+        from twisted.internet.task import deferLater
+        from twisted.internet import reactor
+        d = deferLater(reactor, 7, check_config, config)
+        return d
+        
