@@ -46,11 +46,12 @@ import mimetypes
 import pkg_resources
 
 from twisted.application import service, internet
-from twisted.internet import reactor, error
+from twisted.internet import reactor, defer, error
 from twisted.internet.ssl import SSL
 from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
+from deluge.core.rpcserver import check_ssl_keys
 from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
@@ -483,6 +484,7 @@ class DelugeWeb(component.Component):
             self.port, self.port)
     
     def start_ssl(self):
+        check_ssl_keys()
         self.socket = reactor.listenSSL(self.port, self.site, ServerContextFactory())
         log.info("serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
@@ -492,9 +494,14 @@ class DelugeWeb(component.Component):
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
+        
         if self.socket:
-            self.socket.stopListening()
+            d = self.socket.stopListening()
             self.socket = None
+        else:
+            d = defer.Deferred()
+            d.callback(False)
+        return d
 
     def shutdown(self, *args):
         self.stop()
