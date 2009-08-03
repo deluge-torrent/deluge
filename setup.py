@@ -425,6 +425,7 @@ setup(
                                 "ui/web/index.html",
                                 "ui/web/css/*.css",
                                 "ui/web/icons/*.png",
+                                "ui/web/images/*.gif",
                                 "ui/web/images/*.png",
                                 "ui/web/js/*.js",
                                 "ui/web/render/*.html",
