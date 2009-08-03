@@ -329,17 +329,8 @@ class RPCServer(component.Component):
 
         log.info("Starting DelugeRPC server %s:%s", hostname, port)
 
-        # Check for SSL cert/key and create them if necessary
-        ssl_dir = deluge.configmanager.get_config_dir("ssl")
-        if not os.path.exists(ssl_dir):
-            # The ssl folder doesn't exist so we need to create it
-            os.makedirs(ssl_dir)
-            generate_ssl_keys()
-        else:
-            for f in ("daemon.pkey", "daemon.cert"):
-                if not os.path.exists(os.path.join(ssl_dir, f)):
-                    generate_ssl_keys()
-                    break
+
+        check_ssl_keys()
 
         try:
             reactor.listenSSL(port, self.factory, ServerContextFactory(), interface=hostname)
@@ -402,6 +393,19 @@ class RPCServer(component.Component):
                 self.factory.session_protocols[session_id].sendData(
                     (RPC_EVENT, event.name, event.args)
                 )
+
+def check_ssl_keys():
+    # Check for SSL cert/key and create them if necessary
+    ssl_dir = deluge.configmanager.get_config_dir("ssl")
+    if not os.path.exists(ssl_dir):
+        # The ssl folder doesn't exist so we need to create it
+        os.makedirs(ssl_dir)
+        generate_ssl_keys()
+    else:
+        for f in ("daemon.pkey", "daemon.cert"):
+            if not os.path.exists(os.path.join(ssl_dir, f)):
+                generate_ssl_keys()
+                break
 
 def generate_ssl_keys():
     """
