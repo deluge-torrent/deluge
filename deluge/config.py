@@ -396,12 +396,12 @@ what is currently in the config and it could not convert the value
 
             if self.__config == loaded_data and self.__version == version:
                 # The config has not changed so lets just return
-                self._save_timer = None
+                self._save_timer.cancel()
                 return
         except Exception, e:
             log.warning("Unable to open config file: %s", filename)
 
-        self._save_timer = None
+        self._save_timer.cancel()
 
         # Save the new config and make sure it's written to disk
         try:
