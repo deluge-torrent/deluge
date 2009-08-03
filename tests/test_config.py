@@ -96,4 +96,19 @@ class ConfigTestCase(unittest.TestCase):
         from twisted.internet import reactor
         d = deferLater(reactor, 7, check_config, config)
         return d
+
+    def test_find_json_objects(self):
+        s = """{
+  "file": 1, 
+  "format": 1
+}{
+  "ssl": true, 
+  "enabled": false, 
+  "port": 8115
+}\n"""
         
+        from deluge.config import find_json_objects
+        
+        objects = find_json_objects(s)
+        self.assertEquals(len(objects), 2)
+

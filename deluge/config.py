@@ -72,7 +72,6 @@ import shutil
 import os
 
 import deluge.common
-import deluge.configmanager
 from deluge.log import LOG as log
 
 json = deluge.common.json
@@ -115,9 +114,9 @@ def find_json_objects(s):
             opens += 1
         elif c == "}":
             opens -= 1
-        if opens == 0:
-            objects.append((start, index+offset+1))
-            start = index + offset + 1
+            if opens == 0:
+                objects.append((start, index+offset+1))
+                start = index + offset + 1
 
     return objects
     
@@ -153,7 +152,7 @@ class Config(object):
         if config_dir:
             self.__config_file = os.path.join(config_dir, filename)
         else:
-            self.__config_file = deluge.configmanager.get_config_dir(filename)
+            self.__config_file = deluge.common.get_default_config_dir(filename)
 
         self.load()
 
