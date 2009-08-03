@@ -72,6 +72,7 @@ import shutil
 import os
 
 import deluge.common
+import deluge.configmanager
 from deluge.log import LOG as log
 
 json = deluge.common.json
@@ -152,7 +153,7 @@ class Config(object):
         if config_dir:
             self.__config_file = os.path.join(config_dir, filename)
         else:
-            self.__config_file = deluge.common.get_default_config_dir(filename)
+            self.__config_file = deluge.configmanager.get_config_dir(filename)
 
         self.load()
 
