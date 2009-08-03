@@ -44,7 +44,7 @@ log = logging.getLogger(__name__)
 
 class PluginManager(PluginManagerBase, Component):
     def __init__(self):
-        Component.__init__(self, "PluginManager")
+        Component.__init__(self, "Web.PluginManager")
         self.config = ConfigManager("web.conf")
         PluginManagerBase.__init__(self, "web.conf", "deluge.plugin.web")
 

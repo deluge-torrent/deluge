@@ -131,12 +131,12 @@ class JSON(resource.Resource, component.Component):
             """
             d = client.daemon.get_method_list()
             d.addCallback(on_get_methods)
-            component.get("PluginManager").start()
+            component.get("Web.PluginManager").start()
         _d.addCallback(on_client_connected)
         return d
 
     def _on_client_disconnect(self, *args):
-        component.get("PluginManager").stop()
+        component.get("Web.PluginManager").stop()
 
     def _exec_local(self, method, params):
         """
