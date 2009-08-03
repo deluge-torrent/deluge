@@ -435,6 +435,7 @@ class DelugeWeb(component.Component):
                 os.rename(old_config.config_file, backup_path)
                 del old_config
 
+        self.socket = None
         self.top_level = TopLevel()
         self.site = server.Site(self.top_level)
         self.port = self.config["port"]
@@ -444,6 +445,10 @@ class DelugeWeb(component.Component):
         self.web_api = WebApi()
         self.auth = Auth()
 
+        # Initalize the plugins
+        self.plugins = PluginManager()
+    
+    def install_signal_handlers(self):
         # Since twisted assigns itself all the signals may as well make
         # use of it.
         reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)
@@ -461,30 +466,36 @@ class DelugeWeb(component.Component):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-        # Initalize the plugins
-        self.plugins = PluginManager()
-
     def start(self):
         log.info("%s %s.", _("Starting server in PID"), os.getpid())
-        reactor.listenTCP(self.port, self.site)
+        if self.https:
+            self.start_ssl()
+        else:
+            self.start_normal()
+
+        self.plugins.enable_plugins()
+        reactor.run()
+        
+    def start_normal(self):
+        self.socket = reactor.listenTCP(self.port, self.site)
         log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
-        self.plugins.enable_plugins()
-        reactor.run()
     
     def start_ssl(self):
-        log.info("%s %s.", _("Starting server in PID"), os.getpid())
-        reactor.listenSSL(self.port, self.site, ServerContextFactory())
+        self.socket = reactor.listenSSL(self.port, self.site, ServerContextFactory())
         log.info("serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
-        self.plugins.enable_plugins()
-        reactor.run()
-
-    def shutdown(self, *args):
+    
+    def stop(self):
         log.info("Shutting down webserver")
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
+        self.socket.stopListening()
+        self.socket = None
+
+    def shutdown(self, *args):
+        self.stop()
         try:
             reactor.stop()
         except error.ReactorNotRunning:

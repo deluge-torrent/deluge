@@ -59,6 +59,8 @@ class Web(_UI):
         except:
             pass
         else:
+            group.add_option("--no-ssl", dest="ssl", action="store_false",
+                    help="Forces the webserver to disable ssl", default=False)
             group.add_option("--ssl", dest="ssl", action="store_true",
                     help="Forces the webserver to use ssl", default=False)
         self.parser.add_option_group(group)
@@ -76,11 +78,11 @@ class Web(_UI):
         if self.options.port:
             self.server.port = self.options.port
         
-        if self.options.ssl or self.server.https:
+        if self.options.ssl:
             self.server.https = self.options.ssl
-            self.server.start_ssl()
-        else:
-            self.server.start()
+
+        self.server.install_signal_handlers()
+        self.server.start()
 
 def start():
     web = Web()
