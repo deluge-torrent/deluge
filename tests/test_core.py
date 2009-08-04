@@ -48,7 +48,7 @@ class CoreTestCase(unittest.TestCase):
         return d
 
     def test_add_torrent_url_with_cookie(self):
-        url = "http://cgi.cse.unsw.edu.au/~johnnyg/torrent.php"
+        url = "http://deluge-torrent.org/test_torrent.php"
         options = {}
         headers = { "Cookie" : "password=deluge" }
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
@@ -75,11 +75,11 @@ class CoreTestCase(unittest.TestCase):
         filename = "../test.torrent"
         import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
-        
+
         self.assertRaises(deluge.error.InvalidTorrentError, self.core.remove_torrent, "torrentidthatdoesntexist", True)
-        
+
         ret = self.core.remove_torrent(torrent_id, True)
-        
+
         self.assertTrue(ret)
         self.assertEquals(len(self.core.get_session_state()), 0)
 
@@ -87,7 +87,7 @@ class CoreTestCase(unittest.TestCase):
         status = self.core.get_session_status(["upload_rate", "download_rate"])
         self.assertEquals(type(status), dict)
         self.assertEquals(status["upload_rate"], 0.0)
-        
+
     def test_get_cache_status(self):
         status = self.core.get_cache_status()
         self.assertEquals(type(status), dict)
@@ -99,14 +99,12 @@ class CoreTestCase(unittest.TestCase):
         self.assertTrue(type(space) in (int, long))
         self.assertTrue(space >= 0)
         self.assertRaises(deluge.error.InvalidPathError, self.core.get_free_space, "/someinvalidpath")
-        
+
     def test_test_listen_port(self):
         d = self.core.test_listen_port()
-        
+
         def result(r):
             self.assertTrue(r in (True, False))
-        
+
         d.addCallback(result)
         return d
-        
-            
