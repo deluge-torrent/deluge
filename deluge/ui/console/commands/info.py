@@ -110,6 +110,9 @@ class Command(BaseCommand):
         for arg in args:
             torrent_ids.extend(self.console.match_torrent(arg))
 
+        if not args:
+            torrent_ids.extend(self.console.match_torrent(""))
+            
         def on_torrents_status(status):
             # Print out the information for each torrent
             for key, value in status.items():
