@@ -223,6 +223,7 @@ class Screen(CursesStdIO):
         attribute and the status bars.
         """
         self.stdscr.clear()
+        self.rows, self.cols = self.stdscr.getmaxyx()
 
         # Update the status bars
         self.add_string(0, self.topbar)
