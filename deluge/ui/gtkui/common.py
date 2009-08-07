@@ -220,7 +220,7 @@ def get_deluge_icon():
     else:
         try:
             icon_theme = gtk.icon_theme_get_default()
-            return icon_theme.load_icon("deluge", 32, 0)
+            return icon_theme.load_icon("deluge", 64, 0)
         except:
-            return get_logo(32)
+            return get_logo(64)
             
