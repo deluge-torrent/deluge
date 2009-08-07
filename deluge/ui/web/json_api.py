@@ -65,8 +65,8 @@ class JSONComponent(component.Component):
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
-    Decorator function to register an object's method as an RPC.  The object
-    will need to be registered with an `:class:RPCServer` to be effective.
+    Decorator function to register an object's method as a RPC. The object
+    will need to be registered with a `:class:JSON` to be effective.
 
     :param func: the function to export
     :type func: function
@@ -295,7 +295,8 @@ FILES_KEYS = ["files", "file_progress", "file_priorities"]
 class WebApi(JSONComponent):
     """
     The component that implements all the methods required for managing
-    the web interface.
+    the web interface. The complete web json interface also exposes all the
+    methods available from the core RPC.
     """
     
     def __init__(self):
