@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 2.2.1
+ * Ext JS Library 2.3.0
  * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -53,7 +53,7 @@
                 return false;
             }
 
-            if (p.contains && !Ext.isSafari) {
+            if (p.contains && !Ext.isWebKit) {
                 return p.contains(c);
             } else if (p.compareDocumentPosition) {
                 return !!(p.compareDocumentPosition(c) & 16);
@@ -132,7 +132,7 @@
                 p = p.offsetParent;
             }
 
-            if (Ext.isSafari && hasAbsolute) {
+            if (Ext.isWebKit && hasAbsolute) {
                 x -= bd.offsetLeft;
                 y -= bd.offsetTop;
             }
@@ -314,7 +314,7 @@
 
 
             resolveTextNode: function(node) {
-                if (Ext.isSafari && node && 3 == node.nodeType) {
+                if (Ext.isWebKit && node && 3 == node.nodeType) {
                     return node.parentNode;
                 } else {
                     return node;
@@ -737,12 +737,9 @@
                         case 'select-multiple':
                             for (var j = 0; j < el.options.length; j++) {
                                 if (el.options[j].selected) {
-                                    if (Ext.isIE) {
-                                        data += encodeURIComponent(name) + '=' + encodeURIComponent(el.options[j].attributes['value'].specified ? el.options[j].value : el.options[j].text) + '&';
-                                    }
-                                    else {
-                                        data += encodeURIComponent(name) + '=' + encodeURIComponent(el.options[j].hasAttribute('value') ? el.options[j].value : el.options[j].text) + '&';
-                                    }
+                                    var opt = el.options[j],
+                                        sel = (opt.hasAttribute ? opt.hasAttribute('value') : opt.getAttributeNode('value').specified) ? opt.value : opt.text;
+                                    data += encodeURIComponent(name) + '=' + encodeURIComponent(sel) + '&';
                                 }
                             }
                             break;
@@ -1028,8 +1025,8 @@
             obj.tId = o.tId;
             obj.status = o.conn.status;
             obj.statusText = o.conn.statusText;
-            obj.getResponseHeader = headerObj;
-            obj.getAllResponseHeaders = headerStr;
+            obj.getResponseHeader = function(header){return headerObj[header];};
+            obj.getAllResponseHeaders = function(){return headerStr};
             obj.responseText = o.conn.responseText;
             obj.responseXML = o.conn.responseXML;
 
