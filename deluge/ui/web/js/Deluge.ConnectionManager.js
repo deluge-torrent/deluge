@@ -266,7 +266,7 @@ Copyright:
 		},
 		
 		onHostAdded: function() {
-			this.update();
+			this.update(this);
 		},
 		
 		onClose: function(e) {
@@ -281,7 +281,7 @@ Copyright:
 			if (selected.get('status') == _('Connected')) {
 				Deluge.Client.web.disconnect({
 					success: function(result) {
-						this.update();
+						this.update(this);
 						Deluge.Events.fire('disconnect');
 					},
 					scope: this
