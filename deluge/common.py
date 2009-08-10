@@ -53,6 +53,15 @@ if not hasattr(json, "dumps"):
     json.dumps = json.write
     json.loads = json.read
 
+    def dump(obj, fp, **kw):
+        fp.write(json.dumps(obj))
+
+    def load(fp, **kw):
+        return json.loads(fp.read())
+
+    json.dump = dump
+    json.load = load
+
 import pkg_resources
 import xdg, xdg.BaseDirectory
 
