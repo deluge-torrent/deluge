@@ -108,6 +108,11 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	onClose: function() {
 		this.hide();
 	},
+
+    onOk: function() {
+		Deluge.Client.core.set_config(this.optionsManager.getDirty());
+        this.hide();
+    },
 	
 	addPage: function(page) {
 		var store = this.categoriesGrid.getStore();
