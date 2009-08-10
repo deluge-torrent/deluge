@@ -266,7 +266,7 @@ Copyright:
 		},
 		
 		onHostAdded: function() {
-			this.runCheck();
+			this.update();
 		},
 		
 		onClose: function(e) {
