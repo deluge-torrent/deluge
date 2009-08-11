@@ -87,6 +87,16 @@ Copyright:
 			})
 		},
 		
+		logout: function() {
+			Deluge.Events.fire('logout');
+			Deluge.Client.auth.delete_session({
+				success: function(result) {
+					this.show(true);
+				},
+				scope: this
+			});
+		},
+		
 		show: function(skipCheck) {
 			if (this.firstShow) {
 				Deluge.Client.on('error', this.onClientError, this);
@@ -137,16 +147,6 @@ Copyright:
 							iconCls: 'x-deluge-icon-warning'
 						});
 					}
-				},
-				scope: this
-			});
-		},
-		
-		onLogout: function() {
-			Deluge.Events.fire('logout');
-			Deluge.Client.auth.delete_session({
-				success: function(result) {
-					this.show(true);
 				},
 				scope: this
 			});
