@@ -72,6 +72,8 @@
 		},
 		
 		update: function(stats) {
+			if (!stats) return;
+			
 			function addSpeed(val) {return val + ' KiB/s'}
 			
 			var updateStat = function(name, config) {
