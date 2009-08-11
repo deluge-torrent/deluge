@@ -47,6 +47,9 @@ class PluginManager(PluginManagerBase, Component):
         Component.__init__(self, "Web.PluginManager")
         self.config = ConfigManager("web.conf")
         PluginManagerBase.__init__(self, "web.conf", "deluge.plugin.web")
+    
+    def _on_get_enabled_plugins(self, plugins):
+        pass
 
     def start(self):
         """
