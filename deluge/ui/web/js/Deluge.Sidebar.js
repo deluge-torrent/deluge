@@ -218,7 +218,7 @@ Copyright:
 					// We need to remove the panel
 					this.panels[filter]
 				}
-			});
+			}, this);
 		},
 		
 		updateFilter: function(filter, states) {
