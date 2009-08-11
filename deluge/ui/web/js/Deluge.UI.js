@@ -74,9 +74,11 @@ Deluge.UI = {
 		Deluge.Client = new Ext.ux.util.RpcClient({
 			url: '/json'
 		});
+		
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
-		});
+		}, this, {single: true});
+		
 		this.update = this.update.bind(this);
 	},
 	
