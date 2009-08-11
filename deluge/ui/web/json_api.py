@@ -138,7 +138,7 @@ class JSON(resource.Resource, component.Component):
     def _on_client_disconnect(self, *args):
         component.get("Web.PluginManager").stop()
 
-    def _exec_local(self, method, params):
+    def _exec_local(self, method, params, request):
         """
         Handles executing all local methods.
         """
@@ -151,7 +151,9 @@ class JSON(resource.Resource, component.Component):
         elif method in self._local_methods:
             # This will eventually process methods that the server adds
             # and any plugins.
-            return self._local_methods[method](*params)
+            meth = self._local_methods[method]
+            meth.func_globals['__request__'] = request
+            return meth(*params)
         raise JSONException("Unknown system method")
 
     def _exec_remote(self, method, params):
@@ -169,25 +171,26 @@ class JSON(resource.Resource, component.Component):
         """
         request_id = None
         try:
-            request = json.loads(request)
+            request.json = json.loads(request.json)
         except ValueError:
             raise JSONException("JSON not decodable")
 
-        if "method" not in request or "id" not in request or \
-           "params" not in request:
+        if "method" not in request.json or "id" not in request.json or \
+           "params" not in request.json:
             raise JSONException("Invalid JSON request")
 
-        method, params = request["method"], request["params"]
-        request_id = request["id"]
+        method, params = request.json["method"], request.json["params"]
+        request_id = request.json["id"]
 
         try:
             if method.startswith("system."):
-                return self._exec_local(method, params), request_id
+                return self._exec_local(method, params, request), request_id
             elif method in self._local_methods:
-                return self._exec_local(method, params), request_id
+                return self._exec_local(method, params, request), request_id
             elif method in self._remote_methods:
                 return self._exec_remote(method, params), request_id
         except Exception, e:
+            log.error("Error calling method `%s`", method)
             log.exception(e)
             d = Deferred()
             d.callback(None)
@@ -215,7 +218,7 @@ class JSON(resource.Resource, component.Component):
         """
         log.debug("json-request: %s", request.json)
         response = {"result": None, "error": None, "id": None}
-        d, response["id"] = self._handle_request(request.json)
+        d, response["id"] = self._handle_request(request)
         d.addCallback(self._on_rpc_request_finished, response, request)
         d.addErrback(self._on_rpc_request_failed, response, request)
         return d
@@ -369,17 +372,17 @@ class WebApi(JSONComponent):
         :returns: The torrent and ui information.
         :rtype: dictionary
         """
+        d = Deferred()
         ui_info = {
             "torrents": None,
             "filters": None,
             "stats": None
         }
-
-        d = Deferred()
-
-        log.info("Updating ui with keys '%r' and filters '%r'", keys,
-                 filter_dict)
-
+        
+        if not client.connected():
+            d.callback(ui_info)
+            return d
+        
         def got_stats(stats):
             ui_info["stats"] = stats
 
