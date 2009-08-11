@@ -302,12 +302,8 @@ Copyright:
 		},
 		
 		onGetHosts: function(hosts) {
-			var store = this.grid.getStore();
+			this.grid.getStore().loadData(hosts);
 			Ext.each(hosts, function(host) {
-				var record = store.getById(host[0]);
-				if (!record) {
-					store.loadData([host], true);
-				}
 				Deluge.Client.web.get_host_status(host[0], {
 					success: this.onGetHostStatus,
 					scope: this
