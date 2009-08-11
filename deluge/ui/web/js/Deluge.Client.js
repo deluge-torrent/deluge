@@ -111,7 +111,7 @@ Ext.namespace('Ext.ux.util');
             } else {
                 options.failure(errorObj, response, requestOptions);
             }
-            this.fireEvent('error', responseObj, response, requestOptions)
+            this.fireEvent('error', errorObj, response, requestOptions)
         },
         
         _onSuccess: function(response, requestOptions) {
