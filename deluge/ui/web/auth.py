@@ -128,7 +128,6 @@ class Auth(JSONComponent):
 
         checksum = str(make_checksum(session_id))
         
-        print 'Adding cookie'
         request.addCookie('_session_id', session_id + checksum,
                 path="/json", expires=expires_str)
         
