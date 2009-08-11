@@ -101,8 +101,6 @@ Copyright:
 				success: function(result) {
 					if (result) {
 						Deluge.Events.fire('login');
-						this.loginForm.items.get('password').setRawValue('');
-						this.hide();
 					} else {
 						this.show(true);
 					}
@@ -164,6 +162,7 @@ Copyright:
 		onShow: function() {
 			var passwordField = this.loginForm.items.get('password');
 			passwordField.focus(false, 150);
+			passwordField.setRawValue('');
 		}
 	});
 	
