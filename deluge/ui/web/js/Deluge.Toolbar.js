@@ -150,8 +150,7 @@ Copyright:
 		
 		onLogout: function() {
 			this.items.get('logout').disable();
-			Deluge.Events.fire('logout');
-			Deluge.Login.show();
+			Deluge.Login.logout();
 		},
 		
 		onConnectionManagerClick: function() {

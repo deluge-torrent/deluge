@@ -40,17 +40,46 @@ AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
+class AuthError(Exception):
+    """
+    An exception that might be raised when checking a request for
+    authentication.
+    """
+    pass
+
 import time
 import random
 import hashlib
 import logging
 
 from twisted.internet.defer import Deferred
+from twisted.internet.task import LoopingCall
 
 from deluge import component
 from deluge.ui.web.json_api import JSONComponent, export
 
 log = logging.getLogger(__name__)
+
+def make_checksum(session_id):
+    return reduce(lambda x,y:x+y, map(ord, session_id))
+
+def get_session_id(session_id):
+    """
+    Checks a session id against its checksum
+    """
+    if not session_id:
+        return None
+    
+    try:
+        checksum = int(session_id[-4:])
+        session_id = session_id[:-4]
+        
+        if checksum == make_checksum(session_id):
+            return session_id
+        return None
+    except Exception, e:
+        log.exception(e)
+        return None
 
 class Auth(JSONComponent):
     """
@@ -59,13 +88,31 @@ class Auth(JSONComponent):
     
     def __init__(self):
         super(Auth, self).__init__("Auth")
+        self.worker = LoopingCall(self._clean_sessions)
+        self.worker.start(5)
     
-    def _create_session(self, login='admin'):
+    def _clean_sessions(self):
+        config = component.get("DelugeWeb").config
+        session_ids = config["sessions"].keys()
+        
+        now = time.gmtime()
+        for session_id in session_ids:
+            session = config["sessions"][session_id]
+            
+            if "expires" not in session:
+                del config["sessions"][session_id]
+                continue
+                
+            if time.gmtime(session["expires"]) < now:
+                del config["sessions"][session_id]
+                continue
+    
+    def _create_session(self, request, login='admin'):
         """
         Creates a new session.
         
         :keyword login: the username of the user logging in, currently \
-        only for future use.
+        only for future use currently.
         :type login: string
         """
         m = hashlib.md5()
@@ -75,6 +122,16 @@ class Auth(JSONComponent):
         m.update(m.hexdigest())
         session_id = m.hexdigest()
         
+        expires = int(time.time()) + 3600
+        expires_str = time.strftime('%a, %d %b %Y %H:%M:%S UTC',
+                time.gmtime(expires))
+
+        checksum = str(make_checksum(session_id))
+        
+        print 'Adding cookie'
+        request.addCookie('_session_id', session_id + checksum,
+                path="/json", expires=expires_str)
+        
         log.debug("Creating session for %s", login)
         config = component.get("DelugeWeb").config
 
@@ -82,9 +139,54 @@ class Auth(JSONComponent):
             config.config["sessions"] = {}
 
         config["sessions"][session_id] = {
-            "login": login
+            "login": login,
+            "level": AUTH_LEVEL_ADMIN,
+            "expires": expires
         }
-        return session_id
+        return True
+    
+    def check_request(self, request, method=None, level=None):
+        """
+        Check to ensure that a request is authorised to call the specified
+        method of authentication level.
+        
+        :param request: The HTTP request in question
+        :type request: twisted.web.http.Request
+        :keyword method: Check the specified method
+        :type method: function
+        :keyword level: Check the specified auth level
+        :type level: integer
+        
+        :raises: Exception
+        """
+
+        config = component.get("DelugeWeb").config
+        session_id = get_session_id(request.getCookie("_session_id"))
+        
+        if session_id not in config["sessions"]:
+            auth_level = AUTH_LEVEL_NONE
+            session_id = None
+        else:
+            auth_level = config["sessions"][session_id]["level"]
+        
+        if method:
+            if not hasattr(method, "_json_export"):
+                raise Exception("Not an exported method")
+            
+            method_level = getattr(method, "_json_auth_level")
+            if method_level is None:
+                raise Exception("Method has no auth level")
+
+            level = method_level
+        
+        if level is None:
+            raise Exception("No level specified to check against")
+        
+        request.auth_level = auth_level
+        request.session_id = session_id
+        
+        if auth_level < level:
+            raise AuthError("Not authenticated")
     
     @export
     def change_password(self, new_password):
@@ -104,25 +206,21 @@ class Auth(JSONComponent):
         config["pwd_sha1"] = s.hexdigest()
         d.callback(True)
         return d
-        
     
-    @export
-    def check_session(self, session_id):
+    @export(AUTH_LEVEL_NONE)
+    def check_session(self, session_id=None):
         """
         Check a session to see if it's still valid.
         
-        :param session_id: the id for the session to remove
-        :type session_id: string
         :returns: True if the session is valid, False if not.
         :rtype: booleon
         """
         d = Deferred()
-        config = component.get("DelugeWeb").config
-        d.callback(session_id in config["sessions"])
+        d.callback(__request__.session_id is not None)
         return d
     
     @export
-    def delete_session(self, session_id):
+    def delete_session(self):
         """
         Removes a session.
         
@@ -131,11 +229,11 @@ class Auth(JSONComponent):
         """
         d = Deferred()
         config = component.get("DelugeWeb").config
-        del config["sessions"][session_id]
+        del config["sessions"][__request__.session_id]
         d.callback(True)
         return d
     
-    @export
+    @export(AUTH_LEVEL_NONE)
     def login(self, password):
         """
         Test a password to see if it's valid.
@@ -177,7 +275,7 @@ class Auth(JSONComponent):
             m.update(password)
             if m.digest() == decodestring(config["old_pwd_md5"]):
                 # We have a match, so we can create and return a session id.
-                d.callback(self._create_session())
+                d.callback(self._create_session(__request__))
                 
                 # We also want to move the password over to sha1 and remove
                 # the old passwords from the config file.
@@ -193,7 +291,7 @@ class Auth(JSONComponent):
             s.update(password)
             if s.hexdigest() == config["pwd_sha1"]:
                 # We have a match, so we can create and return a session id.
-                d.callback(self._create_session())
+                d.callback(self._create_session(__request__))
 
         else:
             # Can't detect which method we should be using so just deny

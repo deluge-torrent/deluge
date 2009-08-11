@@ -56,6 +56,7 @@ json = common.json
 log = logging.getLogger(__name__)
 
 AUTH_LEVEL_DEFAULT = None
+AuthError = None
 
 class JSONComponent(component.Component):
     def __init__(self, name, interval=1, depend=None):
@@ -74,9 +75,9 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     :type auth_level: int
 
     """
-    global AUTH_LEVEL_DEFAULT
+    global AUTH_LEVEL_DEFAULT, AuthError
     if AUTH_LEVEL_DEFAULT is None:
-        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT
+        from deluge.ui.web.auth import AUTH_LEVEL_DEFAULT, AuthError
 
     def wrap(func, *args, **kwargs):
         func._json_export = True
@@ -153,6 +154,7 @@ class JSON(resource.Resource, component.Component):
             # and any plugins.
             meth = self._local_methods[method]
             meth.func_globals['__request__'] = request
+            component.get("Auth").check_request(request, meth)
             return meth(*params)
         raise JSONException("Unknown system method")
 
@@ -160,6 +162,7 @@ class JSON(resource.Resource, component.Component):
         """
         Executes methods using the Deluge client.
         """
+        component.get("Auth").check_request(request, level=AUTH_LEVEL_DEFAULT)
         component, method = method.split(".")
         return getattr(getattr(client, component), method)(*params)
 
@@ -169,7 +172,6 @@ class JSON(resource.Resource, component.Component):
         the rpc object that should be contained, returning a deferred for all
         procedure calls and the request id.
         """
-        request_id = None
         try:
             request.json = json.loads(request.json)
         except ValueError:
@@ -181,20 +183,25 @@ class JSON(resource.Resource, component.Component):
 
         method, params = request.json["method"], request.json["params"]
         request_id = request.json["id"]
+        result = None
+        error = None
 
         try:
-            if method.startswith("system."):
-                return self._exec_local(method, params, request), request_id
-            elif method in self._local_methods:
-                return self._exec_local(method, params, request), request_id
+            if method.startswith("system.") or method in self._local_methods:
+                result = self._exec_local(method, params, request)
             elif method in self._remote_methods:
-                return self._exec_remote(method, params), request_id
+                result = self._exec_remote(method, params)
+            else:
+                error = {"message": "Unknown method", "code": 2}
+        except AuthError, e:
+            error = {"message": "Not authenticated", "code": 1}
         except Exception, e:
             log.error("Error calling method `%s`", method)
             log.exception(e)
-            d = Deferred()
-            d.callback(None)
-            return d, request_id
+            
+            error = {"message": e.message, "code": 3}
+        
+        return request_id, result, error
 
     def _on_rpc_request_finished(self, result, response, request):
         """
@@ -207,7 +214,6 @@ class JSON(resource.Resource, component.Component):
         """
         Handles any failures that occured while making an rpc call.
         """
-        print type(reason)
         request.setResponseCode(http.INTERNAL_SERVER_ERROR)
         return ""
 
@@ -218,10 +224,14 @@ class JSON(resource.Resource, component.Component):
         """
         log.debug("json-request: %s", request.json)
         response = {"result": None, "error": None, "id": None}
-        d, response["id"] = self._handle_request(request)
-        d.addCallback(self._on_rpc_request_finished, response, request)
-        d.addErrback(self._on_rpc_request_failed, response, request)
-        return d
+        response["id"], d, response["error"] = self._handle_request(request)
+
+        if isinstance(d, Deferred):
+            d.addCallback(self._on_rpc_request_finished, response, request)
+            d.addErrback(self._on_rpc_request_failed, response, request)
+            return d
+        else:
+            return self._send_response(request, response)
 
     def _on_json_request_failed(self, reason, request):
         """

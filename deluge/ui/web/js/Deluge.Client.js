@@ -103,28 +103,34 @@ Ext.namespace('Ext.ux.util');
             errorObj = {
                 id: options.id,
                 result: null,
-                error: 'HTTP: ' + response.status + ' ' + response.statusText
-            }            
+                error: {
+                    msg: 'HTTP: ' + response.status + ' ' + response.statusText,
+                    code: 255
+                }
+            }
+            
+            this.fireEvent('error', errorObj, response, requestOptions)
+            
             if (Ext.type(options.failure) != 'function') return;
             if (options.scope) {
                 options.failure.call(options.scope, errorObj, response, requestOptions);
             } else {
                 options.failure(errorObj, response, requestOptions);
-            }
-            this.fireEvent('error', errorObj, response, requestOptions)
+            }            
         },
         
         _onSuccess: function(response, requestOptions) {
             var responseObj = Ext.decode(response.responseText);
             var options = requestOptions.options;
             if (responseObj.error) {
+                this.fireEvent('error', responseObj, response, requestOptions);
+                
                 if (Ext.type(options.failure) != 'function') return;
                 if (options.scope) {
                     options.failure.call(options.scope, responseObj, response, requestOptions);
                 } else {
                     options.failure(responseObj, response, requestOptions);
                 }
-                this.fireEvent('error', responseObj, response, requestOptions)
             } else {
                 if (Ext.type(options.success) != 'function') return;
                 if (options.scope) {

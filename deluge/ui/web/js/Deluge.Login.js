@@ -57,9 +57,7 @@ Copyright:
 		
 		initComponent: function() {
 			Ext.deluge.LoginWindow.superclass.initComponent.call(this);
-			Deluge.Events.on('logout', this.onLogout, this);
 			this.on('show', this.onShow, this);
-			this.on('beforeshow', this.onBeforeShow, this);
 			
 			this.addButton({
 				text: _('Login'),
@@ -89,6 +87,33 @@ Copyright:
 			})
 		},
 		
+		show: function(skipCheck) {
+			if (this.firstShow) {
+				Deluge.Client.on('error', this.onClientError, this);
+				this.firstShow = false;
+			}
+			
+			if (skipCheck) {
+				return Ext.deluge.LoginWindow.superclass.show.call(this);
+			}
+			
+			Deluge.Client.auth.check_session({
+				success: function(result) {
+					if (result) {
+						Deluge.Events.fire('login');
+						this.loginForm.items.get('password').setRawValue('');
+						this.hide();
+					} else {
+						this.show(true);
+					}
+				},
+				failure: function(result) {
+					this.show(true);
+				},
+				scope: this
+			});
+		},
+		
 		onKey: function(field, e) {
 			if (e.getKey() == 13) this.onLogin();
 		},
@@ -101,7 +126,6 @@ Copyright:
 						Deluge.Events.fire('login');
 						this.hide();
 						passwordField.setRawValue('');
-						Deluge.UI.cookies.set("session", result);
 					} else {
 						Ext.MessageBox.show({
 							title: _('Login Failed'),
@@ -121,39 +145,19 @@ Copyright:
 		},
 		
 		onLogout: function() {
-			var session = Deluge.UI.cookies.get("session", false);
-			if (session) {
-				Deluge.Client.auth.delete_session(session, {
-					success: function(result) {
-						Deluge.UI.cookies.clear("session");
-						this.show();
-					},
-					scope: this
-				});
-			}
+			Deluge.Events.fire('logout');
+			Deluge.Client.auth.delete_session({
+				success: function(result) {
+					this.show(true);
+				},
+				scope: this
+			});
 		},
 		
-		onBeforeShow: function() {
-			var session = Deluge.UI.cookies.get("session", false);
-			if (session) {
-				Deluge.Client.auth.check_session(session, {
-					success: function(result) {
-						if (result) {
-							Deluge.Events.fire('login');
-							this.loginForm.items.get('password').setRawValue('');
-							this.hide();
-						} else {
-							Deluge.UI.cookies.clear("session");
-							this.show();
-						}
-					},
-					failure: function(result) {
-						Deluge.UI.cookies.clear("session");
-						this.show();
-					},
-					scope: this
-				});
-				return false;
+		onClientError: function(errorObj, response, requestOptions) {
+			if (errorObj.error.code == 1) {
+				Deluge.Events.fire('logout');
+				this.show(true);
 			}
 		},
 		
