@@ -58,7 +58,9 @@ Ext.namespace('Ext.ux.util');
                  * Fires when the client has retrieved the list of methods from the server.
                  * @param {Ext.ux.util.RpcClient} this
                  */
-                 'connected'
+                 'connected',
+                 
+                 'error'
             );
             this.reloadMethods();
         },
@@ -109,6 +111,7 @@ Ext.namespace('Ext.ux.util');
             } else {
                 options.failure(errorObj, response, requestOptions);
             }
+            this.fireEvent('error', responseObj, response, requestOptions)
         },
         
         _onSuccess: function(response, requestOptions) {
@@ -121,6 +124,7 @@ Ext.namespace('Ext.ux.util');
                 } else {
                     options.failure(responseObj, response, requestOptions);
                 }
+                this.fireEvent('error', responseObj, response, requestOptions)
             } else {
                 if (Ext.type(options.success) != 'function') return;
                 if (options.scope) {
