@@ -296,8 +296,9 @@ class build_docs(BuildDoc):
                 return old_import(name, globals, locals, fromlist, level)
             except ImportError:
                 return FakeModule()
-            except:
-                raise
+            except Exception, e:
+                print "Skipping Exception: ", e
+                return FakeModule()
         __builtins__.__import__ = new_import
         
         BuildDoc.run(self)

@@ -30,3 +30,4 @@ Modules
    modules/*
    modules/*/*
    modules/*/*/*
+   modules/*/*/*/*
