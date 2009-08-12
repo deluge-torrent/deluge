@@ -26,37 +26,37 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('max_connections_global', fieldset.add({
 			name: 'max_connections_global',
 			fieldLabel: _('Maximum Connections'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_upload_slots_global', fieldset.add({
 			name: 'max_upload_slots_global',
 			fieldLabel: _('Maximum Upload Slots'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_download_speed', fieldset.add({
 			name: 'max_download_speed',
 			fieldLabel: _('Maximum Download Speed (KiB/s)'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_upload_speed', fieldset.add({
 			name: 'max_upload_speed',
 			fieldLabel: _('Maximum Upload Speed (KiB/s)'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_half_open_connections', fieldset.add({
 			name: 'max_half_open_connections',
 			fieldLabel: _('Maximum Half-Open Connections'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_connections_per_second', fieldset.add({
 			name: 'max_connections_per_second',
 			fieldLabel: _('Maximum Connection Attempts per Second'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		
@@ -92,25 +92,25 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('max_connections_per_torrent', fieldset.add({
 			name: 'max_connections_per_torrent',
 			fieldLabel: _('Maximum Connections'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_upload_slots_per_torrent', fieldset.add({
 			name: 'max_upload_slots_per_torrent',
 			fieldLabel: _('Maximum Upload Slots'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_download_speed_per_torrent', fieldset.add({
 			name: 'max_download_speed_per_torrent',
 			fieldLabel: _('Maximum Download Speed (KiB/s)'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 		optMan.bind('max_upload_speed_per_torrent', fieldset.add({
 			name: 'max_upload_speed_per_torrent',
 			fieldLabel: _('Maximum Upload Speed (KiB/s)'),
-			width: 60,
+			width: 80,
 			value: -1
 		}));
 	}
