@@ -52,19 +52,19 @@ class InvalidPieceSize(Exception):
     16KiB.
     """
     pass
-    
+
 class TorrentMetadata(object):
     """
     This class is used to create .torrent files.
-    
+
     *** Usage ***
-    
+
     >>> t = TorrentMetadata()
     >>> t.data_path = "/tmp/torrent"
     >>> t.comment = "My Test Torrent"
     >>> t.trackers = [["http://tracker.openbittorent.com"]]
     >>> t.save("/tmp/test.torrent")
-    
+
     """
     def __init__(self):
         self.__data_path = None
@@ -78,15 +78,15 @@ class TorrentMetadata(object):
     def save(self, torrent_path, progress=None):
         """
         Creates and saves the torrent file to `path`.
-        
+
         :param torrent_path: where to save the torrent file
         :type torrent_path: string
-        
+
         :param progress: a function to be called when a piece is hashed
         :type progress: function(num_completed, num_pieces)
-        
+
         :raises InvalidPath: if the data_path has not been set
-        
+
         """
         if not self.data_path:
             raise InvalidPath("Need to set a data_path!")
@@ -94,19 +94,19 @@ class TorrentMetadata(object):
         torrent = {
             "info": {}
             }
-            
+
         if self.comment:
             torrent["comment"] = self.comment.encode("UTF-8")
-        
+
         if self.private:
             torrent["info"]["private"] = True
-        
+
         if self.trackers:
             torrent["announce"] = self.trackers[0][0]
             torrent["announce-list"] = self.trackers
         else:
             torrent["announce"] = ""
-        
+
         if self.webseeds:
             httpseeds = []
             webseeds = []
@@ -120,7 +120,7 @@ class TorrentMetadata(object):
                 torrent["httpseeds"] = httpseeds
             if webseeds:
                 torrent["url-list"] = webseeds
-        
+
         datasize = get_path_size(self.data_path)
 
         if not self.piece_size:
@@ -128,13 +128,13 @@ class TorrentMetadata(object):
             psize = 16384
             while (datasize / psize) > 1024:
                 psize *= 2
-            
+
             self.piece_size = psize
 
         # Calculate the number of pieces we will require for the data
         num_pieces = datasize / self.piece_size
         torrent["info"]["piece length"] = self.piece_size
-        
+
         # Create the info
         if os.path.isdir(self.data_path):
             torrent["info"]["name"] = os.path.split(self.data_path)[1]
@@ -159,7 +159,7 @@ class TorrentMetadata(object):
                             p[-1] = "_____padding_file_" + str(padding_count)
                             files.append((self.piece_size - left, p))
                             padding_count += 1
-            
+
 
             # Run the progress function with 0 completed pieces
             if progress:
@@ -198,7 +198,7 @@ class TorrentMetadata(object):
                 if progress:
                     progress(len(pieces), num_pieces)
                 buf = ""
-            
+
             torrent["info"]["pieces"] = "".join(pieces)
             torrent["info"]["files"] = fs
 
@@ -206,8 +206,8 @@ class TorrentMetadata(object):
             torrent["info"]["name"] = os.path.split(self.data_path)[1]
             torrent["info"]["length"] = get_path_size(self.data_path)
             pieces = []
-            
-            fd = open(self.data_path, "rb")      
+
+            fd = open(self.data_path, "rb")
             r = fd.read(self.piece_size)
             while r:
                 pieces.append(sha(r).digest())
@@ -215,144 +215,137 @@ class TorrentMetadata(object):
                     progress(len(pieces), num_pieces)
 
                 r = fd.read(self.piece_size)
-            
+
             torrent["info"]["pieces"] = "".join(pieces)
-        
+
         # Write out the torrent file
         open(torrent_path, "wb").write(bencode(torrent))
-        
-    @property
-    def data_path(self):
+
+    def get_data_path(self):
         """
         The path to the files that the torrent will contain.  It can be either
         a file or a folder.  This property needs to be set before the torrent
         file can be created and saved.
         """
         return self.__data_path
-    
-    @data_path.setter
-    def data_path(self, path):
+
+    def set_data_path(self, path):
         """
         :param path: the path to the data
         :type path: string
-        
+
         :raises InvalidPath: if the path is not found
-        
+
         """
         if os.path.exists(path) and (os.path.isdir(path) or os.path.isfile(path)):
             self.__data_path = path
         else:
             raise InvalidPath("No such file or directory: %s" % path)
 
-    @property
-    def piece_size(self):
+    def get_piece_size(self):
         """
         The size of pieces in bytes.  The size must be a multiple of 16KiB.
         If you don't set a piece size, one will be automatically selected to
         produce a torrent with less than 1024 pieces.
-        
+
         """
         return self.__piece_size
-    
-    @piece_size.setter
-    def piece_size(self, size):
+
+    def set_piece_size(self, size):
         """
         :param size: the desired piece size in bytes
-        
+
         :raises InvalidPieceSize: if the piece size is not a multiple of 16KiB
-        
+
         """
         if size % 16384 and size:
             raise InvalidPieceSize("Piece size must be a multiple of 16384")
         self.__piece_size = size
-        
-    @property
-    def comment(self):
+
+    def get_comment(self):
         """
         Comment is some extra info to be stored in the torrent.  This is
         typically an informational string.
         """
         return self.__comment
-    
-    @comment.setter
-    def comment(self, comment):
+
+    def set_comment(self, comment):
         """
         :param comment: an informational string
         :type comment: string
         """
         self.__comment = comment
-    
-    @property
-    def private(self):
+
+    def get_private(self):
         """
         Private torrents only announce to the tracker and will not use DHT or
         Peer Exchange.
-        
+
         See: http://bittorrent.org/beps/bep_0027.html
-        
+
         """
         return self.__private
-    
-    @private.setter
-    def private(self, private):
+
+    def set_private(self, private):
         """
         :param private: True if the torrent is to be private
         :type private: bool
         """
         self.__private = private
-    
-    @property
-    def trackers(self):
+
+    def get_trackers(self):
         """
         The announce trackers is a list of lists.
-        
+
         See: http://bittorrent.org/beps/bep_0012.html
-        
+
         """
         return self.__trackers
-    
-    @trackers.setter
-    def trackers(self, trackers):
+
+    def set_trackers(self, trackers):
         """
         :param trackers: a list of lists of trackers, each list is a tier
         :type trackers: list of list of strings
         """
         self.__trackers = trackers
 
-    @property
-    def webseeds(self):
+    def get_webseeds(self):
         """
         The web seeds can either be:
         Hoffman-style: http://bittorrent.org/beps/bep_0017.html
         or,
         GetRight-style: http://bittorrent.org/beps/bep_0019.html
-        
+
         If the url ends in '.php' then it will be considered Hoffman-style, if
         not it will be considered GetRight-style.
         """
         return self.__web_seeds
-    
-    @webseeds.setter
-    def webseeds(self, webseeds):
+
+    def set_webseeds(self, webseeds):
         """
         :param webseeds: the webseeds which can be either Hoffman or GetRight style
         :type webseeds: list of urls
         """
         self.__webseeds = webseeds
 
-    @property
-    def pad_files(self):
+    def get_pad_files(self):
         """
         If this is True, padding files will be added to align files on piece
         boundaries.
         """
         return self.__pad_files
-    
-    @pad_files.setter
-    def pad_files(self, pad):
+
+    def set_pad_files(self, pad):
         """
         :param pad: set True to align files on piece boundaries
         :type pad: bool
         """
         self.__pad_files = pad
 
+    data_path = property(get_data_path, set_data_path)
+    piece_size = property(get_piece_size, set_piece_size)
+    comment = property(get_comment, set_comment)
+    private = property(get_private, set_private)
+    trackers = property(get_trackers, set_trackers)
+    webseeds = property(get_webseeds, set_webseeds)
+    pad_files = property(get_pad_files, set_pad_files)
