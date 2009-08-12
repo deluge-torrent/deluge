@@ -301,6 +301,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.Preferences.js",
         "/js/Deluge.Preferences.Downloads.js",
         "/js/Deluge.Preferences.Network.js",
+        "/js/Deluge.Preferences.Encryption.js",
         "/js/Deluge.Preferences.Bandwidth.js",
         "/js/Deluge.Preferences.Interface.js",
         "/js/Deluge.Preferences.Other.js",
