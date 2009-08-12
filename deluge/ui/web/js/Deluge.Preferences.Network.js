@@ -196,41 +196,6 @@ Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			ctCls: 'x-deluge-indent-checkbox',
 			name: 'dht'
 		}));
-		
-		/*fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			title: _('Encryption'),
-			autoHeight: true,
-			layout: 'column',	
-			defaultType: 'panel',
-			defaults: {
-				border: false,
-				layout: 'form',
-				defaultType: 'combo'
-			}
-		});
-		
-		var column = fieldset.add({
-			
-		});
-		optMan.bind('enc_in_policy', column.add({
-			fieldLabel: _('Inbound'),
-			mode: 'local',
-			store: [
-				[0, _('Forced')],
-				[1, _('Enabled')],
-				[2, _('Disabled')]
-			],
-			//new Ext.data.SimpleStore({
-			//	fields: ['id', 'text'],
-			//	data: 
-			//}),
-			width: 100,
-			//forceSelection: true,
-			//valueField: 'id',
-			//displayField: 'text'
-		}));*/
 	}
 });
 Deluge.Preferences.addPage(new Ext.deluge.preferences.Network());
