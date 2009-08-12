@@ -158,13 +158,13 @@ class JSON(resource.Resource, component.Component):
             return meth(*params)
         raise JSONException("Unknown system method")
 
-    def _exec_remote(self, method, params):
+    def _exec_remote(self, method, params, request):
         """
         Executes methods using the Deluge client.
         """
         component.get("Auth").check_request(request, level=AUTH_LEVEL_DEFAULT)
-        component, method = method.split(".")
-        return getattr(getattr(client, component), method)(*params)
+        core_component, method = method.split(".")
+        return getattr(getattr(client, core_component), method)(*params)
 
     def _handle_request(self, request):
         """
@@ -190,7 +190,7 @@ class JSON(resource.Resource, component.Component):
             if method.startswith("system.") or method in self._local_methods:
                 result = self._exec_local(method, params, request)
             elif method in self._remote_methods:
-                result = self._exec_remote(method, params)
+                result = self._exec_remote(method, params, request)
             else:
                 error = {"message": "Unknown method", "code": 2}
         except AuthError, e:
