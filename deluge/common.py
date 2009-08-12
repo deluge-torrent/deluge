@@ -46,10 +46,12 @@ try:
     import json
 except ImportError:
     import simplejson as json
+    log.info('Using simplejson for json converting')
 
 # Do a little hack here just in case the user has json-py installed since it
 # has a different api
 if not hasattr(json, "dumps"):
+    log.info('Using python-json for json converting')
     json.dumps = json.write
     json.loads = json.read
 
@@ -61,6 +63,8 @@ if not hasattr(json, "dumps"):
 
     json.dump = dump
     json.load = load
+else:
+    log.info('Using simplejson for json converting')
 
 import pkg_resources
 import xdg, xdg.BaseDirectory
