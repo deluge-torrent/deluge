@@ -74,7 +74,7 @@ class Core(component.Component):
         component.Component.__init__(self, "Core")
 
         # Start the libtorrent session
-        log.debug("Starting libtorrent session..")
+        log.info("Starting libtorrent %s session..", lt.version)
 
         # Create the client fingerprint
         version = [int(value.split("-")[0]) for value in deluge.common.get_version().split(".")]
