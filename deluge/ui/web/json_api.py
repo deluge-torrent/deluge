@@ -49,6 +49,7 @@ from deluge import common, component, httpdownloader
 from deluge.configmanager import ConfigManager
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
+from deluge.ui.coreconfig import CoreConfig
 
 from deluge.ui.web.common import _
 json = common.json
@@ -133,6 +134,7 @@ class JSON(resource.Resource, component.Component):
             d = client.daemon.get_method_list()
             d.addCallback(on_get_methods)
             component.get("Web.PluginManager").start()
+            component.get("Web").core_config.start()
         _d.addCallback(on_client_connected)
         return d
 
@@ -315,6 +317,7 @@ class WebApi(JSONComponent):
     def __init__(self):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
+        self.core_config = CoreConfig()
 
     def get_host(self, host_id):
         """
@@ -386,15 +389,22 @@ class WebApi(JSONComponent):
         ui_info = {
             "torrents": None,
             "filters": None,
-            "stats": None
+            "stats": {
+                "max_download": self.core_config.get("max_download_speed"),
+                "max_upload": self.core_config.get("max_upload_speed"),
+                "max_num_connections": self.core_config.get("max_connections_global")
+            }
         }
         
         if not client.connected():
             d.callback(ui_info)
             return d
         
+        def got_connections(connections):
+            ui_info["stats"]["num_connections"] = connections
+        
         def got_stats(stats):
-            ui_info["stats"] = stats
+            ui_info["stats"].update(stats)
 
         def got_filters(filters):
             ui_info["filters"] = filters
@@ -411,10 +421,14 @@ class WebApi(JSONComponent):
         d2 = client.core.get_filter_tree()
         d2.addCallback(got_filters)
 
-        d3 = client.core.get_stats()
+        d3 = client.core.get_session_status(["payload_download_rate", "payload_upload_rate",
+                "dht_nodes", "has_incoming_connections", "download_rate", "upload_rate"])
         d3.addCallback(got_stats)
+        
+        d4 = client.core.get_num_connections()
+        d4.addCallback(got_connections)
 
-        dl = DeferredList([d1, d2, d3], consumeErrors=True)
+        dl = DeferredList([d1, d2, d3, d4], consumeErrors=True)
         dl.addCallback(on_complete)
         return d
 
