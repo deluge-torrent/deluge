@@ -57,7 +57,7 @@ class TorrentMetadata(object):
     """
     This class is used to create .torrent files.
 
-    *** Usage ***
+    ** Usage **
 
     >>> t = TorrentMetadata()
     >>> t.data_path = "/tmp/torrent"
@@ -254,6 +254,7 @@ class TorrentMetadata(object):
     def set_piece_size(self, size):
         """
         :param size: the desired piece size in bytes
+        :type size: int
 
         :raises InvalidPieceSize: if the piece size is not a multiple of 16KiB
 

@@ -37,7 +37,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'Deluge'
-copyright = '2008, Andrew Resch'
+copyright = '2008-2009, Deluge Team'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -159,7 +159,7 @@ htmlhelp_basename = 'delugedoc'
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
   ('index', 'deluge.tex', 'deluge Documentation',
-   'Andrew Resch', 'manual'),
+   'Deluge Team', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

@@ -128,9 +128,9 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
 
 def show_other_dialog(header, type_str, image_stockid=None, image_filename=None, default=0):
     """
-    Shows a dialog with :param:`header` as the header text and :param:`type_str`
+    Shows a dialog with `header` as the header text and `type_str`
     as the type text.  The type of spinbutton (int or float) is determined by
-    :param:`default`s type.
+    `default` type.
 
     :param header: str, the header label text
     :param type_str: str, the type label text, what comes after the spinbutton
@@ -138,11 +138,11 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
     :param image_filename: str, filename of icon in pixmaps folder
     :param default: the default value in the spinbutton
 
-    :returns: None, int or float from spinbutton depending on :param:`default`.
+    :returns: None, int or float from spinbutton depending on `default`.
         None is returned if the user clicks on Cancel.
     :rtype: None, int or float
 
-    :raises TypeError: if :param:`default` is not of type int or float
+    :raises TypeError: if `default` is not of type int or float
 
     """
     if type(default) != int and type(default) != float:
@@ -213,7 +213,7 @@ def get_deluge_icon():
     Returns the deluge icon for use in setting a dialogs icon.  It will first
     attempt to get the icon from the theme and will fallback to using an image
     that is distributed with the package.
-    
+
     """
     if deluge.common.windows_check():
         return get_logo(32)
@@ -223,4 +223,3 @@ def get_deluge_icon():
             return icon_theme.load_icon("deluge", 64, 0)
         except:
             return get_logo(64)
-            

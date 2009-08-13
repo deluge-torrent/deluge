@@ -44,10 +44,11 @@ class RemoveTorrentDialog(object):
     """
     This class is used to create and show a Remove Torrent Dialog.
 
-    :param torrent_ids: a list of torrent_ids to remove
+    :param torrent_ids: the torrent_ids to remove
+    :type torrent_ids: list of torrent_ids
 
-    :raises TypeError: if :param:`torrent_id` is not a sequence type
-    :raises ValueError: if :param:`torrent_id` contains no torrent_ids or is None
+    :raises TypeError: if `torrent_id` is not a sequence type
+    :raises ValueError: if `torrent_id` contains no torrent_ids or is None
 
     """
     def __init__(self, torrent_ids):
