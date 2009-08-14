@@ -70,6 +70,11 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     def wrap(func, *args, **kwargs):
         func._rpcserver_export = True
         func._rpcserver_auth_level = auth_level
+        doc = func.__doc__
+        func.__doc__ = "RPC Exported Function\n\n"
+        if doc:
+            func.__doc__ += doc
+
         return func
 
     if type(auth_level) is FunctionType:
