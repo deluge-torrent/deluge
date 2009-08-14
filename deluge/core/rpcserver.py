@@ -61,17 +61,19 @@ RPC_EVENT = 3
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """
     Decorator function to register an object's method as an RPC.  The object
-    will need to be registered with an `:class:RPCServer` to be effective.
+    will need to be registered with an :class:`RPCServer` to be effective.
 
-    :param func: function, the function to export
-    :param auth_level: int, the auth level required to call this method
+    :param func: the function to export
+    :type func: function
+    :param auth_level: the auth level required to call this method
+    :type auth_level: int
 
     """
     def wrap(func, *args, **kwargs):
         func._rpcserver_export = True
         func._rpcserver_auth_level = auth_level
         doc = func.__doc__
-        func.__doc__ = "RPC Exported Function\n\n"
+        func.__doc__ = "**RPC Exported Function** (*Auth Level: %s*)\n\n" % auth_level
         if doc:
             func.__doc__ += doc
 
@@ -112,10 +114,11 @@ class DelugeRPCProtocol(Protocol):
         This method is called whenever data is received from a client.  The
         only message that a client sends to the server is a RPC Request message.
         If the RPC Request message is valid, then the method is called in a thread
-        with _dispatch().
+        with :meth:`dispatch`.
 
-        :param data: str, the data from the client. It should be a zlib compressed
+        :param data: the data from the client. It should be a zlib compressed
             rencoded string.
+        :type data: str
 
         """
         if self.__buffer:
@@ -166,7 +169,7 @@ class DelugeRPCProtocol(Protocol):
                     pass
                     #log.debug("RPCRequest: %s", s)
 
-                reactor.callLater(0, self._dispatch, *call)
+                reactor.callLater(0, self.dispatch, *call)
 
     def sendData(self, data):
         """
@@ -191,7 +194,8 @@ class DelugeRPCProtocol(Protocol):
         """
         This method is called when the client is disconnected.
 
-        :param reason: str, the reason the client disconnected.
+        :param reason: the reason the client disconnected.
+        :type reason: str
 
         """
 
@@ -204,16 +208,20 @@ class DelugeRPCProtocol(Protocol):
 
         log.info("Deluge client disconnected: %s", reason.value)
 
-    def _dispatch(self, request_id, method, args, kwargs):
+    def dispatch(self, request_id, method, args, kwargs):
         """
         This method is run when a RPC Request is made.  It will run the local method
         and will send either a RPC Response or RPC Error back to the client.
 
-        :param request_id: int, the request_id from the client (sent in the RPC Request)
-        :param method: str, the local method to call. It must be registered with
-            the `:class:RPCServer`.
-        :param args: list, the arguments to pass to `:param:method`
-        :param kwargs: dict, the keyword-arguments to pass to `:param:method`
+        :param request_id: the request_id from the client (sent in the RPC Request)
+        :type request_id: int
+        :param method: the local method to call. It must be registered with
+            the :class:`RPCServer`.
+        :type method: str
+        :param args: the arguments to pass to `method`
+        :type args: list
+        :param kwargs: the keyword-arguments to pass to `method`
+        :type kwargs: dict
 
         """
         def sendError():
@@ -301,10 +309,14 @@ class RPCServer(component.Component):
     registered with this class and their methods are exported using the export
     decorator.
 
-    :param port: int, the port the RPCServer will listen on
-    :param interface: str, the interface to listen on, this may override the `:param:allow_remote` setting
-    :param allow_remote: bool, set True if the server should allow remote connections
-    :param listen: bool, if False, will not start listening.. This is only useful in Classic Mode
+    :param port: the port the RPCServer will listen on
+    :type port: int
+    :param interface: the interface to listen on, this may override the `allow_remote` setting
+    :type interface: str
+    :param allow_remote: set True if the server should allow remote connections
+    :type allow_remote: bool
+    :param listen: if False, will not start listening.. This is only useful in Classic Mode
+    :type listen: bool
     """
 
     def __init__(self, port=58846, interface="", allow_remote=False, listen=True):
@@ -349,8 +361,10 @@ class RPCServer(component.Component):
         Registers an object to export it's rpc methods.  These methods should
         be exported with the export decorator prior to registering the object.
 
-        :param obj: object, the object that we want to export
-        :param name: str, the name to use, if None, it will be the class name of the object
+        :param obj: the object that we want to export
+        :type obj: object
+        :param name: the name to use, if None, it will be the class name of the object
+        :type name: str
         """
         if not name:
             name = obj.__class__.__name__.lower()
@@ -366,11 +380,12 @@ class RPCServer(component.Component):
         """
         Returns a registered method.
 
-        :param name: str, the name of the method, usually in the form of 'object.method'
+        :param name: the name of the method, usually in the form of 'object.method'
+        :type name: str
 
         :returns: method
 
-        :raises KeyError: if `:param:name` is not registered
+        :raises KeyError: if `name` is not registered
 
         """
         return self.factory.methods[name]
@@ -379,7 +394,8 @@ class RPCServer(component.Component):
         """
         Returns a list of the exported methods.
 
-        :returns: list, the exported methods
+        :returns: the exported methods
+        :rtype: list
         """
         return self.factory.methods.keys()
 
@@ -387,7 +403,8 @@ class RPCServer(component.Component):
         """
         Emits the event to interested clients.
 
-        :param event: DelugeEvent
+        :param event: the event to emit
+        :type event: :class:`deluge.event.DelugeEvent`
         """
         log.debug("intevents: %s", self.factory.interested_events)
         # Find sessions interested in this event
@@ -400,7 +417,9 @@ class RPCServer(component.Component):
                 )
 
 def check_ssl_keys():
-    # Check for SSL cert/key and create them if necessary
+    """
+    Check for SSL cert/key and create them if necessary
+    """
     ssl_dir = deluge.configmanager.get_config_dir("ssl")
     if not os.path.exists(ssl_dir):
         # The ssl folder doesn't exist so we need to create it
