@@ -162,7 +162,12 @@ class Command(BaseCommand):
         self.console.write(s)
 
         if not status["is_finished"]:
-            pbar = format_progressbar(status["progress"], self.console.screen.cols - (13 + len("%.2f%%" % status["progress"])))
+            if hasattr(self.console, "screen"):
+                cols = self.console.screen.cols
+            else:
+                cols = 80
+
+            pbar = format_progressbar(status["progress"], cols - (13 + len("%.2f%%" % status["progress"])))
             s = "{!info!}Progress: {!input!}%.2f%% %s" % (status["progress"], pbar)
             self.console.write(s)
 
