@@ -40,9 +40,7 @@ import deluge.ui.console.colors as colors
 import deluge.component as component
 
 class Command(BaseCommand):
-    """
-    Manage plugins with this command.
-    """
+    """Manage plugins with this command"""
     option_list = BaseCommand.option_list + (
             make_option('-l', '--list', action='store_true', default=False, dest='list',
                         help='lists available plugins'),
