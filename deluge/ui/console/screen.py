@@ -90,8 +90,6 @@ class Screen(CursesStdIO):
         self.topbar = ""
         self.bottombar = ""
 
-        self.rows, self.cols = self.stdscr.getmaxyx()
-
         # A list of strings to be displayed based on the offset (scroll)
         self.lines = []
         # The offset to display lines
@@ -126,6 +124,7 @@ class Screen(CursesStdIO):
         :param text: str, the text to show
         """
 
+        rows, cols = self.stdscr.getmaxyx()
         def get_line_chunks(line):
             """
             Returns a list of 2-tuples (color string, text)
@@ -161,13 +160,13 @@ class Screen(CursesStdIO):
                 log.error("Passed a bad colored string..")
                 line_length = len(line)
 
-            if line_length >= (self.cols - 1):
+            if line_length >= (cols - 1):
                 s = ""
                 # The length of the text without the color tags
                 s_len = 0
                 # We need to split this over multiple lines
                 for chunk in get_line_chunks(line):
-                    if (len(chunk[1]) + s_len) < (self.cols - 1):
+                    if (len(chunk[1]) + s_len) < (cols - 1):
                         # This chunk plus the current string in 's' isn't over
                         # the maximum width, so just append the color tag and text
                         s += chunk[0] + chunk[1]
@@ -176,7 +175,7 @@ class Screen(CursesStdIO):
                         # The chunk plus the current string in 's' is too long.
                         # We need to take as much of the chunk and put it into 's'
                         # with the color tag.
-                        remain = (self.cols - 1) - s_len
+                        remain = (cols - 1) - s_len
                         s += chunk[0] + chunk[1][:remain]
                         # We append the line since it's full
                         self.lines.append(s)
@@ -202,6 +201,7 @@ class Screen(CursesStdIO):
         :param row: int, the row number to write the string
 
         """
+        rows, cols = self.stdscr.getmaxyx()
         col = 0
         try:
             parsed = colors.parse_color_string(string)
@@ -212,7 +212,7 @@ class Screen(CursesStdIO):
         for index, (color, s) in enumerate(parsed):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
-                s += " " * (self.cols - (col + len(s)) - 1)
+                s += " " * (cols - (col + len(s)) - 1)
             self.stdscr.addstr(row, col, s, color)
             col += len(s)
 
@@ -223,14 +223,14 @@ class Screen(CursesStdIO):
         attribute and the status bars.
         """
         self.stdscr.clear()
-        self.rows, self.cols = self.stdscr.getmaxyx()
+        rows, cols = self.stdscr.getmaxyx()
 
         # Update the status bars
         self.add_string(0, self.topbar)
-        self.add_string(self.rows - 2, self.bottombar)
+        self.add_string(rows - 2, self.bottombar)
 
         # The number of rows minus the status bars and the input line
-        available_lines = self.rows - 3
+        available_lines = rows - 3
         # If the amount of lines exceeds the number of rows, we need to figure out
         # which ones to display based on the offset
         if len(self.lines) > available_lines:
@@ -248,10 +248,10 @@ class Screen(CursesStdIO):
             self.add_string(index + 1, line)
 
         # Add the input string
-        self.add_string(self.rows - 1, self.input)
+        self.add_string(rows - 1, self.input)
 
         # Move the cursor
-        self.stdscr.move(self.rows - 1, self.input_cursor)
+        self.stdscr.move(rows - 1, self.input_cursor)
         self.stdscr.refresh()
 
     def doRead(self):
@@ -266,6 +266,7 @@ class Screen(CursesStdIO):
             reactor.stop()
 
     def _doRead(self):
+        rows, cols = self.stdscr.getmaxyx()
         # Read the character
         c = self.stdscr.getch()
 
@@ -338,14 +339,14 @@ class Screen(CursesStdIO):
 
         # Scrolling through buffer
         elif c == curses.KEY_PPAGE:
-            self.display_lines_offset += self.rows - 3
+            self.display_lines_offset += rows - 3
             # We substract 3 for the unavailable lines and 1 extra due to len(self.lines)
-            if self.display_lines_offset > (len(self.lines) - 4 - self.rows):
-                self.display_lines_offset = len(self.lines) - 4 - self.rows
+            if self.display_lines_offset > (len(self.lines) - 4 - rows):
+                self.display_lines_offset = len(self.lines) - 4 - rows
 
             self.refresh()
         elif c == curses.KEY_NPAGE:
-            self.display_lines_offset -= self.rows - 3
+            self.display_lines_offset -= rows - 3
             if self.display_lines_offset < 0:
                 self.display_lines_offset = 0
             self.refresh()
@@ -372,8 +373,8 @@ class Screen(CursesStdIO):
             self.tab_count = 0
 
         # Update the input string on the screen
-        self.add_string(self.rows - 1, self.input)
-        self.stdscr.move(self.rows - 1, self.input_cursor)
+        self.add_string(rows - 1, self.input)
+        self.stdscr.move(rows - 1, self.input_cursor)
         self.stdscr.refresh()
 
     def close(self):
