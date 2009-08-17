@@ -86,7 +86,7 @@ class OptionParser(optparse.OptionParser):
            If you override this in a subclass, it should not return -- it
            should either exit or raise an exception.
         """
-        raise
+        raise Exception(msg)
 
 class BaseCommand(object):
 
@@ -266,7 +266,12 @@ class ConsoleUI(component.Component):
                 parser._print_help(f)
         parser.print_help = print_help
 
-        options, args = parser.parse_args(args)
+        try:
+            options, args = parser.parse_args(args)
+        except Exception, e:
+            self.write("{!error!}Error parsing options: %s" % e)
+            return
+
         if not getattr(options, '_exit', False):
             try:
                 ret = self._commands[cmd].handle(*args, **options.__dict__)
