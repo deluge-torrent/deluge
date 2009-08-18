@@ -90,8 +90,6 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.addButton(_('Apply'), this.onApply, this);
 		this.addButton(_('Ok'), this.onOk, this);
 		
-		this.optionsManager = new Deluge.OptionsManager();
-		
 		this.pages = {};
 		this.optionsManager = new Deluge.OptionsManager();
 		this.on('show', this.onShow, this);
