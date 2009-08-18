@@ -121,8 +121,10 @@ class Auth(JSONComponent):
         m.update(str(random.getrandbits(40)))
         m.update(m.hexdigest())
         session_id = m.hexdigest()
+
+        config = component.get("DelugeWeb").config
         
-        expires = int(time.time()) + 3600
+        expires = int(time.time()) + config["session_timeout"]
         expires_str = time.strftime('%a, %d %b %Y %H:%M:%S UTC',
                 time.gmtime(expires))
 

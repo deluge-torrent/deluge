@@ -85,6 +85,7 @@ CONFIG_DEFAULTS = {
     "pwd_salt": "c26ab3bbd8b137f99cd83c2c1c0963bcc1a35cad",
     "pwd_sha1": "2ce1a410bcdcc53064129b6d950f2e9fee4edc1e",
     "base": "",
+    "session_timeout": 3600,
     "sessions": {},
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
