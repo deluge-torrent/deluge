@@ -127,11 +127,9 @@ class TorrentMetadata(object):
             piece_size = piece_size * 1024
         else:
             # We need to calculate a piece size
-            psize = 16384
-            while (datasize / psize) > 1024 and psize < 8192 * 1024:
-                psize *= 2
-
-            piece_size = psize / 1024
+            piece_size = 16384
+            while (datasize / piece_size) > 1024 and piece_size < (8192 * 1024):
+                piece_size *= 2
 
         # Calculate the number of pieces we will require for the data
         num_pieces = datasize / piece_size
