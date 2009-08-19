@@ -168,7 +168,9 @@ class Auth(JSONComponent):
             auth_level = AUTH_LEVEL_NONE
             session_id = None
         else:
-            auth_level = config["sessions"][session_id]["level"]
+            session = config["sessions"][session_id]
+            auth_level = session["level"]
+            session["expires"] = int(time.time()) + config["session_timeout"]
         
         if method:
             if not hasattr(method, "_json_export"):
