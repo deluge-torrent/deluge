@@ -693,3 +693,19 @@ class WebApi(JSONComponent):
         self.host_list.save()
         d.callback(True)
         return d
+    
+    @export
+    def get_config(self):
+        """
+        Get the configuration dictionary for the web interface.
+        
+        :rtype: dictionary
+        :returns: the configuration
+        """
+        
+        config = component.get("DelugeWeb").config.config.copy()
+        del config["sessions"]
+        del config["pwd_salt"]
+        del config["pwd_sha1"]
+        return config
+        

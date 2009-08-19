@@ -90,6 +90,7 @@ CONFIG_DEFAULTS = {
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
     "show_keyword_search": False,
+    "show_session_speed": False,
     "show_sidebar": True,
     "cache_templates": False,
     "https": False,
