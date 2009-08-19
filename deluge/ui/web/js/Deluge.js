@@ -45,6 +45,11 @@ Ext.namespace('Ext.deluge');
 	});
 	
 	Ext.apply(Ext, {
+		isObjectEmpty: function(obj) {
+			for(var i in obj) { return false; }
+			return true;
+		},
+		
 		keys: function(obj) {
 			var keys = [];
 			for (i in obj) if (obj.hasOwnProperty(i))

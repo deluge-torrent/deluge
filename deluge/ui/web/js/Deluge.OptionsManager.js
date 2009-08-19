@@ -101,12 +101,17 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @returns {Object} the options value.
 	 */
 	get: function() {
+		if (arguments.length == 1) {
+			var option = arguments[0];
+			return (this.isDirty(option)) ? this.changed[option] : this.options[option];
+		} else {
 		var options = {};
 		Ext.each(arguments, function(option) {
 			if (!this.has(option)) return;
 			options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
 		}, this);
 		return options;
+		}
 	},
 	
 	/**
@@ -190,16 +195,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 				this.update(key, option[key]);
 			}
 		} else {
-			var oldValue = this.get(option);
-			if (oldValue == value) return;
-			
 			var defaultValue = this.getDefault(option);
-			if (defaultValue == value) {
-				if (this.isDirty(option)) delete this.changed[option];
-				this.fireEvent('changed', option, value, oldValue);
-				return;
-			}
-			
 			if (Ext.type(defaultValue) != Ext.type(value)) {
 				switch (Ext.type(defaultValue)) {
 					case 'string':
@@ -212,6 +208,15 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 						value = Boolean(value);
 						break;
 				}
+			}			
+			
+			var oldValue = this.get(option);
+			if (oldValue == value) return;
+			
+			if (defaultValue == value) {
+				if (this.isDirty(option)) delete this.changed[option];
+				this.fireEvent('changed', option, value, oldValue);
+				return;
 			}
 
 			this.changed[option] = value;

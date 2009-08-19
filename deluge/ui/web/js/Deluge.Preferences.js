@@ -97,20 +97,26 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	
 	onApply: function(e) {
 		var changed = this.optionsManager.getDirty();
-		Deluge.Client.core.set_config(changed, {
-			success: this.onSetConfig,
-			scope: this
-		});
+		if (!Ext.isObjectEmpty(changed)) {
+			Deluge.Client.core.set_config(changed, {
+				success: this.onSetConfig,
+				scope: this
+			});
+		}
+		
+		for (var page in this.pages) {
+			if (this.pages[page].onApply) this.pages[page].onApply();
+		}
 	},
 	
 	onClose: function() {
 		this.hide();
 	},
 
-    onOk: function() {
+	onOk: function() {
 		Deluge.Client.core.set_config(this.optionsManager.getDirty());
-        this.hide();
-    },
+		this.hide();
+	},
 	
 	addPage: function(page) {
 		var store = this.categoriesGrid.getStore();
