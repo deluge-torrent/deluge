@@ -118,6 +118,10 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.hide();
 	},
 	
+	/**
+	 * Adds a page to the preferences window.
+	 * @param {mixed} page
+	 */
 	addPage: function(page) {
 		var store = this.categoriesGrid.getStore();
 		var name = page.title;
@@ -127,9 +131,9 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	},
 	
 	/**
-	* Return the options manager for the preferences window.
-	* @returns {Deluge.OptionsManager} the options manager
-	*/
+	 * Return the options manager for the preferences window.
+	 * @returns {Deluge.OptionsManager} the options manager
+	 */
 	getOptionsManager: function() {
 		return this.optionsManager;
 	},
