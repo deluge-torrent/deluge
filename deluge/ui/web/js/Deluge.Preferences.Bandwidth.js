@@ -121,6 +121,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			border: false,
 			title: _('Per Torrent Bandwidth Usage'),
+			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			defaultType: 'uxspinner',
 			labelWidth: 200,
 			autoHeight: true

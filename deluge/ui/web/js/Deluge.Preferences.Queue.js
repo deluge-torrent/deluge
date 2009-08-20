@@ -18,6 +18,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			border: false,
 			title: _('General'),
+			style: 'padding-top: 5px;',
 			autoHeight: true,
 			labelWidth: 1,
 			defaultType: 'checkbox'

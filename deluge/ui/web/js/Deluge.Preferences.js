@@ -82,6 +82,7 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 			header: false,
 			layout: 'fit',
 			height: 400,
+			autoScroll: true,
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		});
