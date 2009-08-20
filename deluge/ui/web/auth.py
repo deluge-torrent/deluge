@@ -146,6 +146,59 @@ class Auth(JSONComponent):
         }
         return True
     
+    def check_password(self, password):
+        config = component.get("DelugeWeb").config
+        if "pwd_md5" in config.config:
+            # We are using the 1.2-dev auth method
+            log.debug("Received a password via the 1.2-dev auth method")
+            m = hashlib.md5()
+            m.update(config["pwd_salt"])
+            m.update(password)
+            if m.hexdigest() == config['pwd_md5']:
+                # We want to move the password over to sha1 and remove
+                # the old passwords from the config file.
+                self.change_password(password)
+                del config.config["pwd_md5"]
+                
+                # Remove the older password if there is now.
+                if "old_pwd_md5" in config.config:
+                    del config.config["old_pwd_salt"]
+                    del config.config["old_pwd_md5"]
+                
+                return True
+        
+        elif "old_pwd_md5" in config.config:
+            # We are using the 1.1 webui auth method
+            log.debug("Received a password via the 1.1 auth method")
+            from base64 import decodestring
+            m = hashlib.md5()
+            m.update(decodestring(config["old_pwd_salt"]))
+            m.update(password)
+            if m.digest() == decodestring(config["old_pwd_md5"]):
+                
+                # We want to move the password over to sha1 and remove
+                # the old passwords from the config file.
+                self.change_password(password)
+                del config.config["old_pwd_salt"]
+                del config.config["old_pwd_md5"]
+                
+                return True
+
+        elif "pwd_sha1" in config.config:
+            # We are using the 1.2 auth method
+            log.debug("Received a password via the 1.2 auth method")
+            s = hashlib.sha1()
+            s.update(config["pwd_salt"])
+            s.update(password)
+            if s.hexdigest() == config["pwd_sha1"]:
+                return True
+
+        else:
+            # Can't detect which method we should be using so just deny
+            # access.
+            log.debug("Failed to detect the login method")
+            return False
+    
     def check_request(self, request, method=None, level=None):
         """
         Check to ensure that a request is authorised to call the specified
@@ -192,15 +245,22 @@ class Auth(JSONComponent):
             raise AuthError("Not authenticated")
     
     @export
-    def change_password(self, new_password):
+    def change_password(self, old_password, new_password):
         """
         Change the password.
         
+        :param old_password: the current password
+        :type old_password: string
         :param new_password: the password to change to
         :type new_password: string
         """
-        log.debug("Changing password")
         d = Deferred()
+        
+        if not self.check_password(old_password):
+            d.callback(False)
+            return d
+        
+        log.debug("Changing password")        
         salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
         s = hashlib.sha1(salt)
         s.update(new_password)
@@ -246,60 +306,10 @@ class Auth(JSONComponent):
         :returns: a session id or False
         :rtype: string or False
         """
-        config = component.get("DelugeWeb").config
+        
         d = Deferred()
-        
-        if "pwd_md5" in config.config:
-            # We are using the 1.2-dev auth method
-            log.debug("Received a login via the 1.2-dev auth method")
-            m = hashlib.md5()
-            m.update(config["pwd_salt"])
-            m.update(password)
-            if m.hexdigest() == config['pwd_md5']:
-                # We have a match, so we can create and return a session id.
-                d.callback(self._create_session())
-                
-                # We also want to move the password over to sha1 and remove
-                # the old passwords from the config file.
-                self.change_password(password)
-                del config.config["pwd_md5"]
-                
-                # Remove the older password if there is now.
-                if "old_pwd_md5" in config.config:
-                    del config.config["old_pwd_salt"]
-                    del config.config["old_pwd_md5"]
-        
-        elif "old_pwd_md5" in config.config:
-            # We are using the 1.1 webui auth method
-            log.debug("Received a login via the 1.1 auth method")
-            from base64 import decodestring
-            m = hashlib.md5()
-            m.update(decodestring(config["old_pwd_salt"]))
-            m.update(password)
-            if m.digest() == decodestring(config["old_pwd_md5"]):
-                # We have a match, so we can create and return a session id.
-                d.callback(self._create_session(__request__))
-                
-                # We also want to move the password over to sha1 and remove
-                # the old passwords from the config file.
-                self.change_password(password)
-                del config.config["old_pwd_salt"]
-                del config.config["old_pwd_md5"]
-
-        elif "pwd_sha1" in config.config:
-            # We are using the 1.2 auth method
-            log.debug("Received a login via the 1.2 auth method")
-            s = hashlib.sha1()
-            s.update(config["pwd_salt"])
-            s.update(password)
-            if s.hexdigest() == config["pwd_sha1"]:
-                # We have a match, so we can create and return a session id.
-                d.callback(self._create_session(__request__))
-
+        if self.check_password(password):
+            d.callback(self._create_session(__request__))
         else:
-            # Can't detect which method we should be using so just deny
-            # access.
-            log.debug("Failed to detect the login method")
             d.callback(False)
-
         return d
