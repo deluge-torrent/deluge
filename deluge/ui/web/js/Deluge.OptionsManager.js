@@ -85,6 +85,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		field.on('blur', this.onFieldBlur, this);
 		field.on('change', this.onFieldChange, this);
 		field.on('check', this.onFieldChange, this);
+		return field;
 	},
 
 	/**
