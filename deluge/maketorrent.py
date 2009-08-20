@@ -133,6 +133,9 @@ class TorrentMetadata(object):
 
         # Calculate the number of pieces we will require for the data
         num_pieces = datasize / piece_size
+        if datasize % piece_size:
+            num_pieces += 1
+
         torrent["info"]["piece length"] = piece_size
 
         # Create the info
