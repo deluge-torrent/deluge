@@ -78,7 +78,8 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @param {Ext.form.Field} field
 	 */
 	bind: function(option, field) {
-		this.binds[option] = field;
+		this.binds[option] = this.binds[option] || [];
+		this.binds[option].push(field);
 		field._doption = option;
 		
 		field.on('focus', this.onFieldFocus, this);
@@ -258,11 +259,13 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		// If we don't have a bind there's nothing to do.
 		if (Ext.isEmpty(this.binds[option])) return;
 		
-		// The field is currently focused so we don't want to change
-		// it.
-		if (this.binds[option] == this.focused) return;
-
-		// Set the form field to the new value.
-		this.binds[option].setValue(newValue);
+		Ext.each(this.binds[option], function(bind) {
+			// The field is currently focused so we don't want to 
+			// change it.
+			if (bind == this.focused) return;
+	
+			// Set the form field to the new value.
+			bind.setValue(newValue);
+		}, this)
 	}
 });
