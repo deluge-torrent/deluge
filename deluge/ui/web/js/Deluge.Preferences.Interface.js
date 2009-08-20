@@ -94,10 +94,32 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 				}
 			}
 		});
+		
+		fieldset = this.add({
+			xtype: 'fieldset',
+			border: false,
+			title: _('Session'),
+			autoHeight: true,
+			labelWidth: 110,
+			defaultType: 'uxspinner',
+			defaults: {
+				width: 80,
+			}
+		});
+		optMan.bind('session_timeout', fieldset.add({
+			name: 'session_timeout',
+			fieldLabel: _('Session Timeout')
+		}));
 	},
 	
 	onApply: function() {
-		alert('apply');
+		var changed = this.optionsManager.getDirty();
+		if (!Ext.isObjectEmpty(changed)) {
+			Deluge.Client.web.set_config(changed, {
+				success: this.onSetConfig,
+				scope: this
+			});
+		}
 	},
 	
 	onGotConfig: function(config) {
@@ -147,6 +169,10 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			},
 			scope: this
 		});
+	},
+	
+	onSetConfig: function() {
+		this.getOptionsManager().commit();
 	},
 	
 	onShow: function() {
