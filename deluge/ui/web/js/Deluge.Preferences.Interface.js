@@ -92,6 +92,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			border: false,
 			title: _('Server'),
+			style: 'margin-top: 5px; padding-top: 5px;',
 			autoHeight: true,
 			labelWidth: 110,
 			defaultType: 'uxspinner',
