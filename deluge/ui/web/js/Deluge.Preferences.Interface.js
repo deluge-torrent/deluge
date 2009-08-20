@@ -105,7 +105,8 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onPasswordChange: function() {
-		if (this.newPassword.getValue() != this.confirmPassword.getValue()) {
+		var newPassword = this.newPassword.getValue();
+		if (newPassword != this.confirmPassword.getValue()) {
 			Ext.MessageBox.show({
 				title: _('Invalid Password'),
 				msg: _('Your passwords don\'t match!'),
@@ -117,9 +118,10 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			return;
 		}
 		
-		Deluge.Client.auth.change_password(this.oldPassword.getValue(), this.newPassword.getValue(), {
+		var oldPassword = this.oldPassword.getValue();
+		Deluge.Client.auth.change_password(oldPassword, newPassword, {
 			success: function(result) {
-				if (result) {
+				if (!result) {
 					Ext.MessageBox.show({
 						title: _('Password'),
 						msg: _('Your old password was incorrect!'),
@@ -128,6 +130,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 						icon: Ext.MessageBox.ERROR,
 						iconCls: 'x-deluge-icon-error'
 					});
+					this.oldPassword.setValue('');
 				} else {
 					Ext.MessageBox.show({
 						title: _('Change Successful'),
@@ -137,8 +140,12 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 						icon: Ext.MessageBox.INFO,
 						iconCls: 'x-deluge-icon-info'
 					});
+					this.oldPassword.setValue('');
+					this.newPassword.setValue('');
+					this.confirmPassword.setValue('');
 				}
-			}
+			},
+			scope: this
 		});
 	},
 	
