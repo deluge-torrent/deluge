@@ -360,19 +360,15 @@ class WebApi(JSONComponent):
         :returns: True if the client is connected
         :rtype: booleon
         """
-        d = Deferred()
-        d.callback(client.connected())
-        return d
+        return client.connected()
 
     @export
     def disconnect(self):
         """
         Disconnect the web interface from the connected daemon.
         """
-        d =  Deferred()
         client.disconnect()
-        d.callback(True)
-        return d
+        return True
 
     @export
     def update_ui(self, keys, filter_dict):
@@ -514,13 +510,11 @@ class WebApi(JSONComponent):
             
         :rtype: dictionary
         """
-        d = Deferred()
         try:
             torrent_info = uicommon.TorrentInfo(filename.strip())
-            d.callback(torrent_info.as_dict("name", "info_hash", "files_tree"))
+            return torrent_info.as_dict("name", "info_hash", "files_tree")
         except:
-            d.callback(False)
-        return d
+            return False
 
     @export
     def add_torrents(self, torrents):
@@ -545,9 +539,7 @@ class WebApi(JSONComponent):
             log.info("Adding torrent from file `%s` with options `%r`",
                      filename, torrent["options"])
             client.core.add_torrent_file(filename, fdump, torrent["options"])
-        d = Deferred()
-        d.callback(True)
-        return d
+        return True
 
     @export
     def get_hosts(self):
@@ -555,9 +547,7 @@ class WebApi(JSONComponent):
         Return the hosts in the hostlist.
         """
         log.debug("get_hosts called")
-        d = Deferred()
-        d.callback([(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]])
-        return d
+        return [(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):
@@ -656,26 +646,23 @@ class WebApi(JSONComponent):
         :type password: string
 
         """
-        d = Deferred()
         # Check to see if there is already an entry for this host and return
         # if thats the case
         for entry in self.host_list["hosts"]:
             if (entry[0], entry[1], entry[2]) == (host, port, username):
-                d.callback((False, "Host already in the list"))
+                return (False, "Host already in the list")
 
         try:
             port = int(port)
         except:
-            d.callback((False, "Port is invalid"))
-            return d
+            return (False, "Port is invalid")
 
         # Host isn't in the list, so lets add it
         connection_id = hashlib.sha1(str(time.time())).hexdigest()
         self.host_list["hosts"].append([connection_id, host, port, username,
                                         password])
         self.host_list.save()
-        d.callback((True,))
-        return d
+        return (True,)
 
     @export
     def remove_host(self, connection_id):
@@ -685,15 +672,13 @@ class WebApi(JSONComponent):
         :param host_id: the hash id of the host
         :type host_id: string
         """
-        d = Deferred()
         host = self.get_host(connection_id)
         if host is None:
-            d.callback(False)
+            return False
 
         self.host_list["hosts"].remove(host)
         self.host_list.save()
-        d.callback(True)
-        return d
+        return True
     
     @export
     def get_config(self):

@@ -254,11 +254,8 @@ class Auth(JSONComponent):
         :param new_password: the password to change to
         :type new_password: string
         """
-        d = Deferred()
-        
         if not self.check_password(old_password):
-            d.callback(False)
-            return d
+            return False
         
         log.debug("Changing password")        
         salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
@@ -267,8 +264,7 @@ class Auth(JSONComponent):
         config = component.get("DelugeWeb").config
         config["pwd_salt"] = salt
         config["pwd_sha1"] = s.hexdigest()
-        d.callback(True)
-        return d
+        return True
     
     @export(AUTH_LEVEL_NONE)
     def check_session(self, session_id=None):
@@ -278,9 +274,7 @@ class Auth(JSONComponent):
         :returns: True if the session is valid, False if not.
         :rtype: booleon
         """
-        d = Deferred()
-        d.callback(__request__.session_id is not None)
-        return d
+        return __request__.session_id is not None
     
     @export
     def delete_session(self):
@@ -293,8 +287,7 @@ class Auth(JSONComponent):
         d = Deferred()
         config = component.get("DelugeWeb").config
         del config["sessions"][__request__.session_id]
-        d.callback(True)
-        return d
+        return True
     
     @export(AUTH_LEVEL_NONE)
     def login(self, password):
@@ -307,9 +300,7 @@ class Auth(JSONComponent):
         :rtype: string or False
         """
         
-        d = Deferred()
         if self.check_password(password):
-            d.callback(self._create_session(__request__))
+            return self._create_session(__request__)
         else:
-            d.callback(False)
-        return d
+            return False
