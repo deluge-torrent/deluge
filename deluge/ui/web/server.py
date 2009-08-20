@@ -95,6 +95,11 @@ CONFIG_DEFAULTS = {
     "cert": "ssl/daemon.cert"
 }
 
+UI_CONFIG_KEYS = (
+    "theme", "sidebar_show_zero", "sidebar_show_trackers",
+    "show_session_speed"
+)
+
 OLD_CONFIG_KEYS = (
     "port", "enabled_plugins", "base", "sidebar_show_zero",
     "sidebar_show_trackers", "show_keyword_search", "show_sidebar",
@@ -114,11 +119,13 @@ class Config(resource.Resource):
     """
 
     def render(self, request):
+        web_config = component.get("Web").get_config()
+        config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
         return """Deluge = {
     author: 'Damien Churchill <damoxc@gmail.com>',
     version: '1.2-dev',
     config: %s
-}""" % common.json.dumps(component.get("DelugeWeb").config.config)
+}""" % common.json.dumps(config)
 
 class GetText(resource.Resource):
     def render(self, request):
