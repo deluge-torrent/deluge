@@ -233,6 +233,7 @@ class JSON(resource.Resource, component.Component):
             d.addErrback(self._on_rpc_request_failed, response, request)
             return d
         else:
+            response["result"] = d
             return self._send_response(request, response)
 
     def _on_json_request_failed(self, reason, request):
@@ -702,10 +703,23 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         :returns: the configuration
         """
-        
         config = component.get("DelugeWeb").config.config.copy()
         del config["sessions"]
         del config["pwd_salt"]
         del config["pwd_sha1"]
         return config
+    
+
+    @export
+    def set_config(self, config):
+        """
+        Sets the configuration dictionary for the web interface.
         
+        :param config: The configuration options to update
+        :type config: dictionary
+        """
+        web_config = component.get("DelugeWeb").config
+        for key in config.keys():
+            if isinstance(config[key], unicode) or isinstance(config[key], str):
+                config[key] = config[key].encode("utf8")
+            web_config[key] = config[key]
