@@ -350,7 +350,7 @@ class Preferences(component.Component):
                 elif modifier == "not_active":
                     widget.set_active(not value)
                 elif modifier == "value":
-                    widget.set_value(value)
+                    widget.set_value(float(value))
                 elif modifier == "text":
                     widget.set_text(value)
 
