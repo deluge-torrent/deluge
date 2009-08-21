@@ -412,7 +412,7 @@ Ext.extend(Ext.ux.form.Spinner.NumberStrategy, Ext.ux.form.Spinner.Strategy, {
         if(!this.allowDecimals || this.decimalPrecision == -1 || nan || !value){
             return nan ? '' : value;
         }
-        return value.toFixed(this.decimalPrecision);
+        return Number(value).toFixed(this.decimalPrecision);
     }
 });
 
