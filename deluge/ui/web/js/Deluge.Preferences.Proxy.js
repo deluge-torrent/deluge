@@ -15,6 +15,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		this.type = this.add({
 			xtype: 'combo',
 			fieldLabel: _('Type'),
+			name: 'type',
 			mode: 'local',
 			width: 150,
 			store: new Ext.data.SimpleStore({
@@ -33,14 +34,16 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 			valueField: 'id',
 			displayField: 'text'
 		})
-		this.host = this.add({
+		this.hostname = this.add({
 			xtype: 'textfield',
+			name: 'hostname',
 			fieldLabel: _('Host'),
-			disabled: true,
 			width: 220
 		});
+		
 		this.port = this.add({
 			xtype: 'uxspinner',
+			name: 'port',
 			fieldLabel: _('Port'),
 			width: 80,
 			strategy: {
@@ -48,41 +51,85 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
-			disabled: true
+			}
 		});
+		
 		this.username = this.add({
 			xtype: 'textfield',
+			name: 'username',
 			fieldLabel: _('Username'),
-			disabled: true,
 			width: 220
 		});
+		
 		this.password = this.add({
 			xtype: 'textfield',
+			name: 'password',
 			fieldLabel: _('Password'),
 			inputType: 'password',
-			disabled: true,
 			width: 220
 		});
+		
+		this.type.on('change', this.onFieldChange, this);
 		this.type.on('select', this.onTypeSelect, this);
+		this.setting = false;
+	},
+	
+	getName: function() {
+		return this.initialConfig.name;
+	},
+	
+	getValue: function() {
+		return {
+			'type': this.type.getValue(),
+			'hostname': this.hostname.getValue(),
+			'port': this.port.getValue(),
+			'username': this.username.getValue(),
+			'password': this.password.getValue()
+		}
+	},
+
+	/**
+	 * Set the values of the proxies
+	 */
+	setValue: function(value) {
+		this.setting = true;
+		this.type.setValue(value['type']);
+		var index = this.type.getStore().find('id', value['type']);
+		var record = this.type.getStore().getAt(index);
+		
+		this.hostname.setValue(value['hostname']);
+		this.port.setValue(value['port']);
+		this.username.setValue(value['username']);
+		this.password.setValue(value['password']);
+		this.onTypeSelect(this.type, record, index);
+		this.setting = false;
+	},
+	
+	onFieldChange: function(field, newValue, oldValue) {
+		if (this.setting) return;
+		var newValues = this.getValue();
+		var oldValues = Ext.apply({}, newValues);
+		oldValues[field.getName()] = oldValue;
+		
+		this.fireEvent('change', this, newValues, oldValues);
 	},
 	
 	onTypeSelect: function(combo, record, index) {
 		var typeId = record.get('id');
 		if (typeId > 0) {
-			this.host.setDisabled(false);
-			this.port.setDisabled(false);
+			this.hostname.show();
+			this.port.show();
 		} else {
-			this.host.setDisabled(true);
-			this.port.setDisabled(true);
+			this.hostname.hide();
+			this.port.hide();
 		}
 		
 		if (typeId == 3 || typeId == 5) {
-			this.username.setDisabled(false);
-			this.password.setDisabled(false);
+			this.username.show();
+			this.password.show();
 		} else {
-			this.username.setDisabled(true);
-			this.password.setDisabled(true);
+			this.username.hide();
+			this.password.hide();
 		}
 	}
 });
@@ -100,21 +147,54 @@ Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 	
 	initComponent: function() {
 		Ext.deluge.preferences.Proxy.superclass.initComponent.call(this);
+		this.peer = this.add(new Ext.deluge.preferences.ProxyField({
+			title: _('Peer'),
+			name: 'peer'
+		}));
+		this.peer.on('change', this.onProxyChange, this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		this.web_seed = this.add(new Ext.deluge.preferences.ProxyField({
+			title: _('Web Seed'),
+			name: 'web_seed'
+		}));
+		this.web_seed.on('change', this.onProxyChange, this);
 		
-		this.add(new Ext.deluge.preferences.ProxyField({
-			title: _('Peer')
+		this.tracker = this.add(new Ext.deluge.preferences.ProxyField({
+			title: _('Tracker'),
+			name: 'tracker'
 		}));
-		this.add(new Ext.deluge.preferences.ProxyField({
-			title: _('Web Seed')
+		this.tracker.on('change', this.onProxyChange, this);
+		
+		this.dht = this.add(new Ext.deluge.preferences.ProxyField({
+			title: _('DHT'),
+			name: 'dht'
 		}));
-		this.add(new Ext.deluge.preferences.ProxyField({
-			title: _('Tracker')
-		}));
-		this.add(new Ext.deluge.preferences.ProxyField({
-			title: _('DHT')
-		}));
+		this.dht.on('change', this.onProxyChange, this);
+		
+		Deluge.Preferences.getOptionsManager().bind('proxies', this);
+	},
+	
+	getValue: function() {
+		return {
+			'dht': this.dht.getValue(),
+			'peer': this.peer.getValue(),
+			'tracker': this.tracker.getValue(),
+			'web_seed': this.web_seed.getValue()
+		}
+	},
+	
+	setValue: function(value) {
+		for (var proxy in value) {
+			this[proxy].setValue(value[proxy]);
+		}
+	},
+	
+	onProxyChange: function(field, newValue, oldValue) {
+		var newValues = this.getValue();
+		var oldValues = Ext.apply({}, newValues);
+		oldValues[field.getName()] = oldValue;
+		
+		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
 Deluge.Preferences.addPage(new Ext.deluge.preferences.Proxy());
