@@ -181,6 +181,11 @@ class FilesTab(Tab):
             glade.get_widget("menuitem_priority_sep")
         ]
 
+        self.localhost_widgets = [
+            glade.get_widget("menuitem_open_file"),
+            glade.get_widget("menuitem3")
+        ]
+
         self.listview.connect("row-activated", self._on_row_activated)
         self.listview.connect("button-press-event", self._on_button_press_event)
 
@@ -214,6 +219,11 @@ class FilesTab(Tab):
         self.files_list = {}
 
         self.torrent_id = None
+
+    def start(self):
+        attr = "hide" if not client.is_localhost() else "show"
+        for widget in self.localhost_widgets:
+            getattr(widget, attr)()
 
     def save_state(self):
         filename = "files_tab.state"
