@@ -82,7 +82,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		return {
 			'type': this.type.getValue(),
 			'hostname': this.hostname.getValue(),
-			'port': this.port.getValue(),
+			'port': Number(this.port.getValue()),
 			'username': this.username.getValue(),
 			'password': this.password.getValue()
 		}
