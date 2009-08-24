@@ -214,6 +214,9 @@ class TorrentView(listview.ListView, component.Component):
         # torrent menu popup.
         self.treeview.connect("button-press-event",
                                     self.on_button_press_event)
+        # Connect to the 'key-press-event' to know when the bring up the
+        # torrent menu popup via keypress.
+        self.treeview.connect("key-press-event", self.on_key_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect("changed",
@@ -459,6 +462,18 @@ class TorrentView(listview.ListView, component.Component):
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
             return True
+    
+    def on_key_press_event(self, widget, event):
+        # Menu key
+        if gtk.gdk.keyval_name(event.keyval) != "Menu":
+            return
+        
+        if not self.get_selected_torrent():
+            return
+        
+        torrentmenu = component.get("MenuBar").torrentmenu
+        torrentmenu.popup(None, None, None, 3, event.time)
+        return True
 
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""

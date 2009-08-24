@@ -34,7 +34,7 @@
 #
 
 
-import gtk, gtk.glade
+import gtk, gtk.glade, gtk.gdk
 import gobject
 import gettext
 import os.path
@@ -187,6 +187,7 @@ class FilesTab(Tab):
         ]
 
         self.listview.connect("row-activated", self._on_row_activated)
+        self.listview.connect("key-press-event", self._on_key_press_event)
         self.listview.connect("button-press-event", self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
@@ -471,6 +472,17 @@ class FilesTab(Tab):
 
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
+    
+    def _on_key_press_event(self, widget, event):
+        # Menu key
+        if gtk.gdk.keyval_name(event.keyval) != "Menu":
+            return
+        
+        if not self.get_selected_files():
+            return
+        
+        self.file_menu.popup(None, None, None, 3, event.time)
+        return True
 
     def _on_menuitem_open_file_activate(self, menuitem):
         self._on_row_activated(None, None, None)
