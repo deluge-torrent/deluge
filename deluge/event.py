@@ -190,3 +190,25 @@ class ConfigValueChangedEvent(DelugeEvent):
         :param value: the new value of the `:param:key`
         """
         self._args = [key, value]
+
+class PluginEnabledEvent(DelugeEvent):
+    """
+    Emitted when a plugin is enabled in the Core.
+    """
+    def __init__(self, name):
+        """
+        :param name: the plugin name
+        :type name: string
+        """
+        self._args = [name]
+
+class PluginDisabledEvent(DelugeEvent):
+    """
+    Emitted when a plugin is disabled in the Core.
+    """
+    def __init__(self, name):
+        """
+        :param name: the plugin name
+        :type name: string
+        """
+        self._args = [name]

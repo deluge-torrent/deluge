@@ -39,6 +39,7 @@
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
+from deluge.event import PluginEnabledEvent, PluginDisabledEvent
 import deluge.pluginmanagerbase
 import deluge.component as component
 from deluge.log import LOG as log
@@ -75,6 +76,18 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
                     self.plugins[plugin].update()
                 except Exception, e:
                     log.exception(e)
+
+    def enable_plugin(self, name):
+        if name not in self.plugins:
+            super(PluginManager, self).enable_plugin(name)
+            if name in self.plugins:
+                component.get("EventManager").emit(PluginEnabledEvent(name))
+
+    def disable_plugin(self, name):
+        if name in self.plugins:
+            super(PluginManager, self).disable_plugin(name)
+            if name not in self.plugins:
+                component.get("EventManager").emit(PluginDisabledEvent(name))
 
     def get_status(self, torrent_id, fields):
         """Return the value of status fields for the selected torrent_id."""

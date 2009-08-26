@@ -53,6 +53,9 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             "on_show_prefs": []
         }
 
+        client.register_event_handler("PluginEnabledEvent", self._on_plugin_enabled_event)
+        client.register_event_handler("PluginDisabledEvent", self._on_plugin_disabled_event)
+
     def register_hook(self, hook, function):
         """Register a hook function with the plugin manager"""
         try:
@@ -83,6 +86,12 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         log.debug("Core has these plugins enabled: %s", enabled_plugins)
         for plugin in enabled_plugins:
             self.enable_plugin(plugin)
+
+    def _on_plugin_enabled_event(self, name):
+        self.enable_plugin(name)
+
+    def _on_plugin_disabled_event(self, name):
+        self.disable_plugin(name)
 
     ## Hook functions
     def run_on_show_prefs(self):

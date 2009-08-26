@@ -58,6 +58,8 @@ class EventLog(component.Component):
         client.register_event_handler("SessionPausedEvent", self.on_session_paused_event)
         client.register_event_handler("SessionResumedEvent", self.on_session_resumed_event)
         client.register_event_handler("ConfigValueChangedEvent", self.on_config_value_changed_event)
+        client.register_event_handler("PluginEnabledEvent", self.on_plugin_enabled_event)
+        client.register_event_handler("PluginDisabledEvent", self.on_plugin_disabled_event)
 
     def on_torrent_added_event(self, torrent_id):
         def on_torrent_status(status):
@@ -101,3 +103,9 @@ class EventLog(component.Component):
 
         self.console.write(self.prefix + "ConfigValueChanged: {!input!}%s: %s%s" %
             (key, color, value))
+
+    def on_plugin_enabled_event(self, name):
+        self.console.write(self.prefix + "PluginEnabled: {!info!}%s" % name)
+
+    def on_plugin_disabled_event(self, name):
+        self.console.write(self.prefix + "PluginDisabled: {!info!}%s" % name)
