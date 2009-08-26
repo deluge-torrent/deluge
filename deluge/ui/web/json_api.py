@@ -693,7 +693,6 @@ class WebApi(JSONComponent):
         del config["pwd_salt"]
         del config["pwd_sha1"]
         return config
-    
 
     @export
     def set_config(self, config):
@@ -708,3 +707,8 @@ class WebApi(JSONComponent):
             if isinstance(config[key], unicode) or isinstance(config[key], str):
                 config[key] = config[key].encode("utf8")
             web_config[key] = config[key]
+    
+    @export
+    def get_plugin_info(self, name):
+        return component.get("PluginManager").get_plugin_info(name)
+    
