@@ -710,5 +710,13 @@ class WebApi(JSONComponent):
     
     @export
     def get_plugin_info(self, name):
-        return component.get("PluginManager").get_plugin_info(name)
+        return component.get("Web.PluginManager").get_plugin_info(name)
+    
+    @export
+    def enable_plugin(self, name):
+        pass
+    
+    @export
+    def disable_plugin(self, name):
+        pass
     

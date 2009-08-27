@@ -806,3 +806,7 @@ body.x-body-masked .x-window-mc, body.x-body-masked .x-window-plain .x-window-mc
 .x-slider-vert .x-slider-inner{
 	background:transparent url(/themes/slate/slider/slider-v-bg.png) repeat-y 0 0;
 }
+
+.x-deluge-plugins .x-panel-body {
+	background: White;
+}
