@@ -1,0 +1,50 @@
+$def with (filter_settings_form, filter)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <title>Deluge:things</title>
+    <link rel="icon" href="/static/images/deluge-icon.png" type="image/png" />
+    <link rel="shortcut icon" href="/static/images/deluge-icon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="/template_style.css" />
+    <script language="javascript" src="/static/deluge.js"></script>
+    <script language="javascript" src="/static/mootools-1.2-core.js"></script>
+
+    <script language="javascript" src="/static/mootools-1.2-more.js"></script>
+    <script language="javascript" src="/static/mooui.js"></script>
+    <script language="javascript" src="/static/deluge-moo.js"></script>
+    <script language="javascript" src="/gettext.js"></script>
+    <script language="javascript" src="/label/data/label.js"></script>
+</head>
+<body>
+
+<form method="post" action='$base/feeder/filter_settings/$filter'>
+<div class="info">
+<h3>Filter</h3>
+<table>
+$:(filter_settings_form.as_table(["regex", "active"]))
+</table>
+
+<h3>Speed</h3>
+<table>
+$:(filter_settings_form.as_table(["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]))
+</table>
+
+<h3>Seed options</h3>
+<table>
+$:(filter_settings_form.as_table(["stop_ratio", "stop_at_ratio", "remove_at_ratio"]))
+</table>
+
+<h3>Other options</h3>
+<table>
+$:(filter_settings_form.as_table(["prioritize_first_last_pieces", "auto_managed", "download_location"]))
+</table>
+<input type="submit" name="submit" value="$_('Save')" />
+
+</form>
+<h3>Matches</h3>
+$:filter_settings_form.post_html()
+</div>
+
+</body>
+</html>
