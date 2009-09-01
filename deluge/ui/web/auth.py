@@ -223,7 +223,14 @@ class Auth(JSONComponent):
         else:
             session = config["sessions"][session_id]
             auth_level = session["level"]
-            session["expires"] = int(time.time()) + config["session_timeout"]
+            expires = int(time.time()) + config["session_timeout"]
+            expires_str = time.strftime('%a, %d %b %Y %H:%M:%S UTC',
+                    time.gmtime(expires))
+            session["expires"] = expires
+
+            _session_id = request.getCookie("_session_id")
+            request.addCookie('_session_id', _session_id,
+                    path="/json", expires=expires_str)
         
         if method:
             if not hasattr(method, "_json_export"):
