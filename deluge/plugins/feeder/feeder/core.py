@@ -1,8 +1,8 @@
 #
 # core.py
 #
+# Copyright (C) 2008-2009 Fredrik Eriksson <feeder@winterbird.org>
 # Copyright (C) 2009 David Mohr <david@mcbf.net>
-# Copyright (C) 2008 Fredrik Eriksson <feeder@winterbird.org>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -63,14 +63,21 @@ class Feed:
     """
     def __init__(self):
         self.url = ""
+        self.cookies = {}
         self.updatetime = 15
 
     def get_config(self):
-        return {'url': self.url, 'updatetime': self.updatetime}
+        try:
+            tmp = self.cookies
+        except Exception, e:
+            log.debug("Old feed without cookies... updating")
+            self.cookies = {}
+        return {'url': self.url, 'updatetime': self.updatetime, 'cookies': self.cookies}
 
     def set_config(self, config):
         self.url = config['url']
         self.updatetime = config['updatetime']
+        self.cookies = config['cookies']
 
 
 class Filter:
@@ -399,7 +406,7 @@ class Core(CorePluginBase):
                         # check history to prevent multiple adds of the same torrent
                         log.debug("testing %s", entry.link)
                         if not entry.link in self.history:
-                            self.add_torrent(entry.link, opts)
+                            self.add_torrent(entry.link, opts, self.feeds[feedname].cookies)
                             self.history.append(entry.link)
 
                             #limit history to 50 entries
@@ -420,6 +427,6 @@ class Core(CorePluginBase):
         else:
             return False
 
-    def add_torrent(self, url, torrent_options):
+    def add_torrent(self, url, torrent_options, headers):
         log.debug("Attempting to add torrent %s", url)
-        component.get("Core").add_torrent_url(url, torrent_options)
+        component.get("Core").add_torrent_url(url, torrent_options, headers)
