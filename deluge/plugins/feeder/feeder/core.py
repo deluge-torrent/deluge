@@ -40,6 +40,7 @@
 import feedparser # for parsing rss feeds
 import threading  # for threaded updates
 import re         # for regular expressions
+from twisted.internet.task import LoopingCall
 
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
@@ -152,20 +153,6 @@ class Filter:
         self.stop_at_ratio = conf['stop_at_ratio']
 
 
-class Timer:
-    def Timer(self, curr_time, timeout, callback, data):
-        self.timeout = curr_time + timeout
-        """Timeout is specified in seconds, since it is used by the update() method"""
-        self.callback = callback
-        self.data = data
-
-    def check_timeout(self, curr_time):
-        return curr_time == self.timeout
-
-    def execute(self):
-        self.callback(data)
-
-
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("feeder.conf", DEFAULT_PREFS)
@@ -176,12 +163,8 @@ class Core(CorePluginBase):
 
         # Setting default timer to configured update time
         for feed in self.config['feeds']:
-            self.timers[feed] = Timer( self,time,
-                self.config['feeds'][feed].updatetime * 60,
-                self.update_feed, feed )
-
-        # update all feeds on startup
-        self.update_feeds()
+            self.timers[feed] = LoopingCall(self.update_feed, feed)
+            self.timers[feed].start( self.config['feeds'][feed].updatetime * 60)
 
 
     def disable(self):
@@ -190,10 +173,7 @@ class Core(CorePluginBase):
 
 
     def update(self):
-        self.time += 1
-        for timer in self.timers:
-            if timer.check_timeout(time):
-                timer.execute()
+      pass
 
 
 
@@ -297,16 +277,14 @@ class Core(CorePluginBase):
         newfeed.set_config(conf)
 
         # Add a timer (with default timer for now, since we can't get ttl just yet)...
-        self.timers[feedname] = Timer( self.time,
-            newfeed.updatetime * 60,
-            self.update_feed, feedname )
+        self.timers[feedname] = LoopingCall(self.update_feed, feedname)
 
         # Save the new feed
         self.config['feeds'].update({feedname: newfeed })
         self.config.save()
 
-        # And update the new feed
-        self.update_feed(feedname)
+        # Start the timeout, which will also update the new feed
+        self.timers[feedname].start(newfeed.updatetime * 60)
 
     @export
     def remove_feed(self, feedname):
@@ -314,6 +292,7 @@ class Core(CorePluginBase):
         if self.feeds.has_key(feedname): # Check if we have the feed saved and remove it
             del self.feeds[feedname]
         if self.timers.has_key(feedname): # Check if we have a timer for this feed and remove it
+            self.timers[feedname].stop()
             del self.timers[feedname]
         if self.config['feeds'].has_key(feedname): # Check if we have the feed in the configuration and remove it
             del self.config['feeds'][feedname]
@@ -347,11 +326,6 @@ class Core(CorePluginBase):
 
 #=================Internal functions================
 
-    def update_feeds(self):
-        """Start threads to update all feeds"""
-        for feedname in self.config['feeds']:
-            self.update_feed(feedname)
-
     def update_feed(self, feedname):
         """Start a thread to update a single feed"""
         threading.Thread(
@@ -380,10 +354,8 @@ class Core(CorePluginBase):
             if not self.feeds[feedname].ttl == self.config['feeds'][feedname].updatetime:
                 log.debug("feed '%s' request a ttl of %s, updating timer", feedname, self.feeds[feedname].ttl)
                 self.config['feeds'][feedname].updatetime = self.feeds[feedname].ttl
-                del self.timers[feedname]
-                self.timers[feedname] = Timer( self.time,
-                    self.config['feeds'][feedname].updatetime * 60 * 1000,
-                    self.update_feed, feedname )
+                self.timers[feedname].stop()
+                self.timers[feedname].start(self.config['feeds'][feedname].updatetime * 60)
         except Exception, e:
             log.debug("feed '%s' has no ttl set, will use default timer", feedname)
 
