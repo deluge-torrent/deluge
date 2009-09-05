@@ -882,7 +882,6 @@ class Preferences(component.Component):
         self.plugin_liststore.set_value(row, 1, not value)
         if not value:
             client.core.enable_plugin(name)
-            component.get("PluginManager").enable_plugin(name)
         else:
             client.core.disable_plugin(name)
             component.get("PluginManager").disable_plugin(name)

@@ -122,6 +122,10 @@ class PluginManagerBase:
             log.warning("Cannot enable non-existant plugin %s", plugin_name)
             return
 
+        if plugin_name in self.plugins:
+            log.warning("Cannot enable already enabled plugin %s", plugin_name)
+            return
+
         plugin_name = plugin_name.replace(" ", "-")
         egg = self.pkg_env[plugin_name][0]
         egg.activate()
