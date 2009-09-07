@@ -104,7 +104,8 @@ class Preferences(component.Component):
             "on_button_plugin_install_clicked": self._on_button_plugin_install_clicked,
             "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked,
             "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked,
-            "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked
+            "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked,
+            "on_combo_proxy_type_changed": self._on_combo_proxy_type_changed
         })
 
         # These get updated by requests done to the core
@@ -953,3 +954,30 @@ class Preferences(component.Component):
 
     def _on_button_find_plugins_clicked(self, widget):
         deluge.common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Plugins")
+
+    def _on_combo_proxy_type_changed(self, widget):
+        name = widget.get_name().replace("combo_proxy_type_", "")
+        proxy_type = widget.get_model()[widget.get_active()][0]
+
+        prefixes = ["txt_proxy_", "label_proxy_", "spin_proxy_"]
+        hides = []
+        shows = []
+
+        if proxy_type == "None":
+            hides.extend(["password", "username", "server", "port"])
+        elif proxy_type in ("Socksv4", "Socksv5", "HTTP"):
+            hides.extend(["password", "username"])
+            shows.extend(["server", "port"])
+        elif proxy_type in ("Socksv5 W/ Auth", "HTTP W/ Auth"):
+            shows.extend(["password", "username", "server", "port"])
+
+        for h in hides:
+            for p in prefixes:
+                w = self.glade.get_widget(p + h + "_" + name)
+                if w:
+                    w.hide()
+        for s in shows:
+            for p in prefixes:
+                w = self.glade.get_widget(p + s + "_" + name)
+                if w:
+                    w.show()

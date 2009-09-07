@@ -3179,7 +3179,7 @@ Disabled</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">5</property>
                                             <child>
-                                              <widget class="GtkLabel" id="label61">
+                                              <widget class="GtkLabel" id="label_proxy_password_peer">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3207,7 +3207,7 @@ Disabled</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label60">
+                                              <widget class="GtkLabel" id="label_proxy_server_peer">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Host:</property>
@@ -3232,7 +3232,7 @@ Disabled</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label73">
+                                              <widget class="GtkLabel" id="label_proxy_port_peer">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Port:</property>
@@ -3290,11 +3290,13 @@ Socksv5
 Socksv5 W/ Auth
 HTTP
 HTTP W/ Auth</property>
+                                                <signal name="changed" handler="on_combo_proxy_type_changed"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3306,10 +3308,11 @@ HTTP W/ Auth</property>
                                               </widget>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label62">
+                                              <widget class="GtkLabel" id="label_proxy_username_peer">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3337,6 +3340,8 @@ HTTP W/ Auth</property>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
@@ -3358,7 +3363,7 @@ HTTP W/ Auth</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">5</property>
                                             <child>
-                                              <widget class="GtkLabel" id="label88">
+                                              <widget class="GtkLabel" id="label_proxy_password_web_seed">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3386,7 +3391,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label89">
+                                              <widget class="GtkLabel" id="label_proxy_server_web_seed">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Host:</property>
@@ -3411,7 +3416,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label90">
+                                              <widget class="GtkLabel" id="label_proxy_port_web_seed">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Port:</property>
@@ -3469,11 +3474,13 @@ Socksv5
 Socksv5 W/ Auth
 HTTP
 HTTP W/ Auth</property>
+                                                <signal name="changed" handler="on_combo_proxy_type_changed"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3485,10 +3492,11 @@ HTTP W/ Auth</property>
                                               </widget>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label92">
+                                              <widget class="GtkLabel" id="label_proxy_username_web_seed">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3516,6 +3524,8 @@ HTTP W/ Auth</property>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
@@ -3537,7 +3547,7 @@ HTTP W/ Auth</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">5</property>
                                             <child>
-                                              <widget class="GtkLabel" id="label94">
+                                              <widget class="GtkLabel" id="label_proxy_password_tracker">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3565,7 +3575,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label95">
+                                              <widget class="GtkLabel" id="label_proxy_server_tracker">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Host:</property>
@@ -3590,7 +3600,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label96">
+                                              <widget class="GtkLabel" id="label_proxy_port_tracker">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Port:</property>
@@ -3648,11 +3658,13 @@ Socksv5
 Socksv5 W/ Auth
 HTTP
 HTTP W/ Auth</property>
+                                                <signal name="changed" handler="on_combo_proxy_type_changed"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3664,10 +3676,11 @@ HTTP W/ Auth</property>
                                               </widget>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label98">
+                                              <widget class="GtkLabel" id="label_proxy_username_tracker">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3695,6 +3708,8 @@ HTTP W/ Auth</property>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
                                     <property name="position">2</property>
                                   </packing>
                                 </child>
@@ -3716,7 +3731,7 @@ HTTP W/ Auth</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">5</property>
                                             <child>
-                                              <widget class="GtkLabel" id="label100">
+                                              <widget class="GtkLabel" id="label_proxy_password_dht">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3726,6 +3741,7 @@ HTTP W/ Auth</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3744,7 +3760,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label101">
+                                              <widget class="GtkLabel" id="label_proxy_server_dht">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Host:</property>
@@ -3753,6 +3769,7 @@ HTTP W/ Auth</property>
                                                 <property name="top_attach">3</property>
                                                 <property name="bottom_attach">4</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3769,7 +3786,7 @@ HTTP W/ Auth</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label102">
+                                              <widget class="GtkLabel" id="label_proxy_port_dht">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Port:</property>
@@ -3778,6 +3795,7 @@ HTTP W/ Auth</property>
                                                 <property name="top_attach">4</property>
                                                 <property name="bottom_attach">5</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3827,11 +3845,13 @@ Socksv5
 Socksv5 W/ Auth
 HTTP
 HTTP W/ Auth</property>
+                                                <signal name="changed" handler="on_combo_proxy_type_changed"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
@@ -3843,10 +3863,11 @@ HTTP W/ Auth</property>
                                               </widget>
                                               <packing>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label104">
+                                              <widget class="GtkLabel" id="label_proxy_username_dht">
                                                 <property name="visible">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="xalign">0</property>
@@ -3856,6 +3877,7 @@ HTTP W/ Auth</property>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -3874,6 +3896,8 @@ HTTP W/ Auth</property>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
                                     <property name="position">3</property>
                                   </packing>
                                 </child>
@@ -4296,7 +4320,6 @@ HTTP W/ Auth</property>
                         <child>
                           <widget class="GtkVBox" id="vbox30">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label111">
                                 <property name="visible">True</property>
@@ -4328,7 +4351,6 @@ HTTP W/ Auth</property>
                                 <child>
                                   <widget class="GtkVBox" id="vbox31">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame32">
                                         <property name="visible">True</property>
@@ -4438,7 +4460,6 @@ HTTP W/ Auth</property>
                                             <child>
                                               <widget class="GtkVBox" id="vbox32">
                                                 <property name="visible">True</property>
-                                                <property name="orientation">vertical</property>
                                                 <child>
                                                   <widget class="GtkFrame" id="frame34">
                                                     <property name="visible">True</property>
@@ -4768,7 +4789,7 @@ HTTP W/ Auth</property>
                                                     <property name="layout_style">start</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_cache_refresh">
-                                                        <property name="label" translatable="yes">gtk-refresh</property>
+                                                        <property name="label">gtk-refresh</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
