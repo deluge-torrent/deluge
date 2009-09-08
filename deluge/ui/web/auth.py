@@ -81,6 +81,12 @@ def get_session_id(session_id):
         log.exception(e)
         return None
 
+def make_expires(timeout):
+    expires = int(time.time()) + timeout
+    expires_str = time.strftime('%a, %d %b %Y %H:%M:%S GMT',
+            time.gmtime(expires))
+    return expires, expires_str
+
 class Auth(JSONComponent):
     """
     The component that implements authentification into the JSON interface.
@@ -124,10 +130,7 @@ class Auth(JSONComponent):
 
         config = component.get("DelugeWeb").config
         
-        expires = int(time.time()) + config["session_timeout"]
-        expires_str = time.strftime('%a, %d %b %Y %H:%M:%S UTC',
-                time.gmtime(expires))
-
+        expires, expires_str = make_expires(config["session_timeout"])
         checksum = str(make_checksum(session_id))
         
         request.addCookie('_session_id', session_id + checksum,
@@ -223,9 +226,7 @@ class Auth(JSONComponent):
         else:
             session = config["sessions"][session_id]
             auth_level = session["level"]
-            expires = int(time.time()) + config["session_timeout"]
-            expires_str = time.strftime('%a, %d %b %Y %H:%M:%S UTC',
-                    time.gmtime(expires))
+            expires, expires_str = make_expires(config["session_timeout"])
             session["expires"] = expires
 
             _session_id = request.getCookie("_session_id")
