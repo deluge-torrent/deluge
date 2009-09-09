@@ -174,6 +174,8 @@ class Preferences(component.Component):
                     self.treeview.get_selection().select_path(index)
                     break
 
+        component.get("PluginManager").run_on_show_prefs()
+
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         if client.connected():
@@ -510,7 +512,6 @@ class Preferences(component.Component):
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)
 
-        component.get("PluginManager").run_on_show_prefs()
         # Now show the dialog
         self.pref_dialog.show()
 
