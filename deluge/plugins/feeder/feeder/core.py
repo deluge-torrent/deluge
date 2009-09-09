@@ -206,14 +206,14 @@ class Core(CorePluginBase):
         return self.config['feeds'][feedname].get_config()
 
     @export
-     def get_filter_config(self, filtername):
+    def get_filter_config(self, filtername):
         """Returns a configuration for a filter"""
         return self.config['filters'][filtername].get_config()
 
 ####################Information Getters####################
 
     @export
-     def get_feeds(self):
+    def get_feeds(self):
         """Returns a list of the configured feeds"""
         feeds = []
         for feedname in self.config['feeds']:
@@ -222,7 +222,7 @@ class Core(CorePluginBase):
         return feeds
 
     @export
-     def get_filters(self):
+    def get_filters(self):
         """Returns a list of all available filters"""
         filters = []
         for filter in self.config['filters']:
@@ -231,7 +231,7 @@ class Core(CorePluginBase):
         return filters
 
     @export
-     def get_items(self, feedname):
+    def get_items(self, feedname):
         """Returns a dictionary with feedname:link"""
         try:
             items = {}
@@ -244,7 +244,7 @@ class Core(CorePluginBase):
         return items
 
     @export
-     def test_filter(self, regex):
+    def test_filter(self, regex):
         filters = { "to_test":Filter() }
         conf = filters["to_test"].get_config()
         conf["regex"] = regex
@@ -255,7 +255,7 @@ class Core(CorePluginBase):
         return hits
 
     @export
-     def add_feed(self, config):
+    def add_feed(self, config):
         """adds/updates a feed and, for whatever reason, sets the default timeout"""
 
         # save the feedname and remove it from the config
@@ -306,14 +306,14 @@ class Core(CorePluginBase):
         self.config.save()
 
     @export
-     def add_filter(self, name):
+    def add_filter(self, name):
         """Adds a new filter to the configuration"""
         if not self.config['filters'].has_key(name): # we don't want to add a filter that already exists
             self.config['filters'][name] = Filter()
             self.config.save()
 
     @export
-     def set_filter_config(self, filtername, conf):
+    def set_filter_config(self, filtername, conf):
         """Changes the options for a filter"""
         oldconf = self.config['filters'][filtername].get_config()
         for item in conf:
@@ -325,7 +325,7 @@ class Core(CorePluginBase):
             self.run_filters(feed)
 
     @export
-     def remove_filter(self, name):
+    def remove_filter(self, name):
         """Removes a filter"""
         if self.config['filters'].has_key(name): # Can't remove a filter that doesn't exists
             del self.config['filters'][name]
