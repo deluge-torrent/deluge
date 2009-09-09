@@ -56,6 +56,16 @@ class GtkPluginBase(PluginBase):
         log.debug("GtkPlugin initialized..")
 
 class WebPluginBase(PluginBase):
+    
+    scripts = []
+    debug_scripts = []
+    
+    stylesheets = []
+    debug_stylesheets = []
+    
     def __init__(self, plugin_name):
         super(WebPluginBase, self).__init__("WebPlugin." + plugin_name)
+        
+        # Register JSON rpc methods
+        component.get("JSON").register_object(self, plugin_name.lower())
         log.debug("WebPlugin initialized..")
