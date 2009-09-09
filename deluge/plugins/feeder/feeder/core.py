@@ -201,7 +201,7 @@ class Core(CorePluginBase):
         return self.config.config
 
     @export
-     def get_feed_config(self, feedname):
+    def get_feed_config(self, feedname):
         """Returns configuration for a feed"""
         return self.config['feeds'][feedname].get_config()
 
