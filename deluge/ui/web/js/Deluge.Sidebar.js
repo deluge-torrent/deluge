@@ -1,7 +1,7 @@
 /*
 Script: deluge-bars.js
-    Contains all objects and functions related to the statusbar, toolbar and
-	sidebar.
+	Contains all objects and functions related to the statusbar, toolbar and
+		sidebar.
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
@@ -21,15 +21,15 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 
 */
 
@@ -41,7 +41,7 @@ Copyright:
 	// Renderer for the items in the filter grids.
 	function filterRenderer(value, p, r) {
 		var lname = value.toLowerCase().replace('.', '_');
-		
+
 		var image = '';	
 		if (r.store.id == 'tracker_host') {
 			if (value != 'Error') {
@@ -58,15 +58,15 @@ Copyright:
 			return String.format('<div class="x-deluge-filter">{0} ({1})</div>', value, r.data['count']);
 		}
 	}
-	
+
 	Ext.deluge.Sidebar = Ext.extend(Ext.Panel, {
-		
+
 		// private
 		panels: {},
-		
+	
 		// private
 		selected: null,
-		
+	
 		constructor: function(config) {
 			config = Ext.apply({
 				id: 'sidebar',
@@ -83,13 +83,13 @@ Copyright:
 			}, config);
 			Ext.deluge.Sidebar.superclass.constructor.call(this, config);
 		},
-		
+	
 		// private
 		initComponent: function() {
 			Ext.deluge.Sidebar.superclass.initComponent.call(this);
 			Deluge.Events.on("disconnect", this.onDisconnect, this);
 		},
-		
+	
 		createFilter: function(filter, states) {
 			var store = new Ext.data.SimpleStore({
 				id: filter,
@@ -98,7 +98,7 @@ Copyright:
 					{name: 'count'}
 				]
 			});
-			
+	
 			var title = filter.replace('_', ' ');
 			var parts = title.split(' ');
 			title = '';
@@ -108,10 +108,10 @@ Copyright:
 				part = firstLetter + part.substring(1);
 				title += part + ' ';
 			});
-			
+		
 			var panel = new Ext.grid.GridPanel({
 				id: filter + '-panel',
-                border: false,
+				border: false,
 				store: store,
 				title: _(title),
 				columns: [
@@ -129,17 +129,17 @@ Copyright:
 				deferredRender: false,
 				autoScroll: true
 			});
-			
+		
 			if (Deluge.config['sidebar_show_zero'] == false) {
 				states = this.removeZero(states);
 			}
-			
+		
 			store.loadData(states);
 			this.add(panel);
-			
+		
 			this.doLayout();
 			this.panels[filter] = panel;
-			
+		
 			if (!this.selected) {
 				panel.getSelectionModel().selectFirstRow();
 				this.selected = {
@@ -149,7 +149,7 @@ Copyright:
 				}
 			}
 		},
-		
+	
 		getFilters: function() {
 			var filters = {}
 			if (!this.selected) {
@@ -162,11 +162,11 @@ Copyright:
 			if (filterType == "state" && this.selected.filter == "All") {
 				return filters;
 			}
-			
+	
 			filters[filterType] = this.selected.filter;
 			return filters;
 		},
-		
+	
 		// private
 		onDisconnect: function() {
 			Ext.each(Ext.getKeys(this.panels), function(filter) {
@@ -175,7 +175,7 @@ Copyright:
 			this.panels = {};
 			this.selected = null;
 		},
-		
+	
 		onFilterSelect: function(selModel, rowIndex, record) {
 			if (!this.selected) needsUpdate = true;
 			else if (this.selected.row != rowIndex) needsUpdate = true;
@@ -185,13 +185,13 @@ Copyright:
 				filter: record.get('filter'),
 				panel: this.panels[record.store.id]
 			}
-			
+	
 			if (needsUpdate) Deluge.UI.update();
 		},
-		
+	
 		/**
-		 * Remove the states with zero torrents in them.
-		 */
+		* Remove the states with zero torrents in them.
+		*/
 		removeZero: function(states) {
 			var newStates = [];
 			Ext.each(states, function(state) {
@@ -201,7 +201,7 @@ Copyright:
 			});
 			return newStates;
 		},
-		
+	
 		update: function(filters) {
 			for (var filter in filters) {
 				var states = filters[filter];
@@ -211,7 +211,7 @@ Copyright:
 					this.createFilter(filter, states);
 				}
 			}
-			
+	
 			// Perform a cleanup of fitlers that aren't enabled any more
 			Ext.each(Ext.keys(this.panels), function(filter) {
 				if (Ext.keys(filters).indexOf(filter) == -1) {
@@ -220,18 +220,17 @@ Copyright:
 				}
 			}, this);
 		},
-		
+	
 		updateFilter: function(filter, states) {
 			if (Deluge.config['sidebar_show_zero'] == false) {
 				states = this.removeZero(states);
 			}
-			
+	
 			this.panels[filter].store.loadData(states);
 			if (this.selected && this.selected.panel == this.panels[filter]) {
 				this.panels[filter].getSelectionModel().selectRow(this.selected.row);
 			}
 		}
-		
 	});
 	Deluge.Sidebar = new Ext.deluge.Sidebar();
 })();
