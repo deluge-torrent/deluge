@@ -590,11 +590,11 @@ class WebApi(JSONComponent):
                 callback(_("Connected"), info)
 
             client.daemon.info().addCallback(on_info)
-
-        c = Client()
-        d = c.connect(host, port, user, password)
-        d.addCallback(on_connect, c, host_id)
-        d.addErrback(on_connect_failed, host_id)
+        else:
+            c = Client()
+            d = c.connect(host, port, user, password)
+            d.addCallback(on_connect, c, host_id)
+            d.addErrback(on_connect_failed, host_id)
         return main_deferred
 
     @export
