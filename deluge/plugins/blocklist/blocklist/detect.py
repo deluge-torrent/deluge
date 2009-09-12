@@ -48,6 +48,6 @@ def detect_compression(filename):
     f.close()
     return COMPRESSION_TYPES.get(magic_number, "")
 
-def detect_format(filename):
+def detect_format(filename, compression=""):
     # TODO: implement this function
     return ""

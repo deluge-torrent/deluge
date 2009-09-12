@@ -60,6 +60,21 @@ class BaseReader(object):
         """Ignore commented lines and blank lines"""
         return line.startswith('#') or not line.strip()
 
+    def is_valid(self, file):
+        """Determines whether file is valid for this reader"""
+        blocklist = self.open()
+        valid = True
+        for line in blocklist:
+            if not self.is_ignored(line):
+                try:
+                    (start, end) = self.parse(line)
+                except:
+                    valid = False
+                finally:
+                    break
+        blocklist.close()
+        return valid
+
     def readranges(self):
         """Yields each ip range from the file"""
         blocklist = self.open()

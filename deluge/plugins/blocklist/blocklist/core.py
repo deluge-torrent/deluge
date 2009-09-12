@@ -344,7 +344,7 @@ class Core(CorePluginBase):
         :raises UnknownFormatError: if the format cannot be detected
         """
         self.config["list_compression"] = detect_compression(blocklist)
-        self.config["list_type"] = detect_format(blocklist)
+        self.config["list_type"] = detect_format(blocklist, self.config["list_compression"])
         if not self.config["list_type"]:
             self.config["list_compression"] = ""
             raise UnknownFormatError
