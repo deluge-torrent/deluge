@@ -248,7 +248,7 @@ class Core(CorePluginBase):
                 log.debug("Blocklist is up-to-date!")
                 self.up_to_date = True
                 self.use_cache = True
-                d = threads.deferToThread(update_info,
+                d = threads.deferToThread(self.update_info,
                         deluge.configmanager.get_config_dir("blocklist.cache"))
                 f.trap(f.type)
             elif self.failed_attempts < self.config["try_times"]:

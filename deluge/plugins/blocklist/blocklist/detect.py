@@ -73,6 +73,6 @@ def detect_format(filename, compression=""):
 
 def create_reader(format, compression=""):
     reader = READERS.get(format)
-    if compression:
+    if reader and compression:
         reader = DECOMPRESSERS.get(compression)(reader)
     return reader
