@@ -60,7 +60,7 @@ class BaseReader(object):
         """Ignore commented lines and blank lines"""
         return line.startswith('#') or not line.strip()
 
-    def is_valid(self, file):
+    def is_valid(self):
         """Determines whether file is valid for this reader"""
         blocklist = self.open()
         valid = True

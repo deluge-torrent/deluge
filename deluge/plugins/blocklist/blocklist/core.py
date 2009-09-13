@@ -48,9 +48,7 @@ import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
-from decompressers import Zipped, GZipped, BZipped2
-from readers import EmuleReader, SafePeerReader, PeerGuardianReader
-from detect import detect_compression, detect_format, UnknownFormatError
+from detect import detect_compression, detect_format, create_reader, UnknownFormatError
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
@@ -65,18 +63,6 @@ DEFAULT_PREFS = {
     "list_size": 0,
     "timeout": 180,
     "try_times": 3,
-}
-
-DECOMPRESSERS = {
-    "Zip" : Zipped,
-    "GZip" : GZipped,
-    "BZip2" : BZipped2
-}
-
-READERS = {
-    "Emule" : EmuleReader,
-    "SafePeer" : SafePeerReader,
-    "PeerGuardian" : PeerGuardianReader
 }
 
 # Constants
@@ -96,9 +82,7 @@ class Core(CorePluginBase):
         self.core = component.get("Core")
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
 
-        self.reader = READERS.get(self.config["list_type"])
-        if self.config["list_compression"]:
-            self.reader = DECOMPRESSERS.get(self.config["list_compression"])(self.reader)
+        self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
         update_now = False
         if self.config["load_on_start"]:

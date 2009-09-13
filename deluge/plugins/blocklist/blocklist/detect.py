@@ -33,10 +33,25 @@
 #
 #
 
+from decompressers import Zipped, GZipped, BZipped2
+from readers import EmuleReader, SafePeerReader, PeerGuardianReader
+
 COMPRESSION_TYPES = {
     "PK" : "zip",
     "\x1f\x8b" : "gzip",
     "BZ" : "bzip2"
+}
+
+DECOMPRESSERS = {
+    "Zip" : Zipped,
+    "GZip" : GZipped,
+    "BZip2" : BZipped2
+}
+
+READERS = {
+    "Emule" : EmuleReader,
+    "SafePeer" : SafePeerReader,
+    "PeerGuardian" : PeerGuardianReader
 }
 
 class UnknownFormatError(Exception):
@@ -49,5 +64,15 @@ def detect_compression(filename):
     return COMPRESSION_TYPES.get(magic_number, "")
 
 def detect_format(filename, compression=""):
-    # TODO: implement this function
-    return ""
+    format = ""
+    for reader in READERS:
+        if create_reader(reader, compression)(filename).is_valid():
+            format = reader
+            break
+    return format
+
+def create_reader(format, compression=""):
+    reader = READERS.get(format)
+    if compression:
+        reader = DECOMPRESSERS.get(compression)(reader)
+    return reader
