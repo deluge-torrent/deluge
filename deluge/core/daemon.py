@@ -51,9 +51,14 @@ class Daemon(object):
         # Check for another running instance of the daemon
         if os.path.isfile(deluge.configmanager.get_config_dir("deluged.pid")):
             # Get the PID and the port of the supposedly running daemon
-            (pid, port) = open(deluge.configmanager.get_config_dir("deluged.pid")).read().strip().split(";")
-            pid = int(pid)
-            port = int(port)
+            try:
+                (pid, port) = open(deluge.configmanager.get_config_dir("deluged.pid")).read().strip().split(";")
+                pid = int(pid)
+                port = int(port)
+            except ValueError:
+                pid = None
+                port = None
+
 
             def process_running(pid):
                 if deluge.common.windows_check():
@@ -73,7 +78,7 @@ class Daemon(object):
                     else:
                         return True
 
-            if process_running(pid):
+            if pid is not None and process_running(pid):
                 # Ok, so a process is running with this PID, let's make doubly-sure
                 # it's a deluged process by trying to open a socket to it's port.
                 import socket
