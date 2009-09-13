@@ -39,3 +39,13 @@ import os.path
 
 def get_resource(filename):
     return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
+
+def raiseError(error):
+    def safer(func):
+        def new(self, *args, **kwargs):
+            try:
+                return func(self, *args, **kwargs)
+            except:
+                raise error
+        return new
+    return safer

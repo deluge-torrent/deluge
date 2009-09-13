@@ -49,6 +49,7 @@ import deluge.configmanager
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
 from detect import detect_compression, detect_format, create_reader, UnknownFormatError
+from readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
@@ -111,7 +112,7 @@ class Core(CorePluginBase):
         pass
 
     ## Exported RPC methods ###
-    @export()
+    @export
     def check_import(self, force=False):
         """
         Imports latest blocklist specified by blocklist url.
@@ -126,6 +127,7 @@ class Core(CorePluginBase):
         self.force_download = force
         self.use_cache = False
         self.failed_attempts = 0
+        self.auto_detected = False
 
         # Start callback chain
         d = self.download_list()
@@ -135,12 +137,12 @@ class Core(CorePluginBase):
 
         return d
 
-    @export()
+    @export
     def get_config(self):
         """Returns the config dictionary"""
         return self.config.config
 
-    @export()
+    @export
     def set_config(self, config):
         """
         Sets the config based on values in 'config'
@@ -151,7 +153,7 @@ class Core(CorePluginBase):
         for key in config.keys():
             self.config[key] = config[key]
 
-    @export()
+    @export
     def get_status(self):
         """Returns the status of the plugin."""
         status = {}
@@ -284,6 +286,7 @@ class Core(CorePluginBase):
 
         if not self.reader:
             self.auto_detect(blocklist)
+            self.auto_detected = True
 
         d = threads.deferToThread(self.reader(blocklist).read(on_read_ip_range))
         d.addCallback(on_finish_read)
@@ -306,17 +309,27 @@ class Core(CorePluginBase):
 
     def on_import_error(self, f):
         """Recovers from import error"""
-        # TODO: catch invalid / corrupt list error
-        #       and reset self.reader
-        d = None
+        d = f
         self.is_importing = False
+        try_again = False
         blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
-        # If we have a backup and we haven't already used it
-        if os.path.exists(blocklist) and not self.use_cache:
+
+        if f.check(ReaderParseError) and not self.auto_detected:
+            # Invalid / corrupt list, let's detect it
+            log.warning("Invalid / corrupt blocklist")
+            self.reader = None
+            try_again = True
+        elif os.path.exists(blocklist) and not self.use_cache:
+           # If we have a backup and we haven't already used it
             e = f.trap(Exception)
             log.warning("Error reading blocklist: ", e)
+            self.use_cache = True
+            try_again = True
+
+        if try_again:
             d = self.import_list()
             d.addCallbacks(self.on_import_complete, self.on_import_error)
+
         return d
 
     def auto_detect(self, blocklist):

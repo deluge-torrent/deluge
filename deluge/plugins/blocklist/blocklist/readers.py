@@ -34,8 +34,10 @@
 #
 
 from deluge.log import LOG as log
+from common import raiseError
 
-# TODO: Create exception classes to be raised
+class ReaderParseError(Exception):
+    pass
 
 class BaseReader(object):
     """Base reader for blocklist files"""
@@ -85,11 +87,13 @@ class BaseReader(object):
 
 class EmuleReader(BaseReader):
     """Blocklist reader for emule style blocklists"""
+    @raiseError(ReaderParseError)
     def parse(self, line):
         return line.strip().split(" , ")[0].split(" - ")
 
 class SafePeerReader(BaseReader):
     """Blocklist reader for SafePeer style blocklists"""
+    @raiseError(ReaderParseError)
     def parse(self, line):
         return line.strip().split(":")[1].split("-")
 
