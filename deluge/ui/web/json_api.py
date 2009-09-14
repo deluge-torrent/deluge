@@ -349,7 +349,7 @@ class EventQueue(object):
             client.register_event_handler(event, on_event)
             self.__handlers[event] = on_event
             self.__events[event] = [listener_id]
-        else:
+        elif listener_id not in self.__events[event]:
             self.__events[event].append(listener_id)
     
     def get_events(self, listener_id):
