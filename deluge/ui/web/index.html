@@ -7,14 +7,17 @@
         <link rel="icon" href="/icons/deluge.png" type="image/png" />
         
         <!-- Stylesheets -->
-        %for stylesheet in stylesheets:
+        % for stylesheet in stylesheets:
         <link rel="stylesheet" type="text/css" href="${stylesheet}" />
-        %endfor
+        % endfor
 
         <!-- Javascript -->
-        %for script in scripts:
+        % for script in scripts:
         <script type="text/javascript" src="${script}"></script>
-        %endfor
+        % endfor
+        <script type="text/javascript">
+            Deluge.debug = ${str(debug).lower()};
+        </script>
     </head>
     <body>
         <div style="background-image: url('/themes/default/tree/loading.gif');"></div>

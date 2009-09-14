@@ -425,7 +425,7 @@ class TopLevel(resource.Resource):
 
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        return template.render(scripts=scripts, stylesheets=self.stylesheets)
+        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug)
 
 class ServerContextFactory:
     
