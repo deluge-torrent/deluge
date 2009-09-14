@@ -91,7 +91,7 @@ Ext.namespace('Ext.deluge');
 		return String.format(tpl, text, width, barWidth, textWidth);
 	}
 	
-	Deluge.Plugins = [];
+	Deluge.Plugins = {};
 })();
 
 // Hinting for gettext_gen.py

@@ -39,7 +39,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
             "disabled": true
         });
         this.isDelugePlugin = true;
-        Deluge.Plugins.push(this);
+        Deluge.Plugins[this.name] = this;
         Deluge.Plugin.superclass.constructor.call(this, config);
     }
 });
