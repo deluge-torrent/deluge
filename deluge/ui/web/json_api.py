@@ -786,6 +786,10 @@ class WebApi(JSONComponent):
         return component.get("Web.PluginManager").get_plugin_info(name)
     
     @export
+    def get_plugin_resources(self, name):
+        return component.get("Web.PluginManager").get_plugin_resources(name)
+    
+    @export
     def register_event_listener(self, event):
         """
         Add a listener to the event queue.

@@ -135,3 +135,17 @@ class PluginManager(PluginManagerBase, component.Component):
     
     def update(self):
         pass
+    
+    def get_plugin_resources(self, name):
+        # Get the plugin instance
+        try:
+            plugin = component.get("WebPlugin." + name)
+        except KeyError:
+            log.info("Plugin has no web ui")
+            return
+        info = gather_info(plugin)
+        info["name"] = name
+        info["scripts"] = ["/js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["scripts"]]
+        info["debug_scripts"] = ["/js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["debug_scripts"]]
+        del info["script_directories"]
+        return info
