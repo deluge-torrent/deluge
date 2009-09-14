@@ -69,3 +69,9 @@ class WebPluginBase(PluginBase):
         # Register JSON rpc methods
         component.get("JSON").register_object(self, plugin_name.lower())
         log.debug("WebPlugin initialized..")
+    
+    def enable(self):
+        pass
+
+    def disable(self):
+        pass
