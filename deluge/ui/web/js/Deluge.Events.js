@@ -39,7 +39,6 @@ Copyright:
  */
 
 (function() {
-
     Events = Ext.extend(Ext.util.Observable, {
         constructor: function() {
             Events.superclass.constructor.call(this);
@@ -47,8 +46,39 @@ Copyright:
         
         addListener: function(eventName, fn, scope, o) {
             this.addEvents(eventName);
+	    if (/[A-Z]/.test(eventName.substring(0, 1))) {
+		Deluge.Client.web.register_event_listener(eventName);
+	    }
             Events.superclass.addListener.call(this, eventName, fn, scope, o);
-        }
+        },
+	
+	poll: function() {
+	    Deluge.Client.web.get_events({
+		success: this.onPollSuccess,
+		scope: this
+	    });
+	},
+	
+	start: function() {
+	    this.poll = this.poll.bind(this);
+	    this.running = setInterval(this.poll, 2000);
+	    this.poll();
+	},
+	
+	stop: function() {
+	    if (this.running) {
+		clearInterval(this.running); 
+	    }
+	},
+	
+	onPollSuccess: function(events) {
+	    if (!events) return;
+	    Ext.each(events, function(event) {
+		var name = event[0], args = event[1];
+		args.splice(0, 0, name);
+		this.fireEvent.apply(this, args);
+	    }, this);
+	}
     });
     Events.prototype.on = Events.prototype.addListener
     Events.prototype.fire = Events.prototype.fireEvent

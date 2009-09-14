@@ -82,6 +82,7 @@ Deluge.UI = {
 		
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
+			Deluge.Events.start();
 		}, this, {single: true});
 		
 		this.update = this.update.bind(this);
@@ -156,11 +157,11 @@ Deluge.UI = {
 	 * Stop the Deluge UI polling the server and clear the interface.
 	 */
 	stop: function() {
-		if (this.running) {
-            clearInterval(this.running);
-            this.running = false;
-			Deluge.Torrents.getStore().loadData([]);
-        }
+	    if (this.running) {
+		clearInterval(this.running);
+		this.running = false;
+		Deluge.Torrents.getStore().loadData([]);
+	    }
 	}
 }
 
