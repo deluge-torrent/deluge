@@ -279,6 +279,9 @@ class LookupResource(resource.Resource, component.Component):
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
                 return open(path, "rb").read()
+        
+        request.setResponseCode(http.NOT_FOUND)
+        return "<h1>404 - Not Found</h1>"
 
 class TopLevel(resource.Resource):
     addSlash = True
@@ -502,6 +505,8 @@ class DelugeWeb(component.Component):
         else:
             self.start_normal()
         self.plugins.enable_plugins()
+        
+        component.get("JSON").enable()
 
         if start_reactor:
             reactor.run()
