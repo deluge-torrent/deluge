@@ -74,10 +74,11 @@ Deluge.UI = {
 		Deluge.Client = new Ext.ux.util.RpcClient({
 			url: '/json'
 		});
-		
-		Ext.each(Deluge.Plugins, function(plugin) {
+
+		for (var plugin in Deluge.Plugins) {
+		    plugin = Deluge.Plugins[plugin];
 		    plugin.enable();
-		});
+		}
 		
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
