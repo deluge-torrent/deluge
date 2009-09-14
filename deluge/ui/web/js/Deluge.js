@@ -90,6 +90,8 @@ Ext.namespace('Ext.deluge');
 		var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
 		return String.format(tpl, text, width, barWidth, textWidth);
 	}
+	
+	Deluge.Plugins = [];
 })();
 
 // Hinting for gettext_gen.py

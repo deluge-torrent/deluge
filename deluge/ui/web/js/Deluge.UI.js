@@ -75,6 +75,10 @@ Deluge.UI = {
 			url: '/json'
 		});
 		
+		Ext.each(Deluge.Plugins, function(plugin) {
+		    plugin.enable();
+		});
+		
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
 		}, this, {single: true});
