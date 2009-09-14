@@ -328,6 +328,7 @@ class TopLevel(resource.Resource):
         "/js/Deluge.EditTrackers.js",
         "/js/Deluge.Keys.js",
         "/js/Deluge.Login.js",
+        "/js/Deluge.Plugin.js",
         "/js/Deluge.Preferences.js",
         "/js/Deluge.Preferences.Downloads.js",
         "/js/Deluge.Preferences.Network.js",
