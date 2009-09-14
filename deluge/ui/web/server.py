@@ -245,27 +245,40 @@ class LookupResource(resource.Resource, component.Component):
     def __init__(self, name, *directories):
         resource.Resource.__init__(self)
         component.Component.__init__(self, name)
-        self.__directories = list(directories)
-
-    @property
-    def directories(self):
-        return self.__directories
+        
+        self.__paths = {}
+        for directory in directories:
+            self.addDirectory(directory)
+    
+    def addDirectory(self, directory, path=""):
+        log.debug("Adding directory `%s` with path `%s`", directory, path)
+        paths = self.__paths.get(path, [])
+        paths.append(directory)
+        self.__paths[path] = paths
 
     def getChild(self, path, request):
-        request.path = path
+        if hasattr(request, 'lookup_path'):
+            request.lookup_path += '/' + path
+        else:
+            request.lookup_path = path
         return self
 
     def render(self, request):
-        log.debug("Requested path: '%s'", request.path)
-        for lookup in self.directories:
-            if request.path in os.listdir(lookup):
-                path = os.path.join(lookup, request.path)
+        log.debug("Requested path: '%s'", request.lookup_path)
+        path = os.path.dirname(request.lookup_path)
+        
+        if path not in self.__paths:
+            request.setResponseCode(http.NOT_FOUND)
+            return "<h1>404 - Not Found</h1>"
+        
+        filename = os.path.basename(request.path)
+        for directory in self.__paths[path]:
+            if filename in os.listdir(directory):
+                path = os.path.join(directory, filename)
                 log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
                 return open(path, "rb").read()
-        request.setResponseCode(http.NOT_FOUND)
-        return "<h1>404 - Not Found</h1>"
 
 class TopLevel(resource.Resource):
     addSlash = True
