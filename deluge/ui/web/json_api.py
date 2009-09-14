@@ -142,9 +142,9 @@ class JSON(resource.Resource, component.Component):
         client.disconnect()
     
     def enable(self):
-        if component.get("DelugeWeb").config["deluge_daemon"]:
+        if component.get("DelugeWeb").config["default_daemon"]:
             # Sort out getting the default daemon here
-            default = component.get("DelugeWeb").config["deluge_daemon"]
+            default = component.get("DelugeWeb").config["default_daemon"]
             host = component.get("Web").get_host(default)
             self.connect()
 
@@ -318,6 +318,68 @@ HOSTS_INFO = 4
 
 FILES_KEYS = ["files", "file_progress", "file_priorities"]
 
+class EventQueue(object):
+    """
+    This class subscribes to events from the core and stores them until all
+    the subscribed listeners have received the events.
+    """
+    
+    def __init__(self):
+        self.__events = {}
+        self.__handlers = {}
+        self.__queue = {}
+    
+    def add_listener(self, listener_id, event):
+        """
+        Add a listener to the event queue.
+        
+        :param listener_id: A unique id for the listener
+        :type listener_id: string
+        :param event: The event name
+        :type event: string
+	"""
+        if event not in self.__events:
+            
+            def on_event(*args):
+                for listener in self.__events[event]:
+                    if listener not in self.__queue:
+                        self.__queue[listener] = []
+                    self.__queue[listener].append((event, args))
+            
+            client.register_event_handler(event, on_event)
+            self.__handlers[event] = on_event
+            self.__events[event] = [listener_id]
+        else:
+            self.__events[event].append(listener_id)
+    
+    def get_events(self, listener_id):
+        """
+        Retrieve the pending events for the listener.
+        
+        :param listener_id: A unique id for the listener
+        :type listener_id: string
+	"""
+        if listener_id in self.__queue:
+            queue = self.__queue[listener_id]
+            del self.__queue[listener_id]
+            return queue
+        return None
+    
+    def remove_listener(self, listener_id, event):
+        """
+        Remove a listener from the event queue.
+        
+        :param listener_id: The unique id for the listener
+        :type listener_id: string
+        :param event: The event name
+        :type event: string
+	"""
+        self.__events[event].remove(listener_id)
+        if not self.__events[event]:
+            client.deregister_event_handler(event, self.__handlers[event])
+            del self.__events[event]
+            del self.__handlers[event]
+
 class WebApi(JSONComponent):
     """
     The component that implements all the methods required for managing
@@ -329,6 +391,7 @@ class WebApi(JSONComponent):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
         self.core_config = CoreConfig()
+        self.event_queue = EventQueue()
 
     def get_host(self, host_id):
         """
@@ -721,3 +784,30 @@ class WebApi(JSONComponent):
     @export
     def get_plugin_info(self, name):
         return component.get("Web.PluginManager").get_plugin_info(name)
+    
+    @export
+    def register_event_listener(self, event):
+        """
+        Add a listener to the event queue.
+        
+        :param event: The event name
+        :type event: string
+	"""
+        self.event_queue.add_listener(__request__.session_id, event)
+    
+    @export
+    def deregister_event_listener(self, event):
+        """
+        Remove an event listener from the event queue.
+        
+        :param event: The event name
+        :type event: string
+	"""
+        self.event_queue.remove_listener(__request__.session_id, event)
+    
+    @export
+    def get_events(self):
+        """
+        Retrieve the pending events for the session.
+	"""
+        return self.event_queue.get_events(__request__.session_id)
