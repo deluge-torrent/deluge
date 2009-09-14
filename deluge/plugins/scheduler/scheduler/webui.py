@@ -1,7 +1,7 @@
 #
 # webui.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -36,8 +36,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import pkg_resources
-
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge import component
@@ -46,16 +44,5 @@ from deluge.plugins.pluginbase import WebPluginBase
 from common import get_resource
 
 class WebUI(WebPluginBase):
-    def enable(self):
-        deluge_web = component.get("DelugeWeb").top_level
-        deluge_web.add_script("/js/scheduler.js")
-        
-        javascript = component.get("Javascript").directories
-        javascript.append(get_resource(""))
-
-    def disable(self):        
-        deluge_web = component.get("DelugeWeb").top_level
-        deluge_web.remove_script("/js/scheduler.js")
-        
-        javascript = component.get("Javascript").directories
-        javascript.remove(get_resource(""))
+    
+    scripts = [get_resource("scheduler.js")]
