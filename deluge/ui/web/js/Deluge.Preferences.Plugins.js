@@ -172,6 +172,10 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		}
 	},
 	
+	onFindMorePlugins: function() {
+		window.open('http://dev.deluge-torrent.org/wiki/Plugins');
+	},
+	
 	onGotAvailablePlugins: function(plugins) {
 		this.availablePlugins = plugins;
 		Deluge.Client.core.get_enabled_plugins({
