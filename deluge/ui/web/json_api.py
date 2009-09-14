@@ -137,6 +137,16 @@ class JSON(resource.Resource, component.Component):
             component.get("Web").core_config.start()
         _d.addCallback(on_client_connected)
         return d
+    
+    def disable(self):
+        client.disconnect()
+    
+    def enable(self):
+        if component.get("DelugeWeb").config["deluge_daemon"]:
+            # Sort out getting the default daemon here
+            default = component.get("DelugeWeb").config["deluge_daemon"]
+            host = component.get("Web").get_host(default)
+            self.connect()
 
     def _on_client_disconnect(self, *args):
         component.get("Web.PluginManager").stop()
@@ -711,12 +721,3 @@ class WebApi(JSONComponent):
     @export
     def get_plugin_info(self, name):
         return component.get("Web.PluginManager").get_plugin_info(name)
-    
-    @export
-    def enable_plugin(self, name):
-        pass
-    
-    @export
-    def disable_plugin(self, name):
-        pass
-    
