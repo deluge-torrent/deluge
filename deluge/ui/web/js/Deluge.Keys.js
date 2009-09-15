@@ -70,11 +70,11 @@ Deluge.Keys = {
     
     /**
      * @description Keys used in the peers tab of the statistics panel.
-     * <pre>['peers', 'seed']</pre>
+     * <pre>['peers']</pre>
 	 * @static
 	 */
     Peers: [
-        'peers', 'seeds'
+        'peers'
     ],
     
     /**
