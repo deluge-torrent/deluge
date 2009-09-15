@@ -103,7 +103,6 @@ Copyright:
 					},'->',{
 						id: 'help',
 						cls: 'x-btn-text-icon',
-						disabled: true,
 						icon: '/icons/help.png',
 						text: _('Help'),
 						handler: this.onHelpClick,
@@ -155,6 +154,10 @@ Copyright:
 		
 		onConnectionManagerClick: function() {
 			Deluge.ConnectionManager.show();
+		},
+		
+		onHelpClick: function() {
+			window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
 		},
 		
 		onPreferencesClick: function() {
