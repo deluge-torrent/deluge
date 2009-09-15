@@ -83,6 +83,8 @@ Deluge.UI = {
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
 			Deluge.Events.start();
+			Deluge.Events.on('PluginEnabledEvent', this.onPluginEnabled, this);
+			Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		}, this, {single: true});
 		
 		this.update = this.update.bind(this);
@@ -150,6 +152,24 @@ Deluge.UI = {
 	 */
 	onDisconnect: function() {
 		this.stop();
+	},
+	
+	onPluginEnabled: function(pluginName) {
+	    Deluge.Client.web.get_plugin_resources(pluginName, {
+		success: this.onGotPluginResources,
+		scope: this
+	    })
+	},
+	
+	onGotPluginResources: function(resources) {
+	    var scripts = (Deluge.debug) ? resources['debug_scripts'] : resources['scripts'];
+	    Ext.each(scripts, function(script) {
+		
+	    }, this);
+	},
+	
+	onPluginDisabled: function(pluginName) {
+	    //alert('D: ' + pluginName);
 	},
 	
 	/**
