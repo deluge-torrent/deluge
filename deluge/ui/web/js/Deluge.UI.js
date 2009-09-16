@@ -162,14 +162,26 @@ Deluge.UI = {
 	},
 	
 	onGotPluginResources: function(resources) {
-	    var scripts = (Deluge.debug) ? resources['debug_scripts'] : resources['scripts'];
+	    var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
 	    Ext.each(scripts, function(script) {
-		
+		Ext.ux.JSLoader({
+		    url: script,
+		    onLoad: this.onPluginLoaded,
+		    pluginName: resources.name
+		});
 	    }, this);
 	},
 	
 	onPluginDisabled: function(pluginName) {
-	    //alert('D: ' + pluginName);
+	    Deluge.Plugins[pluginName].disable();
+	},
+	
+	onPluginLoaded: function(options) {
+	    // This could happen if the plugin has multiple scripts
+	    if (!Deluge.Plugins[options.pluginName]) return;
+	    
+	    // Enable the plugin
+	    Deluge.Plugins[options.pluginName].enable();
 	},
 	
 	/**

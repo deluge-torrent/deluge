@@ -129,6 +129,19 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		store.loadData([[name]], true);
 		page['bodyStyle'] = 'margin: 5px';
 		this.pages[name] = this.configPanel.add(page);
+		return this.pages[name];
+	},
+	
+	/**
+	 * Removes a preferences page from the window.
+	 * @param {mixed} name
+	 */
+	removePage: function(page) {
+	    var name = page.title;
+	    var store = this.categoriesGrid.getStore();
+	    store.removeAt(store.find('name', name));
+	    this.configPanel.remove(page);
+	    delete this.pages[page.title];
 	},
 	
 	/**
