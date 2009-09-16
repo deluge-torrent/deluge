@@ -255,6 +255,10 @@ class LookupResource(resource.Resource, component.Component):
         paths = self.__paths.get(path, [])
         paths.append(directory)
         self.__paths[path] = paths
+    
+    def removeDirectory(self, directory, path=""):
+        log.debug("Removing directory `%s`", directory)
+        self.__paths[path].remove(directory)
 
     def getChild(self, path, request):
         if hasattr(request, 'lookup_path'):

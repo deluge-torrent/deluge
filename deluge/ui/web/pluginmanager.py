@@ -86,7 +86,24 @@ class PluginManager(PluginManagerBase, component.Component):
             log.info("Plugin has no web ui")
             return
         
+        info = gather_info(plugin)
+        
         server = component.get("DelugeWeb").top_level
+        js = component.get("Javascript")
+        for directory in info["script_directories"]:
+            js.removeDirectory(directory, name.lower())
+        
+        for script in info["scripts"]:
+            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
+            if script not in server.scripts:
+                continue
+            server.scripts.remove(script)
+        
+        for script in info["debug_scripts"]:
+            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
+            if script not in server.debug_scripts:
+                continue
+            server.debug_scripts.remove(script)
         
         super(PluginManager, self).disable_plugin(name)
     
