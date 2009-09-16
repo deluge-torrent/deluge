@@ -364,6 +364,8 @@ class TopLevel(resource.Resource):
         self.putChild("render", Render())
         self.putChild("themes", static.File(rpath("themes")))
         self.putChild("tracker", Tracker())
+        self.putChild("test", static.File("test.html"))
+        self.putChild("test.js", static.File("test.js"))
 
         theme = component.get("DelugeWeb").config["theme"]
         self.__stylesheets.insert(1, "/css/xtheme-%s.css" % theme)
@@ -505,7 +507,6 @@ class DelugeWeb(component.Component):
             self.start_ssl()
         else:
             self.start_normal()
-        self.plugins.enable_plugins()
         
         component.get("JSON").enable()
 
