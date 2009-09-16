@@ -782,6 +782,13 @@ class WebApi(JSONComponent):
             web_config[key] = config[key]
     
     @export
+    def get_plugins(self):
+        return {
+            "enabled_plugins": component.get("Web.PluginManager").plugins.keys(),
+            "available_plugins": component.get("Web.PluginManager").available_plugins
+        }
+    
+    @export
     def get_plugin_info(self, name):
         return component.get("Web.PluginManager").get_plugin_info(name)
     
