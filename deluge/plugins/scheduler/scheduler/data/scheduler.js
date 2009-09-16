@@ -100,10 +100,7 @@ SchedulerPlugin = Ext.extend(Deluge.Plugin, {
 	
 	onEnable: function() {
 		this.prefsPage = new SchedulerPreferences();
-		Deluge.Preferences.addPage(this.prefsPage);
+		this.prefsPage = Deluge.Preferences.addPage(this.prefsPage);
 	}
 });
-
-(function() {
-	var plugin = new SchedulerPlugin();
-})();
+new SchedulerPlugin();
