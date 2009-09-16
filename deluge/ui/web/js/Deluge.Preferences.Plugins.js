@@ -1,6 +1,6 @@
 /*
 Script: Deluge.Preferences.Plugins.js
-    The plugins preferences page.
+	The plugins preferences page.
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
@@ -20,15 +20,15 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 */
 
 Ext.namespace('Ext.deluge.preferences');
@@ -43,7 +43,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		}, config);
 		Ext.deluge.preferences.Plugins.superclass.constructor.call(this, config);
 	},
-	
+
 	pluginTemplate: new Ext.Template(
 		'<dl class="singleline">' +
 			'<dt>Author:</dt><dd>{author}</dd>' +
@@ -53,7 +53,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			'<dt>Details:</dt><dd>{details}</dd>' +
 		'</dl>'
 	),
-	
+
 	initComponent: function() {
 		Ext.deluge.preferences.Plugins.superclass.initComponent.call(this);
 		this.defaultValues = {
@@ -63,12 +63,12 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			'details': ''
 		};
 		this.pluginTemplate.compile();
-		
+
 		var checkboxRenderer = function(v, p, record){
 			p.css += ' x-grid3-check-col-td'; 
 			return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
 		}
-
+	
 		this.grid = this.add({
 			xtype: 'grid',
 			region: 'center',
@@ -112,11 +112,6 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 					text: _('Install'),
 					handler: this.onInstallPlugin,
 					scope: this
-				}, {
-					cls: 'x-btn-text-icon',
-					text: _('Rescan'),
-					handler: this.onRescanPlugins,
-					scope: this
 				}, '->', {
 					cls: 'x-btn-text-icon',
 					text: _('Find More'),
@@ -125,7 +120,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				}]
 			})
 		});
-		
+	
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
@@ -141,25 +136,48 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				style: 'margin-left: 10px'
 			}
 		});
-		
+	
 		this.on('show', this.onShow, this);
+		this.pluginInfo.on('render', this.onPluginInfoRender, this);
 		this.grid.on('cellclick', this.onCellClick, this);
 		Deluge.Preferences.on('show', this.onPreferencesShow, this);
+		Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
+		Deluge.Events.on('PluginEnabledEvent', this.onPluginsEnabled, this);
 	},
-	
+
 	disablePlugin: function(plugin) {
 		Deluge.Client.core.disable_plugin(plugin);
 	},
-	
+
 	enablePlugin: function(plugin) {
 		Deluge.Client.core.enable_plugin(plugin);
 	},
-	
+
 	setInfo: function(plugin) {
+		if (!this.pluginInfo.rendered) return;
 		var values = plugin || this.defaultValues;
 		this.pluginInfo.body.dom.innerHTML = this.pluginTemplate.apply(values);
 	},
 	
+	updatePlugins: function() {
+		Deluge.Client.web.get_plugins({
+			success: this.onGotPlugins,
+			scope: this
+		});
+	},
+
+	updatePluginsGrid: function() {
+		var plugins = [];
+		Ext.each(this.availablePlugins, function(plugin) {
+			if (this.enabledPlugins.indexOf(plugin) > -1) {
+				plugins.push([true, plugin]);
+			} else {
+				plugins.push([false, plugin]);
+			}
+		}, this);
+		this.grid.getStore().loadData(plugins);
+	},
+
 	onCellClick: function(grid, rowIndex, colIndex, e) {
 		if (colIndex != 0) return;
 		var r = grid.getStore().getAt(rowIndex);
@@ -171,23 +189,18 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			this.disablePlugin(r.get('plugin'));
 		}
 	},
-	
+
 	onFindMorePlugins: function() {
 		window.open('http://dev.deluge-torrent.org/wiki/Plugins');
 	},
-	
-	onGotAvailablePlugins: function(plugins) {
-		this.availablePlugins = plugins;
-		Deluge.Client.core.get_enabled_plugins({
-			success: this.onGotEnabledPlugins,
-			scope: this
-		});
+
+	onGotPlugins: function(plugins) {
+		this.enabledPlugins = plugins.enabled_plugins;
+		this.availablePlugins = plugins.available_plugins;
+		this.setInfo();
+		this.updatePluginsGrid();
 	},
-	
-	onGotEnabledPlugins: function(plugins) {
-		this.enabledPlugins = plugins;
-	},
-	
+
 	onGotPluginInfo: function(info) {
 		var values = {
 			author: info['Author'],
@@ -199,33 +212,34 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.setInfo(values);
 		delete info;
 	},
+
+	onPluginEnabled: function(pluginName) {
+		var index = this.grid.getStore().find('plugin', pluginName);
+		var plugin = this.grid.getStore().getAt(index);
+		plugin.set('enabled', true);
+		plugin.commit();
+	},
 	
+	onPluginDisabled: function(pluginName) {
+		var index = this.grid.getStore().find('plugin', pluginName);
+		var plugin = this.grid.getStore().getAt(index);
+		plugin.set('enabled', false);
+		plugin.commit();
+	},
+
 	onPluginSelect: function(selmodel, rowIndex, r) {
 		Deluge.Client.web.get_plugin_info(r.get('plugin'), {
 			success: this.onGotPluginInfo,
 			scope: this
 		});
 	},
-	
+
 	onPreferencesShow: function() {
-		Deluge.Client.core.get_available_plugins({
-			success: this.onGotAvailablePlugins,
-			scope: this
-		});
+		this.updatePlugins();
 	},
-	
-	onShow: function() {
-		Ext.deluge.preferences.Plugins.superclass.onShow.call(this);
+
+	onPluginInfoRender: function(ct, position) {
 		this.setInfo();
-		var plugins = [];
-		Ext.each(this.availablePlugins, function(plugin) {
-			if (this.enabledPlugins.indexOf(plugin) > -1) {
-				plugins.push([true, plugin]);
-			} else {
-				plugins.push([false, plugin]);
-			}
-		}, this);
-		this.grid.getStore().loadData(plugins);
 	}
 });
 Deluge.Preferences.addPage(new Ext.deluge.preferences.Plugins());
