@@ -41,13 +41,18 @@ Copyright:
 (function() {
     Events = Ext.extend(Ext.util.Observable, {
         constructor: function() {
+	    this.toRegister = [];
             Events.superclass.constructor.call(this);
         },
         
         addListener: function(eventName, fn, scope, o) {
             this.addEvents(eventName);
 	    if (/[A-Z]/.test(eventName.substring(0, 1))) {
-		Deluge.Client.web.register_event_listener(eventName);
+		if (!Deluge.Client) {
+		    this.toRegister.push(eventName);
+		} else {
+		    Deluge.Client.web.register_event_listener(eventName);
+		}
 	    }
             Events.superclass.addListener.call(this, eventName, fn, scope, o);
         },
@@ -60,6 +65,9 @@ Copyright:
 	},
 	
 	start: function() {
+	    Ext.each(this.toRegister, function(eventName) {
+		Deluge.Client.web.register_event_listener(eventName);
+	    });
 	    this.poll = this.poll.bind(this);
 	    this.running = setInterval(this.poll, 2000);
 	    this.poll();
