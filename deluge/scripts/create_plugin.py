@@ -50,7 +50,7 @@ def create_plugin():
     safe_name = name.lower()
     plugin_base = os.path.realpath(os.path.join(options.path, safe_name))
     src = os.path.join(plugin_base, safe_name)
-    template_dir = os.path.join(src, "template")
+    data_dir = os.path.join(src, "data")
 
     if os.path.exists(plugin_base):
         print "the directory %s already exists, delete it first" % plugin_base
@@ -77,8 +77,7 @@ def create_plugin():
     print "creating folders.."
     os.mkdir(plugin_base)
     os.mkdir(src)
-    os.mkdir(os.path.join(src, "data"))
-    os.mkdir(template_dir)
+    os.mkdir(data_dir)
 
     print "creating files.."
     write_file(plugin_base,"setup.py", SETUP)
@@ -87,8 +86,8 @@ def create_plugin():
     write_file(src,"webui.py", WEBUI)
     write_file(src,"core.py", CORE)
     write_file(src, "common.py", COMMON)
-    write_file(os.path.join(src,"data"),"config.glade", GLADE)
-    write_file(template_dir,"default.html", DEFAULT_HTML)
+    write_file(data_dir, "config.glade", GLADE)
+    write_file(data_dir, "%s.js" % safe_name, DEFAULT_JS)
 
     #add an input parameter for this?
     print "building dev-link.."
@@ -272,7 +271,12 @@ from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
+from common import get_resource
+
 class WebUI(WebPluginBase):
+
+    scripts = [get_resource("%(safe_name)s.js")]
+
     def enable(self):
         pass
 
@@ -280,16 +284,23 @@ class WebUI(WebPluginBase):
         pass
 """
 
-DEFAULT_HTML = """$def with (value1, value2)
-$:render.header(_("Demo1"), '')
-<div class="panel">
-<h2>Demo:%(name)s</h2>
-<pre>
-$value1
-$value2
-</pre>'
-</div>
-$:render.footer()
+DEFAULT_JS = """%(name)sPlugin = Ext.extend(Deluge.Plugin, {
+	constructor: function(config) {
+		config = Ext.apply({
+			name: "%(name)s"
+		}, config);
+		%(name)sPlugin.superclass.constructor.call(this, config);
+	},
+	
+	onDisable: function() {
+		
+	},
+	
+	onEnable: function() {
+		
+	}
+});
+new %(name)sPlugin();
 """
 
 GPL = """#
@@ -300,6 +311,7 @@ GPL = """#
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
