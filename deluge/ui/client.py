@@ -430,8 +430,11 @@ class DaemonClassicProxy(DaemonProxy):
             d.errback(e)
             return d
 
+        _args = list(args)
+        _kwargs = dict(kwargs)
+
         try:
-            result = m(*args, **kwargs)
+            result = m(*_args, **_kwargs)
         except Exception, e:
             d.errback(e)
         else:
