@@ -260,7 +260,7 @@ class Core(component.Component):
         :type uri: string
         :param options: the options to apply to the torrent on add
         :type options: dict
-        
+
         :returns: the torrent_id
         :rtype: string
 
@@ -280,9 +280,9 @@ class Core(component.Component):
         :type remove_data: boolean
         :returns: True if removed successfully
         :rtype: bool
-        
+
         :raises InvalidTorrentError: if the torrent_id does not exist in the session
-        
+
         """
         log.debug("Removing torrent %s from the core.", torrent_id)
         return self.torrentmanager.remove(torrent_id, remove_data)
@@ -291,7 +291,7 @@ class Core(component.Component):
     def get_stats(self):
         """
         Deprecated: please use get_session_status()
-        
+
         """
         warnings.warn("Use get_session_status() instead of get_stats()", DeprecationWarning)
         stats = self.get_session_status(["payload_download_rate", "payload_upload_rate",
@@ -674,20 +674,20 @@ class Core(component.Component):
     def rename_files(self, torrent_id, filenames):
         """
         Rename files in torrent_id.  Since this is an asynchronous operation by
-        libtorrent, watch for the TorrentFileRenamedEvent to know when the 
+        libtorrent, watch for the TorrentFileRenamedEvent to know when the
         files have been renamed.
-        
+
         :param torrent_id: the torrent_id to rename files
         :type torrent_id: string
         :param filenames: a list of index, filename pairs
         :type filenames: ((index, filename), ...)
-        
+
         :raises InvalidTorrentError: if torrent_id is invalid
-        
+
         """
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError("torrent_id is not in session")
-            
+
         self.torrentmanager[torrent_id].rename_files(filenames)
 
     @export
@@ -696,20 +696,20 @@ class Core(component.Component):
         Renames the 'folder' to 'new_folder' in 'torrent_id'.  Watch for the
         TorrentFolderRenamedEvent which is emitted when the folder has been
         renamed successfully.
-        
+
         :param torrent_id: the torrent to rename folder in
         :type torrent_id: string
         :param folder: the folder to rename
         :type folder: string
         :param new_folder: the new folder name
         :type new_folder: string
-        
+
         :raises InvalidTorrentError: if the torrent_id is invalid
-        
+
         """
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError("torrent_id is not in session")
-        
+
         self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
 
     @export
@@ -770,13 +770,13 @@ class Core(component.Component):
     def test_listen_port(self):
         """
         Checks if the active port is open
-        
+
         :returns: True if the port is open, False if not
         :rtype: bool
-        
+
         """
         from twisted.web.client import getPage
-        
+
         d = getPage("http://deluge-torrent.org/test_port.php?port=%s" % self.get_listen_port())
 
         def on_get_page(result):
@@ -790,14 +790,25 @@ class Core(component.Component):
     def get_free_space(self, path):
         """
         Returns the number of free bytes at path
-        
+
         :param path: the path to check free space at
         :type path: string
-        
+
         :returns: the number of free bytes at path
         :rtype: int
-        
+
         :raises InvalidPathError: if the path is invalid
-        
+
         """
         return deluge.common.free_space(path)
+
+    @export
+    def get_libtorrent_version(self):
+        """
+        Returns the libtorrent version.
+
+        :returns: the version
+        :rtype: string
+
+        """
+        return lt.version
