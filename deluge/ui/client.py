@@ -430,11 +430,9 @@ class DaemonClassicProxy(DaemonProxy):
             d.errback(e)
             return d
 
-        _args = list(args)
-        _kwargs = dict(kwargs)
-
         try:
-            result = m(*_args, **_kwargs)
+            import copy
+            result = m(*copy.deepcopy(args), **copy.deepcopy(kwargs))
         except Exception, e:
             d.errback(e)
         else:
