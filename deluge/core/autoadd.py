@@ -68,7 +68,7 @@ class AutoAdd(component.Component):
             return
 
         # Check the auto add folder for new torrents to add
-        if not os.path.exists(self.config["autoadd_location"]):
+        if not os.path.isdir(self.config["autoadd_location"]):
             log.warning("Invalid AutoAdd folder: %s", self.config["autoadd_location"])
             component.pause("AutoAdd")
             return
