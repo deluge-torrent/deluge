@@ -160,7 +160,7 @@ class Auth(JSONComponent):
             if m.hexdigest() == config['pwd_md5']:
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.
-                self.change_password(password)
+                self._change_password(password)
                 del config.config["pwd_md5"]
                 
                 # Remove the older password if there is now.
@@ -181,7 +181,7 @@ class Auth(JSONComponent):
                 
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.
-                self.change_password(password)
+                self._change_password(password)
                 del config.config["old_pwd_salt"]
                 del config.config["old_pwd_md5"]
                 
@@ -252,6 +252,23 @@ class Auth(JSONComponent):
         if auth_level < level:
             raise AuthError("Not authenticated")
     
+    def _change_password(self, new_password):
+        """
+        Change the password. This is to allow the UI to change/reset a
+        password.
+        
+        :param new_password: the password to change to
+        :type new_password: string
+        """
+        log.debug("Changing password")
+        salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
+        s = hashlib.sha1(salt)
+        s.update(new_password)
+        config = component.get("DelugeWeb").config
+        config["pwd_salt"] = salt
+        config["pwd_sha1"] = s.hexdigest()
+        return True
+    
     @export
     def change_password(self, old_password, new_password):
         """
@@ -264,15 +281,7 @@ class Auth(JSONComponent):
         """
         if not self.check_password(old_password):
             return False
-        
-        log.debug("Changing password")        
-        salt = hashlib.sha1(str(random.getrandbits(40))).hexdigest()
-        s = hashlib.sha1(salt)
-        s.update(new_password)
-        config = component.get("DelugeWeb").config
-        config["pwd_salt"] = salt
-        config["pwd_sha1"] = s.hexdigest()
-        return True
+        return self._change_password(new_password)
     
     @export(AUTH_LEVEL_NONE)
     def check_session(self, session_id=None):
