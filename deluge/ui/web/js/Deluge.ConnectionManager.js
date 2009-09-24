@@ -324,6 +324,21 @@ Copyright:
 			record.set('status', host[3])
 			record.set('version', host[4])
 			record.commit();
+			
+			if (this.grid.getSelectionModel().getSelected() == record) {
+				var status = record.get('status');
+				if (status == _('Offline')) {
+					if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
+						this.stopHostButton.enable();
+						this.stopHostButton.setText(_('Start Daemon'));
+					} else {
+						this.stopHostButton.disable();
+					}
+				} else {
+					this.stopHostButton.enable();
+					this.stopHostButton.setText(_('Stop Daemon'));
+				}
+			}
 		},
 	
 		onLogin: function() {
@@ -371,31 +386,41 @@ Copyright:
 	
 		onSelect: function(selModel, rowIndex, record) {
 			this.selectedRow = rowIndex;
-			var button = this.buttons[1];
-			if (record.get('status') == _('Connected')) {
+		},
+	
+		onSelectionChanged: function(selModel) {
+			var record = selModel.getSelected();
+			if (selModel.hasSelection()) {
+				this.removeHostButton.enable();
+				this.stopHostButton.enable();
+				this.stopHostButton.setText(_('Stop Daemon'));
+			} else {
+				this.removeHostButton.disable();
+				this.stopHostButton.disable();
+			}
+			
+			var button = this.buttons[1], status = record.get('status');
+			if (status == _('Connected')) {
 				button.setText(_('Disconnect'));
+			} else if (status == _('Offline')) {
+				if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
+					this.stopHostButton.setText(_('Start Daemon'));
+				} else {
+					this.stopHostButton.disable();
+				}
+				
 			} else {
 				button.setText(_('Connect'));
 			}
 		},
 	
-		onSelectionChanged: function(selModel) {
+		onShow: function() {
 			if (!this.addHostButton) {
 				var bbar = this.grid.getBottomToolbar();
 				this.addHostButton = bbar.items.get('cm-add');
 				this.removeHostButton = bbar.items.get('cm-remove');
 				this.stopHostButton = bbar.items.get('cm-stop');
 			}
-			if (selModel.hasSelection()) {
-				this.removeHostButton.enable();
-				this.stopHostButton.enable();
-			} else {
-				this.removeHostButton.disable();
-				this.stopHostButton.disable();
-			}
-		},
-	
-		onShow: function() {
 			this.loadHosts();
 			this.running = window.setInterval(this.update, 2000, this);
 		},
@@ -403,21 +428,27 @@ Copyright:
 		onStop: function(button, e) {
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
-	
-			Deluge.Client.web.stop_daemon(connection.id, {
-				success: function(result) {
-					if (!result[0]) {
-						Ext.MessageBox.show({
-							title: _('Error'),
-							msg: result[1],
-							buttons: Ext.MessageBox.OK,
-							modal: false,
-							icon: Ext.MessageBox.ERROR,
-							iconCls: 'x-deluge-icon-error'
-						});
+			
+			if (connection.get('status') == 'Offline') {
+				// This means we need to start the daemon
+				Deluge.Client.web.start_daemon(connection.get('port'));
+			} else {
+				// This means we need to stop the daemon
+				Deluge.Client.web.stop_daemon(connection.id, {
+					success: function(result) {
+						if (!result[0]) {
+							Ext.MessageBox.show({
+								title: _('Error'),
+								msg: result[1],
+								buttons: Ext.MessageBox.OK,
+								modal: false,
+								icon: Ext.MessageBox.ERROR,
+								iconCls: 'x-deluge-icon-error'
+							});
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	});
 Deluge.ConnectionManager = new Ext.deluge.ConnectionManager();
