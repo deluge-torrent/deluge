@@ -46,7 +46,7 @@ from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
 from deluge import common, component, httpdownloader
-from deluge.configmanager import ConfigManager
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
 from deluge.ui.coreconfig import CoreConfig
@@ -675,7 +675,7 @@ class WebApi(JSONComponent):
         """
 	Starts a local daemon.
 	"""
-        client.start_daemon(port, deluge.configmanager.get_config_dir())
+        client.start_daemon(port, get_config_dir())
 
     @export
     def stop_daemon(self, host_id):
