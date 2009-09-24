@@ -87,7 +87,12 @@ Copyright:
 				xtype: 'uxspinner',
 				ctCls: 'x-form-uxspinner',
 				name: 'port',
-				strategy: Ext.ux.form.Spinner.NumberStrategy(),
+				strategy: {
+					xtype: 'number',
+					decimalPrecision: 0,
+					minValue: -1,
+					maxValue: 99999
+				},
 				value: '58846',
 				anchor: '50%'
 			});
