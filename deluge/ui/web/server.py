@@ -111,7 +111,7 @@ UI_CONFIG_KEYS = (
 OLD_CONFIG_KEYS = (
     "port", "enabled_plugins", "base", "sidebar_show_zero",
     "sidebar_show_trackers", "show_keyword_search", "show_sidebar",
-    "cache_templates", "https"
+    "https"
 )
 
 def rpath(path):
@@ -450,6 +450,8 @@ class DelugeWeb(component.Component):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
         
+        # Check to see if a configuration from the web interface prior to 1.2
+        # exists and convert it over.
         if os.path.exists(configmanager.get_config_dir("webui06.conf")):
             old_config = configmanager.ConfigManager("webui06.conf")
             if old_config.config:
