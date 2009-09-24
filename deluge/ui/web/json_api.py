@@ -671,6 +671,13 @@ class WebApi(JSONComponent):
         return main_deferred
 
     @export
+    def start_daemon(self, port):
+        """
+	Starts a local daemon.
+	"""
+        client.start_daemon(port, deluge.configmanager.get_config_dir())
+
+    @export
     def stop_daemon(self, host_id):
         """
         Stops a running daemon.
