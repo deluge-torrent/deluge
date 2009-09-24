@@ -91,7 +91,7 @@ Copyright:
 					xtype: 'number',
 					decimalPrecision: 0,
 					minValue: -1,
-					maxValue: 99999
+					maxValue: 65535
 				},
 				value: '58846',
 				anchor: '50%'
