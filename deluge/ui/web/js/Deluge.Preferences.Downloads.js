@@ -53,29 +53,30 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			title: _('Folders'),
 			labelWidth: 150,
 			defaultType: 'textfield',
-			autoHeight: true
+			autoHeight: true,
+			labelAlign: 'top'
 		});
 		optMan.bind('download_location', fieldset.add({
 			name: 'download_location',
 			fieldLabel: _('Download to'),
-			width: 140
+			width: 240
 		}));
 		optMan.bind('move_completed_path', fieldset.add({
 			name: 'move_completed_path',
 			fieldLabel: _('Move completed to'),
-			width: 140,
+			width: 240,
 			disabled: true
 		}));
 		optMan.bind('torrentfiles_location', fieldset.add({
 			name: 'torrentfiles_location',
 			fieldLabel: _('Copy of .torrent files to'),
-			width: 140,
+			width: 240,
 			disabled: true
 		}));
 		optMan.bind('autoadd_location', fieldset.add({
 			name: 'autoadd_location',
 			fieldLabel: _('Autoadd .torrent files from'),
-			width: 140,
+			width: 240,
 			disabled: true
 		}));
 		
