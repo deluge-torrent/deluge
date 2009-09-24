@@ -686,7 +686,7 @@ class WebApi(JSONComponent):
         :type host_id: string
         """
         main_deferred = Deferred()
-        host = self.get_host(connection_id)
+        host = self.get_host(host_id)
         if not host:
             main_deferred.callback((False, _("Daemon doesn't exist")))
             return main_deferred
