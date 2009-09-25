@@ -52,7 +52,7 @@ from deluge.event import *
 from deluge.error import *
 import deluge.common
 import deluge.component as component
-from deluge.configmanager import ConfigManager
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
@@ -269,7 +269,7 @@ class TorrentManager(component.Component):
         try:
             _file = open(
                 os.path.join(
-                    self.config["state_location"],
+                    get_config_dir(), "state",
                     torrent_id + ".fastresume"),
                     "rb")
             fastresume = _file.read()
@@ -323,7 +323,7 @@ class TorrentManager(component.Component):
             if not state.magnet:
                 add_torrent_params["ti"] =\
                     self.get_torrent_info_from_file(
-                        os.path.join(self.config["state_location"], state.torrent_id + ".torrent"))
+                        os.path.join(get_config_dir(), "state", state.torrent_id + ".torrent"))
 
                 if not add_torrent_params["ti"]:
                     log.error("Unable to add torrent!")
@@ -412,7 +412,7 @@ class TorrentManager(component.Component):
         # Write the .torrent file to the state directory
         if filedump:
             try:
-                save_file = open(os.path.join(self.config["state_location"],
+                save_file = open(os.path.join(get_config_dir(), "state",
                         torrent.torrent_id + ".torrent"),
                         "wb")
                 save_file.write(filedump)
@@ -449,7 +449,7 @@ class TorrentManager(component.Component):
             log.debug("Attempting to open %s for add.", torrent_id)
             _file = open(
                 os.path.join(
-                    self.config["state_location"], torrent_id + ".torrent"),
+                    get_config_dir(), "state", torrent_id + ".torrent"),
                         "rb")
             filedump = lt.bdecode(_file.read())
             _file.close()
@@ -462,22 +462,22 @@ class TorrentManager(component.Component):
     def remove(self, torrent_id, remove_data=False):
         """
         Remove a torrent from the session.
-        
+
         :param torrent_id: the torrent to remove
         :type torrent_id: string
         :param remove_data: if True, remove the downloaded data
         :type remove_data: bool
-        
+
         :returns: True if removed successfully, False if not
         :rtype: bool
-        
+
         :raises InvalidTorrentError: if the torrent_id is not in the session
-        
+
         """
-        
+
         if torrent_id not in self.torrents:
             raise InvalidTorrentError("torrent_id not in session")
-            
+
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
 

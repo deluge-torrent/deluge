@@ -42,7 +42,7 @@ from deluge._libtorrent import lt
 
 import deluge.common
 import deluge.component as component
-from deluge.configmanager import ConfigManager
+from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.log import LOG as log
 from deluge.event import *
 
@@ -759,7 +759,7 @@ class Torrent:
         """Writes the .fastresume file for the torrent"""
         resume_data = lt.bencode(resume_data)
         path = "%s/%s.fastresume" % (
-            self.config["state_location"],
+            os.path.join(get_config_dir(), "state"),
             self.torrent_id)
         try:
             self.delete_fastresume()
@@ -777,7 +777,7 @@ class Torrent:
     def delete_fastresume(self):
         """Deletes the .fastresume file"""
         path = "%s/%s.fastresume" % (
-            self.config["state_location"],
+            os.path.join(get_config_dir(), "state"),
             self.torrent_id)
         log.debug("Deleting fastresume file: %s", path)
         try:
@@ -788,7 +788,7 @@ class Torrent:
     def write_torrentfile(self):
         """Writes the torrent file"""
         path = "%s/%s.torrent" % (
-            self.config["state_location"],
+            os.path.join(get_config_dir(), "state"),
             self.torrent_id)
         log.debug("Writing torrent file: %s", path)
         try:
@@ -804,7 +804,7 @@ class Torrent:
     def delete_torrentfile(self):
         """Deletes the .torrent file in the state"""
         path = "%s/%s.torrent" % (
-            self.config["state_location"],
+            os.path.join(get_config_dir(), "state"),
             self.torrent_id)
         log.debug("Deleting torrent file: %s", path)
         try:

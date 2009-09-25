@@ -49,7 +49,6 @@ import deluge.component as component
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
-    "config_location": deluge.configmanager.get_config_dir(),
     "send_info": False,
     "info_sent": 0.0,
     "daemon_port": 58846,
@@ -61,7 +60,6 @@ DEFAULT_PREFS = {
     "copy_torrent_file": False,
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
-    "state_location": os.path.join(deluge.configmanager.get_config_dir(), "state"),
     "prioritize_first_last_pieces": False,
     "random_port": True,
     "dht": True,
@@ -158,8 +156,6 @@ class PreferencesManager(component.Component):
         # Register set functions in the Config
         self.config.register_set_function("torrentfiles_location",
             self._on_set_torrentfiles_location)
-        self.config.register_set_function("state_location",
-            self._on_set_state_location)
         self.config.register_set_function("listen_ports",
             self._on_set_listen_ports)
         self.config.register_set_function("listen_interface",
@@ -241,13 +237,6 @@ class PreferencesManager(component.Component):
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:
-            try:
-                os.makedirs(value)
-            except Exception, e:
-                log.debug("Unable to make directory: %s", e)
-
-    def _on_set_state_location(self, key, value):
-        if not os.access(value, os.F_OK):
             try:
                 os.makedirs(value)
             except Exception, e:

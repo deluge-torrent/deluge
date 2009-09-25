@@ -315,6 +315,8 @@ class Core(component.Component):
         Gets the session status values for 'keys', these keys are taking
         from libtorrent's session status.
 
+        See: http://www.rasterbar.com/products/libtorrent/manual.html#status
+
         :param keys: the keys for which we want values
         :type keys: list
         :returns: a dictionary of {key: value, ...}
@@ -658,7 +660,7 @@ class Core(component.Component):
         the client side. 'plugin_data' is a xmlrpc.Binary object of the file data,
         ie, plugin_file.read()"""
 
-        f = open(os.path.join(self.config["config_location"], "plugins", filename), "wb")
+        f = open(os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename), "wb")
         f.write(plugin_data.data)
         f.close()
         component.get("CorePluginManager").scan_for_plugins()

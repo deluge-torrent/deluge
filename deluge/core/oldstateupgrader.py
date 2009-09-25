@@ -42,7 +42,7 @@ import shutil
 
 from deluge._libtorrent import lt
 
-from deluge.configmanager import ConfigManager
+from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.core.torrentmanager
 from deluge.log import LOG as log
 
@@ -69,8 +69,8 @@ class PickleUpgrader(pickle.Unpickler):
 class OldStateUpgrader:
     def __init__(self):
         self.config = ConfigManager("core.conf")
-        self.state05_location = os.path.join(self.config["config_location"], "persistent.state")
-        self.state10_location = os.path.join(self.config["state_location"], "torrents.state")
+        self.state05_location = os.path.join(get_config_dir(), "persistent.state")
+        self.state10_location = os.path.join(get_config_dir(), "state", "torrents.state")
         if os.path.exists(self.state05_location) and not os.path.exists(self.state10_location):
             # If the 0.5 state file exists and the 1.0 doesn't, then let's upgrade it
             self.upgrade05()
@@ -89,7 +89,7 @@ class OldStateUpgrader:
 
         new_state = deluge.core.torrentmanager.TorrentManagerState()
         for ti, uid in state.torrents.items():
-            torrent_path = os.path.join(self.config["config_location"], "torrentfiles", ti.filename)
+            torrent_path = os.path.join(get_config_dir(), "torrentfiles", ti.filename)
             try:
                 torrent_info = None
                 log.debug("Attempting to create torrent_info from %s", torrent_path)
@@ -101,7 +101,7 @@ class OldStateUpgrader:
 
             # Copy the torrent file to the new location
             import shutil
-            shutil.copyfile(torrent_path, os.path.join(self.config["state_location"], str(torrent_info.info_hash()) + ".torrent"))
+            shutil.copyfile(torrent_path, os.path.join(get_config_dir(), "state", str(torrent_info.info_hash()) + ".torrent"))
 
             # Set the file prioritiy property if not already there
             if not hasattr(ti, "priorities"):
@@ -127,7 +127,7 @@ class OldStateUpgrader:
         try:
             log.debug("Saving torrent state file.")
             state_file = open(
-                os.path.join(self.config["state_location"], "torrents.state"), "wb")
+                os.path.join(get_config_dir(), "state", "torrents.state"), "wb")
             cPickle.dump(new_state, state_file)
             state_file.close()
         except IOError, e:
