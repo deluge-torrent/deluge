@@ -216,6 +216,7 @@ class Core(component.Component):
         except Exception, e:
             log.error("There was an error adding the torrent file %s", filename)
             log.exception(e)
+            torrent_id = None
 
         return torrent_id
 
