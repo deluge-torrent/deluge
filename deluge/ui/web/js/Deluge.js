@@ -31,7 +31,11 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
+// Create the namespace Ext.deluge
 Ext.namespace('Ext.deluge');
+
+// Setup the state manager
+Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 (function() {
 	/* Add some helper functions to Ext */
