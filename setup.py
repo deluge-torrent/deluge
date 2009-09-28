@@ -201,12 +201,9 @@ _ext_modules = []
 # Check for a system libtorrent and if found, then do not build the libtorrent extension
 build_libtorrent = True
 try:
-    import libtorrent
+    from deluge._libtorrent import lt
 except ImportError:
     build_libtorrent = True
-else:
-    if libtorrent.version_major == 0 and libtorrent.version_minor == 14:
-        build_libtorrent = False
 
 if build_libtorrent:
     # There isn't a system libtorrent library, so let's build the one included with deluge
