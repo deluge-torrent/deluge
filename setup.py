@@ -204,6 +204,8 @@ try:
     from deluge._libtorrent import lt
 except ImportError:
     build_libtorrent = True
+else:
+    build_libtorrent = False
 
 if build_libtorrent:
     # There isn't a system libtorrent library, so let's build the one included with deluge
