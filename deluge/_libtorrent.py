@@ -47,10 +47,14 @@ supports.
 
 REQUIRED_VERSION = "0.14.5.0"
 
-try:
-    import deluge.libtorrent as lt
-except ImportError:
-    import libtorrent as lt
+def check_version(LT):
     from deluge.common import VersionSplit
     if VersionSplit(lt.version) < VersionSplit(REQUIRED_VERSION):
         raise ImportError("This version of Deluge requires libtorrent >=%s!" % REQUIRED_VERSION)
+
+try:
+    import deluge.libtorrent as lt
+    check_version(lt)
+except ImportError:
+    import libtorrent as lt
+    check_version(lt)
