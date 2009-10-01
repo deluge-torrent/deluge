@@ -71,5 +71,23 @@
 			});
 		}
 	});
-	Deluge.Preferences.addPage(new ExecutePanel());
+	
+	ExecutePlugin = Ext.extend(Deluge.Plugin, {
+		constructor: function(config) {
+			config = Ext.apply({
+				name: "Execute"
+			}, config);
+			ExecutePlugin.superclass.constructor.call(this, config);
+		},
+		
+		onDisable: function() {
+			Deluge.Preferences.removePage(this.prefsPage);
+		},
+		
+		onEnable: function() {
+			this.prefsPage = new ExecutePanel();
+			this.prefsPage = Deluge.Preferences.addPage(this.prefsPage);
+		}
+	});
+	new ExecutePlugin();
 })();
