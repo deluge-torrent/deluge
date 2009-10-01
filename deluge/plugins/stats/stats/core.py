@@ -126,7 +126,7 @@ class Core(CorePluginBase):
 
 
     # export:
-    @export()
+    @export
     def get_stats(self, keys):
         stats_dict = {}
         for key in keys:
@@ -134,7 +134,7 @@ class Core(CorePluginBase):
                 stats_dict[key] = self.stats[key]
         return stats_dict
 
-    @export()
+    @export
     def get_totals(self):
         result = {}
         session_totals = self.get_session_totals()
@@ -142,7 +142,7 @@ class Core(CorePluginBase):
             result[key] = self.totals[key] + session_totals[key]
         return result
 
-    @export()
+    @export
     def get_session_totals(self):
         status = self.core.session.status()
         return {
@@ -152,14 +152,14 @@ class Core(CorePluginBase):
             "total_payload_download": status.total_payload_download
         }
 
-    @export()
+    @export
     def set_config(self, config):
         "sets the config dictionary"
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
-    @export()
+    @export
     def get_config(self):
         "returns the config dictionary"
         return self.config.config
