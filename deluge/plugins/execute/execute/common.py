@@ -37,4 +37,4 @@ import pkg_resources
 import os.path
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("example", os.path.join("data", filename))
+    return pkg_resources.resource_filename("execute", os.path.join("data", filename))
