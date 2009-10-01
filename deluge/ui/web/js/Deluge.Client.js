@@ -29,7 +29,6 @@ Copyright:
     but you are not obligated to do so. If you do not wish to do so, delete
     this exception statement from your version. If you delete this exception
     statement from all source files in the program, then also delete it here.
-
 */
 
 Ext.namespace('Ext.ux.util');
