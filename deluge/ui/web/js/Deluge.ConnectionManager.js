@@ -325,6 +325,7 @@ Copyright:
 			record.set('version', host[4])
 			record.commit();
 			
+			var button = this.buttons[1], status = record.get('status');
 			if (this.grid.getSelectionModel().getSelected() == record) {
 				var status = record.get('status');
 				if (status == _('Offline')) {
@@ -401,15 +402,17 @@ Copyright:
 			
 			var button = this.buttons[1], status = record.get('status');
 			if (status == _('Connected')) {
+				button.enable();
 				button.setText(_('Disconnect'));
 			} else if (status == _('Offline')) {
+				button.disable();
 				if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
 					this.stopHostButton.setText(_('Start Daemon'));
 				} else {
 					this.stopHostButton.disable();
 				}
-				
 			} else {
+				button.enable();
 				button.setText(_('Connect'));
 			}
 		},
