@@ -265,6 +265,39 @@ Copyright:
             }, this);
         },
     
+        /**
+         * Updates the buttons in the Connection Manager UI according to the
+         * passed in records host state.
+         * @param {Ext.data.Record} record The hosts record to update the UI for
+         */
+        updateButtons: function(record) {
+            var button = this.buttons[1], status = record.get('status');
+        
+            // Update the Connect/Disconnect button
+            if (status == _('Connected')) {
+                button.enable();
+                button.setText(_('Disconnect'));
+            } else if (status == _('Offline')) {
+                button.disable();
+            } else {
+                button.enable();
+                button.setText(_('Connect'));
+            }
+            
+            // Update the Stop/Start Daemon button
+            if (status == _('Offline')) {
+                if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
+                    this.stopHostButton.enable();
+                    this.stopHostButton.setText(_('Start Daemon'));
+                } else {
+                    this.stopHostButton.disable();
+                }
+            } else {
+                this.stopHostButton.enable();
+                this.stopHostButton.setText(_('Stop Daemon'));
+            }
+        },
+    
         onAdd: function(button, e) {
             if (!this.addWindow) {
                 this.addWindow = new Ext.deluge.AddConnectionWindow();
@@ -324,22 +357,7 @@ Copyright:
             record.set('status', host[3])
             record.set('version', host[4])
             record.commit();
-    
-            var button = this.buttons[1], status = record.get('status');
-            if (this.grid.getSelectionModel().getSelected() == record) {
-                var status = record.get('status');
-                if (status == _('Offline')) {
-                    if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
-                        this.stopHostButton.enable();
-                        this.stopHostButton.setText(_('Start Daemon'));
-                    } else {
-                        this.stopHostButton.disable();
-                    }
-                } else {
-                    this.stopHostButton.enable();
-                    this.stopHostButton.setText(_('Stop Daemon'));
-                }
-            }
+            if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
         },
 
         onLogin: function() {
@@ -399,22 +417,7 @@ Copyright:
                 this.removeHostButton.disable();
                 this.stopHostButton.disable();
             }
-    
-            var button = this.buttons[1], status = record.get('status');
-            if (status == _('Connected')) {
-                button.enable();
-                button.setText(_('Disconnect'));
-            } else if (status == _('Offline')) {
-                button.disable();
-                if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
-                    this.stopHostButton.setText(_('Start Daemon'));
-                } else {
-                    this.stopHostButton.disable();
-                }
-            } else {
-                button.enable();
-                button.setText(_('Connect'));
-            }
+            this.updateButtons(record);
         },
 
         onShow: function() {
