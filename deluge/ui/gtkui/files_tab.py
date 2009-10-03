@@ -741,7 +741,7 @@ class FilesTab(Tab):
             new_folder_iter = self.get_iter_at_path(new_folder)
             if len(new_split) == len(old_split):
                 # These are at the same tree depth, so it's a simple rename
-                self.treestore[old_folder_iter][0] = new_folder
+                self.treestore[old_folder_iter][0] = new_split[-1] + "/"
                 return
             if new_folder_iter:
                 # This means that a folder by this name already exists

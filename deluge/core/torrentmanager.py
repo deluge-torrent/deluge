@@ -962,6 +962,7 @@ class TorrentManager(component.Component):
                     # This is the last alert we were waiting for, time to send signal
                     component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
                     del torrent.waiting_on_folder_rename[i]
+                    self.save_resume_data((torrent_id,))
                     break
                 # This isn't the last file to be renamed in this folder, so just
                 # remove the index and continue
@@ -970,6 +971,7 @@ class TorrentManager(component.Component):
         if not folder_rename:
             # This is just a regular file rename so send the signal
             component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
+            self.save_resume_data((torrent_id,))
 
     def on_alert_metadata_received(self, alert):
         log.debug("on_alert_metadata_received")
