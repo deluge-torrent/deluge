@@ -60,6 +60,21 @@ def atom(next, token):
         return tuple(out)
     elif token[0] is tokenize.STRING:
         return token[1][1:-1].decode("string-escape")
+    elif token[1] == "/":
+        count = token[-1].count("/")
+        # Check for a trailing / since it messes things up
+        trail = False
+        if token[-1][-1] == "/":
+            count -= 1
+            trail = True
+        for i in xrange(count * 2 - 1):
+            token = next()
+        # Check for trailing / and remove it
+        path = token[-1].decode("string-escape")
+        if trail:
+            path = path[0:-1]
+            token = next()
+        return path
     elif token[0] is tokenize.NUMBER:
         try:
             return int(token[1], 0)
