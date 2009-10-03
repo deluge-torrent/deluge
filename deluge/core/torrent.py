@@ -755,36 +755,6 @@ class Torrent:
         self.handle.save_resume_data()
         self.waiting_on_resume_data = True
 
-    def write_resume_data(self, resume_data):
-        """Writes the .fastresume file for the torrent"""
-        resume_data = lt.bencode(resume_data)
-        path = "%s/%s.fastresume" % (
-            os.path.join(get_config_dir(), "state"),
-            self.torrent_id)
-        try:
-            self.delete_fastresume()
-            log.debug("Saving fastresume file: %s", path)
-            fastresume = open(path, "wb")
-            fastresume.write(resume_data)
-            fastresume.flush()
-            os.fsync(fastresume.fileno())
-            fastresume.close()
-        except IOError:
-            log.warning("Error trying to save fastresume file")
-
-        self.waiting_on_resume_data = False
-
-    def delete_fastresume(self):
-        """Deletes the .fastresume file"""
-        path = "%s/%s.fastresume" % (
-            os.path.join(get_config_dir(), "state"),
-            self.torrent_id)
-        log.debug("Deleting fastresume file: %s", path)
-        try:
-            os.remove(path)
-        except Exception, e:
-            log.warning("Unable to delete the fastresume file: %s", e)
-
     def write_torrentfile(self):
         """Writes the torrent file"""
         path = "%s/%s.torrent" % (
