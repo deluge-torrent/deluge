@@ -210,7 +210,7 @@ class Tracker(resource.Resource):
                               "public, must-revalidate, max-age=86400")
             if filename.endswith(".ico"):
                 request.setHeader("content-type", "image/x-icon")
-            elif filename.endwith(".png"):
+            elif filename.endswith(".png"):
                 request.setHeader("content-type", "image/png")
             data = open(filename, "rb")
             request.setResponseCode(http.OK)
