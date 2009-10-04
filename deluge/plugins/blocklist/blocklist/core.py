@@ -185,6 +185,7 @@ class Core(CorePluginBase):
         :param blocklist: path of blocklist
         :type blocklist: string
         """
+        log.debug("Updating blocklist info: %s", blocklist)
         self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
         self.config["list_size"] = os.path.getsize(blocklist)
 
@@ -225,7 +226,7 @@ class Core(CorePluginBase):
 
     def on_download_complete(self, result):
         """Runs any download clean up functions"""
-        log.debug("Blocklist download complete!")
+        log.debug("Blocklist download complete: %s", result)
         self.is_downloading = False
         return threads.deferToThread(self.update_info, result)
 
@@ -247,9 +248,11 @@ class Core(CorePluginBase):
             if "Not Modified" in error_msg:
                 log.debug("Blocklist is up-to-date!")
                 self.up_to_date = True
-                self.use_cache = True
+                if os.path.exists(deluge.configmanager.get_config_dir("blocklist.cache")):
+                    self.use_cache = True
+                bl_filename = "blocklist.cache" if self.use_cache else "blocklist.download"
                 d = threads.deferToThread(self.update_info,
-                        deluge.configmanager.get_config_dir("blocklist.cache"))
+                        deluge.configmanager.get_config_dir(bl_filename))
                 f.trap(f.type)
             elif self.failed_attempts < self.config["try_times"]:
                 log.warning("Blocklist download failed!")

@@ -74,5 +74,8 @@ def detect_format(filename, compression=""):
 def create_reader(format, compression=""):
     reader = READERS.get(format)
     if reader and compression:
-        reader = DECOMPRESSERS.get(compression)(reader)
+        decompressor = DECOMPRESSERS.get(compression)
+        if decompressor:
+            reader = decompressor(reader)
+            
     return reader
