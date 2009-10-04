@@ -116,7 +116,7 @@ class GtkUI(GtkPluginBase):
                     deluge.common.fsize(status["file_size"]))
                 self.glade.get_widget("label_modified").set_text(
                     str(status["file_date"]))
-
+                self.glade.get_widget("label_type").set_text(status["file_type"])
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
 

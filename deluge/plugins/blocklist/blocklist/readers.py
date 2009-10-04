@@ -36,6 +36,26 @@
 from deluge.log import LOG as log
 from common import raiseError
 
+def remove_zeros(ip):
+    """
+    Removes unneeded zeros from ip addresses.
+    
+    Example: 000.000.000.003 -> 0.0.0.3
+    
+    :param ip: the ip address
+    :type ip: string
+    
+    :returns: the ip address without the unneeded zeros
+    :rtype: string
+    
+    """
+    new_ip = []
+    for part in ip.split("."):
+        while part[0] == "0" and len(part) > 1:
+            part = part[1:]
+        new_ip.append(part)
+    return ".".join(new_ip)
+    
 class ReaderParseError(Exception):
     pass
 
@@ -56,7 +76,7 @@ class BaseReader(object):
     def read(self, callback):
         """Calls callback on each ip range in the file"""
         for start, end in self.readranges():
-            callback(start, end)
+            callback(remove_zeros(start), remove_zeros(end))
 
     def is_ignored(self, line):
         """Ignore commented lines and blank lines"""

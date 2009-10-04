@@ -37,9 +37,9 @@ from decompressers import Zipped, GZipped, BZipped2
 from readers import EmuleReader, SafePeerReader, PeerGuardianReader
 
 COMPRESSION_TYPES = {
-    "PK" : "zip",
-    "\x1f\x8b" : "gzip",
-    "BZ" : "bzip2"
+    "PK" : "Zip",
+    "\x1f\x8b" : "GZip",
+    "BZ" : "BZ ip2"
 }
 
 DECOMPRESSERS = {

@@ -291,7 +291,9 @@ class Core(CorePluginBase):
             self.auto_detect(blocklist)
             self.auto_detected = True
 
-        d = threads.deferToThread(self.reader(blocklist).read(on_read_ip_range))
+        log.debug("Importing using reader: %s",self.reader)
+        log.debug("Reader type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
+        d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
         d.addCallback(on_finish_read)
 
         return d
@@ -345,6 +347,9 @@ class Core(CorePluginBase):
         """
         self.config["list_compression"] = detect_compression(blocklist)
         self.config["list_type"] = detect_format(blocklist, self.config["list_compression"])
+        log.debug("Auto-detected type: %s compression: %s", self.config["list_type"],  self.config["list_compression"])
         if not self.config["list_type"]:
             self.config["list_compression"] = ""
             raise UnknownFormatError
+        else:
+            self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
