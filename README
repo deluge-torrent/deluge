@@ -62,16 +62,12 @@ FAQ
 How to start the various user-interfaces
 
     Gtk:
-        deluge --ui gtk
+        deluge-gtk
     Console:
         deluge-console
     Web:
         deluge-web
         Go to http://localhost:8112/ default-password = "deluge"
-
-I started "deluge" but i don't see the gtk-ui
-
-    The deluge command remembers the last interface it started. Be explicit and type one of the full "deluge -u <interface>" commands listed above.
 
 Why is deluge still listed in my system tray even after I close it ?
 
@@ -85,7 +81,7 @@ How do I start the daemon with logging to console?
 
     deluged -d -L <log level>
 
-I can't connect to the daemon from another machine/
+I can't connect to the daemon from another machine
 
     * Configure the daemon to allow remote connections
     * Add a user to the auth file located in the config folder: ~/.config/deluge/auth

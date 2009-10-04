@@ -18,6 +18,7 @@
   * Add a Cache preferences page to adjust cache settings and examine cache status
   * Add ability to rename files prior to adding them
   * Fix shutdown handler with GNOME session manager
+  * Allow 4 MiB piece sizes when creating a torrent
 
 ==== ConsoleUI ====
   * Changed to use curses for a more interactive client
