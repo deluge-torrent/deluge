@@ -387,8 +387,8 @@ _data_files = [
 
 # Main setup
 setup(
-    author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Damien Churchill",
-    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, mvoncken@gmail.com, damoxc@gmail.com",
+    author = "Andrew Resch, Damien Churchill",
+    author_email = "andrewresch@gmail.com, damoxc@gmail.com",
     cmdclass = cmdclass,
     data_files = _data_files,
     description = "Bittorrent Client",
@@ -433,5 +433,5 @@ setup(
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
     url = "http://deluge-torrent.org",
-    version = "1.2.0",
+    version = "1.3.0",
 )
