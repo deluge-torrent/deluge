@@ -127,41 +127,79 @@ class TorrentDetails(component.Component):
             # Set the default order
             state = default_order
 
-        # Add the tabs in the order from the state
-        for tab_name, visible in state:
-            # We need to rename the tab in the state for backwards compat
-            tab_name = tab_name.replace("Statistics", "Status")
-            self.add_tab(default_tabs[tab_name]())
+        # We need to rename the tab in the state for backwards compat
+        self.state = [(tab_name.replace("Statistics", "Status"), visible) for
+                       tab_name, visible in state]
 
-        # Hide any of the non-visible ones
-        for tab_name, visible in state:
-            if not visible:
-                self.hide_tab(tab_name)
+        for tab in default_tabs.itervalues():
+            self.add_tab(tab(), generate_menu=False)
 
         # Generate the checklist menu
         self.generate_menu()
 
-    def add_tab(self, tab_object, position=-1, generate_menu=True):
-        """Adds a tab object to the notebook."""
-        self.tabs[tab_object.get_name()] = tab_object
-        pos = self.notebook.insert_page(
-            tab_object.get_child_widget(),
-            tab_object.get_tab_label(),
-            position)
+    def tab_insert_position(self, weight):
+        """Returns the position a tab with a given weight should be inserted in"""
+        # Determine insert position based on weight
+        # weights is a list of visible tab names in weight order
 
-        tab_object.position = pos
-        tab_object.weight = pos
+        weights = [(tab.weight, name) for name, tab in self.tabs.iteritems() if tab.is_visible]
 
-        # Regenerate positions if an insert occured
-        if position > -1:
-            self.regenerate_positions()
+        weights.sort()
+        log.debug("weights: %s", weights)
+        log.debug("weight of tab: %s", weight)
 
+        position = -1
+        for w, name in weights:
+            if w >= weight:
+                position = self.tabs[name].position
+                log.debug("Found pos %d" % position)
+                break
+        return position
+
+
+    def add_tab(self, tab, generate_menu=True, visible=None):
+        name = tab.get_name()
+
+        #find position of tab in self.state, this is the tab weight
+        weight = None
+        for w, item in enumerate(self.state):
+            if item[0] == name:
+                weight = w
+                if visible is None:
+                    visible = item[1]
+                break
+
+        if weight is None:
+            if visible is None:
+                visible = True
+            weight = len(self.state)
+            self.state.append((name, visible))
+
+        tab.weight = weight
+
+        if visible:
+            tab.is_visible = True
+            #add the tab at position guided by the weight
+            insert_pos = self.tab_insert_position(weight)
+            log.debug("Trying to insert tab at %d" % insert_pos)
+            pos = self.notebook.insert_page(
+                tab.get_child_widget(),
+                tab.get_tab_label(),
+                insert_pos)
+            log.debug("Tab inserted at %d" % pos)
+            tab.position = pos
+            if not self.notebook.get_property("visible"):
+                # If the notebook isn't visible, show it
+                self.visible(True)
+        else:
+            tab.is_visible = False
+
+        self.tabs[name] = tab
+
+        self.regenerate_positions()
         if generate_menu:
             self.generate_menu()
 
-        if not self.notebook.get_property("visible"):
-            # If the notebook isn't visible, show it
-            self.visible(True)
 
     def regenerate_positions(self):
         """This will sync up the positions in the tab, with the position stored
@@ -198,15 +236,8 @@ class TorrentDetails(component.Component):
         """Shows all tabs"""
         for tab in self.tabs:
             if not self.tabs[tab].is_visible:
-                self.notebook.insert_page(
-                    self.tabs[tab].get_child_widget(),
-                    self.tabs[tab].get_tab_label(),
-                    self.tabs[tab].position)
-                self.tabs[tab].is_visible = True
+                self.show_tab(tab, generate_menu=False)
         self.generate_menu()
-        if not self.notebook.get_property("visible"):
-            # If the notebook isn't visible, show it
-            self.visible(True)
 
     def hide_tab(self, tab_name):
         """Hides tab by name"""
@@ -221,27 +252,12 @@ class TorrentDetails(component.Component):
 
         self.visible(show)
 
-    def show_tab(self, tab_name):
+    def show_tab(self, tab_name, generate_menu=True):
         log.debug("%s\n%s\n%s", self.tabs[tab_name].get_child_widget(),
             self.tabs[tab_name].get_tab_label(),
             self.tabs[tab_name].position)
 
-        # Determine insert position based on weight
-        # weights is a list of visible tab names in weight order
-        weights = []
-
-        for tab in self.tabs:
-            if self.tabs[tab].is_visible:
-                weights.append((self.tabs[tab].weight, self.tabs[tab].get_name()))
-
-        weights.sort()
-        log.debug("weights: %s", weights)
-        position = self.tabs[tab_name].position
-        log.debug("weight of tab: %s", self.tabs[tab_name].weight)
-        for i, w in enumerate(weights):
-            if w[0] >= self.tabs[tab_name].weight:
-                position = self.tabs[w[1]].position
-                break
+        position = self.tab_insert_position(self.tabs[tab_name].weight)
 
         log.debug("position: %s", position)
         self.notebook.insert_page(
@@ -250,7 +266,8 @@ class TorrentDetails(component.Component):
             position)
         self.tabs[tab_name].is_visible = True
         self.regenerate_positions()
-        self.generate_menu()
+        if generate_menu:
+            self.generate_menu()
         self.visible(True)
 
     def generate_menu(self):
@@ -381,13 +398,16 @@ class TorrentDetails(component.Component):
     def save_state(self):
         """We save the state, which is basically the tab_index list"""
         filename = "tabs.state"
-        state = []
-        for tab in self.tabs:
-            state.append((self.tabs[tab].weight, self.tabs[tab].get_name(),
-                self.tabs[tab].is_visible))
-        # Sort by weight
-        state.sort()
-        state = [(n, v) for w, n, v in state]
+
+        #Update the visiblity status of all tabs
+        #Leave tabs we dont know anything about it the state as they
+        #might come from a plugin
+        for i, (name, visible) in enumerate(self.state):
+            log.debug("Testing name: %s" % name)
+            if name in self.tabs:
+                self.state[i] = (name, self.tabs[name].is_visible)
+                log.debug("Set to %s %d" % self.state[i])
+        state = self.state
 
         # Get the config location for saving the state file
         config_location = deluge.configmanager.get_config_dir()
