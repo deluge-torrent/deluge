@@ -85,7 +85,7 @@ class Graph:
         self.legend_selected = True
         self.max_selected = True
         self.black = (0, 0 , 0,)
-        self.interval = 2000 # 2 secs
+        self.interval = 2 # 2 secs
         self.text_bg =  (255, 255 , 255, 128) # prototyping
         self.set_left_axis()
 
@@ -102,6 +102,9 @@ class Graph:
             }
 
     def set_stats(self, stats):
+        self.last_update = stats["_last_update"]
+        log.debug("Last update: %s" % self.last_update)
+        del stats["_last_update"]
         self.stats = stats
 
     def set_config(self, config):
@@ -137,9 +140,8 @@ class Graph:
         return self.surface
 
     def draw_x_axis(self):
-        now = time.time()
-        duration = self.length * (self.interval / 1000.0)
-        start = now - duration
+        duration = float(self.length * self.interval)
+        start = self.last_update - duration
         ratio = (self.width - 40) / duration
         seconds_to_minute = 60 - time.localtime(start)[5]
 

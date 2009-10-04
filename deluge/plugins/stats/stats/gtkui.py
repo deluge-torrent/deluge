@@ -65,26 +65,35 @@ class GraphsTab(Tab):
         self._name = 'Graphs'
         self.glade = glade
         self.window = self.glade.get_widget('graph_tab')
+        self._child_widget = self.window
         self.notebook = self.glade.get_widget('graph_notebook')
         self.label = self.glade.get_widget('graph_label')
+        self._tab_label = self.label
         self.bandwidth_graph = self.glade.get_widget('bandwidth_graph')
-        self.bandwidth_graph.connect('expose_event', self.bandwidth_expose)
+        self.bandwidth_graph.connect('expose_event', self.expose)
         self.window.unparent()
         self.label.unparent()
 
-    def bandwidth_expose(self, widget, event):
         self.graph_widget = self.bandwidth_graph
         self.graph = graph.Graph()
         self.graph.add_stat('payload_download_rate', label='Download Rate', color=graph.green)
         self.graph.add_stat('payload_upload_rate', label='Upload Rate', color=graph.blue)
         self.graph.set_left_axis(formatter=fspeed, min=10240)
-        self.update_timer = gobject.timeout_add(2000, self.update_graph)
-        self.update_graph()
 
-    def update_graph(self):
-        width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height
+    def expose(self, widget, event):
+        """Redraw"""
         context = self.graph_widget.window.cairo_create()
+        # set a clip region
+        context.rectangle(event.area.x, event.area.y,
+                           event.area.width, event.area.height)
+        context.clip()
 
+        width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height
+        self.graph.draw_to_context(context, width, height)
+        #Do not propagate the event
+        return False
+
+    def update(self):
         log.debug("getstat keys: %s", self.graph.stat_info.keys())
         d1 = client.stats.get_stats(self.graph.stat_info.keys())
         d1.addCallback(self.graph.set_stats)
@@ -92,14 +101,21 @@ class GraphsTab(Tab):
         d2.addCallback(self.graph.set_config)
         dl = defer.DeferredList([d1, d2])
 
-        def draw_context(result):
-            self.graph.draw_to_context(context, width, height)
-        dl.addCallback(draw_context)
+        def _on_update(result):
+            width, height = self.graph_widget.allocation.width, self.graph_widget.allocation.height
+            rect = gtk.gdk.Rectangle(0, 0, width, height)
+            self.graph_widget.window.invalidate_rect(rect, True)
 
-        return True
+        dl.addCallback(_on_update)
+
+    def clear(self):
+        pass
+
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
+        log.debug("Stats plugin enable called")
         self.glade = XML(self.get_resource("config.glade"))
         component.get("Preferences").add_page("Stats", self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
@@ -108,12 +124,13 @@ class GtkUI(GtkPluginBase):
 
         self.graphs_tab = GraphsTab(XML(self.get_resource("tabs.glade")))
         self.torrent_details = component.get('TorrentDetails')
-        self.torrent_details.notebook.append_page(self.graphs_tab.window, self.graphs_tab.label)
+        self.torrent_details.add_tab(self.graphs_tab)
 
     def disable(self):
         component.get("Preferences").remove_page("Stats")
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
+        self.torrent_details.remove_tab(self.graphs_tab.get_name())
 
     def on_apply_prefs(self):
         log.debug("applying prefs for Stats")

@@ -1,6 +1,7 @@
 #
 # core.py
 #
+# Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
 # Copyright (C) 2008 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) Marcos Pinto 2007 <markybob@gmail.com>
@@ -44,6 +45,7 @@
 #    this exception statement from your version. If you delete this exception
 
 from twisted.internet.task import LoopingCall
+import time
 
 import deluge
 from deluge.log import LOG as log
@@ -111,6 +113,7 @@ class Core(CorePluginBase):
             for stat_list in self.stats.values():
                 if len(stat_list) > self.config["length"]:
                     stat_list.pop()
+            self.last_update = time.time()
 
         except Exception, e:
             log.exception(e)
@@ -132,6 +135,7 @@ class Core(CorePluginBase):
         for key in keys:
             if key in self.stats:
                 stats_dict[key] = self.stats[key]
+        stats_dict["_last_update"] = self.last_update
         return stats_dict
 
     @export
