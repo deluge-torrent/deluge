@@ -111,13 +111,20 @@ class CreateTorrentDialog:
 
         self.dialog.show()
 
+    def parse_piece_size_text(self, value):
+        psize, metric = value.split()
+        psize = int(psize) * 1024
+        if metric[0] == 'M':
+            psize *= 1024
+            
+        return psize
+
     def adjust_piece_size(self):
         """Adjusts the recommended piece based on the file/folder/path selected."""
         size = self.files_treestore[0][2]
         model = self.glade.get_widget("combo_piece_size").get_model()
-        psize = 0
         for index,value in enumerate(model):
-            psize = int(value[0].split()[0]) * 1024
+            psize = self.parse_piece_size_text(value[0])
             pieces = size / psize
             if pieces < 2048 or (index + 1) == len(model):
                 self.glade.get_widget("combo_piece_size").set_active(index)
@@ -284,7 +291,8 @@ class CreateTorrentDialog:
                 webseeds.append(l)
         # Get the piece length in bytes
         combo = self.glade.get_widget("combo_piece_size")
-        piece_length = int(combo.get_model()[combo.get_active()][0].split()[0]) * 1024
+        piece_length = \
+            self.parse_piece_size_text(combo.get_model()[combo.get_active()][0])
         num_pieces = self.files_treestore[0][2] / piece_length
 
         author = self.glade.get_widget("entry_author").get_text()
