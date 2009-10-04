@@ -38,7 +38,7 @@ import gtk, gtk.glade
 
 from deluge.ui.client import client
 import deluge.component as component
-import deluge.common
+from deluge.common import fsize, is_url
 from deluge.ui.gtkui.torrentdetails import Tab
 
 from deluge.log import LOG as log
@@ -56,7 +56,7 @@ class DetailsTab(Tab):
 
         self.label_widgets = [
             (glade.get_widget("summary_name"), None, ("name",)),
-            (glade.get_widget("summary_total_size"), deluge.common.fsize, ("total_size",)),
+            (glade.get_widget("summary_total_size"), fsize, ("total_size",)),
             (glade.get_widget("summary_num_files"), str, ("num_files",)),
             (glade.get_widget("summary_tracker"), None, ("tracker",)),
             (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
@@ -104,7 +104,10 @@ class DetailsTab(Tab):
                 txt = status[widget[2][0]]
 
             if widget[0].get_text() != txt:
-                widget[0].set_text(txt)
+                if widget[2][0] == 'comment' and is_url(txt):
+                    widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))
+                else:
+                    widget[0].set_markup(txt)
 
     def clear(self):
         for widget in self.label_widgets:
