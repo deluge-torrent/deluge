@@ -17,4 +17,4 @@ for x in `find . -name '*.glade' |grep -v '.svn\|build'` ; do \
             sed -i "s/<property\ name\=\"label\"\ translatable\=\"yes\">$y<\/property>/<property\ name\=\"label\"\ translatable\=\"no\">$y<\/property>/g" $x; \
         done;\
     done
-xgettext -f deluge/i18n/POTFILES.in -o deluge/i18n/deluge.pot
+xgettext --from-code ISO-8859-1 -f deluge/i18n/POTFILES.in -o deluge/i18n/deluge.pot

@@ -80,7 +80,7 @@
                         <property name="layout_style">end</property>
                         <child>
                           <widget class="GtkButton" id="button_add">
-                            <property name="label" translatable="yes">gtk-add</property>
+                            <property name="label" translatable="no">gtk-add</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
