@@ -1,4 +1,4 @@
-=== Deluge 1.2.0 (In Development) ===
+=== Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
   * Move to a twisted framework
@@ -36,6 +36,134 @@
   * Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
   * Remove GeoIP database from the source tree
 
+=== Deluge 1.1.9 - (15 June 2009) ===
+==== Core ====
+  * Only move a torrent due to 'move on complete' when some data has been downloaded
+  * Update libtorrent for CVE-2009-1760
+
+==== GtkUI ====
+  * Fix #950 renaming a parent folder into multiple folders
+
+==== WebUI ====
+  * Fix remote torrent add
+
+=== Deluge 1.1.8 - (21 May 2009) ===
+==== Core ====
+  * Fix pause all/resume all
+  * Torrent name is now changed when the root folder or file is renamed
+
+==== GtkUI ====
+  * Fix high cpu usage when displaying speeds in titlebar
+  * Fix showing non-utf8 encoded torrents in add torrent dialog -- this adds
+    an additional dependency on chardet.
+  * Fix exception when timing out trying to send notification email
+  * Set some sane defaults for peers/file tabs column widths
+
+==== WebUI ====
+  * Fix starting when -l option is used
+
+=== Deluge 1.1.7 - (25 April 2009) ===
+==== Core ====
+  * Fix issue where cannot resume torrent after doing a 'Pause All'
+  * Add workaround for 'address_v4 from unsigned long' bug experienced by users
+    with 64-bit machines.  This bug is fixed in libtorrent 0.14.3.
+
+==== GtkUI ====
+  * Fix #883 segfault if locale is not using UTF-8 encoding
+  * Fix for adding torrents with invalid filename encodings
+  * Fix displaying IPv6 peers in the Peers tab
+  * Fix starting the daemon in OS X
+  * Fix loading improperly created torrents with mismatched encodings
+  * Fix displaying improper progress when creating torrent
+
+==== Windows ====
+  * Fix freezing in create torrent dialog
+  * Fix creating torrents in Windows
+  * Fix free space check
+
+=== Deluge 1.1.6 - (06 April 2009) ===
+==== Core ====
+  * Fix udp trackers being classified as DHT source
+  * Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
+  * Fix #862 deluged crash when access http://localhost:58846
+
+==== GtkUI ====
+  * Fix displaying torrents with non-utf8 encodings in add torrent dialog
+
+==== WebUI ====
+  * Fix #870 use proper config location for loading ssl cert
+
+==== Misc ====
+  * Add OpenSSL exception to license
+
+=== Deluge 1.1.5 - (16 March 2009) ===
+==== Core ====
+  * Fix config file saving when no current config file exists
+
+==== GtkUI ====
+  * Add 'Comments' field to the Details tab
+  * Fix #841 maximum upload slots tooltip
+
+=== Deluge 1.1.4 - (08 March 2009) ===
+==== Core ====
+  * Fix displaying file errors when the torrent isn't paused
+  * Fix issue where torrents being check would get removed due to "stop at ratio" rules
+  * Fix #790 tracker hosts not correct for some .uk trackers
+  * Make sure config files, resume data and state are fsync'd when saved.  This should help prevent data losses on crashes/improper shutdowns.
+
+==== GtkUI ====
+  * Fix hiding bottom pane when no tabs are enabled upon restart
+  * Fix saving file priorities when switching torrents in the addtorrentdialog
+  * Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
+  * Fix #655 issue where default torrent options wouldn't be set for new torrents added to the addtorrentdialog
+  * Fix #817 email notifications fail to substitute format strings
+
+==== Plugins ====
+  * Label: Fix setting 'Move on completed' folder when connected to a remote daemon
+
+=== Deluge 1.1.3 - (15 February 2009) ===
+==== Core ====
+  * Fix issue where checking queue would stop
+  * Fix announcing to SSL trackers
+
+==== Misc ====
+  * Fix issue when initializing gettext that would prevent deluge from starting
+  * Fix logging exceptions when starting the daemon
+  * Fix displaying errors when a torrent is Checking
+  * Fix #790 tracker hosts not correct for some 3rd-level domain names
+
+=== Deluge 1.1.2 - (31 January 2009) ===
+==== Core ====
+  * Fix issue where torrents get stuck Checking
+
+==== GtkUI ====
+  * Fix #761 use proper theme colours in sidebar
+  * Fix saving files/peers tab state when no column is sorted
+
+=== Deluge 1.1.1 - (24 January 2009) ===
+==== Core ====
+  * Fix oldstateupgrader for those upgrading from 0.5.x
+  * Fix setting Peer TOS byte
+  * Fix setting outgoing ports
+
+==== GtkUI ====
+  * Fix opening links from Help menu and others
+  * Fix remembering sorted column in the torrent list
+  * Fix saving Files tab and Peers tab state
+  * Disable popup notification in preferences on Windows
+  * Fix crashing in Add Torrent Dialog when removing torrents from the list
+  * Do not allow duplicate torrents in the Add Torrent Dialog
+  * Fix translating speed units in status tab when a per-torrent limit is set
+  * Fix torrents not displaying properly after disconnecting and reconnecting to the daemon
+  * Fix when sorting # column, downloads should be on top
+
+==== Misc ====
+  * Fix bdecoding some torrent files
+  * Fix the -l, --logfile option
+  * Fix #729 tracker icons not being saved in the correct location
+  * Add support for more tracker icons
+  * Fix being able to connect to a local daemon from another user account
+  
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
   * Implement #79 ability to change outgoing port range
