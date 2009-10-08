@@ -232,8 +232,9 @@ class GtkUI(object):
         component.stop()
 
         # Process any pending gtk events since the mainloop has been quit
-        while gtk.events_pending():
-            reactor.doIteration(0)
+        if not deluge.common.windows_check():
+            while gtk.events_pending():
+                reactor.doIteration(0)
 
         # Shutdown all components
         component.shutdown()
