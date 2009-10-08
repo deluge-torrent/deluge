@@ -207,7 +207,7 @@ except ImportError:
 else:
     build_libtorrent = False
 
-if build_libtorrent:
+if build_libtorrent and os.path.exists("libtorrent"):
     # There isn't a system libtorrent library, so let's build the one included with deluge
     libtorrent = Extension(
         'libtorrent',

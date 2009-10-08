@@ -8,13 +8,7 @@
  * gettext
  * pyxdg
  * geoip-database (optional)
-
- * libtorrent >= 0.14, or build the included version
-
- * If building included libtorrent::
-   * boost >= 1.34.1
-   * openssl
-   * zlib
+ * libtorrent >= 0.14.5
 
 === UIs ===
  * chardet
