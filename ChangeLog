@@ -1,6 +1,7 @@
 === Deluge 1.2.0_rc2 (In Development) ===
 ==== GtkUI ====
   * Fix path errors when adding torrents externally in Windows
+  * Fix localclient authentication by stripping the lines read from the auth file
   
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
