@@ -1,3 +1,7 @@
+=== Deluge 1.2.0_rc2 (In Development) ===
+==== GtkUI ====
+  * Fix path errors when adding torrents externally in Windows
+  
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
