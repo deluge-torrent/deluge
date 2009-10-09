@@ -1,4 +1,4 @@
-.TH DELUGED 1 "January 2009" "1.1.2"
+.TH DELUGED 1 "October 2009" "1.2.0"
 
 .SH NAME
 deluged - a bittorrent client daemon
@@ -25,6 +25,10 @@ Show this help message and exit.
 .I -p PORT, --port=PORT
 Port daemon will listen on, default is 58846
 .TP
+.I -i INTERFACE, --interface=INTERFACE
+Interface daemon will listen for bittorrent connections on, this should be an IP address
+.I -u UI_INTERFACE, --ui-interface=UI_INTERFACE
+Interface daemon will listen for UI connections on, this should be an IP address
 .I -d, --do-not-daemonize
 Do not daemonize
 .TP
@@ -48,7 +52,7 @@ Sets the log level to 'none', this is the same as `\-L none`
 http://www.deluge-torrent.org/
 
 .SH AUTHOR
-This manual page was written by Andrew Resch <andrew.resch@gmail.com>.
+This manual page was written by Andrew Resch <andrewresch@gmail.com>.
 .br
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation
 .br

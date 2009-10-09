@@ -279,7 +279,7 @@ class build_docs(BuildDoc):
     def run(self):
         class FakeModule(object):
             def __init__(self, *args, **kwargs): pass
-            
+
             def __call__(self, *args, **kwargs):
                 return FakeModule()
 
@@ -299,7 +299,7 @@ class build_docs(BuildDoc):
                 print "Skipping Exception: ", e
                 return FakeModule()
         __builtins__.__import__ = new_import
-        
+
         BuildDoc.run(self)
 
 class build(_build):
@@ -382,7 +382,11 @@ _data_files = [
     ('share/icons/hicolor/96x96/apps', ['deluge/data/icons/hicolor/96x96/apps/deluge.png']),
     ('share/applications', ['deluge/data/share/applications/deluge.desktop']),
     ('share/pixmaps', ['deluge/data/pixmaps/deluge.png', 'deluge/data/pixmaps/deluge.xpm']),
-    ('share/man/man1', ['docs/man/deluge.1', 'docs/man/deluged.1'])
+    ('share/man/man1', [
+        'docs/man/deluge.1',
+        'docs/man/deluged.1',
+        'docs/man/deluge-gtk.1',
+        'docs/man/deluge-console.1'])
 ]
 
 # Main setup
