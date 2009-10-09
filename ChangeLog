@@ -2,7 +2,10 @@
 ==== GtkUI ====
   * Fix path errors when adding torrents externally in Windows
   * Fix localclient authentication by stripping the lines read from the auth file
-  
+
+==== Misc ====
+  * Add man pages for deluge-console and deluge-gtk
+
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
@@ -168,7 +171,7 @@
   * Fix #729 tracker icons not being saved in the correct location
   * Add support for more tracker icons
   * Fix being able to connect to a local daemon from another user account
-  
+
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
   * Implement #79 ability to change outgoing port range
