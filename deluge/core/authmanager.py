@@ -124,6 +124,7 @@ class AuthManager(component.Component):
             if line.startswith("#"):
                 # This is a comment line
                 continue
+            line = line.strip()
             try:
                 lsplit = line.split(":")
             except Exception, e:

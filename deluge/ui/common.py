@@ -301,6 +301,7 @@ def get_localhost_auth():
             if line.startswith("#"):
                 # This is a comment line
                 continue
+            line = line.strip()
             try:
                 lsplit = line.split(":")
             except Exception, e:
