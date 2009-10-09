@@ -70,7 +70,8 @@ class IPCInterface(component.Component):
         # Make the args absolute paths
         _args = []
         for arg in args:
-            _args.append(os.path.abspath(arg))
+            if arg.strip():
+                _args.append(os.path.abspath(arg))
         args = _args
 
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
