@@ -35,7 +35,7 @@ Copyright:
 (function() {
     /* Renderers for the Torrent Grid */
     function queueRenderer(value) {
-        return (value == -1) ? '' : value + 1;
+        return (value == 99999) ? '' : value + 1;
     }
     function torrentNameRenderer(value, p, r) {
         return String.format('<div class="torrent-name x-deluge-{0}">{1}</div>', r.data['state'].toLowerCase(), value);
@@ -241,7 +241,7 @@ Copyright:
             if (!record) {
                 // We need to create a new record
                 var data = [
-                    torrent.queue,
+                    ((torrent.queue == -1) ? 99999 : torrent.queue),
                     torrent.name,
                     torrent.total_size,
                     torrent.state,
@@ -262,7 +262,7 @@ Copyright:
                 store.loadData([data], true);
             } else {
                 // We just need to do an update
-                record.set('queue', torrent.queue);
+                record.set('queue', ((torrent.queue == -1) ? 99999 : torrent.queue));
                 record.set('name', torrent.name);
                 record.set('size', torrent.total_size);
                 record.set('state', torrent.state);
