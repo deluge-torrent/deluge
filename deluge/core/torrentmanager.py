@@ -132,6 +132,10 @@ class TorrentManager(component.Component):
         # Get the core config
         self.config = ConfigManager("core.conf")
 
+        # Make sure the state folder has been created
+        if not os.path.exists(os.path.join(get_config_dir(), "state")):
+            os.makedirs(os.path.join(get_config_dir(), "state"))
+            
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
 
