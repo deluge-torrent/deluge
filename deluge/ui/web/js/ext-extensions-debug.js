@@ -763,36 +763,39 @@ Ext.reg('fullprogressbar', Ext.ux.FullProgressBar);
 // Allow radiogroups to be treated as a single form element.
 Ext.override(Ext.form.RadioGroup, {
 
-	afterRender: function() {
-		var that = this;
-		this.items.each(function(i) {
-			that.relayEvents(i, ['check']);
-		});
-		Ext.form.RadioGroup.superclass.afterRender.call(this)
-	},
+    afterRender: function() {
+	var that = this;
+	this.items.each(function(i) {
+	    that.relayEvents(i, ['check']);
+	});
+	Ext.form.RadioGroup.superclass.afterRender.call(this)
+    },
 
-	getName: function() {
-		return this.items.first().getName();
-	},
+    getName: function() {
+	return this.items.first().getName();
+    },
 
-	getValue: function() {
-		var v;
+    getValue: function() {
+	var v;
+	v = this.items.first().getGroupValue();
+	//this.items.each(function(item) {
+	//    v = item.getRawValue();
+	//    return !item.getValue();
+	//});
+	return v;
+    },
 
-		this.items.each(function(item) {
-			v = item.getRawValue();
-			return !item.getValue();
-		});
-
-		return v;
-	},
-
-	setValue: function(v) {
-		if (!this.items.each) return;
-		this.items.each(function(item) {
-			var checked = (item.el.getValue() == String(v));
-			item.setValue(checked);
-		});
-	}
+    setValue: function(v) {
+	if (!this.items.each) return;
+	this.items.each(function(item) {
+	    var checked = (item.el.getValue() == String(v));
+	    if (item.rendered) {
+		item.el.dom.checked = checked;
+		item.el.dom.defaultChecked = checked;
+		item.wrap[checked ? 'addClass' : 'removeClass'](item.checkedCls);
+	    }
+	});
+    }
 });
 
 Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
