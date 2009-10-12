@@ -207,7 +207,12 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 						value = Number(value);
 						break;
 					case 'boolean':
-						value = Boolean(value);
+						if (Ext.type(value) == 'string') {
+							value = value.toLowerCase();
+							value = (value == 'true' || value == '1' || value == 'on') ? true : false;
+						} else {
+							value = Boolean(value);
+						}
 						break;
 				}
 			}			
@@ -243,7 +248,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @private
 	 */
 	onFieldChange: function(field, event) {
-		this.update(field._doption, field.getValue());
+	    this.update(field._doption, field.getValue());
 	},
 	
 	/**
