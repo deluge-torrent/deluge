@@ -96,8 +96,8 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
             name: 'compact_allocation',
             labelSeparator: '',
             items: [
-                {boxLabel: _('Compact') + '&nbsp;', inputValue: true},
-                {boxLabel: _('Full'), inputValue: false}
+                {boxLabel: _('Compact') + '&nbsp;', inputValue: true, name: 'compact_allocation'},
+                {boxLabel: _('Full'), inputValue: false, name: 'compact_allocation'}
             ]
         }));
     
