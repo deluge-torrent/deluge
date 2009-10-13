@@ -307,7 +307,7 @@ Copyright:
         },
     
         onHostAdded: function() {
-            this.update(this);
+            this.loadHosts();
         },
     
         onClose: function(e) {
