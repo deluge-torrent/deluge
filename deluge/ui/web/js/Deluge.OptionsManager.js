@@ -95,7 +95,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.options = Ext.apply(this.options, this.changed);
 		this.reset();
 	},
-	
+
 	/**
 	 * Converts the value so it matches the originals type
 	 * @param {Mixed} oldValue The original value
@@ -103,183 +103,172 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 */
 	convertValueType: function(oldValue, value) {
 		if (Ext.type(oldValue) != Ext.type(value)) {
-		switch (Ext.type(oldValue)) {
-			case 'string':
-				value = String(value);
-				break;
-		    case 'number':
-			value = Number(value);
-			break;
-		    case 'boolean':
-			if (Ext.type(value) == 'string') {
-			    value = value.toLowerCase();
-			    value = (value == 'true' || newValue == '1' || value == 'on') ? true : false;
-			} else {
-			    value = Boolean(value);
+			switch (Ext.type(oldValue)) {
+				case 'string':
+					value = String(value);
+					break;
+				case 'number':
+					value = Number(value);
+					break;
+				case 'boolean':
+					if (Ext.type(value) == 'string') {
+						value = value.toLowerCase();
+						value = (value == 'true' || value == '1' || value == 'on') ? true : false;
+					} else {
+						value = Boolean(value);
+					}
+					break;
 			}
-			break;
 		}
-	    }
-	    return value;
+		return value;
 	},
-	
+
 	/**
 	 * Get the value for an option or options.
 	 * @param {String} [option] A single option or an array of options to return.
 	 * @returns {Object} the options value.
 	 */
 	get: function() {
-	    if (arguments.length == 1) {
-		var option = arguments[0];
-		return (this.isDirty(option)) ? this.changed[option] : this.options[option];
-	    } else {
-		var options = {};
-		Ext.each(arguments, function(option) {
-		    if (!this.has(option)) return;
-		    options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
-		}, this);
-		return options;
-	    }
+		if (arguments.length == 1) {
+			var option = arguments[0];
+			return (this.isDirty(option)) ? this.changed[option] : this.options[option];
+		} else {
+			var options = {};
+			Ext.each(arguments, function(option) {
+				if (!this.has(option)) return;
+				options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
+			}, this);
+			return options;
+		}
 	},
-	
+
 	/**
 	 * Get the default value for an option or options.
 	 * @param {String|Array} [option] A single option or an array of options to return.
 	 * @returns {Object} the value of the option
 	 */
 	getDefault: function(option) {
-	    return this.options[option];
+		return this.options[option];
 	},
-	
+
 	/**
 	 * Returns the dirty (changed) values.
 	 * @returns {Object} the changed options
 	 */
 	getDirty: function() {
-	    return this.changed;
+		return this.changed;
 	},
-	
+
 	/**
 	 * @param {String} [option] The option to check
 	 * @returns {Boolean} true if the option has been changed from the default.
 	 */
 	isDirty: function(option) {
-	    return !Ext.isEmpty(this.changed[option]);
+		return !Ext.isEmpty(this.changed[option]);
 	},
-	
-	/**
-	 * Check to see if the option has been changed.
-	 * @param {String} id
-	 * @param {String} option
-	 * @returns {Boolean} true if the option has been changed, else false.
-	 */
-	hasChanged: function(id, option) {
-	    return (this.changed[id] && !Ext.isEmpty(this.changed[id][option]));
-	},
-	
+
 	/**
 	 * Check to see if an option exists in the options manager
 	 * @param {String} option
 	 * @returns {Boolean} true if the option exists, else false.
 	 */
 	has: function(option) {
-	    return (this.options[option]);
+		return (this.options[option]);
 	},
 
 	/**
 	 * Reset the options back to the default values.
-	 * @param {String} id
 	 */
 	reset: function() {
-	    this.changed = {};
+		this.changed = {};
 	},
-	
+
 	/**
 	 * Sets the value of specified option(s) for the passed in id.
 	 * @param {String} option
 	 * @param {Object} value The value for the option
 	 */
 	set: function(option, value) {
-	    if (typeof option == 'object') {
-		var options = option;
-		this.options = Ext.apply(this.options, options);
-		for (var option in options) {
-		    this.onChange(option, options[option]);
+		if (typeof option == 'object') {
+			var options = option;
+			this.options = Ext.apply(this.options, options);
+			for (var option in options) {
+				this.onChange(option, options[option]);
+			}
+		} else {
+			this.options[option] = value;
+			this.onChange(option, value)
 		}
-	    } else {
-		this.options[option] = value;
-		this.onChange(option, value)
-	    }
 	},
-	
+
 	/**
 	 * Update the value for the specified option and id.
 	 * @param {String|Object} option or options to update
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
-	    if (typeof value === undefined) {
-		for (var key in option) {
-		    this.update(key, option[key]);
-		}
-	    } else {
-		var defaultValue = this.getDefault(option);
-		value = this.convertValueType(defaultValue, value);
-		
-		var oldValue = this.get(option);
-		if (oldValue == value) return;
-		
-		if (defaultValue == value) {
-		    if (this.isDirty(option)) delete this.changed[option];
-		    this.fireEvent('changed', option, value, oldValue);
-		    return;
-		}
+		if (value === undefined) {
+			for (var key in option) {
+				this.update(key, option[key]);
+			}
+		} else {
+			var defaultValue = this.getDefault(option);
+			value = this.convertValueType(defaultValue, value);
 
-		this.changed[option] = value;
-		this.fireEvent('changed', option, value, oldValue);
-	    }
+			var oldValue = this.get(option);
+			if (oldValue == value) return;
+
+			if (defaultValue == value) {
+				if (this.isDirty(option)) delete this.changed[option];
+				this.fireEvent('changed', option, value, oldValue);
+				return;
+			}
+
+			this.changed[option] = value;
+			this.fireEvent('changed', option, value, oldValue);
+		}
 	},
-	
-	/* Event Handlers */
+
+	/******************
+	 * Event Handlers *
+	 ******************/
 	/**
 	 * Lets the option manager know when a field is blurred so if a value
 	 * so value changing operations can continue on that field.
 	 */
 	onFieldBlur: function(field, event) {
-	    if (this.focused == field) {
-		this.focused = null;
-	    }
+		if (this.focused == field) {
+			this.focused = null;
+		}
 	},
-	
+
 	/**
 	 * Stops a form fields value from being blocked by the change functions
 	 * @param {Ext.form.Field} field
 	 * @private
 	 */
 	onFieldChange: function(field, event) {
-	    this.update(field._doption, field.getValue());
+		this.update(field._doption, field.getValue());
 	},
-	
+
 	/**
 	 * Lets the option manager know when a field is focused so if a value
 	 * changing operation is performed it won't change the value of the
 	 * field.
 	 */
 	onFieldFocus: function(field, event) {
-	    this.focused = field;
+		this.focused = field;
 	},
-	
-	onChange: function(option, newValue, oldValue) {
-	    // If we don't have a bind there's nothing to do.
-	    if (Ext.isEmpty(this.binds[option])) return;
-	    
-	    Ext.each(this.binds[option], function(bind) {
-		// The field is currently focused so we don't want to 
-		// change it.
-		if (bind == this.focused) return;
 
-		// Set the form field to the new value.
-		bind.setValue(newValue);
-	    }, this)
+	onChange: function(option, newValue, oldValue) {
+		// If we don't have a bind there's nothing to do.
+		if (Ext.isEmpty(this.binds[option])) return;
+		Ext.each(this.binds[option], function(bind) {
+			// The field is currently focused so we don't want to 
+			// change it.
+			if (bind == this.focused) return;
+			// Set the form field to the new value.
+			bind.setValue(newValue);
+		}, this);
 	}
 });
