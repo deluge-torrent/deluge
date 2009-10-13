@@ -1,11 +1,11 @@
 === Deluge 1.2.0_rc2 (In Development) ===
 ==== GtkUI ====
-  * Fix path errors when adding torrents externally in Windows
-  * Fix localclient authentication by stripping the lines read from the auth file
-  * Do not try to call doIteration() on the reactor if it has already stopped
+	* Fix path errors when adding torrents externally in Windows
+	* Fix localclient authentication by stripping the lines read from the auth file
+	* Do not try to call doIteration() on the reactor if it has already stopped
 
 ==== Core ====
-  * Fix saving torrent state on fresh configs
+	* Fix saving torrent state on fresh configs
 
 ==== Web ====
 	* Fix changing of the allocation in the preferences.
@@ -13,231 +13,231 @@
 	* Add a --fork option to allow forking the webui to the background
 
 ==== Misc ====
-  * Add man pages for deluge-console and deluge-gtk
+	* Add man pages for deluge-console and deluge-gtk
 
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
-  * Implement new RPC protocol DelugeRPC replacing XMLRPC
-  * Move to a twisted framework
-  * Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
-  * Use system GeoIP database if available, this is now an optional dependency
+	* Implement new RPC protocol DelugeRPC replacing XMLRPC
+	* Move to a twisted framework
+	* Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
+	* Use system GeoIP database if available, this is now an optional dependency
 
 ==== GtkUI ====
-  * Remove SignalReceiver
-  * Implemented a cross-platform IPC method thus removing the DBUS dependency
-  * Implement a "True" Classic Mode where there is no longer a separate daemon process
-  * Add preferences option "Add torrent in paused state"
-  * Add tracker icons to the Tracker column
-  * Implement #259 show tooltip with country name in the peers tab
-  * Add an error category to the tracker sidebar list
-  * Add Find More Plugins button to Plugins preference page
-  * Fix #518 remove header in add torrent dialog to save vertical space
-  * Add a Cache preferences page to adjust cache settings and examine cache status
-  * Add ability to rename files prior to adding them
-  * Fix shutdown handler with GNOME session manager
-  * Allow 4 MiB piece sizes when creating a torrent
+	* Remove SignalReceiver
+	* Implemented a cross-platform IPC method thus removing the DBUS dependency
+	* Implement a "True" Classic Mode where there is no longer a separate daemon process
+	* Add preferences option "Add torrent in paused state"
+	* Add tracker icons to the Tracker column
+	* Implement #259 show tooltip with country name in the peers tab
+	* Add an error category to the tracker sidebar list
+	* Add Find More Plugins button to Plugins preference page
+	* Fix #518 remove header in add torrent dialog to save vertical space
+	* Add a Cache preferences page to adjust cache settings and examine cache status
+	* Add ability to rename files prior to adding them
+	* Fix shutdown handler with GNOME session manager
+	* Allow 4 MiB piece sizes when creating a torrent
 
 ==== ConsoleUI ====
-  * Changed to use curses for a more interactive client
+	* Changed to use curses for a more interactive client
 
 ==== WebUI ====
-  * Move over to using Twisted-Web for the webserver.
-  * Move to only AJAX interface built upon Ext-JS.
+	* Move over to using Twisted-Web for the webserver.
+	* Move to only AJAX interface built upon Ext-JS.
 
 ==== Plugins ====
-  * Add Scheduler plugin
-  * Add Extractor plugin
+	* Add Scheduler plugin
+	* Add Extractor plugin
 
 ==== Misc ====
-  * PyGTK dependency bumped to => 2.12 to use new tooltip system
-  * Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
-  * Remove GeoIP database from the source tree
+	* PyGTK dependency bumped to => 2.12 to use new tooltip system
+	* Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
+	* Remove GeoIP database from the source tree
 
 === Deluge 1.1.9 - (15 June 2009) ===
 ==== Core ====
-  * Only move a torrent due to 'move on complete' when some data has been downloaded
-  * Update libtorrent for CVE-2009-1760
+	* Only move a torrent due to 'move on complete' when some data has been downloaded
+	* Update libtorrent for CVE-2009-1760
 
 ==== GtkUI ====
-  * Fix #950 renaming a parent folder into multiple folders
+	* Fix #950 renaming a parent folder into multiple folders
 
 ==== WebUI ====
-  * Fix remote torrent add
+	* Fix remote torrent add
 
 === Deluge 1.1.8 - (21 May 2009) ===
 ==== Core ====
-  * Fix pause all/resume all
-  * Torrent name is now changed when the root folder or file is renamed
+	* Fix pause all/resume all
+	* Torrent name is now changed when the root folder or file is renamed
 
 ==== GtkUI ====
-  * Fix high cpu usage when displaying speeds in titlebar
-  * Fix showing non-utf8 encoded torrents in add torrent dialog -- this adds
-    an additional dependency on chardet.
-  * Fix exception when timing out trying to send notification email
-  * Set some sane defaults for peers/file tabs column widths
+	* Fix high cpu usage when displaying speeds in titlebar
+	* Fix showing non-utf8 encoded torrents in add torrent dialog -- this adds
+		an additional dependency on chardet.
+	* Fix exception when timing out trying to send notification email
+	* Set some sane defaults for peers/file tabs column widths
 
 ==== WebUI ====
-  * Fix starting when -l option is used
+	* Fix starting when -l option is used
 
 === Deluge 1.1.7 - (25 April 2009) ===
 ==== Core ====
-  * Fix issue where cannot resume torrent after doing a 'Pause All'
-  * Add workaround for 'address_v4 from unsigned long' bug experienced by users
-    with 64-bit machines.  This bug is fixed in libtorrent 0.14.3.
+	* Fix issue where cannot resume torrent after doing a 'Pause All'
+	* Add workaround for 'address_v4 from unsigned long' bug experienced by users
+		with 64-bit machines.	This bug is fixed in libtorrent 0.14.3.
 
 ==== GtkUI ====
-  * Fix #883 segfault if locale is not using UTF-8 encoding
-  * Fix for adding torrents with invalid filename encodings
-  * Fix displaying IPv6 peers in the Peers tab
-  * Fix starting the daemon in OS X
-  * Fix loading improperly created torrents with mismatched encodings
-  * Fix displaying improper progress when creating torrent
+	* Fix #883 segfault if locale is not using UTF-8 encoding
+	* Fix for adding torrents with invalid filename encodings
+	* Fix displaying IPv6 peers in the Peers tab
+	* Fix starting the daemon in OS X
+	* Fix loading improperly created torrents with mismatched encodings
+	* Fix displaying improper progress when creating torrent
 
 ==== Windows ====
-  * Fix freezing in create torrent dialog
-  * Fix creating torrents in Windows
-  * Fix free space check
+	* Fix freezing in create torrent dialog
+	* Fix creating torrents in Windows
+	* Fix free space check
 
 === Deluge 1.1.6 - (06 April 2009) ===
 ==== Core ====
-  * Fix udp trackers being classified as DHT source
-  * Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
-  * Fix #862 deluged crash when access http://localhost:58846
+	* Fix udp trackers being classified as DHT source
+	* Fix #855 force a resume on a torrent if a 'Force Recheck' is initiated
+	* Fix #862 deluged crash when access http://localhost:58846
 
 ==== GtkUI ====
-  * Fix displaying torrents with non-utf8 encodings in add torrent dialog
+	* Fix displaying torrents with non-utf8 encodings in add torrent dialog
 
 ==== WebUI ====
-  * Fix #870 use proper config location for loading ssl cert
+	* Fix #870 use proper config location for loading ssl cert
 
 ==== Misc ====
-  * Add OpenSSL exception to license
+	* Add OpenSSL exception to license
 
 === Deluge 1.1.5 - (16 March 2009) ===
 ==== Core ====
-  * Fix config file saving when no current config file exists
+	* Fix config file saving when no current config file exists
 
 ==== GtkUI ====
-  * Add 'Comments' field to the Details tab
-  * Fix #841 maximum upload slots tooltip
+	* Add 'Comments' field to the Details tab
+	* Fix #841 maximum upload slots tooltip
 
 === Deluge 1.1.4 - (08 March 2009) ===
 ==== Core ====
-  * Fix displaying file errors when the torrent isn't paused
-  * Fix issue where torrents being check would get removed due to "stop at ratio" rules
-  * Fix #790 tracker hosts not correct for some .uk trackers
-  * Make sure config files, resume data and state are fsync'd when saved.  This should help prevent data losses on crashes/improper shutdowns.
+	* Fix displaying file errors when the torrent isn't paused
+	* Fix issue where torrents being check would get removed due to "stop at ratio" rules
+	* Fix #790 tracker hosts not correct for some .uk trackers
+	* Make sure config files, resume data and state are fsync'd when saved.	This should help prevent data losses on crashes/improper shutdowns.
 
 ==== GtkUI ====
-  * Fix hiding bottom pane when no tabs are enabled upon restart
-  * Fix saving file priorities when switching torrents in the addtorrentdialog
-  * Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
-  * Fix #655 issue where default torrent options wouldn't be set for new torrents added to the addtorrentdialog
-  * Fix #817 email notifications fail to substitute format strings
+	* Fix hiding bottom pane when no tabs are enabled upon restart
+	* Fix saving file priorities when switching torrents in the addtorrentdialog
+	* Fix the allocate mode not being preserved when selecting different torrents in addtorrentdialog
+	* Fix #655 issue where default torrent options wouldn't be set for new torrents added to the addtorrentdialog
+	* Fix #817 email notifications fail to substitute format strings
 
 ==== Plugins ====
-  * Label: Fix setting 'Move on completed' folder when connected to a remote daemon
+	* Label: Fix setting 'Move on completed' folder when connected to a remote daemon
 
 === Deluge 1.1.3 - (15 February 2009) ===
 ==== Core ====
-  * Fix issue where checking queue would stop
-  * Fix announcing to SSL trackers
+	* Fix issue where checking queue would stop
+	* Fix announcing to SSL trackers
 
 ==== Misc ====
-  * Fix issue when initializing gettext that would prevent deluge from starting
-  * Fix logging exceptions when starting the daemon
-  * Fix displaying errors when a torrent is Checking
-  * Fix #790 tracker hosts not correct for some 3rd-level domain names
+	* Fix issue when initializing gettext that would prevent deluge from starting
+	* Fix logging exceptions when starting the daemon
+	* Fix displaying errors when a torrent is Checking
+	* Fix #790 tracker hosts not correct for some 3rd-level domain names
 
 === Deluge 1.1.2 - (31 January 2009) ===
 ==== Core ====
-  * Fix issue where torrents get stuck Checking
+	* Fix issue where torrents get stuck Checking
 
 ==== GtkUI ====
-  * Fix #761 use proper theme colours in sidebar
-  * Fix saving files/peers tab state when no column is sorted
+	* Fix #761 use proper theme colours in sidebar
+	* Fix saving files/peers tab state when no column is sorted
 
 === Deluge 1.1.1 - (24 January 2009) ===
 ==== Core ====
-  * Fix oldstateupgrader for those upgrading from 0.5.x
-  * Fix setting Peer TOS byte
-  * Fix setting outgoing ports
+	* Fix oldstateupgrader for those upgrading from 0.5.x
+	* Fix setting Peer TOS byte
+	* Fix setting outgoing ports
 
 ==== GtkUI ====
-  * Fix opening links from Help menu and others
-  * Fix remembering sorted column in the torrent list
-  * Fix saving Files tab and Peers tab state
-  * Disable popup notification in preferences on Windows
-  * Fix crashing in Add Torrent Dialog when removing torrents from the list
-  * Do not allow duplicate torrents in the Add Torrent Dialog
-  * Fix translating speed units in status tab when a per-torrent limit is set
-  * Fix torrents not displaying properly after disconnecting and reconnecting to the daemon
-  * Fix when sorting # column, downloads should be on top
+	* Fix opening links from Help menu and others
+	* Fix remembering sorted column in the torrent list
+	* Fix saving Files tab and Peers tab state
+	* Disable popup notification in preferences on Windows
+	* Fix crashing in Add Torrent Dialog when removing torrents from the list
+	* Do not allow duplicate torrents in the Add Torrent Dialog
+	* Fix translating speed units in status tab when a per-torrent limit is set
+	* Fix torrents not displaying properly after disconnecting and reconnecting to the daemon
+	* Fix when sorting # column, downloads should be on top
 
 ==== Misc ====
-  * Fix bdecoding some torrent files
-  * Fix the -l, --logfile option
-  * Fix #729 tracker icons not being saved in the correct location
-  * Add support for more tracker icons
-  * Fix being able to connect to a local daemon from another user account
+	* Fix bdecoding some torrent files
+	* Fix the -l, --logfile option
+	* Fix #729 tracker icons not being saved in the correct location
+	* Add support for more tracker icons
+	* Fix being able to connect to a local daemon from another user account
 
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
-  * Implement #79 ability to change outgoing port range
-  * Implement #296 ability to change peer TOS byte
-  * Add per-torrent move on completed settings
-  * Implement #414 use async save_resume_data method
-  * Filter Manager with torrent filtering in get_torrents_status , for sidebar and plugins.
-  * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
-  * Remove remaining gtk functions in common
-  * Tracker icons.
-  * Add ETA for torrents with stop at seed ratio set
-  * Fix #47 the state and config files are no longer invalidated when there is no diskspace
-  * Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
-  * Add -P, --pidfile option to deluged
+	* Implement #79 ability to change outgoing port range
+	* Implement #296 ability to change peer TOS byte
+	* Add per-torrent move on completed settings
+	* Implement #414 use async save_resume_data method
+	* Filter Manager with torrent filtering in get_torrents_status , for sidebar and plugins.
+	* Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
+	* Remove remaining gtk functions in common
+	* Tracker icons.
+	* Add ETA for torrents with stop at seed ratio set
+	* Fix #47 the state and config files are no longer invalidated when there is no diskspace
+	* Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
+	* Add -P, --pidfile option to deluged
 
 ==== GtkUI ====
-  * Add peer progress to the peers tab
-  * Add ability to manually add peers
-  * Sorting # column will place downloaders above seeds
-  * Remove dependency on libtorrent for add torrent dialog
-  * Allow adding multiple trackers at once in the edit tracker dialog
-  * Implement #28 Create Torrent Dialog
-  * Redesiged sidebar with filters for Active and Tracker (see Filter Manager)
-  * Implement #428 the ability to rename files and directories
-  * Implement #229 add date added column
-  * Implement #596 show speeds in title
-  * Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
-  * Fix #624 do not allow changing file priorities when using compact allocation
-  * Fix #602 re-did files/peers tab state saving/loading
-  * Fix gtk warnings
-  * Add protocol traffic statusbar item
-  * Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
-  * Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
-  * Make active port test use internal graphic instead of launching browser
+	* Add peer progress to the peers tab
+	* Add ability to manually add peers
+	* Sorting # column will place downloaders above seeds
+	* Remove dependency on libtorrent for add torrent dialog
+	* Allow adding multiple trackers at once in the edit tracker dialog
+	* Implement #28 Create Torrent Dialog
+	* Redesiged sidebar with filters for Active and Tracker (see Filter Manager)
+	* Implement #428 the ability to rename files and directories
+	* Implement #229 add date added column
+	* Implement #596 show speeds in title
+	* Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
+	* Fix #624 do not allow changing file priorities when using compact allocation
+	* Fix #602 re-did files/peers tab state saving/loading
+	* Fix gtk warnings
+	* Add protocol traffic statusbar item
+	* Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
+	* Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
+	* Make active port test use internal graphic instead of launching browser
 
 ==== WebUI ====
-  * Lots of smaller tweaks.
-  * All details tabs have the same features as in gtk-ui 1.0.x
-  * Persistent sessions #486
-  * Plugin improvements for easy use of templates and images in eggs. #497
-  * Classic template takes over some style elements from white template.
-  * https (for users that know how to create certificates)
-  * Easier apache mod_proxy use.
-  * Redesigned sidebar
+	* Lots of smaller tweaks.
+	* All details tabs have the same features as in gtk-ui 1.0.x
+	* Persistent sessions #486
+	* Plugin improvements for easy use of templates and images in eggs. #497
+	* Classic template takes over some style elements from white template.
+	* https (for users that know how to create certificates)
+	* Easier apache mod_proxy use.
+	* Redesigned sidebar
 
 ==== AjaxUI ====
-  * Hosted in a webui template.
+	* Hosted in a webui template.
 
 ==== ConsoleUI ====
-  * New ConsoleUI written by Idoa01
-  * Callable from command-line for scripts.
+	* New ConsoleUI written by Idoa01
+	* Callable from command-line for scripts.
 
 ==== Plugins ====
-  * Stats plugin for graphs.
-  * Label plugin for grouping torrents and per torrent settings.
+	* Stats plugin for graphs.
+	* Label plugin for grouping torrents and per torrent settings.
 
 ==== Misc ====
-  * Implement #478 display UI options in usage help
-  * Fix #547 add description to name field per HIG entry 2.1.1.1
-  * Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
+	* Implement #478 display UI options in usage help
+	* Fix #547 add description to name field per HIG entry 2.1.1.1
+	* Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
