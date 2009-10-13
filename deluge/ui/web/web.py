@@ -77,10 +77,26 @@ class Web(_UI):
     def start(self):
         super(Web, self).start()
         
-        if self.options.fork:
+        import deluge.common
+        # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
+        # Section 1.7
+        if self.options.fork and not deluge.common.windows_check():
+            # fork() so the parent can exit, returns control to the command line
+            # or shell invoking the program.
             if os.fork():
                 exit(0)
             
+            # setsid() to become a process group and session group leader.
+            os.setsid()
+            
+            # fork() again so the parent, (the session group leader), can exit.
+            if os.fork():
+                exit(0)
+            
+            # chdir() to esnure that our process doesn't keep any directory in
+            # use that may prevent a filesystem unmount.
+            import deluge.configmanager
+            os.chdir(deluge.configmanager.get_config_dir())
         
         import server
         self.__server = server.DelugeWeb()
