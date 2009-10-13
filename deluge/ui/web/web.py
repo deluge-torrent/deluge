@@ -33,6 +33,8 @@
 #
 #
 
+import os
+
 from deluge.ui.ui import _UI, UI
 from optparse import OptionGroup
 
@@ -51,6 +53,9 @@ class Web(_UI):
         self.__server =  None
         
         group = OptionGroup(self.parser, "Web Options")
+        group.add_option("-f", "--fork", dest="fork",
+            help="Fork the web interface process into the background",
+            action="store_true", default=False)
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
@@ -71,6 +76,11 @@ class Web(_UI):
     
     def start(self):
         super(Web, self).start()
+        
+        if self.options.fork:
+            if os.fork():
+                exit(0)
+            
         
         import server
         self.__server = server.DelugeWeb()

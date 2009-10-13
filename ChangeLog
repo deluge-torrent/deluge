@@ -6,10 +6,11 @@
 
 ==== Core ====
   * Fix saving torrent state on fresh configs
-  
+
 ==== Web ====
-  * Fix changing of the allocation in the preferences.
-  * Fix updating the Connection Manager when a host is added.
+	* Fix changing of the allocation in the preferences.
+	* Fix updating the Connection Manager when a host is added.
+	* Add a --fork option to allow forking the webui to the background
 
 ==== Misc ====
   * Add man pages for deluge-console and deluge-gtk
