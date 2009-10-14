@@ -84,14 +84,14 @@ class Web(_UI):
             # fork() so the parent can exit, returns control to the command line
             # or shell invoking the program.
             if os.fork():
-                exit(0)
+                os._exit(0)
             
             # setsid() to become a process group and session group leader.
             os.setsid()
             
             # fork() again so the parent, (the session group leader), can exit.
             if os.fork():
-                exit(0)
+                os._exit(0)
             
             # chdir() to esnure that our process doesn't keep any directory in
             # use that may prevent a filesystem unmount.
