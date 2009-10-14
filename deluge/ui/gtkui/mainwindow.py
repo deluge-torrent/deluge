@@ -64,7 +64,7 @@ class MainWindow(component.Component):
         self.window = self.main_glade.get_widget("main_window")
 
         self.window.set_icon(common.get_deluge_icon())
-        
+
         self.vpaned = self.main_glade.get_widget("vpaned")
         self.initial_vpaned_position = self.config["window_pane_position"]
 
@@ -103,20 +103,14 @@ class MainWindow(component.Component):
 
     def show(self):
         try:
-            component.resume("TorrentView")
-            component.resume("StatusBar")
-            component.resume("TorrentDetails")
+            self.resume_components()
         except:
             pass
 
         self.window.show()
 
-
     def hide(self):
-        component.pause("TorrentView")
-        component.get("TorrentView").save_state()
-        component.pause("StatusBar")
-        component.pause("TorrentDetails")
+        self.pause_components()
         # Store the x, y positions for when we restore the window
         self.window_x_pos = self.window.get_position()[0]
         self.window_y_pos = self.window.get_position()[1]
@@ -130,14 +124,30 @@ class MainWindow(component.Component):
         except:
             pass
         try:
-            component.resume("TorrentView")
-            component.resume("StatusBar")
-            component.resume("TorrentDetails")
+            self.resume_components()
         except:
             pass
 
         self.window.present()
         self.load_window_state()
+
+    def pause_components(self):
+        """
+        Pause certain components.  This is useful when the main window is not
+        being shown to reduce cpu usage.
+        """
+        component.pause("TorrentView")
+        component.get("TorrentView").save_state()
+        component.pause("StatusBar")
+        component.pause("TorrentDetails")
+
+    def resume_components(self):
+        """
+        Resumes components that are paused in `:meth:pause_components`.
+        """
+        component.resume("TorrentView")
+        component.resume("StatusBar")
+        component.resume("TorrentDetails")
 
     def active(self):
         """Returns True if the window is active, False if not."""
@@ -181,14 +191,12 @@ class MainWindow(component.Component):
         if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
                 log.debug("MainWindow is minimized..")
-                component.pause("TorrentView")
-                component.pause("StatusBar")
+                self.pause_components()
                 self.is_minimized = True
             else:
                 log.debug("MainWindow is not minimized..")
                 try:
-                    component.resume("TorrentView")
-                    component.resume("StatusBar")
+                    self.resume_components()
                 except:
                     pass
                 self.is_minimized = False
