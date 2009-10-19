@@ -70,7 +70,8 @@ class GtkUI(GtkPluginBase):
             path = self.glade.get_widget("entry_path").get_text()
 
         config = {
-            "extract_path": path
+            "extract_path": path,
+            "use_name_folder": self.glade.get_widget("chk_use_name").get_active()
         }
 
         client.extractor.set_config(config)
@@ -88,5 +89,7 @@ class GtkUI(GtkPluginBase):
                 self.glade.get_widget("folderchooser_path").set_current_folder(config["extract_path"])
             else:
                 self.glade.get_widget("entry_path").set_text(config["extract_path"])
+            
+            self.glade.get_widget("chk_use_name").set_active(config["use_name_folder"])
 
         client.extractor.get_config().addCallback(on_get_config)

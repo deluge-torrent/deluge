@@ -48,7 +48,8 @@ import deluge.configmanager
 from deluge.core.rpcserver import export
 
 DEFAULT_PREFS = {
-    "extract_path": ""
+    "extract_path": "",
+    "use_name_folder": True
 }
 
 # The first format is the source file, the second is the dest path
@@ -69,7 +70,7 @@ class Core(CorePluginBase):
         component.get("EventManager").register_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
     def disable(self):
-        pass
+        component.get("EventManager").deregister_event_handler("TorrentFinishedEvent", self._on_torrent_finished)
 
     def update(self):
         pass
@@ -97,11 +98,22 @@ class Core(CorePluginBase):
 
             # Now that we have the cmd, lets run it to extract the files
             fp = os.path.join(save_path, f["path"])
-            if os.path.exists(self.config["extract_path"]):
-                dest = self.config["extract_path"]
-            else:
-                dest = None
+            
+            # Get the destination path
+            dest = self.config["extract_path"]
+            if self.config["use_name_folder"]:
+                name = component.get("TorrentManager")[torrent_id].get_status(["name"])["name"]
+                dest = os.path.join(dest, name)
 
+            # Create the destination folder if it doesn't exist                
+            if not os.path.exists(dest):
+                try:
+                    os.makedirs(dest)
+                except Exception, e:
+                    log.error("Error creating destination folder: %s", e)
+                    return
+            
+            log.debug("Extracting to %s", dest)        
             def on_extract_success(result, torrent_id):
                 # XXX: Emit an event
                 log.debug("Extract was successful for %s", torrent_id)
@@ -115,14 +127,14 @@ class Core(CorePluginBase):
             d.addCallback(on_extract_success, torrent_id)
             d.addErrback(on_extract_failed, torrent_id)
 
-    @export()
+    @export
     def set_config(self, config):
         "sets the config dictionary"
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
-    @export()
+    @export
     def get_config(self):
         "returns the config dictionary"
         return self.config.config
