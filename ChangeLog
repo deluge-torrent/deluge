@@ -13,8 +13,12 @@
 	* Add a --fork option to allow forking the webui to the background
 
 ==== Misc ====
-	* Add man pages for deluge-console and deluge-gtk
+	* Add man pages for deluge-console, deluge-gtk and deluge-web
 
+==== Extractor ====
+	* Fix issue where the plugin would not stop extracting files after being disabled
+	* Add option to create torrent name sub-folders in extract folder
+  
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
 	* Implement new RPC protocol DelugeRPC replacing XMLRPC
