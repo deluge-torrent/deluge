@@ -11,6 +11,7 @@
 	* Fix changing of the allocation in the preferences.
 	* Fix updating the Connection Manager when a host is added.
 	* Add a --fork option to allow forking the webui to the background
+	* Fix the statusbar menu limits
 
 ==== Misc ====
 	* Add man pages for deluge-console, deluge-gtk and deluge-web

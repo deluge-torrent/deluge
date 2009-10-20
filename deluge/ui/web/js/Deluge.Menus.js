@@ -243,7 +243,18 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 	}]
 });
 
-Deluge.Menus.Connections = new Ext.menu.Menu({
+Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
+	
+	setValue: function(value) {
+		var item = this.items.get(value);
+		if (!item) item = this.items.get('other')
+		item.suspendEvents();
+		item.setChecked(true);
+		item.resumeEvents();
+	}
+});
+
+Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
 	id: 'connectionsMenu',
 	items: [{
 		id: '50',
@@ -290,7 +301,7 @@ Deluge.Menus.Connections = new Ext.menu.Menu({
 	}]
 });
 
-Deluge.Menus.Download = new Ext.menu.Menu({
+Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
 	id: 'downspeedMenu',
 	items: [{
 		id: '5',
@@ -337,7 +348,7 @@ Deluge.Menus.Download = new Ext.menu.Menu({
 	}]
 });
 
-Deluge.Menus.Upload = new Ext.menu.Menu({
+Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
 	id: 'upspeedMenu',
 	items: [{
 		id: '5',
@@ -414,7 +425,7 @@ Deluge.Menus.FilePriorities = new Ext.menu.Menu({
 });
 
 function onLimitChanged(item, checked) {
-	/*if (item.id == "other") {
+	if (item.id == "other") {
 	} else {
 		config = {}
 		config[item.group] = item.id
@@ -423,5 +434,5 @@ function onLimitChanged(item, checked) {
 				Deluge.UI.update();
 			}
 		});
-	}*/
+	}
 }
