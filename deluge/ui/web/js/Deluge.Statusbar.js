@@ -131,18 +131,10 @@
 			});
 	
 			this.items.get('statusbar-dht').setText(stats.dht_nodes);
-	
-			function updateMenu(menu, stat) {
-				var item = menu.items.get(stat)
-				if (!item) {
-					item = menu.items.get('other')
-				}
-				item.setChecked(true);
-			}
 			
-			updateMenu(Deluge.Menus.Connections, stats.max_num_connections);
-			updateMenu(Deluge.Menus.Download, stats.max_download);
-			updateMenu(Deluge.Menus.Upload, stats.max_upload);
+			Deluge.Menus.Connections.setValue(stats.max_num_connections);
+			Deluge.Menus.Download.setValue(stats.max_download);
+			Deluge.Menus.Upload.setValue(stats.max_upload);
 		}
 	});
 	Deluge.Statusbar = new Ext.deluge.Statusbar();
