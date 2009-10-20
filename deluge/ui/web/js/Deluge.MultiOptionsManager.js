@@ -75,7 +75,13 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 */
 	get: function() {
 		var id = arguments[0];
-		if (arguments.length == 2) {
+		if (arguments.length == 1) {
+			var options = {};
+			for (var option in this.options) {
+				options[option] = (this.isDirty(id, option)) ? this.changed[id][option] : this.getDefault(id, option);
+			}
+			return options;
+		} else if (arguments.length == 2) {
 			var option = arguments[1];
 			return (this.isDirty(id, option)) ? this.changed[id][option] : this.getDefault(id, option);
 		} else {
