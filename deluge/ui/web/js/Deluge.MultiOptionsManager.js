@@ -149,14 +149,26 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 * @param {String} option
 	 * @param {Object} value The value for the option
 	 */
-	set: function(id, option, value) {
-		if (typeof value === undefined) {
+	setDefault: function(id, option, value) {
+		if (value === undefined) {
 			for (var key in option) {
-				this.set(id, key, option[key]);
+				this.setDefault(id, key, option[key]);
 			}
 		} else {
-			if (!this.changed[id]) this.changed[id] = {};
-			this.changed[id][option] = value;
+			var oldValue = this.getDefault(id, option);
+			value = this.convertValueType(oldValue, value);
+			
+			// If the value is the same as the old value there is 
+			// no point in setting it again.
+			if (oldValue == value) return;
+			
+			// Store the new default
+			if (!this.stored[id]) this.stored[id] = {};
+			this.stored[id][option] = value;
+			
+			if (!this.isDirty(id, option)) {
+				this.fireEvent('changed', id, option, value, oldValue);
+			}
 		}
 	},
 
