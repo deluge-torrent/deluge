@@ -203,7 +203,6 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         }));
     
         this.form.on('render', this.onFormRender, this);
-        this.form.disable();
     },
 
     onFormRender: function(form) {
@@ -491,10 +490,10 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
         var selection = this.grid.getSelectionModel();
         if (!selection.hasSelection()) return;
         var torrent = selection.getSelected();
-
-        delete this.torrents[torrent.id];
         this.grid.getStore().remove(torrent);
         this.optionsPanel.clear();
+        
+        if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
     },
 
     onSelect: function(selModel, rowIndex, record) {
