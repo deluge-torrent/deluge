@@ -71,7 +71,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				'prioritize_first_last': false
 			}
 		});
-		this.optionsManager.on('changed', this.onOptionChanged, this);
 		
 		/*
 		 * Bandwidth Options
@@ -223,7 +222,9 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			id: 'stop_at_ratio',
 			width: 120,
-			boxLabel: _('Stop seed at ratio')
+			boxLabel: _('Stop seed at ratio'),
+			handler: this.onStopRatioChecked,
+			scope: this
 		});
 		
 		this.fields.stop_ratio = this.fieldsets.queue.add({
@@ -285,7 +286,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Private'),
-			id: 'private'
+			id: 'private',
+			disabled: true
 		});
 		
 		this.fields.prioritize_first_last = this.fieldsets.general.add({
@@ -361,6 +363,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	clear: function() {
+		if (this.torrentId == null) return;
+		this.torrentId = null;
 		this.optionsManager.changeId(null);
 	},
 	
@@ -369,6 +373,10 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	update: function(torrentId) {
+		if (this.torrentId && !torrentId) this.clear(); // we want to clear the pane if we get a null torrent torrentIds
+		
+		if (!torrentId) return; // we don't care about null torrentIds
+		
 		if (this.torrentId != torrentId) {
 			this.torrentId = torrentId;
 			this.optionsManager.changeId(torrentId);
@@ -402,17 +410,19 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		Deluge.EditTrackers.show();
 	},
 	
-	onOptionChanged: function(id, key, newValue, oldValue) {
-		if (key == 'stop_at_ratio') {
-			this.fields.remove_at_ratio.setDisabled(!newValue);
-			this.fields.stop_ratio.setDisabled(!newValue);
-		}
+	onStopRatioChecked: function(checkbox, checked) {
+		this.fields.remove_at_ratio.setDisabled(!checked);
+		this.fields.stop_ratio.setDisabled(!checked);
 	},
 	
 	onRequestComplete: function(torrent, options) {
-		this.fields['private'].setDisabled(!torrent['private']);
+		this.fields['private'].setValue(torrent['private']);
+		this.fields['private'].setDisabled(true);
 		delete torrent['private'];
 		this.optionsManager.setDefault(this.torrentId, torrent);
+		var stop_at_ratio = this.optionsManager.get(this.torrentId, 'stop_at_ratio');
+		this.fields.remove_at_ratio.setDisabled(!stop_at_ratio);
+		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
 	}
 });
 Deluge.Details.add(new Ext.deluge.details.OptionsTab());
