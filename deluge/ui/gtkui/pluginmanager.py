@@ -74,6 +74,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
         client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
+        for instance in self.plugins.values():
+            component.start(instance.plugin.get_component_name())
 
     def stop(self):
         # Disable the plugins
