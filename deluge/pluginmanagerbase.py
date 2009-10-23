@@ -131,8 +131,8 @@ class PluginManagerBase:
         egg.activate()
         for name in egg.get_entry_map(self.entry_name):
             entry_point = egg.get_entry_info(self.entry_name, name)
-            cls = entry_point.load()
             try:
+                cls = entry_point.load()
                 instance = cls(plugin_name.replace("-", "_"))
             except Exception, e:
                 log.error("Unable to instantiate plugin!")
