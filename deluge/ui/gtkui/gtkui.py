@@ -299,9 +299,38 @@ Please see the details below for more information."), details=traceback.format_e
             if self.config["autoconnect"]:
                 for host in self.connectionmanager.config["hosts"]:
                     if host[0] == self.config["autoconnect_host_id"]:
+                        try_connect = True
+                        # Check to see if we need to start the localhost daemon
+                        if self.config["autostart_localhost"] and host[1] in ("localhost", "127.0.0.1"):
+                            log.debug("Autostarting localhost:%s", host[2])
+                            try_connect = client.start_daemon(host[2], deluge.configmanager.get_config_dir())
+                            log.debug("Localhost started: %s", try_connect)
+                            if not try_connect:
+                                dialogs.ErrorDialog(
+                                    _("Error Starting Daemon"),
+                                    _("There was an error starting the daemon process.  Try running it from a console to see if there is an error.")).run()
+                                
+                        # We'll try 30 reconnects at 500ms intervals
+                        try_counter = 30
+                        
                         def on_connect(connector):
                             component.start()
-                        client.connect(*host[1:]).addCallback(on_connect)
+                        def on_connect_fail(result, try_counter):
+                            log.error("Connection to host failed..")
+                            # We failed connecting to the daemon, but lets try again
+                            if try_counter:
+                                log.info("Retrying connection.. Retries left: %s", try_counter)
+                                try_counter -= 1
+                                import time
+                                time.sleep(0.5)
+                                do_connect()
+                            return result
+                            
+                        def do_connect():
+                            client.connect(*host[1:]).addCallback(on_connect).addErrback(on_connect_fail, try_counter)
+                                                    
+                        if try_connect:
+                            do_connect()
 
             if self.config["show_connection_manager_on_start"]:
                 # XXX: We need to call a simulate() here, but this could be a bug in twisted

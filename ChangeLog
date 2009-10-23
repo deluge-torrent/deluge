@@ -3,6 +3,7 @@
 	* Fix path errors when adding torrents externally in Windows
 	* Fix localclient authentication by stripping the lines read from the auth file
 	* Do not try to call doIteration() on the reactor if it has already stopped
+	* Fix 'autostart localhost if needed' option
 
 ==== Core ====
 	* Fix saving torrent state on fresh configs
