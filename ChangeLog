@@ -5,6 +5,7 @@
 	* Do not try to call doIteration() on the reactor if it has already stopped
 	* Fix 'autostart localhost if needed' option
 	* Fix starting plugins when the pluginmanager is started
+	* Fix #799 translate connection status
 
 ==== Core ====
 	* Fix saving torrent state on fresh configs
