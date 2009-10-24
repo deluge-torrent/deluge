@@ -19,6 +19,9 @@
 	* Fix setting the torrent options via the options tab
 	* Fix the private flag in the options tab
 
+==== Console ===
+	* Fix exception when using the 'halt' command
+	
 ==== Misc ====
 	* Add man pages for deluge-console, deluge-gtk and deluge-web
 
