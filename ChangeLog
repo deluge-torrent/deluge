@@ -6,6 +6,7 @@
 	* Fix 'autostart localhost if needed' option
 	* Fix starting plugins when the pluginmanager is started
 	* Fix #799 translate connection status
+	* Fix #215 ETA sort order
 
 ==== Core ====
 	* Fix saving torrent state on fresh configs

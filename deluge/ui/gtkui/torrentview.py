@@ -133,6 +133,20 @@ def queue_column_sort(model, iter1, iter2, data):
     if v2 > v1:
         return -1
 
+def eta_column_sort(model, iter1, iter2, data):
+    v1 = model[iter1][data]
+    v2 = model[iter2][data]
+    if v1 == v2:
+        return 0
+    if v1 == 0:
+        return 1
+    if v2 == 0:
+        return -1
+    if v1 > v2:
+        return 1
+    if v2 > v1:
+        return -1
+        
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -190,7 +204,8 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("ETA"),
                                             listview.cell_data_time,
                                             [int],
-                                            status_field=["eta"])
+                                            status_field=["eta"],
+                                            sort_func=eta_column_sort)
         self.add_func_column(_("Ratio"),
                                             listview.cell_data_ratio,
                                             [float],
