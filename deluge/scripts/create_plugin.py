@@ -286,7 +286,7 @@ class WebUI(WebPluginBase):
 
 DEFAULT_JS = """/*
 Script: %(filename)s
-    The client-side javascript code for the %(name) plugin.
+    The client-side javascript code for the %(name)s plugin.
 
 Copyright:
     (C) %(author_name)s 2009 <damoxc@gmail.com>
