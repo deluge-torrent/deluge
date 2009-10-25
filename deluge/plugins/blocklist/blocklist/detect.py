@@ -39,7 +39,7 @@ from readers import EmuleReader, SafePeerReader, PeerGuardianReader
 COMPRESSION_TYPES = {
     "PK" : "Zip",
     "\x1f\x8b" : "GZip",
-    "BZ" : "BZ ip2"
+    "BZ" : "BZip2"
 }
 
 DECOMPRESSERS = {
