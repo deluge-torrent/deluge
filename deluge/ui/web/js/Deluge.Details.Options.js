@@ -369,7 +369,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	reset: function() {
-		if (this.torrentId) this.optionsManager.reset(this.torrentId);
+		if (this.torrentId) this.optionsManager.reset();
 	},
 	
 	update: function(torrentId) {
@@ -388,19 +388,19 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onApply: function() {
-		var changed = this.optionsManager.getDirty(this.torrentId);
+		var changed = this.optionsManager.getDirty();
 		if (!Ext.isEmpty(changed['prioritize_first_last'])) {
 			var value = changed['prioritize_first_last'];
 			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
 				success: function() {
-					this.optionsManager.set(this.torrentId, 'prioritize_first_last', value);
+					this.optionsManager.set('prioritize_first_last', value);
 				},
 				scope: this
 			});
 		}
 		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
-				this.optionsManager.commit(this.torrentId);
+				this.optionsManager.commit();
 			},
 			scope: this
 		});
@@ -419,8 +419,8 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields['private'].setValue(torrent['private']);
 		this.fields['private'].setDisabled(true);
 		delete torrent['private'];
-		this.optionsManager.setDefault(this.torrentId, torrent);
-		var stop_at_ratio = this.optionsManager.get(this.torrentId, 'stop_at_ratio');
+		this.optionsManager.setDefault(torrent);
+		var stop_at_ratio = this.optionsManager.get('stop_at_ratio');
 		this.fields.remove_at_ratio.setDisabled(!stop_at_ratio);
 		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
 	}

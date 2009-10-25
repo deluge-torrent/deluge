@@ -76,19 +76,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             folderSort: true
         });
 
-        this.optionsManager = new Deluge.MultiOptionsManager({
-            defaults: {
-                'add_paused': false,
-                'compact_allocation': false,
-                'download_location': '',
-                'max_connections_per_torrent': -1,
-                'max_download_speed_per_torrent': -1,
-                'max_upload_slots_per_torrent': -1,
-                'max_upload_speed_per_torrent': -1,
-                'prioritize_first_last_pieces': false,
-                'file_priorities': []
-            }
-        });
+        this.optionsManager = new Deluge.MultiOptionsManager();
     
         this.form = this.add({
             xtype: 'form',
@@ -96,7 +84,8 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             title: _('Options'),
             bodyStyle: 'padding: 5px;',
             border: false,
-            height: 170
+            height: 170,
+            disabled: true
         });
     
         var fieldset = this.form.add({
@@ -158,28 +147,28 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             width: 200,
             defaultType: 'uxspinner'
         });
-        this.optionsManager.bind('max_download_speed_per_torrent', fieldset.add({
+        this.optionsManager.bind('max_download_speed', fieldset.add({
             fieldLabel: _('Max Down Speed'),
             /*labelStyle: 'margin-left: 10px',*/
-            name: 'max_download_speed_per_torrent',
+            name: 'max_download_speed',
             width: 60
         }));
-        this.optionsManager.bind('max_upload_speed_per_torrent', fieldset.add({
+        this.optionsManager.bind('max_upload_speed', fieldset.add({
             fieldLabel: _('Max Up Speed'),
             /*labelStyle: 'margin-left: 10px',*/
-            name: 'max_upload_speed_per_torrent',
+            name: 'max_upload_speed',
             width: 60
         }));
-        this.optionsManager.bind('max_connections_per_torrent', fieldset.add({
+        this.optionsManager.bind('max_connections', fieldset.add({
             fieldLabel: _('Max Connections'),
             /*labelStyle: 'margin-left: 10px',*/
-            name: 'max_connections_per_torrent',
+            name: 'max_connections',
             width: 60
         }));
-        this.optionsManager.bind('max_upload_slots_per_torrent', fieldset.add({
+        this.optionsManager.bind('max_upload_slots', fieldset.add({
             fieldLabel: _('Max Upload Slots'),
             /*labelStyle: 'margin-left: 10px',*/
-            name: 'max_upload_slots_per_torrent',
+            name: 'max_upload_slots',
             width: 60
         }));
     
@@ -225,7 +214,10 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         Ext.each(Ext.keys(fileIndexes), function(index) {
             priorities[index] = fileIndexes[index];
         });
-        this.optionsManager.set(torrent['info_hash'], 'file_priorities', priorities);
+        
+        var oldId = this.optionsManager.changeId(torrent['info_hash'], false);
+        this.optionsManager.set('file_priorities', priorities);
+        this.optionsManager.changeId(oldId, false);
     },
 
     clear: function() {
@@ -249,8 +241,18 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
         Deluge.Client.core.get_config_values(keys, {
             success: function(config) {
-                config['file_priorities'] = [];
-                this.optionsManager.options = config;
+                var options = {
+                    'file_priorities': [],
+                    'add_paused': config.add_paused,
+                    'compact_allocation': config.compact_allocation,
+                    'download_location': config.download_location,
+                    'max_connections': config.max_connections_per_torrent,
+                    'max_download_speed': config.max_download_speed_per_torrent,
+                    'max_upload_slots': config.max_upload_slots_per_torrent,
+                    'max_upload_speed': config.max_upload_speed_per_torrent,
+                    'prioritize_first_last_pieces': config.prioritize_first_last_pieces
+                }
+                this.optionsManager.options = options;
             },
             scope: this
         });
@@ -261,7 +263,9 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     },
 
     getOptions: function(torrentId) {
-        var options = this.optionsManager.get(torrentId);
+        var oldId = this.optionsManager.changeId(torrentId, false);
+        var options = this.optionsManager.get();
+        this.optionsManager.changeId(oldTorrentId, false);
         Ext.each(options['file_priorities'], function(priority, index) {
             options['file_priorities'][index] = (priority) ? 1 : 0;
         });
@@ -276,7 +280,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     
         this.clearFiles();
         var root = this.files.getRootNode();
-        var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
+        var priorities = this.optionsManager.get('file_priorities');
 
         this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parent) {
             if (type == 'dir') {
@@ -321,7 +325,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     },
 
     onFolderCheck: function(node, checked) {
-        var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
+        var priorities = this.optionsManager.get('file_priorities');
         node.cascade(function(child) {
             if (!child.ui.checkbox) {
                 child.attributes.checked = checked;
@@ -330,13 +334,13 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             }
             priorities[child.attributes.fileindex] = checked;
         }, this);
-        this.optionsManager.update(this.torrentId, 'file_priorities', priorities);
+        this.optionsManager.update('file_priorities', priorities);
     },
 
     onNodeCheck: function(node, checked) {
-        var priorities = this.optionsManager.get(this.torrentId, 'file_priorities');
+        var priorities = this.optionsManager.get('file_priorities');
         priorities[node.attributes.fileindex] = checked;
-        this.optionsManager.update(this.torrentId, 'file_priorities', priorities);
+        this.optionsManager.update('file_priorities', priorities);
     }
 });
 
