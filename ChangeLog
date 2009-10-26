@@ -19,7 +19,7 @@
 	* Fix setting the torrent options via the options tab
 	* Fix the private flag in the options tab
 
-==== Console ===
+==== Console ====
 	* Fix exception when using the 'halt' command
 	
 ==== Misc ====
@@ -28,7 +28,7 @@
 ==== Extractor ====
 	* Fix issue where the plugin would not stop extracting files after being disabled
 	* Add option to create torrent name sub-folders in extract folder
-  
+
 === Deluge 1.2.0_rc1 (07 October 2009) ===
 ==== Core ====
 	* Implement new RPC protocol DelugeRPC replacing XMLRPC
