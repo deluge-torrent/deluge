@@ -36,6 +36,7 @@ from twisted.web import client, http
 from twisted.web.error import PageRedirect
 from twisted.python.failure import Failure
 from twisted.internet import reactor
+from common import get_version
 
 class HTTPDownloader(client.HTTPDownloader):
     """
@@ -56,7 +57,8 @@ class HTTPDownloader(client.HTTPDownloader):
         self.__part_callback = part_callback
         self.current_length = 0
         self.value = filename
-        client.HTTPDownloader.__init__(self, url, filename, headers=headers)
+        agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
+        client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
     def gotStatus(self, version, status, message):
         self.code = int(status)
