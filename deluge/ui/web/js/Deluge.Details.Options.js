@@ -62,7 +62,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				'max_upload_speed': -1,
 				'max_connections': -1,
 				'max_upload_slots': -1,
-				'is_auto_managed': false,
+				'auto_managed': false,
 				'stop_at_ratio': false,
 				'stop_ratio': 2.0,
 				'remove_at_ratio': false,
@@ -207,7 +207,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			}
 		});
 		
-		this.fields.is_auto_managed = this.fieldsets.queue.add({
+		this.fields.auto_managed = this.fieldsets.queue.add({
 			xtype: 'checkbox',
 			fieldLabel: '',
 			labelSeparator: '',
@@ -419,6 +419,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields['private'].setValue(torrent['private']);
 		this.fields['private'].setDisabled(true);
 		delete torrent['private'];
+		torrent['auto_managed'] = torrent['is_auto_managed'];
 		this.optionsManager.setDefault(torrent);
 		var stop_at_ratio = this.optionsManager.get('stop_at_ratio');
 		this.fields.remove_at_ratio.setDisabled(!stop_at_ratio);
