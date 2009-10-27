@@ -120,11 +120,11 @@
 			
 			updateStat('traffic', {
 				value: {
-					value: stats.download_rate - stats.payload_download_rate,
+					value: stats.download_protocol_rate,
 					formatter: Deluge.Formatters.speed
 				},
 				limit: {
-					value: stats.upload_rate - stats.payload_upload_rate,
+					value: stats.upload_protocol_rate,
 					formatter: Deluge.Formatters.speed
 				},
 				format: '{0}/{1}'
