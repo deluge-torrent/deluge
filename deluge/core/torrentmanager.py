@@ -784,8 +784,7 @@ class TorrentManager(component.Component):
 
             if torrent.options["move_completed"] and total_download:
                 move_path = torrent.options["move_completed_path"]
-                if torrent.options["download_location"] != move_path and \
-                   torrent.options["download_location"] == self.config["download_location"]:
+                if torrent.options["download_location"] != move_path:
                     torrent.move_storage(move_path)
                     
             torrent.is_finished = True
