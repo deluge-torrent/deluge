@@ -11,6 +11,7 @@
 	* Fix setting file priorities when adding
 	* HTML escape the field values on the details tab
 	* Fix #215, make infinite eta values display in the correct order
+	* Fix displaying the protocol upload speed
 
 === Deluge 1.2.0_rc2 (25 October 2009) ===
 ==== GtkUI ====
