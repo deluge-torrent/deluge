@@ -71,6 +71,10 @@ Copyright:
     function trackerRenderer(value, p, r) {
         return String.format('<div style="background: url(/tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
     }
+    
+    function etaSorter(eta) {
+        return eta * -1;
+    }
 
     /**
      * Ext.deluge.TorrentGrid Class
@@ -100,7 +104,7 @@ Copyright:
                         {name: 'total_peers', type: 'int'},
                         {name: 'downspeed', type: 'int'},
                         {name: 'upspeed', type: 'int'},
-                        {name: 'eta', type: 'int'},
+                        {name: 'eta', type: 'int', sortType: etaSorter},
                         {name: 'ratio', type: 'float'},
                         {name: 'avail', type: 'float'},
                         {name: 'added', type: 'int'},
