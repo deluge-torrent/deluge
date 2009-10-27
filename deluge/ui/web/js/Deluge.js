@@ -50,7 +50,7 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
     
     Ext.apply(Ext, {
 	escapeHTML: function(text) {
-	    text = String(text);
+	    text = String(text).replace('<', '&lt;').replace('>', '&gt;');
 	    return text.replace('&', '&amp;');
 	},
 	
