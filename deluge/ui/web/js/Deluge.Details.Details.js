@@ -42,6 +42,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	    url: '/render/tab_details.html',
 	    text: _('Loading') + '...'
 	});
+	this.oldData = {};
 	this.body.setStyle('padding', '5px');
 	this.getUpdater().on('update', this.onPanelUpdate, this);
     },
@@ -68,10 +69,10 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	}, this);
     },
     
-    onRequestComplete: function(torrent, options) {
+    onRequestComplete: function(torrent, request, response, options) {
 	var data = {
 	    torrent_name: torrent.name,
-	    hash: options.torrentId,
+	    hash: options.options.torrentId,
 	    path: torrent.save_path,
 	    size: fsize(torrent.total_size),
 	    files: torrent.num_files,
@@ -81,9 +82,10 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	};
 	    
 	for (var field in this.fields) {
-	    //this.fields[field].innerHTML = Ext.escapeHTML(data[field]);
-	    this.fields[field].innerHTML = data[field];
+	    if (data[field] == this.oldData[field]) continue;
+	    this.fields[field].innerHTML = Ext.escapeHTML(data[field]);
 	}
+	this.oldData = data;
     }
 });
 Deluge.Details.add(new Ext.deluge.details.DetailsTab());
