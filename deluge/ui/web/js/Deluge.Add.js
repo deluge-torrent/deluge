@@ -85,7 +85,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             bodyStyle: 'padding: 5px;',
             border: false,
             height: 170,
-            disabled: true
+            //disabled: true
         });
     
         var fieldset = this.form.add({
@@ -198,8 +198,6 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         form.layout = new Ext.layout.FormLayout();
         form.layout.setContainer(form);
         form.doLayout();
-
-        this.optionsManager.changeId(null);
     },
 
     addTorrent: function(torrent) {
@@ -215,9 +213,9 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             priorities[index] = fileIndexes[index];
         });
         
-        var oldId = this.optionsManager.changeId(torrent['info_hash'], false);
-        this.optionsManager.set('file_priorities', priorities);
-        this.optionsManager.changeId(oldId, false);
+        var oldId = this.optionsManager.changeId(torrent['info_hash'], true);
+        this.optionsManager.setDefault('file_priorities', priorities);
+        this.optionsManager.changeId(oldId, true);
     },
 
     clear: function() {
@@ -263,9 +261,9 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     },
 
     getOptions: function(torrentId) {
-        var oldId = this.optionsManager.changeId(torrentId, false);
+        var oldId = this.optionsManager.changeId(torrentId, true);
         var options = this.optionsManager.get();
-        this.optionsManager.changeId(oldTorrentId, false);
+        this.optionsManager.changeId(oldId, true);
         Ext.each(options['file_priorities'], function(priority, index) {
             options['file_priorities'][index] = (priority) ? 1 : 0;
         });
@@ -334,7 +332,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             }
             priorities[child.attributes.fileindex] = checked;
         }, this);
-        this.optionsManager.update('file_priorities', priorities);
+        this.optionsManager.setDefault('file_priorities', priorities);
     },
 
     onNodeCheck: function(node, checked) {

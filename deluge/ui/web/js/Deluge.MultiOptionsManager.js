@@ -48,10 +48,10 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 * Changes bound fields to use the specified id.
 	 * @param {String} id
 	 */
-	changeId: function(id, updateBinds) {
+	changeId: function(id, dontUpdateBinds) {
 		var oldId = this.currentId;
 		this.currentId = id;
-		if (updateBinds) {
+		if (!dontUpdateBinds) {
 			for (var option in this.options) {
 				if (!this.binds[option]) continue;
 				Ext.each(this.binds[option], function(bind) {
@@ -80,10 +80,15 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 		if (arguments.length == 1) {
 			var option = arguments[0];
 			return (this.isDirty(option)) ? this.changed[this.currentId][option] : this.getDefault(option);
+		} else if (arguments.length == 0) {
+			var options = {};
+			for (var option in this.options) {
+			    options[option] = (this.isDirty(option)) ? this.changed[this.currentId][option] : this.getDefault(option);
+			}
+			return options;
 		} else {
 			var options = {};
 			Ext.each(arguments, function(option) {
-				if (!this.has(option)) return;
 				options[option] = (this.isDirty(option)) ? this.changed[this.currentId][option] : this.getDefault(option);
 			}, this);
 			return options;
