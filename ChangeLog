@@ -1,7 +1,16 @@
 === Deluge 1.2.0_rc3 (In Development) ===
 ==== Core ====
 	* Fix #1047 move completed does not work if saving to non default path
-	
+
+==== GtkUI ====
+	* replace & with &amp; in the details tab to ensure there are no markup errors
+
+==== Web ====
+	* Fix #1046 changing auto managed via the details tab
+	* Fix setting torrent options when adding
+	* Fix setting file priorities when adding
+	* HTML escape the field values on the details tab
+
 === Deluge 1.2.0_rc2 (25 October 2009) ===
 ==== GtkUI ====
 	* Fix path errors when adding torrents externally in Windows
