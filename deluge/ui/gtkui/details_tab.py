@@ -105,9 +105,9 @@ class DetailsTab(Tab):
 
             if widget[0].get_text() != txt:
                 if widget[2][0] == 'comment' and is_url(txt):
-                    widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt))
+                    widget[0].set_markup('<a href="%s">%s</a>' % (txt, txt.replace('&', '&amp;')))
                 else:
-                    widget[0].set_markup(txt)
+                    widget[0].set_markup(txt.replace('&', '&amp;'))
 
     def clear(self):
         for widget in self.label_widgets:
