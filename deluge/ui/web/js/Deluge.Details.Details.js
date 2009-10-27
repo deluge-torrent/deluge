@@ -33,56 +33,57 @@ Copyright:
 */
 
 Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
-	title: _('Details'),
-	bodyStyle: 'padding 5px',
-	
-	onRender: function(ct, position) {
-		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
-		this.load({
-			url: '/render/tab_details.html',
-			text: _('Loading') + '...'
-		});
-		this.body.setStyle('padding', '5px');
-		this.getUpdater().on('update', this.onPanelUpdate, this);
-	},
-	
-	clear: function() {
-		if (!this.fields) return;
-		for (var k in this.fields) {
-			this.fields[k].innerHTML = '';
-		}
-	},
-	
-	update: function(torrentId) {
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
-			success: this.onRequestComplete,
-			scope: this,
-			torrentId: torrentId
-		});
-	},
-	
-	onPanelUpdate: function(el, response) {
-		this.fields = {};
-		Ext.each(Ext.query('dd', this.body.dom), function(field) {
-			this.fields[field.className] = field;
-		}, this);
-	},
-	
-	onRequestComplete: function(torrent, options) {
-		var data = {
-			torrent_name: torrent.name,
-			hash: options.torrentId,
-			path: torrent.save_path,
-			size: fsize(torrent.total_size),
-			files: torrent.num_files,
-			status: torrent.tracker_status,
-			tracker: torrent.tracker,
-			comment: torrent.comment
-		};
-		
-		for (var field in this.fields) {
-			this.fields[field].innerHTML = data[field];
-		}
+    title: _('Details'),
+    bodyStyle: 'padding 5px',
+    
+    onRender: function(ct, position) {
+	Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+	this.load({
+	    url: '/render/tab_details.html',
+	    text: _('Loading') + '...'
+	});
+	this.body.setStyle('padding', '5px');
+	this.getUpdater().on('update', this.onPanelUpdate, this);
+    },
+    
+    clear: function() {
+	if (!this.fields) return;
+	for (var k in this.fields) {
+	    this.fields[k].innerHTML = '';
 	}
+    },
+    
+    update: function(torrentId) {
+	Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+	    success: this.onRequestComplete,
+	    scope: this,
+	    torrentId: torrentId
+	});
+    },
+    
+    onPanelUpdate: function(el, response) {
+	this.fields = {};
+	Ext.each(Ext.query('dd', this.body.dom), function(field) {
+	    this.fields[field.className] = field;
+	}, this);
+    },
+    
+    onRequestComplete: function(torrent, options) {
+	var data = {
+	    torrent_name: torrent.name,
+	    hash: options.torrentId,
+	    path: torrent.save_path,
+	    size: fsize(torrent.total_size),
+	    files: torrent.num_files,
+	    status: torrent.tracker_status,
+	    tracker: torrent.tracker,
+	    comment: torrent.comment
+	};
+	    
+	for (var field in this.fields) {
+	    //this.fields[field].innerHTML = Ext.escapeHTML(data[field]);
+	    this.fields[field].innerHTML = data[field];
+	}
+    }
 });
 Deluge.Details.add(new Ext.deluge.details.DetailsTab());
