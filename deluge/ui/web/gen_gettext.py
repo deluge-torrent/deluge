@@ -55,6 +55,6 @@ fp = StringIO.StringIO()
 fp.write(gettext_tpl)
 for key in keys:
     fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
-    fp.write("GetText.add('%(key)s', '${_(\"%(key)s\").replace(\"'\", \"\\\\'\").replace(\"\\n\", \"\\\\n\")}');\n\n" % locals())
+    fp.write("GetText.add('%(key)s', '${escape(_(\"%(key)s\"))}')\n\n" % locals())
 fp.seek(0)
 print fp.read()
