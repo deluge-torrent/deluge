@@ -137,6 +137,7 @@ class PluginManagerBase:
             except Exception, e:
                 log.error("Unable to instantiate plugin!")
                 log.exception(e)
+                continue
             instance.enable()
             if self.get_state() == component.COMPONENT_STATE.index("Started"):
                 component.start(instance.plugin.get_component_name())
