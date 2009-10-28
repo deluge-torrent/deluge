@@ -39,6 +39,17 @@ from deluge import common
 
 _ = lambda x: gettext.gettext(x).decode("utf-8")
 
+def escape(text):
+    """
+    Used by the gettext.js template to escape translated strings
+    so they don't break the script.
+    """
+    text = text.replace("'", "\\'")
+    text = text.replace('\r\n', '\\n')
+    text = text.replace('\r', '\\n')
+    text = text.replace('\n', '\\n')
+    return text
+
 class Template(MakoTemplate):
     """
     A template that adds some built-ins to the rendering
@@ -46,6 +57,7 @@ class Template(MakoTemplate):
     
     builtins = {
         "_": _,
+        "escape": escape,
         "version": common.get_version()
     }
     
