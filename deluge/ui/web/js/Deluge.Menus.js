@@ -246,6 +246,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 	
 	setValue: function(value) {
+		value = (value == 0) ? -1 : value;
 		var item = this.items.get(value);
 		if (!item) item = this.items.get('other')
 		item.suspendEvents();
