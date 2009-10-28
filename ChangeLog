@@ -4,6 +4,7 @@
 
 ==== GtkUI ====
 	* replace & with &amp; in the details tab to ensure there are no markup errors
+	* Consider 0 unlimited when displaying limits in the statusbar
 
 ==== Web ====
 	* Fix #1046 changing auto managed via the details tab
@@ -37,7 +38,7 @@
 
 ==== Console ====
 	* Fix exception when using the 'halt' command
-	
+
 ==== Misc ====
 	* Add man pages for deluge-console, deluge-gtk and deluge-web
 

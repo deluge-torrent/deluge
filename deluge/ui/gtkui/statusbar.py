@@ -342,7 +342,7 @@ class StatusBar(component.Component):
 
     def update_download_label(self):
         # Set the download speed label
-        if self.max_download_speed < 0:
+        if self.max_download_speed <= 0:
             label_string = "%s/s" % self.download_rate
         else:
             label_string = "%s/s (%s %s)" % (
@@ -352,7 +352,7 @@ class StatusBar(component.Component):
 
     def update_upload_label(self):
         # Set the upload speed label
-        if self.max_upload_speed < 0:
+        if self.max_upload_speed <= 0:
             label_string = "%s/s" % self.upload_rate
         else:
             label_string = "%s/s (%s %s)" % (
