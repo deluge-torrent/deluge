@@ -12,6 +12,7 @@
 	* HTML escape the field values on the details tab
 	* Fix #215, make infinite eta values display in the correct order
 	* Fix displaying the protocol upload speed
+	* Fix #990, showing 0 as a limit when it means unlimited in the statusbar
 
 === Deluge 1.2.0_rc2 (25 October 2009) ===
 ==== GtkUI ====

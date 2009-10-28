@@ -78,12 +78,12 @@
 			
 			var updateStat = function(name, config) {
 				var item = this.items.get('statusbar-' + name);
-				if (config.limit.value == -1) {
-					var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
-				} else {
+				if (config.limit.value > 0) {
 					var value = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
 					var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value) : config.limit.value;
 					var str = String.format(config.format, value, limit);
+				} else {
+					var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
 				}
 				item.setText(str);
 			}.bind(this);
