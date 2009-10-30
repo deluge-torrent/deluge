@@ -201,7 +201,7 @@ class Command(BaseCommand):
                     s += peer["country"] + "\t"
                     s += peer["ip"]
 
-                    c = peer["client"].encode(sys.getdefaultencoding(), "replace")
+                    c = peer["client"]
                     s += "\t" + c
 
                     if len(c) < 16:

@@ -33,6 +33,7 @@
 #
 #
 
+import sys
 import curses
 import colors
 try:
@@ -63,7 +64,7 @@ LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
 class Screen(CursesStdIO):
-    def __init__(self, stdscr, command_parser, tab_completer=None):
+    def __init__(self, stdscr, command_parser, tab_completer=None, encoding=None):
         """
         A curses screen designed to run as a reader in a twisted reactor.
 
@@ -110,6 +111,11 @@ class Screen(CursesStdIO):
         except Exception, e:
             log.debug("Unable to catch SIGWINCH signal!")
 
+        if not encoding:
+            self.encoding = sys.getdefaultencoding()
+        else:
+            self.encoding = encoding
+            
         # Do a refresh right away to draw the screen
         self.refresh()
 
@@ -233,6 +239,9 @@ class Screen(CursesStdIO):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
+            if isinstance(s, unicode):
+                #Have to use replace as character counting has already been done
+                s = s.encode(self.encoding, 'replace')
             self.stdscr.addstr(row, col, s, color)
             col += len(s)
 
