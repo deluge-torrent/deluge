@@ -82,20 +82,20 @@ CONFIG_DEFAULTS = {
     # Misc Settings
     "enabled_plugins": [],
     "default_daemon": "",
-    
+
     # Auth Settings
     "pwd_salt": "c26ab3bbd8b137f99cd83c2c1c0963bcc1a35cad",
     "pwd_sha1": "2ce1a410bcdcc53064129b6d950f2e9fee4edc1e",
     "session_timeout": 3600,
     "sessions": {},
-    
+
     # UI Settings
     "sidebar_show_zero": False,
     "sidebar_show_trackers": False,
     "show_session_speed": False,
     "show_sidebar": True,
     "theme": "slate",
-    
+
     # Server Settings
     "port": 8112,
     "https": False,
@@ -245,17 +245,17 @@ class LookupResource(resource.Resource, component.Component):
     def __init__(self, name, *directories):
         resource.Resource.__init__(self)
         component.Component.__init__(self, name)
-        
+
         self.__paths = {}
         for directory in directories:
             self.addDirectory(directory)
-    
+
     def addDirectory(self, directory, path=""):
         log.debug("Adding directory `%s` with path `%s`", directory, path)
         paths = self.__paths.get(path, [])
         paths.append(directory)
         self.__paths[path] = paths
-    
+
     def removeDirectory(self, directory, path=""):
         log.debug("Removing directory `%s`", directory)
         self.__paths[path].remove(directory)
@@ -270,11 +270,11 @@ class LookupResource(resource.Resource, component.Component):
     def render(self, request):
         log.debug("Requested path: '%s'", request.lookup_path)
         path = os.path.dirname(request.lookup_path)
-        
+
         if path not in self.__paths:
             request.setResponseCode(http.NOT_FOUND)
             return "<h1>404 - Not Found</h1>"
-        
+
         filename = os.path.basename(request.path)
         for directory in self.__paths[path]:
             if filename in os.listdir(directory):
@@ -283,7 +283,7 @@ class LookupResource(resource.Resource, component.Component):
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
                 return open(path, "rb").read()
-        
+
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
 
@@ -383,29 +383,29 @@ class TopLevel(resource.Resource):
     @property
     def stylesheets(self):
         return self.__stylesheets
-    
+
     def add_script(self, script):
         """
         Adds a script to the server so it is included in the <head> element
         of the index page.
-        
+
         :param script: The path to the script
         :type script: string
         """
-        
+
         self.__scripts.append(script)
         self.__debug_scripts.append(script)
-    
+
     def remove_script(self, script):
         """
         Removes a script from the server.
-        
+
         :param script: The path to the script
         :type script: string
         """
         self.__scripts.remove(script)
         self.__debug_scripts.remove(script)
-        
+
 
     def getChild(self, path, request):
         if path == "":
@@ -421,7 +421,7 @@ class TopLevel(resource.Resource):
                 debug = True
             elif debug_arg == 'false':
                 debug = False
-        
+
         if debug:
             scripts = self.debug_scripts[:]
         else:
@@ -432,7 +432,7 @@ class TopLevel(resource.Resource):
         return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug)
 
 class ServerContextFactory:
-    
+
     def getContext(self):
         """Creates an SSL context."""
         ctx = SSL.Context(SSL.SSLv3_METHOD)
@@ -449,7 +449,7 @@ class DelugeWeb(component.Component):
     def __init__(self):
         super(DelugeWeb, self).__init__("DelugeWeb")
         self.config = configmanager.ConfigManager("web.conf", CONFIG_DEFAULTS)
-        
+
         # Check to see if a configuration from the web interface prior to 1.2
         # exists and convert it over.
         if os.path.exists(configmanager.get_config_dir("webui06.conf")):
@@ -460,13 +460,13 @@ class DelugeWeb(component.Component):
                 # it.
                 for key in OLD_CONFIG_KEYS:
                     self.config[key] = old_config[key]
-                
+
                 # We need to base64 encode the passwords since json can't handle
                 # them otherwise.
                 from base64 import encodestring
                 self.config["old_pwd_md5"] = encodestring(old_config["pwd_md5"])
                 self.config["old_pwd_salt"] = encodestring(old_config["pwd_salt"])
-                
+
                 # Save our config and if it saved successfully then rename the
                 # old configuration file.
                 if self.config.save():
@@ -487,7 +487,7 @@ class DelugeWeb(component.Component):
 
         # Initalize the plugins
         self.plugins = PluginManager()
-    
+
     def install_signal_handlers(self):
         # Since twisted assigns itself all the signals may as well make
         # use of it.
@@ -512,29 +512,29 @@ class DelugeWeb(component.Component):
             self.start_ssl()
         else:
             self.start_normal()
-        
+
         component.get("JSON").enable()
 
         if start_reactor:
             reactor.run()
-        
+
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site)
         log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
-    
+
     def start_ssl(self):
         check_ssl_keys()
         self.socket = reactor.listenSSL(self.port, self.site, ServerContextFactory())
         log.info("serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0",
             self.port, self.port)
-    
+
     def stop(self):
         log.info("Shutting down webserver")
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
-        
+
         if self.socket:
             d = self.socket.stopListening()
             self.socket = None

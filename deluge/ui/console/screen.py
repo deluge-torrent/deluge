@@ -115,7 +115,7 @@ class Screen(CursesStdIO):
             self.encoding = sys.getdefaultencoding()
         else:
             self.encoding = encoding
-            
+
         # Do a refresh right away to draw the screen
         self.refresh()
 
