@@ -37,6 +37,7 @@
 import os, sys
 import optparse
 import shlex
+import locale
 
 from twisted.internet import defer, reactor
 
@@ -137,6 +138,14 @@ def load_commands(command_dir, exclude=[]):
 class ConsoleUI(component.Component):
     def __init__(self, args=None):
         component.Component.__init__(self, "ConsoleUI", 2)
+        
+        try:
+            locale.setlocale(locale.LC_ALL, '')
+            self.encoding = locale.getpreferredencoding()
+        except:
+            self.encoding = sys.getdefaultencoding()
+        
+        log.debug("Using encoding: %s", self.encoding)
         # Load all the commands
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
 
@@ -191,7 +200,7 @@ class ConsoleUI(component.Component):
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
-        self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer)
+        self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer, self.encoding)
         self.statusbars = StatusBars()
         self.eventlog = EventLog()
 
