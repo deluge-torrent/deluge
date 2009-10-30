@@ -19,7 +19,8 @@
 
 ==== Console ====
 	* Fix displaying non-ascii strings
-	
+	* Fix #1052 crash when issuing commands while not connected to a daemon
+
 === Deluge 1.2.0_rc2 (25 October 2009) ===
 ==== GtkUI ====
 	* Fix path errors when adding torrents externally in Windows
