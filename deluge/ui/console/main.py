@@ -138,13 +138,13 @@ def load_commands(command_dir, exclude=[]):
 class ConsoleUI(component.Component):
     def __init__(self, args=None):
         component.Component.__init__(self, "ConsoleUI", 2)
-        
+
         try:
             locale.setlocale(locale.LC_ALL, '')
             self.encoding = locale.getpreferredencoding()
         except:
             self.encoding = sys.getdefaultencoding()
-        
+
         log.debug("Using encoding: %s", self.encoding)
         # Load all the commands
         self._commands = load_commands(os.path.join(UI_PATH, 'commands'))

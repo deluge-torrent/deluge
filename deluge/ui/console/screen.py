@@ -115,7 +115,7 @@ class Screen(CursesStdIO):
             self.encoding = sys.getdefaultencoding()
         else:
             self.encoding = encoding
-            
+
         # Do a refresh right away to draw the screen
         self.refresh()
 
@@ -240,7 +240,7 @@ class Screen(CursesStdIO):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
             if isinstance(s, unicode):
-                #Have to use replace as character counting has already been done
+                #Have to use replace as character counting has already been done\
                 s = s.encode(self.encoding, 'replace')
             self.stdscr.addstr(row, col, s, color)
             col += len(s)
