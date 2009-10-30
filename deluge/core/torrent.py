@@ -816,7 +816,7 @@ class Torrent:
         """Renames files in the torrent. 'filenames' should be a list of
         (index, filename) pairs."""
         for index, filename in filenames:
-            self.handle.rename_file(index, filename)
+            self.handle.rename_file(index, filename.encode("utf-8"))
 
     def rename_folder(self, folder, new_folder):
         """Renames a folder within a torrent.  This basically does a file rename
@@ -834,5 +834,5 @@ class Torrent:
             if f["path"].startswith(folder):
                 # Keep a list of filerenames we're waiting on
                 wait_on_folder[2].append(f["index"])
-                self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1))
+                self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1).encode("utf-8"))
         self.waiting_on_folder_rename.append(wait_on_folder)
