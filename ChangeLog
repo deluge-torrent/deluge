@@ -8,6 +8,7 @@
 	* Replace & with &amp; in the details tab to ensure there are no markup errors
 	* Consider 0 unlimited when displaying limits in the statusbar
 	* Fix adding torrents when not showing the add torrent dialog in Windows
+	* Fix crash when removing multiple torrents
 
 ==== Web ====
 	* Fix #1046 changing auto managed via the details tab
