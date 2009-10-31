@@ -3,6 +3,7 @@
 	* Fix #1047 move completed does not work if saving to non default path
 	* Fix renamed files not being utf-8 encoded
 	* Fix torrent name being blank when renaming root folder to /
+	* Do not include an 'announce-list' key in torrents when there is only one tracker
 
 ==== GtkUI ====
 	* Replace & with &amp; in the details tab to ensure there are no markup errors
