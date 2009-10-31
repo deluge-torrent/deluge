@@ -64,10 +64,12 @@ class Command(BaseCommand):
                 self.console.write(cmd.__doc__ or 'No help for this command')
         else:
             max_length = max( len(k) for k in self._commands)
+            self.console.set_batch_write(True)
             for cmd in sorted(self._commands):
                 self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
             self.console.write(" ")
             self.console.write('For help on a specific command, use "<command> --help"')
+            self.console.set_batch_write(False)
 
         return deferred
 
