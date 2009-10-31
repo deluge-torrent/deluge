@@ -100,7 +100,7 @@ def make_meta_file(path, url, piece_length, progress=dummy,
     if created_by:
         data['created by'] = created_by.encode("utf8")
 
-    if trackers:
+    if trackers and (len(trackers[0]) > 1 or len(trackers) > 1):
         data['announce-list'] = trackers
 
     data["encoding"] = "UTF-8"
