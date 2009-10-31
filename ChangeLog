@@ -22,6 +22,7 @@
 ==== Console ====
 	* Fix displaying non-ascii strings
 	* Fix #1052 crash when issuing commands while not connected to a daemon
+	* Fix crash when string length makes line longer than terminal width
 
 === Deluge 1.2.0_rc2 (25 October 2009) ===
 ==== GtkUI ====

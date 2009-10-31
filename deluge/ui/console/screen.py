@@ -230,7 +230,7 @@ class Screen(CursesStdIO):
         """
         col = 0
         try:
-            parsed = colors.parse_color_string(string)
+            parsed = colors.parse_color_string(string, self.encoding)
         except colors.BadColorString, e:
             log.error("Cannot add bad color string %s: %s", string, e)
             return
@@ -239,9 +239,6 @@ class Screen(CursesStdIO):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
-            if isinstance(s, unicode):
-                #Have to use replace as character counting has already been done\
-                s = s.encode(self.encoding, 'replace')
             self.stdscr.addstr(row, col, s, color)
             col += len(s)
 

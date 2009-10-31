@@ -115,13 +115,15 @@ def strip_colors(line):
 
     return line
 
-def get_line_length(line):
+def get_line_length(line, encoding="UTF-8"):
     """
     Returns the string length without the color formatting.
 
     """
     if line.count("{!") != line.count("!}"):
         raise BadColorString("Number of {! is not equal to number of !}")
+
+    line = line.encode(encoding, "replace")
 
     # Remove all the color tags
     line = strip_colors(line)
@@ -130,15 +132,18 @@ def get_line_length(line):
     line = replace_tabs(line)
     return len(line)
 
-def parse_color_string(s):
+def parse_color_string(s, encoding="UTF-8"):
     """
     Parses a string and returns a list of 2-tuples (color, string).
 
     :param s:, string to parse
+    :param encoding: the encoding to use on output
 
     """
     if s.count("{!") != s.count("!}"):
         raise BadColorString("Number of {! is not equal to number of !}")
+
+    s = s.encode(encoding, "replace")
 
     ret = []
     # Keep track of where the strings

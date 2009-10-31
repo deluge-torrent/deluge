@@ -112,7 +112,7 @@ class Command(BaseCommand):
 
         if not args:
             torrent_ids.extend(self.console.match_torrent(""))
-            
+
         def on_torrents_status(status):
             # Print out the information for each torrent
             for key, value in status.items():
@@ -185,6 +185,12 @@ class Command(BaseCommand):
                     s += "{!success!}"
 
                 s += " %s" % (fp)
+                # Check if this is too long for the screen and reduce the path
+                # if necessary
+                cols = self.console.screen.cols
+                slen = colors.get_line_length(s, self.console.screen.encoding)
+                if slen > cols:
+                    s = s.replace(f["path"], f["path"][slen - cols + 1:])
                 self.console.write(s)
 
             self.console.write("  {!info!}::Peers")
