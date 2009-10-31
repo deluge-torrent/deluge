@@ -163,4 +163,4 @@ def process_args(args):
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
                 path = os.path.abspath(arg)
-                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path).read()), None)
+                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)

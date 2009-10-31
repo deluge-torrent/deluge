@@ -5,8 +5,9 @@
 	* Fix torrent name being blank when renaming root folder to /
 
 ==== GtkUI ====
-	* replace & with &amp; in the details tab to ensure there are no markup errors
+	* Replace & with &amp; in the details tab to ensure there are no markup errors
 	* Consider 0 unlimited when displaying limits in the statusbar
+	* Fix adding torrents when not showing the add torrent dialog in Windows
 
 ==== Web ====
 	* Fix #1046 changing auto managed via the details tab
