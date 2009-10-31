@@ -129,7 +129,7 @@ class Screen(CursesStdIO):
     def connectionLost(self, reason):
         self.close()
 
-    def add_line(self, text):
+    def add_line(self, text, refresh=True):
         """
         Add a line to the screen.  This will be showed between the two bars.
         The text can be formatted with color using the following format:
@@ -149,7 +149,11 @@ class Screen(CursesStdIO):
         "{!info!}I am some info text!"
         "{!error!}Uh oh!"
 
-        :param text: str, the text to show
+        :param text: the text to show
+        :type text: string
+        :param refresh: if True, the screen will refresh after the line is added
+        :type refresh: bool
+
         """
 
         def get_line_chunks(line):
@@ -219,7 +223,8 @@ class Screen(CursesStdIO):
             # Remove the oldest line if the max buffer size has been reached
             del self.lines[0]
 
-        self.refresh()
+        if refresh:
+            self.refresh()
 
     def add_string(self, row, string):
         """

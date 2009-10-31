@@ -237,6 +237,19 @@ class ConsoleUI(component.Component):
     def update(self):
         pass
 
+    def set_batch_write(self, batch):
+        """
+        When this is set the screen is not refreshed after a `:meth:write` until
+        this is set to False.
+
+        :param batch: set True to prevent screen refreshes after a `:meth:write`
+        :type batch: bool
+
+        """
+        self.batch_write = batch
+        if not batch:
+            self.screen.refresh()
+
     def write(self, line):
         """
         Writes a line out depending on if we're in interactive mode or not.
@@ -245,7 +258,7 @@ class ConsoleUI(component.Component):
 
         """
         if self.interactive:
-            self.screen.add_line(line)
+            self.screen.add_line(line, not self.batch_write)
         else:
             print(colors.strip_colors(line))
 

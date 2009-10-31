@@ -136,6 +136,8 @@ class Command(BaseCommand):
         :param verbose: bool, if true, we print out more information about the
             the torrent
         """
+        self.console.set_batch_write(True)
+
         self.console.write(" ")
         self.console.write("{!info!}Name: {!input!}%s" % (status["name"]))
         self.console.write("{!info!}ID: {!input!}%s" % (torrent_id))
@@ -222,6 +224,8 @@ class Command(BaseCommand):
                     s += "\n"
 
                 self.console.write(s[:-1])
+
+        self.console.set_batch_write(False)
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method
