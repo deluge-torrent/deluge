@@ -8,47 +8,47 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 13:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-10-27 20:18+0000\n"
+"Last-Translator: Krizas <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Torentas baigtas"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr ""
+msgstr "Torentas pridėtas"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr ""
+msgstr "Vykdyti"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
-msgstr ""
+msgstr "Įvykis"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
 msgid "Command"
-msgstr ""
+msgstr "Komanda"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Pridėti komandą</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>Komandos</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Išskleisti į:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:40
 #: deluge/ui/gtkui/glade/main_window.glade:1972
@@ -74,11 +74,11 @@ msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr ""
+msgstr "Įjungti SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr ""
+msgstr "Klausomas prievadas:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:150
@@ -88,15 +88,15 @@ msgstr "<b>Nustatymai</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:234
 msgid "Download Limit:"
-msgstr ""
+msgstr "Parsisiuntimo limitas:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:243
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Siuntimo limitas"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:252
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Aktyvūs torentai"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
@@ -341,7 +341,7 @@ msgstr "Privalomai siųsti ir importuoti"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:271
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Blokavimo sąrašas atnaujintas"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
@@ -371,7 +371,7 @@ msgstr "<b>Informacija</b>"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistanas"
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
@@ -379,11 +379,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
-msgstr ""
+msgstr "Albanija"
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
-msgstr ""
+msgstr "Alžyras"
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
@@ -391,11 +391,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr ""
+msgstr "Andora"
 
 #: deluge/ui/countries.py:15
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarktis"
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
@@ -411,75 +411,75 @@ msgstr ""
 
 #: deluge/ui/countries.py:19
 msgid "Argentina"
-msgstr ""
+msgstr "Argentina"
 
 #: deluge/ui/countries.py:20
 msgid "Armenia"
-msgstr ""
+msgstr "Armėnija"
 
 #: deluge/ui/countries.py:21
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: deluge/ui/countries.py:22
 msgid "Australia"
-msgstr ""
+msgstr "Australija"
 
 #: deluge/ui/countries.py:23
 msgid "Austria"
-msgstr ""
+msgstr "Austrija"
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaidžanas"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamai"
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
-msgstr ""
+msgstr "Bachreinas"
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladešas"
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
-msgstr ""
+msgstr "Barbadosas"
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr ""
+msgstr "Baltarusija"
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
-msgstr ""
+msgstr "Belgija"
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr ""
+msgstr "Belizas"
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr ""
+msgstr "Beninas"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudai"
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr ""
+msgstr "Butanas"
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivija"
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnija ir Hercegovina"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
@@ -491,7 +491,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
-msgstr ""
+msgstr "Brazilija"
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
@@ -503,15 +503,15 @@ msgstr ""
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgarija"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr ""
+msgstr "Burundis"
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
@@ -2674,7 +2674,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:880
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Sąsaja</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:915
 msgid ""
@@ -2977,7 +2977,7 @@ msgstr "<b>Sistemos informacija</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2351
 msgid "Location:"
-msgstr ""
+msgstr "Vieta:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2363
 msgid ""
@@ -2987,7 +2987,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>GeoIP duombazė</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
@@ -3266,7 +3266,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4693
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "<b>Skaitymo</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4723
 msgid ""
@@ -3284,11 +3284,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4774
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Dydis</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4817
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Būsena</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4878
 msgid "<i><b><big>Plugins</big></b></i>"
@@ -3316,7 +3316,7 @@ msgstr "P_eržiūrėti papildinius"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5227
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "Surasti daugiau įskiepių"
 
 #: deluge/ui/web/server.py:510
 msgid "Starting server in PID"
@@ -3325,15 +3325,15 @@ msgstr ""
 #: deluge/ui/web/json_api.py:623 deluge/ui/web/json_api.py:646
 #: deluge/ui/web/json_api.py:649 deluge/ui/web/json_api.py:657
 msgid "Offline"
-msgstr ""
+msgstr "Atsijungęs"
 
 #: deluge/ui/web/json_api.py:643
 msgid "Online"
-msgstr ""
+msgstr "Prisijungęs"
 
 #: deluge/ui/web/json_api.py:663
 msgid "Connected"
-msgstr ""
+msgstr "Prisijungta"
 
 #: deluge/ui/web/json_api.py:691
 msgid "Daemon doesn't exist"

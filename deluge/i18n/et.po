@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 13:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-10-30 09:44+0000\n"
+"Last-Translator: mahfiaz <mahfiaz@gmail.com>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -192,7 +192,7 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1936
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Eemalda ülekandearvult"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
@@ -2001,11 +2001,11 @@ msgstr "<b>Üleslaetud:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1089
 msgid "<b>Downloaded:</b>"
-msgstr "<b>Allalaetud:</b>"
+msgstr "<b>Allalaaditud:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1150
 msgid "<b>Date Added:</b>"
-msgstr ""
+msgstr "<b>Lisamise kuupäev:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1205
 msgid "_Status"
@@ -2322,7 +2322,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
-msgstr ""
+msgstr "_Automaatne juhtimine"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -2552,7 +2552,7 @@ msgstr "Lisa URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>URL-ilt</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1089
 msgid "Add Infohash"
@@ -2572,7 +2572,7 @@ msgstr "<b><i><big>Allalaadimised</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:224
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "Automaatselt lisa torrente:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:240
 msgid "Copy of .torrent files to:"

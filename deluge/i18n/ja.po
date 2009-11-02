@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-25 16:45+0000\n"
+"PO-Revision-Date: 2009-10-26 07:54+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -70,15 +70,15 @@ msgstr "<b>全般</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr ""
+msgstr "Web インターフェイスを有効にする"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr ""
+msgstr "SSL を有効にする"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr ""
+msgstr "待ち受けポート:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:150
@@ -312,11 +312,11 @@ msgstr "日"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:114
 msgid "Check for new list every:"
-msgstr "新しいリストをチェック:"
+msgstr "新しいリストのチェック間隔:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:130
 msgid "Import blocklist on startup"
-msgstr "始動時にブロックリストをインポートする"
+msgstr "起動時にブロックリストをインポートする"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:185
 msgid "Download the blocklist file if necessary and import the file."
@@ -324,7 +324,7 @@ msgstr "必要ならブロックリストファイルをダウンロードし、
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:205
 msgid "Check Download and Import"
-msgstr "ダウンロードとインポートのチェック"
+msgstr "ダウンロードのチェックとインポート"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:227
 msgid "Download a new blocklist file and import it."
@@ -3218,7 +3218,7 @@ msgstr "キャッシュサイズ (16 KiB ブロック):"
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
-msgstr ""
+msgstr "最後にキャッシュされた書き込みからキャッシュをフラッシュするまでの秒数です。デフォルトは 60 秒です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4386
 msgid "Cache Expiry (seconds):"
@@ -3228,7 +3228,7 @@ msgstr "キャッシュ期限 (秒):"
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "セッションが開始されてからディスクに書き込まれたブロック (16KiB) の総数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4483
 msgid "Blocks Written:"
@@ -3238,7 +3238,7 @@ msgstr "書き込みブロック:"
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "このセッションが開始されてから実行された総書き込み回数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4494
 msgid "Writes:"
@@ -3250,6 +3250,8 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"(書き込みブロック - 書き込み) ÷ 書き込みブロック "
+"で表される総書き込み数内での保存された書き込み数の比率、簡単にいうと書き込みキャシュのキャッシュヒット率の一つです。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4507
 msgid "Write Cache Hit Ratio:"
@@ -3263,7 +3265,7 @@ msgstr "<b>書き込み</b>"
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
-msgstr ""
+msgstr "Bittorrent エンジン (ピア) から要求され、ディスクまたはキャッシュから供給されたブロック数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4591
 msgid "Blocks Read:"
@@ -3271,7 +3273,7 @@ msgstr "読み込みブロック:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4600
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "キャッシュから供給されたブロック数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4602
 msgid "Blocks Read Hit:"
@@ -3279,7 +3281,7 @@ msgstr "読み込みヒットブロック:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4613
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "読み込みキャッシュのキャッシュヒット率です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4615
 msgid "Read Cache Hit Ratio:"
@@ -3288,7 +3290,7 @@ msgstr "読み込みキャッシュヒット率:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4664
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
+msgstr "セッションが開始されてから実行された総読み込み回数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4666
 msgid "Reads:"
@@ -3302,7 +3304,7 @@ msgstr "<b>読み込み</b>"
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
-msgstr ""
+msgstr "ディスクキャッシュにある現在の書き込みおよび読み込みキャッシュブロック (16KiB) 数です。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4725
 msgid "Cache Size:"
