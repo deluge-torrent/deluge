@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-23 19:00+0000\n"
-"Last-Translator: Fernando Muñoz <munozferna@gmail.com>\n"
+"PO-Revision-Date: 2009-10-31 11:13+0000\n"
+"Last-Translator: DiegoJ <diegojromerolopez@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -224,7 +224,7 @@ msgid ""
 msgstr ""
 "tracker1.org\n"
 "tracker2.com\n"
-"esto aun no hace algo..\n"
+"esto aún no hace algo..\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:563
 msgid "<i>(1 line per tracker)</i>"
@@ -1388,6 +1388,8 @@ msgstr "¡No se pudo asignar la prioridad al archivo!"
 #: deluge/ui/gtkui/addtorrentdialog.py:479
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Priorización de los archivos no está disponible cuando se está usando "
+"asignación compacta"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:526
 msgid "Choose a .torrent file"
@@ -1529,6 +1531,13 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Éste email es para informarte de que Deluge ha terminado de descargar "
+"%(name)s , que incluye %(num_files)i files.\n"
+"Para dejar de recibir estas alertas, simplemente desactive la notificación "
+"de emails de las preferencias de Deluge.\n"
+"\n"
+"Gracias.\n"
+"Deluge"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:100
@@ -1574,6 +1583,23 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Este programa es software libre, puede redistribuirlo y / o modificarlo bajo "
+"los términos de la GNU General Public License publicada por la Free Software "
+"Foundation, bien de la versión 3 de la Licencia, o (a su elección) cualquier "
+"versión posterior. Este programa se distribuye con la esperanza de que será "
+"útil, pero SIN NINGUNA GARANTÍA, incluso sin la garantía implícita de "
+"COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulte la GNU "
+"General Public License para más detalles. Usted debería haber recibido una "
+"copia de la Licencia Pública General GNU junto con este programa, si no, "
+"véase <http://www.gnu.org/licenses>. Además, como una excepción especial, "
+"los titulares de derechos de autor da permiso para enlazar el código de "
+"partes de este programa con la librería OpenSSL. Usted debe obedecer la GNU "
+"General Public License en todos los aspectos para todo el código usado "
+"distinto de OpenSSL. Si modifica el archivo (s) con esta excepción, puede "
+"extender esta excepción a su versión del archivo (s), pero no están "
+"obligados a hacerlo. Si no desea hacerlo, borre esta declaración de "
+"excepción de su versión. Si elimina esta declaración de excepción de todos "
+"los archivos de código fuente en el programa, también debe eliminarlo aquí."
 
 #: deluge/ui/gtkui/createtorrentdialog.py:136
 msgid "Choose a file"
@@ -1622,7 +1648,7 @@ msgstr "Establecer la Cantidad Máxima de Conexiones"
 
 #: deluge/ui/gtkui/gtkui.py:269 deluge/ui/gtkui/gtkui.py:284
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Desactivar Modo Clásico?"
 
 #: deluge/ui/gtkui/gtkui.py:270
 msgid ""
@@ -1630,10 +1656,13 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Parece ser que un demonio de Deluge (deluged) todavía está en ejecución.\n"
+"\n"
+"Debería detener el demonio o desactivar el Modo Clásico para continuar."
 
 #: deluge/ui/gtkui/gtkui.py:279
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Error iniciando el núcleo"
 
 #: deluge/ui/gtkui/gtkui.py:280
 msgid ""
@@ -1642,12 +1671,18 @@ msgid ""
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Ha habido un error iniciando el componente del núcleo que se requiere para "
+"iniciar Deluge en Modo Clásico.\n"
+"\n"
+"Por favor mire los detalles más abajo para más información."
 
 #: deluge/ui/gtkui/gtkui.py:285
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Ya que ha habido un error iniciando el Modo Clásico, quiere desactivarlo "
+"para continuar?"
 
 #: deluge/ui/gtkui/torrentview.py:162
 msgid "Name"
@@ -2683,6 +2718,8 @@ msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Entre la dirección IP de la interfaz para escuchar las conexiones entrantes "
+"en bittorrent. Deje esto vacío si quiere usar la opción por defecto."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:880
 msgid "<b>Interface</b>"
@@ -3004,10 +3041,12 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Si Deluge no puede encontrar el archivo de base de datos en ésta ubicación, "
+"se recurriría al uso de DNS para resolver el país del ''peer''."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>Base de datos GeoIP</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
@@ -3209,6 +3248,9 @@ msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"El número de segundos desde la última escritura cacheada en la caché de "
+"escritura hasta el momento en el que se fuerza su escritura en disco. Por "
+"defecto es 60 segundos."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4386
 msgid "Cache Expiry (seconds):"
@@ -3219,6 +3261,8 @@ msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"El número total de bloques de 16KBs escritos en el disco desde el inicio de "
+"ésta sesión."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4483
 msgid "Blocks Written:"
@@ -3229,10 +3273,12 @@ msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr ""
+"El número total de operaciones de escritura ejecutadas desde el inicio de "
+"ésta sesión."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4494
 msgid "Writes:"
-msgstr ""
+msgstr "Escrituras:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4505
 msgid ""
@@ -3240,10 +3286,14 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"La media (bloques_escritos - escrituras) bloques_escritos representa el "
+"número de operaciones de escritura guardadas por el número total de "
+"operaciones de escritura, esto es, un tipo de media de arciertos de caché "
+"para la caché de escritura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4507
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Nivel de aciertos de escritura en caché:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4559
 msgid "<b>Write</b>"
@@ -3254,6 +3304,8 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"El número de bloques solicitados desde el motor BitTorrent (de los peers), "
+"que fueron servidores del disco o la caché."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4591
 msgid "Blocks Read:"
@@ -3261,28 +3313,30 @@ msgstr "Bloques leidos:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4600
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "El número de bloques que fueron servidos de la caché."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4602
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Acierto en lecturas de bloques:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4613
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "El nivel de aciertos para las lecturas de la caché."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4615
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Nivel de aciertos de las lecturas de la caché."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4664
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
+"El número total de operaciones de lectura ejecutadas desde el inicio de ésta "
+"sesión."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4666
 msgid "Reads:"
-msgstr ""
+msgstr "Lecturas:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4693
 msgid "<b>Read</b>"
@@ -3293,6 +3347,8 @@ msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"El número total de bloques de 16 KBs actualmente en la caché del disco. Esto "
+"incluye la caché de lectura y escritura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4725
 msgid "Cache Size:"
@@ -3340,7 +3396,7 @@ msgstr "_Buscar más complementos"
 
 #: deluge/ui/web/server.py:510
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Iniciando servidor en PID"
 
 #: deluge/ui/web/json_api.py:623 deluge/ui/web/json_api.py:646
 #: deluge/ui/web/json_api.py:649 deluge/ui/web/json_api.py:657

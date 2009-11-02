@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-23 08:07+0000\n"
+"PO-Revision-Date: 2009-11-01 12:30+0000\n"
 "Last-Translator: apwwn <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -40,7 +40,7 @@ msgstr "Commande"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr "Ajouter une Commande"
+msgstr "<b>Ajouter une Commande</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
@@ -66,7 +66,7 @@ msgstr "Sélectionner un Dossier"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2731
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4052
 msgid "<b>General</b>"
-msgstr "<b>Général<b>"
+msgstr "<b>Général</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -170,7 +170,7 @@ msgstr "Vitesse de réception  :"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
-msgstr "Connections:"
+msgstr "Connexions :"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
@@ -3280,10 +3280,13 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Le ratio (blocs_écrits - écritures) / blocs_écrits représente le nombre "
+"d'écritures sauvegardés sur le nombre total d'écritures. C'est en fait une "
+"sorte de ratio de succès d'accès au cache d'écriture."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4507
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Ratio d'accès au cache d'écriture:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4559
 msgid "<b>Write</b>"
@@ -3307,11 +3310,11 @@ msgstr "Le nombre de blocs qui ont été servis par la cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4602
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "Nombre de bloc lus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4613
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "Le ratio de succès d'accès au cache de lecture."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4615
 msgid "Read Cache Hit Ratio:"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-23 21:23+0000\n"
-"Last-Translator: Pavel Rubaylo <Unknown>\n"
+"PO-Revision-Date: 2009-10-26 16:54+0000\n"
+"Last-Translator: XPEH <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-26 01:44+0000\n"
+"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -40,7 +40,7 @@ msgstr "Команда"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr "Добавить команду"
+msgstr "<b>Добавить команду</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
@@ -100,25 +100,25 @@ msgstr "Активные торренты"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Ограничения</b>"
 
 #: deluge/plugins/label/label/core.py:186
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Неверный ярлык ,  допустимые символы: [a-z0-9_-]"
+msgstr "Неверная метка,  допустимые символы: [a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:187
 msgid "Empty Label"
-msgstr "Пустой ярлык"
+msgstr "Пустая метка"
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Label already exists"
-msgstr "Ярлык уже существует"
+msgstr "Метка уже существует"
 
 #: deluge/plugins/label/label/core.py:195
 #: deluge/plugins/label/label/core.py:252
 #: deluge/plugins/label/label/core.py:287
 msgid "Unknown Label"
-msgstr "Неизвестный ярлык"
+msgstr "Неизвестная метка"
 
 #: deluge/plugins/label/label/core.py:288
 msgid "Unknown Torrent"
@@ -140,7 +140,7 @@ msgstr "Опции меток"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr "<b>Опции метки</b>"
+msgstr "<b>Опции меток</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -154,15 +154,15 @@ msgstr "<b>Опции метки</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 #: deluge/ui/gtkui/glade/main_window.glade:1799
 msgid "KiB/s"
-msgstr "KиБ/с"
+msgstr "Кбит/с"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
-msgstr "Слоты отдачи:\t"
+msgstr "Слоты раздачи:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
-msgstr "Скорость отдачи:"
+msgstr "Скорость раздачи:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
@@ -183,7 +183,7 @@ msgstr "Максимум"
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr "Автоматический режим"
+msgstr "Автоматическое управление"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -233,7 +233,7 @@ msgstr "<i>(каждый трекер на отдельной строке)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
-msgstr "Автоматически применять метку"
+msgstr "Автоприменение метки:"
 
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -250,7 +250,7 @@ msgstr "<b>Добавить Метку</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:714
 msgid "Name:"
-msgstr "Имя:"
+msgstr "Название:"
 
 #: deluge/plugins/label/label/gtkui/submenu.py:50
 #: deluge/plugins/label/label/gtkui/__init__.py:80
@@ -258,19 +258,19 @@ msgstr "Имя:"
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
 msgid "Label"
-msgstr "Название"
+msgstr "Метка"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
 msgid "Label _Options"
-msgstr "Опции метки"
+msgstr "_Опции метки"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
-msgstr "Удалить метку"
+msgstr "_Удалить метку"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr "Добавить метку"
+msgstr "_Добавить метку"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -309,7 +309,7 @@ msgstr "PeerGuardian P2B (GZip)"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1007
 msgid "URL:"
-msgstr "URL:"
+msgstr "Адрес(URL):"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
@@ -321,32 +321,33 @@ msgstr "Проверять список каждые:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:130
 msgid "Import blocklist on startup"
-msgstr "Импортировать блоклист при запуске"
+msgstr "Импортировать \"чёрный список\" при запуске"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:185
 msgid "Download the blocklist file if necessary and import the file."
-msgstr "Скачать блоклист-файл, если необходимо, и импортировать его"
+msgstr ""
+"Скачать файл \"чёрного списка\", если необходимо, и импортировать его."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:205
 msgid "Check Download and Import"
-msgstr "Проверить и скачать"
+msgstr "Проверить и загрузить"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:227
 msgid "Download a new blocklist file and import it."
-msgstr "Скачать новый блоклист-файл и импортировать его"
+msgstr "Скачать новый файл \"чёрного списка\" и импортировать его"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:247
 msgid "Force Download and Import"
-msgstr "Принудительно скачать"
+msgstr "Принудительно загрузить"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:271
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "\"Чёрный список\" последней версии"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
 msgid "<b>Options</b>"
-msgstr "<b>Параметры</b>"
+msgstr "<b>Настройки</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:390
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3307
@@ -387,7 +388,7 @@ msgstr "Алжир"
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
-msgstr "Американские Самоа"
+msgstr "Американское Самоа"
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
@@ -495,7 +496,7 @@ msgstr "Бразилия"
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
-msgstr "Британская территория Индийского океана"
+msgstr "Британская территория в Индийском океане"
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
@@ -527,7 +528,7 @@ msgstr "Канада"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr "Кабо-Верде"
+msgstr "Кабо-Верде (Острова Зелёного Мыса)"
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
@@ -539,7 +540,7 @@ msgstr "Центрально-Африканская Республика"
 
 #: deluge/ui/countries.py:51
 msgid "Chad"
-msgstr "Республика Чад"
+msgstr "Чад"
 
 #: deluge/ui/countries.py:52
 msgid "Chile"
@@ -583,7 +584,7 @@ msgstr "Коста-Рика"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
-msgstr "Берег Слоновой Кости (Кот-д'Ивуар)"
+msgstr "Кот-д'Ивуар"
 
 #: deluge/ui/countries.py:63
 msgid "Croatia"
@@ -783,7 +784,7 @@ msgstr "Индонезия"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr "Иран, Исламская Республика"
+msgstr "Исламская Республика Иран"
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
@@ -839,7 +840,7 @@ msgstr "Корейская Народно-Демократическая Рес�
 
 #: deluge/ui/countries.py:126
 msgid "Korea, Republic of"
-msgstr "Корея, Республика"
+msgstr "Республика Корея"
 
 #: deluge/ui/countries.py:127
 msgid "Kuwait"
@@ -871,7 +872,7 @@ msgstr "Либерия"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
-msgstr "Ливия"
+msgstr "Ливийская Арабская Джамахирия"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
@@ -931,7 +932,7 @@ msgstr "Мавритания"
 
 #: deluge/ui/countries.py:149
 msgid "Mauritius"
-msgstr "Мавтрития"
+msgstr "Маврикий"
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
@@ -1191,7 +1192,7 @@ msgstr "Южно-Африканская Республика"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr "Южная Георгия и Южные Сандвичевы Острова"
+msgstr "Южная Джорджия и Южные Сандвичевы Острова"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
@@ -1239,7 +1240,7 @@ msgstr "Таджикистан"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr "Танзания"
+msgstr "Объединенная республика Танзания"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
@@ -1247,7 +1248,7 @@ msgstr "Таиланд"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr "Тимор-Лешти"
+msgstr "Восточный Тимор"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
@@ -1279,7 +1280,7 @@ msgstr "Туркменистан"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr "Острова Теркс и Кайкос"
+msgstr "Острова Тёркс и Кайкос"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
@@ -1303,7 +1304,7 @@ msgstr "Соединенные Штаты Америки"
 
 #: deluge/ui/countries.py:243
 msgid "United States Minor Outlying Islands"
-msgstr "Объединённые Штаты Малых Удалённых Островов"
+msgstr "Внешние малые острова (США)"
 
 #: deluge/ui/countries.py:244
 msgid "Uruguay"
@@ -1327,11 +1328,11 @@ msgstr "Вьетнам"
 
 #: deluge/ui/countries.py:249
 msgid "Virgin Islands, British"
-msgstr "Виргинские Острова, Британия"
+msgstr "Виргинские острова (Британия)"
 
 #: deluge/ui/countries.py:250
 msgid "Virgin Islands, U.S."
-msgstr "Виргинские острова, США"
+msgstr "Виргинские острова (США)"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
@@ -1360,7 +1361,7 @@ msgstr "Торрент"
 #: deluge/ui/gtkui/addtorrentdialog.py:107
 #: deluge/ui/gtkui/createtorrentdialog.py:77 deluge/ui/gtkui/files_tab.py:110
 msgid "Filename"
-msgstr "Имя файла"
+msgstr "Название файла"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:120
 #: deluge/ui/gtkui/createtorrentdialog.py:87
@@ -1370,7 +1371,7 @@ msgstr "Размер"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:202
 msgid "Invalid File"
-msgstr "Недопустимый формат файла"
+msgstr "Неверный файл"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "Duplicate Torrent"
@@ -1378,17 +1379,17 @@ msgstr "Торрент уже существует"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "You cannot add the same torrent twice."
-msgstr "Вы не можете добавить один и тот же торрент дважды"
+msgstr "Вы не можете добавить один и тот же торрент дважды."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:479
 msgid "Unable to set file priority!"
-msgstr "Не возможно установить приоритет для файла"
+msgstr "Не возможно установить приоритет для файла!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:479
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
 "Установка приоритетов не возможно при использовании режима компактного "
-"резервирования"
+"резервирования."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:526
 msgid "Choose a .torrent file"
@@ -1397,7 +1398,7 @@ msgstr "Выберите файл .torrent"
 #: deluge/ui/gtkui/addtorrentdialog.py:538
 #: deluge/ui/gtkui/createtorrentdialog.py:240
 msgid "Torrent files"
-msgstr "Файлы .torrent"
+msgstr "Торрент файлы"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:542
 #: deluge/ui/gtkui/createtorrentdialog.py:244
@@ -1406,7 +1407,7 @@ msgstr "Все файлы"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:607
 msgid "Invalid URL"
-msgstr "Неверный URL"
+msgstr "Неверный адрес (URL)"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:607
 #, python-format
@@ -1419,7 +1420,7 @@ msgstr "Загрузка..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:645
 msgid "Download Failed"
-msgstr "Ошибка загрузки"
+msgstr "Загрузка неудалась"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:645
 #, python-format
@@ -1435,7 +1436,7 @@ msgstr "Торренты"
 #: deluge/ui/gtkui/statusbar.py:383 deluge/ui/gtkui/statusbar.py:411
 #: deluge/ui/gtkui/statusbar.py:438
 msgid "Unlimited"
-msgstr "Без ограничения"
+msgstr "Без ограничений"
 
 #: deluge/ui/gtkui/common.py:68
 msgid "Activated"
@@ -1445,7 +1446,7 @@ msgstr "Активно"
 #: deluge/ui/gtkui/systemtray.py:353 deluge/ui/gtkui/statusbar.py:385
 #: deluge/ui/gtkui/statusbar.py:413 deluge/ui/gtkui/statusbar.py:440
 msgid "Other..."
-msgstr "Другое..."
+msgstr "Прочее..."
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1462,11 +1463,11 @@ msgstr "Состояние"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:182
 msgid "Down Speed"
-msgstr "Приём"
+msgstr "Скорость загрузки"
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:186
 msgid "Up Speed"
-msgstr "Отдача"
+msgstr "Скорость отдачи"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
@@ -1482,11 +1483,11 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:213
 msgid "Down"
-msgstr "Вниз"
+msgstr "Загрузка"
 
 #: deluge/ui/gtkui/systemtray.py:214
 msgid "Up"
-msgstr "Вверх"
+msgstr "Раздача"
 
 #: deluge/ui/gtkui/systemtray.py:340 deluge/ui/gtkui/statusbar.py:387
 #: deluge/ui/gtkui/menubar.py:430
@@ -1517,7 +1518,7 @@ msgstr "Торрент завершён"
 #: deluge/ui/gtkui/notification.py:79
 #, python-format
 msgid "Including %i files"
-msgstr "Вложенных файлов %i"
+msgstr "Включает %i файлов"
 
 #: deluge/ui/gtkui/notification.py:107
 #, python-format
@@ -1534,7 +1535,7 @@ msgstr ""
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:100
 msgid "Tier"
-msgstr "Порядок"
+msgstr "Уровень"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:86
 #: deluge/ui/gtkui/createtorrentdialog.py:102
@@ -2178,7 +2179,7 @@ msgstr "Информация будет безвозвратно удалена.
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "удалить_с_данными"
+msgstr "удалить с данными"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
