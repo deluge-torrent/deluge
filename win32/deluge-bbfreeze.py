@@ -1,4 +1,4 @@
-build_version = "1.2.0_rc2"
+build_version = "1.2.0_rc3"
 python_path = "C:\\Python26\\"
 
 import shutil

@@ -1,4 +1,4 @@
-=== Deluge 1.2.0_rc3 (In Development) ===
+=== Deluge 1.2.0_rc3 (01 November 2009) ===
 ==== Core ====
 	* Fix #1047 move completed does not work if saving to non default path
 	* Fix renamed files not being utf-8 encoded
