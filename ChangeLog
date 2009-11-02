@@ -1,6 +1,10 @@
 === Deluge 1.2.0_rc4 (In Development) ===
 ==== Web ====
 	* Fix installing the deluge-web manpage
+	* Escape hyphens in the manpage
+
+==== Console ====
+	* Escape hyphens in the manpage
 
 === Deluge 1.2.0_rc3 (01 November 2009) ===
 ==== Core ====
