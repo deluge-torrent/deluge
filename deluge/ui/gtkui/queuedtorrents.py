@@ -33,7 +33,7 @@
 #
 #
 
-
+import base64
 import os.path
 
 import gtk, gtk.glade
@@ -191,7 +191,7 @@ class QueuedTorrents(component.Component):
                 else:
                     client.core.add_torrent_file(
                         os.path.split(torrent_path)[-1],
-                        base64.encodestring(open(torrent_path).read()),
+                        base64.encodestring(open(torrent_path, "rb").read()),
                         None)
 
         self.liststore.foreach(add_torrent, None)
