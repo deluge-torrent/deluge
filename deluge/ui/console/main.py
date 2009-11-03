@@ -288,7 +288,7 @@ class ConsoleUI(component.Component):
                 parser._print_help(f)
         parser.print_help = print_help
 
-        if not client.connected() and cmd not in ("connect", "quit"):
+        if not client.connected() and cmd not in ("help", "connect", "quit"):
             self.write("{!error!}Not connected to a daemon, please use the connect command first.")
             return
 
