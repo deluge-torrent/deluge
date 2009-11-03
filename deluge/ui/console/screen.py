@@ -381,8 +381,6 @@ class Screen(CursesStdIO):
                 self.display_lines_offset = 0
             self.refresh()
 
-        open("/tmp/key_logger", "a").write(str(c) + "\n")
-
         # Delete a character in the input string based on cursor position
         if c == curses.KEY_BACKSPACE or c == 127:
             if self.input and self.input_cursor > 0:
