@@ -159,6 +159,9 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
     if image_stockid:
         glade.get_widget("image").set_from_stock(image_stockid, gtk.ICON_SIZE_LARGE_TOOLBAR)
     if image_filename:
+        # Hack for Windows since it doesn't support svg
+        if os.path.splitext(image_filename)[1] == ".svg" and deluge.common.windows_check():
+            image_filename = os.path.splitext(image_filename)[0] + "16.png"
         pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(
             deluge.common.get_pixmap(image_filename), 32, 32)
         glade.get_widget("image").set_from_pixbuf(pixbuf)

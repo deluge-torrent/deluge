@@ -1,4 +1,7 @@
 === Deluge 1.2.0_rc4 (In Development) ===
+==== GtkUI ====
+	* Fix showing the 'Other' speed dialogs in Windows
+
 ==== Web ====
 	* Fix installing the deluge-web manpage
 	* Escape hyphens in the manpage
