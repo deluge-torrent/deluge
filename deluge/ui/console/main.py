@@ -124,10 +124,12 @@ def load_commands(command_dir, exclude=[]):
     try:
         commands = []
         for filename in os.listdir(command_dir):
-            if filename.split('.')[0] in exclude or filename.startswith('_') or not filename.endswith('.py'):
+            if filename.split('.')[0] in exclude or filename.startswith('_'):
                 continue
-            cmd = get_command(filename[:-3])
-            aliases = [ filename[:-3] ]
+            if not (filename.endswith('.py') or filename.endswith('.pyc')):
+                continue
+            cmd = get_command(filename.split('.')[len(filename.split('.')) - 2])
+            aliases = [ filename.split('.')[len(filename.split('.')) - 2] ]
             aliases.extend(cmd.aliases)
             for a in aliases:
                 commands.append((a, cmd))
