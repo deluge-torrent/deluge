@@ -58,7 +58,7 @@ class Command(BaseCommand):
 
         t_options = {}
         if options["path"]:
-            t_options["download_location"] = options["path"]
+            t_options["download_location"] = os.path.expanduser(options["path"])
 
         # Keep a list of deferreds to make a DeferredList
         deferreds = []
