@@ -11,6 +11,7 @@
 	* Escape hyphens in the manpage
 	* Make the delete key work
 	* Allow ~ to be used in the path in the add command
+	* Allow commands that are .pyc files to be used
 
 === Deluge 1.2.0_rc3 (01 November 2009) ===
 ==== Core ====
