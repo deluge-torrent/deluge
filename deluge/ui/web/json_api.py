@@ -457,6 +457,7 @@ class WebApi(JSONComponent):
         """
         d = Deferred()
         ui_info = {
+            "connected": client.connected(),
             "torrents": None,
             "filters": None,
             "stats": {
