@@ -135,7 +135,7 @@ class TorrentManager(component.Component):
         # Make sure the state folder has been created
         if not os.path.exists(os.path.join(get_config_dir(), "state")):
             os.makedirs(os.path.join(get_config_dir(), "state"))
-            
+
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
 
@@ -146,7 +146,7 @@ class TorrentManager(component.Component):
 
         # self.num_resume_data used to save resume_data in bulk
         self.num_resume_data = 0
-        
+
         # Keeps track of resume data that needs to be saved to disk
         self.resume_data = {}
 
@@ -216,8 +216,8 @@ class TorrentManager(component.Component):
         # Save state on shutdown
         self.save_state()
 
-        # Make another list just to make sure all paused torrents will be 
-        # passed to self.save_resume_data(). With 
+        # Make another list just to make sure all paused torrents will be
+        # passed to self.save_resume_data(). With
         # self.shutdown_torrent_pause_list it is possible to have a case when
         # torrent_id is removed from it in self.on_alert_torrent_paused()
         # before we call self.save_resume_data() here.
@@ -229,9 +229,9 @@ class TorrentManager(component.Component):
                 self.torrents[key].handle.pause()
                 self.shutdown_torrent_pause_list.append(key)
                 save_resume_data_list.append(key)
-                
+
         self.save_resume_data(save_resume_data_list)
-        
+
         # We have to wait for all torrents to pause and write their resume data
         wait = True
         while wait:
@@ -298,7 +298,7 @@ class TorrentManager(component.Component):
 
     def legacy_delete_resume_data(self, torrent_id):
         """Deletes the .fastresume file"""
-        path = os.path.join(self.config["state_location"],
+        path = os.path.join(get_config_dir(), "state",
                             torrent_id + ".fastresume")
         log.debug("Deleting fastresume file: %s", path)
         try:
@@ -364,7 +364,7 @@ class TorrentManager(component.Component):
             if resume_data is None:
                 resume_data = self.legacy_get_resume_data_from_file(state.torrent_id)
                 self.legacy_delete_resume_data(state.torrent_id)
-                    
+
             add_torrent_params["resume_data"] = resume_data
         else:
             # We have a torrent_info object so we're not loading from state.
@@ -521,7 +521,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError), e:
             log.warning("Error removing torrent: %s", e)
             return False
-        
+
         # Remove fastresume data if it is exists
         resume_data = self.load_resume_data_file()
         resume_data.pop(torrent_id, None)
@@ -622,7 +622,7 @@ class TorrentManager(component.Component):
         # Pickle the TorrentManagerState object
         try:
             log.debug("Saving torrent state file.")
-            state_file = open(os.path.join(get_config_dir(), 
+            state_file = open(os.path.join(get_config_dir(),
                               "state", "torrents.state.new"), "wb")
             cPickle.dump(state, state_file)
             state_file.flush()
@@ -649,13 +649,13 @@ class TorrentManager(component.Component):
         Saves resume data for list of torrent_ids or for all torrents if
         torrent_ids is None
         """
-        
+
         if torrent_ids is None:
             torrent_ids = self.torrents.keys()
- 
+
         for torrent_id in torrent_ids:
             self.torrents[torrent_id].save_resume_data()
-            
+
         self.num_resume_data = len(torrent_ids)
 
     def load_resume_data_file(self):
@@ -668,35 +668,35 @@ class TorrentManager(component.Component):
             fastresume_file.close()
         except (EOFError, IOError, Exception), e:
             log.warning("Unable to load fastresume file: %s", e)
-    
+
         # If the libtorrent bdecode doesn't happen properly, it will return None
         # so we need to make sure we return a {}
         if resume_data is None:
             return {}
-            
+
         return resume_data
-        
+
     def save_resume_data_file(self, resume_data=None):
         """
         Saves the resume data file with the contents of self.resume_data.  If
         `resume_data` is None, then we grab the resume_data from the file on
         disk, else, we update `resume_data` with self.resume_data and save
         that to disk.
-        
+
         :param resume_data: the current resume_data, this will be loaded from disk if not provided
         :type resume_data: dict
-        
+
         """
         # Check to see if we're waiting on more resume data
         if self.num_resume_data or not self.resume_data:
             return
-            
+
         path = os.path.join(get_config_dir(), "state", "torrents.fastresume")
-        
+
         # First step is to load the existing file and update the dictionary
         if resume_data is None:
             resume_data = self.load_resume_data_file()
-    
+
         resume_data.update(self.resume_data)
         self.resume_data = {}
 
@@ -786,12 +786,12 @@ class TorrentManager(component.Component):
                 move_path = torrent.options["move_completed_path"]
                 if torrent.options["download_location"] != move_path:
                     torrent.move_storage(move_path)
-                    
+
             torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
         torrent.update_state()
-        
+
         # Only save resume data if it was actually downloaded something. Helps
         # on startup with big queues with lots of seeding torrents. Libtorrent
         # emits alert_torrent_finished for them, but there seems like nothing
@@ -917,9 +917,9 @@ class TorrentManager(component.Component):
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
-        
+
         torrent_id = str(alert.handle.info_hash())
-        
+
         try:
             torrent = self.torrents[torrent_id]
         except:
@@ -928,9 +928,9 @@ class TorrentManager(component.Component):
         # Libtorrent in add_torrent() expects resume_data to be bencoded
         self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
         self.num_resume_data -= 1
-        
+
         torrent.waiting_on_resume_data = False
-        
+
         self.save_resume_data_file()
 
     def on_alert_save_resume_data_failed(self, alert):
@@ -939,12 +939,12 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-            
+
         self.num_resume_data -= 1
         torrent.waiting_on_resume_data = False
-        
+
         self.save_resume_data_file()
-            
+
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")

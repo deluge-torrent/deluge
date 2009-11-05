@@ -1,4 +1,7 @@
 === Deluge 1.2.0_rc4 (In Development) ===
+==== Core ====
+	* Fix deleting old .fastresume files with fresh configs
+
 ==== GtkUI ====
 	* Fix showing the 'Other' speed dialogs in Windows
 	* Fix adding torrents from the Queued Torrents dialog
