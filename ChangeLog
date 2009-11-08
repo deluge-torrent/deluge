@@ -5,6 +5,7 @@
 ==== GtkUI ====
 	* Fix showing the 'Other' speed dialogs in Windows
 	* Fix adding torrents from the Queued Torrents dialog
+	* Fix disabling/enabling plugins after switching daemons
 
 ==== Web ====
 	* Fix installing the deluge-web manpage
