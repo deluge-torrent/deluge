@@ -101,6 +101,13 @@ class ComponentRegistry:
         if depend != None:
             self.depend[name] = depend
 
+    def deregister(self, name):
+        """Deregisters a component"""
+        if name in self.components:
+            log.debug("Deregistering Component: %s", name)
+            self.stop_component(name)
+            del self.components[name]
+
     def get(self, name):
         """Returns a reference to the component 'name'"""
         return self.components[name]
@@ -126,8 +133,14 @@ class ComponentRegistry:
 
     def stop(self):
         """Stops all components"""
-        for component in self.components.keys():
-            self.stop_component(component)
+        # We create a separate list of the keys and do an additional check to
+        # make sure the key still exists in the components dict.
+        # This is because components could be deregistered during a stop and
+        # the dictionary would get modified while iterating through it.
+        components = self.components.keys()
+        for component in components:
+            if component in self.components:
+                self.stop_component(component)
 
     def stop_component(self, component):
         if self.components[component].get_state() != \
@@ -186,6 +199,10 @@ _ComponentRegistry = ComponentRegistry()
 def register(name, obj, depend=None):
     """Registers a component with the registry"""
     _ComponentRegistry.register(name, obj, depend)
+
+def deregister(name):
+    """Deregisters a component"""
+    _ComponentRegistry.deregister(name)
 
 def start(component=None):
     """Starts all components"""
