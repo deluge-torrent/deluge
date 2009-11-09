@@ -18,6 +18,9 @@
 	* Allow commands that are .pyc files to be used
 	* Fix printing info, help, etc.. on the command line
 
+==== Blocklist ====
+	* Force blocklist to auto-detect format when a download / import is forced
+
 === Deluge 1.2.0_rc3 (01 November 2009) ===
 ==== Core ====
 	* Fix #1047 move completed does not work if saving to non default path
