@@ -20,6 +20,7 @@
 
 ==== Blocklist ====
 	* Force blocklist to auto-detect format when a download / import is forced
+	* Fix blocklist failing on certain PeerGuardian/SafePeer lists
 
 === Deluge 1.2.0_rc3 (01 November 2009) ===
 ==== Core ====
