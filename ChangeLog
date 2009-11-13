@@ -8,6 +8,7 @@
 	* Fix disabling/enabling plugins after switching daemons
 	* Reduce height of Add Torrent Dialog by ~80 pixels
 	* Fix #1071 issue where Deluge will fail to start if there is a stale ipc lockfile
+	* Fix autoconnecting to the next host in the list if the selected one isn't available
 
 ==== Web ====
 	* Fix installing the deluge-web manpage
