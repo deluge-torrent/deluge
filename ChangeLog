@@ -7,6 +7,7 @@
 	* Fix adding torrents from the Queued Torrents dialog
 	* Fix disabling/enabling plugins after switching daemons
 	* Reduce height of Add Torrent Dialog by ~80 pixels
+	* Fix issue where Deluge will fail to start if there is a stale ipc lockfile
 
 ==== Web ====
 	* Fix installing the deluge-web manpage
