@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -41,15 +41,20 @@ and subsequently emitted to the clients.
 
 """
 
-event_list = []
+known_events = {}
 
 class DelugeEventMetaClass(type):
     """
     This metaclass simply keeps a list of all events classes created.
     """
     def __init__(cls, name, bases, dct):
-        event_list.append(name)
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
+        if name != "DelugeEvent":
+            classdoc = cls.__doc__.splitlines()
+            if classdoc[0].strip():
+                known_events[name] = classdoc[0].strip()
+            else:
+                known_events[name] = classdoc[1].strip()
 
 class DelugeEvent(object):
     """
