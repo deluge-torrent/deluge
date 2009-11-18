@@ -1,5 +1,4 @@
 deluge/error.py
-deluge/maketorrent.py
 deluge/common.py
 deluge/rencode.py
 deluge/httpdownloader.py
