@@ -12,6 +12,7 @@
 	* Fix endless loop when trying to autoconnect to an offline daemon
 	* Fix exception on startup when the system tray icon is not enabled
 	* Fix issue where some torrents with special characters could not be added
+	* Fix issues adding magnet uris
 
 ==== Web ====
 	* Fix installing the deluge-web manpage
