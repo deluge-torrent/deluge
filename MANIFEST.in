@@ -1,0 +1,3 @@
+recursive-include docs *
+recursive-include deluge *
+recursive-include win32 *

@@ -2,6 +2,7 @@
 # setup.py
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+#               2009 Damien Churchill <damoxc@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,12 +21,16 @@
 # 	Boston, MA    02110-1301, USA.
 #
 
-import ez_setup
-ez_setup.use_setuptools()
+try:
+    from setuptools import setup, find_packages, Extension
+except ImportError:
+    import ez_setup
+    ez_setup.use_setuptools()
+    from setuptools import setup, find_packages, Extension
+
 import glob
 import sys
 
-from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
@@ -35,7 +40,6 @@ try:
 except ImportError:
     class BuildDoc(object):
         pass
-
 
 import msgfmt
 import os
@@ -392,30 +396,25 @@ _data_files = [
 
 # Main setup
 setup(
+    name = "deluge",
+    version = "1.2.0_rc3",
+    fullname = "Deluge Bittorrent Client",
+    description = "Bittorrent Client",
     author = "Andrew Resch, Damien Churchill",
     author_email = "andrewresch@gmail.com, damoxc@gmail.com",
-    cmdclass = cmdclass,
-    data_files = _data_files,
-    description = "Bittorrent Client",
+    keywords = "torrent bittorrent p2p fileshare filesharing",
     long_description = """Deluge is a bittorrent client that utilizes a
         daemon/client model. There are various user interfaces available for
         Deluge such as the GTKui, the webui and a console ui. Deluge uses
         libtorrent in it's backend to handle the bittorrent protocol.""",
-    keywords = "torrent bittorrent p2p fileshare filesharing",
-    entry_points = """
-        [console_scripts]
-            deluge = deluge.main:start_ui
-            deluge-console = deluge.ui.console:start
-            deluge-gtk = deluge.ui.gtkui:start
-            deluge-web = deluge.ui.web:start
-            deluged = deluge.main:start_daemon
-    """,
+    url = "http://deluge-torrent.org",
+    license = "GPLv3",
+
+    cmdclass = cmdclass,
+    data_files = _data_files,
     ext_package = "deluge",
     ext_modules = _ext_modules,
-    fullname = "Deluge Bittorrent Client",
     include_package_data = True,
-    license = "GPLv3",
-    name = "deluge",
     package_data = {"deluge": ["ui/gtkui/glade/*.glade",
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
@@ -437,6 +436,12 @@ setup(
                                 "ui/web/themes/*/*/*"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
-    url = "http://deluge-torrent.org",
-    version = "1.2.0_rc3",
+    entry_points = """
+    [console_scripts]
+        deluge = deluge.main:start_ui
+        deluge-console = deluge.ui.console:start
+        deluge-gtk = deluge.ui.gtkui:start
+        deluge-web = deluge.ui.web:start
+        deluged = deluge.main:start_daemon
+    """,
 )
