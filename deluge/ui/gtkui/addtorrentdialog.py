@@ -716,11 +716,6 @@ class AddTorrentDialog(component.Component):
         if row is not None:
             self.save_torrent_options(row)
 
-        torrent_filenames = []
-        torrent_magnets = []
-        torrent_magnet_options = []
-        torrent_options = []
-
         row = self.torrent_liststore.get_iter_first()
         while row != None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
@@ -735,26 +730,17 @@ class AddTorrentDialog(component.Component):
                 options["file_priorities"] = file_priorities
 
             if deluge.common.is_magnet(filename):
-                torrent_magnets.append(filename)
                 del options["file_priorities"]
-                torrent_magnet_options.append(options)
+                client.core.add_torrent_magnet(filename, options)
             else:
-                torrent_filenames.append(filename)
-                torrent_options.append(options)
+                from deluge.bencode import bencode
+                client.core.add_torrent_file(
+                    os.path.split(filename)[-1],
+                    base64.encodestring(bencode(self.infos[torrent_id])),
+                    options)
 
             row = self.torrent_liststore.iter_next(row)
 
-        if torrent_filenames:
-            for i, f in enumerate(torrent_filenames):
-                client.core.add_torrent_file(
-                    os.path.split(f)[-1],
-                    base64.encodestring(open(f, "rb").read()),
-                    torrent_options[i])
-        if torrent_magnets:
-            for i, m in enumerate(torrent_magnets):
-                client.core.add_torrent_magnet(m, torrent_magnet_options[i])
-
-        client.force_call(False)
         self.hide()
 
     def _on_button_apply_clicked(self, widget):
