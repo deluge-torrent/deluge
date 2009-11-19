@@ -10,6 +10,7 @@
 	* Fix #1071 issue where Deluge will fail to start if there is a stale ipc lockfile
 	* Fix autoconnecting to the next host in the list if the selected one isn't available
 	* Fix endless loop when trying to autoconnect to an offline daemon
+	* Fix exception on startup when the system tray icon is not enabled
 
 ==== Web ====
 	* Fix installing the deluge-web manpage
