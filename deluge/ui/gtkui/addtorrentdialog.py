@@ -211,7 +211,7 @@ class AddTorrentDialog(component.Component):
             new_row = self.torrent_liststore.append(
                 [info.info_hash, info.name, filename])
             self.files[info.info_hash] = info.files
-            self.infos[info.info_hash] = info.metadata
+            self.infos[info.info_hash] = info.filedata
             self.listview_torrents.get_selection().select_iter(new_row)
 
             self.set_default_options()
@@ -737,10 +737,9 @@ class AddTorrentDialog(component.Component):
                 del options["file_priorities"]
                 client.core.add_torrent_magnet(filename, options)
             else:
-                from deluge.bencode import bencode
                 client.core.add_torrent_file(
                     os.path.split(filename)[-1],
-                    base64.encodestring(bencode(self.infos[torrent_id])),
+                    base64.encodestring(self.infos[torrent_id]),
                     options)
 
             row = self.torrent_liststore.iter_next(row)

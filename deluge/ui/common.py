@@ -75,16 +75,17 @@ def decode_string(s, encoding="utf8"):
 class TorrentInfo(object):
     """
     Collects information about a torrent file.
-    
+
     :param filename: The path to the torrent
     :type filename: string
-    
+
     """
     def __init__(self, filename):
         # Get the torrent data from the torrent file
         try:
             log.debug("Attempting to open %s.", filename)
-            self.__m_metadata = bencode.bdecode(open(filename, "rb").read())
+            self.__m_filedata = open(filename, "rb").read()
+            self.__m_metadata = bencode.bdecode(self.__m_filedata)
         except Exception, e:
             log.warning("Unable to open %s: %s", filename, e)
             raise e
@@ -163,7 +164,7 @@ class TorrentInfo(object):
     def name(self):
         """
         The name of the torrent.
-        
+
         :rtype: string
         """
         return self.__m_name
@@ -172,7 +173,7 @@ class TorrentInfo(object):
     def info_hash(self):
         """
         The torrents info_hash
-        
+
         :rtype: string
         """
         return self.__m_info_hash
@@ -181,7 +182,7 @@ class TorrentInfo(object):
     def files(self):
         """
         A list of the files that the torrent contains.
-        
+
         :rtype: list
         """
         return self.__m_files
@@ -190,15 +191,15 @@ class TorrentInfo(object):
     def files_tree(self):
         """
         A dictionary based tree of the files.
-        
+
         ::
-        
+
             {
                 "some_directory": {
                     "some_file": (index, size, download)
                 }
             }
-        
+
         :rtype: dictionary
         """
         return self.__m_files_tree
@@ -207,10 +208,20 @@ class TorrentInfo(object):
     def metadata(self):
         """
         The torrents metadata.
-        
+
         :rtype: dictionary
         """
         return self.__m_metadata
+
+    @property
+    def filedata(self):
+        """
+        The torrents file data.  This will be the bencoded dictionary read
+        from the torrent file.
+
+        :rtype: string
+        """
+        return self.__m_filedata
 
 class FileTree(object):
     """
@@ -219,7 +230,7 @@ class FileTree(object):
     :param paths: The paths to be converted.
     :type paths: list
     """
-    
+
     def __init__(self, paths):
         self.tree = {}
 
