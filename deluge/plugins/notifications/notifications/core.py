@@ -122,27 +122,31 @@ class Core(CorePluginBase, Notifications):
     def notify_flash(self, title='', message=''):
         if not self.config["flash_enabled"]:
             return defer.succeed("Flash notification not enabled")
-        return defer.maybeDeferred(
-            component.get("EventManager").emit,
-            events.NotificationFlashEvent(title, message)
-        )
+        d = defer.maybeDeferred(component.get("EventManager").emit,
+                                events.NotificationFlashEvent(title, message))
+        d.addCallback(self._on_notify_event_sucess, 'flash')
+        d.addErrback(self._on_notify_event_failure, 'flash')
+        return d
 
     @export
     def notify_popup(self, title='', message=''):
         if not self.config["popup_enabled"]:
             return defer.succeed("Popup notification not enabled")
-        return defer.maybeDeferred(
-            component.get("EventManager").emit,
-            events.NotificationPopupEvent(title, message)
-        )
+        d = defer.maybeDeferred(component.get("EventManager").emit,
+                                events.NotificationPopupEvent(title, message))
+        d.addCallback(self._on_notify_event_sucess, 'popup')
+        d.addErrback(self._on_notify_event_failure, 'popup')
+        return d
 
     @export
     def notify_sound(self, sound_path=''):
         if not self.config["sound_enabled"]:
             return defer.succeed("Sound notification not enabled")
-        return defer.maybeDeferred(
-            component.get("EventManager").emit,
-            events.NotificationSoundEvent(sound_path))
+        d = defer.maybeDeferred(component.get("EventManager").emit,
+                                events.NotificationSoundEvent(sound_path))
+        d.addCallback(self._on_notify_event_sucess, 'sound')
+        d.addErrback(self._on_notify_event_failure, 'sound')
+        return d
 
     def _notify_email(self, title='', message='', smtp_from='', recipients=[]):
         config = self.config
@@ -162,8 +166,10 @@ Subject: %(title)s
         try:
             server = smtplib.SMTP(config["smtp_host"], config["smtp_port"])
         except Exception, err:
-            log.error("There was an error sending the notification email: %s",
-                      err)
+            err_msg = _("There was an error sending the notification email:"
+                        " %s") % err
+            log.error(err_msg)
+            raise err
 
         security_enabled = config['smtp_tls']
 
@@ -178,19 +184,25 @@ Subject: %(title)s
         if config['smtp_user'] and config['smtp_pass']:
             try:
                 server.login(config['smtp_user'], config['smtp_pass'])
-            except smtplib.SMTPHeloError:
-                log.warning("The server didn't reply properly to the helo "
-                            "greeting")
-            except smtplib.SMTPAuthenticationError:
-                log.warning("The server didn't accept the username/password "
-                            "combination")
+            except smtplib.SMTPHeloError, err:
+                err_msg = _("The server didn't reply properly to the helo "
+                            "greeting: %s") % err
+                log.error(err_msg)
+                raise err
+            except smtplib.SMTPAuthenticationError, err:
+                err_msg = _("The server didn't accept the username/password "
+                            "combination: %s") % err
+                log.error(err_msg)
+                raise err
 
         try:
             try:
                 server.sendmail(config['smtp_from'], to_addrs, message)
             except smtplib.SMTPException, err:
-                log.error("There was an error sending the notification email: "
-                          "%s", err)
+                err_msg = _("There was an error sending the notification email:"
+                            " %s") % err
+                log.error(err_msg)
+                raise err
         finally:
             if security_enabled:
                 # avoid false failure detection when the server closes
@@ -202,4 +214,23 @@ Subject: %(title)s
                     pass
             else:
                 server.quit()
-        return "Notification email sent."
+        return _("Notification email sent.")
+
+    def _on_torrent_finished_event(self, torrent_id):
+        log.debug("\n\nhandler for TorrentFinishedEvent called for CORE")
+        torrent = component.get("TorrentManager")[torrent_id]
+        torrent_status = torrent.get_status({})
+        # Email
+        title = _("Finished Torrent \"%(name)s\"") % torrent_status
+        message = _(
+            "This email is to inform you that Deluge has finished "
+            "downloading \"%(name)s\", which includes %(num_files)i files."
+            "\nTo stop receiving these alerts, simply turn off email "
+            "notification in Deluge's preferences.\n\n"
+            "Thank you,\nDeluge."
+        ) % torrent_status
+
+        d = defer.maybeDeferred(self.notify_email, title, message)
+        d.addCallback(self._on_notify_sucess, 'email')
+        d.addErrback(self._on_notify_failure, 'email')
+        log.debug("Email notification callback yielded")

@@ -34,12 +34,8 @@
 #
 
 
-from twisted.internet import defer, threads
 from deluge import component
-from deluge.core.rpcserver import export
 from deluge.log import LOG as log
-from deluge.ui.client import client
-
 
 class Notifications(component.Component):
     def __init__(self, name):
@@ -87,63 +83,17 @@ class Notifications(component.Component):
         self.notify_sound(sound_path)
 
     def _on_notify_sucess(self, result, kind):
-        log.debug("Notification success using %s: %s", kind, result)
+        log.debug("\n\nNotification success using %s: %s", kind, result)
+        return result
 
     def _on_notify_failure(self, failure, kind):
-        log.debug("Notification failure using %s: %s", kind, failure)
+        log.debug("\n\nNotification failure using %s: %s", kind, failure)
+        return failure
 
-#    def _on_torrent_finished_event(self, torrent_id):
-#        log.debug("\n\nhandler for TorrentFinishedEvent called")
-#        torrent = component.get("TorrentManager")[torrent_id]
-#        torrent_status = torrent.get_status({})
-#        # Email
-#        title = _("Finished Torrent %(name)s") % torrent_status
-#        message = _(
-#            "This email is to inform you that Deluge has finished "
-#            "downloading \"%(name)s\", which includes %(num_files)i files."
-#            "\nTo stop receiving these alerts, simply turn off email "
-#            "notification in Deluge's preferences.\n\n"
-#            "Thank you,\nDeluge."
-#        ) % torrent_status
-#
-#        d0 = defer.maybeDeferred(self.notify_blink)
-#        d0.addCallback(self._on_notify_sucess, 'blink')
-#        d0.addErrback(self._on_notify_failure, 'blink')
-#        log.debug("Blink notification callback yielded")
-#
-##        self.notify_email(title, message)
-#        d1 = defer.maybeDeferred(self.notify_email, title, message)
-#        d1.addCallback(self._on_notify_sucess, 'email')
-#        d1.addErrback(self._on_notify_failure, 'email')
-##        d.
-##        yield d
-#        log.debug("Email notification callback yielded")
-#
-#        d2 = defer.maybeDeferred(self.notify_flash, title, message)
-#        d2.addCallback(self._on_notify_sucess, 'flash')
-#        d2.addErrback(self._on_notify_failure, 'flash')
-##        d.
-##        yield d
-#        log.debug("Flash notification callback yielded")
-#        # Sound
-##        self.notify_sound()
-#        d3 = defer.maybeDeferred(self.notify_sound)
-#        d3.addCallback(self._on_notify_sucess, 'sound')
-#        d3.addErrback(self._on_notify_failure, 'sound')
-##        yield d
-#        log.debug("Sound notification callback yielded")
-#
-#        # Popup
-#        title = _("Finished Torrent")
-#        message = _("The torrent \"%(name)s\" including %(num_files)i "
-#                    "has finished downloading.") % torrent_status
-##        self.notify_popup(title, message)
-#        d4 = defer.maybeDeferred(self.notify_popup, title, message)
-#        d4.addCallback(self._on_notify_sucess, 'popup')
-#        d4.addErrback(self._on_notify_failure, 'popup')
-##        yield d
-#        log.debug("Popup notification callback yielded")
-#
-#        d5 = defer.maybeDeferred(self.notify_sound)
-#        d5.addCallback(self._on_notify_sucess, 'sound')
-#        d5.addErrback(self._on_notify_failure, 'sound')
+    def _on_notify_event_sucess(self, result, kind):
+        log.debug("\n\nNotification event success using %s: %s", kind, result)
+        return result
+
+    def _on_notify_event_failure(self, failure, kind):
+        log.debug("\n\nNotification event failure using %s: %s", kind, failure)
+        return failure

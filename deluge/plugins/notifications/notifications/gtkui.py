@@ -54,9 +54,9 @@ except ImportError:
 
 try:
     import pynotify
-    POPUP_ENABLED = True
+    POPUP_AVAILABLE = True
 except ImportError:
-    POPUP_ENABLED = False
+    POPUP_AVAILABLE = False
 
 # Relative imports
 from common import get_resource
@@ -103,7 +103,7 @@ class GtkUI(GtkPluginBase, Notifications):
         component.get("PluginManager").register_hook("on_show_prefs",
                                                      self.on_show_prefs)
 
-        if not POPUP_ENABLED:
+        if not POPUP_AVAILABLE:
             self.glade.get_widget("popup_enabled").set_property('sensitive',
                                                                 False)
         else:
@@ -121,6 +121,9 @@ class GtkUI(GtkPluginBase, Notifications):
         else:
             client.register_event_handler("NotificationSoundEvent",
                                           self.notify_sound)
+
+        client.register_event_handler("TorrentFinishedEvent",
+                                      self._on_torrent_finished_event)
         # Force config populate
         client.notifications.get_config().addCallback(self.cb_get_config)
 
@@ -235,19 +238,27 @@ class GtkUI(GtkPluginBase, Notifications):
             self.glade.get_widget('sound_path').set_property('sensitive', False)
 
     def notify_blink(self):
-        return defer.maybeDeferred(self.tray.blink, True)
+        defer.maybeDeferred(self.tray.blink, True)
+        return defer.succeed("blink notification shown.")
 
     def notify_email(self, title='', message='', smtp_from='', recipients=[]):
-        client.notifications.notify_email(title, message, smtp_from, recipients)
+        d = client.notifications.notify_email(title, message, smtp_from,
+                                              recipients)
+        d.addCallback(self._on_notify_sucess, "email")
+        d.addCallback(self._on_notify_failure, "email")
+        return d
 
     def notify_flash(self, title='', message=''):
-        client.notifications.notify_flash(title, message)
+        d = client.notifications.notify_flash(title, message)
+        d.addCallback(self._on_notify_sucess, "flash")
+        d.addCallback(self._on_notify_failure, "flash")
+        return d
 
     def notify_popup(self, title='', message=''):
         if not self.config['popup_enabled']:
-            return defer.succeed("Popup notification is not enabled.")
-        if not POPUP_ENABLED:
-            return defer.fail("pynotify is not installed")
+            return defer.succeed(_("Popup notification is not enabled."))
+        if not POPUP_AVAILABLE:
+            return defer.fail(_("pynotify is not installed"))
 
         if pynotify.init("Deluge"):
             icon = gtk.gdk.pixbuf_new_from_file_at_size(
@@ -255,16 +266,18 @@ class GtkUI(GtkPluginBase, Notifications):
             self.note = pynotify.Notification(title, message)
             self.note.set_icon_from_pixbuf(icon)
             if not self.note.show():
-                log.warning("pynotify failed to show notification")
-                return defer.fail("pynotify failed to show notification")
-        return defer.succeed("Notification popup shown")
+                err_msg = _("pynotify failed to show notification")
+                log.warning(err_msg)
+                return defer.fail(err_msg)
+        return defer.succeed(_("Notification popup shown"))
 
     def notify_sound(self, sound_path=''):
         if not self.config['sound_enabled']:
-            return defer.succeed("Sound notification not enabled")
+            return defer.succeed(_("Sound notification not enabled"))
         if not SOUND_AVAILABLE:
-            log.warning("pygame is not installed")
-            return defer.fail("pygame is not installed")
+            err_msg = _("pygame is not installed")
+            log.warning(err_msg)
+            return defer.fail(err_msg)
 
         pygame.init()
         try:
@@ -274,9 +287,41 @@ class GtkUI(GtkPluginBase, Notifications):
             alert_sound.load(sound_path)
             alert_sound.play()
         except pygame.error, message:
-            log.warning("pygame failed to play because %s" % (message))
-            return defer.fail("Sound notification failed %s" % (message))
+            err_msg = _("Sound notification failed %s") % (message)
+            log.warning(err_msg)
+            return defer.fail(err_msg)
         else:
-            log.info("sound notification played successfully")
-            return defer.succeed("Sound notification Success")
+            msg = _("Sound notification Success")
+            log.info(msg)
+            return defer.succeed(msg)
+
+    def _on_torrent_finished_event(self, torrent_id):
+        log.debug("\n\nhandler for TorrentFinishedEvent GTKUI called")
+        # Blink
+        d0 = defer.maybeDeferred(self.notify_blink)
+        d0.addCallback(self._on_notify_sucess, 'blink')
+        d0.addErrback(self._on_notify_failure, 'blink')
+        log.debug("Blink notification callback yielded")
+        # Sound
+        d1 = defer.maybeDeferred(self.notify_sound)
+        d1.addCallback(self._on_notify_sucess, 'sound')
+        d1.addErrback(self._on_notify_failure, 'sound')
+        log.debug("Sound notification callback yielded")
+        # Popup
+        d2 = client.core.get_torrent_status(torrent_id, ["name", "num_files"])
+        d2.addCallback(self._on_torrent_finished_event_got_torrent_status)
+        d2.addErrback(self._on_torrent_finished_event_torrent_status_failure)
+
+    def _on_torrent_finished_event_torrent_status_failure(self, failure):
+        log.debug("Failed to get torrent status to be able to show the popup")
+
+    def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
+        log.debug("\n\nhandler for TorrentFinishedEvent GTKUI called. Torrent Status")
+        title = _("Finished Torrent")
+        message = _("The torrent \"%(name)s\" including %(num_files)i "
+                    "has finished downloading.") % torrent_status
+        d2 = defer.maybeDeferred(self.notify_popup, title, message)
+        d2.addCallback(self._on_notify_sucess, 'popup')
+        d2.addErrback(self._on_notify_failure, 'popup')
+        log.debug("Popup notification callback yielded")
 
