@@ -37,7 +37,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import gtk
 import smtplib
 from twisted.internet import defer, threads
 from deluge import component
@@ -385,6 +384,7 @@ class GtkUiNotifications(CustomNotifications):
         return defer.succeed(_("Notification Blink shown"))
 
     def __popup(self, title='', message=''):
+        import gtk
         if not self.config['popup_enabled']:
             return defer.succeed(_("Popup notification is not enabled."))
         if not POPUP_AVAILABLE:
