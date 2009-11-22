@@ -55,6 +55,8 @@ except ImportError:
 try:
     import pynotify
     POPUP_AVAILABLE = True
+    if deluge.common.windows_check():
+        POPUP_AVAILABLE = False
 except ImportError:
     POPUP_AVAILABLE = False
 
@@ -65,11 +67,10 @@ def get_resource(filename):
                                            os.path.join("data", filename))
 
 
-class CustomNotifications(component.Component):
+class CustomNotifications(object):
     config = None   # shut-up pylint
 
     def __init__(self, plugin_name=None):
-        component.Component.__init__(self, "Notifications")
         self.custom_notifications = {
             "email": {},
             "popup": {},
@@ -133,14 +134,6 @@ class CustomNotifications(component.Component):
         if eventtype not in known_events:
             log.error("The event \"%s\" is not known" % eventtype)
             return False
-        log.debug('\n\nKLASSS %s: %s: %s',
-                  handler.__class__,
-                  isinstance(handler.__class__, self.__class__),
-                  handler in dir(self))
-        log.debug(dir(handler))
-        log.debug(handler.im_self)
-        log.debug(self)
-        log.debug("IM SELF: %s", handler.im_self is self)
         if known_events[eventtype].__module__.startswith('deluge.event'):
             if handler.im_self is self:
                 return True
@@ -220,8 +213,15 @@ Subject: %(subject)s
         message = '\r\n'.join((headers + message).splitlines())
 
         try:
-            server = smtplib.SMTP(self.config["smtp_host"],
-                                  self.config["smtp_port"])
+            try:
+                # Python 2.6
+                server = smtplib.SMTP(self.config["smtp_host"],
+                                      self.config["smtp_port"],
+                                      timeout=60)
+            except:
+                # Python 2.6
+                server = smtplib.SMTP(self.config["smtp_host"],
+                                      self.config["smtp_port"])
         except Exception, err:
             err_msg = _("There was an error sending the notification email:"
                         " %s") % err

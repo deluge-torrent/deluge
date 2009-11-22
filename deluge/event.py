@@ -49,7 +49,8 @@ class DelugeEventMetaClass(type):
     """
     def __init__(cls, name, bases, dct):
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
-        known_events[name] = cls
+        if name != "DelugeEvent":
+            known_events[name] = cls
 
 class DelugeEvent(object):
     """

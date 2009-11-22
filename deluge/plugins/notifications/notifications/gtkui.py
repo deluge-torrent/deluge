@@ -202,8 +202,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         column.set_property('visible', False)
         self.sounds_treeview.append_column(column)
 
-        self.sounds_treeview.connect("button-press-event",
-                                     self.on_sounds_treeview_clicked)
         self.sounds_treeview.set_model(self.sounds_model)
 
     def build_notifications_model_populate_treeview(self):
