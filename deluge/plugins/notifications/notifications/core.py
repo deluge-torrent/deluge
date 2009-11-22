@@ -39,7 +39,7 @@
 
 import smtplib
 from twisted.internet import defer, threads
-from deluge.event import known_events, DelugeEvent
+from deluge.event import known_events
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
@@ -47,6 +47,7 @@ import deluge.configmanager
 from deluge.core.rpcserver import export
 
 from test import TestEmailNotifications
+from common import CustomNotifications
 
 DEFAULT_PREFS = {
     "smtp_enabled": False,
@@ -63,12 +64,11 @@ DEFAULT_PREFS = {
     }
 }
 
-class Core(CorePluginBase, component.Component):
+class Core(CorePluginBase, CustomNotifications):
     def __init__(self, plugin_name):
         CorePluginBase.__init__(self, plugin_name)
-        component.Component.__init__(self, "Notifications")
-        self.email_message_providers = {}
-        self.tn = TestEmailNotifications()
+        CustomNotifications.__init__(self, 'core')
+        self.tn = TestEmailNotifications('core')
 
     def enable(self):
         self.config = deluge.configmanager.ConfigManager(
@@ -78,15 +78,11 @@ class Core(CorePluginBase, component.Component):
         )
         log.debug("\n\nENABLING CORE NOTIFICATIONS\n\n")
         self.tn.enable()
-#        import sys
-#        print '\n\n', [(n, k.__module__) for n, k in known_events.items()]
-#        print [f for f in sys.modules.keys() if f.startswith("deluge.event")]
 
     def disable(self):
         self.tn.disable()
         log.debug("\n\nDISABLING CORE NOTIFICATIONS\n\n")
-        for eventtype in self.email_message_providers.keys():
-            self.deregister_email_message_provider(eventtype)
+        CustomNotifications.disable(self)
 
     def update(self):
         pass
@@ -116,55 +112,7 @@ class Core(CorePluginBase, component.Component):
         log.debug("Handled Notification Events: %s", handled_events)
         return handled_events
 
-    def register_email_message_provider(self, eventtype, handler):
-        """This is used to register email formatters for custom event types.
-
-        :param event: str, the event name
-        :param handler: function, to be called when `:param:event` is emitted
-
-        You're handler should return a tuple of (subject, email_contents).
-        """
-        if eventtype not in known_events:
-            raise Exception("The event \"%s\" is not known" % eventtype)
-        if known_events[eventtype].__module__.startswith('deluge.event'):
-            raise Exception("You cannot register email message providers for "
-                            "built-in event types.")
-        if eventtype not in self.email_message_providers:
-            def wrapper(*args, **kwargs):
-                return self._handle_custom_email_message_providers(eventtype,
-                                                                   *args,
-                                                                   **kwargs)
-            self.email_message_providers[eventtype] = (wrapper, handler)
-        else:
-            wrapper, handler = self.email_message_providers[eventtype]
-        component.get("EventManager").register_event_handler(
-            eventtype, wrapper
-        )
-
-    def deregister_email_message_provider(self, eventtype):
-        wrapper, handler = self.email_message_providers[eventtype]
-        component.get("EventManager").deregister_event_handler(
-            eventtype, wrapper
-        )
-        self.email_message_providers.pop(eventtype)
-
-    def _handle_custom_email_message_providers(self, event, *args, **kwargs):
-        if not self.config['smtp_enabled']:
-            return defer.succeed("SMTP notification not enabled.")
-
-        log.debug("\n\nCalling CORE's custom email providers for %s: %s %s",
-                  event, args, kwargs)
-        if event in self.config["subscriptions"]["email"]:
-            wrapper, handler = self.email_message_providers[event]
-            log.debug("Found handler: %s", handler)
-            d = defer.maybeDeferred(handler, *args, **kwargs)
-            d.addCallback(self._prepare_email)
-            d.addCallback(self._on_notify_sucess)
-            d.addErrback(self._on_notify_failure)
-            return d
-
-
-    def _prepare_email(self, result):
+    def handle_custom_email_notification(self, result):
         if not self.config['smtp_enabled']:
             return defer.succeed("SMTP notification not enabled.")
         subject, message = result
@@ -262,11 +210,11 @@ Subject: %(subject)s
         return d
 
 
-    def _on_notify_sucess(self, result):
-        log.debug("\n\nEMAIL Notification success: %s", result)
-        return result
-
-
-    def _on_notify_failure(self, failure):
-        log.debug("\n\nEMAIL Notification failure: %s", failure)
-        return failure
+#    def _on_notify_sucess(self, result):
+#        log.debug("\n\nEMAIL Notification success: %s", result)
+#        return result
+#
+#
+#    def _on_notify_failure(self, failure):
+#        log.debug("\n\nEMAIL Notification failure: %s", failure)
+#        return failure

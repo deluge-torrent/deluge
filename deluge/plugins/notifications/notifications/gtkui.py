@@ -61,7 +61,8 @@ except ImportError:
     POPUP_AVAILABLE = False
 
 # Relative imports
-from common import get_resource
+from common import get_resource, CustomNotifications
+from test import TestEmailNotifications
 
 DEFAULT_PREFS = {
     # BLINK
@@ -86,10 +87,11 @@ RECIPIENT_FIELD, RECIPIENT_EDIT = range(2)
  SUB_NOT_SOUND) = range(6)
 
 
-class GtkUI(GtkPluginBase, component.Component):
+class GtkUI(GtkPluginBase, CustomNotifications):
     def __init__(self, plugin_name):
         GtkPluginBase.__init__(self, plugin_name)
-        component.Component.__init__(self, "Notifications")
+        CustomNotifications.__init__(self, 'gtk')
+        self.tn = TestEmailNotifications('gtk')
 
     def enable(self):
         self.config = deluge.configmanager.ConfigManager(
@@ -227,7 +229,11 @@ class GtkUI(GtkPluginBase, component.Component):
         client.register_event_handler("TorrentFinishedEvent",
                                       self._on_torrent_finished_event)
 
+        self.tn.enable()
+
     def disable(self):
+        self.tn.disable()
+        CustomNotifications.disable(self)
         component.get("Preferences").remove_page("Notifications")
         component.get("PluginManager").deregister_hook("on_apply_prefs",
                                                        self.on_apply_prefs)
@@ -266,24 +272,6 @@ class GtkUI(GtkPluginBase, component.Component):
                 current_blink_subscriptions.append(event)
             if sound:
                 current_sound_subscriptions.append(event)
-#        saved_popup_subscriptions = self.config['subscriptions']['popup']
-#        saved_blink_subscriptions = self.config['subscriptions']['blink']
-#        saved_sound_subscriptions = self.config['subscriptions']['sound']
-#        for event in current_popup_subscriptions:
-#            saved_popup_subscriptions.remove(event)
-#        for event in saved_blink_subscriptions:
-#            # De register
-#            pass
-#        for event in current_blink_subscriptions:
-#            saved_blink_subscriptions.remove(event)
-#        for event in saved_blink_subscriptions:
-#            # De register
-#            pass
-#        for event in current_sound_subscriptions:
-#            saved_sound_subscriptions.remove(event)
-#        for event in saved_sound_subscriptions:
-#            # De register
-#            pass
 
         self.config.config.update({
             "popup_enabled": self.glade.get_widget("popup_enabled").get_active(),
@@ -410,14 +398,14 @@ class GtkUI(GtkPluginBase, component.Component):
         else:
             self.glade.get_widget('sound_path').set_property('sensitive', False)
 
-    # Notification methods
-    def blink(self):
+
+    def __blink(self):
         d = defer.maybeDeferred(self.systray.blink, True)
         d.addCallback(self._on_notify_sucess, "blink")
         d.addCallback(self._on_notify_failure, "blink")
         return d
 
-    def popup(self, title='', message=''):
+    def __popup(self, title='', message=''):
         if not self.config['popup_enabled']:
             return defer.succeed(_("Popup notification is not enabled."))
         if not POPUP_AVAILABLE:
@@ -434,7 +422,7 @@ class GtkUI(GtkPluginBase, component.Component):
                 return defer.fail(err_msg)
         return defer.succeed(_("Notification popup shown"))
 
-    def play_sound(self, sound_path=''):
+    def __play_sound(self, sound_path=''):
         if not self.config['sound_enabled']:
             return defer.succeed(_("Sound notification not enabled"))
         if not SOUND_AVAILABLE:
@@ -490,14 +478,6 @@ class GtkUI(GtkPluginBase, component.Component):
         d.addErrback(self._on_notify_failure, 'popup')
         return d
 
-    def _on_notify_sucess(self, result, kind):
-        log.debug("\n\nNotification success using %s: %s", kind, result)
-        return result
-
-    def _on_notify_failure(self, failure, kind):
-        log.debug("\n\nNotification failure using %s: %s", kind, failure)
-        return failure
-
     def _on_email_col_toggled(self, cell, path):
         self.subscriptions_model[path][SUB_NOT_EMAIL] = \
             not self.subscriptions_model[path][SUB_NOT_EMAIL]
@@ -517,4 +497,20 @@ class GtkUI(GtkPluginBase, component.Component):
         self.subscriptions_model[path][SUB_NOT_SOUND] = \
             not self.subscriptions_model[path][SUB_NOT_SOUND]
         return
+
+    def handle_custom_popup_notification(self, result):
+        title, message = result
+        return defer.maybeDeferred(self.__popup, title, message)
+
+    def handle_custom_blink_notification(self, result):
+        if result:
+            return defer.maybeDeferred(self.__blink)
+        return defer.succeed("Won't blink. The returned value from the custom "
+                             "handler was: %s", result)
+
+    def handle_custom_sound_notification(self, result):
+        if isinstance(result, basestring):
+            return defer.maybeDeferred(self.__play_sound, result)
+        return defer.succeed("Won't play sound. The returned value from the "
+                             "custom handler was: %s", result)
 
