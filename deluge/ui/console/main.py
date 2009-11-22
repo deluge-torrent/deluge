@@ -249,7 +249,7 @@ class ConsoleUI(component.Component):
 
         """
         self.batch_write = batch
-        if not batch and self.interactive:
+        if not batch:
             self.screen.refresh()
 
     def write(self, line):

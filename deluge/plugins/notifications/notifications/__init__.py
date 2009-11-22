@@ -1,7 +1,12 @@
 #
-# common.py
+# __init__.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+#
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,21 +36,23 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
 
+from deluge.plugins.init import PluginInitBase
 
-import pkg_resources
-import os.path
+class CorePlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from core import Core as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(CorePlugin, self).__init__(plugin_name)
 
-def get_resource(filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
+class GtkUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from gtkui import GtkUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(GtkUIPlugin, self).__init__(plugin_name)
 
-def raiseError(error):
-    def safer(func):
-        def new(self, *args, **kwargs):
-            try:
-                return func(self, *args, **kwargs)
-            except:
-                raise error
-        return new
-    return safer
+class WebUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from webui import WebUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(WebUIPlugin, self).__init__(plugin_name)

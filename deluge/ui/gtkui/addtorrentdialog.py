@@ -211,7 +211,7 @@ class AddTorrentDialog(component.Component):
             new_row = self.torrent_liststore.append(
                 [info.info_hash, info.name, filename])
             self.files[info.info_hash] = info.files
-            self.infos[info.info_hash] = info.filedata
+            self.infos[info.info_hash] = info.metadata
             self.listview_torrents.get_selection().select_iter(new_row)
 
             self.set_default_options()
@@ -226,11 +226,7 @@ class AddTorrentDialog(component.Component):
         new_row = None
 
         for uri in uris:
-            s = uri.split("&")[0][20:]
-            if len(s) == 32:
-                info_hash = base64.b32decode(s).encode("hex")
-            elif len(s) == 40:
-                info_hash = s
+            info_hash = base64.b32decode(uri.split("&")[0][20:]).encode("hex")
             if info_hash in self.infos:
                 log.debug("Torrent already in list!")
                 continue
@@ -720,6 +716,11 @@ class AddTorrentDialog(component.Component):
         if row is not None:
             self.save_torrent_options(row)
 
+        torrent_filenames = []
+        torrent_magnets = []
+        torrent_magnet_options = []
+        torrent_options = []
+
         row = self.torrent_liststore.get_iter_first()
         while row != None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
@@ -734,16 +735,26 @@ class AddTorrentDialog(component.Component):
                 options["file_priorities"] = file_priorities
 
             if deluge.common.is_magnet(filename):
+                torrent_magnets.append(filename)
                 del options["file_priorities"]
-                client.core.add_torrent_magnet(filename, options)
+                torrent_magnet_options.append(options)
             else:
-                client.core.add_torrent_file(
-                    os.path.split(filename)[-1],
-                    base64.encodestring(self.infos[torrent_id]),
-                    options)
+                torrent_filenames.append(filename)
+                torrent_options.append(options)
 
             row = self.torrent_liststore.iter_next(row)
 
+        if torrent_filenames:
+            for i, f in enumerate(torrent_filenames):
+                client.core.add_torrent_file(
+                    os.path.split(f)[-1],
+                    base64.encodestring(open(f, "rb").read()),
+                    torrent_options[i])
+        if torrent_magnets:
+            for i, m in enumerate(torrent_magnets):
+                client.core.add_torrent_magnet(m, torrent_magnet_options[i])
+
+        client.force_call(False)
         self.hide()
 
     def _on_button_apply_clicked(self, widget):

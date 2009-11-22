@@ -35,8 +35,6 @@
 
 """Common functions for various parts of gtkui to use."""
 
-import os
-
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade

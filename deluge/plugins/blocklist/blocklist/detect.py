@@ -77,4 +77,5 @@ def create_reader(format, compression=""):
         decompressor = DECOMPRESSERS.get(compression)
         if decompressor:
             reader = decompressor(reader)
+            
     return reader

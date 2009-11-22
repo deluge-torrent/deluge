@@ -309,7 +309,10 @@ Please see the details below for more information."), details=traceback.format_e
                                 dialogs.ErrorDialog(
                                     _("Error Starting Daemon"),
                                     _("There was an error starting the daemon process.  Try running it from a console to see if there is an error.")).run()
-
+                                
+                        # We'll try 30 reconnects at 500ms intervals
+                        try_counter = 30
+                        
                         def on_connect(connector):
                             component.start()
                         def on_connect_fail(result, try_counter):
@@ -320,15 +323,15 @@ Please see the details below for more information."), details=traceback.format_e
                                 try_counter -= 1
                                 import time
                                 time.sleep(0.5)
-                                do_connect(try_counter)
+                                do_connect()
                             return result
-
-                        def do_connect(try_counter):
+                            
+                        def do_connect():
                             client.connect(*host[1:]).addCallback(on_connect).addErrback(on_connect_fail, try_counter)
-
+                                                    
                         if try_connect:
-                            do_connect(6)
-                    break
+                            do_connect()
+                                                    
 
             if self.config["show_connection_manager_on_start"]:
                 # XXX: We need to call a simulate() here, but this could be a bug in twisted

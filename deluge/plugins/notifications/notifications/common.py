@@ -1,7 +1,12 @@
 #
 # common.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+#
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,21 +36,7 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
-
-
-import pkg_resources
-import os.path
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
-
-def raiseError(error):
-    def safer(func):
-        def new(self, *args, **kwargs):
-            try:
-                return func(self, *args, **kwargs)
-            except:
-                raise error
-        return new
-    return safer
+    import pkg_resources, os
+    return pkg_resources.resource_filename("notifications", os.path.join("data", filename))

@@ -1,7 +1,12 @@
 #
-# common.py
+# setup.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+#
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -31,21 +36,38 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
 
+from setuptools import setup
 
-import pkg_resources
-import os.path
+__plugin_name__ = "Notifications"
+__author__ = "Pedro Algarvio"
+__author_email__ = "ufs@ufsoft.org"
+__version__ = "0.1"
+__url__ = "http://dev.deluge-torrent.org/"
+__license__ = "GPLv3"
+__description__ = ""
+__long_description__ = """"""
+__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
-def get_resource(filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
+setup(
+    name=__plugin_name__,
+    version=__version__,
+    description=__description__,
+    author=__author__,
+    author_email=__author_email__,
+    url=__url__,
+    license=__license__,
+    long_description=__long_description__ if __long_description__ else __description__,
 
-def raiseError(error):
-    def safer(func):
-        def new(self, *args, **kwargs):
-            try:
-                return func(self, *args, **kwargs)
-            except:
-                raise error
-        return new
-    return safer
+    packages=[__plugin_name__.lower()],
+    package_data = __pkg_data__,
+
+    entry_points="""
+    [deluge.plugin.core]
+    %s = %s:CorePlugin
+    [deluge.plugin.gtkui]
+    %s = %s:GtkUIPlugin
+    [deluge.plugin.webui]
+    %s = %s:WebUIPlugin
+    """ % ((__plugin_name__, __plugin_name__.lower())*3)
+)

@@ -128,8 +128,6 @@ class Core(CorePluginBase):
         self.use_cache = False
         self.failed_attempts = 0
         self.auto_detected = False
-        if force:
-            self.reader = None
 
         # Start callback chain
         d = self.download_list()
@@ -220,8 +218,8 @@ class Core(CorePluginBase):
         if self.config["last_update"] and not self.force_download:
             headers['If-Modified-Since'] = self.config["last_update"]
 
-        log.debug("Attempting to download blocklist %s", url)
-        log.debug("Sending headers: %s", headers)
+        log.debug("Attempting to download blocklist %s" % url)
+        log.debug("Sending headers: %s" % headers)
         self.up_to_date = False
         self.is_downloading = True
         return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), on_retrieve_data, headers)
@@ -241,7 +239,7 @@ class Core(CorePluginBase):
             # Handle redirect errors
             location = error_msg.split(" to ")[1]
             if "Moved Permanently" in error_msg:
-                log.debug("Setting blocklist url to %s", location)
+                log.debug("Setting blocklist url to %s" % location)
                 self.config["url"] = location
             f.trap(f.type)
             d = self.download_list(url=location)
@@ -293,7 +291,7 @@ class Core(CorePluginBase):
             self.auto_detect(blocklist)
             self.auto_detected = True
 
-        log.debug("Importing using reader: %s", self.reader)
+        log.debug("Importing using reader: %s",self.reader)
         log.debug("Reader type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
         d.addCallback(on_finish_read)
@@ -329,7 +327,7 @@ class Core(CorePluginBase):
         elif os.path.exists(blocklist) and not self.use_cache:
            # If we have a backup and we haven't already used it
             e = f.trap(Exception)
-            log.warning("Error reading blocklist: %s", e)
+            log.warning("Error reading blocklist: ", e)
             self.use_cache = True
             try_again = True
 
@@ -349,7 +347,7 @@ class Core(CorePluginBase):
         """
         self.config["list_compression"] = detect_compression(blocklist)
         self.config["list_type"] = detect_format(blocklist, self.config["list_compression"])
-        log.debug("Auto-detected type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
+        log.debug("Auto-detected type: %s compression: %s", self.config["list_type"],  self.config["list_compression"])
         if not self.config["list_type"]:
             self.config["list_compression"] = ""
             raise UnknownFormatError

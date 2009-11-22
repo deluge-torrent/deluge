@@ -35,7 +35,7 @@
 
 
 import sys
-import os
+import os.path
 import base64
 
 import deluge.rencode
@@ -71,9 +71,7 @@ class IPCInterface(component.Component):
         _args = []
         for arg in args:
             if arg.strip():
-                if not deluge.common.is_magnet(arg) and not deluge.common.is_url(arg):
-                    arg = os.path.abspath(arg)
-                _args.append(arg)
+                _args.append(os.path.abspath(arg))
         args = _args
 
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
@@ -106,20 +104,6 @@ class IPCInterface(component.Component):
                 reactor.run()
                 sys.exit(0)
         else:
-            lockfile = socket + ".lock"
-            log.debug("Checking if lockfile exists: %s", lockfile)
-            if os.path.lexists(lockfile):
-                try:
-                    os.kill(int(os.readlink(lockfile)), 0)
-                except OSError:
-                    log.debug("Removing lockfile since it's stale.")
-                    try:
-                        os.remove(lockfile)
-                        os.remove(socket)
-                    except Exception, e:
-                        log.error("Problem deleting lockfile or socket file!")
-                        log.exception(e)
-
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer

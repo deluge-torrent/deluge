@@ -1,7 +1,12 @@
 #
-# common.py
+# webui.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+#
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -17,9 +22,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -31,21 +36,22 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 #
-#
 
+from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge import component
+from deluge.plugins.pluginbase import WebPluginBase
 
-import pkg_resources
-import os.path
+# Relative imports
+from common import get_resource
+from manager import Notifications
 
-def get_resource(filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
+class WebUI(WebPluginBase, Notifications):
 
-def raiseError(error):
-    def safer(func):
-        def new(self, *args, **kwargs):
-            try:
-                return func(self, *args, **kwargs)
-            except:
-                raise error
-        return new
-    return safer
+    scripts = [get_resource("notifications.js")]
+
+    def enable(self):
+        Notifications.enable(self)
+
+    def disable(self):
+        Notifications.disable(self)
