@@ -112,7 +112,7 @@ class Core(CorePluginBase, CustomNotifications):
         log.debug("Handled Notification Events: %s", handled_events)
         return handled_events
 
-    def handle_custom_email_notification(self, result):
+    def handle_custom_email_notification(self, result, eventtype):
         if not self.config['smtp_enabled']:
             return defer.succeed("SMTP notification not enabled.")
         subject, message = result
@@ -204,17 +204,9 @@ Subject: %(subject)s
             "Thank you,\nDeluge."
         ) % torrent_status
 
-        d = defer.maybeDeferred(self._prepare_email, [subject, message])
-        d.addCallback(self._on_notify_sucess)
-        d.addErrback(self._on_notify_failure)
+        d = defer.maybeDeferred(self.handle_custom_email_notification,
+                                [subject, message],
+                                "TorrentFinishedEvent")
+        d.addCallback(self._on_notify_sucess, 'email')
+        d.addErrback(self._on_notify_failure, 'email')
         return d
-
-
-#    def _on_notify_sucess(self, result):
-#        log.debug("\n\nEMAIL Notification success: %s", result)
-#        return result
-#
-#
-#    def _on_notify_failure(self, failure):
-#        log.debug("\n\nEMAIL Notification failure: %s", failure)
-#        return failure

@@ -68,19 +68,19 @@ class CustomNotifications(component.Component):
                 self.__deregister_custom_provider(kind, eventtype)
 
 
-    def handle_custom_email_notification(self, result):
+    def handle_custom_email_notification(self, result, eventtype):
         raise NotImplementedError("%s does not implement this function" %
                                   self.__class__.__name__)
 
-    def handle_custom_popup_notification(self, result):
+    def handle_custom_popup_notification(self, result, eventtype):
         raise NotImplementedError("%s does not implement this function" %
                                   self.__class__.__name__)
 
-    def handle_custom_blink_notification(self, result):
+    def handle_custom_blink_notification(self, result, eventtype):
         raise NotImplementedError("%s does not implement this function" %
                                   self.__class__.__name__)
 
-    def handle_custom_sound_notification(self, result):
+    def handle_custom_sound_notification(self, result, eventtype):
         raise NotImplementedError("%s does not implement this function" %
                                   self.__class__.__name__)
 
@@ -164,15 +164,15 @@ class CustomNotifications(component.Component):
         self.__deregister_custom_provider('sound', eventtype)
 
     def __handle_custom_providers(self, kind, eventtype, *args, **kwargs):
-        log.debug("\n\nCalling CORE's custom email providers for %s: %s %s",
-                  eventtype, args, kwargs)
+        log.debug("\n\nCalling CORE's custom %s providers for %s: %s %s",
+                  kind, eventtype, args, kwargs)
         if eventtype in self.config["subscriptions"][kind]:
             wrapper, handler = self.custom_notifications[kind][eventtype]
             log.debug("Found handler for kind %s: %s", kind, handler)
             custom_notif_func = getattr(self,
                                         'handle_custom_%s_notification' % kind)
             d = defer.maybeDeferred(handler, *args, **kwargs)
-            d.addCallback(custom_notif_func)
+            d.addCallback(custom_notif_func, eventtype)
             d.addCallback(self._on_notify_sucess, kind)
             d.addErrback(self._on_notify_failure, kind)
             return d

@@ -50,20 +50,18 @@ class TestEmailNotifications(component.Component):
                     self.custom_sound_message_provider
                 )
 
-        self.lc.start(15, False)
+        self.lc.start(60, False)
 
     def disable(self):
         log.debug("\n\nDisabling %s", self.__class__.__name__)
         self.lc.stop()
 
     def update(self):
-        log.debug("\n\nUpdating %s", self.__class__.__name__)
-        self.events.append(self.events.pop(0)) # Re-Queue
-        self.n += 1
-        try:
+        if self.__imp == 'core':
+            log.debug("\n\nUpdating %s", self.__class__.__name__)
+            self.events.append(self.events.pop(0)) # Re-Queue
+            self.n += 1
             component.get("EventManager").emit(self.events[0])
-        except KeyError:
-            pass
 
     def custom_email_message_provider(self, *evt_args, **evt_kwargs):
         log.debug("Running custom email message provider: %s %s", evt_args, evt_kwargs)
@@ -83,4 +81,5 @@ class TestEmailNotifications(component.Component):
 
     def custom_sound_message_provider(self, *evt_args, **evt_kwargs):
         log.debug("Running custom sound message provider: %s %s", evt_args, evt_kwargs)
+        return ''
         return '/usr/share/kde4/apps/korganizer/sounds/alert.wav'
