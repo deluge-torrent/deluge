@@ -40,10 +40,15 @@
 import smtplib
 from twisted.internet import defer, threads
 from deluge import component
-from deluge.event import known_events
 from deluge.log import LOG as log
 from deluge.ui.client import client
 import deluge.common
+
+try:
+    from deluge.event import known_events
+except ImportError:
+    # Old deluge version
+    known_events = {}
 
 try:
     import pygame
