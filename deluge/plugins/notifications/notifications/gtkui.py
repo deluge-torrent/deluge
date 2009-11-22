@@ -41,7 +41,6 @@ from os.path import basename
 import gtk
 
 from twisted.internet import defer
-from deluge.event import known_events, DelugeEvent
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
@@ -49,21 +48,9 @@ import deluge.component as component
 import deluge.common
 import deluge.configmanager
 
-try:
-    import pygame
-    SOUND_AVAILABLE = True
-except ImportError:
-    SOUND_AVAILABLE = False
-
-try:
-    import pynotify
-    POPUP_AVAILABLE = True
-except ImportError:
-    POPUP_AVAILABLE = False
-
 # Relative imports
-from common import get_resource, CustomNotifications
-from test import TestEmailNotifications
+from notifications.common import (get_resource, GtkUiNotifications,
+                                  SOUND_AVAILABLE, POPUP_AVAILABLE)
 
 DEFAULT_PREFS = {
     # BLINK
@@ -90,11 +77,10 @@ RECIPIENT_FIELD, RECIPIENT_EDIT = range(2)
 SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = range(4)
 
 
-class GtkUI(GtkPluginBase, CustomNotifications):
+class GtkUI(GtkPluginBase, GtkUiNotifications):
     def __init__(self, plugin_name):
         GtkPluginBase.__init__(self, plugin_name)
-        CustomNotifications.__init__(self, 'gtk')
-        self.tn = TestEmailNotifications('gtk')
+        GtkUiNotifications.__init__(self)
 
     def enable(self):
         self.config = deluge.configmanager.ConfigManager(
@@ -127,7 +113,6 @@ class GtkUI(GtkPluginBase, CustomNotifications):
             'on_sound_path_update_preview': self.on_sound_path_update_preview
         })
 
-#        component.get("Preferences").add_page("Notifications", self.prefs)
         prefs = component.get("Preferences")
         parent = self.prefs.get_parent()
         if parent:
@@ -154,10 +139,15 @@ class GtkUI(GtkPluginBase, CustomNotifications):
             self.glade.get_widget('blink_enabled').set_property('sensitive',
                                                                 False)
 
-        client.register_event_handler("TorrentFinishedEvent",
-                                      self._on_torrent_finished_event)
+        GtkUiNotifications.enable(self)
 
-        self.tn.enable()
+    def disable(self):
+        GtkUiNotifications.disable(self)
+        component.get("Preferences").remove_page("Notifications")
+        component.get("PluginManager").deregister_hook("on_apply_prefs",
+                                                       self.on_apply_prefs)
+        component.get("PluginManager").deregister_hook("on_show_prefs",
+                                                       self.on_show_prefs)
 
     def build_recipients_model_populate_treeview(self):
         # SMTP Recipients treeview/model
@@ -238,58 +228,34 @@ class GtkUI(GtkPluginBase, CustomNotifications):
         column.set_property('visible', False)
         self.subscriptions_treeview.append_column(column)
 
-
         renderer = gtk.CellRendererToggle()
         renderer.set_property('activatable', True)
         renderer.connect('toggled', self._on_email_col_toggled)
         column = gtk.TreeViewColumn("Email", renderer, active=SUB_NOT_EMAIL)
         column.set_clickable(True)
-#        column.add_attribute(renderer, "active", False)
-#        column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = gtk.CellRendererToggle()
-#        renderer.connect("edited", self.on_cell_edited, self.recipients_model)
-#        renderer.set_data("popup", SUB_NOT_POPUP)
         renderer.set_property('activatable', True)
         renderer.connect( 'toggled', self._on_popup_col_toggled)
         column = gtk.TreeViewColumn("Popup", renderer, active=SUB_NOT_POPUP)
         column.set_clickable(True)
-#        column.add_attribute(renderer, "active", False)
-#        column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = gtk.CellRendererToggle()
-#        renderer.connect("edited", self.on_cell_edited, self.recipients_model)
-#        renderer.set_data("blink", SUB_NOT_BLINK)
         renderer.set_property('activatable', True)
         renderer.connect( 'toggled', self._on_blink_col_toggled)
         column = gtk.TreeViewColumn("Blink", renderer, active=SUB_NOT_BLINK)
         column.set_clickable(True)
-#        column.add_attribute(renderer, "active", False)
-#        column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
 
         renderer = gtk.CellRendererToggle()
-#        renderer.connect("edited", self.on_cell_edited, self.recipients_model)
         renderer.set_property('activatable', True)
         renderer.connect('toggled', self._on_sound_col_toggled)
-#        renderer.set_data("sound", SUB_NOT_SOUND)
         column = gtk.TreeViewColumn("Sound", renderer, active=SUB_NOT_SOUND)
         column.set_clickable(True)
-#        column.add_attribute(renderer, "active", False)
-#        column.set_expand(True)
         self.subscriptions_treeview.append_column(column)
         self.subscriptions_treeview.set_model(self.subscriptions_model)
-
-    def disable(self):
-        self.tn.disable()
-        CustomNotifications.disable(self)
-        component.get("Preferences").remove_page("Notifications")
-        component.get("PluginManager").deregister_hook("on_apply_prefs",
-                                                       self.on_apply_prefs)
-        component.get("PluginManager").deregister_hook("on_show_prefs",
-                                                       self.on_show_prefs)
 
     def popuplate_what_needs_handled_events(self, handled_events,
                                             email_subscriptions=[]):
@@ -344,12 +310,14 @@ class GtkUI(GtkPluginBase, CustomNotifications):
             if sound:
                 current_sound_subscriptions.append(event)
 
-        default_sound_file = self.glade.get_widget("sound_path").get_filename()
-        log.debug("Default sound file: %s", default_sound_file)
+        old_sound_file = self.config['sound_path']
+        new_sound_file = self.glade.get_widget("sound_path").get_filename()
+        log.debug("Old Default sound file: %s New one: %s",
+                  old_sound_file, new_sound_file)
         custom_sounds = {}
         for event_name, event_doc, filename, filepath in self.sounds_model:
             log.debug("Custom sound for event \"%s\": %s", event_name, filename)
-            if filepath == default_sound_file:
+            if filepath == old_sound_file:
                 continue
             custom_sounds[event_name] = filepath
         log.debug(custom_sounds)
@@ -358,7 +326,7 @@ class GtkUI(GtkPluginBase, CustomNotifications):
             "popup_enabled": self.glade.get_widget("popup_enabled").get_active(),
             "blink_enabled": self.glade.get_widget("blink_enabled").get_active(),
             "sound_enabled": self.glade.get_widget("sound_enabled").get_active(),
-            "sound_path": default_sound_file,
+            "sound_path": new_sound_file,
             "subscriptions": {
                 "popup": current_popup_subscriptions,
                 "blink": current_blink_subscriptions,
@@ -542,90 +510,6 @@ class GtkUI(GtkPluginBase, CustomNotifications):
         else:
             self.glade.get_widget('sound_path').set_property('sensitive', False)
 
-    def on_sounds_treeview_clicked(self, widget, event):
-        if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
-            selection = self.sounds_treeview.get_selection()
-            print "Double clicked on treeview", selection
-
-
-
-    def __blink(self):
-        self.systray.blink(True)
-        return defer.succeed(_("Notification Blink shown"))
-
-    def __popup(self, title='', message=''):
-        if not self.config['popup_enabled']:
-            return defer.succeed(_("Popup notification is not enabled."))
-        if not POPUP_AVAILABLE:
-            return defer.fail(_("pynotify is not installed"))
-
-        if pynotify.init("Deluge"):
-            icon = gtk.gdk.pixbuf_new_from_file_at_size(
-                            deluge.common.get_pixmap("deluge.svg"), 48, 48)
-            self.note = pynotify.Notification(title, message)
-            self.note.set_icon_from_pixbuf(icon)
-            if not self.note.show():
-                err_msg = _("pynotify failed to show notification")
-                log.warning(err_msg)
-                return defer.fail(err_msg)
-        return defer.succeed(_("Notification popup shown"))
-
-    def __play_sound(self, sound_path=''):
-        if not self.config['sound_enabled']:
-            return defer.succeed(_("Sound notification not enabled"))
-        if not SOUND_AVAILABLE:
-            err_msg = _("pygame is not installed")
-            log.warning(err_msg)
-            return defer.fail(err_msg)
-
-        pygame.init()
-        try:
-            if not sound_path:
-                sound_path = self.config['sound_path']
-            alert_sound = pygame.mixer.music
-            alert_sound.load(sound_path)
-            alert_sound.play()
-        except pygame.error, message:
-            err_msg = _("Sound notification failed %s") % (message)
-            log.warning(err_msg)
-            return defer.fail(err_msg)
-        else:
-            msg = _("Sound notification Success")
-            log.info(msg)
-            return defer.succeed(msg)
-
-    # Internal methods
-    def _on_torrent_finished_event(self, torrent_id):
-        log.debug("\n\nhandler for TorrentFinishedEvent GTKUI called")
-        # Blink
-        d0 = defer.maybeDeferred(self.__blink)
-        d0.addCallback(self._on_notify_sucess, 'blink')
-        d0.addErrback(self._on_notify_failure, 'blink')
-        log.debug("Blink notification callback yielded")
-        # Sound
-        d1 = defer.maybeDeferred(self.__play_sound)
-        d1.addCallback(self._on_notify_sucess, 'sound')
-        d1.addErrback(self._on_notify_failure, 'sound')
-        log.debug("Sound notification callback yielded")
-        # Popup
-        d2 = client.core.get_torrent_status(torrent_id, ["name", "num_files"])
-        d2.addCallback(self._on_torrent_finished_event_got_torrent_status)
-        d2.addErrback(self._on_torrent_finished_event_torrent_status_failure)
-        return defer.succeed("\n\nGtkUI on torrent finished")
-
-    def _on_torrent_finished_event_torrent_status_failure(self, failure):
-        log.debug("Failed to get torrent status to be able to show the popup")
-
-    def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
-        log.debug("\n\nhandler for TorrentFinishedEvent GTKUI called. Torrent Status")
-        title = _("Finished Torrent")
-        message = _("The torrent \"%(name)s\" including %(num_files)i "
-                    "has finished downloading.") % torrent_status
-        d = defer.maybeDeferred(self.__popup, title, message)
-        d.addCallback(self._on_notify_sucess, 'popup')
-        d.addErrback(self._on_notify_failure, 'popup')
-        return d
-
     def _on_email_col_toggled(self, cell, path):
         self.subscriptions_model[path][SUB_NOT_EMAIL] = \
             not self.subscriptions_model[path][SUB_NOT_EMAIL]
@@ -645,23 +529,4 @@ class GtkUI(GtkPluginBase, CustomNotifications):
         self.subscriptions_model[path][SUB_NOT_SOUND] = \
             not self.subscriptions_model[path][SUB_NOT_SOUND]
         return
-
-    def handle_custom_popup_notification(self, result, eventtype):
-        title, message = result
-        return defer.maybeDeferred(self.__popup, title, message)
-
-    def handle_custom_blink_notification(self, result, eventtype):
-        if result:
-            return defer.maybeDeferred(self.__blink)
-        return defer.succeed("Won't blink. The returned value from the custom "
-                             "handler was: %s", result)
-
-    def handle_custom_sound_notification(self, result, eventtype):
-        if isinstance(result, basestring):
-            if not result and eventtype in self.config['custom_sounds']:
-                return defer.maybeDeferred(
-                    self.__play_sound, self.config['custom_sounds'][eventtype])
-            return defer.maybeDeferred(self.__play_sound, result)
-        return defer.succeed("Won't play sound. The returned value from the "
-                             "custom handler was: %s", result)
 

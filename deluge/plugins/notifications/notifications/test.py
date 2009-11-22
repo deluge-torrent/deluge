@@ -6,7 +6,7 @@
 # License: BSD - Please view the LICENSE file for additional information.
 # ==============================================================================
 
-from twisted.internet import task
+from twisted.internet import reactor, task
 from deluge import component
 from deluge.event import DelugeEvent
 from deluge.log import LOG as log
@@ -32,20 +32,22 @@ class TestEmailNotifications(component.Component):
         log.debug("\n\nEnabling %s", self.__class__.__name__)
         for event in self.events:
             if self.__imp == 'core':
+#                component.get("CorePlugin.Notifications").register_custom_email_notification(
                 component.get("Notifications").register_custom_email_notification(
                     event.__class__.__name__,
                     self.custom_email_message_provider
                 )
             elif self.__imp == 'gtk':
-                component.get("Notifications").register_custom_popup_notification(
+                notifications_component = component.get("Notifications")
+                notifications_component.register_custom_popup_notification(
                     event.__class__.__name__,
                     self.custom_popup_message_provider
                 )
-                component.get("Notifications").register_custom_blink_notification(
+                notifications_component.register_custom_blink_notification(
                     event.__class__.__name__,
                     self.custom_blink_message_provider
                 )
-                component.get("Notifications").register_custom_sound_notification(
+                notifications_component.register_custom_sound_notification(
                     event.__class__.__name__,
                     self.custom_sound_message_provider
                 )

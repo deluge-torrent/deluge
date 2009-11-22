@@ -37,17 +37,12 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-import smtplib
-from twisted.internet import defer, threads
-from deluge.event import known_events
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
-import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-from test import TestEmailNotifications
-from common import CustomNotifications
+from notifications.common import CoreNotifications
 
 DEFAULT_PREFS = {
     "smtp_enabled": False,
@@ -64,28 +59,20 @@ DEFAULT_PREFS = {
     }
 }
 
-class Core(CorePluginBase, CustomNotifications):
+class Core(CorePluginBase, CoreNotifications):
     def __init__(self, plugin_name):
         CorePluginBase.__init__(self, plugin_name)
-        CustomNotifications.__init__(self, 'core')
-        self.tn = TestEmailNotifications('core')
+        CoreNotifications.__init__(self)
 
     def enable(self):
+        CoreNotifications.enable(self)
         self.config = deluge.configmanager.ConfigManager(
             "notifications-core.conf", DEFAULT_PREFS)
-        component.get("EventManager").register_event_handler(
-            "TorrentFinishedEvent", self._on_torrent_finished_event
-        )
         log.debug("\n\nENABLING CORE NOTIFICATIONS\n\n")
-        self.tn.enable()
 
     def disable(self):
-        self.tn.disable()
         log.debug("\n\nDISABLING CORE NOTIFICATIONS\n\n")
-        CustomNotifications.disable(self)
-
-    def update(self):
-        pass
+        CoreNotifications.disable(self)
 
     @export
     def set_config(self, config):
@@ -101,112 +88,4 @@ class Core(CorePluginBase, CustomNotifications):
 
     @export
     def get_handled_events(self):
-        handled_events = []
-        for evt in sorted(known_events.keys()):
-            if known_events[evt].__module__.startswith('deluge.event'):
-                if evt not in ('TorrentFinishedEvent',):
-                    # Skip the base class for all events
-                    continue
-            classdoc = known_events[evt].__doc__.strip()
-            handled_events.append((evt, classdoc))
-        log.debug("Handled Notification Events: %s", handled_events)
-        return handled_events
-
-    def handle_custom_email_notification(self, result, eventtype):
-        if not self.config['smtp_enabled']:
-            return defer.succeed("SMTP notification not enabled.")
-        subject, message = result
-        log.debug("\n\nSending email with subject: %s: %s", subject, message)
-        return threads.deferToThread(self._notify_email, subject, message)
-
-
-    def _notify_email(self, subject='', message=''):
-        log.debug("Email prepared")
-        config = self.config
-        to_addrs = '; '.join(config['smtp_recipients'])
-        headers = """\
-From: %(smtp_from)s
-To: %(smtp_recipients)s
-Subject: %(subject)s
-
-
-""" % {'smtp_from': config['smtp_from'],
-       'subject': subject,
-       'smtp_recipients': to_addrs}
-
-        message = '\r\n'.join((headers + message).splitlines())
-
-        try:
-            server = smtplib.SMTP(config["smtp_host"], config["smtp_port"])
-        except Exception, err:
-            err_msg = _("There was an error sending the notification email:"
-                        " %s") % err
-            log.error(err_msg)
-            return err
-
-        security_enabled = config['smtp_tls']
-
-        if security_enabled:
-            server.ehlo()
-            if not server.esmtp_features.has_key('starttls'):
-                log.warning("TLS/SSL enabled but server does not support it")
-            else:
-                server.starttls()
-                server.ehlo()
-
-        if config['smtp_user'] and config['smtp_pass']:
-            try:
-                server.login(config['smtp_user'], config['smtp_pass'])
-            except smtplib.SMTPHeloError, err:
-                err_msg = _("The server didn't reply properly to the helo "
-                            "greeting: %s") % err
-                log.error(err_msg)
-                return err
-            except smtplib.SMTPAuthenticationError, err:
-                err_msg = _("The server didn't accept the username/password "
-                            "combination: %s") % err
-                log.error(err_msg)
-                return err
-
-        try:
-            try:
-                server.sendmail(config['smtp_from'], to_addrs, message)
-            except smtplib.SMTPException, err:
-                err_msg = _("There was an error sending the notification email:"
-                            " %s") % err
-                log.error(err_msg)
-                return err
-        finally:
-            if security_enabled:
-                # avoid false failure detection when the server closes
-                # the SMTP connection with TLS enabled
-                import socket
-                try:
-                    server.quit()
-                except socket.sslerror:
-                    pass
-            else:
-                server.quit()
-        return _("Notification email sent.")
-
-
-    def _on_torrent_finished_event(self, torrent_id):
-        log.debug("\n\nHandler for TorrentFinishedEvent called for CORE")
-        torrent = component.get("TorrentManager")[torrent_id]
-        torrent_status = torrent.get_status({})
-        # Email
-        subject = _("Finished Torrent \"%(name)s\"") % torrent_status
-        message = _(
-            "This email is to inform you that Deluge has finished "
-            "downloading \"%(name)s\", which includes %(num_files)i files."
-            "\nTo stop receiving these alerts, simply turn off email "
-            "notification in Deluge's preferences.\n\n"
-            "Thank you,\nDeluge."
-        ) % torrent_status
-
-        d = defer.maybeDeferred(self.handle_custom_email_notification,
-                                [subject, message],
-                                "TorrentFinishedEvent")
-        d.addCallback(self._on_notify_sucess, 'email')
-        d.addErrback(self._on_notify_failure, 'email')
-        return d
+        return CoreNotifications.get_handled_events(self)
