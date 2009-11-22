@@ -107,15 +107,18 @@ class CustomNotifications(object):
             client.register_event_handler(eventtype, wrapper)
 
     def _deregister_custom_provider(self, kind, eventtype):
-        wrapper, handler = self.custom_notifications[kind][eventtype]
         try:
-            component.get("EventManager").deregister_event_handler(
-                eventtype, wrapper
-            )
+            wrapper, handler = self.custom_notifications[kind][eventtype]
+            try:
+                component.get("EventManager").deregister_event_handler(
+                    eventtype, wrapper
+                )
+            except KeyError:
+                from deluge.ui.client import client
+                client.deregister_event_handler(eventtype, wrapper)
+            self.custom_notifications[kind].pop(eventtype)
         except KeyError:
-            from deluge.ui.client import client
-            client.deregister_event_handler(eventtype, wrapper)
-        self.custom_notifications[kind].pop(eventtype)
+            pass
 
     def _handled_eventtype(self, eventtype, handler):
         if eventtype not in known_events:

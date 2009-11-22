@@ -454,7 +454,7 @@
                           </widget>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label10">
+                          <widget class="GtkLabel" id="settings_page_label">
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">Settings</property>
                           </widget>
@@ -507,7 +507,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label11">
+                          <widget class="GtkLabel" id="subscriptions_page_label">
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">Subscriptions</property>
                           </widget>
@@ -518,7 +518,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkVBox" id="vbox6">
+                          <widget class="GtkVBox" id="sounds_page">
                             <property name="visible">True</property>
                             <property name="orientation">vertical</property>
                             <child>
@@ -588,7 +588,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label13">
+                          <widget class="GtkLabel" id="sounds_page_label">
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">Sound Customization</property>
                           </widget>

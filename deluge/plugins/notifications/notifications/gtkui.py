@@ -295,9 +295,17 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             self.glade.get_widget("popup_enabled").set_property('sensitive',
                                                                 False)
         if not SOUND_AVAILABLE:
+#            for widget_name in ('sound_enabled', 'sound_path', 'sounds_page',
+#                                'sounds_page_label'):
+#                self.glade.get_widget(widget_name).set_property('sensitive',
+#                                                                False)
             self.glade.get_widget("sound_enabled").set_property('sensitive',
                                                                 False)
             self.glade.get_widget('sound_path').set_property('sensitive', False)
+            self.glade.get_widget('sounds_page').set_property('sensitive',
+                                                              False)
+            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+                                                                    False)
 
         self.systray = component.get("SystemTray")
         if not hasattr(self.systray, 'tray'):
@@ -654,23 +662,29 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             log.debug("dialog should have been shown")
 
     def on_enabled_toggled(self, widget):
-        if widget.get_active():
-            for widget in ('smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
-                           'smtp_pass', 'smtp_tls', 'smtp_from',
-                           'smtp_recipients'):
-                self.glade.get_widget(widget).set_property('sensitive', True)
-        else:
-            for widget in ('smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
-                           'smtp_pass', 'smtp_tls', 'smtp_from',
-                           'smtp_recipients'):
-                self.glade.get_widget(widget).set_property('sensitive', False)
-
+        for widget_name in ('smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
+                            'smtp_pass', 'smtp_tls', 'smtp_from',
+                            'smtp_recipients'):
+            self.glade.get_widget(widget_name).set_property('sensitive',
+                                                            widget.get_active())
 
     def on_sound_enabled_toggled(self, widget):
         if widget.get_active():
             self.glade.get_widget('sound_path').set_property('sensitive', True)
+            self.glade.get_widget('sounds_page').set_property('sensitive',
+                                                              True)
+            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+                                                                    True)
         else:
             self.glade.get_widget('sound_path').set_property('sensitive', False)
+            self.glade.get_widget('sounds_page').set_property('sensitive',
+                                                              False)
+            self.glade.get_widget('sounds_page_label').set_property('sensitive',
+                                                                    False)
+
+#        for widget_name in ('sounds_path', 'sounds_page', 'sounds_page_label'):
+#            self.glade.get_widget(widget_name).set_property('sensitive',
+#                                                            widget.get_active())
 
     def _on_email_col_toggled(self, cell, path):
         self.subscriptions_model[path][SUB_NOT_EMAIL] = \
