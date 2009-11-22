@@ -39,20 +39,16 @@
 
 import smtplib
 from twisted.internet import defer, threads
+from deluge.event import known_events, DelugeEvent
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-# Relative imports
-from manager import Notifications
-import events
+from test import TestEmailNotifications
 
 DEFAULT_PREFS = {
-    # BLINK
-    "blink_enabled": False,
-    # EMAIL
     "smtp_enabled": False,
     "smtp_host": "",
     "smtp_port": 25,
@@ -61,29 +57,36 @@ DEFAULT_PREFS = {
     "smtp_from": "",
     "smtp_tls": False, # SSL or TLS
     "smtp_recipients": [],
-    # FLASH
-    "flash_enabled": False,
-    # POPUP
-    "popup_enabled": False,
-    # SOUND
-    "sound_enabled": False,
-    "sound_path": ""
+    # Subscriptions
+    "subscriptions": {
+        "email": []
+    }
 }
 
+class Core(CorePluginBase, component.Component):
+    def __init__(self, plugin_name):
+        CorePluginBase.__init__(self, plugin_name)
+        component.Component.__init__(self, "Notifications")
+        self.email_message_providers = {}
+        self.tn = TestEmailNotifications()
 
-class Core(CorePluginBase, Notifications):
     def enable(self):
-        Notifications.enable(self)
-        self.config = deluge.configmanager.ConfigManager("notifications.conf",
-                                                         DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager(
+            "notifications-core.conf", DEFAULT_PREFS)
         component.get("EventManager").register_event_handler(
             "TorrentFinishedEvent", self._on_torrent_finished_event
         )
         log.debug("\n\nENABLING CORE NOTIFICATIONS\n\n")
+        self.tn.enable()
+#        import sys
+#        print '\n\n', [(n, k.__module__) for n, k in known_events.items()]
+#        print [f for f in sys.modules.keys() if f.startswith("deluge.event")]
 
     def disable(self):
-        Notifications.disable(self)
+        self.tn.disable()
         log.debug("\n\nDISABLING CORE NOTIFICATIONS\n\n")
+        for eventtype in self.email_message_providers.keys():
+            self.deregister_email_message_provider(eventtype)
 
     def update(self):
         pass
@@ -100,65 +103,87 @@ class Core(CorePluginBase, Notifications):
         "returns the config dictionary"
         return self.config.config
 
-    # Notification methods
     @export
-    def notify_blink(self):
-        if not self.config["blink_enabled"]:
-            return defer.succeed("Blink notification not enabled")
-        return defer.maybeDeferred(
-            component.get("EventManager").emit, events.NotificationBlinkEvent())
+    def get_handled_events(self):
+        handled_events = []
+        for evt in sorted(known_events.keys()):
+            if known_events[evt].__module__.startswith('deluge.event'):
+                if evt not in ('TorrentFinishedEvent',):
+                    # Skip the base class for all events
+                    continue
+            classdoc = known_events[evt].__doc__.strip()
+            handled_events.append((evt, classdoc))
+        log.debug("Handled Notification Events: %s", handled_events)
+        return handled_events
 
-    @export
-    def notify_email(self, title='', message='', smtp_from='', recipients=[]):
+    def register_email_message_provider(self, eventtype, handler):
+        """This is used to register email formatters for custom event types.
+
+        :param event: str, the event name
+        :param handler: function, to be called when `:param:event` is emitted
+
+        You're handler should return a tuple of (subject, email_contents).
+        """
+        if eventtype not in known_events:
+            raise Exception("The event \"%s\" is not known" % eventtype)
+        if known_events[eventtype].__module__.startswith('deluge.event'):
+            raise Exception("You cannot register email message providers for "
+                            "built-in event types.")
+        if eventtype not in self.email_message_providers:
+            def wrapper(*args, **kwargs):
+                return self._handle_custom_email_message_providers(eventtype,
+                                                                   *args,
+                                                                   **kwargs)
+            self.email_message_providers[eventtype] = (wrapper, handler)
+        else:
+            wrapper, handler = self.email_message_providers[eventtype]
+        component.get("EventManager").register_event_handler(
+            eventtype, wrapper
+        )
+
+    def deregister_email_message_provider(self, eventtype):
+        wrapper, handler = self.email_message_providers[eventtype]
+        component.get("EventManager").deregister_event_handler(
+            eventtype, wrapper
+        )
+        self.email_message_providers.pop(eventtype)
+
+    def _handle_custom_email_message_providers(self, event, *args, **kwargs):
         if not self.config['smtp_enabled']:
-            return defer.succeed("SMTP notification not enabled")
-        d = threads.deferToThread(self._notify_email, title, message, smtp_from,
-                                  recipients)
-        d.addCallback(self._on_notify_sucess, 'email')
-        d.addErrback(self._on_notify_failure, 'email')
-        return d
+            return defer.succeed("SMTP notification not enabled.")
 
-    @export
-    def notify_flash(self, title='', message=''):
-        if not self.config["flash_enabled"]:
-            return defer.succeed("Flash notification not enabled")
-        d = defer.maybeDeferred(component.get("EventManager").emit,
-                                events.NotificationFlashEvent(title, message))
-        d.addCallback(self._on_notify_event_sucess, 'flash')
-        d.addErrback(self._on_notify_event_failure, 'flash')
-        return d
+        log.debug("\n\nCalling CORE's custom email providers for %s: %s %s",
+                  event, args, kwargs)
+        if event in self.config["subscriptions"]["email"]:
+            wrapper, handler = self.email_message_providers[event]
+            log.debug("Found handler: %s", handler)
+            d = defer.maybeDeferred(handler, *args, **kwargs)
+            d.addCallback(self._prepare_email)
+            d.addCallback(self._on_notify_sucess)
+            d.addErrback(self._on_notify_failure)
+            return d
 
-    @export
-    def notify_popup(self, title='', message=''):
-        if not self.config["popup_enabled"]:
-            return defer.succeed("Popup notification not enabled")
-        d = defer.maybeDeferred(component.get("EventManager").emit,
-                                events.NotificationPopupEvent(title, message))
-        d.addCallback(self._on_notify_event_sucess, 'popup')
-        d.addErrback(self._on_notify_event_failure, 'popup')
-        return d
 
-    @export
-    def notify_sound(self, sound_path=''):
-        if not self.config["sound_enabled"]:
-            return defer.succeed("Sound notification not enabled")
-        d = defer.maybeDeferred(component.get("EventManager").emit,
-                                events.NotificationSoundEvent(sound_path))
-        d.addCallback(self._on_notify_event_sucess, 'sound')
-        d.addErrback(self._on_notify_event_failure, 'sound')
-        return d
+    def _prepare_email(self, result):
+        if not self.config['smtp_enabled']:
+            return defer.succeed("SMTP notification not enabled.")
+        subject, message = result
+        log.debug("\n\nSending email with subject: %s: %s", subject, message)
+        return threads.deferToThread(self._notify_email, subject, message)
 
-    def _notify_email(self, title='', message='', smtp_from='', recipients=[]):
+
+    def _notify_email(self, subject='', message=''):
+        log.debug("Email prepared")
         config = self.config
-        to_addrs = '; '.join(config['smtp_recipients']+recipients)
+        to_addrs = '; '.join(config['smtp_recipients'])
         headers = """\
 From: %(smtp_from)s
 To: %(smtp_recipients)s
-Subject: %(title)s
+Subject: %(subject)s
 
 
-""" % {'smtp_from': smtp_from and smtp_from or config['smtp_from'],
-       'title': title,
+""" % {'smtp_from': config['smtp_from'],
+       'subject': subject,
        'smtp_recipients': to_addrs}
 
         message = '\r\n'.join((headers + message).splitlines())
@@ -169,7 +194,7 @@ Subject: %(title)s
             err_msg = _("There was an error sending the notification email:"
                         " %s") % err
             log.error(err_msg)
-            raise err
+            return err
 
         security_enabled = config['smtp_tls']
 
@@ -188,12 +213,12 @@ Subject: %(title)s
                 err_msg = _("The server didn't reply properly to the helo "
                             "greeting: %s") % err
                 log.error(err_msg)
-                raise err
+                return err
             except smtplib.SMTPAuthenticationError, err:
                 err_msg = _("The server didn't accept the username/password "
                             "combination: %s") % err
                 log.error(err_msg)
-                raise err
+                return err
 
         try:
             try:
@@ -202,7 +227,7 @@ Subject: %(title)s
                 err_msg = _("There was an error sending the notification email:"
                             " %s") % err
                 log.error(err_msg)
-                raise err
+                return err
         finally:
             if security_enabled:
                 # avoid false failure detection when the server closes
@@ -216,12 +241,13 @@ Subject: %(title)s
                 server.quit()
         return _("Notification email sent.")
 
+
     def _on_torrent_finished_event(self, torrent_id):
-        log.debug("\n\nhandler for TorrentFinishedEvent called for CORE")
+        log.debug("\n\nHandler for TorrentFinishedEvent called for CORE")
         torrent = component.get("TorrentManager")[torrent_id]
         torrent_status = torrent.get_status({})
         # Email
-        title = _("Finished Torrent \"%(name)s\"") % torrent_status
+        subject = _("Finished Torrent \"%(name)s\"") % torrent_status
         message = _(
             "This email is to inform you that Deluge has finished "
             "downloading \"%(name)s\", which includes %(num_files)i files."
@@ -230,7 +256,17 @@ Subject: %(title)s
             "Thank you,\nDeluge."
         ) % torrent_status
 
-        d = defer.maybeDeferred(self.notify_email, title, message)
-        d.addCallback(self._on_notify_sucess, 'email')
-        d.addErrback(self._on_notify_failure, 'email')
-        log.debug("Email notification callback yielded")
+        d = defer.maybeDeferred(self._prepare_email, [subject, message])
+        d.addCallback(self._on_notify_sucess)
+        d.addErrback(self._on_notify_failure)
+        return d
+
+
+    def _on_notify_sucess(self, result):
+        log.debug("\n\nEMAIL Notification success: %s", result)
+        return result
+
+
+    def _on_notify_failure(self, failure):
+        log.debug("\n\nEMAIL Notification failure: %s", failure)
+        return failure

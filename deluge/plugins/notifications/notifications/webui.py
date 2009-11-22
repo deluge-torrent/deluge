@@ -37,21 +37,49 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+from twisted.internet import defer
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
+import deluge.configmanager
 
 # Relative imports
 from common import get_resource
-from manager import Notifications
 
-class WebUI(WebPluginBase, Notifications):
+DEFAULT_PREFS = {
+    # FLASH
+    "flash_enabled": False,
+    # Subscriptions
+    "subscriptions": {
+        "flash": []
+    }
+}
+
+class WebUI(WebPluginBase, component.Component):
 
     scripts = [get_resource("notifications.js")]
 
+    def __init__(self, plugin_name):
+        WebPluginBase.__init__(self, plugin_name)
+        component.Component.__init__(self, "Notifications")
+
     def enable(self):
-        Notifications.enable(self)
+        self.config = deluge.configmanager.ConfigManager(
+            "notifications-web.conf", DEFAULT_PREFS
+        )
+        log.debug("Enabling Web UI notifications")
 
     def disable(self):
-        Notifications.disable(self)
+        log.debug("Disabling Web UI notifications")
+
+    def flash(self, title, message):
+        return defer.succeed("Web Flash Notifications not implemented yet")
+
+    def _on_notify_sucess(self, result, kind):
+        log.debug("\n\nNotification success using %s: %s", kind, result)
+        return result
+
+    def _on_notify_failure(self, failure, kind):
+        log.debug("\n\nNotification failure using %s: %s", kind, failure)
+        return failure

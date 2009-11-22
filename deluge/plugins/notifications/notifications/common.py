@@ -22,9 +22,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -39,4 +39,35 @@
 
 def get_resource(filename):
     import pkg_resources, os
-    return pkg_resources.resource_filename("notifications", os.path.join("data", filename))
+    return pkg_resources.resource_filename("notifications",
+                                           os.path.join("data", filename))
+
+DEFAULT_PREFS = {
+# Core -------------------------------------------------------------------------
+    "smtp_enabled": False,
+    "smtp_host": "",
+    "smtp_port": 25,
+    "smtp_user": "",
+    "smtp_pass": "",
+    "smtp_from": "",
+    "smtp_tls": False, # SSL or TLS
+    "smtp_recipients": [],
+# GTK UI -----------------------------------------------------------------------
+    # BLINK
+    "blink_enabled": False,
+    # FLASH
+    "flash_enabled": False,
+    # POPUP
+    "popup_enabled": False,
+    # SOUND
+    "sound_enabled": False,
+    "sound_path": "",
+# Subscriptions ----------------------------------------------------------------
+    "subscriptions": {
+        "popup": [],
+        "blink": [],
+        "sound": [],
+        "email": [],
+    }
+
+}
