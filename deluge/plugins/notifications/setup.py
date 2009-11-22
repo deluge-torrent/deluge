@@ -45,8 +45,12 @@ __author_email__ = "ufs@ufsoft.org"
 __version__ = "0.1"
 __url__ = "http://dev.deluge-torrent.org/"
 __license__ = "GPLv3"
-__description__ = ""
-__long_description__ = """"""
+__description__ = "Plugin which provides notifications to Deluge."
+__long_description__ = __description__ + """\
+ Email, Popup, Blink and Sound notifications are supported.
+The plugin also allows other plugins to make use of itself for their own custom
+notifications.
+"""
 __pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(

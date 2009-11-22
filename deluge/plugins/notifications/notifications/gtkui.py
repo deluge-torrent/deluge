@@ -49,8 +49,22 @@ import deluge.common
 import deluge.configmanager
 
 # Relative imports
-from notifications.common import (get_resource, GtkUiNotifications,
-                                  SOUND_AVAILABLE, POPUP_AVAILABLE)
+from common import get_resource, CustomNotifications
+
+try:
+    import pygame
+    SOUND_AVAILABLE = True
+except ImportError:
+    SOUND_AVAILABLE = False
+
+try:
+    import pynotify
+    POPUP_AVAILABLE = True
+    if deluge.common.windows_check():
+        POPUP_AVAILABLE = False
+except ImportError:
+    POPUP_AVAILABLE = False
+
 
 DEFAULT_PREFS = {
     # BLINK
@@ -76,6 +90,158 @@ RECIPIENT_FIELD, RECIPIENT_EDIT = range(2)
  SUB_NOT_SOUND) = range(6)
 SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = range(4)
 
+class GtkUiNotifications(CustomNotifications):
+
+    def enable(self):
+        CustomNotifications.enable(self)
+        self.register_custom_blink_notification(
+            "TorrentFinishedEvent", self._on_torrent_finished_event_blink
+        )
+        self.register_custom_sound_notification(
+            "TorrentFinishedEvent", self._on_torrent_finished_event_sound
+        )
+        self.register_custom_popup_notification(
+            "TorrentFinishedEvent", self._on_torrent_finished_event_popup
+        )
+
+    def disable(self):
+        self.deregister_custom_blink_notification("TorrentFinishedEvent")
+        self.deregister_custom_sound_notification("TorrentFinishedEvent")
+        self.deregister_custom_popup_notification("TorrentFinishedEvent")
+        CustomNotifications.disable(self)
+
+    def register_custom_popup_notification(self, eventtype, handler):
+        """This is used to register popup notifications for custom event types.
+
+        :param event: the event name
+        :param type: string
+        :param handler: function, to be called when `:param:event` is emitted
+
+        Your handler should return a tuple of (popup_title, popup_contents).
+        """
+        self._register_custom_provider('popup', eventtype, handler)
+
+    def deregister_custom_popup_notification(self, eventtype):
+        self._deregister_custom_provider('popup', eventtype)
+
+    def register_custom_blink_notification(self, eventtype, handler):
+        """This is used to register blink notifications for custom event types.
+
+        :param event: str, the event name
+        :param handler: function, to be called when `:param:event` is emitted
+
+        Your handler should return `True` or `False` to blink or not the
+        trayicon.
+        """
+        self._register_custom_provider('blink', eventtype, handler)
+
+    def deregister_custom_blink_notification(self, eventtype):
+        self._deregister_custom_provider('blink', eventtype)
+
+    def register_custom_sound_notification(self, eventtype, handler):
+        """This is used to register sound notifications for custom event types.
+
+        :param event: the event name
+        :type event: string
+        :param handler: function to be called when `:param:event` is emitted
+
+        Your handler should return either '' to use the sound defined on the
+        notification preferences, the path to a sound file, which will then be
+        played or None, where no sound will be played at all.
+        """
+        self._register_custom_provider('sound', eventtype, handler)
+
+    def deregister_custom_sound_notification(self, eventtype):
+        self._deregister_custom_provider('sound', eventtype)
+
+    def handle_custom_popup_notification(self, result, eventtype):
+        title, message = result
+        return defer.maybeDeferred(self.__popup, title, message)
+
+    def handle_custom_blink_notification(self, result, eventtype):
+        if result:
+            return defer.maybeDeferred(self.__blink)
+        return defer.succeed("Won't blink. The returned value from the custom "
+                             "handler was: %s", result)
+
+    def handle_custom_sound_notification(self, result, eventtype):
+        if isinstance(result, basestring):
+            if not result and eventtype in self.config['custom_sounds']:
+                return defer.maybeDeferred(
+                    self.__play_sound, self.config['custom_sounds'][eventtype])
+            return defer.maybeDeferred(self.__play_sound, result)
+        return defer.succeed("Won't play sound. The returned value from the "
+                             "custom handler was: %s", result)
+
+    def __blink(self):
+        self.systray.blink(True)
+        return defer.succeed(_("Notification Blink shown"))
+
+    def __popup(self, title='', message=''):
+        import gtk
+        if not self.config['popup_enabled']:
+            return defer.succeed(_("Popup notification is not enabled."))
+        if not POPUP_AVAILABLE:
+            return defer.fail(_("pynotify is not installed"))
+
+        if pynotify.init("Deluge"):
+            icon = gtk.gdk.pixbuf_new_from_file_at_size(
+                            deluge.common.get_pixmap("deluge.svg"), 48, 48)
+            self.note = pynotify.Notification(title, message)
+            self.note.set_icon_from_pixbuf(icon)
+            if not self.note.show():
+                err_msg = _("pynotify failed to show notification")
+                log.warning(err_msg)
+                return defer.fail(err_msg)
+        return defer.succeed(_("Notification popup shown"))
+
+    def __play_sound(self, sound_path=''):
+        if not self.config['sound_enabled']:
+            return defer.succeed(_("Sound notification not enabled"))
+        if not SOUND_AVAILABLE:
+            err_msg = _("pygame is not installed")
+            log.warning(err_msg)
+            return defer.fail(err_msg)
+
+        pygame.init()
+        try:
+            if not sound_path:
+                sound_path = self.config['sound_path']
+            alert_sound = pygame.mixer.music
+            alert_sound.load(sound_path)
+            alert_sound.play()
+        except pygame.error, message:
+            err_msg = _("Sound notification failed %s") % (message)
+            log.warning(err_msg)
+            return defer.fail(err_msg)
+        else:
+            msg = _("Sound notification Success")
+            log.info(msg)
+            return defer.succeed(msg)
+
+    def _on_torrent_finished_event_blink(self, torrent_id):
+        return True # Yes, Blink
+
+    def _on_torrent_finished_event_sound(self, torrent_id):
+        # Since there's no custom sound hardcoded, just return ''
+        return ''
+
+    def _on_torrent_finished_event_popup(self, torrent_id):
+        d = client.core.get_torrent_status(torrent_id, ["name", "num_files"])
+        d.addCallback(self._on_torrent_finished_event_got_torrent_status)
+        d.addErrback(self._on_torrent_finished_event_torrent_status_failure)
+        return d
+
+    def _on_torrent_finished_event_torrent_status_failure(self, failure):
+        log.debug("Failed to get torrent status to be able to show the popup")
+
+    def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
+        log.debug("Handler for TorrentFinishedEvent GTKUI called. "
+                  "Got Torrent Status")
+        title = _("Finished Torrent")
+        message = _("The torrent \"%(name)s\" including %(num_files)i "
+                    "has finished downloading.") % torrent_status
+        return title, message
 
 class GtkUI(GtkPluginBase, GtkUiNotifications):
     def __init__(self, plugin_name):

@@ -77,7 +77,7 @@ class Core(CorePluginBase):
             self._timer = task.LoopingCall(self.update)
         else:
             self._timer.stop()
-        self._interval = 15 #60
+        self._interval = 60 * 5 # every 5 minutes
         if self.config['enabled']:
             self._timer.start(self._interval, False)
 
