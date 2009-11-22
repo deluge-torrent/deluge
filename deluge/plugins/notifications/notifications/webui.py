@@ -72,14 +72,3 @@ class WebUI(WebPluginBase, component.Component):
 
     def disable(self):
         log.debug("Disabling Web UI notifications")
-
-    def flash(self, title, message):
-        return defer.succeed("Web Flash Notifications not implemented yet")
-
-    def _on_notify_sucess(self, result, kind):
-        log.debug("\n\nNotification success using %s: %s", kind, result)
-        return result
-
-    def _on_notify_failure(self, failure, kind):
-        log.debug("\n\nNotification failure using %s: %s", kind, failure)
-        return failure

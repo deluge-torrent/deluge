@@ -88,7 +88,7 @@ class CustomNotifications(object):
                 self._deregister_custom_provider(kind, eventtype)
 
     def _handle_custom_providers(self, kind, eventtype, *args, **kwargs):
-        log.debug("\n\nCalling CORE's custom %s providers for %s: %s %s",
+        log.debug("Calling CORE's custom %s providers for %s: %s %s",
                   kind, eventtype, args, kwargs)
         if eventtype in self.config["subscriptions"][kind]:
             wrapper, handler = self.custom_notifications[kind][eventtype]
@@ -143,11 +143,11 @@ class CustomNotifications(object):
         return True
 
     def _on_notify_sucess(self, result, kind):
-        log.debug("\n\nNotification success using %s: %s", kind, result)
+        log.debug("Notification success using %s: %s", kind, result)
         return result
 
     def _on_notify_failure(self, failure, kind):
-        log.debug("\n\nNotification failure using %s: %s", kind, failure)
+        log.debug("Notification failure using %s: %s", kind, failure)
         return failure
 
 
@@ -179,7 +179,7 @@ class CoreNotifications(CustomNotifications):
         if not self.config['smtp_enabled']:
             return defer.succeed("SMTP notification not enabled.")
         subject, message = result
-        log.debug("\n\nSpawning new thread to send email with subject: %s: %s",
+        log.debug("Spawning new thread to send email with subject: %s: %s",
                   subject, message)
         # Spawn thread because we don't want Deluge to lock up while we send the
         # email.
@@ -219,7 +219,7 @@ Subject: %(subject)s
                                       self.config["smtp_port"],
                                       timeout=60)
             except:
-                # Python 2.6
+                # Python 2.5
                 server = smtplib.SMTP(self.config["smtp_host"],
                                       self.config["smtp_port"])
         except Exception, err:
@@ -275,7 +275,7 @@ Subject: %(subject)s
 
 
     def _on_torrent_finished_event(self, torrent_id):
-        log.debug("\n\nHandler for TorrentFinishedEvent called for CORE")
+        log.debug("Handler for TorrentFinishedEvent called for CORE")
         torrent = component.get("TorrentManager")[torrent_id]
         torrent_status = torrent.get_status({})
         # Email
@@ -442,7 +442,8 @@ class GtkUiNotifications(CustomNotifications):
         log.debug("Failed to get torrent status to be able to show the popup")
 
     def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
-        log.debug("\n\nhandler for TorrentFinishedEvent GTKUI called. Torrent Status")
+        log.debug("Handler for TorrentFinishedEvent GTKUI called. "
+                  "Got Torrent Status")
         title = _("Finished Torrent")
         message = _("The torrent \"%(name)s\" including %(num_files)i "
                     "has finished downloading.") % torrent_status

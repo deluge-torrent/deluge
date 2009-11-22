@@ -318,7 +318,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             if filepath == old_sound_file:
                 continue
             custom_sounds[event_name] = filepath
-        log.debug(custom_sounds)
 
         self.config.config.update({
             "popup_enabled": self.glade.get_widget("popup_enabled").get_active(),
@@ -411,7 +410,6 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             model.remove(iter)
 
     def on_cell_edited(self, cell, path_string, new_text, model):
-        log.debug("%s %s %s %s", cell, path_string, new_text, model)
         iter = model.get_iter_from_string(path_string)
         path = model.get_path(iter)[0]
         model.set(iter, RECIPIENT_FIELD, new_text)
