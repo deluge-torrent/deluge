@@ -33,29 +33,9 @@
 #
 #
 
-from deluge.log import LOG as log
-from common import raiseError
+from common import raiseError, remove_zeros
+import re
 
-def remove_zeros(ip):
-    """
-    Removes unneeded zeros from ip addresses.
-    
-    Example: 000.000.000.003 -> 0.0.0.3
-    
-    :param ip: the ip address
-    :type ip: string
-    
-    :returns: the ip address without the unneeded zeros
-    :rtype: string
-    
-    """
-    new_ip = []
-    for part in ip.split("."):
-        while part[0] == "0" and len(part) > 1:
-            part = part[1:]
-        new_ip.append(part)
-    return ".".join(new_ip)
-    
 class ReaderParseError(Exception):
     pass
 
@@ -90,6 +70,9 @@ class BaseReader(object):
             if not self.is_ignored(line):
                 try:
                     (start, end) = self.parse(line)
+                    if not re.match("^(\d{1,3}\.){4}$", start + ".") or \
+                       not re.match("^(\d{1,3}\.){4}$", end + "."):
+                        valid = False
                 except:
                     valid = False
                 finally:
@@ -115,7 +98,7 @@ class SafePeerReader(BaseReader):
     """Blocklist reader for SafePeer style blocklists"""
     @raiseError(ReaderParseError)
     def parse(self, line):
-        return line.strip().split(":")[1].split("-")
+        return line.strip().split(":")[-1].split("-")
 
 class PeerGuardianReader(SafePeerReader):
     """Blocklist reader for PeerGuardian style blocklists"""

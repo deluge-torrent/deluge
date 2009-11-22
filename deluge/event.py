@@ -41,6 +41,16 @@ and subsequently emitted to the clients.
 
 """
 
+event_list = []
+
+class DelugeEventMetaClass(type):
+    """
+    This metaclass simply keeps a list of all events classes created.
+    """
+    def __init__(cls, name, bases, dct):
+        event_list.append(name)
+        super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
+
 class DelugeEvent(object):
     """
     The base class for all events.
@@ -49,6 +59,8 @@ class DelugeEvent(object):
     :prop args: a list of the attribute values
 
     """
+    __metaclass__ = DelugeEventMetaClass
+
     def _get_name(self):
         return self.__class__.__name__
 

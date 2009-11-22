@@ -49,3 +49,18 @@ def raiseError(error):
                 raise error
         return new
     return safer
+
+def remove_zeros(ip):
+    """
+    Removes unneeded zeros from ip addresses.
+    
+    Example: 000.000.000.003 -> 0.0.0.3
+    
+    :param ip: the ip address
+    :type ip: string
+    
+    :returns: the ip address without the unneeded zeros
+    :rtype: string
+    
+    """
+    return ".".join([part.lstrip("0").zfill(1) for part in ip.split(".")])

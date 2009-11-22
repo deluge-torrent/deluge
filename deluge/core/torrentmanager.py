@@ -210,8 +210,11 @@ class TorrentManager(component.Component):
 
     def stop(self):
         # Stop timers
-        self.save_state_timer.stop()
-        self.save_resume_data_timer.stop()
+        if self.save_state_timer.running:
+            self.save_state_timer.stop()
+
+        if self.save_resume_data_timer.running:
+            self.save_resume_data_timer.stop()
 
         # Save state on shutdown
         self.save_state()

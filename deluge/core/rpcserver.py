@@ -131,7 +131,7 @@ class DelugeRPCProtocol(Protocol):
             try:
                 request = rencode.loads(dobj.decompress(data))
             except Exception, e:
-                log.debug("Received possible invalid message (%r): %s", data, e)
+                #log.debug("Received possible invalid message (%r): %s", data, e)
                 # This could be cut-off data, so we'll save this in the buffer
                 # and try to prepend it on the next dataReceived()
                 self.__buffer = data

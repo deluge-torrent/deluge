@@ -87,7 +87,7 @@ class PluginManagerBase:
     def disable_plugins(self):
         # Disable all plugins that are enabled
         for key in self.plugins.keys():
-            self.plugins[key].disable()
+            self.disable_plugin(key)
 
     def __getitem__(self, key):
         return self.plugins[key]
@@ -153,6 +153,7 @@ class PluginManagerBase:
         """Disables a plugin"""
         try:
             self.plugins[name].disable()
+            component.deregister(self.plugins[name].plugin.get_component_name())
             del self.plugins[name]
             self.config["enabled_plugins"].remove(name)
         except KeyError:
