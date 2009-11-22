@@ -50,11 +50,7 @@ class DelugeEventMetaClass(type):
     def __init__(cls, name, bases, dct):
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
         if name != "DelugeEvent":
-            classdoc = cls.__doc__.splitlines()
-            if classdoc[0].strip():
-                known_events[name] = classdoc[0].strip()
-            else:
-                known_events[name] = classdoc[1].strip()
+            known_events[name] = cls
 
 class DelugeEvent(object):
     """
