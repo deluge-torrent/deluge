@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-09 15:54+0000\n"
-"Last-Translator: Ilari Oras <happo1472583@gmail.com>\n"
+"PO-Revision-Date: 2009-11-03 19:14+0000\n"
+"Last-Translator: Pekka Niemi <pekka.niemi@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
+"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -70,7 +70,7 @@ msgstr "<b>Yleisasetukset</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr ""
+msgstr "Ota web-käyttöliittymä käyttöön"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
@@ -1645,12 +1645,18 @@ msgid ""
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Tapahtui virhe käynnistettäessä ydinkomponenttia jota tarvitaan "
+"suoritettaessa Delugea klassisessa tilassa.\n"
+"\n"
+"Katso lisätietoja alta."
 
 #: deluge/ui/gtkui/gtkui.py:285
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Koska tapahtui virhe käynnistettäessä klassisessa tilassa, haluatko jatkaa "
+"ottamalla sen pois käytöstä?"
 
 #: deluge/ui/gtkui/torrentview.py:162
 msgid "Name"
@@ -2684,6 +2690,8 @@ msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Anna sen liittymän IP-osoite, josta kuunnellaan saapuvia bittorrent-"
+"yhteyksiä. Jätä tämä tyhjäksi, jos haluat käyttää oletusarvoa."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:880
 msgid "<b>Interface</b>"
@@ -3006,6 +3014,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Jos Deluge ei löydä tietokantatiedostoa tästä osoitteesta se käyttää DNS:ää "
+"selvittääkseen lataajan maan."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
 msgid "<b>GeoIP Database</b>"
@@ -3224,17 +3234,17 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4483
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Lohkoja kirjoitettu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4492
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "Suoritettujen kirjoitusoperaatioiden määrä tämän istunnon alusta."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4494
 msgid "Writes:"
-msgstr ""
+msgstr "Kirjoituksia:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4505
 msgid ""
@@ -3249,7 +3259,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4559
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "<b>Kirjoita</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4589
 msgid ""
@@ -3259,7 +3269,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4591
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Lohkoja luettu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4600
 msgid "The number of blocks that were served from cache."

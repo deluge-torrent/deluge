@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 18:06+0000\n"
+"PO-Revision-Date: 2009-11-23 17:59+0000\n"
 "Last-Translator: Andrew Resch <Unknown>\n"
 "Language-Team: English (Canada) <en_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
+"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -2571,7 +2571,7 @@ msgstr "<b><i><big>Downloads</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:224
 msgid "Auto add .torrents from:"
-msgstr "Automatically add .torrent files from:"
+msgstr "Auto add .torrents from:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:240
 msgid "Copy of .torrent files to:"

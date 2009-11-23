@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-26 16:54+0000\n"
-"Last-Translator: XPEH <Unknown>\n"
+"PO-Revision-Date: 2009-11-23 10:04+0000\n"
+"Last-Translator: grimgav <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
+"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -436,7 +436,7 @@ msgstr "Азербайджан"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr "Багамские острова"
+msgstr "Багамские Острова"
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
@@ -452,7 +452,7 @@ msgstr "Барбадос"
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr "Беларусия"
+msgstr "Белоруссия"
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
@@ -500,7 +500,7 @@ msgstr "Британская территория в Индийском океа
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr "Бруней-Даруссалам"
+msgstr "Бруней Даруссалам"
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
@@ -536,7 +536,7 @@ msgstr "Каймановы острова"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
-msgstr "Центрально-Африканская Республика"
+msgstr "Центральноафриканская Республика"
 
 #: deluge/ui/countries.py:51
 msgid "Chad"
@@ -616,7 +616,7 @@ msgstr "Доминика"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr "Доминиканская республика"
+msgstr "Доминиканская Республика"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
@@ -652,7 +652,7 @@ msgstr "Фолклендские (Мальвинские) острова"
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"
-msgstr "Фарерские Острова"
+msgstr "Фарерские острова"
 
 #: deluge/ui/countries.py:80
 msgid "Fiji"
@@ -740,7 +740,7 @@ msgstr "Гвинея"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr "Гвинея-Биссау"
+msgstr "Гвинея-Бисау"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
@@ -848,7 +848,7 @@ msgstr "Кувейт"
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr "Киргизстан"
+msgstr "Кыргызстан"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
@@ -904,7 +904,7 @@ msgstr "Малави"
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
-msgstr "Малазия"
+msgstr "Малайзия"
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
@@ -1020,7 +1020,7 @@ msgstr "Нигерия"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr "Ниуе"
+msgstr "Ниуэ"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
@@ -1028,7 +1028,7 @@ msgstr "Остров Норфолк"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr "Острова северной Марианы"
+msgstr "Северные Марианские острова"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
@@ -1072,7 +1072,7 @@ msgstr "Филиппины"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
-msgstr "Питкерн"
+msgstr "Питкэрн"
 
 #: deluge/ui/countries.py:185
 msgid "Poland"
@@ -1463,11 +1463,11 @@ msgstr "Состояние"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:182
 msgid "Down Speed"
-msgstr "Скорость загрузки"
+msgstr "Загрузка"
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:186
 msgid "Up Speed"
-msgstr "Скорость отдачи"
+msgstr "Отдача"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
@@ -1727,7 +1727,7 @@ msgstr "Выберите директорию для переноса файло
 
 #: deluge/ui/gtkui/menubar.py:433
 msgid "Set Maximum Upload Slots"
-msgstr "Максимальное количество слотов раздачи"
+msgstr "Максимум слотов отдачи"
 
 #: deluge/ui/gtkui/files_tab.py:156
 msgid "Priority"
@@ -1851,11 +1851,11 @@ msgstr "_Боковая панель"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr "Отображать _Нулевые Элементы"
+msgstr "Отображать _Пустые Элементы"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
-msgstr "Показ_трекеров"
+msgstr "Показывать _трекеры"
 
 #: deluge/ui/gtkui/glade/main_window.glade:226
 msgid "_Help"
@@ -2154,7 +2154,7 @@ msgstr "<i>Текущая версия:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2534
 msgid "Do not show this dialog in the future"
-msgstr "Не показывать это окно в будущем"
+msgstr "больше не показывать"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2574
 msgid "_Goto Website"
@@ -3361,7 +3361,7 @@ msgstr ""
 
 #: deluge/ui/web/server.py:510
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Запускаю сервер с PID"
 
 #: deluge/ui/web/json_api.py:623 deluge/ui/web/json_api.py:646
 #: deluge/ui/web/json_api.py:649 deluge/ui/web/json_api.py:657

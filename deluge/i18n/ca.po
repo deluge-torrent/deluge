@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
+"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -66,7 +66,7 @@ msgstr "Selecciona una carpeta"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2731
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4052
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>General</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -181,7 +181,7 @@ msgstr "Màxim"
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr ""
+msgstr "Autogestionat"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -195,7 +195,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Aplica la configuració de la Cua"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:72
@@ -209,11 +209,11 @@ msgstr "Moure completats a"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
-msgstr ""
+msgstr "Aplica la configuració de l'ubicació"
 
 #: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
-msgstr ""
+msgstr "Ubicació"
 
 #: deluge/plugins/label/label/data/label_options.glade:552
 msgid ""
@@ -224,16 +224,16 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:563
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(1 línia per rastrejador)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
-msgstr ""
+msgstr "Aplica automàticament l'etiqueta"
 
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 msgid "Trackers"
-msgstr ""
+msgstr "Rastrejadors"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
@@ -241,7 +241,7 @@ msgstr "Afegeix una etiqueta"
 
 #: deluge/plugins/label/label/data/label_options.glade:683
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>Afegeix Etiqueta</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:714
 msgid "Name:"
@@ -341,7 +341,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
 msgid "<b>Options</b>"
-msgstr "Opcions"
+msgstr "<b>Opcions</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:390
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3307
@@ -349,7 +349,7 @@ msgstr "Opcions"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3675
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3862
 msgid "Type:"
-msgstr ""
+msgstr "Tipus:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:402
 msgid "Date:"
@@ -2071,7 +2071,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1847
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:630
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Ample de Banda</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1952
 msgid "Move completed:"
@@ -2097,7 +2097,7 @@ msgstr "_Edita els rastrejadors"
 #: deluge/ui/gtkui/glade/main_window.glade:2199
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:862
 msgid "_Options"
-msgstr ""
+msgstr "_Opcions"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2219
 msgid "Remove Torrent?"
@@ -2155,19 +2155,19 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
+msgstr "<big><b>Elimina el torrent seleccionat?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
 msgid "If you remove the data, it will be lost permanently."
-msgstr ""
+msgstr "Si esborres les dades, seran perdudes permanentment"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr ""
+msgstr "Esborra amb les _Dades"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr ""
+msgstr "Esborra el _Torrent"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
 msgid "Create Torrent"
@@ -2262,20 +2262,20 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr ""
+msgstr "_Obre la carpeta"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "Continua amb els torrents selccionats"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
-msgstr ""
+msgstr "Conti_nua"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
-msgstr ""
+msgstr "Op_cions"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
@@ -2291,7 +2291,7 @@ msgstr "_Suprimeix un torrent"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_Força la Re-comprovació"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
@@ -2309,7 +2309,7 @@ msgstr "Límit de la velocitat de _pujada"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
-msgstr ""
+msgstr "Límit de la _connexió"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
@@ -2317,7 +2317,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
-msgstr ""
+msgstr "_Autogestionat"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -2342,7 +2342,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1197
 msgid "Trackers:"
-msgstr ""
+msgstr "Rastrejadors:"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
@@ -2358,7 +2358,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
-msgstr ""
+msgstr "_Selecciona-ho tot"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
@@ -2438,7 +2438,7 @@ msgstr "Contrasenya:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3874
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4182
 msgid "Username:"
-msgstr ""
+msgstr "Nom d'usuari:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:237
 msgid "<big><b>Connection Manager</b></big>"
@@ -2478,11 +2478,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 msgid "Add Torrents"
-msgstr ""
+msgstr "Afegeix Torrents"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 msgid "_URL"
-msgstr ""
+msgstr "_URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:193
 msgid "Info_hash"
@@ -2490,7 +2490,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:239
 msgid "_Remove"
-msgstr ""
+msgstr "_Suprimeix"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:272
 msgid "<b>Torrents</b>"
@@ -2498,7 +2498,7 @@ msgstr "<b>Torrents</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:329
 msgid "Fi_les"
-msgstr ""
+msgstr "Fit_xers"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
 msgid "<b>Download Location</b>"
@@ -2506,11 +2506,11 @@ msgstr "<b>Lloc de baixada</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:430
 msgid "Full"
-msgstr ""
+msgstr "Complet"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:446
 msgid "Compact"
-msgstr ""
+msgstr "Compacte"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:468
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:389
@@ -2519,19 +2519,19 @@ msgstr "<b>Assignació</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:521
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Velocitat Màxima de Baixada"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:533
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Velocitat Màxima de Pujada"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:663
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "Afegeix en Estat de _Pausa"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:679
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Prioritza la Primera/Última Peces"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:757
 msgid "Revert To Defaults"
@@ -2539,15 +2539,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:811
 msgid "Apply To All"
-msgstr ""
+msgstr "Apliqueu a Tot"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:935
 msgid "Add URL"
-msgstr ""
+msgstr "Afegeix URL"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
 msgid "<b>From URL</b>"
-msgstr ""
+msgstr "<b>Des d'URL</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1089
 msgid "Add Infohash"
@@ -2563,23 +2563,23 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:75
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Descàrregues</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:224
 msgid "Auto add .torrents from:"
-msgstr ""
+msgstr "Afegeix automàticament els fitxers .torrent des de"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:240
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "Còpia els fitxers .torrent a"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:304
 msgid "Download to:"
-msgstr ""
+msgstr "Descarrega a:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:317
 msgid "<b>Folders</b>"
-msgstr ""
+msgstr "<b>Carpetes</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:350
 msgid "Use Full Allocation"
@@ -2604,7 +2604,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:420
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Prioritza les primeres i les últimes peces d'un torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:425
 msgid "Prioritize first and last pieces of files in torrent"
@@ -2617,7 +2617,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:477
 msgid "page 6"
-msgstr ""
+msgstr "pàgina 6"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:508
 msgid "<b><i><big>Network</big></i></b>"
@@ -2626,7 +2626,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:547
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:740
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Utilitza Ports Aleatoris"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:552
 msgid "Deluge will automatically choose a different port to use every time."
@@ -2658,11 +2658,11 @@ msgstr "Comprova el port actiu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:710
 msgid "<b>Incoming Ports</b>"
-msgstr ""
+msgstr "<b>Ports d'Entrada</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:827
 msgid "<b>Outgoing Ports</b>"
-msgstr ""
+msgstr "<b>Ports de Sortida</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:859
 msgid ""
@@ -2686,7 +2686,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:929
 msgid "0x00"
-msgstr ""
+msgstr "0x00"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:949
 msgid "<b>TOS</b>"
@@ -2715,7 +2715,7 @@ msgstr "Intercanvi de clients"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1031
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1036
 msgid "Local Service Discovery finds local peers on your network."
@@ -2750,6 +2750,9 @@ msgid ""
 "Enabled\n"
 "Disabled"
 msgstr ""
+"Forçat\n"
+"Habilitat\n"
+"Deshabilitat"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1152
 msgid ""
@@ -2767,7 +2770,7 @@ msgstr "Límit de sortida:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
 msgid "Encrypt entire stream"
-msgstr ""
+msgstr "Xifra el Sistema Sencer"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1231
 msgid "<b>Encryption</b>"
@@ -2775,11 +2778,11 @@ msgstr "<b>Xifratge</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1259
 msgid "page 7"
-msgstr ""
+msgstr "pàgina 7"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Ample de Banda</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1367
 msgid "Maximum Connection Attempts per Second:"
@@ -2838,7 +2841,7 @@ msgstr "Velocitat màxima de baixada (KiB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1525
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "Ignora els límits a la xarxa local"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1544
 msgid "Rate limit IP overhead"
@@ -2873,16 +2876,16 @@ msgstr "<b>Utilització de l'amplada de banda per torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1756
 msgid "page 8"
-msgstr ""
+msgstr "pàgina 8"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1788
 msgid "<i><b><big>Interface</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Interfície</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1821
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4254
 msgid "Enable"
-msgstr "Inhabilitat"
+msgstr "Habilita"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1826
 msgid ""
@@ -2891,22 +2894,26 @@ msgid ""
 "advantage of running Deluge as a daemon. You need to restart Deluge for this "
 "setting to take effect."
 msgstr ""
+"El Mode Clàssic amagarà la majoria de la funcionalitat del dimoni i farà que "
+"Deluge apareixi com una sola aplicació. Utilitza això si no vols tenir "
+"l'avantatge de correr Deluge com un dimoni. Cal reiniciar Deluge per a canvi "
+"s'efectuí."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1836
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Mode Clàsic</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1868
 msgid "Show session speed in titlebar"
-msgstr ""
+msgstr "Mostra la velocitat de la sessió a la barra de títol"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1886
 msgid "<b>Main Window</b>"
-msgstr ""
+msgstr "<b>Finestra principal</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1918
 msgid "Always show"
-msgstr ""
+msgstr "Mostra sempre"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1936
 msgid "Bring the dialog to focus"
@@ -2938,11 +2945,11 @@ msgstr "<b>Safata del sistema</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2138
 msgid "page 10"
-msgstr ""
+msgstr "pàgina 10"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Un Altre</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2210
 msgid "Be alerted about new releases"
@@ -2965,10 +2972,12 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"Ajuda'ns a millorar Deluge enviant-nos la teva versió de Python, de PyGTK, "
+"Sistema Operatiu i tipus de processador. Cap altra informació serà enviada."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2287
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Sí, si us plau, envia estadístiques anònimes"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
 msgid "<b>System Information</b>"
@@ -2991,43 +3000,43 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
 msgid "page 11"
-msgstr ""
+msgstr "pàgina 11"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2446
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Dimoni</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
 msgid "Daemon port:"
-msgstr ""
+msgstr "Port del dimoni:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2526
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "<b>Port</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2555
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Permet Connexions Remotes"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2569
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Connexions</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2598
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "Comprova periòdicament el lloc web per noves alliberacions"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2612
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Altres</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2671
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Cua</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2712
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "Encua nous torrents en cap"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2806
 msgid "Total active seeding:"
@@ -3035,19 +3044,19 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2819
 msgid "Total active:"
-msgstr ""
+msgstr "Total actiu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2848
 msgid "Total active downloading:"
-msgstr ""
+msgstr "Descarrega total activa"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2863
 msgid "Do not count slow torrents"
-msgstr ""
+msgstr "No contis els torrents lents"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2881
 msgid "<b>Active Torrents</b>"
-msgstr ""
+msgstr "<b>Torrents Actius</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2922
 msgid "Share Ratio Limit:"
@@ -3075,11 +3084,11 @@ msgstr "<b>Llavor</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3111
 msgid "page 12"
-msgstr ""
+msgstr "pàgina 12"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3143
 msgid "<i><b><big>Proxy</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Proxy</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3213
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3397

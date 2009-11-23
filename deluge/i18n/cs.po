@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-20 15:34+0000\n"
+"PO-Revision-Date: 2009-11-16 13:40+0000\n"
 "Last-Translator: Vladimír Burian <vladimir.burian@email.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
+"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -313,7 +313,7 @@ msgstr "URL:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
-msgstr "Dní"
+msgstr "dní"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:114
 msgid "Check for new list every:"
@@ -1457,15 +1457,15 @@ msgstr "Klient"
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:168
 #: deluge/ui/gtkui/torrentview.py:499 deluge/ui/gtkui/files_tab.py:143
 msgid "Progress"
-msgstr "Dokončeno"
+msgstr "Průběh"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:182
 msgid "Down Speed"
-msgstr "Rychlost stahování"
+msgstr "Rychl. stah."
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:186
 msgid "Up Speed"
-msgstr "Rychlost odesílání"
+msgstr "Rychl. odes."
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
@@ -1481,11 +1481,11 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:213
 msgid "Down"
-msgstr "Dolů"
+msgstr "Stahování"
 
 #: deluge/ui/gtkui/systemtray.py:214
 msgid "Up"
-msgstr "Nahoru"
+msgstr "Odesílání"
 
 #: deluge/ui/gtkui/systemtray.py:340 deluge/ui/gtkui/statusbar.py:387
 #: deluge/ui/gtkui/menubar.py:430
@@ -1720,7 +1720,7 @@ msgstr "Další.."
 
 #: deluge/ui/gtkui/menubar.py:89
 msgid "On"
-msgstr "On"
+msgstr "Zapnuto"
 
 #: deluge/ui/gtkui/menubar.py:92
 msgid "Off"
@@ -3018,7 +3018,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
 msgid "<b>GeoIP Database</b>"
-msgstr "<b>GeoIP Databáze</b>"
+msgstr "<b>GeoIP databáze</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
