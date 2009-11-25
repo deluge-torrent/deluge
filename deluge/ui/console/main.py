@@ -141,6 +141,8 @@ class ConsoleUI(component.Component):
     def __init__(self, args=None):
         component.Component.__init__(self, "ConsoleUI", 2)
 
+        self.batch_write = False
+
         try:
             locale.setlocale(locale.LC_ALL, '')
             self.encoding = locale.getpreferredencoding()
