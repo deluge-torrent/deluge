@@ -310,16 +310,16 @@ class FilesTab(Tab):
             self.torrent_id = torrent_id
             status_keys += ["compact"]
 
-            if self.torrent_id not in self.files_list.keys():
-                # We need to get the files list
-                log.debug("Getting file list from core..")
-                status_keys += ["files"]
-            else:
+            if self.torrent_id in self.files_list:
                 # We already have the files list stored, so just update the view
                 self.update_files()
 
+        if self.torrent_id not in self.files_list or not self.files_list[self.torrent_id]:
+            # We need to get the files list
+            log.debug("Getting file list from core..")
+            status_keys += ["files"]
+
         client.core.get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status)
-        client.force_call(True)
 
     def clear(self):
         self.treestore.clear()
@@ -328,7 +328,6 @@ class FilesTab(Tab):
     def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
             client.core.get_torrent_status(self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
-            client.force_call(False)
 
     def get_file_path(self, row, path=""):
         if not row:
@@ -472,15 +471,15 @@ class FilesTab(Tab):
 
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
-    
+
     def _on_key_press_event(self, widget, event):
         # Menu key
         if gtk.gdk.keyval_name(event.keyval) != "Menu":
             return
-        
+
         if not self.get_selected_files():
             return
-        
+
         self.file_menu.popup(None, None, None, 3, event.time)
         return True
 
