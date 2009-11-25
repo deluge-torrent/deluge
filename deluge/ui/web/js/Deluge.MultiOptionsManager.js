@@ -146,7 +146,9 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 * @param {Object} value The value for the option
 	 */
 	setDefault: function(option, value) {
-		if (value === undefined) {
+		if (option === undefined) {
+			return;
+		} else if (value === undefined) {
 			for (var key in option) {
 				this.setDefault(key, option[key]);
 			}
@@ -175,7 +177,9 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
-		if (value === undefined) {
+		if (option === undefined) {
+			return;
+		} else if (value === undefined) {
 			for (var key in option) {
 				this.update(key, option[key]);
 			}
