@@ -189,7 +189,9 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @param {Object} value The value for the option
 	 */
 	set: function(option, value) {
-		if (typeof option == 'object') {
+		if (option === undefined) {
+			return;
+		} else if (typeof option == 'object') {
 			var options = option;
 			this.options = Ext.apply(this.options, options);
 			for (var option in options) {
@@ -207,7 +209,9 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
-		if (value === undefined) {
+		if (option === undefined) {
+			return;
+		} else if (value === undefined) {
 			for (var key in option) {
 				this.update(key, option[key]);
 			}
