@@ -213,8 +213,18 @@ Section "Create .torrent file association for Deluge" Section2
   WriteRegStr HKCR "Deluge\shell\open\command" "" '"$INSTDIR\deluge.cmd" "%1"'
 SectionEnd
 
+
+# Create magnet uri association
+Section "Create magnet uri link association for Deluge" Section3
+    DeleteRegKey HKCR "magnet"
+    WriteRegStr HKCR "magnet" "" "URL:magnet protocol"
+    WriteRegStr HKCR "magnet" "URL Protocol" ""
+    
+    WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.cmd" "%1"'
+SectionEnd
+
 # Install GTK+ 2.16
-Section "GTK+ 2.16 runtime" Section3
+Section "GTK+ 2.16 runtime" Section4
   # Check whether GTK+ 2.12 is installed on the system; if so skip this section
   # The criterion is whether the registry key HKLM\SOFTWARE\GTK\2.0\Version exists
   ReadRegStr $0 HKLM "SOFTWARE\GTK\2.0" "Version"
@@ -263,13 +273,15 @@ SectionEnd
 
 LangString DESC_Section1 ${LANG_ENGLISH} "Install Deluge Bittorrent client."
 LangString DESC_Section2 ${LANG_ENGLISH} "Select this option unless you have another torrent client which you want to use for opening .torrent files."
-LangString DESC_Section3 ${LANG_ENGLISH} "Download and install the GTK+ 2.16 runtime. \
+LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to have Deluge handle magnet links."
+LangString DESC_Section4 ${LANG_ENGLISH} "Download and install the GTK+ 2.16 runtime. \
   This is skipped automatically if GTK+ is already installed."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section3)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Section4} $(DESC_Section4)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
