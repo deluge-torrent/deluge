@@ -350,17 +350,16 @@ class TorrentManager(component.Component):
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
 
-            if not state.magnet:
-                add_torrent_params["ti"] =\
-                    self.get_torrent_info_from_file(
-                        os.path.join(get_config_dir(),
-                                     "state", state.torrent_id + ".torrent"))
-
-                if not add_torrent_params["ti"]:
-                    log.error("Unable to add torrent!")
-                    return
-            else:
+            ti = self.get_torrent_info_from_file(
+                    os.path.join(get_config_dir(),
+                                    "state", state.torrent_id + ".torrent"))
+            if ti:
+                add_torrent_params["ti"] = ti
+            elif state.magnet:
                 magnet = state.magnet
+            else:
+                log.error("Unable to add torrent!")
+                return
 
             # Handle legacy case with storing resume data in individual files
             # for each torrent
