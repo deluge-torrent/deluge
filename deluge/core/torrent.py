@@ -113,9 +113,6 @@ class Torrent:
         except RuntimeError:
             self.torrent_info = None
 
-        # Files dictionary
-        self.files = self.get_files()
-
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
 
@@ -254,7 +251,7 @@ class Torrent:
         self.options["move_completed_path"] = move_completed_path
 
     def set_file_priorities(self, file_priorities):
-        if len(file_priorities) != len(self.files):
+        if len(file_priorities) != len(self.get_files()):
             log.debug("file_priorities len != num_files")
             self.options["file_priorities"] = self.handle.file_priorities()
             return
@@ -491,7 +488,7 @@ class Torrent:
 
         file_progress = self.handle.file_progress()
         ret = []
-        for i,f in enumerate(self.files):
+        for i,f in enumerate(self.get_files()):
             try:
                 ret.append(float(file_progress[i]) / float(f["size"]))
             except ZeroDivisionError:
@@ -559,7 +556,6 @@ class Torrent:
             "distributed_copies": distributed_copies,
             "download_payload_rate": self.status.download_payload_rate,
             "file_priorities": self.options["file_priorities"],
-            "files": self.files,
             "hash": self.torrent_id,
             "is_auto_managed": self.options["auto_managed"],
             "is_finished": self.is_finished,
@@ -641,6 +637,7 @@ class Torrent:
             "comment": ti_comment,
             "eta": self.get_eta,
             "file_progress": self.get_file_progress,
+            "files": self.get_files,
             "is_seed": self.handle.is_seed,
             "name": ti_name,
             "num_files": ti_num_files,
@@ -764,9 +761,10 @@ class Torrent:
             self.torrent_id)
         log.debug("Writing torrent file: %s", path)
         try:
-            ti = self.handle.get_torrent_info()
-            md = lt.bdecode(ti.metadata())
-            log.debug("md: %s", md)
+            self.torrent_info = self.handle.get_torrent_info()
+            # Regenerate the file priorities
+            self.set_file_priorities([])
+            md = lt.bdecode(self.torrent_info.metadata())
             torrent_file = {}
             torrent_file["info"] = md
             open(path, "wb").write(lt.bencode(torrent_file))
