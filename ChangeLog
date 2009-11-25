@@ -2,6 +2,7 @@
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs
 	* Fix files list when using magnet uris
+	* Fix loading the saved metadata when loading state with magnet uris
 
 ==== GtkUI ====
 	* Fix showing the 'Other' speed dialogs in Windows
