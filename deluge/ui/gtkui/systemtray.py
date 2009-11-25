@@ -165,7 +165,7 @@ class SystemTray(component.Component):
             self.tray.set_tooltip(_("Deluge\nNot Connected.."))
 
     def shutdown(self):
-        if self.config["enable_system_tray"]:        
+        if self.config["enable_system_tray"]:
             self.tray.set_visible(False)
 
     def send_status_request(self):
@@ -196,6 +196,9 @@ class SystemTray(component.Component):
         self.upload_rate = deluge.common.fsize(upload_rate)
 
     def update(self):
+        if not self.config["enable_system_tray"]:
+            return
+
         # Set the tool tip text
         max_download_speed = self.max_download_speed
         max_upload_speed = self.max_upload_speed

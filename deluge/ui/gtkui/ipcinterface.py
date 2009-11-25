@@ -71,7 +71,9 @@ class IPCInterface(component.Component):
         _args = []
         for arg in args:
             if arg.strip():
-                _args.append(os.path.abspath(arg))
+                if not deluge.common.is_magnet(arg) and not deluge.common.is_url(arg):
+                    arg = os.path.abspath(arg)
+                _args.append(arg)
         args = _args
 
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
@@ -117,7 +119,6 @@ class IPCInterface(component.Component):
                     except Exception, e:
                         log.error("Problem deleting lockfile or socket file!")
                         log.exception(e)
-
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
