@@ -1,4 +1,4 @@
-recursive-include docs *
+recursive-include docs/man *
 recursive-include deluge *
 recursive-include win32 *
 
@@ -9,3 +9,4 @@ exclude deluge/ui/web/js/build.sh
 exclude deluge/ui/web/js/Deluge*.js
 exclude deluge/ui/web/js/*-debug.js
 prune deluge/ui/web/docs
+prune deluge/scripts
