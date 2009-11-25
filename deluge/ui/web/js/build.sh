@@ -35,9 +35,9 @@ build_deluge() {
 
     [ $NEEDS_BUILD == false ] && return 0
 
-    echo "Building deluge-yc.js"
-    cat $DELUGE_FILES > deluge-yc.js.tmp
-    yuicompressor --type=js -o "deluge-yc.js" "deluge-yc.js.tmp" && rm "deluge-yc.js.tmp"
+    echo "Building deluge.js"
+    cat $DELUGE_FILES > deluge.js.tmp
+    yuicompressor --type=js -o "deluge.js" "deluge.js.tmp" && rm "deluge.js.tmp"
 }
 
 build_docs() {
