@@ -38,7 +38,7 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 			title: _('Remove Torrent'),
 			layout: 'fit',
 			width: 350,
-			height: 90,
+			height: 100,
 			buttonAlign: 'right',
 			closeAction: 'hide',
 			closable: true,
@@ -51,13 +51,13 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	initComponent: function() {
 		Ext.deluge.RemoveWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancel, this);
-		this.addButton(_('Remove'), this.onRemove, this);
-		this.addButton(_('Remove with data'), this.onRemoveData, this);
+		this.addButton(_('Remove With Data'), this.onRemoveData, this);
+		this.addButton(_('Remove Torrent'), this.onRemove, this);
 		
 		this.add({
 			border: false,
-			bodyStyle: 'padding: 5px;',
-			html: '<span>Are you sure you wish to remove the torrent(s)?</span>'
+			bodyStyle: 'padding: 5px; padding-left: 10px;',
+			html: 'Are you sure you wish to remove the torrent(s)?'
 		});
 	},
 	
