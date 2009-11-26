@@ -1,3 +1,7 @@
+=== Deluge 1.2.0_rc5 (in development) ===
+==== Web ====
+	* Swap order of buttons in Remove window (Closes #1083)
+
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs
