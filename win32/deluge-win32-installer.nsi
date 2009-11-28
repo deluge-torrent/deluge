@@ -191,7 +191,7 @@ Section -StartMenu_Desktop_Links
   CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.cmd" "" "$INSTDIR\deluge.ico"
 SectionEnd
 
-Section -Uninstaller
+Section -Uninstaller_Registry
   WriteUninstaller "$INSTDIR\Deluge-uninst.exe"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" "$INSTDIR\Deluge-uninst.exe"
