@@ -175,11 +175,12 @@ def makeinfo(path, piece_length, progress, name = None,
                     piece_count += 1
                     done = 0
                     sh = sha()
-                progress(piece_count, num_pieces)
+                    progress(piece_count, num_pieces)
             h.close()
         if done > 0:
             pieces.append(sh.digest())
-
+            progress(piece_count, num_pieces)
+            
         if name is not None:
             assert isinstance(name, unicode)
             name = to_utf8(name)
