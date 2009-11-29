@@ -156,7 +156,8 @@ class AddDialog(object):
 
 
 class OptionsDialog(object):
-    spin_ids = ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections", "stop_ratio"]
+    spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
+    spin_int_ids = ["max_upload_slots", "max_connections"]
     chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio",
         "apply_move_completed", "move_completed", "is_auto_managed", "auto_add"]
 
@@ -197,7 +198,7 @@ class OptionsDialog(object):
     def load_options(self, options):
         log.debug(options.keys())
 
-        for id in self.spin_ids:
+        for id in self.spin_ids + self.spin_int_ids:
             self.glade.get_widget(id).set_value(options[id])
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options[id]))
@@ -221,6 +222,8 @@ class OptionsDialog(object):
 
         for id in self.spin_ids:
             options[id] = self.glade.get_widget(id).get_value()
+        for id in self.spin_int_ids:
+            options[id] = self.glade.get_widget(id).get_value_as_int()
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
 
