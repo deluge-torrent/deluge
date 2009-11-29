@@ -40,6 +40,8 @@ import os.path
 import gobject
 import base64
 
+from twisted.internet.threads import deferToThread
+
 from deluge.ui.client import client
 import listview
 import deluge.component as component
@@ -318,9 +320,10 @@ class CreateTorrentDialog:
             self.glade.get_widget("progress_dialog").set_transient_for(component.get("MainWindow").window)
             self.glade.get_widget("progress_dialog").show_all()
 
-            import threading
-            threading.Thread(target=self.create_torrent,
-                args=(
+            def hide_progress(result):
+                self.glade.get_widget("progress_dialog").hide_all()
+                
+            deferToThread(self.create_torrent,
                     path,
                     tracker,
                     piece_length,
@@ -331,7 +334,7 @@ class CreateTorrentDialog:
                     private,
                     author,
                     trackers,
-                    add_to_session)).start()
+                    add_to_session).addCallback(hide_progress)
 
         chooser.destroy()
         self.dialog.destroy()
@@ -350,7 +353,7 @@ class CreateTorrentDialog:
             private=private,
             created_by=created_by,
             trackers=trackers)
-        self.glade.get_widget("progress_dialog").hide_all()
+
         if add_to_session:
             client.core.add_torrent_file(
                 os.path.split(target)[-1],
