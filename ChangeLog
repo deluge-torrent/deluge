@@ -4,6 +4,7 @@
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup
+	* Properly show 100.00% and reduce number of progress bar updates during a torrent creation
 	
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
