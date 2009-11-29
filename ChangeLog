@@ -1,7 +1,10 @@
-=== Deluge 1.2.0_rc5 (in development) ===
+=== Deluge 1.2.0_rc5 (In Development) ===
 ==== Web ====
 	* Swap order of buttons in Remove window (Closes #1083)
 
+==== GtkUI ====
+	* Attempt to register as the default magnet uri handler in GNOME on startup
+	
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs

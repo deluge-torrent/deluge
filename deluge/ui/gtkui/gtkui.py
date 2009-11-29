@@ -180,6 +180,22 @@ class GtkUI(object):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
+        # Attempt to register a magnet URI handler with gconf
+        try:
+            import gconf
+        except ImportError:
+            log.debug("gconf not available, so will not attempt to register magnet uri handler")
+        else:
+            key = "/desktop/gnome/url-handlers/magnet/command"
+            gconf_client = gconf.client_get_default()
+            if not gconf_client.get(key):
+                if gconf_client.set_string(key, "/usr/bin/deluge '%s'"):
+                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/needs_terminal", False)
+                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/enabled", True)
+                    log.info("Deluge registered as default magnet uri handler!")
+                else:
+                    log.error("Unable to register Deluge as default magnet uri handler.")
+                    
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
