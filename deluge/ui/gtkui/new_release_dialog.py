@@ -47,7 +47,7 @@ class NewReleaseDialog:
         glade = component.get("MainWindow").main_glade
         self.dialog = glade.get_widget("new_release_dialog")
         # Set the version labels
-        if deluge.common.windows_check():
+        if deluge.common.windows_check() or deluge.common.osx_check():
             glade.get_widget("image_new_release").set_from_file(
                 deluge.common.get_pixmap("deluge16.png"))
         else:

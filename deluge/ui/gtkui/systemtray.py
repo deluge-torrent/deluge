@@ -82,7 +82,7 @@ class SystemTray(component.Component):
             pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/tray_menu.glade"))
 
-        if deluge.common.windows_check():
+        if deluge.common.windows_check() or deluge.common.osx_check():
             self.tray = gtk.status_icon_new_from_pixbuf(
                 common.get_logo(32))
         else:
