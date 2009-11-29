@@ -50,7 +50,7 @@ import deluge.common
 
 def get_logo(size):
     """Returns a deluge logo pixbuf based on the size parameter."""
-    if deluge.common.windows_check():
+    if deluge.common.windows_check() or deluge.common.osx_check():
         return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.png"), \
             size, size)
     else:
@@ -162,7 +162,7 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
         glade.get_widget("image").set_from_stock(image_stockid, gtk.ICON_SIZE_LARGE_TOOLBAR)
     if image_filename:
         # Hack for Windows since it doesn't support svg
-        if os.path.splitext(image_filename)[1] == ".svg" and deluge.common.windows_check():
+        if os.path.splitext(image_filename)[1] == ".svg" and (deluge.common.windows_check() or deluge.common.osx_check()):
             image_filename = os.path.splitext(image_filename)[0] + "16.png"
         pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(
             deluge.common.get_pixmap(image_filename), 32, 32)
