@@ -189,7 +189,7 @@ class GtkUI(object):
             key = "/desktop/gnome/url-handlers/magnet/command"
             gconf_client = gconf.client_get_default()
             if not gconf_client.get(key):
-                if gconf_client.set_string(key, "/usr/bin/deluge '%s'"):
+                if gconf_client.set_string(key, "deluge '%s'"):
                     gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/needs_terminal", False)
                     gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/enabled", True)
                     log.info("Deluge registered as default magnet uri handler!")
