@@ -81,6 +81,7 @@ from deluge.ui.tracker_icons import TrackerIcons
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
 import dialogs
+import common
 
 import deluge.configmanager
 import deluge.common
@@ -180,21 +181,9 @@ class GtkUI(object):
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
-        # Attempt to register a magnet URI handler with gconf
-        try:
-            import gconf
-        except ImportError:
-            log.debug("gconf not available, so will not attempt to register magnet uri handler")
-        else:
-            key = "/desktop/gnome/url-handlers/magnet/command"
-            gconf_client = gconf.client_get_default()
-            if not gconf_client.get(key):
-                if gconf_client.set_string(key, "deluge '%s'"):
-                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/needs_terminal", False)
-                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/enabled", True)
-                    log.info("Deluge registered as default magnet uri handler!")
-                else:
-                    log.error("Unable to register Deluge as default magnet uri handler.")
+        # Attempt to register a magnet URI handler with gconf, but do not overwrite
+        # if already set by another program.
+        common.associate_magnet_links(False)
                 
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)

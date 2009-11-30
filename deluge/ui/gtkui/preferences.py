@@ -60,6 +60,10 @@ class Preferences(component.Component):
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
+
+        self.glade.get_widget("image_magnet").set_from_file(
+            deluge.common.get_pixmap("magnet.png"))
+
         # Setup the liststore for the categories (tab pages)
         self.liststore = gtk.ListStore(int, str)
         self.treeview.set_model(self.liststore)
@@ -105,7 +109,8 @@ class Preferences(component.Component):
             "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked,
             "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked,
             "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked,
-            "on_combo_proxy_type_changed": self._on_combo_proxy_type_changed
+            "on_combo_proxy_type_changed": self._on_combo_proxy_type_changed,
+            "on_button_associate_magnet_clicked": self._on_button_associate_magnet_clicked
         })
 
         # These get updated by requests done to the core
@@ -927,3 +932,6 @@ class Preferences(component.Component):
                 w = self.glade.get_widget(p + s + "_" + name)
                 if w:
                     w.show()
+
+    def _on_button_associate_magnet_clicked(self, widget):
+        common.associate_magnet_links(True)
