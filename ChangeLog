@@ -6,10 +6,11 @@
 	* Attempt to register as the default magnet uri handler in GNOME on startup
 	* Properly show 100.00% and reduce number of progress bar updates during a torrent creation
 	* Fix crash in Windows when creating a torrent
+	* Add button to Other preferences to associate magnet links with Deluge
 
 ==== Label ====
 	* Fix #1085 only use ints for specific options to prevent unhandled exception
-	
+
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs

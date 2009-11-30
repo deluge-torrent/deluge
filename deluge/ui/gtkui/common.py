@@ -228,3 +228,35 @@ def get_deluge_icon():
             return icon_theme.load_icon("deluge", 64, 0)
         except:
             return get_logo(64)
+
+def associate_magnet_links(overwrite=False):
+    """
+    Associates magnet links to Deluge.
+
+    :param overwrite: if this is True, the current setting will be overwritten
+    :type overwrite: bool
+    :returns: True if association was set
+    :rtype: bool
+
+    """
+    if not deluge.common.windows_check():
+        # gconf method is only available in a GNOME environment
+        try:
+            import gconf
+        except ImportError:
+            log.debug("gconf not available, so will not attempt to register magnet uri handler")
+            return False
+        else:
+            key = "/desktop/gnome/url-handlers/magnet/command"
+            gconf_client = gconf.client_get_default()
+            if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
+                # We are either going to overwrite the key, or do it if it hasn't been set yet
+                if gconf_client.set_string(key, "deluge '%s'"):
+                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/needs_terminal", False)
+                    gconf_client.set_bool("/desktop/gnome/url-handlers/magnet/enabled", True)
+                    log.info("Deluge registered as default magnet uri handler!")
+                    return True
+                else:
+                    log.error("Unable to register Deluge as default magnet uri handler.")
+                    return False
+    return False
