@@ -1,6 +1,8 @@
 === Deluge 1.2.0_rc5 (In Development) ===
 ==== Web ====
 	* Swap order of buttons in Remove window (Closes #1083)
+	* Change the compressed js script to deluge-all.js to avoid naming 
+	  conflicts on case-sensitive filesystems.
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup
