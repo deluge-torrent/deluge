@@ -1,6 +1,9 @@
 DELUGE_FILES="Deluge.js Deluge.Formatters.js Deluge.Menus.js Deluge.Events.js Deluge.OptionsManager.js Deluge.MultiOptionsManager.js Deluge.Add.js Deluge.Add.File.js Deluge.Add.Url.js Deluge.Client.js Deluge.ConnectionManager.js Deluge.Details.js Deluge.Details.Status.js Deluge.Details.Details.js Deluge.Details.Files.js Deluge.Details.Peers.js Deluge.Details.Options.js Deluge.EditTrackers.js Deluge.Keys.js Deluge.Login.js Deluge.MoveStorage.js Deluge.Plugin.js Deluge.Preferences.js Deluge.Preferences.Downloads.js Deluge.Preferences.Network.js Deluge.Preferences.Encryption.js Deluge.Preferences.Bandwidth.js Deluge.Preferences.Interface.js Deluge.Preferences.Other.js Deluge.Preferences.Daemon.js Deluge.Preferences.Queue.js Deluge.Preferences.Proxy.js Deluge.Preferences.Notification.js Deluge.Preferences.Cache.js Deluge.Preferences.Plugins.js Deluge.Remove.js Deluge.Sidebar.js Deluge.Statusbar.js Deluge.Toolbar.js Deluge.Torrents.js Deluge.UI.js"
 ALL_FILES="ext-extensions-debug.js $DELUGE_FILES"
 
+DELUGE="deluge-all.js"
+EXT_EXTENSIONS="ext-extensions.js"
+
 [ -e /usr/bin/jsdoc_toolkit ] && JSDOC="/usr/bin/jsdoc_toolkit"
 [ -e /usr/local/bin/jsdoc-toolkit ] && JSDOC="/usr/local/bin/jsdoc-toolkit"
 
@@ -35,9 +38,9 @@ build_deluge() {
 
     [ $NEEDS_BUILD == false ] && return 0
 
-    echo "Building deluge.js"
-    cat $DELUGE_FILES > deluge.js.tmp
-    yuicompressor --type=js -o "deluge.js" "deluge.js.tmp" && rm "deluge.js.tmp"
+    echo "Building $DELUGE"
+    cat $DELUGE_FILES > $DELUGE.tmp
+    yuicompressor --type=js -o "$DELUGE" "$DELUGE.tmp" && rm "$DELUGE.tmp"
 }
 
 build_docs() {
@@ -48,8 +51,8 @@ build_docs() {
 build_ext() {
     check_file "ext-extensions-debug.js"
     if [ $? == 1 ]; then
-        echo "Building ext-extensions.js"
-        yuicompressor --type=js -o "ext-extensions.js" "ext-extensions-debug.js"
+        echo "Building $EXT_EXTENSIONS"
+        yuicompressor --type=js -o "$EXT_EXTENSIONS" "ext-extensions-debug.js"
     fi;
 }
 

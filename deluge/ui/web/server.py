@@ -302,7 +302,7 @@ class TopLevel(resource.Resource):
         "/js/ext-extensions.js",
         "/config.js",
         "/gettext.js",
-        "/js/deluge.js"
+        "/js/deluge-all.js"
     ]
 
     __debug_scripts = [
