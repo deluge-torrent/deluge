@@ -13,6 +13,9 @@
 ==== Label ====
 	* Fix #1085 only use ints for specific options to prevent unhandled exception
 
+==== Execute ====
+	* Use the move_completed path if it is different to the save path in the completed event.
+
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs

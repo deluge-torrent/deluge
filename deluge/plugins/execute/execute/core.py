@@ -78,9 +78,14 @@ class Core(CorePluginBase):
 
     def execute_commands(self, torrent_id, event):
         torrent = component.get("TorrentManager").torrents[torrent_id]
-        info = torrent.get_status(["name", "save_path"])
+        info = torrent.get_status(["name", "save_path",
+            "move_on_completed_path"])
+
         torrent_name = info["name"]
-        path = info["save_path"]
+        path = info["save_path"] if \
+            info["move_on_completed_path"] == info["save_path"] else \
+            info["move_on_completed_path"]
+
         for command in self.config["commands"]:
             if command[EXECUTE_EVENT] == event:
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
