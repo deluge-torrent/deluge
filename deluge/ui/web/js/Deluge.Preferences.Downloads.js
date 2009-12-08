@@ -107,7 +107,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			labelSeparator: '',
 			defaults: {
 				width: 80,
-				height: 25,
+				height: 22,
 				name: 'compact_allocation'
 			},
 			items: [{
@@ -131,13 +131,13 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 		optMan.bind('prioritize_first_last_pieces', fieldset.add({
 			name: 'prioritize_first_last_pieces',
 			labelSeparator: '',
-			height: 24,
+			height: 22,
 			boxLabel: _('Prioritize first and last pieces of torrent')
 		}));
 		optMan.bind('add_paused', fieldset.add({
 			name: 'add_paused',
 			labelSeparator: '',
-			height: 24,
+			height: 22,
 			boxLabel: _('Add torrents in Paused state')
 		}));
 	

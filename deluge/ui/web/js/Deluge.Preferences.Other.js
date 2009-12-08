@@ -58,6 +58,7 @@ Ext.deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('new_release_check', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
+			height: 22,
 			name: 'new_release_check',
 			boxLabel: _('Be alerted about new releases')
 		}));
@@ -82,6 +83,7 @@ Ext.deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('send_info', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
+			height: 22,
 			boxLabel: _('Yes, please send anonymous statistics'),
 			name: 'send_info'
 		}));

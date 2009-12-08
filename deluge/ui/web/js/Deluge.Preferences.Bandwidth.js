@@ -134,17 +134,19 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: '',
 			defaultType: 'checkbox',
-			style: 'padding-top: 0px; margin-top: 0px; margin-bottom: 0px;',
+			style: 'padding-top: 0px; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px;',
 			autoHeight: true
 		});
 		optMan.bind('ignore_limits_on_local_network', fieldset.add({
 			name: 'ignore_limits_on_local_network',
+			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Ignore limits on local network'),
 		}));
 		optMan.bind('rate_limit_ip_overhead', fieldset.add({
 			name: 'rate_limit_ip_overhead',
+			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Rate limit IP overhead'),

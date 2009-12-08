@@ -76,6 +76,7 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 		});
 		optMan.bind('allow_remote', fieldset.add({
 			fieldLabel: '',
+			height: 22,
 			labelSeparator: '',
 			boxLabel: _('Allow Remote Connections'),
 			name: 'allow_remote'
