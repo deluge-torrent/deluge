@@ -61,6 +61,7 @@ Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			boxLabel: _('Use Random Ports'),
 			name: 'random_port',
+			height: 22,
 			listeners: {
 				'check': {
 					fn: function(e, checked) {
@@ -115,6 +116,7 @@ Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			boxLabel: _('Use Random Ports'),
 			name: 'random_outgoing_ports',
+			height: 22,
 			listeners: {
 				'check': {
 					fn: function(e, checked) {

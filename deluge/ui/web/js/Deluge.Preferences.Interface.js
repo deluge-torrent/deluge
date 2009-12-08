@@ -52,25 +52,28 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			border: false,
 			title: _('Interface'),
-			style: 'margin-bottom: 5px; padding-bottom: 5px; padding-top: 5px',
+			style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
 			autoHeight: true,
 			labelWidth: 1,
 			defaultType: 'checkbox'
 		});
 		optMan.bind('show_session_speed', fieldset.add({
 			name: 'show_session_speed',
+			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Show session speed in titlebar')
 		}));
 		optMan.bind('sidebar_show_zero', fieldset.add({
 			name: 'sidebar_show_zero',
+			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Show filters with zero torrents')
 		}));
 		optMan.bind('sidebar_show_trackers', fieldset.add({
 			name: 'sidebar_show_trackers',
+			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Show trackers with zero torrents')
@@ -125,7 +128,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			border: false,
 			title: _('Server'),
-			style: 'margin-top: 5px; padding-top: 5px; margin-bottom: 0px; padding-bottom: 0px',
+			style: 'margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px',
 			autoHeight: true,
 			labelWidth: 110,
 			defaultType: 'uxspinner',
@@ -157,8 +160,9 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'checkbox',
 			name: 'https',
 			hideLabel: true,
-			width: 320,
-			boxLabel: _('Use SSL (paths relative to the Deluge config folder)')
+			width: 280,
+			height: 22,
+			boxLabel: _('Use SSL (paths relative to Deluge config folder)')
 		}));
 		this.httpsField.on('check', this.onSSLCheck, this);
 		this.pkeyField = optMan.bind('pkey', fieldset.add({

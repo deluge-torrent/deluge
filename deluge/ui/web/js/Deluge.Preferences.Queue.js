@@ -59,6 +59,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('queue_new_to_top', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
+			height: 22,
 			boxLabel: _('Queue new torrents to top'),
 			name: 'queue_new_to_top'
 		}));
@@ -123,7 +124,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			autoHeight: true,
 			labelWidth: 150,
 			defaultType: 'uxspinner',
-			style: 'margin-bottom: 0px; padding-bottom: 0px;',
+			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;',
 		});
 		optMan.bind('share_ratio_limit', fieldset.add({
 			fieldLabel: _('Share Ratio Limit'),
