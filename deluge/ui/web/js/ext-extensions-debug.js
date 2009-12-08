@@ -2,27 +2,90 @@
  * Copyright (c) 2008, Steven Chim
  * All rights reserved.
  * 
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are 
+ * met:
  * 
- *     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *  * Redistributions of source code must retain the above copyright 
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
  *     * The names of its contributors may not be used to endorse or promote products derived from this software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+Ext.namespace("Ext.ux.form");
+
+/**
+  * Ext.ux.form.ToggleField class
+  *
+  * @author Damien Churchill
+  * @version v0.1
+  *
+  * @class Ext.ux.form.ToggleField
+  * @extends Ext.form.TriggerField
+  */
+Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
+
+	cls: 'x-toggle-field',
+
+	initComponent: function() {
+		Ext.ux.form.ToggleField.superclass.initComponent.call(this);
+
+		this.toggle = new Ext.form.Checkbox({
+			region: 'west'
+		});
+		this.toggle.on('check', this.onToggleCheck, this);
+
+		this.input = new Ext.form.TextField({
+			region: 'center',
+			disabled: true
+		});
+	},
+
+	onRender: function(ct, position) {
+		if (!this.el) {
+			this.panel = new Ext.Panel({
+				cls: this.groupCls,
+				layout: 'border',
+				border: false,
+				renderTo: ct
+			});
+			this.panel.ownerCt = this;
+			this.el = this.panel.getEl();
+
+			this.toggle.ownerCt = this.panel;
+			this.toggle.render(this.el);
+
+			this.input.ownerCt = this.panel;
+			this.input.render(this.el);
+
+			this.panel.doLayout();
+		}
+		Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
+	},
+
+	// private
+	onResize: function(w, h) {
+		this.panel.setSize(w, h);
+		this.panel.doLayout();
+	},
+
+	onToggleCheck: function(toggle, checked) {
+		this.input.setDisabled(!checked);
+	}
+});
+Ext.reg('togglefield', Ext.ux.form.ToggleField);
+
 /**
   * Ext.ux.form.Spinner Class
-	*
-	* @author  Steven Chim
-	* @version Spinner.js 2008-08-27 v0.35
+  *
+  * @author  Steven Chim
+  * @version Spinner.js 2008-08-27 v0.35
   *
   * @class Ext.ux.form.Spinner
   * @extends Ext.form.TriggerField
   */
-
-Ext.namespace("Ext.ux.form");
-
 Ext.ux.form.Spinner = function(config){
 	Ext.ux.form.Spinner.superclass.constructor.call(this, config);
 	this.addEvents({
