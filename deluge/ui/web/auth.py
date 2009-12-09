@@ -51,6 +51,8 @@ import time
 import random
 import hashlib
 import logging
+from datetime import datetime, timedelta
+from email.utils import formatdate
 
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
@@ -82,9 +84,9 @@ def get_session_id(session_id):
         return None
 
 def make_expires(timeout):
-    expires = int(time.time()) + timeout
-    expires_str = time.strftime('%a, %d %b %Y %H:%M:%S GMT',
-            time.gmtime(expires))
+    dt = timedelta(seconds=timeout)
+    expires = time.mktime((datetime.now() + dt).timetuple())
+    expires_str = formatdate(timeval=expires, localtime=False, usegmt=True)
     return expires, expires_str
 
 class Auth(JSONComponent):
