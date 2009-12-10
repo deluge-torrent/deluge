@@ -97,7 +97,7 @@ class OldStateUpgrader:
                 torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
                 _file.close()
             except (IOError, RuntimeError), e:
-                log.warning("Unable to open %s: %s", filepath, e)
+                log.warning("Unable to open %s: %s", torrent_path, e)
 
             # Copy the torrent file to the new location
             import shutil
