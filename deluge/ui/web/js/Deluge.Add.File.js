@@ -32,6 +32,7 @@ Copyright:
 
 */
 
+Ext.namespace('Ext.deluge.add');
 Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	constructor: function(config) {
 		config = Ext.apply({
