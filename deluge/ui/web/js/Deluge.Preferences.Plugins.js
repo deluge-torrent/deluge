@@ -32,6 +32,80 @@ Copyright:
 */
 
 Ext.namespace('Ext.deluge.preferences');
+
+Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
+
+	height: 115,
+	width: 350,
+	
+	bodyStyle: 'padding: 10px 5px;',
+
+	buttonAlign: 'center',
+
+	closeAction: 'hide',
+
+	iconCls: 'x-deluge-add-file',
+
+	layout: 'fit',
+
+	modal: true,
+
+	plain: true,
+
+	title: _('Install Plugin'),
+
+	initComponent: function() {
+		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		this.addButton(_('Install'), this.onInstall, this);
+		
+		this.form = this.add({
+			xtype: 'form',
+			baseCls: 'x-plain',
+			labelWidth: 55,
+			autoHeight: true,
+			fileUpload: true,
+			items: [{
+				xtype: 'fileuploadfield',
+				id: 'pluginEgg',
+				emptyText: _('Select an egg'),
+				fieldLabel: _('Plugin Egg'),
+				name: 'file',
+				buttonCfg: {
+					text: _('Browse') + '...'
+				}
+			}]
+		});
+	},
+
+	onInstall: function(field, e) {
+		this.form.getForm().submit({
+			url: '/upload',
+			waitMsg: _('Uploading your plugin...'),
+			success: this.onUploadSuccess,
+			scope: this
+		}); 
+	},
+
+	onUploadPlugin: function(info, obj, response, request) {
+		this.fireEvent('pluginadded');
+	},
+
+	onUploadSuccess: function(fp, upload) {
+		this.hide();
+		if (upload.result.success) {
+			var filename = this.form.getForm().findField('pluginEgg').value;
+			var path = upload.result.files[0]
+			this.form.getForm().findField('pluginEgg').setValue('');
+			Deluge.Client.web.upload_plugin(filename, path, {
+				success: this.onUploadPlugin,
+				scope: this,
+				filename: filename
+			});
+		}
+	}
+});
+	
+
 Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	constructor: function(config) {
 		config = Ext.apply({
@@ -213,6 +287,14 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		delete info;
 	},
 
+	onInstallPlugin: function() {
+		if (!this.installWindow) {
+			this.installWindow = new Ext.deluge.preferences.InstallPlugin();
+			this.installWindow.on('pluginadded', this.onPluginInstall, this);
+		}
+		this.installWindow.show();
+	},
+
 	onPluginEnabled: function(pluginName) {
 		var index = this.grid.getStore().find('plugin', pluginName);
 		var plugin = this.grid.getStore().getAt(index);
@@ -225,6 +307,10 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		var plugin = this.grid.getStore().getAt(index);
 		plugin.set('enabled', false);
 		plugin.commit();
+	},
+
+	onPluginInstall: function() {
+		this.updatePlugins();
 	},
 
 	onPluginSelect: function(selmodel, rowIndex, r) {
