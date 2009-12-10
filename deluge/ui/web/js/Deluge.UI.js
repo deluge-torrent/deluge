@@ -76,6 +76,9 @@ Deluge.UI = {
 			plugin = Deluge.Plugins[plugin];
 			plugin.enable();
 		}
+
+		// Initialize quicktips so all the tooltip configs start working.
+		Ext.QuickTips.init();
 	
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
