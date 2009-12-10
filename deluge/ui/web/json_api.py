@@ -489,6 +489,9 @@ class WebApi(JSONComponent):
         def got_health(health):
             ui_info["stats"]["has_incoming_connections"] = health
 
+        def got_free_space(free_space):
+            ui_info["stats"]["free_space"] = free_space
+
         def got_torrents(torrents):
             ui_info["torrents"] = torrents
 
@@ -518,7 +521,10 @@ class WebApi(JSONComponent):
         d6 = client.core.get_health()
         d6.addCallback(got_health)
 
-        dl = DeferredList([d1, d2, d3, d4, d5, d6], consumeErrors=True)
+        d7 = client.core.get_free_space(self.core_config.get("download_location"))
+        d7.addCallback(got_free_space)
+
+        dl = DeferredList([d1, d2, d3, d4, d5, d6, d7], consumeErrors=True)
         dl.addCallback(on_complete)
         return d
 

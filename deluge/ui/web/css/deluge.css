@@ -43,6 +43,7 @@ input {
 .x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('/icons/connections.png') }
 .x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('/icons/traffic.png') }
 .x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('/icons/edit_trackers.png'); }
+.x-deluge-freespace, .x-btn .x-deluge-freespace  {background-image: url('/icons/drive.png'); }
 
 
 /* Torrent Details */

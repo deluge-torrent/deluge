@@ -22,29 +22,40 @@
 				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-connections',
+				tooltip: _('Connections'),
 				menu: Deluge.Menus.Connections
 			}, '-', {
 				id: 'statusbar-downspeed',
 				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-downloading',
+				tooltip: _('Download Speed'),
 				menu: Deluge.Menus.Download
 			}, '-', {
 				id: 'statusbar-upspeed',
 				text: ' ',
 				cls: 'x-btn-text-icon',
 				iconCls: 'x-deluge-seeding',
+				tooltip: _('Upload Speed'),
 				menu: Deluge.Menus.Upload
 			}, '-', {
 				id: 'statusbar-traffic',
 				text: ' ',
 				cls: 'x-btn-text-icon',
-				iconCls: 'x-deluge-traffic'
+				iconCls: 'x-deluge-traffic',
+				tooltip: _('Protocol Traffic Download/Upload')
 			}, '-', {
 				id: 'statusbar-dht',
 				text: ' ',
 				cls: 'x-btn-text-icon',
-				iconCls: 'x-deluge-dht'
+				iconCls: 'x-deluge-dht',
+				tooltip: _('DHT Nodes')
+			}, '-', {
+				id: 'statusbar-freespace',
+				text: ' ',
+				cls: 'x-btn-text-icon',
+				iconCls: 'x-deluge-freespace',
+				tooltip: _('Freespace in download location')
 			});
 			this.created = true;
 		},
@@ -131,6 +142,7 @@
 			});
 	
 			this.items.get('statusbar-dht').setText(stats.dht_nodes);
+			this.items.get('statusbar-freespace').setText(fsize(stats.free_space));
 			
 			Deluge.Menus.Connections.setValue(stats.max_num_connections);
 			Deluge.Menus.Download.setValue(stats.max_download);

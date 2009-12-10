@@ -4,6 +4,9 @@
 	* Change the compressed js script to deluge-all.js to avoid naming 
 	  conflicts on case-sensitive filesystems.
 	* Apply patch from adios fixing the cookie date
+	* Add tooltips to the statusbar items
+	* Add disk usage to the statusbar
+
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup
