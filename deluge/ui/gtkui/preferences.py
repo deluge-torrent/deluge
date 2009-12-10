@@ -932,6 +932,7 @@ class Preferences(component.Component):
             chooser.destroy()
             return
 
+        import base64
         import shutil
         import os.path
         filename = os.path.split(filepath)[1]
@@ -943,9 +944,8 @@ class Preferences(component.Component):
 
         if not client.is_localhost():
             # We need to send this plugin to the daemon
-            client.core.upload_plugin(
-                filename,
-                xmlrpclib.Binary(open(filepath, "rb").read()))
+            filedump = base64.encodestring(open(filepath, "rb").read())
+            client.core.upload_plugin(filename, filedump)
 
         client.core.rescan_plugins()
         chooser.destroy()
