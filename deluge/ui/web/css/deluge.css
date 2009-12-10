@@ -41,9 +41,13 @@ input {
 .x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('/icons/dht.png'); }
 .x-deluge-preferences, .x-btn .x-deluge-preferences { background-image: url('/icons/preferences.png') }
 .x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('/icons/connections.png') }
+.x-deluge-connection-manager, .x-btn .x-deluge-connection-manager { background-image: url('/icons/connection_manager.png') }
 .x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('/icons/traffic.png') }
 .x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('/icons/edit_trackers.png'); }
 .x-deluge-freespace, .x-btn .x-deluge-freespace  {background-image: url('/icons/drive.png'); }
+
+.x-deluge-install-plugin, .x-btn .x-deluge-install-plugin {background-image: url('/icons/install_plugin.png'); }
+.x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('/icons/find_more.png'); }
 
 
 /* Torrent Details */

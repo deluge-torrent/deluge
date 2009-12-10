@@ -90,14 +90,14 @@ Copyright:
 						id: 'preferences',
 						cls: 'x-btn-text-icon',
 						text: _('Preferences'),
-						icon: '/icons/preferences.png',
+						iconCls: 'x-deluge-preferences',
 						handler: this.onPreferencesClick,
 						scope: this
 					},{
 						id: 'connectionman',
 						cls: 'x-btn-text-icon',
 						text: _('Connection Manager'),
-						iconCls: 'x-deluge-connections',
+						iconCls: 'x-deluge-connection-manager',
 						handler: this.onConnectionManagerClick,
 						scope: this
 					},'->',{
