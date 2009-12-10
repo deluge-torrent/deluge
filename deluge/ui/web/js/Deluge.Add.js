@@ -57,6 +57,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             height: 170,
             border: false,
             animate: false,
+			disabled: true,
 
             columns: [{
                 header: _('Filename'),
@@ -85,7 +86,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             bodyStyle: 'padding: 5px;',
             border: false,
             height: 170,
-            //disabled: true
+			disabled: true
         });
     
         var fieldset = this.form.add({
@@ -500,6 +501,8 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 
     onSelect: function(selModel, rowIndex, record) {
         this.optionsPanel.setTorrent(record.get('info_hash'));
+		this.optionsPanel.files.setDisabled(false);
+		this.optionsPanel.form.setDisabled(false);
     },
 
     onShow: function() {
