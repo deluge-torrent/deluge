@@ -12,7 +12,8 @@
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup
-	* Properly show 100.00% and reduce number of progress bar updates during a torrent creation
+	* Properly show 100.00% and reduce number of progress bar updates during a
+	  torrent creation
 	* Fix crash in Windows when creating a torrent
 	* Add button to Other preferences to associate magnet links with Deluge
 
@@ -23,7 +24,11 @@
 	* Fix #1085 only use ints for specific options to prevent unhandled exception
 
 ==== Execute ====
-	* Use the move_completed path if it is different to the save path in the completed event.
+	* Use the move_completed path if it is different to the save path
+	  in the completed event.
+
+==== Core =====
+	* Fix the upload_plugin rpc method (was still using XML-RPC stuff)
 
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
