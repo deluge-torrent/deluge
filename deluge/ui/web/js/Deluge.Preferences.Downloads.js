@@ -126,6 +126,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			autoHeight: true,
 			labelWidth: 1,
 			defaultType: 'checkbox',
+			style: 'margin-bottom: 0; padding-bottom: 0;',
 			width: 280
 		});
 		optMan.bind('prioritize_first_last_pieces', fieldset.add({
