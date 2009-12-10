@@ -142,7 +142,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.grid.on('cellclick', this.onCellClick, this);
 		Deluge.Preferences.on('show', this.onPreferencesShow, this);
 		Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
-		Deluge.Events.on('PluginEnabledEvent', this.onPluginsEnabled, this);
+		Deluge.Events.on('PluginEnabledEvent', this.onPluginEnabled, this);
 	},
 
 	disablePlugin: function(plugin) {
