@@ -1,7 +1,7 @@
 === Deluge 1.2.0_rc5 (In Development) ===
 ==== Web ====
 	* Swap order of buttons in Remove window (Closes #1083)
-	* Change the compressed js script to deluge-all.js to avoid naming 
+	* Change the compressed js script to deluge-all.js to avoid naming
 	  conflicts on case-sensitive filesystems.
 	* Apply patch from adios fixing the cookie date
 	* Add tooltips to the statusbar items
@@ -14,6 +14,9 @@
 	* Properly show 100.00% and reduce number of progress bar updates during a torrent creation
 	* Fix crash in Windows when creating a torrent
 	* Add button to Other preferences to associate magnet links with Deluge
+
+==== Console ====
+	* Fix using the console in Windows, but only in command-line mode
 
 ==== Label ====
 	* Fix #1085 only use ints for specific options to prevent unhandled exception
