@@ -6,7 +6,8 @@
 	* Apply patch from adios fixing the cookie date
 	* Add tooltips to the statusbar items
 	* Add disk usage to the statusbar
-
+	* Add a ToggleField widget and use this on the Downloads preferences
+	  page allowing the movecom/copytorrent/autoadd boxes to be enabled.
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup

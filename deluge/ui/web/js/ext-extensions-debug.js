@@ -32,13 +32,10 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 	initComponent: function() {
 		Ext.ux.form.ToggleField.superclass.initComponent.call(this);
 
-		this.toggle = new Ext.form.Checkbox({
-			region: 'west'
-		});
+		this.toggle = new Ext.form.Checkbox();
 		this.toggle.on('check', this.onToggleCheck, this);
 
 		this.input = new Ext.form.TextField({
-			region: 'center',
 			disabled: true
 		});
 	},
@@ -47,20 +44,21 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 		if (!this.el) {
 			this.panel = new Ext.Panel({
 				cls: this.groupCls,
-				layout: 'border',
+				layout: 'table',
+				layoutConfig: {
+					columns: 2
+				},
 				border: false,
 				renderTo: ct
 			});
 			this.panel.ownerCt = this;
 			this.el = this.panel.getEl();
 
-			this.toggle.ownerCt = this.panel;
-			this.toggle.render(this.el);
-
-			this.input.ownerCt = this.panel;
-			this.input.render(this.el);
-
+			this.panel.add(this.toggle);
+			this.panel.add(this.input);
 			this.panel.doLayout();
+
+			this.toggle.getEl().parent().setStyle('padding-right', '10px');
 		}
 		Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
 	},
