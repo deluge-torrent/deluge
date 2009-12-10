@@ -39,7 +39,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			title: _('Downloads'),
 			layout: 'form',
 			autoHeight: true,
-			width: 300
+			width: 320
 		}, config);
 		Ext.deluge.preferences.Downloads.superclass.constructor.call(this, config);
 	},
@@ -56,7 +56,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			defaultType: 'togglefield',
 			autoHeight: true,
 			labelAlign: 'top',
-			width: 260,
+			width: 300,
 			style: 'margin-bottom: 5px; padding-bottom: 5px;'
 		});
 
@@ -64,13 +64,13 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			xtype: 'textfield',
 			name: 'download_location',
 			fieldLabel: _('Download to'),
-			width: 240
+			width: 280
 		}));
 
 		var field = fieldset.add({
 			name: 'move_completed_path',
 			fieldLabel: _('Move completed to'),
-			width: 240
+			width: 280
 		});
 		optMan.bind('move_completed', field.toggle);
 		optMan.bind('move_completed_path', field.input);
@@ -78,7 +78,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 		field = fieldset.add({
 			name: 'torrentfiles_location',
 			fieldLabel: _('Copy of .torrent files to'),
-			width: 240
+			width: 280
 		});
 		optMan.bind('copy_torrent_file', field.toggle);
 		optMan.bind('torrentfiles_location', field.input);
@@ -86,7 +86,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 		field = fieldset.add({
 			name: 'autoadd_location',
 			fieldLabel: _('Autoadd .torrent files from'),
-			width: 240
+			width: 280
 		});
 		optMan.bind('autoadd_enable', field.toggle);
 		optMan.bind('autoadd_location', field.input);
