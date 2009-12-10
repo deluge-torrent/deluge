@@ -9,6 +9,7 @@
 	* Add a ToggleField widget and use this on the Downloads preferences
 	  page allowing the movecom/copytorrent/autoadd boxes to be enabled.
 	* Fix enabling plugins.
+	* Implement installing plugins.
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup

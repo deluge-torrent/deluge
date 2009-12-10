@@ -36,7 +36,7 @@
 import os
 import time
 import base64
-import urllib
+import shutil
 import logging
 import hashlib
 import tempfile
@@ -828,6 +828,32 @@ class WebApi(JSONComponent):
     @export
     def get_plugin_resources(self, name):
         return component.get("Web.PluginManager").get_plugin_resources(name)
+
+    @export
+    def upload_plugin(self, filename, path):
+        main_deferred = Deferred()
+
+        shutil.copyfile(path, os.path.join(get_config_dir(), "plugins", filename))
+        component.get("Web.PluginManager").scan_for_plugins()
+
+        if client.is_localhost():
+            client.core.rescan_plugins()
+            return True
+
+        plugin_data = base64.encodestring(open(path, "rb").read())
+
+        def on_upload_complete(*args):
+            client.core.rescan_plugins()
+            component.get("Web.PluginManager").scan_for_plugins()
+            main_deferred.callback(True)
+
+        def on_upload_error(*args):
+            main_deferred.callback(False)
+
+        d = client.core.upload_plugin(filename, plugin_data)
+        d.addCallback(on_upload_complete)
+        d.addErrback(on_upload_error)
+        return main_deferred
     
     @export
     def register_event_listener(self, event):
@@ -836,7 +862,7 @@ class WebApi(JSONComponent):
         
         :param event: The event name
         :type event: string
-	"""
+    	"""
         self.event_queue.add_listener(__request__.session_id, event)
     
     @export
@@ -846,12 +872,12 @@ class WebApi(JSONComponent):
         
         :param event: The event name
         :type event: string
-	"""
+	    """
         self.event_queue.remove_listener(__request__.session_id, event)
     
     @export
     def get_events(self):
         """
         Retrieve the pending events for the session.
-	"""
+    	"""
         return self.event_queue.get_events(__request__.session_id)

@@ -159,7 +159,10 @@ class Upload(resource.Resource):
 
         if "file" not in request.args:
             request.setResponseCode(http.OK)
-            return ""
+            return common.json.dumps({
+                'success': True,
+                'files': []
+            })
 
         tempdir = os.path.join(tempfile.gettempdir(), "delugeweb")
         if not os.path.isdir(tempdir):
