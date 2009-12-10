@@ -655,14 +655,21 @@ class Core(component.Component):
             self.add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), options)
 
     @export
-    def upload_plugin(self, filename, plugin_data):
+    def upload_plugin(self, filename, filedump):
         """This method is used to upload new plugins to the daemon.  It is used
         when connecting to the daemon remotely and installing a new plugin on
         the client side. 'plugin_data' is a xmlrpc.Binary object of the file data,
         ie, plugin_file.read()"""
 
+        try:
+            filedump = base64.decodestring(filedump)
+        except Exception, e:
+            log.error("There was an error decoding the filedump string!")
+            log.exception(e)
+            return
+
         f = open(os.path.join(deluge.configmanager.get_config_dir(), "plugins", filename), "wb")
-        f.write(plugin_data.data)
+        f.write(filedump)
         f.close()
         component.get("CorePluginManager").scan_for_plugins()
 
