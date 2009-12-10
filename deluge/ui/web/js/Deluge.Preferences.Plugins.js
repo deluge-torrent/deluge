@@ -44,7 +44,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 
 	closeAction: 'hide',
 
-	iconCls: 'x-deluge-add-file',
+	iconCls: 'x-deluge-install-plugin',
 
 	layout: 'fit',
 
@@ -61,7 +61,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 		this.form = this.add({
 			xtype: 'form',
 			baseCls: 'x-plain',
-			labelWidth: 55,
+			labelWidth: 70,
 			autoHeight: true,
 			fileUpload: true,
 			items: [{
@@ -182,13 +182,14 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			bbar: new Ext.Toolbar({
 				items: [{
 					cls: 'x-btn-text-icon',
-					iconCls: 'x-deluge-add',
+					iconCls: 'x-deluge-install-plugin',
 					text: _('Install'),
 					handler: this.onInstallPlugin,
 					scope: this
 				}, '->', {
 					cls: 'x-btn-text-icon',
 					text: _('Find More'),
+					iconCls: 'x-deluge-find-more',
 					handler: this.onFindMorePlugins,
 					scope: this
 				}]
