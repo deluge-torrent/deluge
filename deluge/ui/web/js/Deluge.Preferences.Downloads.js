@@ -98,8 +98,8 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			autoHeight: true,
 			labelWidth: 1,
 			defaultType: 'radiogroup',
-			style: 'margin-bottom: 5px; padding-bottom: 5px;',
-			width: 260
+			style: 'margin-bottom: 5px; margin-top: 0; padding-bottom: 5px; padding-top: 0;',
+			width: 240
 		});
 		optMan.bind('compact_allocation', fieldset.add({
 			name: 'compact_allocation',
