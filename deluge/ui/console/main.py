@@ -185,11 +185,14 @@ class ConsoleUI(component.Component):
         d.addCallback(on_connect)
 
         self.coreconfig = CoreConfig()
-        if self.interactive:
+        if self.interactive and not deluge.common.windows_check():
             # We use the curses.wrapper function to prevent the console from getting
             # messed up if an uncaught exception is experienced.
             import curses.wrapper
             curses.wrapper(self.run)
+        elif self.interactive and deluge.common.windows_check():
+            print "You cannot run the deluge-console in interactive mode in Windows.\
+            Please use commands from the command line, eg: deluge-console config;help;exit"
         else:
             reactor.run()
 

@@ -34,7 +34,11 @@
 #
 
 import sys
-import curses
+try:
+    import curses
+except ImportError:
+    pass
+
 import colors
 try:
     import signal

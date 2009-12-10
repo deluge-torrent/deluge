@@ -33,7 +33,10 @@
 #
 #
 
-import curses
+try:
+    import curses
+except ImportError:
+    pass
 
 colors = [
     'COLOR_BLACK',
