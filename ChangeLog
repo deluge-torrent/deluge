@@ -31,7 +31,7 @@
 	* Use the move_completed path if it is different to the save path
 	  in the completed event.
 
-==== Core =====
+==== Core ====
 	* Fix the upload_plugin rpc method (was still using XML-RPC stuff)
 	* Fix possible exception when upgrading from a 0.5 state file
 
