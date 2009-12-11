@@ -54,7 +54,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         if len(args) == 0:
-            self.console.write(usage)
+            self.console.write(self.usage)
 
         torrent_ids = []
         for arg in args:
