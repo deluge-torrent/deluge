@@ -532,6 +532,21 @@ class TorrentManager(component.Component):
         # Remove the .torrent file in the state
         self.torrents[torrent_id].delete_torrentfile()
 
+        # Remove the torrent file from the user specified directory
+        filename = self.torrents[torrent_id].filename
+        if self.config["copy_torrent_file"] \
+            and self.config["del_copy_torrent_file"] \
+            and filename:
+            try:
+                users_torrent_file = os.path.join(
+                    self.config["torrentfiles_location"],
+                    filename)
+                log.info("Delete user's torrent file: %s",
+                    users_torrent_file)
+                os.remove(users_torrent_file)
+            except Exception, e:
+                log.warning("Unable to remove copy torrent file: %s", e)
+
         # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]

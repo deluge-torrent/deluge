@@ -58,6 +58,7 @@ DEFAULT_PREFS = {
     "listen_ports": [6881, 6891],
     "listen_interface": "",
     "copy_torrent_file": False,
+    "del_copy_torrent_file": False,
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "prioritize_first_last_pieces": False,

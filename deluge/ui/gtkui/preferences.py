@@ -220,6 +220,8 @@ class Preferences(component.Component):
                     ("filename", self.core_config["move_completed_path"]),
                 "chk_copy_torrent_file": \
                     ("active", self.core_config["copy_torrent_file"]),
+                "chk_del_copy_torrent_file": \
+                    ("active", self.core_config["del_copy_torrent_file"]),
                 "torrent_files_button": \
                     ("filename", self.core_config["torrentfiles_location"]),
                 "chk_autoadd": \
@@ -372,6 +374,7 @@ class Preferences(component.Component):
                 "chk_move_completed",
                 "move_completed_path_button",
                 "chk_copy_torrent_file",
+                "chk_del_copy_torrent_file",
                 "torrent_files_button",
                 "chk_autoadd",
                 "folder_autoadd",
@@ -514,6 +517,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_focus_dialog").get_active()
         new_core_config["copy_torrent_file"] = \
             self.glade.get_widget("chk_copy_torrent_file").get_active()
+        new_core_config["del_copy_torrent_file"] = \
+            self.glade.get_widget("chk_del_copy_torrent_file").get_active()
         new_core_config["move_completed"] = \
             self.glade.get_widget("chk_move_completed").get_active()
         if client.is_localhost():
@@ -773,7 +778,8 @@ class Preferences(component.Component):
                 "radio_open_folder_custom": {"combo_file_manager": False,
                                              "txt_open_folder_location": True},
                 "chk_move_completed" : {"move_completed_path_button" : True},
-                "chk_copy_torrent_file" : {"torrent_files_button" : True},
+                "chk_copy_torrent_file" : {"torrent_files_button" : True,
+                                           "chk_del_copy_torrent_file" : True},
                 "chk_autoadd" : {"folder_autoadd" : True},
                 "chk_seed_ratio" : {"spin_share_ratio": True,
                                     "chk_remove_ratio" : True}
