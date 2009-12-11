@@ -11,6 +11,7 @@
 	* Fix enabling plugins.
 	* Implement installing plugins.
 	* Update some icons
+	* Fixed #1075 (changing priority on a whole folder doesn't work)
 
 ==== GtkUI ====
 	* Attempt to register as the default magnet uri handler in GNOME on startup
