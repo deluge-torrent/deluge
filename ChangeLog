@@ -22,6 +22,7 @@
 	* Fix uploading plugins when the daemon is not localhost
 	* Fix #692 no longer require tray password when quitting from the tray icon
 	  while the window is visible.
+	* Fix #782 do not ask for tray password when window is not minimized to tray
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode
