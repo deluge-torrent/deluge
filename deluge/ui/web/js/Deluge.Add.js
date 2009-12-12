@@ -221,6 +221,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
     clear: function() {
         this.clearFiles();
+		this.optionsManager.resetAll();
     },
 
     clearFiles: function() {
@@ -252,6 +253,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
                     'prioritize_first_last_pieces': config.prioritize_first_last_pieces
                 }
                 this.optionsManager.options = options;
+				this.optionsManager.resetAll();
             },
             scope: this
         });
@@ -454,6 +456,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
         });
     
         this.optionsPanel = this.add(new Ext.deluge.add.OptionsPanel());
+		this.on('hide', this.onHide, this);
         this.on('show', this.onShow, this);
     },
 
@@ -488,6 +491,12 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
     onFile: function() {
         this.file.show();
     },
+
+	onHide: function() {
+		this.optionsPanel.setActiveTab(0);
+		this.optionsPanel.files.setDisabled(true);
+		this.optionsPanel.form.setDisabled(true);
+	},
 
     onRemove: function() {
         var selection = this.grid.getSelectionModel();

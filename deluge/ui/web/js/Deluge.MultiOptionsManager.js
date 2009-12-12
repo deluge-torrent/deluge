@@ -135,8 +135,17 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	 * Reset the options back to the default values for the specified id.
 	 */
 	reset: function() {
-		if (!this.changed[this.currentId]) return;
-		delete this.changed[this.currentId];
+		if (this.changed[this.currentId]) delete this.changed[this.currentId];
+		if (this.stored[this.currentId]) delete this.stored[this.currentId];
+	},
+
+	/**
+	 * Reset the options back to their defaults for all ids.
+	 */
+	resetAll: function() {
+		this.changed = {};
+		this.stored = {};
+		this.changeId(null);
 	},
 
 	/**
