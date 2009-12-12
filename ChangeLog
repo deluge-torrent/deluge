@@ -20,6 +20,8 @@
 	* Fix crash in Windows when creating a torrent
 	* Add button to Other preferences to associate magnet links with Deluge
 	* Fix uploading plugins when the daemon is not localhost
+	* Fix #692 no longer require tray password when quitting from the tray icon
+	  while the window is visible.
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode

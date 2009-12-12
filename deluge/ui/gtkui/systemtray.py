@@ -321,7 +321,7 @@ class SystemTray(component.Component):
 
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
-        if self.config["lock_tray"]:
+        if self.config["lock_tray"] and not self.window.visible():
             if not self.unlock_tray():
                 return
 
@@ -332,7 +332,7 @@ class SystemTray(component.Component):
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
-        if self.config["lock_tray"]:
+        if self.config["lock_tray"] and not self.window.visible():
             if not self.unlock_tray():
                 return
 
