@@ -459,7 +459,8 @@ class ConnectionManager(component.Component):
     def on_button_addhost_clicked(self, widget):
         log.debug("on_button_addhost_clicked")
         dialog = self.glade.get_widget("addhost_dialog")
-        dialog.set_icon(common.get_logo(16))
+        dialog.set_transient_for(self.connection_manager)
+        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         hostname_entry = self.glade.get_widget("entry_hostname")
         port_spinbutton = self.glade.get_widget("spinbutton_port")
         username_entry = self.glade.get_widget("entry_username")
@@ -471,8 +472,16 @@ class ConnectionManager(component.Component):
             hostname = hostname_entry.get_text()
 
             # We add the host
-            self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
+            try:
+                self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
+            except Exception, e:
+                from deluge.ui.gtkui.dialogs import ErrorDialog
+                ErrorDialog(_("Error Adding Host"), e).run()
 
+        username_entry.set_text("")
+        password_entry.set_text("")
+        hostname_entry.set_text("")
+        port_spinbutton.set_value(58846)
         dialog.hide()
 
     def on_button_removehost_clicked(self, widget):
