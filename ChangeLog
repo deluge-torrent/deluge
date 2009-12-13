@@ -24,6 +24,7 @@
 	  while the window is visible.
 	* Fix #782 do not ask for tray password when window is not minimized to tray
 	* Fix #1036 autoconnecting to localhost daemon on start-up
+	* Fix issue where hosts will show up erroneously as Offline
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode
