@@ -102,7 +102,7 @@ class Command(BaseCommand):
     """Show and set configuration values"""
 
     option_list = BaseCommand.option_list + (
-            make_option('-s', '--set', action='store_true', default=False, dest='set',
+            make_option('-s', '--set', action='store', nargs=2, dest='set',
                         help='set value for key'),
     )
     usage = "Usage: config [key1 [key2 ...]]\n"\
@@ -153,19 +153,18 @@ class Command(BaseCommand):
     def _set_config(self, *args, **options):
         deferred = defer.Deferred()
         config = component.get("CoreConfig")
-        key = args[0]
+        key = options["set"][0]
+        val = options["set"][1]
         if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)
             return
-        try:
-            val = simple_eval(' '.join(args[1:]))
-        except SyntaxError, e:
-            self.console.write("{!error!}%s" % e)
-            return
 
         if type(config[key]) != type(val):
-            self.config.write("{!error!}Configuration value provided has incorrect type.")
-            return
+            try:
+                val = type(config[key])(val)
+            except:
+                self.config.write("{!error!}Configuration value provided has incorrect type.")
+                return
 
         def on_set_config(result):
             self.console.write("{!success!}Configuration value successfully updated.")
