@@ -122,7 +122,7 @@ class ConnectionManager(component.Component):
         # Setup the ConnectionManager dialog
         self.connection_manager = self.glade.get_widget("connection_manager")
         self.connection_manager.set_transient_for(self.window.window)
-        
+
         self.connection_manager.set_icon(common.get_deluge_icon())
 
         self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
@@ -160,7 +160,7 @@ class ConnectionManager(component.Component):
         # Select the first host if possible
         if len(self.liststore) > 0:
             self.hostlist.get_selection().select_path("0")
-            
+
         # Connect the signals to the handlers
         self.glade.signal_autoconnect(self)
         self.hostlist.get_selection().connect("changed", self.on_hostlist_selection_changed)
@@ -173,6 +173,7 @@ class ConnectionManager(component.Component):
 
         # Save the toggle options
         self.__save_options()
+        self.__save_hostlist()
 
         self.connection_manager.destroy()
         del self.glade
@@ -251,6 +252,10 @@ class ConnectionManager(component.Component):
 
     def __update_list(self):
         """Updates the host status"""
+        if not hasattr(self, "liststore"):
+            # This callback was probably fired after the window closed
+            return
+
         def on_connect(result, c, host_id):
             # Return if the deferred callback was done after the dialog was closed
             if not self.running:
@@ -414,14 +419,38 @@ class ConnectionManager(component.Component):
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
+        if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
+            host in ("127.0.0.1", "localhost"):
+            # We need to start this localhost
+            client.start_daemon(port, deluge.configmanager.get_config_dir())
+
+            def on_connect_fail(result, try_counter):
+                log.error("Connection to host failed..")
+                # We failed connecting to the daemon, but lets try again
+                if try_counter:
+                    log.info("Retrying connection.. Retries left: %s", try_counter)
+                    try_counter -= 1
+                    import time
+                    time.sleep(0.5)
+                    do_retry_connect(try_counter)
+                return result
+            def do_retry_connect(try_counter):
+                log.debug("user: %s pass: %s", user, password)
+                d = client.connect(host, port, user, password)
+                d.addCallback(self.__on_connected, host_id)
+                d.addErrback(on_connect_fail, try_counter)
+
+            do_retry_connect(6)
+
+
         def do_connect(*args):
             client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
 
         if client.connected():
             client.disconnect().addCallback(do_connect)
-        else:    
+        else:
             do_connect()
-            
+
         self.connection_manager.response(gtk.RESPONSE_OK)
 
     def on_button_close_clicked(self, widget):
