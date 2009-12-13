@@ -283,7 +283,7 @@ class ConnectionManager(component.Component):
             d.addCallback(on_info, c)
             d.addErrback(on_info_fail, c)
 
-        def on_connect_failed(reason, host_info):
+        def on_connect_failed(reason, host_id):
             if not self.running:
                 return
             row = self.__get_host_row(host_id)
