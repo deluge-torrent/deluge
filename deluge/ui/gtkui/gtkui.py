@@ -184,7 +184,7 @@ class GtkUI(object):
         # Attempt to register a magnet URI handler with gconf, but do not overwrite
         # if already set by another program.
         common.associate_magnet_links(False)
-                
+
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
@@ -333,7 +333,7 @@ Please see the details below for more information."), details=traceback.format_e
 
                         if try_connect:
                             do_connect(6)
-                    break
+                        break
 
             if self.config["show_connection_manager_on_start"]:
                 # XXX: We need to call a simulate() here, but this could be a bug in twisted
