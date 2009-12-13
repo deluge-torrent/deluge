@@ -49,6 +49,7 @@ from deluge.ui.client import client
 from deluge.log import LOG as log
 import listview
 from deluge.ui.tracker_icons import TrackerIcons
+from removetorrentdialog import RemoveTorrentDialog
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
@@ -146,7 +147,7 @@ def eta_column_sort(model, iter1, iter2, data):
         return 1
     if v2 > v1:
         return -1
-        
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -238,6 +239,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
+        self.treeview.connect("key_press_event", self.on_key_press_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
@@ -279,7 +281,7 @@ class TorrentView(listview.ListView, component.Component):
         Saves the state of the torrent view.
         """
         listview.ListView.save_state(self, "torrentview.state")
-                
+
     def set_filter(self, filter_dict):
         """Sets filters for the torrentview..
         see: core.get_torrents_status
@@ -477,15 +479,15 @@ class TorrentView(listview.ListView, component.Component):
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
             return True
-    
+
     def on_key_press_event(self, widget, event):
         # Menu key
         if gtk.gdk.keyval_name(event.keyval) != "Menu":
             return
-        
+
         if not self.get_selected_torrent():
             return
-        
+
         torrentmenu = component.get("MenuBar").torrentmenu
         torrentmenu.popup(None, None, None, 3, event.time)
         return True
@@ -526,3 +528,16 @@ class TorrentView(listview.ListView, component.Component):
     def on_torrentqueuechanged_event(self):
         self.mark_dirty()
         self.update()
+
+    # Handle keyboard shortcuts
+    def on_key_press_event(self, widget, event):
+        keyname = gtk.gdk.keyval_name(event.keyval)
+        func = getattr(self, 'keypress_' + keyname, None)
+        if func:
+            return func()
+
+    def keypress_Delete(self):
+        log.debug("keypress_Delete")
+        torrents = self.get_selected_torrents()
+        if torrents:
+            RemoveTorrentDialog(torrents).run()
