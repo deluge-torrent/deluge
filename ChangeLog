@@ -39,6 +39,7 @@
 ==== Core ====
 	* Fix the upload_plugin rpc method (was still using XML-RPC stuff)
 	* Fix possible exception when upgrading from a 0.5 state file
+	* Use metavar to modify the help output by optparse.
 
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====

@@ -135,11 +135,11 @@ def start_daemon():
         help="Port daemon will listen on", action="store", type="int")
     parser.add_option("-i", "--interface", dest="interface",
         help="Interface daemon will listen for bittorrent connections on, \
-this should be an IP address",
+this should be an IP address", metavar="IFACE",
         action="store", type="str")
     parser.add_option("-u", "--ui-interface", dest="ui_interface",
         help="Interface daemon will listen for UI connections on, this should be\
- an IP address", action="store", type="str")
+ an IP address", metavar="IFACE", action="store", type="str")
     parser.add_option("-d", "--do-not-daemonize", dest="donot",
         help="Do not daemonize", action="store_true", default=False)
     parser.add_option("-c", "--config", dest="config",
