@@ -271,16 +271,17 @@ class ConnectionManager(component.Component):
                     self.__update_buttons()
                 c.disconnect()
 
-            def on_info_fail(reason):
+            def on_info_fail(reason, c):
                 if not self.running:
                     return
                 if row:
                     row[HOSTLIST_COL_STATUS] = _("Offline")
                     self.__update_buttons()
+                c.disconnect()
 
             d = c.daemon.info()
             d.addCallback(on_info, c)
-            d.addErrback(on_info_fail)
+            d.addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_info):
             if not self.running:
