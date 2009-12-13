@@ -29,6 +29,7 @@
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode
+	* Fix #823 setting config values to -1.0
 
 ==== Label ====
 	* Fix #1085 only use ints for specific options to prevent unhandled exception
