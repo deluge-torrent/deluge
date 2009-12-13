@@ -668,7 +668,8 @@ class WebApi(JSONComponent):
                 c.disconnect()
                 callback(_("Online"), info)
 
-            def on_info_fail(reason):
+            def on_info_fail(reason, c):
+                c.disconnect()
                 callback(_("Offline"))
 
             if not connected:
@@ -677,7 +678,7 @@ class WebApi(JSONComponent):
 
             d = c.daemon.info()
             d.addCallback(on_info, c)
-            d.addErrback(on_info_fail)
+            d.addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_id):
             callback(_("Offline"))
