@@ -45,7 +45,7 @@ from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class StatusBarItem:
-    def __init__(self, image=None, stock=None, text=None, callback=None):
+    def __init__(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         self._widgets = []
         self._ebox = gtk.EventBox()
         self._hbox = gtk.HBox()
@@ -70,6 +70,9 @@ class StatusBarItem:
         if callback != None:
             self.set_callback(callback)
 
+        if tooltip:
+            self.set_tooltip(tooltip)
+
         self.show_all()
 
     def set_callback(self, callback):
@@ -91,8 +94,12 @@ class StatusBarItem:
         if self._label.get_text() != text:
             self._label.set_text(text)
 
+    def set_tooltip(self, tip):
+        if self._ebox.get_tooltip_text() != tip:
+            self._ebox.set_tooltip_text(tip)
+
     def get_widgets(self):
-        return self._widgets()
+        return self._widgets
 
     def get_eventbox(self):
         return self._ebox
@@ -105,7 +112,6 @@ class StatusBar(component.Component):
         component.Component.__init__(self, "StatusBar", interval=3)
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
-        self.tooltips = gtk.Tooltips()
         self.config = ConfigManager("gtkui.conf")
 
         # Status variables that are updated via callback
@@ -172,8 +178,7 @@ class StatusBar(component.Component):
             tooltip=_("Protocol Traffic Download/Upload"))
 
         self.dht_item = StatusBarItem(
-            image=deluge.common.get_pixmap("dht16.png"))
-        self.tooltips.set_tip(self.dht_item.get_eventbox(), "DHT Nodes")
+            image=deluge.common.get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
 
         self.health_item = self.add_item(
                 stock=gtk.STOCK_DIALOG_ERROR,
@@ -223,10 +228,8 @@ class StatusBar(component.Component):
     def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
-        item = StatusBarItem(image, stock, text, callback)
+        item = StatusBarItem(image, stock, text, callback, tooltip)
         self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
-        if tooltip:
-            self.tooltips.set_tip(item.get_eventbox(), tooltip)
         return item
 
     def remove_item(self, item):
