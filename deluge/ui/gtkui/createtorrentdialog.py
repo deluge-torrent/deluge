@@ -118,7 +118,7 @@ class CreateTorrentDialog:
         psize = int(psize) * 1024
         if metric[0] == 'M':
             psize *= 1024
-            
+
         return psize
 
     def adjust_piece_size(self):
@@ -322,7 +322,7 @@ class CreateTorrentDialog:
 
             def hide_progress(result):
                 self.glade.get_widget("progress_dialog").hide_all()
-                
+
             deferToThread(self.create_torrent,
                     path,
                     tracker,
@@ -389,7 +389,10 @@ class CreateTorrentDialog:
         dialog = glade.get_widget("add_tracker_dialog")
         dialog.set_transient_for(self.dialog)
         textview = glade.get_widget("textview_trackers")
-        textview.get_buffer().set_text("")
+        if self.config["createtorrent.trackers"]:
+            textview.get_buffer().set_text("\n".join(self.config["createtorrent.trackers"]))
+        else:
+            textview.get_buffer().set_text("")
         textview.grab_focus()
         response = dialog.run()
 
@@ -398,6 +401,8 @@ class CreateTorrentDialog:
             trackers = []
             b = textview.get_buffer()
             lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
+            self.config["createtorrent.trackers"] = lines
+            log.debug("lines: %s", lines)
             for l in lines:
                 if deluge.common.is_url(l):
                     trackers.append(l)
