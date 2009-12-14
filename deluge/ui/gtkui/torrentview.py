@@ -232,7 +232,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_button_press_event)
         # Connect to the 'key-press-event' to know when the bring up the
         # torrent menu popup via keypress.
-        self.treeview.connect("key-press-event", self.on_key_press_event)
+        self.treeview.connect("key-release-event", self.on_key_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect("changed",
