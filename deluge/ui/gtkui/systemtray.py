@@ -278,9 +278,9 @@ class SystemTray(component.Component):
             self.window.hide()
         else:
             if self.config["lock_tray"]:
-                if not self.unlock_tray():
-                    return
-            self.window.present()
+                self.unlock_tray()
+            else:
+                self.window.present()
 
     def on_tray_popup(self, status_icon, button, activate_time):
         """Called when the tray icon is right clicked."""
@@ -301,9 +301,9 @@ class SystemTray(component.Component):
         log.debug("on_menuitem_show_deluge_activate")
         if menuitem.get_active() and not self.window.visible():
             if self.config["lock_tray"]:
-                if not self.unlock_tray():
-                    return
-            self.window.present()
+                self.unlock_tray()
+            else:
+                self.window.present()
         elif not menuitem.get_active() and self.window.visible():
             self.window.hide()
 
@@ -322,8 +322,7 @@ class SystemTray(component.Component):
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
         if self.config["lock_tray"] and not self.window.visible():
-            if not self.unlock_tray():
-                return
+            self.unlock_tray()
 
         if self.config["classic_mode"]:
             client.daemon.shutdown()
@@ -333,8 +332,7 @@ class SystemTray(component.Component):
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
         if self.config["lock_tray"] and not self.window.visible():
-            if not self.unlock_tray():
-                return
+            self.unlock_tray()
 
         client.daemon.shutdown()
         self.window.quit()
@@ -370,7 +368,6 @@ class SystemTray(component.Component):
             from sha import new as sha_hash
 
         log.debug("Show tray lock dialog")
-        result = False
 
         if is_showing_dlg[0]:
             return
@@ -380,25 +377,47 @@ class SystemTray(component.Component):
         entered_pass.set_activates_default(True)
         entered_pass.set_width_chars(25)
         entered_pass.set_visibility(False)
-        entered_pass.show()
-        tray_lock = gtk.Dialog(title=_("Deluge is locked"), parent=None,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK,
-            gtk.RESPONSE_ACCEPT))
-        label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge \
-window, please enter your password"))
-        label.set_line_wrap(True)
-        label.set_justify(gtk.JUSTIFY_CENTER)
-        tray_lock.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-        tray_lock.set_size_request(400, 200)
-        tray_lock.set_default_response(gtk.RESPONSE_ACCEPT)
-        tray_lock.vbox.pack_start(label)
-        tray_lock.vbox.pack_start(entered_pass)
-        tray_lock.show_all()
-        if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-            if self.config["tray_password"] == sha_hash(\
-                entered_pass.get_text()).hexdigest():
-                result = True
-        tray_lock.destroy()
-        is_showing_dlg[0] = False
 
-        return result
+        tray_lock = gtk.Dialog(title="", parent=self.window.window,
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK,
+            gtk.RESPONSE_OK))
+        tray_lock.set_default_response(gtk.RESPONSE_OK)
+        tray_lock.set_has_separator(False)
+
+        tray_lock.set_border_width(5)
+
+        hbox = gtk.HBox(spacing=5)
+
+        image = gtk.image_new_from_file(deluge.common.get_pixmap("lock48.png"))
+        image.set_alignment(0.5, 0.0)
+        hbox.pack_start(image, False)
+
+        vbox = gtk.VBox(spacing=5)
+        hbox.pack_start(vbox, False)
+
+        label = gtk.Label(_("<b><big>Deluge is password protected!</big></b>"))
+        label.set_use_markup(True)
+        label.set_alignment(0.0, 0.5)
+        label.set_line_wrap(True)
+        vbox.pack_start(label, False)
+
+        tlabel = gtk.Label(_("<i>Enter your password to continue</i>"))
+        tlabel.set_use_markup(True)
+        tlabel.set_alignment(0.0, 0.5)
+        tlabel.set_line_wrap(True)
+        vbox.pack_start(tlabel, False)
+
+        vbox.pack_start(entered_pass)
+
+        tray_lock.vbox.pack_start(hbox)
+
+        def on_response(dialog, response_id):
+            if response_id == gtk.RESPONSE_OK:
+                if self.config["tray_password"] == sha_hash(entered_pass.get_text()).hexdigest():
+                    self.window.present()
+
+            tray_lock.destroy()
+            is_showing_dlg[0] = False
+
+        tray_lock.connect("response", on_response)
+        tray_lock.show_all()
