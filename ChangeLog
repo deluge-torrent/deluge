@@ -31,6 +31,7 @@
 	* Fix #594 tray password dialog freeze in Windows
 	* Made the password dialog prettier
 	* Fix #1086 deprecated gtk.Tooltips usage
+	* Fix #768 save tracker list for create torrent dialog
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode
