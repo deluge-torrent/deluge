@@ -146,7 +146,7 @@ class Core(CorePluginBase):
 
     ## Utils ##
     def clean_config(self):
-        "remove invalid data from config-file"
+        """remove invalid data from config-file"""
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
             if (not label_id in self.labels) or (not torrent_id in self.torrents):
                 log.debug("label: rm %s:%s" % (torrent_id,label_id))
@@ -191,7 +191,7 @@ class Core(CorePluginBase):
 
     @export
     def remove(self, label_id):
-        "remove a label"
+        """remove a label"""
         CheckInput(label_id in self.labels, _("Unknown Label"))
         del self.labels[label_id]
         self.clean_config()
@@ -226,7 +226,7 @@ class Core(CorePluginBase):
             )
 
     def _has_auto_match(self, torrent ,label_options):
-        "match for auto_add fields"
+        """match for auto_add fields"""
         for tracker_match in label_options["auto_add_trackers"]:
             for tracker in torrent.trackers:
                 if tracker_match in tracker["url"]:
@@ -299,7 +299,7 @@ class Core(CorePluginBase):
 
     @export()
     def get_config(self):
-        "see : label_set_config"
+        """see : label_set_config"""
         return dict((key, self.config[key]) for key in CORE_OPTIONS if key in self.config.config)
 
     @export()
