@@ -80,6 +80,7 @@ class Preferences(component.Component):
 
         # Setup plugin tab listview
         self.plugin_liststore = gtk.ListStore(str, bool)
+        self.plugin_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
         self.plugin_listview = self.glade.get_widget("plugin_listview")
         self.plugin_listview.set_model(self.plugin_liststore)
         render = gtk.CellRendererToggle()
