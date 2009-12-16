@@ -35,7 +35,9 @@
 #
 
 import os
-import datetime
+import time
+from datetime import datetime
+from wsgiref.handlers import format_date_time
 import shutil
 
 from twisted.internet.task import LoopingCall
@@ -60,7 +62,7 @@ DEFAULT_PREFS = {
     "check_after_days": 4,
     "list_compression": "",
     "list_type": "",
-    "last_update": "",
+    "last_update": 0.0,
     "list_size": 0,
     "timeout": 180,
     "try_times": 3,
@@ -88,9 +90,8 @@ class Core(CorePluginBase):
         update_now = False
         if self.config["load_on_start"]:
             if self.config["last_update"]:
-                now = datetime.datetime.now()
-                last_update = datetime.datetime.strptime(self.config["last_update"],
-                                                            "%a, %d %b %Y %H:%M:%S GMT")
+                now = datetime.now()
+                last_update = datetime.fromtimestamp(self.config["last_update"])
                 check_period = datetime.timedelta(days=self.config["check_after_days"])
             if not self.config["last_update"] or last_update + check_period >= now:
                 update_now = True
@@ -171,7 +172,7 @@ class Core(CorePluginBase):
         status["file_progress"] = self.file_progress
         status["file_url"] = self.config["url"]
         status["file_size"] = self.config["list_size"]
-        status["file_date"] = self.config["last_update"]
+        status["file_date"] = datetime.fromtimestamp(self.config["last_update"]).strftime("%a, %d %b %Y %H:%M:%S") if self.config["last_update"] else ""
         status["file_type"] = self.config["list_type"]
         if self.config["list_compression"]:
             status["file_type"] += " (%s)" % self.config["list_compression"]
@@ -188,7 +189,7 @@ class Core(CorePluginBase):
         :type blocklist: string
         """
         log.debug("Updating blocklist info: %s", blocklist)
-        self.config["last_update"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+        self.config["last_update"] = time.time()
         self.config["list_size"] = os.path.getsize(blocklist)
 
     def download_list(self, url=None):
@@ -218,7 +219,7 @@ class Core(CorePluginBase):
 
         headers = {}
         if self.config["last_update"] and not self.force_download:
-            headers['If-Modified-Since'] = self.config["last_update"]
+            headers['If-Modified-Since'] = format_date_time(self.config["last_update"])
 
         log.debug("Attempting to download blocklist %s", url)
         log.debug("Sending headers: %s", headers)
