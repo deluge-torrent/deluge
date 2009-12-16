@@ -49,6 +49,9 @@
 	* Fix possible exception when upgrading from a 0.5 state file
 	* Use metavar to modify the help output by optparse.
 
+==== Blocklist ====
+	* Fix blocklist not working for all locales
+
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
 	* Fix deleting old .fastresume files with fresh configs
