@@ -87,13 +87,16 @@ class Core(CorePluginBase):
 
         self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
+        if type(self.config["last_update"]) is not float:
+            self.config.config["last_update"] = 0.0
+
         update_now = False
         if self.config["load_on_start"]:
             if self.config["last_update"]:
                 now = datetime.now()
                 last_update = datetime.fromtimestamp(self.config["last_update"])
                 check_period = timedelta(days=self.config["check_after_days"])
-            if not self.config["last_update"] or last_update + check_period >= now:
+            if not self.config["last_update"] or last_update + check_period < now:
                 update_now = True
             else:
                 self.use_cache = True
