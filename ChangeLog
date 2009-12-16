@@ -51,6 +51,7 @@
 
 ==== Blocklist ====
 	* Fix blocklist not working for all locales
+	* Fix blocklist checking for updates when it shouldn't
 
 === Deluge 1.2.0_rc4 (24 November 2009) ===
 ==== Core ====
