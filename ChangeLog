@@ -1,4 +1,4 @@
-=== Deluge 1.2.0_rc5 (In Development) ===
+=== Deluge 1.2.0_rc5 (17 December 2009) ===
 ==== Web ====
 	* Swap order of buttons in Remove window (Closes #1083)
 	* Change the compressed js script to deluge-all.js to avoid naming
