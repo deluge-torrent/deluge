@@ -115,9 +115,13 @@ class CreateTorrentDialog:
 
     def parse_piece_size_text(self, value):
         psize, metric = value.split()
-        psize = int(psize) * 1024
-        if metric[0] == 'M':
-            psize *= 1024
+        psize = int(psize)
+        if psize < 32:
+            # This is a MiB value
+            psize = psize * 1024 * 1024
+        else:
+            # This is a KiB value
+            psize = psize * 1024
 
         return psize
 
