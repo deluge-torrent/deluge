@@ -32,6 +32,7 @@
 	* Made the password dialog prettier
 	* Fix #1086 deprecated gtk.Tooltips usage
 	* Fix #768 save tracker list for create torrent dialog
+	* Fix #1095 incorrect piece size used when using some non-English languages
 
 ==== Console ====
 	* Fix using the console in Windows, but only in command-line mode
