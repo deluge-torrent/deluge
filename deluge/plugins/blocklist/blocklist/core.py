@@ -93,10 +93,9 @@ class Core(CorePluginBase):
         update_now = False
         if self.config["load_on_start"]:
             if self.config["last_update"]:
-                now = datetime.now()
                 last_update = datetime.fromtimestamp(self.config["last_update"])
                 check_period = timedelta(days=self.config["check_after_days"])
-            if not self.config["last_update"] or last_update + check_period < now:
+            if not self.config["last_update"] or last_update + check_period < datetime.now():
                 update_now = True
             else:
                 self.use_cache = True
