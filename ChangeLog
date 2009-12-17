@@ -49,6 +49,8 @@
 	* Fix the upload_plugin rpc method (was still using XML-RPC stuff)
 	* Fix possible exception when upgrading from a 0.5 state file
 	* Use metavar to modify the help output by optparse.
+	* Partial fix for #1103 if the per-torrent option for stopping at a ratio has
+	  been unchecked, then do not stop it at the global setting.
 
 ==== Blocklist ====
 	* Fix blocklist not working for all locales
