@@ -8,35 +8,35 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 13:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-08 06:21+0000\n"
+"Last-Translator: SHURIK <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Торрент завершено"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr ""
+msgstr "Торрент додано"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr ""
+msgstr "Виконати"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
-msgstr ""
+msgstr "Подія"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
 msgid "Command"
-msgstr ""
+msgstr "Команда:"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
@@ -44,7 +44,7 @@ msgstr ""
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>Команди</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
@@ -57,7 +57,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:198
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:279
 msgid "Select A Folder"
-msgstr "Оберіть теку"
+msgstr "Оберіть папку"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:67
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -74,7 +74,7 @@ msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr ""
+msgstr "Увімкніть SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
@@ -88,11 +88,11 @@ msgstr "<b>Налаштування</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:234
 msgid "Download Limit:"
-msgstr ""
+msgstr "Ліміт завантаження:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:243
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Ліміт відвантаження:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:252
 msgid "Active Torrents:"
@@ -347,7 +347,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
 msgid "<b>Options</b>"
-msgstr "<b>Опції</b>"
+msgstr "<b>Параметри</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:390
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3307
@@ -380,7 +380,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
-msgstr ""
+msgstr "Албанія"
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
@@ -2997,7 +2997,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "База даних GeoIP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
@@ -3294,7 +3294,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4774
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Розмір</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4817
 msgid "<b>Status</b>"

@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 13:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-12 17:40+0000\n"
+"Last-Translator: ekos <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr ""
+msgstr "S'ha completat el torrent"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr ""
+msgstr "S'ha afegit el torrent"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
@@ -48,7 +48,7 @@ msgstr ""
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Extreu a:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:40
 #: deluge/ui/gtkui/glade/main_window.glade:1972
@@ -88,15 +88,15 @@ msgstr "Configuracio"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:234
 msgid "Download Limit:"
-msgstr ""
+msgstr "Limit de baixada"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:243
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Limit de pujada"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:252
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Torrents actius"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
@@ -261,11 +261,11 @@ msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
-msgstr ""
+msgstr "_Esborrar etiqueta"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr ""
+msgstr "_Afegir etiqueta"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -308,7 +308,7 @@ msgstr "URL:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
-msgstr "Dias"
+msgstr "Dies"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:114
 msgid "Check for new list every:"
@@ -353,7 +353,7 @@ msgstr "Tipus:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:402
 msgid "Date:"
-msgstr "Data"
+msgstr "Data:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:414
 msgid "File Size:"
@@ -386,7 +386,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: deluge/ui/countries.py:15
 msgid "Angola"

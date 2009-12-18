@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-11-01 21:03+0000\n"
-"Last-Translator: E. Nooit <Unknown>\n"
+"PO-Revision-Date: 2009-12-11 19:42+0000\n"
+"Last-Translator: Jannis <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -32,7 +32,7 @@ msgstr "Anwenden"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
-msgstr "<emph>Ereignis</emph>"
+msgstr "Ereignis"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
 msgid "Command"
@@ -96,7 +96,7 @@ msgstr "Limit beim Hochladen:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:252
 msgid "Active Torrents:"
-msgstr "Aktive Torrets"
+msgstr "Aktive Torrents"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
@@ -104,7 +104,7 @@ msgstr "<b>Langsame Einstellungen</b>"
 
 #: deluge/plugins/label/label/core.py:186
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Ungültige Bezeichnung, gültige Zeichen: [a-z 0-9_-]"
+msgstr "Ungültiges Label, gültige Zeichen: [a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:187
 msgid "Empty Label"
@@ -112,7 +112,7 @@ msgstr "Leeres Label"
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Label already exists"
-msgstr "Beschriftung existiert bereits"
+msgstr "Label existiert bereits"
 
 #: deluge/plugins/label/label/core.py:195
 #: deluge/plugins/label/label/core.py:252
@@ -126,19 +126,19 @@ msgstr "Unbekannter Torrent"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr "<i>Benutze die Seitenleiste um die Lesezeichen zu bearbeiten.</i>\n"
+msgstr "<i>Benutzen Sie die Seitenleiste um die Labels zu bearbeiten.</i>\n"
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr "<b>Lesezeichen</b>"
+msgstr "<b>Labels</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
-msgstr "Lesezeichen-Optionen"
+msgstr "Label-Optionen"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr "<b>Lesezeichen-Optionen</b>"
+msgstr "<b>Label-Optionen</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
@@ -164,7 +164,7 @@ msgstr "Sende-Geschwindigkeit:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Empfangs-Geschwindigkeit:"
+msgstr "Download-Geschwindigkeit:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -186,7 +186,7 @@ msgstr "Automatisch verwaltet"
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
 msgid "Stop seed at ratio:"
-msgstr "Verteilen stoppen, bei Verhältnis:"
+msgstr "Stoppen bei Verhältnis:"
 
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1936
@@ -231,7 +231,7 @@ msgstr "<i>(Je eine Zeile pro Tracker)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
-msgstr "Verwende automatisch folgendes Lesezeichen:"
+msgstr "Verwende automatisch folgendes Label:"
 
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -244,7 +244,7 @@ msgstr "Label Hinzufügen"
 
 #: deluge/plugins/label/label/data/label_options.glade:683
 msgid "<b>Add Label</b>"
-msgstr "<b>Lesezeichen hinzufügen</b>"
+msgstr "<b>Label hinzufügen</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:714
 msgid "Name:"
@@ -260,15 +260,15 @@ msgstr "Label"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
 msgid "Label _Options"
-msgstr "Lesezeichen-_Optionen"
+msgstr "Label-_Optionen"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
-msgstr "Entfe_rne Lesezeichen"
+msgstr "Entfe_rne Label"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr "Füge Lesezeichen hinzu"
+msgstr "Füge L_abel hinzu"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -276,7 +276,7 @@ msgstr "Ungültiger Anfang"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
 msgid "Invalid magic code"
-msgstr "Ungültiger Magic-Code"
+msgstr "magischer Code ungültig"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
@@ -285,7 +285,7 @@ msgstr "Ungültige Version"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:66
 #: deluge/plugins/blocklist/blocklist/gtkui.py:185
 msgid "Blocklist"
-msgstr "Bannliste"
+msgstr "Blockierliste"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
@@ -307,7 +307,7 @@ msgstr "PeerGuardian P2B (gzip)"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1007
 msgid "URL:"
-msgstr "URL:"
+msgstr "Adresse (URL):"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
@@ -331,7 +331,7 @@ msgstr "Überprüfe Download und Import"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:227
 msgid "Download a new blocklist file and import it."
-msgstr "Lade eine neue Blocklistendatei herunter und importiere sie."
+msgstr "Lade eine neue Blockliste herunter und importiere sie."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:247
 msgid "Force Download and Import"
@@ -1479,11 +1479,11 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:213
 msgid "Down"
-msgstr "Nach unten"
+msgstr "Runter"
 
 #: deluge/ui/gtkui/systemtray.py:214
 msgid "Up"
-msgstr "Nach oben"
+msgstr "Rauf"
 
 #: deluge/ui/gtkui/systemtray.py:340 deluge/ui/gtkui/statusbar.py:387
 #: deluge/ui/gtkui/menubar.py:430
@@ -1727,7 +1727,7 @@ msgstr "Status"
 
 #: deluge/ui/gtkui/filtertreeview.py:224
 msgid "no label"
-msgstr "Kein Lesezeichen"
+msgstr "Kein Label"
 
 #: deluge/ui/gtkui/menubar.py:77
 msgid "Set Unlimited"
@@ -1747,7 +1747,7 @@ msgstr "Aus"
 
 #: deluge/ui/gtkui/menubar.py:324
 msgid "Choose a directory to move files to"
-msgstr "Wähle den Zielordner für das Verschieben"
+msgstr "Zielordner wählen"
 
 #: deluge/ui/gtkui/menubar.py:433
 msgid "Set Maximum Upload Slots"
@@ -2193,7 +2193,7 @@ msgstr "Gegenstelle nach IP hinzufügen"
 #: deluge/ui/gtkui/glade/main_window.glade:2601
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 msgid "Add Peer"
-msgstr "Gegensetelle hinzufügen"
+msgstr "Gegenstelle hinzufügen"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
@@ -2355,7 +2355,7 @@ msgstr "Maximale Downloadgeschwindigkeit"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "Maximale Uploadgeschwindigkeit"
+msgstr "Limit für _Upload-Geschwindigkeit"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -2363,7 +2363,7 @@ msgstr "_Verbindungslimit"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
-msgstr "Upload-Kanäle Limit"
+msgstr "Limit für Upload-Kanäle"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:273
 msgid "_Auto Managed"
@@ -2433,7 +2433,7 @@ msgstr "_Beenden"
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:37
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
-msgstr "Lesezeichen"
+msgstr "Label"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
@@ -2640,8 +2640,8 @@ msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Die volle Zuweisung belegt den gesamten Speicherplatz, der für den Torrent "
-"benötigt wird, auf einmal und verhindert die Fragmentierung des Dateisystems."
+"Die Methode \"Vollständig\" reserviert den benötigten Speicherplatz für den "
+"Torrent bereits vorher und verhindert so die Fragmentierung des Dateisystems"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:367
 msgid "Use Compact Allocation"
@@ -2865,7 +2865,7 @@ msgstr "max. Anzahl von Verbindungen. Setze -1 für unendlich."
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1405
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1640
 msgid "Maximum Connections:"
-msgstr "max. Verbindungen:"
+msgstr "Maximale Verbindungen:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1414
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1499
@@ -2903,9 +2903,8 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
-"Wenn dies ausgewählt ist, dann wird der geschätzte Transferprotokolls von "
-"TCP/IP von dem Bandbreitenlimit abgezogen. Das vermeidet, das Limit der "
-"Bandbreite zu überschreiten."
+"Wenn ausgewählt, wird der geschätzte Aufwand von TCP/IP von den Limits der "
+"Bandbreiten abgezogen. Das vermeidet, deren Begrenzung zu überschreiten."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1565
 msgid "<b>Global Bandwidth Usage</b>"

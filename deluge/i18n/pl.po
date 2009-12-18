@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-11 12:45+0000\n"
-"Last-Translator: .tomi <Unknown>\n"
+"PO-Revision-Date: 2009-12-07 12:48+0000\n"
+"Last-Translator: Rafał Barański <kazislav@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:00+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -28,27 +28,27 @@ msgstr ""
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr ""
+msgstr "Uruchom"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
-msgstr ""
+msgstr "Zdarzenie"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
 msgid "Command"
-msgstr ""
+msgstr "Polecenie"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Dodaj polecenie</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>Polecenia</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Rozpakuj do:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:40
 #: deluge/ui/gtkui/glade/main_window.glade:1972
@@ -341,7 +341,7 @@ msgstr "Wymuś pobranie listy i importuj"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:271
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Blocklista jest zaaktualizowana"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:452
@@ -371,15 +371,15 @@ msgstr "<b>Informacje</b>"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
-msgstr ""
+msgstr "Wyspy Alandzkie"
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
@@ -387,19 +387,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa Amerykańskie"
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr ""
+msgstr "Andora"
 
 #: deluge/ui/countries.py:15
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
@@ -407,83 +407,83 @@ msgstr ""
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua i Barbuda"
 
 #: deluge/ui/countries.py:19
 msgid "Argentina"
-msgstr ""
+msgstr "Argentyna"
 
 #: deluge/ui/countries.py:20
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: deluge/ui/countries.py:21
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: deluge/ui/countries.py:22
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: deluge/ui/countries.py:23
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbejdżan"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr ""
+msgstr "Wyspy Bahama"
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrajn"
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesz"
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr ""
+msgstr "Białoruś"
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
-msgstr ""
+msgstr "Belgia"
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudy"
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
-msgstr ""
+msgstr "Boliwia"
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bośnia i Hercegowina"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "Bostwana"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
@@ -491,39 +491,39 @@ msgstr ""
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
-msgstr ""
+msgstr "Brazylia"
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Brytyjskie Terytorium Oceanu Indyjskiego"
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Sułtanat Brunei"
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bułgaria"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr ""
+msgstr "Republika Burundi"
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
-msgstr ""
+msgstr "Kambodża"
 
 #: deluge/ui/countries.py:46
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #: deluge/ui/countries.py:47
 msgid "Canada"
-msgstr ""
+msgstr "Kanada"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
@@ -1378,11 +1378,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Nie można dodać tego samego torrenta dwukrotnie."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:479
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Nie można ustawić priorytetu pliku!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:479
 msgid "File prioritization is unavailable when using Compact allocation."
@@ -1409,7 +1409,7 @@ msgstr ""
 #: deluge/ui/gtkui/addtorrentdialog.py:607
 #, python-format
 msgid "%s is not a valid URL."
-msgstr ""
+msgstr "%s nie jest poprawnym adresem URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Downloading.."
@@ -1417,12 +1417,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:645
 msgid "Download Failed"
-msgstr ""
+msgstr "Błąd pobierania"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:645
 #, python-format
 msgid "Failed to download : %s"
-msgstr ""
+msgstr "Nie udało się pobrać: %s"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
@@ -1471,6 +1471,8 @@ msgid ""
 "Deluge\n"
 "Not Connected.."
 msgstr ""
+"Deluge\n"
+"Nie połączono.."
 
 #: deluge/ui/gtkui/systemtray.py:213
 msgid "Deluge"
@@ -1526,6 +1528,12 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"To jest e-mail informujący o tym, że Deluge zakończył pobierać %(name)s , "
+"zawierający %(num_files)i plików.\n"
+"Aby przestać otrzymywać powiadomienia, wyłącz opcję powiadamianie przez e-"
+"mail w preferencjach Deluge.\n"
+"Dziękujemy,\n"
+"Deluge"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:100
@@ -1619,7 +1627,7 @@ msgstr "Ustaw maksymalną liczbę połączeń"
 
 #: deluge/ui/gtkui/gtkui.py:269 deluge/ui/gtkui/gtkui.py:284
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Wyłączyć Tryb Klasyczny"
 
 #: deluge/ui/gtkui/gtkui.py:270
 msgid ""
@@ -1627,6 +1635,8 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Proces demona Deluge (deluged) jest już uruchomiony.\n"
+"Zatrzymaj demona lub wyłącz Tryb Klasyczny aby kontynuować."
 
 #: deluge/ui/gtkui/gtkui.py:279
 msgid "Error Starting Core"
@@ -1645,6 +1655,8 @@ msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Wystąpił błąd przy uruchamianiu w Trybie Klasycznym. Kontynuować wyłączając "
+"go?"
 
 #: deluge/ui/gtkui/torrentview.py:162
 msgid "Name"
@@ -2013,7 +2025,7 @@ msgstr "_Stan"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1278
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "<b>Komentarze:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b># of files:</b>"

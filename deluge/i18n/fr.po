@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-11-12 20:52+0000\n"
-"Last-Translator: beudbeud <Unknown>\n"
+"PO-Revision-Date: 2009-11-28 18:51+0000\n"
+"Last-Translator: Sorkin <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:00+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -1584,6 +1584,22 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Ce programme est un logiciel libre. Vous pouvez le redistribuer et/ou le "
+"modifier en respectant les termes de la Licence publique générale GNU "
+"publiée par la Free Software Foundation; soit la version 3 de la Licence, ou "
+"(à votre choix) toute version ultérieure. Ce programme est distribué dans "
+"l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE, sans même la garantie "
+"implicite de COMMERCIALISATION ou D'ADAPTATION A UN USAGE PARTICULIER. Voir "
+"la Licence publique générale GNU pour plus de détails. Une copie de la "
+"Licence publique générale GNU est fournie avec le programme, si ce n'est pas "
+"le cas, voyez <http://www.gnu.org/licenses>. En plus, exceptionnellement les "
+"ayant droit autorisent de lier le code de parties du programme avec la "
+"librairie OpenSSL. Si vous modifiez des fichiers en usant de cette "
+"exception, vous devriez l'étendre à vos version des fichiers, mais vous n'y "
+"êtes pas obligés. Si vous ne souhaitez pas le faire, effacez cette "
+"déclaration d'exception de votre version. Si vous effacez cette déclaration "
+"d'exception de tous les fichiers sources du programme, alors effacez la ici "
+"aussi."
 
 #: deluge/ui/gtkui/createtorrentdialog.py:136
 msgid "Choose a file"
@@ -1847,7 +1863,7 @@ msgstr "_Panneau latérale"
 
 #: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "Status_bar"
-msgstr "Barre de _progression"
+msgstr "Barre d'etat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:176
 msgid "T_abs"
@@ -1919,7 +1935,7 @@ msgstr "Reprendre"
 
 #: deluge/ui/gtkui/glade/main_window.glade:377
 msgid "Queue Torrent Up"
-msgstr "Mettre en file vers le haut"
+msgstr "Déplacer le torrent vers le haut"
 
 #: deluge/ui/gtkui/glade/main_window.glade:378
 msgid "Queue Up"
@@ -1927,7 +1943,7 @@ msgstr "Déplacer vers le haut"
 
 #: deluge/ui/gtkui/glade/main_window.glade:391
 msgid "Queue Torrent Down"
-msgstr "Mettre en file vers le bas"
+msgstr "Déplacer le torrent vers le bas"
 
 #: deluge/ui/gtkui/glade/main_window.glade:392
 msgid "Queue Down"
@@ -2229,7 +2245,7 @@ msgstr "Commentaires :"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
 msgid "Info"
-msgstr "Informations"
+msgstr "Info"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"

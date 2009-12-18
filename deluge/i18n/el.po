@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-11-13 14:47+0000\n"
-"Last-Translator: Giorgos Skafidas <Unknown>\n"
+"PO-Revision-Date: 2009-11-25 10:35+0000\n"
+"Last-Translator: SpyrosCS <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-23 18:01+0000\n"
+"X-Launchpad-Export-Date: 2009-12-17 23:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -2714,7 +2714,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:880
 msgid "<b>Interface</b>"
-msgstr "<b>Διασύνδεση</b>"
+msgstr "Διεπαφή"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:915
 msgid ""
@@ -2901,7 +2901,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1565
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Συνολική χρήση εύρους δικτύου</b>"
+msgstr "<b>Συνολική χρήση Bandwidth</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1604
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -2917,7 +2917,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1729
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Ανά Torrent Χρήση Εύρους Ζώνης</b>"
+msgstr "<b>Χρήση Bandwidth ανά Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1756
 msgid "page 8"
@@ -2950,7 +2950,7 @@ msgstr "<b>Κλασσική Μορφή</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1868
 msgid "Show session speed in titlebar"
-msgstr "Εμφάνισε την ταχύτητα της περιόδου στην γραμμή τίτλου"
+msgstr "Εμφάνισε την ταχύτητα της συνεδρίας στην γραμμή τίτλου"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1886
 msgid "<b>Main Window</b>"
@@ -2974,7 +2974,7 @@ msgstr "Εικονίδιο στη μπάρα συστήματος"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2005
 msgid "Minimize to tray on close"
-msgstr "Ελαχιστοποίηση στην υποδοχή κατά την έξοδο"
+msgstr "Ελαχιστοποίηση στη μπάρα συστήματος κατά την έξοδο"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2025
 msgid "Start in tray"
@@ -2986,7 +2986,7 @@ msgstr "Προστασία μεγιστοποίησης από την μπάρα
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2112
 msgid "<b>System Tray</b>"
-msgstr "<b>Υποδοχή συστήματος</b>"
+msgstr "<b>Μπάρα συστήματος</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2138
 msgid "page 10"
@@ -3121,7 +3121,7 @@ msgstr "Χρόνος Διαμοιρασμού (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3012
 msgid "Stop seeding when share ratio reaches:"
-msgstr "Σταμάτημα διαμοιρασμού όταν η αναλογία φτάσει:"
+msgstr "Διακοπή διαμοιρασμού όταν η αναλογία φτάσει:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3057
 msgid "Remove torrent when share ratio reached"
@@ -3235,11 +3235,11 @@ msgstr "<b>Email</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr "<b><i><big>Λανθάνουσα Μνήμη</big></i></b>"
+msgstr "Προσωρινή μνήμη"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4374
 msgid "Cache Size (16 KiB blocks):"
-msgstr "Μέγεθος Λανθάνουσας Μνήμης (μπλοκ των 16 KiB):"
+msgstr "Μέγεθος προσωρινής μνήμης (μπλοκ των 16 KiB):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4384
 msgid ""
@@ -3249,13 +3249,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4386
 msgid "Cache Expiry (seconds):"
-msgstr "Λήξη Λανθάνουσας Μνήμης (δευτερόλεπτα):"
+msgstr "Λήξη προσωρινής μνήμης (δευτερόλεπτα):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4481
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"Συνολικά 16 KiB μπλοκ γράφτηκαν στον δίσκο από την έναρξη αυτής της "
+"συνεδρίας."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4483
 msgid "Blocks Written:"
@@ -3266,6 +3268,8 @@ msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr ""
+"Ο συνολικός αριθμός εκτελεσθέντων λειτουργιών εγγραφής από την έναρξη αυτής "
+"της συνεδρίας."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4494
 msgid "Writes:"
@@ -3333,7 +3337,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4725
 msgid "Cache Size:"
-msgstr ""
+msgstr "Μέγεθος προσωρινής μνήμης:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4735
 msgid "Read Cache Size:"
@@ -3365,7 +3369,7 @@ msgstr "Email συγγραφέα:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5131
 msgid "_Install Plugin"
-msgstr "_Εγκατάσταση Πρόσθετων"
+msgstr "_Εγκατάσταση Πρόσθετου"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5174
 msgid "_Rescan Plugins"
@@ -3373,7 +3377,7 @@ msgstr "_Επανεξέταση Πρόσθετων"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5227
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Εύρεση περισσότερων πρόσθετων"
 
 #: deluge/ui/web/server.py:510
 msgid "Starting server in PID"
