@@ -33,6 +33,7 @@
 #
 #
 
+from datetime import datetime
 import gtk
 
 from deluge.log import LOG as log
@@ -115,7 +116,7 @@ class GtkUI(GtkPluginBase):
                 self.glade.get_widget("label_filesize").set_text(
                     deluge.common.fsize(status["file_size"]))
                 self.glade.get_widget("label_modified").set_text(
-                    str(status["file_date"]))
+                    datetime.fromtimestamp(status["file_date"]).strftime("%c"))
                 self.glade.get_widget("label_type").set_text(status["file_type"])
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
@@ -151,7 +152,7 @@ class GtkUI(GtkPluginBase):
         client.blocklist.check_import(force=True)
 
     def _on_status_item_clicked(self, widget, event):
-        component.get("Preferences").show("Blocklist")
+        component.get("Preferences").show(_("Blocklist"))
 
     def load_preferences_page(self):
         """Initializes the preferences page and adds it to the preferences dialog"""
