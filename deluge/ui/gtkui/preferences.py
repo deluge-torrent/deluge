@@ -138,6 +138,7 @@ class Preferences(component.Component):
         vbox.pack_start(sep, False, True, 0)
         align = gtk.Alignment()
         align.set_padding(5, 0, 0, 0)
+        align.set(0, 0, 1, 1)
         align.add(widget)
         vbox.pack_start(align, True, True, 0)
         scrolled = gtk.ScrolledWindow()
