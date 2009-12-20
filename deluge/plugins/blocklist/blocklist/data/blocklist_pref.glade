@@ -6,6 +6,7 @@
     <child>
       <widget class="GtkVBox" id="blocklist_prefs_box">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <widget class="GtkFrame" id="frame1">
@@ -58,6 +59,7 @@
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
@@ -74,6 +76,7 @@
                 <child>
                   <widget class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
                       <widget class="GtkTable" id="table1">
@@ -156,6 +159,7 @@
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
@@ -177,6 +181,7 @@
                     <child>
                       <widget class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <widget class="GtkButton" id="button_check_download">
                             <property name="visible">True</property>
@@ -294,6 +299,7 @@
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">2</property>
           </packing>
@@ -311,6 +317,7 @@
                 <child>
                   <widget class="GtkVBox" id="vbox4">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkProgressBar" id="progressbar">
                         <property name="visible">True</property>
@@ -440,6 +447,7 @@
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">3</property>
           </packing>
