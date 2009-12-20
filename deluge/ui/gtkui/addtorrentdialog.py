@@ -296,7 +296,7 @@ class AddTorrentDialog(component.Component):
         self.listview_files.expand_row("0", False)
 
     def prepare_file(self, file, file_name, file_num, download, files_storage):
-        first_slash_index = file_name.find("/")
+        first_slash_index = file_name.find(os.path.sep)
         if first_slash_index == -1:
             files_storage[file_name] = (file_num, file, download)
         else:
@@ -309,7 +309,7 @@ class AddTorrentDialog(component.Component):
     def add_files(self, parent_iter, split_files):
         ret = 0
         for key,value in split_files.iteritems():
-            if key.endswith("/"):
+            if key.endswith(os.path.sep):
                 chunk_iter = self.files_treestore.append(parent_iter,
                                 [True, key, 0, -1, False, gtk.STOCK_DIRECTORY])
                 chunk_size = self.add_files(chunk_iter, value)
@@ -434,7 +434,7 @@ class AddTorrentDialog(component.Component):
             if self.files_treestore.iter_has_child(iter):
                 self.build_priorities(self.files_treestore.iter_children(iter),
                                           priorities)
-            elif not self.files_treestore.get_value(iter, 1).endswith("/"):
+            elif not self.files_treestore.get_value(iter, 1).endswith(os.path.sep):
                 priorities[self.files_treestore.get_value(iter, 3)] = self.files_treestore.get_value(iter, 0)
             iter = self.files_treestore.iter_next(iter)
         return priorities
@@ -806,12 +806,12 @@ class AddTorrentDialog(component.Component):
             parent = self.files_treestore.iter_parent(itr)
             file_path = self.get_file_path(parent)
             file_path += new_text
-            file_path = file_path.replace("//", "/")
+            file_path = file_path.replace(os.path.sep*2, os.path.sep)
 
             if "/" in new_text:
                 # There are folders in this path, so we need to create them
                 # and then move the file iter to top
-                split_text = new_text.split("/")
+                split_text = new_text.split(os.path.sep)
                 for s in split_text[:-1]:
                     parent = self.files_treestore.append(parent,
                                 [True, s, 0, -1, False, gtk.STOCK_DIRECTORY])
@@ -860,11 +860,11 @@ class AddTorrentDialog(component.Component):
 
             # Update the treestore row first so that when walking the tree
             # we can construct the new proper paths
-            if len(new_text) == 0 or new_text[-1] != "/":
-                new_text += "/"
+            if len(new_text) == 0 or new_text[-1] != os.path.sep:
+                new_text += os.path.sep
 
             # We need to check if this folder has been split
-            split_text = new_text[:-1].split("/")
+            split_text = new_text[:-1].split(os.path.sep)
             if len(split_text) > 1:
                 # It's been split, so we need to add new folders and then reparent
                 # itr.
@@ -873,9 +873,9 @@ class AddTorrentDialog(component.Component):
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
                     parent = self.files_treestore.append(parent,
-                                [True, s + "/", 0, -1, False, gtk.STOCK_DIRECTORY])
+                                [True, s + os.path.sep, 0, -1, False, gtk.STOCK_DIRECTORY])
 
-                self.files_treestore[itr][1] = split_text[-1] + "/"
+                self.files_treestore[itr][1] = split_text[-1] + os.path.sep
 
                 # Now reparent itr to parent
                 common.reparent_iter(self.files_treestore, itr, parent)
