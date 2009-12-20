@@ -174,7 +174,7 @@ class Core(CorePluginBase):
         status["file_progress"] = self.file_progress
         status["file_url"] = self.config["url"]
         status["file_size"] = self.config["list_size"]
-        status["file_date"] = datetime.fromtimestamp(self.config["last_update"]).strftime("%a, %d %b %Y %H:%M:%S") if self.config["last_update"] else ""
+        status["file_date"] = self.config["last_update"]
         status["file_type"] = self.config["list_type"]
         if self.config["list_compression"]:
             status["file_type"] += " (%s)" % self.config["list_compression"]
@@ -330,7 +330,7 @@ class Core(CorePluginBase):
             self.reader = None
             try_again = True
         elif os.path.exists(blocklist) and not self.use_cache:
-           # If we have a backup and we haven't already used it
+            # If we have a backup and we haven't already used it
             e = f.trap(Exception)
             log.warning("Error reading blocklist: %s", e)
             self.use_cache = True
