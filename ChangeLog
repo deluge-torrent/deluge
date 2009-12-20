@@ -1,4 +1,7 @@
 === Deluge 1.2.0_rc6 (In Development) ===
+==== Core ====
+	* Fix file renaming
+
 ==== GtkUI ====
 	* Fix #1104, #735 use path.utf-8 if available
 
