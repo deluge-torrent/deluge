@@ -975,7 +975,6 @@ class TorrentManager(component.Component):
         except:
             return
         torrent_id = str(alert.handle.info_hash())
-        torrent.files[alert.index]["path"] = alert.name
 
         # We need to see if this file index is in a waiting_on_folder list
         folder_rename = False
