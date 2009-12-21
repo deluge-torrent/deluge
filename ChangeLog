@@ -12,6 +12,8 @@
 ==== Blocklist ====
 	* Fix blocklist status icon not opening the blocklist preference
 	  page in certain locales
+	* Fix blocklist not recognising comments that begin with whitespace
+	* Minor speedup in parsing blocklists
 
 === Deluge 1.2.0_rc5 (17 December 2009) ===
 ==== Web ====

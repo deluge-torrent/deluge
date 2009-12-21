@@ -60,7 +60,8 @@ class BaseReader(object):
 
     def is_ignored(self, line):
         """Ignore commented lines and blank lines"""
-        return line.startswith('#') or not line.strip()
+        line = line.strip()
+        return line.startswith('#') or not line
 
     def is_valid(self):
         """Determines whether file is valid for this reader"""
@@ -80,6 +81,7 @@ class BaseReader(object):
         blocklist.close()
         return valid
 
+    @raiseError(ReaderParseError)
     def readranges(self):
         """Yields each ip range from the file"""
         blocklist = self.open()
@@ -90,13 +92,11 @@ class BaseReader(object):
 
 class EmuleReader(BaseReader):
     """Blocklist reader for emule style blocklists"""
-    @raiseError(ReaderParseError)
     def parse(self, line):
         return line.strip().split(" , ")[0].split(" - ")
 
 class SafePeerReader(BaseReader):
     """Blocklist reader for SafePeer style blocklists"""
-    @raiseError(ReaderParseError)
     def parse(self, line):
         return line.strip().split(":")[-1].split("-")
 
