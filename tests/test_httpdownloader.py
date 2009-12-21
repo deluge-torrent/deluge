@@ -4,6 +4,8 @@ from twisted.python.failure import Failure
 from deluge.httpdownloader import download_file
 from deluge.log import setupLogger
 
+from email.utils import formatdate
+
 class DownloadFileTestCase(unittest.TestCase):
     def setUp(self):
         setupLogger("warning", "log_file")
@@ -12,8 +14,11 @@ class DownloadFileTestCase(unittest.TestCase):
         pass
 
     def assertContains(self, filename, contents):
-        with open(filename) as f:
+        f = open(filename)
+        try:
             self.assertEqual(f.read(), contents)
+        finally:
+            f.close()
         return filename
 
     def test_download(self):
@@ -79,6 +84,13 @@ class DownloadFileTestCase(unittest.TestCase):
 
     def test_page_not_found(self):
         d = download_file("http://does.not.exist", "none")
+        d.addCallback(self.fail)
+        d.addErrback(self.assertIsInstance, Failure)
+        return d
+
+    def test_page_not_modified(self):
+        headers = { 'If-Modified-Since' : formatdate(usegmt=True) }
+        d = download_file("http://deluge-torrent.org", "index.html", headers=headers)
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
