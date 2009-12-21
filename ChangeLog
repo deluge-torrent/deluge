@@ -2,6 +2,7 @@
 ==== Core ====
 	* Fix file renaming
 	* Fix tracker host filtering (Closes #1106)
+	* Fix exceptions when gettext/locale cannot be initialized properly
 
 ==== GtkUI ====
 	* Fix #1104, #735 use path.utf-8 if available

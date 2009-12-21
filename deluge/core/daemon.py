@@ -105,6 +105,8 @@ class Daemon(object):
             gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
         except Exception, e:
             log.error("Unable to initialize gettext/locale: %s", e)
+            import __builtin__
+            __builtin__.__dict__["_"] = lambda x: x
 
         # Twisted catches signals to terminate, so just have it call the shutdown
         # method.
