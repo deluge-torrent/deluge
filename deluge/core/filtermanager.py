@@ -84,7 +84,7 @@ def tracker_error_filter(torrent_ids, values):
     # If this is a tracker_host, then we need to filter on it
     if values[0] != "Error":
         for torrent_id in torrent_ids:
-            if values[0] in tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
+            if values[0] == tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
                 filtered_torrent_ids.append(torrent_id)
         return filtered_torrent_ids
 
