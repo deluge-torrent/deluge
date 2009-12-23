@@ -3,6 +3,9 @@
 	* Fix file renaming
 	* Fix tracker host filtering (Closes #1106)
 	* Fix exceptions when gettext/locale cannot be initialized properly
+	* Change share ratio calculation to use the total done instead of the all time
+	  downloaded value.  This change will make the share ratio calculation not
+	  use data downloaded in failed hash checks.
 
 ==== GtkUI ====
 	* Fix #1104, #735 use path.utf-8 if available
