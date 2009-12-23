@@ -61,6 +61,8 @@ try:
 except Exception, e:
     log.error("Unable to initialize gettext/locale!")
     log.exception(e)
+    import __builtin__
+    __builtin__.__dict__["_"] = lambda x: x
 
 import deluge.component as component
 from deluge.ui.client import client
