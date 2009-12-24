@@ -79,10 +79,6 @@ def cell_filename(column, cell, model, row, data):
     cell.set_property("text", os.path.split(filepath)[1])
 
 def cell_progress(column, cell, model, row, data):
-    if model.get_value(row, 5) == -1:
-    # This is a folder, so lets just set it blank for now
-        cell.set_property("visible", False)
-        return
     text = model.get_value(row, data[0])
     value = model.get_value(row, data[1])
     cell.set_property("visible", True)
@@ -419,6 +415,33 @@ class FilesTab(Tab):
             self.get_files_from_tree(row.iterchildren(), files_list, indent+1)
         return None
 
+    def update_folder_percentages(self):
+        """
+        Go through the tree and update the folder complete percentages.
+        """
+
+        root = self.treestore.get_iter_root()
+        if self.treestore[root][5] != -1:
+            return
+
+        def get_completed_bytes(row):
+            bytes = 0
+            parent = self.treestore.iter_parent(row)
+            while row:
+                if self.treestore.iter_children(row):
+                    bytes += get_completed_bytes(self.treestore.iter_children(row))
+                else:
+                    bytes += self.treestore[row][1] * (float(self.treestore[row][3]) / 100.0)
+
+                row = self.treestore.iter_next(row)
+
+            value = (float(bytes) / float(self.treestore[parent][1])) * 100
+            self.treestore[parent][3] = value
+            self.treestore[parent][2] = "%.2f%%" % value
+            return bytes
+
+        get_completed_bytes(self.treestore.iter_children(root))
+
     def _on_get_torrent_status(self, status):
         # Store this torrent's compact setting
         if "compact" in status:
@@ -447,6 +470,7 @@ class FilesTab(Tab):
             file_priority = status["file_priorities"][index]
             if row[4] != file_priority:
                 row[4] = file_priority
+        self.update_folder_percentages()
 
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
