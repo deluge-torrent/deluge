@@ -128,7 +128,7 @@ class JSON(resource.Resource, component.Component):
 
         def on_client_connected(connection_id):
             """
-            Handles the client successfully connecting to the daemon and 
+            Handles the client successfully connecting to the daemon and
             invokes retrieving the method names.
             """
             d = client.daemon.get_method_list()
@@ -137,10 +137,10 @@ class JSON(resource.Resource, component.Component):
             component.get("Web").core_config.start()
         _d.addCallback(on_client_connected)
         return d
-    
+
     def disable(self):
         client.disconnect()
-    
+
     def enable(self):
         if component.get("DelugeWeb").config["default_daemon"]:
             # Sort out getting the default daemon here
@@ -210,9 +210,9 @@ class JSON(resource.Resource, component.Component):
         except Exception, e:
             log.error("Error calling method `%s`", method)
             log.exception(e)
-            
+
             error = {"message": e.message, "code": 3}
-        
+
         return request_id, result, error
 
     def _on_rpc_request_finished(self, result, response, request):
@@ -323,39 +323,39 @@ class EventQueue(object):
     This class subscribes to events from the core and stores them until all
     the subscribed listeners have received the events.
     """
-    
+
     def __init__(self):
         self.__events = {}
         self.__handlers = {}
         self.__queue = {}
-    
+
     def add_listener(self, listener_id, event):
         """
         Add a listener to the event queue.
-        
+
         :param listener_id: A unique id for the listener
         :type listener_id: string
         :param event: The event name
         :type event: string
 	"""
         if event not in self.__events:
-            
+
             def on_event(*args):
                 for listener in self.__events[event]:
                     if listener not in self.__queue:
                         self.__queue[listener] = []
                     self.__queue[listener].append((event, args))
-            
+
             client.register_event_handler(event, on_event)
             self.__handlers[event] = on_event
             self.__events[event] = [listener_id]
         elif listener_id not in self.__events[event]:
             self.__events[event].append(listener_id)
-    
+
     def get_events(self, listener_id):
         """
         Retrieve the pending events for the listener.
-        
+
         :param listener_id: A unique id for the listener
         :type listener_id: string
 	"""
@@ -364,11 +364,11 @@ class EventQueue(object):
             del self.__queue[listener_id]
             return queue
         return None
-    
+
     def remove_listener(self, listener_id, event):
         """
         Remove a listener from the event queue.
-        
+
         :param listener_id: The unique id for the listener
         :type listener_id: string
         :param event: The event name
@@ -386,7 +386,7 @@ class WebApi(JSONComponent):
     the web interface. The complete web json interface also exposes all the
     methods available from the core RPC.
     """
-    
+
     def __init__(self):
         super(WebApi, self).__init__("Web")
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
@@ -466,17 +466,17 @@ class WebApi(JSONComponent):
                 "max_num_connections": self.core_config.get("max_connections_global")
             }
         }
-        
+
         if not client.connected():
             d.callback(ui_info)
             return d
-        
+
         def got_connections(connections):
             ui_info["stats"]["num_connections"] = connections
-        
+
         def got_dht_nodes(nodes):
             ui_info["stats"]["dht_nodes"] = nodes
-        
+
         def got_stats(stats):
             ui_info["stats"]["upload_rate"] = stats["payload_upload_rate"]
             ui_info["stats"]["download_rate"] = stats["payload_download_rate"]
@@ -485,7 +485,7 @@ class WebApi(JSONComponent):
 
         def got_filters(filters):
             ui_info["filters"] = filters
-        
+
         def got_health(health):
             ui_info["stats"]["has_incoming_connections"] = health
 
@@ -511,13 +511,13 @@ class WebApi(JSONComponent):
             "upload_rate"
         ])
         d3.addCallback(got_stats)
-        
+
         d4 = client.core.get_num_connections()
         d4.addCallback(got_connections)
-        
+
         d5 = client.core.get_dht_nodes()
         d5.addCallback(got_dht_nodes)
-        
+
         d6 = client.core.get_health()
         d6.addCallback(got_health)
 
@@ -563,8 +563,8 @@ class WebApi(JSONComponent):
         :returns: The torrents files in a tree
         :rtype: dictionary
         """
-        main_deferred = Deferred()        
-        d = client.core.get_torrent_status(torrent_id, FILES_KEYS)        
+        main_deferred = Deferred()
+        d = client.core.get_torrent_status(torrent_id, FILES_KEYS)
         d.addCallback(self._on_got_files, main_deferred)
         return main_deferred
 
@@ -578,7 +578,7 @@ class WebApi(JSONComponent):
         :returns: the temporary file name of the torrent file
         :rtype: string
         """
-        
+
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
         log.debug("filename: %s", tmp_file)
         headers = {}
@@ -586,7 +586,7 @@ class WebApi(JSONComponent):
             headers["Cookie"] = cookie
             log.debug("cookie: %s", cookie)
         return httpdownloader.download_file(url, tmp_file, headers=headers)
-    
+
     @export
     def get_torrent_info(self, filename):
         """
@@ -594,11 +594,11 @@ class WebApi(JSONComponent):
 
         :param filename: the path to the torrent
         :type filename: string
-        
+
         :returns: information about the torrent:
-        
+
         ::
-        
+
             {
                 "filename": the torrent file,
                 "name": the torrent name,
@@ -606,7 +606,7 @@ class WebApi(JSONComponent):
                 "files": the files the torrent contains,
                 "info_hash" the torrents info_hash
             }
-            
+
         :rtype: dictionary
         """
         try:
@@ -625,12 +625,12 @@ class WebApi(JSONComponent):
         :type torrents: list
 
         **Usage**
-        
+
         >>> json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
                 "options": {"download_path": "/home/deluge/"}
             }])
-            
+
         """
         for torrent in torrents:
             filename = os.path.basename(torrent["path"])
@@ -652,7 +652,7 @@ class WebApi(JSONComponent):
     def get_host_status(self, host_id):
         """
     	Returns the current status for the specified host.
-        
+
         :param host_id: the hash id of the host
         :type host_id: string
     	"""
@@ -786,12 +786,12 @@ class WebApi(JSONComponent):
         self.host_list["hosts"].remove(host)
         self.host_list.save()
         return True
-    
+
     @export
     def get_config(self):
         """
         Get the configuration dictionary for the web interface.
-        
+
         :rtype: dictionary
         :returns: the configuration
         """
@@ -805,7 +805,7 @@ class WebApi(JSONComponent):
     def set_config(self, config):
         """
         Sets the configuration dictionary for the web interface.
-        
+
         :param config: The configuration options to update
         :type config: dictionary
         """
@@ -814,18 +814,18 @@ class WebApi(JSONComponent):
             if isinstance(config[key], unicode) or isinstance(config[key], str):
                 config[key] = config[key].encode("utf8")
             web_config[key] = config[key]
-    
+
     @export
     def get_plugins(self):
         return {
             "enabled_plugins": component.get("Web.PluginManager").plugins.keys(),
             "available_plugins": component.get("Web.PluginManager").available_plugins
         }
-    
+
     @export
     def get_plugin_info(self, name):
         return component.get("Web.PluginManager").get_plugin_info(name)
-    
+
     @export
     def get_plugin_resources(self, name):
         return component.get("Web.PluginManager").get_plugin_resources(name)
@@ -855,27 +855,27 @@ class WebApi(JSONComponent):
         d.addCallback(on_upload_complete)
         d.addErrback(on_upload_error)
         return main_deferred
-    
+
     @export
     def register_event_listener(self, event):
         """
         Add a listener to the event queue.
-        
+
         :param event: The event name
         :type event: string
     	"""
         self.event_queue.add_listener(__request__.session_id, event)
-    
+
     @export
     def deregister_event_listener(self, event):
         """
         Remove an event listener from the event queue.
-        
+
         :param event: The event name
         :type event: string
 	    """
         self.event_queue.remove_listener(__request__.session_id, event)
-    
+
     @export
     def get_events(self):
         """
