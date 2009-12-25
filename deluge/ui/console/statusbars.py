@@ -64,11 +64,6 @@ class StatusBars(component.Component):
         if not self.__core_config_ready:
             return
 
-        if self.config["dht"]:
-            def on_get_dht_nodes(result):
-                self.dht = result
-            client.core.get_dht_nodes().addCallback(on_get_dht_nodes)
-
         def on_get_num_connections(result):
             self.connections = result
         client.core.get_num_connections().addCallback(on_get_num_connections)
@@ -76,11 +71,19 @@ class StatusBars(component.Component):
         def on_get_session_status(status):
             self.upload = deluge.common.fsize(status["payload_upload_rate"])
             self.download = deluge.common.fsize(status["payload_download_rate"])
+            if "dht_nodes" in status:
+                self.dht = status["dht_nodes"]
+
             self.update_statusbars()
 
-        client.core.get_session_status([
+        keys = [
             "payload_upload_rate",
-            "payload_download_rate"]).addCallback(on_get_session_status)
+            "payload_download_rate"]
+
+        if self.config["dht"]:
+            keys.append("dht_nodes")
+
+        client.core.get_session_status(keys).addCallback(on_get_session_status)
 
 
     def update_statusbars(self):

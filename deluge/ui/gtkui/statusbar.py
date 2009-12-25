@@ -195,7 +195,6 @@ class StatusBar(component.Component):
         client.core.get_config_value(
             "max_upload_speed").addCallback(self._on_max_upload_speed)
         client.core.get_config_value("dht").addCallback(self._on_dht)
-        client.core.get_health().addCallback(self._on_get_health)
 
         self.send_status_request()
 
@@ -266,17 +265,19 @@ class StatusBar(component.Component):
     def send_status_request(self):
         # Sends an async request for data from the core
         client.core.get_num_connections().addCallback(self._on_get_num_connections)
-        if self.dht_status:
-            client.core.get_dht_nodes().addCallback(self._on_get_dht_nodes)
-        client.core.get_session_status([
+        keys = [
             "upload_rate",
             "download_rate",
             "payload_upload_rate",
-            "payload_download_rate"]).addCallback(self._on_get_session_status)
+            "payload_download_rate"]
+
+        if self.dht_status:
+            keys.append("dht_nodes")
 
         if not self.health:
-            # Only request health status while False
-            client.core.get_health().addCallback(self._on_get_health)
+            keys.append("has_incoming_connections")
+
+        client.core.get_session_status(keys).addCallback(self._on_get_session_status)
 
     def on_configvaluechanged_event(self, key, value):
         """
@@ -295,16 +296,12 @@ class StatusBar(component.Component):
         self.num_connections = num_connections
         self.update_connections_label()
 
-    def _on_get_dht_nodes(self, dht_nodes):
-        self.dht_nodes = dht_nodes
-        self.update_dht_label()
-
     def _on_dht(self, value):
         self.dht_status = value
         if value:
             self.hbox.pack_start(
                 self.dht_item.get_eventbox(), expand=False, fill=False)
-            client.core.get_dht_nodes().addCallback(self._on_get_dht_nodes)
+            self.send_status_request()
         else:
             self.remove_item(self.dht_item)
 
@@ -317,6 +314,15 @@ class StatusBar(component.Component):
         self.update_upload_label()
         self.update_traffic_label()
 
+        if "dht_nodes" in status:
+            self.dht_nodes = status["dht_nodes"]
+            self.update_dht_label()
+
+        if "has_incoming_connections" in status:
+            self.health = status["has_incoming_connections"]
+            if self.health:
+                self.remove_item(self.health_item)
+
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
         self.update_download_label()
@@ -324,11 +330,6 @@ class StatusBar(component.Component):
     def _on_max_upload_speed(self, max_upload_speed):
         self.max_upload_speed = max_upload_speed
         self.update_upload_label()
-
-    def _on_get_health(self, value):
-        self.health = value
-        if self.health:
-            self.remove_item(self.health_item)
 
     def update_connections_label(self):
         # Set the max connections label

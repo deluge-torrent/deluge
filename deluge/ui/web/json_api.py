@@ -474,20 +474,16 @@ class WebApi(JSONComponent):
         def got_connections(connections):
             ui_info["stats"]["num_connections"] = connections
 
-        def got_dht_nodes(nodes):
-            ui_info["stats"]["dht_nodes"] = nodes
-
         def got_stats(stats):
             ui_info["stats"]["upload_rate"] = stats["payload_upload_rate"]
             ui_info["stats"]["download_rate"] = stats["payload_download_rate"]
             ui_info["stats"]["download_protocol_rate"] = stats["download_rate"] - stats["payload_download_rate"]
             ui_info["stats"]["upload_protocol_rate"] = stats["upload_rate"] - stats["payload_upload_rate"]
+            ui_info["stats"]["dht_nodes"] = stats["dht_nodes"]
+            ui_info["stats"]["has_incoming_connections"] = stats["has_incoming_connections"]
 
         def got_filters(filters):
             ui_info["filters"] = filters
-
-        def got_health(health):
-            ui_info["stats"]["has_incoming_connections"] = health
 
         def got_free_space(free_space):
             ui_info["stats"]["free_space"] = free_space
@@ -508,23 +504,19 @@ class WebApi(JSONComponent):
             "payload_download_rate",
             "payload_upload_rate",
             "download_rate",
-            "upload_rate"
+            "upload_rate",
+            "dht_nodes",
+            "has_incoming_connections"
         ])
         d3.addCallback(got_stats)
 
         d4 = client.core.get_num_connections()
         d4.addCallback(got_connections)
 
-        d5 = client.core.get_dht_nodes()
-        d5.addCallback(got_dht_nodes)
+        d5 = client.core.get_free_space(self.core_config.get("download_location"))
+        d5.addCallback(got_free_space)
 
-        d6 = client.core.get_health()
-        d6.addCallback(got_health)
-
-        d7 = client.core.get_free_space(self.core_config.get("download_location"))
-        d7.addCallback(got_free_space)
-
-        dl = DeferredList([d1, d2, d3, d4, d5, d6, d7], consumeErrors=True)
+        dl = DeferredList([d1, d2, d3, d4, d5], consumeErrors=True)
         dl.addCallback(on_complete)
         return d
 

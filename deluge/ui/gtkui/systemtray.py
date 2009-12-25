@@ -169,8 +169,9 @@ class SystemTray(component.Component):
             self.tray.set_visible(False)
 
     def send_status_request(self):
-        client.core.get_download_rate().addCallback(self._on_get_download_rate)
-        client.core.get_upload_rate().addCallback(self._on_get_upload_rate)
+        client.core.get_session_status([
+            "payload_upload_rate",
+            "payload_download_rate"]).addCallback(self._on_get_session_status)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -184,16 +185,14 @@ class SystemTray(component.Component):
             self.max_download_speed = max_download_speed
             self.build_tray_bwsetsubmenu()
 
-    def _on_get_download_rate(self, download_rate):
-        self.download_rate = deluge.common.fsize(download_rate)
-
     def _on_max_upload_speed(self, max_upload_speed):
         if self.max_upload_speed != max_upload_speed:
             self.max_upload_speed = max_upload_speed
             self.build_tray_bwsetsubmenu()
 
-    def _on_get_upload_rate(self, upload_rate):
-        self.upload_rate = deluge.common.fsize(upload_rate)
+    def _on_get_session_status(self, status):
+        self.download_rate = deluge.common.fsize(status["payload_download_rate"])
+        self.upload_rate = deluge.common.fsize(status["payload_upload_rate"])
 
     def update(self):
         if not self.config["enable_system_tray"]:

@@ -2,8 +2,7 @@
 ==== Core ====
   * Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
   * Implement #457 progress bars for folders
-
-==== GtkUI ====
+  * #496: Remove deprecated functions in favour of get_session_status()
 
 === Deluge 1.2.0 (In Development) ===
 ==== Core ====

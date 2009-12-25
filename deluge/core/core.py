@@ -289,28 +289,6 @@ class Core(component.Component):
         return self.torrentmanager.remove(torrent_id, remove_data)
 
     @export
-    def get_stats(self):
-        """
-        Deprecated: please use get_session_status()
-
-        """
-        warnings.warn("Use get_session_status() instead of get_stats()", DeprecationWarning)
-        stats = self.get_session_status(["payload_download_rate", "payload_upload_rate",
-            "dht_nodes", "has_incoming_connections", "download_rate", "upload_rate"])
-
-        stats.update({
-            #dynamic stats:
-            "num_connections":self.session.num_connections(),
-            "free_space":deluge.common.free_space(self.config["download_location"]),
-            #max config values:
-            "max_download":self.config["max_download_speed"],
-            "max_upload":self.config["max_upload_speed"],
-            "max_num_connections":self.config["max_connections_global"],
-        })
-
-        return stats
-
-    @export
     def get_session_status(self, keys):
         """
         Gets the session status values for 'keys', these keys are taking
@@ -491,24 +469,6 @@ class Core(component.Component):
         return self.session.num_connections()
 
     @export
-    def get_dht_nodes(self):
-        """Returns the number of dht nodes"""
-        warnings.warn("Use get_session_status().", DeprecationWarning)
-        return self.session.status().dht_nodes
-
-    @export
-    def get_download_rate(self):
-        """Returns the payload download rate"""
-        warnings.warn("Use get_session_status().", DeprecationWarning)
-        return self.session.status().payload_download_rate
-
-    @export
-    def get_upload_rate(self):
-        """Returns the payload upload rate"""
-        warnings.warn("Use get_session_status().", DeprecationWarning)
-        return self.session.status().payload_upload_rate
-
-    @export
     def get_available_plugins(self):
         """Returns a list of plugins available in the core"""
         return self.pluginmanager.get_available_plugins()
@@ -604,12 +564,6 @@ class Core(component.Component):
     def set_torrent_move_completed_path(self, torrent_id, value):
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
-
-    @export
-    def get_health(self):
-        """Returns True if we have established incoming connections"""
-        warnings.warn("Use get_session_status().", DeprecationWarning)
-        return self.session.status().has_incoming_connections
 
     @export
     def get_path_size(self, path):
