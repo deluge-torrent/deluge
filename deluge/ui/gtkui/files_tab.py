@@ -457,9 +457,8 @@ class FilesTab(Tab):
         files_list.sort()
         for index, row in files_list:
             # Do not update a row that is being edited
-            if self._editing_index is not None:
-                if self._editing_index == row[5]:
-                    continue
+            if self._editing_index == row[5]:
+                continue
 
             progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
             if row[2] != progress_string:
@@ -470,7 +469,9 @@ class FilesTab(Tab):
             file_priority = status["file_priorities"][index]
             if row[4] != file_priority:
                 row[4] = file_priority
-        self.update_folder_percentages()
+        if self._editing_index != -1:
+            # Only update if no folder is being edited
+            self.update_folder_percentages()
 
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
