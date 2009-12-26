@@ -603,7 +603,7 @@ class Torrent:
             if self.handle.has_metadata():
                 name = self.torrent_info.file_at(0).path.split("/", 1)[0]
                 if not name:
-                    return self.torrent_info.name()
+                    name = self.torrent_info.name()
                 try:
                     return name.decode("utf8", "ignore")
                 except UnicodeDecodeError:
