@@ -253,7 +253,7 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            if self.config["stop_seed_at_ratio"] or torrent.options["stop_at_ratio"] and torrent.state not in ("Checking", "Allocating"):
+            if self.config["stop_seed_at_ratio"] or torrent.options["stop_at_ratio"] and torrent.state not in ("Checking", "Allocating", "Paused", "Queued"):
                 # If the global setting is set, but the per-torrent isn't.. Just skip to the next torrent
                 # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
                 if self.config["stop_seed_at_ratio"] and not torrent.options["stop_at_ratio"]:
