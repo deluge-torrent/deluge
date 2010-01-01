@@ -18,9 +18,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -47,6 +47,12 @@ from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.common
 from deluge.log import LOG as log
+
+from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
+from gtk import gdk
+signal_new('button-press-event', gtk.TreeViewColumn,
+           SIGNAL_RUN_LAST, TYPE_NONE, (gdk.Event,))
+
 
 # Cell data functions to pass to add_func_column()
 def cell_data_speed(column, cell, model, row, data):
@@ -131,6 +137,32 @@ class ListView:
             # If this is set, it is used to sort the model
             self.sort_func = None
             self.sort_id = None
+
+    class TreeviewColumn(gtk.TreeViewColumn):
+        """
+            TreeViewColumn does not signal right-click events, and we need them
+            This subclass is equivalent to TreeViewColumn, but it signals these events
+
+            Most of the code of this class comes from Quod Libet (http://www.sacredchao.net/quodlibet)
+        """
+
+        def __init__(self, title=None, cell_renderer=None, ** args):
+            """ Constructor, see gtk.TreeViewColumn """
+            gtk.TreeViewColumn.__init__(self, title, cell_renderer, ** args)
+            label = gtk.Label(title)
+            self.set_widget(label)
+            label.show()
+            label.__realize = label.connect('realize', self.onRealize)
+
+        def onRealize(self, widget):
+            widget.disconnect(widget.__realize)
+            del widget.__realize
+            button = widget.get_ancestor(gtk.Button)
+            if button is not None:
+                button.connect('button-press-event', self.onButtonPressed)
+
+        def onButtonPressed(self, widget, event):
+            self.emit('button-press-event', event)
 
     def __init__(self, treeview_widget=None, state_file=None):
         log.debug("ListView initialized..")
@@ -292,6 +324,11 @@ class ListView:
         self.columns[name].column.set_visible(widget.get_active())
         return
 
+    def on_treeview_header_right_clicked(self, column, event):
+        if event.button == 3:
+            self.menu.popup(None, None, None, event.button, event.get_time())
+
+
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
         attach any new checklist menu it makes to this menu.
@@ -300,7 +337,7 @@ class ListView:
 
     def create_checklist_menu(self):
         """Creates a menu used for toggling the display of columns."""
-        menu = gtk.Menu()
+        menu = self.menu = gtk.Menu()
         # Iterate through the column_index list to preserve order
         for name in self.column_index:
             column = self.columns[name]
@@ -322,7 +359,6 @@ class ListView:
         for _menu in self.checklist_menus:
             _menu.set_submenu(menu)
             _menu.show_all()
-
         return menu
 
     def create_new_liststore(self):
@@ -415,7 +451,8 @@ class ListView:
         # Create a new list with the added column
         self.create_new_liststore()
 
-        column = gtk.TreeViewColumn(header)
+        column = self.TreeviewColumn(header)
+
         if column_type == "text":
             column.pack_start(render)
             column.add_attribute(render, "text",
@@ -460,6 +497,8 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
+        column.connect('button-press-event',
+                       self.on_treeview_header_right_clicked)
 
         # Check for loaded state and apply
         if self.state != None:
