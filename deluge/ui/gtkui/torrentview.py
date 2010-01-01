@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -221,6 +221,8 @@ class TorrentView(listview.ListView, component.Component):
                                             status_field=["time_added"])
         self.add_texticon_column(_("Tracker"), status_field=["tracker_host", "tracker_host"],
                                     function=cell_data_trackericon)
+
+        self.add_text_column(_("Save Path"), status_field=["save_path"])
 
         # Set filter to None for now
         self.filter = None
