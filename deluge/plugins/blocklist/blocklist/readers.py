@@ -57,6 +57,7 @@ class BaseReader(object):
         """Calls callback on each ip range in the file"""
         for start, end in self.readranges():
             callback(remove_zeros(start), remove_zeros(end))
+        return self.file
 
     def is_ignored(self, line):
         """Ignore commented lines and blank lines"""
