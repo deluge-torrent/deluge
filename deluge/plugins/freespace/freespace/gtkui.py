@@ -50,7 +50,7 @@ from common import get_resource
 class GtkUI(GtkPluginBase):
 
     def enable(self):
-        log.debug('\n\nEnabling %s FreeSpace', self.__class__.__name__)
+        log.debug('Enabling %s FreeSpace', self.__class__.__name__)
         self.glade = gtk.glade.XML(get_resource("config.glade"))
         self.prefs = self.glade.get_widget('prefs_box')
         parent = self.prefs.get_parent()
