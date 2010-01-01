@@ -113,18 +113,20 @@ class Core(CorePluginBase):
         self._cleanup.stop()
 
     def update(self):
-        log.debug('\n\nUpdating %s FreeSpace', self.__class__.__name__)
+        log.debug('Updating %s FreeSpace', self.__class__.__name__)
         nots = {}
         for path in self.__gather_paths_to_check():
             log.debug("Checking path %s", path)
-            free_percent = self.__get_free_space(path)
-            if (100 - free_percent) > self.config['percent']:
-                if path not in self.notifications_sent:
-                    self.notifications_sent[path] = datetime.utcnow()
-                    nots[path] = (100 - free_percent)
-                else:
-                    log.warning("Running low on disk space on %s but "
-                                "notifications were already triggered.", path)
+            if os.path.exists(path):
+                free_percent = self.__get_free_space(path)
+                if (100 - free_percent) > self.config['percent']:
+                    if path not in self.notifications_sent:
+                        self.notifications_sent[path] = datetime.utcnow()
+                        nots[path] = (100 - free_percent)
+                    else:
+                        log.warning("Running low on disk space on %s but "
+                                    "notifications were already triggered.",
+                                    path)
         if nots:
             component.get("EventManager").emit(LowDiskSpaceEvent(nots))
 
