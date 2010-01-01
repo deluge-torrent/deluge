@@ -217,10 +217,10 @@ class Core(CorePluginBase, CoreNotifications):
         CoreNotifications.enable(self)
         self.config = deluge.configmanager.ConfigManager(
             "notifications-core.conf", DEFAULT_PREFS)
-        log.debug("\n\nENABLING CORE NOTIFICATIONS\n\n")
+        log.debug("ENABLING CORE NOTIFICATIONS")
 
     def disable(self):
-        log.debug("\n\nDISABLING CORE NOTIFICATIONS\n\n")
+        log.debug("DISABLING CORE NOTIFICATIONS")
         CoreNotifications.disable(self)
 
     @export
