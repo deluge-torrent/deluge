@@ -12,6 +12,9 @@
 ==== GtkUI ====
 	* Fix #1104, #735 use path.utf-8 if available
 
+==== Console ====
+	* Fix #1115 not showing usage for the 'debug' command
+
 ==== Windows ====
 	* Fix displaying folders in the add torrent dialog
 

@@ -51,7 +51,7 @@ class Command(BaseCommand):
         elif state == 'off':
             deluge.log.setLoggerLevel("error")
         else:
-            component.get("ConsoleUI").write("{!error!}%s" % usage)
+            component.get("ConsoleUI").write("{!error!}%s" % self.usage)
 
         return defer.succeed(True)
 
