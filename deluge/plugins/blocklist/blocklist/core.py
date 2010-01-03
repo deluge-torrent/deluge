@@ -246,7 +246,6 @@ class Core(CorePluginBase):
             if "Moved Permanently" in error_msg:
                 log.debug("Setting blocklist url to %s", location)
                 self.config["url"] = location
-            f.trap(f.type)
             d = self.download_list(url=location)
             d.addCallbacks(self.on_download_complete, self.on_download_error)
         else:
@@ -258,13 +257,13 @@ class Core(CorePluginBase):
                 bl_filename = "blocklist.cache" if self.use_cache else "blocklist.download"
                 d = threads.deferToThread(self.update_info,
                         deluge.configmanager.get_config_dir(bl_filename))
-                f.trap(f.type)
-            elif self.failed_attempts < self.config["try_times"]:
-                log.warning("Blocklist download failed!")
-                self.failed_attempts += 1
-                f.trap(f.type)
             else:
-                log.error(error_msg)
+                log.warning("Blocklist download failed: %s", error_msg)
+                if self.failed_attempts < self.config["try_times"]:
+                    log.debug("Let's try again!")
+                    self.failed_attempts += 1
+                    d = self.download_list()
+                    d.addCallbacks(self.on_download_complete, self.on_download_error)
         return d
 
     def import_list(self, force=False):
@@ -331,8 +330,7 @@ class Core(CorePluginBase):
             try_again = True
         elif os.path.exists(blocklist) and not self.use_cache:
             # If we have a backup and we haven't already used it
-            e = f.trap(Exception)
-            log.warning("Error reading blocklist: %s", e)
+            log.warning("Error reading blocklist: %s", f.getErrorMessage())
             self.use_cache = True
             try_again = True
 

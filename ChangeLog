@@ -24,6 +24,8 @@
 	  page in certain locales
 	* Fix blocklist not recognising comments that begin with whitespace
 	* Minor speedup in parsing blocklists
+	* Blocklist now attempts to download the URL multiple times before giving
+	  up
 
 === Deluge 1.2.0_rc5 (17 December 2009) ===
 ==== Web ====
