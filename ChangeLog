@@ -4,6 +4,9 @@
   * Implement #457 progress bars for folders
   * #496: Remove deprecated functions in favour of get_session_status()
 
+==== Blocklist ====
+  * Implement local blocklist support
+
 === Deluge 1.2.0 (In Development) ===
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC

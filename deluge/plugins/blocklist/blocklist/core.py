@@ -75,6 +75,7 @@ class Core(CorePluginBase):
     def enable(self):
         log.debug('Blocklist: Plugin enabled..')
 
+        self.is_url = True
         self.is_downloading = False
         self.is_importing = False
         self.has_imported = False
@@ -132,13 +133,18 @@ class Core(CorePluginBase):
         self.force_download = force
         self.failed_attempts = 0
         self.auto_detected = False
+        self.up_to_date = False
         if force:
             self.reader = None
+        self.is_url = self.config["url"].split("://")[0] in ("http", "https")
 
         # Start callback chain
-        d = self.download_list()
-        d.addCallbacks(self.on_download_complete, self.on_download_error)
-        d.addCallback(self.import_list)
+        if self.is_url:
+            d = self.download_list()
+            d.addCallbacks(self.on_download_complete, self.on_download_error)
+            d.addCallback(self.import_list)
+        else:
+            d = self.import_list(self.config["url"])
         d.addCallbacks(self.on_import_complete, self.on_import_error)
 
         return d
@@ -240,7 +246,6 @@ class Core(CorePluginBase):
 
         log.debug("Attempting to download blocklist %s", url)
         log.debug("Sending headers: %s", headers)
-        self.up_to_date = False
         self.is_downloading = True
         return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), on_retrieve_data, headers)
 
@@ -276,7 +281,7 @@ class Core(CorePluginBase):
             if "Moved Permanently" in error_msg:
                 log.debug("Setting blocklist url to %s", location)
                 self.config["url"] = location
-            d = self.download_list(url=location)
+            d = self.download_list(location)
             d.addCallbacks(self.on_download_complete, self.on_download_error)
         else:
             if "Not Modified" in error_msg:
@@ -348,11 +353,14 @@ class Core(CorePluginBase):
         self.is_importing = False
         self.has_imported = True
         log.debug("Blocklist import complete!")
-        # Move downloaded blocklist to cache
         cache = deluge.configmanager.get_config_dir("blocklist.cache")
         if blocklist != cache:
-            log.debug("Moving %s to %s", blocklist, cache)
-            d = threads.deferToThread(shutil.move, blocklist, cache)
+            if self.is_url:
+                log.debug("Moving %s to %s", blocklist, cache)
+                d = threads.deferToThread(shutil.move, blocklist, cache)
+            else:
+                log.debug("Copying %s to %s", blocklist, cache)
+                d = threads.deferToThread(shutil.copy, blocklist, cache)
         return d
 
     def on_import_error(self, f):
