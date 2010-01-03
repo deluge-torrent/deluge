@@ -14,6 +14,7 @@
 
 ==== Console ====
 	* Fix #1115 not showing usage for the 'debug' command
+	* Fix #1116 not being able to use command aliases when not connected to a daemon
 
 ==== Windows ====
 	* Fix displaying folders in the add torrent dialog

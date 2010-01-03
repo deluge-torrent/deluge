@@ -295,7 +295,14 @@ class ConsoleUI(component.Component):
                 parser._print_help(f)
         parser.print_help = print_help
 
-        if not client.connected() and cmd not in ("help", "connect", "quit"):
+        # Only these commands can be run when not connected to a daemon
+        not_connected_cmds = ["help", "connect", "quit"]
+        aliases = []
+        for c in not_connected_cmds:
+            aliases.extend(self._commands[c].aliases)
+        not_connected_cmds.extend(aliases)
+
+        if not client.connected() and cmd not in not_connected_cmds:
             self.write("{!error!}Not connected to a daemon, please use the connect command first.")
             return
 
