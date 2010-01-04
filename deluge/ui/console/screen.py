@@ -390,7 +390,7 @@ class Screen(CursesStdIO):
                 self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
                 self.input_cursor -= 1
 
-        elif c == curses.KEY_DC or c == 51:
+        elif c == curses.KEY_DC:
             if self.input and self.input_cursor < len(self.input):
                 self.input = self.input[:self.input_cursor] + self.input[self.input_cursor + 1:]
 
