@@ -28,6 +28,9 @@
 	* Blocklist now attempts to download the URL multiple times before giving
 	  up
 
+==== Web ====
+	* Put the default password in the manpage.
+
 === Deluge 1.2.0_rc5 (17 December 2009) ===
 ==== Web ====
 	* Swap order of buttons in Remove window (Closes #1083)
