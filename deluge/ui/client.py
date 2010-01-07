@@ -422,22 +422,15 @@ class DaemonClassicProxy(DaemonProxy):
     def call(self, method, *args, **kwargs):
         #log.debug("call: %s %s %s", method, args, kwargs)
 
-        d = defer.Deferred()
+        import copy
+
         try:
             m = self.__daemon.rpcserver.get_object_method(method)
         except Exception, e:
             log.exception(e)
-            d.errback(e)
-            return d
-
-        try:
-            import copy
-            result = m(*copy.deepcopy(args), **copy.deepcopy(kwargs))
-        except Exception, e:
-            d.errback(e)
+            return defer.fail(e)
         else:
-            d.callback(result)
-        return d
+            return defer.maybeDeferred(m, *copy.deepcopy(args), **copy.deepcopy(kwargs))
 
     def register_event_handler(self, event, handler):
         """
