@@ -39,7 +39,13 @@ def Zipped(reader):
     """Blocklist reader for zipped blocklists"""
     def open(self):
         z = zipfile.ZipFile(self.file)
-        return z.open(z.namelist()[0])
+        if hasattr(z, 'open'):
+            f = z.open(z.namelist()[0])
+        else:
+            # Handle python 2.5
+            import cStringIO
+            f = cStringIO.StringIO(z.read(z.namelist()[0]))
+        return f
     reader.open = open
     return reader
 

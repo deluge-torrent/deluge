@@ -28,6 +28,7 @@
 	* Minor speedup in parsing blocklists
 	* Blocklist now attempts to download the URL multiple times before giving
 	  up
+	* Fix blocklist not being able to open zipped blocklists with python 2.5
 
 ==== Web ====
 	* Put the default password in the manpage.
