@@ -11,6 +11,7 @@
 
 ==== GtkUI ====
 	* Fix #1104, #735 use path.utf-8 if available
+	* Fix #1114 test active port not working in classic mode
 
 ==== Console ====
 	* Fix #1115 not showing usage for the 'debug' command
