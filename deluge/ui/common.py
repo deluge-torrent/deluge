@@ -115,7 +115,7 @@ class TorrentInfo(object):
 
             for index, f in enumerate(self.__m_metadata["info"]["files"]):
                 if "path.utf-8" in f:
-                    path = os.path.join(*f["path.utf-8"])
+                    path = os.path.join(prefix, *f["path.utf-8"])
                 else:
                     path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]), self.encoding)), self.encoding)
                 f["index"] = index
@@ -142,7 +142,7 @@ class TorrentInfo(object):
 
             for f in self.__m_metadata["info"]["files"]:
                 if "path.utf-8" in f:
-                    path = os.path.join(*f["path.utf-8"])
+                    path = os.path.join(prefix, *f["path.utf-8"])
                 else:
                     path = decode_string(os.path.join(prefix, decode_string(os.path.join(*f["path"]), self.encoding)), self.encoding)
                 self.__m_files.append({
