@@ -37,14 +37,14 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.2.0_rc5"
+!define PROGRAM_VERSION "1.2.0"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
 !define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # Installer for GTK+ 2.12 runtime; will be downloaded from deluge-torrent.org
-!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2009-09-12-ash.exe"
+!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2009-12-01-ash.exe"
 
 
 # --- Interface settings ---
@@ -219,7 +219,7 @@ Section "Create magnet uri link association for Deluge" Section3
     DeleteRegKey HKCR "magnet"
     WriteRegStr HKCR "magnet" "" "URL:magnet protocol"
     WriteRegStr HKCR "magnet" "URL Protocol" ""
-    
+
     WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.cmd" "%1"'
 SectionEnd
 
