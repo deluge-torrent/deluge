@@ -39,6 +39,7 @@
 
 import smtplib
 from twisted.internet import defer, threads
+from deluge import component
 from deluge.event import known_events
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
