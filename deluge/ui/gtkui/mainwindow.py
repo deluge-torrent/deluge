@@ -64,7 +64,7 @@ class MainWindow(component.Component):
         self.window = self.main_glade.get_widget("main_window")
 
         self.window.set_icon(common.get_deluge_icon())
-        
+
         self.vpaned = self.main_glade.get_widget("vpaned")
         self.initial_vpaned_position = self.config["window_pane_position"]
 
@@ -238,8 +238,9 @@ class MainWindow(component.Component):
 
     def on_newversionavailable_event(self, new_version):
         if self.config["show_new_releases"]:
+            from twisted.internet import reactor
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
-            NewReleaseDialog().show(new_version)
+            reactor.callLater(5.0, NewReleaseDialog().show, new_version)
 
     def on_torrentfinished_event(self, torrent_id):
         from deluge.ui.gtkui.notification import Notification

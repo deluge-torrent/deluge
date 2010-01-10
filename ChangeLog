@@ -20,6 +20,7 @@
 
 ==== Windows ====
 	* Fix displaying folders in the add torrent dialog
+	* Fix displaying the new release dialog
 
 ==== Blocklist ====
 	* Fix blocklist status icon not opening the blocklist preference
