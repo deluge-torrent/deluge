@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -72,8 +72,8 @@ class Preferences(component.Component):
         self.treeview.append_column(column)
         # Add the default categories
         i = 0
-        for category in [_("Downloads"), _("Network"), _("Bandwidth"), _("Interface"),
-            _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
+        for category in [_("Downloads"), _("Network"), _("Bandwidth"),
+            _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
             _("Cache"), _("Plugins")]:
             self.liststore.append([i, category])
             i += 1
@@ -174,7 +174,8 @@ class Preferences(component.Component):
             self.liststore.remove(self.iter_to_remove)
 
     def show(self, page=None):
-        """Page should be the string in the left list.. ie, 'Network' or 'Bandwidth'"""
+        """Page should be the string in the left list.. ie, 'Network' or
+        'Bandwidth'"""
         if page != None:
             for (index, string) in self.liststore:
                 if page == string:
@@ -734,6 +735,7 @@ class Preferences(component.Component):
             self.show()
 
     def hide(self):
+        self.glade.get_widget("port_img").hide()
         self.pref_dialog.hide()
 
     def __update_cache_status(self):
@@ -833,6 +835,10 @@ class Preferences(component.Component):
                 self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
                 self.glade.get_widget("port_img").show()
         client.core.test_listen_port().addCallback(on_get_test)
+        self.glade.get_widget("port_img").set_from_file(
+            deluge.common.get_pixmap('loading.gif')
+        )
+        self.glade.get_widget("port_img").show()
         client.force_call()
 
     def on_plugin_toggled(self, renderer, path):
