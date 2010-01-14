@@ -289,7 +289,7 @@ Script: %(filename)s
     The client-side javascript code for the %(name)s plugin.
 
 Copyright:
-    (C) %(author_name)s 2009 <damoxc@gmail.com>
+    (C) %(author_name)s 2009 <%(author_email)s>
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3, or (at your option)
