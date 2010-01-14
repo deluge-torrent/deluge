@@ -653,15 +653,6 @@ class AddTorrentDialog(component.Component):
         d.addCallback(on_download_success)
         d.addErrback(on_download_fail)
 
-    def _download_from_url(self, url):
-        import urllib
-        import tempfile
-        import os.path
-        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
-        filename, headers = urllib.urlretrieve(url, tmp_file)
-        log.debug("filename: %s", filename)
-        self.add_from_files([filename])
-
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
         dialog = self.glade.get_widget("dialog_infohash")
