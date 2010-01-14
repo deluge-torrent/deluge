@@ -39,6 +39,7 @@ from twisted.internet import reactor
 from deluge.log import setupLogger, LOG as log
 from common import get_version
 import os.path
+import zlib
 
 class HTTPDownloader(client.HTTPDownloader):
     """
@@ -56,8 +57,9 @@ class HTTPDownloader(client.HTTPDownloader):
         :param headers: any optional headers to send
         :type headers: dictionary
         """
-        self.__part_callback = part_callback
+        self.part_callback = part_callback
         self.current_length = 0
+        self.decoder = None
         self.value = filename
         self.force_filename = force_filename
         agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
@@ -73,6 +75,11 @@ class HTTPDownloader(client.HTTPDownloader):
                 self.total_length = int(headers["content-length"][0])
             else:
                 self.total_length = 0
+
+            if "content-encoding" in headers and headers["content-encoding"][0] in ("gzip", "x-gzip", "deflate"):
+                # Adding 32 to the wbits enables gzip & zlib decoding (with automatic header detection)
+                # Adding 16 just enables gzip decoding (no zlib)
+                self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
 
             if "content-disposition" in headers and not self.force_filename:
                 try:
@@ -95,10 +102,18 @@ class HTTPDownloader(client.HTTPDownloader):
     def pagePart(self, data):
         if self.code == http.OK:
             self.current_length += len(data)
-            if self.__part_callback:
-                self.__part_callback(data, self.current_length, self.total_length)
+            if self.decoder:
+                data = self.decoder.decompress(data)
+            if self.part_callback:
+                self.part_callback(data, self.current_length, self.total_length)
 
         return client.HTTPDownloader.pagePart(self, data)
+
+    def pageEnd(self):
+        if self.decoder:
+            client.HTTPDownloader.pagePart(self, self.decoder.flush())
+
+        return client.HTTPDownloader.pageEnd(self)
 
 def sanitise_filename(filename):
     """
@@ -132,7 +147,7 @@ def sanitise_filename(filename):
 
     return filename
 
-def download_file(url, filename, callback=None, headers=None, force_filename=False):
+def download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
     """
     Downloads a file from a specific URL and returns a Deferred.  You can also
     specify a callback function to be called as parts are received.
@@ -149,6 +164,8 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     :param force_filename: force us to use the filename specified rather than
                            one the server may suggest
     :type force_filename: boolean
+    :param allow_compression: allows gzip & deflate decoding
+    :type allow_compression: boolean
 
     :returns: the filename of the downloaded file
     :rtype: Deferred
@@ -162,6 +179,11 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     if headers:
         for key, value in headers.items():
             headers[str(key)] = str(value)
+
+    if allow_compression:
+        if not headers:
+            headers = {}
+        headers["accept-encoding"] = "gzip, deflate"
 
     scheme, host, port, path = client._parse(url)
     factory = HTTPDownloader(url, filename, callback, headers, force_filename)
