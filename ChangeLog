@@ -8,7 +8,7 @@
 ==== Blocklist ====
   * Implement local blocklist support
 
-=== Deluge 1.2.0 (In Development) ===
+=== Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
   * Implement new RPC protocol DelugeRPC replacing XMLRPC
   * Move to a twisted framework
