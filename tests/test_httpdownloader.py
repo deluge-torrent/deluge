@@ -17,6 +17,18 @@ class DownloadFileTestCase(unittest.TestCase):
         f = open(filename)
         try:
             self.assertEqual(f.read(), contents)
+        except Exception, e:
+            self.fail(e)
+        finally:
+            f.close()
+        return filename
+
+    def failIfContains(self, filename, contents):
+        f = open(filename)
+        try:
+            self.failIfEqual(f.read(), contents)
+        except Exception, e:
+            self.fail(e)
         finally:
             f.close()
         return filename
@@ -73,6 +85,12 @@ class DownloadFileTestCase(unittest.TestCase):
         url = "http://deluge-torrent.org/httpdownloader.php?test=gzip&msg=success"
         d = download_file(url, "gzip_encoded")
         d.addCallback(self.assertContains, "success")
+        return d
+
+    def test_download_with_gzip_encoding_disabled(self):
+        url = "http://deluge-torrent.org/httpdownloader.php?test=gzip&msg=fail"
+        d = download_file(url, "gzip_encoded", allow_compression=False)
+        d.addCallback(self.failIfContains, "fail")
         return d
 
     def test_page_redirect(self):

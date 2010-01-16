@@ -45,7 +45,7 @@ class HTTPDownloader(client.HTTPDownloader):
     """
     Factory class for downloading files and keeping track of progress.
     """
-    def __init__(self, url, filename, part_callback=None, headers=None, force_filename=False):
+    def __init__(self, url, filename, part_callback=None, headers=None, force_filename=False, allow_compression=True):
         """
         :param url: the url to download from
         :type url: string
@@ -62,6 +62,7 @@ class HTTPDownloader(client.HTTPDownloader):
         self.decoder = None
         self.value = filename
         self.force_filename = force_filename
+        self.allow_compression = allow_compression
         agent = "Deluge/%s (http://deluge-torrent.org)" % get_version()
         client.HTTPDownloader.__init__(self, url, filename, headers=headers, agent=agent)
 
@@ -76,7 +77,8 @@ class HTTPDownloader(client.HTTPDownloader):
             else:
                 self.total_length = 0
 
-            if "content-encoding" in headers and headers["content-encoding"][0] in ("gzip", "x-gzip", "deflate"):
+            if self.allow_compression and "content-encoding" in headers and \
+               headers["content-encoding"][0] in ("gzip", "x-gzip", "deflate"):
                 # Adding 32 to the wbits enables gzip & zlib decoding (with automatic header detection)
                 # Adding 16 just enables gzip decoding (no zlib)
                 self.decoder = zlib.decompressobj(zlib.MAX_WBITS + 32)
@@ -186,7 +188,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
         headers["accept-encoding"] = "gzip, deflate"
 
     scheme, host, port, path = client._parse(url)
-    factory = HTTPDownloader(url, filename, callback, headers, force_filename)
+    factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
     if scheme == "https":
         from twisted.internet import ssl
         reactor.connectSSL(host, port, factory, ssl.ClientContextFactory())
