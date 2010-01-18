@@ -49,6 +49,7 @@ import deluge.ui.client
 import deluge.ui.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+import dialogs
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
@@ -396,6 +397,30 @@ class ConnectionManager(component.Component):
         self.glade.get_widget("label_startdaemon").set_use_underline(
             True)
 
+    def start_daemon(self, port, config):
+        """
+        Attempts to start a daemon process and will show an ErrorDialog if unable
+        to.
+        """
+        try:
+            return client.start_daemon(port, config)
+        except OSError, e:
+            if e.errno == 2:
+                dialogs.ErrorDialog(
+                    _("Unable to start daemon!"),
+                    _("Deluge cannot find the 'deluged' executable, it is likely \
+that you forgot to install the deluged package or it's not in your PATH.")).run()
+            else:
+                raise e
+        except Exception, e:
+            import traceback
+            import sys
+            tb = sys.exc_info()
+            dialogs.ErrorDialog(
+                _("Unable to start daemon!"),
+                _("Please examine the details for more information."),
+                details=traceback.format_exc(tb[2])).run()
+
     # Signal handlers
     def __on_connected(self, connector, host_id):
         if self.gtkui_config["autoconnect"]:
@@ -423,7 +448,7 @@ class ConnectionManager(component.Component):
         if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
             host in ("127.0.0.1", "localhost"):
             # We need to start this localhost
-            client.start_daemon(port, deluge.configmanager.get_config_dir())
+            self.start_daemon(port, deluge.configmanager.get_config_dir())
 
             def on_connect_fail(result, try_counter):
                 log.error("Connection to host failed..")
@@ -504,7 +529,7 @@ class ConnectionManager(component.Component):
             # There is nothing in the list, so lets create a localhost entry
             self.add_host(DEFAULT_HOST, DEFAULT_PORT)
             # ..and start the daemon.
-            client.start_daemon(DEFAULT_PORT, deluge.configmanager.get_config_dir())
+            self.start_daemon(DEFAULT_PORT, deluge.configmanager.get_config_dir())
             return
 
         paths = self.hostlist.get_selection().get_selected_rows()[1]
@@ -538,7 +563,7 @@ class ConnectionManager(component.Component):
                 c.connect(host, port, user, password).addCallback(on_connect, c)
 
         elif status == _("Offline"):
-            client.start_daemon(port, deluge.configmanager.get_config_dir())
+            self.start_daemon(port, deluge.configmanager.get_config_dir())
             reactor.callLater(2.0, self.__update_list)
 
     def on_button_refresh_clicked(self, widget):

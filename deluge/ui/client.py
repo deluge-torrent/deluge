@@ -535,10 +535,15 @@ class Client(object):
         """
         Starts a daemon process.
 
-        :param port: int, the port for the daemon to listen on
-        :param config: str, the path to the current config folder
+        :param port: the port for the daemon to listen on
+        :type port: int
+        :param config: the path to the current config folder
+        :type config: str
         :returns: True if started, False if not
+        :rtype: bool
 
+        :raises OSError: received from subprocess.call()
+        
         """
         try:
             if deluge.common.windows_check():
@@ -547,6 +552,9 @@ class Client(object):
                 subprocess.call(["nohup", "deluged", "--port=%s" % port, "--config=%s" % config])
             else:
                 subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
+        except OSError, e:
+            log.exception(e)
+            raise e
         except Exception, e:
             log.error("Unable to start daemon!")
             log.exception(e)
