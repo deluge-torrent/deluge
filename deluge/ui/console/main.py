@@ -170,7 +170,7 @@ class ConsoleUI(component.Component):
                     # If we have args, lets process them and quit
                     # allow multiple commands split by ";"
                     for arg in args.split(";"):
-                        deferreds.append(self.do_command(arg.strip()))
+                        deferreds.append(defer.maybeDeferred(self.do_command, arg.strip()))
 
                     def on_complete(result):
                         self.do_command("quit")

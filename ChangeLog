@@ -1,7 +1,10 @@
 === Deluge 1.2.1 ===
 ==== GtkUI ====
 	* Fix #1128 Show an error dialog when unable to start a 'deluged' process
-	
+
+==== Console ====
+	* Fix hanging when using commands from the command-line
+
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
 	* Fix file renaming
