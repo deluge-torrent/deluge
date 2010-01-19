@@ -69,7 +69,7 @@ class Command(BaseCommand):
                 for p in result:
                     self.console.write("{!input!}  " + p)
 
-            client.core.get_available_plugins().addCallback(on_available_plugins)
+            return client.core.get_available_plugins().addCallback(on_available_plugins)
 
         if options["show"]:
             def on_enabled_plugins(result):
@@ -77,7 +77,7 @@ class Command(BaseCommand):
                 for p in result:
                     self.console.write("{!input!}  " + p)
 
-            client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
+            return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
 
         if options["enable"]:
             def on_available_plugins(result):
@@ -90,7 +90,7 @@ class Command(BaseCommand):
                     if arg.lower() in plugins:
                         client.core.enable_plugin(plugins[arg.lower()])
 
-            client.core.get_available_plugins().addCallback(on_available_plugins)
+            return client.core.get_available_plugins().addCallback(on_available_plugins)
 
         if options["disable"]:
             def on_enabled_plugins(result):
@@ -103,4 +103,4 @@ class Command(BaseCommand):
                     if arg.lower() in plugins:
                         client.core.disable_plugin(plugins[arg.lower()])
 
-            client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
+            return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
