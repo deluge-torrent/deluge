@@ -33,6 +33,7 @@ import sys
 
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
+from distutils.command.build_ext import build_ext as _build_ext
 from distutils.command.clean import clean as _clean
 from setuptools.command.install import install as _install
 try:
@@ -312,6 +313,27 @@ class build(_build):
         # Run all sub-commands (at least those that need to be run)
         _build.run(self)
 
+class build_debug(build):
+    sub_commands = [x for x in build.sub_commands if x[0] != 'build_ext'] + [('build_ext_debug', None)]
+
+class build_ext_debug(_build_ext):
+    
+    def run(self):
+        if not self.distribution.ext_modules:
+            return _build_ext.run(self)
+
+        lt_ext = None
+        for ext in self.distribution.ext_modules:
+            if ext.name == 'libtorrent':
+                lt_ext = ext
+
+        if not lt_ext:
+            return _build_ext.run(self)
+
+        lt_ext.extra_compile_args.remove('-DNDEBUG')
+        lt_ext.extra_compile_args.remove('-O2')
+        return _build_ext.run(self)
+
 class clean_plugins(cmd.Command):
     description = "Cleans the plugin folders"
     user_options = [
@@ -364,6 +386,8 @@ cmdclass = {
     'build_trans': build_trans,
     'build_plugins': build_plugins,
     'build_docs': build_docs,
+    'build_debug': build_debug,
+    'build_ext_debug': build_ext_debug,
     'clean_plugins': clean_plugins,
     'clean': clean,
     'install': install
