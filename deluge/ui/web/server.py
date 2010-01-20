@@ -463,7 +463,8 @@ class DelugeWeb(component.Component):
                 # all the values across to the new config file, and then remove
                 # it.
                 for key in OLD_CONFIG_KEYS:
-                    self.config[key] = old_config[key]
+                    if key in old_config:
+                        self.config[key] = old_config[key]
 
                 # We need to base64 encode the passwords since json can't handle
                 # them otherwise.

@@ -156,6 +156,9 @@ class Config(object):
 
         self.load()
 
+    def __contains__(self, item):
+        return item in self.__config
+
     def __setitem__(self, key, value):
         """
         See
