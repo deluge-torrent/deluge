@@ -113,7 +113,10 @@ class HTTPDownloader(client.HTTPDownloader):
 
     def pageEnd(self):
         if self.decoder:
-            client.HTTPDownloader.pagePart(self, self.decoder.flush())
+            data = self.decoder.flush()
+            self.current_length -= len(data)
+            self.decoder = None
+            self.pagePart(data)
 
         return client.HTTPDownloader.pageEnd(self)
 
@@ -185,7 +188,7 @@ def download_file(url, filename, callback=None, headers=None, force_filename=Fal
     if allow_compression:
         if not headers:
             headers = {}
-        headers["accept-encoding"] = "gzip, deflate"
+        headers["accept-encoding"] = "deflate, gzip, x-gzip"
 
     scheme, host, port, path = client._parse(url)
     factory = HTTPDownloader(url, filename, callback, headers, force_filename, allow_compression)
