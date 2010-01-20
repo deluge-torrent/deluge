@@ -11,13 +11,14 @@ import cStringIO as StringIO
 string_re = re.compile('_\\(\'(.*?)\'\\)')
 strings = {}
 
-gettext_tpl = """/*
+gettext_tpl = """## -*- coding: utf-8 -*-
+/*
  * Script: gettext.js
  *  A script file that is run through the template renderer in order for
  *  translated strings to be used.
  *
  * Copyright:
- *  Damien Churchill (c) 2009
+ *  (c) 2009 Damien Churchill <damoxc@gmail.com>
  */
 
 GetText = {
