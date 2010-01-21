@@ -1,6 +1,6 @@
 /*
 Script: Deluge.EditTrackers.js
-    Contains the edit trackers window.
+	Contains the edit trackers window.
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
@@ -20,15 +20,15 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 
 */
 
@@ -54,8 +54,8 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.AddTracker.superclass.initComponent.call(this);
 			
-			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Add'), this.onAdd, this);
+			this.addButton(_('Cancel'), this.onCancelClick, this);
+			this.addButton(_('Add'), this.onAddClick, this);
 			this.addEvents('add');
 			
 			this.form = this.add({
@@ -71,12 +71,7 @@ Copyright:
 			})
 		},
 		
-		onCancel: function() {
-			this.form.getForm().findField('trackers').setValue('');
-			this.hide();
-		},
-		
-		onAdd: function() {
+		onAddClick: function() {
 			var trackers = this.form.getForm().findField('trackers').getValue();
 			trackers = trackers.split('\n');
 			
@@ -89,6 +84,11 @@ Copyright:
 			this.fireEvent('add', cleaned);
 			this.hide();
 			this.form.getForm().findField('trackers').setValue('');
+		},
+		
+		onCancelClick: function() {
+			this.form.getForm().findField('trackers').setValue('');
+			this.hide();
 		}
 	});
 	
@@ -224,31 +224,31 @@ Copyright:
 							cls: 'x-btn-text-icon',
 							text: _('Up'),
 							icon: '/icons/up.png',
-							handler: this.onUp,
+							handler: this.onUpClick,
 							scope: this
 						}, {
 							cls: 'x-btn-text-icon',
 							text: _('Down'),
 							icon: '/icons/down.png',
-							handler: this.onDown,
+							handler: this.onDownClick,
 							scope: this
 						}, '->', {
 							cls: 'x-btn-text-icon',
 							text: _('Add'),
 							icon: '/icons/add.png',
-							handler: this.onAdd,
+							handler: this.onAddClick,
 							scope: this
 						}, {
 							cls: 'x-btn-text-icon',
 							text: _('Edit'),
 							icon: '/icons/edit_trackers.png',
-							handler: this.onEdit,
+							handler: this.onEditClick,
 							scope: this
 						}, {
 							cls: 'x-btn-text-icon',
 							text: _('Remove'),
 							icon: '/icons/remove.png',
-							handler: this.onRemove,
+							handler: this.onRemoveClick,
 							scope: this
 						}
 					]
@@ -256,7 +256,7 @@ Copyright:
 			});
 		},
 		
-		onAdd: function() {
+		onAddClick: function() {
 			this.addWindow.show();
 		},
 		
@@ -279,11 +279,11 @@ Copyright:
 			}, this);
 		},
 		
-		onCancel: function() {
+		onCancelClick: function() {
 			this.hide();
 		},
 		
-		onEdit: function() {
+		onEditClick: function() {
 			var r = this.grid.getSelectionModel().getSelected();
 			this.editWindow.show(r);
 		},

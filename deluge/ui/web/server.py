@@ -309,7 +309,7 @@ class TopLevel(resource.Resource):
     ]
 
     __debug_scripts = [
-        "/js/ext-base.js",
+        "/js/ext-base-debug.js",
         "/js/ext-all-debug.js",
         "/js/ext-extensions-debug.js",
         "/config.js",

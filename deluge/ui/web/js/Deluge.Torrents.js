@@ -48,8 +48,8 @@ Copyright:
 		value = new Number(value);
 		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]) - 8;
-		return Deluge.progressBar(value, width, text);
+		//var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]) - 8;
+		return Deluge.progressBar(value, this.width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
 		if (r.data['total_seeds'] > -1) {
