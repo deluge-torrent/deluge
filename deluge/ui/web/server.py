@@ -294,7 +294,7 @@ class TopLevel(resource.Resource):
     addSlash = True
 
     __stylesheets = [
-        "/css/ext-all.css",
+        "/css/ext-all-notheme.css",
         "/css/ext-extensions.css",
         "/css/deluge.css"
     ]
