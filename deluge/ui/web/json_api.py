@@ -51,7 +51,7 @@ from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
 from deluge.ui.coreconfig import CoreConfig
 
-from deluge.ui.web.common import _
+from deluge.ui.web.common import _, compress
 json = common.json
 
 log = logging.getLogger(__name__)
@@ -257,7 +257,7 @@ class JSON(resource.Resource, component.Component):
     def _send_response(self, request, response):
         response = json.dumps(response)
         request.setHeader("content-type", "application/x-json")
-        request.write(response)
+        request.write(compress(response, request))
         request.finish()
 
     def render(self, request):
@@ -490,11 +490,14 @@ class WebApi(JSONComponent):
 
         def got_torrents(torrents):
             ui_info["torrents"] = torrents
+            for id in torrents:
+                torrent = torrents[id]
+                torrent["id"] = id
 
         def on_complete(result):
             d.callback(ui_info)
 
-        d1 = client.core.get_torrents_status(filter_dict, keys)
+        d1 = client.core.get_torrents_status({}, keys)
         d1.addCallback(got_torrents)
 
         d2 = client.core.get_filter_tree()

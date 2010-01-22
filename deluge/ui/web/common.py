@@ -33,6 +33,7 @@
 #
 #
 
+import zlib
 import gettext
 from mako.template import Template as MakoTemplate
 from deluge import common
@@ -49,6 +50,14 @@ def escape(text):
     text = text.replace('\r', '\\n')
     text = text.replace('\n', '\\n')
     return text
+
+def compress(contents, request):
+    request.setHeader("content-encoding", "gzip")
+    compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16,
+        zlib.DEF_MEM_LEVEL,0)
+    contents = compress.compress(contents)
+    contents += compress.flush()
+    return contents
 
 class Template(MakoTemplate):
     """

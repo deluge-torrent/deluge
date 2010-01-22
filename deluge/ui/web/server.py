@@ -56,7 +56,7 @@ from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.common import Template
+from deluge.ui.web.common import Template, compress
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
 log = logging.getLogger(__name__)
@@ -129,17 +129,17 @@ class Config(resource.Resource):
     def render(self, request):
         web_config = component.get("Web").get_config()
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
-        return """Deluge = {
+        return compress("""Deluge = {
     author: 'Damien Churchill <damoxc@gmail.com>',
     version: '1.2-dev',
     config: %s
-}""" % common.json.dumps(config)
+}""" % common.json.dumps(config), request)
 
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
         template = Template(filename=rpath("gettext.js"))
-        return template.render()
+        return compress(template.render(), request)
 
 class Upload(resource.Resource):
     """
@@ -196,7 +196,7 @@ class Render(resource.Resource):
         template = Template(filename=rpath(filename))
         request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
-        return template.render()
+        return compress(template.render(), request)
 
 class Tracker(resource.Resource):
     tracker_icons = TrackerIcons()
@@ -285,7 +285,7 @@ class LookupResource(resource.Resource, component.Component):
                 log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
-                return open(path, "rb").read()
+                return compress(open(path, "rb").read(), request)
 
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"

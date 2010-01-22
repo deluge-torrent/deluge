@@ -1,108 +1,112 @@
 === Deluge 1.3.0 (In Development) ===
 ==== Core ====
-  * Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
-  * Implement #457 progress bars for folders
-  * Implement #1012 httpdownloader supports gzip decoding
-  * #496: Remove deprecated functions in favour of get_session_status()
+	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
+	* Implement #457 progress bars for folders
+	* Implement #1012 httpdownloader supports gzip decoding
+	* #496: Remove deprecated functions in favour of get_session_status()
 
 ==== Blocklist ====
-  * Implement local blocklist support
+	* Implement local blocklist support
+
+==== Web ====
+	* Migrate to ExtJS 3.1
+	* Add gzip compression of HTTP data to the server
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
-  * Implement new RPC protocol DelugeRPC replacing XMLRPC
-  * Move to a twisted framework
-  * Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
-  * Use system GeoIP database if available, this is now an optional dependency
+	* Implement new RPC protocol DelugeRPC replacing XMLRPC
+	* Move to a twisted framework
+	* Add an 'Error' filter for Trackers to show trackers that currently have a tracker error
+	* Use system GeoIP database if available, this is now an optional dependency
 
 ==== GtkUI ====
-  * Remove SignalReceiver
-  * Implemented a cross-platform IPC method thus removing the DBUS dependency
-  * Implement a "True" Classic Mode where there is no longer a separate daemon process
-  * Add preferences option "Add torrent in paused state"
-  * Add tracker icons to the Tracker column
-  * Implement #259 show tooltip with country name in the peers tab
-  * Add an error category to the tracker sidebar list
-  * Add Find More Plugins button to Plugins preference page
-  * Fix #518 remove header in add torrent dialog to save vertical space
-  * Add a Cache preferences page to adjust cache settings and examine cache status
-  * Add ability to rename files prior to adding them
-  * Fix shutdown handler with GNOME session manager
-  * Allow 4 MiB piece sizes when creating a torrent
+	* Remove SignalReceiver
+	* Implemented a cross-platform IPC method thus removing the DBUS dependency
+	* Implement a "True" Classic Mode where there is no longer a separate daemon process
+	* Add preferences option "Add torrent in paused state"
+	* Add tracker icons to the Tracker column
+	* Implement #259 show tooltip with country name in the peers tab
+	* Add an error category to the tracker sidebar list
+	* Add Find More Plugins button to Plugins preference page
+	* Fix #518 remove header in add torrent dialog to save vertical space
+	* Add a Cache preferences page to adjust cache settings and examine cache status
+	* Add ability to rename files prior to adding them
+	* Fix shutdown handler with GNOME session manager
+	* Allow 4 MiB piece sizes when creating a torrent
 
 ==== ConsoleUI ====
-  * Changed to use curses for a more interactive client
+	* Changed to use curses for a more interactive client
 
 ==== WebUI ====
-  * Move over to using Twisted-Web for the webserver.
-  * Move to only AJAX interface built upon Ext-JS.
+	* Move over to using Twisted-Web for the webserver.
+	* Move to only AJAX interface built upon Ext-JS.
 
 ==== Plugins ====
-  * Add Scheduler plugin
-  * Add Extractor plugin
+	* Add Scheduler plugin
+	* Add Extractor plugin
 
 ==== Misc ====
-  * PyGTK dependency bumped to => 2.12 to use new tooltip system
-  * Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
-  * Remove GeoIP database from the source tree
+	* PyGTK dependency bumped to => 2.12 to use new tooltip system
+	* Add new scripts for invoking UIs: deluge-gtk, deluge-web, deluge-console
+	* Remove GeoIP database from the source tree
 
 === Deluge 1.1.0 - "Time gas!" (10 January 2009) ===
 ==== Core ====
-  * Implement #79 ability to change outgoing port range
-  * Implement #296 ability to change peer TOS byte
-  * Add per-torrent move on completed settings
-  * Implement #414 use async save_resume_data method
-  * Filter Manager with torrent filtering in get_torrents_status , for sidebar and plugins.
-  * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
-  * Remove remaining gtk functions in common
-  * Tracker icons.
-  * Add ETA for torrents with stop at seed ratio set
-  * Fix #47 the state and config files are no longer invalidated when there is no diskspace
-  * Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
-  * Add -P, --pidfile option to deluged
+	* Implement #79 ability to change outgoing port range
+	* Implement #296 ability to change peer TOS byte
+	* Add per-torrent move on completed settings
+	* Implement #414 use async save_resume_data method
+	* Filter Manager with torrent filtering in get_torrents_status , for sidebar and plugins.
+	* Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
+	* Remove remaining gtk functions in common
+	* Tracker icons.
+	* Add ETA for torrents with stop at seed ratio set
+	* Fix #47 the state and config files are no longer invalidated when there is no diskspace
+	* Fix #619 return "" instead of "Infinity" if seconds == 0 in ftime
+	* Add -P, --pidfile option to deluged
 
 ==== GtkUI ====
-  * Add peer progress to the peers tab
-  * Add ability to manually add peers
-  * Sorting # column will place downloaders above seeds
-  * Remove dependency on libtorrent for add torrent dialog
-  * Allow adding multiple trackers at once in the edit tracker dialog
-  * Implement #28 Create Torrent Dialog
-  * Redesiged sidebar with filters for Active and Tracker (see Filter Manager)
-  * Implement #428 the ability to rename files and directories
-  * Implement #229 add date added column
-  * Implement #596 show speeds in title
-  * Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
-  * Fix #624 do not allow changing file priorities when using compact allocation
-  * Fix #602 re-did files/peers tab state saving/loading
-  * Fix gtk warnings
-  * Add protocol traffic statusbar item
-  * Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
-  * Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
-  * Make active port test use internal graphic instead of launching browser
+	* Add peer progress to the peers tab
+	* Add ability to manually add peers
+	* Sorting # column will place downloaders above seeds
+	* Remove dependency on libtorrent for add torrent dialog
+	* Allow adding multiple trackers at once in the edit tracker dialog
+	* Implement #28 Create Torrent Dialog
+	* Redesiged sidebar with filters for Active and Tracker (see Filter Manager)
+	* Implement #428 the ability to rename files and directories
+	* Implement #229 add date added column
+	* Implement #596 show speeds in title
+	* Fix #636 not setting the daemon's config directory when using --config= with the UI in classic mode.
+	* Fix #624 do not allow changing file priorities when using compact allocation
+	* Fix #602 re-did files/peers tab state saving/loading
+	* Fix gtk warnings
+	* Add protocol traffic statusbar item
+	* Rework the Remove Torrent Dialog to only have 2 options, remove data and remove from session.
+	* Add "Install Plugin" and "Rescan Plugins" buttons to the Plugins preferences
+	* Make active port test use internal graphic instead of launching browser
 
 ==== WebUI ====
-  * Lots of smaller tweaks.
-  * All details tabs have the same features as in gtk-ui 1.0.x
-  * Persistent sessions #486
-  * Plugin improvements for easy use of templates and images in eggs. #497
-  * Classic template takes over some style elements from white template.
-  * https (for users that know how to create certificates)
-  * Easier apache mod_proxy use.
-  * Redesigned sidebar
+	* Lots of smaller tweaks.
+	* All details tabs have the same features as in gtk-ui 1.0.x
+	* Persistent sessions #486
+	* Plugin improvements for easy use of templates and images in eggs. #497
+	* Classic template takes over some style elements from white template.
+	* https (for users that know how to create certificates)
+	* Easier apache mod_proxy use.
+	* Redesigned sidebar
 
 ==== AjaxUI ====
-  * Hosted in a webui template.
+	* Hosted in a webui template.
 
 ==== ConsoleUI ====
-  * New ConsoleUI written by Idoa01
-  * Callable from command-line for scripts.
+	* New ConsoleUI written by Idoa01
+	* Callable from command-line for scripts.
 
 ==== Plugins ====
-  * Stats plugin for graphs.
-  * Label plugin for grouping torrents and per torrent settings.
+	* Stats plugin for graphs.
+	* Label plugin for grouping torrents and per torrent settings.
 
 ==== Misc ====
-  * Implement #478 display UI options in usage help
-  * Fix #547 add description to name field per HIG entry 2.1.1.1
-  * Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
+	* Implement #478 display UI options in usage help
+	* Fix #547 add description to name field per HIG entry 2.1.1.1
+	* Fix #531 set default log level to ERROR and add 2 command-line options, "-L, --loglevel" and "-q, --quiet".
