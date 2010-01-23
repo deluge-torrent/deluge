@@ -91,26 +91,27 @@ Copyright:
 		constructor: function(config) {
 			config = Ext.apply({
 				id: 'torrentGrid',
-				store: new Ext.data.SimpleStore({
+				store: new Ext.data.JsonStore({
+					root: 'torrents',
+					idProperty: 'id',
 					fields: [
 						{name: 'queue'},
 						{name: 'name'},
-						{name: 'size', type: 'int'},
+						{name: 'total_size', type: 'int'},
 						{name: 'state'},
 						{name: 'progress', type: 'float'},
-						{name: 'seeds', type: 'int'},
+						{name: 'num_seeds', type: 'int'},
 						{name: 'total_seeds', type: 'int'},
-						{name: 'peers', type: 'int'},
+						{name: 'num_peers', type: 'int'},
 						{name: 'total_peers', type: 'int'},
-						{name: 'downspeed', type: 'int'},
-						{name: 'upspeed', type: 'int'},
+						{name: 'download_payload_rate', type: 'int'},
+						{name: 'upload_payload_speed', type: 'int'},
 						{name: 'eta', type: 'int', sortType: etaSorter},
 						{name: 'ratio', type: 'float'},
-						{name: 'avail', type: 'float'},
-						{name: 'added', type: 'int'},
-						{name: 'tracker'}
-					],
-					id: 16
+						{name: 'distributed_copies', type: 'float'},
+						{name: 'time_added', type: 'int'},
+						{name: 'tracker_host'}
+					]
 				}),
 				columns: [{
 					id:'queue',
@@ -131,7 +132,7 @@ Copyright:
 					width: 75,
 					sortable: true,
 					renderer: fsize,
-					dataIndex: 'size'
+					dataIndex: 'total_size'
 				}, {
 					header: _('Progress'),
 					width: 150, 
@@ -143,25 +144,25 @@ Copyright:
 					width: 60,
 					sortable: true,
 					renderer: seedsRenderer,
-					dataIndex: 'seeds'
+					dataIndex: 'num_seeds'
 				}, {
 					header: _('Peers'),
 					width: 60,
 					sortable: true,
 					renderer: peersRenderer,
-					dataIndex: 'peers'
+					dataIndex: 'num_peers'
 				}, {
 					header: _('Down Speed'),
 					width: 80,
 					sortable: true,
 					renderer: torrentSpeedRenderer,
-					dataIndex: 'downspeed'
+					dataIndex: 'download_payload_rate'
 				}, {
 					header: _('Up Speed'),
 					width: 80,
 					sortable: true,
 					renderer: torrentSpeedRenderer,
-					dataIndex: 'upspeed'
+					dataIndex: 'upload_payload_rate'
 				}, {
 					header: _('ETA'),
 					width: 60,
@@ -179,19 +180,19 @@ Copyright:
 					width: 60,
 					sortable: true,
 					renderer: availRenderer,
-					dataIndex: 'avail'
+					dataIndex: 'distributed_copies'
 				}, {
 					header: _('Added'),
 					width: 80,
 					sortable: true,
 					renderer: fdate,
-					dataIndex: 'added'
+					dataIndex: 'time_added'
 				}, {
 					header: _('Tracker'),
 					width: 120,
 					sortable: true,
 					renderer: trackerRenderer,
-					dataIndex: 'tracker'
+					dataIndex: 'tracker_host'
 				}],
 				region: 'center',
 				cls: 'deluge-torrents',
@@ -237,61 +238,11 @@ Copyright:
 	},
 
 	update: function(torrents, bulk) {
-		var store = this.getStore();
-		for (var torrentId in torrents) {
-			var record = store.getById(torrentId);
-			var torrent = torrents[torrentId];
-			if (!record) {
-				// We need to create a new record
-				var data = [
-					((torrent.queue == -1) ? 99999 : torrent.queue),
-					torrent.name,
-					torrent.total_size,
-					torrent.state,
-					torrent.progress,
-					torrent.num_seeds,
-					torrent.total_seeds,
-					torrent.num_peers,
-					torrent.total_peers,
-					torrent.download_payload_rate,
-					torrent.upload_payload_rate,
-					torrent.eta,
-					torrent.ratio,
-					torrent.distributed_copies,
-					torrent.time_added,
-					torrent.tracker_host,
-					torrentId
-				];
-				store.loadData([data], true);
-			} else {
-				// We just need to do an update
-				record.set('queue', ((torrent.queue == -1) ? 99999 : torrent.queue));
-				record.set('name', torrent.name);
-				record.set('size', torrent.total_size);
-				record.set('state', torrent.state);
-				record.set('progress', torrent.progress);
-				record.set('seeds', torrent.num_seeds);
-				record.set('total_seeds', torrent.total_seeds);
-				record.set('peers', torrent.num_peers);
-				record.set('total_peers', torrent.total_peers);
-				record.set('downspeed', torrent.download_payload_rate);
-				record.set('upspeed', torrent.upload_payload_rate);
-				record.set('eta', torrent.eta);
-				record.set('ratio', torrent.ratio);
-				record.set('avail', torrent.distributed_copies);
-				record.set('added', torrent.time_added);
-				record.set('tracker', torrent.tracker_host);
-				record.commit();
-			}
+		if (bulk) {
+			this.getStore().loadData({"torrents": Ext.values(torrents)});
+		} else {
+			this.getStore().loadData({"torrents": Ext.values(torrents)});
 		}
-
-		var torrentIds = Ext.keys(torrents);
-		store.each(function(record) {
-			if (torrentIds.indexOf(record.id) == -1) {
-				// Torrent is no longer in the grid so we must remove it.
-				store.remove(record);
-			}
-		}, this);
 	},
 
 	// private
