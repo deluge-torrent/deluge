@@ -86,6 +86,32 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     else:
         return wrap
 
+
+def format_request(call):
+    """
+    Format the RPCRequest message for debug printing
+    
+    :param call: the request
+    :type call: a RPCRequest
+    
+    :returns: a formatted string for printing
+    :rtype: str
+    
+    """
+    try:
+        s = call[1] + "("
+        if call[2]:
+            s += ", ".join([str(x) for x in call[2]])
+        if call[3]:
+            if call[2]:
+                s += ", "
+            s += ", ".join([key + "=" + str(value) for key, value in call[3].items()])
+        s += ")"
+    except UnicodeEncodeError:
+        return "UnicodeEncodeError, call: %s" % call
+    else:
+        return s
+        
 class DelugeError(Exception):
     pass
 
@@ -151,24 +177,7 @@ class DelugeRPCProtocol(Protocol):
                 if len(call) != 4:
                     log.debug("Received invalid rpc request: number of items in request is %s", len(call))
                     continue
-
-                # Format the RPCRequest message for debug printing
-                try:
-                    s = call[1] + "("
-                    if call[2]:
-                        s += ", ".join([str(x) for x in call[2]])
-                    if call[3]:
-                        if call[2]:
-                            s += ", "
-                        s += ", ".join([key + "=" + str(value) for key, value in call[3].items()])
-                    s += ")"
-                except UnicodeEncodeError:
-                    pass
-                    #log.debug("RPCRequest had some non-ascii text..")
-                else:
-                    pass
-                    #log.debug("RPCRequest: %s", s)
-
+                #log.debug("RPCRequest: %s", format_request(call))
                 reactor.callLater(0, self.dispatch, *call)
 
     def sendData(self, data):
