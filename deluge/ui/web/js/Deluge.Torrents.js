@@ -209,6 +209,8 @@ Copyright:
 	initComponent: function() {
 		Ext.deluge.TorrentGrid.superclass.initComponent.call(this);
 		Deluge.Events.on('torrentRemoved', this.onTorrentRemoved, this);
+		Deluge.Events.on('logout', this.onDisconnect, this);
+
 		this.on('rowcontextmenu', function(grid, rowIndex, e) {
 			e.stopEvent();
 			var selection = grid.getSelectionModel();
@@ -222,11 +224,11 @@ Copyright:
 	/**
 	 * Returns the record representing the torrent at the specified index.
 	 *
-	 * @param {int} The row index of the torrent you wish to retrieve.
+	 * @param index {int} The row index of the torrent you wish to retrieve.
 	 * @return {Ext.data.Record} The record representing the torrent.
 	 */
-	getTorrent: function(rowIndex) {
-		return this.getStore().getAt(rowIndex);
+	getTorrent: function(index) {
+		return this.getStore().getAt(index);
 	},
 
 	getSelected: function() {
@@ -243,6 +245,10 @@ Copyright:
 		} else {
 			this.getStore().loadData({"torrents": Ext.values(torrents)});
 		}
+	},
+
+	onDisconnect: function() {
+		this.getStore().removeAll();
 	},
 
 	// private
