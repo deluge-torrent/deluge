@@ -82,9 +82,6 @@ Deluge.UI = {
 	
 		Deluge.Client.on('connected', function(e) {
 			Deluge.Login.show();
-			Deluge.Events.start();
-			Deluge.Events.on('PluginEnabledEvent', this.onPluginEnabled, this);
-			Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		}, this, {single: true});
 	
 		this.update = this.update.bind(this);
