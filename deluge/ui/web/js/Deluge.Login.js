@@ -117,7 +117,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onLogin: function() {
-		var passwordField = this.loginForm.items.get('password');
+		var passwordField = this.passwordField;
 		Deluge.Client.auth.login(passwordField.getValue(), {
 			success: function(result) {
 				if (result) {
@@ -150,9 +150,8 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onShow: function() {
-		var passwordField = this.loginForm.items.get('password');
-		passwordField.focus(false, 150);
-		passwordField.setRawValue('');
+		this.passwordField.focus(false, 150);
+		this.passwordField.setRawValue('');
 	}
 });
 
