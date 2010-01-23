@@ -113,8 +113,8 @@ class DelugeRPCProtocol(Protocol):
         """
         This method is called whenever data is received from a client.  The
         only message that a client sends to the server is a RPC Request message.
-        If the RPC Request message is valid, then the method is called in a thread
-        with :meth:`dispatch`.
+        If the RPC Request message is valid, then the method is called in 
+        :meth:`dispatch`.
 
         :param data: the data from the client. It should be a zlib compressed
             rencoded string.
@@ -177,7 +177,8 @@ class DelugeRPCProtocol(Protocol):
 
         :param data: the object that is to be sent to the client.  This should
             be one of the RPC message types.
-
+        :type data: object
+        
         """
         self.transport.write(zlib.compress(rencode.dumps(data)))
 
@@ -278,6 +279,9 @@ class DelugeRPCProtocol(Protocol):
                     # This session is not allowed to call this method
                     log.debug("Session %s is trying to call a method it is not authorized to call!", self.transport.sessionno)
                     raise NotAuthorizedError("Auth level too low: %s < %s" % (auth_level, method_auth_requirement))
+                # Set the session_id in the factory so that methods can know
+                # which session is calling it.
+                self.factory.session_id = self.transport.sessionno
                 ret = self.factory.methods[method](*args, **kwargs)
             except Exception, e:
                 sendError()
@@ -399,6 +403,29 @@ class RPCServer(component.Component):
         """
         return self.factory.methods.keys()
 
+    def get_session_id(self):
+        """
+        Returns the session id of the current RPC.
+        
+        :returns: the session id
+        :rtype: int
+
+        """
+        return self.factory.session_id
+        
+    def is_session_valid(self, session_id):
+        """
+        Checks if the session is still valid, eg, if the client is still connected.
+        
+        :param session_id: the session id
+        :type session_id: int
+        
+        :returns: True if the session is valid
+        :rtype: bool
+        
+        """
+        return session_id in self.factory.authorized_sessions
+        
     def emit_event(self, event):
         """
         Emits the event to interested clients.
