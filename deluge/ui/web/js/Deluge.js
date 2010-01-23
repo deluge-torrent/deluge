@@ -40,42 +40,52 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 (function() {
     /* Add some helper functions to Ext */
     Ext.apply(Function.prototype, {
-	bind: function(scope) {
-	    var self = this;
-	    return function() {
-		    return self.apply(scope, arguments);
-	    }
-	}
+		bind: function(scope) {
+			var self = this;
+			return function() {
+				return self.apply(scope, arguments);
+			}
+		}
     });
     
     Ext.apply(Ext, {
-	escapeHTML: function(text) {
-	    text = String(text).replace('<', '&lt;').replace('>', '&gt;');
-	    return text.replace('&', '&amp;');
-	},
+		escapeHTML: function(text) {
+			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
+			return text.replace('&', '&amp;');
+		},
 	
-	isObjectEmpty: function(obj) {
-	    for(var i in obj) { return false; }
-	    return true;
-	},
+		isObjectEmpty: function(obj) {
+			for(var i in obj) { return false; }
+			return true;
+		},
 	    
-	keys: function(obj) {
-	    var keys = [];
-	    for (i in obj) if (obj.hasOwnProperty(i))
-	    {
-		keys.push(i);
-	    }
-	    return keys;
-	},
+		keys: function(obj) {
+			var keys = [];
+			for (var i in obj) if (obj.hasOwnProperty(i))
+			{
+				keys.push(i);
+			}
+			return keys;
+		},
+
+		values: function(obj) {
+			var values = [];
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i)) {
+					values.push(obj[i]);
+				}
+			}
+			return values;
+		},
 		    
-	splat: function(obj) {
-	    var type = Ext.type(obj);
-	    return (type) ? ((type != 'array') ? [obj] : obj) : [];
-	}
+		splat: function(obj) {
+			var type = Ext.type(obj);
+			return (type) ? ((type != 'array') ? [obj] : obj) : [];
+		}
     });
     Ext.getKeys = Ext.keys;
-    
     Ext.BLANK_IMAGE_URL = '/images/s.gif';
+	Ext.USE_NATIVE_JSON = true;
 })();
 
 (function() {
