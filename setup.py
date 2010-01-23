@@ -99,19 +99,20 @@ if windows_check():
 else:
     _extra_compile_args += ["-Wno-missing-braces"]
 
-removals = ["-Wstrict-prototypes"]
+def remove_from_cflags(flags):
+    if not windows_check():
+        keys = ["OPT", "CFLAGS"]
+        if python_version == '2.5':
+            keys = ["CFLAGS"]
 
-if not windows_check():
-    if python_version == '2.5':
-        cv_opt = sysconfig.get_config_vars()["CFLAGS"]
-        for removal in removals:
-            cv_opt = cv_opt.replace(removal, " ")
-        sysconfig.get_config_vars()["CFLAGS"] = " ".join(cv_opt.split())
-    else:
-        cv_opt = sysconfig.get_config_vars()["OPT"]
-        for removal in removals:
-            cv_opt = cv_opt.replace(removal, " ")
-        sysconfig.get_config_vars()["OPT"] = " ".join(cv_opt.split())
+        for key in keys:
+            cv_opt = sysconfig.get_config_vars()[key]
+            for flag in flags:
+                cv_opt = cv_opt.replace(flag, " ")
+            sysconfig.get_config_vars()[key] = " ".join(cv_opt.split())
+
+removals = ["-Wstrict-prototypes"]
+remove_from_cflags(removals)
 
 _library_dirs = [
 ]
@@ -332,6 +333,8 @@ class build_ext_debug(_build_ext):
 
         lt_ext.extra_compile_args.remove('-DNDEBUG')
         lt_ext.extra_compile_args.remove('-O2')
+        lt_ext.extra_compile_args.append('-g')
+        remove_from_cflags(["-DNDEBUG"])
         return _build_ext.run(self)
 
 class clean_plugins(cmd.Command):
