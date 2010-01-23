@@ -1,6 +1,6 @@
 /*
 Script:
-	Deluge.Formatters.ks
+	Deluge.Formatters.js
 
 Copyright:
 	(C) Damien Churchill 2009 <damoxc@gmail.com>
