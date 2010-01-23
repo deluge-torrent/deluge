@@ -94,7 +94,7 @@ CONFIG_DEFAULTS = {
     "sidebar_show_trackers": False,
     "show_session_speed": False,
     "show_sidebar": True,
-    "theme": "blue",
+    "theme": "gray",
 
     # Server Settings
     "port": 8112,
