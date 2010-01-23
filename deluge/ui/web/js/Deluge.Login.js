@@ -1,5 +1,5 @@
 /*
-Script: deluge-login.js
+Script: Deluge.Login.js
     Contains all objects and functions related to the login system.
 
 Copyright:
@@ -32,139 +32,128 @@ Copyright:
 
 */
 
-(function(){
-	Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
-		
-		firstShow: true,
-		
-		constructor: function(config) {
-			config = Ext.apply({
-				layout: 'fit',
-				width: 300,
-				height: 120,
-				bodyStyle: 'padding: 10px 5px;',
-				buttonAlign: 'center',
-				closeAction: 'hide',
-				closable: false,
-				modal: true,
-				plain: true,
-				resizable: false,
-				title: _('Login'),
-				iconCls: 'x-deluge-login-window-icon'
-			}, config);
-			Ext.deluge.LoginWindow.superclass.constructor.call(this, config);
-		},
-		
-		initComponent: function() {
-			Ext.deluge.LoginWindow.superclass.initComponent.call(this);
-			this.on('show', this.onShow, this);
-			
-			this.addButton({
-				text: _('Login'),
-				handler: this.onLogin,
-				scope: this
-			});
-			
-			this.loginForm = this.add({
-				xtype: 'form',
-				defaultType: 'textfield',
-				id: 'loginForm',
-				baseCls: 'x-plain',
-				labelWidth: 55,
-				items: [{
-					fieldLabel: _('Password'),
-					id: 'password',
-					name: 'password',
-					inputType: 'password',
-					anchor: '100%',
-					listeners: {
-						'specialkey': {
-							fn: this.onKey,
-							scope: this
-						}
-					}
-				}]
-			})
-		},
-		
-		logout: function() {
-			Deluge.Events.fire('logout');
-			Deluge.Client.auth.delete_session({
-				success: function(result) {
-					this.show(true);
-				},
-				scope: this
-			});
-		},
-		
-		show: function(skipCheck) {
-			if (this.firstShow) {
-				Deluge.Client.on('error', this.onClientError, this);
-				this.firstShow = false;
-			}
-			
-			if (skipCheck) {
-				return Ext.deluge.LoginWindow.superclass.show.call(this);
-			}
-			
-			Deluge.Client.auth.check_session({
-				success: function(result) {
-					if (result) {
-						Deluge.Events.fire('login');
-					} else {
-						this.show(true);
-					}
-				},
-				failure: function(result) {
-					this.show(true);
-				},
-				scope: this
-			});
-		},
-		
-		onKey: function(field, e) {
-			if (e.getKey() == 13) this.onLogin();
-		},
-		
-		onLogin: function() {
-			var passwordField = this.loginForm.items.get('password');
-			Deluge.Client.auth.login(passwordField.getValue(), {
-				success: function(result) {
-					if (result) {
-						Deluge.Events.fire('login');
-						this.hide();
-						passwordField.setRawValue('');
-					} else {
-						Ext.MessageBox.show({
-							title: _('Login Failed'),
-							msg: _('You entered an incorrect password'),
-							buttons: Ext.MessageBox.OK,
-							modal: false,
-							fn: function() {
-								passwordField.focus();
-							},
-							icon: Ext.MessageBox.WARNING,
-							iconCls: 'x-deluge-icon-warning'
-						});
-					}
-				},
-				scope: this
-			});
-		},
-		
-		onClientError: function(errorObj, response, requestOptions) {
-			if (errorObj.error.code == 1) {
-				Deluge.Events.fire('logout');
-				this.show(true);
-			}
-		},
-		
-		onShow: function() {
-			var passwordField = this.loginForm.items.get('password');
-			passwordField.focus(false, 150);
-			passwordField.setRawValue('');
-		}
-	});
+Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
-	Deluge.Login = new Ext.deluge.LoginWindow();
-})();
+	firstShow:   true,
+	bodyStyle:   'padding: 10px 5px;',
+	buttonAlign: 'center',
+	closable:    false,
+	closeAction: 'hide',
+	iconCls:     'x-deluge-login-window-icon',
+	layout:      'fit',
+	modal:       true,
+	plain:       true,
+	resizable:   false,
+	title:       _('Login'),
+	width:       300,
+	height:      120,
+	
+	initComponent: function() {
+		Ext.deluge.LoginWindow.superclass.initComponent.call(this);
+		this.on('show', this.onShow, this);
+		
+		this.addButton({
+			text: _('Login'),
+			handler: this.onLogin,
+			scope: this
+		});
+		
+		this.form = this.add({
+			xtype: 'form',
+			baseCls: 'x-plain',
+			labelWidth: 55,
+			width: 300,
+			defaults: {width: 200},
+			defaultType: 'textfield',
+		});
+
+		this.passwordField = this.form.add({
+			xtype: 'textfield',
+			fieldLabel: _('Password'),
+			id: '_password',
+			name: 'password',
+			inputType: 'password'
+		});
+		this.passwordField.on('specialkey', this.onSpecialKey, this);
+	},
+	
+	logout: function() {
+		Deluge.Events.fire('logout');
+		Deluge.Client.auth.delete_session({
+			success: function(result) {
+				this.show(true);
+			},
+			scope: this
+		});
+	},
+	
+	show: function(skipCheck) {
+		if (this.firstShow) {
+			Deluge.Client.on('error', this.onClientError, this);
+			this.firstShow = false;
+		}
+		
+		if (skipCheck) {
+			return Ext.deluge.LoginWindow.superclass.show.call(this);
+		}
+		
+		Deluge.Client.auth.check_session({
+			success: function(result) {
+				if (result) {
+					Deluge.Events.fire('login');
+				} else {
+					this.show(true);
+				}
+			},
+			failure: function(result) {
+				this.show(true);
+			},
+			scope: this
+		});
+	},
+	
+	onSpecialKey: function(field, e) {
+		if (e.getKey() == 13) this.onLogin();
+	},
+	
+	onLogin: function() {
+		var passwordField = this.loginForm.items.get('password');
+		Deluge.Client.auth.login(passwordField.getValue(), {
+			success: function(result) {
+				if (result) {
+					Deluge.Events.fire('login');
+					this.hide();
+					passwordField.setRawValue('');
+				} else {
+					Ext.MessageBox.show({
+						title: _('Login Failed'),
+						msg: _('You entered an incorrect password'),
+						buttons: Ext.MessageBox.OK,
+						modal: false,
+						fn: function() {
+							passwordField.focus();
+						},
+						icon: Ext.MessageBox.WARNING,
+						iconCls: 'x-deluge-icon-warning'
+					});
+				}
+			},
+			scope: this
+		});
+	},
+	
+	onClientError: function(errorObj, response, requestOptions) {
+		if (errorObj.error.code == 1) {
+			Deluge.Events.fire('logout');
+			this.show(true);
+		}
+	},
+	
+	onShow: function() {
+		var passwordField = this.loginForm.items.get('password');
+		passwordField.focus(false, 150);
+		passwordField.setRawValue('');
+	}
+});
+
+Deluge.Login = new Ext.deluge.LoginWindow();
