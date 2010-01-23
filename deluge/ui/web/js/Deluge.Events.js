@@ -41,52 +41,59 @@ Copyright:
 (function() {
     Events = Ext.extend(Ext.util.Observable, {
         constructor: function() {
-	    this.toRegister = [];
+			this.toRegister = [];
+			this.on('login', this.onLogin, this);
             Events.superclass.constructor.call(this);
         },
         
         addListener: function(eventName, fn, scope, o) {
             this.addEvents(eventName);
-	    if (/[A-Z]/.test(eventName.substring(0, 1))) {
-		if (!Deluge.Client) {
-		    this.toRegister.push(eventName);
-		} else {
-		    Deluge.Client.web.register_event_listener(eventName);
-		}
-	    }
+			if (/[A-Z]/.test(eventName.substring(0, 1))) {
+				if (!Deluge.Client) {
+					this.toRegister.push(eventName);
+				} else {
+					Deluge.Client.web.register_event_listener(eventName);
+				}
+			}
             Events.superclass.addListener.call(this, eventName, fn, scope, o);
         },
 	
-	poll: function() {
-	    Deluge.Client.web.get_events({
-		success: this.onPollSuccess,
-		scope: this
-	    });
-	},
+		poll: function() {
+			Deluge.Client.web.get_events({
+				success: this.onPollSuccess,
+				scope: this
+			});
+		},
 	
-	start: function() {
-	    Ext.each(this.toRegister, function(eventName) {
-		Deluge.Client.web.register_event_listener(eventName);
-	    });
-	    this.poll = this.poll.bind(this);
-	    this.running = setInterval(this.poll, 2000);
-	    this.poll();
-	},
+		start: function() {
+			Ext.each(this.toRegister, function(eventName) {
+				Deluge.Client.web.register_event_listener(eventName);
+			});
+			this.poll = this.poll.bind(this);
+			this.running = setInterval(this.poll, 2000);
+			this.poll();
+		},
 	
-	stop: function() {
-	    if (this.running) {
-		clearInterval(this.running); 
-	    }
-	},
+		stop: function() {
+			if (this.running) {
+				clearInterval(this.running); 
+			}
+		},
+
+		onLogin: function() {
+			this.start();
+			this.on('PluginEnabledEvent', this.onPluginEnabled, this);
+			this.on('PluginDisabledEvent', this.onPluginDisabled, this);
+		},
 	
-	onPollSuccess: function(events) {
-	    if (!events) return;
-	    Ext.each(events, function(event) {
-		var name = event[0], args = event[1];
-		args.splice(0, 0, name);
-		this.fireEvent.apply(this, args);
-	    }, this);
-	}
+		onPollSuccess: function(events) {
+			if (!events) return;
+			Ext.each(events, function(event) {
+				var name = event[0], args = event[1];
+				args.splice(0, 0, name);
+				this.fireEvent.apply(this, args);
+			}, this);
+		}
     });
     Events.prototype.on = Events.prototype.addListener
     Events.prototype.fire = Events.prototype.fireEvent
