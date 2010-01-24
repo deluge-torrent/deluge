@@ -40,7 +40,7 @@ Copyright:
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
-	Ext.deluge.details.FilesTab = Ext.extend(Ext.tree.ColumnTree, {
+	Ext.deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -54,16 +54,19 @@ Copyright:
 					width: 330,
 					dataIndex: 'filename'
 				}, {
+					xtype: 'tgcustomcolumn',
 					header: _('Size'),
 					width: 150,
 					dataIndex: 'size',
 					renderer: fsize
 				}, {
+					xtype: 'tgcustomcolumn',
 					header: _('Progress'),
 					width: 150,
 					dataIndex: 'progress',
 					renderer: fileProgressRenderer
 				}, {
+					xtype: 'tgcustomcolumn',
 					header: _('Priority'),
 					width: 150,
 					dataIndex: 'priority',
@@ -74,7 +77,13 @@ Copyright:
 					text: 'Files'
 				})
 			}, config);
+
 			Ext.deluge.details.FilesTab.superclass.constructor.call(this, config);
+		},
+
+		initComponent: function() {
+			
+			Ext.deluge.details.FilesTab.superclass.initComponent.call(this);
 		},
 		
 		onRender: function(ct, position) {
@@ -173,14 +182,15 @@ Copyright:
 						if (!child) {
 							child = new Ext.tree.TreeNode({
 								id: file,
-								text: file
+								text: file,
+								filename: file
 							});
 							parent.appendChild(child);
 						}
 						walk(item, child);
 					} else {
 						if (!child) {
-							child = new Ext.tree.ColumnTreeNode({
+							child = new Ext.tree.TreeNode({
 								id: file,
 								filename: file,
 								text: file, // this needs to be here for sorting
@@ -190,13 +200,10 @@ Copyright:
 								priority: item[3],
 								leaf: true,
 								iconCls: 'x-deluge-file',
-								uiProvider: Ext.tree.ColumnNodeUI
+								uiProvider: Ext.ux.tree.TreeGridNodeUI
 							});
 							parent.appendChild(child);
 						}
-						child.setColumnValue(1, item[1]);
-						child.setColumnValue(2, item[2]);
-						child.setColumnValue(3, item[3]);
 					}
 				}
 			}

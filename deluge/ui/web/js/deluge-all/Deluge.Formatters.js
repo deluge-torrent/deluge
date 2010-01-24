@@ -64,6 +64,7 @@ Deluge.Formatters = {
 	 * @returns {string} formatted string with KiB, MiB or GiB units.
 	 */
 	size: function(bytes) {
+		if (!bytes) return '';
 		bytes = bytes / 1024.0;
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }

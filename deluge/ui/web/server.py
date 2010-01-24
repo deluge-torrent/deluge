@@ -331,6 +331,7 @@ class TopLevel(resource.Resource):
         "/js/ext-extensions/TreeGridNodeUI.js",
         "/js/ext-extensions/TreeGridLoader.js",
         "/js/ext-extensions/TreeGridColumns.js",
+        "/js/ext-extensions/TreeGridCustomColumn.js",
         "/js/ext-extensions/TreeGrid.js",
         "/config.js",
         "/gettext.js",
