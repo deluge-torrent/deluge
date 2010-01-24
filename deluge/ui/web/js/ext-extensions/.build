@@ -1,0 +1,15 @@
+#!/bin/sh
+
+add_file "BufferView.js"
+add_file "FileUploadField.js"
+add_file "JSLoader.js"
+add_file "Spinner.js"
+add_file "SpinnerField.js"
+add_file "StatusBar.js"
+add_file "ToggleField.js"
+add_file "TreeGridSorter.js"
+add_file "TreeGridColumnResizer.js"
+add_file "TreeGridNodeUI.js"
+add_file "TreeGridLoader.js"
+add_file "TreeGridColumns.js"
+add_file "TreeGrid.js"

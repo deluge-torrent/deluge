@@ -114,11 +114,11 @@ OLD_CONFIG_KEYS = (
     "https"
 )
 
-def rpath(path):
+def rpath(*paths):
     """Convert a relative path into an absolute path relative to the location
     of this script.
     """
-    return os.path.join(current_dir, path)
+    return os.path.join(current_dir, *paths)
 
 class Config(resource.Resource):
     """
@@ -255,9 +255,8 @@ class LookupResource(resource.Resource, component.Component):
 
     def addDirectory(self, directory, path=""):
         log.debug("Adding directory `%s` with path `%s`", directory, path)
-        paths = self.__paths.get(path, [])
+        paths = self.__paths.setdefault(path, [])
         paths.append(directory)
-        self.__paths[path] = paths
 
     def removeDirectory(self, directory, path=""):
         log.debug("Removing directory `%s`", directory)
@@ -265,7 +264,7 @@ class LookupResource(resource.Resource, component.Component):
 
     def getChild(self, path, request):
         if hasattr(request, 'lookup_path'):
-            request.lookup_path += '/' + path
+            request.lookup_path = os.path.join(request.lookup_path, path)
         else:
             request.lookup_path = path
         return self
@@ -314,48 +313,69 @@ class TopLevel(resource.Resource):
         "/js/ext-extensions-debug.js",
         "/config.js",
         "/gettext.js",
-        "/js/Deluge.js",
-        "/js/Deluge.Formatters.js",
-        "/js/Deluge.Menus.js",
-        "/js/Deluge.Events.js",
-        "/js/Deluge.OptionsManager.js",
-        "/js/Deluge.MultiOptionsManager.js",
-        "/js/Deluge.Add.js",
-        "/js/Deluge.Add.File.js",
-        "/js/Deluge.Add.Url.js",
-        "/js/Deluge.Add.Infohash.js",
-        "/js/Deluge.Client.js",
-        "/js/Deluge.ConnectionManager.js",
-        "/js/Deluge.Details.js",
-        "/js/Deluge.Details.Status.js",
-        "/js/Deluge.Details.Details.js",
-        "/js/Deluge.Details.Files.js",
-        "/js/Deluge.Details.Peers.js",
-        "/js/Deluge.Details.Options.js",
-        "/js/Deluge.EditTrackers.js",
-        "/js/Deluge.Keys.js",
-        "/js/Deluge.Login.js",
-        "/js/Deluge.MoveStorage.js",
-        "/js/Deluge.Plugin.js",
-        "/js/Deluge.Preferences.js",
-        "/js/Deluge.Preferences.Downloads.js",
-        "/js/Deluge.Preferences.Network.js",
-        "/js/Deluge.Preferences.Encryption.js",
-        "/js/Deluge.Preferences.Bandwidth.js",
-        "/js/Deluge.Preferences.Interface.js",
-        "/js/Deluge.Preferences.Other.js",
-        "/js/Deluge.Preferences.Daemon.js",
-        "/js/Deluge.Preferences.Queue.js",
-        "/js/Deluge.Preferences.Proxy.js",
-        "/js/Deluge.Preferences.Notification.js",
-        "/js/Deluge.Preferences.Cache.js",
-        "/js/Deluge.Preferences.Plugins.js",
-        "/js/Deluge.Remove.js",
-        "/js/Deluge.Sidebar.js",
-        "/js/Deluge.Statusbar.js",
-        "/js/Deluge.Toolbar.js",
-        "/js/Deluge.Torrents.js",
-        "/js/Deluge.UI.js"
+        "/js/deluge-all-debug.js"
+    ]
+
+    __dev_scripts = [
+        "/js/ext-base-debug.js",
+        "/js/ext-all-debug.js",
+        "/js/ext-extensions/BufferView.js",
+        "/js/ext-extensions/FileUploadField.js",
+        "/js/ext-extensions/JSLoader.js",
+        "/js/ext-extensions/Spinner.js",
+        "/js/ext-extensions/SpinnerField.js",
+        "/js/ext-extensions/StatusBar.js",
+        "/js/ext-extensions/ToggleField.js",
+        "/js/ext-extensions/TreeGridSorter.js",
+        "/js/ext-extensions/TreeGridColumnResizer.js",
+        "/js/ext-extensions/TreeGridNodeUI.js",
+        "/js/ext-extensions/TreeGridLoader.js",
+        "/js/ext-extensions/TreeGridColumns.js",
+        "/js/ext-extensions/TreeGrid.js",
+        "/config.js",
+        "/gettext.js",
+        "/js/deluge-all/Deluge.js",
+        "/js/deluge-all/Deluge.Formatters.js",
+        "/js/deluge-all/Deluge.Menus.js",
+        "/js/deluge-all/Deluge.Events.js",
+        "/js/deluge-all/Deluge.OptionsManager.js",
+        "/js/deluge-all/Deluge.MultiOptionsManager.js",
+        "/js/deluge-all/Deluge.Add.js",
+        "/js/deluge-all/Deluge.Add.File.js",
+        "/js/deluge-all/Deluge.Add.Url.js",
+        "/js/deluge-all/Deluge.Add.Infohash.js",
+        "/js/deluge-all/Deluge.Client.js",
+        "/js/deluge-all/Deluge.ConnectionManager.js",
+        "/js/deluge-all/Deluge.Details.js",
+        "/js/deluge-all/Deluge.Details.Status.js",
+        "/js/deluge-all/Deluge.Details.Details.js",
+        "/js/deluge-all/Deluge.Details.Files.js",
+        "/js/deluge-all/Deluge.Details.Peers.js",
+        #"/js/deluge-all/Deluge.Details.Options.js",
+        "/js/deluge-all/Deluge.EditTrackers.js",
+        "/js/deluge-all/Deluge.Keys.js",
+        "/js/deluge-all/Deluge.Login.js",
+        "/js/deluge-all/Deluge.MoveStorage.js",
+        "/js/deluge-all/Deluge.Plugin.js",
+        #"/js/deluge-all/Deluge.Preferences.js",
+        #"/js/deluge-all/Deluge.Preferences.Downloads.js",
+        #"/js/deluge-all/Deluge.Preferences.Network.js",
+        #"/js/deluge-all/Deluge.Preferences.Encryption.js",
+        #"/js/deluge-all/Deluge.Preferences.Bandwidth.js",
+        #"/js/deluge-all/Deluge.Preferences.Interface.js",
+        #"/js/deluge-all/Deluge.Preferences.Other.js",
+        #"/js/deluge-all/Deluge.Preferences.Daemon.js",
+        #"/js/deluge-all/Deluge.Preferences.Queue.js",
+        #"/js/deluge-all/Deluge.Preferences.Proxy.js",
+        #"/js/deluge-all/Deluge.Preferences.Notification.js",
+        #"/js/deluge-all/Deluge.Preferences.Cache.js",
+        #"/js/deluge-all/Deluge.Preferences.Plugins.js",
+        "/js/deluge-all/Deluge.Remove.js",
+        "/js/deluge-all/Deluge.Sidebar.js",
+        "/js/deluge-all/Deluge.Statusbar.js",
+        "/js/deluge-all/Deluge.Toolbar.js",
+        "/js/deluge-all/Deluge.Torrents.js",
+        "/js/deluge-all/Deluge.UI.js"
     ]
 
     def __init__(self):
@@ -366,7 +386,13 @@ class TopLevel(resource.Resource):
         self.putChild("flag", Flag())
         self.putChild("icons", LookupResource("Icons", rpath("icons")))
         self.putChild("images", LookupResource("Images", rpath("images")))
-        self.putChild("js", LookupResource("Javascript", rpath("js")))
+
+        # Add the javascript resource with the development paths
+        js = LookupResource("Javascript", rpath("js"))
+        js.addDirectory(rpath("js", "ext-extensions"), "ext-extensions")
+        js.addDirectory(rpath("js", "deluge-all"), "deluge-all")
+        self.putChild("js", js)
+
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
@@ -383,6 +409,10 @@ class TopLevel(resource.Resource):
     @property
     def debug_scripts(self):
         return self.__debug_scripts
+
+    @property
+    def dev_scripts(self):
+        return self.__dev_scripts
 
     @property
     def stylesheets(self):
@@ -418,15 +448,26 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-        debug = 'dev' in common.get_version()
+
+        debug = False
         if 'debug' in request.args:
             debug_arg = request.args.get('debug')[-1]
-            if debug_arg == 'true':
+            if debug_arg in ('true', 'yes', '1'):
                 debug = True
-            elif debug_arg == 'false':
+            else:
                 debug = False
 
-        if debug:
+        dev = 'dev' in common.get_version()
+        if 'dev' in request.args:
+            dev_arg = request.args.get('dev')[-1]
+            if dev_arg in ('true', 'yes' '1'):
+                dev = True
+            else:
+                dev = False
+
+        if dev:
+            scripts = self.dev_scripts[:]
+        elif debug:
             scripts = self.debug_scripts[:]
         else:
             scripts = self.scripts[:]

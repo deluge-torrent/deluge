@@ -39,7 +39,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		Ext.deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 		
 		this.progressBar = this.add({
-			xtype: 'fullprogressbar',
+			xtype: 'progress',
 			cls: 'x-deluge-status-progressbar'
 		});
 		
