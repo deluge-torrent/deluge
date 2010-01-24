@@ -334,7 +334,7 @@ class build_ext_debug(_build_ext):
         lt_ext.extra_compile_args.remove('-DNDEBUG')
         lt_ext.extra_compile_args.remove('-O2')
         lt_ext.extra_compile_args.append('-g')
-        remove_from_cflags(["-DNDEBUG"])
+        remove_from_cflags(["-DNDEBUG", "-O2"])
         return _build_ext.run(self)
 
 class clean_plugins(cmd.Command):
