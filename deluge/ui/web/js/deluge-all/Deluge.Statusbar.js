@@ -1,4 +1,4 @@
-Ext.deluge.Statusbar = Ext.extend(Ext.Toolbar, {
+Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
