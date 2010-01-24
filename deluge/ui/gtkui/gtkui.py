@@ -32,8 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-
-
 from deluge.log import LOG as log
 
 # Install the twisted reactor
@@ -160,6 +158,7 @@ DEFAULT_PREFS = {
 
 class GtkUI(object):
     def __init__(self, args):
+        self.daemon_bps = (0,0,0)
         # Setup signals
         try:
             import gnome.ui
@@ -227,6 +226,10 @@ class GtkUI(object):
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
 
+        from twisted.internet.task import LoopingCall
+        rpc_stats = LoopingCall(self.print_rpc_stats)
+        rpc_stats.start(10)
+        
         reactor.callWhenRunning(self._on_reactor_start)
         # Start the gtk main loop
         gtk.gdk.threads_enter()
@@ -256,6 +259,25 @@ class GtkUI(object):
         # Make sure the config is saved.
         self.config.save()
 
+    def print_rpc_stats(self):
+        import time
+        try:
+            recv = client.get_bytes_recv()
+            sent = client.get_bytes_sent()
+        except AttributeError:
+            return
+            
+        log.debug("sent: %s recv: %s", deluge.common.fsize(sent), deluge.common.fsize(recv))
+        t = time.time()
+        delta_time = t - self.daemon_bps[0]
+        delta_sent = sent - self.daemon_bps[1]
+        delta_recv = recv - self.daemon_bps[2]
+
+        sent_rate = deluge.common.fspeed(float(delta_sent) / float(delta_time))
+        recv_rate = deluge.common.fspeed(float(delta_recv) / float(delta_time))
+        log.debug("sent rate: %s recv rate: %s", sent_rate, recv_rate)
+        self.daemon_bps = (t, sent, recv)
+        
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
         self.mainwindow.first_show()

@@ -134,6 +134,9 @@ class DelugeRPCProtocol(Protocol):
             self.__buffer = None
 
         while data:
+            # Increase the byte counter
+            self.factory.bytes_recv += len(data)
+            
             dobj = zlib.decompressobj()
             try:
                 request = rencode.loads(dobj.decompress(data))
@@ -196,7 +199,9 @@ class DelugeRPCProtocol(Protocol):
         self.__rpc_requests[request.request_id] = request
         #log.debug("Sending RPCRequest %s: %s", request.request_id, request)
         # Send the request in a tuple because multiple requests can be sent at once
-        self.transport.write(zlib.compress(rencode.dumps((request.format_message(),))))
+        data = zlib.compress(rencode.dumps((request.format_message(),)))
+        self.factory.bytes_sent += len(data)
+        self.transport.write(data)
 
 class DelugeRPCClientFactory(ClientFactory):
     protocol = DelugeRPCProtocol
@@ -204,6 +209,9 @@ class DelugeRPCClientFactory(ClientFactory):
     def __init__(self, daemon, event_handlers):
         self.daemon = daemon
         self.event_handlers = event_handlers
+        
+        self.bytes_recv = 0
+        self.bytes_sent = 0
 
     def startedConnecting(self, connector):
         log.info("Connecting to daemon at %s:%s..", connector.host, connector.port)
@@ -315,7 +323,9 @@ class DaemonSSLProxy(DaemonProxy):
         Pops a Deffered object.  This is generally called once we receive the
         reply we were waiting on from the server.
 
-        :param request_id: int, the request_id of the Deferred to pop
+        :param request_id: the request_id of the Deferred to pop
+        :type request_id: int
+        
         """
         return self.__deferred.pop(request_id)
 
@@ -324,10 +334,12 @@ class DaemonSSLProxy(DaemonProxy):
         Registers a handler function to be called when `:param:event` is received
         from the daemon.
 
-        :param event: str, the name of the event to handle
-        :param handler: function, the function to be called when `:param:event`
+        :param event: the name of the event to handle
+        :type event: str
+        :param handler: the function to be called when `:param:event`
             is emitted from the daemon
-
+        :type handler: function
+        
         """
         if event not in self.__factory.event_handlers:
             # This is a new event to handle, so we need to tell the daemon
@@ -344,8 +356,10 @@ class DaemonSSLProxy(DaemonProxy):
         """
         Deregisters a event handler.
 
-        :param event: str, the name of the event
-        :param handler: function, the function registered
+        :param event: the name of the event
+        :type event: str
+        :param handler: the function registered
+        :type handler: function
 
         """
         if event in self.__factory.event_handlers and handler in self.__factory.event_handlers[event]:
@@ -402,6 +416,12 @@ class DaemonSSLProxy(DaemonProxy):
         """
         self.disconnect_callback = cb
 
+    def get_bytes_recv(self):
+        return self.__factory.bytes_recv
+    
+    def get_bytes_sent(self):
+        return self.__factory.bytes_sent
+        
 class DaemonClassicProxy(DaemonProxy):
     def __init__(self, event_handlers={}):
         import deluge.core.daemon
@@ -437,10 +457,12 @@ class DaemonClassicProxy(DaemonProxy):
         Registers a handler function to be called when `:param:event` is received
         from the daemon.
 
-        :param event: str, the name of the event to handle
-        :param handler: function, the function to be called when `:param:event`
+        :param event: the name of the event to handle
+        :type event: str
+        :param handler: the function to be called when `:param:event`
             is emitted from the daemon
-
+        :type handler: function
+        
         """
         self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
@@ -448,8 +470,10 @@ class DaemonClassicProxy(DaemonProxy):
         """
         Deregisters a event handler.
 
-        :param event: str, the name of the event
-        :param handler: function, the function registered
+        :param event: the name of the event
+        :type event: str
+        :param handler: the function registered
+        :type handler: function
 
         """
         self.__daemon.core.eventmanager.deregister_event_handler(event, handler)
@@ -648,5 +672,23 @@ class Client(object):
         if self.disconnect_callback:
             self.disconnect_callback()
 
+    def get_bytes_recv(self):
+        """
+        Returns the number of bytes received from the daemon.
+        
+        :returns: the number of bytes received
+        :rtype: int
+        """
+        return self._daemon_proxy.get_bytes_recv()
+
+    def get_bytes_sent(self):
+        """
+        Returns the number of bytes sent to the daemon.
+        
+        :returns: the number of bytes sent
+        :rtype: int
+        """
+        return self._daemon_proxy.get_bytes_sent()
+        
 # This is the object clients will use
 client = Client()
