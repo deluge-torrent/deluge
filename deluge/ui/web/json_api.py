@@ -493,6 +493,8 @@ class WebApi(JSONComponent):
             for id in torrents:
                 torrent = torrents[id]
                 torrent["id"] = id
+                if torrent["queue"] == -1:
+                    torrent["queue"] = 99999
 
         def on_complete(result):
             d.callback(ui_info)
