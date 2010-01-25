@@ -37,6 +37,7 @@ Copyright:
 		return Deluge.progressBar(progress, this.width - 50, progress.toFixed(2) + '%', 0);
 	}
 	function priorityRenderer(value) {
+		if (!value) return '';
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
