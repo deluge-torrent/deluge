@@ -159,6 +159,9 @@ class TorrentView(listview.ListView, component.Component):
                             "torrentview.state")
         log.debug("TorrentView Init..")
 
+        # If we have gotten the state yet
+        self.got_state = False
+        
         # This is where status updates are put
         self.status = {}
 
@@ -265,6 +268,7 @@ class TorrentView(listview.ListView, component.Component):
             self.mark_dirty(torrent_id)
         self.treeview.set_model(model)
         self.treeview.thaw_child_notify()
+        self.got_state = True
         self.update()
 
     def stop(self):
@@ -328,8 +332,9 @@ class TorrentView(listview.ListView, component.Component):
             self.filter, status_keys, True).addCallback(self._on_get_torrents_status)
 
     def update(self):
-        # Send a status request
-        gobject.idle_add(self.send_status_request)
+        if self.got_state:
+            # Send a status request
+            gobject.idle_add(self.send_status_request)
 
     def update_view(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
@@ -354,13 +359,14 @@ class TorrentView(listview.ListView, component.Component):
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
                     for i, status_field in enumerate(self.columns[column].status_field):
-                        try:
-                            # Only update if different
-                            row_value = status[torrent_id][status_field]
-                            if row[column_index[i]] != row_value:
-                                row[column_index[i]] = row_value
-                        except Exception, e:
-                            log.debug("%s", e)
+                        if status_field in status[torrent_id]:
+                            try:
+                                # Only update if different
+                                row_value = status[torrent_id][status_field]
+                                if row[column_index[i]] != row_value:
+                                    row[column_index[i]] = row_value
+                            except Exception, e:
+                                log.debug("%s", e)
 
         component.get("MenuBar").update_menu()
 
