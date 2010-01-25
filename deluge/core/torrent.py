@@ -72,7 +72,7 @@ class TorrentOptions(dict):
         self["file_priorities"] = []
         self["mapped_files"] = {}
 
-class Torrent:
+class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
     """
     def __init__(self, handle, options, state=None, filename=None, magnet=None):
@@ -80,6 +80,16 @@ class Torrent:
         # Get the core config
         self.config = ConfigManager("core.conf")
 
+        self.rpcserver = component.get("RPCServer")
+       
+        # This dict holds previous status dicts returned for this torrent
+        # We use this to return dicts that only contain changes from the previous
+        # {session_id: status_dict, ...}
+        self.prev_status = {}
+        from twisted.internet.task import LoopingCall
+        self.prev_status_cleanup_loop = LoopingCall(self.cleanup_prev_status)
+        self.prev_status_cleanup_loop.start(10)
+         
         # Set the libtorrent handle
         self.handle = handle
         # Set the torrent_id for this torrent
@@ -525,8 +535,21 @@ class Torrent:
                 return host
         return ""
 
-    def get_status(self, keys):
-        """Returns the status of the torrent based on the keys provided"""
+    def get_status(self, keys, diff=False):
+        """
+        Returns the status of the torrent based on the keys provided
+        
+        :param keys: the keys to get the status on
+        :type keys: list of str
+        :param diff: if True, will return a diff of the changes since the last
+        call to get_status based on the session_id
+        :type diff: bool
+        
+        :returns: a dictionary of the status keys and their values
+        :rtype: dict
+        
+        """
+     
         # Create the full dictionary
         self.status = self.handle.status()
         if self.handle.has_metadata():
@@ -656,6 +679,24 @@ class Torrent:
                     status_dict[key] = full_status[key]
                 elif key in fns:
                     status_dict[key] = fns[key]()
+        
+        session_id = self.rpcserver.get_session_id()
+        if diff:
+            if session_id in self.prev_status:
+                # We have a previous status dict, so lets make a diff
+                status_diff = {}
+                for key, value in status_dict.items():
+                    if key in self.prev_status[session_id]:
+                        if value != self.prev_status[session_id][key]:
+                            status_diff[key] = value
+                    else:
+                        status_diff[key] = value
+                
+                self.prev_status[session_id] = status_dict
+                return status_diff
+
+            self.prev_status[session_id] = status_dict
+            return status_dict
 
         return status_dict
 
@@ -828,3 +869,14 @@ class Torrent:
                 wait_on_folder[2].append(f["index"])
                 self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1).encode("utf-8"))
         self.waiting_on_folder_rename.append(wait_on_folder)
+        
+    def cleanup_prev_status(self):
+        """
+        This method gets called to check the validity of the keys in the prev_status
+        dict.  If the key is no longer valid, the dict will be deleted.
+        
+        """
+        for key in self.prev_status.keys():
+            if not self.rpcserver.is_session_valid(key):
+                del self.prev_status[key]
+

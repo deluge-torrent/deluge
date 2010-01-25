@@ -325,7 +325,7 @@ class TorrentView(listview.ListView, component.Component):
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
         client.core.get_torrents_status(
-            self.filter, status_keys).addCallback(self._on_get_torrents_status)
+            self.filter, status_keys, True).addCallback(self._on_get_torrents_status)
 
     def update(self):
         # Send a status request

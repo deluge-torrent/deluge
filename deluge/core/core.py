@@ -385,9 +385,9 @@ class Core(component.Component):
             self.torrentmanager[torrent_id].resume()
 
     @export
-    def get_torrent_status(self, torrent_id, keys):
+    def get_torrent_status(self, torrent_id, keys, diff=False):
         # Build the status dictionary
-        status = self.torrentmanager[torrent_id].get_status(keys)
+        status = self.torrentmanager[torrent_id].get_status(keys, diff)
 
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(keys) - set(status.keys()))
@@ -396,7 +396,7 @@ class Core(component.Component):
         return status
 
     @export
-    def get_torrents_status(self, filter_dict, keys):
+    def get_torrents_status(self, filter_dict, keys, diff=False):
         """
         returns all torrents , optionally filtered by filter_dict.
         """
@@ -405,7 +405,7 @@ class Core(component.Component):
 
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
-            status_dict[torrent_id] = self.get_torrent_status(torrent_id, keys)
+            status_dict[torrent_id] = self.get_torrent_status(torrent_id, keys, diff)
 
         return status_dict
 

@@ -96,8 +96,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             try:
                 status[field] = self.status_fields[field](torrent_id)
             except KeyError:
-                log.warning("Status field %s is not registered with the\
-                    PluginManager.", field)
+                pass
         return status
 
     def register_status_field(self, field, function):
