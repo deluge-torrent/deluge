@@ -32,172 +32,175 @@ Copyright:
 
 */
 
-(function() {
-	Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
-		constructor: function(config) {
-			config = Ext.apply({
-				items: [
-					{
-						id: 'create',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Create'),
-						icon: '/icons/create.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'add',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Add'),
-						icon: '/icons/add.png',
-						handler: this.onTorrentAdd
-					},{
-						id: 'remove',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Remove'),
-						icon: '/icons/remove.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'pause',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Pause'),
-						icon: '/icons/pause.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'resume',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Resume'),
-						icon: '/icons/start.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'up',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Up'),
-						icon: '/icons/up.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'down',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Down'),
-						icon: '/icons/down.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'preferences',
-						cls: 'x-btn-text-icon',
-						text: _('Preferences'),
-						iconCls: 'x-deluge-preferences',
-						handler: this.onPreferencesClick,
-						scope: this
-					},{
-						id: 'connectionman',
-						cls: 'x-btn-text-icon',
-						text: _('Connection Manager'),
-						iconCls: 'x-deluge-connection-manager',
-						handler: this.onConnectionManagerClick,
-						scope: this
-					},'->',{
-						id: 'help',
-						cls: 'x-btn-text-icon',
-						icon: '/icons/help.png',
-						text: _('Help'),
-						handler: this.onHelpClick,
-						scope: this
-					},{
-						id: 'logout',
-						cls: 'x-btn-text-icon',
-						icon: '/icons/logout.png',
-						disabled: true,
-						text: _('Logout'),
-						handler: this.onLogout,
-						scope: this
-					}
-				]
-			}, config);
-			Ext.deluge.Toolbar.superclass.constructor.call(this, config);
-		},
+/**
+ * An extension of the <tt>Ext.Toolbar</tt> class that provides an extensible toolbar for Deluge.
+ * @class Ext.deluge.Toolbar
+ * @extends Ext.Toolbar
+ */
+Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
+	constructor: function(config) {
+		config = Ext.apply({
+			items: [
+				{
+					id: 'create',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Create'),
+					icon: '/icons/create.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'add',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Add'),
+					icon: '/icons/add.png',
+					handler: this.onTorrentAdd
+				},{
+					id: 'remove',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Remove'),
+					icon: '/icons/remove.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'pause',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Pause'),
+					icon: '/icons/pause.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'resume',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Resume'),
+					icon: '/icons/start.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'up',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Up'),
+					icon: '/icons/up.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'down',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Down'),
+					icon: '/icons/down.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'preferences',
+					cls: 'x-btn-text-icon',
+					text: _('Preferences'),
+					iconCls: 'x-deluge-preferences',
+					handler: this.onPreferencesClick,
+					scope: this
+				},{
+					id: 'connectionman',
+					cls: 'x-btn-text-icon',
+					text: _('Connection Manager'),
+					iconCls: 'x-deluge-connection-manager',
+					handler: this.onConnectionManagerClick,
+					scope: this
+				},'->',{
+					id: 'help',
+					cls: 'x-btn-text-icon',
+					icon: '/icons/help.png',
+					text: _('Help'),
+					handler: this.onHelpClick,
+					scope: this
+				},{
+					id: 'logout',
+					cls: 'x-btn-text-icon',
+					icon: '/icons/logout.png',
+					disabled: true,
+					text: _('Logout'),
+					handler: this.onLogout,
+					scope: this
+				}
+			]
+		}, config);
+		Ext.deluge.Toolbar.superclass.constructor.call(this, config);
+	},
 
-		connectedButtons: [
-			'add', 'remove', 'pause', 'resume', 'up', 'down'
-		],
-		
-		initComponent: function() {
-			Ext.deluge.Toolbar.superclass.initComponent.call(this);
-			Deluge.Events.on('connect', this.onConnect, this);
-			Deluge.Events.on('login', this.onLogin, this);
-		},
-		
-		onConnect: function() {
-			Ext.each(this.connectedButtons, function(buttonId) {
-				this.items.get(buttonId).enable();
-			}, this);
-		},
-		
-		onDisconnect: function() {
-			Ext.each(this.connectedButtons, function(buttonId) {
-				this.items.get(buttonId).disable();
-			}, this);
-		},
-		
-		onLogin: function() {
-			this.items.get('logout').enable();
-		},
-		
-		onLogout: function() {
-			this.items.get('logout').disable();
-			Deluge.Login.logout();
-		},
-		
-		onConnectionManagerClick: function() {
-			Deluge.ConnectionManager.show();
-		},
-		
-		onHelpClick: function() {
-			window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
-		},
-		
-		onPreferencesClick: function() {
-			Deluge.Preferences.show();
-		},
-		
-		onTorrentAction: function(item) {
-			var selection = Deluge.Torrents.getSelections();
-			var ids = [];
-			Ext.each(selection, function(record) {
-				ids.push(record.id);
-			});
-			
-			switch (item.id) {
-				case 'remove':
-					Deluge.RemoveWindow.show(ids);
-					break;
-				case 'pause':
-				case 'resume':
-					Deluge.Client.core[item.id + '_torrent'](ids, {
-						success: function() {
-							Deluge.UI.update();
-						}
-					});
-					break;
-				case 'up':
-				case 'down':
-					Deluge.Client.core['queue_' + item.id](ids, {
-						success: function() {
-							Deluge.UI.update();
-						}
-					});
-					break;
-			}
-		},
-		
-		onTorrentAdd: function() {
-			Deluge.Add.show();
-		}
-	});
+	connectedButtons: [
+		'add', 'remove', 'pause', 'resume', 'up', 'down'
+	],
 	
-	Deluge.Toolbar = new Ext.deluge.Toolbar();
-})();
+	initComponent: function() {
+		Ext.deluge.Toolbar.superclass.initComponent.call(this);
+		Deluge.Events.on('connect', this.onConnect, this);
+		Deluge.Events.on('login', this.onLogin, this);
+	},
+	
+	onConnect: function() {
+		Ext.each(this.connectedButtons, function(buttonId) {
+			this.items.get(buttonId).enable();
+		}, this);
+	},
+	
+	onDisconnect: function() {
+		Ext.each(this.connectedButtons, function(buttonId) {
+			this.items.get(buttonId).disable();
+		}, this);
+	},
+	
+	onLogin: function() {
+		this.items.get('logout').enable();
+	},
+	
+	onLogout: function() {
+		this.items.get('logout').disable();
+		Deluge.Login.logout();
+	},
+	
+	onConnectionManagerClick: function() {
+		Deluge.ConnectionManager.show();
+	},
+	
+	onHelpClick: function() {
+		window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
+	},
+	
+	onPreferencesClick: function() {
+		Deluge.Preferences.show();
+	},
+	
+	onTorrentAction: function(item) {
+		var selection = Deluge.Torrents.getSelections();
+		var ids = [];
+		Ext.each(selection, function(record) {
+			ids.push(record.id);
+		});
+		
+		switch (item.id) {
+			case 'remove':
+				Deluge.RemoveWindow.show(ids);
+				break;
+			case 'pause':
+			case 'resume':
+				Deluge.Client.core[item.id + '_torrent'](ids, {
+					success: function() {
+						Deluge.UI.update();
+					}
+				});
+				break;
+			case 'up':
+			case 'down':
+				Deluge.Client.core['queue_' + item.id](ids, {
+					success: function() {
+						Deluge.UI.update();
+					}
+				});
+				break;
+		}
+	},
+	
+	onTorrentAdd: function() {
+		Deluge.Add.show();
+	}
+});
+
+Deluge.Toolbar = new Ext.deluge.Toolbar();
