@@ -10,7 +10,6 @@ BUILD_DIR=`dirname $SOURCE_DIR`
 BUILD_DATA_GENERATED=0
 
 YUI_COMPRESSOR=`which yuicompressor`
-#JSDOC=`which jsdoc-toolkit`
 BUILD_TYPE="js"
 
 add_file()
