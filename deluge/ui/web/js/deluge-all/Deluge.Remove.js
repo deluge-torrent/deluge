@@ -31,6 +31,9 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
+/**
+ * @class Ext.deluge.RemoveWindow
+ */
 Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 
 	constructor: function(config) {
