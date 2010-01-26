@@ -59,6 +59,11 @@ Copyright:
         }
     }
 
+	/**
+	 * @class Ext.deluge.Sidebar
+	 * @author Damien Churchill <damoxc@gmail.com>
+	 * @version 1.3
+	 */
     Ext.deluge.Sidebar = Ext.extend(Ext.Panel, {
 
         // private
