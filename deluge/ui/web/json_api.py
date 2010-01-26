@@ -532,6 +532,7 @@ class WebApi(JSONComponent):
 
         paths = []
         info = {}
+        dir_info = {}
         for index, torrent_file in enumerate(files):
             path = torrent_file["path"]
             paths.append(path)
@@ -540,13 +541,28 @@ class WebApi(JSONComponent):
             torrent_file["index"] = index
             info[path] = torrent_file
 
-        def walk(path, item):
-            if type(item) is dict:
-                return item
-            return [info[path]["index"], info[path]["size"],
-                    info[path]["progress"], info[path]["priority"]]
+            # update the directory info
+            dirinfo = info.setdefault(os.path.dirname(path), {})
+            dirinfo["size"] = dirinfo.get("size", 0) + torrent_file["size"]
+            if "priority" not in dirinfo:
+                dirinfo["priority"] = torrent_file["priority"]
+            else:
+                if dirinfo["priority"] != torrent_file["priority"]:
+                    dirinfo["priority"] = 9
 
-        file_tree = uicommon.FileTree(paths)
+            progresses = dirinfo.setdefault("progresses", [])
+            progresses.append(torrent_file["progress"])
+            dirinfo["progress"] = float(sum(progresses)) / len(progresses)
+
+        def walk(path, item):
+            if item["type"] == "dir":
+                item.update(info[path])
+                return item
+            else:
+                item.update(info[path])
+                return item
+
+        file_tree = uicommon.FileTree2(paths)
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 

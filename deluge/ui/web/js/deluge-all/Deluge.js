@@ -119,10 +119,12 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 // _('High Priority')
 // _('Highest Priority')
 FILE_PRIORITY = {
+	9: 'Mixed',
     0: 'Do Not Download',
     1: 'Normal Priority',
     2: 'High Priority',
     5: 'Highest Priority',
+	'Mixed': 9,
     'Do Not Download': 0,
     'Normal Priority': 1,
     'High Priority': 2,
@@ -130,6 +132,7 @@ FILE_PRIORITY = {
 }
 
 FILE_PRIORITY_CSS = {
+	9: 'x-mixed-download',
 	0: 'x-no-download',
 	1: 'x-normal-download',
 	2: 'x-high-download',

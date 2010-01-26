@@ -34,10 +34,10 @@ Copyright:
 	/* Renderers for the column tree */
 	function fileProgressRenderer(value) {
 		var progress = value * 100;
-		return Deluge.progressBar(progress, this.width - 50, progress.toFixed(2) + '%', 0);
+		return Deluge.progressBar(progress, this.col.width, progress.toFixed(2) + '%', 0);
 	}
 	function priorityRenderer(value) {
-		if (!value) return '';
+		if (isNaN(value)) return '';
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
@@ -55,19 +55,19 @@ Copyright:
 					width: 330,
 					dataIndex: 'filename'
 				}, {
-					xtype: 'tgcustomcolumn',
+					xtype: 'tgrendercolumn',
 					header: _('Size'),
 					width: 150,
 					dataIndex: 'size',
 					renderer: fsize
 				}, {
-					xtype: 'tgcustomcolumn',
+					xtype: 'tgrendercolumn',
 					header: _('Progress'),
 					width: 150,
 					dataIndex: 'progress',
 					renderer: fileProgressRenderer
 				}, {
-					xtype: 'tgcustomcolumn',
+					xtype: 'tgrendercolumn',
 					header: _('Priority'),
 					width: 150,
 					dataIndex: 'priority',
@@ -176,15 +176,18 @@ Copyright:
 		
 		onRequestComplete: function(files, options) {
 			function walk(files, parent) {
-				for (var file in files) {
-					var item = files[file];
+				for (var file in files.contents) {
+					var item = files.contents[file];
 					var child = parent.findChild('id', file);
-					if (Ext.type(item) == 'object') {
+					if (item.type == 'dir') {
 						if (!child) {
 							child = new Ext.tree.TreeNode({
 								id: file,
 								text: file,
-								filename: file
+								filename: file,
+								size: item['size'],
+								progress: item['progress'],
+								priority: item['priority']
 							});
 							parent.appendChild(child);
 						}
@@ -195,10 +198,10 @@ Copyright:
 								id: file,
 								filename: file,
 								text: file, // this needs to be here for sorting
-								fileIndex: item[0],
-								size: item[1],
-								progress: item[2],
-								priority: item[3],
+								fileIndex: item['index'],
+								size: item['size'],
+								progress: item['progress'],
+								priority: item['priority'],
 								leaf: true,
 								iconCls: 'x-deluge-file',
 								uiProvider: Ext.ux.tree.TreeGridNodeUI

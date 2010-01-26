@@ -207,6 +207,12 @@ dl.singleline dd {
 	margin-top: 0px;
 }
 
+/* Files TreeGrid */
+.x-treegrid-col {
+	overflow: hidden;
+}
+
+
 /* Options Tab Styles */
 .x-deluge-options-label {
 	margin-right: 10px;
