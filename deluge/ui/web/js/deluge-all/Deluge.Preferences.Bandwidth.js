@@ -52,7 +52,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Global Bandwidth Usage'),
 			labelWidth: 200,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			autoHeight: true
 		});
@@ -157,7 +157,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Per Torrent Bandwidth Usage'),
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			labelWidth: 200,
 			autoHeight: true
 		});

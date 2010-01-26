@@ -52,7 +52,7 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Port'),
 			autoHeight: true,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		optMan.bind('daemon_port', fieldset.add({
 			fieldLabel: _('Daemon port'),

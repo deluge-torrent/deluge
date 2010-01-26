@@ -131,7 +131,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px',
 			autoHeight: true,
 			labelWidth: 110,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			defaults: {
 				width: 80,
 			}

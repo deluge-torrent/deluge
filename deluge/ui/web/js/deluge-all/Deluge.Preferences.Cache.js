@@ -53,7 +53,7 @@ Ext.deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 			title: _('Settings'),
 			autoHeight: true,
 			labelWidth: 180,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		optMan.bind('cache_size', fieldset.add({
 			fieldLabel: _('Cache Size (16 KiB Blocks)'),

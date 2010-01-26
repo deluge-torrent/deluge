@@ -75,7 +75,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		});
 		
 		this.port = this.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			name: 'port',
 			fieldLabel: _('Port'),
 			width: 80,

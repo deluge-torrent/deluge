@@ -70,7 +70,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			title: _('Active Torrents'),
 			autoHeight: true,
 			labelWidth: 150,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 		});
 		optMan.bind('max_active_limit', fieldset.add({
@@ -123,7 +123,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			title: _('Seeding'),
 			autoHeight: true,
 			labelWidth: 150,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;',
 		});
 		optMan.bind('share_ratio_limit', fieldset.add({
@@ -186,7 +186,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('stop_seed_at_ratio', this.stopAtRatio);
 		
 		this.stopRatio = fieldset.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			name: 'stop_seed_ratio',
 			ctCls: 'x-deluge-indent-checkbox',
 			disabled: true,

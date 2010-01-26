@@ -77,7 +77,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 */
 		this.fieldsets.bandwidth = this.add({
 			xtype: 'fieldset',
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			bodyStyle: 'padding: 5px',
 			
 			layout: 'table',
@@ -228,7 +228,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		});
 		
 		this.fields.stop_ratio = this.fieldsets.queue.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			id: 'stop_ratio',
 			name: 'stop_ratio',
 			disabled: true,
@@ -271,7 +271,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			autoHeight: true,
 			style: 'margin-left: 5px',
-			width: 200
+			width: 210
 		});
 		
 		this.fieldsets.general = this.rightColumn.add({
@@ -306,24 +306,15 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 * Buttons
 		 */
 		this.buttonPanel = this.rightColumn.add({
-			layout: 'column',
+			layout: 'hbox',
 			xtype: 'panel',
 			border: false
 		});
-		
-		// The buttons below are required to be added to a panel
-		// first as simply adding them to the column layout throws an
-		// error c.getSize() does not exist. This could be intentional
-		// or it may possible be a bug in ext-js. Take care when upgrading
-		// to ext-js 3.0.
 		
 		/*
 		 * Edit Trackers button
 		 */
 		this.buttonPanel.add({
-			xtype: 'panel',
-			border: false
-		}).add({
 			id: 'edit_trackers',
 			xtype: 'button',
 			text: _('Edit Trackers'),
@@ -339,9 +330,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 * Apply button
 		 */
 		this.buttonPanel.add({
-			xtype: 'panel',
-			border: false
-		}).add({
 			id: 'apply',
 			xtype: 'button',
 			text: _('Apply'),
