@@ -52,7 +52,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	initComponent: function() {
 		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAdd, this);
+		this.addButton(_('Add'), this.onAddClick, this);
 		
 		this.form = this.add({
 			xtype: 'form',
@@ -73,7 +73,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 		});
 	},
 	
-	onAdd: function(field, e) {
+	onAddClick: function(field, e) {
 		if (this.form.getForm().isValid()) {
 			this.torrentId = this.createTorrentId();
 			this.form.getForm().submit({

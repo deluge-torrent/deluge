@@ -52,7 +52,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	initComponent: function() {
 		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAdd, this);
+		this.addButton(_('Add'), this.onAddClick, this);
 		
 		var form = this.add({
 			xtype: 'form',
@@ -78,7 +78,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.cookieField.on('specialkey', this.onAdd, this);
 	},
 	
-	onAdd: function(field, e) {
+	onAddClick: function(field, e) {
 		if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
 
 		var field = this.urlField;

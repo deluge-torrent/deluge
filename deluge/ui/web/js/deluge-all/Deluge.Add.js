@@ -49,7 +49,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 	initComponent: function() {
 		Ext.deluge.add.OptionsPanel.superclass.initComponent.call(this);
-		this.files = this.add(new Ext.tree.ColumnTree({
+		this.files = this.add(new Ext.ux.tree.TreeGrid({
 			layout: 'fit',
 			title: _('Files'),
 			rootVisible: false,
@@ -64,14 +64,12 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				width: 275,
 				dataIndex: 'filename'
 			},{
+				xtype: 'tgrendercolumn',
 				header: _('Size'),
 				width: 80,
-				dataIndex: 'size'
-			}],
-		
-			root: new Ext.tree.AsyncTreeNode({
-				text: 'Files'
-			})
+				dataIndex: 'size',
+				renderer: fsize
+			}]
 		}));
 		new Ext.tree.TreeSorter(this.files, {
 			folderSort: true
@@ -146,7 +144,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			autoHeight: true,
 			labelWidth: 100,
 			width: 200,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		this.optionsManager.bind('max_download_speed', fieldset.add({
 			fieldLabel: _('Max Down Speed'),
@@ -560,4 +558,4 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.url.show();
 	}
 });
-//Deluge.Add = new Ext.deluge.add.AddWindow();
+Deluge.Add = new Ext.deluge.add.AddWindow();
