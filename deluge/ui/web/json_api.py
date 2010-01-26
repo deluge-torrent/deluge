@@ -532,7 +532,6 @@ class WebApi(JSONComponent):
 
         paths = []
         info = {}
-        dir_info = {}
         for index, torrent_file in enumerate(files):
             path = torrent_file["path"]
             paths.append(path)
@@ -542,17 +541,20 @@ class WebApi(JSONComponent):
             info[path] = torrent_file
 
             # update the directory info
-            dirinfo = info.setdefault(os.path.dirname(path), {})
-            dirinfo["size"] = dirinfo.get("size", 0) + torrent_file["size"]
-            if "priority" not in dirinfo:
-                dirinfo["priority"] = torrent_file["priority"]
-            else:
-                if dirinfo["priority"] != torrent_file["priority"]:
-                    dirinfo["priority"] = 9
+            dirname = os.path.dirname(path)
+            while dirname:
+                dirinfo = info.setdefault(dirname, {})
+                dirinfo["size"] = dirinfo.get("size", 0) + torrent_file["size"]
+                if "priority" not in dirinfo:
+                    dirinfo["priority"] = torrent_file["priority"]
+                else:
+                    if dirinfo["priority"] != torrent_file["priority"]:
+                        dirinfo["priority"] = 9
 
-            progresses = dirinfo.setdefault("progresses", [])
-            progresses.append(torrent_file["progress"])
-            dirinfo["progress"] = float(sum(progresses)) / len(progresses)
+                progresses = dirinfo.setdefault("progresses", [])
+                progresses.append(torrent_file["progress"])
+                dirinfo["progress"] = float(sum(progresses)) / len(progresses)
+                dirname = os.path.dirname(dirname)
 
         def walk(path, item):
             if item["type"] == "dir":

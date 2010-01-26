@@ -257,7 +257,7 @@ dl.singleline dd {
 }
 
 /* Filepriority styles */
-.x-no-download, .x-normal-download, .x-high-download, .x-highest-download {
+.x-no-download, .x-normal-download, .x-high-download, .x-highest-download, .x-mixed-download {
 	padding-left: 20px;
 	background-repeat: no-repeat;
 	line-height: 16px;
@@ -277,4 +277,8 @@ dl.singleline dd {
 
 .x-highest-download {
 	background-image: url(/icons/highest.png);
+}
+
+.x-mixed-download {
+	/*background-image: url(/icons/mixed.png);*/
 }
