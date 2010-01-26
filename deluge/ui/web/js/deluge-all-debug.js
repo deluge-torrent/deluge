@@ -119,10 +119,12 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 // _('High Priority')
 // _('Highest Priority')
 FILE_PRIORITY = {
+	9: 'Mixed',
     0: 'Do Not Download',
     1: 'Normal Priority',
     2: 'High Priority',
     5: 'Highest Priority',
+	'Mixed': 9,
     'Do Not Download': 0,
     'Normal Priority': 1,
     'High Priority': 2,
@@ -130,6 +132,7 @@ FILE_PRIORITY = {
 }
 
 FILE_PRIORITY_CSS = {
+	9: 'x-mixed-download',
 	0: 'x-no-download',
 	1: 'x-normal-download',
 	2: 'x-high-download',
@@ -201,6 +204,7 @@ Deluge.Formatters = {
 	 * @returns {string} formatted string with KiB, MiB or GiB units.
 	 */
 	size: function(bytes) {
+		if (!bytes) return '';
 		bytes = bytes / 1024.0;
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
@@ -2007,7 +2011,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.url.show();
 	}
 });
-Deluge.Add = new Ext.deluge.add.AddWindow();
+//Deluge.Add = new Ext.deluge.add.AddWindow();
 /*
 Script: Deluge.Add.File.js
     Contains the Add Torrent by file window.
@@ -3023,7 +3027,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		Ext.deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 		
 		this.progressBar = this.add({
-			xtype: 'fullprogressbar',
+			xtype: 'progress',
 			cls: 'x-deluge-status-progressbar'
 		});
 		
@@ -3227,13 +3231,14 @@ Copyright:
 	/* Renderers for the column tree */
 	function fileProgressRenderer(value) {
 		var progress = value * 100;
-		return Deluge.progressBar(progress, this.width - 50, progress.toFixed(2) + '%', 0);
+		return Deluge.progressBar(progress, this.col.width, progress.toFixed(2) + '%', 0);
 	}
 	function priorityRenderer(value) {
+		if (isNaN(value)) return '';
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
-	Ext.deluge.details.FilesTab = Ext.extend(Ext.tree.ColumnTree, {
+	Ext.deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -3247,16 +3252,19 @@ Copyright:
 					width: 330,
 					dataIndex: 'filename'
 				}, {
+					xtype: 'tgrendercolumn',
 					header: _('Size'),
 					width: 150,
 					dataIndex: 'size',
 					renderer: fsize
 				}, {
+					xtype: 'tgrendercolumn',
 					header: _('Progress'),
 					width: 150,
 					dataIndex: 'progress',
 					renderer: fileProgressRenderer
 				}, {
+					xtype: 'tgrendercolumn',
 					header: _('Priority'),
 					width: 150,
 					dataIndex: 'priority',
@@ -3267,7 +3275,13 @@ Copyright:
 					text: 'Files'
 				})
 			}, config);
+
 			Ext.deluge.details.FilesTab.superclass.constructor.call(this, config);
+		},
+
+		initComponent: function() {
+			
+			Ext.deluge.details.FilesTab.superclass.initComponent.call(this);
 		},
 		
 		onRender: function(ct, position) {
@@ -3359,37 +3373,38 @@ Copyright:
 		
 		onRequestComplete: function(files, options) {
 			function walk(files, parent) {
-				for (var file in files) {
-					var item = files[file];
+				for (var file in files.contents) {
+					var item = files.contents[file];
 					var child = parent.findChild('id', file);
-					if (Ext.type(item) == 'object') {
+					if (item.type == 'dir') {
 						if (!child) {
 							child = new Ext.tree.TreeNode({
 								id: file,
-								text: file
+								text: file,
+								filename: file,
+								size: item['size'],
+								progress: item['progress'],
+								priority: item['priority']
 							});
 							parent.appendChild(child);
 						}
 						walk(item, child);
 					} else {
 						if (!child) {
-							child = new Ext.tree.ColumnTreeNode({
+							child = new Ext.tree.TreeNode({
 								id: file,
 								filename: file,
 								text: file, // this needs to be here for sorting
-								fileIndex: item[0],
-								size: item[1],
-								progress: item[2],
-								priority: item[3],
+								fileIndex: item['index'],
+								size: item['size'],
+								progress: item['progress'],
+								priority: item['priority'],
 								leaf: true,
 								iconCls: 'x-deluge-file',
-								uiProvider: Ext.tree.ColumnNodeUI
+								uiProvider: Ext.ux.tree.TreeGridNodeUI
 							});
 							parent.appendChild(child);
 						}
-						child.setColumnValue(1, item[1]);
-						child.setColumnValue(2, item[2]);
-						child.setColumnValue(3, item[3]);
 					}
 				}
 			}
@@ -3625,7 +3640,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 */
 		this.fieldsets.bandwidth = this.add({
 			xtype: 'fieldset',
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			bodyStyle: 'padding: 5px',
 			
 			layout: 'table',
@@ -3776,7 +3791,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		});
 		
 		this.fields.stop_ratio = this.fieldsets.queue.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			id: 'stop_ratio',
 			name: 'stop_ratio',
 			disabled: true,
@@ -3819,7 +3834,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			autoHeight: true,
 			style: 'margin-left: 5px',
-			width: 200
+			width: 210
 		});
 		
 		this.fieldsets.general = this.rightColumn.add({
@@ -3854,24 +3869,15 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 * Buttons
 		 */
 		this.buttonPanel = this.rightColumn.add({
-			layout: 'column',
+			layout: 'hbox',
 			xtype: 'panel',
 			border: false
 		});
-		
-		// The buttons below are required to be added to a panel
-		// first as simply adding them to the column layout throws an
-		// error c.getSize() does not exist. This could be intentional
-		// or it may possible be a bug in ext-js. Take care when upgrading
-		// to ext-js 3.0.
 		
 		/*
 		 * Edit Trackers button
 		 */
 		this.buttonPanel.add({
-			xtype: 'panel',
-			border: false
-		}).add({
 			id: 'edit_trackers',
 			xtype: 'button',
 			text: _('Edit Trackers'),
@@ -3887,9 +3893,6 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		 * Apply button
 		 */
 		this.buttonPanel.add({
-			xtype: 'panel',
-			border: false
-		}).add({
 			id: 'apply',
 			xtype: 'button',
 			text: _('Apply'),
@@ -4920,12 +4923,13 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			labelWidth: 1,
 			defaultType: 'radiogroup',
 			style: 'margin-bottom: 5px; margin-top: 0; padding-bottom: 5px; padding-top: 0;',
-			width: 240
+			width: 240,
 		});
 		optMan.bind('compact_allocation', fieldset.add({
 			name: 'compact_allocation',
 			width: 200,
 			labelSeparator: '',
+			disabled: true,
 			defaults: {
 				width: 80,
 				height: 22,
@@ -5373,7 +5377,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Global Bandwidth Usage'),
 			labelWidth: 200,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			autoHeight: true
 		});
@@ -5478,7 +5482,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Per Torrent Bandwidth Usage'),
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			labelWidth: 200,
 			autoHeight: true
 		});
@@ -5666,7 +5670,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px',
 			autoHeight: true,
 			labelWidth: 110,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			defaults: {
 				width: 80,
 			}
@@ -5953,7 +5957,7 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Port'),
 			autoHeight: true,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		optMan.bind('daemon_port', fieldset.add({
 			fieldLabel: _('Daemon port'),
@@ -6073,7 +6077,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			title: _('Active Torrents'),
 			autoHeight: true,
 			labelWidth: 150,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 		});
 		optMan.bind('max_active_limit', fieldset.add({
@@ -6126,7 +6130,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			title: _('Seeding'),
 			autoHeight: true,
 			labelWidth: 150,
-			defaultType: 'uxspinner',
+			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;',
 		});
 		optMan.bind('share_ratio_limit', fieldset.add({
@@ -6189,7 +6193,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('stop_seed_at_ratio', this.stopAtRatio);
 		
 		this.stopRatio = fieldset.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			name: 'stop_seed_ratio',
 			ctCls: 'x-deluge-indent-checkbox',
 			disabled: true,
@@ -6299,7 +6303,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		});
 		
 		this.port = this.add({
-			xtype: 'uxspinner',
+			xtype: 'spinnerfield',
 			name: 'port',
 			fieldLabel: _('Port'),
 			width: 80,
@@ -6454,13 +6458,8 @@ Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Proxy());/*Deluge.Preferences.addPage(_('Notification'), {
-	border: false,
-	xtype: 'form',
-	layout: 'form',
-	items: []
-});
-*//*
+Deluge.Preferences.addPage(new Ext.deluge.preferences.Proxy());
+/*
 Script: Deluge.Preferences.Cache.js
     The cache preferences page.
 
@@ -6515,7 +6514,7 @@ Ext.deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 			title: _('Settings'),
 			autoHeight: true,
 			labelWidth: 180,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		optMan.bind('cache_size', fieldset.add({
 			fieldLabel: _('Cache Size (16 KiB Blocks)'),
@@ -6543,7 +6542,8 @@ Ext.deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Cache());/*
+Deluge.Preferences.addPage(new Ext.deluge.preferences.Cache());
+/*
 Script: Deluge.Preferences.Plugins.js
 	The plugins preferences page.
 
@@ -7213,7 +7213,7 @@ Copyright:
     });
     Deluge.Sidebar = new Ext.deluge.Sidebar();
 })();
-Ext.deluge.Statusbar = Ext.extend(Ext.Toolbar, {
+Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
@@ -7617,7 +7617,6 @@ Copyright:
 		value = new Number(value);
 		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-		//var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]) - 8;
 		return Deluge.progressBar(value, this.width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {

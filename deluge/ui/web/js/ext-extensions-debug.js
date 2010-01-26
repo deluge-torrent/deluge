@@ -1828,6 +1828,16 @@ Ext.ux.tree.TreeGridLoader = Ext.extend(Ext.tree.TreeLoader, {
     Ext.reg('tgdatecolumn', Ext.tree.DateColumn);
     Ext.reg('tgbooleancolumn', Ext.tree.BooleanColumn);
 })();
+Ext.tree.RenderColumn = Ext.extend(Ext.tree.Column, {
+	
+	constructor: function(c) {
+		c.tpl = c.tpl || new Ext.XTemplate('{' + c.dataIndex + ':this.format}');
+		c.tpl.format = c.renderer;
+		c.tpl.col = this;
+		Ext.tree.RenderColumn.superclass.constructor.call(this, c);
+	}
+});
+Ext.reg('tgrendercolumn', Ext.tree.RenderColumn);
 /*!
  * Ext JS Library 3.1.0
  * Copyright(c) 2006-2009 Ext JS, LLC
