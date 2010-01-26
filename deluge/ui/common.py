@@ -230,6 +230,85 @@ class TorrentInfo(object):
         """
         return self.__m_filedata
 
+class FileTree2(object):
+    """
+    Converts a list of paths in to a file tree.
+
+    :param paths: The paths to be converted
+    :type paths: list
+    """
+
+    def __init__(self, paths):
+        self.tree = {"contents": {}, "type": "dir"}
+
+        def get_parent(path):
+            parent = self.tree
+            while "/" in path:
+                directory, path = path.split("/", 1)
+                child = parent["contents"].get(directory)
+                if child is None:
+                    parent["contents"][directory] = {
+                        "type": "dir",
+                        "contents": {}
+                    }
+                parent = parent["contents"][directory]
+            return parent, path
+
+        for path in paths:
+            if path[-1] == "/":
+                path = path[:-1]
+                parent, path = get_parent(path)
+                parent["contents"][path] = {
+                    "type": "dir",
+                    "contents": {}
+                }
+            else:
+                parent, path = get_parent(path)
+                parent["contents"][path] = {
+                    "type": "file"
+                }
+
+    def get_tree(self):
+        """
+        Return the tree.
+
+        :returns: the file tree.
+        :rtype: dictionary
+        """
+        return self.tree
+
+    def walk(self, callback):
+        """
+        Walk through the file tree calling the callback function on each item
+        contained.
+
+        :param callback: The function to be used as a callback, it should have
+            the signature func(item, path) where item is a `tuple` for a file
+            and `dict` for a directory.
+        :type callback: function
+        """
+        def walk(directory, parent_path):
+            for path in directory["contents"].keys():
+                full_path = os.path.join(parent_path, path)
+                if directory["contents"][path]["type"] == "dir":
+                    directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
+                             directory["contents"][path]
+                    walk(directory["contents"][path], full_path)
+                else:
+                    directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
+                             directory["contents"][path]
+        walk(self.tree, "")
+
+    def __str__(self):
+        lines = []
+        def write(path, item):
+            depth = path.count("/")
+            path = os.path.basename(path)
+            path = path + "/" if item["type"] == "dir" else path
+            lines.append("  " * depth + path)
+        self.walk(write)
+        return "\n".join(lines)
+
 class FileTree(object):
     """
     Convert a list of paths in a file tree.
