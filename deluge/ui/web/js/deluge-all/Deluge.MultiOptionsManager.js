@@ -35,6 +35,7 @@ Copyright:
  * @description A class that can be used to manage options throughout the ui.
  * @namespace Deluge
  * @class Deluge.MultiOptionsManager
+ * @extends Deluge.OptionsManager
  */
 Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 
@@ -73,7 +74,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	
 	/**
 	 * Get the value for an option
-	 * @param {String|Array} [option] A single option or an array of options to return.
+	 * @param {String/Array} option A single option or an array of options to return.
 	 * @returns {Object} the options value.
 	 */
 	get: function() {
@@ -97,7 +98,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 
 	/**
 	 * Get the default value for an option.
-	 * @param {String|Array} [option] A single option or an array of options to return.
+	 * @param {String} option A single option.
 	 * @returns {Object} the value of the option
 	 */
 	getDefault: function(option) {
@@ -182,7 +183,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	/**
 	 * Update the value for the specified option and id.
 	 * @param {String} id
-	 * @param {String|Object} option or options to update
+	 * @param {String/Object} option or options to update
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
@@ -212,9 +213,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 		}
 	},
 
-	/******************
-	 * Event Handlers *
-	 ******************/
+	// Event Handlers 
 	/**
 	 * Stops a form fields value from being blocked by the change functions
 	 * @param {Ext.form.Field} field
@@ -224,6 +223,13 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 		this.update(field._doption, field.getValue());
 	},
 
+	/**
+	 * Handles updating binds when an option's value is changed.
+	 * @param {String} id The current option id
+	 * @param {String} option The option that has changed.
+	 * @param {Mixed} newValue The new value
+	 * @private
+	 */
 	onChange: function(id, option, newValue, oldValue) {
 		// If we don't have a bind there's nothing to do.
 		if (Ext.isEmpty(this.binds[option])) return;

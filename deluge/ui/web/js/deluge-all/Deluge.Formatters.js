@@ -32,16 +32,19 @@ Copyright:
 */
 
 /**
- * @description A collection of functions for string formatting values.
- * @namespace Deluge.Formatters
+ * A collection of functions for string formatting values.
+ * @class Deluge.Formatters
+ * @author Damien Churchill <damoxc@gmail.com>
+ * @version 1.3
+ * @singleton
  */
 Deluge.Formatters = {
 	/**
 	 * Formats a date string in the locale's date representation based on the
 	 * systems timezone.
 	 *
-	 * @param {number} timestamp time in seconds since the Epoch
-	 * @returns {string} a string in the locale's date representation or ""
+	 * @param {Number} timestamp time in seconds since the Epoch
+	 * @return {String} a string in the locale's date representation or ""
 	 * if seconds < 0
 	 */
 	date: function(timestamp) {
@@ -60,8 +63,8 @@ Deluge.Formatters = {
 	/**
 	 * Formats the bytes value into a string with KiB, MiB or GiB units.
 	 *
-	 * @param {number} bytes the filesize in bytes
-	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 * @param {Number} bytes the filesize in bytes
+	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
 	size: function(bytes) {
 		if (!bytes) return '';
@@ -77,10 +80,10 @@ Deluge.Formatters = {
 	},
 	
 	/**
-	 * Formats a string to display a transfer speed utilizing {@link Deluge.Formatters.size}
+	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
-	 * @param {number} bytes the filesize in bytes
-	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 * @param {Number} bytes the filesize in bytes
+	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
 	speed: function(bits) {
 		return fsize(bits) + '/s'
@@ -89,8 +92,8 @@ Deluge.Formatters = {
 	/**
 	 * Formats a string to show time in a human readable form.
 	 *
-	 * @param {number} time the number of seconds
-	 * @returns {string} a formatted time string. will return '' if seconds == 0
+	 * @param {Number} time the number of seconds
+	 * @return {String} a formatted time string. will return '' if seconds == 0
 	 */
 	timeRemaining: function(time) {
 		if (time == 0) { return '∞' }
@@ -131,8 +134,8 @@ Deluge.Formatters = {
 	/**
 	 * Simply returns the value untouched, for when no formatting is required.
 	 *
-	 * @param value, the value to be displayed
-	 * @returns the untouched value.
+	 * @param {Mixed} value the value to be displayed
+	 * @return the untouched value.
 	 */
 	plain: function(value) {
 		return value;

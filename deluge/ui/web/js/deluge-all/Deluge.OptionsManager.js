@@ -43,9 +43,6 @@ Ext.namespace('Deluge');
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	
-	/**
-	 * Create a new instance of the OptionsManager.
-	 */
 	constructor: function(config) {
 		config = config || {};
 		this.binds = {};
@@ -54,8 +51,25 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.focused = null;
 
 		this.addEvents({
+			/**
+			 * @event add
+			 * Fires when an option is added
+			 */
 			'add': true,
+
+			/**
+			 * @event changed
+			 * Fires when an option is changed
+			 * @param {String} option The changed option
+			 * @param {Mixed} value The options new value
+			 * @param {Mixed} oldValue The options old value
+			 */
 			'changed': true,
+
+			/**
+			 * @event reset
+			 * Fires when the options are reset
+			 */
 			'reset': true
 		});
 		this.on('changed', this.onChange, this);
@@ -205,7 +219,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 
 	/**
 	 * Update the value for the specified option and id.
-	 * @param {String|Object} option or options to update
+	 * @param {String/Object} option or options to update
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
@@ -233,9 +247,6 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		}
 	},
 
-	/******************
-	 * Event Handlers *
-	 ******************/
 	/**
 	 * Lets the option manager know when a field is blurred so if a value
 	 * so value changing operations can continue on that field.

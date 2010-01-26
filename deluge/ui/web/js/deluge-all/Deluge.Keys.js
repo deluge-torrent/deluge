@@ -33,11 +33,17 @@ Copyright:
 
 /**
  * @description The torrent status keys that are commonly used around the UI.
- * @namespace Deluge.Keys
+ * @class Deluge.Keys
+ * @singleton
  */
 Deluge.Keys = {
+
 	/**
-	 * @static
+	 * Keys that are used within the torrent grid.
+	 * <pre>['queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+	 * 'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
+	 * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
+	 * 'is_auto_managed', 'time_added', 'tracker_host']</pre>
 	 */
     Grid: [
         'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
@@ -47,10 +53,12 @@ Deluge.Keys = {
     ],
     
     /**
-     * @description Keys used in the status tab of the statistics panel.
-     * These get extended
-     * by {@link Deluge.Keys.Grid}.
-	 * @static
+     * Keys used in the status tab of the statistics panel.
+     * These get updated to include the keys in {@link #Grid}.
+	 * <pre>['total_done', 'total_payload_download', 'total_uploaded',
+	 * 'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
+	 * 'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
+	 * 'seed_rank']</pre>
 	 */
     Status: [
         'total_done', 'total_payload_download', 'total_uploaded',
@@ -60,8 +68,7 @@ Deluge.Keys = {
     ],
     
     /**
-	 * @static
-     * @description Keys used in the files tab of the statistics panel.
+     * Keys used in the files tab of the statistics panel.
      * <pre>['files', 'file_progress', 'file_priorities']</pre>
 	 */
     Files: [
@@ -69,17 +76,15 @@ Deluge.Keys = {
     ],
     
     /**
-     * @description Keys used in the peers tab of the statistics panel.
+     * Keys used in the peers tab of the statistics panel.
      * <pre>['peers']</pre>
-	 * @static
 	 */
     Peers: [
         'peers'
     ],
     
     /**
-     * @description Keys used in the details tab of the statistics panel.
-	 * @static
+     * Keys used in the details tab of the statistics panel.
 	 */
     Details: [
         'name', 'save_path', 'total_size', 'num_files', 'tracker_status',
@@ -87,8 +92,7 @@ Deluge.Keys = {
     ],
     
     /**
-	 * @static
-	 * @description Keys used in the options tab of the statistics panel.
+	 * Keys used in the options tab of the statistics panel.
 	 * <pre>['max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
 	 *  'is_auto_managed', 'stop_at_ratio', 'stop_ratio', 'remove_at_ratio', 'private',
 	 *  'prioritize_first_last']</pre>

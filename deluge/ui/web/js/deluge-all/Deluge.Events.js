@@ -20,34 +20,36 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 */
 
-/**
- * @namespace Deluge.Events
- * @class Deluge.Events
- * @name Deluge.Events
- * @description Class for holding global events that occur within the UI.
- */
-
 (function() {
-    Events = Ext.extend(Ext.util.Observable, {
-        constructor: function() {
+	/**
+	 * @class Deluge.Events
+	 * <p>Deluge.Events is a singleton that components of the UI can use to fire global events</p>
+	 * @singleton
+	 * Class for holding global events that occur within the UI.
+	 */
+	Events = Ext.extend(Ext.util.Observable, {
+		constructor: function() {
 			this.toRegister = [];
 			this.on('login', this.onLogin, this);
-            Events.superclass.constructor.call(this);
-        },
-        
-        addListener: function(eventName, fn, scope, o) {
-            this.addEvents(eventName);
+			Events.superclass.constructor.call(this);
+		},
+		
+		/**
+		 * Append an event handler to this object.
+		 */
+		addListener: function(eventName, fn, scope, o) {
+			this.addEvents(eventName);
 			if (/[A-Z]/.test(eventName.substring(0, 1))) {
 				if (!Deluge.Client) {
 					this.toRegister.push(eventName);
@@ -55,8 +57,8 @@ Copyright:
 					Deluge.Client.web.register_event_listener(eventName);
 				}
 			}
-            Events.superclass.addListener.call(this, eventName, fn, scope, o);
-        },
+			Events.superclass.addListener.call(this, eventName, fn, scope, o);
+		},
 	
 		poll: function() {
 			Deluge.Client.web.get_events({
@@ -65,6 +67,9 @@ Copyright:
 			});
 		},
 	
+		/**
+		 * Starts the EventsManager checking for events.
+		 */
 		start: function() {
 			Ext.each(this.toRegister, function(eventName) {
 				Deluge.Client.web.register_event_listener(eventName);
@@ -74,18 +79,23 @@ Copyright:
 			this.poll();
 		},
 	
+		/**
+		 * Stops the EventsManager checking for events.
+		 */
 		stop: function() {
 			if (this.running) {
 				clearInterval(this.running); 
 			}
 		},
 
+		// private
 		onLogin: function() {
 			this.start();
 			this.on('PluginEnabledEvent', this.onPluginEnabled, this);
 			this.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		},
 	
+		// private
 		onPollSuccess: function(events) {
 			if (!events) return;
 			Ext.each(events, function(event) {
@@ -94,8 +104,18 @@ Copyright:
 				this.fireEvent.apply(this, args);
 			}, this);
 		}
-    });
-    Events.prototype.on = Events.prototype.addListener
-    Events.prototype.fire = Events.prototype.fireEvent
-    Deluge.Events = new Events();
+	});
+
+	/**
+	 * Appends an event handler to this object (shorthand for {@link #addListener})
+	 * @method 
+	 */
+	Events.prototype.on = Events.prototype.addListener
+
+	/**
+	 * Fires the specified event with the passed parameters (minus the event name).
+	 * @method 
+	 */
+	Events.prototype.fire = Events.prototype.fireEvent
+	Deluge.Events = new Events();
 })();

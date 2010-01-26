@@ -121,9 +121,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		}
 	},
 
-	/**
-	 * Set the values of the proxies
-	 */
+	// Set the values of the proxies
 	setValue: function(value) {
 		this.setting = true;
 		this.type.setValue(value['type']);

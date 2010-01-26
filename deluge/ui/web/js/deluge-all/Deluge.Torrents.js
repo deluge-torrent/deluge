@@ -79,7 +79,7 @@ Copyright:
 	 * Ext.deluge.TorrentGrid Class
 	 *
 	 * @author Damien Churchill <damoxc@gmail.com>
-	 * @version 1.2
+	 * @version 1.3
 	 *
 	 * @class Ext.deluge.TorrentGrid
 	 * @extends Ext.grid.GridPanel
