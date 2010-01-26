@@ -387,8 +387,6 @@ class TorrentManager(component.Component):
             if options["mapped_files"]:
                 for index, name in options["mapped_files"].items():
                     log.debug("renaming file index %s to %s", index, name)
-                    import code
-                    code.interact(local=locals())
                     torrent_info.rename_file(index, name.encode("utf-8"))
 
             add_torrent_params["ti"] = torrent_info
