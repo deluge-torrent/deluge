@@ -337,6 +337,8 @@ class RPCServer(component.Component):
 
         self.factory = Factory()
         self.factory.protocol = DelugeRPCProtocol
+        self.factory.session_id = -1
+        
         # Holds the registered methods
         self.factory.methods = {}
         # Holds the session_ids and auth levels
@@ -416,7 +418,7 @@ class RPCServer(component.Component):
         """
         Returns the session id of the current RPC.
         
-        :returns: the session id
+        :returns: the session id, this will be -1 if no connections have been made
         :rtype: int
 
         """
