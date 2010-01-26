@@ -538,6 +538,7 @@ class WebApi(JSONComponent):
             torrent_file["progress"] = file_progress[index]
             torrent_file["priority"] = file_priorities[index]
             torrent_file["index"] = index
+            torrent_file["path"] = path
             info[path] = torrent_file
 
             # update the directory info
@@ -554,6 +555,7 @@ class WebApi(JSONComponent):
                 progresses = dirinfo.setdefault("progresses", [])
                 progresses.append(torrent_file["progress"])
                 dirinfo["progress"] = float(sum(progresses)) / len(progresses)
+                dirinfo["path"] = dirname
                 dirname = os.path.dirname(dirname)
 
         def walk(path, item):
