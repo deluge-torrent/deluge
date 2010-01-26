@@ -84,7 +84,7 @@ Deluge.UI = {
 			Deluge.Login.show();
 		}, this, {single: true});
 	
-		this.update = this.update.bind(this);
+		this.update = this.update.createDelegate(this);
 	},
 
 	update: function() {

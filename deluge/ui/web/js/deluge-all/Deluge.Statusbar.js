@@ -96,7 +96,7 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 				var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
 			}
 			item.setText(str);
-		}.bind(this);
+		}.createDelegate(this);
 		
 		updateStat('connections', {
 			value: {value: stats.num_connections},

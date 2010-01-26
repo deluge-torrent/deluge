@@ -74,7 +74,7 @@ Copyright:
 			Ext.each(this.toRegister, function(eventName) {
 				Deluge.Client.web.register_event_listener(eventName);
 			});
-			this.poll = this.poll.bind(this);
+			this.poll = this.poll.createDelegate(this);
 			this.running = setInterval(this.poll, 2000);
 			this.poll();
 		},

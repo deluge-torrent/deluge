@@ -38,16 +38,6 @@ Ext.namespace('Ext.deluge');
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 (function() {
-    /* Add some helper functions to Ext */
-    Ext.apply(Function.prototype, {
-		bind: function(scope) {
-			var self = this;
-			return function() {
-				return self.apply(scope, arguments);
-			}
-		}
-    });
-    
     Ext.apply(Ext, {
 		escapeHTML: function(text) {
 			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
