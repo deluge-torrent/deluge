@@ -202,7 +202,7 @@ Copyright:
 				margins: '5 5 0 0',
 				stateful: true,
 				view: new Ext.ux.grid.BufferView({
-					rowHeight: 34,
+					rowHeight: 26,
 					scrollDelay: false
 				})
 			}, config);
