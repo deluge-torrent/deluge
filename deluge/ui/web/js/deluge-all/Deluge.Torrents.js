@@ -47,8 +47,9 @@ Copyright:
 	function torrentProgressRenderer(value, p, r) {
 		value = new Number(value);
 		var progress = value;
-		var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-		return Deluge.progressBar(value, this.width - 8, text);
+		var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
+		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
+		return Deluge.progressBar(value, width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
 		if (r.data['total_seeds'] > -1) {
@@ -243,11 +244,8 @@ Copyright:
 	},
 
 	update: function(torrents, bulk) {
-		if (bulk) {
-			this.getStore().loadData({"torrents": Ext.values(torrents)});
-		} else {
-			this.getStore().loadData({"torrents": Ext.values(torrents)});
-		}
+		var store = this.getStore();
+		store.loadData({"torrents": Ext.values(torrents)});
 	},
 
 	onDisconnect: function() {
