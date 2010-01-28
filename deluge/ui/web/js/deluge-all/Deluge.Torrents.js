@@ -200,7 +200,11 @@ Copyright:
 				deferredRender:false,
 				autoScroll:true,
 				margins: '5 5 0 0',
-				stateful: true
+				stateful: true,
+				view: new Ext.ux.grid.BufferView({
+					rowHeight: 34,
+					scrollDelay: false
+				})
 			}, config);
 			Ext.deluge.TorrentGrid.superclass.constructor.call(this, config);
 		},
