@@ -46,15 +46,8 @@ Copyright:
 		return Deluge.progressBar(progress, width, progress + '%');
 	}
 	function sort_address(value) {
-		var m = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
-		var address = 0;
-		var parts = [m[1], m[2], m[3], m[4]];
-		Ext.each(parts, function(part, index) {
-			part = parseInt(part);
-			address = address | part << ((3 - index) * 8);
-			//alert("Total: " + address + "\nPart: " + part + "\nIndex: " + index + "\nCalc: " + (part << ((3 - index) * 8)));
-		});
-		return address;
+		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
+		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
 	}
 
 	Ext.deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
