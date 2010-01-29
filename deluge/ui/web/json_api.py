@@ -419,9 +419,8 @@ class WebApi(JSONComponent):
         d = Deferred()
         def on_connected(methods):
             d.callback(methods)
-        for host in self.host_list["hosts"]:
-            if host_id != host[0]:
-                continue
+        host = self.get_host(host_id)
+        if host:
             self._json.connect(*host[1:]).addCallback(on_connected)
         return d
 
