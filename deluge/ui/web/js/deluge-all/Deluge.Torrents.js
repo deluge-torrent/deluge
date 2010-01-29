@@ -235,6 +235,10 @@ Copyright:
 		return this.getStore().getAt(index);
 	},
 
+	/**
+	 * Returns the currently selected records.
+	 * @ return {Array/Ext.data.Record} The record(s) representing the rows
+	 */
 	getSelected: function() {
 	return this.getSelectionModel().getSelected();
 	},
@@ -243,11 +247,16 @@ Copyright:
 		return this.getSelectionModel().getSelections();
 	},
 
-	update: function(torrents, bulk) {
-		var store = this.getStore();
-		store.loadData({"torrents": Ext.values(torrents)});
+	update: function(torrents) {
+		// NOTE: this isn't published in the API docs so may disappear unexpectedly
+		// when upgrading Ext Js.
+		var scroller = this.getView().scroller.dom;
+		var scrollTop = scroller.scrollTop;
+		this.getStore().loadData({"torrents": Ext.values(torrents)});
+		scroller.scrollTop = scrollTop;
 	},
 
+	// private
 	onDisconnect: function() {
 		this.getStore().removeAll();
 	},
