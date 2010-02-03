@@ -41,6 +41,7 @@ import os
 import time
 import shutil
 import operator
+import locale
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -387,7 +388,8 @@ class TorrentManager(component.Component):
             if options["mapped_files"]:
                 for index, name in options["mapped_files"].items():
                     log.debug("renaming file index %s to %s", index, name)
-                    torrent_info.rename_file(index, name.encode("utf-8"))
+                    torrent_info.rename_file(index, 
+                        name.encode("utf-8").decode(locale.getpreferredencoding(), "ignore"))
 
             add_torrent_params["ti"] = torrent_info
             add_torrent_params["resume_data"] = ""
