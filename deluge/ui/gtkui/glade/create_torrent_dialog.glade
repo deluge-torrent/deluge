@@ -556,7 +556,8 @@
 512 KiB
 1 MiB
 2 MiB
-4 MiB</property>
+4 MiB
+</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
