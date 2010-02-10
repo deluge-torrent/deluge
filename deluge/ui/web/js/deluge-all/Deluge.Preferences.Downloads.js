@@ -3,7 +3,7 @@ Script: Deluge.Preferences.Downloads.js
 	The downloads preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)

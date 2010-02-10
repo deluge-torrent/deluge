@@ -3,7 +3,7 @@ Script: Deluge.js
     Contains the keys for get_torrent(s)_status.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -47,6 +47,17 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		isObjectEmpty: function(obj) {
 			for(var i in obj) { return false; }
 			return true;
+		},
+
+		isObjectsEqual: function(obj1, obj2) {
+			var equal = true;
+			if (!obj1 || !obj2) return false;
+			for (var i in obj1) {
+				if (obj1[i] != obj2[i]) {
+					equal = false;
+				}
+			}
+			return equal;
 		},
 	    
 		keys: function(obj) {

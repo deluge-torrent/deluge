@@ -4,7 +4,7 @@ Script: Deluge.UI.js
 	of the server.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -41,6 +41,8 @@ Copyright:
 Deluge.UI = {
 
 	errorCount: 0,
+
+	filters: null,
 
 	/**
 	 * @description Create all the interface components, the json-rpc client

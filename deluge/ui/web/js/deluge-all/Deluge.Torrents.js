@@ -3,7 +3,7 @@ Script: Deluge.Torrents.js
 	Contains all objects and functions related to the torrent grid.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -33,6 +33,7 @@ Copyright:
 */
 
 (function() {
+
 	/* Renderers for the Torrent Grid */
 	function queueRenderer(value) {
 		return (value == 99999) ? '' : value + 1;
@@ -88,6 +89,10 @@ Copyright:
 	 * @param {Object} config Configuration options
 	 */
 	Ext.deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
+
+		// object to store contained torrent ids
+		torrents: {},
+
 		constructor: function(config) {
 			config = Ext.apply({
 				id: 'torrentGrid',
@@ -236,7 +241,7 @@ Copyright:
 	},
 
 	/**
-	 * Returns the currently selected records.
+	 * Returns the currently selected record.
 	 * @ return {Array/Ext.data.Record} The record(s) representing the rows
 	 */
 	getSelected: function() {
@@ -248,12 +253,38 @@ Copyright:
 	},
 
 	update: function(torrents) {
-		// NOTE: this isn't published in the API docs so may disappear unexpectedly
-		// when upgrading Ext Js.
-		var scroller = this.getView().scroller.dom;
-		var scrollTop = scroller.scrollTop;
-		this.getStore().loadData({"torrents": Ext.values(torrents)});
-		scroller.scrollTop = scrollTop;
+		var store = this.getStore();
+		var newTorrents = [];
+
+		// Update and add any new torrents.
+		for (var t in torrents) {
+			var torrent = torrents[t];
+
+			if (this.torrents[t]) {
+				var record = store.getById(t);
+				record.beginEdit();
+				for (var k in torrent) {
+					if (record.get(k) != torrent[k]) {
+						record.set(k, torrent[k]);
+					}
+				}
+				record.endEdit();
+			} else {
+				var record = new Deluge.Torrent(torrent);
+				record.id = t;
+				this.torrents[t] = 1;
+				newTorrents.push(record);
+			}
+		}
+		store.add(newTorrents);
+
+		// Remove any torrents that should not be in the store.
+		store.each(function(record) {
+			if (!torrents[record.id]) {
+				store.remove(record);
+			}
+		});
+		store.commitChanges();
 	},
 
 	// private

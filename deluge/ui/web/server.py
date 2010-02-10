@@ -374,6 +374,7 @@ class TopLevel(resource.Resource):
         "/js/deluge-all/Deluge.Sidebar.js",
         "/js/deluge-all/Deluge.Statusbar.js",
         "/js/deluge-all/Deluge.Toolbar.js",
+        "/js/deluge-all/Deluge.Torrent.js",
         "/js/deluge-all/Deluge.Torrents.js",
         "/js/deluge-all/Deluge.UI.js"
     ]
