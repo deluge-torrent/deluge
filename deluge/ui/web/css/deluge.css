@@ -282,3 +282,51 @@ dl.singleline dd {
 .x-mixed-download {
 	/*background-image: url(/icons/mixed.png);*/
 }
+
+.icon-pause {
+	background-image: url('/icons/pause.png');
+}
+
+.icon-resume {
+	background-image: url('/icons/start.png');
+}
+
+.icon-options {
+	background-image: url('/icons/preferences.png');
+}
+
+.icon-queue {
+	background-image: url('/icons/queue.png');
+}
+
+.icon-top {
+	background-image: url('/icons/top.png');
+}
+
+.icon-up {
+	background-image: url('/icons/up.png');
+}
+
+.icon-down {
+	background-image: url('/icons/down.png');
+}
+
+.icon-bottom {
+	background-image: url('/icons/bottom.png');
+}
+
+.icon-update-tracker {
+	background-image: url('/icons/update.png');
+}
+.icon-edit-trackers {
+	background-image: url('/icons/edit_trackers.png');
+}
+.icon-remove {
+	background-image: url('/icons/remove.png');
+}
+.icon-recheck {
+	background-image: url('/icons/recheck.png');
+}
+.icon-move {
+	background-image: url('/icons/move.png');
+}
