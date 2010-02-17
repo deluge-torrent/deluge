@@ -161,10 +161,8 @@ Copyright:
 	
 		initComponent: function() {
 			Ext.deluge.ConnectionManager.superclass.initComponent.call(this);
-			this.on({
-				'hide': this.onHide,
-				'show': this.onShow
-			});
+			this.on('hide',  this.onHide, this);
+			this.on('show', this.onShow, this);
 			Deluge.Events.on('login', this.onLogin, this);
 			Deluge.Events.on('logout', this.onLogout, this);
 	
@@ -243,6 +241,8 @@ Copyright:
 					]
 				})
 			});
+
+			this.update = this.update.createDelegate(this);
 		},
 
 		disconnect: function() {
@@ -256,11 +256,11 @@ Copyright:
 			});
 		},
 	
-		update: function(self) {
-			self.grid.getStore().each(function(r) {
+		update: function() {
+			this.grid.getStore().each(function(r) {
 				Deluge.Client.web.get_host_status(r.id, {
-					success: self.onGetHostStatus,
-					scope: self
+					success: this.onGetHostStatus,
+					scope: this
 				});
 			}, this);
 		},
@@ -337,7 +337,6 @@ Copyright:
 						}, this, {single: true});
 					}
 				});
-				if (this.running) window.clearInterval(this.running);
 				this.hide();
 			}
 		},
@@ -358,6 +357,10 @@ Copyright:
 			record.set('version', host[4])
 			record.commit();
 			if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
+		},
+
+		onHide: function() {
+			if (this.running) window.clearInterval(this.running);	
 		},
 
 		onLogin: function() {
