@@ -42,6 +42,7 @@ import hashlib
 import tempfile
 
 from types import FunctionType
+from twisted.internet import reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 
@@ -328,6 +329,7 @@ class EventQueue(object):
         self.__events = {}
         self.__handlers = {}
         self.__queue = {}
+        self.__loopers = {}
 
     def add_listener(self, listener_id, event):
         """
@@ -337,7 +339,7 @@ class EventQueue(object):
         :type listener_id: string
         :param event: The event name
         :type event: string
-	"""
+	    """
         if event not in self.__events:
 
             def on_event(*args):
@@ -358,12 +360,26 @@ class EventQueue(object):
 
         :param listener_id: A unique id for the listener
         :type listener_id: string
-	"""
+	    """
+
+        # Check to see if we have anything to return immediately
         if listener_id in self.__queue:
             queue = self.__queue[listener_id]
             del self.__queue[listener_id]
             return queue
-        return None
+
+        # Create a deferred to and check again in 100ms
+        d = Deferred()
+        reactor.callLater(0.5, self._get_events, listener_id, d)
+        return d
+
+    def _get_events(self, listener_id, d):
+        if listener_id in self.__queue:
+            queue = self.__queue[listener_id]
+            del self.__queue[listener_id]
+            d.callback(queue)
+        else:
+            reactor.callLater(0.1, self._get_events, listener_id, d)
 
     def remove_listener(self, listener_id, event):
         """
@@ -373,7 +389,7 @@ class EventQueue(object):
         :type listener_id: string
         :param event: The event name
         :type event: string
-	"""
+	    """
         self.__events[event].remove(listener_id)
         if not self.__events[event]:
             client.deregister_event_handler(event, self.__handlers[event])

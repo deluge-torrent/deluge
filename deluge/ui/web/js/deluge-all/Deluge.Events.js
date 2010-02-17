@@ -60,9 +60,10 @@ Copyright:
 			Events.superclass.addListener.call(this, eventName, fn, scope, o);
 		},
 	
-		poll: function() {
+		getEvents: function() {
 			Deluge.Client.web.get_events({
-				success: this.onPollSuccess,
+				success: this.onGetEventsSuccess,
+				failure: this.onGetEventsFailure,
 				scope: this
 			});
 		},
@@ -74,18 +75,15 @@ Copyright:
 			Ext.each(this.toRegister, function(eventName) {
 				Deluge.Client.web.register_event_listener(eventName);
 			});
-			this.poll = this.poll.createDelegate(this);
-			this.running = setInterval(this.poll, 2000);
-			this.poll();
+			this.running = true;
+			this.getEvents();
 		},
 	
 		/**
 		 * Stops the EventsManager checking for events.
 		 */
 		stop: function() {
-			if (this.running) {
-				clearInterval(this.running); 
-			}
+			this.running = false;
 		},
 
 		// private
@@ -94,15 +92,22 @@ Copyright:
 			this.on('PluginEnabledEvent', this.onPluginEnabled, this);
 			this.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		},
-	
-		// private
-		onPollSuccess: function(events) {
+
+		onGetEventsSuccess: function(events) {
 			if (!events) return;
 			Ext.each(events, function(event) {
 				var name = event[0], args = event[1];
 				args.splice(0, 0, name);
 				this.fireEvent.apply(this, args);
 			}, this);
+			if (this.running) this.getEvents();
+		},
+	
+		// private
+		onGetEventsFailure: function(events) {
+			// the request timed out so we just want to open up another
+			// one.
+			if (this.running) this.getEvents();
 		}
 	});
 
@@ -113,7 +118,8 @@ Copyright:
 	Events.prototype.on = Events.prototype.addListener
 
 	/**
-	 * Fires the specified event with the passed parameters (minus the event name).
+	 * Fires the specified event with the passed parameters (minus the
+	 * event name).
 	 * @method 
 	 */
 	Events.prototype.fire = Events.prototype.fireEvent
