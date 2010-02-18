@@ -11,6 +11,7 @@
 ==== Web ====
 	* Migrate to ExtJS 3.1
 	* Add gzip compression of HTTP data to the server
+	* Improve the efficiency of the TorrentGrid
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
