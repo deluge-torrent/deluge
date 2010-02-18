@@ -113,8 +113,8 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.EditTracker.superclass.initComponent.call(this);
 			
-			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Save'), this.onSave, this);
+			this.addButton(_('Cancel'), this.onCancelClick, this);
+			this.addButton(_('Save'), this.onSaveClick, this);
 			this.on('hide', this.onHide, this);
 			
 			this.form = this.add({
@@ -137,7 +137,7 @@ Copyright:
 			this.form.getForm().findField('tracker').setValue(record.data['url']);
 		},
 		
-		onCancel: function() {
+		onCancelClick: function() {
 			this.hide();
 		},
 		
@@ -145,7 +145,7 @@ Copyright:
 			this.form.getForm().findField('tracker').setValue('');
 		},
 		
-		onSave: function() {
+		onSaveClick: function() {
 			var url = this.form.getForm().findField('tracker').getValue();
 			this.record.set('url', url);
 			this.record.commit();
@@ -175,8 +175,8 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.EditTrackers.superclass.initComponent.call(this);
 			
-			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Ok'), this.onOk, this);
+			this.addButton(_('Cancel'), this.onCancelClick, this);
+			this.addButton(_('Ok'), this.onOkClick, this);
 			this.addEvents('save');
 			
 			this.on('show', this.onShow, this);
@@ -292,7 +292,7 @@ Copyright:
 			this.grid.getStore().removeAll();
 		},
 		
-		onOk: function() {
+		onOkClick: function() {
 			var trackers = [];
 			this.grid.getStore().each(function(record) {
 				trackers.push({
