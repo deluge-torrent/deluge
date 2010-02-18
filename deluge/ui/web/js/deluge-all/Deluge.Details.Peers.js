@@ -42,8 +42,7 @@ Copyright:
 	}
 	function peerProgressRenderer(value) {
 		var progress = (value * 100).toFixed(0);
-		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]).toFixed(0) - 8;
-		return Deluge.progressBar(progress, width, progress + '%');
+		return Deluge.progressBar(progress, this.width - 8, progress + '%');
 	}
 	function sort_address(value) {
 		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
