@@ -127,8 +127,7 @@ class Core(CorePluginBase):
 
     @export
     def save_command(self, command_id, event, cmd):
-        for command in self.config["commands"]:
+        for i, command in enumerate(self.config["commands"]):
             if command[EXECUTE_ID] == command_id:
-                command[EXECUTE_EVENT] = event
-                command[EXECUTE_COMMAND] = cmd
+                self.config["commands"][i] = (command_id, event, cmd)
                 break
