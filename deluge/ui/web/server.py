@@ -34,6 +34,7 @@
 #
 
 import os
+import pwd
 import time
 import locale
 import shutil
@@ -164,7 +165,7 @@ class Upload(resource.Resource):
                 'files': []
             })
 
-        tempdir = os.path.join(tempfile.gettempdir(), "delugeweb")
+        tempdir = os.path.join(tempfile.gettempdir(), "delugeweb-%s" % pwd.getpwuid(os.getuid()).pw_name)
         if not os.path.isdir(tempdir):
             os.mkdir(tempdir)
 
