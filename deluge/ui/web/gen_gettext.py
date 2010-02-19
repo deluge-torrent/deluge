@@ -18,7 +18,7 @@ gettext_tpl = """## -*- coding: utf-8 -*-
  *  translated strings to be used.
  *
  * Copyright:
- *  (c) 2009 Damien Churchill <damoxc@gmail.com>
+ *  (c) 2009-2010 Damien Churchill <damoxc@gmail.com>
  */
 
 GetText = {
