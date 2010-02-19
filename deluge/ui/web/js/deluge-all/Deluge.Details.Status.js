@@ -90,13 +90,13 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds
 		peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers
 		var data = {
-			downloaded: fsize(status.total_done) + ' (' + fsize(status.total_payload_download) + ')',
-			uploaded: fsize(status.total_uploaded) + ' (' + fsize(status.total_payload_upload) + ')',
+			downloaded: fsize(status.total_done),
+			uploaded: fsize(status.total_uploaded),
 			share: status.ratio.toFixed(3),
 			announce: ftime(status.next_announce),
 			tracker_status: status.tracker_status,
-			downspeed: fspeed(status.download_payload_rate),
-			upspeed: fspeed(status.upload_payload_rate),
+			downspeed: (status.download_payload_rate) ? fspeed(status.download_payload_rate) : '0.0 KiB/s',
+			upspeed: (status.upload_payload_rate) ? fspeed(status.upload_payload_rate) : '0.0 KiB/s',
 			eta: ftime(status.eta),
 			pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
 			seeders: seeders,
@@ -108,6 +108,9 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 			time_added: fdate(status.time_added)
 		}
 		data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
+
+		data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
+		data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
 		
 		for (var field in this.fields) {
 			this.fields[field].innerHTML = data[field];
