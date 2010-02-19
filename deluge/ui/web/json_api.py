@@ -329,7 +329,7 @@ class EventQueue(object):
         self.__events = {}
         self.__handlers = {}
         self.__queue = {}
-        self.__loopers = {}
+        self.__requests = {}
 
     def add_listener(self, listener_id, event):
         """
