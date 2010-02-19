@@ -6,6 +6,9 @@
 ==== Console ====
 	* Fix hanging when using commands from the command-line
 
+==== Web ====
+	* Fix #1147: Cannot upload a torrent in a multi-user system via the web interface
+
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
 	* Fix file renaming
