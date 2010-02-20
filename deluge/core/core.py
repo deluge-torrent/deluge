@@ -77,7 +77,7 @@ class Core(component.Component):
         log.info("Starting libtorrent %s session..", lt.version)
 
         # We must depend on libtorrent >= 0.14.9 due to over-downloading bug
-        if lt.version < 0.14.9:
+        if lt.version < "0.14.9":
             log.error("This version of Deluge requires libtorrent >= 0.14.9.")
             sys.exit(1)
             
