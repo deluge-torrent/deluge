@@ -8,6 +8,7 @@
 
 ==== Web ====
 	* Fix #1147: Cannot upload a torrent in a multi-user system via the web interface
+	* Fix #1148: Unable to save execute command in execute plugin
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
