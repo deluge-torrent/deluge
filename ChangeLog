@@ -1,4 +1,8 @@
-=== Deluge 1.2.1 ===
+=== Deluge 1.2.1 (20 Feb 2010) ===
+==== Core ====
+	* Make Deluge dependent upon libtorrent 0.14.9 or greater.  This is due to
+	  an over-downloading bug in previous versions of libtorrent.
+	  
 ==== GtkUI ====
 	* Fix #1128 Show an error dialog when unable to start a 'deluged' process
 	* Increased max enterable download / upload limit to 60000 KiB/s
