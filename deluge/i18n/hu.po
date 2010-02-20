@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-30 09:17+0000\n"
-"Last-Translator: Gábor Balázs <badophb@yahoo.com>\n"
+"PO-Revision-Date: 2010-02-13 09:13+0000\n"
+"Last-Translator: Vadas Norbert <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -3073,7 +3073,7 @@ msgstr "<b>GeoIP adatbázis</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Magnet hivatkozások hozzárendelése a Deluge-hoz"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715

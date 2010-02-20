@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-01 18:16+0000\n"
-"Last-Translator: Ergonaut <frostf@gmail.com>\n"
+"PO-Revision-Date: 2010-02-11 20:34+0000\n"
+"Last-Translator: panoptus <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -166,7 +166,7 @@ msgstr "<b>Параметры метки</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 #: deluge/ui/gtkui/glade/main_window.glade:1799
 msgid "KiB/s"
-msgstr "КБ/с"
+msgstr "KиБ/с"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -195,7 +195,7 @@ msgstr "Максимум"
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr "Автоматическое управление"
+msgstr "Автоматический режим"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -219,7 +219,7 @@ msgstr "Очередь"
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:257
 msgid "Move completed to:"
-msgstr "Перемещать завершённые в:"
+msgstr "Перемещать загруженные файлы в:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -245,7 +245,7 @@ msgstr "<i>(каждый трекер на отдельной строке)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
-msgstr "Автоприменение метки:"
+msgstr "Автоматически применять метку:"
 
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -254,7 +254,7 @@ msgstr "Трекеры"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
-msgstr "Добавить метку"
+msgstr "Добавить ярлык"
 
 #: deluge/plugins/label/label/data/label_options.glade:683
 msgid "<b>Add Label</b>"
@@ -321,7 +321,7 @@ msgstr "PeerGuardian P2B (GZip)"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
 msgid "URL:"
-msgstr "URL:"
+msgstr "Адрес(URL):"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
@@ -1674,7 +1674,7 @@ msgstr "Скорость загрузки"
 
 #: deluge/ui/gtkui/statusbar.py:173
 msgid "Upload Speed"
-msgstr "Скорость раздачи"
+msgstr "Скорость отдачи"
 
 #: deluge/ui/gtkui/statusbar.py:178
 msgid "Protocol Traffic Download/Upload"
@@ -1703,7 +1703,7 @@ msgid ""
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
 "Похоже, что демон процесса Deluge (deluged) уже запущен.\n"
-"Вам необходимо либо остановить демона, либо отключить Классический режим, "
+"Вам необходимо либо остановить демон, либо отключить Классический режим, "
 "чтобы продолжить."
 
 #: deluge/ui/gtkui/gtkui.py:286
@@ -1738,8 +1738,8 @@ msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
-"Произошла ошибка запуска демона. Попробуйте запустить его из консоли что бы "
-"увидеть ошибку."
+"Произошла ошибка при запуске демона. Попробуйте запустить его из консоли, "
+"чтобы увидеть ошибку."
 
 #: deluge/ui/gtkui/torrentview.py:177
 msgid "Name"
@@ -2039,11 +2039,11 @@ msgstr "_Максимальный приоритет"
 
 #: deluge/ui/gtkui/glade/main_window.glade:680
 msgid "<b>Auto Managed:</b>"
-msgstr "<b>Автоматически управляемый:</b>"
+msgstr "<b>Автоуправление:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:721
 msgid "<b>Seed Rank:</b>"
-msgstr "<b>Ранг раздачи:</b>"
+msgstr "<b>Класс раздачи:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:736
 msgid "<b>Seeding Time:</b>"
@@ -2112,7 +2112,7 @@ msgstr "<b>Описание:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b># of files:</b>"
-msgstr "<b>Файлов:</b>"
+msgstr "<b>Количество файлов:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
 msgid "<b>Hash:</b>"
@@ -2408,12 +2408,12 @@ msgstr "Переместить _данные"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
 msgid "_Download Speed Limit"
-msgstr "_Ограничение скорости приёма"
+msgstr "Ограничение скорости _загрузки"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "О_граничение скорости раздачи"
+msgstr "_Oграничение скорости раздачи"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
@@ -2486,7 +2486,7 @@ msgstr "Во_зобновить все"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
-msgstr "В_ыйти"
+msgstr "В_ыход"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:37
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
@@ -2558,11 +2558,11 @@ msgstr "_Запустить локальный демон"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:415
 msgid "Automatically connect to selected host on start-up"
-msgstr "Автоматически подключаться к выбранному узлу при запуске"
+msgstr "Подключиться к выбранному узлу при запуске"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:426
 msgid "Automatically start localhost if needed"
-msgstr "При необходимости автоматически подключаться к локальной сети"
+msgstr "Автоматически запустить демон, если нужно"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:440
 msgid "Do not show this dialog on start-up"
@@ -2590,7 +2590,7 @@ msgstr "Добавить торренты"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
 msgid "_URL"
-msgstr "_URL"
+msgstr "_Ссылка"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
 msgid "Info_hash"
@@ -2675,7 +2675,7 @@ msgstr "<b><i><big>Загрузки</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:226
 msgid "Auto add .torrents from:"
-msgstr "Автоматически добавлять .torrents из:"
+msgstr "Автоматически добавлять .torrent-файлы из:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:242
 msgid "Copy of .torrent files to:"
@@ -2752,12 +2752,12 @@ msgstr "0000"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:616
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:766
 msgid "From:"
-msgstr "От:"
+msgstr "С:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:645
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:795
 msgid "To:"
-msgstr "До:"
+msgstr "По:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:673
 msgid "Test Active Port"
@@ -2871,9 +2871,9 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Установка соединения\n"
-"Поток данных\n"
-"Всё"
+"Синхронизация\n"
+"Весь поток\n"
+"Один из двух"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1189
 msgid "Outbound:"
@@ -2906,9 +2906,7 @@ msgstr "Максимальное число полуоткрытых соеди�
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1402
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1492
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Максимальная скорость раздачи для всех торрентов. Установите -1 для "
-"неограниченной."
+msgstr "Максимальная скорость раздачи для всех торрентов (-1 неограничено)."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1404
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1689
@@ -2929,8 +2927,7 @@ msgstr "Максимальное число соединений:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1426
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1511
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Максимальное число слотов раздачи. Установите -1 для неограниченного."
+msgstr "Максимальное число слотов раздачи (-1 неограничено)."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1428
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1663

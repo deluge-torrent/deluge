@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-23 15:57+0000\n"
-"Last-Translator: SHURIK <Unknown>\n"
+"PO-Revision-Date: 2010-02-11 20:25+0000\n"
+"Last-Translator: panoptus <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -40,7 +40,7 @@ msgstr "Команда:"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Додати команду</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
@@ -48,7 +48,7 @@ msgstr "<b>Команди</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Видобути в:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
 #: deluge/ui/gtkui/glade/main_window.glade:1972
@@ -61,13 +61,15 @@ msgstr "Оберіть папку"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Створити підпапку з назвою торента"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Цим параметром у вибраній папці для видобування буде створюватися підпапка з "
+"назвою торента, файли будуть складатися у підпапці."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -80,21 +82,21 @@ msgstr "<b>Загальні</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr ""
+msgstr "Увімкнути веб-інтерфейс"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr "Увімкніть SSL"
+msgstr "Увімкнути SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr ""
+msgstr "Порт для з'єднань:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:150
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4522
 msgid "<b>Settings</b>"
-msgstr "<b>Налаштування</b>"
+msgstr "<b>Параметри</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:234
 msgid "Download Limit:"
@@ -106,7 +108,7 @@ msgstr "Ліміт відвантаження:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:252
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Активні торенти:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
@@ -118,7 +120,7 @@ msgstr "Невірна мітка, допустимі символи:[a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:187
 msgid "Empty Label"
-msgstr "Порожня мітка"
+msgstr ""
 
 #: deluge/plugins/label/label/core.py:188
 msgid "Label already exists"
@@ -132,7 +134,7 @@ msgstr "Невідома мітка"
 
 #: deluge/plugins/label/label/core.py:288
 msgid "Unknown Torrent"
-msgstr "невідомий торрент"
+msgstr "Невідомий торрент"
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -193,7 +195,7 @@ msgstr "Макс."
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr "Автоматический режим"
+msgstr "Автоматичний режим"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -243,7 +245,7 @@ msgstr "<i>(кожен трекер в окремому рядку)</i>"
 
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
-msgstr "Автоматично змінювати мітку:"
+msgstr "Автоматично призначити мітку:"
 
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
@@ -297,15 +299,15 @@ msgstr "Неправильна версія"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:66
 #: deluge/plugins/blocklist/blocklist/gtkui.py:185
 msgid "Blocklist"
-msgstr "Blocklist"
+msgstr "Список блокувань"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
-msgstr "Emule IP список (GZip)"
+msgstr "Емулювати IP список (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer текст (zip-архів)"
+msgstr "Безпечні вузли, текст (zip-архів)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:51
 msgid "PeerGuardian Text (Uncompressed)"
@@ -323,7 +325,7 @@ msgstr "Адреса URL:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
-msgstr "дні"
+msgstr "Дні"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:114
 msgid "Check for new list every:"
@@ -352,7 +354,7 @@ msgstr "Примусити Скачати і Імпортувати"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:271
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Блокліст вже оновлений"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
@@ -378,15 +380,15 @@ msgstr "Розмір файлу:"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5171
 msgid "<b>Info</b>"
-msgstr "Інформація"
+msgstr "<b>Інформація</b>"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
-msgstr ""
+msgstr "Афганістан"
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
-msgstr ""
+msgstr "Аландські острови"
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
@@ -394,743 +396,743 @@ msgstr "Албанія"
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
-msgstr ""
+msgstr "Алжир"
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
-msgstr ""
+msgstr "Американське самоа"
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr ""
+msgstr "Андора"
 
 #: deluge/ui/countries.py:15
 msgid "Angola"
-msgstr ""
+msgstr "Ангола"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr ""
+msgstr "Ангілья"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
-msgstr ""
+msgstr "Антарктика"
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Антигуа і Барбуда"
 
 #: deluge/ui/countries.py:19
 msgid "Argentina"
-msgstr ""
+msgstr "Аргентина"
 
 #: deluge/ui/countries.py:20
 msgid "Armenia"
-msgstr ""
+msgstr "Вірменія"
 
 #: deluge/ui/countries.py:21
 msgid "Aruba"
-msgstr ""
+msgstr "Аруба"
 
 #: deluge/ui/countries.py:22
 msgid "Australia"
-msgstr ""
+msgstr "Австралія"
 
 #: deluge/ui/countries.py:23
 msgid "Austria"
-msgstr ""
+msgstr "Австрія"
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Азербайджан"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr ""
+msgstr "Багамські острови"
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
-msgstr ""
+msgstr "Бахрейн"
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr ""
+msgstr "Бангладеш"
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
-msgstr ""
+msgstr "Барбадос"
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr ""
+msgstr "Білорусь"
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
-msgstr ""
+msgstr "Бельгія"
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr ""
+msgstr "Беліз"
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr ""
+msgstr "Бенін"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
-msgstr ""
+msgstr "Бермудські Острови"
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr ""
+msgstr "Бутан"
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
-msgstr ""
+msgstr "Болівія"
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "Боснія та Герцеговина"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "Ботсвана"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Острів Буве"
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
-msgstr ""
+msgstr "Бразилія"
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Британські території у Індійському океані"
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Бруней"
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
-msgstr ""
+msgstr "Болгарія"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Буркіна-Фасо"
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr ""
+msgstr "Бурунді"
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
-msgstr ""
+msgstr "Камбоджа"
 
 #: deluge/ui/countries.py:46
 msgid "Cameroon"
-msgstr ""
+msgstr "Камерун"
 
 #: deluge/ui/countries.py:47
 msgid "Canada"
-msgstr ""
+msgstr "Канада"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr ""
+msgstr "Капо Верде"
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Кайманові острови"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
-msgstr ""
+msgstr "Центрально-африканська Республіка"
 
 #: deluge/ui/countries.py:51
 msgid "Chad"
-msgstr ""
+msgstr "Чад"
 
 #: deluge/ui/countries.py:52
 msgid "Chile"
-msgstr ""
+msgstr "Чилі"
 
 #: deluge/ui/countries.py:53
 msgid "China"
-msgstr ""
+msgstr "Китай"
 
 #: deluge/ui/countries.py:54
 msgid "Christmas Island"
-msgstr ""
+msgstr "Острів Різдва"
 
 #: deluge/ui/countries.py:55
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Кокосові Острови"
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
-msgstr ""
+msgstr "Колумбія"
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
-msgstr ""
+msgstr "Коморські Острови"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
-msgstr ""
+msgstr "Конго"
 
 #: deluge/ui/countries.py:59
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Демократична республіка Конго"
 
 #: deluge/ui/countries.py:60
 msgid "Cook Islands"
-msgstr ""
+msgstr "Острови Кука"
 
 #: deluge/ui/countries.py:61
 msgid "Costa Rica"
-msgstr ""
+msgstr "Коста-Ріка"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Кот д’Івуар"
 
 #: deluge/ui/countries.py:63
 msgid "Croatia"
-msgstr ""
+msgstr "Хорватія"
 
 #: deluge/ui/countries.py:64
 msgid "Cuba"
-msgstr ""
+msgstr "Куба"
 
 #: deluge/ui/countries.py:65
 msgid "Cyprus"
-msgstr ""
+msgstr "Кіпр"
 
 #: deluge/ui/countries.py:66
 msgid "Czech Republic"
-msgstr ""
+msgstr "Чехія"
 
 #: deluge/ui/countries.py:67
 msgid "Denmark"
-msgstr ""
+msgstr "Данія"
 
 #: deluge/ui/countries.py:68
 msgid "Djibouti"
-msgstr ""
+msgstr "Джибуті"
 
 #: deluge/ui/countries.py:69
 msgid "Dominica"
-msgstr ""
+msgstr "Домініка"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Домініканська республіка"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
-msgstr ""
+msgstr "Еквадор"
 
 #: deluge/ui/countries.py:72
 msgid "Egypt"
-msgstr ""
+msgstr "Єгипет"
 
 #: deluge/ui/countries.py:73
 msgid "El Salvador"
-msgstr ""
+msgstr "Сальвадор"
 
 #: deluge/ui/countries.py:74
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Екваторіальна Гвінея"
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
-msgstr ""
+msgstr "Еритрея"
 
 #: deluge/ui/countries.py:76
 msgid "Estonia"
-msgstr ""
+msgstr "Естонія"
 
 #: deluge/ui/countries.py:77
 msgid "Ethiopia"
-msgstr ""
+msgstr "Ефіопія"
 
 #: deluge/ui/countries.py:78
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "Фолклендські острови"
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Фарерські острови"
 
 #: deluge/ui/countries.py:80
 msgid "Fiji"
-msgstr ""
+msgstr "Фіджі"
 
 #: deluge/ui/countries.py:81
 msgid "Finland"
-msgstr ""
+msgstr "Фінляндія"
 
 #: deluge/ui/countries.py:82
 msgid "France"
-msgstr ""
+msgstr "Франція"
 
 #: deluge/ui/countries.py:83
 msgid "French Guiana"
-msgstr ""
+msgstr "Французька Гвінея"
 
 #: deluge/ui/countries.py:84
 msgid "French Polynesia"
-msgstr ""
+msgstr "Французька Полінезія"
 
 #: deluge/ui/countries.py:85
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Французькі Південні Території"
 
 #: deluge/ui/countries.py:86
 msgid "Gabon"
-msgstr ""
+msgstr "Ґабон"
 
 #: deluge/ui/countries.py:87
 msgid "Gambia"
-msgstr ""
+msgstr "Ґамбія"
 
 #: deluge/ui/countries.py:88
 msgid "Georgia"
-msgstr ""
+msgstr "Грузія"
 
 #: deluge/ui/countries.py:89
 msgid "Germany"
-msgstr ""
+msgstr "Німеччина"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
 msgid "United Kingdom"
-msgstr ""
+msgstr "Великобританія"
 
 #: deluge/ui/countries.py:91
 msgid "Ghana"
-msgstr ""
+msgstr "Ґана"
 
 #: deluge/ui/countries.py:92
 msgid "Gibraltar"
-msgstr ""
+msgstr "Гібралтар"
 
 #: deluge/ui/countries.py:93
 msgid "Greece"
-msgstr ""
+msgstr "Греція"
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr ""
+msgstr "Гренландія"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
-msgstr ""
+msgstr "Ґренада"
 
 #: deluge/ui/countries.py:96
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Ґваделупа"
 
 #: deluge/ui/countries.py:97
 msgid "Guam"
-msgstr ""
+msgstr "Ґуам"
 
 #: deluge/ui/countries.py:98
 msgid "Guatemala"
-msgstr ""
+msgstr "Гватемала"
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
-msgstr ""
+msgstr "Острів Гернсі"
 
 #: deluge/ui/countries.py:100
 msgid "Guinea"
-msgstr ""
+msgstr "Гвінея"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Гвінея-Бісау"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr ""
+msgstr "Гайяна"
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
-msgstr ""
+msgstr "Гаїті"
 
 #: deluge/ui/countries.py:104
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Острів Херд і Острови Макдональд"
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Ватикан"
 
 #: deluge/ui/countries.py:106
 msgid "Honduras"
-msgstr ""
+msgstr "Гондурас"
 
 #: deluge/ui/countries.py:107
 msgid "Hong Kong"
-msgstr ""
+msgstr "Гонконг"
 
 #: deluge/ui/countries.py:108
 msgid "Hungary"
-msgstr ""
+msgstr "Угорщина"
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
-msgstr ""
+msgstr "Ісландія"
 
 #: deluge/ui/countries.py:110
 msgid "India"
-msgstr ""
+msgstr "Індія"
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr ""
+msgstr "Індонезія"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Іран"
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
-msgstr ""
+msgstr "Ірак"
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
-msgstr ""
+msgstr "Ірландія"
 
 #: deluge/ui/countries.py:115
 msgid "Isle of Man"
-msgstr ""
+msgstr "Острів Мен"
 
 #: deluge/ui/countries.py:116
 msgid "Israel"
-msgstr ""
+msgstr "Ізраїль"
 
 #: deluge/ui/countries.py:117
 msgid "Italy"
-msgstr ""
+msgstr "Італія"
 
 #: deluge/ui/countries.py:118
 msgid "Jamaica"
-msgstr ""
+msgstr "Ямайка"
 
 #: deluge/ui/countries.py:119
 msgid "Japan"
-msgstr ""
+msgstr "Японія"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr ""
+msgstr "Джерсі"
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
-msgstr ""
+msgstr "Йорданія"
 
 #: deluge/ui/countries.py:122
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Казахстан"
 
 #: deluge/ui/countries.py:123
 msgid "Kenya"
-msgstr ""
+msgstr "Кенія"
 
 #: deluge/ui/countries.py:124
 msgid "Kiribati"
-msgstr ""
+msgstr "Кірібаті"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "Північна Корея"
 
 #: deluge/ui/countries.py:126
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "Південна Корея"
 
 #: deluge/ui/countries.py:127
 msgid "Kuwait"
-msgstr ""
+msgstr "Кувейт"
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Киргизстан"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Лаоська Народно-Демократична Республіка"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr ""
+msgstr "Латвія"
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
-msgstr ""
+msgstr "Ліван"
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr ""
+msgstr "Лесото"
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
-msgstr ""
+msgstr "Ліберія"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Лівія"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Ліхтенштейн"
 
 #: deluge/ui/countries.py:136
 msgid "Lithuania"
-msgstr ""
+msgstr "Литва"
 
 #: deluge/ui/countries.py:137
 msgid "Luxembourg"
-msgstr ""
+msgstr "Люксембург"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
-msgstr ""
+msgstr "Макао"
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "Македонія"
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
-msgstr ""
+msgstr "Мадагаскар"
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
-msgstr ""
+msgstr "Малаві"
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
-msgstr ""
+msgstr "Малайзія"
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
-msgstr ""
+msgstr "Мальдіви"
 
 #: deluge/ui/countries.py:144
 msgid "Mali"
-msgstr ""
+msgstr "Малі"
 
 #: deluge/ui/countries.py:145
 msgid "Malta"
-msgstr ""
+msgstr "Мальта"
 
 #: deluge/ui/countries.py:146
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Маршалові острови"
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
-msgstr ""
+msgstr "Мартініка"
 
 #: deluge/ui/countries.py:148
 msgid "Mauritania"
-msgstr ""
+msgstr "Мавританія"
 
 #: deluge/ui/countries.py:149
 msgid "Mauritius"
-msgstr ""
+msgstr "Маврикій"
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
-msgstr ""
+msgstr "Майотта"
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
-msgstr ""
+msgstr "Мексика"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Мікронезія"
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
-msgstr ""
+msgstr "Молдова"
 
 #: deluge/ui/countries.py:154
 msgid "Monaco"
-msgstr ""
+msgstr "Монако"
 
 #: deluge/ui/countries.py:155
 msgid "Mongolia"
-msgstr ""
+msgstr "Монголія"
 
 #: deluge/ui/countries.py:156
 msgid "Montenegro"
-msgstr ""
+msgstr "Чорногорія"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr ""
+msgstr "Монтсеррат"
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
-msgstr ""
+msgstr "Марокко"
 
 #: deluge/ui/countries.py:159
 msgid "Mozambique"
-msgstr ""
+msgstr "Мозамбік"
 
 #: deluge/ui/countries.py:160
 msgid "Myanmar"
-msgstr ""
+msgstr "М’янма"
 
 #: deluge/ui/countries.py:161
 msgid "Namibia"
-msgstr ""
+msgstr "Намібія"
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
-msgstr ""
+msgstr "Науру"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
-msgstr ""
+msgstr "Непал"
 
 #: deluge/ui/countries.py:164
 msgid "Netherlands"
-msgstr ""
+msgstr "Голандія"
 
 #: deluge/ui/countries.py:165
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Нідерландські Антильські Острови"
 
 #: deluge/ui/countries.py:166
 msgid "New Caledonia"
-msgstr ""
+msgstr "Нова Каледонія"
 
 #: deluge/ui/countries.py:167
 msgid "New Zealand"
-msgstr ""
+msgstr "Нова Зеландія"
 
 #: deluge/ui/countries.py:168
 msgid "Nicaragua"
-msgstr ""
+msgstr "Нікарагуа"
 
 #: deluge/ui/countries.py:169
 msgid "Niger"
-msgstr ""
+msgstr "Нігер"
 
 #: deluge/ui/countries.py:170
 msgid "Nigeria"
-msgstr ""
+msgstr "Нігерія"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr ""
+msgstr "Ніуе"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Острів Норфолк"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Північні Маріанські Острови"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
-msgstr ""
+msgstr "Норвегія"
 
 #: deluge/ui/countries.py:175
 msgid "Oman"
-msgstr ""
+msgstr "Оман"
 
 #: deluge/ui/countries.py:176
 msgid "Pakistan"
-msgstr ""
+msgstr "Пакистан"
 
 #: deluge/ui/countries.py:177
 msgid "Palau"
-msgstr ""
+msgstr "Палау"
 
 #: deluge/ui/countries.py:178
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "Палестинські території"
 
 #: deluge/ui/countries.py:179
 msgid "Panama"
-msgstr ""
+msgstr "Панама"
 
 #: deluge/ui/countries.py:180
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Папуа Нова Ґвінея"
 
 #: deluge/ui/countries.py:181
 msgid "Paraguay"
-msgstr ""
+msgstr "Парагвай"
 
 #: deluge/ui/countries.py:182
 msgid "Peru"
-msgstr ""
+msgstr "Перу"
 
 #: deluge/ui/countries.py:183
 msgid "Philippines"
-msgstr ""
+msgstr "Філіпіни"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
-msgstr ""
+msgstr "Піткерн"
 
 #: deluge/ui/countries.py:185
 msgid "Poland"
-msgstr ""
+msgstr "Польща"
 
 #: deluge/ui/countries.py:186
 msgid "Portugal"
-msgstr ""
+msgstr "Португалія"
 
 #: deluge/ui/countries.py:187
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Пуерто-Ріко"
 
 #: deluge/ui/countries.py:188
 msgid "Qatar"
-msgstr ""
+msgstr "Катар"
 
 #: deluge/ui/countries.py:189
 msgid "Reunion"
-msgstr ""
+msgstr "Реюніон"
 
 #: deluge/ui/countries.py:190
 msgid "Romania"
-msgstr ""
+msgstr "Румунія"
 
 #: deluge/ui/countries.py:191
 msgid "Russian Federation"
-msgstr ""
+msgstr "Росія"
 
 #: deluge/ui/countries.py:192
 msgid "Rwanda"
-msgstr ""
+msgstr "Руанда"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "Сен Бартельмі"
 
 #: deluge/ui/countries.py:194
 msgid "Saint Helena"
-msgstr ""
+msgstr "Острів св. Єлени"
 
 #: deluge/ui/countries.py:195
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Сент-Кіттс і Невіс"
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Санта Лючія"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
@@ -1138,231 +1140,231 @@ msgstr ""
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Сен-П'єр і Мікелон"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Сент-Вінсент і Гренадини"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
-msgstr ""
+msgstr "Самоа"
 
 #: deluge/ui/countries.py:201
 msgid "San Marino"
-msgstr ""
+msgstr "Сан-Маріно"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Сан-Томе і Принсипі"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Саудівська Аравія"
 
 #: deluge/ui/countries.py:204
 msgid "Senegal"
-msgstr ""
+msgstr "Сенегал"
 
 #: deluge/ui/countries.py:205
 msgid "Serbia"
-msgstr ""
+msgstr "Сербія"
 
 #: deluge/ui/countries.py:206
 msgid "Seychelles"
-msgstr ""
+msgstr "Сейшельські Острови"
 
 #: deluge/ui/countries.py:207
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Сьєра-Леоне"
 
 #: deluge/ui/countries.py:208
 msgid "Singapore"
-msgstr ""
+msgstr "Сингапур"
 
 #: deluge/ui/countries.py:209
 msgid "Slovakia"
-msgstr ""
+msgstr "Словаччина"
 
 #: deluge/ui/countries.py:210
 msgid "Slovenia"
-msgstr ""
+msgstr "Словенія"
 
 #: deluge/ui/countries.py:211
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Соломонові Острови"
 
 #: deluge/ui/countries.py:212
 msgid "Somalia"
-msgstr ""
+msgstr "Сомалі"
 
 #: deluge/ui/countries.py:213
 msgid "South Africa"
-msgstr ""
+msgstr "Південно-Африканська Республіка"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Південна Джорджія та Південні Сандвічеві Острови"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
-msgstr ""
+msgstr "Іспанія"
 
 #: deluge/ui/countries.py:216
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Шрі-Ланка"
 
 #: deluge/ui/countries.py:217
 msgid "Sudan"
-msgstr ""
+msgstr "Судан"
 
 #: deluge/ui/countries.py:218
 msgid "Suriname"
-msgstr ""
+msgstr "Сурінам"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Острови Свальбард та Ян-Маєн"
 
 #: deluge/ui/countries.py:220
 msgid "Swaziland"
-msgstr ""
+msgstr "Свазіленд"
 
 #: deluge/ui/countries.py:221
 msgid "Sweden"
-msgstr ""
+msgstr "Швеція"
 
 #: deluge/ui/countries.py:222
 msgid "Switzerland"
-msgstr ""
+msgstr "Швейцарія"
 
 #: deluge/ui/countries.py:223
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Сирія"
 
 #: deluge/ui/countries.py:224
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "Тайвань"
 
 #: deluge/ui/countries.py:225
 msgid "Tajikistan"
-msgstr ""
+msgstr "Таджикистан"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Танзанія"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
-msgstr ""
+msgstr "Тайланд"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Східний Тимор"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
-msgstr ""
+msgstr "Того"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
-msgstr ""
+msgstr "Острови Токелау"
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
-msgstr ""
+msgstr "Тонга"
 
 #: deluge/ui/countries.py:232
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Тринідад і Тобаго"
 
 #: deluge/ui/countries.py:233
 msgid "Tunisia"
-msgstr ""
+msgstr "Туніс"
 
 #: deluge/ui/countries.py:234
 msgid "Turkey"
-msgstr ""
+msgstr "Туреччина"
 
 #: deluge/ui/countries.py:235
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Туркменістан"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Острови Теркс і Кайкос"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
-msgstr ""
+msgstr "Тувалу"
 
 #: deluge/ui/countries.py:238
 msgid "Uganda"
-msgstr ""
+msgstr "Уганда"
 
 #: deluge/ui/countries.py:239
 msgid "Ukraine"
-msgstr ""
+msgstr "Україна"
 
 #: deluge/ui/countries.py:240
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Об’єднані Арабські Емірати"
 
 #: deluge/ui/countries.py:242
 msgid "United States"
-msgstr ""
+msgstr "США"
 
 #: deluge/ui/countries.py:243
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Сполучені Штати Малих Віддалених Островів"
 
 #: deluge/ui/countries.py:244
 msgid "Uruguay"
-msgstr ""
+msgstr "Уругвай"
 
 #: deluge/ui/countries.py:245
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Узбекистан"
 
 #: deluge/ui/countries.py:246
 msgid "Vanuatu"
-msgstr ""
+msgstr "Вануату"
 
 #: deluge/ui/countries.py:247
 msgid "Venezuela"
-msgstr ""
+msgstr "Венесуела"
 
 #: deluge/ui/countries.py:248
 msgid "Viet Nam"
-msgstr ""
+msgstr "В'єтнам"
 
 #: deluge/ui/countries.py:249
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Віргінські острови (Британія)"
 
 #: deluge/ui/countries.py:250
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Віргінські острови (США)"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Уолліс і Футуна"
 
 #: deluge/ui/countries.py:252
 msgid "Western Sahara"
-msgstr ""
+msgstr "Західна Сахара"
 
 #: deluge/ui/countries.py:253
 msgid "Yemen"
-msgstr ""
+msgstr "Ємен"
 
 #: deluge/ui/countries.py:254
 msgid "Zambia"
-msgstr ""
+msgstr "Замбія"
 
 #: deluge/ui/countries.py:255
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Зімбабве"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:99 deluge/ui/gtkui/queuedtorrents.py:75
 msgid "Torrent"
@@ -1381,23 +1383,24 @@ msgstr "Розмір"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:202
 msgid "Invalid File"
-msgstr ""
+msgstr "Невірний файл"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "Торент вже існує"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Не можна додавати однакові торенти двічі."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Неможливо встановити пріоритет!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Файлові пріоритети недоступні при використанні Компактного розміщення."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1415,25 +1418,25 @@ msgstr "Всі файли"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Invalid URL"
-msgstr ""
+msgstr "Невірний URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 #, python-format
 msgid "%s is not a valid URL."
-msgstr ""
+msgstr "%s не є дійсним URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:615
 msgid "Downloading.."
-msgstr ""
+msgstr "Завантаження..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:649
 msgid "Download Failed"
-msgstr ""
+msgstr "Завантаження провалене"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:649
 #, python-format
 msgid "Failed to download : %s"
-msgstr ""
+msgstr "Завантаження невдале : %s"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
@@ -1454,7 +1457,7 @@ msgstr "Активовано"
 #: deluge/ui/gtkui/systemtray.py:354 deluge/ui/gtkui/statusbar.py:388
 #: deluge/ui/gtkui/statusbar.py:416 deluge/ui/gtkui/statusbar.py:443
 msgid "Other..."
-msgstr "Інший..."
+msgstr "Інше…"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1489,14 +1492,14 @@ msgstr "Швидкість віддачі"
 #: deluge/ui/web/json_api.py:673 deluge/ui/web/json_api.py:676
 #: deluge/ui/web/json_api.py:684
 msgid "Offline"
-msgstr ""
+msgstr "Не у мережі"
 
 #: deluge/ui/gtkui/connectionmanager.py:75
 #: deluge/ui/gtkui/connectionmanager.py:269
 #: deluge/ui/gtkui/connectionmanager.py:377
 #: deluge/ui/gtkui/connectionmanager.py:523 deluge/ui/web/json_api.py:669
 msgid "Online"
-msgstr ""
+msgstr "В мережі"
 
 #: deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:308
@@ -1505,17 +1508,19 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:411
 #: deluge/ui/gtkui/connectionmanager.py:523 deluge/ui/web/json_api.py:690
 msgid "Connected"
-msgstr ""
+msgstr "Підключено"
 
 #: deluge/ui/gtkui/connectionmanager.py:480
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Помилка з додаванням Хоста"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
 "Deluge\n"
 "Not Connected.."
 msgstr ""
+"Deluge\n"
+"Не підключено.."
 
 #: deluge/ui/gtkui/systemtray.py:216
 msgid "Deluge"
@@ -1541,11 +1546,11 @@ msgstr "Встановити макс. шв-сть віддачі"
 
 #: deluge/ui/gtkui/systemtray.py:398
 msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr ""
+msgstr "<b><big>Deluge захищений паролем!</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>Введіть пароль</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1567,6 +1572,14 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Це є інформативне повідомлення, що Deluge завершив завантаження %(name)s , "
+"що включає %(num_files)i файлів.\n"
+"\n"
+"Для припинення надсилання таких повідомлень необхідно просто відключити "
+"повідомлення на ел. скриньку у налаштуваннях Deluge.\n"
+"\n"
+"Дякую, \n"
+"Deluge"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:102
@@ -1664,7 +1677,7 @@ msgstr "Встановити макс. к-сть з'єднань"
 
 #: deluge/ui/gtkui/gtkui.py:276 deluge/ui/gtkui/gtkui.py:291
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Виключити Класичний режим?"
 
 #: deluge/ui/gtkui/gtkui.py:277
 msgid ""
@@ -1675,7 +1688,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:286
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Помилка завантаження ядра"
 
 #: deluge/ui/gtkui/gtkui.py:287
 msgid ""
@@ -1693,7 +1706,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Помилка запуску демона"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
@@ -1711,7 +1724,7 @@ msgstr "Роздаючі"
 
 #: deluge/ui/gtkui/torrentview.py:192
 msgid "Peers"
-msgstr "Вузли"
+msgstr "Пiри"
 
 #: deluge/ui/gtkui/torrentview.py:205
 msgid "ETA"
@@ -1755,7 +1768,7 @@ msgstr "Без обмежень"
 
 #: deluge/ui/gtkui/menubar.py:81
 msgid "Other.."
-msgstr "Інші.."
+msgstr "Інше.."
 
 #: deluge/ui/gtkui/menubar.py:89
 msgid "On"
@@ -1811,7 +1824,7 @@ msgstr "Сповіщення"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Cache"
-msgstr ""
+msgstr "Кеш"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Plugins"
@@ -2068,7 +2081,7 @@ msgstr "Стан"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1278
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "<b>Опис:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b># of files:</b>"
@@ -2671,7 +2684,7 @@ msgstr "Робити пріорітетними перші і останні ч�
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:438
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Додати торренти у режимі паузи."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:480
 msgid "page 6"
@@ -2728,7 +2741,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:886
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Інтерфейс</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:922
 msgid ""
@@ -2914,7 +2927,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Глобальне Використання Трафіку</b>"
+msgstr "<b>Загальне використання трафіку</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1616
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -2990,7 +3003,7 @@ msgstr "Згорнути в трей при закритті"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2041
 msgid "Start in tray"
-msgstr "Стартувати в системному лотку"
+msgstr "Згортати в трей при запуску"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2062
 msgid "Password protect system tray"
@@ -3006,7 +3019,7 @@ msgstr "сторінка 10"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2187
 msgid "<i><b><big>Other</big></b></i>"
-msgstr "<i><b><big>Інші</big></b></i>"
+msgstr "<i><b><big>Інше</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2228
 msgid "Be alerted about new releases"
@@ -3033,7 +3046,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2306
 msgid "Yes, please send anonymous statistics"
-msgstr "Надсилайти анонімну статистику."
+msgstr "Надсилати анонімну статистику."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
 msgid "<b>System Information</b>"
@@ -3041,7 +3054,7 @@ msgstr "<b>Системна інформація</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2371
 msgid "Location:"
-msgstr ""
+msgstr "Розташування:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2383
 msgid ""
@@ -3055,7 +3068,7 @@ msgstr "База даних GeoIP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Пов'язати Magnet-посилання з Deluge"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715
@@ -3084,7 +3097,7 @@ msgstr "З'єднання"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2674
 msgid "Periodically check the website for new releases"
-msgstr "Періодично перевіряти вебсайт на нові версії"
+msgstr "Періодично перевіряти доступність нових версій"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2688
 msgid "<b>Other</b>"
@@ -3246,11 +3259,11 @@ msgstr "<b>Електронна адреса</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4416
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Кеш</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4461
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Розмір кешу (блоки по 16 KБ):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4471
 msgid ""
@@ -3267,20 +3280,22 @@ msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"Загальне число блоків по 16КіБ, записаних на диск, відколи ця сесія запущена."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4571
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Блоків записано:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4580
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr ""
+"Загальне число проведених операцій запису, відколи ця сесія запущена."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4582
 msgid "Writes:"
-msgstr ""
+msgstr "Записів:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4593
 msgid ""
@@ -3302,14 +3317,16 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Число блоків, на які були подані запити пірами і були обслужені з диску або "
+"кешу."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4679
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Блоків прочитано:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4688
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Число блоків, які обслужені з кешу."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4690
 msgid "Blocks Read Hit:"
@@ -3327,6 +3344,7 @@ msgstr ""
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
+"Загальна кількість операцій читання, що проведені від початку цієї сесії."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4754
 msgid "Reads:"
@@ -3341,14 +3359,16 @@ msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Розмір блоків по 16KiB, що знаходяться зараз в дисковому кеші. Сюди включено "
+"кеш зчитування та запису."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4813
 msgid "Cache Size:"
-msgstr ""
+msgstr "Розмір кешу:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4823
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Розмір кешу зчитування"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4862
 msgid "<b>Size</b>"
@@ -3356,7 +3376,7 @@ msgstr "<b>Розмір</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4905
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Статус</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4967
 msgid "<i><b><big>Plugins</big></b></i>"
@@ -3364,15 +3384,15 @@ msgstr "<i><b><big>Плагіни</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5092
 msgid "Version:"
-msgstr "Версія"
+msgstr "Версія:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5116
 msgid "Homepage:"
-msgstr "Домашня сторінка"
+msgstr "Домашня сторінка:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5129
 msgid "Author Email:"
-msgstr "Автор електронного листа:"
+msgstr "Адреса ел.пошти автора:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5221
 msgid "_Install Plugin"
@@ -3392,7 +3412,7 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:718
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Демон не існує"
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"
@@ -3408,7 +3428,7 @@ msgstr "Запит надіслано"
 
 #: deluge/core/torrentmanager.py:874
 msgid "Warning"
-msgstr "Попередження"
+msgstr "Увага"
 
 #: deluge/core/torrentmanager.py:884
 msgid "Error"

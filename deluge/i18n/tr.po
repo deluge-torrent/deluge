@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-11-24 00:50+0000\n"
-"Last-Translator: Özgür BASKIN <Unknown>\n"
+"PO-Revision-Date: 2010-02-06 13:10+0000\n"
+"Last-Translator: Yiğit Ateş <yigitates52@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr "Torent Tamamlandı"
+msgstr "Torrent Tamamlandı"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
@@ -61,7 +61,7 @@ msgstr "Bir Klasör Seç"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Torrent adı alt dizini yarat"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
@@ -110,7 +110,7 @@ msgstr "Aktif Torrentler"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Yavaş Ayarlar</b>"
 
 #: deluge/plugins/label/label/core.py:186
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -193,7 +193,7 @@ msgstr "En Yüksek"
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr "Otomatik Düzen"
+msgstr "Otomatik Yönetilen"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -203,7 +203,7 @@ msgstr "Orana ulaşınca gönderimi durdur:"
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1936
 msgid "Remove at ratio"
-msgstr "Orana ulaşınca torrenti sil"
+msgstr "Orana ulaşınca sil"
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
@@ -493,7 +493,7 @@ msgstr "Bosna Hersek"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
@@ -509,7 +509,7 @@ msgstr "Hint Okyanusu İngiliz Bölgesi"
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Sultanlığı"
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
@@ -537,11 +537,11 @@ msgstr "Kanada"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr ""
+msgstr "Cape Verde"
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Cayman Adaları"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
@@ -561,11 +561,11 @@ msgstr "Çin"
 
 #: deluge/ui/countries.py:54
 msgid "Christmas Island"
-msgstr ""
+msgstr "Christmas Adası"
 
 #: deluge/ui/countries.py:55
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Kokos (Keeling) Adaları"
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
@@ -573,7 +573,7 @@ msgstr "Kolombiya"
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
-msgstr ""
+msgstr "Komorlar"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
@@ -641,7 +641,7 @@ msgstr "El Salvador"
 
 #: deluge/ui/countries.py:74
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Ekvatoral Gine"
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
@@ -685,7 +685,7 @@ msgstr "Fransız Polinezyası"
 
 #: deluge/ui/countries.py:85
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Güney Fransa Bölgeleri"
 
 #: deluge/ui/countries.py:86
 msgid "Gabon"
@@ -721,15 +721,15 @@ msgstr "Yunanistan"
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr ""
+msgstr "Grönland"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
-msgstr ""
+msgstr "Granada"
 
 #: deluge/ui/countries.py:96
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadalup"
 
 #: deluge/ui/countries.py:97
 msgid "Guam"
@@ -741,7 +741,7 @@ msgstr "Guatemala"
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 #: deluge/ui/countries.py:100
 msgid "Guinea"
@@ -749,11 +749,11 @@ msgstr "Gine"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Gine-Bissau"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
@@ -825,7 +825,7 @@ msgstr "Japonya"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
@@ -861,7 +861,7 @@ msgstr "Kırgızistan"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Laos Demokratik Halk Cumhuriyeti"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
@@ -873,7 +873,7 @@ msgstr "Lübnan"
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
@@ -881,7 +881,7 @@ msgstr "Liberya"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Libya Arap Cumhuriyeti"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
@@ -897,11 +897,11 @@ msgstr "Lüksemburg"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
-msgstr ""
+msgstr "Macao"
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "Makedonya"
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
@@ -909,7 +909,7 @@ msgstr "Madagaskar"
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
-msgstr ""
+msgstr "Malavi"
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
@@ -933,7 +933,7 @@ msgstr "Marşal Adaları"
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
-msgstr ""
+msgstr "Martinik"
 
 #: deluge/ui/countries.py:148
 msgid "Mauritania"
@@ -953,7 +953,7 @@ msgstr "Meksika"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "Mikronezya Federal Devletleri"
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
@@ -1037,7 +1037,7 @@ msgstr "Norfolk Adası"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Kuzey Mariana Adaları"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
@@ -1101,7 +1101,7 @@ msgstr "Katar"
 
 #: deluge/ui/countries.py:189
 msgid "Reunion"
-msgstr ""
+msgstr "Reunion"
 
 #: deluge/ui/countries.py:190
 msgid "Romania"
@@ -1117,15 +1117,15 @@ msgstr "Ruanda"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "Saint Barthelemy"
 
 #: deluge/ui/countries.py:194
 msgid "Saint Helena"
-msgstr ""
+msgstr "Saint Helena"
 
 #: deluge/ui/countries.py:195
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Saint Kitts ve Nevis"
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
@@ -1133,15 +1133,15 @@ msgstr "Saint Lucia"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
-msgstr ""
+msgstr "Saint Martin"
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre ve Miquelon"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Saint Vincent ve Grenadies"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
@@ -1153,7 +1153,7 @@ msgstr "San Marino"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Sao Tome ve Principe"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
@@ -1169,11 +1169,11 @@ msgstr "Sırbistan"
 
 #: deluge/ui/countries.py:206
 msgid "Seychelles"
-msgstr ""
+msgstr "Seyşeller"
 
 #: deluge/ui/countries.py:207
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: deluge/ui/countries.py:208
 msgid "Singapore"
@@ -1201,7 +1201,7 @@ msgstr "Güney Afrika"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Güney Georgia ve Güney Sandwich Adaları"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
@@ -1221,7 +1221,7 @@ msgstr "Surinam"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard ve Jan Mayen"
 
 #: deluge/ui/countries.py:220
 msgid "Swaziland"
@@ -1289,7 +1289,7 @@ msgstr "Türkmenistan"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Turks ve Caicos Adaları"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
@@ -1325,7 +1325,7 @@ msgstr "Özbekistan"
 
 #: deluge/ui/countries.py:246
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: deluge/ui/countries.py:247
 msgid "Venezuela"
@@ -1337,15 +1337,15 @@ msgstr "Vietnam"
 
 #: deluge/ui/countries.py:249
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Virgin Adaları (İngiltere)"
 
 #: deluge/ui/countries.py:250
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Virgin Adaları (ABD)"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis ve Futuna"
 
 #: deluge/ui/countries.py:252
 msgid "Western Sahara"
@@ -1397,6 +1397,7 @@ msgstr "Dosya önceliği ayarlanamadı!"
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Dosya önceliklendirmesi yoğun yer tahsisi kullanılırken mecvut değildir."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1508,7 +1509,7 @@ msgstr "Bağlı"
 
 #: deluge/ui/gtkui/connectionmanager.py:480
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Bağlantı Noktası Ekleme Hatası"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
@@ -1524,11 +1525,11 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:216
 msgid "Down"
-msgstr "Aşağı"
+msgstr "İndirilen"
 
 #: deluge/ui/gtkui/systemtray.py:217
 msgid "Up"
-msgstr "Yukarı"
+msgstr "Gönderilen"
 
 #: deluge/ui/gtkui/systemtray.py:341 deluge/ui/gtkui/statusbar.py:390
 #: deluge/ui/gtkui/menubar.py:430
@@ -1542,11 +1543,11 @@ msgstr "Azami Gönderme Hızını Ayarla"
 
 #: deluge/ui/gtkui/systemtray.py:398
 msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr ""
+msgstr "<b><big>Deluge şifre korumalı!</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>Devam etmek için şifrenizi giriniz</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1676,7 +1677,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:286
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Çekirdek Başlatma Hatası"
 
 #: deluge/ui/gtkui/gtkui.py:287
 msgid ""
@@ -1694,7 +1695,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Hizmet Başlatma Hatası"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
@@ -1708,7 +1709,7 @@ msgstr "İsim"
 
 #: deluge/ui/gtkui/torrentview.py:187
 msgid "Seeders"
-msgstr "Kaynaklar"
+msgstr "Dağıtıcılar"
 
 #: deluge/ui/gtkui/torrentview.py:192
 msgid "Peers"
@@ -1948,7 +1949,7 @@ msgstr "Seçili torentleri sürdür"
 
 #: deluge/ui/gtkui/glade/main_window.glade:359
 msgid "Resume"
-msgstr "Devam et"
+msgstr "Devam Et"
 
 #: deluge/ui/gtkui/glade/main_window.glade:377
 msgid "Queue Torrent Up"
@@ -2476,11 +2477,11 @@ msgstr "Varış:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
 msgid "Add Host"
-msgstr "Barındıran Ekle"
+msgstr "Makine Ekle"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
 msgid "Hostname:"
-msgstr "Sunucu adı:"
+msgstr "Makine adı:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:56
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3321
@@ -2664,7 +2665,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:369
 msgid "Use Compact Allocation"
-msgstr "Yoğun alan tahsisi kullan"
+msgstr "Yoğun Alan Tahsisi Kullan"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:374
 msgid "Compact allocation only allocates space as needed"
@@ -3057,7 +3058,7 @@ msgstr "<b>GeoIP Veritabanı</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Magnet linklerini Deluge ile ilişkilendir"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715
@@ -3070,7 +3071,7 @@ msgstr "<i><b><big>Artişlem</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2565
 msgid "Daemon port:"
-msgstr "Artişlem kapısı:"
+msgstr "Art hizmet bağlantı noktası:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
 msgid "<b>Port</b>"
@@ -3126,7 +3127,7 @@ msgstr "Paylaşım Oranı Sınırı:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3013
 msgid "Seed Time Ratio:"
-msgstr "Gönderim Zamanı Oranı:"
+msgstr "Dağıtım Süresi Oranı:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3025
 msgid "Seed Time (m):"
@@ -3272,7 +3273,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4571
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Yazılan Bloklar:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4580
 msgid ""
@@ -3282,7 +3283,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4582
 msgid "Writes:"
-msgstr ""
+msgstr "Yazma:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4593
 msgid ""
@@ -3297,7 +3298,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4647
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "<b>Yaz</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4677
 msgid ""
@@ -3350,7 +3351,7 @@ msgstr "Önbellek Boyutu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4823
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Okuma Önbellek Boyutu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4862
 msgid "<b>Size</b>"
@@ -3398,7 +3399,7 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"
-msgstr ""
+msgstr "Art hizmet çalışmıyor"
 
 #: deluge/core/torrentmanager.py:850
 msgid "Announce OK"

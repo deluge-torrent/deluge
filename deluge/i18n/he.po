@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-16 02:39+0000\n"
+"PO-Revision-Date: 2010-01-15 20:10+0000\n"
 "Last-Translator: Ddorda <d.dorda@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -89,7 +89,7 @@ msgstr "הפעל SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr ""
+msgstr "מאזין לפיתחה:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:150
@@ -1545,7 +1545,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>יש להכניס סיסמה בכדי להמשיך</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"

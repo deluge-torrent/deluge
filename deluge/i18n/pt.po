@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-09 19:48+0000\n"
-"Last-Translator: vitor <vitor.george@gmail.com>\n"
+"PO-Revision-Date: 2010-02-18 19:36+0000\n"
+"Last-Translator: Bruno Guerreiro <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -68,6 +68,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Esta opção irá criar, dentro da pasta de extracção seleccionada, uma sub-"
+"pasta usando o nome do torrent e colocará lá os ficheiros extraídos."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -175,7 +177,7 @@ msgstr "Velocidade de envio:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Velocidade de descarga:"
+msgstr "Velocidade de Download:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -1527,7 +1529,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:216
 msgid "Down"
-msgstr "Baixar"
+msgstr "Receber"
 
 #: deluge/ui/gtkui/systemtray.py:217
 msgid "Up"
@@ -1549,7 +1551,7 @@ msgstr "<b><big>Deluge é protegido por senha!</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>Introduza a sua palavra-passe para continuar</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1592,7 +1594,7 @@ msgstr "Tracker"
 
 #: deluge/ui/gtkui/mainwindow.py:229
 msgid "Down:"
-msgstr "Baixado:"
+msgstr "Recebido:"
 
 #: deluge/ui/gtkui/mainwindow.py:229
 msgid "Up:"
@@ -1729,13 +1731,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Erro ao iniciar o Daemon"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Houve um erro ao iniciar o processo daemon. Tente executa-lo numa consola "
+"para verificar se existem erros."
 
 #: deluge/ui/gtkui/torrentview.py:177
 msgid "Name"
@@ -1815,7 +1819,7 @@ msgstr "Prioridade"
 
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Downloads"
-msgstr "Baixados"
+msgstr "Transferências"
 
 #: deluge/ui/gtkui/preferences.py:75
 msgid "Network"
@@ -2076,7 +2080,7 @@ msgstr "<b>ETA:</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:991
 #: deluge/ui/gtkui/glade/main_window.glade:1013
 msgid "<b>Speed:</b>"
-msgstr "Velocidade:"
+msgstr "<b>Velocidade:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Next Announce:</b>"
@@ -2092,7 +2096,7 @@ msgstr "<b>Enviados:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1089
 msgid "<b>Downloaded:</b>"
-msgstr "<b>Baixando:</b>"
+msgstr "<b>Recebido</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1150
 msgid "<b>Date Added:</b>"
@@ -2680,7 +2684,7 @@ msgstr "Copiar arquivo .torrent para:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:306
 msgid "Download to:"
-msgstr "Baixar para:"
+msgstr "Obter para:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:319
 msgid "<b>Folders</b>"
@@ -3104,7 +3108,7 @@ msgstr "<b>Base de Dados GeoIP</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Associar ligações Magnet ao Deluge"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715

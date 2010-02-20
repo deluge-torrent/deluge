@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-01 15:32+0000\n"
-"Last-Translator: baurzhan.m <Unknown>\n"
+"PO-Revision-Date: 2010-02-05 07:16+0000\n"
+"Last-Translator: jmb_kz <jmb_kz@mail.ru>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -1968,13 +1968,13 @@ msgstr "Төмен"
 #: deluge/ui/gtkui/glade/main_window.glade:410
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
 msgid "Preferences"
-msgstr "Баптаулары"
+msgstr "Баптаулар"
 
 #: deluge/ui/gtkui/glade/main_window.glade:423
 #: deluge/ui/gtkui/glade/main_window.glade:424
 #: deluge/ui/gtkui/glade/connection_manager.glade:204
 msgid "Connection Manager"
-msgstr "Байланыстар менеджері"
+msgstr "Қосылыстар менеджері"
 
 #: deluge/ui/gtkui/glade/main_window.glade:537
 msgid "_Expand All"

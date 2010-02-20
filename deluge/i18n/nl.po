@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-29 22:20+0000\n"
+"PO-Revision-Date: 2010-01-20 15:06+0000\n"
 "Last-Translator: Henri De Veene <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -2579,7 +2579,7 @@ msgstr "Info_hash"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
 msgid "_Remove"
-msgstr "_Verwijderen"
+msgstr "Ve_rwijderen"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
 msgid "<b>Torrents</b>"
@@ -3090,7 +3090,7 @@ msgstr "<b>GeoIP Database</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Magnet-links met Deluge associëren"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715
@@ -3327,6 +3327,9 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"De verhouding (geschreven_blokken - schrijfoperaties) / geschreven_blokken "
+"stelt het aantal opgeslagen schrijfoperaties op het totale aantal "
+"schrijfoperaties voor."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4595
 msgid "Write Cache Hit Ratio:"
@@ -3341,6 +3344,8 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Het aantal blokken aangevraagd via de bittorrent engine die geserveerd "
+"werden vanaf de schijf of cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4679
 msgid "Blocks Read:"
@@ -3356,7 +3361,7 @@ msgstr "Blokken gelezen uit cache:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4701
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "De cache hit ratio voor de leescache"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4703
 msgid "Read Cache Hit Ratio:"
@@ -3382,6 +3387,8 @@ msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Aantal 16 KiB-blokken in het cachegeheugen. Dit omvat zowel de lees als "
+"schrijf cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4813
 msgid "Cache Size:"

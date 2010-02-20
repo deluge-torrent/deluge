@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-07 12:48+0000\n"
-"Last-Translator: Rafał Barański <kazislav@gmail.com>\n"
+"PO-Revision-Date: 2010-01-28 15:33+0000\n"
+"Last-Translator: adam00s <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Torrent ukończony"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr ""
+msgstr "Torrent dodany"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
@@ -57,7 +57,7 @@ msgstr "Rozpakuj do:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:200
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:281
 msgid "Select A Folder"
-msgstr "Wybór katalogu"
+msgstr "Wybierz katalog"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
@@ -80,7 +80,7 @@ msgstr "<b>Ogólne</b>"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr ""
+msgstr "Aktywuj interfejs sieciowy"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
@@ -413,7 +413,7 @@ msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarktyda"
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
@@ -497,7 +497,7 @@ msgstr "Bostwana"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Wyspa Bouvet"
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
@@ -541,11 +541,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Kajmany"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
-msgstr ""
+msgstr "Republika Środkowej Afryki"
 
 #: deluge/ui/countries.py:51
 msgid "Chad"
@@ -557,7 +557,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:53
 msgid "China"
-msgstr ""
+msgstr "Chiny"
 
 #: deluge/ui/countries.py:54
 msgid "Christmas Island"
@@ -569,7 +569,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
-msgstr ""
+msgstr "Kolumbia"
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
@@ -577,19 +577,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
-msgstr ""
+msgstr "Kongo"
 
 #: deluge/ui/countries.py:59
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Demokratyczna Republika Konga"
 
 #: deluge/ui/countries.py:60
 msgid "Cook Islands"
-msgstr ""
+msgstr "Wyspy Cooka"
 
 #: deluge/ui/countries.py:61
 msgid "Costa Rica"
-msgstr ""
+msgstr "Kostaryka"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
@@ -597,23 +597,23 @@ msgstr ""
 
 #: deluge/ui/countries.py:63
 msgid "Croatia"
-msgstr ""
+msgstr "Chorwacja"
 
 #: deluge/ui/countries.py:64
 msgid "Cuba"
-msgstr ""
+msgstr "Kuba"
 
 #: deluge/ui/countries.py:65
 msgid "Cyprus"
-msgstr ""
+msgstr "Cypr"
 
 #: deluge/ui/countries.py:66
 msgid "Czech Republic"
-msgstr ""
+msgstr "Czeska Republika"
 
 #: deluge/ui/countries.py:67
 msgid "Denmark"
-msgstr ""
+msgstr "Dania"
 
 #: deluge/ui/countries.py:68
 msgid "Djibouti"
@@ -621,27 +621,27 @@ msgstr ""
 
 #: deluge/ui/countries.py:69
 msgid "Dominica"
-msgstr ""
+msgstr "Dominikana"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Republika Dominikańska"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
-msgstr ""
+msgstr "Ekwador"
 
 #: deluge/ui/countries.py:72
 msgid "Egypt"
-msgstr ""
+msgstr "Egipt"
 
 #: deluge/ui/countries.py:73
 msgid "El Salvador"
-msgstr ""
+msgstr "Salwador"
 
 #: deluge/ui/countries.py:74
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Gwinea równikowa"
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
@@ -649,7 +649,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:76
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: deluge/ui/countries.py:77
 msgid "Ethiopia"
@@ -669,11 +669,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:81
 msgid "Finland"
-msgstr ""
+msgstr "Finlandia"
 
 #: deluge/ui/countries.py:82
 msgid "France"
-msgstr ""
+msgstr "Francja"
 
 #: deluge/ui/countries.py:83
 msgid "French Guiana"
@@ -697,15 +697,15 @@ msgstr ""
 
 #: deluge/ui/countries.py:88
 msgid "Georgia"
-msgstr ""
+msgstr "Gruzja"
 
 #: deluge/ui/countries.py:89
 msgid "Germany"
-msgstr ""
+msgstr "Niemcy"
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
 msgid "United Kingdom"
-msgstr ""
+msgstr "Wielka Brytania"
 
 #: deluge/ui/countries.py:91
 msgid "Ghana"
@@ -717,11 +717,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:93
 msgid "Greece"
-msgstr ""
+msgstr "Grecja"
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr ""
+msgstr "Grenlandia"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
@@ -757,11 +757,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: deluge/ui/countries.py:104
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Wyspa Heard i Wyspy McDonalda"
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
@@ -773,35 +773,35 @@ msgstr ""
 
 #: deluge/ui/countries.py:107
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: deluge/ui/countries.py:108
 msgid "Hungary"
-msgstr ""
+msgstr "Węgry"
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
-msgstr ""
+msgstr "Islandia"
 
 #: deluge/ui/countries.py:110
 msgid "India"
-msgstr ""
+msgstr "Indie"
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonezja"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Iran"
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
-msgstr ""
+msgstr "Irak"
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
-msgstr ""
+msgstr "Irlandia"
 
 #: deluge/ui/countries.py:115
 msgid "Isle of Man"
@@ -809,19 +809,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:116
 msgid "Israel"
-msgstr ""
+msgstr "Izrael"
 
 #: deluge/ui/countries.py:117
 msgid "Italy"
-msgstr ""
+msgstr "Włochy"
 
 #: deluge/ui/countries.py:118
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamajka"
 
 #: deluge/ui/countries.py:119
 msgid "Japan"
-msgstr ""
+msgstr "Japonia"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
@@ -829,11 +829,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
-msgstr ""
+msgstr "Jordania"
 
 #: deluge/ui/countries.py:122
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazachstan"
 
 #: deluge/ui/countries.py:123
 msgid "Kenya"
@@ -861,11 +861,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Ludowa Republika Demokratyczna Laosu"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr ""
+msgstr "Łotwa"
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
@@ -905,7 +905,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagaskar"
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
@@ -929,7 +929,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:146
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Wyspy Marshalla"
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
@@ -949,7 +949,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
-msgstr ""
+msgstr "Maksyk"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"

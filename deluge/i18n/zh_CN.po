@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-12-23 13:07+0000\n"
-"Last-Translator: luojie-dune <Unknown>\n"
+"PO-Revision-Date: 2010-02-10 11:00+0000\n"
+"Last-Translator: 冯超 <rainofchaos@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -487,47 +487,47 @@ msgstr "玻利维亚"
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "波斯尼亚和黑塞哥维那"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "博茨瓦纳"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
-msgstr ""
+msgstr "布维岛"
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
-msgstr ""
+msgstr "巴西"
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "英属印度洋领地"
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "文莱达鲁萨兰国"
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
-msgstr ""
+msgstr "保加利亚"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr ""
+msgstr "布基纳法索"
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr ""
+msgstr "布隆迪"
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
-msgstr ""
+msgstr "柬埔寨"
 
 #: deluge/ui/countries.py:46
 msgid "Cameroon"
-msgstr ""
+msgstr "喀麦隆"
 
 #: deluge/ui/countries.py:47
 msgid "Canada"
@@ -535,11 +535,11 @@ msgstr "加拿大"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr ""
+msgstr "佛得角"
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr ""
+msgstr "开曼群岛"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
@@ -563,7 +563,7 @@ msgstr "圣诞岛"
 
 #: deluge/ui/countries.py:55
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "科科斯(基林)群岛"
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
@@ -571,43 +571,43 @@ msgstr "哥伦比亚"
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
-msgstr ""
+msgstr "科摩罗"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
-msgstr ""
+msgstr "刚果"
 
 #: deluge/ui/countries.py:59
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "刚果民主共和国"
 
 #: deluge/ui/countries.py:60
 msgid "Cook Islands"
-msgstr ""
+msgstr "库克群岛"
 
 #: deluge/ui/countries.py:61
 msgid "Costa Rica"
-msgstr ""
+msgstr "哥斯达黎加"
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "科特迪瓦"
 
 #: deluge/ui/countries.py:63
 msgid "Croatia"
-msgstr ""
+msgstr "克罗地亚"
 
 #: deluge/ui/countries.py:64
 msgid "Cuba"
-msgstr ""
+msgstr "古巴"
 
 #: deluge/ui/countries.py:65
 msgid "Cyprus"
-msgstr ""
+msgstr "塞浦路斯"
 
 #: deluge/ui/countries.py:66
 msgid "Czech Republic"
-msgstr ""
+msgstr "捷克共和国"
 
 #: deluge/ui/countries.py:67
 msgid "Denmark"
@@ -615,11 +615,11 @@ msgstr "丹麦"
 
 #: deluge/ui/countries.py:68
 msgid "Djibouti"
-msgstr ""
+msgstr "吉布提"
 
 #: deluge/ui/countries.py:69
 msgid "Dominica"
-msgstr ""
+msgstr "多米尼加"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
@@ -635,31 +635,31 @@ msgstr "埃及"
 
 #: deluge/ui/countries.py:73
 msgid "El Salvador"
-msgstr ""
+msgstr "厄瓜多尔"
 
 #: deluge/ui/countries.py:74
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "赤道几内亚"
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
-msgstr ""
+msgstr "厄立特里亚"
 
 #: deluge/ui/countries.py:76
 msgid "Estonia"
-msgstr ""
+msgstr "爱沙尼亚"
 
 #: deluge/ui/countries.py:77
 msgid "Ethiopia"
-msgstr ""
+msgstr "埃塞俄比亚"
 
 #: deluge/ui/countries.py:78
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "福克兰群岛（马尔维纳斯群岛）"
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"
-msgstr ""
+msgstr "法罗群岛"
 
 #: deluge/ui/countries.py:80
 msgid "Fiji"
@@ -675,15 +675,15 @@ msgstr "法国"
 
 #: deluge/ui/countries.py:83
 msgid "French Guiana"
-msgstr ""
+msgstr "法属圭亚那"
 
 #: deluge/ui/countries.py:84
 msgid "French Polynesia"
-msgstr ""
+msgstr "法属波利尼西亚"
 
 #: deluge/ui/countries.py:85
 msgid "French Southern Territories"
-msgstr ""
+msgstr "法属南部领土"
 
 #: deluge/ui/countries.py:86
 msgid "Gabon"
@@ -691,11 +691,11 @@ msgstr "加蓬"
 
 #: deluge/ui/countries.py:87
 msgid "Gambia"
-msgstr ""
+msgstr "冈比亚"
 
 #: deluge/ui/countries.py:88
 msgid "Georgia"
-msgstr ""
+msgstr "格鲁吉亚"
 
 #: deluge/ui/countries.py:89
 msgid "Germany"
@@ -707,11 +707,11 @@ msgstr "大不列颠及北爱尔兰联合王国"
 
 #: deluge/ui/countries.py:91
 msgid "Ghana"
-msgstr ""
+msgstr "加纳"
 
 #: deluge/ui/countries.py:92
 msgid "Gibraltar"
-msgstr ""
+msgstr "直布罗陀"
 
 #: deluge/ui/countries.py:93
 msgid "Greece"
@@ -723,19 +723,19 @@ msgstr "格陵兰岛"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
-msgstr ""
+msgstr "格林纳达"
 
 #: deluge/ui/countries.py:96
 msgid "Guadeloupe"
-msgstr ""
+msgstr "瓜德罗普"
 
 #: deluge/ui/countries.py:97
 msgid "Guam"
-msgstr ""
+msgstr "关岛"
 
 #: deluge/ui/countries.py:98
 msgid "Guatemala"
-msgstr ""
+msgstr "危地马拉"
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
@@ -743,31 +743,31 @@ msgstr ""
 
 #: deluge/ui/countries.py:100
 msgid "Guinea"
-msgstr ""
+msgstr "几内亚"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "几内亚比绍"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr ""
+msgstr "圭亚那"
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
-msgstr ""
+msgstr "海地"
 
 #: deluge/ui/countries.py:104
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "赫德岛与麦克唐纳群岛"
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "梵地冈"
 
 #: deluge/ui/countries.py:106
 msgid "Honduras"
-msgstr ""
+msgstr "洪都拉斯"
 
 #: deluge/ui/countries.py:107
 msgid "Hong Kong"
@@ -775,7 +775,7 @@ msgstr "香港"
 
 #: deluge/ui/countries.py:108
 msgid "Hungary"
-msgstr ""
+msgstr "匈牙利"
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
@@ -783,19 +783,19 @@ msgstr "冰岛"
 
 #: deluge/ui/countries.py:110
 msgid "India"
-msgstr ""
+msgstr "印度"
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr ""
+msgstr "印度尼西亚"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "伊朗伊斯兰共和国"
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
-msgstr ""
+msgstr "伊拉克"
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
@@ -815,7 +815,7 @@ msgstr "意大利"
 
 #: deluge/ui/countries.py:118
 msgid "Jamaica"
-msgstr ""
+msgstr "牙买加"
 
 #: deluge/ui/countries.py:119
 msgid "Japan"
@@ -823,15 +823,15 @@ msgstr "日本"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr ""
+msgstr "泽西岛"
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
-msgstr ""
+msgstr "约旦"
 
 #: deluge/ui/countries.py:122
 msgid "Kazakhstan"
-msgstr ""
+msgstr "哈萨克斯坦"
 
 #: deluge/ui/countries.py:123
 msgid "Kenya"
@@ -839,7 +839,7 @@ msgstr "肯尼亚"
 
 #: deluge/ui/countries.py:124
 msgid "Kiribati"
-msgstr ""
+msgstr "基里巴斯"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
@@ -851,31 +851,31 @@ msgstr "韩国"
 
 #: deluge/ui/countries.py:127
 msgid "Kuwait"
-msgstr ""
+msgstr "科威特"
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "吉尔吉斯斯坦"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "老挝人民民主共和国"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr ""
+msgstr "拉脱维亚"
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
-msgstr ""
+msgstr "黎巴嫩"
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr ""
+msgstr "莱索托"
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
-msgstr ""
+msgstr "利比里亚"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
@@ -883,19 +883,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
-msgstr ""
+msgstr "列支敦士登"
 
 #: deluge/ui/countries.py:136
 msgid "Lithuania"
-msgstr ""
+msgstr "立陶宛"
 
 #: deluge/ui/countries.py:137
 msgid "Luxembourg"
-msgstr ""
+msgstr "卢森堡"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
-msgstr ""
+msgstr "澳门"
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
@@ -903,151 +903,151 @@ msgstr ""
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
-msgstr ""
+msgstr "马达加斯加"
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
-msgstr ""
+msgstr "马拉维"
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
-msgstr ""
+msgstr "马来西亚"
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
-msgstr ""
+msgstr "马尔代夫"
 
 #: deluge/ui/countries.py:144
 msgid "Mali"
-msgstr ""
+msgstr "马里"
 
 #: deluge/ui/countries.py:145
 msgid "Malta"
-msgstr ""
+msgstr "马尔他"
 
 #: deluge/ui/countries.py:146
 msgid "Marshall Islands"
-msgstr ""
+msgstr "马绍尔群岛"
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
-msgstr ""
+msgstr "马提尼克岛"
 
 #: deluge/ui/countries.py:148
 msgid "Mauritania"
-msgstr ""
+msgstr "毛里塔尼亚"
 
 #: deluge/ui/countries.py:149
 msgid "Mauritius"
-msgstr ""
+msgstr "毛里求斯"
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
-msgstr ""
+msgstr "马约特"
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
-msgstr ""
+msgstr "墨西哥"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "密克罗尼西亚联邦"
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
-msgstr ""
+msgstr "摩尔多瓦"
 
 #: deluge/ui/countries.py:154
 msgid "Monaco"
-msgstr ""
+msgstr "摩纳哥"
 
 #: deluge/ui/countries.py:155
 msgid "Mongolia"
-msgstr ""
+msgstr "蒙古"
 
 #: deluge/ui/countries.py:156
 msgid "Montenegro"
-msgstr ""
+msgstr "黑山共和国"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr ""
+msgstr "蒙特塞拉特"
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
-msgstr ""
+msgstr "摩洛哥"
 
 #: deluge/ui/countries.py:159
 msgid "Mozambique"
-msgstr ""
+msgstr "莫桑比克"
 
 #: deluge/ui/countries.py:160
 msgid "Myanmar"
-msgstr ""
+msgstr "缅甸"
 
 #: deluge/ui/countries.py:161
 msgid "Namibia"
-msgstr ""
+msgstr "纳米比亚"
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
-msgstr ""
+msgstr "瑙鲁"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
-msgstr ""
+msgstr "尼泊尔"
 
 #: deluge/ui/countries.py:164
 msgid "Netherlands"
-msgstr ""
+msgstr "荷兰"
 
 #: deluge/ui/countries.py:165
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "荷属安的列斯"
 
 #: deluge/ui/countries.py:166
 msgid "New Caledonia"
-msgstr ""
+msgstr "新喀里多尼亚"
 
 #: deluge/ui/countries.py:167
 msgid "New Zealand"
-msgstr ""
+msgstr "新西兰"
 
 #: deluge/ui/countries.py:168
 msgid "Nicaragua"
-msgstr ""
+msgstr "尼加拉瓜"
 
 #: deluge/ui/countries.py:169
 msgid "Niger"
-msgstr ""
+msgstr "尼日尔"
 
 #: deluge/ui/countries.py:170
 msgid "Nigeria"
-msgstr ""
+msgstr "尼日利亚"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr ""
+msgstr "尼斯"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
-msgstr ""
+msgstr "诺福克岛"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "北马里亚纳群岛"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
-msgstr ""
+msgstr "挪威"
 
 #: deluge/ui/countries.py:175
 msgid "Oman"
-msgstr ""
+msgstr "阿曼"
 
 #: deluge/ui/countries.py:176
 msgid "Pakistan"
-msgstr ""
+msgstr "巴基斯坦"
 
 #: deluge/ui/countries.py:177
 msgid "Palau"
@@ -1055,27 +1055,27 @@ msgstr ""
 
 #: deluge/ui/countries.py:178
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "巴勒斯坦被占领土"
 
 #: deluge/ui/countries.py:179
 msgid "Panama"
-msgstr ""
+msgstr "巴拿马"
 
 #: deluge/ui/countries.py:180
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "巴布亚新几内亚"
 
 #: deluge/ui/countries.py:181
 msgid "Paraguay"
-msgstr ""
+msgstr "巴拉圭"
 
 #: deluge/ui/countries.py:182
 msgid "Peru"
-msgstr ""
+msgstr "秘鲁"
 
 #: deluge/ui/countries.py:183
 msgid "Philippines"
-msgstr ""
+msgstr "菲律宾"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
@@ -1083,19 +1083,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:185
 msgid "Poland"
-msgstr ""
+msgstr "波兰"
 
 #: deluge/ui/countries.py:186
 msgid "Portugal"
-msgstr ""
+msgstr "葡萄牙"
 
 #: deluge/ui/countries.py:187
 msgid "Puerto Rico"
-msgstr ""
+msgstr "波多黎各"
 
 #: deluge/ui/countries.py:188
 msgid "Qatar"
-msgstr ""
+msgstr "卡塔尔"
 
 #: deluge/ui/countries.py:189
 msgid "Reunion"
@@ -1103,15 +1103,15 @@ msgstr ""
 
 #: deluge/ui/countries.py:190
 msgid "Romania"
-msgstr ""
+msgstr "罗马尼亚"
 
 #: deluge/ui/countries.py:191
 msgid "Russian Federation"
-msgstr ""
+msgstr "俄罗斯联邦"
 
 #: deluge/ui/countries.py:192
 msgid "Rwanda"
-msgstr ""
+msgstr "卢旺达"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
@@ -1127,75 +1127,75 @@ msgstr ""
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
-msgstr ""
+msgstr "圣卢西亚"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
-msgstr ""
+msgstr "法属圣马丁"
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "圣皮埃尔和密克隆"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "圣文森特和格林纳丁斯"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
-msgstr ""
+msgstr "萨摩亚"
 
 #: deluge/ui/countries.py:201
 msgid "San Marino"
-msgstr ""
+msgstr "圣马力诺"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "圣多美和普林西比"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "沙特阿拉伯"
 
 #: deluge/ui/countries.py:204
 msgid "Senegal"
-msgstr ""
+msgstr "塞内加尔"
 
 #: deluge/ui/countries.py:205
 msgid "Serbia"
-msgstr ""
+msgstr "塞尔维亚"
 
 #: deluge/ui/countries.py:206
 msgid "Seychelles"
-msgstr ""
+msgstr "塞舌尔"
 
 #: deluge/ui/countries.py:207
 msgid "Sierra Leone"
-msgstr ""
+msgstr "塞拉利昂"
 
 #: deluge/ui/countries.py:208
 msgid "Singapore"
-msgstr ""
+msgstr "新加坡"
 
 #: deluge/ui/countries.py:209
 msgid "Slovakia"
-msgstr ""
+msgstr "斯洛伐克"
 
 #: deluge/ui/countries.py:210
 msgid "Slovenia"
-msgstr ""
+msgstr "斯洛文尼亚"
 
 #: deluge/ui/countries.py:211
 msgid "Solomon Islands"
-msgstr ""
+msgstr "所罗门群岛"
 
 #: deluge/ui/countries.py:212
 msgid "Somalia"
-msgstr ""
+msgstr "索马里"
 
 #: deluge/ui/countries.py:213
 msgid "South Africa"
-msgstr ""
+msgstr "南非"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
@@ -1203,15 +1203,15 @@ msgstr ""
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
-msgstr ""
+msgstr "西班牙"
 
 #: deluge/ui/countries.py:216
 msgid "Sri Lanka"
-msgstr ""
+msgstr "斯里兰卡"
 
 #: deluge/ui/countries.py:217
 msgid "Sudan"
-msgstr ""
+msgstr "苏丹"
 
 #: deluge/ui/countries.py:218
 msgid "Suriname"
@@ -1227,39 +1227,39 @@ msgstr ""
 
 #: deluge/ui/countries.py:221
 msgid "Sweden"
-msgstr ""
+msgstr "瑞典"
 
 #: deluge/ui/countries.py:222
 msgid "Switzerland"
-msgstr ""
+msgstr "瑞士"
 
 #: deluge/ui/countries.py:223
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "叙利亚"
 
 #: deluge/ui/countries.py:224
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "中国台湾省"
 
 #: deluge/ui/countries.py:225
 msgid "Tajikistan"
-msgstr ""
+msgstr "塔吉克斯坦"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "坦桑尼亚联合共和国"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
-msgstr ""
+msgstr "泰国"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr ""
+msgstr "东帝汶民主共和国"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
-msgstr ""
+msgstr "多哥"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
@@ -1267,7 +1267,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
-msgstr ""
+msgstr "汤加"
 
 #: deluge/ui/countries.py:232
 msgid "Trinidad and Tobago"
@@ -1275,91 +1275,91 @@ msgstr ""
 
 #: deluge/ui/countries.py:233
 msgid "Tunisia"
-msgstr ""
+msgstr "突尼斯"
 
 #: deluge/ui/countries.py:234
 msgid "Turkey"
-msgstr ""
+msgstr "土耳其"
 
 #: deluge/ui/countries.py:235
 msgid "Turkmenistan"
-msgstr ""
+msgstr "土库曼斯坦"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "特克斯和凯科斯群岛"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
-msgstr ""
+msgstr "图瓦卢"
 
 #: deluge/ui/countries.py:238
 msgid "Uganda"
-msgstr ""
+msgstr "乌干达"
 
 #: deluge/ui/countries.py:239
 msgid "Ukraine"
-msgstr ""
+msgstr "乌克兰"
 
 #: deluge/ui/countries.py:240
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "阿拉伯联合酋长国"
 
 #: deluge/ui/countries.py:242
 msgid "United States"
-msgstr ""
+msgstr "美国"
 
 #: deluge/ui/countries.py:243
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "美国小型外岛"
 
 #: deluge/ui/countries.py:244
 msgid "Uruguay"
-msgstr ""
+msgstr "乌拉圭"
 
 #: deluge/ui/countries.py:245
 msgid "Uzbekistan"
-msgstr ""
+msgstr "乌兹别克斯坦"
 
 #: deluge/ui/countries.py:246
 msgid "Vanuatu"
-msgstr ""
+msgstr "瓦努阿图"
 
 #: deluge/ui/countries.py:247
 msgid "Venezuela"
-msgstr ""
+msgstr "委内瑞拉"
 
 #: deluge/ui/countries.py:248
 msgid "Viet Nam"
-msgstr ""
+msgstr "越南"
 
 #: deluge/ui/countries.py:249
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "英属维京群岛"
 
 #: deluge/ui/countries.py:250
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "美属维京群岛"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "瓦利斯和富图纳群岛"
 
 #: deluge/ui/countries.py:252
 msgid "Western Sahara"
-msgstr ""
+msgstr "西撒哈拉"
 
 #: deluge/ui/countries.py:253
 msgid "Yemen"
-msgstr ""
+msgstr "也门"
 
 #: deluge/ui/countries.py:254
 msgid "Zambia"
-msgstr ""
+msgstr "赞比亚"
 
 #: deluge/ui/countries.py:255
 msgid "Zimbabwe"
-msgstr ""
+msgstr "津巴布韦"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:99 deluge/ui/gtkui/queuedtorrents.py:75
 msgid "Torrent"
@@ -1378,23 +1378,23 @@ msgstr "大小"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:202
 msgid "Invalid File"
-msgstr ""
+msgstr "无效的文件"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "重复的种子"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:207
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "无法增加同样的种子两次。"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "无法设置文件优先级！"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
-msgstr ""
+msgstr "在使用紧缩分配时无法使用文件优先级。"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1412,25 +1412,25 @@ msgstr "所有文件"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 msgid "Invalid URL"
-msgstr ""
+msgstr "无效的 URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:611
 #, python-format
 msgid "%s is not a valid URL."
-msgstr ""
+msgstr "%s 不是合法的 URL。"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:615
 msgid "Downloading.."
-msgstr ""
+msgstr "下载中..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:649
 msgid "Download Failed"
-msgstr ""
+msgstr "下载失败"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:649
 #, python-format
 msgid "Failed to download : %s"
-msgstr ""
+msgstr "下载失败：%s"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:78
 msgid "Torrents"
@@ -1486,14 +1486,14 @@ msgstr "上传速度"
 #: deluge/ui/web/json_api.py:673 deluge/ui/web/json_api.py:676
 #: deluge/ui/web/json_api.py:684
 msgid "Offline"
-msgstr ""
+msgstr "离线"
 
 #: deluge/ui/gtkui/connectionmanager.py:75
 #: deluge/ui/gtkui/connectionmanager.py:269
 #: deluge/ui/gtkui/connectionmanager.py:377
 #: deluge/ui/gtkui/connectionmanager.py:523 deluge/ui/web/json_api.py:669
 msgid "Online"
-msgstr ""
+msgstr "在线"
 
 #: deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:308
@@ -1502,17 +1502,19 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:411
 #: deluge/ui/gtkui/connectionmanager.py:523 deluge/ui/web/json_api.py:690
 msgid "Connected"
-msgstr ""
+msgstr "已连接"
 
 #: deluge/ui/gtkui/connectionmanager.py:480
 msgid "Error Adding Host"
-msgstr ""
+msgstr "添加主机出错"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
 "Deluge\n"
 "Not Connected.."
 msgstr ""
+"Deluge\n"
+"未连接.."
 
 #: deluge/ui/gtkui/systemtray.py:216
 msgid "Deluge"
@@ -1520,11 +1522,11 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:216
 msgid "Down"
-msgstr "下移"
+msgstr "下载"
 
 #: deluge/ui/gtkui/systemtray.py:217
 msgid "Up"
-msgstr "上移"
+msgstr "上传"
 
 #: deluge/ui/gtkui/systemtray.py:341 deluge/ui/gtkui/statusbar.py:390
 #: deluge/ui/gtkui/menubar.py:430
@@ -1538,11 +1540,11 @@ msgstr "设置最大上传速度"
 
 #: deluge/ui/gtkui/systemtray.py:398
 msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr ""
+msgstr "<b><big>Deluge 首密码保护</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>输入密码继续</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1661,7 +1663,7 @@ msgstr "设置最大连接数"
 
 #: deluge/ui/gtkui/gtkui.py:276 deluge/ui/gtkui/gtkui.py:291
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "关闭经典模式吗？"
 
 #: deluge/ui/gtkui/gtkui.py:277
 msgid ""
@@ -1672,7 +1674,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:286
 msgid "Error Starting Core"
-msgstr ""
+msgstr "启动内核失败"
 
 #: deluge/ui/gtkui/gtkui.py:287
 msgid ""
@@ -1690,7 +1692,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "启动守护进程失败"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
@@ -1808,7 +1810,7 @@ msgstr "通知"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Cache"
-msgstr ""
+msgstr "缓存"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Plugins"
@@ -2065,7 +2067,7 @@ msgstr "状态 (_S)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1278
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "<b>评论：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b># of files:</b>"
@@ -2278,6 +2280,14 @@ msgid ""
 "2 MiB\n"
 "4 MiB"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:577
 msgid "Set Private Flag"
@@ -2666,7 +2676,7 @@ msgstr "优先下载文件的首尾部分"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:438
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "添加种子时暂停"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:480
 msgid "page 6"
@@ -2723,7 +2733,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:886
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>界面</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:922
 msgid ""
@@ -3018,7 +3028,7 @@ msgstr "<b>系统信息</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2371
 msgid "Location:"
-msgstr ""
+msgstr "位置："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2383
 msgid ""
@@ -3223,11 +3233,11 @@ msgstr "<b>电子邮件</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4416
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>缓存</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4461
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "缓存大小 (16 KiB b块):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4471
 msgid ""
@@ -3237,7 +3247,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4473
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "缓存过期时间(秒):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4569
 msgid ""
@@ -3247,7 +3257,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4571
 msgid "Blocks Written:"
-msgstr ""
+msgstr "写入的块："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4580
 msgid ""
@@ -3257,7 +3267,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4582
 msgid "Writes:"
-msgstr ""
+msgstr "写入："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4593
 msgid ""
@@ -3268,11 +3278,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4595
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "写入缓存命中率："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4647
 msgid "<b>Write</b>"
-msgstr ""
+msgstr "<b>写入</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4677
 msgid ""
@@ -3282,23 +3292,23 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4679
 msgid "Blocks Read:"
-msgstr ""
+msgstr "读取的块："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4688
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "位于缓存中的块数："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4690
 msgid "Blocks Read Hit:"
-msgstr ""
+msgstr "块读取率："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4701
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "读缓存的命中率。"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4703
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "读缓存命中率："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4752
 msgid ""
@@ -3307,11 +3317,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4754
 msgid "Reads:"
-msgstr ""
+msgstr "读取："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4781
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "<b>读取</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4811
 msgid ""
@@ -3321,11 +3331,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4813
 msgid "Cache Size:"
-msgstr ""
+msgstr "缓存大小："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4823
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "读缓存大小："
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4862
 msgid "<b>Size</b>"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-01 21:54+0000\n"
-"Last-Translator: esalazioneHg <esalazionehg@email.it>\n"
+"PO-Revision-Date: 2010-01-25 20:06+0000\n"
+"Last-Translator: grizzo94 <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -112,7 +112,7 @@ msgstr "Torrent attivi:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:266
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Impostazioni pesanti</b>"
 
 #: deluge/plugins/label/label/core.py:186
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -3317,6 +3317,9 @@ msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Il numero di secondi dall'ultima scrittura posta in cache su una porzione di "
+"cache di scrittura, a quando è forzatamente pulita dal disco. Lo standard è "
+"60 secondi."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4473
 msgid "Cache Expiry (seconds):"
@@ -3366,6 +3369,8 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
+"Il numero dei blocchi che sono stati richiesti dal motore BitTorrent (dai "
+"peers), che sono stati serviti dal disco o dalla cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4679
 msgid "Blocks Read:"
@@ -3373,7 +3378,7 @@ msgstr "Blocchi letti:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4688
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Il numero dei blocchi che sono stati serviti dalla cache."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4690
 msgid "Blocks Read Hit:"
@@ -3456,7 +3461,7 @@ msgstr "_Cerca Altri Plugin"
 
 #: deluge/ui/web/server.py:514
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Avvio del server in PID"
 
 #: deluge/ui/web/json_api.py:718
 msgid "Daemon doesn't exist"

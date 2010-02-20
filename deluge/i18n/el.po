@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-11-25 10:35+0000\n"
-"Last-Translator: SpyrosCS <Unknown>\n"
+"PO-Revision-Date: 2010-02-03 09:11+0000\n"
+"Last-Translator: Ostis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -387,7 +387,7 @@ msgstr "Αφγανιστάν"
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
-msgstr ""
+msgstr "Νήσοι Όλαντ"
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
@@ -411,7 +411,7 @@ msgstr "Ανγκόλα"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr ""
+msgstr "Ανγκουίλα"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
@@ -443,7 +443,7 @@ msgstr "Αυστρία"
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Αζερμπαϊτζάν"
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
@@ -455,7 +455,7 @@ msgstr "Μπαχρέιν"
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr ""
+msgstr "Μπανγκλαντές"
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
@@ -471,11 +471,11 @@ msgstr "Βέλγιο"
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr ""
+msgstr "Μπελίζε"
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr ""
+msgstr "Μπενίν"
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
@@ -483,7 +483,7 @@ msgstr "Βερμούδες"
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr ""
+msgstr "Μπουτάν"
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
@@ -495,11 +495,11 @@ msgstr "Βοσνία και Ερζεγοβίνη"
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr ""
+msgstr "Μποτσουάνα"
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Νήσος Μπουβέ"
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
@@ -519,11 +519,11 @@ msgstr "Βουλγαρία"
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Μπουρκίνα Φάσο"
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr ""
+msgstr "Μπουρούντι"
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
@@ -539,11 +539,11 @@ msgstr "Καναδάς"
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr ""
+msgstr "Πράσινο Ακρωτήριο"
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Νήσοι Κάυμαν"
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
@@ -563,11 +563,11 @@ msgstr "Κίνα"
 
 #: deluge/ui/countries.py:54
 msgid "Christmas Island"
-msgstr ""
+msgstr "Νήσος των Χριστουγέννων"
 
 #: deluge/ui/countries.py:55
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Νήσοι Κόκος (Κήλινγκ)"
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
@@ -575,7 +575,7 @@ msgstr "Κολομβία"
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
-msgstr ""
+msgstr "Κομόρες"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
@@ -587,7 +587,7 @@ msgstr "Κονγκό, Λαϊκή Δημοκρατία του"
 
 #: deluge/ui/countries.py:60
 msgid "Cook Islands"
-msgstr ""
+msgstr "Νήσοι Κουκ"
 
 #: deluge/ui/countries.py:61
 msgid "Costa Rica"
@@ -627,7 +627,7 @@ msgstr "Ντομίνικα"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Δομινικανή Δημοκρατία"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
@@ -647,7 +647,7 @@ msgstr "Ισημερινή Γουινέα"
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
-msgstr ""
+msgstr "Ερυθραία"
 
 #: deluge/ui/countries.py:76
 msgid "Estonia"
@@ -687,7 +687,7 @@ msgstr "Γαλλική Πολυνησία"
 
 #: deluge/ui/countries.py:85
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Γαλλικά Νότια Εδάφη"
 
 #: deluge/ui/countries.py:86
 msgid "Gabon"
@@ -695,7 +695,7 @@ msgstr "Γκαμπόν"
 
 #: deluge/ui/countries.py:87
 msgid "Gambia"
-msgstr ""
+msgstr "Γκάμπια"
 
 #: deluge/ui/countries.py:88
 msgid "Georgia"
@@ -751,11 +751,11 @@ msgstr "Γουινέα"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Γουινέα-Μπισάου"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr ""
+msgstr "Γουιάνα"
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
@@ -767,7 +767,7 @@ msgstr "Νήσος Χερντ και Νήσοι ΜακΝτόναλντ"
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Αγία Έδρα (Κράτος της Πόλης του Βατικανού)"
 
 #: deluge/ui/countries.py:106
 msgid "Honduras"
@@ -843,7 +843,7 @@ msgstr "Κένυα"
 
 #: deluge/ui/countries.py:124
 msgid "Kiribati"
-msgstr ""
+msgstr "Κιριμπάτι"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
@@ -863,11 +863,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Λαϊκή Δημοκρατία του Λάος"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr ""
+msgstr "Λετονία"
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
@@ -875,7 +875,7 @@ msgstr "Λίβανο"
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr ""
+msgstr "Λεσόθο"
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
@@ -883,7 +883,7 @@ msgstr "Λιβερία"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Λιβύη, Αραβική Τζαμαχιρία"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
@@ -947,7 +947,7 @@ msgstr "Μαυρίκιος"
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
-msgstr ""
+msgstr "Μαγιότ"
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
@@ -967,7 +967,7 @@ msgstr "Μονακό"
 
 #: deluge/ui/countries.py:155
 msgid "Mongolia"
-msgstr ""
+msgstr "Μογγολία"
 
 #: deluge/ui/countries.py:156
 msgid "Montenegro"
@@ -975,7 +975,7 @@ msgstr "Μαυροβούνιο"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr ""
+msgstr "Μοντσεράτ"
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
@@ -987,7 +987,7 @@ msgstr "Μοζαμβίκη"
 
 #: deluge/ui/countries.py:160
 msgid "Myanmar"
-msgstr ""
+msgstr "Μιανμάρ"
 
 #: deluge/ui/countries.py:161
 msgid "Namibia"
@@ -995,7 +995,7 @@ msgstr "Ναμίμπια"
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
-msgstr ""
+msgstr "Ναουρού"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
@@ -1023,7 +1023,7 @@ msgstr "Νικαράγουα"
 
 #: deluge/ui/countries.py:169
 msgid "Niger"
-msgstr ""
+msgstr "Νίγηρας"
 
 #: deluge/ui/countries.py:170
 msgid "Nigeria"
@@ -1031,15 +1031,15 @@ msgstr "Νιγηρία"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr ""
+msgstr "Νιούε"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Νήσος Νόρφοκ"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Νήσοι Βόρειες Μαριάνες"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
@@ -1119,7 +1119,7 @@ msgstr "Ρουάντα"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "Αγιος Βαρθολομαίος"
 
 #: deluge/ui/countries.py:194
 msgid "Saint Helena"
@@ -1131,19 +1131,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Αγία Λουκία"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
-msgstr ""
+msgstr "Άγιος Μαρτίνος"
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Σαιν Πιέρ (Άγιος Πέτρος) και Μικελόν"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Άγιος Βικέντιος και Γρεναδίνες"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
@@ -1151,11 +1151,11 @@ msgstr "Σαμόα"
 
 #: deluge/ui/countries.py:201
 msgid "San Marino"
-msgstr ""
+msgstr "Σαν Μαρίνο"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Σάο Τομέ και Πρίνσιπε"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
@@ -1171,7 +1171,7 @@ msgstr "Σερβία"
 
 #: deluge/ui/countries.py:206
 msgid "Seychelles"
-msgstr ""
+msgstr "Σεϋχέλλες"
 
 #: deluge/ui/countries.py:207
 msgid "Sierra Leone"
@@ -1191,7 +1191,7 @@ msgstr "Σλοβενία"
 
 #: deluge/ui/countries.py:211
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Νήσοι Σολομώντα"
 
 #: deluge/ui/countries.py:212
 msgid "Somalia"
@@ -1203,7 +1203,7 @@ msgstr "Νότια Αφρική"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Νότια Τζόρτζια και Νότιοι νήσοι Σάντουιτς"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
@@ -1219,15 +1219,15 @@ msgstr "Σουδάν"
 
 #: deluge/ui/countries.py:218
 msgid "Suriname"
-msgstr ""
+msgstr "Σουρινάμ"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Νήσοι Σβάλμπαρντ και Γιαν Μαγιέν"
 
 #: deluge/ui/countries.py:220
 msgid "Swaziland"
-msgstr ""
+msgstr "Σουαζιλάνδη"
 
 #: deluge/ui/countries.py:221
 msgid "Sweden"
@@ -1239,7 +1239,7 @@ msgstr "Ελβετία"
 
 #: deluge/ui/countries.py:223
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Αραβική Δημοκρατία της Συρίας"
 
 #: deluge/ui/countries.py:224
 msgid "Taiwan, Province of China"
@@ -1251,7 +1251,7 @@ msgstr "Τατζικιστάν"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Ηνωμένη Δημοκρατία της Τανζανίας"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
@@ -1259,23 +1259,23 @@ msgstr "Ταϊλάνδη"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Τιμόρ, Ανατολικό"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
-msgstr ""
+msgstr "Τόγκο"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
-msgstr ""
+msgstr "Τοκελάου"
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
-msgstr ""
+msgstr "Τόνγκα"
 
 #: deluge/ui/countries.py:232
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Τρινιντάντ και Τομπάγκο"
 
 #: deluge/ui/countries.py:233
 msgid "Tunisia"
@@ -1291,7 +1291,7 @@ msgstr "Τουρκμενιστάν"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Νήσοι Τερκς και Κάικος"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
@@ -1546,11 +1546,11 @@ msgstr "Ορισμός της Μέγιστης Ταχύτητας Αποστολ
 
 #: deluge/ui/gtkui/systemtray.py:398
 msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr ""
+msgstr "<b><big>Το Deluge προστατεύεται με κωδικό!</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>Εισάγετε τον κωδικό σας για να συνεχίσετε</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1676,7 +1676,7 @@ msgstr "Ορισμός των Μέγιστων Συνδέσεων"
 
 #: deluge/ui/gtkui/gtkui.py:276 deluge/ui/gtkui/gtkui.py:291
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Απενεργοποίηση του κλασικού mode;"
 
 #: deluge/ui/gtkui/gtkui.py:277
 msgid ""
@@ -1716,7 +1716,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Σφάλμα εκκίνησης Διεργασίας"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
@@ -3447,7 +3447,7 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"
-msgstr ""
+msgstr "Ο Δαίμονας δεν εκτελείται"
 
 #: deluge/core/torrentmanager.py:850
 msgid "Announce OK"

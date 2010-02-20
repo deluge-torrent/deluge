@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-07 11:55+0000\n"
+"PO-Revision-Date: 2010-01-31 14:13+0000\n"
 "Last-Translator: Simen Heggestøyl <simen@simenh.com>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 20:32+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -100,7 +100,7 @@ msgstr "<b>Innstillinger</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:234
 msgid "Download Limit:"
-msgstr "Nedlastings begrensning:"
+msgstr "Nedlastingsbegrensning:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:243
 msgid "Upload Limit:"
@@ -1398,6 +1398,7 @@ msgstr "Kunne ikke sette filprioritet!"
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Filprioritering er ikke tilgjengelig når Kompakt tildeling blir brukt."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1684,7 +1685,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:286
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Feil ved oppstart av kjerne"
 
 #: deluge/ui/gtkui/gtkui.py:287
 msgid ""
@@ -1904,7 +1905,7 @@ msgstr "S_idelinje"
 
 #: deluge/ui/gtkui/glade/main_window.glade:200
 msgid "Show _Zero Hits"
-msgstr "Vis Null Treff"
+msgstr "Vis _Null Treff"
 
 #: deluge/ui/gtkui/glade/main_window.glade:209
 msgid "Show _Trackers"
@@ -1920,7 +1921,7 @@ msgstr "Hjemmeside"
 
 #: deluge/ui/gtkui/glade/main_window.glade:251
 msgid "Frequently Asked Questions"
-msgstr "Ofte Besvarte Spørsmål"
+msgstr "Ofte stilte spørsmål"
 
 #: deluge/ui/gtkui/glade/main_window.glade:252
 msgid "FAQ"
@@ -1964,7 +1965,7 @@ msgstr "Flytt torrent opp i kø"
 
 #: deluge/ui/gtkui/glade/main_window.glade:378
 msgid "Queue Up"
-msgstr "Kø opp"
+msgstr "Opp i kø"
 
 #: deluge/ui/gtkui/glade/main_window.glade:391
 msgid "Queue Torrent Down"
@@ -1972,7 +1973,7 @@ msgstr "Flytt torrent ned i kø"
 
 #: deluge/ui/gtkui/glade/main_window.glade:392
 msgid "Queue Down"
-msgstr "Kø ned"
+msgstr "Ned i kø"
 
 #: deluge/ui/gtkui/glade/main_window.glade:409
 #: deluge/ui/gtkui/glade/main_window.glade:410
@@ -2216,7 +2217,7 @@ msgstr "_Gå til nettsted"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2600
 msgid "Add a peer by its IP"
-msgstr "Legg til deltaker med IP"
+msgstr "Legg til deltaker fra IP"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2601
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
@@ -2233,7 +2234,7 @@ msgstr "Hvis du fjerner dataene, vil de bli borte permanent."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Fjern med data"
+msgstr "Fjern med _data"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -2278,7 +2279,7 @@ msgstr "Web-delere"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
-msgstr "Størrelse på delen:"
+msgstr "Delstørrelse:"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
 msgid ""
@@ -2399,11 +2400,11 @@ msgstr "_Automatisk håndtert"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr "Endre trackere"
+msgstr "Rediger trackere"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Endre trackere</b></big>"
+msgstr "<big><b>Rediger trackere</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:122
 msgid "gtk-edit"
@@ -2424,11 +2425,11 @@ msgstr "Trackere:"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
-msgstr "Endre tracker"
+msgstr "Rediger tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
-msgstr "<b>Endre tracker</b>"
+msgstr "<b>Rediger tracker</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:450
 msgid "Tracker:"
@@ -2469,7 +2470,7 @@ msgstr "<b>Legg til deltaker</b>"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:211
 msgid "hostname:port"
-msgstr "vertnavn:port"
+msgstr "vertsnavn:port"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
@@ -2673,7 +2674,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:369
 msgid "Use Compact Allocation"
-msgstr "Bruk kompakt reservasjon"
+msgstr "Bruk Kompakt Allokering"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:374
 msgid "Compact allocation only allocates space as needed"
@@ -2732,11 +2733,11 @@ msgstr "Test valgte port"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:715
 msgid "<b>Incoming Ports</b>"
-msgstr "<b>Innkommende port</b>"
+msgstr "<b>Innkommende porter</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:833
 msgid "<b>Outgoing Ports</b>"
-msgstr "<b>Utgående port</b>"
+msgstr "<b>Utgående porter</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:865
 msgid ""
@@ -2891,20 +2892,19 @@ msgstr "Høyeste antall tilkoblinger:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1511
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Høyeste antall opplastinagsplasser for alle torrenter. Sett til -1 for "
+"Høyeste antall opplastingsplasser for alle torrenter. Sett til -1 for "
 "uendelig."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1428
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1663
 msgid "Maximum Upload Slots:"
-msgstr "Høyeste antall upplastningsplasser:"
+msgstr "Høyeste antall opplastningsplasser:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1458
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1473
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Høyeste nedlastingshastigheten for samtilge torrenter. Sett til -1 for "
-"uendelig."
+"Maksimal nedlastingshastighet for alle torrenter. Sett til -1 for uendelig."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1460
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1676
@@ -3054,11 +3054,11 @@ msgstr "Ja takk, send anonym statistikk"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
 msgid "<b>System Information</b>"
-msgstr "<b>System-informasjon</b>"
+msgstr "<b>Systeminformasjon</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2371
 msgid "Location:"
-msgstr ""
+msgstr "Plassering:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2383
 msgid ""
@@ -3068,7 +3068,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2407
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>GeoIP-database</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
@@ -3101,7 +3101,7 @@ msgstr "<b>Tilkoblinger</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2674
 msgid "Periodically check the website for new releases"
-msgstr "Sjekk periodisk nettstedet for nye utgivelser"
+msgstr "Sjekk nettstedet periodisk for nye utgivelser"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2688
 msgid "<b>Other</b>"
@@ -3153,7 +3153,7 @@ msgstr "Stopp deling når delingsforhold når:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3138
 msgid "Remove torrent when share ratio reached"
-msgstr "Fjern torrent hvis delingsforhold er nådd"
+msgstr "Fjern torrent når delingsforhold er nådd"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3160
 msgid "<b>Seeding</b>"
@@ -3395,27 +3395,27 @@ msgstr "Forfatterens e-post:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5221
 msgid "_Install Plugin"
-msgstr "_Installer utvidelse"
+msgstr "_Installer programtillegg"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5264
 msgid "_Rescan Plugins"
-msgstr "_"
+msgstr "_Les inn programtillegg på nytt"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5317
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Finn flere programtillegg"
 
 #: deluge/ui/web/server.py:514
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Starter tjener med PID"
 
 #: deluge/ui/web/json_api.py:718
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Nissen eksisterer ikke"
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"
-msgstr ""
+msgstr "Nissen kjører ikke"
 
 #: deluge/core/torrentmanager.py:850
 msgid "Announce OK"
