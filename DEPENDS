@@ -8,7 +8,7 @@
  * gettext
  * pyxdg
  * geoip-database (optional)
- * libtorrent >= 0.14.5
+ * libtorrent >= 0.14.9
 
 === UIs ===
  * chardet
