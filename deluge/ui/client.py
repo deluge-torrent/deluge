@@ -312,7 +312,7 @@ class DaemonSSLProxy(DaemonProxy):
 
     def pop_deferred(self, request_id):
         """
-        Pops a Deffered object.  This is generally called once we receive the
+        Pops a Deferred object.  This is generally called once we receive the
         reply we were waiting on from the server.
 
         :param request_id: int, the request_id of the Deferred to pop
