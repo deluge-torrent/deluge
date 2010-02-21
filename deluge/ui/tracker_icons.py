@@ -1,7 +1,7 @@
 #
 # tracker_icons.py
 #
-# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
 # Deluge is free software.
 #
@@ -33,174 +33,484 @@
 #
 #
 
-
-
-import threading
-from twisted.internet import reactor
-
-from urllib import urlopen
-from deluge.log import LOG as log
-from deluge.common import get_pixmap
 import os
-import deluge.configmanager
-import deluge.component as component
+from HTMLParser import HTMLParser
+from urlparse import urljoin, urlparse
+from tempfile import mkstemp
 
-#some servers don't have their favicon at the expected location
-RENAMES = {
-    "legaltorrents.com":"beta.legaltorrents.com",
-    "aelitis.com":"www.vuze.com"
-    }
+from twisted.internet import defer, threads
+from twisted.web import error
 
-VALID_ICO_TYPES = ["octet-stream", "x-icon", "image/vnd.microsoft.icon", "vnd.microsoft.icon", "plain"]
-VALID_PNG_TYPES = ["octet-stream", "png"]
+from deluge.component import Component
+from deluge.configmanager import get_config_dir
+from deluge.httpdownloader import download_file
+from deluge.decorators import proxy
+from deluge.log import LOG as log
 
-def fetch_url(url, valid_subtypes=None):
+try:
+    import PIL.Image as Image
+    import deluge.ui.Win32IconImagePlugin
+except ImportError:
+    PIL_INSTALLED = False
+else:
+    PIL_INSTALLED = True
+
+class TrackerIcon(object):
     """
-    returns: data or None
+    Represents a tracker's icon
     """
-    try:
-        url_file = urlopen(url)
-        data = url_file.read()
-
-        #validate:
-        if valid_subtypes and (url_file.info().getsubtype() not in valid_subtypes):
-            raise Exception("Unexpected type for %s : %s" % (url, url_file.info().getsubtype()))
-        if not data:
-            raise Exception("No data")
-    except Exception, e:
-        log.debug("%s %s" % (url, e))
-        return None
-
-    return data
-
-class TrackerIcons(component.Component):
-    def __init__(self):
-        component.Component.__init__(self, "TrackerIcons")
-        #set image cache dir
-        self.image_dir = os.path.join(deluge.configmanager.get_config_dir(), "icons")
-        if not os.path.exists(self.image_dir):
-            os.makedirs(self.image_dir)
-
-        #self.images : {tracker_host:filename}
-        self.images = {"DHT":get_pixmap("dht16.png" )}
-
-        #load image-names in cache-dir
-        for icon in os.listdir(self.image_dir):
-            if icon.endswith(".ico"):
-                self.images[icon[:-4]] = os.path.join(self.image_dir, icon)
-            if icon.endswith(".png"):
-                self.images[icon[:-4]] = os.path.join(self.image_dir, icon)
-
-    def _fetch_icon(self, tracker_host):
+    def __init__(self, filename):
         """
-        returns (ext, data)
+        Initialises a new TrackerIcon object
+
+        :param filename: the filename of the icon
+        :type filename: string
         """
-        host_name = RENAMES.get(tracker_host, tracker_host) #HACK!
+        self.filename = os.path.abspath(filename)
+        self.mimetype = ext_to_mimetype(self.filename.rpartition('.')[2])
+        self.data = None
 
-        ico = fetch_url("http://%s/favicon.ico" % host_name, VALID_ICO_TYPES)
-        if ico:
-            return ("ico", ico)
-
-        png = fetch_url("http://%s/favicon.png" % host_name, VALID_PNG_TYPES)
-        if png:
-            return ("png", png)
-
-        # FIXME: This should be cleaned up and not copy the top code
-
-        try:
-            html = urlopen("http://%s/" % (host_name,))
-        except Exception, e:
-            log.debug(e)
-            html = None
-
-        if html:
-            icon_path = ""
-            line = html.readline()
-            while line:
-                if '<link rel="icon"' in line or '<link rel="shortcut icon"' in line:
-                    log.debug("line: %s", line)
-                    icon_path = line[line.find("href"):].split("\"")[1]
-                    break
-                line = html.readline()
-            if icon_path:
-                ico = fetch_url(("http://%s/" + icon_path) % host_name, VALID_ICO_TYPES)
-                if ico:
-                    return ("ico", ico)
-                png = fetch_url(("http://%s/" + icon_path) % host_name, VALID_PNG_TYPES)
-                if png:
-                    return ("png", png)
-
+    def __eq__(self, other):
         """
-        TODO: need a test-site first...
-        html = fetch_url("http://%s/" % (host_name,))
-        if html:
-            for line in html:
-                print line
-        """
-        return (None, None)
+        Compares this TrackerIcon with another to determine if they're equal
 
-    def _fetch_icon_thread(self, tracker_host, callback):
+        :param other: the TrackerIcon to compare to
+        :type other: TrackerIcon
+        :returns: whether or not they're equal
+        :rtype: boolean
         """
-        gets new icon from the internet.
-        used by get().
-        calls callback on sucess
-        assumes dicts,urllib and logging are threadsafe.
+        return os.path.samefile(self.filename, other.filename) or \
+               self.get_mimetype() == other.get_mimetype() and \
+               self.get_data() == other.get_data()
+
+    def get_mimetype(self):
         """
+        Returns the mimetype of this TrackerIcon's image
 
-        ext, icon_data  = self._fetch_icon(tracker_host)
+        :returns: the mimetype of the image
+        :rtype: string
+        """
+        return self.mimetype
 
-        if icon_data:
-            filename = os.path.join(self.image_dir, "%s.%s" % (tracker_host, ext))
-            f = open(filename,"wb")
-            f.write(icon_data)
+    def get_data(self):
+        """
+        Returns the TrackerIcon's image data as a string
+
+        :returns: the image data
+        :rtype: string
+        """
+        if not self.data:
+            f = open(self.filename, "rb")
+            self.data = f.read()
             f.close()
-        else:
-            filename = None
+        return self.data
 
-        self.images[tracker_host] = filename
-
-        if callback:
-            reactor.callFromThread(callback, filename)
-
-    def get_async(self, tracker_host, callback):
-        if tracker_host in self.images:
-            callback(self.images[tracker_host])
-        elif "." in tracker_host:
-            #only find icon if there's a dot in the name.
-            self.images[tracker_host] = None
-            threading.Thread(target=self. _fetch_icon_thread,
-                args=(tracker_host, callback)).start()
-
-    def get(self, tracker_host):
+    def get_filename(self, full=True):
         """
-        returns None if the icon is not fetched(yet) or not fond.
+        Returns the TrackerIcon image's filename
+
+        :param full: an (optional) arg to indicate whether or not to
+                     return the full path
+        :type full: boolean
+        :returns: the path of the TrackerIcon's image
+        :rtype: string
         """
-        if not tracker_host:
-            return None
+        return self.filename if full else os.path.basename(self.filename)
 
-        if tracker_host in self.images:
-            return self.images[tracker_host]
+class TrackerIcons(Component):
+    """
+    A TrackerIcon factory class
+    """
+    def __init__(self, dir=None, noIcon=None):
+        """
+        Initialises a new TrackerIcons object
+
+        :param dir: the (optional) directory of where to store the icons
+        :type dir: string
+        :param noIcon: the (optional) path name of the icon to show when no icon
+                       can be fetched
+        :type noIcon: string
+        """
+        Component.__init__(self, "TrackerIcons")
+        if not dir:
+            dir = get_config_dir("icons")
+        self.dir = dir
+        if not os.path.isdir(self.dir):
+            os.makedirs(self.dir)
+
+        self.icons = {}
+        for icon in os.listdir(self.dir):
+            if icon != noIcon:
+                host = icon_name_to_host(icon)
+                self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
+        if noIcon:
+            self.icons[None] = TrackerIcon(noIcon)
         else:
-            self.get_async(tracker_host, None)
-            return None
+            self.icons[None] = None
 
-if __name__ == "__main__":
-    import time
-    def del_old():
-        filename = os.path.join(deluge.configmanager.get_config_dir(),"legaltorrents.com.ico")
-        if os.path.exists(filename):
-            os.remove(filename)
+        self.pending = {}
 
-    def test_get():
-        del_old()
-        trackericons  = TrackerIcons()
-        print trackericons.images
-        print trackericons.get("unknown2")
-        print trackericons.get("ntorrents.net")
-        print trackericons.get("google.com")
-        print trackericons.get("legaltorrents.com")
-        time.sleep(5.0)
-        print trackericons.get("legaltorrents.com")
+    def get(self, host):
+        """
+        Returns a TrackerIcon for the given tracker's host
 
-    test_get()
-    #test_async()
+        :param host: the host to obtain the TrackerIcon for
+        :type host: string
+        :returns: a Deferred which fires with the TrackerIcon for the given host
+        :rtype: Deferred
+        """
+        host = host.lower()
+        if host in self.icons:
+            # We already have it, so let's return it
+            d = defer.succeed(self.icons[host])
+        elif host in self.pending:
+            # We're in the middle of getting it
+            # Add ourselves to the waiting list
+            d = defer.Deferred()
+            self.pending[host].append(d)
+        else:
+            # We need to fetch it
+            self.pending[host] = []
+            # Start callback chain
+            d = self.download_page(host)
+            d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
+                           errbackArgs=(host,))
+            d.addCallback(self.parse_html_page)
+            d.addCallbacks(self.on_parse_complete, self.on_parse_fail,
+                           callbackArgs=(host,))
+            d.addCallback(self.download_icon, host)
+            d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
+                           callbackArgs=(host,), errbackArgs=(host,))
+            if PIL_INSTALLED:
+                d.addCallback(self.resize_icon)
+            d.addCallback(self.store_icon, host)
+        return d
+
+    def download_page(self, host, url=None):
+        """
+        Downloads a tracker host's page
+        If no url is provided, it bases the url on the host
+
+        :param host: the tracker host
+        :type host: string
+        :param url: the (optional) url of the host
+        :type url: string
+        :returns: the filename of the tracker host's page
+        :rtype: Deferred
+        """
+        if not url:
+            url = host_to_url(host)
+        log.debug("Downloading %s", url)
+        return download_file(url, mkstemp()[1], force_filename=True)
+
+    def on_download_page_complete(self, page):
+        """
+        Runs any download clean up functions
+
+        :param page: the page that finished downloading
+        :type page: string
+        :returns: the page that finished downloading
+        :rtype: string
+        """
+        log.debug("Finished downloading %s", page)
+        return page
+
+    def on_download_page_fail(self, f, host):
+        """
+        Recovers from download error
+
+        :param f: the failure that occured
+        :type f: Failure
+        :param host: the name of the host whose page failed to download
+        :type host: string
+        :returns: a Deferred if recovery was possible
+                  else the original failure
+        :rtype: Deferred or Failure
+        """
+        error_msg = f.getErrorMessage()
+        log.debug("Error downloading page: %s", error_msg)
+        d = f
+        if f.check(error.PageRedirect):
+            # Handle redirect errors
+            location = error_msg.split(" to ")[1]
+            d = self.download_page(host, url=location)
+            d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
+                           errbackArgs=(host,))
+
+        return d
+
+    @proxy(threads.deferToThread)
+    def parse_html_page(self, page):
+        """
+        Parses the html page for favicons
+
+        :param page: the page to parse
+        :type page: string
+        :returns: a Deferred which callbacks a list of available favicons (url, type)
+        :rtype: Deferred
+        """
+        f = open(page, "r")
+        parser = FaviconParser()
+        for line in f:
+            parser.feed(line)
+        parser.close()
+        f.close()
+        os.remove(page)
+        return parser.get_icons()
+
+    def on_parse_complete(self, icons, host):
+        """
+        Runs any parse clean up functions
+
+        :param icons: the icons that were extracted from the page
+        :type icons: list
+        :param host: the host the icons are for
+        :type host: string
+        :returns: the icons that were extracted from the page
+        :rtype: list
+        """
+        log.debug("Got icons for %s: %s", host, icons)
+        url = host_to_url(host)
+        icons = [(urljoin(url, icon), mimetype) for icon, mimetype in icons]
+        log.debug("Icon urls: %s", icons)
+        return icons
+
+    def on_parse_fail(self, f):
+        """
+        Recovers from a parse error
+
+        :param f: the failure that occured
+        :type f: Failure
+        :returns: a Deferred if recovery was possible
+                  else the original failure
+        :rtype: Deferred or Failure
+        """
+        log.debug("Error parsing page: %s", f.getErrorMessage())
+        return f
+
+    def download_icon(self, icons, host):
+        """
+        Downloads the first available icon from icons
+
+        :param icons: a list of icons
+        :type icons: list
+        :param host: the tracker's host name
+        :type host: string
+        :returns: a Deferred which fires with the downloaded icon's filename
+        :rtype: Deferred
+        """
+        (url, mimetype) = icons.pop(0)
+        d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
+                          force_filename=True)
+        if icons:
+            d.addErrback(self.on_download_icon_fail, host, icons)
+        return d
+
+    def on_download_icon_complete(self, icon_name, host):
+        """
+        Runs any download cleanup functions
+
+        :param icon_name: the filename of the icon that finished downloading
+        :type icon_name: string
+        :param host: the host the icon completed to download for
+        :type host: string
+        :returns: the icon that finished downloading
+        :rtype: TrackerIcon
+        """
+        log.debug("Successfully downloaded: %s", icon_name)
+        icon = TrackerIcon(icon_name)
+        return icon
+
+    def on_download_icon_fail(self, f, host, icons=[]):
+        """
+        Recovers from a download error
+
+        :param f: the failure that occured
+        :type f: Failure
+        :param host: the host the icon failed to download for
+        :type host: string
+        :param icons: the (optional) list of remaining icons
+        :type icons: list
+        :returns: a Deferred if recovery was possible
+                  else the original failure
+        :rtype: Deferred or Failure
+        """
+        error_msg = f.getErrorMessage()
+        log.debug("Error downloading icon: %s", error_msg)
+        d = f
+        if f.check(error.PageRedirect):
+            # Handle redirect errors
+            location = error_msg.split(" to ")[1]
+            d = self.download_icon([(location, ext_to_mimetype(location.rpartition('.')[2]))] + icons, host)
+            if not icons:
+                d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
+                               callbackArgs=(host,), errbackArgs=(host,))
+        elif f.check(error.NoResource, error.ForbiddenResource) and icons:
+            d = self.download_icon(icons, host)
+        elif f.check(IndexError):
+            # No icons, try favicon.ico as an act of desperation
+            d = self.download_icon([(urljoin(host_to_url(host), "favicon.ico"), ext_to_mimetype("ico"))], host)
+            d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
+                           callbackArgs=(host,), errbackArgs=(host,))
+        else:
+            # No icons :(
+            # Return the None Icon
+            d = self.icons[None]
+
+        return d
+
+    @proxy(threads.deferToThread)
+    def resize_icon(self, icon):
+        """
+        Resizes the given icon to be 16x16 pixels
+
+        :param icon: the icon to resize
+        :type icon: TrackerIcon
+        :returns: the resized icon
+        :rtype: TrackerIcon
+        """
+        if icon:
+            filename = icon.get_filename()
+            img = Image.open(filename)
+            if img.size > (16, 16):
+                new_filename = filename.rpartition('.')[0]+".png"
+                img = img.resize((16, 16), Image.ANTIALIAS)
+                img.save(new_filename)
+                if new_filename != filename:
+                    os.remove(filename)
+                    icon = TrackerIcon(new_filename)
+        return icon
+
+    def store_icon(self, icon, host):
+        """
+        Stores the icon for the given host
+        Callbacks any pending deferreds waiting on this icon
+
+        :param icon: the icon to store
+        :type icon: TrackerIcon or None
+        :param host: the host to store it for
+        :type host: string
+        :returns: the stored icon
+        :rtype: TrackerIcon or None
+        """
+        self.icons[host] = icon
+        for d in self.pending[host]:
+            d.callback(icon)
+        del self.pending[host]
+        return icon
+
+################################ HELPER CLASSES ###############################
+
+class FaviconParser(HTMLParser):
+    """
+    A HTMLParser which extracts favicons from a HTML page
+    """
+    def __init__(self):
+        self.icons = []
+        HTMLParser.__init__(self)
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "link" and ("rel", "icon") in attrs or ("rel", "shortcut icon") in attrs:
+            href = None
+            type = None
+            for attr, value in attrs:
+                if attr == "href":
+                    href = value
+                elif attr == "type":
+                    type = value
+            if href and type:
+                self.icons.append((href, type))
+
+    def get_icons(self):
+        """
+        Returns a list of favicons extracted from the HTML page
+
+        :returns: a list of favicons
+        :rtype: list
+        """
+        return self.icons
+
+
+############################### HELPER FUNCTIONS ##############################
+
+def host_to_url(host):
+    """
+    Given a host, returns the URL to fetch
+
+    :param host: the tracker host
+    :type host: string
+    :returns: the url of the tracker
+    :rtype: string
+    """
+    return "http://%s/" % host
+
+def url_to_host(url):
+    """
+    Given a URL, returns the host it belongs to
+
+    :param url: the URL in question
+    :type url: string
+    :returns: the host of the given URL
+    :rtype:string
+    """
+    return urlparse(url).hostname
+
+def host_to_icon_name(host, mimetype):
+    """
+    Given a host, returns the appropriate icon name
+
+    :param host: the host in question
+    :type host: string
+    :param mimetype: the mimetype of the icon
+    :type mimetype: string
+    :returns: the icon's filename
+    :rtype: string
+    """
+    return host+'.'+mimetype_to_ext(mimetype)
+
+def icon_name_to_host(icon):
+    """
+    Given a host's icon name, returns the host name
+
+    :param icon: the icon name
+    :type icon: string
+    :returns: the host name
+    :rtype: string
+    """
+    return icon.rpartition('.')[0]
+
+def mimetype_to_ext(mimetype):
+    """
+    Given a mimetype, returns the appropriate filename extension
+
+    :param mimetype: the mimetype
+    :type mimetype: string
+    :returns: the filename extension for the given mimetype
+    :rtype: string
+    :raises KeyError: if given an invalid mimetype
+    """
+    return {
+        "image/gif" : "gif",
+        "image/jpeg" : "jpg",
+        "image/png" : "png",
+        "image/vnd.microsoft.icon" : "ico",
+        "image/x-icon" : "ico"
+    }[mimetype]
+
+def ext_to_mimetype(ext):
+    """
+    Given a filename extension, returns the appropriate mimetype
+
+    :param ext: the filename extension
+    :type ext: string
+    :returns: the mimetype for the given filename extension
+    :rtype: string
+    :raises KeyError: if given an invalid filename extension
+    """
+    return {
+        "gif" : "image/gif",
+        "jpg" : "image/jpeg",
+        "jpeg" : "image/jpeg",
+        "png" : "image/png",
+        "ico" : "image/vnd.microsoft.icon"
+    }[ext.lower()]

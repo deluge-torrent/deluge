@@ -6,6 +6,7 @@
 	* #496: Remove deprecated functions in favour of get_session_status()
 	* #1112: Fix renaming files in add torrent dialog
 	* #1247: Fix deluge-gtk from hanging on shutdown
+	* #995: Rewrote tracker_icons
 
 ==== Blocklist ====
 	* Implement local blocklist support
