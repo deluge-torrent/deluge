@@ -76,11 +76,6 @@ class Core(component.Component):
         # Start the libtorrent session
         log.info("Starting libtorrent %s session..", lt.version)
 
-        # We must depend on libtorrent >= 0.14.9 due to over-downloading bug
-        if lt.version < "0.14.9":
-            log.error("This version of Deluge requires libtorrent >= 0.14.9.")
-            sys.exit(1)
-            
         # Create the client fingerprint
         version = [int(value.split("-")[0]) for value in deluge.common.get_version().split(".")]
         while len(version) < 4:
