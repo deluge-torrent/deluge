@@ -105,12 +105,13 @@ class Command(BaseCommand):
             # This path does not exist, so lets do a listdir on it's parent
             # and find any matches.
             ret = []
-            for f in os.listdir(os.path.dirname(line)):
-                if f.startswith(os.path.split(line)[1]):
-                    p = os.path.join(os.path.dirname(line), f)
+            if os.path.isdir(os.path.dirname(line)):
+                for f in os.listdir(os.path.dirname(line)):
+                    if f.startswith(os.path.split(line)[1]):
+                        p = os.path.join(os.path.dirname(line), f)
 
-                    if os.path.isdir(p):
-                        p += "/"
-                    ret.append(p)
+                        if os.path.isdir(p):
+                            p += "/"
+                        ret.append(p)
 
         return ret
