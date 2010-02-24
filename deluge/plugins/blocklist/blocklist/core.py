@@ -48,6 +48,7 @@ from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
+from deluge.common import is_url
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
 from detect import detect_compression, detect_format, create_reader, UnknownFormatError
@@ -136,7 +137,7 @@ class Core(CorePluginBase):
         self.up_to_date = False
         if force:
             self.reader = None
-        self.is_url = self.config["url"].split("://")[0] in ("http", "https")
+        self.is_url = is_url(self.config["url"])
 
         # Start callback chain
         if self.is_url:

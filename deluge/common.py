@@ -354,7 +354,7 @@ def fdate(seconds):
 
 def is_url(url):
     """
-    A simple regex test to check if the URL is valid
+    A simple test to check if the URL is valid
 
     :param url: the url to test
     :type url: string
@@ -367,8 +367,7 @@ def is_url(url):
     True
 
     """
-    import re
-    return bool(re.search('^(https?|ftp|udp)://', url))
+    return url.partition('://')[0] in ("http", "https", "ftp", "udp")
 
 def is_magnet(uri):
     """
