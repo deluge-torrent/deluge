@@ -3,23 +3,23 @@
     <head>
         <title>Deluge: Web UI ${version}</title>
         
-        <link rel="shortcut icon" href="/icons/deluge.png" type="image/png" />
-        <link rel="icon" href="/icons/deluge.png" type="image/png" />
+        <link rel="shortcut icon" href="${base}icons/deluge.png" type="image/png" />
+        <link rel="icon" href="${base}icons/deluge.png" type="image/png" />
         
         <!-- Stylesheets -->
         % for stylesheet in stylesheets:
-        <link rel="stylesheet" type="text/css" href="${stylesheet}" />
+        <link rel="stylesheet" type="text/css" href="${base}${stylesheet}" />
         % endfor
 
         <!-- Javascript -->
         % for script in scripts:
-        <script type="text/javascript" src="${script}"></script>
+        <script type="text/javascript" src="${base}${script}"></script>
         % endfor
         <script type="text/javascript">
             Deluge.debug = ${str(debug).lower()};
         </script>
     </head>
     <body>
-        <div style="background-image: url('/themes/default/tree/loading.gif');"></div>
+        <div style="background-image: url('${base}themes/default/tree/loading.gif');"></div>
     </body>
 </html>
