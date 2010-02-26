@@ -59,6 +59,9 @@ class Web(_UI):
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
+        group.add_option("--profile", dest="profile",
+            help="Profile the web server code"
+            action="store_true", default=False)
         try:
             import OpenSSL
         except:
@@ -106,6 +109,11 @@ class Web(_UI):
         
         if self.options.ssl:
             self.server.https = self.options.ssl
+
+        if self.options.profile:
+            import hotshot
+            hsp = hotshot.Profile(deluge.configmanager.get_config_dir("deluge-web.profile"))
+            hsp.start()
 
         self.server.install_signal_handlers()
         self.server.start()
