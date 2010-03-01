@@ -1,4 +1,7 @@
 === Deluge 1.2.2 (In Development) ===
+==== Core ====
+	* Fix #1109 auto add halting when a torrent with invalid filename encoding is in the directory
+	
 ==== Console ====
 	* Fix #1143 deluge-console crashes when tab-completing not-existent directory
 	
