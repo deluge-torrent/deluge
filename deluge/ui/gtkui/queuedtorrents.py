@@ -49,7 +49,7 @@ import common
 
 class QueuedTorrents(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "QueuedTorrents", depend=["StatusBar"])
+        component.Component.__init__(self, "QueuedTorrents", depend=["StatusBar", "AddTorrentDialog"])
         self.queue = []
         self.status_item = None
 
@@ -174,20 +174,27 @@ class QueuedTorrents(component.Component):
             torrent_path = model.get_value(iter, 1)
             if deluge.common.is_url(torrent_path):
                 if self.config["interactive_add"]:
-                    component.get("AddTorrentDialog").add_from_url(torrent_path)
-                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    def on_show(result):
+                        component.get("AddTorrentDialog").add_from_url(torrent_path)
+                        
+                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    d.addCallback(on_show)
                 else:
                     client.core.add_torrent_url(torrent_path, None)
             elif deluge.common.is_magnet(torrent_path):
                 if self.config["interactive_add"]:
-                    component.get("AddTorrentDialog").add_from_magnets([torrent_path])
-                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    def on_show(result):
+                        component.get("AddTorrentDialog").add_from_magnets([torrent_path])
+                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    d.addCallback(on_show)
                 else:
                     client.core.add_magnet_uris([torrent_path], [])
             else:
                 if self.config["interactive_add"]:
-                    component.get("AddTorrentDialog").add_from_files([torrent_path])
-                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    def on_show(result):
+                        component.get("AddTorrentDialog").add_from_files([torrent_path])
+                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                    d.addCallback(on_show)
                 else:
                     client.core.add_torrent_file(
                         os.path.split(torrent_path)[-1],

@@ -148,7 +148,7 @@ class AddTorrentDialog(component.Component):
         self.update_core_config()
 
     def show(self, focus=False):
-        self.update_core_config(True, focus)
+        return self.update_core_config(True, focus)
 
     def _show(self, focus=False):
         if client.is_localhost():
@@ -184,7 +184,7 @@ class AddTorrentDialog(component.Component):
                 self._show(focus)
 
         # Send requests to the core for these config values
-        client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
+        return client.core.get_config_values(self.core_keys).addCallback(_on_config_values)
 
     def add_from_files(self, filenames):
         import os.path
