@@ -450,7 +450,6 @@ class TopLevel(resource.Resource):
             return resource.Resource.getChild(self, path, request)
 
     def render(self, request):
-
         debug = False
         if 'debug' in request.args:
             debug_arg = request.args.get('debug')[-1]
@@ -474,9 +473,10 @@ class TopLevel(resource.Resource):
         else:
             scripts = self.scripts[:]
 
+        base = request.args.get('base', [''])[-1]
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug)
+        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug, base=base)
 
 class ServerContextFactory:
 

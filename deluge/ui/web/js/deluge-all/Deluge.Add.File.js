@@ -57,12 +57,13 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.form = this.add({
 			xtype: 'form',
 			baseCls: 'x-plain',
-			labelWidth: 55,
+			labelWidth: 35,
 			autoHeight: true,
 			fileUpload: true,
 			items: [{
 				xtype: 'fileuploadfield',
 				id: 'torrentFile',
+				width: 280,
 				emptyText: _('Select a torrent'),
 				fieldLabel: _('File'),
 				name: 'file',
