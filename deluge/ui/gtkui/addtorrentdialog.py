@@ -480,7 +480,14 @@ class AddTorrentDialog(component.Component):
         # Check to see if we can change file priorities
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if self.options[model[row][0]]["compact_allocation"]:
-            dialogs.InformationDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation."), self.dialog).run()
+            def on_answer(response):
+                if response == gtk.RESPONSE_YES:
+                    self.options[model[row][0]]["compact_allocation"] = False
+                    self.update_torrent_options(model[row][0])
+                
+            d = dialogs.YesNoDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation.  Would you like to switch to Full allocation?"), self.dialog).run()
+            d.addCallback(on_answer)
+            
             return
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
