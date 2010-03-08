@@ -148,6 +148,27 @@ def eta_column_sort(model, iter1, iter2, data):
     if v2 > v1:
         return -1
 
+def seed_peer_column_sort(model, iter1, iter2, data):
+    v1 = model[iter1][data]         # num seeds/peers
+    v3 = model[iter2][data]         # num seeds/peers
+    if v1 == v3:
+        v2 = model[iter1][data+1]   # total seeds/peers
+        v4 = model[iter2][data+1]   # total seeds/peers
+        if v2 == v4:
+            return 0
+        if v2 > v4:
+            return -1
+        if v2 < v4:
+            return 1
+    if v1 == 0:
+        return 1
+    if v3 == 0:
+        return -1
+    if v1 > v3:
+        return 1
+    if v3 > v1:
+        return -1
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -176,54 +197,40 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("dirty", hidden=True)
-        self.add_func_column("#", cell_data_queue, [int], status_field=["queue"], sort_func=queue_column_sort)
-        self.add_texticon_column(_("Name"), status_field=["state", "name"],
-                                            function=cell_data_statusicon)
-        self.add_func_column(_("Size"),
-                                            listview.cell_data_size,
-                                            [gobject.TYPE_UINT64],
-                                            status_field=["total_wanted"])
+        self.add_func_column("#", cell_data_queue, [int],
+                             status_field=["queue"],
+                             sort_func=queue_column_sort)
+        self.add_texticon_column(_("Name"),
+                                 status_field=["state", "name"],
+                                 function=cell_data_statusicon)
+        self.add_func_column(_("Size"), listview.cell_data_size,
+                             [gobject.TYPE_UINT64],
+                             status_field=["total_wanted"])
         self.add_progress_column(_("Progress"),
-                                    status_field=["progress", "state"],
-                                    col_types=[float, str],
-                                    function=cell_data_progress)
-        self.add_func_column(_("Seeders"),
-                                        listview.cell_data_peer,
-                                        [int, int],
-                                        status_field=["num_seeds",
-                                                        "total_seeds"])
-        self.add_func_column(_("Peers"),
-                                        listview.cell_data_peer,
-                                        [int, int],
-                                        status_field=["num_peers",
-                                                        "total_peers"])
-        self.add_func_column(_("Down Speed"),
-                                        listview.cell_data_speed,
-                                        [float],
-                                        status_field=["download_payload_rate"])
-        self.add_func_column(_("Up Speed"),
-                                        listview.cell_data_speed,
-                                        [float],
-                                        status_field=["upload_payload_rate"])
-        self.add_func_column(_("ETA"),
-                                            listview.cell_data_time,
-                                            [int],
-                                            status_field=["eta"],
-                                            sort_func=eta_column_sort)
-        self.add_func_column(_("Ratio"),
-                                            listview.cell_data_ratio,
-                                            [float],
-                                            status_field=["ratio"])
-        self.add_func_column(_("Avail"),
-                                            listview.cell_data_ratio,
-                                            [float],
-                                            status_field=["distributed_copies"])
-        self.add_func_column(_("Added"),
-                                            listview.cell_data_date,
-                                            [float],
-                                            status_field=["time_added"])
-        self.add_texticon_column(_("Tracker"), status_field=["tracker_host", "tracker_host"],
-                                    function=cell_data_trackericon)
+                                 status_field=["progress", "state"],
+                                 col_types=[float, str],
+                                 function=cell_data_progress)
+        self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
+                             status_field=["num_seeds", "total_seeds"],
+                             sort_func=seed_peer_column_sort)
+        self.add_func_column(_("Peers"), listview.cell_data_peer, [int, int],
+                             status_field=["num_peers", "total_peers"],
+                             sort_func=seed_peer_column_sort)
+        self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
+                             status_field=["download_payload_rate"])
+        self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
+                             status_field=["upload_payload_rate"])
+        self.add_func_column(_("ETA"), listview.cell_data_time, [int],
+                             status_field=["eta"], sort_func=eta_column_sort)
+        self.add_func_column(_("Ratio"), listview.cell_data_ratio, [float],
+                             status_field=["ratio"])
+        self.add_func_column(_("Avail"), listview.cell_data_ratio, [float],
+                             status_field=["distributed_copies"])
+        self.add_func_column(_("Added"), listview.cell_data_date, [float],
+                             status_field=["time_added"])
+        self.add_texticon_column(_("Tracker"),
+                                 status_field=["tracker_host", "tracker_host"],
+                                 function=cell_data_trackericon)
 
         self.add_text_column(_("Save Path"), status_field=["save_path"])
 

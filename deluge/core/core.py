@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -741,7 +741,8 @@ class Core(component.Component):
         """
         from twisted.web.client import getPage
 
-        d = getPage("http://deluge-torrent.org/test_port.php?port=%s" % self.get_listen_port())
+        d = getPage("http://deluge-torrent.org/test_port.php?port=%s" %
+                    self.get_listen_port(), timeout=30)
 
         def on_get_page(result):
             return bool(int(result))
