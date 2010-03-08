@@ -120,9 +120,7 @@ def cell_data_queue(column, cell, model, row, data):
     else:
         cell.set_property("text", value + 1)
 
-def queue_column_sort(model, iter1, iter2, data):
-    v1 = model[iter1][data]
-    v2 = model[iter2][data]
+def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
         return 0
     if v2 < 0:
@@ -133,6 +131,12 @@ def queue_column_sort(model, iter1, iter2, data):
         return 1
     if v2 > v1:
         return -1
+
+def queue_column_sort(model, iter1, iter2, data):
+    v1 = model[iter1][data]
+    v2 = model[iter2][data]
+    return queue_peer_seed_sort_function(v1, v2)
+
 
 def eta_column_sort(model, iter1, iter2, data):
     v1 = model[iter1][data]
@@ -154,13 +158,8 @@ def seed_peer_column_sort(model, iter1, iter2, data):
     if v1 == v3:
         v2 = model[iter1][data+1]   # total seeds/peers
         v4 = model[iter2][data+1]   # total seeds/peers
-        if v2 == v4:
-            return 0
-        if v2 > v4:
-            return 1
-        if v2 < v4:
-            return -1
-    return queue_column_sort(model, iter1, iter2, data)
+        return queue_peer_seed_sort_function(v2, v4)
+    return queue_peer_seed_sort_function(v1, v3)
 
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
