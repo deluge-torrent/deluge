@@ -157,17 +157,10 @@ def seed_peer_column_sort(model, iter1, iter2, data):
         if v2 == v4:
             return 0
         if v2 > v4:
-            return -1
-        if v2 < v4:
             return 1
-    if v1 == 0:
-        return 1
-    if v3 == 0:
-        return -1
-    if v1 > v3:
-        return 1
-    if v3 > v1:
-        return -1
+        if v2 < v4:
+            return -1
+    return queue_column_sort(model, iter1, iter2, data)
 
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
@@ -182,7 +175,7 @@ class TorrentView(listview.ListView, component.Component):
 
         # If we have gotten the state yet
         self.got_state = False
-        
+
         # This is where status updates are put
         self.status = {}
 
