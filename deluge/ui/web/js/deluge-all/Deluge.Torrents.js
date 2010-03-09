@@ -287,6 +287,7 @@ Copyright:
 		store.commitChanges();
 
 		var sortState = store.getSortState()
+		if (!sortState) return;
 		store.sort(sortState.field, sortState.direction);
 	},
 
