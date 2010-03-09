@@ -289,57 +289,69 @@ dl.singleline dd {
  */
 
 .icon-create {
-	background-image: url('../icons/create.png');
+	background-image: url('../icons/create.png') !important;
 }
 
 .icon-add {
-	background-image: url('../icons/add.png');
+	background-image: url('../icons/add.png') !important;
 }
 
 .icon-pause {
-	background-image: url('../icons/pause.png');
+	background-image: url('../icons/pause.png') !important;
 }
 
 .icon-resume {
-	background-image: url('../icons/start.png');
+	background-image: url('../icons/start.png') !important;
 }
 
 .icon-options {
-	background-image: url('../icons/preferences.png');
+	background-image: url('../icons/preferences.png') !important;
 }
 
 .icon-queue {
-	background-image: url('../icons/queue.png');
+	background-image: url('../icons/queue.png') !important;
 }
 
 .icon-top {
-	background-image: url('../icons/top.png');
+	background-image: url('../icons/top.png') !important;
 }
 
 .icon-up {
-	background-image: url('../icons/up.png');
+	background-image: url('../icons/up.png') !important;
 }
 
 .icon-down {
-	background-image: url('../icons/down.png');
+	background-image: url('../icons/down.png') !important;
 }
 
 .icon-bottom {
-	background-image: url('../icons/bottom.png');
+	background-image: url('../icons/bottom.png') !important;
 }
 
 .icon-update-tracker {
-	background-image: url('../icons/update.png');
+	background-image: url('../icons/update.png') !important;
 }
+
 .icon-edit-trackers {
-	background-image: url('../icons/edit_trackers.png');
+	background-image: url('../icons/edit_trackers.png') !important;
 }
+
 .icon-remove {
-	background-image: url('../icons/remove.png');
+	background-image: url('../icons/remove.png') !important;
 }
+
 .icon-recheck {
-	background-image: url('../icons/recheck.png');
+	background-image: url('../icons/recheck.png') !important;
 }
+
 .icon-move {
-	background-image: url('../icons/move.png');
+	background-image: url('../icons/move.png') !important;
+}
+
+.icon-help {
+	background-image: url('../icons/help.png') !important;
+}
+
+.icon-logout {
+	background-image: url('../icons/logout.png') !important;
 }

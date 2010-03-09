@@ -43,78 +43,68 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 			items: [
 				{
 					id: 'create',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Create'),
-					icon: '/icons/create.png',
+					iconCls: 'icon-create',
 					handler: this.onTorrentAction
 				},{
 					id: 'add',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Add'),
-					icon: '/icons/add.png',
+					iconCls: 'icon-add',
 					handler: this.onTorrentAdd
 				},{
 					id: 'remove',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Remove'),
-					icon: '/icons/remove.png',
+					iconCls: 'icon-remove',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'pause',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Pause'),
-					icon: '/icons/pause.png',
+					iconCls: 'icon-pause',
 					handler: this.onTorrentAction
 				},{
 					id: 'resume',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Resume'),
-					icon: '/icons/start.png',
+					iconCls: 'icon-resume',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'up',
 					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Up'),
-					icon: '/icons/up.png',
+					iconCls: 'icon-up',
 					handler: this.onTorrentAction
 				},{
 					id: 'down',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Down'),
-					icon: '/icons/down.png',
+					iconCls: 'icon-down',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'preferences',
-					cls: 'x-btn-text-icon',
 					text: _('Preferences'),
 					iconCls: 'x-deluge-preferences',
 					handler: this.onPreferencesClick,
 					scope: this
 				},{
 					id: 'connectionman',
-					cls: 'x-btn-text-icon',
 					text: _('Connection Manager'),
 					iconCls: 'x-deluge-connection-manager',
 					handler: this.onConnectionManagerClick,
 					scope: this
 				},'->',{
 					id: 'help',
-					cls: 'x-btn-text-icon',
-					icon: '/icons/help.png',
+					iconCls: 'icon-help',
 					text: _('Help'),
 					handler: this.onHelpClick,
 					scope: this
 				},{
 					id: 'logout',
-					cls: 'x-btn-text-icon',
-					icon: '/icons/logout.png',
+					iconCls: 'icon-logout',
 					disabled: true,
 					text: _('Logout'),
 					handler: this.onLogout,
