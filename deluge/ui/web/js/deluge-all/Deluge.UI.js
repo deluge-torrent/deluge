@@ -71,7 +71,7 @@ Deluge.UI = {
 		Deluge.Events.on("connect", this.onConnect, this);
 		Deluge.Events.on("disconnect", this.onDisconnect, this);
 		Deluge.Client = new Ext.ux.util.RpcClient({
-			url: '/json'
+			url: Deluge.config.base + 'json'
 		});
 	
 		for (var plugin in Deluge.Plugins) {
