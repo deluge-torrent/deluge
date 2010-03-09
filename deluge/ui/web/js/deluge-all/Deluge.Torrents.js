@@ -285,6 +285,9 @@ Copyright:
 			}
 		});
 		store.commitChanges();
+
+		var sortState = store.getSortState()
+		store.sort(sortState.field, sortState.direction);
 	},
 
 	// private
