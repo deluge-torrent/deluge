@@ -6,15 +6,19 @@ Deluge.FileBrowser = Ext.extend(Ext.Window, {
 	width:  500,
 	height: 400,
 
-	tbar: {
-		items: [{
-			cls: 'x-btn-icon',
-			iconCls: 'icon-back'
-		}]
-	},
-	
 	initComponent: function() {
 		Deluge.FileBrowser.superclass.initComponent.call(this);
+
+		this.add({
+			xtype: 'toolbar',
+			items: [{
+				cls: 'x-btn-icon',
+				iconCls: 'icon-back'
+			}, {
+				cls: 'x-btn-icon',
+				iconCls: 'icon-forward'
+			}]
+		});
 	}
 
 });

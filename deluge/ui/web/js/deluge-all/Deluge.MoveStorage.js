@@ -69,6 +69,17 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 			name: 'location',
 			width: 240
 		});
+		this.form.add({
+			xtype: 'button',
+			text: _('Browse'),
+			handler: function() {
+				if (!this.fileBrowser) {
+					this.fileBrowser = new Deluge.FileBrowser();
+				}
+				this.fileBrowser.show();
+			},
+			scope: this
+		});
 	},
 
 	hide: function() {
