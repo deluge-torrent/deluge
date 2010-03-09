@@ -87,6 +87,8 @@ Deluge.UI = {
 		}, this, {single: true});
 	
 		this.update = this.update.createDelegate(this);
+
+		this.originalTitle = document.title;
 	},
 
 	update: function() {
@@ -118,6 +120,12 @@ Deluge.UI = {
 	 */
 	onUpdate: function(data) {
 		if (!data['connected']) Deluge.Events.fire('disconnect');
+
+		if (Deluge.config.show_session_speed) {
+			document.title = this.originalTitle + 
+				' (Down: ' + fspeed(data['stats'].download_rate, true) + 
+				' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
+		}
 		Deluge.Torrents.update(data['torrents']);
 		Deluge.Statusbar.update(data['stats']);
 		Deluge.Sidebar.update(data['filters']);

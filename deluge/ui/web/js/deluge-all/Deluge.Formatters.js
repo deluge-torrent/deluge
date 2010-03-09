@@ -64,10 +64,11 @@ Deluge.Formatters = {
 	 * Formats the bytes value into a string with KiB, MiB or GiB units.
 	 *
 	 * @param {Number} bytes the filesize in bytes
+	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	size: function(bytes) {
-		if (!bytes) return '';
+	size: function(bytes, showZero) {
+		if (!bytes && !showZero) return '';
 		bytes = bytes / 1024.0;
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
@@ -83,10 +84,11 @@ Deluge.Formatters = {
 	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
 	 * @param {Number} bits the number of bits per second
+	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	speed: function(bits) {
-		return (!bits) ? '' : fsize(bits) + '/s';
+	speed: function(bits, showZero) {
+		return (!bits && !showZero) ? '' : fsize(bits, showZero) + '/s';
 	},
 	
 	/**
