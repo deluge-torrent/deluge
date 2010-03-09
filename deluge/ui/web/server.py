@@ -1,7 +1,7 @@
 #
-# deluge/ui/web/webui.py
+# deluge/ui/web/server.py
 #
-# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
