@@ -283,6 +283,19 @@ dl.singleline dd {
 	/*background-image: url(../icons/mixed.png);*/
 }
 
+/**
+ * Deluge Default Icon Set
+ * n.b. this needs to be forked out at some point
+ */
+
+.icon-create {
+	background-image: url('../icons/create.png');
+}
+
+.icon-add {
+	background-image: url('../icons/add.png');
+}
+
 .icon-pause {
 	background-image: url('../icons/pause.png');
 }
