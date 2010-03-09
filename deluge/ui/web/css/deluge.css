@@ -355,3 +355,11 @@ dl.singleline dd {
 .icon-logout {
 	background-image: url('../icons/logout.png') !important;
 }
+
+.icon-back {
+	background-image: url('../icons/back.png') !important;
+}
+
+.icon-forward {
+	background-image: url('../icons/forward.png') !important;
+}
