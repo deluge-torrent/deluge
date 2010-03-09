@@ -3,7 +3,7 @@ Script: Deluge.js
     Contains the keys for get_torrent(s)_status.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -38,16 +38,6 @@ Ext.namespace('Ext.deluge');
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 (function() {
-    /* Add some helper functions to Ext */
-    Ext.apply(Function.prototype, {
-		bind: function(scope) {
-			var self = this;
-			return function() {
-				return self.apply(scope, arguments);
-			}
-		}
-    });
-    
     Ext.apply(Ext, {
 		escapeHTML: function(text) {
 			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
@@ -57,6 +47,17 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		isObjectEmpty: function(obj) {
 			for(var i in obj) { return false; }
 			return true;
+		},
+
+		isObjectsEqual: function(obj1, obj2) {
+			var equal = true;
+			if (!obj1 || !obj2) return false;
+			for (var i in obj1) {
+				if (obj1[i] != obj2[i]) {
+					equal = false;
+				}
+			}
+			return equal;
 		},
 	    
 		keys: function(obj) {
@@ -143,7 +144,7 @@ Script:
 	Deluge.Formatters.js
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -172,16 +173,19 @@ Copyright:
 */
 
 /**
- * @description A collection of functions for string formatting values.
- * @namespace Deluge.Formatters
+ * A collection of functions for string formatting values.
+ * @class Deluge.Formatters
+ * @author Damien Churchill <damoxc@gmail.com>
+ * @version 1.3
+ * @singleton
  */
 Deluge.Formatters = {
 	/**
 	 * Formats a date string in the locale's date representation based on the
 	 * systems timezone.
 	 *
-	 * @param {number} timestamp time in seconds since the Epoch
-	 * @returns {string} a string in the locale's date representation or ""
+	 * @param {Number} timestamp time in seconds since the Epoch
+	 * @return {String} a string in the locale's date representation or ""
 	 * if seconds < 0
 	 */
 	date: function(timestamp) {
@@ -200,8 +204,8 @@ Deluge.Formatters = {
 	/**
 	 * Formats the bytes value into a string with KiB, MiB or GiB units.
 	 *
-	 * @param {number} bytes the filesize in bytes
-	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 * @param {Number} bytes the filesize in bytes
+	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
 	size: function(bytes) {
 		if (!bytes) return '';
@@ -217,20 +221,20 @@ Deluge.Formatters = {
 	},
 	
 	/**
-	 * Formats a string to display a transfer speed utilizing {@link Deluge.Formatters.size}
+	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
-	 * @param {number} bytes the filesize in bytes
-	 * @returns {string} formatted string with KiB, MiB or GiB units.
+	 * @param {Number} bits the number of bits per second
+	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
 	speed: function(bits) {
-		return fsize(bits) + '/s'
+		return (!bits) ? '' : fsize(bits) + '/s';
 	},
 	
 	/**
 	 * Formats a string to show time in a human readable form.
 	 *
-	 * @param {number} time the number of seconds
-	 * @returns {string} a formatted time string. will return '' if seconds == 0
+	 * @param {Number} time the number of seconds
+	 * @return {String} a formatted time string. will return '' if seconds == 0
 	 */
 	timeRemaining: function(time) {
 		if (time == 0) { return '∞' }
@@ -271,8 +275,8 @@ Deluge.Formatters = {
 	/**
 	 * Simply returns the value untouched, for when no formatting is required.
 	 *
-	 * @param value, the value to be displayed
-	 * @returns the untouched value.
+	 * @param {Mixed} value the value to be displayed
+	 * @return the untouched value.
 	 */
 	plain: function(value) {
 		return value;
@@ -288,7 +292,7 @@ Script: Deluge.Keys.js
     The torrent status keys that are commonly used around the UI.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -318,11 +322,17 @@ Copyright:
 
 /**
  * @description The torrent status keys that are commonly used around the UI.
- * @namespace Deluge.Keys
+ * @class Deluge.Keys
+ * @singleton
  */
 Deluge.Keys = {
+
 	/**
-	 * @static
+	 * Keys that are used within the torrent grid.
+	 * <pre>['queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
+	 * 'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
+	 * 'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
+	 * 'is_auto_managed', 'time_added', 'tracker_host']</pre>
 	 */
     Grid: [
         'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
@@ -332,10 +342,12 @@ Deluge.Keys = {
     ],
     
     /**
-     * @description Keys used in the status tab of the statistics panel.
-     * These get extended
-     * by {@link Deluge.Keys.Grid}.
-	 * @static
+     * Keys used in the status tab of the statistics panel.
+     * These get updated to include the keys in {@link #Grid}.
+	 * <pre>['total_done', 'total_payload_download', 'total_uploaded',
+	 * 'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
+	 * 'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
+	 * 'seed_rank']</pre>
 	 */
     Status: [
         'total_done', 'total_payload_download', 'total_uploaded',
@@ -345,8 +357,7 @@ Deluge.Keys = {
     ],
     
     /**
-	 * @static
-     * @description Keys used in the files tab of the statistics panel.
+     * Keys used in the files tab of the statistics panel.
      * <pre>['files', 'file_progress', 'file_priorities']</pre>
 	 */
     Files: [
@@ -354,17 +365,15 @@ Deluge.Keys = {
     ],
     
     /**
-     * @description Keys used in the peers tab of the statistics panel.
+     * Keys used in the peers tab of the statistics panel.
      * <pre>['peers']</pre>
-	 * @static
 	 */
     Peers: [
         'peers'
     ],
     
     /**
-     * @description Keys used in the details tab of the statistics panel.
-	 * @static
+     * Keys used in the details tab of the statistics panel.
 	 */
     Details: [
         'name', 'save_path', 'total_size', 'num_files', 'tracker_status',
@@ -372,8 +381,7 @@ Deluge.Keys = {
     ],
     
     /**
-	 * @static
-	 * @description Keys used in the options tab of the statistics panel.
+	 * Keys used in the options tab of the statistics panel.
 	 * <pre>['max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
 	 *  'is_auto_managed', 'stop_at_ratio', 'stop_ratio', 'remove_at_ratio', 'private',
 	 *  'prioritize_first_last']</pre>
@@ -395,7 +403,7 @@ Script: deluge-menus.js
     Contains all the menus contained within the UI for easy access and editing.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -431,11 +439,12 @@ Deluge.Menus = {
 		Ext.each(selection, function(record) {
 			ids.push(record.id);
 		});
+		var action = item.initialConfig.torrentAction;
 		
-		switch (item.id) {
+		switch (action) {
 			case 'pause':
 			case 'resume':
-				Deluge.Client.core[item.id + '_torrent'](ids, {
+				Deluge.Client.core[action + '_torrent'](ids, {
 					success: function() {
 						Deluge.UI.update();
 					}
@@ -445,7 +454,7 @@ Deluge.Menus = {
 			case 'up':
 			case 'down':
 			case 'bottom':
-				Deluge.Client.core['queue_' + item.id](ids, {
+				Deluge.Client.core['queue_' + action](ids, {
 					success: function() {
 						Deluge.UI.update();
 					}
@@ -481,21 +490,20 @@ Deluge.Menus = {
 Deluge.Menus.Torrent = new Ext.menu.Menu({
 	id: 'torrentMenu',
 	items: [{
-		id: 'pause',
+		torrentAction: 'pause',
 		text: _('Pause'),
-		icon: '/icons/pause.png',
+		iconCls: 'icon-pause',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
-		id: 'resume',
+		torrentAction: 'resume',
 		text: _('Resume'),
-		icon: '/icons/start.png',
+		iconCls: 'icon-resume',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
-		id: 'options',
 		text: _('Options'),
-		icon: '/icons/preferences.png',
+		iconCls: 'icon-options',
 		menu: new Ext.menu.Menu({
 			items: [{
 				text: _('D/L Speed Limit'),
@@ -577,62 +585,62 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 		})
 	}, '-', {
 		text: _('Queue'),
-		icon: '/icons/queue.png',
+		iconCls: 'icon-queue',
 		menu: new Ext.menu.Menu({
 			items: [{
-				id: 'top',
+				torrentAction: 'top',
 				text: _('Top'),
-				icon: '/icons/top.png',
+				iconCls: 'icon-top',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
-				id: 'up',
+				torrentAction: 'up',
 				text: _('Up'),
-				icon: '/icons/up.png',
+				iconCls: 'icon-up',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
-				id: 'down',
+				torrentAction: 'down',
 				text: _('Down'),
-				icon: '/icons/down.png',
+				iconCls: 'icon-down',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			},{
-				id: 'bottom',
+				torrentAction: 'bottom',
 				text: _('Bottom'),
-				icon: '/icons/bottom.png',
+				iconCls: 'icon-bottom',
 				handler: Deluge.Menus.onTorrentAction,
 				scope: Deluge.Menus
 			}]
 		})
 	}, '-', {
-		id: 'update',
+		torrentAction: 'update',
 		text: _('Update Tracker'),
-		icon: '/icons/update.png',
+		iconCls: 'icon-update-tracker',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
-		id: 'edit_trackers',
+		torrentAction: 'edit_trackers',
 		text: _('Edit Trackers'),
-		icon: '/icons/edit_trackers.png',
+		iconCls: 'icon-edit-trackers',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
-		id: 'remove',
+		torrentAction: 'remove',
 		text: _('Remove Torrent'),
-		icon: '/icons/remove.png',
+		iconCls: 'icon-remove',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, '-', {
-		id: 'recheck',
+		torrentAction: 'recheck',
 		text: _('Force Recheck'),
-		icon: '/icons/recheck.png',
+		iconCls: 'icon-recheck',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}, {
-		id: 'move',
+		torrentAction: 'move',
 		text: _('Move Storage'),
-		icon: '/icons/move.png',
+		iconCls: 'icon-move',
 		handler: Deluge.Menus.onTorrentAction,
 		scope: Deluge.Menus
 	}]
@@ -837,7 +845,7 @@ Script: Deluge.Events.js
 	Class for holding global events that occur within the UI.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -854,34 +862,36 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 */
 
-/**
- * @namespace Deluge.Events
- * @class Deluge.Events
- * @name Deluge.Events
- * @description Class for holding global events that occur within the UI.
- */
-
 (function() {
-    Events = Ext.extend(Ext.util.Observable, {
-        constructor: function() {
+	/**
+	 * @class Deluge.Events
+	 * <p>Deluge.Events is a singleton that components of the UI can use to fire global events</p>
+	 * @singleton
+	 * Class for holding global events that occur within the UI.
+	 */
+	Events = Ext.extend(Ext.util.Observable, {
+		constructor: function() {
 			this.toRegister = [];
 			this.on('login', this.onLogin, this);
-            Events.superclass.constructor.call(this);
-        },
-        
-        addListener: function(eventName, fn, scope, o) {
-            this.addEvents(eventName);
+			Events.superclass.constructor.call(this);
+		},
+		
+		/**
+		 * Append an event handler to this object.
+		 */
+		addListener: function(eventName, fn, scope, o) {
+			this.addEvents(eventName);
 			if (/[A-Z]/.test(eventName.substring(0, 1))) {
 				if (!Deluge.Client) {
 					this.toRegister.push(eventName);
@@ -889,56 +899,80 @@ Copyright:
 					Deluge.Client.web.register_event_listener(eventName);
 				}
 			}
-            Events.superclass.addListener.call(this, eventName, fn, scope, o);
-        },
+			Events.superclass.addListener.call(this, eventName, fn, scope, o);
+		},
 	
-		poll: function() {
+		getEvents: function() {
 			Deluge.Client.web.get_events({
-				success: this.onPollSuccess,
+				success: this.onGetEventsSuccess,
+				failure: this.onGetEventsFailure,
 				scope: this
 			});
 		},
 	
+		/**
+		 * Starts the EventsManager checking for events.
+		 */
 		start: function() {
 			Ext.each(this.toRegister, function(eventName) {
 				Deluge.Client.web.register_event_listener(eventName);
 			});
-			this.poll = this.poll.bind(this);
-			this.running = setInterval(this.poll, 2000);
-			this.poll();
+			this.running = true;
+			this.getEvents();
 		},
 	
+		/**
+		 * Stops the EventsManager checking for events.
+		 */
 		stop: function() {
-			if (this.running) {
-				clearInterval(this.running); 
-			}
+			this.running = false;
 		},
 
+		// private
 		onLogin: function() {
 			this.start();
 			this.on('PluginEnabledEvent', this.onPluginEnabled, this);
 			this.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		},
-	
-		onPollSuccess: function(events) {
+
+		onGetEventsSuccess: function(events) {
 			if (!events) return;
 			Ext.each(events, function(event) {
 				var name = event[0], args = event[1];
 				args.splice(0, 0, name);
 				this.fireEvent.apply(this, args);
 			}, this);
+			if (this.running) this.getEvents();
+		},
+	
+		// private
+		onGetEventsFailure: function(events) {
+			// the request timed out so we just want to open up another
+			// one.
+			if (this.running) this.getEvents();
 		}
-    });
-    Events.prototype.on = Events.prototype.addListener
-    Events.prototype.fire = Events.prototype.fireEvent
-    Deluge.Events = new Events();
+	});
+
+	/**
+	 * Appends an event handler to this object (shorthand for {@link #addListener})
+	 * @method 
+	 */
+	Events.prototype.on = Events.prototype.addListener
+
+	/**
+	 * Fires the specified event with the passed parameters (minus the
+	 * event name).
+	 * @method 
+	 */
+	Events.prototype.fire = Events.prototype.fireEvent
+	Deluge.Events = new Events();
 })();
 /*
 Script:
 	Deluge.OptionsManager.js
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -978,9 +1012,6 @@ Ext.namespace('Deluge');
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	
-	/**
-	 * Create a new instance of the OptionsManager.
-	 */
 	constructor: function(config) {
 		config = config || {};
 		this.binds = {};
@@ -989,8 +1020,25 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		this.focused = null;
 
 		this.addEvents({
+			/**
+			 * @event add
+			 * Fires when an option is added
+			 */
 			'add': true,
+
+			/**
+			 * @event changed
+			 * Fires when an option is changed
+			 * @param {String} option The changed option
+			 * @param {Mixed} value The options new value
+			 * @param {Mixed} oldValue The options old value
+			 */
 			'changed': true,
+
+			/**
+			 * @event reset
+			 * Fires when the options are reset
+			 */
 			'reset': true
 		});
 		this.on('changed', this.onChange, this);
@@ -1140,7 +1188,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 
 	/**
 	 * Update the value for the specified option and id.
-	 * @param {String|Object} option or options to update
+	 * @param {String/Object} option or options to update
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
@@ -1168,9 +1216,6 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		}
 	},
 
-	/******************
-	 * Event Handlers *
-	 ******************/
 	/**
 	 * Lets the option manager know when a field is blurred so if a value
 	 * so value changing operations can continue on that field.
@@ -1216,7 +1261,7 @@ Script:
 	Deluge.MultiOptionsManager.js
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -1248,6 +1293,7 @@ Copyright:
  * @description A class that can be used to manage options throughout the ui.
  * @namespace Deluge
  * @class Deluge.MultiOptionsManager
+ * @extends Deluge.OptionsManager
  */
 Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 
@@ -1286,7 +1332,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	
 	/**
 	 * Get the value for an option
-	 * @param {String|Array} [option] A single option or an array of options to return.
+	 * @param {String/Array} option A single option or an array of options to return.
 	 * @returns {Object} the options value.
 	 */
 	get: function() {
@@ -1310,7 +1356,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 
 	/**
 	 * Get the default value for an option.
-	 * @param {String|Array} [option] A single option or an array of options to return.
+	 * @param {String} option A single option.
 	 * @returns {Object} the value of the option
 	 */
 	getDefault: function(option) {
@@ -1395,7 +1441,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 	/**
 	 * Update the value for the specified option and id.
 	 * @param {String} id
-	 * @param {String|Object} option or options to update
+	 * @param {String/Object} option or options to update
 	 * @param {Object} [value];
 	 */
 	update: function(option, value) {
@@ -1425,9 +1471,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 		}
 	},
 
-	/******************
-	 * Event Handlers *
-	 ******************/
+	// Event Handlers 
 	/**
 	 * Stops a form fields value from being blocked by the change functions
 	 * @param {Ext.form.Field} field
@@ -1437,6 +1481,13 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 		this.update(field._doption, field.getValue());
 	},
 
+	/**
+	 * Handles updating binds when an option's value is changed.
+	 * @param {String} id The current option id
+	 * @param {String} option The option that has changed.
+	 * @param {Mixed} newValue The new value
+	 * @private
+	 */
 	onChange: function(id, option, newValue, oldValue) {
 		// If we don't have a bind there's nothing to do.
 		if (Ext.isEmpty(this.binds[option])) return;
@@ -1454,7 +1505,7 @@ Script: Deluge.Add.js
 	Contains the Add Torrent window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -1500,7 +1551,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 	initComponent: function() {
 		Ext.deluge.add.OptionsPanel.superclass.initComponent.call(this);
-		this.files = this.add(new Ext.tree.ColumnTree({
+		this.files = this.add(new Ext.ux.tree.TreeGrid({
 			layout: 'fit',
 			title: _('Files'),
 			rootVisible: false,
@@ -1515,14 +1566,12 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				width: 275,
 				dataIndex: 'filename'
 			},{
+				xtype: 'tgrendercolumn',
 				header: _('Size'),
 				width: 80,
-				dataIndex: 'size'
-			}],
-		
-			root: new Ext.tree.AsyncTreeNode({
-				text: 'Files'
-			})
+				dataIndex: 'size',
+				renderer: fsize
+			}]
 		}));
 		new Ext.tree.TreeSorter(this.files, {
 			folderSort: true
@@ -1597,7 +1646,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			autoHeight: true,
 			labelWidth: 100,
 			width: 200,
-			defaultType: 'uxspinner'
+			defaultType: 'spinnerfield'
 		});
 		this.optionsManager.bind('max_download_speed', fieldset.add({
 			fieldLabel: _('Max Down Speed'),
@@ -2011,13 +2060,13 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.url.show();
 	}
 });
-//Deluge.Add = new Ext.deluge.add.AddWindow();
+Deluge.Add = new Ext.deluge.add.AddWindow();
 /*
 Script: Deluge.Add.File.js
     Contains the Add Torrent by file window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -2066,17 +2115,18 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	initComponent: function() {
 		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAdd, this);
+		this.addButton(_('Add'), this.onAddClick, this);
 		
 		this.form = this.add({
 			xtype: 'form',
 			baseCls: 'x-plain',
-			labelWidth: 55,
+			labelWidth: 35,
 			autoHeight: true,
 			fileUpload: true,
 			items: [{
 				xtype: 'fileuploadfield',
 				id: 'torrentFile',
+				width: 280,
 				emptyText: _('Select a torrent'),
 				fieldLabel: _('File'),
 				name: 'file',
@@ -2087,7 +2137,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 		});
 	},
 	
-	onAdd: function(field, e) {
+	onAddClick: function(field, e) {
 		if (this.form.getForm().isValid()) {
 			this.torrentId = this.createTorrentId();
 			this.form.getForm().submit({
@@ -2124,7 +2174,7 @@ Script: Deluge.Add.Url.js
     Contains the Add Torrent by url window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -2173,7 +2223,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	initComponent: function() {
 		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAdd, this);
+		this.addButton(_('Add'), this.onAddClick, this);
 		
 		var form = this.add({
 			xtype: 'form',
@@ -2199,7 +2249,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.cookieField.on('specialkey', this.onAdd, this);
 	},
 	
-	onAdd: function(field, e) {
+	onAddClick: function(field, e) {
 		if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
 
 		var field = this.urlField;
@@ -2236,7 +2286,7 @@ Script: Deluge.Client.js
     A JSON-RPC proxy built on top of ext-core.
 
 Copyright:
-    (C) Damien Churchill 2009 <damoxc@gmail.com>
+    (C) Damien Churchill 2009-2010 <damoxc@gmail.com>
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3, or (at your option)
@@ -2265,170 +2315,174 @@ Copyright:
 */
 
 Ext.namespace('Ext.ux.util');
-(function() {
-    Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
+/**
+ * A class that connects to a json-rpc resource and adds the available
+ * methods as functions to the class instance.
+ * @class Ext.ux.util.RpcClient
+ * @namespace Ext.ux.util
+ */
+Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
-        _components: [],
-        
-        _methods: [],
-        
-        _requests: {},
-        
-        _url: null,
-        
-        _optionKeys: ['scope', 'success', 'failure'],
-        
-        constructor: function(config) {
-            Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
-            this._url = config.url || null;
-            this._id = 0;
-            
-            this.addEvents(
-                // raw events
-                /**
-                 * @event connected
-                 * Fires when the client has retrieved the list of methods from the server.
-                 * @param {Ext.ux.util.RpcClient} this
-                 */
-                 'connected',
-                 
-                 'error'
-            );
-            this.reloadMethods();
-        },
-        
-        reloadMethods: function() {
-            Ext.each(this._components, function(component) {
-                delete this[component];
-            }, this);
-            this._execute('system.listMethods', {
-                success: this._setMethods,
-                scope: this
-            });
-        },
-    
-        _execute: function(method, options) {
-            options = options || {};
-            options.params = options.params || [];
-            options.id = this._id;
-            
-            var request = Ext.encode({
-                method: method,
-                params: options.params,
-                id: options.id
-            });
-            this._id++;
-            
-            return Ext.Ajax.request({
-                url: this._url,
-                method: 'POST',
-                success: this._onSuccess,
-                failure: this._onFailure,
-                scope: this,
-                jsonData: request,
-                options: options
-            });
-        },
-        
-        _onFailure: function(response, requestOptions) {
-            var options = requestOptions.options;
-            errorObj = {
-                id: options.id,
-                result: null,
-                error: {
-                    msg: 'HTTP: ' + response.status + ' ' + response.statusText,
-                    code: 255
-                }
-            }
-            
-            this.fireEvent('error', errorObj, response, requestOptions)
-            
-            if (Ext.type(options.failure) != 'function') return;
-            if (options.scope) {
-                options.failure.call(options.scope, errorObj, response, requestOptions);
-            } else {
-                options.failure(errorObj, response, requestOptions);
-            }            
-        },
-        
-        _onSuccess: function(response, requestOptions) {
-            var responseObj = Ext.decode(response.responseText);
-            var options = requestOptions.options;
-            if (responseObj.error) {
-                this.fireEvent('error', responseObj, response, requestOptions);
-                
-                if (Ext.type(options.failure) != 'function') return;
-                if (options.scope) {
-                    options.failure.call(options.scope, responseObj, response, requestOptions);
-                } else {
-                    options.failure(responseObj, response, requestOptions);
-                }
-            } else {
-                if (Ext.type(options.success) != 'function') return;
-                if (options.scope) {
-                    options.success.call(options.scope, responseObj.result, responseObj, response, requestOptions);
-                } else {
-                    options.success(responseObj.result, responseObj, response, requestOptions);
-                }
-            }
-        },
-        
-        _parseArgs: function(args) {
-            var params = [];
-            Ext.each(args, function(arg) {
-                params.push(arg);
-            });
-            
-            var options = params[params.length - 1];
-            if (Ext.type(options) == 'object') {
-                var keys = Ext.keys(options), isOption = false;
-                
-                Ext.each(this._optionKeys, function(key) {
-                    if (keys.indexOf(key) > -1) isOption = true;
-                });
-                
-                if (isOption) {
-                    params.remove(options)
-                } else {
-                    options = {}
-                }
-            } else {
-                options = {}
-            }
-            options.params = params;
-            return options;
-        },
-    
-        _setMethods: function(methods) {
-            var components = {}, self = this;
-            
-            Ext.each(methods, function(method) {
-                var parts = method.split('.');
-                var component = components[parts[0]] || {};
-                
-                var fn = function() {
-                    var options = self._parseArgs(arguments);
-                    return self._execute(method, options);
-                }
-                component[parts[1]] = fn;
-                components[parts[0]] = component;
-            });
-            
-            for (var name in components) {
-                self[name] = components[name];
-            }
-            
-            this._components = Ext.keys(components);
-            this.fireEvent('connected', this);
-        }
-    });
-})();
+	_components: [],
+	
+	_methods: [],
+	
+	_requests: {},
+	
+	_url: null,
+	
+	_optionKeys: ['scope', 'success', 'failure'],
+	
+	constructor: function(config) {
+		Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
+		this._url = config.url || null;
+		this._id = 0;
+		
+		this.addEvents(
+			// raw events
+			/**
+			 * @event connected
+			 * Fires when the client has retrieved the list of methods from the server.
+			 * @param {Ext.ux.util.RpcClient} this
+			 */
+			 'connected',
+			 
+			 'error'
+		);
+		this.reloadMethods();
+	},
+	
+	reloadMethods: function() {
+		Ext.each(this._components, function(component) {
+			delete this[component];
+		}, this);
+		this._execute('system.listMethods', {
+			success: this._setMethods,
+			scope: this
+		});
+	},
+
+	_execute: function(method, options) {
+		options = options || {};
+		options.params = options.params || [];
+		options.id = this._id;
+		
+		var request = Ext.encode({
+			method: method,
+			params: options.params,
+			id: options.id
+		});
+		this._id++;
+		
+		return Ext.Ajax.request({
+			url: this._url,
+			method: 'POST',
+			success: this._onSuccess,
+			failure: this._onFailure,
+			scope: this,
+			jsonData: request,
+			options: options
+		});
+	},
+	
+	_onFailure: function(response, requestOptions) {
+		var options = requestOptions.options;
+		errorObj = {
+			id: options.id,
+			result: null,
+			error: {
+				msg: 'HTTP: ' + response.status + ' ' + response.statusText,
+				code: 255
+			}
+		}
+		
+		this.fireEvent('error', errorObj, response, requestOptions)
+		
+		if (Ext.type(options.failure) != 'function') return;
+		if (options.scope) {
+			options.failure.call(options.scope, errorObj, response, requestOptions);
+		} else {
+			options.failure(errorObj, response, requestOptions);
+		}            
+	},
+	
+	_onSuccess: function(response, requestOptions) {
+		var responseObj = Ext.decode(response.responseText);
+		var options = requestOptions.options;
+		if (responseObj.error) {
+			this.fireEvent('error', responseObj, response, requestOptions);
+			
+			if (Ext.type(options.failure) != 'function') return;
+			if (options.scope) {
+				options.failure.call(options.scope, responseObj, response, requestOptions);
+			} else {
+				options.failure(responseObj, response, requestOptions);
+			}
+		} else {
+			if (Ext.type(options.success) != 'function') return;
+			if (options.scope) {
+				options.success.call(options.scope, responseObj.result, responseObj, response, requestOptions);
+			} else {
+				options.success(responseObj.result, responseObj, response, requestOptions);
+			}
+		}
+	},
+	
+	_parseArgs: function(args) {
+		var params = [];
+		Ext.each(args, function(arg) {
+			params.push(arg);
+		});
+		
+		var options = params[params.length - 1];
+		if (Ext.type(options) == 'object') {
+			var keys = Ext.keys(options), isOption = false;
+			
+			Ext.each(this._optionKeys, function(key) {
+				if (keys.indexOf(key) > -1) isOption = true;
+			});
+			
+			if (isOption) {
+				params.remove(options)
+			} else {
+				options = {}
+			}
+		} else {
+			options = {}
+		}
+		options.params = params;
+		return options;
+	},
+
+	_setMethods: function(methods) {
+		var components = {}, self = this;
+		
+		Ext.each(methods, function(method) {
+			var parts = method.split('.');
+			var component = components[parts[0]] || {};
+			
+			var fn = function() {
+				var options = self._parseArgs(arguments);
+				return self._execute(method, options);
+			}
+			component[parts[1]] = fn;
+			components[parts[0]] = component;
+		});
+		
+		for (var name in components) {
+			self[name] = components[name];
+		}
+		
+		this._components = Ext.keys(components);
+		this.fireEvent('connected', this);
+	}
+});
 /*
 Script: deluge-connections.js
 	Contains all objects and functions related to the connection manager.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -2586,10 +2640,8 @@ Copyright:
 	
 		initComponent: function() {
 			Ext.deluge.ConnectionManager.superclass.initComponent.call(this);
-			this.on({
-				'hide': this.onHide,
-				'show': this.onShow
-			});
+			this.on('hide',  this.onHide, this);
+			this.on('show', this.onShow, this);
 			Deluge.Events.on('login', this.onLogin, this);
 			Deluge.Events.on('logout', this.onLogout, this);
 	
@@ -2668,6 +2720,8 @@ Copyright:
 					]
 				})
 			});
+
+			this.update = this.update.createDelegate(this);
 		},
 
 		disconnect: function() {
@@ -2681,11 +2735,11 @@ Copyright:
 			});
 		},
 	
-		update: function(self) {
-			self.grid.getStore().each(function(r) {
+		update: function() {
+			this.grid.getStore().each(function(r) {
 				Deluge.Client.web.get_host_status(r.id, {
-					success: self.onGetHostStatus,
-					scope: self
+					success: this.onGetHostStatus,
+					scope: this
 				});
 			}, this);
 		},
@@ -2762,7 +2816,6 @@ Copyright:
 						}, this, {single: true});
 					}
 				});
-				if (this.running) window.clearInterval(this.running);
 				this.hide();
 			}
 		},
@@ -2783,6 +2836,10 @@ Copyright:
 			record.set('version', host[4])
 			record.commit();
 			if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
+		},
+
+		onHide: function() {
+			if (this.running) window.clearInterval(this.running);	
 		},
 
 		onLogin: function() {
@@ -2890,7 +2947,7 @@ Script: Deluge.Details.js
 	it's containing tabs.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -2991,7 +3048,7 @@ Script: Deluge.Details.Status.js
     The status tab displayed in the details panel.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -3078,13 +3135,13 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds
 		peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers
 		var data = {
-			downloaded: fsize(status.total_done) + ' (' + fsize(status.total_payload_download) + ')',
-			uploaded: fsize(status.total_uploaded) + ' (' + fsize(status.total_payload_upload) + ')',
+			downloaded: fsize(status.total_done),
+			uploaded: fsize(status.total_uploaded),
 			share: status.ratio.toFixed(3),
 			announce: ftime(status.next_announce),
 			tracker_status: status.tracker_status,
-			downspeed: fspeed(status.download_payload_rate),
-			upspeed: fspeed(status.upload_payload_rate),
+			downspeed: (status.download_payload_rate) ? fspeed(status.download_payload_rate) : '0.0 KiB/s',
+			upspeed: (status.upload_payload_rate) ? fspeed(status.upload_payload_rate) : '0.0 KiB/s',
 			eta: ftime(status.eta),
 			pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
 			seeders: seeders,
@@ -3096,6 +3153,9 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 			time_added: fdate(status.time_added)
 		}
 		data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
+
+		data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
+		data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
 		
 		for (var field in this.fields) {
 			this.fields[field].innerHTML = data[field];
@@ -3107,10 +3167,10 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 Deluge.Details.add(new Ext.deluge.details.StatusTab());
 /*
 Script: Deluge.Details.Details.js
-    The details tab displayed in the details panel.
+	The details tab displayed in the details panel.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -3127,80 +3187,105 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 
 */
 
 Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
-    title: _('Details'),
-    bodyStyle: 'padding 5px',
-    
-    onRender: function(ct, position) {
-	Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
-	this.load({
-	    url: '/render/tab_details.html',
-	    text: _('Loading') + '...'
-	});
-	this.oldData = {};
-	this.body.setStyle('padding', '5px');
-	this.getUpdater().on('update', this.onPanelUpdate, this);
-    },
-    
-    clear: function() {
-	if (!this.fields) return;
-	for (var k in this.fields) {
-	    this.fields[k].innerHTML = '';
+	title: _('Details'),
+
+	fields: {},
+
+	queuedItems: {},
+
+	oldData: {},
+
+	initComponent: function() {
+		Ext.deluge.details.DetailsTab.superclass.initComponent.call(this);
+		this.addItem('torrent_name', _('Name'));
+		this.addItem('hash', _('Hash'));
+		this.addItem('path', _('Path'));
+		this.addItem('size', _('Total Size'));
+		this.addItem('files', _('# of files'));
+		this.addItem('comment', _('Comment'));
+		this.addItem('status', _('Status'));
+		this.addItem('tracker', _('Tracker'));
+	},
+	
+	onRender: function(ct, position) {
+		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+		this.body.setStyle('padding', '10px');
+		this.dl = Ext.DomHelper.append(this.body, {tag: 'dl'}, true);
+
+		for (var id in this.queuedItems) {
+			this.doAddItem(id, this.queuedItems[id]);
+		}
+	},
+
+	addItem: function(id, label) {
+		if (!this.rendered) {
+			this.queuedItems[id] = label;
+		} else {
+			this.doAddItem(id, label);
+		}
+	},
+
+	// private
+	doAddItem: function(id, label) {
+		Ext.DomHelper.append(this.dl, {tag: 'dt', cls: id, html: label + ':'});
+		this.fields[id] = Ext.DomHelper.append(this.dl, {tag: 'dd', cls: id, html: ''}, true);
+	},
+	
+	clear: function() {
+		if (!this.fields) return;
+		for (var k in this.fields) {
+			this.fields[k].dom.innerHTML = '';
+		}
+	},
+	
+	update: function(torrentId) {
+		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+			success: this.onRequestComplete,
+			scope: this,
+			torrentId: torrentId
+		});
+	},
+	
+	onRequestComplete: function(torrent, request, response, options) {
+		var data = {
+			torrent_name: torrent.name,
+			hash: options.options.torrentId,
+			path: torrent.save_path,
+			size: fsize(torrent.total_size),
+			files: torrent.num_files,
+			status: torrent.tracker_status,
+			tracker: torrent.tracker,
+			comment: torrent.comment
+		};
+		
+		for (var field in this.fields) {
+			if (!data[field]) continue; // this is a field we aren't responsible for.
+			if (data[field] == this.oldData[field]) continue;
+			this.fields[field].dom.innerHTML = Ext.escapeHTML(data[field]);
+		}
+		this.oldData = data;
 	}
-    },
-    
-    update: function(torrentId) {
-	Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
-	    success: this.onRequestComplete,
-	    scope: this,
-	    torrentId: torrentId
-	});
-    },
-    
-    onPanelUpdate: function(el, response) {
-	this.fields = {};
-	Ext.each(Ext.query('dd', this.body.dom), function(field) {
-	    this.fields[field.className] = field;
-	}, this);
-    },
-    
-    onRequestComplete: function(torrent, request, response, options) {
-	var data = {
-	    torrent_name: torrent.name,
-	    hash: options.options.torrentId,
-	    path: torrent.save_path,
-	    size: fsize(torrent.total_size),
-	    files: torrent.num_files,
-	    status: torrent.tracker_status,
-	    tracker: torrent.tracker,
-	    comment: torrent.comment
-	};
-	    
-	for (var field in this.fields) {
-	    if (data[field] == this.oldData[field]) continue;
-	    this.fields[field].innerHTML = Ext.escapeHTML(data[field]);
-	}
-	this.oldData = data;
-    }
 });
-Deluge.Details.add(new Ext.deluge.details.DetailsTab());/*
+Deluge.Details.add(new Ext.deluge.details.DetailsTab());
+/*
 Script: Deluge.Details.Files.js
     The files tab displayed in the details panel.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -3420,7 +3505,7 @@ Script: Deluge.Details.Peers.js
     The peers tab displayed in the details panel.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -3459,19 +3544,11 @@ Copyright:
 	}
 	function peerProgressRenderer(value) {
 		var progress = (value * 100).toFixed(0);
-		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]).toFixed(0) - 8;
-		return Deluge.progressBar(progress, width, progress + '%');
+		return Deluge.progressBar(progress, this.width - 8, progress + '%');
 	}
 	function sort_address(value) {
-		var m = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
-		var address = 0;
-		var parts = [m[1], m[2], m[3], m[4]];
-		Ext.each(parts, function(part, index) {
-			part = parseInt(part);
-			address = address | part << ((3 - index) * 8);
-			//alert("Total: " + address + "\nPart: " + part + "\nIndex: " + index + "\nCalc: " + (part << ((3 - index) * 8)));
-		});
-		return address;
+		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
+		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
 	}
 
 	Ext.deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
@@ -3561,12 +3638,13 @@ Copyright:
 		}
 	});
 	Deluge.Details.add(new Ext.deluge.details.PeersTab());
-})();/*
+})();
+/*
 Script: Deluge.Details.Options.js
     The options tab displayed in the details panel.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -3983,7 +4061,7 @@ Script: Deluge.EditTrackers.js
 	Contains the edit trackers window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4093,8 +4171,8 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.EditTracker.superclass.initComponent.call(this);
 			
-			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Save'), this.onSave, this);
+			this.addButton(_('Cancel'), this.onCancelClick, this);
+			this.addButton(_('Save'), this.onSaveClick, this);
 			this.on('hide', this.onHide, this);
 			
 			this.form = this.add({
@@ -4117,7 +4195,7 @@ Copyright:
 			this.form.getForm().findField('tracker').setValue(record.data['url']);
 		},
 		
-		onCancel: function() {
+		onCancelClick: function() {
 			this.hide();
 		},
 		
@@ -4125,7 +4203,7 @@ Copyright:
 			this.form.getForm().findField('tracker').setValue('');
 		},
 		
-		onSave: function() {
+		onSaveClick: function() {
 			var url = this.form.getForm().findField('tracker').getValue();
 			this.record.set('url', url);
 			this.record.commit();
@@ -4155,8 +4233,8 @@ Copyright:
 		initComponent: function() {
 			Ext.deluge.EditTrackers.superclass.initComponent.call(this);
 			
-			this.addButton(_('Cancel'), this.onCancel, this);
-			this.addButton(_('Ok'), this.onOk, this);
+			this.addButton(_('Cancel'), this.onCancelClick, this);
+			this.addButton(_('Ok'), this.onOkClick, this);
 			this.addEvents('save');
 			
 			this.on('show', this.onShow, this);
@@ -4272,7 +4350,7 @@ Copyright:
 			this.grid.getStore().removeAll();
 		},
 		
-		onOk: function() {
+		onOkClick: function() {
 			var trackers = [];
 			this.grid.getStore().each(function(record) {
 				trackers.push({
@@ -4325,12 +4403,22 @@ Copyright:
 	});
 	Deluge.EditTrackers = new Ext.deluge.EditTrackers();
 })();
+Ext.namespace('Deluge');
+Deluge.FileBrowser = Ext.extend(Ext.Window, {
+
+	title: 'Filebrowser',
+	
+	initComponent: function() {
+		Deluge.FileBrowser.superclass.initComponent.call(this);
+	}
+
+});
 /*
 Script: Deluge.Login.js
     Contains all objects and functions related to the login system.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4488,7 +4576,7 @@ Script: Deluge.MoveStorage.js
     Contains the move storage window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4579,10 +4667,10 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 Deluge.MoveStorage = new Ext.deluge.MoveStorage();
 /*
 Script: Deluge.Plugin.js
-    Contains a base class for plugins to extend.
+	Contains a base class for plugins to extend.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4599,44 +4687,75 @@ Copyright:
 		51 Franklin Street, Fifth Floor
 		Boston, MA  02110-1301, USA.
 
-    In addition, as a special exception, the copyright holders give
-    permission to link the code of portions of this program with the OpenSSL
-    library.
-    You must obey the GNU General Public License in all respects for all of
-    the code used other than OpenSSL. If you modify file(s) with this
-    exception, you may extend this exception to your version of the file(s),
-    but you are not obligated to do so. If you do not wish to do so, delete
-    this exception statement from your version. If you delete this exception
-    statement from all source files in the program, then also delete it here.
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
 */
 
+/**
+ * @class Deluge.Plugin
+ * @extends Ext.util.Observable
+ */
 Deluge.Plugin = Ext.extend(Ext.util.Observable, {
-    constructor: function(config) {
-        this.name = config.name;
-        this.addEvents({
-            "enabled": true,
-            "disabled": true
-        });
-        this.isDelugePlugin = true;
-        Deluge.Plugins[this.name] = this;
-        Deluge.Plugin.superclass.constructor.call(this, config);
-    },
-    
-    disable: function() {
-	this.fireEvent("disabled", this);
-	if (this.onDisable) this.onDisable();
-    },
-    
-    enable: function() {
-	this.fireEvent("enable", this);
-	if (this.onEnable) this.onEnable();
-    }
-});/*
+
+	/**
+	 * The plugins name
+	 * @property name
+	 * @type {String}
+	 */
+	name: null,
+
+	constructor: function(config) {
+		this.name = config.name;
+		this.addEvents({
+			
+			/**
+			 * @event enabled
+			 * @param {Plugin} plugin the plugin instance
+			 */
+			"enabled": true,
+
+			/**
+			 * @event disabled
+			 * @param {Plugin} plugin the plugin instance
+			 */
+			"disabled": true
+		});
+		this.isDelugePlugin = true;
+		Deluge.Plugins[this.name] = this;
+		Deluge.Plugin.superclass.constructor.call(this, config);
+	},
+	
+	/**
+	 * Disables the plugin, firing the "{@link #disabled}" event and
+	 * then executing the plugins clean up method onDisabled.
+	 */
+	disable: function() {
+		this.fireEvent("disabled", this);
+		if (this.onDisable) this.onDisable();
+	},
+	
+	/**
+	 * Enables the plugin, firing the "{@link #enabled}" event and
+	 * then executes the plugins setup method, onEnabled.
+	 */
+	enable: function() {
+		this.fireEvent("enable", this);
+		if (this.onEnable) this.onEnable();
+	}
+});
+/*
 Script: Deluge.Preferences.js
     Contains the preferences window.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4827,7 +4946,7 @@ Script: Deluge.Preferences.Downloads.js
 	The downloads preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -4980,7 +5099,7 @@ Script: Deluge.Preferences.Network.js
     The network preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -5215,7 +5334,7 @@ Script: Deluge.Preferences.Encryption.js
     The encryption preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -5328,7 +5447,7 @@ Script: Deluge.Preferences.Bandwidth.js
     The bandwidth preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -5542,7 +5661,7 @@ Script: Deluge.Preferences.Interface.js
     The interface preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -5802,7 +5921,7 @@ Script: Deluge.Preferences.Other.js
     The other preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -5908,7 +6027,7 @@ Script: Deluge.Preferences.Daemon.js
     The daemon preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6010,7 +6129,7 @@ Script: Deluge.Preferences.Queue.js
     The queue preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6231,7 +6350,7 @@ Script: Deluge.Preferences.Proxy.js
     The proxy preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6349,9 +6468,7 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 		}
 	},
 
-	/**
-	 * Set the values of the proxies
-	 */
+	// Set the values of the proxies
 	setValue: function(value) {
 		this.setting = true;
 		this.type.setValue(value['type']);
@@ -6464,7 +6581,7 @@ Script: Deluge.Preferences.Cache.js
     The cache preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6548,7 +6665,7 @@ Script: Deluge.Preferences.Plugins.js
 	The plugins preferences page.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6880,7 +6997,7 @@ Script:
 	Deluge.Remove.js
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -6908,6 +7025,9 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
+/**
+ * @class Ext.deluge.RemoveWindow
+ */
 Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 
 	constructor: function(config) {
@@ -6983,7 +7103,7 @@ Script: deluge-bars.js
         sidebar.
 
 Copyright:
-    (C) Damien Churchill 2009 <damoxc@gmail.com>
+    (C) Damien Churchill 2009-2010 <damoxc@gmail.com>
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3, or (at your option)
@@ -7038,6 +7158,11 @@ Copyright:
         }
     }
 
+	/**
+	 * @class Ext.deluge.Sidebar
+	 * @author Damien Churchill <damoxc@gmail.com>
+	 * @version 1.3
+	 */
     Ext.deluge.Sidebar = Ext.extend(Ext.Panel, {
 
         // private
@@ -7311,7 +7436,7 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 				var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
 			}
 			item.setText(str);
-		}.bind(this);
+		}.createDelegate(this);
 		
 		updateStat('connections', {
 			value: {value: stats.num_connections},
@@ -7369,7 +7494,7 @@ Script: Deluge.Toolbar.js
     Contains the Deluge toolbar.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -7398,181 +7523,278 @@ Copyright:
 
 */
 
-(function() {
-	Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
-		constructor: function(config) {
-			config = Ext.apply({
-				items: [
-					{
-						id: 'create',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Create'),
-						icon: '/icons/create.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'add',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Add'),
-						icon: '/icons/add.png',
-						handler: this.onTorrentAdd
-					},{
-						id: 'remove',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Remove'),
-						icon: '/icons/remove.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'pause',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Pause'),
-						icon: '/icons/pause.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'resume',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Resume'),
-						icon: '/icons/start.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'up',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Up'),
-						icon: '/icons/up.png',
-						handler: this.onTorrentAction
-					},{
-						id: 'down',
-						cls: 'x-btn-text-icon',
-						disabled: true,
-						text: _('Down'),
-						icon: '/icons/down.png',
-						handler: this.onTorrentAction
-					},'|',{
-						id: 'preferences',
-						cls: 'x-btn-text-icon',
-						text: _('Preferences'),
-						iconCls: 'x-deluge-preferences',
-						handler: this.onPreferencesClick,
-						scope: this
-					},{
-						id: 'connectionman',
-						cls: 'x-btn-text-icon',
-						text: _('Connection Manager'),
-						iconCls: 'x-deluge-connection-manager',
-						handler: this.onConnectionManagerClick,
-						scope: this
-					},'->',{
-						id: 'help',
-						cls: 'x-btn-text-icon',
-						icon: '/icons/help.png',
-						text: _('Help'),
-						handler: this.onHelpClick,
-						scope: this
-					},{
-						id: 'logout',
-						cls: 'x-btn-text-icon',
-						icon: '/icons/logout.png',
-						disabled: true,
-						text: _('Logout'),
-						handler: this.onLogout,
-						scope: this
-					}
-				]
-			}, config);
-			Ext.deluge.Toolbar.superclass.constructor.call(this, config);
-		},
+/**
+ * An extension of the <tt>Ext.Toolbar</tt> class that provides an extensible toolbar for Deluge.
+ * @class Ext.deluge.Toolbar
+ * @extends Ext.Toolbar
+ */
+Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
+	constructor: function(config) {
+		config = Ext.apply({
+			items: [
+				{
+					id: 'create',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Create'),
+					icon: '/icons/create.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'add',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Add'),
+					icon: '/icons/add.png',
+					handler: this.onTorrentAdd
+				},{
+					id: 'remove',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Remove'),
+					icon: '/icons/remove.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'pause',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Pause'),
+					icon: '/icons/pause.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'resume',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Resume'),
+					icon: '/icons/start.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'up',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Up'),
+					icon: '/icons/up.png',
+					handler: this.onTorrentAction
+				},{
+					id: 'down',
+					cls: 'x-btn-text-icon',
+					disabled: true,
+					text: _('Down'),
+					icon: '/icons/down.png',
+					handler: this.onTorrentAction
+				},'|',{
+					id: 'preferences',
+					cls: 'x-btn-text-icon',
+					text: _('Preferences'),
+					iconCls: 'x-deluge-preferences',
+					handler: this.onPreferencesClick,
+					scope: this
+				},{
+					id: 'connectionman',
+					cls: 'x-btn-text-icon',
+					text: _('Connection Manager'),
+					iconCls: 'x-deluge-connection-manager',
+					handler: this.onConnectionManagerClick,
+					scope: this
+				},'->',{
+					id: 'help',
+					cls: 'x-btn-text-icon',
+					icon: '/icons/help.png',
+					text: _('Help'),
+					handler: this.onHelpClick,
+					scope: this
+				},{
+					id: 'logout',
+					cls: 'x-btn-text-icon',
+					icon: '/icons/logout.png',
+					disabled: true,
+					text: _('Logout'),
+					handler: this.onLogout,
+					scope: this
+				}
+			]
+		}, config);
+		Ext.deluge.Toolbar.superclass.constructor.call(this, config);
+	},
 
-		connectedButtons: [
-			'add', 'remove', 'pause', 'resume', 'up', 'down'
-		],
-		
-		initComponent: function() {
-			Ext.deluge.Toolbar.superclass.initComponent.call(this);
-			Deluge.Events.on('connect', this.onConnect, this);
-			Deluge.Events.on('login', this.onLogin, this);
-		},
-		
-		onConnect: function() {
-			Ext.each(this.connectedButtons, function(buttonId) {
-				this.items.get(buttonId).enable();
-			}, this);
-		},
-		
-		onDisconnect: function() {
-			Ext.each(this.connectedButtons, function(buttonId) {
-				this.items.get(buttonId).disable();
-			}, this);
-		},
-		
-		onLogin: function() {
-			this.items.get('logout').enable();
-		},
-		
-		onLogout: function() {
-			this.items.get('logout').disable();
-			Deluge.Login.logout();
-		},
-		
-		onConnectionManagerClick: function() {
-			Deluge.ConnectionManager.show();
-		},
-		
-		onHelpClick: function() {
-			window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
-		},
-		
-		onPreferencesClick: function() {
-			Deluge.Preferences.show();
-		},
-		
-		onTorrentAction: function(item) {
-			var selection = Deluge.Torrents.getSelections();
-			var ids = [];
-			Ext.each(selection, function(record) {
-				ids.push(record.id);
-			});
-			
-			switch (item.id) {
-				case 'remove':
-					Deluge.RemoveWindow.show(ids);
-					break;
-				case 'pause':
-				case 'resume':
-					Deluge.Client.core[item.id + '_torrent'](ids, {
-						success: function() {
-							Deluge.UI.update();
-						}
-					});
-					break;
-				case 'up':
-				case 'down':
-					Deluge.Client.core['queue_' + item.id](ids, {
-						success: function() {
-							Deluge.UI.update();
-						}
-					});
-					break;
-			}
-		},
-		
-		onTorrentAdd: function() {
-			Deluge.Add.show();
-		}
-	});
+	connectedButtons: [
+		'add', 'remove', 'pause', 'resume', 'up', 'down'
+	],
 	
-	Deluge.Toolbar = new Ext.deluge.Toolbar();
-})();
+	initComponent: function() {
+		Ext.deluge.Toolbar.superclass.initComponent.call(this);
+		Deluge.Events.on('connect', this.onConnect, this);
+		Deluge.Events.on('login', this.onLogin, this);
+	},
+	
+	onConnect: function() {
+		Ext.each(this.connectedButtons, function(buttonId) {
+			this.items.get(buttonId).enable();
+		}, this);
+	},
+	
+	onDisconnect: function() {
+		Ext.each(this.connectedButtons, function(buttonId) {
+			this.items.get(buttonId).disable();
+		}, this);
+	},
+	
+	onLogin: function() {
+		this.items.get('logout').enable();
+	},
+	
+	onLogout: function() {
+		this.items.get('logout').disable();
+		Deluge.Login.logout();
+	},
+	
+	onConnectionManagerClick: function() {
+		Deluge.ConnectionManager.show();
+	},
+	
+	onHelpClick: function() {
+		window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
+	},
+	
+	onPreferencesClick: function() {
+		Deluge.Preferences.show();
+	},
+	
+	onTorrentAction: function(item) {
+		var selection = Deluge.Torrents.getSelections();
+		var ids = [];
+		Ext.each(selection, function(record) {
+			ids.push(record.id);
+		});
+		
+		switch (item.id) {
+			case 'remove':
+				Deluge.RemoveWindow.show(ids);
+				break;
+			case 'pause':
+			case 'resume':
+				Deluge.Client.core[item.id + '_torrent'](ids, {
+					success: function() {
+						Deluge.UI.update();
+					}
+				});
+				break;
+			case 'up':
+			case 'down':
+				Deluge.Client.core['queue_' + item.id](ids, {
+					success: function() {
+						Deluge.UI.update();
+					}
+				});
+				break;
+		}
+	},
+	
+	onTorrentAdd: function() {
+		Deluge.Add.show();
+	}
+});
+
+Deluge.Toolbar = new Ext.deluge.Toolbar();
+/*
+Script: Deluge.Torrent.js
+	Contains the Deluge.Torrent record.
+
+Copyright:
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 3, or (at your option)
+	any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, write to:
+	        The Free Software Foundation, Inc.,
+	        51 Franklin Street, Fifth Floor
+	        Boston, MA  02110-1301, USA.
+
+	In addition, as a special exception, the copyright holders give
+	permission to link the code of portions of this program with the OpenSSL
+	library.
+	You must obey the GNU General Public License in all respects for all of
+	the code used other than OpenSSL. If you modify file(s) with this
+	exception, you may extend this exception to your version of the file(s),
+	but you are not obligated to do so. If you do not wish to do so, delete
+	this exception statement from your version. If you delete this exception
+	statement from all source files in the program, then also delete it here.
+*/
+
+/**
+ * Deluge.Torrent record
+ *
+ * @author Damien Churchill <damoxc@gmail.com>
+ * @version 1.3
+ *
+ * @class Deluge.Torrent
+ * @extends Ext.data.Record
+ * @constructor
+ * @param {Object} data The torrents data
+ */
+Deluge.Torrent = Ext.data.Record.create([{
+		name: 'queue',
+		type: 'int'
+	}, {
+		name: 'name',
+		type: 'string'
+	}, {
+		name: 'total_size',
+		type: 'int'
+	}, {
+		name: 'state',
+		type: 'string'
+	}, {
+		name: 'progress',
+		type: 'int'
+	}, {
+		name: 'num_seeds',
+		type: 'int'
+	}, {
+		name: 'total_seeds',
+		type: 'int'
+	}, {
+		name: 'num_peers',
+		type: 'int'
+	}, {
+		name: 'total_peers',
+		type: 'int'
+	}, {
+		name: 'download_payload_rate',
+		type: 'int'
+	}, {
+		name: 'upload_payload_rate',
+		type: 'int'
+	}, {
+		name: 'eta',
+		type: 'int'
+	}, {
+		name: 'ratio',
+		type: 'float'
+	}, {
+		name: 'distributed_copies',
+		type: 'float'
+	}, {
+		name: 'time_added',
+		type: 'int'
+	}, {
+		name: 'tracker_host',
+		type: 'string'
+	}
+]);
 /*
 Script: Deluge.Torrents.js
 	Contains all objects and functions related to the torrent grid.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -7602,6 +7824,7 @@ Copyright:
 */
 
 (function() {
+
 	/* Renderers for the Torrent Grid */
 	function queueRenderer(value) {
 		return (value == 99999) ? '' : value + 1;
@@ -7616,8 +7839,9 @@ Copyright:
 	function torrentProgressRenderer(value, p, r) {
 		value = new Number(value);
 		var progress = value;
-		var text = r.data['state'] + ' ' + value.toFixed(2) + '%'
-		return Deluge.progressBar(value, this.width - 8, text);
+		var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
+		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
+		return Deluge.progressBar(value, width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
 		if (r.data['total_seeds'] > -1) {
@@ -7648,7 +7872,7 @@ Copyright:
 	 * Ext.deluge.TorrentGrid Class
 	 *
 	 * @author Damien Churchill <damoxc@gmail.com>
-	 * @version 1.2
+	 * @version 1.3
 	 *
 	 * @class Ext.deluge.TorrentGrid
 	 * @extends Ext.grid.GridPanel
@@ -7656,6 +7880,10 @@ Copyright:
 	 * @param {Object} config Configuration options
 	 */
 	Ext.deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
+
+		// object to store contained torrent ids
+		torrents: {},
+
 		constructor: function(config) {
 			config = Ext.apply({
 				id: 'torrentGrid',
@@ -7769,7 +7997,11 @@ Copyright:
 				deferredRender:false,
 				autoScroll:true,
 				margins: '5 5 0 0',
-				stateful: true
+				stateful: true,
+				view: new Ext.ux.grid.BufferView({
+					rowHeight: 26,
+					scrollDelay: false
+				})
 			}, config);
 			Ext.deluge.TorrentGrid.superclass.constructor.call(this, config);
 		},
@@ -7799,6 +8031,10 @@ Copyright:
 		return this.getStore().getAt(index);
 	},
 
+	/**
+	 * Returns the currently selected record.
+	 * @ return {Array/Ext.data.Record} The record(s) representing the rows
+	 */
 	getSelected: function() {
 	return this.getSelectionModel().getSelected();
 	},
@@ -7807,14 +8043,42 @@ Copyright:
 		return this.getSelectionModel().getSelections();
 	},
 
-	update: function(torrents, bulk) {
-		if (bulk) {
-			this.getStore().loadData({"torrents": Ext.values(torrents)});
-		} else {
-			this.getStore().loadData({"torrents": Ext.values(torrents)});
+	update: function(torrents) {
+		var store = this.getStore();
+		var newTorrents = [];
+
+		// Update and add any new torrents.
+		for (var t in torrents) {
+			var torrent = torrents[t];
+
+			if (this.torrents[t]) {
+				var record = store.getById(t);
+				record.beginEdit();
+				for (var k in torrent) {
+					if (record.get(k) != torrent[k]) {
+						record.set(k, torrent[k]);
+					}
+				}
+				record.endEdit();
+			} else {
+				var record = new Deluge.Torrent(torrent);
+				record.id = t;
+				this.torrents[t] = 1;
+				newTorrents.push(record);
+			}
 		}
+		store.add(newTorrents);
+
+		// Remove any torrents that should not be in the store.
+		store.each(function(record) {
+			if (!torrents[record.id]) {
+				store.remove(record);
+			}
+		});
+		store.commitChanges();
 	},
 
+	// private
 	onDisconnect: function() {
 		this.getStore().removeAll();
 	},
@@ -7839,7 +8103,7 @@ Script: Deluge.UI.js
 	of the server.
 
 Copyright:
-	(C) Damien Churchill 2009 <damoxc@gmail.com>
+	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 3, or (at your option)
@@ -7876,6 +8140,8 @@ Copyright:
 Deluge.UI = {
 
 	errorCount: 0,
+
+	filters: null,
 
 	/**
 	 * @description Create all the interface components, the json-rpc client
@@ -7919,7 +8185,7 @@ Deluge.UI = {
 			Deluge.Login.show();
 		}, this, {single: true});
 	
-		this.update = this.update.bind(this);
+		this.update = this.update.createDelegate(this);
 	},
 
 	update: function() {
