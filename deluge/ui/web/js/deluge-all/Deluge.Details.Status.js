@@ -53,7 +53,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 				'render': {
 					fn: function(panel) {
 						panel.load({
-							url: '/render/tab_status.html',
+							url: Deluge.config.base + 'render/tab_status.html',
 							text: _('Loading') + '...'
 						});
 						panel.getUpdater().on('update', this.onPanelUpdate, this);
