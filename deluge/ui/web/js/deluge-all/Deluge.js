@@ -85,7 +85,7 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		}
     });
     Ext.getKeys = Ext.keys;
-    Ext.BLANK_IMAGE_URL = '/images/s.gif';
+    Ext.BLANK_IMAGE_URL = Deluge.config.base + 'images/s.gif';
 	Ext.USE_NATIVE_JSON = true;
 })();
 
