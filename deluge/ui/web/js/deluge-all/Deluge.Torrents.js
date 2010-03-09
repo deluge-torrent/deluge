@@ -70,7 +70,7 @@ Copyright:
 		return (value < 0) ? '∞' : new Number(value).toFixed(3);
 	}
 	function trackerRenderer(value, p, r) {
-		return String.format('<div style="background: url(/tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
+		return String.format('<div style="background: url(' + Deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 	}
 	
 	function etaSorter(eta) {

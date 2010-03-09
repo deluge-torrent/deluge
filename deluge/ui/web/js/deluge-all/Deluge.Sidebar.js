@@ -45,7 +45,7 @@ Copyright:
         var image = '';	
         if (r.store.id == 'tracker_host') {
             if (value != 'Error') {
-                image = String.format('url(/tracker/{0})', value);
+                image = String.format('url(' + Deluge.config.base + 'tracker/{0})', value);
             } else {
                 lname = null;
             }
