@@ -363,3 +363,7 @@ dl.singleline dd {
 .icon-forward {
 	background-image: url('../icons/forward.png') !important;
 }
+
+.icon-home {
+	background-image: url('../icons/home.png') !important;
+}

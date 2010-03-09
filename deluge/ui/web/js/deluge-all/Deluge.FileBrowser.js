@@ -1,7 +1,7 @@
 Ext.namespace('Deluge');
 Deluge.FileBrowser = Ext.extend(Ext.Window, {
 
-	title: 'Filebrowser',
+	title: _('File Browser'),
 
 	width:  500,
 	height: 400,
@@ -12,11 +12,17 @@ Deluge.FileBrowser = Ext.extend(Ext.Window, {
 		this.add({
 			xtype: 'toolbar',
 			items: [{
-				cls: 'x-btn-icon',
+				text: _('Back'),
 				iconCls: 'icon-back'
 			}, {
-				cls: 'x-btn-icon',
+				text: _('Forward'),
 				iconCls: 'icon-forward'
+			}, {
+				text: _('Up'),
+				iconCls: 'icon-up'
+			}, {
+				text: _('Home'),
+				iconCls: 'icon-home'
 			}]
 		});
 	}
