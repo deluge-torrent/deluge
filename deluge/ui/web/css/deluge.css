@@ -12,7 +12,7 @@ input {
 }
 
 .x-deluge-main-panel {
-	background-image: url('/icons/deluge.png');
+	background-image: url('../icons/deluge.png');
 }
 
 .deluge-torrents td, .x-deluge-peers td {
@@ -30,24 +30,24 @@ input {
 }
 
 /* Icon classes */
-.x-deluge-all { background-image: url('/icons/all.png'); }
-.x-deluge-active { background-image: url('/icons/active.png'); }
-.x-deluge-downloading, .x-btn .x-deluge-downloading, .x-deluge-peer { background-image: url('/icons/downloading.png'); }
-.x-deluge-seeding, .x-btn .x-deluge-seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('/icons/seeding.png'); }
-.x-deluge-queued, .x-btn .x-deluge-queued, .deluge-torrents .queued { background-image: url('/icons/queued.png'); }
-.x-deluge-paused, .x-btn .x-deluge-paused, .deluge-torrents .paused { background-image: url('/icons/inactive.png'); }
-.x-deluge-error, .deluge-torrents .error { background-image: url('/icons/alert.png'); }
-.x-deluge-checking, .deluge-torrents .checking { background-image: url('/icons/checking.png'); }
-.x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('/icons/dht.png'); }
-.x-deluge-preferences, .x-btn .x-deluge-preferences { background-image: url('/icons/preferences.png') }
-.x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('/icons/connections.png') }
-.x-deluge-connection-manager, .x-btn .x-deluge-connection-manager { background-image: url('/icons/connection_manager.png') }
-.x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('/icons/traffic.png') }
-.x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('/icons/edit_trackers.png'); }
-.x-deluge-freespace, .x-btn .x-deluge-freespace  {background-image: url('/icons/drive.png'); }
+.x-deluge-all { background-image: url('../icons/all.png'); }
+.x-deluge-active { background-image: url('../icons/active.png'); }
+.x-deluge-downloading, .x-btn .x-deluge-downloading, .x-deluge-peer { background-image: url('../icons/downloading.png'); }
+.x-deluge-seeding, .x-btn .x-deluge-seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('../icons/seeding.png'); }
+.x-deluge-queued, .x-btn .x-deluge-queued, .deluge-torrents .queued { background-image: url('../icons/queued.png'); }
+.x-deluge-paused, .x-btn .x-deluge-paused, .deluge-torrents .paused { background-image: url('../icons/inactive.png'); }
+.x-deluge-error, .deluge-torrents .error { background-image: url('../icons/alert.png'); }
+.x-deluge-checking, .deluge-torrents .checking { background-image: url('../icons/checking.png'); }
+.x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('../icons/dht.png'); }
+.x-deluge-preferences, .x-btn .x-deluge-preferences { background-image: url('../icons/preferences.png') }
+.x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('../icons/connections.png') }
+.x-deluge-connection-manager, .x-btn .x-deluge-connection-manager { background-image: url('../icons/connection_manager.png') }
+.x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('../icons/traffic.png') }
+.x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('../icons/edit_trackers.png'); }
+.x-deluge-freespace, .x-btn .x-deluge-freespace  {background-image: url('../icons/drive.png'); }
 
-.x-deluge-install-plugin, .x-btn .x-deluge-install-plugin {background-image: url('/icons/install_plugin.png'); }
-.x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('/icons/find_more.png'); }
+.x-deluge-install-plugin, .x-btn .x-deluge-install-plugin {background-image: url('../icons/install_plugin.png'); }
+.x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('../icons/find_more.png'); }
 
 
 /* Torrent Details */
@@ -124,17 +124,17 @@ dl.singleline dd {
 
 /* Login Window */
 .x-deluge-login-window-icon {
-	background: url('/icons/login.png') no-repeat 2px;
+	background: url('../icons/login.png') no-repeat 2px;
 }
 
 /* Remove Window */
 .x-deluge-remove-window-icon {
-	background: url('/icons/remove.png') no-repeat 2px;
+	background: url('../icons/remove.png') no-repeat 2px;
 }
 
 /* Add Window */
 .x-deluge-add-window-icon {
-	background: url('/icons/add.png') no-repeat 2px;
+	background: url('../icons/add.png') no-repeat 2px;
 }
 
 .x-deluge-add-torrent-name {
@@ -149,21 +149,21 @@ dl.singleline dd {
 
 /* Add Url Window */
 .x-deluge-add-file, .x-btn .x-deluge-add-file {
-	background: url('/icons/add_file.png') no-repeat 2px;
+	background: url('../icons/add_file.png') no-repeat 2px;
 }
 
 .x-deluge-add-url-window-icon {
-	background: url('/icons/add_url.png') no-repeat 2px;
+	background: url('../icons/add_url.png') no-repeat 2px;
 }
 
 /* Connect Window */
 .x-deluge-connect-window-icon {
-	background: url('/icons/connection_manager.png') no-repeat 2px;
+	background: url('../icons/connection_manager.png') no-repeat 2px;
 }
 
 /* Statusbar */
 #deluge-statusbar .x-not-connected {
-	background: url('/icons/error.png') no-repeat 2px;
+	background: url('../icons/error.png') no-repeat 2px;
 	padding-left: 20px;
 }
 
@@ -241,15 +241,15 @@ dl.singleline dd {
 
 /* MessageBox icon styles */
 .x-deluge-icon-warning {
-	background: url('/icons/warning.png') no-repeat 2px;
+	background: url('../icons/warning.png') no-repeat 2px;
 }
 
 .x-deluge-icon-error {
-	background: url('/icons/error.png') no-repeat 2px;
+	background: url('../icons/error.png') no-repeat 2px;
 }
 
 .x-tree-node-leaf .x-deluge-file {
-	background-image: url('/icons/document.png');
+	background-image: url('../icons/document.png');
 }
 
 .x-deluge-add-file-checkbox {
@@ -264,69 +264,69 @@ dl.singleline dd {
 }
 
 .x-no-download {
-	background-image: url(/icons/no_download.png);
+	background-image: url(../icons/no_download.png);
 }
 
 .x-normal-download {
-	background-image: url(/icons/normal.png);
+	background-image: url(../icons/normal.png);
 }
 
 .x-high-download {
-	background-image: url(/icons/high.png);
+	background-image: url(../icons/high.png);
 }
 
 .x-highest-download {
-	background-image: url(/icons/highest.png);
+	background-image: url(../icons/highest.png);
 }
 
 .x-mixed-download {
-	/*background-image: url(/icons/mixed.png);*/
+	/*background-image: url(../icons/mixed.png);*/
 }
 
 .icon-pause {
-	background-image: url('/icons/pause.png');
+	background-image: url('../icons/pause.png');
 }
 
 .icon-resume {
-	background-image: url('/icons/start.png');
+	background-image: url('../icons/start.png');
 }
 
 .icon-options {
-	background-image: url('/icons/preferences.png');
+	background-image: url('../icons/preferences.png');
 }
 
 .icon-queue {
-	background-image: url('/icons/queue.png');
+	background-image: url('../icons/queue.png');
 }
 
 .icon-top {
-	background-image: url('/icons/top.png');
+	background-image: url('../icons/top.png');
 }
 
 .icon-up {
-	background-image: url('/icons/up.png');
+	background-image: url('../icons/up.png');
 }
 
 .icon-down {
-	background-image: url('/icons/down.png');
+	background-image: url('../icons/down.png');
 }
 
 .icon-bottom {
-	background-image: url('/icons/bottom.png');
+	background-image: url('../icons/bottom.png');
 }
 
 .icon-update-tracker {
-	background-image: url('/icons/update.png');
+	background-image: url('../icons/update.png');
 }
 .icon-edit-trackers {
-	background-image: url('/icons/edit_trackers.png');
+	background-image: url('../icons/edit_trackers.png');
 }
 .icon-remove {
-	background-image: url('/icons/remove.png');
+	background-image: url('../icons/remove.png');
 }
 .icon-recheck {
-	background-image: url('/icons/recheck.png');
+	background-image: url('../icons/recheck.png');
 }
 .icon-move {
-	background-image: url('/icons/move.png');
+	background-image: url('../icons/move.png');
 }
