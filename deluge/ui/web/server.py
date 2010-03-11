@@ -95,7 +95,7 @@ CONFIG_DEFAULTS = {
     "show_session_speed": False,
     "show_sidebar": True,
     "theme": "gray",
-    "first_load": True,
+    "first_login": True,
 
     # Server Settings
     "base": "/",
