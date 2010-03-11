@@ -95,6 +95,7 @@ CONFIG_DEFAULTS = {
     "show_session_speed": False,
     "show_sidebar": True,
     "theme": "gray",
+    "first_load": True,
 
     # Server Settings
     "base": "/",
@@ -106,7 +107,7 @@ CONFIG_DEFAULTS = {
 
 UI_CONFIG_KEYS = (
     "theme", "sidebar_show_zero", "sidebar_show_trackers",
-    "show_session_speed", "base"
+    "show_session_speed", "base", "first_load"
 )
 
 OLD_CONFIG_KEYS = (
@@ -132,9 +133,9 @@ class Config(resource.Resource):
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
         return compress("""Deluge = {
     author: 'Damien Churchill <damoxc@gmail.com>',
-    version: '1.2-dev',
+    version: '%s',
     config: %s
-}""" % common.json.dumps(config), request)
+}""" % (common.get_version(), common.json.dumps(config)), request)
 
 class GetText(resource.Resource):
     def render(self, request):
