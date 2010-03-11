@@ -1,5 +1,5 @@
 /*
-Script: deluge-connections.js
+Script: Deluge.ConnectionManager.js
 	Contains all objects and functions related to the connection manager.
 
 Copyright:
@@ -84,8 +84,7 @@ Copyright:
 			this.portField = this.form.add({
 				fieldLabel: _('Port'),
 				id: 'port',
-				xtype: 'uxspinner',
-				ctCls: 'x-form-uxspinner',
+				xtype: 'spinnerfield',
 				name: 'port',
 				strategy: {
 					xtype: 'number',
