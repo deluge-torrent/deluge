@@ -107,7 +107,7 @@ CONFIG_DEFAULTS = {
 
 UI_CONFIG_KEYS = (
     "theme", "sidebar_show_zero", "sidebar_show_trackers",
-    "show_session_speed", "base", "first_load"
+    "show_session_speed", "base", "first_login"
 )
 
 OLD_CONFIG_KEYS = (
