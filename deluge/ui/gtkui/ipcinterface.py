@@ -58,9 +58,23 @@ class IPCProtocolClient(Protocol):
     def connectionMade(self):
         self.transport.write(deluge.rencode.dumps(self.factory.args))
         self.transport.loseConnection()
+        
     def connectionLost(self, reason):
         reactor.stop()
+        self.factory.stop = True
+        
+class IPCClientFactory(ClientFactory):
+    protocol = IPCProtocolClient
 
+    def __init__(self, args, connect_failed):
+        self.stop = False
+        self.args = args
+        self.connect_failed = connect_failed
+        
+    def clientConnectionFailed(self, connector, reason):
+        log.info("Connection to running instance failed.  Starting new one..")
+        reactor.stop()
+    
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
@@ -125,17 +139,44 @@ class IPCInterface(component.Component):
                 reactor.listenUNIX(socket, self.factory, wantPID=True)
             except twisted.internet.error.CannotListenError, e:
                 log.info("Deluge is already running! Sending arguments to running instance..")
-                self.factory = ClientFactory()
-                self.factory.args = args
-                self.factory.protocol = IPCProtocolClient
+                self.factory = IPCClientFactory(args, self.connect_failed)
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
                 reactor.run()
-                import gtk
-                gtk.gdk.notify_startup_complete()
-                sys.exit(0)
+                if self.factory.stop:
+                    import gtk
+                    gtk.gdk.notify_startup_complete()
+                    sys.exit(0)
+                else:
+                    self.connect_failed(args)
             else:
                 process_args(args)
 
+    def connect_failed(self, args):
+        # This gets called when we're unable to do a connectUNIX to the ipc
+        # socket.  We'll delete the lock and socket files and start up Deluge.
+        #reactor.stop()
+        socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
+        if os.path.exists(socket):
+            try:
+                os.remove(socket)
+            except Exception, e:
+                log.error("Unable to remove socket file: %s", e)
+                
+        lock = socket + ".lock"
+        if os.path.lexists(lock):
+            try:
+                os.remove(lock)
+            except Exception, e:
+                log.error("Unable to remove lock file: %s", e)
+        try:
+            self.factory = Factory()
+            self.factory.protocol = IPCProtocolServer
+            reactor.listenUNIX(socket, self.factory, wantPID=True)
+        except Exception, e:
+            log.error("Unable to start IPC listening socket: %s", e)
+        finally:
+            process_args(args)
+        
     def shutdown(self):
         if deluge.common.windows_check():
             import win32api
