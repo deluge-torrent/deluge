@@ -130,6 +130,8 @@ class IPCInterface(component.Component):
                 self.factory.protocol = IPCProtocolClient
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
                 reactor.run()
+                import gtk
+                gtk.gdk.notify_startup_complete()
                 sys.exit(0)
             else:
                 process_args(args)
