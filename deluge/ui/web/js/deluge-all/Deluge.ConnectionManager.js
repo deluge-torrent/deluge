@@ -244,6 +244,23 @@ Copyright:
 			this.update = this.update.createDelegate(this);
 		},
 
+		/**
+		 * Check to see if the the web interface is currently connected
+		 * to a Deluge Daemon and show the Connection Manager if not.
+		 */
+		checkConnected: function() {
+			Deluge.Client.web.connected({
+				success: function(connected) {
+					if (connected) {
+						Deluge.Events.fire('connect');
+					} else {
+						this.show();
+					}
+				},
+				scope: this
+			});
+		},
+
 		disconnect: function() {
 			Deluge.Events.fire('disconnect');
 		},
@@ -363,16 +380,21 @@ Copyright:
 		},
 
 		onLogin: function() {
-			Deluge.Client.web.connected({
-				success: function(connected) {
-					if (connected) {
-						Deluge.Events.fire('connect');
-					} else {
-						this.show();
-					}
-				},
-				scope: this
-			});
+			if (Deluge.config.first_login) {
+				Ext.MessageBox.confirm('Change password',
+					'As this is your first login, we recommend that you ' +
+					'change your password. Would you like to ' +
+					'do this now?', function(res) {
+						this.checkConnected();
+						if (res == 'yes') {
+							Deluge.Preferences.show();
+							Deluge.Preferences.selectPage('Interface');
+						}
+						Deluge.Client.web.set_config({first_login: false});
+					}, this);
+			} else {
+				this.checkConnected();
+			}
 		},
 
 		onLogout: function() {

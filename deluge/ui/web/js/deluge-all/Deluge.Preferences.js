@@ -32,57 +32,65 @@ Copyright:
 
 */
 
+PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
+
 Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 
+	/**
+	 * @property {String} currentPage The currently selected page.
+	 */
 	currentPage: null,
 
-	constructor: function(config) {
-		config = Ext.apply({
-			layout: 'border',
-			width: 485,
-			height: 500,
-			buttonAlign: 'right',
-			closeAction: 'hide',
-			closable: true,
-			iconCls: 'x-deluge-preferences',
-			plain: true,
-			resizable: false,
-			title: _('Preferences'),
+	title: _('Preferences'),
+	layout: 'border',
+	width: 485,
+	height: 500,
 
-			items: [{
-				xtype: 'grid',
-				region: 'west',
-				title: _('Categories'),
-				store: new Ext.data.SimpleStore({
-					fields: [{name: 'name', mapping: 0}]
-				}),
-				columns: [{id: 'name', renderer: fplain, dataIndex: 'name'}],
-				sm: new Ext.grid.RowSelectionModel({
-					singleSelect: true,
-					listeners: {'rowselect': {fn: this.onPageSelect, scope: this}}
-				}),
-				hideHeaders: true,
-				autoExpandColumn: 'name',
-				deferredRender: false,
-				autoScroll: true,
-				margins: '5 0 5 5',
-				cmargins: '5 0 5 5',
-				width: 120,
-				collapsible: true
-			}, ]
-		}, config);
-		Ext.deluge.PreferencesWindow.superclass.constructor.call(this, config);
-	},
-	
+	buttonAlign: 'right',
+	closeAction: 'hide',
+	closable: true,
+	iconCls: 'x-deluge-preferences',
+	plain: true,
+	resizable: false,
+
 	initComponent: function() {
 		Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
-		this.categoriesGrid = this.items.get(0);
-		this.configPanel = this.add({
-			region: 'center',
-			header: false,
-			layout: 'fit',
-			height: 400,
+
+		this.categoriesGrid = this.add({
+			xtype: 'grid',
+			region: 'west',
+			title: _('Categories'),
+			store: new Ext.data.Store(),
+			columns: [{
+				id: 'name',
+				renderer: fplain,
+				dataIndex: 'name'
+			}],
+			sm: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
+				listeners: {
+					'rowselect': {
+						fn: this.onPageSelect, scope: this
+					}
+				}
+			}),
+			hideHeaders: true,
+			autoExpandColumn: 'name',
+			deferredRender: false,
 			autoScroll: true,
+			margins: '5 0 5 5',
+			cmargins: '5 0 5 5',
+			width: 120,
+			collapsible: true
+		});
+
+		this.configPanel = this.add({
+			type: 'container',
+			autoDestroy: false,
+			region: 'center',
+			layout: 'card',
+			//height: 400,
+			//autoScroll: true,
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		});
@@ -93,6 +101,7 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		
 		this.pages = {};
 		this.optionsManager = new Deluge.OptionsManager();
+		this.on('afterrender', this.onAfterRender, this);
 		this.on('show', this.onShow, this);
 	},
 	
@@ -110,23 +119,23 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		}
 	},
 	
-	onClose: function() {
-		this.hide();
-	},
-
-	onOk: function() {
-		Deluge.Client.core.set_config(this.optionsManager.getDirty());
-		this.hide();
+	
+	/**
+	 * Return the options manager for the preferences window.
+	 * @returns {Deluge.OptionsManager} the options manager
+	 */
+	getOptionsManager: function() {
+		return this.optionsManager;
 	},
 	
 	/**
 	 * Adds a page to the preferences window.
-	 * @param {mixed} page
+	 * @param {Mixed} page
 	 */
 	addPage: function(page) {
 		var store = this.categoriesGrid.getStore();
 		var name = page.title;
-		store.loadData([[name]], true);
+		store.add([new PreferencesRecord({name: name})]);
 		page['bodyStyle'] = 'margin: 5px';
 		this.pages[name] = this.configPanel.add(page);
 		return this.pages[name];
@@ -143,49 +152,58 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	    this.configPanel.remove(page);
 	    delete this.pages[page.title];
 	},
-	
-	/**
-	 * Return the options manager for the preferences window.
-	 * @returns {Deluge.OptionsManager} the options manager
+
+	/** 
+	 * Select which preferences page is displayed.
+	 * @param {String} page The page name to change to
 	 */
-	getOptionsManager: function() {
-		return this.optionsManager;
+	selectPage: function(page) {
+		var index = this.configPanel.items.indexOf(this.pages[page]);
+		this.configPanel.getLayout().setActiveItem(index);
+		this.currentPage = page;
 	},
 	
+	// private
 	onGotConfig: function(config) {
 		this.getOptionsManager().set(config);
 	},
 	
+	// private
 	onPageSelect: function(selModel, rowIndex, r) {
-		if (this.currentPage == null) {
-			for (var page in this.pages) {
-				this.pages[page].hide();
-			}
-		} else {
-			this.currentPage.hide();
-		}
-
-		var name = r.get('name');
-		
-		this.pages[name].show();
-		this.currentPage = this.pages[name];
-		this.configPanel.doLayout();
+		this.selectPage(r.get('name'));
 	},
 	
+	// private
 	onSetConfig: function() {
 		this.getOptionsManager().commit();
 	},
-	
-	onShow: function() {
+
+	// private
+	onAfterRender: function() {
 		if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
 			this.categoriesGrid.getSelectionModel().selectFirstRow();
 		}
-		
+		this.configPanel.getLayout().setActiveItem(0);
+	},
+	
+	// private
+	onShow: function() {
+		if (!Deluge.Client.core) return;
 		Deluge.Client.core.get_config({
 			success: this.onGotConfig,
 			scope: this
 		})
+	},
+
+	// private
+	onClose: function() {
+		this.hide();
+	},
+
+	// private
+	onOk: function() {
+		Deluge.Client.core.set_config(this.optionsManager.getDirty());
+		this.hide();
 	}
 });
-
 Deluge.Preferences = new Ext.deluge.PreferencesWindow();
