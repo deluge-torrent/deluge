@@ -7,6 +7,8 @@
 	* Fix #1162 problem with the queued torrents dialog from not properly adding 
 	  to the add torrent dialog if set to auto add
 	* Fix #1172 notify startup complete when adding torrents externally
+	* Fix issue where the gtkui sometimes won't start if there is a stale lock
+	  file or socket in the ipc/ directory.
 	
 ==== Console ====
 	* Fix #1143 deluge-console crashes when tab-completing not-existent directory
