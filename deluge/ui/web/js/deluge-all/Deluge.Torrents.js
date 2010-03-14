@@ -248,6 +248,9 @@ Copyright:
 	return this.getSelectionModel().getSelected();
 	},
 
+	/**
+	 * Returns the currently selected records.
+	 */
 	getSelections: function() {
 		return this.getSelectionModel().getSelections();
 	},
@@ -294,6 +297,7 @@ Copyright:
 	// private
 	onDisconnect: function() {
 		this.getStore().removeAll();
+		this.torrents = {};
 	},
 
 	// private
