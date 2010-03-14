@@ -80,6 +80,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			this.form.getForm().submit({
 				url: '/upload',
 				waitMsg: _('Uploading your torrent...'),
+				failure: this.onUploadFailure,
 				success: this.onUploadSuccess,
 				scope: this
 			});
@@ -91,6 +92,10 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	onGotInfo: function(info, obj, response, request) {
 		info['filename'] = request.options.filename;
 		this.fireEvent('add', this.torrentId, info);
+	},
+
+	onUploadFailure: function(form, action) {
+		this.hide();
 	},
 	
 	onUploadSuccess: function(fp, upload) {
