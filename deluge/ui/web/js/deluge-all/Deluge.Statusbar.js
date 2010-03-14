@@ -16,7 +16,7 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	},
 	
 	createButtons: function() {
-		this.add({
+		this.buttons = this.add({
 			id: 'statusbar-connections',
 			text: ' ',
 			cls: 'x-btn-text-icon',
@@ -60,25 +60,28 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	},
 	
 	onConnect: function() {
-		//this.setStatus({
-		//	iconCls: 'x-connected',
-		//	text: ''
-		//});
-		if (!this.created) this.createButtons();
-		else {
-			this.items.each(function(item) {
+		this.setStatus({
+			iconCls: 'x-connected',
+			text: ''
+		});
+		if (!this.created) {
+			this.createButtons();
+		} else {
+			Ext.each(this.buttons, function(item) {
 				item.show();
 				item.enable();
 			});
 		}
+		this.doLayout();
 	},
 
 	onDisconnect: function() {
-		//this.clearStatus({useDefaults:true});
-		this.items.each(function(item) {
+		this.clearStatus({useDefaults:true});
+		Ext.each(this.buttons, function(item) {
 			item.hide();
 			item.disable();
 		});
+		this.doLayout();
 	},
 	
 	update: function(stats) {
