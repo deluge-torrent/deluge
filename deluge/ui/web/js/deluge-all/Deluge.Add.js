@@ -535,6 +535,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 
 	onTorrentAdd: function(torrentId, info) {
+		var r = this.grid.getStore().getById(torrentId);
 		if (!info) {
 			Ext.MessageBox.show({
 				title: _('Error'),
@@ -544,14 +545,13 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 				icon: Ext.MessageBox.ERROR,
 				iconCls: 'x-deluge-icon-error'
 			});
-			return;
+			this.grid.getStore().remove(r);
+		} else {
+			r.set('info_hash', info['info_hash']);
+			r.set('text', info['name']);
+			this.grid.getStore().commitChanges();
+			this.optionsPanel.addTorrent(info);
 		}
-
-		var r = this.grid.getStore().getById(torrentId);
-		r.set('info_hash', info['info_hash']);
-		r.set('text', info['name']);
-		this.grid.getStore().commitChanges();
-		this.optionsPanel.addTorrent(info);
 	},
 
 	onUrl: function(button, event) {
