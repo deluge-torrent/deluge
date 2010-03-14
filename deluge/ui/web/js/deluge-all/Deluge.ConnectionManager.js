@@ -162,6 +162,8 @@ Copyright:
 			Ext.deluge.ConnectionManager.superclass.initComponent.call(this);
 			this.on('hide',  this.onHide, this);
 			this.on('show', this.onShow, this);
+
+			Deluge.Events.on('disconnect', this.onDisconnect, this);
 			Deluge.Events.on('login', this.onLogin, this);
 			Deluge.Events.on('logout', this.onLogout, this);
 	
@@ -326,11 +328,13 @@ Copyright:
 			this.loadHosts();
 		},
 	
+		// private
 		onClose: function(e) {
 			if (this.running) window.clearInterval(this.running);
 			this.hide();
 		},
 	
+		// private
 		onConnect: function(e) {
 			var selected = this.grid.getSelectionModel().getSelected();
 			if (!selected) return;
@@ -357,6 +361,12 @@ Copyright:
 			}
 		},
 
+		onDisconnect: function() {
+			if (this.isVisible()) return;
+			this.show();
+		},
+
+		// private
 		onGetHosts: function(hosts) {
 			this.grid.getStore().loadData(hosts);
 			Ext.each(hosts, function(host) {
@@ -367,6 +377,7 @@ Copyright:
 			}, this);
 		},
 	
+		// private
 		onGetHostStatus: function(host) {
 			var record = this.grid.getStore().getById(host[0]);
 			record.set('status', host[3])
@@ -375,10 +386,12 @@ Copyright:
 			if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
 		},
 
+		// private
 		onHide: function() {
 			if (this.running) window.clearInterval(this.running);	
 		},
 
+		// private
 		onLogin: function() {
 			if (Deluge.config.first_login) {
 				Ext.MessageBox.confirm('Change password',
@@ -397,6 +410,7 @@ Copyright:
 			}
 		},
 
+		// private
 		onLogout: function() {
 			this.disconnect();
 			if (!this.hidden && this.rendered) {
@@ -404,6 +418,7 @@ Copyright:
 			}
 		},
 	
+		// private
 		onRemove: function(button) {
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
@@ -427,10 +442,12 @@ Copyright:
 			});
 		},
 
+		// private
 		onSelect: function(selModel, rowIndex, record) {
 			this.selectedRow = rowIndex;
 		},
 
+		// private
 		onSelectionChanged: function(selModel) {
 			var record = selModel.getSelected();
 			if (selModel.hasSelection()) {
@@ -444,6 +461,7 @@ Copyright:
 			this.updateButtons(record);
 		},
 
+		// private
 		onShow: function() {
 			if (!this.addHostButton) {
 				var bbar = this.grid.getBottomToolbar();
@@ -454,7 +472,8 @@ Copyright:
 			this.loadHosts();
 			this.running = window.setInterval(this.update, 2000, this);
 		},
-
+		
+		// private
 		onStop: function(button, e) {
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
