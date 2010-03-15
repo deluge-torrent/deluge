@@ -176,10 +176,10 @@ class Upload(resource.Resource):
             filenames.append(fn)
         request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
-        return common.json.dumps({
+        return compress(common.json.dumps({
             'success': True,
             'files': filenames
-        })
+        }), request)
 
 class Render(resource.Resource):
 
