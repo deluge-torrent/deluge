@@ -146,30 +146,26 @@ Copyright:
             this.doLayout();
             this.panels[filter] = panel;
         
-            if (!this.selected) {
-                panel.getSelectionModel().selectFirstRow();
-                this.selected = {
-                    row: 0,
-                    filter: states[0][0],
-                    panel: panel
-                }
-            }
+			panel.getSelectionModel().selectFirstRow();
         },
     
         getFilters: function() {
             var filters = {}
-            if (!this.selected) {
-                return filters;
-            }
-            if (!this.selected.filter || !this.selected.panel) {
-                return filters;
-            }
-            var filterType = this.selected.panel.store.id;
-            if (filterType == "state" && this.selected.filter == "All") {
-                return filters;
-            }
-    
-            filters[filterType] = this.selected.filter;
+
+			// Grab the filters from each of the filter panels
+			this.items.each(function(panel) {
+				var sm = panel.getSelectionModel();
+
+				if (!sm.hasSelection()) return;
+				
+				var filter = sm.getSelected();
+				var filterType = panel.getStore().id;
+
+				if (filter.id == "All") return;
+
+				filters[filterType] = filter.id;
+			}, this);
+
             return filters;
         },
     
@@ -183,16 +179,7 @@ Copyright:
         },
     
         onFilterSelect: function(selModel, rowIndex, record) {
-            if (!this.selected) needsUpdate = true;
-            else if (this.selected.row != rowIndex) needsUpdate = true;
-            else needsUpdate = false;
-            this.selected = {
-                row: rowIndex,
-                filter: record.get('filter'),
-                panel: this.panels[record.store.id]
-            }
-    
-            if (needsUpdate) Deluge.UI.update();
+            Deluge.UI.update();
         },
     
         /**
@@ -241,10 +228,6 @@ Copyright:
 				record.endEdit();
 				record.commit();
 			}, this);
-
-            if (this.selected && this.selected.panel == this.panels[filter]) {
-                this.panels[filter].getSelectionModel().selectRow(this.selected.row);
-            }
         }
     });
     Deluge.Sidebar = new Ext.deluge.Sidebar();
