@@ -36,6 +36,7 @@
 
 import os
 import time
+from urllib import unquote
 from urlparse import urlparse
 
 from deluge._libtorrent import lt
@@ -626,7 +627,22 @@ class Torrent(object):
                 except UnicodeDecodeError:
                     return name
 
+            elif self.magnet:
+                try:
+                    keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
+                    name = keys.get('dn')
+                    if not name:
+                        return self.torrent_id
+                    name = unquote(name).replace('+', ' ')
+                    try:
+                        return name.decode("utf8", "ignore")
+                    except UnicodeDecodeError:
+                        return name
+                except:
+                    pass
+
             return self.torrent_id
+
         def ti_priv():
             if self.handle.has_metadata():
                 return self.torrent_info.priv()
