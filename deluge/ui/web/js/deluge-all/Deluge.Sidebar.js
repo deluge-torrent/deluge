@@ -1,5 +1,5 @@
 /*
-Script: deluge-bars.js
+Script: Deluge.Sidebar.js
     Contains all objects and functions related to the statusbar, toolbar and
         sidebar.
 
@@ -96,13 +96,14 @@ Copyright:
         },
     
         createFilter: function(filter, states) {
-            var store = new Ext.data.SimpleStore({
-                id: filter,
+            var store = new Ext.data.ArrayStore({
+                idIndex: 0,
                 fields: [
                     {name: 'filter'},
                     {name: 'count'}
                 ]
             });
+			store.id = filter;
     
             var title = filter.replace('_', ' ');
             var parts = title.split(' ');
@@ -231,7 +232,16 @@ Copyright:
                 states = this.removeZero(states);
             }
     
-            this.panels[filter].store.loadData(states);
+			var store = this.panels[filter].getStore();
+			Ext.each(states, function(s, i) {
+				var record = store.getAt(i);
+				record.beginEdit();
+				record.set('filter', s[0]);
+				record.set('count', s[1]);
+				record.endEdit();
+				record.commit();
+			}, this);
+
             if (this.selected && this.selected.panel == this.panels[filter]) {
                 this.panels[filter].getSelectionModel().selectRow(this.selected.row);
             }

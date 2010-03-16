@@ -285,8 +285,9 @@ Copyright:
 		store.each(function(record) {
 			if (!torrents[record.id]) {
 				store.remove(record);
+				delete this.torrents[record.id];
 			}
-		});
+		}, this);
 		store.commitChanges();
 
 		var sortState = store.getSortState()

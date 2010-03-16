@@ -514,7 +514,7 @@ class WebApi(JSONComponent):
         def on_complete(result):
             d.callback(ui_info)
 
-        d1 = client.core.get_torrents_status({}, keys)
+        d1 = client.core.get_torrents_status(filter_dict, keys)
         d1.addCallback(got_torrents)
 
         d2 = client.core.get_filter_tree()
