@@ -1,6 +1,6 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
+ * Ext JS Library 3.1.1
+ * Copyright(c) 2006-2010 Ext JS, LLC
  * licensing@extjs.com
  * http://www.extjs.com/license
  */
@@ -19,7 +19,7 @@ Ext = {
      * The version of the framework
      * @type String
      */
-    version : '3.1.0'
+    version : '3.1.1'
 };
 
 /**
@@ -53,7 +53,7 @@ Ext.apply = function(o, c, defaults){
         DOC = document,
         isStrict = DOC.compatMode == "CSS1Compat",
         isOpera = check(/opera/),
-        isChrome = check(/chrome/),
+        isChrome = check(/\bchrome\b/),
         isWebKit = check(/webkit/),
         isSafari = !isChrome && check(/safari/),
         isSafari2 = isSafari && check(/applewebkit\/4/), // unique to Safari 2
@@ -161,7 +161,11 @@ Ext.apply = function(o, c, defaults){
          * @return {String} The generated Id.
          */
         id : function(el, prefix){
-            return (el = Ext.getDom(el) || {}).id = el.id || (prefix || "ext-gen") + (++idSeed);
+            el = Ext.getDom(el, true) || {};
+            if (!el.id) {
+                el.id = (prefix || "ext-gen") + (++idSeed);
+            }
+            return el.id;
         },
 
         /**
@@ -404,7 +408,7 @@ Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", false); // returns {foo: "1", bar: ["2"
             }
             //NodeList has an item and length property
             //IXMLDOMNodeList has nextNode method, needs to be checked first.
-            return ((v.nextNode || v.item) && Ext.isNumber(v.length));
+            return ((typeof v.nextNode != 'undefined' || v.item) && Ext.isNumber(v.length));
         },
 
         /**
@@ -484,6 +488,8 @@ Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", false); // returns {foo: "1", bar: ["2"
 
         /**
          * Return the dom node for the passed String (id), dom node, or Ext.Element.
+         * Optional 'strict' flag is needed for IE since it can return 'name' and
+         * 'id' elements by using getElementById.
          * Here are some examples:
          * <pre><code>
 // gets dom node based on id
@@ -503,11 +509,29 @@ function(el){
          * @param {Mixed} el
          * @return HTMLElement
          */
-        getDom : function(el){
+        getDom : function(el, strict){
             if(!el || !DOC){
                 return null;
             }
-            return el.dom ? el.dom : (Ext.isString(el) ? DOC.getElementById(el) : el);
+            if (el.dom){
+                return el.dom;
+            } else {
+                if (Ext.isString(el)) {
+                    var e = DOC.getElementById(el);
+                    // IE returns elements with the 'name' and 'id' attribute.
+                    // we do a strict check to return the element with only the id attribute
+                    if (e && isIE && strict) {
+                        if (el == e.getAttribute('id')) {
+                            return e;
+                        } else {
+                            return null;
+                        }
+                    }
+                    return e;
+                } else {
+                    return el;
+                }
+            }
         },
 
         /**
@@ -1050,7 +1074,7 @@ Ext.apply(Ext, function(){
          * @return {Number} Value, if numeric, else defaultValue
          */
         num : function(v, defaultValue){
-            v = Number(Ext.isEmpty(v) || Ext.isBoolean(v) ? NaN : v);
+            v = Number(Ext.isEmpty(v) || Ext.isArray(v) || Ext.isBoolean(v) || (Ext.isString(v) && v.trim().length == 0) ? NaN : v);
             return isNaN(v) ? defaultValue : v;
         },
 
@@ -1324,7 +1348,7 @@ ImageComponent = Ext.extend(Ext.BoxComponent, {
          * @return {Number} The mean.
          */
         mean : function(arr){
-           return Ext.sum(arr) / arr.length;
+           return arr.length > 0 ? Ext.sum(arr) / arr.length : undefined;
         },
 
         /**
@@ -2116,7 +2140,7 @@ Ext.TaskMgr = new Ext.util.TaskRunner();(function(){
                     if(!v.checkReady || loadComplete || element.nextSibling || (doc && doc.body)) {
                         element = v.override ? (v.override === true ? v.obj : v.override) : element;
                         v.fn.call(element, v.obj);
-                        v = null;
+                        onAvailStack.remove(v);
                     } else {
                         notAvail.push(v);
                     }
@@ -2208,14 +2232,13 @@ Ext.TaskMgr = new Ext.util.TaskRunner();(function(){
         // This function should ALWAYS be called from Ext.EventManager
         removeListener: function(el, eventName, fn) {
             el = Ext.getDom(el);
-            var i, len, li;
+            var i, len, li, lis;
             if (el && fn) {
-                if (eventName == UNLOAD) {
-                    if (unloadListeners[id] !== undefined) {
-                        for (i = 0, len = unloadListeners[id].length; i < len; i++) {
-                            li = unloadListeners[id][i];
-                            if (li && li[TYPE] == eventName && li[FN] == fn) {
-                                unloadListeners[id].splice(i, 1);
+                if(eventName == UNLOAD){
+                    if((lis = unloadListeners[el.id]) !== undefined){
+                        for(i = 0, len = lis.length; i < len; i++){
+                            if((li = lis[i]) && li[TYPE] == eventName && li[FN] == fn){
+                                unloadListeners[el.id].splice(i, 1);
                             }
                         }
                     }
@@ -3477,12 +3500,14 @@ Ext.lib.Ajax = function() {
             var me = this,
             	val,
             	floor = Math.floor,
-				i, len = start.length, v;            
+				i, 
+                len,
+                v;            
 
             if(colorRE.test(attr)){
                 val = [];
 				
-				for(i=0; i<len; i++) {
+				for(i = 0, len = start.length; i < len; i++) {
 					v = start[i];
 					val[i] = superclass.doMethod.call(me, attr, v, end[i]);
 				}
