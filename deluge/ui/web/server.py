@@ -402,9 +402,9 @@ class TopLevel(resource.Resource):
         self.putChild("tracker", Tracker())
 
         theme = component.get("DelugeWeb").config["theme"]
-        if not os.path.isfile(rpath("css", "xtheme-%s.css" % theme)):
+        if not os.path.isfile(rpath("themes", "css", "xtheme-%s.css" % theme)):
             theme = CONFIG_DEFAULTS.get("theme")
-        self.__stylesheets.insert(1, "css/xtheme-%s.css" % theme)
+        self.__stylesheets.insert(1, "themes/css/xtheme-%s.css" % theme)
 
         self.base = component.get("DelugeWeb").config["base"]
 
