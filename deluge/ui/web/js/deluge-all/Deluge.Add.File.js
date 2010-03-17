@@ -85,6 +85,7 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 				scope: this
 			});
 			var name = this.form.getForm().findField('torrentFile').value;
+			name = name.split('\\').slice(-1)[0];
 			this.fireEvent('beforeadd', this.torrentId, name);
 		}
 	},
