@@ -249,9 +249,27 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 	
 	setValue: function(value) {
+		var beenSet = false;
+		// set the new value
 		value = (value == 0) ? -1 : value;
-		var item = this.items.get(value);
-		if (!item) item = this.items.get('other')
+
+		// uncheck all items
+		this.items.each(function(item) {
+			if (item.setChecked) {
+				item.suspendEvents();
+				if (item.value == value) {
+					item.setChecked(true);
+					beenSet = true;
+				} else {
+					item.setChecked(false);
+				}
+				item.resumeEvents();
+			}
+		});
+
+		if (beenSet) return;
+
+		var item = this.items.get('other');
 		item.suspendEvents();
 		item.setChecked(true);
 		item.resumeEvents();
@@ -261,44 +279,44 @@ Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
 	id: 'connectionsMenu',
 	items: [{
-		id: '50',
 		text: '50',
+		value: '50',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '100',
 		text: '100',
+		value: '100',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '200',
 		text: '200',
+		value: '200',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
 		text: '300',
+		value: '300',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '500',
 		text: '500',
+		value: '500',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
 		text: _('Unlimited'),
+		value: '-1',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
 		text: _('Other'),
+		value: 'other',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
@@ -308,43 +326,43 @@ Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
 Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
 	id: 'downspeedMenu',
 	items: [{
-		id: '5',
+		value: '5',
 		text: '5 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '10',
+		value: '10',
 		text: '10 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '30',
+		value: '30',
 		text: '30 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '80',
+		value: '80',
 		text: '80 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
+		value: '300',
 		text: '300 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
+		value: '-1',
 		text: _('Unlimited'),
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
+		value: 'other',
 		text: _('Other'),
 		group: 'max_download_speed',
 		checked: false,
@@ -355,43 +373,43 @@ Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
 Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
 	id: 'upspeedMenu',
 	items: [{
-		id: '5',
+		value: '5',
 		text: '5 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '10',
+		value: '10',
 		text: '10 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '30',
+		value: '30',
 		text: '30 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '80',
+		value: '80',
 		text: '80 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
+		value: '300',
 		text: '300 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
+		value: '-1',
 		text: _('Unlimited'),
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
+		value: 'other',
 		text: _('Other'),
 		group: 'max_upload_speed',
 		checked: false,
@@ -429,10 +447,10 @@ Deluge.Menus.FilePriorities = new Ext.menu.Menu({
 });
 
 function onLimitChanged(item, checked) {
-	if (item.id == "other") {
+	if (item.value == "other") {
 	} else {
 		config = {}
-		config[item.group] = item.id
+		config[item.group] = item.value
 		Deluge.Client.core.set_config(config, {
 			success: function() {
 				Deluge.UI.update();
