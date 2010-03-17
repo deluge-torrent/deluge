@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
 	<sources>
-		<source src="deluge-all" match="*.js" />
-		<source src="ext-extensions" match="*.js" />
+		<source src="../js" match="ext-base-debug.js" />
+		<source src="../js" match="ext-all-debug.js" />
+		<source src="../js/ext-extensions" match="*.js" />
+		<source src="../js/deluge-all" match="*.js" />
 	</sources>
 	<tags>
 		<tag name="author" title="Author" />
