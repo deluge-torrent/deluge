@@ -31,8 +31,8 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -41,13 +41,13 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			autoHeight: true,
 			width: 320
 		}, config);
-		Ext.deluge.preferences.Downloads.superclass.constructor.call(this, config);
+		Deluge.preferences.Downloads.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.preferences.Downloads.superclass.initComponent.call(this);
+		Deluge.preferences.Downloads.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
@@ -147,7 +147,7 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 	},
 
 	onShow: function() {
-		Ext.deluge.preferences.Downloads.superclass.onShow.call(this);
+		Deluge.preferences.Downloads.superclass.onShow.call(this);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Downloads());
+deluge.preferences.addPage(new Deluge.preferences.Downloads());

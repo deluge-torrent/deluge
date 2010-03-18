@@ -33,7 +33,7 @@ Copyright:
 */
 
 (function() {
-	Ext.deluge.AddTracker = Ext.extend(Ext.Window, {
+	Deluge.AddTracker = Ext.extend(Ext.Window, {
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Add Tracker'),
@@ -48,11 +48,11 @@ Copyright:
 				plain: true,
 				resizable: false
 			}, config);
-			Ext.deluge.AddTracker.superclass.constructor.call(this, config);
+			Deluge.AddTracker.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.AddTracker.superclass.initComponent.call(this);
+			Deluge.AddTracker.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Add'), this.onAddClick, this);
@@ -92,7 +92,7 @@ Copyright:
 		}
 	});
 	
-	Ext.deluge.EditTracker = Ext.extend(Ext.Window, {
+	Deluge.EditTracker = Ext.extend(Ext.Window, {
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Edit Tracker'),
@@ -107,11 +107,11 @@ Copyright:
 				plain: true,
 				resizable: false
 			}, config);
-			Ext.deluge.EditTracker.superclass.constructor.call(this, config);
+			Deluge.EditTracker.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.EditTracker.superclass.initComponent.call(this);
+			Deluge.EditTracker.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Save'), this.onSaveClick, this);
@@ -131,7 +131,7 @@ Copyright:
 		},
 		
 		show: function(record) {
-			Ext.deluge.EditTracker.superclass.show.call(this);
+			Deluge.EditTracker.superclass.show.call(this);
 			
 			this.record = record;
 			this.form.getForm().findField('tracker').setValue(record.data['url']);
@@ -153,7 +153,7 @@ Copyright:
 		}
 	});
 	
-	Ext.deluge.EditTrackers = Ext.extend(Ext.Window, {
+	Deluge.EditTrackers = Ext.extend(Ext.Window, {
 	
 		constructor: function(config) {
 			config = Ext.apply({
@@ -169,11 +169,11 @@ Copyright:
 				plain: true,
 				resizable: true
 			}, config);
-			Ext.deluge.EditTrackers.superclass.constructor.call(this, config);
+			Deluge.EditTrackers.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.EditTrackers.superclass.initComponent.call(this);
+			Deluge.EditTrackers.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Ok'), this.onOkClick, this);
@@ -182,9 +182,9 @@ Copyright:
 			this.on('show', this.onShow, this);
 			this.on('save', this.onSave, this);
 			
-			this.addWindow = new Ext.deluge.AddTracker();
+			this.addWindow = new Deluge.AddTracker();
 			this.addWindow.on('add', this.onAddTrackers, this);
-			this.editWindow = new Ext.deluge.EditTracker();
+			this.editWindow = new Deluge.EditTracker();
 			
 			this.grid = this.add({
 				xtype: 'grid',
@@ -301,7 +301,7 @@ Copyright:
 				})
 			}, this);
 			
-			Deluge.Client.core.set_torrent_trackers(this.torrentId, trackers, {
+			deluge.client.core.set_torrent_trackers(this.torrentId, trackers, {
 				failure: this.onSaveFail,
 				scope: this
 			});
@@ -335,13 +335,13 @@ Copyright:
 		
 		onShow: function() {
 			this.grid.getBottomToolbar().items.get(4).disable();
-			var r = Deluge.Torrents.getSelected();
+			var r = deluge.torrents.getSelected();
 			this.torrentId = r.id;
-			Deluge.Client.core.get_torrent_status(r.id, ['trackers'], {
+			deluge.client.core.get_torrent_status(r.id, ['trackers'], {
 				success: this.onRequestComplete,
 				scope: this
 			});
 		}
 	});
-	Deluge.EditTrackers = new Ext.deluge.EditTrackers();
+	deluge.editTrackers = new Deluge.EditTrackers();
 })();

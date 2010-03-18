@@ -34,10 +34,10 @@ Copyright:
 
 /**
  * An extension of the <tt>Ext.Toolbar</tt> class that provides an extensible toolbar for Deluge.
- * @class Ext.deluge.Toolbar
+ * @class Deluge.Toolbar
  * @extends Ext.Toolbar
  */
-Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
+Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			items: [
@@ -112,7 +112,7 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 				}
 			]
 		}, config);
-		Ext.deluge.Toolbar.superclass.constructor.call(this, config);
+		Deluge.Toolbar.superclass.constructor.call(this, config);
 	},
 
 	connectedButtons: [
@@ -120,9 +120,9 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	],
 	
 	initComponent: function() {
-		Ext.deluge.Toolbar.superclass.initComponent.call(this);
-		Deluge.Events.on('connect', this.onConnect, this);
-		Deluge.Events.on('login', this.onLogin, this);
+		Deluge.Toolbar.superclass.initComponent.call(this);
+		deluge.events.on('connect', this.onConnect, this);
+		deluge.events.on('login', this.onLogin, this);
 	},
 	
 	onConnect: function() {
@@ -143,11 +143,11 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	
 	onLogout: function() {
 		this.items.get('logout').disable();
-		Deluge.Login.logout();
+		deluge.login.logout();
 	},
 	
 	onConnectionManagerClick: function() {
-		Deluge.ConnectionManager.show();
+		deluge.connectionManager.show();
 	},
 	
 	onHelpClick: function() {
@@ -155,11 +155,11 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	},
 	
 	onPreferencesClick: function() {
-		Deluge.Preferences.show();
+		deluge.preferences.show();
 	},
 	
 	onTorrentAction: function(item) {
-		var selection = Deluge.Torrents.getSelections();
+		var selection = deluge.torrents.getSelections();
 		var ids = [];
 		Ext.each(selection, function(record) {
 			ids.push(record.id);
@@ -167,21 +167,21 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		
 		switch (item.id) {
 			case 'remove':
-				Deluge.RemoveWindow.show(ids);
+				deluge.removeWindow.show(ids);
 				break;
 			case 'pause':
 			case 'resume':
-				Deluge.Client.core[item.id + '_torrent'](ids, {
+				deluge.client.core[item.id + '_torrent'](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'up':
 			case 'down':
-				Deluge.Client.core['queue_' + item.id](ids, {
+				deluge.client.core['queue_' + item.id](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
@@ -189,8 +189,8 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	},
 	
 	onTorrentAdd: function() {
-		Deluge.Add.show();
+		deluge.add.show();
 	}
 });
 
-Deluge.Toolbar = new Ext.deluge.Toolbar();
+deluge.toolbar = new Deluge.Toolbar();

@@ -31,19 +31,19 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Interface'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Interface.superclass.constructor.call(this, config);
+		Deluge.preferences.Interface.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Interface.superclass.initComponent.call(this);
+		Deluge.preferences.Interface.superclass.initComponent.call(this);
 		
 		var optMan = this.optionsManager = new Deluge.OptionsManager();
 		this.on('show', this.onShow, this);
@@ -184,7 +184,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	onApply: function() {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isObjectEmpty(changed)) {
-			Deluge.Client.web.set_config(changed, {
+			deluge.client.web.set_config(changed, {
 				success: this.onSetConfig,
 				scope: this
 			});
@@ -210,7 +210,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		}
 		
 		var oldPassword = this.oldPassword.getValue();
-		Deluge.Client.auth.change_password(oldPassword, newPassword, {
+		deluge.client.auth.change_password(oldPassword, newPassword, {
 			success: function(result) {
 				if (!result) {
 					Ext.MessageBox.show({
@@ -245,8 +245,8 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onShow: function() {
-		Ext.deluge.preferences.Interface.superclass.onShow.call(this);
-		Deluge.Client.web.get_config({
+		Deluge.preferences.Interface.superclass.onShow.call(this);
+		deluge.client.web.get_config({
 			success: this.onGotConfig,
 			scope: this
 		})
@@ -257,4 +257,4 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		this.certField.setDisabled(!checked);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Interface());
+deluge.preferences.addPage(new Deluge.preferences.Interface());

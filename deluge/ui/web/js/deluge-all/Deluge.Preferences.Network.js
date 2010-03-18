@@ -1,5 +1,5 @@
 /*
-Script: Deluge.Preferences.Network.js
+Script: deluge.preferences.Network.js
     The network preferences page.
 
 Copyright:
@@ -31,21 +31,21 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
+Ext.namespace('Deluge.preferences');
 
-Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
+Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Network'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Network.superclass.constructor.call(this, config);
+		Deluge.preferences.Network.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Network.superclass.initComponent.call(this);
-		var optMan = Deluge.Preferences.getOptionsManager();
+		Deluge.preferences.Network.superclass.initComponent.call(this);
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -232,4 +232,4 @@ Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Network());
+deluge.preferences.addPage(new Deluge.preferences.Network());

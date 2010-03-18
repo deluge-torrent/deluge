@@ -32,7 +32,7 @@ Copyright:
 
 */
 
-Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
+Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	title: _('Details'),
 
 	fields: {},
@@ -42,7 +42,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	oldData: {},
 
 	initComponent: function() {
-		Ext.deluge.details.DetailsTab.superclass.initComponent.call(this);
+		Deluge.details.DetailsTab.superclass.initComponent.call(this);
 		this.addItem('torrent_name', _('Name'));
 		this.addItem('hash', _('Hash'));
 		this.addItem('path', _('Path'));
@@ -54,7 +54,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	},
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
 		this.body.setStyle('padding', '10px');
 		this.dl = Ext.DomHelper.append(this.body, {tag: 'dl'}, true);
 
@@ -85,7 +85,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	},
 	
 	update: function(torrentId) {
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			success: this.onRequestComplete,
 			scope: this,
 			torrentId: torrentId
@@ -112,4 +112,4 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		this.oldData = data;
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.DetailsTab());
+deluge.details.add(new Deluge.details.DetailsTab());

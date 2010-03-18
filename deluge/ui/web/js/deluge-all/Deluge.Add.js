@@ -32,8 +32,8 @@ Copyright:
 
 */
 
-Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
+Ext.namespace('Deluge.add');
+Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 	torrents: {},
 
@@ -44,11 +44,11 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			activeTab: 0,
 			height: 220
 		}, config);
-		Ext.deluge.add.OptionsPanel.superclass.constructor.call(this, config);
+		Deluge.add.OptionsPanel.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.add.OptionsPanel.superclass.initComponent.call(this);
+		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
 		this.files = this.add(new Ext.ux.tree.TreeGrid({
 			layout: 'fit',
 			title: _('Files'),
@@ -237,7 +237,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
 		'prioritize_first_last_pieces'];
 
-		Deluge.Client.core.get_config_values(keys, {
+		deluge.client.core.get_config_values(keys, {
 			success: function(config) {
 				var options = {
 					'file_priorities': [],
@@ -343,9 +343,9 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	}
 });
 
-Ext.deluge.add.Window = Ext.extend(Ext.Window, {
+Deluge.add.Window = Ext.extend(Ext.Window, {
 	initComponent: function() {
-		Ext.deluge.add.Window.superclass.initComponent.call(this);
+		Deluge.add.Window.superclass.initComponent.call(this);
 		this.addEvents(
 			'beforeadd',
 			'add'
@@ -357,7 +357,7 @@ Ext.deluge.add.Window = Ext.extend(Ext.Window, {
 	}
 });
 
-Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
+Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -372,11 +372,11 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			plain: true,
 			iconCls: 'x-deluge-add-window-icon'
 		}, config);
-		Ext.deluge.add.AddWindow.superclass.constructor.call(this, config);
+		Deluge.add.AddWindow.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.add.AddWindow.superclass.initComponent.call(this);
+		Deluge.add.AddWindow.superclass.initComponent.call(this);
 
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Add'), this.onAddClick, this);
@@ -453,7 +453,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			})
 		});
 	
-		this.optionsPanel = this.add(new Ext.deluge.add.OptionsPanel());
+		this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
 		this.on('hide', this.onHide, this);
 		this.on('show', this.onShow, this);
 	},
@@ -474,7 +474,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			});
 		}, this);
 
-		Deluge.Client.web.add_torrents(torrents, {
+		deluge.client.web.add_torrents(torrents, {
 			success: function(result) {
 			}
 		})
@@ -515,13 +515,13 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 
 	onShow: function() {
 		if (!this.url) {
-			this.url = new Ext.deluge.add.UrlWindow();
+			this.url = new Deluge.add.UrlWindow();
 			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.url.on('add', this.onTorrentAdd, this);
 		}
 
 		if (!this.file) {
-			this.file = new Ext.deluge.add.FileWindow();
+			this.file = new Deluge.add.FileWindow();
 			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.file.on('add', this.onTorrentAdd, this);
 		}
@@ -558,4 +558,4 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 		this.url.show();
 	}
 });
-Deluge.Add = new Ext.deluge.add.AddWindow();
+Deluge.Add = new Deluge.add.AddWindow();

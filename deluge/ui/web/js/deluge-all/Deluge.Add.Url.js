@@ -32,8 +32,8 @@ Copyright:
 
 */
 
-Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
+Ext.namespace('Deluge.add');
+Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
 	constructor: function(config) {
 		config = Ext.apply({
 			layout: 'fit',
@@ -47,11 +47,11 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 			title: _('Add from Url'),
 			iconCls: 'x-deluge-add-url-window-icon'
 		}, config);
-		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
+		Deluge.add.UrlWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
+		Deluge.add.UrlWindow.superclass.initComponent.call(this);
 		this.addButton(_('Add'), this.onAddClick, this);
 		
 		var form = this.add({
@@ -86,7 +86,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 		var cookies = this.cookieField.getValue();
 		var torrentId = this.createTorrentId();
 		
-		Deluge.Client.web.download_torrent_from_url(url, cookies, {
+		deluge.client.web.download_torrent_from_url(url, cookies, {
 			success: this.onDownload,
 			scope: this,
 			torrentId: torrentId
@@ -97,7 +97,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	onDownload: function(filename, obj, resp, req) {
 		this.urlField.setValue('');
-		Deluge.Client.web.get_torrent_info(filename, {
+		deluge.client.web.get_torrent_info(filename, {
 			success: this.onGotInfo,
 			scope: this,
 			filename: filename,

@@ -31,21 +31,21 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Daemon'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Daemon.superclass.constructor.call(this, config);
+		Deluge.preferences.Daemon.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Daemon.superclass.initComponent.call(this);
+		Deluge.preferences.Daemon.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -99,4 +99,4 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Daemon());
+deluge.preferences.addPage(new Deluge.preferences.Daemon());

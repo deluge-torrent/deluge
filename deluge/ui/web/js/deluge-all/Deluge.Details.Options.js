@@ -32,7 +32,7 @@ Copyright:
 */
 
 
-Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
+Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -49,11 +49,11 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			layout: 'column',
 			title: _('Options')
 		}, config);
-		Ext.deluge.details.OptionsTab.superclass.constructor.call(this, config);
+		Deluge.details.OptionsTab.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.details.OptionsTab.superclass.initComponent.call(this);
+		Deluge.details.OptionsTab.superclass.initComponent.call(this);
 		
 		this.fieldsets = {}, this.fields = {};
 		this.optionsManager = new Deluge.MultiOptionsManager({
@@ -342,7 +342,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
 		
 		// This is another hack I think, so keep an eye out here when upgrading.
 		this.layout = new Ext.layout.ColumnLayout();
@@ -369,7 +369,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			this.torrentId = torrentId;
 			this.optionsManager.changeId(torrentId);
 		}
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
 			success: this.onRequestComplete,
 			scope: this
 		});
@@ -379,14 +379,14 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isEmpty(changed['prioritize_first_last'])) {
 			var value = changed['prioritize_first_last'];
-			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
+			deluge.client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
 				success: function() {
 					this.optionsManager.set('prioritize_first_last', value);
 				},
 				scope: this
 			});
 		}
-		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
+		deluge.client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
 				this.optionsManager.commit();
 			},
@@ -395,7 +395,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onEditTrackers: function() {
-		Deluge.EditTrackers.show();
+		deluge.editTrackers.show();
 	},
 	
 	onStopRatioChecked: function(checkbox, checked) {
@@ -414,4 +414,4 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.OptionsTab());
+deluge.details.add(new Deluge.details.OptionsTab());

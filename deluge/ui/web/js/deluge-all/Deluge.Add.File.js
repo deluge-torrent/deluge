@@ -33,7 +33,7 @@ Copyright:
 */
 
 Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
+Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 	constructor: function(config) {
 		config = Ext.apply({
 			layout: 'fit',
@@ -47,11 +47,11 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			title: _('Add from File'),
 			iconCls: 'x-deluge-add-file'
 		}, config);
-		Ext.deluge.add.FileWindow.superclass.constructor.call(this, config);
+		Deluge.add.FileWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		Deluge.add.FileWindow.superclass.initComponent.call(this);
 		this.addButton(_('Add'), this.onAddClick, this);
 		
 		this.form = this.add({

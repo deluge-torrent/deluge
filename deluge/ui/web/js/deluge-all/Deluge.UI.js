@@ -38,7 +38,7 @@ Copyright:
  * The controller for the whole interface, that ties all the components
  * together and handles the 2 second poll.
  */
-Deluge.UI = {
+deluge.ui = {
 
 	errorCount: 0,
 
@@ -54,13 +54,13 @@ Deluge.UI = {
 			iconCls: 'x-deluge-main-panel',
 			title: 'Deluge',
 			layout: 'border',
-			tbar: Deluge.Toolbar,
+			tbar: deluge.toolbar,
 			items: [
-				Deluge.Sidebar,
-				Deluge.Details,
-				Deluge.Torrents
+				deluge.sidebar,
+				deluge.details,
+				deluge.torrents
 			],
-			bbar: Deluge.Statusbar
+			bbar: deluge.statusbar
 		});
 
 		this.Viewport = new Ext.Viewport({
@@ -68,22 +68,22 @@ Deluge.UI = {
 			items: [this.MainPanel]
 		});
 	
-		Deluge.Events.on("connect", this.onConnect, this);
-		Deluge.Events.on("disconnect", this.onDisconnect, this);
-		Deluge.Client = new Ext.ux.util.RpcClient({
-			url: Deluge.config.base + 'json'
+		deluge.events.on("connect", this.onConnect, this);
+		deluge.events.on("disconnect", this.onDisconnect, this);
+		deluge.client = new Ext.ux.util.RpcClient({
+			url: deluge.config.base + 'json'
 		});
 	
-		for (var plugin in Deluge.Plugins) {
-			plugin = Deluge.Plugins[plugin];
+		for (var plugin in deluge.dlugins) {
+			plugin = deluge.plugins[plugin];
 			plugin.enable();
 		}
 
 		// Initialize quicktips so all the tooltip configs start working.
 		Ext.QuickTips.init();
 	
-		Deluge.Client.on('connected', function(e) {
-			Deluge.Login.show();
+		deluge.client.on('connected', function(e) {
+			deluge.login.show();
 		}, this, {single: true});
 	
 		this.update = this.update.createDelegate(this);
@@ -92,13 +92,13 @@ Deluge.UI = {
 	},
 
 	update: function() {
-		var filters = Deluge.Sidebar.getFilters();
-		Deluge.Client.web.update_ui(Deluge.Keys.Grid, filters, {
+		var filters = deluge.sidebar.getFilters();
+		deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
 			success: this.onUpdate,
 			failure: this.onUpdateError,
 			scope: this
 		});
-		Deluge.Details.update();
+		deluge.details.update();
 	},
 
 	onUpdateError: function(error) {
@@ -119,16 +119,16 @@ Deluge.UI = {
 	 * Updates the various components in the interface.
 	 */
 	onUpdate: function(data) {
-		if (!data['connected']) Deluge.Events.fire('disconnect');
+		if (!data['connected']) deluge.events.fire('disconnect');
 
-		if (Deluge.config.show_session_speed) {
+		if (deluge.config.show_session_speed) {
 			document.title = this.originalTitle + 
 				' (Down: ' + fspeed(data['stats'].download_rate, true) + 
 				' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
 		}
-		Deluge.Torrents.update(data['torrents']);
-		Deluge.Statusbar.update(data['stats']);
-		Deluge.Sidebar.update(data['filters']);
+		deluge.torrents.update(data['torrents']);
+		deluge.statusbar.update(data['stats']);
+		deluge.sidebar.update(data['filters']);
 		this.errorCount = 0;
 	},
 
@@ -153,14 +153,14 @@ Deluge.UI = {
 	},
 
 	onPluginEnabled: function(pluginName) {
-		Deluge.Client.web.get_plugin_resources(pluginName, {
+		deluge.client.web.get_plugin_resources(pluginName, {
 			success: this.onGotPluginResources,
 			scope: this
 		})
 	},
 
 	onGotPluginResources: function(resources) {
-		var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
+		var scripts = (deluge.debug) ? resources.debug_scripts : resources.scripts;
 		Ext.each(scripts, function(script) {
 			Ext.ux.JSLoader({
 				url: script,
@@ -171,15 +171,15 @@ Deluge.UI = {
 	},
 
 	onPluginDisabled: function(pluginName) {
-		Deluge.Plugins[pluginName].disable();
+		deluge.plugins[pluginName].disable();
 	},
 
 	onPluginLoaded: function(options) {
 		// This could happen if the plugin has multiple scripts
-		if (!Deluge.Plugins[options.pluginName]) return;
+		if (!deluge.plugins[options.pluginName]) return;
 
 		// Enable the plugin
-		Deluge.Plugins[options.pluginName].enable();
+		deluge.plugins[options.pluginName].enable();
 	},
 
 	/**
@@ -190,11 +190,11 @@ Deluge.UI = {
 		if (this.running) {
 			clearInterval(this.running);
 			this.running = false;
-			Deluge.Torrents.getStore().removeAll();
+			deluge.torrents.getStore().removeAll();
 		}
 	}
 }
 
 Ext.onReady(function(e) {
-	Deluge.UI.initialize();
+	deluge.ui.initialize();
 });

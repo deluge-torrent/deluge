@@ -33,8 +33,8 @@ Copyright:
 */
 
 (function() {
-	Ext.namespace('Ext.deluge.details');
-	Ext.deluge.details.TabPanel = Ext.extend(Ext.TabPanel, {
+	Ext.namespace('Deluge.details');
+	Deluge.details.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -47,7 +47,7 @@ Copyright:
 				margins: '0 5 5 5',
 				activeTab: 0
 			}, config);
-			Ext.deluge.details.TabPanel.superclass.constructor.call(this, config);
+			Deluge.details.TabPanel.superclass.constructor.call(this, config);
 		},
 		
 		clear: function() {
@@ -61,7 +61,7 @@ Copyright:
 		
 		
 		update: function(tab) {
-			var torrent = Deluge.Torrents.getSelected();
+			var torrent = deluge.torrents.getSelected();
 			if (!torrent) {
 				this.clear();
 				return;
@@ -80,12 +80,12 @@ Copyright:
 		// We need to add the events in onRender since Deluge.Torrents hasn't
 		// been created yet.
 		onRender: function(ct, position) {
-			Ext.deluge.details.TabPanel.superclass.onRender.call(this, ct, position);
-			Deluge.Events.on('disconnect', this.clear, this);
-			Deluge.Torrents.on('rowclick', this.onTorrentsClick, this);
+			Deluge.details.TabPanel.superclass.onRender.call(this, ct, position);
+			deluge.events.on('disconnect', this.clear, this);
+			deluge.torrents.on('rowclick', this.onTorrentsClick, this);
 			this.on('tabchange', this.onTabChange, this);
 			
-			Deluge.Torrents.getSelectionModel().on('selectionchange', function(selModel) {
+			deluge.torrents.getSelectionModel().on('selectionchange', function(selModel) {
 				if (!selModel.hasSelection()) this.clear();
 			}, this);
 		},
@@ -98,5 +98,5 @@ Copyright:
 			this.update();
 		}
 	});
-	Deluge.Details = new Ext.deluge.details.TabPanel();
+	deluge.details = new Deluge.details.TabPanel();
 })();

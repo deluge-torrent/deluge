@@ -1,18 +1,18 @@
-Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
+Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
 			defaultIconCls: 'x-not-connected',
 			defaultText: _('Not Connected')
 		}, config);
-		Ext.deluge.Statusbar.superclass.constructor.call(this, config);
+		Deluge.Statusbar.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.Statusbar.superclass.initComponent.call(this);
+		Deluge.Statusbar.superclass.initComponent.call(this);
 		
-		Deluge.Events.on('connect', this.onConnect, this);
-		Deluge.Events.on('disconnect', this.onDisconnect, this);
+		deluge.events.on('connect', this.onConnect, this);
+		deluge.events.on('disconnect', this.onDisconnect, this);
 	},
 	
 	createButtons: function() {
@@ -22,21 +22,21 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-connections',
 			tooltip: _('Connections'),
-			menu: Deluge.Menus.Connections
+			menu: deluge.menus.connections
 		}, '-', {
 			id: 'statusbar-downspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-downloading',
 			tooltip: _('Download Speed'),
-			menu: Deluge.Menus.Download
+			menu: deluge.menus.download
 		}, '-', {
 			id: 'statusbar-upspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-seeding',
 			tooltip: _('Upload Speed'),
-			menu: Deluge.Menus.Upload
+			menu: deluge.menus.upload
 		}, '-', {
 			id: 'statusbar-traffic',
 			text: ' ',
@@ -146,9 +146,9 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		this.items.get('statusbar-dht').setText(stats.dht_nodes);
 		this.items.get('statusbar-freespace').setText(fsize(stats.free_space));
 		
-		Deluge.Menus.Connections.setValue(stats.max_num_connections);
-		Deluge.Menus.Download.setValue(stats.max_download);
-		Deluge.Menus.Upload.setValue(stats.max_upload);
+		deluge.menus.connections.setValue(stats.max_num_connections);
+		deluge.menus.download.setValue(stats.max_download);
+		deluge.menus.upload.setValue(stats.max_upload);
 	}
 });
-Deluge.Statusbar = new Ext.deluge.Statusbar();
+deluge.statusbar = new Deluge.Statusbar();

@@ -38,11 +38,11 @@ Copyright:
 	 * @singleton
 	 * Class for holding global events that occur within the UI.
 	 */
-	Events = Ext.extend(Ext.util.Observable, {
+	Deluge.Events = Ext.extend(Ext.util.Observable, {
 		constructor: function() {
 			this.toRegister = [];
 			this.on('login', this.onLogin, this);
-			Events.superclass.constructor.call(this);
+			Deluge.Events.superclass.constructor.call(this);
 		},
 		
 		/**
@@ -51,17 +51,17 @@ Copyright:
 		addListener: function(eventName, fn, scope, o) {
 			this.addEvents(eventName);
 			if (/[A-Z]/.test(eventName.substring(0, 1))) {
-				if (!Deluge.Client) {
+				if (!deluge.client) {
 					this.toRegister.push(eventName);
 				} else {
-					Deluge.Client.web.register_event_listener(eventName);
+					deluge.client.web.register_event_listener(eventName);
 				}
 			}
-			Events.superclass.addListener.call(this, eventName, fn, scope, o);
+			Deluge.Events.superclass.addListener.call(this, eventName, fn, scope, o);
 		},
 	
 		getEvents: function() {
-			Deluge.Client.web.get_events({
+			deluge.client.web.get_events({
 				success: this.onGetEventsSuccess,
 				failure: this.onGetEventsFailure,
 				scope: this
@@ -73,7 +73,7 @@ Copyright:
 		 */
 		start: function() {
 			Ext.each(this.toRegister, function(eventName) {
-				Deluge.Client.web.register_event_listener(eventName);
+				deluge.client.web.register_event_listener(eventName);
 			});
 			this.running = true;
 			this.getEvents();
@@ -115,13 +115,13 @@ Copyright:
 	 * Appends an event handler to this object (shorthand for {@link #addListener})
 	 * @method 
 	 */
-	Events.prototype.on = Events.prototype.addListener
+	Deluge.Events.prototype.on = Deluge.Events.prototype.addListener
 
 	/**
 	 * Fires the specified event with the passed parameters (minus the
 	 * event name).
 	 * @method 
 	 */
-	Events.prototype.fire = Events.prototype.fireEvent
-	Deluge.Events = new Events();
+	Deluge.Events.prototype.fire = Deluge.Events.prototype.fireEvent
+	deluge.events = new Deluge.Events();
 })();

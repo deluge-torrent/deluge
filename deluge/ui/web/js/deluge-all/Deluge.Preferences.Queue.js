@@ -31,21 +31,21 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Queue'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Queue.superclass.constructor.call(this, config);
+		Deluge.preferences.Queue.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Queue.superclass.initComponent.call(this);
+		Deluge.preferences.Queue.superclass.initComponent.call(this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -218,4 +218,4 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		this.removeAtRatio.setDisabled(!checked);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Queue());
+deluge.preferences.addPage(new Deluge.preferences.Queue());

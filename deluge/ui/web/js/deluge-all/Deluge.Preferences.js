@@ -34,7 +34,7 @@ Copyright:
 
 PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
 
-Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
+Deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	/**
 	 * @property {String} currentPage The currently selected page.
@@ -54,7 +54,7 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	resizable: false,
 
 	initComponent: function() {
-		Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
+		Deluge.PreferencesWindow.superclass.initComponent.call(this);
 
 		this.categoriesGrid = this.add({
 			xtype: 'grid',
@@ -108,7 +108,7 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	onApply: function(e) {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isObjectEmpty(changed)) {
-			Deluge.Client.core.set_config(changed, {
+			deluge.client.core.set_config(changed, {
 				success: this.onSetConfig,
 				scope: this
 			});
@@ -188,8 +188,8 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	
 	// private
 	onShow: function() {
-		if (!Deluge.Client.core) return;
-		Deluge.Client.core.get_config({
+		if (!deluge.client.core) return;
+		deluge.client.core.get_config({
 			success: this.onGotConfig,
 			scope: this
 		})
@@ -202,8 +202,8 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	// private
 	onOk: function() {
-		Deluge.Client.core.set_config(this.optionsManager.getDirty());
+		deluge.client.core.set_config(this.optionsManager.getDirty());
 		this.hide();
 	}
 });
-Deluge.Preferences = new Ext.deluge.PreferencesWindow();
+deluge.preferences = new Deluge.PreferencesWindow();

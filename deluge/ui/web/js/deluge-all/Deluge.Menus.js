@@ -1,5 +1,5 @@
 /*
-Script: deluge-menus.js
+Script: deluge.menus.js
     Contains all the menus contained within the UI for easy access and editing.
 
 Copyright:
@@ -32,7 +32,7 @@ Copyright:
 
 */
 
-Deluge.Menus = {
+deluge.menus = {
 	onTorrentAction: function(item, e) {
 		var selection = Deluge.Torrents.getSelections();
 		var ids = [];
@@ -44,9 +44,9 @@ Deluge.Menus = {
 		switch (action) {
 			case 'pause':
 			case 'resume':
-				Deluge.Client.core[action + '_torrent'](ids, {
+				deluge.client.core[action + '_torrent'](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
@@ -54,53 +54,53 @@ Deluge.Menus = {
 			case 'up':
 			case 'down':
 			case 'bottom':
-				Deluge.Client.core['queue_' + action](ids, {
+				deluge.client.core['queue_' + action](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'edit_trackers':
-				Deluge.EditTrackers.show();
+				deluge.editTrackers.show();
 				break;
 			case 'update':
-				Deluge.Client.core.force_reannounce(ids, {
+				deluge.client.core.force_reannounce(ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'remove':
-				Deluge.RemoveWindow.show(ids);
+				deluge.removeWindow.show(ids);
 				break;
 			case 'recheck':
-				Deluge.Client.core.force_recheck(ids, {
+				deluge.client.core.force_recheck(ids, {
 					success: function() {	
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'move':
-				Deluge.MoveStorage.show(ids);
+				deluge.moveStorage.show(ids);
 				break;
 		}
 	}
 }
 
-Deluge.Menus.Torrent = new Ext.menu.Menu({
+deluge.menus.torrent = new Ext.menu.Menu({
 	id: 'torrentMenu',
 	items: [{
 		torrentAction: 'pause',
 		text: _('Pause'),
 		iconCls: 'icon-pause',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'resume',
 		text: _('Resume'),
 		iconCls: 'icon-resume',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		text: _('Options'),
 		iconCls: 'icon-options',
@@ -191,62 +191,62 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				torrentAction: 'top',
 				text: _('Top'),
 				iconCls: 'icon-top',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'up',
 				text: _('Up'),
 				iconCls: 'icon-up',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'down',
 				text: _('Down'),
 				iconCls: 'icon-down',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'bottom',
 				text: _('Bottom'),
 				iconCls: 'icon-bottom',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			}]
 		})
 	}, '-', {
 		torrentAction: 'update',
 		text: _('Update Tracker'),
 		iconCls: 'icon-update-tracker',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'edit_trackers',
 		text: _('Edit Trackers'),
 		iconCls: 'icon-edit-trackers',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		torrentAction: 'remove',
 		text: _('Remove Torrent'),
 		iconCls: 'icon-remove',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		torrentAction: 'recheck',
 		text: _('Force Recheck'),
 		iconCls: 'icon-recheck',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'move',
 		text: _('Move Storage'),
 		iconCls: 'icon-move',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}]
 });
 
-Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
+Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 	
 	setValue: function(value) {
 		var beenSet = false;
@@ -276,7 +276,7 @@ Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 	}
 });
 
-Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
+deluge.menus.connections = new Deluge.StatusbarMenu({
 	id: 'connectionsMenu',
 	items: [{
 		text: '50',
@@ -323,7 +323,7 @@ Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
 	}]
 });
 
-Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
+deluge.menus.download = new Deluge.StatusbarMenu({
 	id: 'downspeedMenu',
 	items: [{
 		value: '5',
@@ -370,7 +370,7 @@ Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
 	}]
 });
 
-Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
+deluge.menus.upload = new Deluge.StatusbarMenu({
 	id: 'upspeedMenu',
 	items: [{
 		value: '5',
@@ -417,7 +417,7 @@ Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
 	}]
 });
 
-Deluge.Menus.FilePriorities = new Ext.menu.Menu({
+deluge.menus.filePriorities = new Ext.menu.Menu({
 	id: 'filePrioritiesMenu',
 	items: [{
 		id: 'expandAll',

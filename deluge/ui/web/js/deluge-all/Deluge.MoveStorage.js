@@ -31,8 +31,8 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge');
-Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
+Ext.namespace('Deluge');
+Deluge.MoveStorage = Ext.extend(Ext.Window, {
 	
 	constructor: function(config) {
 		config = Ext.apply({
@@ -47,11 +47,11 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 			plain: true,
 			resizable: false
 		}, config);
-		Ext.deluge.MoveStorage.superclass.constructor.call(this, config);
+		Deluge.MoveStorage.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.MoveStorage.superclass.initComponent.call(this);
+		Deluge.MoveStorage.superclass.initComponent.call(this);
 
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Move'), this.onMove, this);
@@ -83,12 +83,12 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 	},
 
 	hide: function() {
-		Ext.deluge.MoveStorage.superclass.hide.call(this);
+		Deluge.MoveStorage.superclass.hide.call(this);
 		this.torrentIds = null;
 	},
 
 	show: function(torrentIds) {
-		Ext.deluge.MoveStorage.superclass.show.call(this);
+		Deluge.MoveStorage.superclass.show.call(this);
 		this.torrentIds = torrentIds;
 	},
 
@@ -98,8 +98,8 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 
 	onMove: function() {
 		var dest = this.moveLocation.getValue();
-		Deluge.Client.core.move_storage(this.torrentIds, dest);
+		deluge.client.core.move_storage(this.torrentIds, dest);
 		this.hide();
 	}
 });
-Deluge.MoveStorage = new Ext.deluge.MoveStorage();
+deluge.moveStorage = new Deluge.MoveStorage();

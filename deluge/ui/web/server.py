@@ -131,7 +131,7 @@ class Config(resource.Resource):
     def render(self, request):
         web_config = component.get("Web").get_config()
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
-        return compress("""Deluge = {
+        return compress("""deluge = {
     author: 'Damien Churchill <damoxc@gmail.com>',
     version: '%s',
     config: %s

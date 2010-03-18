@@ -41,7 +41,7 @@ Copyright:
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
-	Ext.deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
+	Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -79,17 +79,17 @@ Copyright:
 				})
 			}, config);
 
-			Ext.deluge.details.FilesTab.superclass.constructor.call(this, config);
+			Deluge.details.FilesTab.superclass.constructor.call(this, config);
 		},
 
 		initComponent: function() {
 			
-			Ext.deluge.details.FilesTab.superclass.initComponent.call(this);
+			Deluge.details.FilesTab.superclass.initComponent.call(this);
 		},
 		
 		onRender: function(ct, position) {
-			Ext.deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
-			Deluge.Menus.FilePriorities.on('itemclick', this.onItemClick, this);
+			Deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
+			deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
 			this.on('contextmenu', this.onContextMenu, this);
 			this.sorter = new Ext.tree.TreeSorter(this, {
 				folderSort: true
@@ -113,7 +113,7 @@ Copyright:
 				this.torrentId = torrentId;
 			}
 			
-			Deluge.Client.web.get_torrent_files(torrentId, {
+			deluge.client.web.get_torrent_files(torrentId, {
 				success: this.onRequestComplete,
 				scope: this,
 				torrentId: torrentId
@@ -127,7 +127,7 @@ Copyright:
 				selModel.clearSelections();
 				node.select();
 			}
-			Deluge.Menus.FilePriorities.showAt(e.getPoint());
+			deluge.menus.filePriorities.showAt(e.getPoint());
 		},
 		
 		onItemClick: function(baseItem, e) {
@@ -162,7 +162,7 @@ Copyright:
 						priorities[index] = indexes[index];
 					}
 
-					Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
+					deluge.client.core.set_torrent_file_priorities(this.torrentId, priorities, {
 						success: function() {
 							Ext.each(nodes, function(node) {
 								node.setColumnValue(3, baseItem.filePriority);
@@ -216,5 +216,5 @@ Copyright:
 			root.firstChild.expand();
 		}
 	});
-	Deluge.Details.add(new Ext.deluge.details.FilesTab());
+	deluge.details.add(new Deluge.details.FilesTab());
 })();

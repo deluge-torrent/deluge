@@ -45,7 +45,7 @@ Copyright:
         var image = '';	
         if (r.store.id == 'tracker_host') {
             if (value != 'Error') {
-                image = String.format('url(' + Deluge.config.base + 'tracker/{0})', value);
+                image = String.format('url(' + deluge.config.base + 'tracker/{0})', value);
             } else {
                 lname = null;
             }
@@ -60,11 +60,11 @@ Copyright:
     }
 
 	/**
-	 * @class Ext.deluge.Sidebar
+	 * @class Deluge.Sidebar
 	 * @author Damien Churchill <damoxc@gmail.com>
 	 * @version 1.3
 	 */
-    Ext.deluge.Sidebar = Ext.extend(Ext.Panel, {
+    Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
         // private
         panels: {},
@@ -86,13 +86,13 @@ Copyright:
                 margins: '5 0 0 5',
                 cmargins: '5 0 0 5'
             }, config);
-            Ext.deluge.Sidebar.superclass.constructor.call(this, config);
+            Deluge.Sidebar.superclass.constructor.call(this, config);
         },
     
         // private
         initComponent: function() {
-            Ext.deluge.Sidebar.superclass.initComponent.call(this);
-            Deluge.Events.on("disconnect", this.onDisconnect, this);
+            Deluge.Sidebar.superclass.initComponent.call(this);
+            deluge.events.on("disconnect", this.onDisconnect, this);
         },
     
         createFilter: function(filter, states) {
@@ -136,7 +136,7 @@ Copyright:
                 autoScroll: true
             });
         
-            if (Deluge.config['sidebar_show_zero'] == false) {
+            if (deluge.config['sidebar_show_zero'] == false) {
                 states = this.removeZero(states);
             }
         
@@ -179,7 +179,7 @@ Copyright:
         },
     
         onFilterSelect: function(selModel, rowIndex, record) {
-            Deluge.UI.update();
+            deluge.ui.update();
         },
     
         /**
@@ -215,20 +215,37 @@ Copyright:
         },
     
         updateFilter: function(filter, states) {
-            if (Deluge.config['sidebar_show_zero'] == false) {
+            if (deluge.config.sidebar_show_zero == false) {
                 states = this.removeZero(states);
             }
-    
+
 			var store = this.panels[filter].getStore();
+			var filters = [];
 			Ext.each(states, function(s, i) {
-				var record = store.getAt(i);
+				var record = store.getById(s[0]);
+				if (!record) {
+					record = new store.recordType({
+						filter: s[0],
+						count: s[1]
+					});
+					record.id = s[0];
+					store.insert(i, [record]);
+				}
 				record.beginEdit();
 				record.set('filter', s[0]);
 				record.set('count', s[1]);
 				record.endEdit();
-				record.commit();
+				filters[s[0]] = true;
 			}, this);
+
+			store.each(function(record) {
+				if (filters[record.id]) return;
+
+				store.remove(record);
+			}, this);
+
+			store.commitChanges();
         }
     });
-    Deluge.Sidebar = new Ext.deluge.Sidebar();
+    deluge.sidebar = new Deluge.Sidebar();
 })();

@@ -32,7 +32,7 @@ Copyright:
 
 */
 
-Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
+Deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	firstShow:   true,
 	bodyStyle:   'padding: 10px 5px;',
@@ -49,7 +49,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	height:      120,
 	
 	initComponent: function() {
-		Ext.deluge.LoginWindow.superclass.initComponent.call(this);
+		Deluge.LoginWindow.superclass.initComponent.call(this);
 		this.on('show', this.onShow, this);
 		
 		this.addButton({
@@ -78,8 +78,8 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	logout: function() {
-		Deluge.Events.fire('logout');
-		Deluge.Client.auth.delete_session({
+		Deluge.events.fire('logout');
+		deluge.client.auth.delete_session({
 			success: function(result) {
 				this.show(true);
 			},
@@ -89,18 +89,18 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	show: function(skipCheck) {
 		if (this.firstShow) {
-			Deluge.Client.on('error', this.onClientError, this);
+			deluge.client.on('error', this.onClientError, this);
 			this.firstShow = false;
 		}
 		
 		if (skipCheck) {
-			return Ext.deluge.LoginWindow.superclass.show.call(this);
+			return Deluge.LoginWindow.superclass.show.call(this);
 		}
 		
-		Deluge.Client.auth.check_session({
+		deluge.client.auth.check_session({
 			success: function(result) {
 				if (result) {
-					Deluge.Events.fire('login');
+					deluge.events.fire('login');
 				} else {
 					this.show(true);
 				}
@@ -118,10 +118,10 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	onLogin: function() {
 		var passwordField = this.passwordField;
-		Deluge.Client.auth.login(passwordField.getValue(), {
+		deluge.client.auth.login(passwordField.getValue(), {
 			success: function(result) {
 				if (result) {
-					Deluge.Events.fire('login');
+					deluge.events.fire('login');
 					this.hide();
 					passwordField.setRawValue('');
 				} else {
@@ -144,7 +144,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	onClientError: function(errorObj, response, requestOptions) {
 		if (errorObj.error.code == 1) {
-			Deluge.Events.fire('logout');
+			deluge.events.fire('logout');
 			this.show(true);
 		}
 	},
@@ -155,4 +155,4 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	}
 });
 
-Deluge.Login = new Ext.deluge.LoginWindow();
+deluge.login = new Deluge.LoginWindow();

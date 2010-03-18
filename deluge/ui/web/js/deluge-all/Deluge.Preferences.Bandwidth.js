@@ -1,5 +1,5 @@
 /*
-Script: Deluge.Preferences.Bandwidth.js
+Script: deluge.preferences.Bandwidth.js
     The bandwidth preferences page.
 
 Copyright:
@@ -31,8 +31,8 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -40,13 +40,13 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			layout: 'form',
 			labelWidth: 10
 		}, config);
-		Ext.deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
+		Deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Bandwidth.superclass.initComponent.call(this);
+		Deluge.preferences.Bandwidth.superclass.initComponent.call(this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
@@ -211,4 +211,4 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Bandwidth());
+deluge.preferences.addPage(new Deluge.preferences.Bandwidth());

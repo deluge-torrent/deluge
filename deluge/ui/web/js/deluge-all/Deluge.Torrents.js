@@ -70,7 +70,7 @@ Copyright:
 		return (value < 0) ? '∞' : new Number(value).toFixed(3);
 	}
 	function trackerRenderer(value, p, r) {
-		return String.format('<div style="background: url(' + Deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
+		return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 	}
 	
 	function etaSorter(eta) {
@@ -78,17 +78,17 @@ Copyright:
 	}
 
 	/**
-	 * Ext.deluge.TorrentGrid Class
+	 * Deluge.TorrentGrid Class
 	 *
 	 * @author Damien Churchill <damoxc@gmail.com>
 	 * @version 1.3
 	 *
-	 * @class Ext.deluge.TorrentGrid
+	 * @class Deluge.TorrentGrid
 	 * @extends Ext.grid.GridPanel
 	 * @constructor
 	 * @param {Object} config Configuration options
 	 */
-	Ext.deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
+	Deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
 
 		// object to store contained torrent ids
 		torrents: {},
@@ -212,13 +212,13 @@ Copyright:
 					scrollDelay: false
 				})
 			}, config);
-			Ext.deluge.TorrentGrid.superclass.constructor.call(this, config);
+			Deluge.TorrentGrid.superclass.constructor.call(this, config);
 		},
 
 	initComponent: function() {
-		Ext.deluge.TorrentGrid.superclass.initComponent.call(this);
-		Deluge.Events.on('torrentRemoved', this.onTorrentRemoved, this);
-		Deluge.Events.on('logout', this.onDisconnect, this);
+		Deluge.TorrentGrid.superclass.initComponent.call(this);
+		deluge.events.on('torrentRemoved', this.onTorrentRemoved, this);
+		deluge.events.on('logout', this.onDisconnect, this);
 
 		this.on('rowcontextmenu', function(grid, rowIndex, e) {
 			e.stopEvent();
@@ -226,7 +226,7 @@ Copyright:
 			if (!selection.hasSelection()) {
 				selection.selectRow(rowIndex);
 			}
-			Deluge.Menus.Torrent.showAt(e.getPoint());
+			deluge.menus.torrent.showAt(e.getPoint());
 		});
 	},
 
@@ -313,5 +313,5 @@ Copyright:
 		}, this);
 	}
 });
-Deluge.Torrents = new Ext.deluge.TorrentGrid();
+deluge.torrents = new Deluge.TorrentGrid();
 })();

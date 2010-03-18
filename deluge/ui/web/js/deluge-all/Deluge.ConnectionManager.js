@@ -37,7 +37,7 @@ Copyright:
 		return value + ':' + r.data['port']
 	}
 
-	Ext.deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
+	Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
 
 		constructor: function(config) {
 			config = Ext.apply({
@@ -52,11 +52,11 @@ Copyright:
 				title: _('Add Connection'),
 				iconCls: 'x-deluge-add-window-icon'
 			}, config);
-			Ext.deluge.AddConnectionWindow.superclass.constructor.call(this, config);
+			Deluge.AddConnectionWindow.superclass.constructor.call(this, config);
 		},
 	
 		initComponent: function() {
-			Ext.deluge.AddConnectionWindow.superclass.initComponent.call(this);
+			Deluge.AddConnectionWindow.superclass.initComponent.call(this);
 	
 			this.addEvents('hostadded');
 		
@@ -120,7 +120,7 @@ Copyright:
 			var username = this.usernameField.getValue();
 			var password = this.passwordField.getValue();
 	
-			Deluge.Client.web.add_host(host, port, username, password, {
+			deluge.client.web.add_host(host, port, username, password, {
 				success: function(result) {
 					if (!result[0]) {
 						Ext.MessageBox.show({
@@ -145,7 +145,7 @@ Copyright:
 		}
 	});
 
-	Ext.deluge.ConnectionManager = Ext.extend(Ext.Window, {
+	Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
 		layout: 'fit',
 		width: 300,
@@ -159,13 +159,13 @@ Copyright:
 		iconCls: 'x-deluge-connect-window-icon',
 	
 		initComponent: function() {
-			Ext.deluge.ConnectionManager.superclass.initComponent.call(this);
+			Deluge.ConnectionManager.superclass.initComponent.call(this);
 			this.on('hide',  this.onHide, this);
 			this.on('show', this.onShow, this);
 
-			Deluge.Events.on('disconnect', this.onDisconnect, this);
-			Deluge.Events.on('login', this.onLogin, this);
-			Deluge.Events.on('logout', this.onLogout, this);
+			deluge.events.on('disconnect', this.onDisconnect, this);
+			deluge.events.on('login', this.onLogin, this);
+			deluge.events.on('logout', this.onLogout, this);
 	
 			this.addButton(_('Close'), this.onClose, this);
 			this.addButton(_('Connect'), this.onConnect, this);
@@ -251,10 +251,10 @@ Copyright:
 		 * to a Deluge Daemon and show the Connection Manager if not.
 		 */
 		checkConnected: function() {
-			Deluge.Client.web.connected({
+			deluge.client.web.connected({
 				success: function(connected) {
 					if (connected) {
-						Deluge.Events.fire('connect');
+						deluge.events.fire('connect');
 					} else {
 						this.show();
 					}
@@ -264,11 +264,11 @@ Copyright:
 		},
 
 		disconnect: function() {
-			Deluge.Events.fire('disconnect');
+			deluge.events.fire('disconnect');
 		},
 	
 		loadHosts: function() {
-			Deluge.Client.web.get_hosts({
+			deluge.client.web.get_hosts({
 				success: this.onGetHosts,
 				scope: this
 			});
@@ -276,7 +276,7 @@ Copyright:
 	
 		update: function() {
 			this.grid.getStore().each(function(r) {
-				Deluge.Client.web.get_host_status(r.id, {
+				deluge.client.web.get_host_status(r.id, {
 					success: this.onGetHostStatus,
 					scope: this
 				});
@@ -318,7 +318,7 @@ Copyright:
 	
 		onAddClick: function(button, e) {
 			if (!this.addWindow) {
-				this.addWindow = new Ext.deluge.AddConnectionWindow();
+				this.addWindow = new Deluge.AddConnectionWindow();
 				this.addWindow.on('hostadded', this.onHostAdded, this);
 			}
 			this.addWindow.show();
@@ -340,7 +340,7 @@ Copyright:
 			if (!selected) return;
 	
 			if (selected.get('status') == _('Connected')) {
-				Deluge.Client.web.disconnect({
+				deluge.client.web.disconnect({
 					success: function(result) {
 						this.update(this);
 						Deluge.Events.fire('disconnect');
@@ -349,11 +349,11 @@ Copyright:
 				});
 			} else {
 				var id = selected.id;
-				Deluge.Client.web.connect(id, {
+				deluge.client.web.connect(id, {
 					success: function(methods) {
-						Deluge.Client.reloadMethods();
-						Deluge.Client.on('connected', function(e) {
-							Deluge.Events.fire('connect');
+						deluge.client.reloadMethods();
+						deluge.client.on('connected', function(e) {
+							deluge.events.fire('connect');
 						}, this, {single: true});
 					}
 				});
@@ -370,7 +370,7 @@ Copyright:
 		onGetHosts: function(hosts) {
 			this.grid.getStore().loadData(hosts);
 			Ext.each(hosts, function(host) {
-				Deluge.Client.web.get_host_status(host[0], {
+				deluge.client.web.get_host_status(host[0], {
 					success: this.onGetHostStatus,
 					scope: this
 				});
@@ -393,17 +393,17 @@ Copyright:
 
 		// private
 		onLogin: function() {
-			if (Deluge.config.first_login) {
+			if (deluge.config.first_login) {
 				Ext.MessageBox.confirm('Change password',
 					'As this is your first login, we recommend that you ' +
 					'change your password. Would you like to ' +
 					'do this now?', function(res) {
 						this.checkConnected();
 						if (res == 'yes') {
-							Deluge.Preferences.show();
-							Deluge.Preferences.selectPage('Interface');
+							deluge.preferences.show();
+							deluge.preferences.selectPage('Interface');
 						}
-						Deluge.Client.web.set_config({first_login: false});
+						deluge.client.web.set_config({first_login: false});
 					}, this);
 			} else {
 				this.checkConnected();
@@ -423,7 +423,7 @@ Copyright:
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
 	
-			Deluge.Client.web.remove_host(connection.id, {
+			deluge.client.web.remove_host(connection.id, {
 				success: function(result) {
 					if (!result) {
 						Ext.MessageBox.show({
@@ -480,10 +480,10 @@ Copyright:
 	
 			if (connection.get('status') == 'Offline') {
 				// This means we need to start the daemon
-				Deluge.Client.web.start_daemon(connection.get('port'));
+				deluge.client.web.start_daemon(connection.get('port'));
 			} else {
 				// This means we need to stop the daemon
-				Deluge.Client.web.stop_daemon(connection.id, {
+				deluge.client.web.stop_daemon(connection.id, {
 					success: function(result) {
 						if (!result[0]) {
 							Ext.MessageBox.show({
@@ -500,5 +500,5 @@ Copyright:
 			}
 		}
 	});
-	Deluge.ConnectionManager = new Ext.deluge.ConnectionManager();
+	deluge.connectionManager = new Deluge.ConnectionManager();
 })();

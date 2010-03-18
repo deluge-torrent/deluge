@@ -31,9 +31,9 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
+Ext.namespace('Deluge.preferences');
 
-Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
+Deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 
 	height: 115,
 	width: 350,
@@ -55,7 +55,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 	title: _('Install Plugin'),
 
 	initComponent: function() {
-		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		Deluge.add.FileWindow.superclass.initComponent.call(this);
 		this.addButton(_('Install'), this.onInstall, this);
 		
 		this.form = this.add({
@@ -96,7 +96,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 			var filename = this.form.getForm().findField('pluginEgg').value;
 			var path = upload.result.files[0]
 			this.form.getForm().findField('pluginEgg').setValue('');
-			Deluge.Client.web.upload_plugin(filename, path, {
+			deluge.client.web.upload_plugin(filename, path, {
 				success: this.onUploadPlugin,
 				scope: this,
 				filename: filename
@@ -106,7 +106,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 });
 	
 
-Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
+Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -115,7 +115,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			height: 400,
 			cls: 'x-deluge-plugins'
 		}, config);
-		Ext.deluge.preferences.Plugins.superclass.constructor.call(this, config);
+		Deluge.preferences.Plugins.superclass.constructor.call(this, config);
 	},
 
 	pluginTemplate: new Ext.Template(
@@ -129,7 +129,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	),
 
 	initComponent: function() {
-		Ext.deluge.preferences.Plugins.superclass.initComponent.call(this);
+		Deluge.preferences.Plugins.superclass.initComponent.call(this);
 		this.defaultValues = {
 			'version': '',
 			'email': '',
@@ -215,17 +215,17 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.on('show', this.onShow, this);
 		this.pluginInfo.on('render', this.onPluginInfoRender, this);
 		this.grid.on('cellclick', this.onCellClick, this);
-		Deluge.Preferences.on('show', this.onPreferencesShow, this);
-		Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
-		Deluge.Events.on('PluginEnabledEvent', this.onPluginEnabled, this);
+		deluge.preferences.on('show', this.onPreferencesShow, this);
+		deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
+		deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
 	},
 
 	disablePlugin: function(plugin) {
-		Deluge.Client.core.disable_plugin(plugin);
+		deluge.client.core.disable_plugin(plugin);
 	},
 
 	enablePlugin: function(plugin) {
-		Deluge.Client.core.enable_plugin(plugin);
+		deluge.client.core.enable_plugin(plugin);
 	},
 
 	setInfo: function(plugin) {
@@ -235,7 +235,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 	
 	updatePlugins: function() {
-		Deluge.Client.web.get_plugins({
+		deluge.client.web.get_plugins({
 			success: this.onGotPlugins,
 			scope: this
 		});
@@ -290,7 +290,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
 	onInstallPlugin: function() {
 		if (!this.installWindow) {
-			this.installWindow = new Ext.deluge.preferences.InstallPlugin();
+			this.installWindow = new Deluge.preferences.InstallPlugin();
 			this.installWindow.on('pluginadded', this.onPluginInstall, this);
 		}
 		this.installWindow.show();
@@ -315,7 +315,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 
 	onPluginSelect: function(selmodel, rowIndex, r) {
-		Deluge.Client.web.get_plugin_info(r.get('plugin'), {
+		deluge.client.web.get_plugin_info(r.get('plugin'), {
 			success: this.onGotPluginInfo,
 			scope: this
 		});
@@ -329,4 +329,4 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.setInfo();
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Plugins());
+deluge.preferences.addPage(new Deluge.preferences.Plugins());

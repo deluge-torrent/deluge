@@ -49,7 +49,7 @@ Copyright:
 		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
 	}
 
-	Ext.deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
+	Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -108,11 +108,11 @@ Copyright:
 				deferredRender:false,
 				autoScroll:true
 			}, config);
-			Ext.deluge.details.PeersTab.superclass.constructor.call(this, config);
+			Deluge.details.PeersTab.superclass.constructor.call(this, config);
 		},
 		
 		onRender: function(ct, position) {
-			Ext.deluge.details.PeersTab.superclass.onRender.call(this, ct, position);
+			Deluge.details.PeersTab.superclass.onRender.call(this, ct, position);
 		},
 		
 		clear: function() {
@@ -120,7 +120,7 @@ Copyright:
 		},
 		
 		update: function(torrentId) {
-			Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
+			deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
 				success: this.onRequestComplete,
 				scope: this
 			});
@@ -135,5 +135,5 @@ Copyright:
 			this.getStore().loadData(peers);
 		}
 	});
-	Deluge.Details.add(new Ext.deluge.details.PeersTab());
+	deluge.details.add(new Deluge.details.PeersTab());
 })();

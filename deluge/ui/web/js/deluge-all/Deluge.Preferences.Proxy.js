@@ -31,8 +31,8 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
+Ext.namespace('Deluge.preferences');
+Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -40,11 +40,11 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 			autoHeight: true,
 			labelWidth: 70
 		}, config);
-		Ext.deluge.preferences.ProxyField.superclass.constructor.call(this, config);
+		Deluge.preferences.ProxyField.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.preferences.ProxyField.superclass.initComponent.call(this);
+		Deluge.preferences.ProxyField.superclass.initComponent.call(this);
 		this.type = this.add({
 			xtype: 'combo',
 			fieldLabel: _('Type'),
@@ -166,43 +166,43 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 });
 
 
-Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
+Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Proxy'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Proxy.superclass.constructor.call(this, config);
+		Deluge.preferences.Proxy.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Proxy.superclass.initComponent.call(this);
-		this.peer = this.add(new Ext.deluge.preferences.ProxyField({
+		Deluge.preferences.Proxy.superclass.initComponent.call(this);
+		this.peer = this.add(new Deluge.preferences.ProxyField({
 			title: _('Peer'),
 			name: 'peer'
 		}));
 		this.peer.on('change', this.onProxyChange, this);
 		
-		this.web_seed = this.add(new Ext.deluge.preferences.ProxyField({
+		this.web_seed = this.add(new Deluge.preferences.ProxyField({
 			title: _('Web Seed'),
 			name: 'web_seed'
 		}));
 		this.web_seed.on('change', this.onProxyChange, this);
 		
-		this.tracker = this.add(new Ext.deluge.preferences.ProxyField({
+		this.tracker = this.add(new Deluge.preferences.ProxyField({
 			title: _('Tracker'),
 			name: 'tracker'
 		}));
 		this.tracker.on('change', this.onProxyChange, this);
 		
-		this.dht = this.add(new Ext.deluge.preferences.ProxyField({
+		this.dht = this.add(new Deluge.preferences.ProxyField({
 			title: _('DHT'),
 			name: 'dht'
 		}));
 		this.dht.on('change', this.onProxyChange, this);
 		
-		Deluge.Preferences.getOptionsManager().bind('proxies', this);
+		deluge.preferences.getOptionsManager().bind('proxies', this);
 	},
 	
 	getValue: function() {
@@ -228,4 +228,4 @@ Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Proxy());
+deluge.preferences.addPage(new Deluge.preferences.Proxy());

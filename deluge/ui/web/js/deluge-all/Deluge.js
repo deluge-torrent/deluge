@@ -31,13 +31,14 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-// Create the namespace Ext.deluge
-Ext.namespace('Ext.deluge');
 
 // Setup the state manager
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
+// Add some additional functions to ext and setup some of the
+// configurable parameters
 (function() {
+
     Ext.apply(Ext, {
 		escapeHTML: function(text) {
 			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
@@ -85,34 +86,48 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		}
     });
     Ext.getKeys = Ext.keys;
-    Ext.BLANK_IMAGE_URL = Deluge.config.base + 'images/s.gif';
+    Ext.BLANK_IMAGE_URL = deluge.config.base + 'images/s.gif';
 	Ext.USE_NATIVE_JSON = true;
 })();
 
-(function() {
-	var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
-		'<div class="x-progress-inner">' +
-			'<div style="width: {2}px" class="x-progress-bar">' +
-				'<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
-					'<div style="width: {1}px;">{0}</div>' +
-				'</div>' +
-			'</div>' +
-			'<div class="x-progress-text x-progress-text-back">' +
-				'<div style="width: {1}px;">{0}</div>' +
-			'</div>' +
-		'</div>' +
-	'</div>';
+// Create the Deluge namespace
+Deluge = {
 	
-	Deluge.progressBar =  function(progress, width, text, modifier) {
+	// private
+	progressTpl:	'<div class="x-progress-wrap x-progress-renderered">' +
+						'<div class="x-progress-inner">' +
+							'<div style="width: {2}px" class="x-progress-bar">' +
+								'<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
+									'<div style="width: {1}px;">{0}</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="x-progress-text x-progress-text-back">' +
+								'<div style="width: {1}px;">{0}</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>',
+
+	
+	/**
+	 * A method to create a progress bar that can be used by renderers
+	 * to display a bar within a grid or tree.
+	 * @param {Number} progress The bars progress
+	 * @param {Number} width The width of the bar
+	 * @param {String} text The text to display on the bar
+	 * @param {Number} modified Amount to subtract from the width allowing for fixes
+	 */
+	progressBar: function(progress, width, text, modifier) {
 		modifier = Ext.value(modifier, 10);
 		var progressWidth = ((width / 100.0) * progress).toFixed(0);
 		var barWidth = progressWidth - 1;
 		var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
-		return String.format(tpl, text, width, barWidth, textWidth);
+		return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
 	}
 	
-	Deluge.Plugins = {};
-})();
+}
+
+// Setup a space for plugins to insert themselves
+deluge.plugins = {};
 
 // Hinting for gettext_gen.py
 // _('Do Not Download')

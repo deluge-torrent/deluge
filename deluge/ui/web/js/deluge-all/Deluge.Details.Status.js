@@ -31,12 +31,12 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
+Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	title: _('Status'),
 	autoScroll: true,
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 		
 		this.progressBar = this.add({
 			xtype: 'progress',
@@ -53,7 +53,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 				'render': {
 					fn: function(panel) {
 						panel.load({
-							url: Deluge.config.base + 'render/tab_status.html',
+							url: deluge.config.base + 'render/tab_status.html',
 							text: _('Loading') + '...'
 						});
 						panel.getUpdater().on('update', this.onPanelUpdate, this);
@@ -73,7 +73,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	
 	update: function(torrentId) {
 		if (!this.fields) this.getFields();
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
 			success: this.onRequestComplete,
 			scope: this
 		});
@@ -119,4 +119,4 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		this.progressBar.updateProgress(status.progress, text);
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.StatusTab());
+deluge.details.add(new Deluge.details.StatusTab());
