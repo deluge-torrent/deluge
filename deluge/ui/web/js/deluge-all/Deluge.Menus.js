@@ -34,7 +34,7 @@ Copyright:
 
 deluge.menus = {
 	onTorrentAction: function(item, e) {
-		var selection = Deluge.Torrents.getSelections();
+		var selection = deluge.torrents.getSelections();
 		var ids = [];
 		Ext.each(selection, function(record) {
 			ids.push(record.id);
@@ -451,9 +451,9 @@ function onLimitChanged(item, checked) {
 	} else {
 		config = {}
 		config[item.group] = item.value
-		Deluge.Client.core.set_config(config, {
+		deluge.client.core.set_config(config, {
 			success: function() {
-				Deluge.UI.update();
+				deluge.ui.update();
 			}
 		});
 	}
