@@ -460,7 +460,7 @@ setup(
                                 "ui/web/images/*.png",
                                 "ui/web/js/*.js",
                                 "ui/web/render/*.html",
-                                "ui/web/themes/*/*/*"
+                                "ui/web/themes/*/*/*/*"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
     entry_points = """
