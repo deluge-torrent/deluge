@@ -32,9 +32,9 @@ Copyright:
 */
 
 /**
- * @class Ext.deluge.RemoveWindow
+ * @class Deluge.RemoveWindow
  */
-Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
+Deluge.RemoveWindow = Ext.extend(Ext.Window, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -48,11 +48,11 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 			plain: true,
 			iconCls: 'x-deluge-remove-window-icon'
 		}, config);
-		Ext.deluge.RemoveWindow.superclass.constructor.call(this, config);
+		Deluge.RemoveWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.RemoveWindow.superclass.initComponent.call(this);
+		Deluge.RemoveWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Remove With Data'), this.onRemoveData, this);
 		this.addButton(_('Remove Torrent'), this.onRemove, this);
@@ -66,7 +66,7 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	
 	remove: function(removeData) {
 		Ext.each(this.torrentIds, function(torrentId) {
-			Deluge.Client.core.remove_torrent(torrentId, removeData, {
+			deluge.client.core.remove_torrent(torrentId, removeData, {
 				success: function() {
 					this.onRemoved(torrentId);
 				},
@@ -78,7 +78,7 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	},
 	
 	show: function(ids) {
-		Ext.deluge.RemoveWindow.superclass.show.call(this);
+		Deluge.RemoveWindow.superclass.show.call(this);
 		this.torrentIds = ids;
 	},
 	
@@ -96,10 +96,10 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onRemoved: function(torrentId) {
-		Deluge.Events.fire('torrentRemoved', torrentId);
+		deluge.events.fire('torrentRemoved', torrentId);
 		this.hide();
-		Deluge.UI.update();
+		deluge.ui.update();
 	}
 });
 
-Deluge.RemoveWindow = new Ext.deluge.RemoveWindow();
+deluge.removeWindow = new Deluge.RemoveWindow();
