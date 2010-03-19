@@ -225,17 +225,6 @@ SectionEnd
 
 # Install GTK+ 2.16
 Section "GTK+ 2.16 runtime" Section4
-  # Check whether GTK+ 2.12 is installed on the system; if so skip this section
-  # The criterion is whether the registry key HKLM\SOFTWARE\GTK\2.0\Version exists
-  ReadRegStr $0 HKLM "SOFTWARE\GTK2-Runtime" "PackageVersion"
-  IfErrors GTK_install_start 0
-
-  ${VersionCompare} $0 "2.16.6-2010-02-24-ash" $1
-  StrCmp $1 "1" 0 +3
-  MessageBox MB_ICONEXCLAMATION|MB_OK "You have GTK+ $0 installed on your system. \
-     The Deluge installer will not download and install the GTK+ 2.16 runtime."
-  Goto GTK_install_exit
-
   GTK_install_start:
   MessageBox MB_OK "You will now download and run the installer for the GTK+ 2.16 runtime. \
     You must be connected to the internet before you press the OK button. \
@@ -251,7 +240,7 @@ Section "GTK+ 2.16 runtime" Section4
   Pop $2
   StrCmp $2 "success" 0 GTK_download_error
 
-  ExecWait "$TEMP\${DELUGE_GTK_DEPENDENCY}"
+  ExecWait '"$TEMP\${DELUGE_GTK_DEPENDENCY}" /compatdlls=yes'
   Goto GTK_install_exit
 
   GTK_download_error:

@@ -10,7 +10,7 @@ shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scr
 
 
 from bbfreeze import Freezer
-f = Freezer("..\\build-win32\\deluge-bbfreeze-" + build_version, includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "wsgiref.handlers", "twisted.internet.utils"))
+f = Freezer("..\\build-win32\\deluge-bbfreeze-" + build_version, includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "wsgiref.handlers", "twisted.internet.utils", "gio", "gtk.glade"))
 f.addScript(python_path + "Scripts\deluge.py", gui_only=False)
 f.addScript(python_path + "Scripts\deluged.py", gui_only=False)
 f.addScript(python_path + "Scripts\deluge-web.py", gui_only=False)
