@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-23 17:01+0000\n"
-"Last-Translator: Fernando Muñoz <munozferna@gmail.com>\n"
+"PO-Revision-Date: 2010-03-01 05:37+0000\n"
+"Last-Translator: karl0z <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -165,7 +165,7 @@ msgstr "<b>Opciones de etiquetas</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 #: deluge/ui/gtkui/glade/main_window.glade:1799
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr "KB/s"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -1972,7 +1972,7 @@ msgstr "Añadir Torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:326
 msgid "Remove Torrent"
-msgstr "Eliminar torrent"
+msgstr "Eliminar el torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:343
 msgid "Pause the selected torrents"

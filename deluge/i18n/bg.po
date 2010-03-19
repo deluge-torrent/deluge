@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-02 20:50+0000\n"
+"PO-Revision-Date: 2010-02-21 17:18+0000\n"
 "Last-Translator: Yasen Pramatarov <Unknown>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -48,7 +48,7 @@ msgstr "<b>Команди</b>"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Извличане в:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
 #: deluge/ui/gtkui/glade/main_window.glade:1972
@@ -61,13 +61,15 @@ msgstr "Изберете Папка"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Създаване на под-папка с името на торента"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Това ще създаде под-папка с името на торента в избраната папка и ще постави "
+"извлечените файлове в нея."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -1397,6 +1399,7 @@ msgstr "Неуспешно задаване на файлов приоритет
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Приоритет по файлове не може да се използва при постепенно запълване."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1470,11 +1473,11 @@ msgstr "Напредък"
 
 #: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:197
 msgid "Down Speed"
-msgstr "Скорост на сваляне"
+msgstr "Сваляне"
 
 #: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:201
 msgid "Up Speed"
-msgstr "Скорост на качване"
+msgstr "Качване"
 
 #: deluge/ui/gtkui/connectionmanager.py:74
 #: deluge/ui/gtkui/connectionmanager.py:210
@@ -1704,13 +1707,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Грешка при зареждане на демона"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Грешка при зареждане процеса на демона. Опитайте да го заредите от команден "
+"ред, за да видите съобщението за грешка."
 
 #: deluge/ui/gtkui/torrentview.py:177
 msgid "Name"
@@ -1718,19 +1723,19 @@ msgstr "Име"
 
 #: deluge/ui/gtkui/torrentview.py:187
 msgid "Seeders"
-msgstr "Качващи"
+msgstr "Качв."
 
 #: deluge/ui/gtkui/torrentview.py:192
 msgid "Peers"
-msgstr "Потребители"
+msgstr "Потр."
 
 #: deluge/ui/gtkui/torrentview.py:205
 msgid "ETA"
-msgstr "Оставащо време"
+msgstr "Остава"
 
 #: deluge/ui/gtkui/torrentview.py:210
 msgid "Ratio"
-msgstr "Съотношение"
+msgstr "Съотн."
 
 #: deluge/ui/gtkui/torrentview.py:214
 msgid "Avail"
@@ -2026,7 +2031,7 @@ msgstr "<b>Включено:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:819
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>Състояние на следащия сървър:</b>"
+msgstr "<b>Състояние на следящия сървър:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:849
 msgid "<b>Availability:</b>"
@@ -2059,7 +2064,7 @@ msgstr "<b>Следващо обявяване:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Share Ratio:</b>"
-msgstr "<b>Коеф. на споделяне:</B>"
+msgstr "<b>Коеф. на споделяне:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Uploaded:</b>"
@@ -3415,7 +3420,7 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:718
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Демон-услугата не съществува"
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"

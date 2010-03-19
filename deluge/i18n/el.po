@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-02-03 09:11+0000\n"
-"Last-Translator: Ostis <Unknown>\n"
+"PO-Revision-Date: 2010-03-12 23:18+0000\n"
+"Last-Translator: Dimitrios Ntoulas <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -61,13 +61,16 @@ msgstr "Επιλέξτε ένα φάκελο"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Δημιουργία torrent, ονομασία υποφακέλου"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Η επιλογή αυτή θα δημιουργήσει ένα υποφάκελο χρησιμοποώντας το όνομα του "
+"torrent μέσα από το επιλεγμένο φάκελο εξαγωγής και θα τοποθετήσει τα "
+"εξαγώμενα αρχεία εκεί."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -172,11 +175,11 @@ msgstr "Θυρίδες αποστολής:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
-msgstr "Ταχύτητα Αποστολής"
+msgstr "Ταχύτητα Αποστολής:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Ταχύτητα Λήψης"
+msgstr "Ταχύτητα Λήψης:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -184,7 +187,7 @@ msgstr "Συνδέσεις:"
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
-msgstr "Εφαρμογή περιορισμών ανά torrent"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
@@ -193,7 +196,7 @@ msgstr "Μέγιστο"
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1877
 msgid "Auto Managed"
-msgstr "Αυτόματη Διαχείρηση"
+msgstr "Αυτόματη Διαχείριση"
 
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1897
@@ -248,7 +251,7 @@ msgstr "Αυτόματος ορισμός ετικέτας"
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 msgid "Trackers"
-msgstr "Ανιχνευτές"
+msgstr "Trackers"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
@@ -319,7 +322,7 @@ msgstr "PeerGuardian P2B (GZip)"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
 msgid "URL:"
-msgstr "URL"
+msgstr "URL:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
 msgid "Days"
@@ -331,7 +334,7 @@ msgstr "Έλεγχος για νέα λίστα κάθε:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:130
 msgid "Import blocklist on startup"
-msgstr "Εισαγωγή λίστας μπλοκαρισμένων κατά την εκκίνηση"
+msgstr "Εισαγωγή λίστας μπλοκαρισμένων ip κατά την εκκίνηση"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:185
 msgid "Download the blocklist file if necessary and import the file."
@@ -345,7 +348,7 @@ msgstr "Έλεγχος Λήψης και Εισαγωγής"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:227
 msgid "Download a new blocklist file and import it."
-msgstr "Λήψη νέου αρχείου με λίστα μπλοκαριμένων και εισαγωγή του."
+msgstr "Λήψη νέου αρχείου με λίστα μπλοκαριμένων ip και εισαγωγή του."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:247
 msgid "Force Download and Import"
@@ -611,7 +614,7 @@ msgstr "Κύπρος"
 
 #: deluge/ui/countries.py:66
 msgid "Czech Republic"
-msgstr "Τσεχία"
+msgstr "Δημοκρατία της Τσεχίας"
 
 #: deluge/ui/countries.py:67
 msgid "Denmark"
@@ -627,7 +630,7 @@ msgstr "Ντομίνικα"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr "Δομινικανή Δημοκρατία"
+msgstr "Δομηνικανή Δημοκρατία"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
@@ -659,7 +662,7 @@ msgstr "Αιθιοπία"
 
 #: deluge/ui/countries.py:78
 msgid "Falkland Islands (Malvinas)"
-msgstr "Νήσοι Φάλκλαντ (Μαλβίνες)"
+msgstr "Νήσοι Φώκλαντ (Μαλβίνες)"
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"

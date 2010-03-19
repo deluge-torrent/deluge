@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-02-11 20:34+0000\n"
-"Last-Translator: panoptus <Unknown>\n"
+"PO-Revision-Date: 2010-03-03 04:24+0000\n"
+"Last-Translator: XChesser <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -166,7 +166,7 @@ msgstr "<b>Параметры метки</b>"
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 #: deluge/ui/gtkui/glade/main_window.glade:1799
 msgid "KiB/s"
-msgstr "KиБ/с"
+msgstr "КБ/с"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -254,7 +254,7 @@ msgstr "Трекеры"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
-msgstr "Добавить ярлык"
+msgstr "Добавить метку"
 
 #: deluge/plugins/label/label/data/label_options.glade:683
 msgid "<b>Add Label</b>"

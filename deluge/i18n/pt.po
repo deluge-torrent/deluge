@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-02-18 19:36+0000\n"
+"PO-Revision-Date: 2010-03-17 23:18+0000\n"
 "Last-Translator: Bruno Guerreiro <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -1669,7 +1669,7 @@ msgstr "Conexão"
 
 #: deluge/ui/gtkui/statusbar.py:168
 msgid "Download Speed"
-msgstr "Velocidade de download"
+msgstr "Velocidade de transferência"
 
 #: deluge/ui/gtkui/statusbar.py:173
 msgid "Upload Speed"
@@ -2067,7 +2067,7 @@ msgstr "<b>Peers:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:929
 msgid "<b>Seeders:</b>"
-msgstr "<b>Semeio:</b>"
+msgstr "<b>Sementes:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:947
 msgid "<b>Pieces:</b>"
@@ -2096,7 +2096,7 @@ msgstr "<b>Enviados:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1089
 msgid "<b>Downloaded:</b>"
-msgstr "<b>Recebido</b>"
+msgstr "<b>Recebido:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1150
 msgid "<b>Date Added:</b>"
@@ -2175,7 +2175,7 @@ msgstr "<b>Largura de Banda</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1952
 msgid "Move completed:"
-msgstr "Mover completos:"
+msgstr "Mover terminados:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2009
 msgid "<b>Queue</b>"
@@ -2305,7 +2305,7 @@ msgstr "Informação"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
-msgstr "Semeio web"
+msgstr "Sementes web"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
@@ -2346,7 +2346,7 @@ msgstr "Opções"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:689
 msgid "Enter Remote Path"
-msgstr "Insira uma Localização Remota"
+msgstr "Insirir Localização Remota"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:725
 msgid "<b>Remote Path</b>"
@@ -2388,7 +2388,7 @@ msgstr "_Opções"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
-msgstr "_Fila"
+msgstr "_Espera"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"

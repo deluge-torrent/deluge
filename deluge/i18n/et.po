@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2009-11-15 13:11+0000\n"
-"Last-Translator: René Pärts <Unknown>\n"
+"PO-Revision-Date: 2010-03-12 21:33+0000\n"
+"Last-Translator: lyyser <logard.1961@gmail.com>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:05+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -61,13 +61,15 @@ msgstr "Vali kaust"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Loo torrendi nimeline alamkataloog"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"See seadistus loob alamkataloogi torrendi nimega valitud kataloogi ja paneb "
+"lahtipakitavad failid sinna."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
@@ -1507,7 +1509,7 @@ msgstr "Ühendatud"
 
 #: deluge/ui/gtkui/connectionmanager.py:480
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Viga hosti lisamisel"
 
 #: deluge/ui/gtkui/systemtray.py:165
 msgid ""
@@ -1541,11 +1543,11 @@ msgstr "Maksimaalne üleslaadimiskiirus"
 
 #: deluge/ui/gtkui/systemtray.py:398
 msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr ""
+msgstr "<b><big>Deluge on parooliga kaitstud!</big></b>"
 
 #: deluge/ui/gtkui/systemtray.py:404
 msgid "<i>Enter your password to continue</i>"
-msgstr ""
+msgstr "<i>Sisesta salasõna</i>"
 
 #: deluge/ui/gtkui/notification.py:78
 msgid "Torrent complete"
@@ -1723,13 +1725,14 @@ msgstr ""
 
 #: deluge/ui/gtkui/gtkui.py:316
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Viga deemoni käivitamisel"
 
 #: deluge/ui/gtkui/gtkui.py:317
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Viga deemoni käivitamisel. proovige käivitada konsoolist et näha viga."
 
 #: deluge/ui/gtkui/torrentview.py:177
 msgid "Name"
@@ -1861,7 +1864,7 @@ msgstr "Vali plugin"
 
 #: deluge/ui/gtkui/preferences.py:923
 msgid "Plugin Eggs"
-msgstr ""
+msgstr "Eggs  lisandprogramm"
 
 #: deluge/ui/gtkui/glade/main_window.glade:20
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
@@ -2948,6 +2951,8 @@ msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
+"Kui see on lubatud, ligikaudne TCP / IP  üldkulu lubatud kiiruse piirajaid, "
+"et vältida koguliikluse ületamist"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid "<b>Global Bandwidth Usage</b>"
@@ -3097,7 +3102,7 @@ msgstr "<b>GeoIP andmebaas</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2452
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Assotsieeritud magnet lingid Deluge-ga"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2488
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2715
@@ -3308,7 +3313,7 @@ msgstr "Puhvri aegumine (sekundit):"
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "16 kB blokkide koguarv, kettale salvestamise algusest"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4571
 msgid "Blocks Written:"

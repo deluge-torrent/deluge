@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-05 11:25+0000\n"
-"Last-Translator: blittan <blittan@xbmc.org>\n"
+"PO-Revision-Date: 2010-02-28 17:55+0000\n"
+"Last-Translator: Malte Lenz <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -1399,6 +1399,7 @@ msgstr "Kunde inte ange filegenskaper!"
 #: deluge/ui/gtkui/addtorrentdialog.py:483
 msgid "File prioritization is unavailable when using Compact allocation."
 msgstr ""
+"Filprioritering är inte tillgängligt vid användande av kompakt allokering."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:530
 msgid "Choose a .torrent file"
@@ -1570,6 +1571,13 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Detta mail vill informera dig om att Deluge har laddat klart %(name)s , "
+"vilket inkluderar %(num_files)i filer.\n"
+"För att sluta få dessa påminnelser, stäng av mail-påminnelser i Deluges "
+"inställningar.\n"
+"\n"
+"Hälsningar,\n"
+"Deluge"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:102
@@ -1705,6 +1713,8 @@ msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Något blev fel när daemon-processen skulle startas. Försök starta den från "
+"en konsol för att se ifall det visas några felmeddelanden."
 
 #: deluge/ui/gtkui/torrentview.py:177
 msgid "Name"

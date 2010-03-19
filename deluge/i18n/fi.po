@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-19 19:08+0000\n"
-"Last-Translator: Tommi Saira <Unknown>\n"
+"PO-Revision-Date: 2010-03-17 23:43+0000\n"
+"Last-Translator: Pekka \"PEXI\" Niemistö <studio@netikka.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -3290,16 +3290,20 @@ msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
+"Määrä sekuntteina viimeisimmästä kirjoitetusta osasta välimuistissa. "
+"Välimuistista levylle. Oletus on 60 sekuntia."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4473
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Välimuisti vanhenee (sekuntteja):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4569
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
+"Määrä yhteensä 16 KiB lohkosta, kirjoitettuna levylle tämän istunnon "
+"alkaessa."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4571
 msgid "Blocks Written:"
@@ -3363,11 +3367,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4754
 msgid "Reads:"
-msgstr ""
+msgstr "Luettu:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4781
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "<b>Lue</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4811
 msgid ""
@@ -3377,19 +3381,19 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4813
 msgid "Cache Size:"
-msgstr ""
+msgstr "Välimuistin koko:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4823
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Lue välimuistin koko:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4862
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Koko</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4905
 msgid "<b>Status</b>"
-msgstr ""
+msgstr "<b>Tilanne</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4967
 msgid "<i><b><big>Plugins</big></b></i>"
@@ -3417,19 +3421,19 @@ msgstr "_Hae liitännäiset uudelleen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5317
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Lisää liitännäisiä"
 
 #: deluge/ui/web/server.py:514
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Aloitetaan palvelin PID-tilassa"
 
 #: deluge/ui/web/json_api.py:718
 msgid "Daemon doesn't exist"
-msgstr ""
+msgstr "Prosessia ei ole"
 
 #: deluge/ui/web/json_api.py:724
 msgid "Daemon not running"
-msgstr ""
+msgstr "Prosessi ei käynnissä"
 
 #: deluge/core/torrentmanager.py:850
 msgid "Announce OK"

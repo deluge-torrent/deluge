@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-01-25 20:06+0000\n"
-"Last-Translator: grizzo94 <Unknown>\n"
+"PO-Revision-Date: 2010-03-02 19:33+0000\n"
+"Last-Translator: Lorenzo De Liso <blackz@email.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -250,7 +250,7 @@ msgstr "Applica automaticamente l'etichetta:"
 #: deluge/plugins/label/label/data/label_options.glade:596
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 msgid "Trackers"
-msgstr "Tracker"
+msgstr "Trackers"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
@@ -274,7 +274,7 @@ msgstr "Etichetta"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
 msgid "Label _Options"
-msgstr "Opzioni _etichetta"
+msgstr "_Opzioni Etichetta"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
@@ -1752,7 +1752,7 @@ msgstr "Distributori"
 
 #: deluge/ui/gtkui/torrentview.py:192
 msgid "Peers"
-msgstr "Peer"
+msgstr "Peers"
 
 #: deluge/ui/gtkui/torrentview.py:205
 msgid "ETA"
@@ -1856,7 +1856,7 @@ msgstr "Cache"
 
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Plugins"
-msgstr "Plugin"
+msgstr "Plugins"
 
 #: deluge/ui/gtkui/preferences.py:90
 msgid "Enabled"
@@ -1948,7 +1948,7 @@ msgstr "A_iuto"
 
 #: deluge/ui/gtkui/glade/main_window.glade:234
 msgid "Homepage"
-msgstr "Pagina iniziale"
+msgstr "Homepage"
 
 #: deluge/ui/gtkui/glade/main_window.glade:251
 msgid "Frequently Asked Questions"
@@ -1976,7 +1976,7 @@ msgstr "Rimuovi torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:343
 msgid "Pause the selected torrents"
-msgstr "In pausa i torrent selezionati"
+msgstr "Metti in pausa i torrent selezionati"
 
 #: deluge/ui/gtkui/glade/main_window.glade:344
 msgid "Pause"
@@ -2004,7 +2004,7 @@ msgstr "Accoda il torrent in basso"
 
 #: deluge/ui/gtkui/glade/main_window.glade:392
 msgid "Queue Down"
-msgstr "Sposta in giù nella coda"
+msgstr "Accoda il torrent giù"
 
 #: deluge/ui/gtkui/glade/main_window.glade:409
 #: deluge/ui/gtkui/glade/main_window.glade:410
@@ -2064,7 +2064,7 @@ msgstr "<b>Disponibilità:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:903
 msgid "<b>Peers:</b>"
-msgstr "<b>Peer:</b>"
+msgstr "<b>Peers:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:929
 msgid "<b>Seeders:</b>"
@@ -2158,7 +2158,7 @@ msgstr "Connessioni Massime:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1764
 msgid "Max Upload Speed:"
-msgstr "Massima velocità di Upload:"
+msgstr "Velocità Massima di Upload:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1777
 msgid "Max Download Speed:"
@@ -2167,7 +2167,7 @@ msgstr "Massima velocità di Download:"
 #: deluge/ui/gtkui/glade/main_window.glade:1814
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
 msgid "Max Upload Slots:"
-msgstr "Numero Massimo di Slot in Upload"
+msgstr "Slots Massimi di Upload:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1847
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
@@ -2431,7 +2431,7 @@ msgstr "_Gestito Automaticamente"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr "Modifica i traker"
+msgstr "Modifica i trackers"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
@@ -2447,7 +2447,7 @@ msgstr "Aggiungi Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Aggiungi Tracker</b>"
+msgstr "<b>Aggiungi Trackers</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
@@ -2480,7 +2480,7 @@ msgstr "_Mostra Deluge"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 msgid "_Pause All"
-msgstr "_Pausa tutti"
+msgstr "Metti Tutti in _Pausa"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:65
 msgid "_Resume All"
@@ -2629,11 +2629,11 @@ msgstr "<b>Allocazione</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
 msgid "Max Down Speed:"
-msgstr "Velocità Massima in Download"
+msgstr "Velocità Massima di Download:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
 msgid "Max Up Speed:"
-msgstr "Velocità Massima in Upload"
+msgstr "Velocità Massima di Upload:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
 msgid "Add In _Paused State"
@@ -2705,7 +2705,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:369
 msgid "Use Compact Allocation"
-msgstr "Utilizza l'allocazione compatta"
+msgstr "Utilizza l'Allocazione Compatta"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:374
 msgid "Compact allocation only allocates space as needed"
@@ -2713,7 +2713,7 @@ msgstr "L'allocazione compatta assegna lo spazio solo quando è necessario"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:423
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Priorità ai primi e ultimi pezzi del torren"
+msgstr "Priorità ai primi e ultimi pezzi del torrent"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:428
 msgid "Prioritize first and last pieces of files in torrent"
@@ -2955,7 +2955,7 @@ msgstr "Ignora i limiti della rete locale"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1556
 msgid "Rate limit IP overhead"
-msgstr "Limita anche l'overead TCP/IP"
+msgstr "Limita l'overhead IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1560
 msgid ""
@@ -3084,13 +3084,13 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
-"Aiutaci a migliorare Deluge inviandoci informazioni sulla tua versione di "
-"Python, PyGTK, S.O e tipo di processore. In nessun modo saranno inviate "
-"altre informazioni."
+"Aiutaci a migliorare Deluge inviandoci la tua versione di Python, PyGTK, "
+"l'OS e il tipo di processore. Non saranno assolutamente inviate altre "
+"informazioni."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2306
 msgid "Yes, please send anonymous statistics"
-msgstr "Si, Invia statistiche anonime"
+msgstr "Sì, invia le statistiche anonime"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
 msgid "<b>System Information</b>"
@@ -3191,7 +3191,7 @@ msgstr "Tempo in Seed (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3093
 msgid "Stop seeding when share ratio reaches:"
-msgstr "Ferma seeding quando il rapporto condivisione raggiunge:"
+msgstr "Ferma la condivisione quando il rapporto di condivisione raggiunge:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3138
 msgid "Remove torrent when share ratio reached"
@@ -3355,10 +3355,13 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
+"Il rapporto (blocks_written - writes) / blocks_written rappresenta il numero "
+"delle operazioni salvate per le operazioni totali di scrittura, es. un "
+"genere di cache dell'hit di rapporti per la cache di scrittura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4595
 msgid "Write Cache Hit Ratio:"
-msgstr ""
+msgstr "Scrivi la Cache del Rapporto:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4647
 msgid "<b>Write</b>"
@@ -3386,11 +3389,11 @@ msgstr "Numero di blocchi letti:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4701
 msgid "The cache hit ratio for the read cache."
-msgstr ""
+msgstr "La cache del rapporto per la cache di lettura."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4703
 msgid "Read Cache Hit Ratio:"
-msgstr ""
+msgstr "Leggi la Cache del Rapporto"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4752
 msgid ""
@@ -3449,7 +3452,7 @@ msgstr "Email dell'autore:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5221
 msgid "_Install Plugin"
-msgstr "_Installare Plugin"
+msgstr "_Installa Plugin"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:5264
 msgid "_Rescan Plugins"

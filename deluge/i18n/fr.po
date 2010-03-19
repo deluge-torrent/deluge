@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-17 15:56-0800\n"
-"PO-Revision-Date: 2010-02-03 20:24+0000\n"
-"Last-Translator: JVC <Unknown>\n"
+"PO-Revision-Date: 2010-03-08 14:24+0000\n"
+"Last-Translator: Gerald Viney <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 17:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 20:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
@@ -1994,7 +1994,7 @@ msgstr "Reprendre"
 
 #: deluge/ui/gtkui/glade/main_window.glade:377
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Mettre le torrent dans la queue"
 
 #: deluge/ui/gtkui/glade/main_window.glade:378
 msgid "Queue Up"
