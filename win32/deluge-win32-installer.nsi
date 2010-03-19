@@ -37,14 +37,14 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.2.1"
+!define PROGRAM_VERSION "1.2.2"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
 !define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # Installer for GTK+ 2.12 runtime; will be downloaded from deluge-torrent.org
-!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2009-12-01-ash.exe"
+!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2010-02-24-ash.exe"
 
 
 # --- Interface settings ---
@@ -227,23 +227,13 @@ SectionEnd
 Section "GTK+ 2.16 runtime" Section4
   # Check whether GTK+ 2.12 is installed on the system; if so skip this section
   # The criterion is whether the registry key HKLM\SOFTWARE\GTK\2.0\Version exists
-  ReadRegStr $0 HKLM "SOFTWARE\GTK\2.0" "Version"
+  ReadRegStr $0 HKLM "SOFTWARE\GTK2-Runtime" "PackageVersion"
   IfErrors GTK_install_start 0
 
-  ${VersionCompare} $0 "2.11" $1
-  StrCmp $1 "2" 0 +3
-  MessageBox MB_ICONEXCLAMATION|MB_OK "Your GTK+ runtime version is $0 and Deluge will not work with GTK+ 2.10 or earlier. \
-         The Deluge installer will not download and install GTK+ 2.16 runtime. Sorry, but you will have to resolve this conflict manually. \
-         If in doubt, you can ask for help in the Deluge forum or IRC channel."
-  Goto GTK_install_exit
-
-  ${VersionCompare} $0 "2.13" $1
+  ${VersionCompare} $0 "2.16.6-2010-02-24-ash" $1
   StrCmp $1 "1" 0 +3
   MessageBox MB_ICONEXCLAMATION|MB_OK "You have GTK+ $0 installed on your system. \
      The Deluge installer will not download and install the GTK+ 2.16 runtime."
-  Goto GTK_install_exit
-
-  MessageBox MB_OK "You have GTK+ $0 installed on your system. The Deluge installer will not download and install the GTK+ runtime."
   Goto GTK_install_exit
 
   GTK_install_start:
