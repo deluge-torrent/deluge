@@ -1,6 +1,8 @@
-libtorrent/ export-ignore
-win32/ export-ignore
+/libtorrent export-ignore
+/win32 export-ignore
 docs/build export-ignore
 docs/source export-ignore
-tests/ export-ignore
+/tests export-ignore
 deluge/scripts export-ignore
+.gitattributes export-ignore
+.gitmodules export-ignore
