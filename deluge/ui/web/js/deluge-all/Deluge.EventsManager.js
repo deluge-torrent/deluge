@@ -33,6 +33,7 @@ Copyright:
 
 /**
  * @class Deluge.EventsManager
+ * @extends Ext.util.Observable
  * <p>Deluge.EventsManager is instantated as <tt>deluge.events</tt> and can be used by components of the UI to fire global events</p>
  * Class for holding global events that occur within the UI.
  */
