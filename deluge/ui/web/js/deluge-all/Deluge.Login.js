@@ -78,7 +78,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	logout: function() {
-		Deluge.events.fire('logout');
+		deluge.events.fire('logout');
 		deluge.client.auth.delete_session({
 			success: function(result) {
 				this.show(true);
