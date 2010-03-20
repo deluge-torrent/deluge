@@ -32,6 +32,11 @@ Copyright:
 */
 
 Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Encryption
+ * @extends Ext.form.FormPanel
+ */
 Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({

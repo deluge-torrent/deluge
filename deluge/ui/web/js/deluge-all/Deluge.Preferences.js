@@ -34,7 +34,11 @@ Copyright:
 
 PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
 
-Deluge.PreferencesWindow = Ext.extend(Ext.Window, {
+/**
+ * @class Deluge.preferences.PreferencesWindow
+ * @extends Ext.Window
+ */
+Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	/**
 	 * @property {String} currentPage The currently selected page.
@@ -54,7 +58,7 @@ Deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	resizable: false,
 
 	initComponent: function() {
-		Deluge.PreferencesWindow.superclass.initComponent.call(this);
+		Deluge.preferences.PreferencesWindow.superclass.initComponent.call(this);
 
 		this.categoriesGrid = this.add({
 			xtype: 'grid',
@@ -206,4 +210,4 @@ Deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.hide();
 	}
 });
-deluge.preferences = new Deluge.PreferencesWindow();
+deluge.preferences = new Deluge.preferences.PreferencesWindow();

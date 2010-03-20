@@ -33,7 +33,11 @@ Copyright:
 
 Ext.namespace('Deluge.preferences');
 
-Deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
+/**
+ * @class Deluge.preferences.InstallPluginWindow
+ * @extends Ext.Window
+ */
+Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 
 	height: 115,
 	width: 350,
@@ -104,8 +108,11 @@ Deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 		}
 	}
 });
-	
 
+/**
+ * @class Deluge.preferences.Plugins
+ * @extends Ext.Panel
+ */
 Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	constructor: function(config) {
 		config = Ext.apply({
@@ -184,7 +191,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 					cls: 'x-btn-text-icon',
 					iconCls: 'x-deluge-install-plugin',
 					text: _('Install'),
-					handler: this.onInstallPlugin,
+					handler: this.onInstallPluginWindow,
 					scope: this
 				}, '->', {
 					cls: 'x-btn-text-icon',
@@ -288,9 +295,9 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		delete info;
 	},
 
-	onInstallPlugin: function() {
+	onInstallPluginWindow: function() {
 		if (!this.installWindow) {
-			this.installWindow = new Deluge.preferences.InstallPlugin();
+			this.installWindow = new Deluge.preferences.InstallPluginWindow();
 			this.installWindow.on('pluginadded', this.onPluginInstall, this);
 		}
 		this.installWindow.show();

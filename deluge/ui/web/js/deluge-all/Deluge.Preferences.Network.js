@@ -33,6 +33,10 @@ Copyright:
 
 Ext.namespace('Deluge.preferences');
 
+/**
+ * @class Deluge.preferences.Network
+ * @extends Ext.form.FormPanel
+ */
 Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({

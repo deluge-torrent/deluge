@@ -32,6 +32,11 @@ Copyright:
 */
 
 Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Bandwidth
+ * @extends Ext.form.FormPanel
+ */
 Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({

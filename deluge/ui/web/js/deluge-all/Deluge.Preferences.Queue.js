@@ -32,6 +32,11 @@ Copyright:
 */
 
 Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Queue
+ * @extends Ext.form.FormPanel
+ */
 Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({

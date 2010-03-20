@@ -32,6 +32,11 @@ Copyright:
 */
 
 Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.ProxyField
+ * @extends Ext.form.FormSet
+ */
 Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 
 	constructor: function(config) {
@@ -165,7 +170,10 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 	}
 });
 
-
+/**
+ * @class Deluge.preferences.Proxy
+ * @extends Ext.form.FormPanel
+ */
 Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
