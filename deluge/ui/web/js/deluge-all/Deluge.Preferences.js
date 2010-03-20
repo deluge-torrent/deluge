@@ -32,6 +32,7 @@ Copyright:
 
 */
 
+Ext.namespace('Deluge.preferences');
 PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
 
 /**
