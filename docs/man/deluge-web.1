@@ -16,8 +16,17 @@ Deluge utilizes a client/server model, with 'deluged' being the daemon process a
 .SH OPTIONS
 See `deluge-web \-\-help` for common options, the web specific options are:
 .TP
+.B -b BASE, --base=BASE
+Set the base path that the ui is running on (proxying)
+.TP
+.B -f, --fork
+Fork the web interface process into the background
+.TP
 .B -p PORT, --port=PORT
 Sets the port to be used for the webserver
+.TP
+.B --profile
+Profile the webserver code
 .TP
 .B --no-ssl
 Forces the webserver to disable ssl
