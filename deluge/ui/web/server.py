@@ -406,9 +406,6 @@ class TopLevel(resource.Resource):
             theme = CONFIG_DEFAULTS.get("theme")
         self.__stylesheets.insert(1, "themes/css/xtheme-%s.css" % theme)
 
-        self.base = component.get("DelugeWeb").config["base"]
-
-
     @property
     def scripts(self):
         return self.__scripts
@@ -480,7 +477,9 @@ class TopLevel(resource.Resource):
 
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug, base=self.base)
+        base = component.get("DelugeWeb").base
+
+        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug, base=base)
 
 class ServerContextFactory:
 
@@ -534,6 +533,7 @@ class DelugeWeb(component.Component):
         self.https = self.config["https"]
         self.pkey = self.config["pkey"]
         self.cert = self.config["cert"]
+        self.base = self.config["base"]
         self.web_api = WebApi()
         self.auth = Auth()
 

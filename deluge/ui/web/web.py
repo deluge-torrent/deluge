@@ -53,6 +53,9 @@ class Web(_UI):
         self.__server =  None
         
         group = OptionGroup(self.parser, "Web Options")
+        group.add_option("-b", "--base", dest="base",
+            help="Set the base path that the ui is running on (proxying)",
+            action="store", default=None)
         group.add_option("-f", "--fork", dest="fork",
             help="Fork the web interface process into the background",
             action="store_true", default=False)
@@ -103,6 +106,9 @@ class Web(_UI):
         
         import server
         self.__server = server.DelugeWeb()
+
+        if self.options.base:
+            self.server.base = self.options.base
         
         if self.options.port:
             self.server.port = self.options.port
