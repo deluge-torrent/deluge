@@ -122,21 +122,6 @@ def rpath(*paths):
     """
     return os.path.join(current_dir, *paths)
 
-class Config(resource.Resource):
-    """
-    Writes out a javascript file that contains the WebUI configuration
-    available as Deluge.Config.
-    """
-
-    def render(self, request):
-        web_config = component.get("Web").get_config()
-        config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
-        return compress("""deluge = {
-    author: 'Damien Churchill <damoxc@gmail.com>',
-    version: '%s',
-    config: %s
-}""" % (common.get_version(), common.json.dumps(config)), request)
-
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
@@ -333,7 +318,7 @@ class TopLevel(resource.Resource):
         "js/ext-extensions/TreeGridColumns.js",
         "js/ext-extensions/TreeGridRenderColumn.js",
         "js/ext-extensions/TreeGrid.js",
-        "config.js",
+        #"config.js",
         "gettext.js",
         "js/deluge-all/Deluge.js",
         "js/deluge-all/Deluge.Formatters.js",
@@ -382,7 +367,6 @@ class TopLevel(resource.Resource):
 
     def __init__(self):
         resource.Resource.__init__(self)
-        self.putChild("config.js", Config())
         self.putChild("css", LookupResource("Css", rpath("css")))
         self.putChild("gettext.js", GetText())
         self.putChild("flag", Flag())
@@ -477,9 +461,23 @@ class TopLevel(resource.Resource):
 
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        base = component.get("DelugeWeb").base
 
-        return template.render(scripts=scripts, stylesheets=self.stylesheets, debug=debug, base=base)
+        if request.requestHeaders.hasHeader('x-deluge-base'):
+            base = request.requestHeaders.getRawHeaders('x-deluge-base')[-1]
+        else:
+            base = component.get("DelugeWeb").base
+
+        web_config = component.get("Web").get_config()
+        web_config["base"] = base
+        config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
+        js_config = """deluge = {
+    author: 'Damien Churchill <damoxc@gmail.com>',
+    version: '%s',
+    config: %s
+}""" % (common.get_version(), common.json.dumps(config))
+
+        return template.render(scripts=scripts, stylesheets=self.stylesheets,
+            debug=debug, base=base, js_config=js_config)
 
 class ServerContextFactory:
 
