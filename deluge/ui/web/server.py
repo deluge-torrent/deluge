@@ -318,7 +318,6 @@ class TopLevel(resource.Resource):
         "js/ext-extensions/TreeGridColumns.js",
         "js/ext-extensions/TreeGridRenderColumn.js",
         "js/ext-extensions/TreeGrid.js",
-        #"config.js",
         "gettext.js",
         "js/deluge-all/Deluge.js",
         "js/deluge-all/Deluge.Formatters.js",
@@ -466,6 +465,16 @@ class TopLevel(resource.Resource):
             base = request.requestHeaders.getRawHeaders('x-deluge-base')[-1]
         else:
             base = component.get("DelugeWeb").base
+
+        # validate the base parameter
+        if not base:
+            base = '/'
+
+        if base[0] != '/':
+            base = '/' + base
+
+        if base[-1] != '/':
+            base += '/'
 
         web_config = component.get("Web").get_config()
         web_config["base"] = base
