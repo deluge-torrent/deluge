@@ -66,8 +66,16 @@ class AlertManager(component.Component):
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
 
+        self.delayed_calls = []
+
     def update(self):
+        self.delayed_calls = [dc for dc in self.delayed_calls if dc.active()]
         self.handle_alerts()
+
+    def stop(self):
+        for dc in self.delayed_calls:
+            dc.cancel()
+        self.delayed_calls = []
 
     def register_handler(self, alert_type, handler):
         """
@@ -117,7 +125,7 @@ class AlertManager(component.Component):
             if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
                     if not wait:
-                        reactor.callLater(0, handler, alert)
+                        self.delayed_calls.append(reactor.callLater(0, handler, alert))
                     else:
                         handler(alert)
 
