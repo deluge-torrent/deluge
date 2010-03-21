@@ -139,7 +139,7 @@ class PluginManagerBase:
                 log.exception(e)
                 continue
             instance.enable()
-            if self.get_state() == component.COMPONENT_STATE.index("Started"):
+            if self._component_state == "Started":
                 component.start(instance.plugin.get_component_name())
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
