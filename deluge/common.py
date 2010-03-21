@@ -210,7 +210,7 @@ def open_url_in_browser(url):
 
     :param url: the url to open
     :type url: string
-    
+
     """
     import webbrowser
     webbrowser.open(url)
@@ -469,13 +469,13 @@ def free_space(path):
     :type path: string
     :returns: the free space at path in bytes
     :rtype: int
-    
+
     :raises InvalidPathError: if the path is not valid
 
     """
     if not os.path.exists(path):
         raise InvalidPathError("%s is not a valid path" % path)
-        
+
     if windows_check():
         import win32file
         sectors, bytes, free, total = map(long, win32file.GetDiskFreeSpace(path))
@@ -514,19 +514,19 @@ def is_ip(ip):
             return True
     except socket.error:
         return False
-        
+
 class VersionSplit(object):
     """
     Used for comparing version numbers.
-    
+
     :param ver: the version
     :type ver: string
-    
+
     """
     def __init__(self, ver):
         ver = ver.lower()
         vs = ver.split("_") if "_" in ver else ver.split("-")
-        self.version = vs[0]
+        self.version = [int(x) for x in vs[0].split(".")]
         self.suffix = None
         if len(vs) > 1:
             for s in ("rc", "alpha", "beta", "dev"):
@@ -536,12 +536,12 @@ class VersionSplit(object):
     def __cmp__(self, ver):
         """
         The comparison method.
-        
+
         :param ver: the version to compare with
         :type ver: VersionSplit
-        
+
         """
-        
+
         if self.version > ver.version or (self.suffix and self.suffix[:3] == "dev"):
             return 1
         if self.version < ver.version:
