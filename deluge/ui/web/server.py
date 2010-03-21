@@ -152,6 +152,7 @@ class Upload(resource.Resource):
             })
 
         tempdir = tempfile.mkdtemp(prefix="delugeweb-")
+        log.debug("uploading files to %s", tempdir)
 
         filenames = []
         for upload in request.args.get("file"):
@@ -159,6 +160,8 @@ class Upload(resource.Resource):
             os.write(fd, upload)
             os.close(fd)
             filenames.append(fn)
+        log.debug("uploaded %d file(s)", len(filenames))
+
         request.setHeader("content-type", "text/html")
         request.setResponseCode(http.OK)
         return compress(common.json.dumps({
