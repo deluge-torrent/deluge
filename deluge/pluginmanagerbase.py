@@ -140,7 +140,7 @@ class PluginManagerBase:
                 continue
             instance.enable()
             if self._component_state == "Started":
-                component.start(instance.plugin.get_component_name())
+                component.start(instance.plugin._component_name)
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
@@ -153,7 +153,7 @@ class PluginManagerBase:
         """Disables a plugin"""
         try:
             self.plugins[name].disable()
-            component.deregister(self.plugins[name].plugin.get_component_name())
+            component.deregister(self.plugins[name].plugin._component_name)
             del self.plugins[name]
             self.config["enabled_plugins"].remove(name)
         except KeyError:
