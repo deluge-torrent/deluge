@@ -18,13 +18,17 @@ class CoreTestCase(unittest.TestCase):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
-        component.start()
+        d = component.start()
+        return d
 
     def tearDown(self):
-        component.stop()
-        component.shutdown()
-        del self.rpcserver
-        del self.core
+
+        def on_shutdown(result):
+            component._ComponentRegistry.components = {}
+            del self.rpcserver
+            del self.core
+
+        return component.shutdown().addCallback(on_shutdown)
 
     def test_add_torrent_file(self):
         options = {}
