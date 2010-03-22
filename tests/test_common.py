@@ -50,4 +50,5 @@ class CommonTestCase(unittest.TestCase):
         self.failUnless(VersionSplit("1.2.2") > VersionSplit("1.2.1"))
         self.failIf(VersionSplit("1.2.2") == VersionSplit("1.2.2-dev"))
         self.failUnless(VersionSplit("0.14.9") == VersionSplit("0.14.9"))
+        self.failUnless(VersionSplit("0.14.9") > VersionSplit("0.14.5"))
         self.failUnless(VersionSplit("0.14.10") >= VersionSplit("0.14.9"))
