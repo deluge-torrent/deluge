@@ -299,14 +299,11 @@ class Torrent:
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
-        if lt.version_minor < 15:
-            for tracker in trackers:
-                new_entry = lt.announce_entry(tracker["url"])
-                new_entry.tier = tracker["tier"]
-                tracker_list.append(new_entry)
-            self.handle.replace_trackers(tracker_list)
-        else:
-            self.handle.replace_trackers(trackers)
+        for tracker in trackers:
+            new_entry = lt.announce_entry(tracker["url"])
+            new_entry.tier = tracker["tier"]
+            tracker_list.append(new_entry)
+        self.handle.replace_trackers(tracker_list)
 
         # Print out the trackers
         #for t in self.handle.trackers():
