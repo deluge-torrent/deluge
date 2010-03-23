@@ -116,7 +116,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 			this.fields[field].innerHTML = data[field];
 		}
 		var text = status.state + ' ' + status.progress.toFixed(2) + '%';
-		this.progressBar.updateProgress(status.progress, text);
+		this.progressBar.updateProgress(status.progress / 100.0, text);
 	}
 });
 deluge.details.add(new Deluge.details.StatusTab());
