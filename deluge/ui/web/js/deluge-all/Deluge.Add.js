@@ -433,20 +433,20 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 					id: 'url',
 					cls: 'x-btn-text-icon',
 					text: _('Url'),
-					icon: '/icons/add_url.png',
+					iconCls: 'icon-add-url',
 					handler: this.onUrl,
 					scope: this
 				}, {
 					id: 'infohash',
 					cls: 'x-btn-text-icon',
 					text: _('Infohash'),
-					icon: '/icons/add_magnet.png',
+					iconCls: 'icon-add-magnet',
 					disabled: true
 				}, '->', {
 					id: 'remove',
 					cls: 'x-btn-text-icon',
 					text: _('Remove'),
-					icon: '/icons/remove.png',
+					iconCls: 'icon-remove',
 					handler: this.onRemove,
 					scope: this
 				}]

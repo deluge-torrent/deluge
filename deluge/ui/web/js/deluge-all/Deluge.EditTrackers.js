@@ -221,33 +221,28 @@ Copyright:
 				bbar: new Ext.Toolbar({
 					items: [
 						{
-							cls: 'x-btn-text-icon',
 							text: _('Up'),
-							icon: '/icons/up.png',
+							iconCls: 'icon-up',
 							handler: this.onUpClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Down'),
-							icon: '/icons/down.png',
+							iconCls: 'icon-down',
 							handler: this.onDownClick,
 							scope: this
 						}, '->', {
-							cls: 'x-btn-text-icon',
 							text: _('Add'),
-							icon: '/icons/add.png',
+							iconCls: 'icon-add',
 							handler: this.onAddClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Edit'),
-							icon: '/icons/edit_trackers.png',
+							iconCls: 'icon-edit-trackers',
 							handler: this.onEditClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Remove'),
-							icon: '/icons/remove.png',
+							iconCls: 'icon-remove',
 							handler: this.onRemoveClick,
 							scope: this
 						}

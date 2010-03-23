@@ -161,7 +161,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
 				})
 			}, {
 				text: _('Upload Slot Limit'),
-				icon: '/icons/upload_slots.png',
+				iconCls: 'icon-upload-slots',
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('0')
@@ -422,26 +422,26 @@ deluge.menus.filePriorities = new Ext.menu.Menu({
 	items: [{
 		id: 'expandAll',
 		text: _('Expand All'),
-		icon: '/icons/expand_all.png'
+		iconCls: 'icon-expand-all'
 	}, '-', {
 		id: 'no_download',
 		text: _('Do Not Download'),
-		icon: '/icons/no_download.png',
+		iconCls: 'icon-do-not-download',
 		filePriority: 0
 	}, {
 		id: 'normal',
 		text: _('Normal Priority'),
-		icon: '/icons/normal.png',
+		iconCls: 'icon-normal',
 		filePriority: 1
 	}, {
 		id: 'high',
 		text: _('High Priority'),
-		icon: '/icons/high.png',
+		iconCls: 'icon-high',
 		filePriority: 2
 	}, {
 		id: 'highest',
 		text: _('Highest Priority'),
-		icon: '/icons/highest.png',
+		iconCls: 'icon-highest',
 		filePriority: 5
 	}]
 });

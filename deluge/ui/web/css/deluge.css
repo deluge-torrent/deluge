@@ -296,6 +296,16 @@ dl.singleline dd {
 	background-image: url('../icons/add.png') !important;
 }
 
+.icon-add-url {
+	background-image: url('../icons/add_url.png') !important;
+}
+
+.icon-add-magnet {
+	background-image: url('../icons/add_magnet.png') !important;
+}
+
+
+
 .icon-pause {
 	background-image: url('../icons/pause.png') !important;
 }
@@ -366,4 +376,32 @@ dl.singleline dd {
 
 .icon-home {
 	background-image: url('../icons/home.png') !important;
+}
+
+.icon-error {
+	background-image: url('../icons/error.png') !important;
+}
+
+.icon-upload-slots {
+	background-image: url('../icons/upload_slots.png') !important;
+}
+
+.icon-expand-all {
+	background-image: url('../icons/expand_all.png') !important;
+}
+
+.icon-do-not-download {
+	background-image: url('../icons/no_download.png') !important;
+}
+
+.icon-normal {
+	background-image: url('../icons/normal.png') !important;
+}
+
+.icon-high {
+	background-image: url('../icons/high.png') !important;
+}
+
+.icon-highest {
+	background-image: url('../icons/highest.png') !important;
 }

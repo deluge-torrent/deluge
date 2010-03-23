@@ -219,14 +219,14 @@ Copyright:
 							id: 'cm-add',
 							cls: 'x-btn-text-icon',
 							text: _('Add'),
-							icon: '/icons/add.png',
+							iconCls: 'icon-add',
 							handler: this.onAddClick,
 							scope: this
 						}, {
 							id: 'cm-remove',
 							cls: 'x-btn-text-icon',
 							text: _('Remove'),
-							icon: '/icons/remove.png',
+							iconCls: 'icon-remove',
 							handler: this.onRemove,
 							disabled: true,
 							scope: this
@@ -234,7 +234,7 @@ Copyright:
 							id: 'cm-stop',
 							cls: 'x-btn-text-icon',
 							text: _('Stop Daemon'),
-							icon: '/icons/error.png',
+							iconCls: 'icon-error',
 							handler: this.onStop,
 							disabled: true,
 							scope: this
