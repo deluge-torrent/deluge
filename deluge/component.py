@@ -261,7 +261,8 @@ class ComponentRegistry(object):
         deferreds = []
 
         for name in names:
-            deferreds.append(self.components[name]._component_stop())
+            if name in self.components:
+                deferreds.append(self.components[name]._component_stop())
 
         return DeferredList(deferreds)
 
