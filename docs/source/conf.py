@@ -37,7 +37,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'Deluge'
-copyright = '2008-2009, Deluge Team'
+copyright = '2008-2010, Deluge Team'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
