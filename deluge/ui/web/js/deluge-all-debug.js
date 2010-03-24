@@ -31,13 +31,14 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-// Create the namespace Ext.deluge
-Ext.namespace('Ext.deluge');
 
 // Setup the state manager
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
+// Add some additional functions to ext and setup some of the
+// configurable parameters
 (function() {
+
     Ext.apply(Ext, {
 		escapeHTML: function(text) {
 			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
@@ -85,34 +86,48 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 		}
     });
     Ext.getKeys = Ext.keys;
-    Ext.BLANK_IMAGE_URL = '/images/s.gif';
+    Ext.BLANK_IMAGE_URL = deluge.config.base + 'images/s.gif';
 	Ext.USE_NATIVE_JSON = true;
 })();
 
-(function() {
-	var tpl = '<div class="x-progress-wrap x-progress-renderered">' +
-		'<div class="x-progress-inner">' +
-			'<div style="width: {2}px" class="x-progress-bar">' +
-				'<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
-					'<div style="width: {1}px;">{0}</div>' +
-				'</div>' +
-			'</div>' +
-			'<div class="x-progress-text x-progress-text-back">' +
-				'<div style="width: {1}px;">{0}</div>' +
-			'</div>' +
-		'</div>' +
-	'</div>';
+// Create the Deluge namespace
+Deluge = {
 	
-	Deluge.progressBar =  function(progress, width, text, modifier) {
+	// private
+	progressTpl:	'<div class="x-progress-wrap x-progress-renderered">' +
+						'<div class="x-progress-inner">' +
+							'<div style="width: {2}px" class="x-progress-bar">' +
+								'<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
+									'<div style="width: {1}px;">{0}</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="x-progress-text x-progress-text-back">' +
+								'<div style="width: {1}px;">{0}</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>',
+
+	
+	/**
+	 * A method to create a progress bar that can be used by renderers
+	 * to display a bar within a grid or tree.
+	 * @param {Number} progress The bars progress
+	 * @param {Number} width The width of the bar
+	 * @param {String} text The text to display on the bar
+	 * @param {Number} modified Amount to subtract from the width allowing for fixes
+	 */
+	progressBar: function(progress, width, text, modifier) {
 		modifier = Ext.value(modifier, 10);
 		var progressWidth = ((width / 100.0) * progress).toFixed(0);
 		var barWidth = progressWidth - 1;
 		var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
-		return String.format(tpl, text, width, barWidth, textWidth);
+		return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
 	}
 	
-	Deluge.Plugins = {};
-})();
+}
+
+// Setup a space for plugins to insert themselves
+deluge.plugins = {};
 
 // Hinting for gettext_gen.py
 // _('Do Not Download')
@@ -205,10 +220,11 @@ Deluge.Formatters = {
 	 * Formats the bytes value into a string with KiB, MiB or GiB units.
 	 *
 	 * @param {Number} bytes the filesize in bytes
+	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	size: function(bytes) {
-		if (!bytes) return '';
+	size: function(bytes, showZero) {
+		if (!bytes && !showZero) return '';
 		bytes = bytes / 1024.0;
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
@@ -224,10 +240,11 @@ Deluge.Formatters = {
 	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
 	 * @param {Number} bits the number of bits per second
+	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	speed: function(bits) {
-		return (!bits) ? '' : fsize(bits) + '/s';
+	speed: function(bits, showZero) {
+		return (!bits && !showZero) ? '' : fsize(bits, showZero) + '/s';
 	},
 	
 	/**
@@ -399,7 +416,7 @@ Ext.each(Deluge.Keys.Grid, function(key) {
     Deluge.Keys.Status.push(key);
 });
 /*
-Script: deluge-menus.js
+Script: deluge.menus.js
     Contains all the menus contained within the UI for easy access and editing.
 
 Copyright:
@@ -432,9 +449,9 @@ Copyright:
 
 */
 
-Deluge.Menus = {
+deluge.menus = {
 	onTorrentAction: function(item, e) {
-		var selection = Deluge.Torrents.getSelections();
+		var selection = deluge.torrents.getSelections();
 		var ids = [];
 		Ext.each(selection, function(record) {
 			ids.push(record.id);
@@ -444,9 +461,9 @@ Deluge.Menus = {
 		switch (action) {
 			case 'pause':
 			case 'resume':
-				Deluge.Client.core[action + '_torrent'](ids, {
+				deluge.client.core[action + '_torrent'](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
@@ -454,53 +471,53 @@ Deluge.Menus = {
 			case 'up':
 			case 'down':
 			case 'bottom':
-				Deluge.Client.core['queue_' + action](ids, {
+				deluge.client.core['queue_' + action](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'edit_trackers':
-				Deluge.EditTrackers.show();
+				deluge.editTrackers.show();
 				break;
 			case 'update':
-				Deluge.Client.core.force_reannounce(ids, {
+				deluge.client.core.force_reannounce(ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'remove':
-				Deluge.RemoveWindow.show(ids);
+				deluge.removeWindow.show(ids);
 				break;
 			case 'recheck':
-				Deluge.Client.core.force_recheck(ids, {
+				deluge.client.core.force_recheck(ids, {
 					success: function() {	
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'move':
-				Deluge.MoveStorage.show(ids);
+				deluge.moveStorage.show(ids);
 				break;
 		}
 	}
 }
 
-Deluge.Menus.Torrent = new Ext.menu.Menu({
+deluge.menus.torrent = new Ext.menu.Menu({
 	id: 'torrentMenu',
 	items: [{
 		torrentAction: 'pause',
 		text: _('Pause'),
 		iconCls: 'icon-pause',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'resume',
 		text: _('Resume'),
 		iconCls: 'icon-resume',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		text: _('Options'),
 		iconCls: 'icon-options',
@@ -561,7 +578,7 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				})
 			}, {
 				text: _('Upload Slot Limit'),
-				icon: '/icons/upload_slots.png',
+				iconCls: 'icon-upload-slots',
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('0')
@@ -591,160 +608,178 @@ Deluge.Menus.Torrent = new Ext.menu.Menu({
 				torrentAction: 'top',
 				text: _('Top'),
 				iconCls: 'icon-top',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'up',
 				text: _('Up'),
 				iconCls: 'icon-up',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'down',
 				text: _('Down'),
 				iconCls: 'icon-down',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			},{
 				torrentAction: 'bottom',
 				text: _('Bottom'),
 				iconCls: 'icon-bottom',
-				handler: Deluge.Menus.onTorrentAction,
-				scope: Deluge.Menus
+				handler: deluge.menus.onTorrentAction,
+				scope: deluge.menus
 			}]
 		})
 	}, '-', {
 		torrentAction: 'update',
 		text: _('Update Tracker'),
 		iconCls: 'icon-update-tracker',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'edit_trackers',
 		text: _('Edit Trackers'),
 		iconCls: 'icon-edit-trackers',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		torrentAction: 'remove',
 		text: _('Remove Torrent'),
 		iconCls: 'icon-remove',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, '-', {
 		torrentAction: 'recheck',
 		text: _('Force Recheck'),
 		iconCls: 'icon-recheck',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}, {
 		torrentAction: 'move',
 		text: _('Move Storage'),
 		iconCls: 'icon-move',
-		handler: Deluge.Menus.onTorrentAction,
-		scope: Deluge.Menus
+		handler: deluge.menus.onTorrentAction,
+		scope: deluge.menus
 	}]
 });
 
-Ext.deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
+Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 	
 	setValue: function(value) {
+		var beenSet = false;
+		// set the new value
 		value = (value == 0) ? -1 : value;
-		var item = this.items.get(value);
-		if (!item) item = this.items.get('other')
+
+		// uncheck all items
+		this.items.each(function(item) {
+			if (item.setChecked) {
+				item.suspendEvents();
+				if (item.value == value) {
+					item.setChecked(true);
+					beenSet = true;
+				} else {
+					item.setChecked(false);
+				}
+				item.resumeEvents();
+			}
+		});
+
+		if (beenSet) return;
+
+		var item = this.items.get('other');
 		item.suspendEvents();
 		item.setChecked(true);
 		item.resumeEvents();
 	}
 });
 
-Deluge.Menus.Connections = new Ext.deluge.StatusbarMenu({
+deluge.menus.connections = new Deluge.StatusbarMenu({
 	id: 'connectionsMenu',
 	items: [{
-		id: '50',
 		text: '50',
+		value: '50',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '100',
 		text: '100',
+		value: '100',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '200',
 		text: '200',
+		value: '200',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
 		text: '300',
+		value: '300',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '500',
 		text: '500',
+		value: '500',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
 		text: _('Unlimited'),
+		value: '-1',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
 		text: _('Other'),
+		value: 'other',
 		group: 'max_connections_global',
 		checked: false,
 		checkHandler: onLimitChanged
 	}]
 });
 
-Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
+deluge.menus.download = new Deluge.StatusbarMenu({
 	id: 'downspeedMenu',
 	items: [{
-		id: '5',
+		value: '5',
 		text: '5 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '10',
+		value: '10',
 		text: '10 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '30',
+		value: '30',
 		text: '30 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '80',
+		value: '80',
 		text: '80 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
+		value: '300',
 		text: '300 KiB/s',
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
+		value: '-1',
 		text: _('Unlimited'),
 		group: 'max_download_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
+		value: 'other',
 		text: _('Other'),
 		group: 'max_download_speed',
 		checked: false,
@@ -752,46 +787,46 @@ Deluge.Menus.Download = new Ext.deluge.StatusbarMenu({
 	}]
 });
 
-Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
+deluge.menus.upload = new Deluge.StatusbarMenu({
 	id: 'upspeedMenu',
 	items: [{
-		id: '5',
+		value: '5',
 		text: '5 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '10',
+		value: '10',
 		text: '10 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '30',
+		value: '30',
 		text: '30 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '80',
+		value: '80',
 		text: '80 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '300',
+		value: '300',
 		text: '300 KiB/s',
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},{
-		id: '-1',
+		value: '-1',
 		text: _('Unlimited'),
 		group: 'max_upload_speed',
 		checked: false,
 		checkHandler: onLimitChanged
 	},'-',{
-		id: 'other',
+		value: 'other',
 		text: _('Other'),
 		group: 'max_upload_speed',
 		checked: false,
@@ -799,49 +834,49 @@ Deluge.Menus.Upload = new Ext.deluge.StatusbarMenu({
 	}]
 });
 
-Deluge.Menus.FilePriorities = new Ext.menu.Menu({
+deluge.menus.filePriorities = new Ext.menu.Menu({
 	id: 'filePrioritiesMenu',
 	items: [{
 		id: 'expandAll',
 		text: _('Expand All'),
-		icon: '/icons/expand_all.png'
+		iconCls: 'icon-expand-all'
 	}, '-', {
 		id: 'no_download',
 		text: _('Do Not Download'),
-		icon: '/icons/no_download.png',
+		iconCls: 'icon-do-not-download',
 		filePriority: 0
 	}, {
 		id: 'normal',
 		text: _('Normal Priority'),
-		icon: '/icons/normal.png',
+		iconCls: 'icon-normal',
 		filePriority: 1
 	}, {
 		id: 'high',
 		text: _('High Priority'),
-		icon: '/icons/high.png',
+		iconCls: 'icon-high',
 		filePriority: 2
 	}, {
 		id: 'highest',
 		text: _('Highest Priority'),
-		icon: '/icons/highest.png',
+		iconCls: 'icon-highest',
 		filePriority: 5
 	}]
 });
 
 function onLimitChanged(item, checked) {
-	if (item.id == "other") {
+	if (item.value == "other") {
 	} else {
 		config = {}
-		config[item.group] = item.id
-		Deluge.Client.core.set_config(config, {
+		config[item.group] = item.value
+		deluge.client.core.set_config(config, {
 			success: function() {
-				Deluge.UI.update();
+				deluge.ui.update();
 			}
 		});
 	}
 }
 /*
-Script: Deluge.Events.js
+Script: Deluge.EventsManager.js
 	Class for holding global events that occur within the UI.
 
 Copyright:
@@ -873,100 +908,98 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
-(function() {
+/**
+ * @class Deluge.EventsManager
+ * @extends Ext.util.Observable
+ * <p>Deluge.EventsManager is instantated as <tt>deluge.events</tt> and can be used by components of the UI to fire global events</p>
+ * Class for holding global events that occur within the UI.
+ */
+Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
+	constructor: function() {
+		this.toRegister = [];
+		this.on('login', this.onLogin, this);
+		Deluge.EventsManager.superclass.constructor.call(this);
+	},
+	
 	/**
-	 * @class Deluge.Events
-	 * <p>Deluge.Events is a singleton that components of the UI can use to fire global events</p>
-	 * @singleton
-	 * Class for holding global events that occur within the UI.
+	 * Append an event handler to this object.
 	 */
-	Events = Ext.extend(Ext.util.Observable, {
-		constructor: function() {
-			this.toRegister = [];
-			this.on('login', this.onLogin, this);
-			Events.superclass.constructor.call(this);
-		},
-		
-		/**
-		 * Append an event handler to this object.
-		 */
-		addListener: function(eventName, fn, scope, o) {
-			this.addEvents(eventName);
-			if (/[A-Z]/.test(eventName.substring(0, 1))) {
-				if (!Deluge.Client) {
-					this.toRegister.push(eventName);
-				} else {
-					Deluge.Client.web.register_event_listener(eventName);
-				}
+	addListener: function(eventName, fn, scope, o) {
+		this.addEvents(eventName);
+		if (/[A-Z]/.test(eventName.substring(0, 1))) {
+			if (!deluge.client) {
+				this.toRegister.push(eventName);
+			} else {
+				deluge.client.web.register_event_listener(eventName);
 			}
-			Events.superclass.addListener.call(this, eventName, fn, scope, o);
-		},
-	
-		getEvents: function() {
-			Deluge.Client.web.get_events({
-				success: this.onGetEventsSuccess,
-				failure: this.onGetEventsFailure,
-				scope: this
-			});
-		},
-	
-		/**
-		 * Starts the EventsManager checking for events.
-		 */
-		start: function() {
-			Ext.each(this.toRegister, function(eventName) {
-				Deluge.Client.web.register_event_listener(eventName);
-			});
-			this.running = true;
-			this.getEvents();
-		},
-	
-		/**
-		 * Stops the EventsManager checking for events.
-		 */
-		stop: function() {
-			this.running = false;
-		},
-
-		// private
-		onLogin: function() {
-			this.start();
-			this.on('PluginEnabledEvent', this.onPluginEnabled, this);
-			this.on('PluginDisabledEvent', this.onPluginDisabled, this);
-		},
-
-		onGetEventsSuccess: function(events) {
-			if (!events) return;
-			Ext.each(events, function(event) {
-				var name = event[0], args = event[1];
-				args.splice(0, 0, name);
-				this.fireEvent.apply(this, args);
-			}, this);
-			if (this.running) this.getEvents();
-		},
-	
-		// private
-		onGetEventsFailure: function(events) {
-			// the request timed out so we just want to open up another
-			// one.
-			if (this.running) this.getEvents();
 		}
-	});
+		Deluge.EventsManager.superclass.addListener.call(this, eventName, fn, scope, o);
+	},
+
+	getEvents: function() {
+		deluge.client.web.get_events({
+			success: this.onGetEventsSuccess,
+			failure: this.onGetEventsFailure,
+			scope: this
+		});
+	},
 
 	/**
-	 * Appends an event handler to this object (shorthand for {@link #addListener})
-	 * @method 
+	 * Starts the EventsManagerManager checking for events.
 	 */
-	Events.prototype.on = Events.prototype.addListener
+	start: function() {
+		Ext.each(this.toRegister, function(eventName) {
+			deluge.client.web.register_event_listener(eventName);
+		});
+		this.running = true;
+		this.getEvents();
+	},
 
 	/**
-	 * Fires the specified event with the passed parameters (minus the
-	 * event name).
-	 * @method 
+	 * Stops the EventsManagerManager checking for events.
 	 */
-	Events.prototype.fire = Events.prototype.fireEvent
-	Deluge.Events = new Events();
-})();
+	stop: function() {
+		this.running = false;
+	},
+
+	// private
+	onLogin: function() {
+		this.start();
+		this.on('PluginEnabledEvent', this.onPluginEnabled, this);
+		this.on('PluginDisabledEvent', this.onPluginDisabled, this);
+	},
+
+	onGetEventsSuccess: function(events) {
+		if (!events) return;
+		Ext.each(events, function(event) {
+			var name = event[0], args = event[1];
+			args.splice(0, 0, name);
+			this.fireEvent.apply(this, args);
+		}, this);
+		if (this.running) this.getEvents();
+	},
+
+	// private
+	onGetEventsFailure: function(events) {
+		// the request timed out so we just want to open up another
+		// one.
+		if (this.running) this.getEvents();
+	}
+});
+
+/**
+ * Appends an event handler to this object (shorthand for {@link #addListener})
+ * @method 
+ */
+Deluge.EventsManager.prototype.on = Deluge.EventsManager.prototype.addListener
+
+/**
+ * Fires the specified event with the passed parameters (minus the
+ * event name).
+ * @method 
+ */
+Deluge.EventsManager.prototype.fire = Deluge.EventsManager.prototype.fireEvent
+deluge.events = new Deluge.EventsManager();
 /*
 Script:
 	Deluge.OptionsManager.js
@@ -1534,8 +1567,8 @@ Copyright:
 
 */
 
-Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
+Ext.namespace('Deluge.add');
+Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 	torrents: {},
 
@@ -1546,11 +1579,11 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			activeTab: 0,
 			height: 220
 		}, config);
-		Ext.deluge.add.OptionsPanel.superclass.constructor.call(this, config);
+		Deluge.add.OptionsPanel.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.add.OptionsPanel.superclass.initComponent.call(this);
+		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
 		this.files = this.add(new Ext.ux.tree.TreeGrid({
 			layout: 'fit',
 			title: _('Files'),
@@ -1739,7 +1772,7 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
 		'prioritize_first_last_pieces'];
 
-		Deluge.Client.core.get_config_values(keys, {
+		deluge.client.core.get_config_values(keys, {
 			success: function(config) {
 				var options = {
 					'file_priorities': [],
@@ -1845,9 +1878,9 @@ Ext.deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	}
 });
 
-Ext.deluge.add.Window = Ext.extend(Ext.Window, {
+Deluge.add.Window = Ext.extend(Ext.Window, {
 	initComponent: function() {
-		Ext.deluge.add.Window.superclass.initComponent.call(this);
+		Deluge.add.Window.superclass.initComponent.call(this);
 		this.addEvents(
 			'beforeadd',
 			'add'
@@ -1859,7 +1892,7 @@ Ext.deluge.add.Window = Ext.extend(Ext.Window, {
 	}
 });
 
-Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
+Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -1874,11 +1907,11 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			plain: true,
 			iconCls: 'x-deluge-add-window-icon'
 		}, config);
-		Ext.deluge.add.AddWindow.superclass.constructor.call(this, config);
+		Deluge.add.AddWindow.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.add.AddWindow.superclass.initComponent.call(this);
+		Deluge.add.AddWindow.superclass.initComponent.call(this);
 
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Add'), this.onAddClick, this);
@@ -1925,37 +1958,29 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			margins: '5 5 5 5',
 			bbar: new Ext.Toolbar({
 				items: [{
-					id: 'file',
-					cls: 'x-btn-text-icon',
 					iconCls: 'x-deluge-add-file',
 					text: _('File'),
 					handler: this.onFile,
 					scope: this
 				}, {
-					id: 'url',
-					cls: 'x-btn-text-icon',
 					text: _('Url'),
-					icon: '/icons/add_url.png',
+					iconCls: 'icon-add-url',
 					handler: this.onUrl,
 					scope: this
 				}, {
-					id: 'infohash',
-					cls: 'x-btn-text-icon',
 					text: _('Infohash'),
-					icon: '/icons/add_magnet.png',
+					iconCls: 'icon-add-magnet',
 					disabled: true
 				}, '->', {
-					id: 'remove',
-					cls: 'x-btn-text-icon',
 					text: _('Remove'),
-					icon: '/icons/remove.png',
+					iconCls: 'icon-remove',
 					handler: this.onRemove,
 					scope: this
 				}]
 			})
 		});
 	
-		this.optionsPanel = this.add(new Ext.deluge.add.OptionsPanel());
+		this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
 		this.on('hide', this.onHide, this);
 		this.on('show', this.onShow, this);
 	},
@@ -1976,7 +2001,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 			});
 		}, this);
 
-		Deluge.Client.web.add_torrents(torrents, {
+		deluge.client.web.add_torrents(torrents, {
 			success: function(result) {
 			}
 		})
@@ -2017,13 +2042,13 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 
 	onShow: function() {
 		if (!this.url) {
-			this.url = new Ext.deluge.add.UrlWindow();
+			this.url = new Deluge.add.UrlWindow();
 			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.url.on('add', this.onTorrentAdd, this);
 		}
 
 		if (!this.file) {
-			this.file = new Ext.deluge.add.FileWindow();
+			this.file = new Deluge.add.FileWindow();
 			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.file.on('add', this.onTorrentAdd, this);
 		}
@@ -2037,6 +2062,7 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 	},
 
 	onTorrentAdd: function(torrentId, info) {
+		var r = this.grid.getStore().getById(torrentId);
 		if (!info) {
 			Ext.MessageBox.show({
 				title: _('Error'),
@@ -2046,21 +2072,20 @@ Ext.deluge.add.AddWindow = Ext.extend(Ext.deluge.add.Window, {
 				icon: Ext.MessageBox.ERROR,
 				iconCls: 'x-deluge-icon-error'
 			});
-			return;
+			this.grid.getStore().remove(r);
+		} else {
+			r.set('info_hash', info['info_hash']);
+			r.set('text', info['name']);
+			this.grid.getStore().commitChanges();
+			this.optionsPanel.addTorrent(info);
 		}
-
-		var r = this.grid.getStore().getById(torrentId);
-		r.set('info_hash', info['info_hash']);
-		r.set('text', info['name']);
-		this.grid.getStore().commitChanges();
-		this.optionsPanel.addTorrent(info);
 	},
 
 	onUrl: function(button, event) {
 		this.url.show();
 	}
 });
-Deluge.Add = new Ext.deluge.add.AddWindow();
+deluge.add = new Deluge.add.AddWindow();
 /*
 Script: Deluge.Add.File.js
     Contains the Add Torrent by file window.
@@ -2096,7 +2121,7 @@ Copyright:
 */
 
 Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
+Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 	constructor: function(config) {
 		config = Ext.apply({
 			layout: 'fit',
@@ -2110,11 +2135,11 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			title: _('Add from File'),
 			iconCls: 'x-deluge-add-file'
 		}, config);
-		Ext.deluge.add.FileWindow.superclass.constructor.call(this, config);
+		Deluge.add.FileWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		Deluge.add.FileWindow.superclass.initComponent.call(this);
 		this.addButton(_('Add'), this.onAddClick, this);
 		
 		this.form = this.add({
@@ -2143,10 +2168,12 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 			this.form.getForm().submit({
 				url: '/upload',
 				waitMsg: _('Uploading your torrent...'),
+				failure: this.onUploadFailure,
 				success: this.onUploadSuccess,
 				scope: this
 			});
 			var name = this.form.getForm().findField('torrentFile').value;
+			name = name.split('\\').slice(-1)[0];
 			this.fireEvent('beforeadd', this.torrentId, name);
 		}
 	},
@@ -2154,6 +2181,10 @@ Ext.deluge.add.FileWindow = Ext.extend(Ext.deluge.add.Window, {
 	onGotInfo: function(info, obj, response, request) {
 		info['filename'] = request.options.filename;
 		this.fireEvent('add', this.torrentId, info);
+	},
+
+	onUploadFailure: function(form, action) {
+		this.hide();
 	},
 	
 	onUploadSuccess: function(fp, upload) {
@@ -2203,8 +2234,8 @@ Copyright:
 
 */
 
-Ext.namespace('Ext.deluge.add');
-Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
+Ext.namespace('Deluge.add');
+Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
 	constructor: function(config) {
 		config = Ext.apply({
 			layout: 'fit',
@@ -2218,11 +2249,11 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 			title: _('Add from Url'),
 			iconCls: 'x-deluge-add-url-window-icon'
 		}, config);
-		Ext.deluge.add.UrlWindow.superclass.constructor.call(this, config);
+		Deluge.add.UrlWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.add.UrlWindow.superclass.initComponent.call(this);
+		Deluge.add.UrlWindow.superclass.initComponent.call(this);
 		this.addButton(_('Add'), this.onAddClick, this);
 		
 		var form = this.add({
@@ -2257,7 +2288,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 		var cookies = this.cookieField.getValue();
 		var torrentId = this.createTorrentId();
 		
-		Deluge.Client.web.download_torrent_from_url(url, cookies, {
+		deluge.client.web.download_torrent_from_url(url, cookies, {
 			success: this.onDownload,
 			scope: this,
 			torrentId: torrentId
@@ -2268,7 +2299,7 @@ Ext.deluge.add.UrlWindow = Ext.extend(Ext.deluge.add.Window, {
 	
 	onDownload: function(filename, obj, resp, req) {
 		this.urlField.setValue('');
-		Deluge.Client.web.get_torrent_info(filename, {
+		deluge.client.web.get_torrent_info(filename, {
 			success: this.onGotInfo,
 			scope: this,
 			filename: filename,
@@ -2478,7 +2509,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 	}
 });
 /*
-Script: deluge-connections.js
+Script: Deluge.ConnectionManager.js
 	Contains all objects and functions related to the connection manager.
 
 Copyright:
@@ -2516,7 +2547,7 @@ Copyright:
 		return value + ':' + r.data['port']
 	}
 
-	Ext.deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
+	Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
 
 		constructor: function(config) {
 			config = Ext.apply({
@@ -2531,11 +2562,11 @@ Copyright:
 				title: _('Add Connection'),
 				iconCls: 'x-deluge-add-window-icon'
 			}, config);
-			Ext.deluge.AddConnectionWindow.superclass.constructor.call(this, config);
+			Deluge.AddConnectionWindow.superclass.constructor.call(this, config);
 		},
 	
 		initComponent: function() {
-			Ext.deluge.AddConnectionWindow.superclass.initComponent.call(this);
+			Deluge.AddConnectionWindow.superclass.initComponent.call(this);
 	
 			this.addEvents('hostadded');
 		
@@ -2563,8 +2594,7 @@ Copyright:
 			this.portField = this.form.add({
 				fieldLabel: _('Port'),
 				id: 'port',
-				xtype: 'uxspinner',
-				ctCls: 'x-form-uxspinner',
+				xtype: 'spinnerfield',
 				name: 'port',
 				strategy: {
 					xtype: 'number',
@@ -2600,7 +2630,7 @@ Copyright:
 			var username = this.usernameField.getValue();
 			var password = this.passwordField.getValue();
 	
-			Deluge.Client.web.add_host(host, port, username, password, {
+			deluge.client.web.add_host(host, port, username, password, {
 				success: function(result) {
 					if (!result[0]) {
 						Ext.MessageBox.show({
@@ -2625,7 +2655,7 @@ Copyright:
 		}
 	});
 
-	Ext.deluge.ConnectionManager = Ext.extend(Ext.Window, {
+	Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
 		layout: 'fit',
 		width: 300,
@@ -2639,11 +2669,13 @@ Copyright:
 		iconCls: 'x-deluge-connect-window-icon',
 	
 		initComponent: function() {
-			Ext.deluge.ConnectionManager.superclass.initComponent.call(this);
+			Deluge.ConnectionManager.superclass.initComponent.call(this);
 			this.on('hide',  this.onHide, this);
 			this.on('show', this.onShow, this);
-			Deluge.Events.on('login', this.onLogin, this);
-			Deluge.Events.on('logout', this.onLogout, this);
+
+			deluge.events.on('disconnect', this.onDisconnect, this);
+			deluge.events.on('login', this.onLogin, this);
+			deluge.events.on('logout', this.onLogout, this);
 	
 			this.addButton(_('Close'), this.onClose, this);
 			this.addButton(_('Connect'), this.onConnect, this);
@@ -2697,14 +2729,14 @@ Copyright:
 							id: 'cm-add',
 							cls: 'x-btn-text-icon',
 							text: _('Add'),
-							icon: '/icons/add.png',
+							iconCls: 'icon-add',
 							handler: this.onAddClick,
 							scope: this
 						}, {
 							id: 'cm-remove',
 							cls: 'x-btn-text-icon',
 							text: _('Remove'),
-							icon: '/icons/remove.png',
+							iconCls: 'icon-remove',
 							handler: this.onRemove,
 							disabled: true,
 							scope: this
@@ -2712,7 +2744,7 @@ Copyright:
 							id: 'cm-stop',
 							cls: 'x-btn-text-icon',
 							text: _('Stop Daemon'),
-							icon: '/icons/error.png',
+							iconCls: 'icon-error',
 							handler: this.onStop,
 							disabled: true,
 							scope: this
@@ -2724,12 +2756,29 @@ Copyright:
 			this.update = this.update.createDelegate(this);
 		},
 
+		/**
+		 * Check to see if the the web interface is currently connected
+		 * to a Deluge Daemon and show the Connection Manager if not.
+		 */
+		checkConnected: function() {
+			deluge.client.web.connected({
+				success: function(connected) {
+					if (connected) {
+						deluge.events.fire('connect');
+					} else {
+						this.show();
+					}
+				},
+				scope: this
+			});
+		},
+
 		disconnect: function() {
-			Deluge.Events.fire('disconnect');
+			deluge.events.fire('disconnect');
 		},
 	
 		loadHosts: function() {
-			Deluge.Client.web.get_hosts({
+			deluge.client.web.get_hosts({
 				success: this.onGetHosts,
 				scope: this
 			});
@@ -2737,7 +2786,7 @@ Copyright:
 	
 		update: function() {
 			this.grid.getStore().each(function(r) {
-				Deluge.Client.web.get_host_status(r.id, {
+				deluge.client.web.get_host_status(r.id, {
 					success: this.onGetHostStatus,
 					scope: this
 				});
@@ -2779,7 +2828,7 @@ Copyright:
 	
 		onAddClick: function(button, e) {
 			if (!this.addWindow) {
-				this.addWindow = new Ext.deluge.AddConnectionWindow();
+				this.addWindow = new Deluge.AddConnectionWindow();
 				this.addWindow.on('hostadded', this.onHostAdded, this);
 			}
 			this.addWindow.show();
@@ -2789,17 +2838,19 @@ Copyright:
 			this.loadHosts();
 		},
 	
+		// private
 		onClose: function(e) {
 			if (this.running) window.clearInterval(this.running);
 			this.hide();
 		},
 	
+		// private
 		onConnect: function(e) {
 			var selected = this.grid.getSelectionModel().getSelected();
 			if (!selected) return;
 	
 			if (selected.get('status') == _('Connected')) {
-				Deluge.Client.web.disconnect({
+				deluge.client.web.disconnect({
 					success: function(result) {
 						this.update(this);
 						Deluge.Events.fire('disconnect');
@@ -2808,11 +2859,11 @@ Copyright:
 				});
 			} else {
 				var id = selected.id;
-				Deluge.Client.web.connect(id, {
+				deluge.client.web.connect(id, {
 					success: function(methods) {
-						Deluge.Client.reloadMethods();
-						Deluge.Client.on('connected', function(e) {
-							Deluge.Events.fire('connect');
+						deluge.client.reloadMethods();
+						deluge.client.on('connected', function(e) {
+							deluge.events.fire('connect');
 						}, this, {single: true});
 					}
 				});
@@ -2820,16 +2871,23 @@ Copyright:
 			}
 		},
 
+		onDisconnect: function() {
+			if (this.isVisible()) return;
+			this.show();
+		},
+
+		// private
 		onGetHosts: function(hosts) {
 			this.grid.getStore().loadData(hosts);
 			Ext.each(hosts, function(host) {
-				Deluge.Client.web.get_host_status(host[0], {
+				deluge.client.web.get_host_status(host[0], {
 					success: this.onGetHostStatus,
 					scope: this
 				});
 			}, this);
 		},
 	
+		// private
 		onGetHostStatus: function(host) {
 			var record = this.grid.getStore().getById(host[0]);
 			record.set('status', host[3])
@@ -2838,23 +2896,31 @@ Copyright:
 			if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
 		},
 
+		// private
 		onHide: function() {
 			if (this.running) window.clearInterval(this.running);	
 		},
 
+		// private
 		onLogin: function() {
-			Deluge.Client.web.connected({
-				success: function(connected) {
-					if (connected) {
-						Deluge.Events.fire('connect');
-					} else {
-						this.show();
-					}
-				},
-				scope: this
-			});
+			if (deluge.config.first_login) {
+				Ext.MessageBox.confirm('Change password',
+					'As this is your first login, we recommend that you ' +
+					'change your password. Would you like to ' +
+					'do this now?', function(res) {
+						this.checkConnected();
+						if (res == 'yes') {
+							deluge.preferences.show();
+							deluge.preferences.selectPage('Interface');
+						}
+						deluge.client.web.set_config({first_login: false});
+					}, this);
+			} else {
+				this.checkConnected();
+			}
 		},
 
+		// private
 		onLogout: function() {
 			this.disconnect();
 			if (!this.hidden && this.rendered) {
@@ -2862,11 +2928,12 @@ Copyright:
 			}
 		},
 	
+		// private
 		onRemove: function(button) {
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
 	
-			Deluge.Client.web.remove_host(connection.id, {
+			deluge.client.web.remove_host(connection.id, {
 				success: function(result) {
 					if (!result) {
 						Ext.MessageBox.show({
@@ -2885,10 +2952,12 @@ Copyright:
 			});
 		},
 
+		// private
 		onSelect: function(selModel, rowIndex, record) {
 			this.selectedRow = rowIndex;
 		},
 
+		// private
 		onSelectionChanged: function(selModel) {
 			var record = selModel.getSelected();
 			if (selModel.hasSelection()) {
@@ -2902,6 +2971,7 @@ Copyright:
 			this.updateButtons(record);
 		},
 
+		// private
 		onShow: function() {
 			if (!this.addHostButton) {
 				var bbar = this.grid.getBottomToolbar();
@@ -2912,17 +2982,18 @@ Copyright:
 			this.loadHosts();
 			this.running = window.setInterval(this.update, 2000, this);
 		},
-
+		
+		// private
 		onStop: function(button, e) {
 			var connection = this.grid.getSelectionModel().getSelected();
 			if (!connection) return;
 	
 			if (connection.get('status') == 'Offline') {
 				// This means we need to start the daemon
-				Deluge.Client.web.start_daemon(connection.get('port'));
+				deluge.client.web.start_daemon(connection.get('port'));
 			} else {
 				// This means we need to stop the daemon
-				Deluge.Client.web.stop_daemon(connection.id, {
+				deluge.client.web.stop_daemon(connection.id, {
 					success: function(result) {
 						if (!result[0]) {
 							Ext.MessageBox.show({
@@ -2939,7 +3010,7 @@ Copyright:
 			}
 		}
 	});
-	Deluge.ConnectionManager = new Ext.deluge.ConnectionManager();
+	deluge.connectionManager = new Deluge.ConnectionManager();
 })();
 /*
 Script: Deluge.Details.js
@@ -2976,8 +3047,8 @@ Copyright:
 */
 
 (function() {
-	Ext.namespace('Ext.deluge.details');
-	Ext.deluge.details.TabPanel = Ext.extend(Ext.TabPanel, {
+	Ext.namespace('Deluge.details');
+	Deluge.details.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -2990,7 +3061,7 @@ Copyright:
 				margins: '0 5 5 5',
 				activeTab: 0
 			}, config);
-			Ext.deluge.details.TabPanel.superclass.constructor.call(this, config);
+			Deluge.details.TabPanel.superclass.constructor.call(this, config);
 		},
 		
 		clear: function() {
@@ -3004,7 +3075,7 @@ Copyright:
 		
 		
 		update: function(tab) {
-			var torrent = Deluge.Torrents.getSelected();
+			var torrent = deluge.torrents.getSelected();
 			if (!torrent) {
 				this.clear();
 				return;
@@ -3023,12 +3094,12 @@ Copyright:
 		// We need to add the events in onRender since Deluge.Torrents hasn't
 		// been created yet.
 		onRender: function(ct, position) {
-			Ext.deluge.details.TabPanel.superclass.onRender.call(this, ct, position);
-			Deluge.Events.on('disconnect', this.clear, this);
-			Deluge.Torrents.on('rowclick', this.onTorrentsClick, this);
+			Deluge.details.TabPanel.superclass.onRender.call(this, ct, position);
+			deluge.events.on('disconnect', this.clear, this);
+			deluge.torrents.on('rowclick', this.onTorrentsClick, this);
 			this.on('tabchange', this.onTabChange, this);
 			
-			Deluge.Torrents.getSelectionModel().on('selectionchange', function(selModel) {
+			deluge.torrents.getSelectionModel().on('selectionchange', function(selModel) {
 				if (!selModel.hasSelection()) this.clear();
 			}, this);
 		},
@@ -3041,7 +3112,7 @@ Copyright:
 			this.update();
 		}
 	});
-	Deluge.Details = new Ext.deluge.details.TabPanel();
+	deluge.details = new Deluge.details.TabPanel();
 })();
 /*
 Script: Deluge.Details.Status.js
@@ -3076,12 +3147,12 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
+Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	title: _('Status'),
 	autoScroll: true,
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 		
 		this.progressBar = this.add({
 			xtype: 'progress',
@@ -3098,7 +3169,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 				'render': {
 					fn: function(panel) {
 						panel.load({
-							url: '/render/tab_status.html',
+							url: deluge.config.base + 'render/tab_status.html',
 							text: _('Loading') + '...'
 						});
 						panel.getUpdater().on('update', this.onPanelUpdate, this);
@@ -3118,7 +3189,7 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	
 	update: function(torrentId) {
 		if (!this.fields) this.getFields();
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Status, {
 			success: this.onRequestComplete,
 			scope: this
 		});
@@ -3161,10 +3232,10 @@ Ext.deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 			this.fields[field].innerHTML = data[field];
 		}
 		var text = status.state + ' ' + status.progress.toFixed(2) + '%';
-		this.progressBar.updateProgress(status.progress, text);
+		this.progressBar.updateProgress(status.progress / 100.0, text);
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.StatusTab());
+deluge.details.add(new Deluge.details.StatusTab());
 /*
 Script: Deluge.Details.Details.js
 	The details tab displayed in the details panel.
@@ -3199,7 +3270,7 @@ Copyright:
 
 */
 
-Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
+Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	title: _('Details'),
 
 	fields: {},
@@ -3209,7 +3280,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	oldData: {},
 
 	initComponent: function() {
-		Ext.deluge.details.DetailsTab.superclass.initComponent.call(this);
+		Deluge.details.DetailsTab.superclass.initComponent.call(this);
 		this.addItem('torrent_name', _('Name'));
 		this.addItem('hash', _('Hash'));
 		this.addItem('path', _('Path'));
@@ -3221,7 +3292,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	},
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
 		this.body.setStyle('padding', '10px');
 		this.dl = Ext.DomHelper.append(this.body, {tag: 'dl'}, true);
 
@@ -3252,7 +3323,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	},
 	
 	update: function(torrentId) {
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			success: this.onRequestComplete,
 			scope: this,
 			torrentId: torrentId
@@ -3279,7 +3350,7 @@ Ext.deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		this.oldData = data;
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.DetailsTab());
+deluge.details.add(new Deluge.details.DetailsTab());
 /*
 Script: Deluge.Details.Files.js
     The files tab displayed in the details panel.
@@ -3323,7 +3394,7 @@ Copyright:
 		return String.format('<div class="{0}">{1}</div>', FILE_PRIORITY_CSS[value], _(FILE_PRIORITY[value]));
 	}
 	
-	Ext.deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
+	Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -3361,17 +3432,17 @@ Copyright:
 				})
 			}, config);
 
-			Ext.deluge.details.FilesTab.superclass.constructor.call(this, config);
+			Deluge.details.FilesTab.superclass.constructor.call(this, config);
 		},
 
 		initComponent: function() {
 			
-			Ext.deluge.details.FilesTab.superclass.initComponent.call(this);
+			Deluge.details.FilesTab.superclass.initComponent.call(this);
 		},
 		
 		onRender: function(ct, position) {
-			Ext.deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
-			Deluge.Menus.FilePriorities.on('itemclick', this.onItemClick, this);
+			Deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
+			deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
 			this.on('contextmenu', this.onContextMenu, this);
 			this.sorter = new Ext.tree.TreeSorter(this, {
 				folderSort: true
@@ -3395,7 +3466,7 @@ Copyright:
 				this.torrentId = torrentId;
 			}
 			
-			Deluge.Client.web.get_torrent_files(torrentId, {
+			deluge.client.web.get_torrent_files(torrentId, {
 				success: this.onRequestComplete,
 				scope: this,
 				torrentId: torrentId
@@ -3409,7 +3480,7 @@ Copyright:
 				selModel.clearSelections();
 				node.select();
 			}
-			Deluge.Menus.FilePriorities.showAt(e.getPoint());
+			deluge.menus.filePriorities.showAt(e.getPoint());
 		},
 		
 		onItemClick: function(baseItem, e) {
@@ -3444,7 +3515,7 @@ Copyright:
 						priorities[index] = indexes[index];
 					}
 
-					Deluge.Client.core.set_torrent_file_priorities(this.torrentId, priorities, {
+					deluge.client.core.set_torrent_file_priorities(this.torrentId, priorities, {
 						success: function() {
 							Ext.each(nodes, function(node) {
 								node.setColumnValue(3, baseItem.filePriority);
@@ -3498,7 +3569,7 @@ Copyright:
 			root.firstChild.expand();
 		}
 	});
-	Deluge.Details.add(new Ext.deluge.details.FilesTab());
+	deluge.details.add(new Deluge.details.FilesTab());
 })();
 /*
 Script: Deluge.Details.Peers.js
@@ -3551,7 +3622,7 @@ Copyright:
 		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
 	}
 
-	Ext.deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
+	Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
 		
 		constructor: function(config) {
 			config = Ext.apply({
@@ -3610,11 +3681,11 @@ Copyright:
 				deferredRender:false,
 				autoScroll:true
 			}, config);
-			Ext.deluge.details.PeersTab.superclass.constructor.call(this, config);
+			Deluge.details.PeersTab.superclass.constructor.call(this, config);
 		},
 		
 		onRender: function(ct, position) {
-			Ext.deluge.details.PeersTab.superclass.onRender.call(this, ct, position);
+			Deluge.details.PeersTab.superclass.onRender.call(this, ct, position);
 		},
 		
 		clear: function() {
@@ -3622,7 +3693,7 @@ Copyright:
 		},
 		
 		update: function(torrentId) {
-			Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
+			deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
 				success: this.onRequestComplete,
 				scope: this
 			});
@@ -3637,7 +3708,7 @@ Copyright:
 			this.getStore().loadData(peers);
 		}
 	});
-	Deluge.Details.add(new Ext.deluge.details.PeersTab());
+	deluge.details.add(new Deluge.details.PeersTab());
 })();
 /*
 Script: Deluge.Details.Options.js
@@ -3673,7 +3744,7 @@ Copyright:
 */
 
 
-Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
+Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -3690,11 +3761,11 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			layout: 'column',
 			title: _('Options')
 		}, config);
-		Ext.deluge.details.OptionsTab.superclass.constructor.call(this, config);
+		Deluge.details.OptionsTab.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.details.OptionsTab.superclass.initComponent.call(this);
+		Deluge.details.OptionsTab.superclass.initComponent.call(this);
 		
 		this.fieldsets = {}, this.fields = {};
 		this.optionsManager = new Deluge.MultiOptionsManager({
@@ -3983,7 +4054,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onRender: function(ct, position) {
-		Ext.deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
+		Deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
 		
 		// This is another hack I think, so keep an eye out here when upgrading.
 		this.layout = new Ext.layout.ColumnLayout();
@@ -4010,7 +4081,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			this.torrentId = torrentId;
 			this.optionsManager.changeId(torrentId);
 		}
-		Deluge.Client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
+		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
 			success: this.onRequestComplete,
 			scope: this
 		});
@@ -4020,14 +4091,14 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isEmpty(changed['prioritize_first_last'])) {
 			var value = changed['prioritize_first_last'];
-			Deluge.Client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
+			deluge.client.core.set_torrent_prioritize_first_last(this.torrentId, value, {
 				success: function() {
 					this.optionsManager.set('prioritize_first_last', value);
 				},
 				scope: this
 			});
 		}
-		Deluge.Client.core.set_torrent_options([this.torrentId], changed, {
+		deluge.client.core.set_torrent_options([this.torrentId], changed, {
 			success: function() {
 				this.optionsManager.commit();
 			},
@@ -4036,7 +4107,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onEditTrackers: function() {
-		Deluge.EditTrackers.show();
+		deluge.editTrackers.show();
 	},
 	
 	onStopRatioChecked: function(checkbox, checked) {
@@ -4055,7 +4126,7 @@ Ext.deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
 	}
 });
-Deluge.Details.add(new Ext.deluge.details.OptionsTab());
+deluge.details.add(new Deluge.details.OptionsTab());
 /*
 Script: Deluge.EditTrackers.js
 	Contains the edit trackers window.
@@ -4091,7 +4162,7 @@ Copyright:
 */
 
 (function() {
-	Ext.deluge.AddTracker = Ext.extend(Ext.Window, {
+	Deluge.AddTracker = Ext.extend(Ext.Window, {
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Add Tracker'),
@@ -4106,11 +4177,11 @@ Copyright:
 				plain: true,
 				resizable: false
 			}, config);
-			Ext.deluge.AddTracker.superclass.constructor.call(this, config);
+			Deluge.AddTracker.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.AddTracker.superclass.initComponent.call(this);
+			Deluge.AddTracker.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Add'), this.onAddClick, this);
@@ -4150,7 +4221,7 @@ Copyright:
 		}
 	});
 	
-	Ext.deluge.EditTracker = Ext.extend(Ext.Window, {
+	Deluge.EditTracker = Ext.extend(Ext.Window, {
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Edit Tracker'),
@@ -4165,11 +4236,11 @@ Copyright:
 				plain: true,
 				resizable: false
 			}, config);
-			Ext.deluge.EditTracker.superclass.constructor.call(this, config);
+			Deluge.EditTracker.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.EditTracker.superclass.initComponent.call(this);
+			Deluge.EditTracker.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Save'), this.onSaveClick, this);
@@ -4189,7 +4260,7 @@ Copyright:
 		},
 		
 		show: function(record) {
-			Ext.deluge.EditTracker.superclass.show.call(this);
+			Deluge.EditTracker.superclass.show.call(this);
 			
 			this.record = record;
 			this.form.getForm().findField('tracker').setValue(record.data['url']);
@@ -4211,7 +4282,7 @@ Copyright:
 		}
 	});
 	
-	Ext.deluge.EditTrackers = Ext.extend(Ext.Window, {
+	Deluge.EditTrackers = Ext.extend(Ext.Window, {
 	
 		constructor: function(config) {
 			config = Ext.apply({
@@ -4227,11 +4298,11 @@ Copyright:
 				plain: true,
 				resizable: true
 			}, config);
-			Ext.deluge.EditTrackers.superclass.constructor.call(this, config);
+			Deluge.EditTrackers.superclass.constructor.call(this, config);
 		},
 		
 		initComponent: function() {
-			Ext.deluge.EditTrackers.superclass.initComponent.call(this);
+			Deluge.EditTrackers.superclass.initComponent.call(this);
 			
 			this.addButton(_('Cancel'), this.onCancelClick, this);
 			this.addButton(_('Ok'), this.onOkClick, this);
@@ -4240,9 +4311,9 @@ Copyright:
 			this.on('show', this.onShow, this);
 			this.on('save', this.onSave, this);
 			
-			this.addWindow = new Ext.deluge.AddTracker();
+			this.addWindow = new Deluge.AddTracker();
 			this.addWindow.on('add', this.onAddTrackers, this);
-			this.editWindow = new Ext.deluge.EditTracker();
+			this.editWindow = new Deluge.EditTracker();
 			
 			this.grid = this.add({
 				xtype: 'grid',
@@ -4279,33 +4350,28 @@ Copyright:
 				bbar: new Ext.Toolbar({
 					items: [
 						{
-							cls: 'x-btn-text-icon',
 							text: _('Up'),
-							icon: '/icons/up.png',
+							iconCls: 'icon-up',
 							handler: this.onUpClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Down'),
-							icon: '/icons/down.png',
+							iconCls: 'icon-down',
 							handler: this.onDownClick,
 							scope: this
 						}, '->', {
-							cls: 'x-btn-text-icon',
 							text: _('Add'),
-							icon: '/icons/add.png',
+							iconCls: 'icon-add',
 							handler: this.onAddClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Edit'),
-							icon: '/icons/edit_trackers.png',
+							iconCls: 'icon-edit-trackers',
 							handler: this.onEditClick,
 							scope: this
 						}, {
-							cls: 'x-btn-text-icon',
 							text: _('Remove'),
-							icon: '/icons/remove.png',
+							iconCls: 'icon-remove',
 							handler: this.onRemoveClick,
 							scope: this
 						}
@@ -4359,7 +4425,7 @@ Copyright:
 				})
 			}, this);
 			
-			Deluge.Client.core.set_torrent_trackers(this.torrentId, trackers, {
+			deluge.client.core.set_torrent_trackers(this.torrentId, trackers, {
 				failure: this.onSaveFail,
 				scope: this
 			});
@@ -4393,23 +4459,43 @@ Copyright:
 		
 		onShow: function() {
 			this.grid.getBottomToolbar().items.get(4).disable();
-			var r = Deluge.Torrents.getSelected();
+			var r = deluge.torrents.getSelected();
 			this.torrentId = r.id;
-			Deluge.Client.core.get_torrent_status(r.id, ['trackers'], {
+			deluge.client.core.get_torrent_status(r.id, ['trackers'], {
 				success: this.onRequestComplete,
 				scope: this
 			});
 		}
 	});
-	Deluge.EditTrackers = new Ext.deluge.EditTrackers();
+	deluge.editTrackers = new Deluge.EditTrackers();
 })();
 Ext.namespace('Deluge');
 Deluge.FileBrowser = Ext.extend(Ext.Window, {
 
-	title: 'Filebrowser',
-	
+	title: _('File Browser'),
+
+	width:  500,
+	height: 400,
+
 	initComponent: function() {
 		Deluge.FileBrowser.superclass.initComponent.call(this);
+
+		this.add({
+			xtype: 'toolbar',
+			items: [{
+				text: _('Back'),
+				iconCls: 'icon-back'
+			}, {
+				text: _('Forward'),
+				iconCls: 'icon-forward'
+			}, {
+				text: _('Up'),
+				iconCls: 'icon-up'
+			}, {
+				text: _('Home'),
+				iconCls: 'icon-home'
+			}]
+		});
 	}
 
 });
@@ -4447,7 +4533,7 @@ Copyright:
 
 */
 
-Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
+Deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	firstShow:   true,
 	bodyStyle:   'padding: 10px 5px;',
@@ -4464,7 +4550,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	height:      120,
 	
 	initComponent: function() {
-		Ext.deluge.LoginWindow.superclass.initComponent.call(this);
+		Deluge.LoginWindow.superclass.initComponent.call(this);
 		this.on('show', this.onShow, this);
 		
 		this.addButton({
@@ -4493,8 +4579,8 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	logout: function() {
-		Deluge.Events.fire('logout');
-		Deluge.Client.auth.delete_session({
+		deluge.events.fire('logout');
+		deluge.client.auth.delete_session({
 			success: function(result) {
 				this.show(true);
 			},
@@ -4504,18 +4590,18 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	show: function(skipCheck) {
 		if (this.firstShow) {
-			Deluge.Client.on('error', this.onClientError, this);
+			deluge.client.on('error', this.onClientError, this);
 			this.firstShow = false;
 		}
 		
 		if (skipCheck) {
-			return Ext.deluge.LoginWindow.superclass.show.call(this);
+			return Deluge.LoginWindow.superclass.show.call(this);
 		}
 		
-		Deluge.Client.auth.check_session({
+		deluge.client.auth.check_session({
 			success: function(result) {
 				if (result) {
-					Deluge.Events.fire('login');
+					deluge.events.fire('login');
 				} else {
 					this.show(true);
 				}
@@ -4533,10 +4619,10 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	onLogin: function() {
 		var passwordField = this.passwordField;
-		Deluge.Client.auth.login(passwordField.getValue(), {
+		deluge.client.auth.login(passwordField.getValue(), {
 			success: function(result) {
 				if (result) {
-					Deluge.Events.fire('login');
+					deluge.events.fire('login');
 					this.hide();
 					passwordField.setRawValue('');
 				} else {
@@ -4559,7 +4645,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	
 	onClientError: function(errorObj, response, requestOptions) {
 		if (errorObj.error.code == 1) {
-			Deluge.Events.fire('logout');
+			deluge.events.fire('logout');
 			this.show(true);
 		}
 	},
@@ -4570,7 +4656,7 @@ Ext.deluge.LoginWindow = Ext.extend(Ext.Window, {
 	}
 });
 
-Deluge.Login = new Ext.deluge.LoginWindow();
+deluge.login = new Deluge.LoginWindow();
 /*
 Script: Deluge.MoveStorage.js
     Contains the move storage window.
@@ -4604,8 +4690,8 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge');
-Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
+Ext.namespace('Deluge');
+Deluge.MoveStorage = Ext.extend(Ext.Window, {
 	
 	constructor: function(config) {
 		config = Ext.apply({
@@ -4620,11 +4706,11 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 			plain: true,
 			resizable: false
 		}, config);
-		Ext.deluge.MoveStorage.superclass.constructor.call(this, config);
+		Deluge.MoveStorage.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.MoveStorage.superclass.initComponent.call(this);
+		Deluge.MoveStorage.superclass.initComponent.call(this);
 
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Move'), this.onMove, this);
@@ -4642,15 +4728,26 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 			name: 'location',
 			width: 240
 		});
+		this.form.add({
+			xtype: 'button',
+			text: _('Browse'),
+			handler: function() {
+				if (!this.fileBrowser) {
+					this.fileBrowser = new Deluge.FileBrowser();
+				}
+				this.fileBrowser.show();
+			},
+			scope: this
+		});
 	},
 
 	hide: function() {
-		Ext.deluge.MoveStorage.superclass.hide.call(this);
+		Deluge.MoveStorage.superclass.hide.call(this);
 		this.torrentIds = null;
 	},
 
 	show: function(torrentIds) {
-		Ext.deluge.MoveStorage.superclass.show.call(this);
+		Deluge.MoveStorage.superclass.show.call(this);
 		this.torrentIds = torrentIds;
 	},
 
@@ -4660,11 +4757,11 @@ Ext.deluge.MoveStorage = Ext.extend(Ext.Window, {
 
 	onMove: function() {
 		var dest = this.moveLocation.getValue();
-		Deluge.Client.core.move_storage(this.torrentIds, dest);
+		deluge.client.core.move_storage(this.torrentIds, dest);
 		this.hide();
 	}
 });
-Deluge.MoveStorage = new Ext.deluge.MoveStorage();
+deluge.moveStorage = new Deluge.MoveStorage();
 /*
 Script: Deluge.Plugin.js
 	Contains a base class for plugins to extend.
@@ -4784,57 +4881,70 @@ Copyright:
 
 */
 
-Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
+Ext.namespace('Deluge.preferences');
+PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
 
+/**
+ * @class Deluge.preferences.PreferencesWindow
+ * @extends Ext.Window
+ */
+Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
+
+	/**
+	 * @property {String} currentPage The currently selected page.
+	 */
 	currentPage: null,
 
-	constructor: function(config) {
-		config = Ext.apply({
-			layout: 'border',
-			width: 485,
-			height: 500,
-			buttonAlign: 'right',
-			closeAction: 'hide',
-			closable: true,
-			iconCls: 'x-deluge-preferences',
-			plain: true,
-			resizable: false,
-			title: _('Preferences'),
+	title: _('Preferences'),
+	layout: 'border',
+	width: 485,
+	height: 500,
 
-			items: [{
-				xtype: 'grid',
-				region: 'west',
-				title: _('Categories'),
-				store: new Ext.data.SimpleStore({
-					fields: [{name: 'name', mapping: 0}]
-				}),
-				columns: [{id: 'name', renderer: fplain, dataIndex: 'name'}],
-				sm: new Ext.grid.RowSelectionModel({
-					singleSelect: true,
-					listeners: {'rowselect': {fn: this.onPageSelect, scope: this}}
-				}),
-				hideHeaders: true,
-				autoExpandColumn: 'name',
-				deferredRender: false,
-				autoScroll: true,
-				margins: '5 0 5 5',
-				cmargins: '5 0 5 5',
-				width: 120,
-				collapsible: true
-			}, ]
-		}, config);
-		Ext.deluge.PreferencesWindow.superclass.constructor.call(this, config);
-	},
-	
+	buttonAlign: 'right',
+	closeAction: 'hide',
+	closable: true,
+	iconCls: 'x-deluge-preferences',
+	plain: true,
+	resizable: false,
+
 	initComponent: function() {
-		Ext.deluge.PreferencesWindow.superclass.initComponent.call(this);
-		this.categoriesGrid = this.items.get(0);
-		this.configPanel = this.add({
-			region: 'center',
-			header: false,
-			layout: 'fit',
-			height: 400,
+		Deluge.preferences.PreferencesWindow.superclass.initComponent.call(this);
+
+		this.categoriesGrid = this.add({
+			xtype: 'grid',
+			region: 'west',
+			title: _('Categories'),
+			store: new Ext.data.Store(),
+			columns: [{
+				id: 'name',
+				renderer: fplain,
+				dataIndex: 'name'
+			}],
+			sm: new Ext.grid.RowSelectionModel({
+				singleSelect: true,
+				listeners: {
+					'rowselect': {
+						fn: this.onPageSelect, scope: this
+					}
+				}
+			}),
+			hideHeaders: true,
+			autoExpandColumn: 'name',
+			deferredRender: false,
 			autoScroll: true,
+			margins: '5 0 5 5',
+			cmargins: '5 0 5 5',
+			width: 120,
+			collapsible: true
+		});
+
+		this.configPanel = this.add({
+			type: 'container',
+			autoDestroy: false,
+			region: 'center',
+			layout: 'card',
+			//height: 400,
+			//autoScroll: true,
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		});
@@ -4845,13 +4955,14 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		
 		this.pages = {};
 		this.optionsManager = new Deluge.OptionsManager();
+		this.on('afterrender', this.onAfterRender, this);
 		this.on('show', this.onShow, this);
 	},
 	
 	onApply: function(e) {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isObjectEmpty(changed)) {
-			Deluge.Client.core.set_config(changed, {
+			deluge.client.core.set_config(changed, {
 				success: this.onSetConfig,
 				scope: this
 			});
@@ -4862,23 +4973,23 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 		}
 	},
 	
-	onClose: function() {
-		this.hide();
-	},
-
-	onOk: function() {
-		Deluge.Client.core.set_config(this.optionsManager.getDirty());
-		this.hide();
+	
+	/**
+	 * Return the options manager for the preferences window.
+	 * @returns {Deluge.OptionsManager} the options manager
+	 */
+	getOptionsManager: function() {
+		return this.optionsManager;
 	},
 	
 	/**
 	 * Adds a page to the preferences window.
-	 * @param {mixed} page
+	 * @param {Mixed} page
 	 */
 	addPage: function(page) {
 		var store = this.categoriesGrid.getStore();
 		var name = page.title;
-		store.loadData([[name]], true);
+		store.add([new PreferencesRecord({name: name})]);
 		page['bodyStyle'] = 'margin: 5px';
 		this.pages[name] = this.configPanel.add(page);
 		return this.pages[name];
@@ -4895,52 +5006,61 @@ Ext.deluge.PreferencesWindow = Ext.extend(Ext.Window, {
 	    this.configPanel.remove(page);
 	    delete this.pages[page.title];
 	},
-	
-	/**
-	 * Return the options manager for the preferences window.
-	 * @returns {Deluge.OptionsManager} the options manager
+
+	/** 
+	 * Select which preferences page is displayed.
+	 * @param {String} page The page name to change to
 	 */
-	getOptionsManager: function() {
-		return this.optionsManager;
+	selectPage: function(page) {
+		var index = this.configPanel.items.indexOf(this.pages[page]);
+		this.configPanel.getLayout().setActiveItem(index);
+		this.currentPage = page;
 	},
 	
+	// private
 	onGotConfig: function(config) {
 		this.getOptionsManager().set(config);
 	},
 	
+	// private
 	onPageSelect: function(selModel, rowIndex, r) {
-		if (this.currentPage == null) {
-			for (var page in this.pages) {
-				this.pages[page].hide();
-			}
-		} else {
-			this.currentPage.hide();
-		}
-
-		var name = r.get('name');
-		
-		this.pages[name].show();
-		this.currentPage = this.pages[name];
-		this.configPanel.doLayout();
+		this.selectPage(r.get('name'));
 	},
 	
+	// private
 	onSetConfig: function() {
 		this.getOptionsManager().commit();
 	},
-	
-	onShow: function() {
+
+	// private
+	onAfterRender: function() {
 		if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
 			this.categoriesGrid.getSelectionModel().selectFirstRow();
 		}
-		
-		Deluge.Client.core.get_config({
+		this.configPanel.getLayout().setActiveItem(0);
+	},
+	
+	// private
+	onShow: function() {
+		if (!deluge.client.core) return;
+		deluge.client.core.get_config({
 			success: this.onGotConfig,
 			scope: this
 		})
+	},
+
+	// private
+	onClose: function() {
+		this.hide();
+	},
+
+	// private
+	onOk: function() {
+		deluge.client.core.set_config(this.optionsManager.getDirty());
+		this.hide();
 	}
 });
-
-Deluge.Preferences = new Ext.deluge.PreferencesWindow();
+deluge.preferences = new Deluge.preferences.PreferencesWindow();
 /*
 Script: Deluge.Preferences.Downloads.js
 	The downloads preferences page.
@@ -4974,8 +5094,13 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Downloads
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -4984,13 +5109,13 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			autoHeight: true,
 			width: 320
 		}, config);
-		Ext.deluge.preferences.Downloads.superclass.constructor.call(this, config);
+		Deluge.preferences.Downloads.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.preferences.Downloads.superclass.initComponent.call(this);
+		Deluge.preferences.Downloads.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
@@ -5090,12 +5215,12 @@ Ext.deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 	},
 
 	onShow: function() {
-		Ext.deluge.preferences.Downloads.superclass.onShow.call(this);
+		Deluge.preferences.Downloads.superclass.onShow.call(this);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Downloads());
+deluge.preferences.addPage(new Deluge.preferences.Downloads());
 /*
-Script: Deluge.Preferences.Network.js
+Script: deluge.preferences.Network.js
     The network preferences page.
 
 Copyright:
@@ -5127,21 +5252,25 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
+Ext.namespace('Deluge.preferences');
 
-Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
+/**
+ * @class Deluge.preferences.Network
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Network'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Network.superclass.constructor.call(this, config);
+		Deluge.preferences.Network.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Network.superclass.initComponent.call(this);
-		var optMan = Deluge.Preferences.getOptionsManager();
+		Deluge.preferences.Network.superclass.initComponent.call(this);
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -5328,9 +5457,9 @@ Ext.deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Network());
+deluge.preferences.addPage(new Deluge.preferences.Network());
 /*
-Script: Deluge.Preferences.Encryption.js
+Script: deluge.preferences.Encryption.js
     The encryption preferences page.
 
 Copyright:
@@ -5362,21 +5491,26 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Encryption
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Encryption'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Encryption.superclass.constructor.call(this, config);
+		Deluge.preferences.Encryption.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Encryption.superclass.initComponent.call(this);
+		Deluge.preferences.Encryption.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -5442,8 +5576,9 @@ Ext.deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Encryption());/*
-Script: Deluge.Preferences.Bandwidth.js
+deluge.preferences.addPage(new Deluge.preferences.Encryption());
+/*
+Script: deluge.preferences.Bandwidth.js
     The bandwidth preferences page.
 
 Copyright:
@@ -5475,8 +5610,13 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Bandwidth
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -5484,13 +5624,13 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			layout: 'form',
 			labelWidth: 10
 		}, config);
-		Ext.deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
+		Deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Bandwidth.superclass.initComponent.call(this);
+		Deluge.preferences.Bandwidth.superclass.initComponent.call(this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
@@ -5655,7 +5795,7 @@ Ext.deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Bandwidth());
+deluge.preferences.addPage(new Deluge.preferences.Bandwidth());
 /*
 Script: Deluge.Preferences.Interface.js
     The interface preferences page.
@@ -5689,19 +5829,24 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Interface
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Interface'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Interface.superclass.constructor.call(this, config);
+		Deluge.preferences.Interface.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Interface.superclass.initComponent.call(this);
+		Deluge.preferences.Interface.superclass.initComponent.call(this);
 		
 		var optMan = this.optionsManager = new Deluge.OptionsManager();
 		this.on('show', this.onShow, this);
@@ -5842,7 +5987,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	onApply: function() {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isObjectEmpty(changed)) {
-			Deluge.Client.web.set_config(changed, {
+			deluge.client.web.set_config(changed, {
 				success: this.onSetConfig,
 				scope: this
 			});
@@ -5868,7 +6013,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		}
 		
 		var oldPassword = this.oldPassword.getValue();
-		Deluge.Client.auth.change_password(oldPassword, newPassword, {
+		deluge.client.auth.change_password(oldPassword, newPassword, {
 			success: function(result) {
 				if (!result) {
 					Ext.MessageBox.show({
@@ -5903,8 +6048,8 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	onShow: function() {
-		Ext.deluge.preferences.Interface.superclass.onShow.call(this);
-		Deluge.Client.web.get_config({
+		Deluge.preferences.Interface.superclass.onShow.call(this);
+		deluge.client.web.get_config({
 			success: this.onGotConfig,
 			scope: this
 		})
@@ -5915,7 +6060,7 @@ Ext.deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		this.certField.setDisabled(!checked);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Interface());
+deluge.preferences.addPage(new Deluge.preferences.Interface());
 /*
 Script: Deluge.Preferences.Other.js
     The other preferences page.
@@ -5949,21 +6094,26 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Other
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Other'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Other.superclass.constructor.call(this, config);
+		Deluge.preferences.Other.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Other.superclass.initComponent.call(this);
+		Deluge.preferences.Other.superclass.initComponent.call(this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -6021,7 +6171,7 @@ Ext.deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Other());
+deluge.preferences.addPage(new Deluge.preferences.Other());
 /*
 Script: Deluge.Preferences.Daemon.js
     The daemon preferences page.
@@ -6055,21 +6205,26 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Daemon
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Daemon'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Daemon.superclass.constructor.call(this, config);
+		Deluge.preferences.Daemon.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Daemon.superclass.initComponent.call(this);
+		Deluge.preferences.Daemon.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -6123,7 +6278,7 @@ Ext.deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Daemon());
+deluge.preferences.addPage(new Deluge.preferences.Daemon());
 /*
 Script: Deluge.Preferences.Queue.js
     The queue preferences page.
@@ -6157,21 +6312,26 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Queue
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Queue'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Queue.superclass.constructor.call(this, config);
+		Deluge.preferences.Queue.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Queue.superclass.initComponent.call(this);
+		Deluge.preferences.Queue.superclass.initComponent.call(this);
 		
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -6344,7 +6504,7 @@ Ext.deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		this.removeAtRatio.setDisabled(!checked);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Queue());
+deluge.preferences.addPage(new Deluge.preferences.Queue());
 /*
 Script: Deluge.Preferences.Proxy.js
     The proxy preferences page.
@@ -6378,8 +6538,13 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.ProxyField
+ * @extends Ext.form.FormSet
+ */
+Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -6387,11 +6552,11 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 			autoHeight: true,
 			labelWidth: 70
 		}, config);
-		Ext.deluge.preferences.ProxyField.superclass.constructor.call(this, config);
+		Deluge.preferences.ProxyField.superclass.constructor.call(this, config);
 	},
 
 	initComponent: function() {
-		Ext.deluge.preferences.ProxyField.superclass.initComponent.call(this);
+		Deluge.preferences.ProxyField.superclass.initComponent.call(this);
 		this.type = this.add({
 			xtype: 'combo',
 			fieldLabel: _('Type'),
@@ -6512,44 +6677,47 @@ Ext.deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 	}
 });
 
-
-Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
+/**
+ * @class Deluge.preferences.Proxy
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Proxy'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Proxy.superclass.constructor.call(this, config);
+		Deluge.preferences.Proxy.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Proxy.superclass.initComponent.call(this);
-		this.peer = this.add(new Ext.deluge.preferences.ProxyField({
+		Deluge.preferences.Proxy.superclass.initComponent.call(this);
+		this.peer = this.add(new Deluge.preferences.ProxyField({
 			title: _('Peer'),
 			name: 'peer'
 		}));
 		this.peer.on('change', this.onProxyChange, this);
 		
-		this.web_seed = this.add(new Ext.deluge.preferences.ProxyField({
+		this.web_seed = this.add(new Deluge.preferences.ProxyField({
 			title: _('Web Seed'),
 			name: 'web_seed'
 		}));
 		this.web_seed.on('change', this.onProxyChange, this);
 		
-		this.tracker = this.add(new Ext.deluge.preferences.ProxyField({
+		this.tracker = this.add(new Deluge.preferences.ProxyField({
 			title: _('Tracker'),
 			name: 'tracker'
 		}));
 		this.tracker.on('change', this.onProxyChange, this);
 		
-		this.dht = this.add(new Ext.deluge.preferences.ProxyField({
+		this.dht = this.add(new Deluge.preferences.ProxyField({
 			title: _('DHT'),
 			name: 'dht'
 		}));
 		this.dht.on('change', this.onProxyChange, this);
 		
-		Deluge.Preferences.getOptionsManager().bind('proxies', this);
+		deluge.preferences.getOptionsManager().bind('proxies', this);
 	},
 	
 	getValue: function() {
@@ -6575,9 +6743,9 @@ Ext.deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Proxy());
+deluge.preferences.addPage(new Deluge.preferences.Proxy());
 /*
-Script: Deluge.Preferences.Cache.js
+Script: deluge.preferences.Cache.js
     The cache preferences page.
 
 Copyright:
@@ -6609,21 +6777,26 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
-Ext.deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
+Ext.namespace('Deluge.preferences');
+
+/**
+ * @class Deluge.preferences.Cache
+ * @extends Ext.form.FormPanel
+ */
+Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
 			title: _('Cache'),
 			layout: 'form'
 		}, config);
-		Ext.deluge.preferences.Cache.superclass.constructor.call(this, config);
+		Deluge.preferences.Cache.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.preferences.Cache.superclass.initComponent.call(this);
+		Deluge.preferences.Cache.superclass.initComponent.call(this);
 
-		var optMan = Deluge.Preferences.getOptionsManager();
+		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -6659,7 +6832,7 @@ Ext.deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Cache());
+deluge.preferences.addPage(new Deluge.preferences.Cache());
 /*
 Script: Deluge.Preferences.Plugins.js
 	The plugins preferences page.
@@ -6693,9 +6866,13 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Ext.deluge.preferences');
+Ext.namespace('Deluge.preferences');
 
-Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
+/**
+ * @class Deluge.preferences.InstallPluginWindow
+ * @extends Ext.Window
+ */
+Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 
 	height: 115,
 	width: 350,
@@ -6717,7 +6894,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 	title: _('Install Plugin'),
 
 	initComponent: function() {
-		Ext.deluge.add.FileWindow.superclass.initComponent.call(this);
+		Deluge.add.FileWindow.superclass.initComponent.call(this);
 		this.addButton(_('Install'), this.onInstall, this);
 		
 		this.form = this.add({
@@ -6758,7 +6935,7 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 			var filename = this.form.getForm().findField('pluginEgg').value;
 			var path = upload.result.files[0]
 			this.form.getForm().findField('pluginEgg').setValue('');
-			Deluge.Client.web.upload_plugin(filename, path, {
+			deluge.client.web.upload_plugin(filename, path, {
 				success: this.onUploadPlugin,
 				scope: this,
 				filename: filename
@@ -6766,9 +6943,12 @@ Ext.deluge.preferences.InstallPlugin = Ext.extend(Ext.Window, {
 		}
 	}
 });
-	
 
-Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
+/**
+ * @class Deluge.preferences.Plugins
+ * @extends Ext.Panel
+ */
+Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
@@ -6777,7 +6957,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			height: 400,
 			cls: 'x-deluge-plugins'
 		}, config);
-		Ext.deluge.preferences.Plugins.superclass.constructor.call(this, config);
+		Deluge.preferences.Plugins.superclass.constructor.call(this, config);
 	},
 
 	pluginTemplate: new Ext.Template(
@@ -6791,7 +6971,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	),
 
 	initComponent: function() {
-		Ext.deluge.preferences.Plugins.superclass.initComponent.call(this);
+		Deluge.preferences.Plugins.superclass.initComponent.call(this);
 		this.defaultValues = {
 			'version': '',
 			'email': '',
@@ -6846,7 +7026,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 					cls: 'x-btn-text-icon',
 					iconCls: 'x-deluge-install-plugin',
 					text: _('Install'),
-					handler: this.onInstallPlugin,
+					handler: this.onInstallPluginWindow,
 					scope: this
 				}, '->', {
 					cls: 'x-btn-text-icon',
@@ -6877,17 +7057,17 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.on('show', this.onShow, this);
 		this.pluginInfo.on('render', this.onPluginInfoRender, this);
 		this.grid.on('cellclick', this.onCellClick, this);
-		Deluge.Preferences.on('show', this.onPreferencesShow, this);
-		Deluge.Events.on('PluginDisabledEvent', this.onPluginDisabled, this);
-		Deluge.Events.on('PluginEnabledEvent', this.onPluginEnabled, this);
+		deluge.preferences.on('show', this.onPreferencesShow, this);
+		deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
+		deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
 	},
 
 	disablePlugin: function(plugin) {
-		Deluge.Client.core.disable_plugin(plugin);
+		deluge.client.core.disable_plugin(plugin);
 	},
 
 	enablePlugin: function(plugin) {
-		Deluge.Client.core.enable_plugin(plugin);
+		deluge.client.core.enable_plugin(plugin);
 	},
 
 	setInfo: function(plugin) {
@@ -6897,7 +7077,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 	
 	updatePlugins: function() {
-		Deluge.Client.web.get_plugins({
+		deluge.client.web.get_plugins({
 			success: this.onGotPlugins,
 			scope: this
 		});
@@ -6950,9 +7130,9 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		delete info;
 	},
 
-	onInstallPlugin: function() {
+	onInstallPluginWindow: function() {
 		if (!this.installWindow) {
-			this.installWindow = new Ext.deluge.preferences.InstallPlugin();
+			this.installWindow = new Deluge.preferences.InstallPluginWindow();
 			this.installWindow.on('pluginadded', this.onPluginInstall, this);
 		}
 		this.installWindow.show();
@@ -6977,7 +7157,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 
 	onPluginSelect: function(selmodel, rowIndex, r) {
-		Deluge.Client.web.get_plugin_info(r.get('plugin'), {
+		deluge.client.web.get_plugin_info(r.get('plugin'), {
 			success: this.onGotPluginInfo,
 			scope: this
 		});
@@ -6991,7 +7171,7 @@ Ext.deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.setInfo();
 	}
 });
-Deluge.Preferences.addPage(new Ext.deluge.preferences.Plugins());
+deluge.preferences.addPage(new Deluge.preferences.Plugins());
 /*
 Script:
 	Deluge.Remove.js
@@ -7026,9 +7206,9 @@ Copyright:
 */
 
 /**
- * @class Ext.deluge.RemoveWindow
+ * @class Deluge.RemoveWindow
  */
-Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
+Deluge.RemoveWindow = Ext.extend(Ext.Window, {
 
 	constructor: function(config) {
 		config = Ext.apply({
@@ -7042,11 +7222,11 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 			plain: true,
 			iconCls: 'x-deluge-remove-window-icon'
 		}, config);
-		Ext.deluge.RemoveWindow.superclass.constructor.call(this, config);
+		Deluge.RemoveWindow.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.RemoveWindow.superclass.initComponent.call(this);
+		Deluge.RemoveWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Remove With Data'), this.onRemoveData, this);
 		this.addButton(_('Remove Torrent'), this.onRemove, this);
@@ -7060,7 +7240,7 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	
 	remove: function(removeData) {
 		Ext.each(this.torrentIds, function(torrentId) {
-			Deluge.Client.core.remove_torrent(torrentId, removeData, {
+			deluge.client.core.remove_torrent(torrentId, removeData, {
 				success: function() {
 					this.onRemoved(torrentId);
 				},
@@ -7072,7 +7252,7 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	},
 	
 	show: function(ids) {
-		Ext.deluge.RemoveWindow.superclass.show.call(this);
+		Deluge.RemoveWindow.superclass.show.call(this);
 		this.torrentIds = ids;
 	},
 	
@@ -7090,15 +7270,15 @@ Ext.deluge.RemoveWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onRemoved: function(torrentId) {
-		Deluge.Events.fire('torrentRemoved', torrentId);
+		deluge.events.fire('torrentRemoved', torrentId);
 		this.hide();
-		Deluge.UI.update();
+		deluge.ui.update();
 	}
 });
 
-Deluge.RemoveWindow = new Ext.deluge.RemoveWindow();
+deluge.removeWindow = new Deluge.RemoveWindow();
 /*
-Script: deluge-bars.js
+Script: Deluge.Sidebar.js
     Contains all objects and functions related to the statusbar, toolbar and
         sidebar.
 
@@ -7144,7 +7324,7 @@ Copyright:
         var image = '';	
         if (r.store.id == 'tracker_host') {
             if (value != 'Error') {
-                image = String.format('url(/tracker/{0})', value);
+                image = String.format('url(' + deluge.config.base + 'tracker/{0})', value);
             } else {
                 lname = null;
             }
@@ -7159,11 +7339,11 @@ Copyright:
     }
 
 	/**
-	 * @class Ext.deluge.Sidebar
+	 * @class Deluge.Sidebar
 	 * @author Damien Churchill <damoxc@gmail.com>
 	 * @version 1.3
 	 */
-    Ext.deluge.Sidebar = Ext.extend(Ext.Panel, {
+    Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
         // private
         panels: {},
@@ -7185,23 +7365,24 @@ Copyright:
                 margins: '5 0 0 5',
                 cmargins: '5 0 0 5'
             }, config);
-            Ext.deluge.Sidebar.superclass.constructor.call(this, config);
+            Deluge.Sidebar.superclass.constructor.call(this, config);
         },
     
         // private
         initComponent: function() {
-            Ext.deluge.Sidebar.superclass.initComponent.call(this);
-            Deluge.Events.on("disconnect", this.onDisconnect, this);
+            Deluge.Sidebar.superclass.initComponent.call(this);
+            deluge.events.on("disconnect", this.onDisconnect, this);
         },
     
         createFilter: function(filter, states) {
-            var store = new Ext.data.SimpleStore({
-                id: filter,
+            var store = new Ext.data.ArrayStore({
+                idIndex: 0,
                 fields: [
                     {name: 'filter'},
                     {name: 'count'}
                 ]
             });
+			store.id = filter;
     
             var title = filter.replace('_', ' ');
             var parts = title.split(' ');
@@ -7234,7 +7415,7 @@ Copyright:
                 autoScroll: true
             });
         
-            if (Deluge.config['sidebar_show_zero'] == false) {
+            if (deluge.config['sidebar_show_zero'] == false) {
                 states = this.removeZero(states);
             }
         
@@ -7244,30 +7425,26 @@ Copyright:
             this.doLayout();
             this.panels[filter] = panel;
         
-            if (!this.selected) {
-                panel.getSelectionModel().selectFirstRow();
-                this.selected = {
-                    row: 0,
-                    filter: states[0][0],
-                    panel: panel
-                }
-            }
+			panel.getSelectionModel().selectFirstRow();
         },
     
         getFilters: function() {
             var filters = {}
-            if (!this.selected) {
-                return filters;
-            }
-            if (!this.selected.filter || !this.selected.panel) {
-                return filters;
-            }
-            var filterType = this.selected.panel.store.id;
-            if (filterType == "state" && this.selected.filter == "All") {
-                return filters;
-            }
-    
-            filters[filterType] = this.selected.filter;
+
+			// Grab the filters from each of the filter panels
+			this.items.each(function(panel) {
+				var sm = panel.getSelectionModel();
+
+				if (!sm.hasSelection()) return;
+				
+				var filter = sm.getSelected();
+				var filterType = panel.getStore().id;
+
+				if (filter.id == "All") return;
+
+				filters[filterType] = filter.id;
+			}, this);
+
             return filters;
         },
     
@@ -7281,16 +7458,7 @@ Copyright:
         },
     
         onFilterSelect: function(selModel, rowIndex, record) {
-            if (!this.selected) needsUpdate = true;
-            else if (this.selected.row != rowIndex) needsUpdate = true;
-            else needsUpdate = false;
-            this.selected = {
-                row: rowIndex,
-                filter: record.get('filter'),
-                panel: this.panels[record.store.id]
-            }
-    
-            if (needsUpdate) Deluge.UI.update();
+            deluge.ui.update();
         },
     
         /**
@@ -7326,57 +7494,79 @@ Copyright:
         },
     
         updateFilter: function(filter, states) {
-            if (Deluge.config['sidebar_show_zero'] == false) {
+            if (deluge.config.sidebar_show_zero == false) {
                 states = this.removeZero(states);
             }
-    
-            this.panels[filter].store.loadData(states);
-            if (this.selected && this.selected.panel == this.panels[filter]) {
-                this.panels[filter].getSelectionModel().selectRow(this.selected.row);
-            }
+
+			var store = this.panels[filter].getStore();
+			var filters = [];
+			Ext.each(states, function(s, i) {
+				var record = store.getById(s[0]);
+				if (!record) {
+					record = new store.recordType({
+						filter: s[0],
+						count: s[1]
+					});
+					record.id = s[0];
+					store.insert(i, [record]);
+				}
+				record.beginEdit();
+				record.set('filter', s[0]);
+				record.set('count', s[1]);
+				record.endEdit();
+				filters[s[0]] = true;
+			}, this);
+
+			store.each(function(record) {
+				if (filters[record.id]) return;
+
+				store.remove(record);
+			}, this);
+
+			store.commitChanges();
         }
     });
-    Deluge.Sidebar = new Ext.deluge.Sidebar();
+    deluge.sidebar = new Deluge.Sidebar();
 })();
-Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
+Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
 			defaultIconCls: 'x-not-connected',
 			defaultText: _('Not Connected')
 		}, config);
-		Ext.deluge.Statusbar.superclass.constructor.call(this, config);
+		Deluge.Statusbar.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Ext.deluge.Statusbar.superclass.initComponent.call(this);
+		Deluge.Statusbar.superclass.initComponent.call(this);
 		
-		Deluge.Events.on('connect', this.onConnect, this);
-		Deluge.Events.on('disconnect', this.onDisconnect, this);
+		deluge.events.on('connect', this.onConnect, this);
+		deluge.events.on('disconnect', this.onDisconnect, this);
 	},
 	
 	createButtons: function() {
-		this.add({
+		this.buttons = this.add({
 			id: 'statusbar-connections',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-connections',
 			tooltip: _('Connections'),
-			menu: Deluge.Menus.Connections
+			menu: deluge.menus.connections
 		}, '-', {
 			id: 'statusbar-downspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-downloading',
 			tooltip: _('Download Speed'),
-			menu: Deluge.Menus.Download
+			menu: deluge.menus.download
 		}, '-', {
 			id: 'statusbar-upspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-seeding',
 			tooltip: _('Upload Speed'),
-			menu: Deluge.Menus.Upload
+			menu: deluge.menus.upload
 		}, '-', {
 			id: 'statusbar-traffic',
 			text: ' ',
@@ -7400,25 +7590,28 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	},
 	
 	onConnect: function() {
-		//this.setStatus({
-		//	iconCls: 'x-connected',
-		//	text: ''
-		//});
-		if (!this.created) this.createButtons();
-		else {
-			this.items.each(function(item) {
+		this.setStatus({
+			iconCls: 'x-connected',
+			text: ''
+		});
+		if (!this.created) {
+			this.createButtons();
+		} else {
+			Ext.each(this.buttons, function(item) {
 				item.show();
 				item.enable();
 			});
 		}
+		this.doLayout();
 	},
 
 	onDisconnect: function() {
-		//this.clearStatus({useDefaults:true});
-		this.items.each(function(item) {
+		this.clearStatus({useDefaults:true});
+		Ext.each(this.buttons, function(item) {
 			item.hide();
 			item.disable();
 		});
+		this.doLayout();
 	},
 	
 	update: function(stats) {
@@ -7429,11 +7622,11 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		var updateStat = function(name, config) {
 			var item = this.items.get('statusbar-' + name);
 			if (config.limit.value > 0) {
-				var value = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
-				var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value) : config.limit.value;
+				var value = (config.value.formatter) ? config.value.formatter(config.value.value, true) : config.value.value;
+				var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value, true) : config.limit.value;
 				var str = String.format(config.format, value, limit);
 			} else {
-				var str = (config.value.formatter) ? config.value.formatter(config.value.value) : config.value.value;
+				var str = (config.value.formatter) ? config.value.formatter(config.value.value, true) : config.value.value;
 			}
 			item.setText(str);
 		}.createDelegate(this);
@@ -7483,12 +7676,12 @@ Ext.deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		this.items.get('statusbar-dht').setText(stats.dht_nodes);
 		this.items.get('statusbar-freespace').setText(fsize(stats.free_space));
 		
-		Deluge.Menus.Connections.setValue(stats.max_num_connections);
-		Deluge.Menus.Download.setValue(stats.max_download);
-		Deluge.Menus.Upload.setValue(stats.max_upload);
+		deluge.menus.connections.setValue(stats.max_num_connections);
+		deluge.menus.download.setValue(stats.max_download);
+		deluge.menus.upload.setValue(stats.max_upload);
 	}
 });
-Deluge.Statusbar = new Ext.deluge.Statusbar();
+deluge.statusbar = new Deluge.Statusbar();
 /*
 Script: Deluge.Toolbar.js
     Contains the Deluge toolbar.
@@ -7525,87 +7718,77 @@ Copyright:
 
 /**
  * An extension of the <tt>Ext.Toolbar</tt> class that provides an extensible toolbar for Deluge.
- * @class Ext.deluge.Toolbar
+ * @class Deluge.Toolbar
  * @extends Ext.Toolbar
  */
-Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
+Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			items: [
 				{
 					id: 'create',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Create'),
-					icon: '/icons/create.png',
+					iconCls: 'icon-create',
 					handler: this.onTorrentAction
 				},{
 					id: 'add',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Add'),
-					icon: '/icons/add.png',
+					iconCls: 'icon-add',
 					handler: this.onTorrentAdd
 				},{
 					id: 'remove',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Remove'),
-					icon: '/icons/remove.png',
+					iconCls: 'icon-remove',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'pause',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Pause'),
-					icon: '/icons/pause.png',
+					iconCls: 'icon-pause',
 					handler: this.onTorrentAction
 				},{
 					id: 'resume',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Resume'),
-					icon: '/icons/start.png',
+					iconCls: 'icon-resume',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'up',
 					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Up'),
-					icon: '/icons/up.png',
+					iconCls: 'icon-up',
 					handler: this.onTorrentAction
 				},{
 					id: 'down',
-					cls: 'x-btn-text-icon',
 					disabled: true,
 					text: _('Down'),
-					icon: '/icons/down.png',
+					iconCls: 'icon-down',
 					handler: this.onTorrentAction
 				},'|',{
 					id: 'preferences',
-					cls: 'x-btn-text-icon',
 					text: _('Preferences'),
 					iconCls: 'x-deluge-preferences',
 					handler: this.onPreferencesClick,
 					scope: this
 				},{
 					id: 'connectionman',
-					cls: 'x-btn-text-icon',
 					text: _('Connection Manager'),
 					iconCls: 'x-deluge-connection-manager',
 					handler: this.onConnectionManagerClick,
 					scope: this
 				},'->',{
 					id: 'help',
-					cls: 'x-btn-text-icon',
-					icon: '/icons/help.png',
+					iconCls: 'icon-help',
 					text: _('Help'),
 					handler: this.onHelpClick,
 					scope: this
 				},{
 					id: 'logout',
-					cls: 'x-btn-text-icon',
-					icon: '/icons/logout.png',
+					iconCls: 'icon-logout',
 					disabled: true,
 					text: _('Logout'),
 					handler: this.onLogout,
@@ -7613,7 +7796,7 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 				}
 			]
 		}, config);
-		Ext.deluge.Toolbar.superclass.constructor.call(this, config);
+		Deluge.Toolbar.superclass.constructor.call(this, config);
 	},
 
 	connectedButtons: [
@@ -7621,9 +7804,9 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	],
 	
 	initComponent: function() {
-		Ext.deluge.Toolbar.superclass.initComponent.call(this);
-		Deluge.Events.on('connect', this.onConnect, this);
-		Deluge.Events.on('login', this.onLogin, this);
+		Deluge.Toolbar.superclass.initComponent.call(this);
+		deluge.events.on('connect', this.onConnect, this);
+		deluge.events.on('login', this.onLogin, this);
 	},
 	
 	onConnect: function() {
@@ -7644,11 +7827,11 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	
 	onLogout: function() {
 		this.items.get('logout').disable();
-		Deluge.Login.logout();
+		deluge.login.logout();
 	},
 	
 	onConnectionManagerClick: function() {
-		Deluge.ConnectionManager.show();
+		deluge.connectionManager.show();
 	},
 	
 	onHelpClick: function() {
@@ -7656,11 +7839,11 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	},
 	
 	onPreferencesClick: function() {
-		Deluge.Preferences.show();
+		deluge.preferences.show();
 	},
 	
 	onTorrentAction: function(item) {
-		var selection = Deluge.Torrents.getSelections();
+		var selection = deluge.torrents.getSelections();
 		var ids = [];
 		Ext.each(selection, function(record) {
 			ids.push(record.id);
@@ -7668,21 +7851,21 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		
 		switch (item.id) {
 			case 'remove':
-				Deluge.RemoveWindow.show(ids);
+				deluge.removeWindow.show(ids);
 				break;
 			case 'pause':
 			case 'resume':
-				Deluge.Client.core[item.id + '_torrent'](ids, {
+				deluge.client.core[item.id + '_torrent'](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
 			case 'up':
 			case 'down':
-				Deluge.Client.core['queue_' + item.id](ids, {
+				deluge.client.core['queue_' + item.id](ids, {
 					success: function() {
-						Deluge.UI.update();
+						deluge.ui.update();
 					}
 				});
 				break;
@@ -7690,11 +7873,11 @@ Ext.deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 	},
 	
 	onTorrentAdd: function() {
-		Deluge.Add.show();
+		deluge.add.show();
 	}
 });
 
-Deluge.Toolbar = new Ext.deluge.Toolbar();
+deluge.toolbar = new Deluge.Toolbar();
 /*
 Script: Deluge.Torrent.js
 	Contains the Deluge.Torrent record.
@@ -7861,7 +8044,7 @@ Copyright:
 		return (value < 0) ? '∞' : new Number(value).toFixed(3);
 	}
 	function trackerRenderer(value, p, r) {
-		return String.format('<div style="background: url(/tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
+		return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 	}
 	
 	function etaSorter(eta) {
@@ -7869,17 +8052,17 @@ Copyright:
 	}
 
 	/**
-	 * Ext.deluge.TorrentGrid Class
+	 * Deluge.TorrentGrid Class
 	 *
 	 * @author Damien Churchill <damoxc@gmail.com>
 	 * @version 1.3
 	 *
-	 * @class Ext.deluge.TorrentGrid
+	 * @class Deluge.TorrentGrid
 	 * @extends Ext.grid.GridPanel
 	 * @constructor
 	 * @param {Object} config Configuration options
 	 */
-	Ext.deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
+	Deluge.TorrentGrid = Ext.extend(Ext.grid.GridPanel, {
 
 		// object to store contained torrent ids
 		torrents: {},
@@ -8003,13 +8186,13 @@ Copyright:
 					scrollDelay: false
 				})
 			}, config);
-			Ext.deluge.TorrentGrid.superclass.constructor.call(this, config);
+			Deluge.TorrentGrid.superclass.constructor.call(this, config);
 		},
 
 	initComponent: function() {
-		Ext.deluge.TorrentGrid.superclass.initComponent.call(this);
-		Deluge.Events.on('torrentRemoved', this.onTorrentRemoved, this);
-		Deluge.Events.on('logout', this.onDisconnect, this);
+		Deluge.TorrentGrid.superclass.initComponent.call(this);
+		deluge.events.on('torrentRemoved', this.onTorrentRemoved, this);
+		deluge.events.on('logout', this.onDisconnect, this);
 
 		this.on('rowcontextmenu', function(grid, rowIndex, e) {
 			e.stopEvent();
@@ -8017,7 +8200,7 @@ Copyright:
 			if (!selection.hasSelection()) {
 				selection.selectRow(rowIndex);
 			}
-			Deluge.Menus.Torrent.showAt(e.getPoint());
+			deluge.menus.torrent.showAt(e.getPoint());
 		});
 	},
 
@@ -8039,6 +8222,9 @@ Copyright:
 	return this.getSelectionModel().getSelected();
 	},
 
+	/**
+	 * Returns the currently selected records.
+	 */
 	getSelections: function() {
 		return this.getSelectionModel().getSelections();
 	},
@@ -8073,14 +8259,20 @@ Copyright:
 		store.each(function(record) {
 			if (!torrents[record.id]) {
 				store.remove(record);
+				delete this.torrents[record.id];
 			}
-		});
+		}, this);
 		store.commitChanges();
+
+		var sortState = store.getSortState()
+		if (!sortState) return;
+		store.sort(sortState.field, sortState.direction);
 	},
 
 	// private
 	onDisconnect: function() {
 		this.getStore().removeAll();
+		this.torrents = {};
 	},
 
 	// private
@@ -8095,7 +8287,7 @@ Copyright:
 		}, this);
 	}
 });
-Deluge.Torrents = new Ext.deluge.TorrentGrid();
+deluge.torrents = new Deluge.TorrentGrid();
 })();
 /*
 Script: Deluge.UI.js
@@ -8137,7 +8329,7 @@ Copyright:
  * The controller for the whole interface, that ties all the components
  * together and handles the 2 second poll.
  */
-Deluge.UI = {
+deluge.ui = {
 
 	errorCount: 0,
 
@@ -8153,13 +8345,13 @@ Deluge.UI = {
 			iconCls: 'x-deluge-main-panel',
 			title: 'Deluge',
 			layout: 'border',
-			tbar: Deluge.Toolbar,
+			tbar: deluge.toolbar,
 			items: [
-				Deluge.Sidebar,
-				Deluge.Details,
-				Deluge.Torrents
+				deluge.sidebar,
+				deluge.details,
+				deluge.torrents
 			],
-			bbar: Deluge.Statusbar
+			bbar: deluge.statusbar
 		});
 
 		this.Viewport = new Ext.Viewport({
@@ -8167,35 +8359,37 @@ Deluge.UI = {
 			items: [this.MainPanel]
 		});
 	
-		Deluge.Events.on("connect", this.onConnect, this);
-		Deluge.Events.on("disconnect", this.onDisconnect, this);
-		Deluge.Client = new Ext.ux.util.RpcClient({
-			url: '/json'
+		deluge.events.on("connect", this.onConnect, this);
+		deluge.events.on("disconnect", this.onDisconnect, this);
+		deluge.client = new Ext.ux.util.RpcClient({
+			url: deluge.config.base + 'json'
 		});
 	
-		for (var plugin in Deluge.Plugins) {
-			plugin = Deluge.Plugins[plugin];
+		for (var plugin in deluge.dlugins) {
+			plugin = deluge.plugins[plugin];
 			plugin.enable();
 		}
 
 		// Initialize quicktips so all the tooltip configs start working.
 		Ext.QuickTips.init();
 	
-		Deluge.Client.on('connected', function(e) {
-			Deluge.Login.show();
+		deluge.client.on('connected', function(e) {
+			deluge.login.show();
 		}, this, {single: true});
 	
 		this.update = this.update.createDelegate(this);
+
+		this.originalTitle = document.title;
 	},
 
 	update: function() {
-		var filters = Deluge.Sidebar.getFilters();
-		Deluge.Client.web.update_ui(Deluge.Keys.Grid, filters, {
+		var filters = deluge.sidebar.getFilters();
+		deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
 			success: this.onUpdate,
 			failure: this.onUpdateError,
 			scope: this
 		});
-		Deluge.Details.update();
+		deluge.details.update();
 	},
 
 	onUpdateError: function(error) {
@@ -8216,10 +8410,16 @@ Deluge.UI = {
 	 * Updates the various components in the interface.
 	 */
 	onUpdate: function(data) {
-		if (!data['connected']) Deluge.Events.fire('disconnect');
-		Deluge.Torrents.update(data['torrents']);
-		Deluge.Statusbar.update(data['stats']);
-		Deluge.Sidebar.update(data['filters']);
+		if (!data['connected']) deluge.events.fire('disconnect');
+
+		if (deluge.config.show_session_speed) {
+			document.title = this.originalTitle + 
+				' (Down: ' + fspeed(data['stats'].download_rate, true) + 
+				' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
+		}
+		deluge.torrents.update(data['torrents']);
+		deluge.statusbar.update(data['stats']);
+		deluge.sidebar.update(data['filters']);
 		this.errorCount = 0;
 	},
 
@@ -8244,14 +8444,14 @@ Deluge.UI = {
 	},
 
 	onPluginEnabled: function(pluginName) {
-		Deluge.Client.web.get_plugin_resources(pluginName, {
+		deluge.client.web.get_plugin_resources(pluginName, {
 			success: this.onGotPluginResources,
 			scope: this
 		})
 	},
 
 	onGotPluginResources: function(resources) {
-		var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
+		var scripts = (deluge.debug) ? resources.debug_scripts : resources.scripts;
 		Ext.each(scripts, function(script) {
 			Ext.ux.JSLoader({
 				url: script,
@@ -8262,15 +8462,15 @@ Deluge.UI = {
 	},
 
 	onPluginDisabled: function(pluginName) {
-		Deluge.Plugins[pluginName].disable();
+		deluge.plugins[pluginName].disable();
 	},
 
 	onPluginLoaded: function(options) {
 		// This could happen if the plugin has multiple scripts
-		if (!Deluge.Plugins[options.pluginName]) return;
+		if (!deluge.plugins[options.pluginName]) return;
 
 		// Enable the plugin
-		Deluge.Plugins[options.pluginName].enable();
+		deluge.plugins[options.pluginName].enable();
 	},
 
 	/**
@@ -8281,11 +8481,11 @@ Deluge.UI = {
 		if (this.running) {
 			clearInterval(this.running);
 			this.running = false;
-			Deluge.Torrents.getStore().removeAll();
+			deluge.torrents.getStore().removeAll();
 		}
 	}
 }
 
 Ext.onReady(function(e) {
-	Deluge.UI.initialize();
+	deluge.ui.initialize();
 });
