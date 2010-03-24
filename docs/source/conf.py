@@ -42,10 +42,17 @@ copyright = '2008-2010, Deluge Team'
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
 #
+
+def find_version():
+    f = open("../../setup.py", "r")
+    for line in f:
+        if " version = " in line:
+            return line.strip().replace("\"", "").replace(" ", "").replace(",", "").split("=")[1]
+
 # The short X.Y version.
-version = deluge.common.get_version()
+version = find_version()
 # The full version, including alpha/beta/rc tags.
-release = deluge.common.get_version()
+release = version
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
