@@ -1,7 +1,7 @@
 #
-# core.py
+# pluginbase.py
 #
-# Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2007-2010 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
