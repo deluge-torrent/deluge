@@ -423,28 +423,20 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			margins: '5 5 5 5',
 			bbar: new Ext.Toolbar({
 				items: [{
-					id: 'file',
-					cls: 'x-btn-text-icon',
 					iconCls: 'x-deluge-add-file',
 					text: _('File'),
 					handler: this.onFile,
 					scope: this
 				}, {
-					id: 'url',
-					cls: 'x-btn-text-icon',
 					text: _('Url'),
 					iconCls: 'icon-add-url',
 					handler: this.onUrl,
 					scope: this
 				}, {
-					id: 'infohash',
-					cls: 'x-btn-text-icon',
 					text: _('Infohash'),
 					iconCls: 'icon-add-magnet',
 					disabled: true
 				}, '->', {
-					id: 'remove',
-					cls: 'x-btn-text-icon',
 					text: _('Remove'),
 					iconCls: 'icon-remove',
 					handler: this.onRemove,
