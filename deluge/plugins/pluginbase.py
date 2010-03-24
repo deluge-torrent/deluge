@@ -45,7 +45,7 @@ class PluginBase(component.Component):
 
 class CorePluginBase(PluginBase):
     def __init__(self, plugin_name):
-        super(PluginBase, self).__init__("CorePlugin." + plugin_name)
+        super(CorePluginBase, self).__init__("CorePlugin." + plugin_name)
         # Register RPC methods
         component.get("RPCServer").register_object(self, plugin_name.lower())
         log.debug("CorePlugin initialized..")
