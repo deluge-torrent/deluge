@@ -42,28 +42,28 @@ class ComponentAlreadyRegistered(Exception):
 
 class Component(object):
     """
-    Component objects are singletons managed by the `:class:ComponentRegistry`.
+    Component objects are singletons managed by the :class:`ComponentRegistry`.
     When a new Component object is instantiated, it will be automatically
-    registered with the `:class:ComponentRegistry`.
+    registered with the :class:`ComponentRegistry`.
 
     The ComponentRegistry has the ability to start, stop, pause and shutdown the
     components registered with it.
 
-    Events:
+    **Events:**
 
-        start() - This method is called when the client has connected to a
+        **start()** - This method is called when the client has connected to a
                   Deluge core.
 
-        stop() - This method is called when the client has disconnected from a
+        **stop()** - This method is called when the client has disconnected from a
                  Deluge core.
 
-        update() - This method is called every 1 second by default while the
+        **update()** - This method is called every 1 second by default while the
                    Componented is in a "Started" state.  The interval can be
                    specified during instantiation.  The update() timer can be
-                   paused by instructing the `:class:ComponentRegistry` to pause
+                   paused by instructing the :class:`ComponentRegistry` to pause
                    this Component.
 
-        shutdown() - This method is called when the client is exiting.  If the
+        **shutdown()** - This method is called when the client is exiting.  If the
                      Component is in a "Started" state when this is called, a
                      call to stop() will be issued prior to shutdown().
 
@@ -158,7 +158,7 @@ class Component(object):
 class ComponentRegistry(object):
     """
     The ComponentRegistry holds a list of currently registered
-    `:class:Component` objects.  It is used to manage the Components by
+    :class:`Component` objects.  It is used to manage the Components by
     starting, stopping, pausing and shutting them down.
     """
     def __init__(self):
@@ -205,7 +205,7 @@ class ComponentRegistry(object):
     def start(self, names=[]):
         """
         Starts Components that are currently in a Stopped state and their
-        dependencies.  If `:param:names` is specified, will only start those
+        dependencies.  If :param:`names` is specified, will only start those
         Components and their dependencies and if not it will start all
         registered components.
 
@@ -242,7 +242,7 @@ class ComponentRegistry(object):
     def stop(self, names=[]):
         """
         Stops Components that are currently not in a Stopped state.  If
-        `:param:names` is specified, then it will only stop those Components,
+        :param:`names` is specified, then it will only stop those Components,
         and if not it will stop all the registered Components.
 
         :param names: a list of Components to start
@@ -252,20 +252,11 @@ class ComponentRegistry(object):
         sucessfully stopped
         :rtype: twisted.internet.defer.Deferred
 
-        :raises KeyError: if a component name is not registered
-
         """
         if not names:
             names = self.components.keys()
         elif isinstance(names, str):
-            if names in self.components:
-                names = [names]
-            else:
-                raise KeyError("%s is not a registered component!" % names)
-
-        for name in names:
-            if name not in self.components:
-                raise KeyError("%s is not a registered component!" % name)
+            names = [names]
 
         deferreds = []
 
@@ -278,7 +269,7 @@ class ComponentRegistry(object):
     def pause(self, names=[]):
         """
         Pauses Components that are currently in a Started state.  If
-        `:param:names` is specified, then it will only pause those Components,
+        :param:`names` is specified, then it will only pause those Components,
         and if not it will pause all the registered Components.
 
         :param names: a list of Components to pause
@@ -305,7 +296,7 @@ class ComponentRegistry(object):
     def resume(self, names=[]):
         """
         Resumes Components that are currently in a Paused state.  If
-        `:param:names` is specified, then it will only resume those Components,
+        :param:`names` is specified, then it will only resume those Components,
         and if not it will resume all the registered Components.
 
         :param names: a list of Components to resume
@@ -332,7 +323,7 @@ class ComponentRegistry(object):
     def shutdown(self):
         """
         Shutdowns all Components regardless of state.  This will call
-        `:meth:stop` on call the components prior to shutting down.  This should
+        :meth:`stop` on call the components prior to shutting down.  This should
         be called when the program is exiting to ensure all Components have a
         chance to properly shutdown.
 
