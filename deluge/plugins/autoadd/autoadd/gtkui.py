@@ -332,10 +332,7 @@ class GtkUI(GtkPluginBase):
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             self.store.append([watchdir_id, watchdir['enabled'], watchdir['path']])
-        if False: #self.watchdirs:
-            self.glade.get_widget('remove_button').set_sensitive(True)
-            self.glade.get_widget('edit_button').set_sensitive(True)
-        else:
-            self.glade.get_widget('remove_button').set_sensitive(False)
-            self.glade.get_widget('edit_button').set_sensitive(False)
+        # Disable the remove and edit buttons, because nothing in the store is selected
+        self.glade.get_widget('remove_button').set_sensitive(False)
+        self.glade.get_widget('edit_button').set_sensitive(False)
         
