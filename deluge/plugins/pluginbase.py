@@ -38,7 +38,7 @@ from deluge.log import LOG as log
 
 class PluginBase(component.Component):
     def __init__(self, name):
-        interval = self.update_interval if hasattr(self, update_interval) else 1
+        interval = self.update_interval if hasattr(self, 'update_interval') else 1
         super(PluginBase, self).__init__(name, interval)
                     
     def enable(self):
