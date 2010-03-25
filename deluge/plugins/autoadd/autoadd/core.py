@@ -101,6 +101,17 @@ class Core(CorePluginBase):
         self.attempts = {}
         # Loopingcall timers for each enabled watchdir
         self.update_timers = {}
+        # If core autoadd folder is enabled, move it to the plugin
+        if self.core_cfg.config.get('autoadd_enable'):
+            # Disable core autoadd
+            self.core_cfg['autoadd_enable'] = False
+            # Check if core autoadd folder is already added in plugin
+            for watchdir in self.watchdirs:
+                if os.path.abspath(self.core_cfg['autoadd_location']) == watchdir['abspath']:
+                    break
+            else:
+                # didn't find core watchdir, add it
+                self.add({'path':self.core_cfg['autoadd_location'], 'enabled':True})
         deferLater(reactor, 5, self.enable_looping)
 
     def enable_looping(self):
@@ -232,12 +243,6 @@ class Core(CorePluginBase):
     def enable_watchdir(self, watchdir_id):
         watchdir_id = str(watchdir_id)
         self.watchdirs[watchdir_id]['enabled'] = True
-        #If deluge core autoadd is enabled for this path, disable it
-        #log.error(self.core_cfg['autoadd_enable'])
-        if self.core_cfg.config.get('autoadd_enable'):
-            log.error("glob: %s loc: %s" % (os.path.abspath(self.core_cfg['autoadd_location']), self.watchdirs[watchdir_id]['abspath']))
-            if os.path.abspath(self.core_cfg['autoadd_location']) == self.watchdirs[watchdir_id]['abspath']:
-                self.core_cfg['autoadd_enable'] = False
         #Enable the looping call
         self.update_timers[watchdir_id] = LoopingCall(self.update_watchdir, watchdir_id)
         self.update_timers[watchdir_id].start(5)
