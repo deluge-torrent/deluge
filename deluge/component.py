@@ -252,11 +252,20 @@ class ComponentRegistry(object):
         sucessfully stopped
         :rtype: twisted.internet.defer.Deferred
 
+        :raises KeyError: if a component name is not registered
+
         """
         if not names:
             names = self.components.keys()
         elif isinstance(names, str):
-            names = [names]
+            if names in self.components:
+                names = [names]
+            else:
+                raise KeyError("%s is not a registered component!" % names)
+
+        for name in names:
+            if name is not in self.components:
+                raise KeyError("%s is not a registered component!" % name)
 
         deferreds = []
 
