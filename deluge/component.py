@@ -264,7 +264,7 @@ class ComponentRegistry(object):
                 raise KeyError("%s is not a registered component!" % names)
 
         for name in names:
-            if name is not in self.components:
+            if name not in self.components:
                 raise KeyError("%s is not a registered component!" % name)
 
         deferreds = []
