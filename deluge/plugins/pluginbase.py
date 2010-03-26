@@ -37,9 +37,11 @@ import deluge.component as component
 from deluge.log import LOG as log
 
 class PluginBase(component.Component):
+
+    update_interval = 1
+
     def __init__(self, name):
-        interval = self.update_interval if hasattr(self, 'update_interval') else 1
-        super(PluginBase, self).__init__(name, interval)
+        super(PluginBase, self).__init__(name, self.update_interval)
                     
     def enable(self):
         raise NotImplementedError("Need to define an enable method!")
@@ -49,7 +51,7 @@ class PluginBase(component.Component):
 
 class CorePluginBase(PluginBase):
     def __init__(self, plugin_name):
-        super(PluginBase, self).__init__("CorePlugin." + plugin_name)
+        super(CorePluginBase, self).__init__("CorePlugin." + plugin_name)
         # Register RPC methods
         component.get("RPCServer").register_object(self, plugin_name.lower())
         log.debug("CorePlugin initialized..")
