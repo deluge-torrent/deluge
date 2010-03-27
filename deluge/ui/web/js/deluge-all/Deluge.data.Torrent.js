@@ -1,5 +1,5 @@
 /*
-Script: Deluge.Torrent.js
+Script: Deluge.data.Torrent.js
 	Contains the Deluge.Torrent record.
 
 Copyright:
@@ -31,18 +31,20 @@ Copyright:
 	statement from all source files in the program, then also delete it here.
 */
 
+Ext.namespace('Deluge.data');
+
 /**
- * Deluge.Torrent record
+ * Deluge.data.Torrent record
  *
  * @author Damien Churchill <damoxc@gmail.com>
  * @version 1.3
  *
- * @class Deluge.Torrent
+ * @class Deluge.data.Torrent
  * @extends Ext.data.Record
  * @constructor
  * @param {Object} data The torrents data
  */
-Deluge.Torrent = Ext.data.Record.create([{
+Deluge.data.Torrent = Ext.data.Record.create([{
 		name: 'queue',
 		type: 'int'
 	}, {

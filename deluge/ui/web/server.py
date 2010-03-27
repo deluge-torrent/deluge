@@ -325,9 +325,12 @@ class TopLevel(resource.Resource):
         "js/deluge-all/Deluge.js",
         "js/deluge-all/Deluge.Formatters.js",
         "js/deluge-all/Deluge.Menus.js",
+        "js/deluge-all/Deluge.Sorters.js",
         "js/deluge-all/Deluge.EventsManager.js",
         "js/deluge-all/Deluge.OptionsManager.js",
         "js/deluge-all/Deluge.MultiOptionsManager.js",
+        "js/deluge-all/Deluge.data.Peer.js",
+        "js/deluge-all/Deluge.data.Torrent.js",
         "js/deluge-all/Deluge.Add.js",
         "js/deluge-all/Deluge.Add.File.js",
         "js/deluge-all/Deluge.Add.Url.js",
@@ -362,7 +365,6 @@ class TopLevel(resource.Resource):
         "js/deluge-all/Deluge.Sidebar.js",
         "js/deluge-all/Deluge.Statusbar.js",
         "js/deluge-all/Deluge.Toolbar.js",
-        "js/deluge-all/Deluge.Torrent.js",
         "js/deluge-all/Deluge.Torrents.js",
         "js/deluge-all/Deluge.UI.js"
     ]

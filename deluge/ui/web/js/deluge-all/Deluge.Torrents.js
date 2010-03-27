@@ -273,7 +273,7 @@ Copyright:
 				}
 				record.endEdit();
 			} else {
-				var record = new Deluge.Torrent(torrent);
+				var record = new Deluge.data.Torrent(torrent);
 				record.id = t;
 				this.torrents[t] = 1;
 				newTorrents.push(record);
