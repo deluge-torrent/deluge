@@ -1,6 +1,6 @@
 /*
-Script: Deluge.data.Peer.js
-    Contains the definition for a Peer record.
+Script: Deluge.data.SortTypes.js
+    Contains some useful sorters for use in data stores.
 
 Copyright:
     (C) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -31,7 +31,7 @@ Copyright:
     statement from all source files in the program, then also delete it here.
 */
 
-Ext.namespace('Deluge');
+Ext.namespace('Deluge.data');
 
 /**
  * Common sort functions that can be used for data Stores.
@@ -39,11 +39,11 @@ Ext.namespace('Deluge');
  * @author Damien Churchill <damoxc@gmail.com>
  * @version 1.3
  *
- * @class Deluge.Sorters
+ * @class Deluge.data.SortTypes
  * @singleton
  */ 
-Deluge.Sorters = {
-	ipAddress: function(value) {
+Deluge.data.SortTypes = {
+	asIPAddress: function(value) {
 		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
 		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
 	}
