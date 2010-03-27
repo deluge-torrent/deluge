@@ -34,7 +34,8 @@ Copyright:
 
 (function() {
 	function flagRenderer(value) {
-		return String.format('<img src="/flag/{0}" />', value);
+		if (!value) return '';
+		return String.format('<img src="flag/{0}" />', value);
 	}
 	function peerAddressRenderer(value, p, record) {
 		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer'
@@ -44,28 +45,22 @@ Copyright:
 		var progress = (value * 100).toFixed(0);
 		return Deluge.progressBar(progress, this.width - 8, progress + '%');
 	}
-	function sort_address(value) {
-		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
-		return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
-	}
 
 	Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
+		
+		// fast way to figure out if we have a peer already.
+		peers: {},
 		
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Peers'),
 				cls: 'x-deluge-peers',
-				store: new Ext.data.SimpleStore({
-					fields: [
-						{name: 'country'},
-						{name: 'address', sortType: sort_address},
-						{name: 'client'},
-						{name: 'progress', type: 'float'},
-						{name: 'downspeed', type: 'int'},
-						{name: 'upspeed', type: 'int'},
-						{name: 'seed', type: 'int'}
-					],
-					id: 0
+				store: new Ext.data.Store({
+					reader: new Ext.data.JsonReader({
+						idProperty: 'ip',
+						root: 'peers',
+
+					}, Deluge.data.Peer)
 				}),
 				columns: [{
 					header: '&nbsp;',
@@ -78,7 +73,7 @@ Copyright:
 					width: 125,
 					sortable: true,
 					renderer: peerAddressRenderer,
-					dataIndex: 'address'
+					dataIndex: 'ip'
 				}, {
 					header: 'Client',
 					width: 125,
@@ -96,13 +91,13 @@ Copyright:
 					width: 100,
 					sortable: true,
 					renderer: fspeed,
-					dataIndex: 'downspeed'
+					dataIndex: 'down_speed'
 				}, {
 					header: 'Up Speed',
 					width: 100,
 					sortable: true,
 					renderer: fspeed,
-					dataIndex: 'upspeed'
+					dataIndex: 'up_speed'
 				}],	
 				stripeRows: true,
 				deferredRender:false,
@@ -111,12 +106,9 @@ Copyright:
 			Deluge.details.PeersTab.superclass.constructor.call(this, config);
 		},
 		
-		onRender: function(ct, position) {
-			Deluge.details.PeersTab.superclass.onRender.call(this, ct, position);
-		},
-		
 		clear: function() {
-			this.getStore().loadData([]);
+			this.getStore().removeAll();
+			this.peers = {};
 		},
 		
 		update: function(torrentId) {
@@ -128,11 +120,34 @@ Copyright:
 		
 		onRequestComplete: function(torrent, options) {
 			if (!torrent) return;
-			var peers = new Array();
+
+			var store = this.getStore();
+			var newPeers = [];
+			var addresses = {};
+
+			// Go through the peers updating and creating peer records
 			Ext.each(torrent.peers, function(peer) {
-				peers.push([peer.country, peer.ip, peer.client, peer.progress, peer.down_speed, peer.up_speed, peer.seed]);
+				if (this.peers[peer.ip]) {
+				} else {
+					this.peers[peer.ip] = 1;
+					newPeers.push(new Deluge.data.Peer(peer, peer.ip));
+				}
+				addresses[peer.ip] = 1;
 			}, this);
-			this.getStore().loadData(peers);
+			store.add(newPeers);
+
+			// Remove any peers that shouldn't be left in the store
+			store.each(function(record) {
+				if (!addresses[record.id]) {
+					store.remove(record);
+					delete this.peers[record.id];
+				}
+			}, this);
+			store.commitChanges();
+
+			var sortState = store.getSortState();
+			if (!sortState) return;
+			store.sort(sortState.field, sortState.direction);
 		}
 	});
 	deluge.details.add(new Deluge.details.PeersTab());
