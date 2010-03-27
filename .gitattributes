@@ -6,3 +6,4 @@ docs/source export-ignore
 deluge/scripts export-ignore
 .gitattributes export-ignore
 .gitmodules export-ignore
+.gitignore export-ignore
