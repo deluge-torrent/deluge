@@ -49,7 +49,7 @@ Deluge.data.Peer = Ext.data.Record.create([
 		name: 'country',
 		type: 'string'
 	}, {
-		name: 'address',
+		name: 'ip',
 		type: 'string',
 		sortType: Deluge.Sorters.ipSorter
 	}, {
@@ -59,10 +59,10 @@ Deluge.data.Peer = Ext.data.Record.create([
 		name: 'progress',
 		type: 'float'
 	}, {
-		name: 'downspeed',
+		name: 'down_speed',
 		type: 'int'
 	}, {
-		name: 'upspeed',
+		name: 'up_speed',
 		type: 'int'
 	}, {
 		name: 'seed',
