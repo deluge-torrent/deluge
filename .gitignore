@@ -1,0 +1,8 @@
+*~
+build
+dist
+*egg-info
+*.egg
+*.log
+*.pyc
+*.tar.*
