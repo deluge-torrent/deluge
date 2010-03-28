@@ -7,3 +7,4 @@ deluge/scripts export-ignore
 .gitattributes export-ignore
 .gitmodules export-ignore
 .gitignore export-ignore
+*.py diff=python
