@@ -343,7 +343,7 @@ Copyright:
 				deluge.client.web.disconnect({
 					success: function(result) {
 						this.update(this);
-						Deluge.Events.fire('disconnect');
+						deluge.events.fire('disconnect');
 					},
 					scope: this
 				});
