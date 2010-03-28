@@ -359,6 +359,23 @@ class ScriptResource(resource.Resource, component.Component):
                     for dirpath, dirnames, filenames in os.walk(filepath, False):
                         files = fnmatch.filter(filenames, "*.js")
                         files.sort()
+
+                        order_file = os.path.join(dirpath, '.order')
+                        if os.path.isfile(order_file):
+                            for line in open(order_file, 'rb'):
+                                line = line.strip()
+                                if not line or line[0] == '#':
+                                    continue
+                                try:
+                                    pos, filename = line.split()
+                                    files.pop(files.index(filename))
+                                    if pos == '+':
+                                        files.insert(0, filename)
+                                    else:
+                                        files.append(filename)
+                                except:
+                                    pass
+
                         dirpath = dirpath[len(filepath)+1:]
                         if dirpath:
                             scripts.extend(['js/' + path + '/' + dirpath + '/' + f for f in files])
