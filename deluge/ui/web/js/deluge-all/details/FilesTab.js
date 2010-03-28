@@ -216,5 +216,4 @@ Copyright:
 			root.firstChild.expand();
 		}
 	});
-	deluge.details.add(new Deluge.details.FilesTab());
 })();

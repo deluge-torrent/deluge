@@ -1,6 +1,6 @@
 /*
-Script: deluge.preferences.Encryption.js
-    The encryption preferences page.
+Script: Deluge.Preferences.Other.js
+    The other preferences page.
 
 Copyright:
 	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -34,86 +34,77 @@ Copyright:
 Ext.namespace('Deluge.preferences');
 
 /**
- * @class Deluge.preferences.Encryption
+ * @class Deluge.preferences.Other
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
+Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
-			title: _('Encryption'),
+			title: _('Other'),
 			layout: 'form'
 		}, config);
-		Deluge.preferences.Encryption.superclass.constructor.call(this, config);
+		Deluge.preferences.Other.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Deluge.preferences.Encryption.superclass.initComponent.call(this);
-
+		Deluge.preferences.Other.superclass.initComponent.call(this);
+		
 		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
-			title: _('Settings'),
+			title: _('Updates'),
 			autoHeight: true,
-			defaultType: 'combo'
+			labelWidth: 1,
+			defaultType: 'checkbox'
 		});
-		optMan.bind('enc_in_policy', fieldset.add({
-			fieldLabel: _('Inbound'),
-			mode: 'local',
-			width: 150,
-			store: new Ext.data.SimpleStore({
-				fields: ['id', 'text'],
-				data: [
-					[0, _('Forced')],
-					[1, _('Enabled')],
-					[2, _('Disabled')]
-				]
-			}),
-			triggerAction: 'all',
-			valueField: 'id',
-			displayField: 'text'
+		optMan.bind('new_release_check', fieldset.add({
+			fieldLabel: '',
+			labelSeparator: '',
+			height: 22,
+			name: 'new_release_check',
+			boxLabel: _('Be alerted about new releases')
 		}));
-		optMan.bind('enc_out_policy', fieldset.add({
-			fieldLabel: _('Outbound'),
-			mode: 'local',
-			width: 150,
-			store: new Ext.data.SimpleStore({
-				fields: ['id', 'text'],
-				data: [
-					[0, _('Forced')],
-					[1, _('Enabled')],
-					[2, _('Disabled')]
-				]
-			}),
-			triggerAction: 'all',
-			valueField: 'id',
-			displayField: 'text'
+		
+		fieldset = this.add({
+			xtype: 'fieldset',
+			border: false,
+			title: _('System Information'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'checkbox'
+		});
+		fieldset.add({
+			xtype: 'panel',
+			border: false,
+			bodyCfg: {
+				html: _('Help us improve Deluge by sending us your '
+				    + 'Python version, PyGTK version, OS and processor '
+				    + 'types. Absolutely no other information is sent.')
+			}
+		});
+		optMan.bind('send_info', fieldset.add({
+			fieldLabel: '',
+			labelSeparator: '',
+			height: 22,
+			boxLabel: _('Yes, please send anonymous statistics'),
+			name: 'send_info'
 		}));
-		optMan.bind('enc_level', fieldset.add({
-			fieldLabel: _('Level'),
-			mode: 'local',
-			width: 150,
-			store: new Ext.data.SimpleStore({
-				fields: ['id', 'text'],
-				data: [
-					[0, _('Handshake')],
-					[1, _('Full Stream')],
-					[2, _('Either')]
-				]
-			}),
-			triggerAction: 'all',
-			valueField: 'id',
-			displayField: 'text'
-		}));
-		optMan.bind('enc_prefer_rc4', fieldset.add({
-			xtype: 'checkbox',
-			name: 'enc_prefer_rc4',
-			height: 40,
-			hideLabel: true,
-			boxLabel: _('Encrypt entire stream')
+		
+		fieldset = this.add({
+			xtype: 'fieldset',
+			border: false,
+			title: _('GeoIP Database'),
+			autoHeight: true,
+			labelWidth: 80,
+			defaultType: 'textfield'
+		});
+		optMan.bind('geoip_db_location', fieldset.add({
+			name: 'geoip_db_location',
+			fieldLabel: _('Location'),
+			width: 200
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Encryption());

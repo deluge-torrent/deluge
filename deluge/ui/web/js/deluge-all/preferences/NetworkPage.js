@@ -1,5 +1,5 @@
 /*
-Script: deluge.preferences.Network.js
+Script: Deluge.preferences.Network.js
     The network preferences page.
 
 Copyright:
@@ -38,15 +38,11 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Network'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Network.superclass.constructor.call(this, config);
-	},
 	
+	border: false,
+	layout: 'form',
+	title:  _('Network'),
+
 	initComponent: function() {
 		Deluge.preferences.Network.superclass.initComponent.call(this);
 		var optMan = deluge.preferences.getOptionsManager();
@@ -76,7 +72,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			}
 		}));
 		this.listenPorts = fieldset.add({
-			xtype: 'uxspinnergroup',
+			xtype: 'spinnergroup',
 			name: 'listen_ports',
 			fieldLabel: '',
 			labelSeparator: '',
@@ -131,7 +127,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			}
 		}));
 		this.outgoingPorts = fieldset.add({
-			xtype: 'uxspinnergroup',
+			xtype: 'spinnergroup',
 			name: 'outgoing_ports',
 			fieldLabel: '',
 			labelSeparator: '',
@@ -236,4 +232,3 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Network());

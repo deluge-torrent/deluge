@@ -58,6 +58,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	plain: true,
 	resizable: false,
 
+	pages: {},
+
 	initComponent: function() {
 		Deluge.preferences.PreferencesWindow.superclass.initComponent.call(this);
 
@@ -104,10 +106,26 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.addButton(_('Apply'), this.onApply, this);
 		this.addButton(_('Ok'), this.onOk, this);
 		
-		this.pages = {};
 		this.optionsManager = new Deluge.OptionsManager();
 		this.on('afterrender', this.onAfterRender, this);
 		this.on('show', this.onShow, this);
+
+		this.initPages();
+	},
+
+	initPages: function() {
+		deluge.preferences = this;
+		this.addPage(new Deluge.preferences.Downloads());
+		//this.addPage(new Deluge.preferences.Network());
+		this.addPage(new Deluge.preferences.Encryption());
+		this.addPage(new Deluge.preferences.Bandwidth());
+		this.addPage(new Deluge.preferences.Interface());
+		this.addPage(new Deluge.preferences.Other());
+		this.addPage(new Deluge.preferences.Daemon());
+		this.addPage(new Deluge.preferences.Queue());
+		this.addPage(new Deluge.preferences.Proxy());
+		this.addPage(new Deluge.preferences.Cache());
+		this.addPage(new Deluge.preferences.Plugins());
 	},
 	
 	onApply: function(e) {
@@ -142,6 +160,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		var name = page.title;
 		store.add([new PreferencesRecord({name: name})]);
 		page['bodyStyle'] = 'margin: 5px';
+		page.preferences = this;
 		this.pages[name] = this.configPanel.add(page);
 		return this.pages[name];
 	},
@@ -211,4 +230,3 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.hide();
 	}
 });
-deluge.preferences = new Deluge.preferences.PreferencesWindow();

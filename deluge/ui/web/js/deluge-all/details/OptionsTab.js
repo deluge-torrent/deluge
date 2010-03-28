@@ -414,4 +414,3 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
 	}
 });
-deluge.details.add(new Deluge.details.OptionsTab());

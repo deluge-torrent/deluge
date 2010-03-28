@@ -1,6 +1,6 @@
 /*
-Script: Deluge.Preferences.Other.js
-    The other preferences page.
+Script: Deluge.Preferences.Daemon.js
+    The daemon preferences page.
 
 Copyright:
 	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -34,28 +34,63 @@ Copyright:
 Ext.namespace('Deluge.preferences');
 
 /**
- * @class Deluge.preferences.Other
+ * @class Deluge.preferences.Daemon
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
+Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
-			title: _('Other'),
+			title: _('Daemon'),
 			layout: 'form'
 		}, config);
-		Deluge.preferences.Other.superclass.constructor.call(this, config);
+		Deluge.preferences.Daemon.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Deluge.preferences.Other.superclass.initComponent.call(this);
-		
+		Deluge.preferences.Daemon.superclass.initComponent.call(this);
+
 		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
-			title: _('Updates'),
+			title: _('Port'),
+			autoHeight: true,
+			defaultType: 'spinnerfield'
+		});
+		optMan.bind('daemon_port', fieldset.add({
+			fieldLabel: _('Daemon port'),
+			name: 'daemon_port',
+			value: 58846,
+			strategy: {
+				xtype: 'number',
+				decimalPrecision: 0,
+				minValue: -1,
+				maxValue: 99999
+			},
+		}));
+		
+		fieldset = this.add({
+			xtype: 'fieldset',
+			border: false,
+			title: _('Connections'),
+			autoHeight: true,
+			labelWidth: 1,
+			defaultType: 'checkbox'
+		});
+		optMan.bind('allow_remote', fieldset.add({
+			fieldLabel: '',
+			height: 22,
+			labelSeparator: '',
+			boxLabel: _('Allow Remote Connections'),
+			name: 'allow_remote'
+		}));
+		
+		fieldset = this.add({
+			xtype: 'fieldset',
+			border: false,
+			title: _('Other'),
 			autoHeight: true,
 			labelWidth: 1,
 			defaultType: 'checkbox'
@@ -63,49 +98,9 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
 		optMan.bind('new_release_check', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
-			height: 22,
-			name: 'new_release_check',
-			boxLabel: _('Be alerted about new releases')
-		}));
-		
-		fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			title: _('System Information'),
-			autoHeight: true,
-			labelWidth: 1,
-			defaultType: 'checkbox'
-		});
-		fieldset.add({
-			xtype: 'panel',
-			border: false,
-			bodyCfg: {
-				html: _('Help us improve Deluge by sending us your '
-				    + 'Python version, PyGTK version, OS and processor '
-				    + 'types. Absolutely no other information is sent.')
-			}
-		});
-		optMan.bind('send_info', fieldset.add({
-			fieldLabel: '',
-			labelSeparator: '',
-			height: 22,
-			boxLabel: _('Yes, please send anonymous statistics'),
-			name: 'send_info'
-		}));
-		
-		fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			title: _('GeoIP Database'),
-			autoHeight: true,
-			labelWidth: 80,
-			defaultType: 'textfield'
-		});
-		optMan.bind('geoip_db_location', fieldset.add({
-			name: 'geoip_db_location',
-			fieldLabel: _('Location'),
-			width: 200
+			height: 40,
+			boxLabel: _('Periodically check the website for new releases'),
+			id: 'new_release_check'
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Other());

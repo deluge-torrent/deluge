@@ -236,4 +236,3 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Proxy());

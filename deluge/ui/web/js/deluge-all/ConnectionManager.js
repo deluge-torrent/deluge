@@ -500,5 +500,4 @@ Copyright:
 			}
 		}
 	});
-	deluge.connectionManager = new Deluge.ConnectionManager();
 })();

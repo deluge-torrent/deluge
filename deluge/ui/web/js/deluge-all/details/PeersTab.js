@@ -150,5 +150,4 @@ Copyright:
 			store.sort(sortState.field, sortState.direction);
 		}
 	});
-	deluge.details.add(new Deluge.details.PeersTab());
 })();

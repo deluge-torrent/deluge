@@ -336,4 +336,3 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.setInfo();
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Plugins());

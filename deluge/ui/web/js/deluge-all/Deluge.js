@@ -91,7 +91,7 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 })();
 
 // Create the Deluge namespace
-Deluge = {
+Ext.apply(Deluge, {
 	
 	// private
 	progressTpl:	'<div class="x-progress-wrap x-progress-renderered">' +
@@ -124,7 +124,7 @@ Deluge = {
 		return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
 	}
 	
-}
+});
 
 // Setup a space for plugins to insert themselves
 deluge.plugins = {};

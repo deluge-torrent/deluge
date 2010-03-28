@@ -50,8 +50,7 @@ Deluge.data.Peer = Ext.data.Record.create([
 		type: 'string'
 	}, {
 		name: 'ip',
-		type: 'string',
-		sortType: Deluge.data.SortTypes.asIPAddress
+		type: 'string'
 	}, {
 		name: 'client',
 		type: 'string'

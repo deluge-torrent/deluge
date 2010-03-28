@@ -154,5 +154,3 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 		this.passwordField.setRawValue('');
 	}
 });
-
-deluge.login = new Deluge.LoginWindow();

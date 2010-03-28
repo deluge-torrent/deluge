@@ -550,4 +550,3 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 		this.url.show();
 	}
 });
-deluge.add = new Deluge.add.AddWindow();

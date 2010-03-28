@@ -38,6 +38,7 @@ import time
 import locale
 import shutil
 import urllib
+import fnmatch
 import gettext
 import hashlib
 import logging
@@ -240,7 +241,7 @@ class LookupResource(resource.Resource, component.Component):
         self.__paths = {}
         for directory in directories:
             self.addDirectory(directory)
-
+    
     def addDirectory(self, directory, path=""):
         log.debug("Adding directory `%s` with path `%s`", directory, path)
         paths = self.__paths.setdefault(path, [])
@@ -267,8 +268,133 @@ class LookupResource(resource.Resource, component.Component):
 
         filename = os.path.basename(request.path)
         for directory in self.__paths[path]:
-            if filename in os.listdir(directory):
+            if os.path.join(directory, filename):
                 path = os.path.join(directory, filename)
+                log.debug("Serving path: '%s'", path)
+                mime_type = mimetypes.guess_type(path)
+                request.setHeader("content-type", mime_type[0])
+                return compress(open(path, "rb").read(), request)
+
+        request.setResponseCode(http.NOT_FOUND)
+        return "<h1>404 - Not Found</h1>"
+
+class ScriptResource(resource.Resource, component.Component):
+
+    def __init__(self):
+        resource.Resource.__init__(self)
+        component.Component.__init__(self, "Scripts")
+        self.__scripts = {
+            "normal": {
+                "scripts": {},
+                "order": []
+            },
+            "debug": {
+                "scripts": {},
+                "order": []
+            },
+            "dev": {
+                "scripts": {},
+                "order": []
+            }
+        }
+
+    def add_script(self, path, filepath, type=None):
+        """
+        Adds a script or scripts to the script resource.
+
+        :param path: The path of the script (this supports globbing)
+        :type path: string
+        :param filepath: The physical location of the script
+        :type filepath: string
+        :keyword type: The type of script to add (normal, debug, dev)
+        :param type: string
+        """
+        if type not in ("dev", "debug", "normal"):
+            type = "normal"
+
+        self.__scripts[type]["scripts"][path] = filepath
+        self.__scripts[type]["order"].append(path)
+
+    def add_script_folder(self, path, filepath, type=None, recurse=True):
+        """
+        Adds a folder of scripts to the script resource.
+
+        :param path: The path of the script (this supports globbing)
+        :type path: string
+        :param filepath: The physical location of the script
+        :type filepath: string
+        :keyword type: The type of script to add (normal, debug, dev)
+        :param type: string
+        :keyword recurse: Whether or not to recurse into other folders
+        :param recurse: bool
+        """
+        if type not in ("dev", "debug", "normal"):
+            type = "normal"
+
+        self.__scripts[type]["scripts"][path] = (filepath, recurse)
+        self.__scripts[type]["order"].append(path)
+
+    def get_scripts(self, type=None):
+        """
+        Returns a list of the scripts that can be used for producing
+        script tags.
+
+        :keyword type: The type of scripts to get (normal, debug, dev)
+        :param type: string
+        """
+        scripts = []
+        if type not in ("dev", "debug", "normal"):
+            type = 'normal'
+
+        _scripts = self.__scripts[type]["scripts"]
+        _order = self.__scripts[type]["order"]
+
+        for path in _order:
+            filepath = _scripts[path]
+
+            # this is a folder
+            if isinstance(filepath, tuple):
+                filepath, recurse = filepath
+                if recurse:
+                    for dirpath, dirnames, filenames in os.walk(filepath, False):
+                        files = fnmatch.filter(filenames, "*.js")
+                        files.sort()
+                        dirpath = dirpath[len(filepath)+1:]
+                        if dirpath:
+                            scripts.extend(['js/' + path + '/' + dirpath + '/' + f for f in files])
+                        else:
+                            scripts.extend(['js/' + path + '/' + f for f in files])
+                else:
+                    files = fnmatch.filter(os.listdir('.'), "*.js")
+            else:
+                scripts.append("js/" + path)
+        return scripts
+
+    def getChild(self, path, request):
+        if hasattr(request, "lookup_path"):
+            request.lookup_path = os.path.join(request.lookup_path, path)
+        else:
+            request.lookup_path = path
+        return self
+
+    def render(self, request):
+        log.debug("Requested path: '%s'", request.lookup_path)
+
+        for type in ("dev", "debug", "normal"):
+            scripts = self.__scripts[type]["scripts"]
+            for pattern in scripts:
+                if not request.lookup_path.startswith(pattern):
+                    continue
+
+                filepath = scripts[pattern]
+                if isinstance(filepath, tuple):
+                    filepath = filepath[0]
+
+                path = filepath + request.lookup_path[len(pattern):]
+
+                if not os.path.isfile(path):
+                    continue
+
                 log.debug("Serving path: '%s'", path)
                 mime_type = mimetypes.guess_type(path)
                 request.setHeader("content-type", mime_type[0])
@@ -286,89 +412,6 @@ class TopLevel(resource.Resource):
         "css/deluge.css"
     ]
 
-    __scripts = [
-        "js/ext-base.js",
-        "js/ext-all.js",
-        "js/ext-extensions.js",
-        "config.js",
-        "gettext.js",
-        "js/deluge-all.js"
-    ]
-
-    __debug_scripts = [
-        "js/ext-base-debug.js",
-        "js/ext-all-debug.js",
-        "js/ext-extensions-debug.js",
-        "config.js",
-        "gettext.js",
-        "js/deluge-all-debug.js"
-    ]
-
-    __dev_scripts = [
-        "js/ext-base-debug.js",
-        "js/ext-all-debug.js",
-        "js/ext-extensions/BufferView.js",
-        "js/ext-extensions/FileUploadField.js",
-        "js/ext-extensions/JSLoader.js",
-        "js/ext-extensions/Spinner.js",
-        "js/ext-extensions/SpinnerField.js",
-        "js/ext-extensions/StatusBar.js",
-        "js/ext-extensions/ToggleField.js",
-        "js/ext-extensions/TreeGridSorter.js",
-        "js/ext-extensions/TreeGridColumnResizer.js",
-        "js/ext-extensions/TreeGridNodeUI.js",
-        "js/ext-extensions/TreeGridLoader.js",
-        "js/ext-extensions/TreeGridColumns.js",
-        "js/ext-extensions/TreeGridRenderColumn.js",
-        "js/ext-extensions/TreeGrid.js",
-        "gettext.js",
-        "js/deluge-all/Deluge.js",
-        "js/deluge-all/Deluge.Formatters.js",
-        "js/deluge-all/Deluge.Menus.js",
-        "js/deluge-all/Deluge.data.SortTypes.js",
-        "js/deluge-all/Deluge.EventsManager.js",
-        "js/deluge-all/Deluge.OptionsManager.js",
-        "js/deluge-all/Deluge.MultiOptionsManager.js",
-        "js/deluge-all/Deluge.data.Peer.js",
-        "js/deluge-all/Deluge.data.Torrent.js",
-        "js/deluge-all/Deluge.Add.js",
-        "js/deluge-all/Deluge.Add.File.js",
-        "js/deluge-all/Deluge.Add.Url.js",
-        "js/deluge-all/Deluge.Add.Infohash.js",
-        "js/deluge-all/Deluge.Client.js",
-        "js/deluge-all/Deluge.ConnectionManager.js",
-        "js/deluge-all/Deluge.Details.js",
-        "js/deluge-all/Deluge.Details.Status.js",
-        "js/deluge-all/Deluge.Details.Details.js",
-        "js/deluge-all/Deluge.Details.Files.js",
-        "js/deluge-all/Deluge.Details.Peers.js",
-        "js/deluge-all/Deluge.Details.Options.js",
-        "js/deluge-all/Deluge.EditTrackers.js",
-        "js/deluge-all/Deluge.FileBrowser.js",
-        "js/deluge-all/Deluge.Keys.js",
-        "js/deluge-all/Deluge.Login.js",
-        "js/deluge-all/Deluge.MoveStorage.js",
-        "js/deluge-all/Deluge.Plugin.js",
-        "js/deluge-all/Deluge.Preferences.js",
-        "js/deluge-all/Deluge.Preferences.Downloads.js",
-        #"js/deluge-all/Deluge.Preferences.Network.js",
-        "js/deluge-all/Deluge.Preferences.Encryption.js",
-        "js/deluge-all/Deluge.Preferences.Bandwidth.js",
-        "js/deluge-all/Deluge.Preferences.Interface.js",
-        "js/deluge-all/Deluge.Preferences.Other.js",
-        "js/deluge-all/Deluge.Preferences.Daemon.js",
-        "js/deluge-all/Deluge.Preferences.Queue.js",
-        "js/deluge-all/Deluge.Preferences.Proxy.js",
-        "js/deluge-all/Deluge.Preferences.Cache.js",
-        "js/deluge-all/Deluge.Preferences.Plugins.js",
-        "js/deluge-all/Deluge.Remove.js",
-        "js/deluge-all/Deluge.Sidebar.js",
-        "js/deluge-all/Deluge.Statusbar.js",
-        "js/deluge-all/Deluge.Toolbar.js",
-        "js/deluge-all/Deluge.Torrents.js",
-        "js/deluge-all/Deluge.UI.js"
-    ]
-
     def __init__(self):
         resource.Resource.__init__(self)
         self.putChild("css", LookupResource("Css", rpath("css")))
@@ -377,10 +420,26 @@ class TopLevel(resource.Resource):
         self.putChild("icons", LookupResource("Icons", rpath("icons")))
         self.putChild("images", LookupResource("Images", rpath("images")))
 
-        # Add the javascript resource with the development paths
-        js = LookupResource("Javascript", rpath("js"))
-        js.addDirectory(rpath("js", "ext-extensions"), "ext-extensions")
-        js.addDirectory(rpath("js", "deluge-all"), "deluge-all")
+        js = ScriptResource()
+
+        # configure the dev scripts
+        js.add_script("ext-base.js", rpath("js", "ext-base-debug.js"), "dev")
+        js.add_script("ext-all.js", rpath("js", "ext-all-debug.js"), "dev")
+        js.add_script_folder("ext-extensions", rpath("js", "ext-extensions"), "dev")
+        js.add_script_folder("deluge-all", rpath("js", "deluge-all"), "dev")
+
+        # configure the debug scripts
+        js.add_script("ext-base.js", rpath("js", "ext-base-debug.js"), "debug")
+        js.add_script("ext-all.js", rpath("js", "ext-all-debug.js"), "debug")
+        js.add_script("ext-extensions.js", rpath("js", "ext-extensions-debug.js"), "debug")
+        js.add_script("deluge-all.js", rpath("js", "deluge-all-debug.js"), "debug")
+
+        # configure the normal scripts
+        js.add_script("ext-base.js", rpath("js", "ext-base.js"), "debug")
+        js.add_script("ext-all.js", rpath("js", "ext-all.js"), "debug")
+        js.add_script("ext-extensions.js", rpath("js", "ext-extensions.js"), "debug")
+        js.add_script("deluge-all.js", rpath("js", "deluge-all.js"), "debug")
+
         self.putChild("js", js)
 
         self.putChild("json", JSON())
@@ -457,11 +516,14 @@ class TopLevel(resource.Resource):
                 dev = False
 
         if dev:
-            scripts = self.dev_scripts[:]
+            mode = 'dev'
         elif debug:
-            scripts = self.debug_scripts[:]
+            mode = 'debug'
         else:
-            scripts = self.scripts[:]
+            mode = None
+
+        scripts = component.get("Scripts").get_scripts(mode)
+        scripts.insert(0, "gettext.js")
 
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
@@ -484,12 +546,7 @@ class TopLevel(resource.Resource):
         web_config = component.get("Web").get_config()
         web_config["base"] = base
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
-        js_config = """deluge = {
-    author: 'Damien Churchill <damoxc@gmail.com>',
-    version: '%s',
-    config: %s
-}""" % (common.get_version(), common.json.dumps(config))
-
+        js_config = common.json.dumps(config)
         return template.render(scripts=scripts, stylesheets=self.stylesheets,
             debug=debug, base=base, js_config=js_config)
 

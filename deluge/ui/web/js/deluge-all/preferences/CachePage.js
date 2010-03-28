@@ -86,4 +86,3 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Cache());

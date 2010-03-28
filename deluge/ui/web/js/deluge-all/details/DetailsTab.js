@@ -112,4 +112,3 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		this.oldData = data;
 	}
 });
-deluge.details.add(new Deluge.details.DetailsTab());

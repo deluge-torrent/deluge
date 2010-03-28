@@ -262,4 +262,3 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		this.certField.setDisabled(!checked);
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Interface());

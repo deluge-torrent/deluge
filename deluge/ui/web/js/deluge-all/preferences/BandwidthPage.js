@@ -216,4 +216,3 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Bandwidth());
