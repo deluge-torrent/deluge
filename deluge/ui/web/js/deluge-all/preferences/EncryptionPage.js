@@ -1,6 +1,6 @@
 /*
-Script: Deluge.Preferences.Daemon.js
-    The daemon preferences page.
+Script: deluge.preferences.Encryption.js
+    The encryption preferences page.
 
 Copyright:
 	(C) Damien Churchill 2009-2010 <damoxc@gmail.com>
@@ -34,74 +34,85 @@ Copyright:
 Ext.namespace('Deluge.preferences');
 
 /**
- * @class Deluge.preferences.Daemon
+ * @class Deluge.preferences.Encryption
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
+Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 	constructor: function(config) {
 		config = Ext.apply({
 			border: false,
-			title: _('Daemon'),
+			title: _('Encryption'),
 			layout: 'form'
 		}, config);
-		Deluge.preferences.Daemon.superclass.constructor.call(this, config);
+		Deluge.preferences.Encryption.superclass.constructor.call(this, config);
 	},
 	
 	initComponent: function() {
-		Deluge.preferences.Daemon.superclass.initComponent.call(this);
+		Deluge.preferences.Encryption.superclass.initComponent.call(this);
 
 		var optMan = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
-			title: _('Port'),
+			title: _('Settings'),
 			autoHeight: true,
-			defaultType: 'spinnerfield'
+			defaultType: 'combo'
 		});
-		optMan.bind('daemon_port', fieldset.add({
-			fieldLabel: _('Daemon port'),
-			name: 'daemon_port',
-			value: 58846,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			},
+		optMan.bind('enc_in_policy', fieldset.add({
+			fieldLabel: _('Inbound'),
+			mode: 'local',
+			width: 150,
+			store: new Ext.data.SimpleStore({
+				fields: ['id', 'text'],
+				data: [
+					[0, _('Forced')],
+					[1, _('Enabled')],
+					[2, _('Disabled')]
+				]
+			}),
+			triggerAction: 'all',
+			valueField: 'id',
+			displayField: 'text'
 		}));
-		
-		fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			title: _('Connections'),
-			autoHeight: true,
-			labelWidth: 1,
-			defaultType: 'checkbox'
-		});
-		optMan.bind('allow_remote', fieldset.add({
-			fieldLabel: '',
-			height: 22,
-			labelSeparator: '',
-			boxLabel: _('Allow Remote Connections'),
-			name: 'allow_remote'
+		optMan.bind('enc_out_policy', fieldset.add({
+			fieldLabel: _('Outbound'),
+			mode: 'local',
+			width: 150,
+			store: new Ext.data.SimpleStore({
+				fields: ['id', 'text'],
+				data: [
+					[0, _('Forced')],
+					[1, _('Enabled')],
+					[2, _('Disabled')]
+				]
+			}),
+			triggerAction: 'all',
+			valueField: 'id',
+			displayField: 'text'
 		}));
-		
-		fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			title: _('Other'),
-			autoHeight: true,
-			labelWidth: 1,
-			defaultType: 'checkbox'
-		});
-		optMan.bind('new_release_check', fieldset.add({
-			fieldLabel: '',
-			labelSeparator: '',
+		optMan.bind('enc_level', fieldset.add({
+			fieldLabel: _('Level'),
+			mode: 'local',
+			width: 150,
+			store: new Ext.data.SimpleStore({
+				fields: ['id', 'text'],
+				data: [
+					[0, _('Handshake')],
+					[1, _('Full Stream')],
+					[2, _('Either')]
+				]
+			}),
+			triggerAction: 'all',
+			valueField: 'id',
+			displayField: 'text'
+		}));
+		optMan.bind('enc_prefer_rc4', fieldset.add({
+			xtype: 'checkbox',
+			name: 'enc_prefer_rc4',
 			height: 40,
-			boxLabel: _('Periodically check the website for new releases'),
-			id: 'new_release_check'
+			hideLabel: true,
+			boxLabel: _('Encrypt entire stream')
 		}));
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Daemon());

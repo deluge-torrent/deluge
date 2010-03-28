@@ -4,6 +4,8 @@
  * licensing@extjs.com
  * http://www.extjs.com/license
  */
+Ext.ns('Ext.ux.tree');
+
 /**
  * @class Ext.ux.tree.TreeGrid
  * @extends Ext.tree.TreePanel

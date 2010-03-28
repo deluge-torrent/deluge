@@ -119,4 +119,3 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		this.progressBar.updateProgress(status.progress / 100.0, text);
 	}
 });
-deluge.details.add(new Deluge.details.StatusTab());

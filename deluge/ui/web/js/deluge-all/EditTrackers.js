@@ -338,5 +338,4 @@ Copyright:
 			});
 		}
 	});
-	deluge.editTrackers = new Deluge.EditTrackers();
 })();

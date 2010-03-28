@@ -11,9 +11,13 @@
         <link rel="stylesheet" type="text/css" href="${base}${stylesheet}" />
         % endfor
 
-		<script type="text/javascript">
-		${js_config}
-		</script>
+        <script type="text/javascript">
+		deluge = {
+			author: 'Damien Churchill <damoxc@gmail.com>',
+			version: '${version}',
+			config: ${js_config}
+		}
+        </script>
 
         <!-- Javascript -->
         % for script in scripts:

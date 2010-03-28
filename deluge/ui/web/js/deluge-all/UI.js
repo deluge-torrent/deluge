@@ -49,6 +49,13 @@ deluge.ui = {
 	 * and set up various events that the UI will utilise.
 	 */
 	initialize: function() {
+		deluge.add = new Deluge.add.AddWindow();
+		deluge.details = new Deluge.details.DetailsPanel();
+		deluge.connectionManager = new Deluge.ConnectionManager();
+		deluge.editTrackers = new Deluge.EditTrackers();
+		deluge.login = new Deluge.LoginWindow();
+		deluge.preferences = new Deluge.preferences.PreferencesWindow();
+
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
 			iconCls: 'x-deluge-main-panel',

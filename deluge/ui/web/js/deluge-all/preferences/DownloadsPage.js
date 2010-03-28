@@ -155,4 +155,3 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 		Deluge.preferences.Downloads.superclass.onShow.call(this);
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Downloads());

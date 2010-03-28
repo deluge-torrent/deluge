@@ -223,4 +223,3 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 		this.removeAtRatio.setDisabled(!checked);
 	}
 });
-deluge.preferences.addPage(new Deluge.preferences.Queue());
