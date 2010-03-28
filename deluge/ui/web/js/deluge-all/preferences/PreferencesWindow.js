@@ -96,8 +96,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 			autoDestroy: false,
 			region: 'center',
 			layout: 'card',
-			//height: 400,
-			//autoScroll: true,
+			autoScroll: true,
+			width: 300,
 			margins: '5 5 5 5',
 			cmargins: '5 5 5 5'
 		});
@@ -159,7 +159,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		var store = this.categoriesGrid.getStore();
 		var name = page.title;
 		store.add([new PreferencesRecord({name: name})]);
-		page['bodyStyle'] = 'margin: 5px';
+		page['bodyStyle'] = 'padding: 5px';
 		page.preferences = this;
 		this.pages[name] = this.configPanel.add(page);
 		return this.pages[name];

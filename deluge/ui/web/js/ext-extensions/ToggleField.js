@@ -53,7 +53,7 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 		this.panel.doLayout();
 
 		// we substract 10 for the padding :-)
-		var inputWidth = w - this.toggle.getSize().width - 10;
+		var inputWidth = w - this.toggle.getSize().width - 25;
 		this.input.setSize(inputWidth, h);
 	},
 
