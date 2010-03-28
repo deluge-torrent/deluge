@@ -68,17 +68,23 @@ class Component(object):
                      call to stop() will be issued prior to shutdown().
 
     **States:**
-    
-        A Component can be in one of these 3 states.
-        
+
+        A Component can be in one of these 5 states.
+
         **Started** - The Component has been started by the :class:`ComponentRegistry`
                     and will have it's update timer started.
-        
+
+        **Starting** - The Component has had it's start method called, but it hasn't
+                    fully started yet.
+
         **Stopped** - The Component has either been stopped or has yet to be started.
-        
+
+        **Stopping** - The Component has had it's stop method called, but it hasn't
+                    fully stopped yet.
+
         **Paused** - The Component has had it's update timer stopped, but will
                     still be considered in a Started state.
-                    
+
     """
     def __init__(self, name, interval=1, depend=None):
         self._component_name = name
@@ -86,6 +92,8 @@ class Component(object):
         self._component_depend = depend
         self._component_state = "Stopped"
         self._component_timer = None
+        self._component_starting_deferred = None
+        self._component_stopping_deferred = None
         _ComponentRegistry.register(self)
 
     def _component_start_timer(self):
@@ -96,15 +104,20 @@ class Component(object):
     def _component_start(self):
         def on_start(result):
             self._component_state = "Started"
+            self._component_starting_deferred = None
             self._component_start_timer()
             return True
 
         if self._component_state == "Stopped":
             if hasattr(self, "start"):
+                self._component_state = "Starting"
                 d = maybeDeferred(self.start)
                 d.addCallback(on_start)
+                self._component_starting_deferred = d
             else:
                 d = maybeDeferred(on_start, None)
+        elif self._component_state == "Starting":
+            return self._component_starting_deferred
         elif self._component_state == "Started":
             d = succeed(True)
         else:
@@ -119,12 +132,17 @@ class Component(object):
                 self._component_timer.stop()
             return True
 
-        if self._component_state != "Stopped":
+        if self._component_state != "Stopped" and self._component_state != "Stopping":
             if hasattr(self, "stop"):
+                self._component_state = "Stopping"
                 d = maybeDeferred(self.stop)
                 d.addCallback(on_stop)
+                self._component_stopping_deferred = d
             else:
                 d = maybeDeferred(on_stop, None)
+
+        if self._component_state == "Stopping":
+            return self._component_stopping_deferred
 
         return succeed(None)
 

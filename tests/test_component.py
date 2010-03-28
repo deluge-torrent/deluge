@@ -6,9 +6,13 @@ class testcomponent(component.Component):
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.start_count = 0
+        self.stop_count = 0
 
     def start(self):
         self.start_count += 1
+
+    def stop(self):
+        self.stop_count += 1
 
 class testcomponent_delaystart(testcomponent):
     def start(self):
@@ -25,17 +29,25 @@ class testcomponent_update(component.Component):
         component.Component.__init__(self, name)
         self.counter = 0
         self.start_count = 0
+        self.stop_count = 0
 
     def update(self):
         self.counter += 1
+
+    def stop(self):
+        self.stop_count += 1
 
 class testcomponent_shutdown(component.Component):
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.shutdowned = False
+        self.stop_count = 0
 
     def shutdown(self):
         self.shutdowned = True
+
+    def stop(self):
+        self.stop_count += 1
 
 class ComponentTestClass(unittest.TestCase):
     def tearDown(self):
@@ -106,6 +118,7 @@ class ComponentTestClass(unittest.TestCase):
         def on_stop(result, c):
             self.assertEquals(c._component_state, "Stopped")
             self.assertFalse(c._component_timer.running)
+            self.assertEquals(c.stop_count, 1)
 
         def on_start(result, c):
             self.assertEquals(c._component_state, "Started")
@@ -120,6 +133,7 @@ class ComponentTestClass(unittest.TestCase):
         def on_stop(*args):
             for c in args[1:]:
                 self.assertEquals(c._component_state, "Stopped")
+                self.assertEquals(c.stop_count, 1)
 
         def on_start(*args):
             for c in args[1:]:
@@ -169,6 +183,7 @@ class ComponentTestClass(unittest.TestCase):
         def on_shutdown(result, c1):
             self.assertTrue(c1.shutdowned)
             self.assertEquals(c1._component_state, "Stopped")
+            self.assertEquals(c1.stop_count, 1)
 
         def on_start(result, c1):
             d = component.shutdown()
