@@ -53,7 +53,7 @@ class Notification:
             self.get_torrent_status(torrent_id)
 
     def get_torrent_status(self, torrent_id):
-        client.core.get_torrent_status(torrent_id, ["name", "num_files", "total_payload_download"]).addCallback(self._on_get_torrent_status)
+        component.get("SessionProxy").get_torrent_status(torrent_id, ["name", "num_files", "total_payload_download"]).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         if status is None:

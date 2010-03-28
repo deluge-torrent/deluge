@@ -94,8 +94,8 @@ class EditTrackersDialog:
             return
 
         # Get the trackers for this torrent
-
-        client.core.get_torrent_status(self.torrent_id, ["trackers"]).addCallback(self._on_get_torrent_status)
+        session = component.get("SessionProxy")
+        session.get_torrent_status(self.torrent_id, ["trackers"]).addCallback(self._on_get_torrent_status)
         client.force_call()
 
     def _on_get_torrent_status(self, status):

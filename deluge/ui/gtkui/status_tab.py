@@ -116,7 +116,7 @@ class StatusTab(Tab):
             "max_upload_speed", "max_download_speed", "active_time",
             "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
 
-        client.core.get_torrent_status(
+        component.get("SessionProxy").get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):

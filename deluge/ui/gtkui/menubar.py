@@ -314,7 +314,7 @@ class MenuBar(component.Component):
         def _on_torrent_status(status):
             deluge.common.open_file(status["save_path"])
         for torrent_id in component.get("TorrentView").get_selected_torrents():
-            client.core.get_torrent_status(torrent_id, ["save_path"]).addCallback(_on_torrent_status)
+            component.get("SessionProxy").get_torrent_status(torrent_id, ["save_path"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
@@ -337,8 +337,7 @@ class MenuBar(component.Component):
                     component.get("TorrentView").get_selected_torrents(), result)
             chooser.destroy()
         else:
-            client.core.get_torrent_status(component.get("TorrentView").get_selected_torrent(), ["save_path"]).addCallback(self.show_move_storage_dialog)
-            client.force_call(False)
+            component.get("SessionProxy").get_torrent_status(component.get("TorrentView").get_selected_torrent(), ["save_path"]).addCallback(self.show_move_storage_dialog)
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
@@ -461,12 +460,11 @@ class MenuBar(component.Component):
             "separatormenuitem",
             "menuitem_connectionmanager"
         ]
-        
+
         if value:
             attr = "hide"
         else:
             attr = "show"
-        
+
         for item in items:
             getattr(self.window.main_glade.get_widget(item), attr)()
-

@@ -81,7 +81,8 @@ class DetailsTab(Tab):
         status_keys = ["name", "total_size", "num_files",
             "tracker", "save_path", "message", "hash", "comment"]
 
-        client.core.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)
+        session = component.get("SessionProxy")
+        session.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core

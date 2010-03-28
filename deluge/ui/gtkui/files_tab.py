@@ -315,7 +315,7 @@ class FilesTab(Tab):
             log.debug("Getting file list from core..")
             status_keys += ["files"]
 
-        client.core.get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status)
+        component.get("SessionProxy").get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status)
 
     def clear(self):
         self.treestore.clear()
@@ -323,7 +323,7 @@ class FilesTab(Tab):
 
     def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
-            client.core.get_torrent_status(self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
+            component.get("SessionProxy").get_torrent_status(self.torrent_id, ["save_path", "files"]).addCallback(self._on_open_file)
 
     def get_file_path(self, row, path=""):
         if not row:

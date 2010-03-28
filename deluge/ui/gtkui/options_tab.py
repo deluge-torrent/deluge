@@ -98,7 +98,7 @@ class OptionsTab(Tab):
         if torrent_id != self.prev_torrent_id:
             self.prev_status = None
 
-        client.core.get_torrent_status(torrent_id,
+        component.get("SessionProxy").get_torrent_status(torrent_id,
             ["max_download_speed",
             "max_upload_speed",
             "max_connections",

@@ -164,7 +164,7 @@ def seed_peer_column_sort(model, iter1, iter2, data):
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
-        component.Component.__init__(self, "TorrentView", interval=2)
+        component.Component.__init__(self, "TorrentView", interval=2, depend=["SessionProxy"])
         self.window = component.get("MainWindow")
         # Call the ListView constructor
         listview.ListView.__init__(self,
@@ -256,10 +256,9 @@ class TorrentView(listview.ListView, component.Component):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
-        client.core.get_session_state().addCallback(self._on_session_state)
+        component.get("SessionProxy").get_torrents_status({}, []).addCallback(self._on_session_state)
 
     def _on_session_state(self, state):
-        log.debug("on_session_state: %s", state)
         self.treeview.freeze_child_notify()
         model = self.treeview.get_model()
         for torrent_id in state:
@@ -268,7 +267,10 @@ class TorrentView(listview.ListView, component.Component):
         self.treeview.set_model(model)
         self.treeview.thaw_child_notify()
         self.got_state = True
-        self.update()
+        # Update the view right away with our status
+        self.status = state
+        self.set_columns_to_update()
+        self.update_view()
 
     def stop(self):
         """Stops the torrentview"""
@@ -294,10 +296,8 @@ class TorrentView(listview.ListView, component.Component):
         self.filter = dict(filter_dict) #copied version of filter_dict.
         self.update()
 
-    def send_status_request(self, columns=None):
-        # Store the 'status_fields' we need to send to core
+    def set_columns_to_update(self, columns=None):
         status_keys = []
-        # Store the actual columns we will be updating
         self.columns_to_update = []
 
         if columns is None:
@@ -317,6 +317,11 @@ class TorrentView(listview.ListView, component.Component):
 
         # Remove duplicate keys
         self.columns_to_update = list(set(self.columns_to_update))
+        return status_keys
+
+    def send_status_request(self, columns=None):
+        # Store the 'status_fields' we need to send to core
+        status_keys = self.set_columns_to_update(columns)
 
         # If there is nothing in status_keys then we must not continue
         if status_keys is []:
@@ -327,8 +332,8 @@ class TorrentView(listview.ListView, component.Component):
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        client.core.get_torrents_status(
-            self.filter, status_keys, True).addCallback(self._on_get_torrents_status)
+        component.get("SessionProxy").get_torrents_status(
+            self.filter, status_keys).addCallback(self._on_get_torrents_status)
 
     def update(self):
         if self.got_state:

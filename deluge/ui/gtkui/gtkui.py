@@ -80,6 +80,7 @@ from ipcinterface import IPCInterface
 from deluge.ui.tracker_icons import TrackerIcons
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
+from deluge.ui.sessionproxy import SessionProxy
 import dialogs
 import common
 
@@ -207,6 +208,7 @@ class GtkUI(object):
         client.set_disconnect_callback(self.__on_disconnect)
 
         self.trackericons = TrackerIcons()
+        self.sessionproxy = SessionProxy()
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
@@ -229,7 +231,7 @@ class GtkUI(object):
         from twisted.internet.task import LoopingCall
         rpc_stats = LoopingCall(self.print_rpc_stats)
         rpc_stats.start(10)
-        
+
         reactor.callWhenRunning(self._on_reactor_start)
         # Start the gtk main loop
         gtk.gdk.threads_enter()
@@ -266,7 +268,7 @@ class GtkUI(object):
             sent = client.get_bytes_sent()
         except AttributeError:
             return
-            
+
         log.debug("sent: %s recv: %s", deluge.common.fsize(sent), deluge.common.fsize(recv))
         t = time.time()
         delta_time = t - self.daemon_bps[0]
@@ -277,7 +279,7 @@ class GtkUI(object):
         recv_rate = deluge.common.fspeed(float(delta_recv) / float(delta_time))
         log.debug("sent rate: %s recv rate: %s", sent_rate, recv_rate)
         self.daemon_bps = (t, sent, recv)
-        
+
     def _on_reactor_start(self):
         log.debug("_on_reactor_start")
         self.mainwindow.first_show()
