@@ -49,7 +49,7 @@ try:
 except ImportError:
     from sha import sha
 
-from deluge import bencode
+from deluge import bencode, common
 from deluge.log import LOG as log
 import deluge.configmanager
 
@@ -289,7 +289,7 @@ class FileTree2(object):
         """
         def walk(directory, parent_path):
             for path in directory["contents"].keys():
-                full_path = os.path.join(parent_path, path)
+                full_path = common.path_join(parent_path, path)
                 if directory["contents"][path]["type"] == "dir":
                     directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
                              directory["contents"][path]

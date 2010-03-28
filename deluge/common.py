@@ -514,6 +514,24 @@ def is_ip(ip):
     except socket.error:
         return False
 
+def path_join(*parts):
+    """
+    An implementation of os.path.join that always uses / for the separator
+    to ensure that the correct paths are produced when working with internal
+    paths on Windows.
+    """
+    path = ''
+    for part in parts:
+        if not part:
+            continue
+        elif part[0] == '/':
+            path = part
+        elif not path:
+            path = part
+        else:
+            path += '/' + part
+    return path
+
 class VersionSplit(object):
     """
     Used for comparing version numbers.
