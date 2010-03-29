@@ -34,7 +34,7 @@
 
 	/* Renderers for the Torrent Grid */
 	function queueRenderer(value) {
-		return (value == 99999) ? '' : value + 1;
+		return (value == -1) ? '' : value + 1;
 	}
 	function torrentNameRenderer(value, p, r) {
 		return String.format('<div class="torrent-name x-deluge-{0}">{1}</div>', r.data['state'].toLowerCase(), value);
@@ -98,7 +98,7 @@
 					root: 'torrents',
 					idProperty: 'id',
 					fields: [
-						{name: 'queue'},
+						{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
 						{name: 'name'},
 						{name: 'total_size', type: 'int'},
 						{name: 'state'},
