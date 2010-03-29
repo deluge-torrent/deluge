@@ -1,7 +1,7 @@
 #
 # deluge/ui/web/json_api.py
 #
-# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -51,6 +51,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui import common as uicommon
 from deluge.ui.client import client, Client
 from deluge.ui.coreconfig import CoreConfig
+from deluge.ui.sessionproxy import SessionProxy
 
 from deluge.ui.web.common import _, compress
 json = common.json
@@ -135,7 +136,7 @@ class JSON(resource.Resource, component.Component):
             d = client.daemon.get_method_list()
             d.addCallback(on_get_methods)
             component.get("Web.PluginManager").start()
-            component.get("Web").core_config.start()
+            component.get("Web").start()
         _d.addCallback(on_client_connected)
         return d
 
@@ -151,6 +152,7 @@ class JSON(resource.Resource, component.Component):
 
     def _on_client_disconnect(self, *args):
         component.get("Web.PluginManager").stop()
+        component.get("Web").stop()
 
     def _exec_local(self, method, params, request):
         """
@@ -404,10 +406,11 @@ class WebApi(JSONComponent):
     """
 
     def __init__(self):
-        super(WebApi, self).__init__("Web")
+        super(WebApi, self).__init__("Web", depend=["SessionProxy"])
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
+        self.sessionproxy = SessionProxy()
 
     def get_host(self, host_id):
         """
@@ -421,6 +424,14 @@ class WebApi(JSONComponent):
         for host in self.host_list["hosts"]:
             if host[0] == host_id:
                 return host
+
+    def start(self):
+        self.core_config.start()
+        self.sessionproxy.start()
+
+    def stop(self):
+        self.core_config.stop()
+        self.sessionproxy.stop()
 
     @export
     def connect(self, host_id):
@@ -514,7 +525,7 @@ class WebApi(JSONComponent):
         def on_complete(result):
             d.callback(ui_info)
 
-        d1 = client.core.get_torrents_status(filter_dict, keys)
+        d1 = component.get("SessionProxy").get_torrents_status(filter_dict, keys)
         d1.addCallback(got_torrents)
 
         d2 = client.core.get_filter_tree()
@@ -585,6 +596,9 @@ class WebApi(JSONComponent):
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 
+    def get_torrent_status(self, torrent_id, keys):
+        return component.get("SessionProxy").get_torrent_status(torrent_id, keys)
+
     @export
     def get_torrent_files(self, torrent_id):
         """
@@ -596,7 +610,7 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         """
         main_deferred = Deferred()
-        d = client.core.get_torrent_status(torrent_id, FILES_KEYS)
+        d = component.get("SessionProxy").get_torrent_status(torrent_id, FILES_KEYS)
         d.addCallback(self._on_got_files, main_deferred)
         return main_deferred
 
