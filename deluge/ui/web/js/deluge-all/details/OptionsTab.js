@@ -368,7 +368,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			this.torrentId = torrentId;
 			this.optionsManager.changeId(torrentId);
 		}
-		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Options, {
+		deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Options, {
 			success: this.onRequestComplete,
 			scope: this
 		});

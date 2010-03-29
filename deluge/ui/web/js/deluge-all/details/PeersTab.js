@@ -110,7 +110,7 @@
 		},
 		
 		update: function(torrentId) {
-			deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Peers, {
+			deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Peers, {
 				success: this.onRequestComplete,
 				scope: this
 			});

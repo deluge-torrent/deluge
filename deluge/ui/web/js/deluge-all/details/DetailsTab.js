@@ -85,7 +85,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	},
 	
 	update: function(torrentId) {
-		deluge.client.core.get_torrent_status(torrentId, Deluge.Keys.Details, {
+		deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			success: this.onRequestComplete,
 			scope: this,
 			torrentId: torrentId

@@ -596,6 +596,7 @@ class WebApi(JSONComponent):
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 
+    @export
     def get_torrent_status(self, torrent_id, keys):
         return component.get("SessionProxy").get_torrent_status(torrent_id, keys)
 
