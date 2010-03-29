@@ -36,14 +36,9 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Encryption'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Encryption.superclass.constructor.call(this, config);
-	},
+
+	border: false,
+	title: _('Encryption'),
 	
 	initComponent: function() {
 		Deluge.preferences.Encryption.superclass.initComponent.call(this);
@@ -55,7 +50,8 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			title: _('Settings'),
 			autoHeight: true,
-			defaultType: 'combo'
+			defaultType: 'combo',
+			width: 300
 		});
 		optMan.bind('enc_in_policy', fieldset.add({
 			fieldLabel: _('Inbound'),
@@ -69,6 +65,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 					[2, _('Disabled')]
 				]
 			}),
+			editable: false,
 			triggerAction: 'all',
 			valueField: 'id',
 			displayField: 'text'
@@ -85,6 +82,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 					[2, _('Disabled')]
 				]
 			}),
+			editable: false,
 			triggerAction: 'all',
 			valueField: 'id',
 			displayField: 'text'
@@ -101,6 +99,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 					[2, _('Either')]
 				]
 			}),
+			editable: false,
 			triggerAction: 'all',
 			valueField: 'id',
 			displayField: 'text'
