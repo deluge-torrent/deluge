@@ -206,7 +206,7 @@ class SessionProxy(component.Component):
             if "state" in filter_dict:
                 # If we got there, then there is no suitable cached filter query, so
                 # we'll just query the core
-                d = client.core.get_torrents_status(filer_dict, keys. True)
+                d = client.core.get_torrents_status(filter_dict, keys, True)
                 def on_filter_status(result, keys):
                     return on_status(result, result.keys(), keys)
                 return d.addCallback(on_filter_status, keys)
