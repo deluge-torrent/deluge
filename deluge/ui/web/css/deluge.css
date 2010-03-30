@@ -236,8 +236,8 @@ dl.singleline dd {
 	line-height: 16px;
 }
 
-#sidebar .x-grid3-row-selected td {
-	font-weight: Bold;
+#sidebar .x-list-selected em {
+	font-weight: bold;
 }
 
 /* MessageBox icon styles */

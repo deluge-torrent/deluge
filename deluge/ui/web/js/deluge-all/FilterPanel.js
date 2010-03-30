@@ -53,9 +53,9 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		this.setTitle(_(title));
 
 		if (this.filterType == 'tracker_host') {
-			var tpl = '<div class="x-deluge-filter" background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter}</div>';
+			var tpl = '<div class="x-deluge-filter" style="background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter} ({count})</div>';
 		} else {
-			var tpl = '<div class="x-deluge-filter x-deluge-{filter:cssClassEscape}">{filter}</div>';
+			var tpl = '<div class="x-deluge-filter x-deluge-{filter:lowercase}">{filter} ({count})</div>';
 		}
 
 		this.list = this.add({
@@ -71,33 +71,22 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 				id: 'filter',
 				sortable: false,
 				tpl: tpl,
-				renderer: function(v, p, r) {
-					var lc = v.toLowerCase().replace('.', '_'),
-						icon = '';
-
-					if (r.store.id == 'tracker_host' && v != 'Error') {
-						icon = String.format('url({0}tracker/{1}', deluge.config.base, v);
-					}
-
-					var filter = '<div class="x-deluge-filter';
-					var arg = '';
-					if (icon) {
-						filter += '" style="background-image: {2};">';
-						arg = icon;
-					} else if (lc) {
-						filter += ' x-deluge-{2}">';
-						arg = lc;
-					} else {
-						filter += '">';
-					}
-					return String.format(filter + '{0} ({1})</div>', value, r.data['count'], arg);
-				},
 				dataIndex: 'filter'
 			}]
 		});
 		this.relayEvents(this.list, ['selectionchange']);
+		this.list.afterMethod('bindStore', this.doBindStore, this);
 	},
 
+	// private
+	doBindStore: function() {
+		this.list.select(0);
+	},
+
+	/**
+	 * Return the currently selected filter
+	 * @returns {String} the current filter
+	 */
 	getFilter: function() {
 		if (!this.list.getSelectionCount()) return;
 
@@ -106,6 +95,10 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		return filter.id;
 	},
 
+	/**
+	 * Return the Store for the ListView of the FilterPanel
+	 * @returns {Ext.data.Store} the ListView store
+	 */
 	getStore: function() {
 		return this.list.getStore();
 	}
