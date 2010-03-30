@@ -251,6 +251,7 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 		// set the new value
 		value = (value == 0) ? -1 : value;
 
+		var other = null;
 		// uncheck all items
 		this.items.each(function(item) {
 			if (item.setChecked) {
@@ -263,14 +264,15 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 				}
 				item.resumeEvents();
 			}
+
+			if (item.value == 'other') other = item;
 		});
 
 		if (beenSet) return;
 
-		var item = this.items.get('other');
-		item.suspendEvents();
-		item.setChecked(true);
-		item.resumeEvents();
+		other.suspendEvents();
+		other.setChecked(true);
+		other.resumeEvents();
 	}
 });
 
