@@ -140,6 +140,10 @@ Deluge.Formatters = {
 	 */
 	plain: function(value) {
 		return value;
+	},
+
+	cssClassEscape: function(value) {
+		return value.toLowerCase().replace('.', '_');
 	}
 }
 var fsize = Deluge.Formatters.size;
@@ -147,3 +151,4 @@ var fspeed = Deluge.Formatters.speed;
 var ftime = Deluge.Formatters.timeRemaining;
 var fdate = Deluge.Formatters.date;
 var fplain = Deluge.Formatters.plain;
+Ext.util.Format.cssClassEscape = Deluge.Formatters.cssClassEscape;

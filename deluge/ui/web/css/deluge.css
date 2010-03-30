@@ -233,6 +233,7 @@ dl.singleline dd {
 #sidebar .x-deluge-filter {
 	background-repeat: no-repeat;
 	padding-left: 20px;
+	line-height: 16px;
 }
 
 #sidebar .x-grid3-row-selected td {

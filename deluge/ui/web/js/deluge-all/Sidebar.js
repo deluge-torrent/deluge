@@ -93,57 +93,22 @@
         },
     
         createFilter: function(filter, states) {
-            var store = new Ext.data.ArrayStore({
-                idIndex: 0,
-                fields: [
-                    {name: 'filter'},
-                    {name: 'count'}
-                ]
-            });
-			store.id = filter;
-    
-            var title = filter.replace('_', ' ');
-            var parts = title.split(' ');
-            title = '';
-            Ext.each(parts, function(part) {
-                firstLetter = part.substring(0, 1);
-                firstLetter = firstLetter.toUpperCase();
-                part = firstLetter + part.substring(1);
-                title += part + ' ';
-            });
+			var panel = new Deluge.FilterPanel({
+				filter: filter
+			});
+			panel.on('selectionchange', function(view, nodes) {
+				deluge.ui.update();
+			});
         
-            var panel = new Ext.grid.GridPanel({
-                id: filter + '-panel',
-                border: false,
-                store: store,
-                title: _(title),
-                columns: [
-                    {id: 'filter', sortable: false, renderer: filterRenderer, dataIndex: 'filter'}
-                ],	
-                stripeRows: false,
-                selModel: new Ext.grid.RowSelectionModel({
-                    singleSelect: true,
-                    listeners: {
-                        'rowselect': {fn: this.onFilterSelect, scope: this}
-                    }
-                }),
-                hideHeaders: true,
-                autoExpandColumn: 'filter',
-                deferredRender: false,
-                autoScroll: true
-            });
-        
-            if (deluge.config['sidebar_show_zero'] == false) {
+            if (deluge.config.sidebar_show_zero == false) {
                 states = this.removeZero(states);
             }
         
-            store.loadData(states);
+            panel.getStore().loadData(states);
             this.add(panel);
         
             this.doLayout();
             this.panels[filter] = panel;
-        
-			panel.getSelectionModel().selectFirstRow();
         },
     
         getFilters: function() {
@@ -151,16 +116,9 @@
 
 			// Grab the filters from each of the filter panels
 			this.items.each(function(panel) {
-				var sm = panel.getSelectionModel();
-
-				if (!sm.hasSelection()) return;
-				
-				var filter = sm.getSelected();
-				var filterType = panel.getStore().id;
-
-				if (filter.id == "All") return;
-
-				filters[filterType] = filter.id;
+				var filter = panel.getFilter();
+				if (!filter) return;
+				filters[panel.filterType] = filter;
 			}, this);
 
             return filters;
