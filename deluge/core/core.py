@@ -576,7 +576,7 @@ class Core(component.Component):
                         webseeds, private, created_by, trackers, add_to_session):
 
         log.debug("creating torrent..")
-        threading.Thread(target=_create_torrent_thread,
+        threading.Thread(target=self._create_torrent_thread,
             args=(
                 path,
                 tracker,
