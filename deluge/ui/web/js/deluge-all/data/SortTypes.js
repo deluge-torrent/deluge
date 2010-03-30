@@ -47,6 +47,6 @@ Deluge.data.SortTypes = {
 	},
 
 	asQueuePosition: function(value) {
-		return (value > -1) ? value : 9999999;
+		return (value > -1) ? value : Number.MAX_VALUE;
 	}
 }
