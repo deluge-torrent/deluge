@@ -97,6 +97,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 		field.on('blur', this.onFieldBlur, this);
 		field.on('change', this.onFieldChange, this);
 		field.on('check', this.onFieldChange, this);
+		field.on('spin', this.onFieldChange, this);
 		return field;
 	},
 
@@ -261,6 +262,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
 	 * @private
 	 */
 	onFieldChange: function(field, event) {
+		if (field.field) field = field.field // fix for spinners
 		this.update(field._doption, field.getValue());
 	},
 

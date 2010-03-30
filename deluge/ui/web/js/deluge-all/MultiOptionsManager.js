@@ -210,34 +210,5 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 				this.fireEvent('changed', this.currentId, option, value, oldValue);
 			}
 		}
-	},
-
-	// Event Handlers 
-	/**
-	 * Stops a form fields value from being blocked by the change functions
-	 * @param {Ext.form.Field} field
-	 * @private
-	 */
-	onFieldChange: function(field, event) {
-		this.update(field._doption, field.getValue());
-	},
-
-	/**
-	 * Handles updating binds when an option's value is changed.
-	 * @param {String} id The current option id
-	 * @param {String} option The option that has changed.
-	 * @param {Mixed} newValue The new value
-	 * @private
-	 */
-	onChange: function(id, option, newValue, oldValue) {
-		// If we don't have a bind there's nothing to do.
-		if (Ext.isEmpty(this.binds[option])) return;
-		Ext.each(this.binds[option], function(bind) {
-			// The field is currently focused so we don't want to 
-			// change it.
-			if (bind == this.focused) return;
-			// Set the form field to the new value.
-			bind.setValue(newValue);
-		}, this);
 	}
 });
