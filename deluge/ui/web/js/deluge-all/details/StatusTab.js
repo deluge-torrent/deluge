@@ -29,7 +29,12 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
+Ext.ns('Deluge.details');
 
+/**
+ * @class Deluge.details.StatusTab
+ * @extends Ext.Panel
+ */
 Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 	title: _('Status'),
 	autoScroll: true,
@@ -89,9 +94,9 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds
 		peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers
 		var data = {
-			downloaded: fsize(status.total_done),
-			uploaded: fsize(status.total_uploaded),
-			share: status.ratio.toFixed(3),
+			downloaded: fsize(status.total_done, true),
+			uploaded: fsize(status.total_uploaded, true),
+			share: (status.ratio == -1) ? '∞' : status.ratio.toFixed(3),
 			announce: ftime(status.next_announce),
 			tracker_status: status.tracker_status,
 			downspeed: (status.download_payload_rate) ? fspeed(status.download_payload_rate) : '0.0 KiB/s',
