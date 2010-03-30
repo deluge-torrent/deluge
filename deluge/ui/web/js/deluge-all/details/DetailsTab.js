@@ -82,6 +82,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		for (var k in this.fields) {
 			this.fields[k].dom.innerHTML = '';
 		}
+		this.oldData = {}
 	},
 	
 	update: function(torrentId) {
@@ -105,7 +106,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		};
 		
 		for (var field in this.fields) {
-			if (!data[field]) continue; // this is a field we aren't responsible for.
+			if (!Ext.isDefined(data[field])) continue; // this is a field we aren't responsible for.
 			if (data[field] == this.oldData[field]) continue;
 			this.fields[field].dom.innerHTML = Ext.escapeHTML(data[field]);
 		}
