@@ -68,6 +68,7 @@ class SessionProxy(component.Component):
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added)
 
     def start(self):
         def on_torrent_status(status):
@@ -222,6 +223,12 @@ class SessionProxy(component.Component):
 
     def on_torrent_state_changed(self, torrent_id, state):
         self.torrents[torrent_id][1]["state"] = state
+
+    def on_torrent_added(self, torrent_id):
+        self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
+        def on_status(status):
+            self.torrents[torrent_id][1].update(status)
+        client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
 
     def on_torrent_removed(self, torrent_id):
         del self.torrents[torrent_id]
