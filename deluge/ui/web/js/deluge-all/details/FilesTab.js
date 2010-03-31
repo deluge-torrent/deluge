@@ -184,9 +184,9 @@
 								id: file,
 								text: file,
 								filename: file,
-								size: item['size'],
-								progress: item['progress'],
-								priority: item['priority']
+								size: item.size,
+								progress: item.progress,
+								priority: item.priority
 							});
 							parent.appendChild(child);
 						}
@@ -197,10 +197,10 @@
 								id: file,
 								filename: file,
 								text: file, // this needs to be here for sorting
-								fileIndex: item['index'],
-								size: item['size'],
-								progress: item['progress'],
-								priority: item['priority'],
+								fileIndex: item.index,
+								size: item.size,
+								progress: item.progress,
+								priority: item.priority,
 								leaf: true,
 								iconCls: 'x-deluge-file',
 								uiProvider: Ext.ux.tree.TreeGridNodeUI
