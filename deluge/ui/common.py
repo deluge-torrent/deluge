@@ -150,11 +150,13 @@ class TorrentInfo(object):
         else:
             if filetree == 2:
                 self.__m_files_tree = {
-                    self.__m_name: {
-                        "type": "file",
-                        "index": 0,
-                        "length": self.__m_metadata["info"]["length"],
-                        "download": True
+                    "contents": {
+                        self.__m_name: {
+                            "type": "file",
+                            "index": 0,
+                            "length": self.__m_metadata["info"]["length"],
+                            "download": True
+                        }
                     }
                 }
             else:
