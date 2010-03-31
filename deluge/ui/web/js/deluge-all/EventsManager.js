@@ -74,6 +74,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 			deluge.client.web.register_event_listener(eventName);
 		});
 		this.running = true;
+		this.errorCount = 0;
 		this.getEvents();
 	},
 
@@ -102,10 +103,14 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 	},
 
 	// private
-	onGetEventsFailure: function(events) {
-		// the request timed out so we just want to open up another
-		// one.
-		if (this.running) this.getEvents();
+	onGetEventsFailure: function(result, error) {
+		// the request timed out or we had a communication failure
+		if (!this.running) return;
+		if (!error.isTimeout && this.errorCount++ >= 3) {
+			this.stop();
+			return;
+		}
+		this.getEvents();
 	}
 });
 
