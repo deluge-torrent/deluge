@@ -46,6 +46,13 @@ import tempfile
 import mimetypes
 import pkg_resources
 
+try:
+    import Image
+    import cStringIO
+    import deluge.ui.Win32IconImagePlugin
+except ImportError:
+    Image = None
+
 from twisted.application import service, internet
 from twisted.internet import reactor, defer, error
 from twisted.internet.ssl import SSL
@@ -200,13 +207,23 @@ class Tracker(resource.Resource):
         if filename:
             request.setHeader("cache-control",
                               "public, must-revalidate, max-age=86400")
-            if filename.endswith(".ico"):
-                request.setHeader("content-type", "image/x-icon")
-            elif filename.endswith(".png"):
+            if Image:
+                im = Image.open(filename)
+                if im.size > (16, 16):
+                    im = im.resize((16, 16), Image.ANTIALIAS)
+                fp = cStringIO.StringIO()
+                im.save(fp, "png")
                 request.setHeader("content-type", "image/png")
-            data = open(filename, "rb")
-            request.setResponseCode(http.OK)
-            return data.read()
+                request.setResponseCode(http.OK)
+                return fp.getvalue()
+            else:
+                if filename.endswith(".ico"):
+                    request.setHeader("content-type", "image/x-icon")
+                elif filename.endswith(".png"):
+                    request.setHeader("content-type", "image/png")
+                data = open(filename, "rb")
+                request.setResponseCode(http.OK)
+                return data.read()
         else:
             request.setResponseCode(http.NOT_FOUND)
             return ""
