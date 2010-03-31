@@ -65,10 +65,6 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			}]
 		}));
 
-		new Ext.tree.TreeSorter(this.files, {
-			folderSort: true
-		});
-
 		this.optionsManager = new Deluge.MultiOptionsManager();
 	
 		this.form = this.add({
@@ -200,7 +196,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		var fileIndexes = {};
 		this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
 			if (type != 'file') return;
-			fileIndexes[entry[0]] = entry[2];
+			fileIndexes[entry.index] = entry.download;
 		}, this);
 
 		var priorities = [];
@@ -279,9 +275,9 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
 			if (type == 'dir') {
-				alert(Ext.encode(entry));
 				var folder = new Ext.tree.TreeNode({
 					filename: filename,
+					size: entry.length,
 					checked: true
 				});
 				folder.on('checkchange', this.onFolderCheck, this);
@@ -290,12 +286,10 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			} else {
 				var node = new Ext.tree.TreeNode({
 					filename: filename,
-					fileindex: entry[0],
-					text: filename, // this needs to be here for sorting reasons
-					size: entry[1],
+					fileindex: entry.index,
+					size: entry.length,
 					leaf: true,
-					checked: priorities[entry[0]],
-					iconCls: 'x-deluge-file',
+					checked: priorities[entry.index],
 					uiProvider: Ext.tree.ColumnNodeUI
 				});
 				node.on('checkchange', this.onNodeCheck, this);
@@ -306,9 +300,9 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	},
 
 	walkFileTree: function(files, callback, scope, parentNode) {
-		for (var filename in files) {
-			var entry = files[filename];
-			var type = (Ext.type(entry) == 'object') ? 'dir' : 'file';
+		for (var filename in files.contents) {
+			var entry = files.contents[filename];
+			var type = entry.type;
 
 			if (scope) {
 				var ret = callback.apply(scope, [filename, type, entry, parentNode]);

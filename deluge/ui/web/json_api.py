@@ -652,9 +652,10 @@ class WebApi(JSONComponent):
         :rtype: dictionary
         """
         try:
-            torrent_info = uicommon.TorrentInfo(filename.strip())
+            torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict("name", "info_hash", "files_tree")
-        except:
+        except Exception, e:
+            log.exception(e)
             return False
 
     @export

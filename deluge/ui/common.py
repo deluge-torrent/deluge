@@ -80,7 +80,7 @@ class TorrentInfo(object):
     :type filename: string
 
     """
-    def __init__(self, filename):
+    def __init__(self, filename, filetree=1):
         # Get the torrent data from the torrent file
         try:
             log.debug("Attempting to open %s.", filename)
@@ -108,6 +108,7 @@ class TorrentInfo(object):
 
         # Get list of files from torrent info
         paths = {}
+        dirs = {}
         if self.__m_metadata["info"].has_key("files"):
             prefix = ""
             if len(self.__m_metadata["info"]["files"]) > 1:
@@ -121,18 +122,38 @@ class TorrentInfo(object):
                 f["index"] = index
                 paths[path] = f
 
-            def walk(path, item):
-                if type(item) is dict:
-                    return item
-                return [paths[path]['index'], paths[path]['length'], True]
+                dirname = os.path.dirname(path)
+                while dirname:
+                    dirinfo = dirs.setdefault(dirname, {})
+                    dirinfo["length"] = dirinfo.get("length", 0) + f["length"]
+                    dirname = os.path.dirname(dirname)
 
-            file_tree = FileTree(paths)
-            file_tree.walk(walk)
+            if filetree == 2:
+                def walk(path, item):
+                    if item["type"] == "dir":
+                        item.update(dirs[path])
+                    else:
+                        item.update(paths[path])
+                    item["download"] = True
+
+                file_tree = FileTree2(paths.keys())
+                file_tree.walk(walk)
+            else:
+                def walk(path, item):
+                    if type(item) is dict:
+                        return item
+                    return [paths[path]["index"], paths[path]["length"], True]
+
+                file_tree = FileTree(paths)
+                file_tree.walk(walk)
             self.__m_files_tree = file_tree.get_tree()
         else:
-            self.__m_files_tree = {
-                self.__m_name: (0, self.__m_metadata["info"]["length"], True)
-            }
+            if filetree == 2:
+                pass
+            else:
+                self.__m_files_tree = {
+                    self.__m_name: (0, self.__m_metadata["info"]["length"], True)
+                }
 
         self.__m_files = []
         if self.__m_metadata["info"].has_key("files"):
