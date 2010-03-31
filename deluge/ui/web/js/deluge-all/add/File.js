@@ -29,25 +29,25 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
+Ext.ns('Deluge.add');
 
-Ext.namespace('Ext.deluge.add');
+/**
+ * @class Deluge.add.FileWindow
+ * @extends Deluge.add.Window
+ */
 Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
-	constructor: function(config) {
-		config = Ext.apply({
-			layout: 'fit',
-			width: 350,
-			height: 115,
-			bodyStyle: 'padding: 10px 5px;',
-			buttonAlign: 'center',
-			closeAction: 'hide',
-			modal: true,
-			plain: true,
-			title: _('Add from File'),
-			iconCls: 'x-deluge-add-file'
-		}, config);
-		Deluge.add.FileWindow.superclass.constructor.call(this, config);
-	},
-	
+
+	title: _('Add from File'),
+	layout: 'fit',
+	width: 350,
+	height: 115,
+	modal: true,
+	plain: true,
+	buttonAlign: 'center',
+	closeAction: 'hide',
+	bodyStyle: 'padding: 10px 5px;',
+	iconCls: 'x-deluge-add-file'
+
 	initComponent: function() {
 		Deluge.add.FileWindow.superclass.initComponent.call(this);
 		this.addButton(_('Add'), this.onAddClick, this);
@@ -72,6 +72,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 		});
 	},
 	
+	// private
 	onAddClick: function(field, e) {
 		if (this.form.getForm().isValid()) {
 			this.torrentId = this.createTorrentId();
@@ -88,21 +89,24 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 		}
 	},
 	
+	// private
 	onGotInfo: function(info, obj, response, request) {
 		info['filename'] = request.options.filename;
 		this.fireEvent('add', this.torrentId, info);
 	},
 
+	// private
 	onUploadFailure: function(form, action) {
 		this.hide();
 	},
 	
+	// private
 	onUploadSuccess: function(fp, upload) {
 		this.hide();
 		if (upload.result.success) {
 			var filename = upload.result.files[0];
 			this.form.getForm().findField('torrentFile').setValue('');
-			Deluge.Client.web.get_torrent_info(filename, {
+			deluge.client.web.get_torrent_info(filename, {
 				success: this.onGotInfo,
 				scope: this,
 				filename: filename
