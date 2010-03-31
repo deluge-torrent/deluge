@@ -68,7 +68,7 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('cache_expiry', fieldset.add({
 			fieldLabel: _('Cache Expiry (seconds)'),
@@ -80,7 +80,7 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 	}
 });

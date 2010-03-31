@@ -86,7 +86,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 					decimalPrecision: 0,
 					minValue: -1,
 					maxValue: 99999
-				},
+				}
 			}, {
 				fieldLabel: 'To',
 				width: 80,
@@ -95,7 +95,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 					decimalPrecision: 0,
 					minValue: -1,
 					maxValue: 99999
-				},
+				}
 			}]
 		});
 		optMan.bind('listen_ports', this.listenPorts);
@@ -140,7 +140,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 					decimalPrecision: 0,
 					minValue: -1,
 					maxValue: 99999
-				},
+				}
 			}, {
 				fieldLabel: 'To',
 				strategy: {
@@ -148,7 +148,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 					decimalPrecision: 0,
 					minValue: -1,
 					maxValue: 99999
-				},
+				}
 			}]
 		});
 		optMan.bind('outgoing_ports', this.outgoingPorts);

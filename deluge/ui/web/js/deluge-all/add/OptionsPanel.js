@@ -126,7 +126,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				inputValue: true,
 				boxLabel: _('Compact'),
 				fieldLabel: '',
-				labelSeparator: '',
+				labelSeparator: ''
 			}]
 		}));
 
@@ -173,13 +173,13 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			name: 'add_paused',
 			boxLabel: _('Add In Paused State'),
 			fieldLabel: '',
-			labelSeparator: '',
+			labelSeparator: ''
 		}));
 		this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
 			name: 'prioritize_first_last_pieces',
 			boxLabel: _('Prioritize First/Last Pieces'),
 			fieldLabel: '',
-			labelSeparator: '',
+			labelSeparator: ''
 		}));
 	
 		this.form.on('render', this.onFormRender, this);

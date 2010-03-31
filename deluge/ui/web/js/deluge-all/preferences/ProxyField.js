@@ -62,7 +62,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
                     [2, _('Socksv5')],
                     [3, _('Socksv5 with Auth')],
                     [4, _('HTTP')],
-                    [5, _('HTTP with Auth')],
+                    [5, _('HTTP with Auth')]
                 ]       
             }),         
             value: 0,

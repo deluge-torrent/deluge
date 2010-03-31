@@ -66,7 +66,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		
 		fieldset = this.add({

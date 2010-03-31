@@ -56,8 +56,7 @@
 				store: new Ext.data.Store({
 					reader: new Ext.data.JsonReader({
 						idProperty: 'ip',
-						root: 'peers',
-
+						root: 'peers'
 					}, Deluge.data.Peer)
 				}),
 				columns: [{

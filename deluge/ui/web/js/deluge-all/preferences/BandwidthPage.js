@@ -145,14 +145,14 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
-			boxLabel: _('Ignore limits on local network'),
+			boxLabel: _('Ignore limits on local network')
 		}));
 		optMan.bind('rate_limit_ip_overhead', fieldset.add({
 			name: 'rate_limit_ip_overhead',
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
-			boxLabel: _('Rate limit IP overhead'),
+			boxLabel: _('Rate limit IP overhead')
 		}));
 		
 		fieldset = this.add({

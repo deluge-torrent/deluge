@@ -136,7 +136,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			labelWidth: 110,
 			defaultType: 'spinnerfield',
 			defaults: {
-				width: 80,
+				width: 80
 			}
 		});
 		optMan.bind('session_timeout', fieldset.add({

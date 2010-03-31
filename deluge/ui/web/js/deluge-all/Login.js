@@ -62,7 +62,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 			labelWidth: 55,
 			width: 300,
 			defaults: {width: 200},
-			defaultType: 'textfield',
+			defaultType: 'textfield'
 		});
 
 		this.passwordField = this.form.add({

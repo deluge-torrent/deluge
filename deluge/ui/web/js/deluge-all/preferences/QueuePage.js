@@ -74,7 +74,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			autoHeight: true,
 			labelWidth: 150,
 			defaultType: 'spinnerfield',
-			style: 'margin-bottom: 0px; padding-bottom: 0px;',
+			style: 'margin-bottom: 0px; padding-bottom: 0px;'
 		});
 		optMan.bind('max_active_limit', fieldset.add({
 			fieldLabel: _('Total Active'),
@@ -86,7 +86,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('max_active_downloading', fieldset.add({
 			fieldLabel: _('Total Active Downloading'),
@@ -98,7 +98,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('max_active_seeding', fieldset.add({
 			fieldLabel: _('Total Active Seeding'),
@@ -110,7 +110,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('dont_count_slow_torrents', fieldset.add({
 			xtype: 'checkbox',
@@ -127,7 +127,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			autoHeight: true,
 			labelWidth: 150,
 			defaultType: 'spinnerfield',
-			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;',
+			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;'
 		});
 		optMan.bind('share_ratio_limit', fieldset.add({
 			fieldLabel: _('Share Ratio Limit'),
@@ -139,7 +139,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('seed_time_ratio_limit', fieldset.add({
 			fieldLabel: _('Share Time Ratio'),
@@ -151,7 +151,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		optMan.bind('seed_time_limit', fieldset.add({
 			fieldLabel: _('Seed Time (m)'),
@@ -163,7 +163,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 0,
 				minValue: -1,
 				maxValue: 99999
-			},
+			}
 		}));
 		
 		fieldset = this.add({
