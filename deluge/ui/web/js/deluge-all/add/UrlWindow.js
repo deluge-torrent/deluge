@@ -32,21 +32,18 @@
 
 Ext.namespace('Deluge.add');
 Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
-	constructor: function(config) {
-		config = Ext.apply({
-			layout: 'fit',
-			width: 350,
-			height: 155,
-			bodyStyle: 'padding: 10px 5px;',
-			buttonAlign: 'center',
-			closeAction: 'hide',
-			modal: true,
-			plain: true,
-			title: _('Add from Url'),
-			iconCls: 'x-deluge-add-url-window-icon'
-		}, config);
-		Deluge.add.UrlWindow.superclass.constructor.call(this, config);
-	},
+
+	title: _('Add from Url'),
+	modal: true,
+	plain: true,
+	layout: 'fit',
+	width: 350,
+	height: 155,
+
+	buttonAlign: 'center',
+	closeAction: 'hide',
+	bodyStyle: 'padding: 10px 5px;',
+	iconCls: 'x-deluge-add-url-window-icon',
 	
 	initComponent: function() {
 		Deluge.add.UrlWindow.superclass.initComponent.call(this);

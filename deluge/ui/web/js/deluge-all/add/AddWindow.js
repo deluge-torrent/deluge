@@ -155,6 +155,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 	},
 
 	onFile: function() {
+		if (!this.file) this.file = new Deluge.add.FileWindow();
 		this.file.show();
 	},
 

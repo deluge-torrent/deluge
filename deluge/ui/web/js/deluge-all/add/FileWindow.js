@@ -46,7 +46,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 	buttonAlign: 'center',
 	closeAction: 'hide',
 	bodyStyle: 'padding: 10px 5px;',
-	iconCls: 'x-deluge-add-file'
+	iconCls: 'x-deluge-add-file',
 
 	initComponent: function() {
 		Deluge.add.FileWindow.superclass.initComponent.call(this);
