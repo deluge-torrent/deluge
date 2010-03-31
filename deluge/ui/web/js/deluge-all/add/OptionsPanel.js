@@ -35,27 +35,22 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 	torrents: {},
 
-	constructor: function(config) {
-		config = Ext.apply({
-			region: 'south',
-			margins: '5 5 5 5',
-			activeTab: 0,
-			height: 220
-		}, config);
-		Deluge.add.OptionsPanel.superclass.constructor.call(this, config);
-	},
+	// layout options
+	region: 'south',
+	margins: '5 5 5 5',
+	activeTab: 0,
+	height: 220,
 
 	initComponent: function() {
 		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
 		this.files = this.add(new Ext.ux.tree.TreeGrid({
 			layout: 'fit',
 			title: _('Files'),
-			rootVisible: false,
 			autoScroll: true,
-			height: 170,
 			border: false,
 			animate: false,
 			disabled: true,
+			rootVisible: false,
 
 			columns: [{
 				header: _('Filename'),
@@ -69,6 +64,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				renderer: fsize
 			}]
 		}));
+
 		new Ext.tree.TreeSorter(this.files, {
 			folderSort: true
 		});
@@ -92,7 +88,8 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			autoHeight: true,
 			defaultType: 'textfield',
 			labelWidth: 1,
-			fieldLabel: ''
+			fieldLabel: '',
+			style: 'padding-bottom: 5px; margin-bottom: 0px;'
 		});
 		this.optionsManager.bind('download_location', fieldset.add({
 			fieldLabel: '',
@@ -118,6 +115,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			xtype: 'radiogroup',
 			columns: 1,
 			vertical: true,
+			disabled: true,
 			labelSeparator: '',
 			items: [{
 				name: 'compact_allocation',
@@ -146,25 +144,25 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		});
 		this.optionsManager.bind('max_download_speed', fieldset.add({
 			fieldLabel: _('Max Down Speed'),
-			/*labelStyle: 'margin-left: 10px',*/
+			labelStyle: 'margin-left: 10px',
 			name: 'max_download_speed',
 			width: 60
 		}));
 		this.optionsManager.bind('max_upload_speed', fieldset.add({
 			fieldLabel: _('Max Up Speed'),
-			/*labelStyle: 'margin-left: 10px',*/
+			labelStyle: 'margin-left: 10px',
 			name: 'max_upload_speed',
 			width: 60
 		}));
 		this.optionsManager.bind('max_connections', fieldset.add({
 			fieldLabel: _('Max Connections'),
-			/*labelStyle: 'margin-left: 10px',*/
+			labelStyle: 'margin-left: 10px',
 			name: 'max_connections',
 			width: 60
 		}));
 		this.optionsManager.bind('max_upload_slots', fieldset.add({
 			fieldLabel: _('Max Upload Slots'),
-			/*labelStyle: 'margin-left: 10px',*/
+			labelStyle: 'margin-left: 10px',
 			name: 'max_upload_slots',
 			width: 60
 		}));
@@ -279,42 +277,43 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		var root = this.files.getRootNode();
 		var priorities = this.optionsManager.get('file_priorities');
 
-		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parent) {
+		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
 			if (type == 'dir') {
+				alert(Ext.encode(entry));
 				var folder = new Ext.tree.TreeNode({
-					text: filename,
+					filename: filename,
 					checked: true
 				});
 				folder.on('checkchange', this.onFolderCheck, this);
-				parent.appendChild(folder);
+				parentNode.appendChild(folder);
 				return folder;
 			} else {
 				var node = new Ext.tree.TreeNode({
 					filename: filename,
 					fileindex: entry[0],
 					text: filename, // this needs to be here for sorting reasons
-					size: fsize(entry[1]),
+					size: entry[1],
 					leaf: true,
 					checked: priorities[entry[0]],
 					iconCls: 'x-deluge-file',
 					uiProvider: Ext.tree.ColumnNodeUI
 				});
 				node.on('checkchange', this.onNodeCheck, this);
-				parent.appendChild(node);
+				parentNode.appendChild(node);
 			}
 		}, this, root);
 		root.firstChild.expand();
 	},
 
-	walkFileTree: function(files, callback, scope, parent) {
+	walkFileTree: function(files, callback, scope, parentNode) {
 		for (var filename in files) {
 			var entry = files[filename];
 			var type = (Ext.type(entry) == 'object') ? 'dir' : 'file';
 
 			if (scope) {
-				var ret = callback.apply(scope, [filename, type, entry, parent]);
+				var ret = callback.apply(scope, [filename, type, entry, parentNode]);
 			} else {
-				var ret = callback(filename, type, entry, parent);
+				var ret = callback(filename, type, entry, parentNode);
 			}
 		
 			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
