@@ -273,7 +273,7 @@ class SystemTray(component.Component):
         """Called when the tray icon is left clicked."""
         self.blink(False)
 
-        if self.window.active() or self.window.visible():
+        if self.window.active():
             self.window.hide()
         else:
             if self.config["lock_tray"]:
