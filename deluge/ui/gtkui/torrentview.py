@@ -243,7 +243,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
-        self.treeview.connect("key_press_event", self.on_key_press_event)
+        self.treeview.connect("key-press-event", self.on_key_press_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
@@ -492,18 +492,6 @@ class TorrentView(listview.ListView, component.Component):
             torrentmenu.popup(None, None, None, event.button, event.time)
             return True
 
-    def on_key_press_event(self, widget, event):
-        # Menu key
-        if gtk.gdk.keyval_name(event.keyval) != "Menu":
-            return
-
-        if not self.get_selected_torrent():
-            return
-
-        torrentmenu = component.get("MenuBar").torrentmenu
-        torrentmenu.popup(None, None, None, 3, event.time)
-        return True
-
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
@@ -546,10 +534,19 @@ class TorrentView(listview.ListView, component.Component):
         keyname = gtk.gdk.keyval_name(event.keyval)
         func = getattr(self, 'keypress_' + keyname, None)
         if func:
-            return func()
+            return func(event)
 
-    def keypress_Delete(self):
+    def keypress_Delete(self, event):
         log.debug("keypress_Delete")
         torrents = self.get_selected_torrents()
         if torrents:
             RemoveTorrentDialog(torrents).run()
+
+    def keypress_Menu(self, event):
+        log.debug("keypress_Menu")
+        if not self.get_selected_torrent():
+            return
+
+        torrentmenu = component.get("MenuBar").torrentmenu
+        torrentmenu.popup(None, None, None, 3, event.time)
+        return True
