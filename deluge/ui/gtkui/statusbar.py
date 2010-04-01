@@ -180,6 +180,11 @@ class StatusBar(component.Component):
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"), tooltip=_("DHT Nodes"))
 
+        self.diskspace_item = self.add_item(
+                stock=gtk.STOCK_HARDDISK,
+                callback=self._on_diskspace_item_clicked,
+                tooltip=_("Free Disk Space"))
+
         self.health_item = self.add_item(
                 stock=gtk.STOCK_DIALOG_ERROR,
                 text=_("No Incoming Connections!"),
@@ -208,6 +213,7 @@ class StatusBar(component.Component):
             self.remove_item(self.not_connected_item)
             self.remove_item(self.health_item)
             self.remove_item(self.traffic_item)
+            self.remove_item(self.diskspace_item)
         except Exception, e:
             log.debug("Unable to remove StatusBar item: %s", e)
         self.show_not_connected()
@@ -278,6 +284,7 @@ class StatusBar(component.Component):
             keys.append("has_incoming_connections")
 
         client.core.get_session_status(keys).addCallback(self._on_get_session_status)
+        client.core.get_free_space().addCallback(self._on_get_free_space)
 
     def on_configvaluechanged_event(self, key, value):
         """
@@ -322,6 +329,9 @@ class StatusBar(component.Component):
             self.health = status["has_incoming_connections"]
             if self.health:
                 self.remove_item(self.health_item)
+
+    def _on_get_free_space(self, space):
+        self.diskspace_item.set_text(deluge.common.fsize(space))
 
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
@@ -463,3 +473,6 @@ class StatusBar(component.Component):
 
     def _on_traffic_item_clicked(self, widget, event):
         component.get("Preferences").show("Network")
+
+    def _on_diskspace_item_clicked(self, widget, event):
+        component.get("Preferences").show("Downloads")

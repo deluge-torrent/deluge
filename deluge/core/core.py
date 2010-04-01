@@ -752,11 +752,12 @@ class Core(component.Component):
         return d
 
     @export
-    def get_free_space(self, path):
+    def get_free_space(self, path=None):
         """
         Returns the number of free bytes at path
 
-        :param path: the path to check free space at
+        :param path: the path to check free space at, if None, use the default
+        download location
         :type path: string
 
         :returns: the number of free bytes at path
@@ -765,6 +766,8 @@ class Core(component.Component):
         :raises InvalidPathError: if the path is invalid
 
         """
+        if not path:
+            path = self.config["download_location"]
         return deluge.common.free_space(path)
 
     @export
