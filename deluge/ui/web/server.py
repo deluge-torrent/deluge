@@ -47,7 +47,7 @@ import mimetypes
 import pkg_resources
 
 try:
-    import Image
+    import PIL.Image as Image
     import cStringIO
     import deluge.ui.Win32IconImagePlugin
 except ImportError:
