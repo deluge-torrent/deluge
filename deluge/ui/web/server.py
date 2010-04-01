@@ -562,10 +562,8 @@ class TopLevel(resource.Resource):
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
 
-        if request.requestHeaders.hasHeader('x-deluge-base'):
-            base = request.requestHeaders.getRawHeaders('x-deluge-base')[-1]
-        else:
-            base = component.get("DelugeWeb").base
+        header = request.getHeader('x-deluge-base')
+        base = header if header else component.get("DelugeWeb").base
 
         # validate the base parameter
         if not base:
