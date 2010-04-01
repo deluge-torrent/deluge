@@ -34,21 +34,16 @@ Ext.namespace('Deluge.add');
 
 Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 
-	constructor: function(config) {
-		config = Ext.apply({
-			title: _('Add Torrents'),
-			layout: 'border',
-			width: 470,
-			height: 450,
-			bodyStyle: 'padding: 10px 5px;',
-			buttonAlign: 'right',
-			closeAction: 'hide',
-			closable: true,
-			plain: true,
-			iconCls: 'x-deluge-add-window-icon'
-		}, config);
-		Deluge.add.AddWindow.superclass.constructor.call(this, config);
-	},
+	title: _('Add Torrents'),
+	layout: 'border',
+	width: 470,
+	height: 450,
+	bodyStyle: 'padding: 10px 5px;',
+	buttonAlign: 'right',
+	closeAction: 'hide',
+	closable: true,
+	plain: true,
+	iconCls: 'x-deluge-add-window-icon',
 
 	initComponent: function() {
 		Deluge.add.AddWindow.superclass.initComponent.call(this);
@@ -63,9 +58,9 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				return String.format('<div class="x-deluge-add-torrent-name-loading">{0}</div>', value);
 			}
 		}
-	
-		this.grid = this.add({
-			xtype: 'grid',
+
+		this.list = this.add({
+			xtype: 'listview',
 			region: 'center',
 			store: new Ext.data.SimpleStore({
 				fields: [
@@ -82,15 +77,13 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				dataIndex: 'text'
 			}],	
 			stripeRows: true,
-			selModel: new Ext.grid.RowSelectionModel({
-				singleSelect: true,
-				listeners: {
-					'rowselect': {
-						fn: this.onSelect,
-						scope: this
-					}
+			singleSelect: true,
+			listeners: {
+				'selectionchanged': {
+					fn: this.onSelect,
+					scope: this
 				}
-			}),
+			},
 			hideHeaders: true,
 			autoExpandColumn: 'torrent',
 			deferredRender: false,
@@ -126,14 +119,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 	},
 
 	clear: function() {
-		this.grid.getStore().removeAll();
+		this.list.getStore().removeAll();
 		this.optionsPanel.clear();
 	},
 
 	onAddClick: function() {
 		var torrents = [];
 		if (!this.grid) return;
-		this.grid.getStore().each(function(r) {
+		this.list.getStore().each(function(r) {
 			var id = r.get('info_hash');
 			torrents.push({
 				path: this.optionsPanel.getFilename(id),
@@ -169,13 +162,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 		var selection = this.grid.getSelectionModel();
 		if (!selection.hasSelection()) return;
 		var torrent = selection.getSelected();
-		this.grid.getStore().remove(torrent);
+		this.list.getStore().remove(torrent);
 		this.optionsPanel.clear();
 		
 		if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
 	},
 
-	onSelect: function(selModel, rowIndex, record) {
+	onSelect: function(list, selections) {
+		
 		this.optionsPanel.setTorrent(record.get('info_hash'));
 		this.optionsPanel.files.setDisabled(false);
 		this.optionsPanel.form.setDisabled(false);
@@ -198,12 +192,12 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 	},
 
 	onTorrentBeforeAdd: function(torrentId, text) {
-		var store = this.grid.getStore();
+		var store = this.list.getStore();
 		store.loadData([[torrentId, null, text]], true);
 	},
 
 	onTorrentAdd: function(torrentId, info) {
-		var r = this.grid.getStore().getById(torrentId);
+		var r = this.list.getStore().getById(torrentId);
 		if (!info) {
 			Ext.MessageBox.show({
 				title: _('Error'),
@@ -213,11 +207,11 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				icon: Ext.MessageBox.ERROR,
 				iconCls: 'x-deluge-icon-error'
 			});
-			this.grid.getStore().remove(r);
+			this.list.getStore().remove(r);
 		} else {
 			r.set('info_hash', info['info_hash']);
 			r.set('text', info['name']);
-			this.grid.getStore().commitChanges();
+			this.list.getStore().commitChanges();
 			this.optionsPanel.addTorrent(info);
 		}
 	},

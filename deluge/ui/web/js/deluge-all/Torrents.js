@@ -65,7 +65,7 @@
 		}
 	}
 	function availRenderer(value, p, r)	{
-		return (value < 0) ? '∞' : new Number(value).toFixed(3);
+		return (value < 0) ? '&infin;' : new Number(value).toFixed(3);
 	}
 	function trackerRenderer(value, p, r) {
 		return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);

@@ -96,7 +96,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		var data = {
 			downloaded: fsize(status.total_done, true),
 			uploaded: fsize(status.total_uploaded, true),
-			share: (status.ratio == -1) ? '∞' : status.ratio.toFixed(3),
+			share: (status.ratio == -1) ? '&infin;' : status.ratio.toFixed(3),
 			announce: ftime(status.next_announce),
 			tracker_status: status.tracker_status,
 			downspeed: (status.download_payload_rate) ? fspeed(status.download_payload_rate) : '0.0 KiB/s',
