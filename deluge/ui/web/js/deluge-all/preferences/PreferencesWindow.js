@@ -61,32 +61,32 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	initComponent: function() {
 		Deluge.preferences.PreferencesWindow.superclass.initComponent.call(this);
 
-		this.categoriesGrid = this.add({
-			xtype: 'grid',
-			region: 'west',
-			title: _('Categories'),
+		this.list = new Ext.list.ListView({
 			store: new Ext.data.Store(),
 			columns: [{
 				id: 'name',
 				renderer: fplain,
 				dataIndex: 'name'
 			}],
-			sm: new Ext.grid.RowSelectionModel({
-				singleSelect: true,
-				listeners: {
-					'rowselect': {
-						fn: this.onPageSelect, scope: this
-					}
+			singleSelect: true,
+			listeners: {
+				'selectionchange': {
+					fn: this.onPageSelect, scope: this
 				}
-			}),
+			},
 			hideHeaders: true,
 			autoExpandColumn: 'name',
 			deferredRender: false,
 			autoScroll: true,
-			margins: '5 0 5 5',
-			cmargins: '5 0 5 5',
-			width: 120,
 			collapsible: true
+		});
+		this.add({
+			region: 'west',
+			title: _('Categories'),
+			items: [this.list],
+			width: 120,
+			margins: '5 0 5 5',
+			cmargins: '5 0 5 5'
 		});
 
 		this.configPanel = this.add({
@@ -154,7 +154,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	 * @param {Mixed} page
 	 */
 	addPage: function(page) {
-		var store = this.categoriesGrid.getStore();
+		var store = this.list.getStore();
 		var name = page.title;
 		store.add([new PreferencesRecord({name: name})]);
 		page['bodyStyle'] = 'padding: 5px';
@@ -169,7 +169,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	 */
 	removePage: function(page) {
 	    var name = page.title;
-	    var store = this.categoriesGrid.getStore();
+	    var store = this.list.getStore();
 	    store.removeAt(store.find('name', name));
 	    this.configPanel.remove(page);
 	    delete this.pages[page.title];
@@ -191,7 +191,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	},
 	
 	// private
-	onPageSelect: function(selModel, rowIndex, r) {
+	onPageSelect: function(list, selections) {
+		var r = list.getRecord(selections[0]);
 		this.selectPage(r.get('name'));
 	},
 	
@@ -202,8 +203,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	// private
 	onAfterRender: function() {
-		if (!this.categoriesGrid.getSelectionModel().hasSelection()) {
-			this.categoriesGrid.getSelectionModel().selectFirstRow();
+		if (!this.list.getSelectionCount()) {
+			this.list.select(0);
 		}
 		this.configPanel.getLayout().setActiveItem(0);
 	},
