@@ -62,10 +62,6 @@ class SessionProxy(component.Component):
         # Hold the torrents' status.. {torrent_id: [time, {status_dict}], ...}
         self.torrents = {}
 
-        # Hold the time awhen the last state filter was used and the torrent_ids returned
-        # [(filter_dict, time, (torrent_id, ...)), ...]
-        self.state_filter_queries = []
-
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added)
@@ -81,13 +77,6 @@ class SessionProxy(component.Component):
 
     def stop(self):
         self.torrents = {}
-        self.state_filter_queries = {}
-
-    def update(self):
-        # Clean-up any stale filter queries
-        sfq = self.state_filter_queries
-        t = time.time()
-        self.state_filter_queries = [x for x in sfq if (t - x[1]) < self.cache_time]
 
     def create_status_dict(self, torrent_ids, keys):
         """
@@ -165,7 +154,7 @@ class SessionProxy(component.Component):
 
             # Create the status dict
             if not torrent_ids:
-                torrent_ids = self.torrents.keys()
+                torrent_ids = result.keys()
 
             return self.create_status_dict(torrent_ids, keys)
 
@@ -186,40 +175,26 @@ class SessionProxy(component.Component):
             to_fetch = find_torrents_to_fetch(self.torrents.keys())
             if to_fetch:
                 d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
-                return d.addCallback(on_status, [], keys)
+                return d.addCallback(on_status, self.torrents.keys(), keys)
 
             # Don't need to fetch anything
             return maybeDeferred(self.create_status_dict, self.torrents.keys(), keys)
 
-        if "state" in filter_dict:
-            # We check if a similar query has already been done within our cache time
-            # and return results for those torrent_ids
-            for sfq in self.state_filter_queries:
-                if sfq[0] == filter_dict and (time.time() - sfq[1]) < self.cache_time:
-                    # We found a winner!
-                    if "id" in filter_dict:
-                        filter_fict["id"].extend(sfq[2])
-                    else:
-                        filter_dict["id"] = sfq[2]
-                    del filter_dict["state"]
-                    break
 
-            if "state" in filter_dict:
-                # If we got there, then there is no suitable cached filter query, so
-                # we'll just query the core
-                d = client.core.get_torrents_status(filter_dict, keys, True)
-                def on_filter_status(result, keys):
-                    return on_status(result, result.keys(), keys)
-                return d.addCallback(on_filter_status, keys)
-
-        # At this point we should have a filter with just "id" in it
-        to_fetch = find_torrents_to_fetch(filter_dict["id"])
-        if to_fetch:
-            d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
-            return d.addCallback(on_status, filter_dict["id"], keys)
+        if len(filter_dict) == 1 and "id" in filter_dict:
+            # At this point we should have a filter with just "id" in it
+            to_fetch = find_torrents_to_fetch(filter_dict["id"])
+            if to_fetch:
+                d = client.core.get_torrents_status({"id": to_fetch}, keys, True)
+                return d.addCallback(on_status, filter_dict["id"], keys)
+            else:
+                # Don't need to fetch anything, so just return data from the cache
+                return maybeDeferred(self.create_status_dict, filter_dict["id"], keys)
         else:
-            # Don't need to fetch anything, so just return data from the cache
-            return maybeDeferred(self.create_status_dict, filter_dict["id"], keys)
+            # This is a keyworded filter so lets just pass it onto the core
+            # XXX: Add more caching here.
+            d = client.core.get_torrents_status(filter_dict, keys, True)
+            return d.addCallback(on_status, None, keys)
 
     def on_torrent_state_changed(self, torrent_id, state):
         self.torrents[torrent_id][1]["state"] = state
