@@ -59,9 +59,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			}
 		}
 
-		this.list = this.add({
-			xtype: 'listview',
-			region: 'center',
+		this.list = new Ext.list.ListView({
 			store: new Ext.data.SimpleStore({
 				fields: [
 					{name: 'info_hash', mapping: 1},
@@ -79,15 +77,19 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			stripeRows: true,
 			singleSelect: true,
 			listeners: {
-				'selectionchanged': {
+				'selectionchange': {
 					fn: this.onSelect,
 					scope: this
 				}
 			},
 			hideHeaders: true,
 			autoExpandColumn: 'torrent',
-			deferredRender: false,
-			autoScroll: true,
+			autoScroll: true
+		});
+
+		this.add({
+			region: 'center',
+			items: [this.list],
 			margins: '5 5 5 5',
 			bbar: new Ext.Toolbar({
 				items: [{
@@ -125,7 +127,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 
 	onAddClick: function() {
 		var torrents = [];
-		if (!this.grid) return;
+		if (!this.list) return;
 		this.list.getStore().each(function(r) {
 			var id = r.get('info_hash');
 			torrents.push({
@@ -159,9 +161,8 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 	},
 
 	onRemove: function() {
-		var selection = this.grid.getSelectionModel();
-		if (!selection.hasSelection()) return;
-		var torrent = selection.getSelected();
+		if (!this.list.getSelectionCount()) return;
+		var torrent = this.list.getSelectedRecords()[0];
 		this.list.getStore().remove(torrent);
 		this.optionsPanel.clear();
 		
@@ -169,10 +170,15 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 	},
 
 	onSelect: function(list, selections) {
-		
-		this.optionsPanel.setTorrent(record.get('info_hash'));
-		this.optionsPanel.files.setDisabled(false);
-		this.optionsPanel.form.setDisabled(false);
+		if (selections.length) {	
+			var record = this.list.getRecord(selections[0]);
+			this.optionsPanel.setTorrent(record.get('info_hash'));
+			this.optionsPanel.files.setDisabled(false);
+			this.optionsPanel.form.setDisabled(false);
+		} else {
+			this.optionsPanel.files.setDisabled(true);
+			this.optionsPanel.form.setDisabled(true);
+		}
 	},
 
 	onShow: function() {
