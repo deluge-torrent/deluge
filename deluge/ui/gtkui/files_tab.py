@@ -230,8 +230,8 @@ class FilesTab(Tab):
         # Setup state dict
         state = {
             "columns": {},
-            "sort_id": column_id,
-            "sort_order": int(sort_order) if sort_order else None
+            "sort_id": int(column_id) if column_id >= 0 else None,
+            "sort_order": int(sort_order) if sort_order >= 0 else None
         }
 
         for index, column in enumerate(self.listview.get_columns()):
@@ -268,7 +268,7 @@ class FilesTab(Tab):
         if state == None:
             return
 
-        if state["sort_id"] and state["sort_order"] is not None:
+        if state["sort_id"] is not None and state["sort_order"] is not None:
             self.treestore.set_sort_column_id(state["sort_id"], state["sort_order"])
 
         for (index, column) in enumerate(self.listview.get_columns()):
