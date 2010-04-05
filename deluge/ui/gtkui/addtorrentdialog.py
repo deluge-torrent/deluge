@@ -785,6 +785,8 @@ class AddTorrentDialog(component.Component):
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.files_treestore[path][3]
 
+        new_text = new_text.strip(os.path.sep)
+
         # Return if the text hasn't changed
         if new_text == self.files_treestore[path][1]:
             return
@@ -802,11 +804,9 @@ class AddTorrentDialog(component.Component):
         if index > -1:
             # We're renaming a file! Yay! That's easy!
             parent = self.files_treestore.iter_parent(itr)
-            file_path = self.get_file_path(parent)
-            file_path += new_text
-            file_path = file_path.replace(os.path.sep*2, os.path.sep)
+            file_path = os.path.join(self.get_file_path(parent), new_text)
 
-            if "/" in new_text:
+            if os.path.sep in new_text:
                 # There are folders in this path, so we need to create them
                 # and then move the file iter to top
                 split_text = new_text.split(os.path.sep)
@@ -843,30 +843,25 @@ class AddTorrentDialog(component.Component):
 
                     index = self.files_treestore[row][3]
 
-                    # Don't do anything if this is a folder
-                    if index == -1:
-                        return
+                    if index > -1:
+                        # Get the new full path for this file
+                        file_path = file_path_base + self.files_treestore[row][1]
 
-                    # Get the new full path for this file
-                    file_path = file_path_base + self.files_treestore[row][1]
-
-                    # Update the file path in the mapped_files dict
-                    self.options[torrent_id]["mapped_files"][index] = file_path
+                        # Update the file path in the mapped_files dict
+                        self.options[torrent_id]["mapped_files"][index] = file_path
 
                     # Get the next siblings iter
                     row = self.files_treestore.iter_next(row)
 
             # Update the treestore row first so that when walking the tree
             # we can construct the new proper paths
-            if len(new_text) == 0 or new_text[-1] != os.path.sep:
-                new_text += os.path.sep
 
             # We need to check if this folder has been split
-            split_text = new_text[:-1].split(os.path.sep)
-            if len(split_text) > 1:
+            if os.path.sep in new_text:
                 # It's been split, so we need to add new folders and then reparent
                 # itr.
                 parent = self.files_treestore.iter_parent(itr)
+                split_text = new_text.split(os.path.sep)
                 for s in split_text[:-1]:
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
@@ -877,6 +872,7 @@ class AddTorrentDialog(component.Component):
 
                 # Now reparent itr to parent
                 common.reparent_iter(self.files_treestore, itr, parent)
+                itr = parent
 
                 # We need to re-expand the view because it might contracted
                 # if we change the root iter
@@ -884,7 +880,7 @@ class AddTorrentDialog(component.Component):
             else:
                 # This was a simple folder rename without any splits, so just
                 # change the path for itr
-                self.files_treestore[itr][1] = new_text
+                self.files_treestore[itr][1] = new_text + os.path.sep
 
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option
