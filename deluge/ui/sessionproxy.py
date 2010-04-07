@@ -117,7 +117,7 @@ class SessionProxy(component.Component):
                 def on_status(result, torrent_id):
                     self.torrents[torrent_id][0] = time.time()
                     self.torrents[torrent_id][1].update(result)
-                    return self.torrents[torrent_id][1]
+                    return result
                 return d.addCallback(on_status, torrent_id)
         else:
             d = client.core.get_torrent_status(torrent_id, keys, True)
