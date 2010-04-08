@@ -160,7 +160,7 @@ class TrackerIcons(component.Component):
         self.images[tracker_host] = filename
 
         if callback:
-            reactor.callLater(0, callback, filename)
+            reactor.callFromThread(callback, filename)
 
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
