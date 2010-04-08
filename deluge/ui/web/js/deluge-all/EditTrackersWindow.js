@@ -188,6 +188,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 	
 	onRequestComplete: function(status) {
 		this.list.getStore().loadData(status);
+		this.list.getStore().sort('tier', 'ASC');
 	},
 	
 	onSaveFail: function() {
@@ -208,5 +209,20 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 			success: this.onRequestComplete,
 			scope: this
 		});
+	},
+
+	onDownClick: function() {
+		var r = this.list.getSelectedRecords()[0];
+		r.set('tier', r.get('tier') + 1);
+		r.commit();
+		r.store.sort('tier', 'ASC');
+	},
+
+	onUpClick: function() {
+		var r = this.list.getSelectedRecords()[0];
+		if (r.get('tier') == 0) return;
+		r.set('tier', r.get('tier') - 1);
+		r.commit();
+		r.store.sort('tier', 'ASC');
 	}
 });
