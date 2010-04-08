@@ -50,7 +50,7 @@ deluge.ui = {
 		deluge.add = new Deluge.add.AddWindow();
 		deluge.details = new Deluge.details.DetailsPanel();
 		deluge.connectionManager = new Deluge.ConnectionManager();
-		deluge.editTrackers = new Deluge.EditTrackers();
+		deluge.editTrackers = new Deluge.EditTrackersWindow();
 		deluge.login = new Deluge.LoginWindow();
 		deluge.preferences = new Deluge.preferences.PreferencesWindow();
 
