@@ -234,12 +234,12 @@ def fsize(fsize_b):
     """
     fsize_kb = fsize_b / 1024.0
     if fsize_kb < 1024:
-        return "%.1f KiB" % fsize_kb
+        return "%.1f %s" % (fsize_kb, _("KiB"))
     fsize_mb = fsize_kb / 1024.0
     if fsize_mb < 1024:
-        return "%.1f MiB" % fsize_mb
+        return "%.1f %s" % (fsize_mb, _("MiB"))
     fsize_gb = fsize_mb / 1024.0
-    return "%.1f GiB" % fsize_gb
+    return "%.1f %s" % (fsize_gb, _("GiB"))
 
 def fpcnt(dec):
     """
