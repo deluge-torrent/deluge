@@ -269,7 +269,7 @@ class Core(CorePluginBase):
 
         #apply
         for torrent_id,label in self.torrent_labels.iteritems():
-            if label_id == label:
+            if label_id == label and torrent_id in self.torrents:
                 self._set_torrent_options(torrent_id , label_id)
 
         #auto add
