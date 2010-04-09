@@ -32,35 +32,29 @@
 
 /**
  * @class Deluge.RemoveWindow
+ * @extends Ext.Window
  */
 Deluge.RemoveWindow = Ext.extend(Ext.Window, {
-
-	constructor: function(config) {
-		config = Ext.apply({
-			title: _('Remove Torrent'),
-			layout: 'fit',
-			width: 350,
-			height: 100,
-			buttonAlign: 'right',
-			closeAction: 'hide',
-			closable: true,
-			plain: true,
-			iconCls: 'x-deluge-remove-window-icon'
-		}, config);
-		Deluge.RemoveWindow.superclass.constructor.call(this, config);
-	},
+    
+    title:  _('Remove Torrent'),
+    layout: 'fit',
+    width:  350,
+	height: 100,
+    
+    buttonAlign: 'right',
+    closeAction: 'hide',
+    closable:    true,
+    iconCls:     'x-deluge-remove-window-icon',
+    plain:       true,
+    
+    bodyStyle: 'padding: 5px; padding-left: 10px;',
+    html: 'Are you sure you wish to remove the torrent (s)?',
 	
 	initComponent: function() {
 		Deluge.RemoveWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancel, this);
 		this.addButton(_('Remove With Data'), this.onRemoveData, this);
 		this.addButton(_('Remove Torrent'), this.onRemove, this);
-		
-		this.add({
-			border: false,
-			bodyStyle: 'padding: 5px; padding-left: 10px;',
-			html: 'Are you sure you wish to remove the torrent(s)?'
-		});
 	},
 	
 	remove: function(removeData) {
