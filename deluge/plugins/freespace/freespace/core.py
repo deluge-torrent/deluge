@@ -73,10 +73,7 @@ class Core(CorePluginBase):
                                                          DEFAULT_PREFS)
         self.notifications_sent = {}
 
-        if not self._timer:
-            self._timer = task.LoopingCall(self.update)
-        else:
-            self._timer.stop()
+        self._timer = task.LoopingCall(self.update)
         self._interval = 60 * 5 # every 5 minutes
         if self.config['enabled']:
             self._timer.start(self._interval, False)
@@ -111,6 +108,8 @@ class Core(CorePluginBase):
             "PluginDisabledEvent", self.__on_plugin_disabled
         )
         self._cleanup.stop()
+        if self._timer.running:
+            self._timer.stop()
 
     def update(self):
         log.debug('Updating %s FreeSpace', self.__class__.__name__)
@@ -200,4 +199,3 @@ class Core(CorePluginBase):
                 log.debug("Removing old(%s) path from notified paths: %s",
                           when, path)
                 self.notifications_sent.pop(path)
-
