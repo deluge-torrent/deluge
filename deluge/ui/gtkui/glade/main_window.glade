@@ -28,8 +28,15 @@
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image1">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-add</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -37,8 +44,15 @@
                         <property name="label">_Create Torrent</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_createtorrent_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image2">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-new</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -46,11 +60,18 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_quitdaemon">
-                        <property name="label">Quit &amp; Shutdown Daemon</property>
+                        <property name="label">Quit &amp; _Shutdown Daemon</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_quitdaemon_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image3">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-quit</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -94,8 +115,15 @@
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_connectionmanager_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image4">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-network</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -208,33 +236,55 @@
                   <widget class="GtkMenu" id="menuitem2_menu1">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_homepage">
-                        <property name="label">Homepage</property>
+                        <property name="label">_Homepage</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_homepage_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image5">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-home</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_faq">
-                        <property name="label">FAQ</property>
+                        <property name="label">_FAQ</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="tooltip" translatable="yes">Frequently Asked Questions</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_faq_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image6">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-dialog-question</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_community">
-                        <property name="label">Community</property>
+                        <property name="label">_Community</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_community_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image7">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.4699999988079071</property>
+                            <property name="stock">gtk-info</property>
+                            <property name="icon-size">1</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -513,8 +563,15 @@
         <property name="label">_Expand All</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_expand_all_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image1">
+            <property name="visible">True</property>
+            <property name="stock">gtk-zoom-fit</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>
@@ -527,8 +584,15 @@
         <property name="label">_Do Not Download</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_donotdownload_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image2">
+            <property name="visible">True</property>
+            <property name="stock">gtk-no</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>
@@ -536,8 +600,15 @@
         <property name="label">_Normal Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_normal_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image3">
+            <property name="visible">True</property>
+            <property name="stock">gtk-yes</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>
@@ -545,8 +616,15 @@
         <property name="label">_High Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_high_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image4">
+            <property name="visible">True</property>
+            <property name="stock">gtk-go-up</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>
@@ -554,8 +632,15 @@
         <property name="label">Hi_ghest Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_highest_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image5">
+            <property name="visible">True</property>
+            <property name="stock">gtk-goto-top</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
   </widget>
@@ -1934,8 +2019,8 @@
                                           <widget class="GtkFileChooserButton" id="filechooser_move_completed">
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
-                                            <property name="local_only">False</property>
                                             <property name="action">select-folder</property>
+                                            <property name="local_only">False</property>
                                             <property name="title" translatable="yes">Select A Folder</property>
                                           </widget>
                                           <packing>
@@ -2585,12 +2670,19 @@
     <property name="visible">True</property>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem4">
-        <property name="label">Add Peer</property>
+        <property name="label">_Add Peer</property>
         <property name="visible">True</property>
         <property name="tooltip" translatable="yes">Add a peer by its IP</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_add_peer_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="image1">
+            <property name="visible">True</property>
+            <property name="stock">gtk-add</property>
+            <property name="icon-size">1</property>
+          </widget>
+        </child>
       </widget>
     </child>
   </widget>
