@@ -108,11 +108,18 @@ class Component(object):
             self._component_start_timer()
             return True
 
+        def on_start_fail(result):
+            self._component_state = "Stopped"
+            self._component_starting_deferred = None
+            log.error(result)
+            return result
+
         if self._component_state == "Stopped":
             if hasattr(self, "start"):
                 self._component_state = "Starting"
                 d = maybeDeferred(self.start)
                 d.addCallback(on_start)
+                d.addErrback(on_start_fail)
                 self._component_starting_deferred = d
             else:
                 d = maybeDeferred(on_start, None)
