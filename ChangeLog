@@ -4,6 +4,7 @@
 	* Implement #457 progress bars for folders
 	* Implement #1012 httpdownloader supports gzip decoding
 	* #496: Remove deprecated functions in favour of get_session_status()
+	* #1112: Fix renaming files in add torrent dialog
 
 ==== Blocklist ====
 	* Implement local blocklist support

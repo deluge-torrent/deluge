@@ -43,6 +43,7 @@ import sys
 import urlparse
 
 import chardet
+import locale
 
 try:
     from hashlib import sha1 as sha
@@ -67,9 +68,25 @@ def decode_string(s, encoding="utf8"):
     """
 
     try:
-        s = s.decode(encoding).encode("utf8")
+        s = s.decode(encoding).encode("utf8", "ignore")
     except UnicodeDecodeError:
-        s = s.decode(chardet.detect(s)["encoding"]).encode("utf8")
+        s = s.decode(chardet.detect(s)["encoding"], "ignore").encode("utf8", "ignore")
+    return s
+
+def utf8_encoded(s):
+    """
+    Returns a utf8 encoded string of s
+
+    :param s: (unicode) string to (re-)encode
+    :type s: basestring
+    :returns: a utf8 encoded string of s
+    :rtype: str
+
+    """
+    if isinstance(s, str):
+        s = decode_string(s, locale.getpreferredencoding())
+    elif isinstance(s, unicode):
+        s = s.encode("utf8", "ignore")
     return s
 
 class TorrentInfo(object):

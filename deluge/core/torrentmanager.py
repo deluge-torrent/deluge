@@ -41,7 +41,6 @@ import os
 import time
 import shutil
 import operator
-import locale
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -57,6 +56,7 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
+from deluge.ui.common import utf8_encoded
 
 from deluge.log import LOG as log
 
@@ -388,8 +388,7 @@ class TorrentManager(component.Component):
             if options["mapped_files"]:
                 for index, name in options["mapped_files"].items():
                     log.debug("renaming file index %s to %s", index, name)
-                    torrent_info.rename_file(index, 
-                        name.encode("utf-8").decode(locale.getpreferredencoding(), "ignore"))
+                    torrent_info.rename_file(index, utf8_encoded(name))
 
             add_torrent_params["ti"] = torrent_info
             add_torrent_params["resume_data"] = ""
@@ -403,14 +402,8 @@ class TorrentManager(component.Component):
         else:
             storage_mode = lt.storage_mode_t(1)
 
-        try:
-            # Try to encode this as utf8 if needed
-            options["download_location"] = options["download_location"].encode("utf8")
-        except UnicodeDecodeError:
-            pass
-
         # Fill in the rest of the add_torrent_params dictionary
-        add_torrent_params["save_path"] = options["download_location"]
+        add_torrent_params["save_path"] = utf8_encoded(options["download_location"])
         add_torrent_params["storage_mode"] = storage_mode
         add_torrent_params["paused"] = True
         add_torrent_params["auto_managed"] = False
