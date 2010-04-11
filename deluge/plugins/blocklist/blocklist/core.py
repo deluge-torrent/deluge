@@ -323,6 +323,7 @@ class Core(CorePluginBase):
             log.debug("Latest blocklist is already imported")
             return defer.succeed(blocklist)
 
+        self.pause_transfers()
         self.is_importing = True
         self.num_blocked = 0
         self.blocklist = self.core.session.get_ip_filter()
@@ -362,6 +363,7 @@ class Core(CorePluginBase):
             else:
                 log.debug("Copying %s to %s", blocklist, cache)
                 d = threads.deferToThread(shutil.copy, blocklist, cache)
+        self.resume_transfers()
         return d
 
     def on_import_error(self, f):
@@ -394,6 +396,8 @@ class Core(CorePluginBase):
         if try_again:
             d = self.import_list(blocklist)
             d.addCallbacks(self.on_import_complete, self.on_import_error)
+        else:
+            self.resume_transfers()
 
         return d
 
@@ -413,3 +417,12 @@ class Core(CorePluginBase):
             raise UnknownFormatError
         else:
             self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
+
+    def pause_transfers(self):
+        self.session_was_paused = self.core.session.is_paused()
+        if not self.session_was_paused:
+            self.core.session.pause()
+
+    def resume_transfers(self):
+        if not self.session_was_paused:
+            self.core.session.resume()

@@ -8,6 +8,7 @@
 
 ==== Blocklist ====
 	* Implement local blocklist support
+	* #861: Pause transfers until blocklist is imported
 
 ==== Web ====
 	* Migrate to ExtJS 3.1
