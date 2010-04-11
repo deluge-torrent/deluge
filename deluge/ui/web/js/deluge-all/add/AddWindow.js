@@ -194,7 +194,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			this.file.on('add', this.onTorrentAdd, this);
 		}
 	
-		this.optionsPanel.getDefaults();
+		this.optionsPanel.form.getDefaults();
 	},
 
 	onTorrentBeforeAdd: function(torrentId, text) {
