@@ -48,18 +48,32 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 
 	columns: [{
 		header: _('Filename'),
-		width: 275,
+		width: 295,
 		dataIndex: 'filename'
 	},{
 		header: _('Size'),
-		width: 80,
+		width: 60,
 		dataIndex: 'size',
 		tpl: new Ext.XTemplate('{size:this.fsize}', {
 			fsize: function(v) {
 				return fsize(v);
 			}
 		})
+	},{
+		header: _('Download'),
+		width: 65,
+		dataIndex: 'download',
+		tpl: new Ext.XTemplate('{download:this.format}', {
+			format: function(v) {
+				return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
+			}
+		})
 	}],
+
+	initComponent: function() {
+		Deluge.add.FilesTab.superclass.initComponent.call(this);
+		this.on('click', this.onNodeClick, this);
+	},
 
 	clearFiles: function() {
 		var root = this.getRootNode();
@@ -68,6 +82,13 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			if (!node.parentNode || !node.getOwnerTree()) return;
 			node.remove();
 		});
+	},
+
+	onNodeClick: function(node, e) {
+		node.attributes.download = !node.attributes.download;
+		var newNode = new Ext.tree.TreeNode(node.attributes);
+		node.parentNode.replaceChild(newNode, node);
+		this.fireEvent('filechecked', newNode, node.attributes.download, !node.attributes.download);
 	},
 
 	onFolderCheck: function(node, checked) {
@@ -81,11 +102,5 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			priorities[child.attributes.fileindex] = checked;
 		}, this);
 		this.optionsManager.setDefault('file_priorities', priorities);
-	},
-
-	onNodeCheck: function(node, checked) {
-		var priorities = this.optionsManager.get('file_priorities');
-		priorities[node.attributes.fileindex] = checked;
-		this.optionsManager.update('file_priorities', priorities);
 	}
 });

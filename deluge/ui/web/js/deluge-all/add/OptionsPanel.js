@@ -45,13 +45,8 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		Deluge.add.OptionsPanel.superclass.initComponent.call(this);
 		this.files = this.add(new Deluge.add.FilesTab());
 		this.form = this.add(new Deluge.add.OptionsTab());
-		//this.form.on('render', this.onFormRender, this);
-	},
 
-	onFormRender: function(form) {
-		form.layout = new Ext.layout.FormLayout();
-		form.layout.setContainer(form);
-		form.doLayout();
+		this.files.on('filechecked', this.onFileChecked, this);
 	},
 
 	addTorrent: function(torrent) {
@@ -106,7 +101,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 				var folder = new Ext.tree.TreeNode({
 					filename: filename,
 					size: entry.length,
-					checked: true
+					download: true
 				});
 				folder.on('checkchange', this.onFolderCheck, this);
 				parentNode.appendChild(folder);
@@ -117,7 +112,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 					fileindex: entry.index,
 					size: entry.length,
 					leaf: true,
-					checked: priorities[entry.index],
+					download: priorities[entry.index],
 					uiProvider: Ext.tree.ColumnNodeUI
 				});
 				node.on('checkchange', this.onNodeCheck, this);
@@ -140,5 +135,11 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		
 			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
 		}
+	},
+
+	onFileChecked: function(node, newValue, oldValue) {
+		var priorities = this.form.optionsManager.get('file_priorities');
+		priorities[node.attributes.fileindex] = newValue;
+		this.form.optionsManager.update('file_priorities', priorities);
 	}
 });
