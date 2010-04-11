@@ -592,7 +592,7 @@ class ServerContextFactory:
         log.debug("Pkey: %s", deluge_web.pkey)
         log.debug("Cert: %s", deluge_web.cert)
         ctx.use_privatekey_file(configmanager.get_config_dir(deluge_web.pkey))
-        ctx.use_certificate_file(configmanager.get_config_dir(deluge_web.cert))
+        ctx.use_certificate_chain_file(configmanager.get_config_dir(deluge_web.cert))
         return ctx
 
 class DelugeWeb(component.Component):
