@@ -120,14 +120,14 @@ class Core(CorePluginBase):
 
     @export
     def set_config(self, config):
-        "sets the config dictionary"
+        \"\"\"Sets the config dictionary\"\"\"
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
 
     @export
     def get_config(self):
-        "returns the config dictionary"
+        \"\"\"Returns the config dictionary\"\"\"
         return self.config.config
 """
 
@@ -324,13 +324,13 @@ Copyright:
 		}, config);
 		%(name)sPlugin.superclass.constructor.call(this, config);
 	},
-	
+
 	onDisable: function() {
-		
+
 	},
-	
+
 	onEnable: function() {
-		
+
 	}
 });
 new %(name)sPlugin();
