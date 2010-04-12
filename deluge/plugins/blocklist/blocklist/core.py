@@ -94,6 +94,7 @@ class Core(CorePluginBase):
 
         update_now = False
         if self.config["load_on_start"]:
+            self.pause_transfers()
             if self.config["last_update"]:
                 last_update = datetime.fromtimestamp(self.config["last_update"])
                 check_period = timedelta(days=self.config["check_after_days"])
@@ -102,6 +103,7 @@ class Core(CorePluginBase):
             else:
                 d = self.import_list(deluge.configmanager.get_config_dir("blocklist.cache"))
                 d.addCallbacks(self.on_import_complete, self.on_import_error)
+                d.addBoth(self.resume_transfers)
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
@@ -147,6 +149,7 @@ class Core(CorePluginBase):
         else:
             d = self.import_list(self.config["url"])
         d.addCallbacks(self.on_import_complete, self.on_import_error)
+        d.addBoth(self.resume_transfers)
 
         return d
 
@@ -323,7 +326,6 @@ class Core(CorePluginBase):
             log.debug("Latest blocklist is already imported")
             return defer.succeed(blocklist)
 
-        self.pause_transfers()
         self.is_importing = True
         self.num_blocked = 0
         self.blocklist = self.core.session.get_ip_filter()
@@ -363,7 +365,6 @@ class Core(CorePluginBase):
             else:
                 log.debug("Copying %s to %s", blocklist, cache)
                 d = threads.deferToThread(shutil.copy, blocklist, cache)
-        self.resume_transfers()
         return d
 
     def on_import_error(self, f):
@@ -396,8 +397,6 @@ class Core(CorePluginBase):
         if try_again:
             d = self.import_list(blocklist)
             d.addCallbacks(self.on_import_complete, self.on_import_error)
-        else:
-            self.resume_transfers()
 
         return d
 
@@ -423,6 +422,8 @@ class Core(CorePluginBase):
         if not self.session_was_paused:
             self.core.session.pause()
 
-    def resume_transfers(self):
+    def resume_transfers(self, result):
         if not self.session_was_paused:
+            self.session_was_paused = True
             self.core.session.resume()
+        return result
