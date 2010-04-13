@@ -225,6 +225,31 @@ class Core(CorePluginBase):
                 }
             )
 
+    def _unset_torrent_options(self, torrent_id, label_id):
+        options = self.labels[label_id]
+        torrent = self.torrents[torrent_id]
+
+        if options["apply_max"]:
+            torrent.set_max_download_speed(self.core_cfg.config["max_download_speed_per_torrent"])
+            torrent.set_max_upload_speed(self.core_cfg.config["max_upload_speed_per_torrent"])
+            torrent.set_max_connections(self.core_cfg.config["max_connections_per_torrent"])
+            torrent.set_max_upload_slots(self.core_cfg.config["max_upload_slots_per_torrent"])
+            torrent.set_prioritize_first_last(self.core_cfg.config["prioritize_first_last_pieces"])
+
+        if options["apply_queue"]:
+            torrent.set_auto_managed(self.core_cfg.config['auto_managed'])
+            torrent.set_stop_at_ratio(self.core_cfg.config['stop_seed_at_ratio'])
+            torrent.set_stop_ratio(self.core_cfg.config['stop_seed_ratio'])
+            torrent.set_remove_at_ratio(self.core_cfg.config['remove_seed_at_ratio'])
+
+        if options["apply_move_completed"]:
+            torrent.set_options(
+                {
+                    "move_completed": self.core_cfg.config["move_completed"],
+                    "move_completed_path": self.core_cfg.config["move_completed_path"]
+                }
+            )
+
     def _has_auto_match(self, torrent ,label_options):
         """match for auto_add fields"""
         for tracker_match in label_options["auto_add_trackers"]:
@@ -287,11 +312,11 @@ class Core(CorePluginBase):
         CheckInput((not label_id) or (label_id in self.labels)  , _("Unknown Label"))
         CheckInput(torrent_id in self.torrents  , _("Unknown Torrent"))
 
-        if not label_id:
-            if torrent_id in self.torrent_labels:
-                del self.torrent_labels[torrent_id]
-                self.clean_config()
-        else:
+        if torrent_id in self.torrent_labels:
+            self._unset_torrent_options(torrent_id, self.torrent_labels[torrent_id])
+            del self.torrent_labels[torrent_id]
+            self.clean_config()
+        if label_id:
             self.torrent_labels[torrent_id] = label_id
             self._set_torrent_options(torrent_id, label_id)
 
