@@ -210,23 +210,12 @@ class Core(CorePluginBase):
             torrent.set_max_connections(options["max_connections"])
             torrent.set_max_upload_slots(options["max_upload_slots"])
             torrent.set_prioritize_first_last(options["prioritize_first_last"])
-        else:
-            torrent.set_max_download_speed(-1)
-            torrent.set_max_upload_speed(-1)
-            torrent.set_max_connections(-1)
-            torrent.set_max_upload_slots(-1)
-            torrent.set_prioritize_first_last(False)
 
         if options["apply_queue"]:
             torrent.set_auto_managed(options['is_auto_managed'])
             torrent.set_stop_at_ratio(options['stop_at_ratio'])
             torrent.set_stop_ratio(options['stop_ratio'])
             torrent.set_remove_at_ratio(options['remove_at_ratio'])
-        else:
-            torrent.set_auto_managed(True)
-            torrent.set_stop_at_ratio(False)
-            torrent.set_stop_ratio(False)
-            torrent.set_remove_at_ratio(False)
 
         if options["apply_move_completed"]:
             torrent.set_options(
