@@ -901,6 +901,7 @@ class TorrentManager(component.Component):
         except:
             return
         torrent.set_save_path(alert.handle.save_path())
+        torrent.set_move_completed(False)
 
     def on_alert_torrent_resumed(self, alert):
         log.debug("on_alert_torrent_resumed")
