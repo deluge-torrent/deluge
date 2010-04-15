@@ -64,6 +64,24 @@ if not hasattr(json, "dumps"):
 
 import pkg_resources
 import xdg, xdg.BaseDirectory
+import gettext
+import locale
+
+# Initialize gettext
+try:
+    if hasattr(locale, "bindtextdomain"):
+        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    if hasattr(locale, "textdomain"):
+        locale.textdomain("deluge")
+    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    gettext.textdomain("deluge")
+    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+except Exception, e:
+    from deluge.log import LOG as log
+    log.error("Unable to initialize gettext/locale!")
+    log.exception(e)
+    import __builtin__
+    __builtin__.__dict__["_"] = lambda x: x
 
 from deluge.error import *
 
