@@ -79,7 +79,7 @@ class TrackerIcons(component.Component):
         #set image cache dir
         self.image_dir = os.path.join(deluge.configmanager.get_config_dir(), "icons")
         if not os.path.exists(self.image_dir):
-            os.mkdir(self.image_dir)
+            os.makedirs(self.image_dir)
 
         #self.images : {tracker_host:filename}
         self.images = {"DHT":get_pixmap("dht16.png" )}
