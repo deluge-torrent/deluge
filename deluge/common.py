@@ -358,17 +358,17 @@ def ftime(seconds):
 
 def fdate(seconds):
     """
-    Formats a date string in the locale's date representation based on the systems timezone
+    Formats a date time string in the locale's date representation based on the systems timezone
 
     :param seconds: time in seconds since the Epoch
     :type seconds: float
-    :returns: a string in the locale's date representation or "" if seconds < 0
+    :returns: a string in the locale's datetime representation or "" if seconds < 0
     :rtype: string
 
     """
     if seconds < 0:
         return ""
-    return time.strftime("%x", time.localtime(seconds))
+    return time.strftime("%x %X", time.localtime(seconds))
 
 def is_url(url):
     """
