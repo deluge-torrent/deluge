@@ -80,7 +80,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 			},
 			items: [{
 				fieldLabel: 'From',
-				width: 80,
+				width: 50,
 				strategy: {
 					xtype: 'number',
 					decimalPrecision: 0,
@@ -89,7 +89,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
 				}
 			}, {
 				fieldLabel: 'To',
-				width: 80,
+				width: 50,
 				strategy: {
 					xtype: 'number',
 					decimalPrecision: 0,
