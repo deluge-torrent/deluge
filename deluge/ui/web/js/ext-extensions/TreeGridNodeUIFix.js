@@ -33,6 +33,8 @@
 Ext.override(Ext.ux.tree.TreeGridNodeUI, {
 
 	updateColumns: function() {
+		if (!this.rendered) return;
+		
 		var a = this.node.attributes,
 			t = this.node.getOwnerTree(),
 			cols = t.columns,
