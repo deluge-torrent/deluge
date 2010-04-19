@@ -56,7 +56,9 @@ Deluge.Formatters = {
 		}
 		timestamp = timestamp * 1000;
 		var date = new Date(timestamp);
-		return String.format('{0}/{1}/{2}', zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear());
+		return String.format('{0}/{1}/{2} {3}:{4}:{5}',
+			zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear(),
+			zeroPad(date.getHours()), zeroPad(date.getMinutes()), zeroPad(date.getSeconds()));
 	},
 	
 	/**
