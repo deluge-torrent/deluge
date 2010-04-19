@@ -49,21 +49,10 @@ class StatusBars(component.Component):
         self.upload = ""
         self.dht = 0
 
-        # This lets us know when the CoreConfig component is ready
-        self.__core_config_ready = False
-
     def start(self):
-        def on_coreconfig_ready(result):
-            self.__core_config_ready = True
-            self.update()
-
-        # We need to add a callback to wait for the CoreConfig to be ready
-        self.config.start_defer.addCallback(on_coreconfig_ready)
+        self.update()
 
     def update(self):
-        if not self.__core_config_ready:
-            return
-
         def on_get_num_connections(result):
             self.connections = result
         client.core.get_num_connections().addCallback(on_get_num_connections)

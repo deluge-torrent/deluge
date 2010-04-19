@@ -58,32 +58,18 @@ def atom(next, token):
             if token[1] == ",":
                 token = next()
         return tuple(out)
-    elif token[0] is tokenize.STRING:
-        return token[1][1:-1].decode("string-escape")
-    elif token[1] == "/":
-        count = token[-1].count("/")
-        # Check for a trailing / since it messes things up
-        trail = False
-        if token[-1][-1] == "/":
-            count -= 1
-            trail = True
-        for i in xrange(count * 2 - 1):
-            token = next()
-        # Check for trailing / and remove it
-        path = token[-1].decode("string-escape")
-        if trail:
-            path = path[0:-1]
-            token = next()
-        return path
-    elif token[0] is tokenize.NUMBER:
+    elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
-            return int(token[1], 0)
+            return int(token[-1], 0)
         except ValueError:
-            return float(token[1])
+            return float(token[-1])
     elif token[1].lower() == 'true':
         return True
     elif token[1].lower() == 'false':
         return False
+    elif token[0] is tokenize.STRING or token[1] == "/":
+        return token[-1].decode("string-escape")
+
     raise SyntaxError("malformed expression (%s)" % token[1])
 
 def simple_eval(source):
@@ -93,8 +79,6 @@ def simple_eval(source):
     src = tokenize.generate_tokens(src)
     src = (token for token in src if token[0] is not tokenize.NL)
     res = atom(src.next, src.next())
-    if src.next()[0] is not tokenize.ENDMARKER:
-        raise SyntaxError("bogus data after expression")
     return res
 
 
@@ -117,44 +101,38 @@ class Command(BaseCommand):
 
     def _get_config(self, *args, **options):
         deferred = defer.Deferred()
-        def on_get_config(result):
-            config = component.get("CoreConfig")
-            keys = config.keys()
-            keys.sort()
-            s = ""
-            for key in keys:
-                if args and key not in args:
-                    continue
-                color = "{!white,black,bold!}"
-                value = config[key]
-                if type(value) in colors.type_color:
-                    color = colors.type_color[type(value)]
+        config = component.get("CoreConfig")
+        keys = config.keys()
+        keys.sort()
+        s = ""
+        for key in keys:
+            if args and key not in args:
+                continue
+            color = "{!white,black,bold!}"
+            value = config[key]
+            if type(value) in colors.type_color:
+                color = colors.type_color[type(value)]
 
-                # We need to format dicts for printing
-                if isinstance(value, dict):
-                    import pprint
-                    value = pprint.pformat(value, 2, 80)
-                    new_value = []
-                    for line in value.splitlines():
-                        new_value.append("%s%s" % (color, line))
-                    value = "\n".join(new_value)
+            # We need to format dicts for printing
+            if isinstance(value, dict):
+                import pprint
+                value = pprint.pformat(value, 2, 80)
+                new_value = []
+                for line in value.splitlines():
+                    new_value.append("%s%s" % (color, line))
+                value = "\n".join(new_value)
 
-                s += "  %s: %s%s\n" % (key, color, value)
+            s += "  %s: %s%s\n" % (key, color, value)
 
-            self.console.write(s)
-            deferred.callback(True)
-            return config
-
-        # We need to ensure the config dict has been received first
-        component.get("CoreConfig").start_defer.addCallback(on_get_config)
-
-        return deferred
+        self.console.write(s)
+        return config
 
     def _set_config(self, *args, **options):
         deferred = defer.Deferred()
         config = component.get("CoreConfig")
         key = options["set"][0]
-        val = options["set"][1]
+        val = simple_eval(options["set"][1] + " " + " ".join(args))
+
         if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)
             return
@@ -170,6 +148,7 @@ class Command(BaseCommand):
             self.console.write("{!success!}Configuration value successfully updated.")
             deferred.callback(True)
 
+        self.console.write("Setting %s to %s.." % (key, val))
         client.core.set_config({key: val}).addCallback(on_set_config)
         return deferred
 

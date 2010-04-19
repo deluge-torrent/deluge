@@ -52,7 +52,7 @@ class CoreConfig(component.Component):
             self.config = config
             return config
 
-        self.start_defer = client.core.get_config().addCallback(on_get_config)
+        return client.core.get_config().addCallback(on_get_config)
 
     def stop(self):
         self.config = {}
