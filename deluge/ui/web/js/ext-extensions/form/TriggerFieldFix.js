@@ -29,6 +29,8 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
+
+if (Ext.isWebKit) {
 Ext.override(Ext.form.TriggerField, {
 	onResize: function(w, h) {
 		Ext.form.TriggerField.superclass.onResize.call(this, w, h);
@@ -39,3 +41,4 @@ Ext.override(Ext.form.TriggerField, {
 		this.wrap.setWidth(w);
 	}
 });
+}
