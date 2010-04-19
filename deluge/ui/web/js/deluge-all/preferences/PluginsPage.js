@@ -200,14 +200,21 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				}]
 			})
 		});
-	
-		var fieldset = this.add({
-			xtype: 'fieldset',
-			border: false,
-			region: 'south',
-			title: _('Info'),
+
+		var pp = this.pluginInfo = this.add({
+			xtype:     'panel',
+			border:     true,
+			height:     160,
+			region:    'south',
+			margins:   '0 5 5 5'
+		});
+		var fieldset = pp.add({
+			xtype:     'fieldset',
+			title:   _('Info'),
+			border:     false,
 			autoHeight: true,
-			labelWidth: 1
+			labelWidth: 1,
+			style:     'margin-top: 5px;',
 		});
 		this.pluginInfo = fieldset.add({
 			xtype: 'panel',
