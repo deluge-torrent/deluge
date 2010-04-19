@@ -97,27 +97,15 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		var priorities = this.form.optionsManager.get('file_priorities');
 
 		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
-			if (type == 'dir') {
-				var folder = new Ext.tree.TreeNode({
-					filename: filename,
-					size: entry.length,
-					download: true
-				});
-				folder.on('checkchange', this.onFolderCheck, this);
-				parentNode.appendChild(folder);
-				return folder;
-			} else {
-				var node = new Ext.tree.TreeNode({
-					filename: filename,
-					fileindex: entry.index,
-					size: entry.length,
-					leaf: true,
-					download: priorities[entry.index],
-					uiProvider: Ext.tree.ColumnNodeUI
-				});
-				node.on('checkchange', this.onNodeCheck, this);
-				parentNode.appendChild(node);
-			}
+			var node = new Ext.tree.TreeNode({
+				download:  (entry.index) ? priorities[entry.index] : true,
+				filename:  filename,
+				fileindex: entry.index,
+				leaf:      type != 'dir',
+				size:      entry.length
+			});
+			parentNode.appendChild(node);
+			if (type == 'dir') return node;
 		}, this, root);
 		root.firstChild.expand();
 	},
@@ -138,6 +126,31 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 	},
 
 	onFileChecked: function(node, newValue, oldValue) {
+		if (!Ext.isNumber(node.attributes.fileindex)) return;
+
+//		if (this.form.optionsManager.get('compact_allocation')) {
+//			Ext.Msg.show({
+//				title: _('Unable to set file priority!'),
+//				msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
+//				buttons: Ext.Msg.YESNO,
+//				fn: function(result) {
+//					if (result == 'yes') {
+//						var priorities = this.form.optionsManager.get('file_priorities');
+//						priorities[node.attributes.fileindex] = (result) ? newValue : oldValue;
+//						this.form.optionsManager.update('file_priorities', priorities);
+//					} else {
+//						node.attributes.download = oldValue;
+//						node.ui.updateColumns();
+//					}	
+//				},
+//				scope: this,
+//				icon: Ext.MessageBox.QUESTION
+//			});
+//		} else {
+//			var priorities = this.form.optionsManager.get('file_priorities');
+//			priorities[node.attributes.fileindex] = newValue;
+//			this.form.optionsManager.update('file_priorities', priorities);
+//		}
 		var priorities = this.form.optionsManager.get('file_priorities');
 		priorities[node.attributes.fileindex] = newValue;
 		this.form.optionsManager.update('file_priorities', priorities);

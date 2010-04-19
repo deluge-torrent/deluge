@@ -65,7 +65,7 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		dataIndex: 'download',
 		tpl: new Ext.XTemplate('{download:this.format}', {
 			format: function(v) {
-				return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
+				return '<div rel="chkbox" class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
 			}
 		})
 	}],
@@ -84,23 +84,25 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		});
 	},
 
-	onNodeClick: function(node, e) {
-		node.attributes.download = !node.attributes.download;
-		var newNode = new Ext.tree.TreeNode(node.attributes);
-		node.parentNode.replaceChild(newNode, node);
-		this.fireEvent('filechecked', newNode, node.attributes.download, !node.attributes.download);
+	setDownload: function(node, value) {
+		node.attributes.download = value;
+		node.ui.updateColumns();
+
+		if (node.isLeaf()) {
+			return this.fireEvent('filechecked', node, value, !value);
+		} else {
+			node.cascade(function(n) {
+				n.attributes.download = value;
+				n.ui.updateColumns();
+				return this.fireEvent('filechecked', n, value, !value);
+			}, this);
+		}
 	},
 
-	onFolderCheck: function(node, checked) {
-		var priorities = this.optionsManager.get('file_priorities');
-		node.cascade(function(child) {
-			if (!child.ui.checkbox) {
-				child.attributes.checked = checked;
-			} else {
-				child.ui.checkbox.checked = checked;
-			}
-			priorities[child.attributes.fileindex] = checked;
-		}, this);
-		this.optionsManager.setDefault('file_priorities', priorities);
+	onNodeClick: function(node, e) {
+		var el = new Ext.Element(e.target);
+		if (el.getAttribute('rel') == 'chkbox') {
+			this.setDownload(node, !node.attributes.download);
+		}
 	}
 });
