@@ -62,6 +62,7 @@ class AddTorrentDialog(component.Component):
                 "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
 
         self.dialog = self.glade.get_widget("dialog_add_torrent")
+        self.dialog.set_local_only(False)
 
         self.dialog.connect("delete-event", self._on_delete_event)
 
