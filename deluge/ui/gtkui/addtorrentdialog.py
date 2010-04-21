@@ -62,7 +62,6 @@ class AddTorrentDialog(component.Component):
                 "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
 
         self.dialog = self.glade.get_widget("dialog_add_torrent")
-        self.dialog.set_local_only(False)
 
         self.dialog.connect("delete-event", self._on_delete_event)
 
@@ -485,10 +484,10 @@ class AddTorrentDialog(component.Component):
                 if response == gtk.RESPONSE_YES:
                     self.options[model[row][0]]["compact_allocation"] = False
                     self.update_torrent_options(model[row][0])
-                
+
             d = dialogs.YesNoDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation.  Would you like to switch to Full allocation?"), self.dialog).run()
             d.addCallback(on_answer)
-            
+
             return
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
         if len(paths) > 1:
