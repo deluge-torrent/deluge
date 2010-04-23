@@ -79,8 +79,8 @@ deluge.ui = {
 			url: deluge.config.base + 'json'
 		});
 	
-		for (var plugin in deluge.dlugins) {
-			plugin = deluge.plugins[plugin];
+		for (var plugin in Deluge.plugins) {
+			plugin = new Deluge.plugins[plugin]();
 			plugin.enable();
 		}
 

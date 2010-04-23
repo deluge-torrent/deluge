@@ -336,7 +336,7 @@ class ScriptResource(resource.Resource, component.Component):
         """
         Adds a folder of scripts to the script resource.
 
-        :param path: The path of the script (this supports globbing)
+        :param path: The path of the folder
         :type path: string
         :param filepath: The physical location of the script
         :type filepath: string
@@ -350,6 +350,22 @@ class ScriptResource(resource.Resource, component.Component):
 
         self.__scripts[type]["scripts"][path] = (filepath, recurse)
         self.__scripts[type]["order"].append(path)
+
+    def remove_script(self, path, type=None):
+    	"""
+    	Removes a script or folder of scripts from the script resource.
+
+		:param path: The path of the folder
+        :type path: string
+        :keyword type: The type of script to add (normal, debug, dev)
+        :param type: string
+        """
+        if type not in ("dev", "debug", "normal"):
+            type = "normal"
+
+        del self.__scripts[type]["scripts"][path]
+        self.__scripts[type]["order"].remove(path)
+    	
 
     def get_scripts(self, type=None):
         """
@@ -457,22 +473,22 @@ class TopLevel(resource.Resource):
         js = ScriptResource()
 
         # configure the dev scripts
-        js.add_script("ext-base.js", rpath("js", "ext-base-debug.js"), "dev")
-        js.add_script("ext-all.js", rpath("js", "ext-all-debug.js"), "dev")
+        js.add_script("ext-base-debug.js", rpath("js", "ext-base-debug.js"), "dev")
+        js.add_script("ext-all-debug.js", rpath("js", "ext-all-debug.js"), "dev")
         js.add_script_folder("ext-extensions", rpath("js", "ext-extensions"), "dev")
         js.add_script_folder("deluge-all", rpath("js", "deluge-all"), "dev")
 
         # configure the debug scripts
-        js.add_script("ext-base.js", rpath("js", "ext-base-debug.js"), "debug")
-        js.add_script("ext-all.js", rpath("js", "ext-all-debug.js"), "debug")
-        js.add_script("ext-extensions.js", rpath("js", "ext-extensions-debug.js"), "debug")
-        js.add_script("deluge-all.js", rpath("js", "deluge-all-debug.js"), "debug")
+        js.add_script("ext-base-debug.js", rpath("js", "ext-base-debug.js"), "debug")
+        js.add_script("ext-all-debug.js", rpath("js", "ext-all-debug.js"), "debug")
+        js.add_script("ext-extensions-debug.js", rpath("js", "ext-extensions-debug.js"), "debug")
+        js.add_script("deluge-all-debug.js", rpath("js", "deluge-all-debug.js"), "debug")
 
         # configure the normal scripts
-        js.add_script("ext-base.js", rpath("js", "ext-base.js"), "debug")
-        js.add_script("ext-all.js", rpath("js", "ext-all.js"), "debug")
-        js.add_script("ext-extensions.js", rpath("js", "ext-extensions.js"), "debug")
-        js.add_script("deluge-all.js", rpath("js", "deluge-all.js"), "debug")
+        js.add_script("ext-base.js", rpath("js", "ext-base.js"))
+        js.add_script("ext-all.js", rpath("js", "ext-all.js"))
+        js.add_script("ext-extensions.js", rpath("js", "ext-extensions.js"))
+        js.add_script("deluge-all.js", rpath("js", "deluge-all.js"))
 
         self.putChild("js", js)
 
@@ -486,18 +502,6 @@ class TopLevel(resource.Resource):
         if not os.path.isfile(rpath("themes", "css", "xtheme-%s.css" % theme)):
             theme = CONFIG_DEFAULTS.get("theme")
         self.__stylesheets.insert(1, "themes/css/xtheme-%s.css" % theme)
-
-    @property
-    def scripts(self):
-        return self.__scripts
-
-    @property
-    def debug_scripts(self):
-        return self.__debug_scripts
-
-    @property
-    def dev_scripts(self):
-        return self.__dev_scripts
 
     @property
     def stylesheets(self):

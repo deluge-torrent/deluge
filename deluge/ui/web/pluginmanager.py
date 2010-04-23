@@ -87,23 +87,14 @@ class PluginManager(PluginManagerBase, component.Component):
             return
         
         info = gather_info(plugin)
-        
-        server = component.get("DelugeWeb").top_level
-        js = component.get("Javascript")
-        for directory in info["script_directories"]:
-            js.removeDirectory(directory, name.lower())
-        
+
+        scripts = component.get("Scripts")
         for script in info["scripts"]:
-            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
-            if script not in server.scripts:
-                continue
-            server.scripts.remove(script)
+            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
         
         for script in info["debug_scripts"]:
-            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
-            if script not in server.debug_scripts:
-                continue
-            server.debug_scripts.remove(script)
+            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
+            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
         
         super(PluginManager, self).disable_plugin(name)
     
@@ -119,22 +110,15 @@ class PluginManager(PluginManagerBase, component.Component):
         
         info = gather_info(plugin)
         
-        server = component.get("DelugeWeb").top_level
-        js = component.get("Javascript")
-        for directory in info["script_directories"]:
-            js.addDirectory(directory, name.lower())
-        
+        scripts = component.get("Scripts")
         for script in info["scripts"]:
-            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
-            if script in server.scripts:
-                continue
-            server.scripts.append(script)
-        
+            log.debug("adding script %s for %s", name, os.path.basename(script))
+            scripts.add_script("%s/%s" % (name.lower(), os.path.basename(script)), script)
+
         for script in info["debug_scripts"]:
-            script = "/js/%s/%s" % (name.lower(), os.path.basename(script))
-            if script in server.debug_scripts:
-                continue
-            server.debug_scripts.append(script)
+            log.debug("adding debug script %s for %s", name, os.path.basename(script))
+            scripts.add_script("%s/%s" % (name.lower(), os.path.basename(script)), script, "debug")
+            scripts.add_script("%s/%s" % (name.lower(), os.path.basename(script)), script, "dev")
 
     def start(self):
         """

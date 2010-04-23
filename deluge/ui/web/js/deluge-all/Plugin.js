@@ -29,6 +29,7 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
+Ext.ns('Deluge');
 
 /**
  * @class Deluge.Plugin
@@ -44,9 +45,8 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 	name: null,
 
 	constructor: function(config) {
-		this.name = config.name;
+		this.isDelugePlugin = true;
 		this.addEvents({
-			
 			/**
 			 * @event enabled
 			 * @param {Plugin} plugin the plugin instance
@@ -59,8 +59,6 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 			 */
 			"disabled": true
 		});
-		this.isDelugePlugin = true;
-		Deluge.Plugins[this.name] = this;
 		Deluge.Plugin.superclass.constructor.call(this, config);
 	},
 	
@@ -82,3 +80,5 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 		if (this.onEnable) this.onEnable();
 	}
 });
+
+Ext.ns('Deluge.plugins');
