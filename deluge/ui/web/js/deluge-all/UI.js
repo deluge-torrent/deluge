@@ -75,6 +75,8 @@ deluge.ui = {
 	
 		deluge.events.on("connect", this.onConnect, this);
 		deluge.events.on("disconnect", this.onDisconnect, this);
+		deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
+		deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
 		deluge.client = new Ext.ux.util.RpcClient({
 			url: deluge.config.base + 'json'
 		});
@@ -82,6 +84,7 @@ deluge.ui = {
 		for (var plugin in Deluge.plugins) {
 			plugin = new Deluge.plugins[plugin]();
 			plugin.enable();
+			deluge.plugins[plugin.name] = plugin;
 		}
 
 		// Initialize quicktips so all the tooltip configs start working.
