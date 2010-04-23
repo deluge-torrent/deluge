@@ -363,8 +363,9 @@ class ScriptResource(resource.Resource, component.Component):
         if type not in ("dev", "debug", "normal"):
             type = "normal"
 
-        del self.__scripts[type]["scripts"][path]
-        self.__scripts[type]["order"].remove(path)
+        if path in self.__scripts[type]["scripts"]:
+            del self.__scripts[type]["scripts"][path]
+            self.__scripts[type]["order"].remove(path)
     	
 
     def get_scripts(self, type=None):
