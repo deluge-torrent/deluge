@@ -35,58 +35,55 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 // Add some additional functions to ext and setup some of the
 // configurable parameters
-(function() {
+Ext.apply(Ext, {
+	escapeHTML: function(text) {
+		text = String(text).replace('<', '&lt;').replace('>', '&gt;');
+		return text.replace('&', '&amp;');
+	},
 
-    Ext.apply(Ext, {
-		escapeHTML: function(text) {
-			text = String(text).replace('<', '&lt;').replace('>', '&gt;');
-			return text.replace('&', '&amp;');
-		},
-	
-		isObjectEmpty: function(obj) {
-			for(var i in obj) { return false; }
-			return true;
-		},
+	isObjectEmpty: function(obj) {
+		for(var i in obj) { return false; }
+		return true;
+	},
 
-		isObjectsEqual: function(obj1, obj2) {
-			var equal = true;
-			if (!obj1 || !obj2) return false;
-			for (var i in obj1) {
-				if (obj1[i] != obj2[i]) {
-					equal = false;
-				}
+	isObjectsEqual: function(obj1, obj2) {
+		var equal = true;
+		if (!obj1 || !obj2) return false;
+		for (var i in obj1) {
+			if (obj1[i] != obj2[i]) {
+				equal = false;
 			}
-			return equal;
-		},
-	    
-		keys: function(obj) {
-			var keys = [];
-			for (var i in obj) if (obj.hasOwnProperty(i))
-			{
-				keys.push(i);
-			}
-			return keys;
-		},
-
-		values: function(obj) {
-			var values = [];
-			for (var i in obj) {
-				if (obj.hasOwnProperty(i)) {
-					values.push(obj[i]);
-				}
-			}
-			return values;
-		},
-		    
-		splat: function(obj) {
-			var type = Ext.type(obj);
-			return (type) ? ((type != 'array') ? [obj] : obj) : [];
 		}
-    });
-    Ext.getKeys = Ext.keys;
-    Ext.BLANK_IMAGE_URL = deluge.config.base + 'images/s.gif';
-	Ext.USE_NATIVE_JSON = true;
-})();
+		return equal;
+	},
+	
+	keys: function(obj) {
+		var keys = [];
+		for (var i in obj) if (obj.hasOwnProperty(i))
+		{
+			keys.push(i);
+		}
+		return keys;
+	},
+
+	values: function(obj) {
+		var values = [];
+		for (var i in obj) {
+			if (obj.hasOwnProperty(i)) {
+				values.push(obj[i]);
+			}
+		}
+		return values;
+	},
+		
+	splat: function(obj) {
+		var type = Ext.type(obj);
+		return (type) ? ((type != 'array') ? [obj] : obj) : [];
+	}
+});
+Ext.getKeys = Ext.keys;
+Ext.BLANK_IMAGE_URL = deluge.config.base + 'images/s.gif';
+Ext.USE_NATIVE_JSON = true;
 
 // Create the Deluge namespace
 Ext.apply(Deluge, {
