@@ -45,3 +45,4 @@ from common import get_resource
 class WebUI(WebPluginBase):
     
     scripts = [get_resource("execute.js")]
+    debug_scripts = scripts
