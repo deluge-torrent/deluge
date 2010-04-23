@@ -30,20 +30,20 @@ Copyright:
     this exception statement from your version. If you delete this exception
     statement from all source files in the program, then also delete it here.
 */
-Ext.ns('Deluge.ux.execute');
+Ext.ns('Deluge.ux.preferences');
 
 /**
- * @class Deluge.ux.execute.ExecutePreferencesPage
+ * @class Deluge.ux.preferences.ExecutePage
  * @extends Ext.Panel
  */
-Deluge.ux.execute.ExecutePreferencesPage = Ext.extend(Ext.Panel, {
+Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 
 	title: _('Execute'),
 	layout: 'border',
 	border: false,
 	    
 	initComponent: function() {
-	    Deluge.ux.execute.ExecutePreferencesPage.superclass.initComponent.call(this);
+	    Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
 	    this.commands = this.add({
 			xtype: 'grid',
 			region: 'center',
@@ -89,7 +89,7 @@ Deluge.ux.execute.ExecutePreferencesPage = Ext.extend(Ext.Panel, {
 	},
 	
 	onShow: function() {
-	    Deluge.ux.execute.ExecutePreferencesPage.superclass.onShow.call(this);
+	    Deluge.ux.preferences.ExecutePage.superclass.onShow.call(this);
 	    deluge.client.execute.get_commands({
 			success: function(commands) {
 				this.commands.getStore().loadData(commands);
@@ -104,11 +104,10 @@ Deluge.plugins.ExecutePlugin = Ext.extend(Deluge.Plugin, {
 	name: 'Execute',
 	
 	onDisable: function() {
-	    Deluge.Preferences.removePage(this.prefsPage);
+	    deluge.preferences.removePage(this.prefsPage);
 	},
 	
 	onEnable: function() {
-		this.prefsPage = new Deluge.ux.execute.ExecutePreferencesPage();
-		this.prefsPage = deluge.preferences.addPage(this.prefsPage);
+		this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.ExecutePage());
 	}
 });
