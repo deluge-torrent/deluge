@@ -93,8 +93,8 @@ class PluginManager(PluginManagerBase, component.Component):
             scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
         
         for script in info["debug_scripts"]:
-            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
-            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
+            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()), "debug")
+            scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()), "dev")
         
         super(PluginManager, self).disable_plugin(name)
     
