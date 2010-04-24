@@ -162,7 +162,6 @@ deluge.ui = {
 	},
 
 	onPluginEnabled: function(pluginName) {
-		alert('enabled ' + pluginName);
 		if (deluge.plugins[pluginName]) {
 			deluge.plugins[pluginName].enable();
 		} else {
@@ -185,7 +184,6 @@ deluge.ui = {
 	},
 
 	onPluginDisabled: function(pluginName) {
-		alert('disabled ' + pluginName);
 		deluge.plugins[pluginName].disable();
 	},
 
