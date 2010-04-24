@@ -111,3 +111,4 @@ Deluge.plugins.ExecutePlugin = Ext.extend(Deluge.Plugin, {
 		this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.ExecutePage());
 	}
 });
+Deluge.registerPlugin('Execute', Deluge.plugins.ExecutePlugin);
