@@ -38,17 +38,17 @@
 #
 
 import os
+import pkg_resources
 from deluge.common import fspeed
 from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import WebPluginBase
 from deluge import component
 
+def get_resource(filename):
+    return pkg_resources.resource_filename("label", os.path.join("data", filename))
 
 class WebUI(WebPluginBase):
 
-    def enable(self):
-        pass
-
-    def disable(self):
-        pass
+    scripts = [get_resource("label.js")]
+    debug_scripts = scripts
