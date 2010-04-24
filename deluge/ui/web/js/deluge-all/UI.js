@@ -81,8 +81,9 @@ deluge.ui = {
 			url: deluge.config.base + 'json'
 		});
 	
-		for (var plugin in Deluge.plugins) {
-			plugin = new Deluge.plugins[plugin]();
+		// enable all the already active plugins
+		for (var plugin in Deluge.pluginStore) {
+			plugin = Deluge.createPlugin(plugin);
 			plugin.enable();
 			deluge.plugins[plugin.name] = plugin;
 		}
@@ -161,14 +162,19 @@ deluge.ui = {
 	},
 
 	onPluginEnabled: function(pluginName) {
-		deluge.client.web.get_plugin_resources(pluginName, {
-			success: this.onGotPluginResources,
-			scope: this
-		})
+		alert('enabled ' + pluginName);
+		if (deluge.plugins[pluginName]) {
+			deluge.plugins[pluginName].enable();
+		} else {
+			deluge.client.web.get_plugin_resources(pluginName, {
+				success: this.onGotPluginResources,
+				scope: this
+			});
+		}
 	},
 
 	onGotPluginResources: function(resources) {
-		var scripts = (deluge.debug) ? resources.debug_scripts : resources.scripts;
+		var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
 		Ext.each(scripts, function(script) {
 			Ext.ux.JSLoader({
 				url: script,
@@ -179,15 +185,18 @@ deluge.ui = {
 	},
 
 	onPluginDisabled: function(pluginName) {
+		alert('disabled ' + pluginName);
 		deluge.plugins[pluginName].disable();
 	},
 
 	onPluginLoaded: function(options) {
 		// This could happen if the plugin has multiple scripts
-		if (!deluge.plugins[options.pluginName]) return;
+		if (!Deluge.hasPlugin(options.pluginName)) return;
 
 		// Enable the plugin
-		deluge.plugins[options.pluginName].enable();
+		plugin = Deluge.createPlugin(options.pluginName);
+		plugin.enable();
+		deluge.plugins[plugin.name] = plugin;
 	},
 
 	/**

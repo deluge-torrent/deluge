@@ -88,8 +88,6 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 	// private
 	onLogin: function() {
 		this.start();
-		this.on('PluginEnabledEvent', this.onPluginEnabled, this);
-		this.on('PluginDisabledEvent', this.onPluginDisabled, this);
 	},
 
 	onGetEventsSuccess: function(events) {

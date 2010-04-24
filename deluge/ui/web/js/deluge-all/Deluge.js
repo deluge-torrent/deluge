@@ -87,6 +87,9 @@ Ext.USE_NATIVE_JSON = true;
 
 // Create the Deluge namespace
 Ext.apply(Deluge, {
+
+	// private
+	pluginStore: {},
 	
 	// private
 	progressTpl:	'<div class="x-progress-wrap x-progress-renderered">' +
@@ -117,6 +120,31 @@ Ext.apply(Deluge, {
 		var barWidth = progressWidth - 1;
 		var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
 		return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
+	},
+
+	/**
+	 * Constructs a new instance of the specified plugin.
+	 * @param {String} name The plugin name to create
+	 */
+	createPlugin: function(name) {
+		return new Deluge.pluginStore[name]();
+	},
+
+	/**
+	 * Check to see if a plugin has been registered.
+	 * @param {String} name The plugin name to check
+	 */
+	hasPlugin: function(name) {
+		return (Deluge.pluginStore[name]) ? true : false;
+	},
+
+	/**
+	 * Register a plugin with the Deluge interface.
+	 * @param {String} name The plugin name to register
+	 * @param {Plugin} plugin The plugin to register
+	 */
+	registerPlugin: function(name, plugin) {
+		Deluge.pluginStore[name] = plugin;
 	}
 	
 });

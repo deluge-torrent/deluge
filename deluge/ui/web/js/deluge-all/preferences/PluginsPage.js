@@ -310,6 +310,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
 	onPluginEnabled: function(pluginName) {
 		var index = this.grid.getStore().find('plugin', pluginName);
+		if (index == -1) return;
 		var plugin = this.grid.getStore().getAt(index);
 		plugin.set('enabled', true);
 		plugin.commit();
@@ -317,6 +318,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	
 	onPluginDisabled: function(pluginName) {
 		var index = this.grid.getStore().find('plugin', pluginName);
+		if (index == -1) return;
 		var plugin = this.grid.getStore().getAt(index);
 		plugin.set('enabled', false);
 		plugin.commit();
