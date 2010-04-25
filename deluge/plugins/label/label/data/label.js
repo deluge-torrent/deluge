@@ -176,37 +176,15 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 			}]
 		});
 	},
-	
-	onDisable: function() {
-	    
-	},
-	
-	onEnable: function() {
-		deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
-		deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
-		Deluge.FilterPanel.templates.label = '<div class="x-deluge-filter x-deluge-{filter:lowercase}"><tpl if="filter">{filter}</tpl><tpl if="!filter">no label</tpl> ({count})</div>';
 
-		deluge.menus.torrent.add({
-			xtype: 'menuseparator'
-		});
-
-		this.torrentMenu = new Ext.menu.Menu({
-			items: [{
-				text: _('No Label'),
-				label: '',
-				handler: this.onTorrentMenuClick,
-				scope: this
-			}]
-		});
-		deluge.menus.torrent.add({
-			text: _('Label'),
-			menu: this.torrentMenu
-		})
+	setFilter: function(filter) {
+		filter.show_zero = true;
+		filter.list.on('contextmenu', this.onLabelContextMenu, this);
+		filter.header.on('contextmenu', this.onLabelHeaderContextMenu, this);
+		this.filter = filter;
 	},
 
-	onAfterFilterCreate: function(sidebar, filter) {
-		if (filter.filter != 'label') return;
-
+	updateTorrentMenu: function(filter) {
 		Ext.each(filter.getStates(), function(state) {
 			if (!state) return;
 			this.torrentMenu.addMenuItem({
@@ -217,13 +195,55 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 			});
 		}, this);
 	},
+	
+	onDisable: function() {
+		deluge.sidebar.un('filtercreate', this.onFilterCreate);
+		deluge.sidebar.un('afterfiltercreate', this.onAfterFilterCreate);
+		delete Deluge.FilterPanel.templates.label;
+	    this.deregisterTorrentStatus('label');
+		deluge.menus.torrent.remove(this.tmSep);
+		deluge.menus.torrent.remove(this.tm);
+	},
+	
+	onEnable: function() {
+		if (deluge.sidebar.hasFilter('label')) {
+			var filter = deluge.sidebar.getFilter('label');
+			this.setFilter(filter);
+			this.updateTorrentMenu(filter);
+		} else {
+			deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
+			deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
+			Deluge.FilterPanel.templates.label = '<div class="x-deluge-filter x-deluge-{filter:lowercase}"><tpl if="filter">{filter}</tpl><tpl if="!filter">no label</tpl> ({count})</div>';
+		}
+		this.registerTorrentStatus('label', _('Label'));
+
+		this.torrentMenu = new Ext.menu.Menu({
+			items: [{
+				text: _('No Label'),
+				label: '',
+				handler: this.onTorrentMenuClick,
+				scope: this
+			}]
+		});
+
+		this.tmSep = deluge.menus.torrent.add({
+			xtype: 'menuseparator'
+		});
+
+		this.tm = deluge.menus.torrent.add({
+			text: _('Label'),
+			menu: this.torrentMenu
+		})
+	},
+
+	onAfterFilterCreate: function(sidebar, filter) {
+		if (filter.filter != 'label') return;
+		this.updateTorrentMenu(filter);
+	},
 
 	onFilterCreate: function(sidebar, filter) {
 		if (filter.filter != 'label') return;
-		filter.show_zero = true;
-		filter.list.on('contextmenu', this.onLabelContextMenu, this);
-		filter.header.on('contextmenu', this.onLabelHeaderContextMenu, this);
-		this.filter = filter;
+		this.setFilter(filter);
 	},
 
 	onLabelAddClick: function() {
