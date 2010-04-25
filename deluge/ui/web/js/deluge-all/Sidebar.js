@@ -77,12 +77,14 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 		panel.on('selectionchange', function(view, nodes) {
 			deluge.ui.update();
 		});
-		panel.updateStates(states);
 		this.add(panel);
 	
 		this.doLayout();
 		this.panels[filter] = panel;
 		this.fireEvent('filtercreate', this, panel);
+
+		panel.updateStates(states);
+		this.fireEvent('afterfiltercreate', this, panel);
 	},
 
 	getFilters: function() {

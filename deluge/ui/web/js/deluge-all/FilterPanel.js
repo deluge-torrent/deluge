@@ -98,6 +98,17 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	},
 
 	/**
+	 * Return the current states in the filter
+	 */
+	getStates: function() {
+		var states = [];
+		this.list.getStore().each(function(r) {
+			states.push(r.get('filter'));
+		});
+		return states;
+	},
+
+	/**
 	 * Return the Store for the ListView of the FilterPanel
 	 * @returns {Ext.data.Store} the ListView store
 	 */
@@ -130,7 +141,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 					count: s[1]
 				});
 				record.id = s[0];
-				store.insert(i, [record]);
+				store.insert(i, record);
 			}
 			record.beginEdit();
 			record.set('filter', s[0]);

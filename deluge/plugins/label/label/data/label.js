@@ -78,7 +78,9 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
 		deluge.client.label.add(label, {
 			success: function() {
 				deluge.ui.update();
-			}
+				this.fireEvent('labeladded', label);
+			},
+			scope: this
 		});
 		this.hide();
 	},
@@ -181,7 +183,39 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	
 	onEnable: function() {
 		deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
+		deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
 		Deluge.FilterPanel.templates.label = '<div class="x-deluge-filter x-deluge-{filter:lowercase}"><tpl if="filter">{filter}</tpl><tpl if="!filter">no label</tpl> ({count})</div>';
+
+		deluge.menus.torrent.add({
+			xtype: 'menuseparator'
+		});
+
+		this.torrentMenu = new Ext.menu.Menu({
+			items: [{
+				text: _('No Label'),
+				label: '',
+				handler: this.onTorrentMenuClick,
+				scope: this
+			}]
+		});
+		deluge.menus.torrent.add({
+			text: _('Label'),
+			menu: this.torrentMenu
+		})
+	},
+
+	onAfterFilterCreate: function(sidebar, filter) {
+		if (filter.filter != 'label') return;
+
+		Ext.each(filter.getStates(), function(state) {
+			if (!state) return;
+			this.torrentMenu.addMenuItem({
+				text: state,
+				label: state,
+				handler: this.onTorrentMenuClick,
+				scope: this
+			});
+		}, this);
 	},
 
 	onFilterCreate: function(sidebar, filter) {
@@ -193,8 +227,20 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 
 	onLabelAddClick: function() {
-		if (!this.addWindow) this.addWindow = new Deluge.ux.AddLabelWindow();
+		if (!this.addWindow) {
+			this.addWindow = new Deluge.ux.AddLabelWindow();
+			this.addWindow.on('labeladded', this.onLabelAdded, this);
+		}
 		this.addWindow.show();
+	},
+
+	onLabelAdded: function(label) {
+		this.torrentMenu.addMenuItem({
+			text: label,
+			label: label,
+			handler: this.onTorrentMenuClick,
+			scope: this
+		});
 	},
 
 	onLabelContextMenu: function(dv, i, node, e) {
@@ -224,11 +270,22 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 
 	onLabelRemoveClick: function() {
-		deluge.client.label.remove(this.filter.getFilter(), {
+		var state = this.filter.getFilter();
+		deluge.client.label.remove(state, {
 			success: function() {
 				deluge.ui.update();
-			}
+				this.torrentMenu.items.each(function(item) {
+					if (item.text != state) return;
+					this.torrentMenu.remove(item);
+					var i = item;
+				}, this);
+			},
+			scope: this
 		});
+	},
+
+	onTorrentMenuClick: function(item, e) {
+		alert(item.label);
 	}
 });
 Deluge.registerPlugin('Label', Deluge.plugins.LabelPlugin);
