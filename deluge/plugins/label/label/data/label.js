@@ -128,8 +128,11 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	onLabelContextMenu: function(dv, i, node, e) {
 		e.preventDefault();
 		if (!this.labelMenu) this.createMenu();
-		this.labelMenu.items.get(1).setDisabled(false);
-		this.labelMenu.items.get(2).setDisabled(false);
+		if (dv.getRecord(node).get('filter')) {
+			this.labelMenu.items.get(1).setDisabled(false);
+			this.labelMenu.items.get(2).setDisabled(false);
+		}
+
 		dv.select(i);
 		this.labelMenu.showAt(e.getXY());
 	},
