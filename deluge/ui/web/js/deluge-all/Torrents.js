@@ -113,7 +113,8 @@
 						{name: 'ratio', type: 'float'},
 						{name: 'distributed_copies', type: 'float'},
 						{name: 'time_added', type: 'int'},
-						{name: 'tracker_host'}
+						{name: 'tracker_host'},
+						{name: 'save_path'}
 					]
 				}),
 				columns: [{
@@ -196,6 +197,12 @@
 					sortable: true,
 					renderer: trackerRenderer,
 					dataIndex: 'tracker_host'
+				}, {
+					header: _('Save Path'),
+					width: 120,
+					sortable: true,
+					renderer: fplain,
+					dataIndex: 'save_path'
 				}],
 				region: 'center',
 				cls: 'deluge-torrents',
