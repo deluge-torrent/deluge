@@ -29,7 +29,62 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
+Ext.ns('Deluge.ux');
 
+/**
+ * @class Deluge.ux.LabelOptionsWindow
+ * @extends Ext.Window
+ */
+Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
+
+	title: _('Label Options'),
+	width:  350,
+	height: 400,
+	
+	initComponent: function() {
+		Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
+		this.addButton(_('Cancel'), this.onCancelClick, this);
+		this.addButton(_('Ok'), this.onOkClick, this);
+
+		this.add({
+			xtype: 'tabpanel',
+			height: 335,
+			border: false,
+			items: [{
+				title: _('Maximum')
+			}, {
+				title: _('Queue')
+			}, {
+				title: _('Location')
+			}, {
+				title: _('Trackers')
+			}]
+		});
+	},
+
+	show: function(label) {
+		Deluge.ux.LabelOptionsWindow.superclass.show.call(this);
+		this.label = label;
+		this.setTitle(_('Label Options') + ': ' + this.label); 
+	},
+
+	onCancelClick: function() {
+		this.hide();
+	},
+
+	onOkClick: function() {
+		this.hide();
+	}
+
+});
+
+
+Ext.ns('Deluge.plugins');
+
+/**
+ * @class Deluge.plugins.LabelPlugin
+ * @extends Deluge.Plugin
+ */
 Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
 	name: 'Label',
@@ -42,10 +97,14 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 			}, {
 				text: _('Remove Label'),
 				disabled: true,
-				iconCls: 'icon-remove'
+				iconCls: 'icon-remove',
+				handler: this.onLabelRemoveClick,
+				scope: this
 			}, {
 				text: _('Label Options'),
-				disabled: true
+				disabled: true,
+				handler: this.onLabelOptionsClick,
+				scope: this
 			}]
 		});
 	},
@@ -56,12 +115,14 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	
 	onEnable: function() {
 		deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
+		Deluge.FilterPanel.templates.label = '<div class="x-deluge-filter x-deluge-{filter:lowercase}"><tpl if="filter">{filter}</tpl><tpl if="!filter">no label</tpl> ({count})</div>';
 	},
 
 	onFilterCreate: function(sidebar, filter) {
 		if (filter.filter != 'label') return;
 		filter.list.on('contextmenu', this.onLabelContextMenu, this);
 		filter.header.on('contextmenu', this.onLabelHeaderContextMenu, this);
+		this.filter = filter;
 	},
 
 	onLabelContextMenu: function(dv, i, node, e) {
@@ -79,6 +140,19 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 		this.labelMenu.items.get(1).setDisabled(true);
 		this.labelMenu.items.get(2).setDisabled(true);
 		this.labelMenu.showAt(e.getXY());
+	},
+
+	onLabelOptionsClick: function() {
+		if (!this.labelOpts) this.labelOpts = new Deluge.ux.LabelOptionsWindow();
+		this.labelOpts.show(this.filter.getFilter());
+	},
+
+	onLabelRemoveClick: function() {
+		deluge.client.label.remove(this.filter.getFilter(), {
+			success: function() {
+				deluge.ui.update();
+			}
+		});
 	}
 });
 Deluge.registerPlugin('Label', Deluge.plugins.LabelPlugin);
