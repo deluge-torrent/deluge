@@ -52,8 +52,8 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		});
 		this.setTitle(_(title));
 
-		if (this.filterType == 'tracker_host') {
-			var tpl = '<div class="x-deluge-filter" style="background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter} ({count})</div>';
+		if (Deluge.FilterPanel.templates[this.filterType]) {
+			var tpl = Deluge.FilterPanel.templates[this.filterType];
 		} else {
 			var tpl = '<div class="x-deluge-filter x-deluge-{filter:lowercase}">{filter} ({count})</div>';
 		}
@@ -103,3 +103,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		return this.list.getStore();
 	}
 });
+
+Deluge.FilterPanel.templates = {
+	'tracker_host':  '<div class="x-deluge-filter" style="background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter} ({count})</div>'
+}
