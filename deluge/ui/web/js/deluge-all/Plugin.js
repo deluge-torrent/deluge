@@ -78,6 +78,49 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 	enable: function() {
 		this.fireEvent("enable", this);
 		if (this.onEnable) this.onEnable();
+	},
+
+	registerTorrentStatus: function(key, header, options) {
+		options = options || {};
+		var cc = options.colCfg || {}, sc = options.storeCfg || {};
+		sc = Ext.apply(sc, {name: key});
+		deluge.torrents.meta.fields.push(sc);
+		deluge.torrents.getStore().reader.onMetaChange(deluge.torrents.meta);
+
+		cc = Ext.apply(cc, {
+			header: header,
+			dataIndex: key
+		});
+		var cols = deluge.torrents.columns.slice(0);
+		cols.push(cc);
+		deluge.torrents.colModel.setConfig(cols);
+		deluge.torrents.columns = cols;
+
+		Deluge.Keys.Grid.push(key);
+		deluge.torrents.getView().refresh(true);
+	},
+
+	deregisterTorrentStatus: function(key) {
+		var fields = [];
+		Ext.each(deluge.torrents.meta.fields, function(field) {
+			if (field.name != key) fields.push(field);
+		});
+		deluge.torrents.meta.fields = fields;
+		deluge.torrents.getStore().reader.onMetaChange(deluge.torrents.meta);
+
+		var cols = [];
+		Ext.each(deluge.torrents.columns, function(col) {
+			if (col.dataIndex != key) cols.push(col);
+		});
+		deluge.torrents.colModel.setConfig(cols);
+		deluge.torrents.columns = cols;
+
+		var keys = [];
+		Ext.each(Deluge.Keys.Grid, function(k) {
+			if (k == key) keys.push(k);
+		});
+		Deluge.Keys.Grid = keys;
+		deluge.torrents.getView().refresh(true);
 	}
 });
 

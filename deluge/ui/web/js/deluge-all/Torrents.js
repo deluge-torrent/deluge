@@ -91,119 +91,123 @@
 		// object to store contained torrent ids
 		torrents: {},
 
+		columns: [{
+			id:'queue',
+			header: _('#'), 
+			width: 30, 
+			sortable: true, 
+			renderer: queueRenderer,
+			dataIndex: 'queue'
+		}, {
+			id:'name',
+			header: _('Name'),
+			width: 150,
+			sortable: true,
+			renderer: torrentNameRenderer,
+			dataIndex: 'name'
+		}, {
+			header: _('Size'),
+			width: 75,
+			sortable: true,
+			renderer: fsize,
+			dataIndex: 'total_size'
+		}, {
+			header: _('Progress'),
+			width: 150, 
+			sortable: true, 
+			renderer: torrentProgressRenderer,
+			dataIndex: 'progress'
+		}, {
+			header: _('Seeders'),
+			width: 60,
+			sortable: true,
+			renderer: seedsRenderer,
+			dataIndex: 'num_seeds'
+		}, {
+			header: _('Peers'),
+			width: 60,
+			sortable: true,
+			renderer: peersRenderer,
+			dataIndex: 'num_peers'
+		}, {
+			header: _('Down Speed'),
+			width: 80,
+			sortable: true,
+			renderer: torrentSpeedRenderer,
+			dataIndex: 'download_payload_rate'
+		}, {
+			header: _('Up Speed'),
+			width: 80,
+			sortable: true,
+			renderer: torrentSpeedRenderer,
+			dataIndex: 'upload_payload_rate'
+		}, {
+			header: _('ETA'),
+			width: 60,
+			sortable: true,
+			renderer: ftime,
+			dataIndex: 'eta'
+		}, {
+			header: _('Ratio'),
+			width: 60,
+			sortable: true,
+			renderer: availRenderer,
+			dataIndex: 'ratio'
+		}, {
+			header: _('Avail'),
+			width: 60,
+			sortable: true,
+			renderer: availRenderer,
+			dataIndex: 'distributed_copies'
+		}, {
+			header: _('Added'),
+			width: 80,
+			sortable: true,
+			renderer: fdate,
+			dataIndex: 'time_added'
+		}, {
+			header: _('Tracker'),
+			width: 120,
+			sortable: true,
+			renderer: trackerRenderer,
+			dataIndex: 'tracker_host'
+		}, {
+			header: _('Save Path'),
+			width: 120,
+			sortable: true,
+			renderer: fplain,
+			dataIndex: 'save_path'
+		}],
+
+		meta: {
+			root: 'torrents',
+			idProperty: 'id',
+			fields: [
+				{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
+				{name: 'name'},
+				{name: 'total_size', type: 'int'},
+				{name: 'state'},
+				{name: 'progress', type: 'float'},
+				{name: 'num_seeds', type: 'int'},
+				{name: 'total_seeds', type: 'int'},
+				{name: 'num_peers', type: 'int'},
+				{name: 'total_peers', type: 'int'},
+				{name: 'download_payload_rate', type: 'int'},
+				{name: 'upload_payload_speed', type: 'int'},
+				{name: 'eta', type: 'int', sortType: etaSorter},
+				{name: 'ratio', type: 'float'},
+				{name: 'distributed_copies', type: 'float'},
+				{name: 'time_added', type: 'int'},
+				{name: 'tracker_host'},
+				{name: 'save_path'}
+			]
+		},
+
 		constructor: function(config) {
 			config = Ext.apply({
 				id: 'torrentGrid',
-				store: new Ext.data.JsonStore({
-					root: 'torrents',
-					idProperty: 'id',
-					fields: [
-						{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
-						{name: 'name'},
-						{name: 'total_size', type: 'int'},
-						{name: 'state'},
-						{name: 'progress', type: 'float'},
-						{name: 'num_seeds', type: 'int'},
-						{name: 'total_seeds', type: 'int'},
-						{name: 'num_peers', type: 'int'},
-						{name: 'total_peers', type: 'int'},
-						{name: 'download_payload_rate', type: 'int'},
-						{name: 'upload_payload_speed', type: 'int'},
-						{name: 'eta', type: 'int', sortType: etaSorter},
-						{name: 'ratio', type: 'float'},
-						{name: 'distributed_copies', type: 'float'},
-						{name: 'time_added', type: 'int'},
-						{name: 'tracker_host'},
-						{name: 'save_path'}
-					]
-				}),
-				columns: [{
-					id:'queue',
-					header: _('#'), 
-					width: 30, 
-					sortable: true, 
-					renderer: queueRenderer,
-					dataIndex: 'queue'
-				}, {
-					id:'name',
-					header: _('Name'),
-					width: 150,
-					sortable: true,
-					renderer: torrentNameRenderer,
-					dataIndex: 'name'
-				}, {
-					header: _('Size'),
-					width: 75,
-					sortable: true,
-					renderer: fsize,
-					dataIndex: 'total_size'
-				}, {
-					header: _('Progress'),
-					width: 150, 
-					sortable: true, 
-					renderer: torrentProgressRenderer,
-					dataIndex: 'progress'
-				}, {
-					header: _('Seeders'),
-					width: 60,
-					sortable: true,
-					renderer: seedsRenderer,
-					dataIndex: 'num_seeds'
-				}, {
-					header: _('Peers'),
-					width: 60,
-					sortable: true,
-					renderer: peersRenderer,
-					dataIndex: 'num_peers'
-				}, {
-					header: _('Down Speed'),
-					width: 80,
-					sortable: true,
-					renderer: torrentSpeedRenderer,
-					dataIndex: 'download_payload_rate'
-				}, {
-					header: _('Up Speed'),
-					width: 80,
-					sortable: true,
-					renderer: torrentSpeedRenderer,
-					dataIndex: 'upload_payload_rate'
-				}, {
-					header: _('ETA'),
-					width: 60,
-					sortable: true,
-					renderer: ftime,
-					dataIndex: 'eta'
-				}, {
-					header: _('Ratio'),
-					width: 60,
-					sortable: true,
-					renderer: availRenderer,
-					dataIndex: 'ratio'
-				}, {
-					header: _('Avail'),
-					width: 60,
-					sortable: true,
-					renderer: availRenderer,
-					dataIndex: 'distributed_copies'
-				}, {
-					header: _('Added'),
-					width: 80,
-					sortable: true,
-					renderer: fdate,
-					dataIndex: 'time_added'
-				}, {
-					header: _('Tracker'),
-					width: 120,
-					sortable: true,
-					renderer: trackerRenderer,
-					dataIndex: 'tracker_host'
-				}, {
-					header: _('Save Path'),
-					width: 120,
-					sortable: true,
-					renderer: fplain,
-					dataIndex: 'save_path'
-				}],
+				store: new Ext.data.JsonStore(this.meta),
+				columns: this.columns,
 				region: 'center',
 				cls: 'deluge-torrents',
 				stripeRows: true,
