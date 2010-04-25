@@ -86,15 +86,15 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	},
 
 	/**
-	 * Return the currently selected filter
-	 * @returns {String} the current filter
+	 * Return the currently selected filter state
+	 * @returns {String} the current filter state
 	 */
-	getFilter: function() {
+	getState: function() {
 		if (!this.list.getSelectionCount()) return;
 
-		var filter = this.list.getSelectedRecords()[0];
-		if (filter.id == 'All') return;
-		return filter.id;
+		var state = this.list.getSelectedRecords()[0];
+		if (state.id == 'All') return;
+		return state.id;
 	},
 
 	/**

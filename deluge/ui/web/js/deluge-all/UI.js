@@ -102,7 +102,7 @@ deluge.ui = {
 	},
 
 	update: function() {
-		var filters = deluge.sidebar.getFilters();
+		var filters = deluge.sidebar.getFilterStates();
 		deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
 			success: this.onUpdate,
 			failure: this.onUpdateError,
