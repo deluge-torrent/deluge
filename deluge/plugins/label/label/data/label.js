@@ -285,7 +285,18 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 
 	onTorrentMenuClick: function(item, e) {
-		alert(item.label);
+		var ids = deluge.torrents.getSelectedIds();
+		Ext.each(ids, function(id, i) {
+			if (ids.length == i +1 ) {
+				deluge.client.label.set_torrent(id, item.label, {
+					success: function() {
+						deluge.ui.update();
+					}
+				});
+			} else {
+				deluge.client.label.set_torrent(id, item.label);
+			}
+		});
 	}
 });
 Deluge.registerPlugin('Label', Deluge.plugins.LabelPlugin);
