@@ -32,6 +32,70 @@
 Ext.ns('Deluge.ux');
 
 /**
+ * @class Deluge.ux.AddLabelWindow
+ * @extends Ext.Window
+ */
+Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
+	
+	title: _('Add Label'),
+	width: 300,
+	height: 100,
+
+	initComponent: function() {
+		Deluge.ux.AddLabelWindow.superclass.initComponent.call(this);
+		this.addButton(_('Cancel'), this.onCancelClick, this);
+		this.addButton(_('Ok'), this.onOkClick, this);
+
+		this.form = this.add({
+			xtype: 'form',
+			height: 35,
+			bodyStyle:'padding:5px 5px 0',
+			defaultType: 'textfield',
+			labelWidth: 50,
+			items: [{
+				fieldLabel: _('Name'),
+				name: 'name',
+				allowBlank: false,
+				width: 220,
+				listeners: {
+					'specialkey': {
+						fn: function(field, e) {
+							if (e.getKey() == 13) this.onOkClick();
+						},
+						scope: this
+					}
+				}
+			}]
+		});
+	},
+
+	onCancelClick: function() {
+		this.hide();
+	},
+
+	onOkClick: function() {
+		var label = this.form.getForm().getValues().name;
+		deluge.client.label.add(label, {
+			success: function() {
+				deluge.ui.update();
+			}
+		});
+		this.hide();
+	},
+
+	onHide: function(comp) {
+		Deluge.ux.AddLabelWindow.superclass.onHide.call(this, comp);
+		this.form.getForm().reset();
+	},
+
+	onShow: function(comp) {
+		Deluge.ux.AddLabelWindow.superclass.onShow.call(this, comp);
+		this.form.getForm().findField('name').focus(false, 150);
+	}
+
+});
+
+/**
  * @class Deluge.ux.LabelOptionsWindow
  * @extends Ext.Window
  */
@@ -93,7 +157,9 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 		this.labelMenu = new Ext.menu.Menu({
 			items: [{
 				text: _('Add Label'),
-				iconCls: 'icon-add'
+				iconCls: 'icon-add',
+				handler: this.onLabelAddClick,
+				scope: this
 			}, {
 				text: _('Remove Label'),
 				disabled: true,
@@ -120,14 +186,21 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
 	onFilterCreate: function(sidebar, filter) {
 		if (filter.filter != 'label') return;
+		filter.show_zero = true;
 		filter.list.on('contextmenu', this.onLabelContextMenu, this);
 		filter.header.on('contextmenu', this.onLabelHeaderContextMenu, this);
 		this.filter = filter;
 	},
 
+	onLabelAddClick: function() {
+		if (!this.addWindow) this.addWindow = new Deluge.ux.AddLabelWindow();
+		this.addWindow.show();
+	},
+
 	onLabelContextMenu: function(dv, i, node, e) {
 		e.preventDefault();
 		if (!this.labelMenu) this.createMenu();
+		var r = dv.getRecord(node);
 		if (dv.getRecord(node).get('filter')) {
 			this.labelMenu.items.get(1).setDisabled(false);
 			this.labelMenu.items.get(2).setDisabled(false);
