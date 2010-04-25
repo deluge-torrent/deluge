@@ -33,7 +33,7 @@
 #
 #
 
-from common import raiseError, remove_zeros
+from common import raisesErrorsAs, remove_zeros
 import re
 
 class ReaderParseError(Exception):
@@ -82,7 +82,7 @@ class BaseReader(object):
         blocklist.close()
         return valid
 
-    @raiseError(ReaderParseError)
+    @raisesErrorsAs(ReaderParseError)
     def readranges(self):
         """Yields each ip range from the file"""
         blocklist = self.open()

@@ -36,19 +36,39 @@
 
 import pkg_resources
 import os.path
+from functools import wraps
+from sys import exc_info
 
 def get_resource(filename):
     return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
 
-def raiseError(error):
-    def safer(func):
-        def new(self, *args, **kwargs):
+def raisesErrorsAs(error):
+    """
+    Factory class that returns a decorator which wraps
+    the decorated function to raise all exceptions as
+    the specified error type
+    """
+    def decorator(func):
+        """
+        Returns a function which wraps the given func
+        to raise all exceptions as error
+        """
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            """
+            Wraps the function in a try..except block
+            and calls it with the specified args
+
+            Raises any exceptions as error preserving the
+            message and traceback
+            """
             try:
                 return func(self, *args, **kwargs)
             except:
-                raise error
-        return new
-    return safer
+                (value, tb) = exc_info()[1:]
+                raise error, value, tb
+        return wrapper
+    return decorator
 
 def remove_zeros(ip):
     """
