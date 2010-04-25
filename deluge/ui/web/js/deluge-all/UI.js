@@ -53,6 +53,7 @@ deluge.ui = {
 		deluge.editTrackers = new Deluge.EditTrackersWindow();
 		deluge.login = new Deluge.LoginWindow();
 		deluge.preferences = new Deluge.preferences.PreferencesWindow();
+		deluge.sidebar = new Deluge.Sidebar();
 
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',

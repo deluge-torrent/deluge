@@ -34,176 +34,152 @@
 // _('State')
 // _('Tracker Host')
 
-(function() {
-    // Renderer for the items in the filter grids.
-    function filterRenderer(value, p, r) {
-        var lname = value.toLowerCase().replace('.', '_');
+/**
+ * @class Deluge.Sidebar
+ * @author Damien Churchill <damoxc@gmail.com>
+ * @version 1.3
+ */
+Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
-        var image = '';	
-        if (r.store.id == 'tracker_host') {
-            if (value != 'Error') {
-                image = String.format('url(' + deluge.config.base + 'tracker/{0})', value);
-            } else {
-                lname = null;
-            }
-        }
-        if (image) {
-            return String.format('<div class="x-deluge-filter" style="background-image: {2};">{0} ({1})</div>', value, r.data['count'], image);
-        } else if (lname) {
-            return String.format('<div class="x-deluge-filter x-deluge-{2}">{0} ({1})</div>', value, r.data['count'], lname);
-        } else {
-            return String.format('<div class="x-deluge-filter">{0} ({1})</div>', value, r.data['count']);
-        }
-    }
+	// private
+	panels: {},
+
+	// private
+	selected: null,
+
+	constructor: function(config) {
+		config = Ext.apply({
+			id: 'sidebar',
+			region: 'west',
+			cls: 'deluge-sidebar',
+			title: _('Filters'),
+			layout: 'accordion',
+			split: true,
+			width: 200,
+			minSize: 175,
+			collapsible: true,
+			margins: '5 0 0 5',
+			cmargins: '5 0 0 5'
+		}, config);
+		Deluge.Sidebar.superclass.constructor.call(this, config);
+	},
+
+	// private
+	initComponent: function() {
+		Deluge.Sidebar.superclass.initComponent.call(this);
+		deluge.events.on("disconnect", this.onDisconnect, this);
+	},
+
+	createFilter: function(filter, states) {
+		var panel = new Deluge.FilterPanel({
+			filter: filter
+		});
+		panel.on('selectionchange', function(view, nodes) {
+			deluge.ui.update();
+		});
+	
+		if (deluge.config.sidebar_show_zero == false) {
+			states = this.removeZero(states);
+		}
+	
+		panel.getStore().loadData(states);
+		this.add(panel);
+	
+		this.doLayout();
+		this.panels[filter] = panel;
+		this.fireEvent('filtercreate', this, panel);
+	},
+
+	getFilters: function() {
+		var filters = {}
+
+		// Grab the filters from each of the filter panels
+		this.items.each(function(panel) {
+			var filter = panel.getFilter();
+			if (!filter) return;
+			filters[panel.filterType] = filter;
+		}, this);
+
+		return filters;
+	},
+
+	// private
+	onDisconnect: function() {
+		Ext.each(Ext.getKeys(this.panels), function(filter) {
+			this.remove(filter + '-panel');
+		}, this);
+		this.panels = {};
+		this.selected = null;
+	},
+
+	onFilterSelect: function(selModel, rowIndex, record) {
+		deluge.ui.update();
+	},
 
 	/**
-	 * @class Deluge.Sidebar
-	 * @author Damien Churchill <damoxc@gmail.com>
-	 * @version 1.3
-	 */
-    Deluge.Sidebar = Ext.extend(Ext.Panel, {
+	* Remove the states with zero torrents in them.
+	*/
+	removeZero: function(states) {
+		var newStates = [];
+		Ext.each(states, function(state) {
+			if (state[1] > 0 || state[0] == _('All')) {
+				newStates.push(state);
+			}
+		});
+		return newStates;
+	},
 
-        // private
-        panels: {},
-    
-        // private
-        selected: null,
-    
-        constructor: function(config) {
-            config = Ext.apply({
-                id: 'sidebar',
-                region: 'west',
-                cls: 'deluge-sidebar',
-                title: _('Filters'),
-                layout: 'accordion',
-                split: true,
-                width: 200,
-                minSize: 175,
-                collapsible: true,
-                margins: '5 0 0 5',
-                cmargins: '5 0 0 5'
-            }, config);
-            Deluge.Sidebar.superclass.constructor.call(this, config);
-        },
-    
-        // private
-        initComponent: function() {
-            Deluge.Sidebar.superclass.initComponent.call(this);
-            deluge.events.on("disconnect", this.onDisconnect, this);
-        },
-    
-        createFilter: function(filter, states) {
-			var panel = new Deluge.FilterPanel({
-				filter: filter
-			});
-			panel.on('selectionchange', function(view, nodes) {
-				deluge.ui.update();
-			});
-        
-            if (deluge.config.sidebar_show_zero == false) {
-                states = this.removeZero(states);
-            }
-        
-            panel.getStore().loadData(states);
-            this.add(panel);
-        
-            this.doLayout();
-            this.panels[filter] = panel;
-			this.fireEvent('filtercreate', this, panel);
-        },
-    
-        getFilters: function() {
-            var filters = {}
+	update: function(filters) {
+		for (var filter in filters) {
+			var states = filters[filter];
+			if (Ext.getKeys(this.panels).indexOf(filter) > -1) {
+				this.updateFilter(filter, states);
+			} else {
+				this.createFilter(filter, states);
+			}
+		}
 
-			// Grab the filters from each of the filter panels
-			this.items.each(function(panel) {
-				var filter = panel.getFilter();
-				if (!filter) return;
-				filters[panel.filterType] = filter;
-			}, this);
+		// Perform a cleanup of fitlers that aren't enabled any more
+		Ext.each(Ext.keys(this.panels), function(filter) {
+			if (Ext.keys(filters).indexOf(filter) == -1) {
+				// We need to remove the panel
+				this.remove(this.panels[filter]);
+				this.doLayout();
+				delete this.panels[filter];
+			}
+		}, this);
+	},
 
-            return filters;
-        },
-    
-        // private
-        onDisconnect: function() {
-            Ext.each(Ext.getKeys(this.panels), function(filter) {
-                this.remove(filter + '-panel');
-            }, this);
-            this.panels = {};
-            this.selected = null;
-        },
-    
-        onFilterSelect: function(selModel, rowIndex, record) {
-            deluge.ui.update();
-        },
-    
-        /**
-        * Remove the states with zero torrents in them.
-        */
-        removeZero: function(states) {
-            var newStates = [];
-            Ext.each(states, function(state) {
-                if (state[1] > 0 || state[0] == _('All')) {
-                    newStates.push(state);
-                }
-            });
-            return newStates;
-        },
-    
-        update: function(filters) {
-            for (var filter in filters) {
-                var states = filters[filter];
-                if (Ext.getKeys(this.panels).indexOf(filter) > -1) {
-                    this.updateFilter(filter, states);
-                } else {
-                    this.createFilter(filter, states);
-                }
-            }
-    
-            // Perform a cleanup of fitlers that aren't enabled any more
-            Ext.each(Ext.keys(this.panels), function(filter) {
-                if (Ext.keys(filters).indexOf(filter) == -1) {
-                    // We need to remove the panel
-                    this.remove(this.panels[filter]);
-					this.doLayout();
-					delete this.panels[filter];
-                }
-            }, this);
-        },
-    
-        updateFilter: function(filter, states) {
-            if (deluge.config.sidebar_show_zero == false) {
-                states = this.removeZero(states);
-            }
+	updateFilter: function(filter, states) {
+		if (deluge.config.sidebar_show_zero == false) {
+			states = this.removeZero(states);
+		}
 
-			var store = this.panels[filter].getStore();
-			var filters = [];
-			Ext.each(states, function(s, i) {
-				var record = store.getById(s[0]);
-				if (!record) {
-					record = new store.recordType({
-						filter: s[0],
-						count: s[1]
-					});
-					record.id = s[0];
-					store.insert(i, [record]);
-				}
-				record.beginEdit();
-				record.set('filter', s[0]);
-				record.set('count', s[1]);
-				record.endEdit();
-				filters[s[0]] = true;
-			}, this);
+		var store = this.panels[filter].getStore();
+		var filters = [];
+		Ext.each(states, function(s, i) {
+			var record = store.getById(s[0]);
+			if (!record) {
+				record = new store.recordType({
+					filter: s[0],
+					count: s[1]
+				});
+				record.id = s[0];
+				store.insert(i, [record]);
+			}
+			record.beginEdit();
+			record.set('filter', s[0]);
+			record.set('count', s[1]);
+			record.endEdit();
+			filters[s[0]] = true;
+		}, this);
 
-			store.each(function(record) {
-				if (filters[record.id]) return;
+		store.each(function(record) {
+			if (filters[record.id]) return;
 
-				store.remove(record);
-			}, this);
+			store.remove(record);
+		}, this);
 
-			store.commitChanges();
-        }
-    });
-    deluge.sidebar = new Deluge.Sidebar();
-})();
+		store.commitChanges();
+	}
+});
