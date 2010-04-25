@@ -141,7 +141,11 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 
 		store.each(function(record) {
 			if (filters[record.id]) return;
+			var r = this.list.getSelectedRecords()[0];
 			store.remove(record);
+			if (r.id == record.id) {
+				this.list.select(0);
+			}
 		}, this);
 
 		store.commitChanges();
