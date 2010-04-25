@@ -32,11 +32,7 @@
 
 deluge.menus = {
 	onTorrentAction: function(item, e) {
-		var selection = deluge.torrents.getSelections();
-		var ids = [];
-		Ext.each(selection, function(record) {
-			ids.push(record.id);
-		});
+		var ids = deluge.torrents.getSelectedIds();
 		var action = item.initialConfig.torrentAction;
 		
 		switch (action) {

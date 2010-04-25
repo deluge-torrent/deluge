@@ -243,7 +243,7 @@
 	 * @ return {Array/Ext.data.Record} The record(s) representing the rows
 	 */
 	getSelected: function() {
-	return this.getSelectionModel().getSelected();
+		return this.getSelectionModel().getSelected();
 	},
 
 	/**
@@ -251,6 +251,26 @@
 	 */
 	getSelections: function() {
 		return this.getSelectionModel().getSelections();
+	},
+
+	/**
+	 * Return the currently selected torrent id.
+	 * @return {String} The currently selected id.
+	 */
+	getSelectedId: function() {
+		return this.getSelectionModel().getSelected().id
+	},
+
+	/**
+	 * Return the currently selected torrent ids.
+	 * @return {Array} The currently selected ids.
+	 */
+	getSelectedIds: function() {
+		var ids = [];
+		Ext.each(this.getSelectionModel().getSelections(), function(r) {
+			ids.push(r.id);
+		});
+		return ids;
 	},
 
 	update: function(torrents) {
