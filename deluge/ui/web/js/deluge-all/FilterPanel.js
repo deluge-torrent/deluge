@@ -39,6 +39,8 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	
 	border: false,
 
+	show_zero: null,
+
 	initComponent: function() {
 		Deluge.FilterPanel.superclass.initComponent.call(this);
 		this.filterType = this.initialConfig.filter;
@@ -101,7 +103,50 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	 */
 	getStore: function() {
 		return this.list.getStore();
-	}
+	},
+
+	/**
+	 * Update the states in the FilterPanel
+	 */
+	updateStates: function(states) {
+		var show_zero = (this.show_zero == null) ? deluge.config.sidebar_show_zero : this.show_zero;
+		if (!show_zero) {
+			var newStates = [];
+			Ext.each(states, function(state) {
+				if (state[1] > 0 || state[0] == _('All')) {
+					newStates.push(state);
+				}
+			});
+			states = newStates;
+		}
+
+		var store = this.getStore();
+		var filters = {};
+		Ext.each(states, function(s, i) {
+			var record = store.getById(s[0]);
+			if (!record) {
+				record = new store.recordType({
+					filter: s[0],
+					count: s[1]
+				});
+				record.id = s[0];
+				store.insert(i, [record]);
+			}
+			record.beginEdit();
+			record.set('filter', s[0]);
+			record.set('count', s[1]);
+			record.endEdit();
+			filters[s[0]] = true;
+		}, this);
+
+		store.each(function(record) {
+			if (filters[record.id]) return;
+			store.remove(record);
+		}, this);
+
+		store.commitChanges();
+	},
+
 });
 
 Deluge.FilterPanel.templates = {

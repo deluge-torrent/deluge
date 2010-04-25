@@ -77,12 +77,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 		panel.on('selectionchange', function(view, nodes) {
 			deluge.ui.update();
 		});
-	
-		if (deluge.config.sidebar_show_zero == false) {
-			states = this.removeZero(states);
-		}
-	
-		panel.getStore().loadData(states);
+		panel.updateStates(states);
 		this.add(panel);
 	
 		this.doLayout();
@@ -116,24 +111,11 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 		deluge.ui.update();
 	},
 
-	/**
-	* Remove the states with zero torrents in them.
-	*/
-	removeZero: function(states) {
-		var newStates = [];
-		Ext.each(states, function(state) {
-			if (state[1] > 0 || state[0] == _('All')) {
-				newStates.push(state);
-			}
-		});
-		return newStates;
-	},
-
 	update: function(filters) {
 		for (var filter in filters) {
 			var states = filters[filter];
 			if (Ext.getKeys(this.panels).indexOf(filter) > -1) {
-				this.updateFilter(filter, states);
+				this.panels[filter].updateStates(states);
 			} else {
 				this.createFilter(filter, states);
 			}
@@ -148,38 +130,5 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 				delete this.panels[filter];
 			}
 		}, this);
-	},
-
-	updateFilter: function(filter, states) {
-		if (deluge.config.sidebar_show_zero == false) {
-			states = this.removeZero(states);
-		}
-
-		var store = this.panels[filter].getStore();
-		var filters = [];
-		Ext.each(states, function(s, i) {
-			var record = store.getById(s[0]);
-			if (!record) {
-				record = new store.recordType({
-					filter: s[0],
-					count: s[1]
-				});
-				record.id = s[0];
-				store.insert(i, [record]);
-			}
-			record.beginEdit();
-			record.set('filter', s[0]);
-			record.set('count', s[1]);
-			record.endEdit();
-			filters[s[0]] = true;
-		}, this);
-
-		store.each(function(record) {
-			if (filters[record.id]) return;
-
-			store.remove(record);
-		}, this);
-
-		store.commitChanges();
 	}
 });
