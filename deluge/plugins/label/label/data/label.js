@@ -105,19 +105,53 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 	title: _('Label Options'),
 	width:  350,
-	height: 400,
+	height: 300,
 	
 	initComponent: function() {
 		Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Ok'), this.onOkClick, this);
 
-		this.add({
+		this.form = this.add({
+			xtype: 'form'
+		});
+
+		this.tabs = this.form.add({
 			xtype: 'tabpanel',
-			height: 335,
+			height: 235,
 			border: false,
 			items: [{
-				title: _('Maximum')
+				title: _('Maximum'),
+				items: [{
+					border: false,
+					items: [{
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						items: [{
+							xtype: 'checkbox',
+							fieldLabel: '',
+							boxLabel: _('Apply per torrent max settings:')
+						}]
+					}, {
+						xtype: 'fieldset',
+						border: false,
+						defaultType: 'spinnerfield',
+						items: [{
+							fieldLabel: _('Download Speed'),
+							name: 'down_speed'
+						}, {
+							fieldLabel: _('Upload Speed'),
+							name: 'up_speed'
+						}, {
+							fieldLabel: _('Upload Slots'),
+							name: 'upload_slots'
+						}, {
+							fieldLabel: _('Connections'),
+							name: 'connections'
+						}]
+					}]
+				}]
 			}, {
 				title: _('Queue')
 			}, {
@@ -132,6 +166,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 		Deluge.ux.LabelOptionsWindow.superclass.show.call(this);
 		this.label = label;
 		this.setTitle(_('Label Options') + ': ' + this.label); 
+		this.tabs.setActiveTab(0);
 	},
 
 	onCancelClick: function() {
@@ -286,7 +321,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
 	onLabelOptionsClick: function() {
 		if (!this.labelOpts) this.labelOpts = new Deluge.ux.LabelOptionsWindow();
-		this.labelOpts.show(this.filter.getFilter());
+		this.labelOpts.show(this.filter.getState());
 	},
 
 	onLabelRemoveClick: function() {
