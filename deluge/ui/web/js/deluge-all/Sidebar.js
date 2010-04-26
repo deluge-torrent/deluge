@@ -87,6 +87,10 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 		this.fireEvent('afterfiltercreate', this, panel);
 	},
 
+	getFilter: function(filter) {
+		return this.panels[filter];
+	},
+
 	getFilterStates: function() {
 		var states = {}
 
@@ -101,14 +105,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 	},
 
 	hasFilter: function(filter) {
-		var has = false;
-		this.items.each(function(panel) {
-			if (panel.filterType == filter) {
-				has = true;
-				return false;
-			}
-		});
-		return has;
+		return (this.panels[filter]) ? true : false;
 	},
 
 	// private
