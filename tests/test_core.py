@@ -58,7 +58,7 @@ class CoreTestCase(unittest.TestCase):
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
 
         d = self.core.add_torrent_url(url, options)
-        d.addCallbacks(self.fail, self.assertIsInstance, Failure)
+        d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
 
         d = self.core.add_torrent_url(url, options, headers)
         d.addCallback(self.assertEquals, info_hash)
