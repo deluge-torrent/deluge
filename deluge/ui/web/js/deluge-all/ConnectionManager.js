@@ -72,7 +72,7 @@
 				}),
 				columns: [{
 					header: _('Status'),
-					width: .22,
+					width: .24,
 					sortable: true,
 					dataIndex: 'status'
 				}, {
