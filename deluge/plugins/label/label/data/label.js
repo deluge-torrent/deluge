@@ -104,8 +104,8 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
 Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 	title: _('Label Options'),
-	width:  350,
-	height: 300,
+	width:  325,
+	height: 240,
 	
 	initComponent: function() {
 		Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
@@ -118,7 +118,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 		this.tabs = this.form.add({
 			xtype: 'tabpanel',
-			height: 235,
+			height: 175,
 			border: false,
 			items: [{
 				title: _('Maximum'),
@@ -128,6 +128,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						xtype: 'fieldset',
 						border: false,
 						labelWidth: 1,
+						style: 'margin-bottom: 0px; padding-bottom: 0px;',
 						items: [{
 							xtype: 'checkbox',
 							fieldLabel: '',
@@ -137,27 +138,140 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						xtype: 'fieldset',
 						border: false,
 						defaultType: 'spinnerfield',
+						style: 'margin-top: 0px; padding-top: 0px;',
 						items: [{
 							fieldLabel: _('Download Speed'),
-							name: 'down_speed'
+							name: 'down_speed',
+							width: 80,
+							disabled: true,
+							value: -1
 						}, {
 							fieldLabel: _('Upload Speed'),
-							name: 'up_speed'
+							name: 'up_speed',
+							width: 80,
+							disabled: true,
+							value: -1
 						}, {
 							fieldLabel: _('Upload Slots'),
-							name: 'upload_slots'
+							name: 'upload_slots',
+							width: 80,
+							disabled: true,
+							value: -1
 						}, {
 							fieldLabel: _('Connections'),
-							name: 'connections'
+							name: 'connections',
+							width: 80,
+							disabled: true,
+							value: -1
 						}]
 					}]
 				}]
 			}, {
-				title: _('Queue')
+				title: _('Queue'),
+				items: [{
+					border: false,
+					items: [{
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						style: 'margin-bottom: 0px; padding-bottom: 0px;',
+						items: [{
+							xtype: 'checkbox',
+							fieldLabel: '',
+							boxLabel: _('Apply queue settings:')
+						}]
+					}, {
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						defaultType: 'checkbox',
+						style: 'margin-top: 0px; padding-top: 0px;',
+						defaults: {
+							style: 'margin-left: 20px'
+						},
+						items: [{
+							boxLabel: _('Auto Managed'),
+							name: 'auto_managed',
+							disabled: true
+						}, {
+							boxLabel: _('Stop seed at ratio:'),
+							name: 'up_speed',
+							disabled: true
+						}, {
+							boxLabel: _('Remove at ratio'),
+							name: 'upload_slots',
+							disabled: true
+						}]
+					}]
+				}]
 			}, {
-				title: _('Location')
+				title: _('Location'),
+				items: [{
+					border: false,
+					items: [{
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						style: 'margin-bottom: 0px; padding-bottom: 0px;',
+						items: [{
+							xtype: 'checkbox',
+							fieldLabel: '',
+							boxLabel: _('Apply location settings:')
+						}]
+					}, {
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						defaultType: 'checkbox',
+						labelWidth: 1,
+						style: 'margin-top: 0px; padding-top: 0px;',
+						defaults: {
+							style: 'margin-left: 20px'
+						},
+						items: [{
+							boxLabel: _('Move completed to:'),
+							name: 'move_completed',
+							disabled: true
+						}, {
+							xtype: 'textfield',
+							name: 'move_completed_path',
+							width: 250,
+							disabled: true
+						}]
+					}]
+				}]
 			}, {
-				title: _('Trackers')
+				title: _('Trackers'),
+				items: [{
+					border: false,
+					items: [{
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						style: 'margin-bottom: 0px; padding-bottom: 0px;',
+						items: [{
+							xtype: 'checkbox',
+							fieldLabel: '',
+							boxLabel: _('Automatically apply label:')
+						}]
+					}, {
+						xtype: 'fieldset',
+						border: false,
+						labelWidth: 1,
+						style: 'margin-top: 0px; padding-top: 0px;',
+						defaults: {
+							style: 'margin-left: 20px'
+						},
+						defaultType: 'textarea',
+						items: [{
+							boxLabel: _('Move completed to:'),
+							name: 'trackers',
+							width: 250,
+							height: 100,
+							disabled: true
+						}]
+					}]
+				}]
 			}]
 		});
 	},
