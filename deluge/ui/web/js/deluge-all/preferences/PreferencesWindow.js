@@ -160,6 +160,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		page['bodyStyle'] = 'padding: 5px';
 		page.preferences = this;
 		this.pages[name] = this.configPanel.add(page);
+		this.pages[name].index = -1;
 		return this.pages[name];
 	},
 	
@@ -180,8 +181,18 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	 * @param {String} page The page name to change to
 	 */
 	selectPage: function(page) {
-		var index = this.configPanel.items.indexOf(this.pages[page]);
-		this.configPanel.getLayout().setActiveItem(index);
+		if (this.pages[page].index < 0) { 
+			this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
+		}
+		this.list.select(this.pages[page].index);
+	},
+
+	// private
+	doSelectPage: function(page) {
+		if (this.pages[page].index < 0) { 
+			this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
+		}
+		this.configPanel.getLayout().setActiveItem(this.pages[page].index);
 		this.currentPage = page;
 	},
 	
@@ -193,7 +204,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	// private
 	onPageSelect: function(list, selections) {
 		var r = list.getRecord(selections[0]);
-		this.selectPage(r.get('name'));
+		this.doSelectPage(r.get('name'));
 	},
 	
 	// private
