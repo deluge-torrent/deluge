@@ -85,7 +85,6 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'radiogroup',
 			columns: 1,
 			vertical: true,
-			disabled: true,
 			labelSeparator: '',
 			items: [{
 				name: 'compact_allocation',

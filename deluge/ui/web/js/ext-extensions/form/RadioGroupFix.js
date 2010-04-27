@@ -37,6 +37,11 @@ Ext.override(Ext.form.RadioGroup, {
 		this.items.each(function(i) {
 	    	this.relayEvents(i, ['check']);
 		}, this);
+		if (this.lazyValue) {
+			this.setValue(this.value);
+			delete this.value;
+			delete this.lazyValue;
+		}
 		Ext.form.RadioGroup.superclass.afterRender.call(this)
     },
 
@@ -45,17 +50,15 @@ Ext.override(Ext.form.RadioGroup, {
     },
 
     getValue: function() {
-		//var v;
 		return this.items.first().getGroupValue();
-		//this.items.each(function(item) {
-		//    v = item.getRawValue();
-		//    return !item.getValue();
-		//});
-		//return v;
     },
 
     setValue: function(v) {
-		if (!this.items.each) return;
+		if (!this.items.each) {
+			this.value = v;
+			this.lazyValue = true;
+			return;
+		}
 		this.items.each(function(item) {
 			if (item.rendered) {
 				var checked = (item.el.getValue() == String(v));
