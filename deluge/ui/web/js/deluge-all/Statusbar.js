@@ -75,7 +75,11 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-traffic',
-			tooltip: _('Protocol Traffic Download/Upload')
+			tooltip: _('Protocol Traffic Download/Upload'),
+			handler: function() {
+				deluge.preferences.show();
+				deluge.preferences.selectPage('Network');
+			}
 		}, '-', {
 			id: 'statusbar-dht',
 			text: ' ',
@@ -87,7 +91,11 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-freespace',
-			tooltip: _('Freespace in download location')
+			tooltip: _('Freespace in download location'),
+			handler: function() {
+				deluge.preferences.show();
+				deluge.preferences.selectPage('Downloads');
+			}
 		});
 		this.created = true;
 	},
