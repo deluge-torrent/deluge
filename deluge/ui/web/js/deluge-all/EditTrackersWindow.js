@@ -81,6 +81,9 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 				width: .9,
 				dataIndex: 'url'
 			}],
+			columnSort: {
+				sortClasses: ['', '']
+			},
 			stripeRows: true,
 			singleSelect: true,
 			autoScroll: true,
