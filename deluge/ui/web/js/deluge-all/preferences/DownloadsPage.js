@@ -108,7 +108,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			name: 'compact_allocation',
 			width: 200,
 			labelSeparator: '',
-			disabled: true,
+			//disabled: true,
 			defaults: {
 				width: 80,
 				height: 22,
