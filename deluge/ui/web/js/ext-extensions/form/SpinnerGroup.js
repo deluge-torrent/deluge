@@ -60,7 +60,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
                 labelWidth: 60,
                 defaults: {
                     hideLabel: true,
-                    anchor: '100%'
+                    anchor: '60%'
                 }
             }, this.colCfg);
 
@@ -155,6 +155,18 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
             this.items.each(function(field) {
                 field.on('change', this.onFieldChange, this);
             }, this);
+
+			if (this.lazyValueSet) {
+				this.setValue(this.value);
+				delete this.value;
+				delete this.lazyValueSet;
+			}
+
+			if (this.lazyRawValueSet) {
+				this.setRawValue(this.rawValue);
+				delete this.rawValue;
+				delete this.lazyRawValueSet;
+			}
         }
 
         Ext.ux.form.SpinnerGroup.superclass.onRender.call(this, ct, position);
@@ -183,15 +195,25 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
     },
 
     setValue: function(value) {
-        this.items.each(function(item, i) {
-            item.setValue(value[i]);
-        });
+		if (!this.rendered) {
+			this.value = value;
+			this.lazyValueSet = true;
+		} else {
+			this.items.each(function(item, i) {
+				item.setValue(value[i]);
+			});
+		}
     },
 
     setRawValue: function(value) {
-        this.items.each(function(item, i) {
-            item.setRawValue(value[i]);
-        });
+		if (!this.rendered) {
+			this.rawValue = value;
+			this.lazyRawValueSet = true;
+		} else {
+			this.items.each(function(item, i) {
+				item.setRawValue(value[i]);
+			});
+		}
     }
 });
 Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);
