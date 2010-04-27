@@ -59,10 +59,9 @@
 	
 			this.addButton(_('Close'), this.onClose, this);
 			this.addButton(_('Connect'), this.onConnect, this);
-		
-			this.grid = this.add({
-				xtype: 'grid',
-				store: new Ext.data.SimpleStore({
+
+			this.list = new Ext.list.ListView({
+				store: new Ext.data.ArrayStore({
 					fields: [
 						{name: 'status', mapping: 3},
 						{name: 'host', mapping: 1},
@@ -73,36 +72,31 @@
 				}),
 				columns: [{
 					header: _('Status'),
-					width: 65,
+					width: .22,
 					sortable: true,
-					renderer: fplain,
 					dataIndex: 'status'
 				}, {
 					id:'host',
 					header: _('Host'),
-					width: 150,
+					width: .51,
 					sortable: true,
-					renderer: hostRenderer,
+					tpl: '{host}:{port}',
 					dataIndex: 'host'
 				}, {
 					header: _('Version'),
-					width: 75,
+					width: .25,
 					sortable: true,
-					renderer: fplain,
 					dataIndex: 'version'
 				}],
-				stripeRows: true,
-				selModel: new Ext.grid.RowSelectionModel({
-					singleSelect: true,
-					listeners: {
-						'rowselect': {fn: this.onSelect, scope: this},
-						'selectionchange': {fn: this.onSelectionChanged, scope: this}
-					}
-				}),
-				autoExpandColumn: 'host',
-				deferredRender:false,
-				autoScroll:true,
-				margins: '0 0 0 0',
+				singleSelect: true,
+				listeners: {
+					'selectionchange': {fn: this.onSelectionChanged, scope: this}
+				}
+			});
+			
+			this.panel = this.add({
+				autoScroll: true,
+				items: [this.list],
 				bbar: new Ext.Toolbar({
 					buttons: [
 						{
@@ -117,7 +111,7 @@
 							cls: 'x-btn-text-icon',
 							text: _('Remove'),
 							iconCls: 'icon-remove',
-							handler: this.onRemove,
+							handler: this.onRemoveClick,
 							disabled: true,
 							scope: this
 						}, '->', {
@@ -125,14 +119,13 @@
 							cls: 'x-btn-text-icon',
 							text: _('Stop Daemon'),
 							iconCls: 'icon-error',
-							handler: this.onStop,
+							handler: this.onStopClick,
 							disabled: true,
 							scope: this
 						}
 					]
 				})
 			});
-
 			this.update = this.update.createDelegate(this);
 		},
 
@@ -165,7 +158,7 @@
 		},
 	
 		update: function() {
-			this.grid.getStore().each(function(r) {
+			this.list.getStore().each(function(r) {
 				deluge.client.web.get_host_status(r.id, {
 					success: this.onGetHostStatus,
 					scope: this
@@ -228,9 +221,9 @@
 	
 		// private
 		onConnect: function(e) {
-			var selected = this.grid.getSelectionModel().getSelected();
+			var selected = this.list.getSelectedRecords()[0];
 			if (!selected) return;
-	
+
 			if (selected.get('status') == _('Connected')) {
 				deluge.client.web.disconnect({
 					success: function(result) {
@@ -253,6 +246,7 @@
 			}
 		},
 
+		// private
 		onDisconnect: function() {
 			if (this.isVisible()) return;
 			this.show();
@@ -260,7 +254,7 @@
 
 		// private
 		onGetHosts: function(hosts) {
-			this.grid.getStore().loadData(hosts);
+			this.list.getStore().loadData(hosts);
 			Ext.each(hosts, function(host) {
 				deluge.client.web.get_host_status(host[0], {
 					success: this.onGetHostStatus,
@@ -271,11 +265,11 @@
 	
 		// private
 		onGetHostStatus: function(host) {
-			var record = this.grid.getStore().getById(host[0]);
+			var record = this.list.getStore().getById(host[0]);
 			record.set('status', host[3])
 			record.set('version', host[4])
 			record.commit();
-			if (this.grid.getSelectionModel().getSelected() == record) this.updateButtons(record);
+			if (this.list.getSelectedRecords()[0] == record) this.updateButtons(record);
 		},
 
 		// private
@@ -311,8 +305,8 @@
 		},
 	
 		// private
-		onRemove: function(button) {
-			var connection = this.grid.getSelectionModel().getSelected();
+		onRemoveClick: function(button) {
+			var connection = this.list.getSelectedRecords()[0];
 			if (!connection) return;
 	
 			deluge.client.web.remove_host(connection.id, {
@@ -327,7 +321,7 @@
 							iconCls: 'x-deluge-icon-error'
 						});
 					} else {
-						this.grid.getStore().remove(connection);
+						this.list.getStore().remove(connection);
 					}
 				},
 				scope: this
@@ -335,28 +329,23 @@
 		},
 
 		// private
-		onSelect: function(selModel, rowIndex, record) {
-			this.selectedRow = rowIndex;
-		},
-
-		// private
-		onSelectionChanged: function(selModel) {
-			var record = selModel.getSelected();
-			if (selModel.hasSelection()) {
+		onSelectionChanged: function(list, selections) {
+			if (selections[0]) {
 				this.removeHostButton.enable();
 				this.stopHostButton.enable();
 				this.stopHostButton.setText(_('Stop Daemon'));
+				this.updateButtons(this.list.getRecord(selections[0]));
 			} else {
 				this.removeHostButton.disable();
 				this.stopHostButton.disable();
+				this.updateButtons(null);
 			}
-			this.updateButtons(record);
 		},
 
 		// private
 		onShow: function() {
 			if (!this.addHostButton) {
-				var bbar = this.grid.getBottomToolbar();
+				var bbar = this.panel.getBottomToolbar();
 				this.addHostButton = bbar.items.get('cm-add');
 				this.removeHostButton = bbar.items.get('cm-remove');
 				this.stopHostButton = bbar.items.get('cm-stop');
@@ -366,8 +355,8 @@
 		},
 		
 		// private
-		onStop: function(button, e) {
-			var connection = this.grid.getSelectionModel().getSelected();
+		onStopClick: function(button, e) {
+			var connection = this.list.getSelectedRecords()[0];
 			if (!connection) return;
 	
 			if (connection.get('status') == 'Offline') {
