@@ -59,7 +59,7 @@ class Command(BaseCommand):
                 component.start()
 
             def on_connect_fail(result):
-                self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, result.value.exception_msg))
+                self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, result.value.args[0]))
 
             d.addCallback(on_connect)
             d.addErrback(on_connect_fail)
