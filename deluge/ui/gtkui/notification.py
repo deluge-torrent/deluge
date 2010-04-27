@@ -74,12 +74,14 @@ class Notification:
             except:
                 log.warning("pynotify is not installed")
             else:
-                if pynotify.init("Deluge"):
-                    self.note = pynotify.Notification(_("Torrent complete"),
-                        status["name"] + "\n" + _("Including %i files" % status["num_files"]))
-                    self.note.set_icon_from_pixbuf(common.get_logo(48))
-                    if not self.note.show():
-                        log.warning("pynotify failed to show notification")
+                if not pynotify.init("Deluge"):
+                    return
+                title = deluge.common.xml_encode(_("Torrent complete"))
+                message = deluge.common.xml_encode(status["name"] + "\n" + _("Including %i files" % status["num_files"]))
+                self.note = pynotify.Notification(title, message)
+                self.note.set_icon_from_pixbuf(common.get_logo(48))
+                if not self.note.show():
+                    log.warning("pynotify failed to show notification")
 
     def sound(self):
         """plays a sound when a torrent finishes"""

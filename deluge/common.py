@@ -550,6 +550,40 @@ def path_join(*parts):
             path += '/' + part
     return path
 
+XML_ESCAPES = ( 
+    ('&', '&amp;'),
+    ('<', '&lt;'),
+    ('>', '&gt;'),
+    ('"', '&quot;'),
+    ("'", '&apos;')
+)
+
+def xml_decode(string):
+    """ 
+    Unescape a string that was previously encoded for use within xml.
+    
+    :param string: The string to escape
+    :type string: string
+    :returns: The unescaped version of the string.
+    :rtype: string
+    """
+    for char, escape in XML_ESCAPES:
+        string = string.replace(escape, char)
+    return string
+
+def xml_encode(string):
+    """ 
+    Escape a string for use within an xml element or attribute.
+    
+    :param string: The string to escape
+    :type string: string
+    :returns: An escaped version of the string.
+    :rtype: string
+    """
+    for char, escape in XML_ESCAPES:
+        string = string.replace(char, escape)
+    return string
+
 class VersionSplit(object):
     """
     Used for comparing version numbers.
