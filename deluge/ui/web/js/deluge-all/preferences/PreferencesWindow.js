@@ -94,6 +94,9 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 			autoDestroy: false,
 			region: 'center',
 			layout: 'card',
+			layoutConfig: {
+				deferredRender: true
+			},
 			autoScroll: true,
 			width: 300,
 			margins: '5 5 5 5',

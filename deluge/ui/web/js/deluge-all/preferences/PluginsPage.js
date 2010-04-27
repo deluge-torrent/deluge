@@ -224,7 +224,6 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			}
 		});
 	
-		this.on('show', this.onShow, this);
 		this.pluginInfo.on('render', this.onPluginInfoRender, this);
 		this.grid.on('cellclick', this.onCellClick, this);
 		deluge.preferences.on('show', this.onPreferencesShow, this);

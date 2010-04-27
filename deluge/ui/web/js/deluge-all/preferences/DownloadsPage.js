@@ -145,11 +145,5 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
 			height: 22,
 			boxLabel: _('Add torrents in Paused state')
 		}));
-	
-		this.on('show', this.onShow, this);
-	},
-
-	onShow: function() {
-		Deluge.preferences.Downloads.superclass.onShow.call(this);
 	}
 });

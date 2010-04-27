@@ -49,7 +49,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		Deluge.preferences.Interface.superclass.initComponent.call(this);
 		
 		var optMan = this.optionsManager = new Deluge.OptionsManager();
-		this.on('show', this.onShow, this);
+		this.on('show', this.onPageShow, this);
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -247,8 +247,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 		this.optionsManager.commit();
 	},
 	
-	onShow: function() {
-		Deluge.preferences.Interface.superclass.onShow.call(this);
+	onPageShow: function() {
 		deluge.client.web.get_config({
 			success: this.onGotConfig,
 			scope: this
