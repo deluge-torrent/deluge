@@ -343,7 +343,7 @@ dl.singleline dd {
 	background-image: url('../icons/update.png') !important;
 }
 
-.icon-edit-trackers {
+.icon-edit-trackers, .icon-edit {
 	background-image: url('../icons/edit_trackers.png') !important;
 }
 
