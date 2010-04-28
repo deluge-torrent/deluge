@@ -182,6 +182,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 			singleSelect: true,
 			autoExpandColumn: 'name'
 		});
+		this.list.on('selectionchange', this.onSelectionChange, this);
 
 		this.panel = this.add({
 			items: [this.list],
@@ -195,12 +196,14 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 					text: _('Edit'),
 					iconCls: 'icon-edit',
 					handler: this.onEditClick,
-					scope: this
+					scope: this,
+					disabled: true
 				}, '->', {
 					text: _('Remove'),
 					iconCls: 'icon-remove',
 					handler: this.onRemoveClick,
-					scope: this
+					scope: this,
+					disabled: true
 				}]
 			}
 		});
@@ -256,6 +259,16 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 			},
 			scope: this
 		});
+	},
+
+	onSelectionChange: function(dv, selections) {
+		if (selections.length) {
+			this.panel.getBottomToolbar().items.get(1).enable();
+			this.panel.getBottomToolbar().items.get(3).enable();
+		} else {
+			this.panel.getBottomToolbar().items.get(1).disable();
+			this.panel.getBottomToolbar().items.get(3).disable();
+		}
 	}
 });
 
