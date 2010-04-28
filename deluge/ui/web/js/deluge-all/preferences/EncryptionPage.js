@@ -57,7 +57,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel: _('Inbound'),
 			mode: 'local',
 			width: 150,
-			store: new Ext.data.SimpleStore({
+			store: new Ext.data.ArrayStore({
 				fields: ['id', 'text'],
 				data: [
 					[0, _('Forced')],
