@@ -129,7 +129,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 						buttons: Ext.MessageBox.OK,
 						modal: false,
 						fn: function() {
-							passwordField.focus();
+							passwordField.focus(true, 10);
 						},
 						icon: Ext.MessageBox.WARNING,
 						iconCls: 'x-deluge-icon-warning'
@@ -148,7 +148,6 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 	},
 	
 	onShow: function() {
-		this.passwordField.focus(false, 150);
-		this.passwordField.setRawValue('');
+		this.passwordField.focus(true, true);
 	}
 });
