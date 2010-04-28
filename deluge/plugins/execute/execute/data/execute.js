@@ -39,11 +39,16 @@ Ext.ns('Deluge.ux.preferences');
 Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 
 	title: _('Execute'),
-	layout: 'border',
+	layout: 'fit',
 	border: false,
 	    
 	initComponent: function() {
 	    Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
+		var event_map = this.event_map = {
+			'complete': _('Torrent Complete'),
+			'added': _('Torrent Added')
+		}
+
 		this.list = new Ext.list.ListView({
 			store: new Ext.data.SimpleStore({
 				fields: [
@@ -56,7 +61,12 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 				width: .3,
 				header: _('Event'),
 				sortable: true,
-				dataIndex: 'event'
+				dataIndex: 'event',
+				tpl: new Ext.XTemplate('{[this.getEvent(values.event)]}', {
+					getEvent: function(e) {
+						return (event_map[e]) ? event_map[e] : e;
+					}
+				})
 			}, {
 				id: 'name',
 				header: _('Command'),
@@ -68,32 +78,19 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 		});
 
 		this.panel = this.add({
-			region: 'center',
 			items: [this.list]
 		});
 		
-	    this.details = this.add({
-			xtype: 'tabpanel',
-			region: 'south',
-			activeTab: 0
-	    });
-	    
-	    this.add = this.details.add({
-			title: _('Add')
-	    });
-	    this.edit = this.details.add({
-			title: _('Edit')
-	    });
+		deluge.preferences.on('show', this.onPreferencesShow, this);
 	},
-	
-	onShow: function() {
-	    Deluge.ux.preferences.ExecutePage.superclass.onShow.call(this);
+
+	onPreferencesShow: function() {
 	    deluge.client.execute.get_commands({
 			success: function(commands) {
 				this.list.getStore().loadData(commands);
 			},
 			scope: this
-	    });
+		});
 	}
 });
 
