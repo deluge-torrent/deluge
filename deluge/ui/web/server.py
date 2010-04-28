@@ -99,7 +99,7 @@ CONFIG_DEFAULTS = {
 
     # UI Settings
     "sidebar_show_zero": False,
-    "sidebar_show_trackers": False,
+    "sidebar_multiple_filters": True,
     "show_session_speed": False,
     "show_sidebar": True,
     "theme": "gray",
@@ -114,7 +114,7 @@ CONFIG_DEFAULTS = {
 }
 
 UI_CONFIG_KEYS = (
-    "theme", "sidebar_show_zero", "sidebar_show_trackers",
+    "theme", "sidebar_show_zero", "sidebar_multiple_filters",
     "show_session_speed", "base", "first_login"
 )
 

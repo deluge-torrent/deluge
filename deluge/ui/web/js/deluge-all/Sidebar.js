@@ -77,6 +77,11 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 		panel.on('selectionchange', function(view, nodes) {
 			deluge.ui.update();
 		});
+		panel.on('show', function() {
+			if (!deluge.config.sidebar_multiple_filters) {
+				deluge.ui.update();
+			}
+		});
 		this.add(panel);
 	
 		this.doLayout();
@@ -94,12 +99,21 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 	getFilterStates: function() {
 		var states = {}
 
-		// Grab the filters from each of the filter panels
-		this.items.each(function(panel) {
-			var state = panel.getState();
-			if (!state == null) return;
-			states[panel.filterType] = state;
-		}, this);
+		if (deluge.config.sidebar_multiple_filters) {
+			// Grab the filters from each of the filter panels
+			this.items.each(function(panel) {
+				var state = panel.getState();
+				if (!state == null) return;
+				states[panel.filterType] = state;
+			}, this);
+		} else {
+			var panel = this.getLayout().activeItem;
+			if (panel) {
+				var state = panel.getState();
+				if (!state == null) return;
+				states[panel.filterType] = state;
+			}
+		}
 
 		return states;
 	},

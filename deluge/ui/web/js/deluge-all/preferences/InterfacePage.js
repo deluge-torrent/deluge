@@ -74,12 +74,12 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			labelSeparator: '',
 			boxLabel: _('Show filters with zero torrents')
 		}));
-		optMan.bind('sidebar_show_trackers', fieldset.add({
-			name: 'sidebar_show_trackers',
+		optMan.bind('sidebar_multiple_filters', fieldset.add({
+			name: 'sidebar_multiple_filters',
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
-			boxLabel: _('Show trackers with zero torrents')
+			boxLabel: _('Allow the use of multiple filters at once')
 		}));
 		
 		fieldset = this.add({
