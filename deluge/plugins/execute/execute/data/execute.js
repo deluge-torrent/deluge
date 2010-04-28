@@ -44,9 +44,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 	    
 	initComponent: function() {
 	    Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
-	    this.commands = this.add({
-			xtype: 'grid',
-			region: 'center',
+		this.list = new Ext.list.ListView({
 			store: new Ext.data.SimpleStore({
 				fields: [
 					{name: 'event', mapping: 1},
@@ -55,24 +53,24 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 				id: 0
 			}),
 			columns: [{
-				width: 70,
+				width: .3,
 				header: _('Event'),
 				sortable: true,
-				renderer: fplain,
 				dataIndex: 'event'
 			}, {
 				id: 'name',
 				header: _('Command'),
 				sortable: true,
-				renderer: fplain,
 				dataIndex: 'name'
 			}],
-			stripRows: true,
-			selModel: new Ext.grid.RowSelectionModel({
-				singleSelect: true
-			}),
+			singleSelect: true,
 			autoExpandColumn: 'name'
-	    });
+		});
+
+		this.panel = this.add({
+			region: 'center',
+			items: [this.list]
+		});
 		
 	    this.details = this.add({
 			xtype: 'tabpanel',
@@ -92,7 +90,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 	    Deluge.ux.preferences.ExecutePage.superclass.onShow.call(this);
 	    deluge.client.execute.get_commands({
 			success: function(commands) {
-				this.commands.getStore().loadData(commands);
+				this.list.getStore().loadData(commands);
 			},
 			scope: this
 	    });
