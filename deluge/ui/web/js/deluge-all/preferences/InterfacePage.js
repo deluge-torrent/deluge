@@ -191,6 +191,10 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 				success: this.onSetConfig,
 				scope: this
 			});
+
+			for (var key in deluge.config) {
+				deluge.config[key] = this.optionsManager.get(key);
+			}
 		}
 	},
 	
