@@ -71,6 +71,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
 
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Ok'), this.onOkClick, this);
+		this.afterMethod('show', this.doFocusField, this);
 	},
 
 	setValue: function(value) {
@@ -91,5 +92,9 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
 			}
 		});
 		this.hide();
+	},
+
+	doFocusField: function() {
+		this.form.getForm().findField('limit').focus(true, 10);
 	}
 });
