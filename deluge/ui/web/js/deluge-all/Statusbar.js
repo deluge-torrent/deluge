@@ -302,4 +302,3 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		this.items.get('statusbar-freespace').setText(fsize(stats.free_space));
 	}
 });
-deluge.statusbar = new Deluge.Statusbar();
