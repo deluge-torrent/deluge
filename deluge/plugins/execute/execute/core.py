@@ -53,6 +53,10 @@ EXECUTE_ID = 0
 EXECUTE_EVENT = 1
 EXECUTE_COMMAND = 2
 
+EVENT_MAP = {
+    "complete": "TorrentFinishedEvent",
+    "added": "TorrentAddedEvent"
+}
 
 class ExecuteCommandAddedEvent(DelugeEvent):
     """
@@ -72,29 +76,40 @@ class Core(CorePluginBase):
     def enable(self):
         self.config = ConfigManager("execute.conf", DEFAULT_CONFIG)
         event_manager = component.get("EventManager")
-        event_manager.register_event_handler("TorrentFinishedEvent",
-            self.on_torrent_finished)
-        log.debug("Example core plugin enabled!")
+        registered_events = []
+
+        # Go through the commands list and register event handlers
+        for command in self.config["commands"]:
+            event = command[EXECUTE_EVENT]
+            if event in registered_events:
+                continue
+
+            def event_handler(torrent_id):
+                self.execute_commands(torrent_id, command[EXECUTE_EVENT])
+            event_manager.register_event_handler(EVENT_MAP[event], event_handler)
+            registered_events.append(event)
+
+        log.debug("Execute core plugin enabled!")
 
     def execute_commands(self, torrent_id, event):
         torrent = component.get("TorrentManager").torrents[torrent_id]
-        info = torrent.get_status(["name", "save_path",
-            "move_on_completed_path"])
+        info = torrent.get_status(["name", "save_path", "move_completed", "move_on_completed_path"])
 
+        # Grab the torrent name and save path
         torrent_name = info["name"]
-        path = info["save_path"] if \
-            info["move_on_completed_path"] == info["save_path"] else \
-            info["move_on_completed_path"]
+        if event == "completed":
+            save_path = info["move_on_completed_path"] if info ["move_completed"] else info["save_path"]
+        else:
+            save_path = info["save_path"]
 
+        # Go through and execute all the commands
         for command in self.config["commands"]:
             if command[EXECUTE_EVENT] == event:
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
-                p = Popen([command, torrent_id, torrent_name, path],
-                    stdin=PIPE, stdout=PIPE, stderr=PIPE)
+                p = Popen([command, torrent_id, torrent_name, save_path], stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 if p.wait() != 0:
-                    log.warn("Execute command failed with exit code %d",
-                        p.returncode)
+                    log.warn("Execute command failed with exit code %d", p.returncode)
 
     def disable(self):
         self.config.save()
@@ -102,9 +117,6 @@ class Core(CorePluginBase):
         event_manager.deregister_event_handler("TorrentFinishedEvent",
             self.on_torrent_finished)
         log.debug("Example core plugin disabled!")
-
-    def on_torrent_finished(self, torrent_id):
-        self.execute_commands(torrent_id, "complete")
 
     ### Exported RPC methods ###
     @export
