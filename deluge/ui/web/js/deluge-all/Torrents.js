@@ -339,6 +339,7 @@
 				selModel.deselectRow(this.getStore().indexOf(record));
 			}
 			this.getStore().remove(record);
+			delete this.torrents[torrentId];
 		}, this);
 	}
 });
