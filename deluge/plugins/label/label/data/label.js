@@ -334,15 +334,15 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 
 	updateTorrentMenu: function(filter) {
-		Ext.each(filter.getStates(), function(state) {
-			if (!state) return;
+		for (var state in filter.getStates()) {
+			if (!state) continue;
 			this.torrentMenu.addMenuItem({
 				text: state,
 				label: state,
 				handler: this.onTorrentMenuClick,
 				scope: this
 			});
-		}, this);
+		}
 	},
 	
 	onDisable: function() {
@@ -355,17 +355,6 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 	
 	onEnable: function() {
-		if (deluge.sidebar.hasFilter('label')) {
-			var filter = deluge.sidebar.getFilter('label');
-			this.setFilter(filter);
-			this.updateTorrentMenu(filter);
-		} else {
-			deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
-			deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
-			Deluge.FilterPanel.templates.label = '<div class="x-deluge-filter x-deluge-{filter:lowercase}"><tpl if="filter">{filter}</tpl><tpl if="!filter">no label</tpl> ({count})</div>';
-		}
-		this.registerTorrentStatus('label', _('Label'));
-
 		this.torrentMenu = new Ext.menu.Menu({
 			items: [{
 				text: _('No Label'),
@@ -382,7 +371,26 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 		this.tm = deluge.menus.torrent.add({
 			text: _('Label'),
 			menu: this.torrentMenu
-		})
+		});
+
+		var lbltpl = '<div class="x-deluge-filter">' +
+						'<tpl if="filter">{filter}</tpl>' +
+						'<tpl if="!filter">no label</tpl>' +
+						' ({count})' +
+					'</div>';
+
+		if (deluge.sidebar.hasFilter('label')) {
+			var filter = deluge.sidebar.getFilter('label');
+			filter.list.columns[0].tpl = new Ext.XTemplate(lbltpl);
+			this.setFilter(filter);
+			this.updateTorrentMenu(filter);
+			filter.list.refresh();
+		} else {
+			deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
+			deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
+			Deluge.FilterPanel.templates.label = lbltpl;
+		}
+		this.registerTorrentStatus('label', _('Label'));
 	},
 
 	onAfterFilterCreate: function(sidebar, filter) {
