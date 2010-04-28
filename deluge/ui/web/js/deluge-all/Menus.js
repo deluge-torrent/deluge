@@ -240,38 +240,6 @@ deluge.menus.torrent = new Ext.menu.Menu({
 	}]
 });
 
-Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
-	
-	setValue: function(value) {
-		var beenSet = false;
-		// set the new value
-		value = (value == 0) ? -1 : value;
-
-		var other = null;
-		// uncheck all items
-		this.items.each(function(item) {
-			if (item.setChecked) {
-				item.suspendEvents();
-				if (item.value == value) {
-					item.setChecked(true);
-					beenSet = true;
-				} else {
-					item.setChecked(false);
-				}
-				item.resumeEvents();
-			}
-
-			if (item.value == 'other') other = item;
-		});
-
-		if (beenSet) return;
-
-		other.suspendEvents();
-		other.setChecked(true);
-		other.resumeEvents();
-	}
-});
-
 deluge.menus.connections = new Deluge.StatusbarMenu({
 	id: 'connectionsMenu',
 	items: [{
