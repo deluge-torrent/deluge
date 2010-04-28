@@ -172,6 +172,7 @@ deluge.ui = {
 
 	onGotPlugins: function(plugins) {
 		Ext.each(plugins.enabled_plugins, function(plugin) {
+			if (deluge.plugins[plugin]) return;
 			deluge.client.web.get_plugin_resources(plugin, {
 				success: this.onGotPluginResources,
 				scope: this
