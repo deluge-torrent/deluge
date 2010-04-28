@@ -46,7 +46,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		this.files = this.add(new Deluge.add.FilesTab());
 		this.form = this.add(new Deluge.add.OptionsTab());
 
-		this.files.on('filechecked', this.onFileChecked, this);
+		this.files.on('fileschecked', this.onFilesChecked, this);
 	},
 
 	addTorrent: function(torrent) {
@@ -125,34 +125,35 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		}
 	},
 
-	onFileChecked: function(node, newValue, oldValue) {
-		if (!Ext.isNumber(node.attributes.fileindex)) return;
-
-//		if (this.form.optionsManager.get('compact_allocation')) {
-//			Ext.Msg.show({
-//				title: _('Unable to set file priority!'),
-//				msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
-//				buttons: Ext.Msg.YESNO,
-//				fn: function(result) {
-//					if (result == 'yes') {
-//						var priorities = this.form.optionsManager.get('file_priorities');
-//						priorities[node.attributes.fileindex] = (result) ? newValue : oldValue;
-//						this.form.optionsManager.update('file_priorities', priorities);
-//					} else {
-//						node.attributes.download = oldValue;
-//						node.ui.updateColumns();
-//					}	
-//				},
-//				scope: this,
-//				icon: Ext.MessageBox.QUESTION
-//			});
-//		} else {
-//			var priorities = this.form.optionsManager.get('file_priorities');
-//			priorities[node.attributes.fileindex] = newValue;
-//			this.form.optionsManager.update('file_priorities', priorities);
-//		}
-		var priorities = this.form.optionsManager.get('file_priorities');
-		priorities[node.attributes.fileindex] = newValue;
-		this.form.optionsManager.update('file_priorities', priorities);
+	onFilesChecked: function(nodes, newValue, oldValue) {
+		if (this.form.optionsManager.get('compact_allocation')) {
+			Ext.Msg.show({
+				title: _('Unable to set file priority!'),
+				msg:   _('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?'),
+				buttons: Ext.Msg.YESNO,
+				fn: function(result) {
+					if (result == 'yes') {
+						this.form.optionsManager.update('compact_allocation', false);
+						Ext.each(nodes, function(node) {
+							if (node.attributes.fileindex < 0) return;
+							var priorities = this.form.optionsManager.get('file_priorities');
+							priorities[node.attributes.fileindex] = newValue;
+							this.form.optionsManager.update('file_priorities', priorities);
+						}, this);
+					} else {
+						this.files.setDownload(nodes[0], oldValue, true);
+					}	
+				},
+				scope: this,
+				icon: Ext.MessageBox.QUESTION
+			});
+		} else {
+			Ext.each(nodes, function(node) {
+				if (node.attributes.fileindex < 0) return;
+				var priorities = this.form.optionsManager.get('file_priorities');
+				priorities[node.attributes.fileindex] = newValue;
+				this.form.optionsManager.update('file_priorities', priorities);
+			}, this);
+		}
 	}
 });

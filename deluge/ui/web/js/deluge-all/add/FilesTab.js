@@ -84,18 +84,24 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		});
 	},
 
-	setDownload: function(node, value) {
+	setDownload: function(node, value, suppress) {
 		node.attributes.download = value;
 		node.ui.updateColumns();
 
 		if (node.isLeaf()) {
-			return this.fireEvent('filechecked', node, value, !value);
+			if (!suppress) {
+				return this.fireEvent('fileschecked', [node], value, !value);
+			}
 		} else {
+			var nodes = [node];
 			node.cascade(function(n) {
 				n.attributes.download = value;
 				n.ui.updateColumns();
-				return this.fireEvent('filechecked', n, value, !value);
+				nodes.push(n);
 			}, this);
+			if (!suppress) {
+				return this.fireEvent('fileschecked', nodes, value, !value);
+			}
 		}
 	},
 
