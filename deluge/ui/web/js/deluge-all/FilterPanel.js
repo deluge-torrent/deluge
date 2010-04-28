@@ -77,12 +77,6 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 			}]
 		});
 		this.relayEvents(this.list, ['selectionchange']);
-		this.list.afterMethod('bindStore', this.doBindStore, this);
-	},
-
-	// private
-	doBindStore: function() {
-		this.list.select(0);
 	},
 
 	/**
@@ -160,6 +154,10 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		}, this);
 
 		store.commitChanges();
+
+		if (!this.list.getSelectionCount()) {
+			this.list.select(0);
+		}
 	},
 
 });
