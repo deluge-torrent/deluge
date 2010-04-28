@@ -110,9 +110,9 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
 	// private
 	onDisconnect: function() {
-		Ext.each(Ext.getKeys(this.panels), function(filter) {
-			this.remove(filter + '-panel');
-		}, this);
+		for (var filter in this.panels) {
+			this.remove(this.panels[filter]);
+		}
 		this.panels = {};
 		this.selected = null;
 	},
