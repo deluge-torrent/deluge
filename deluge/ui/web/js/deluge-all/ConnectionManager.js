@@ -48,7 +48,6 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 		this.on('hide',  this.onHide, this);
 		this.on('show', this.onShow, this);
 
-		deluge.events.on('disconnect', this.onDisconnect, this);
 		deluge.events.on('login', this.onLogin, this);
 		deluge.events.on('logout', this.onLogout, this);
 
@@ -81,6 +80,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 				header: _('Version'),
 				width: .25,
 				sortable: true,
+				tpl: '<tpl if="version">{version}</tpl>',
 				dataIndex: 'version'
 			}],
 			singleSelect: true,
@@ -141,8 +141,12 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 		});
 	},
 
-	disconnect: function() {
+	disconnect: function(show) {
 		deluge.events.fire('disconnect');
+		if (show) {
+			if (this.isVisible()) return;
+			this.show();
+		}
 	},
 
 	loadHosts: function() {
@@ -241,12 +245,6 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 	},
 
 	// private
-	onDisconnect: function() {
-		if (this.isVisible()) return;
-		this.show();
-	},
-
-	// private
 	onGetHosts: function(hosts) {
 		this.list.getStore().loadData(hosts);
 		Ext.each(hosts, function(host) {
@@ -296,9 +294,6 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 		if (!this.hidden && this.rendered) {
 			this.hide();
 		}
-		if (this.running) {
-			
-		}
 	},
 
 	// private
@@ -335,7 +330,6 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 		} else {
 			this.removeHostButton.disable();
 			this.stopHostButton.disable();
-			this.updateButtons(null);
 		}
 	},
 

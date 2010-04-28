@@ -129,7 +129,10 @@ deluge.ui = {
 	 * Updates the various components in the interface.
 	 */
 	onUpdate: function(data) {
-		if (!data['connected']) deluge.events.fire('disconnect');
+		if (!data['connected']) {
+			deluge.connectionManager.disconnect(true);
+			return;
+		}
 
 		if (deluge.config.show_session_speed) {
 			document.title = this.originalTitle + 
