@@ -95,11 +95,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	 * Return the current states in the filter
 	 */
 	getStates: function() {
-		var states = [];
-		this.list.getStore().each(function(r) {
-			states.push(r.get('filter'));
-		});
-		return states;
+		return this.states;
 	},
 
 	/**
