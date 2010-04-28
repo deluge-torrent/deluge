@@ -55,21 +55,132 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-connections',
 			tooltip: _('Connections'),
-			menu: deluge.menus.connections
+			menu: new Deluge.StatusbarMenu({
+				items: [{
+					text: '50',
+					value: '50',
+					group: 'max_connections_global',
+					checked: false
+				},{
+					text: '100',
+					value: '100',
+					group: 'max_connections_global',
+					checked: false
+				},{
+					text: '200',
+					value: '200',
+					group: 'max_connections_global',
+					checked: false
+				},{
+					text: '300',
+					value: '300',
+					group: 'max_connections_global',
+					checked: false
+				},{
+					text: '500',
+					value: '500',
+					group: 'max_connections_global',
+					checked: false
+				},{
+					text: _('Unlimited'),
+					value: '-1',
+					group: 'max_connections_global',
+					checked: false
+				},'-',{
+					text: _('Other'),
+					value: 'other',
+					group: 'max_connections_global',
+					checked: false
+				}]
+			}),
 		}, '-', {
 			id: 'statusbar-downspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-downloading',
 			tooltip: _('Download Speed'),
-			menu: deluge.menus.download
+			menu: new Deluge.StatusbarMenu({
+				items: [{
+					value: '5',
+					text: '5 KiB/s',
+					group: 'max_download_speed',
+					checked: false
+				},{
+					value: '10',
+					text: '10 KiB/s',
+					group: 'max_download_speed',
+					checked: false
+				},{
+					value: '30',
+					text: '30 KiB/s',
+					group: 'max_download_speed',
+					checked: false
+				},{
+					value: '80',
+					text: '80 KiB/s',
+					group: 'max_download_speed',
+					checked: false
+				},{
+					value: '300',
+					text: '300 KiB/s',
+					group: 'max_download_speed',
+					checked: false
+				},{
+					value: '-1',
+					text: _('Unlimited'),
+					group: 'max_download_speed',
+					checked: false
+				},'-',{
+					value: 'other',
+					text: _('Other'),
+					group: 'max_download_speed',
+					checked: false
+				}]
+			}),
 		}, '-', {
 			id: 'statusbar-upspeed',
 			text: ' ',
 			cls: 'x-btn-text-icon',
 			iconCls: 'x-deluge-seeding',
 			tooltip: _('Upload Speed'),
-			menu: deluge.menus.upload
+			menu: new Deluge.StatusbarMenu({
+				items: [{
+					value: '5',
+					text: '5 KiB/s',
+					group: 'max_upload_speed',
+					checked: false
+				},{
+					value: '10',
+					text: '10 KiB/s',
+					group: 'max_upload_speed',
+					checked: false
+				},{
+					value: '30',
+					text: '30 KiB/s',
+					group: 'max_upload_speed',
+					checked: false
+				},{
+					value: '80',
+					text: '80 KiB/s',
+					group: 'max_upload_speed',
+					checked: false
+				},{
+					value: '300',
+					text: '300 KiB/s',
+					group: 'max_upload_speed',
+					checked: false
+				},{
+					value: '-1',
+					text: _('Unlimited'),
+					group: 'max_upload_speed',
+					checked: false
+				},'-',{
+					value: 'other',
+					text: _('Other'),
+					group: 'max_upload_speed',
+					checked: false
+				}]
+			})
 		}, '-', {
 			id: 'statusbar-traffic',
 			text: ' ',
@@ -140,6 +251,9 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 				var str = (config.value.formatter) ? config.value.formatter(config.value.value, true) : config.value.value;
 			}
 			item.setText(str);
+
+			if (!item.menu) return;
+			item.menu.setValue(config.limit.value);
 		}.createDelegate(this);
 		
 		updateStat('connections', {
@@ -171,7 +285,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			},
 			format: '{0} ({1})'
 		});
-		
+
 		updateStat('traffic', {
 			value: {
 				value: stats.download_protocol_rate,
@@ -186,10 +300,6 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 
 		this.items.get('statusbar-dht').setText(stats.dht_nodes);
 		this.items.get('statusbar-freespace').setText(fsize(stats.free_space));
-		
-		deluge.menus.connections.setValue(stats.max_num_connections);
-		deluge.menus.download.setValue(stats.max_download);
-		deluge.menus.upload.setValue(stats.max_upload);
 	}
 });
 deluge.statusbar = new Deluge.Statusbar();
