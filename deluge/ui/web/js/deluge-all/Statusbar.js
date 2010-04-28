@@ -91,7 +91,10 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 					value: 'other',
 					group: 'max_connections_global',
 					checked: false
-				}]
+				}],
+				otherWin: {
+					title: _('Set Maximum Connections')
+				}
 			}),
 		}, '-', {
 			id: 'statusbar-downspeed',
@@ -135,7 +138,11 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 					text: _('Other'),
 					group: 'max_download_speed',
 					checked: false
-				}]
+				}],
+				otherWin: {
+					title: _('Set Maximum Download Speed'),
+					unit: _('Kib/s')
+				}
 			}),
 		}, '-', {
 			id: 'statusbar-upspeed',
@@ -179,7 +186,11 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 					text: _('Other'),
 					group: 'max_upload_speed',
 					checked: false
-				}]
+				}],
+				otherWin: {
+					title: _('Set Maximum Upload Speed'),
+					unit: _('Kib/s')
+				}
 			})
 		}, '-', {
 			id: 'statusbar-traffic',
