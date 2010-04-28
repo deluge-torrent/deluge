@@ -156,6 +156,10 @@ deluge.ui = {
 			this.running = setInterval(this.update, 2000);
 			this.update();
 		}
+		deluge.client.web.get_plugins({
+			success: this.onGotPlugins,
+			scope: this
+		});
 	},
 
 	/**
@@ -164,6 +168,15 @@ deluge.ui = {
 	 */
 	onDisconnect: function() {
 		this.stop();
+	},
+
+	onGotPlugins: function(plugins) {
+		Ext.each(plugins.enabled_plugins, function(plugin) {
+			deluge.client.web.get_plugin_resources(plugin, {
+				success: this.onGotPluginResources,
+				scope: this
+			});
+		}, this);
 	},
 
 	onPluginEnabled: function(pluginName) {
