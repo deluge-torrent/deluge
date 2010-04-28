@@ -110,7 +110,11 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 	 * Update the states in the FilterPanel
 	 */
 	updateStates: function(states) {
-		this.states = states;
+		this.states = {};
+		Ext.each(states, function(state) {
+			this.states[state[0]] = state[1];
+		}, this);
+
 		var show_zero = (this.show_zero == null) ? deluge.config.sidebar_show_zero : this.show_zero;
 		if (!show_zero) {
 			var newStates = [];
