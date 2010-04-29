@@ -406,30 +406,6 @@ def is_magnet(uri):
         return True
     return False
 
-def fetch_url(url):
-    """
-    Downloads a torrent file from a given URL and checks the file's validity
-
-    :param url: the url of the .torrent file to fetch
-    :type url: string
-    :returns: the filepath to the downloaded file
-    :rtype: string
-
-    """
-    import urllib
-    from deluge.log import LOG as log
-    try:
-        filename, headers = urllib.urlretrieve(url)
-    except IOError:
-        log.debug("Network error while trying to fetch torrent from %s", url)
-    else:
-        if filename.endswith(".torrent") or headers["content-type"] ==\
-        "application/x-bittorrent":
-            return filename
-        else:
-            log.debug("URL doesn't appear to be a valid torrent file: %s", url)
-            return None
-
 def create_magnet_uri(infohash, name=None, trackers=[]):
     """
     Creates a magnet uri
