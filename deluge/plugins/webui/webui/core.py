@@ -43,8 +43,6 @@ from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
 
-from deluge.ui.web import server
-
 DEFAULT_PREFS = {
     "enabled": False,
     "ssl": False,
@@ -75,14 +73,29 @@ class Core(CorePluginBase):
         
     def on_stop(self, *args):
         self.start()
+
+    @export
+    def got_deluge_web(self):
+        try:
+            from deluge.ui.web import server
+            return True
+        except ImportError:
+            return False
     
     @export
     def start(self):
         if not self.server:
+            try:
+                from deluge.ui.web import server
+            except ImportError:
+                return False
+
             self.server = server.DelugeWeb()
+
         self.server.port = self.config["port"]
         self.server.https = self.config["ssl"]
         self.server.start(False)
+        return True
     
     @export
     def stop(self):
@@ -107,11 +120,11 @@ class Core(CorePluginBase):
         self.config.save()
         
         if action == 'start':
-            self.start()
+            return self.start()
         elif action == 'stop':
-            self.stop()
+            return self.stop()
         elif action == 'restart':
-            self.restart()
+            return self.restart()
 
     @export
     def get_config(self):
