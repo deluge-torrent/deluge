@@ -132,7 +132,10 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						items: [{
 							xtype: 'checkbox',
 							fieldLabel: '',
-							boxLabel: _('Apply per torrent max settings:')
+							boxLabel: _('Apply per torrent max settings:'),
+							listeners: {
+								check: this.onFieldChecked
+							}
 						}]
 					}, {
 						xtype: 'fieldset',
@@ -178,7 +181,10 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						items: [{
 							xtype: 'checkbox',
 							fieldLabel: '',
-							boxLabel: _('Apply queue settings:')
+							boxLabel: _('Apply queue settings:'),
+							listeners: {
+								check: this.onFieldChecked
+							}
 						}]
 					}, {
 						xtype: 'fieldset',
@@ -216,7 +222,10 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						items: [{
 							xtype: 'checkbox',
 							fieldLabel: '',
-							boxLabel: _('Apply location settings:')
+							boxLabel: _('Apply location settings:'),
+							listeners: {
+								check: this.onFieldChecked
+							}
 						}]
 					}, {
 						xtype: 'fieldset',
@@ -252,7 +261,10 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						items: [{
 							xtype: 'checkbox',
 							fieldLabel: '',
-							boxLabel: _('Automatically apply label:')
+							boxLabel: _('Automatically apply label:'),
+							listeners: {
+								check: this.onFieldChecked
+							}
 						}]
 					}, {
 						xtype: 'fieldset',
@@ -289,6 +301,13 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 	onOkClick: function() {
 		this.hide();
+	},
+
+	onFieldChecked: function(field, checked) {
+		var fs = field.ownerCt.nextSibling();
+		fs.items.each(function(field) {
+			field.setDisabled(!checked);
+		});
 	}
 
 });
