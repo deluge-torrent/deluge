@@ -147,25 +147,29 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 							name: 'down_speed',
 							width: 80,
 							disabled: true,
-							value: -1
+							value: -1,
+							minValue: -1
 						}, {
 							fieldLabel: _('Upload Speed'),
 							name: 'up_speed',
 							width: 80,
 							disabled: true,
-							value: -1
+							value: -1,
+							minValue: -1
 						}, {
 							fieldLabel: _('Upload Slots'),
 							name: 'upload_slots',
 							width: 80,
 							disabled: true,
-							value: -1
+							value: -1,
+							minValue: -1
 						}, {
 							fieldLabel: _('Connections'),
 							name: 'connections',
 							width: 80,
 							disabled: true,
-							value: -1
+							value: -1,
+							minValue: -1
 						}]
 					}]
 				}]
