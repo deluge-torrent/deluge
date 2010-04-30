@@ -39,7 +39,7 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
 	region: 'south',
 	id: 'torrentDetails',
 	split: true,
-	height: 220,
+	height: 210,
 	minSize: 100,
 	collapsible: true,
 	margins: '0 5 5 5',
