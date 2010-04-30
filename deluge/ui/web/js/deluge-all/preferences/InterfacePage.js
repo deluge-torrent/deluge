@@ -36,19 +36,15 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Interface'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Interface.superclass.constructor.call(this, config);
-	},
+
+	border: false,
+	title: _('Interface'),
+	layout: 'form',
 	
 	initComponent: function() {
 		Deluge.preferences.Interface.superclass.initComponent.call(this);
 		
-		var optMan = this.optionsManager = new Deluge.OptionsManager();
+		var om = this.optionsManager = new Deluge.OptionsManager();
 		this.on('show', this.onPageShow, this);
 		
 		var fieldset = this.add({
@@ -60,21 +56,21 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			labelWidth: 1,
 			defaultType: 'checkbox'
 		});
-		optMan.bind('show_session_speed', fieldset.add({
+		om.bind('show_session_speed', fieldset.add({
 			name: 'show_session_speed',
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Show session speed in titlebar')
 		}));
-		optMan.bind('sidebar_show_zero', fieldset.add({
+		om.bind('sidebar_show_zero', fieldset.add({
 			name: 'sidebar_show_zero',
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Show filters with zero torrents')
 		}));
-		optMan.bind('sidebar_multiple_filters', fieldset.add({
+		om.bind('sidebar_multiple_filters', fieldset.add({
 			name: 'sidebar_multiple_filters',
 			height: 22,
 			fieldLabel: '',
@@ -139,27 +135,21 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 				width: 80
 			}
 		});
-		optMan.bind('session_timeout', fieldset.add({
+		om.bind('session_timeout', fieldset.add({
 			name: 'session_timeout',
 			fieldLabel: _('Session Timeout'),
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
-		optMan.bind('port', fieldset.add({
+		om.bind('port', fieldset.add({
 			name: 'port',
 			fieldLabel: _('Port'),
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
-		this.httpsField = optMan.bind('https', fieldset.add({
+		this.httpsField = om.bind('https', fieldset.add({
 			xtype: 'checkbox',
 			name: 'https',
 			hideLabel: true,
@@ -168,14 +158,14 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 			boxLabel: _('Use SSL (paths relative to Deluge config folder)')
 		}));
 		this.httpsField.on('check', this.onSSLCheck, this);
-		this.pkeyField = optMan.bind('pkey', fieldset.add({
+		this.pkeyField = om.bind('pkey', fieldset.add({
 			xtype: 'textfield',
 			disabled: true,
 			name: 'pkey',
 			width: 180,
 			fieldLabel: _('Private Key')
 		}));
-		this.certField = optMan.bind('cert', fieldset.add({
+		this.certField = om.bind('cert', fieldset.add({
 			xtype: 'textfield',
 			disabled: true,
 			name: 'cert',

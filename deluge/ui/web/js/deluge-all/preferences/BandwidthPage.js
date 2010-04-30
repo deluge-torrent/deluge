@@ -49,87 +49,61 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 	initComponent: function() {
 		Deluge.preferences.Bandwidth.superclass.initComponent.call(this);
 		
-		var optMan = deluge.preferences.getOptionsManager();
+		var om = deluge.preferences.getOptionsManager();
 		var fieldset = this.add({
 			xtype: 'fieldset',
 			border: false,
 			title: _('Global Bandwidth Usage'),
 			labelWidth: 200,
 			defaultType: 'spinnerfield',
+			defaults: {
+				minValue: -1,
+				maxValue: 99999
+			},
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			autoHeight: true
 		});
-		optMan.bind('max_connections_global', fieldset.add({
+		om.bind('max_connections_global', fieldset.add({
 			name: 'max_connections_global',
 			fieldLabel: _('Maximum Connections'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_upload_slots_global', fieldset.add({
+		om.bind('max_upload_slots_global', fieldset.add({
 			name: 'max_upload_slots_global',
 			fieldLabel: _('Maximum Upload Slots'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_download_speed', fieldset.add({
+		om.bind('max_download_speed', fieldset.add({
 			name: 'max_download_speed',
 			fieldLabel: _('Maximum Download Speed (KiB/s)'),
 			width: 80,
-			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 1,
-				minValue: -1,
-				maxValue: 99999
-			}
+			value: -1.0,
+			decimalPrecision: 1
 		}));
-		optMan.bind('max_upload_speed', fieldset.add({
+		om.bind('max_upload_speed', fieldset.add({
 			name: 'max_upload_speed',
 			fieldLabel: _('Maximum Upload Speed (KiB/s)'),
 			width: 80,
-			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 1,
-				minValue: -1,
-				maxValue: 99999
-			}
+			value: -1.0,
+			decimalPrecision: 1
 		}));
-		optMan.bind('max_half_open_connections', fieldset.add({
+		om.bind('max_half_open_connections', fieldset.add({
 			name: 'max_half_open_connections',
 			fieldLabel: _('Maximum Half-Open Connections'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_connections_per_second', fieldset.add({
+		om.bind('max_connections_per_second', fieldset.add({
 			name: 'max_connections_per_second',
 			fieldLabel: _('Maximum Connection Attempts per Second'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
 		
 		fieldset = this.add({
@@ -140,14 +114,14 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			style: 'padding-top: 0px; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px;',
 			autoHeight: true
 		});
-		optMan.bind('ignore_limits_on_local_network', fieldset.add({
+		om.bind('ignore_limits_on_local_network', fieldset.add({
 			name: 'ignore_limits_on_local_network',
 			height: 22,
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Ignore limits on local network')
 		}));
-		optMan.bind('rate_limit_ip_overhead', fieldset.add({
+		om.bind('rate_limit_ip_overhead', fieldset.add({
 			name: 'rate_limit_ip_overhead',
 			height: 22,
 			fieldLabel: '',
@@ -162,55 +136,39 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-bottom: 0px; padding-bottom: 0px;',
 			defaultType: 'spinnerfield',
 			labelWidth: 200,
+			defaults: {
+				minValue: -1,
+				maxValue: 99999
+			},
 			autoHeight: true
 		});
-		optMan.bind('max_connections_per_torrent', fieldset.add({
+		om.bind('max_connections_per_torrent', fieldset.add({
 			name: 'max_connections_per_torrent',
 			fieldLabel: _('Maximum Connections'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_upload_slots_per_torrent', fieldset.add({
+		om.bind('max_upload_slots_per_torrent', fieldset.add({
 			name: 'max_upload_slots_per_torrent',
 			fieldLabel: _('Maximum Upload Slots'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_download_speed_per_torrent', fieldset.add({
+		om.bind('max_download_speed_per_torrent', fieldset.add({
 			name: 'max_download_speed_per_torrent',
 			fieldLabel: _('Maximum Download Speed (KiB/s)'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 1,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
-		optMan.bind('max_upload_speed_per_torrent', fieldset.add({
+		om.bind('max_upload_speed_per_torrent', fieldset.add({
 			name: 'max_upload_speed_per_torrent',
 			fieldLabel: _('Maximum Upload Speed (KiB/s)'),
 			width: 80,
 			value: -1,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 1,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0
 		}));
 	}
 });

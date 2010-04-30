@@ -36,19 +36,15 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Queue'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Queue.superclass.constructor.call(this, config);
-	},
+
+	border: false,
+	title: _('Queue'),
+	layout: 'form',
 	
 	initComponent: function() {
 		Deluge.preferences.Queue.superclass.initComponent.call(this);
 		
-		var optMan = deluge.preferences.getOptionsManager();
+		var om = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -59,7 +55,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			labelWidth: 1,
 			defaultType: 'checkbox'
 		});
-		optMan.bind('queue_new_to_top', fieldset.add({
+		om.bind('queue_new_to_top', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			height: 22,
@@ -76,43 +72,34 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px;'
 		});
-		optMan.bind('max_active_limit', fieldset.add({
+		om.bind('max_active_limit', fieldset.add({
 			fieldLabel: _('Total Active'),
 			name: 'max_active_limit',
 			value: 8,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
-		optMan.bind('max_active_downloading', fieldset.add({
+		om.bind('max_active_downloading', fieldset.add({
 			fieldLabel: _('Total Active Downloading'),
 			name: 'max_active_downloading',
 			value: 3,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
-		optMan.bind('max_active_seeding', fieldset.add({
+		om.bind('max_active_seeding', fieldset.add({
 			fieldLabel: _('Total Active Seeding'),
 			name: 'max_active_seeding',
 			value: 5,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
-		optMan.bind('dont_count_slow_torrents', fieldset.add({
+		om.bind('dont_count_slow_torrents', fieldset.add({
 			xtype: 'checkbox',
 			name: 'dont_count_slow_torrents',
 			height: 40,
@@ -129,41 +116,36 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			defaultType: 'spinnerfield',
 			style: 'margin-bottom: 0px; padding-bottom: 0px; margin-top: 0; padding-top: 0;'
 		});
-		optMan.bind('share_ratio_limit', fieldset.add({
+		om.bind('share_ratio_limit', fieldset.add({
 			fieldLabel: _('Share Ratio Limit'),
 			name: 'share_ratio_limit',
 			value: 8,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			incrementValue: 0.1,
+			minValue: -1,
+			maxValue: 99999,
+			alternateIncrementValue: 1,
+			decimalPrecision: 2
 		}));
-		optMan.bind('seed_time_ratio_limit', fieldset.add({
+		om.bind('seed_time_ratio_limit', fieldset.add({
 			fieldLabel: _('Share Time Ratio'),
 			name: 'seed_time_ratio_limit',
 			value: 3,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			incrementValue: 0.1,
+			minValue: -1,
+			maxValue: 99999,
+			alternateIncrementValue: 1,
+			decimalPrecision: 2
 		}));
-		optMan.bind('seed_time_limit', fieldset.add({
+		om.bind('seed_time_limit', fieldset.add({
 			fieldLabel: _('Seed Time (m)'),
 			name: 'seed_time_limit',
 			value: 5,
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
 		
 		fieldset = this.add({
@@ -186,25 +168,22 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			boxLabel: _('Stop seeding when share ratio reaches:')
 		});
 		this.stopAtRatio.on('check', this.onStopRatioCheck, this);
-		optMan.bind('stop_seed_at_ratio', this.stopAtRatio);
+		om.bind('stop_seed_at_ratio', this.stopAtRatio);
 		
 		this.stopRatio = fieldset.add({
 			xtype: 'spinnerfield',
 			name: 'stop_seed_ratio',
 			ctCls: 'x-deluge-indent-checkbox',
 			disabled: true,
-			value: 2.0,
+			value: '2.0',
 			width: 60,
-			strategy: {
-				xtype: 'number',
-				minValue: -1,
-				maxValue: 99999,
-				incrementValue: 0.1,
-				alternateIncrementValue: 1,
-				decimalPrecision: 1
-			}
+			incrementValue: 0.1,
+			minValue: -1,
+			maxValue: 99999,
+			alternateIncrementValue: 1,
+			decimalPrecision: 2
 		});
-		optMan.bind('stop_seed_ratio', this.stopRatio);
+		om.bind('stop_seed_ratio', this.stopRatio);
 		
 		this.removeAtRatio = fieldset.add({
 			name: 'remove_seed_at_ratio',
@@ -213,7 +192,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
 			disabled: true,
 			colspan: 2
 		});
-		optMan.bind('remove_seed_at_ratio', this.removeAtRatio);
+		om.bind('remove_seed_at_ratio', this.removeAtRatio);
 	},
 	
 	onStopRatioCheck: function(e, checked) {

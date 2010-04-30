@@ -36,19 +36,15 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Daemon'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Daemon.superclass.constructor.call(this, config);
-	},
+
+	border: false,
+	title: _('Daemon'),
+	layout: 'form',
 	
 	initComponent: function() {
 		Deluge.preferences.Daemon.superclass.initComponent.call(this);
 
-		var optMan = deluge.preferences.getOptionsManager();
+		var om = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -57,16 +53,13 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 			autoHeight: true,
 			defaultType: 'spinnerfield'
 		});
-		optMan.bind('daemon_port', fieldset.add({
+		om.bind('daemon_port', fieldset.add({
 			fieldLabel: _('Daemon port'),
 			name: 'daemon_port',
 			value: 58846,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		}));
 		
 		fieldset = this.add({
@@ -77,7 +70,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 			labelWidth: 1,
 			defaultType: 'checkbox'
 		});
-		optMan.bind('allow_remote', fieldset.add({
+		om.bind('allow_remote', fieldset.add({
 			fieldLabel: '',
 			height: 22,
 			labelSeparator: '',
@@ -93,7 +86,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
 			labelWidth: 1,
 			defaultType: 'checkbox'
 		});
-		optMan.bind('new_release_check', fieldset.add({
+		om.bind('new_release_check', fieldset.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			height: 40,

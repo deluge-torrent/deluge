@@ -37,14 +37,9 @@ Ext.ns('Deluge.preferences');
  */
 Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			autoHeight: true,
-			labelWidth: 70
-		}, config);
-		Deluge.preferences.ProxyField.superclass.constructor.call(this, config);
-	},	  
+	border: false,
+	autoHeight: true,
+	labelWidth: 70,
 
 	initComponent: function() {
 		Deluge.preferences.ProxyField.superclass.initComponent.call(this);
@@ -82,12 +77,9 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 			name: 'port',
 			fieldLabel: _('Port'),
 			width: 80,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			decimalPrecision: 0,
+			minValue: -1,
+			maxValue: 99999
 		});
 
 	   this.username = this.add({

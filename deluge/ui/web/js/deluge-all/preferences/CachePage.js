@@ -36,19 +36,15 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Cache'),
-			layout: 'form'
-		}, config);
-		Deluge.preferences.Cache.superclass.constructor.call(this, config);
-	},
+
+	border: false,
+	title: _('Cache'),
+	layout: 'form',
 	
 	initComponent: function() {
 		Deluge.preferences.Cache.superclass.initComponent.call(this);
 
-		var optMan = deluge.preferences.getOptionsManager();
+		var om = deluge.preferences.getOptionsManager();
 		
 		var fieldset = this.add({
 			xtype: 'fieldset',
@@ -56,31 +52,24 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 			title: _('Settings'),
 			autoHeight: true,
 			labelWidth: 180,
-			defaultType: 'spinnerfield'
+			defaultType: 'spinnerfield',
+			defaults: {
+				decimalPrecision: 0,
+				minValue: -1,
+				maxValue: 99999
+			}
 		});
-		optMan.bind('cache_size', fieldset.add({
+		om.bind('cache_size', fieldset.add({
 			fieldLabel: _('Cache Size (16 KiB Blocks)'),
 			name: 'cache_size',
 			width: 60,
-			value: 512,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			value: 512
 		}));
-		optMan.bind('cache_expiry', fieldset.add({
+		om.bind('cache_expiry', fieldset.add({
 			fieldLabel: _('Cache Expiry (seconds)'),
 			name: 'cache_expiry',
 			width: 60,
-			value: 60,
-			strategy: {
-				xtype: 'number',
-				decimalPrecision: 0,
-				minValue: -1,
-				maxValue: 99999
-			}
+			value: 60
 		}));
 	}
 });
