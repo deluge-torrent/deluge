@@ -687,6 +687,8 @@ class DelugeWeb(component.Component):
 
     def stop(self):
         log.info("Shutting down webserver")
+        component.get("JSON").disable()
+
         self.plugins.disable_plugins()
         log.debug("Saving configuration file")
         self.config.save()
