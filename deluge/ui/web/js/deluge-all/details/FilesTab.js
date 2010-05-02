@@ -86,26 +86,48 @@
 			Deluge.details.FilesTab.superclass.initComponent.call(this);
 		},
 		
-		onRender: function(ct, position) {
-			Deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
-			deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
-			this.on('contextmenu', this.onContextMenu, this);
-			this.sorter = new Ext.tree.TreeSorter(this, {
-				folderSort: true
-			});
-		},
-		
 		clear: function() {
 			var root = this.getRootNode();
 			if (!root.hasChildNodes()) return;
 			root.cascade(function(node) {
-				var parent = node.parentNode;
-				if (!parent) return;
-				if (!parent.ownerTree) return;
-				parent.removeChild(node);
+				var parentNode = node.parentNode;
+				if (!parentNode) return;
+				if (!parentNode.ownerTree) return;
+				parentNode.removeChild(node);
 			});
 		},
-		
+
+		createFileTree: function(files) {
+			function walk(files, parentNode) {
+				for (var file in files.contents) {
+					var item = files.contents[file];
+					if (item.type == 'dir') {
+						walk(item, parentNode.appendChild(new Ext.tree.TreeNode({
+							text: file,
+							filename: file,
+							size: item.size,
+							progress: item.progress,
+							priority: item.priority
+						})));
+					} else {
+						parentNode.appendChild(new Ext.tree.TreeNode({
+							filename: file,
+							fileIndex: item.index,
+							size: item.size,
+							progress: item.progress,
+							priority: item.priority,
+							leaf: true,
+							iconCls: 'x-deluge-file',
+							uiProvider: Ext.ux.tree.TreeGridNodeUI
+						}));
+					}
+				}
+			}
+			var root = this.getRootNode();
+			walk(files, root);
+			root.firstChild.expand();
+		},
+
 		update: function(torrentId) {
 			if (this.torrentId != torrentId) {
 				this.clear();
@@ -116,6 +138,32 @@
 				success: this.onRequestComplete,
 				scope: this,
 				torrentId: torrentId
+			});
+		},
+
+		updateFileTree: function(files) {
+			function walk(files, parentNode) {
+				for (var file in files.contents) {
+					var item = files.contents[file];
+					var node = parentNode.findChild('filename', file);
+					node.attributes.size     = item.size;
+					node.attributes.progress = item.progress;
+					node.attributes.priority = item.priority;
+					node.ui.updateColumns();
+					if (item.type == 'dir') {
+						walk(item, node);
+					}
+				}
+			}
+			walk(files, this.getRootNode());
+		},
+
+		onRender: function(ct, position) {
+			Deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
+			deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
+			this.on('contextmenu', this.onContextMenu, this);
+			this.sorter = new Ext.tree.TreeSorter(this, {
+				folderSort: true
 			});
 		},
 		
@@ -174,45 +222,11 @@
 		},
 		
 		onRequestComplete: function(files, options) {
-			function walk(files, parent) {
-				for (var file in files.contents) {
-					var item = files.contents[file];
-					var child = parent.findChild('id', file);
-					if (item.type == 'dir') {
-						if (!child) {
-							child = new Ext.tree.TreeNode({
-								id: file,
-								text: file,
-								filename: file,
-								size: item.size,
-								progress: item.progress,
-								priority: item.priority
-							});
-							parent.appendChild(child);
-						}
-						walk(item, child);
-					} else {
-						if (!child) {
-							child = new Ext.tree.TreeNode({
-								id: file,
-								filename: file,
-								text: file, // this needs to be here for sorting
-								fileIndex: item.index,
-								size: item.size,
-								progress: item.progress,
-								priority: item.priority,
-								leaf: true,
-								iconCls: 'x-deluge-file',
-								uiProvider: Ext.ux.tree.TreeGridNodeUI
-							});
-							parent.appendChild(child);
-						}
-					}
-				}
+			if (!this.getRootNode().hasChildNodes()) {
+				this.createFileTree(files);
+			} else {
+				this.updateFileTree(files);
 			}
-			var root = this.getRootNode();
-			walk(files, root);
-			root.firstChild.expand();
 		}
 	});
 })();
