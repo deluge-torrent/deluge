@@ -45,7 +45,9 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		header: _('Size'),
 		width: 150,
 		dataIndex: 'size',
-		tpl: new Ext.XTemplate('{size:this.fsize}', {fsize: fsize})
+		tpl: new Ext.XTemplate('{size:this.fsize}', {
+			fsize: function(v) { return fsize(v); }
+		})
 	}, {
 		xtype: 'tgrendercolumn',
 		header: _('Progress'),
@@ -73,11 +75,12 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		})
 	}],
 	
-	root: new Ext.tree.TreeNode({
-		text: 'Files'
-	}),
-
 	selModel: new Ext.tree.MultiSelectionModel(),
+
+	initComponent: function() {
+		Deluge.details.FilesTab.superclass.initComponent.call(this);
+		this.setRootNode(new Ext.tree.TreeNode({text: 'Files'}));
+	},
 
 	clear: function() {
 		var root = this.getRootNode();
