@@ -131,6 +131,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						style: 'margin-bottom: 0px; padding-bottom: 0px;',
 						items: [{
 							xtype: 'checkbox',
+							name: 'apply_max',
 							fieldLabel: '',
 							boxLabel: _('Apply per torrent max settings:'),
 							listeners: {
@@ -144,28 +145,28 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						style: 'margin-top: 0px; padding-top: 0px;',
 						items: [{
 							fieldLabel: _('Download Speed'),
-							name: 'down_speed',
+							name: 'max_download_speed',
 							width: 80,
 							disabled: true,
 							value: -1,
 							minValue: -1
 						}, {
 							fieldLabel: _('Upload Speed'),
-							name: 'up_speed',
+							name: 'max_upload_speed',
 							width: 80,
 							disabled: true,
 							value: -1,
 							minValue: -1
 						}, {
 							fieldLabel: _('Upload Slots'),
-							name: 'upload_slots',
+							name: 'max_upload_slots',
 							width: 80,
 							disabled: true,
 							value: -1,
 							minValue: -1
 						}, {
 							fieldLabel: _('Connections'),
-							name: 'connections',
+							name: 'max_connections',
 							width: 80,
 							disabled: true,
 							value: -1,
@@ -184,6 +185,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						style: 'margin-bottom: 0px; padding-bottom: 0px;',
 						items: [{
 							xtype: 'checkbox',
+							name: 'apply_queue',
 							fieldLabel: '',
 							boxLabel: _('Apply queue settings:'),
 							listeners: {
@@ -201,15 +203,23 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						},
 						items: [{
 							boxLabel: _('Auto Managed'),
-							name: 'auto_managed',
+							name: 'is_auto_managed',
 							disabled: true
 						}, {
 							boxLabel: _('Stop seed at ratio:'),
-							name: 'up_speed',
+							name: 'stop_at_ratio',
+							disabled: true
+						}, {
+							xtype: 'spinnerfield',
+							name: 'stop_ratio',
+							width: 60,
+							decimalPrecision: 2,
+							incrementValue: 0.1,
+							style: 'position: relative; left: 100px',
 							disabled: true
 						}, {
 							boxLabel: _('Remove at ratio'),
-							name: 'upload_slots',
+							name: 'remove_at_ratio',
 							disabled: true
 						}]
 					}]
@@ -225,6 +235,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						style: 'margin-bottom: 0px; padding-bottom: 0px;',
 						items: [{
 							xtype: 'checkbox',
+							name: 'apply_move_completed',
 							fieldLabel: '',
 							boxLabel: _('Apply location settings:'),
 							listeners: {
@@ -264,6 +275,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						style: 'margin-bottom: 0px; padding-bottom: 0px;',
 						items: [{
 							xtype: 'checkbox',
+							name: 'auto_add',
 							fieldLabel: '',
 							boxLabel: _('Automatically apply label:'),
 							listeners: {
@@ -281,7 +293,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 						defaultType: 'textarea',
 						items: [{
 							boxLabel: _('Move completed to:'),
-							name: 'trackers',
+							name: 'auto_add_trackers',
 							width: 250,
 							height: 100,
 							disabled: true
@@ -292,11 +304,23 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 		});
 	},
 
+	getLabelOptions: function() {
+		deluge.client.label.get_options(this.label, {
+			success: this.gotOptions,
+			scope: this
+		});
+	},
+
+	gotOptions: function(options) {
+		this.form.getForm().setValues(options);
+	},
+
 	show: function(label) {
 		Deluge.ux.LabelOptionsWindow.superclass.show.call(this);
 		this.label = label;
 		this.setTitle(_('Label Options') + ': ' + this.label); 
 		this.tabs.setActiveTab(0);
+		this.getLabelOptions();
 	},
 
 	onCancelClick: function() {
@@ -304,6 +328,8 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 	},
 
 	onOkClick: function() {
+		var values = this.form.getForm().getFieldValues();
+		deluge.client.label.set_options(this.label, values);
 		this.hide();
 	},
 
