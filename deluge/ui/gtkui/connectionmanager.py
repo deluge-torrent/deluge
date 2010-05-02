@@ -99,12 +99,16 @@ class ConnectionManager(component.Component):
 
         self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
 
+        self.running = False
+
     # Component overrides
     def start(self):
         pass
 
     def stop(self):
-        pass
+        # Close this dialog when we are shutting down
+        if self.running:
+            self.connection_manager.response(gtk.RESPONSE_CLOSE)
 
     def shutdown(self):
         pass
