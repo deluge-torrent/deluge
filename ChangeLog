@@ -5,6 +5,7 @@
 	* Implement #1012 httpdownloader supports gzip decoding
 	* #496: Remove deprecated functions in favour of get_session_status()
 	* #1112: Fix renaming files in add torrent dialog
+	* #1247: Fix deluge-gtk from hanging on shutdown
 
 ==== Blocklist ====
 	* Implement local blocklist support

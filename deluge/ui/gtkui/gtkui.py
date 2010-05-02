@@ -167,7 +167,7 @@ class GtkUI(object):
             self.gnome_prog = gnome.init("Deluge", deluge.common.get_version())
             self.gnome_client = gnome.ui.master_client()
             def on_die(*args):
-                gtk.main_quit()
+                reactor.stop()
             self.gnome_client.connect("die", on_die)
             log.debug("GNOME session 'die' handler registered!")
         except Exception, e:
@@ -180,7 +180,7 @@ class GtkUI(object):
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type in (CTRL_CLOSE_EVENT, CTRL_SHUTDOWN_EVENT):
-                    gtk.main_quit()
+                    reactor.stop()
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
