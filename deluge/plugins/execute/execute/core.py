@@ -76,18 +76,18 @@ class Core(CorePluginBase):
     def enable(self):
         self.config = ConfigManager("execute.conf", DEFAULT_CONFIG)
         event_manager = component.get("EventManager")
-        registered_events = []
+        self.registered_events = {}
 
         # Go through the commands list and register event handlers
         for command in self.config["commands"]:
             event = command[EXECUTE_EVENT]
-            if event in registered_events:
+            if event in self.registered_events:
                 continue
 
             def event_handler(torrent_id):
                 self.execute_commands(torrent_id, command[EXECUTE_EVENT])
             event_manager.register_event_handler(EVENT_MAP[event], event_handler)
-            registered_events.append(event)
+            self.registered_events[event] = event_handler
 
         log.debug("Execute core plugin enabled!")
 
@@ -114,9 +114,9 @@ class Core(CorePluginBase):
     def disable(self):
         self.config.save()
         event_manager = component.get("EventManager")
-        event_manager.deregister_event_handler("TorrentFinishedEvent",
-            self.on_torrent_finished)
-        log.debug("Example core plugin disabled!")
+        for event, handler in self.registered_events.iteritems():
+            event_manager.deregister_event_handler(event, handler)
+        log.debug("Execute core plugin disabled!")
 
     ### Exported RPC methods ###
     @export
