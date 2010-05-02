@@ -46,6 +46,7 @@ from deluge.ui.client import client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
+from twisted.internet import reactor
 
 import deluge.common
 import common
@@ -152,7 +153,7 @@ class MainWindow(component.Component):
         return self.main_glade
 
     def quit(self):
-        gtk.main_quit()
+        reactor.stop()
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
@@ -238,7 +239,6 @@ class MainWindow(component.Component):
 
     def on_newversionavailable_event(self, new_version):
         if self.config["show_new_releases"]:
-            from twisted.internet import reactor
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
             reactor.callLater(5.0, NewReleaseDialog().show, new_version)
 
