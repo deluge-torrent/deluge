@@ -557,19 +557,17 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_add_paused").get_active()
 
         ## Network tab ##
-        listen_ports = []
-        listen_ports.append(
-            self.glade.get_widget("spin_port_min").get_value_as_int())
-        listen_ports.append(
-            self.glade.get_widget("spin_port_max").get_value_as_int())
+        listen_ports = (
+            self.glade.get_widget("spin_port_min").get_value_as_int(),
+            self.glade.get_widget("spin_port_max").get_value_as_int()
+        )
         new_core_config["listen_ports"] = listen_ports
         new_core_config["random_port"] = \
             self.glade.get_widget("chk_random_port").get_active()
-        outgoing_ports = []
-        outgoing_ports.append(
-            self.glade.get_widget("spin_outgoing_port_min").get_value_as_int())
-        outgoing_ports.append(
-            self.glade.get_widget("spin_outgoing_port_max").get_value_as_int())
+        outgoing_ports = (
+            self.glade.get_widget("spin_outgoing_port_min").get_value_as_int(),
+            self.glade.get_widget("spin_outgoing_port_max").get_value_as_int()
+        )
         new_core_config["outgoing_ports"] = outgoing_ports
         new_core_config["random_outgoing_ports"] = \
             self.glade.get_widget("chk_random_outgoing_ports").get_active()
@@ -722,11 +720,12 @@ class Preferences(component.Component):
                 if self.core_config[key] != new_core_config[key]:
                     config_to_set[key] = new_core_config[key]
 
-            # Set each changed config value in the core
-            client.core.set_config(config_to_set)
-            client.force_call(True)
-            # Update the configuration
-            self.core_config.update(config_to_set)
+            if config_to_set:
+                # Set each changed config value in the core
+                client.core.set_config(config_to_set)
+                client.force_call(True)
+                # Update the configuration
+                self.core_config.update(config_to_set)
 
         if hide:
             self.hide()
