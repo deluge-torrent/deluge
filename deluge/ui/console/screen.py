@@ -385,6 +385,10 @@ class Screen(CursesStdIO):
                 self.display_lines_offset = 0
             self.refresh()
 
+        # We remove the tab count if the key wasn't a tab
+        if c != 9:
+            self.tab_count = 0
+
         # Delete a character in the input string based on cursor position
         if c == curses.KEY_BACKSPACE or c == 127:
             if self.input and self.input_cursor > 0:
@@ -397,18 +401,34 @@ class Screen(CursesStdIO):
 
         # A key to add to the input string
         else:
-            if c > 31 and c < 127:
-                if self.input_cursor == len(self.input):
-                    self.input += chr(c)
-                else:
-                    # Insert into string
-                    self.input = self.input[:self.input_cursor] + chr(c) + self.input[self.input_cursor:]
-                # Move the cursor forward
-                self.input_cursor += 1
+            if c > 31 and c < 256:
+                # Emulate getwch
+                stroke = chr(c)
 
-        # We remove the tab count if the key wasn't a tab
-        if c != 9:
-            self.tab_count = 0
+                uchar = None
+
+                while 1:
+                    try:
+                        uchar = stroke.decode(self.encoding)
+                    except UnicodeDecodeError:
+                        pass
+                    
+                    c = self.stdscr.getch()
+
+                    if c == -1:
+                        break
+
+                    stroke += chr(c) 
+
+                if uchar:
+                    if self.input_cursor == len(self.input):
+                        self.input += uchar
+                    else:
+                        # Insert into string
+                        self.input = self.input[:self.input_cursor] + uchar + self.input[self.input_cursor:]
+                        
+                    # Move the cursor forward
+                    self.input_cursor += 1
 
         # Update the input string on the screen
         self.add_string(self.rows - 1, self.input)
