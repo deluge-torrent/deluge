@@ -227,7 +227,7 @@
 	initComponent: function() {
 		Deluge.TorrentGrid.superclass.initComponent.call(this);
 		deluge.events.on('torrentRemoved', this.onTorrentRemoved, this);
-		deluge.events.on('logout', this.onDisconnect, this);
+		deluge.events.on('disconnect', this.onDisconnect, this);
 
 		this.on('rowcontextmenu', function(grid, rowIndex, e) {
 			e.stopEvent();
