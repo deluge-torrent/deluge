@@ -87,19 +87,21 @@ def cell_data_statusicon(column, cell, model, row, data):
         pass
 
 def cell_data_trackericon(column, cell, model, row, data):
-    icon_path = component.get("TrackerIcons").get(model[row][data])
-    if icon_path:
-        try:
-            icon = gtk.gdk.pixbuf_new_from_file_at_size(icon_path, 16, 16)
-        except Exception, e:
-            pass
-    else:
-        icon = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-        icon.fill(0x00000000)
+    def on_get_icon(icon):
+        if icon:
+            try:
+                icon = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
+            except Exception, e:
+                pass
+        else:
+            icon = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
+            icon.fill(0x00000000)
 
-    if cell.get_property("pixbuf") != icon:
-        cell.set_property("pixbuf", icon)
+        if cell.get_property("pixbuf") != icon:
+            cell.set_property("pixbuf", icon)
 
+    d = component.get("TrackerIcons").get(model[row][data])
+    d.addCallback(on_get_icon)
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""

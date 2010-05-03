@@ -195,6 +195,10 @@ class FilterTreeView(component.Component):
             self.select_default_filter()
 
     def update_row(self, cat, value , count):
+        def on_get_icon(icon):
+            if icon:
+                self.set_row_image(cat, value, icon.get_filename())
+
         if (cat, value) in self.filters:
             row = self.filters[(cat, value)]
             self.treestore.set_value(row, 3, count)
@@ -207,7 +211,8 @@ class FilterTreeView(component.Component):
             self.filters[(cat, value)] = row
 
             if cat == "tracker_host" or cat == "label":
-                self.tracker_icons.get_async(value, lambda filename: self.set_row_image(cat, value, filename))
+                d = self.tracker_icons.get(value)
+                d.addCallback(on_get_icon)
 
         self.treestore.set_value(row, FILTER_COLUMN, True)
         return row
