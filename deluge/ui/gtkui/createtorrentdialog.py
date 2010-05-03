@@ -35,6 +35,7 @@
 
 
 import gtk
+import sys
 import pkg_resources
 import os.path
 import gobject
@@ -158,8 +159,10 @@ class CreateTorrentDialog:
             chooser.destroy()
             return
 
+        path = result.decode('utf-8').encode(sys.getfilesystemencoding())
+
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, gtk.STOCK_FILE, deluge.common.get_path_size(result)])
+        self.files_treestore.append(None, [result, gtk.STOCK_FILE, deluge.common.get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -184,9 +187,10 @@ class CreateTorrentDialog:
             chooser.destroy()
             return
 
-        self.files_treestore.clear()
+        path = result.decode('utf-8').encode(sys.getfilesystemencoding())
 
-        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, deluge.common.get_path_size(result)])
+        self.files_treestore.clear()
+        self.files_treestore.append(None, [result, gtk.STOCK_OPEN, deluge.common.get_path_size(path)])
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -328,7 +332,7 @@ class CreateTorrentDialog:
                 self.glade.get_widget("progress_dialog").hide_all()
 
             deferToThread(self.create_torrent,
-                    path,
+                    path.decode('utf-8').encode(sys.getfilesystemencoding()),
                     tracker,
                     piece_length,
                     self._on_create_torrent_progress,
