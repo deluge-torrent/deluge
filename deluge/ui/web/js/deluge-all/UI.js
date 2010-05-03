@@ -98,8 +98,17 @@ deluge.ui = {
 		}, this, {single: true});
 	
 		this.update = this.update.createDelegate(this);
+		this.checkConnection = this.checkConnection.createDelegate(this);
 
 		this.originalTitle = document.title;
+	},
+
+	checkConnection: function() {
+		deluge.client.web.connected({
+			success: this.onConnectionSuccess,
+			failure: this.onConnectionError,
+			scope: this
+		});
 	},
 
 	update: function() {
@@ -112,6 +121,18 @@ deluge.ui = {
 		deluge.details.update();
 	},
 
+	onConnectionError: function(error) {
+		
+	},
+
+	onConnectionSuccess: function(result) {
+		deluge.statusbar.setStatus('Connection restored');
+		clearInterval(this.checking);
+		if (!result) {
+			deluge.connectionManager.show();
+		}
+	},
+
 	onUpdateError: function(error) {
 		if (this.errorCount == 2) {
 			Ext.MessageBox.show({
@@ -120,6 +141,9 @@ deluge.ui = {
 				buttons: Ext.MessageBox.OK,
 				icon: Ext.MessageBox.ERROR
 			});
+			deluge.events.fire('disconnect');
+			deluge.statusbar.setStatus('Lost connection to webserver');
+			this.checking = setInterval(this.checkConnection, 2000);
 		}
 		this.errorCount++;
 	},
