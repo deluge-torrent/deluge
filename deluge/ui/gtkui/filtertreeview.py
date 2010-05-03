@@ -210,7 +210,7 @@ class FilterTreeView(component.Component):
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
 
-            if cat == "tracker_host" or cat == "label":
+            if cat == "tracker_host" and value not in ("All", "Error"):
                 d = self.tracker_icons.get(value)
                 d.addCallback(on_get_icon)
 
