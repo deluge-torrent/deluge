@@ -6,3 +6,4 @@ dist
 *.log
 *.pyc
 *.tar.*
+_trial_temp
