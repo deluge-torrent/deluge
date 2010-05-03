@@ -46,13 +46,6 @@ import tempfile
 import mimetypes
 import pkg_resources
 
-try:
-    import PIL.Image as Image
-    import cStringIO
-    import deluge.ui.Win32IconImagePlugin
-except ImportError:
-    Image = None
-
 from twisted.application import service, internet
 from twisted.internet import reactor, defer, error
 from twisted.internet.ssl import SSL
@@ -202,31 +195,21 @@ class Tracker(resource.Resource):
         return self
 
     def render(self, request):
-        headers = {}
-        filename = self.tracker_icons.get(request.tracker_name)
-        if filename:
-            request.setHeader("cache-control",
-                              "public, must-revalidate, max-age=86400")
-            if Image:
-                im = Image.open(filename)
-                if im.size > (16, 16):
-                    im = im.resize((16, 16), Image.ANTIALIAS)
-                fp = cStringIO.StringIO()
-                im.save(fp, "png")
-                request.setHeader("content-type", "image/png")
+        def on_get_icon(icon):
+            headers = {}
+            if icon:
+                request.setHeader("cache-control",
+                                  "public, must-revalidate, max-age=86400")
+                request.setHeader("content-type", icon.get_mimetype())
                 request.setResponseCode(http.OK)
-                return fp.getvalue()
+                return icon.get_data()
             else:
-                if filename.endswith(".ico"):
-                    request.setHeader("content-type", "image/x-icon")
-                elif filename.endswith(".png"):
-                    request.setHeader("content-type", "image/png")
-                data = open(filename, "rb")
-                request.setResponseCode(http.OK)
-                return data.read()
-        else:
-            request.setResponseCode(http.NOT_FOUND)
-            return ""
+                request.setResponseCode(http.NOT_FOUND)
+                return ""
+
+        d = self.tracker_icons.get(request.tracker_name)
+        d.addCallback(on_get_icon)
+        return d
 
 class Flag(resource.Resource):
     def getChild(self, path, request):
