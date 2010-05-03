@@ -379,6 +379,10 @@ dl.singleline dd {
 	background-image: url('../icons/home.png') !important;
 }
 
+.icon-ok {
+	background-image: url('../icons/ok.png') !important;
+}
+
 .icon-error {
 	background-image: url('../icons/error.png') !important;
 }

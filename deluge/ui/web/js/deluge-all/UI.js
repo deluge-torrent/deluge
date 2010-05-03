@@ -142,7 +142,10 @@ deluge.ui = {
 				icon: Ext.MessageBox.ERROR
 			});
 			deluge.events.fire('disconnect');
-			deluge.statusbar.setStatus('Lost connection to webserver');
+			deluge.statusbar.setStatus({
+				iconCls: 'icon-ok',
+				text: 'Lost connection to webserver'}
+			);
 			this.checking = setInterval(this.checkConnection, 2000);
 		}
 		this.errorCount++;
