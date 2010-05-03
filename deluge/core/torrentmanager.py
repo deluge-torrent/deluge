@@ -226,7 +226,9 @@ class TorrentManager(component.Component):
         # torrent_id is removed from it in self.on_alert_torrent_paused()
         # before we call self.save_resume_data() here.
         save_resume_data_list = []
-        for key in self.torrents.keys():
+        for key in self.torrents:
+            # Stop the status cleanup LoopingCall here
+            self.torrents[key].prev_status_cleanup_loop.stop()
             if not self.torrents[key].handle.is_paused():
                 # We set auto_managed false to prevent lt from resuming the torrent
                 self.torrents[key].handle.auto_managed(False)
@@ -545,6 +547,9 @@ class TorrentManager(component.Component):
                 os.remove(users_torrent_file)
             except Exception, e:
                 log.warning("Unable to remove copy torrent file: %s", e)
+
+        # Stop the looping call
+        self.torrents[torrent_id].prev_status_cleanup_loop.stop()
 
         # Remove the torrent from deluge's session
         try:
