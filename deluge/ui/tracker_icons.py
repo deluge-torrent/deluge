@@ -256,6 +256,8 @@ class TrackerIcons(Component):
         parser = FaviconParser()
         for line in f:
             parser.feed(line)
+            if parser.left_head:
+                break
         parser.close()
         f.close()
         os.remove(page)
@@ -410,6 +412,7 @@ class FaviconParser(HTMLParser):
     """
     def __init__(self):
         self.icons = []
+        self.left_head = False
         HTMLParser.__init__(self)
 
     def handle_starttag(self, tag, attrs):
@@ -423,6 +426,10 @@ class FaviconParser(HTMLParser):
                     type = value
             if href and type:
                 self.icons.append((href, type))
+
+    def handle_endtag(self, tag):
+        if tag == "head":
+            self.left_head = True
 
     def get_icons(self):
         """
