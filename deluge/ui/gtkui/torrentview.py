@@ -100,8 +100,12 @@ def cell_data_trackericon(column, cell, model, row, data):
         if cell.get_property("pixbuf") != icon:
             cell.set_property("pixbuf", icon)
 
-    d = component.get("TrackerIcons").get(model[row][data])
-    d.addCallback(on_get_icon)
+    host = model[row][data]
+    if host:
+        d = component.get("TrackerIcons").get(model[row][data])
+        d.addCallback(on_get_icon)
+    else:
+        on_get_icon(None)
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
