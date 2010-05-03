@@ -126,7 +126,10 @@ deluge.ui = {
 	},
 
 	onConnectionSuccess: function(result) {
-		deluge.statusbar.setStatus('Connection restored');
+		deluge.statusbar.setStatus({
+			iconCls: 'x-deluge-statusbar icon-ok',
+			text: _('Connection restored')
+		});
 		clearInterval(this.checking);
 		if (!result) {
 			deluge.connectionManager.show();
@@ -143,7 +146,6 @@ deluge.ui = {
 			});
 			deluge.events.fire('disconnect');
 			deluge.statusbar.setStatus({
-				iconCls: 'icon-ok',
 				text: 'Lost connection to webserver'}
 			);
 			this.checking = setInterval(this.checkConnection, 2000);

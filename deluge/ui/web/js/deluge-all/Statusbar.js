@@ -35,8 +35,8 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	constructor: function(config) {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
-			defaultIconCls: 'x-not-connected',
-			defaultText: _('Not Connected')
+			defaultIconCls: 'x-deluge-statusbar x-not-connected',
+			defaultText: _('Not Connected'),
 		}, config);
 		Deluge.Statusbar.superclass.constructor.call(this, config);
 	},

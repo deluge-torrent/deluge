@@ -162,13 +162,17 @@ dl.singleline dd {
 }
 
 /* Statusbar */
-#deluge-statusbar .x-not-connected {
-	background: url('../icons/error.png') no-repeat 2px;
-	padding-left: 20px;
+.x-deluge-statusbar {
+	background: no-repeat 2px !important;
+	padding-left: 20px !important;
 }
 
-#deluge-statusbar .x-connected {
-	background: transparent;
+.x-not-connected {
+	background-image: url('../icons/error.png') !important;
+}
+
+.x-connected {
+	background-image: transparent !important;
 }
 
 /* Styles for renderered progress bars */
