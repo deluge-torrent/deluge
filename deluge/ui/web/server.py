@@ -194,22 +194,23 @@ class Tracker(resource.Resource):
         request.tracker_name = path
         return self
 
-    def render(self, request):
-        def on_get_icon(icon):
-            headers = {}
-            if icon:
-                request.setHeader("cache-control",
-                                  "public, must-revalidate, max-age=86400")
-                request.setHeader("content-type", icon.get_mimetype())
-                request.setResponseCode(http.OK)
-                return icon.get_data()
-            else:
-                request.setResponseCode(http.NOT_FOUND)
-                return ""
+    def on_got_icon(self, icon, request):
+        headers = {}
+        if icon:
+            request.setHeader("cache-control",
+                              "public, must-revalidate, max-age=86400")
+            request.setHeader("content-type", icon.get_mimetype())
+            request.setResponseCode(http.OK)
+            request.write(icon.get_data())
+            request.finish()
+        else:
+            request.setResponseCode(http.NOT_FOUND)
+            request.finish()
 
+    def render(self, request):
         d = self.tracker_icons.get(request.tracker_name)
-        d.addCallback(on_get_icon)
-        return d
+        d.addCallback(self.on_got_icon, request)
+        return server.NOT_DONE_YET
 
 class Flag(resource.Resource):
     def getChild(self, path, request):
