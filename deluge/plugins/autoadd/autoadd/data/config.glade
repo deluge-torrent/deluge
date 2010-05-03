@@ -55,7 +55,7 @@
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkButton" id="add_button">
-                        <property name="label" translatable="yes">gtk-add</property>
+                        <property name="label" translatable="no">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
@@ -69,7 +69,7 @@
                     </child>
                     <child>
                       <widget class="GtkButton" id="remove_button">
-                        <property name="label" translatable="yes">gtk-remove</property>
+                        <property name="label" translatable="no">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>

@@ -943,7 +943,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="opts_add_button">
-                <property name="label" translatable="yes">gtk-add</property>
+                <property name="label" translatable="no">gtk-add</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -959,7 +959,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="opts_apply_button">
-                <property name="label" translatable="yes">gtk-apply</property>
+                <property name="label" translatable="no">gtk-apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
