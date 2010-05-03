@@ -95,7 +95,10 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				dataIndex: 'plugin'
 			}],
 			singleSelect: true,
-			autoExpandColumn: 'plugin'
+			autoExpandColumn: 'plugin',
+			listeners: {
+				selectionchange: {fn: this.onPluginSelect, scope: this}
+			}
 		});
 
 		this.panel = this.add({
@@ -248,7 +251,8 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.updatePlugins();
 	},
 
-	onPluginSelect: function(selmodel, rowIndex, r) {
+	onPluginSelect: function(dv, selections) {
+		var r = dv.getRecords(selections)[0];
 		deluge.client.web.get_plugin_info(r.get('plugin'), {
 			success: this.onGotPluginInfo,
 			scope: this
