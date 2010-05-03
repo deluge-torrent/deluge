@@ -142,7 +142,10 @@ class TrackerIcons(Component):
         for icon in os.listdir(self.dir):
             if icon != noIcon:
                 host = icon_name_to_host(icon)
-                self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
+                try:
+                    self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
+                except KeyError:
+                    log.warning("invalid icon %s", icon)
         if noIcon:
             self.icons[None] = TrackerIcon(noIcon)
         else:
@@ -478,6 +481,9 @@ def icon_name_to_host(icon):
     :rtype: string
     """
     return icon.rpartition('.')[0]
+
+MIME_MAP = {
+}
 
 def mimetype_to_ext(mimetype):
     """
