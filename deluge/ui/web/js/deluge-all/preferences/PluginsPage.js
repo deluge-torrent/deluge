@@ -32,96 +32,16 @@
 Ext.namespace('Deluge.preferences');
 
 /**
- * @class Deluge.preferences.InstallPluginWindow
- * @extends Ext.Window
- */
-Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
-
-	height: 115,
-	width: 350,
-	
-	bodyStyle: 'padding: 10px 5px;',
-
-	buttonAlign: 'center',
-
-	closeAction: 'hide',
-
-	iconCls: 'x-deluge-install-plugin',
-
-	layout: 'fit',
-
-	modal: true,
-
-	plain: true,
-
-	title: _('Install Plugin'),
-
-	initComponent: function() {
-		Deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Install'), this.onInstall, this);
-		
-		this.form = this.add({
-			xtype: 'form',
-			baseCls: 'x-plain',
-			labelWidth: 70,
-			autoHeight: true,
-			fileUpload: true,
-			items: [{
-				xtype: 'fileuploadfield',
-				id: 'pluginEgg',
-				emptyText: _('Select an egg'),
-				fieldLabel: _('Plugin Egg'),
-				name: 'file',
-				buttonCfg: {
-					text: _('Browse') + '...'
-				}
-			}]
-		});
-	},
-
-	onInstall: function(field, e) {
-		this.form.getForm().submit({
-			url: '/upload',
-			waitMsg: _('Uploading your plugin...'),
-			success: this.onUploadSuccess,
-			scope: this
-		}); 
-	},
-
-	onUploadPlugin: function(info, obj, response, request) {
-		this.fireEvent('pluginadded');
-	},
-
-	onUploadSuccess: function(fp, upload) {
-		this.hide();
-		if (upload.result.success) {
-			var filename = this.form.getForm().findField('pluginEgg').value;
-			var path = upload.result.files[0]
-			this.form.getForm().findField('pluginEgg').setValue('');
-			deluge.client.web.upload_plugin(filename, path, {
-				success: this.onUploadPlugin,
-				scope: this,
-				filename: filename
-			});
-		}
-	}
-});
-
-/**
  * @class Deluge.preferences.Plugins
  * @extends Ext.Panel
  */
 Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
-	constructor: function(config) {
-		config = Ext.apply({
-			border: false,
-			title: _('Plugins'),
-			layout: 'border',
-			height: 400,
-			cls: 'x-deluge-plugins'
-		}, config);
-		Deluge.preferences.Plugins.superclass.constructor.call(this, config);
-	},
+
+	layout: 'border',
+	title: _('Plugins'),
+	border: false,
+	height: 400,
+	cls: 'x-deluge-plugins',
 
 	pluginTemplate: new Ext.Template(
 		'<dl class="singleline">' +
@@ -147,11 +67,10 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			p.css += ' x-grid3-check-col-td'; 
 			return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
 		}
-	
-		this.grid = this.add({
-			xtype: 'grid',
-			region: 'center',
-			store: new Ext.data.SimpleStore({
+
+		this.list = this.add({
+			xtype: 'listview',
+			store: new Ext.data.ArrayStore({
 				fields: [
 					{name: 'enabled', mapping: 0},
 					{name: 'plugin', mapping: 1}
@@ -160,30 +79,30 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			columns: [{
 				id: 'enabled',
 				header: _('Enabled'),
-				width: 50,
+				width: .2,
 				sortable: true,
-				renderer: checkboxRenderer,
+				tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
+					getCheckbox: function(v) {
+						return '<div class="x-grid3-check-col'+(v?'-on':'')+'" rel="chkbox"> </div>';
+					}
+				}),
 				dataIndex: 'enabled'
 			}, {
 				id: 'plugin',
 				header: _('Plugin'),
+				width: .8,
 				sortable: true,
 				dataIndex: 'plugin'
-			}],	
-			stripeRows: true,
-			selModel: new Ext.grid.RowSelectionModel({
-				singleSelect: true,
-				listeners: {
-					'rowselect': {
-						fn: this.onPluginSelect,
-						scope: this
-					}
-				}
-			}),
-			autoExpandColumn: 'plugin',
-			deferredRender: false,
+			}],
+			singleSelect: true,
+			autoExpandColumn: 'plugin'
+		});
+
+		this.panel = this.add({
+			region: 'center',
 			autoScroll: true,
 			margins: '5 5 5 5',
+			items: [this.list],
 			bbar: new Ext.Toolbar({
 				items: [{
 					cls: 'x-btn-text-icon',
@@ -200,7 +119,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				}]
 			})
 		});
-
+	
 		var pp = this.pluginInfo = this.add({
 			xtype:     'panel',
 			border:     true,
@@ -225,7 +144,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		});
 	
 		this.pluginInfo.on('render', this.onPluginInfoRender, this);
-		this.grid.on('cellclick', this.onCellClick, this);
+		this.list.on('click', this.onNodeClick, this);
 		deluge.preferences.on('show', this.onPreferencesShow, this);
 		deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
 		deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
@@ -261,12 +180,14 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				plugins.push([false, plugin]);
 			}
 		}, this);
-		this.grid.getStore().loadData(plugins);
+		this.list.getStore().loadData(plugins);
 	},
 
-	onCellClick: function(grid, rowIndex, colIndex, e) {
-		if (colIndex != 0) return;
-		var r = grid.getStore().getAt(rowIndex);
+	onNodeClick: function(dv, index, node, e) {
+		var el = new Ext.Element(e.target);
+		if (el.getAttribute('rel') != 'chkbox') return;
+
+		var r = dv.getStore().getAt(index);
 		r.set('enabled', !r.get('enabled'));
 		r.commit();
 		if (r.get('enabled')) {
@@ -316,9 +237,9 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 	
 	onPluginDisabled: function(pluginName) {
-		var index = this.grid.getStore().find('plugin', pluginName);
+		var index = this.list.getStore().find('plugin', pluginName);
 		if (index == -1) return;
-		var plugin = this.grid.getStore().getAt(index);
+		var plugin = this.list.getStore().getAt(index);
 		plugin.set('enabled', false);
 		plugin.commit();
 	},
