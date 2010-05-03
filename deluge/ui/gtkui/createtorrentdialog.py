@@ -332,12 +332,12 @@ class CreateTorrentDialog:
                 self.glade.get_widget("progress_dialog").hide_all()
 
             deferToThread(self.create_torrent,
-                    path.decode('utf-8').encode(sys.getfilesystemencoding()),
+                    path.decode('utf-8'),
                     tracker,
                     piece_length,
                     self._on_create_torrent_progress,
                     comment,
-                    result,
+                    result.decode('utf-8'),
                     webseeds,
                     private,
                     author,
