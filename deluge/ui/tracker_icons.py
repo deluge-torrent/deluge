@@ -67,7 +67,7 @@ class TrackerIcon(object):
         :type filename: string
         """
         self.filename = os.path.abspath(filename)
-        self.mimetype = ext_to_mimetype(self.filename.rpartition('.')[2])
+        self.mimetype = extension_to_mimetype(self.filename.rpartition('.')[2])
         self.data = None
 
     def __eq__(self, other):
@@ -346,7 +346,7 @@ class TrackerIcons(Component):
         if f.check(error.PageRedirect):
             # Handle redirect errors
             location = error_msg.split(" to ")[1]
-            d = self.download_icon([(location, ext_to_mimetype(location.rpartition('.')[2]))] + icons, host)
+            d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
             if not icons:
                 d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                                callbackArgs=(host,), errbackArgs=(host,))
@@ -354,7 +354,7 @@ class TrackerIcons(Component):
             d = self.download_icon(icons, host)
         elif f.check(IndexError):
             # No icons, try favicon.ico as an act of desperation
-            d = self.download_icon([(urljoin(host_to_url(host), "favicon.ico"), ext_to_mimetype("ico"))], host)
+            d = self.download_icon([(urljoin(host_to_url(host), "favicon.ico"), extension_to_mimetype("ico"))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                            callbackArgs=(host,), errbackArgs=(host,))
         else:
@@ -476,7 +476,7 @@ def host_to_icon_name(host, mimetype):
     :returns: the icon's filename
     :rtype: string
     """
-    return host+'.'+mimetype_to_ext(mimetype)
+    return host+'.'+mimetype_to_extension(mimetype)
 
 def icon_name_to_host(icon):
     """
@@ -490,9 +490,19 @@ def icon_name_to_host(icon):
     return icon.rpartition('.')[0]
 
 MIME_MAP = {
+    "image/gif" : "gif",
+    "image/jpeg" : "jpg",
+    "image/png" : "png",
+    "image/vnd.microsoft.icon" : "ico",
+    "image/x-icon" : "ico",
+    "gif" : "image/gif",
+    "jpg" : "image/jpeg",
+    "jpeg" : "image/jpeg",
+    "png" : "image/png",
+    "ico" : "image/vnd.microsoft.icon",
 }
 
-def mimetype_to_ext(mimetype):
+def mimetype_to_extension(mimetype):
     """
     Given a mimetype, returns the appropriate filename extension
 
@@ -502,28 +512,16 @@ def mimetype_to_ext(mimetype):
     :rtype: string
     :raises KeyError: if given an invalid mimetype
     """
-    return {
-        "image/gif" : "gif",
-        "image/jpeg" : "jpg",
-        "image/png" : "png",
-        "image/vnd.microsoft.icon" : "ico",
-        "image/x-icon" : "ico"
-    }[mimetype]
+    return MIME_MAP[mimetype.lower()]
 
-def ext_to_mimetype(ext):
+def extension_to_mimetype(extension):
     """
     Given a filename extension, returns the appropriate mimetype
 
-    :param ext: the filename extension
-    :type ext: string
+    :param extension: the filename extension
+    :type extension: string
     :returns: the mimetype for the given filename extension
     :rtype: string
     :raises KeyError: if given an invalid filename extension
     """
-    return {
-        "gif" : "image/gif",
-        "jpg" : "image/jpeg",
-        "jpeg" : "image/jpeg",
-        "png" : "image/png",
-        "ico" : "image/vnd.microsoft.icon"
-    }[ext.lower()]
+    return MIME_MAP[extension.lower()]
