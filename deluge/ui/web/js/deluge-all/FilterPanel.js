@@ -159,7 +159,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 		if (!this.list.getSelectionCount()) {
 			this.list.select(0);
 		}
-	},
+	}
 
 });
 

@@ -136,7 +136,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 			border:     false,
 			autoHeight: true,
 			labelWidth: 1,
-			style:     'margin-top: 5px;',
+			style:     'margin-top: 5px;'
 		});
 		this.pluginInfo = fieldset.add({
 			xtype: 'panel',

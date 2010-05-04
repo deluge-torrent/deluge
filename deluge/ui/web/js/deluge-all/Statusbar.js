@@ -36,7 +36,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		config = Ext.apply({
 			id: 'deluge-statusbar',
 			defaultIconCls: 'x-deluge-statusbar x-not-connected',
-			defaultText: _('Not Connected'),
+			defaultText: _('Not Connected')
 		}, config);
 		Deluge.Statusbar.superclass.constructor.call(this, config);
 	},
@@ -95,7 +95,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 				otherWin: {
 					title: _('Set Maximum Connections')
 				}
-			}),
+			})
 		}, '-', {
 			id: 'statusbar-downspeed',
 			text: ' ',
@@ -143,7 +143,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 					title: _('Set Maximum Download Speed'),
 					unit: _('Kib/s')
 				}
-			}),
+			})
 		}, '-', {
 			id: 'statusbar-upspeed',
 			text: ' ',
