@@ -235,7 +235,7 @@ class TrackerIcons(Component):
         d = f
         if f.check(error.PageRedirect):
             # Handle redirect errors
-            location = error_msg.split(" to ")[1]
+            location = urljoin(host_to_url(host), error_msg.split(" to ")[1])
             d = self.download_page(host, url=location)
             d.addCallbacks(self.on_download_page_complete, self.on_download_page_fail,
                            errbackArgs=(host,))
@@ -345,7 +345,7 @@ class TrackerIcons(Component):
         d = f
         if f.check(error.PageRedirect):
             # Handle redirect errors
-            location = error_msg.split(" to ")[1]
+            location = urljoin(host_to_url(host), error_msg.split(" to ")[1])
             d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
             if not icons:
                 d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
