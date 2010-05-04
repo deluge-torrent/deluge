@@ -94,7 +94,7 @@ class HTTPDownloader(client.HTTPDownloader):
                     self.fileName = new_file_name
                     self.value = new_file_name
 
-        elif self.code in (http.TEMPORARY_REDIRECT, http.MOVED_PERMANENTLY):
+        elif self.code in (http.MOVED_PERMANENTLY, http.FOUND, http.SEE_OTHER, http.TEMPORARY_REDIRECT):
             location = headers["location"][0]
             error = PageRedirect(self.code, location=location)
             self.noPage(Failure(error))
