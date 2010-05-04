@@ -12,7 +12,7 @@ common.set_tmp_config_dir()
 icons = TrackerIcons()
 
 class TrackerIconsTestCase(unittest.TestCase):
-    def test_get_png(self):
+    def test_get_deluge_png(self):
         # Deluge has a png favicon link
         icon = TrackerIcon("../deluge.png")
         d = icons.get("deluge-torrent.org")
@@ -20,7 +20,7 @@ class TrackerIconsTestCase(unittest.TestCase):
         d.addCallback(self.assertEquals, icon)
         return d
 
-    def test_get_ico(self):
+    def test_get_google_ico(self):
         # Google doesn't have any icon links
         # So instead we'll grab its favicon.ico
         icon = TrackerIcon("../google.ico")
@@ -29,7 +29,7 @@ class TrackerIconsTestCase(unittest.TestCase):
         d.addCallback(self.assertEquals, icon)
         return d
 
-    def test_get_ico_with_redirect(self):
+    def test_get_google_ico_with_redirect(self):
         # google.com redirects to www.google.com
         icon = TrackerIcon("../google.ico")
         d = icons.get("google.com")
@@ -41,6 +41,14 @@ class TrackerIconsTestCase(unittest.TestCase):
         # ubuntu.com has inline css which causes HTMLParser issues
         icon = TrackerIcon("../ubuntu.png")
         d = icons.get("www.ubuntu.com")
+        d.addCallback(self.assertNotIdentical, None)
+        d.addCallback(self.assertEquals, icon)
+        return d
+
+    def test_get_openbt_png(self):
+        # openbittorrent.com has an incorrect type (image/gif)
+        icon = TrackerIcon("../openbt.png")
+        d = icons.get("openbittorrent.com")
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d

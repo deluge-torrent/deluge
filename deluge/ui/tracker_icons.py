@@ -424,8 +424,15 @@ class FaviconParser(HTMLParser):
                     href = value
                 elif attr == "type":
                     type = value
-            if href and type:
-                self.icons.append((href, type))
+            if href:
+                try:
+                    mimetype = extension_to_mimetype(href.rpartition('.')[2])
+                except KeyError:
+                    pass
+                else:
+                    type = mimetype
+                if type:
+                    self.icons.append((href, type))
 
     def handle_endtag(self, tag):
         if tag == "head":
