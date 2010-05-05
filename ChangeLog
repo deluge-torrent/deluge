@@ -12,10 +12,21 @@
 	* Implement local blocklist support
 	* #861: Pause transfers until blocklist is imported
 
+==== Execute ====
+	* Fix running commands with the TorrentAdded event
+	* Fix the web interface
+
+==== Label ====
+	* Fix the web interface  (#733)
+
 ==== Web ====
 	* Migrate to ExtJS 3.1
 	* Add gzip compression of HTTP data to the server
-	* Improve the efficiency of the TorrentGrid
+	* Improve the efficiency of the TorrentGrid with lots of torrents (#1026)
+	* Add a base parameter to allow reverse proxying (#1076)
+	* Fix showing all the peers in the details tab (#1054)
+	* Fix uploading torrent files in Opera or IE (#1087)
+	* Complete IE support
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
