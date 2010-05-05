@@ -107,6 +107,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 					})));
 				} else {
 					parentNode.appendChild(new Ext.tree.TreeNode({
+						text: file,
 						filename: file,
 						fileIndex: item.index,
 						size: item.size,
