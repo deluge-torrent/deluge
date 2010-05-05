@@ -61,7 +61,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 			fileUpload: true,
 			items: [{
 				xtype: 'fileuploadfield',
-				id: 'pluginEgg',
+				width: 240,
 				emptyText: _('Select an egg'),
 				fieldLabel: _('Plugin Egg'),
 				name: 'file',
@@ -88,9 +88,10 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 	onUploadSuccess: function(fp, upload) {
 		this.hide();
 		if (upload.result.success) {
-			var filename = this.form.getForm().findField('pluginEgg').value;
-			var path = upload.result.files[0]
-			this.form.getForm().findField('pluginEgg').setValue('');
+			var filename = this.form.getForm().getFieldValues().file;
+			filename = filename.split('\\').slice(-1)[0]
+			var path = upload.result.files[0];
+			this.form.getForm().setValues({file: ''});
 			deluge.client.web.upload_plugin(filename, path, {
 				success: this.onUploadPlugin,
 				scope: this,
