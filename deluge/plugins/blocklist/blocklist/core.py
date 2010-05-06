@@ -38,6 +38,7 @@ import os
 import time
 from datetime import datetime, timedelta
 from wsgiref.handlers import format_date_time
+from urlparse import urljoin
 import shutil
 
 from twisted.internet.task import LoopingCall
@@ -281,7 +282,7 @@ class Core(CorePluginBase):
         d = f
         if f.check(error.PageRedirect):
             # Handle redirect errors
-            location = error_msg.split(" to ")[1]
+            location = urljoin(self.config["url"], error_msg.split(" to ")[1])
             if "Moved Permanently" in error_msg:
                 log.debug("Setting blocklist url to %s", location)
                 self.config["url"] = location
