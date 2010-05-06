@@ -1,10 +1,6 @@
 from twisted.trial import unittest
 
 from deluge.ui.tracker_icons import TrackerIcons, TrackerIcon
-from deluge.log import setupLogger
-
-# Must come before import common
-setupLogger("debug", "debug.log")
 
 import common
 
@@ -38,11 +34,16 @@ class TrackerIconsTestCase(unittest.TestCase):
         return d
 
     def test_get_ubuntu_ico(self):
+        def check_data(icon, data):
+            self.assertNotEqual(icon.get_data(), data)
+
         # ubuntu.com has inline css which causes HTMLParser issues
-        icon = TrackerIcon("../ubuntu.png")
         d = icons.get("www.ubuntu.com")
         d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEquals, icon)
+        # as ubuntu's icon is 32x32 it may get resized and hence
+        # we can't test if the icon is equal to a reference one
+        # however we can test that the icon has some sort of data
+        d.addCallback(check_data, "")
         return d
 
     def test_get_openbt_png(self):

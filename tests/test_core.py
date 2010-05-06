@@ -61,7 +61,7 @@ class CoreTestCase(unittest.TestCase):
         d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
 
         d = self.core.add_torrent_url(url, options, headers)
-        d.addCallback(self.assertEquals, info_hash)
+        d.addCallbacks(self.assertEquals, self.fail, callbackArgs=(info_hash,))
 
         return d
 
