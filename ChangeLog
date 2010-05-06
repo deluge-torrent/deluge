@@ -11,6 +11,7 @@
 ==== Blocklist ====
 	* Implement local blocklist support
 	* #861: Pause transfers until blocklist is imported
+	* Fix redirection not working with relative paths
 
 ==== Execute ====
 	* Fix running commands with the TorrentAdded event
