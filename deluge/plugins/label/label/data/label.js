@@ -49,6 +49,7 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
 		this.form = this.add({
 			xtype: 'form',
 			height: 35,
+			baseCls: 'x-plain',
 			bodyStyle:'padding:5px 5px 0',
 			defaultType: 'textfield',
 			labelWidth: 50,
