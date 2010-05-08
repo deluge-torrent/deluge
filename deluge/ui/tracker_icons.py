@@ -34,7 +34,7 @@
 #
 
 import os
-from HTMLParser import HTMLParser
+from HTMLParser import HTMLParser, HTMLParseError
 from urlparse import urljoin, urlparse
 from tempfile import mkstemp
 
@@ -352,7 +352,7 @@ class TrackerIcons(Component):
                                callbackArgs=(host,), errbackArgs=(host,))
         elif f.check(error.NoResource, error.ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
-        elif f.check(IndexError):
+        elif f.check(IndexError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
             d = self.download_icon([(urljoin(host_to_url(host), "favicon.ico"), extension_to_mimetype("ico"))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
