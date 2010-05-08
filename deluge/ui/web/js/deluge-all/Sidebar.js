@@ -107,7 +107,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 			// Grab the filters from each of the filter panels
 			this.items.each(function(panel) {
 				var state = panel.getState();
-				if (!state == null) return;
+				if (state == null) return;
 				states[panel.filterType] = state;
 			}, this);
 		} else {
