@@ -1,4 +1,4 @@
-=== Deluge 1.3.0-rc1 (In Development) ===
+=== Deluge 1.3.0-rc1 (08 May 2010) ===
 ==== Core ====
 	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
 	* Implement #457 progress bars for folders
@@ -7,6 +7,12 @@
 	* #1112: Fix renaming files in add torrent dialog
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
+	* Add AutoAdd plugin
+	* Add Notifications plugin
+
+==== GtkUI ====
+	* Use new SessionProxy class for caching torrent status client-side
+	* Use torrent status diffs to reduce RPC traffic
 
 ==== Blocklist ====
 	* Implement local blocklist support
@@ -50,7 +56,6 @@
 	* Add ability to rename files prior to adding them
 	* Fix shutdown handler with GNOME session manager
 	* Allow 4 MiB piece sizes when creating a torrent
-	* Use new SessionProxy class for caching torrent status client-side
 
 ==== ConsoleUI ====
 	* Changed to use curses for a more interactive client
