@@ -53,3 +53,10 @@ class TrackerIconsTestCase(unittest.TestCase):
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
+
+    def test_get_publicbt_ico(self):
+        icon = TrackerIcon("../publicbt.ico")
+        d = icons.get("publicbt.org")
+        d.addCallback(self.assertNotIdentical, None)
+        d.addCallback(self.assertEquals, icon)
+        return d
