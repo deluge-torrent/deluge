@@ -102,7 +102,7 @@ def cell_data_trackericon(column, cell, model, row, data):
 
     host = model[row][data]
     if host:
-        d = component.get("TrackerIcons").get(model[row][data])
+        d = component.get("TrackerIcons").get(host)
         d.addCallback(on_get_icon)
     else:
         on_get_icon(None)
