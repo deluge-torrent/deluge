@@ -768,7 +768,10 @@ class Core(component.Component):
         """
         if not path:
             path = self.config["download_location"]
-        return deluge.common.free_space(path)
+        try:
+            return deluge.common.free_space(path)
+        except InvalidPathError:
+            return 0
 
     @export
     def get_libtorrent_version(self):
