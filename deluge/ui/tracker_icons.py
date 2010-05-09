@@ -121,7 +121,7 @@ class TrackerIcons(Component):
     """
     A TrackerIcon factory class
     """
-    def __init__(self, dir=None, noIcon=None):
+    def __init__(self, icon_dir=None, no_icon=None):
         """
         Initialises a new TrackerIcons object
 
@@ -132,9 +132,9 @@ class TrackerIcons(Component):
         :type noIcon: string
         """
         Component.__init__(self, "TrackerIcons")
-        if not dir:
-            dir = get_config_dir("icons")
-        self.dir = dir
+        if not icon_dir:
+            icon_dir = get_config_dir("icons")
+        self.dir = icon_dir
         if not os.path.isdir(self.dir):
             os.makedirs(self.dir)
 
@@ -146,8 +146,8 @@ class TrackerIcons(Component):
                     self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
                 except KeyError:
                     log.warning("invalid icon %s", icon)
-        if noIcon:
-            self.icons[None] = TrackerIcon(noIcon)
+        if no_icon:
+            self.icons[None] = TrackerIcon(no_icon)
         else:
             self.icons[None] = None
         self.icons[''] = self.icons[None]
