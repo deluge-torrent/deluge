@@ -188,6 +188,7 @@ class Core(CorePluginBase):
         CheckInput(not (label_id in self.labels) , _("Label already exists"))
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
+        self.config.save()
 
     @export
     def remove(self, label_id):
