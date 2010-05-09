@@ -150,6 +150,7 @@ class TrackerIcons(Component):
             self.icons[None] = TrackerIcon(noIcon)
         else:
             self.icons[None] = None
+        self.icons[''] = self.icons[None]
 
         self.pending = {}
         self.redirects = {}
