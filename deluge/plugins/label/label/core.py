@@ -259,7 +259,7 @@ class Core(CorePluginBase):
         return False
 
     @export
-    def set_options(self, label_id, options_dict , apply = False):
+    def set_options(self, label_id, options_dict):
         """update the label options
 
         options_dict :
@@ -271,8 +271,6 @@ class Core(CorePluginBase):
             "apply_max":bool(),
             "move_completed_to":string() or None
         }
-
-        apply : applies download-options to all torrents currently labelled by label_id
         """
         CheckInput(label_id in self.labels , _("Unknown Label"))
         for key in options_dict.keys():
