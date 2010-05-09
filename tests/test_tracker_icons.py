@@ -59,3 +59,8 @@ class TrackerIconsTestCase(unittest.TestCase):
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
         return d
+
+    def test_get_empty_string_tracker(self):
+        d = icons.get("")
+        d.addCallback(self.assertEquals, None)
+        return d
