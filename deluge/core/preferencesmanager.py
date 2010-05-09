@@ -1,7 +1,7 @@
 #
 # preferencesmanager.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2008-2010 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -34,7 +34,7 @@
 #
 
 
-import os.path
+import os
 import threading
 import pkg_resources
 from twisted.internet import reactor
@@ -154,77 +154,7 @@ class PreferencesManager(component.Component):
         self.session = component.get("Core").session
         self.settings = component.get("Core").settings
 
-        # Register set functions in the Config
-        self.config.register_set_function("torrentfiles_location",
-            self._on_set_torrentfiles_location)
-        self.config.register_set_function("listen_ports",
-            self._on_set_listen_ports)
-        self.config.register_set_function("listen_interface",
-            self._on_set_listen_interface)
-        self.config.register_set_function("random_port",
-            self._on_set_random_port)
-        self.config.register_set_function("outgoing_ports",
-            self._on_set_outgoing_ports)
-        self.config.register_set_function("random_outgoing_ports",
-            self._on_set_random_outgoing_ports)
-        self.config.register_set_function("peer_tos",
-            self._on_set_peer_tos)
-        self.config.register_set_function("dht", self._on_set_dht)
-        self.config.register_set_function("upnp", self._on_set_upnp)
-        self.config.register_set_function("natpmp", self._on_set_natpmp)
-        self.config.register_set_function("utpex", self._on_set_utpex)
-        self.config.register_set_function("lsd", self._on_set_lsd)
-        self.config.register_set_function("enc_in_policy",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_out_policy",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_level",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_prefer_rc4",
-            self._on_set_encryption)
-        self.config.register_set_function("max_connections_global",
-            self._on_set_max_connections_global)
-        self.config.register_set_function("max_upload_speed",
-            self._on_set_max_upload_speed)
-        self.config.register_set_function("max_download_speed",
-            self._on_set_max_download_speed)
-        self.config.register_set_function("max_upload_slots_global",
-            self._on_set_max_upload_slots_global)
-        self.config.register_set_function("max_half_open_connections",
-            self._on_set_max_half_open_connections)
-        self.config.register_set_function("max_connections_per_second",
-            self._on_set_max_connections_per_second)
-        self.config.register_set_function("ignore_limits_on_local_network",
-            self._on_ignore_limits_on_local_network)
-        self.config.register_set_function("share_ratio_limit",
-            self._on_set_share_ratio_limit)
-        self.config.register_set_function("seed_time_ratio_limit",
-            self._on_set_seed_time_ratio_limit)
-        self.config.register_set_function("seed_time_limit",
-            self._on_set_seed_time_limit)
-        self.config.register_set_function("max_active_downloading",
-            self._on_set_max_active_downloading)
-        self.config.register_set_function("max_active_seeding",
-            self._on_set_max_active_seeding)
-        self.config.register_set_function("max_active_limit",
-            self._on_set_max_active_limit)
-        self.config.register_set_function("dont_count_slow_torrents",
-            self._on_set_dont_count_slow_torrents)
-        self.config.register_set_function("send_info",
-            self._on_send_info)
-        self.config.register_set_function("proxies",
-            self._on_set_proxies)
         self.new_release_timer = None
-        self.config.register_set_function("new_release_check",
-            self._on_new_release_check)
-        self.config.register_set_function("rate_limit_ip_overhead",
-            self._on_rate_limit_ip_overhead)
-        self.config.register_set_function("geoip_db_location",
-            self._on_geoip_db_location)
-        self.config.register_set_function("cache_size",
-            self._on_cache_size)
-        self.config.register_set_function("cache_expiry",
-            self._on_cache_expiry)
 
         self.config.register_change_callback(self._on_config_value_change)
 
@@ -235,6 +165,9 @@ class PreferencesManager(component.Component):
     # Config set functions
     def _on_config_value_change(self, key, value):
         component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
+        on_set_func = getattr(self, "_on_set_" + key, None)
+        if on_set_func:
+            on_set_func(key, value)
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:
@@ -338,6 +271,18 @@ class PreferencesManager(component.Component):
         log.debug("utpex value set to %s", value)
         if value:
             self.session.add_extension(lt.create_ut_pex_plugin)
+
+    def _on_set_enc_in_policy(self, key, value):
+        self._on_set_encryption(key, value)
+
+    def _on_set_enc_out_policy(self, key, value):
+        self._on_set_encryption(key, value)
+
+    def _on_set_enc_level(self, key, value):
+        self._on_set_encryption(key, value)
+
+    def _on_set_enc_prefer_rc4(self, key, value):
+        self._on_set_encryption(key, value)
 
     def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
