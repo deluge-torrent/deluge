@@ -125,11 +125,11 @@ class TrackerIcons(Component):
         """
         Initialises a new TrackerIcons object
 
-        :param dir: the (optional) directory of where to store the icons
-        :type dir: string
-        :param noIcon: the (optional) path name of the icon to show when no icon
+        :param icon_dir: the (optional) directory of where to store the icons
+        :type icon_dir: string
+        :param no_icon: the (optional) path name of the icon to show when no icon
                        can be fetched
-        :type noIcon: string
+        :type no_icon: string
         """
         Component.__init__(self, "TrackerIcons")
         if not icon_dir:
@@ -140,7 +140,7 @@ class TrackerIcons(Component):
 
         self.icons = {}
         for icon in os.listdir(self.dir):
-            if icon != noIcon:
+            if icon != no_icon:
                 host = icon_name_to_host(icon)
                 try:
                     self.icons[host] = TrackerIcon(os.path.join(self.dir, icon))
