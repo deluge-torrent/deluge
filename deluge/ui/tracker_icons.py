@@ -306,6 +306,8 @@ class TrackerIcons(Component):
         :returns: a Deferred which fires with the downloaded icon's filename
         :rtype: Deferred
         """
+        if len(icons) == 0:
+            raise NoIconsError, "empty icons list"
         (url, mimetype) = icons.pop(0)
         d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
                           force_filename=True)
@@ -354,7 +356,7 @@ class TrackerIcons(Component):
                                callbackArgs=(host,), errbackArgs=(host,))
         elif f.check(error.NoResource, error.ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
-        elif f.check(IndexError, HTMLParseError):
+        elif f.check(NoIconsError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
             d = self.download_icon([(urljoin(self.host_to_url(host), "favicon.ico"), extension_to_mimetype("ico"))], host)
             d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
@@ -536,3 +538,8 @@ def extension_to_mimetype(extension):
     :raises KeyError: if given an invalid filename extension
     """
     return MIME_MAP[extension.lower()]
+
+################################## EXCEPTIONS #################################
+
+class NoIconsError(Exception):
+    pass
