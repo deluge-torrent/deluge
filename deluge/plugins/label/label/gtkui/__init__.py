@@ -46,10 +46,7 @@ import sidebar_menu
 import label_config
 import submenu
 
-from deluge.configmanager import ConfigManager
-config  = ConfigManager("label.conf")
 NO_LABEL = "No Label"
-
 
 def cell_data_label(column, cell, model, row, data):
     cell.set_property('text', str(model.get_value(row, data)))

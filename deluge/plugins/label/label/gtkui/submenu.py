@@ -41,8 +41,6 @@ from deluge import component    # for systray
 import gtk, gobject
 from deluge.ui.client import client
 
-from deluge.configmanager import ConfigManager
-config  = ConfigManager("label.conf")
 NO_LABEL = "No Label"
 
 class LabelMenu(gtk.MenuItem):
