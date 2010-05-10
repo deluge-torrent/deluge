@@ -341,7 +341,7 @@ class PreferencesManager(component.Component):
         self.settings.connection_speed = value
         self.session.set_settings(self.settings)
 
-    def _on_ignore_limits_on_local_network(self, key, value):
+    def _on_set_ignore_limits_on_local_network(self, key, value):
         self.settings.ignore_limits_on_local_network = value
         self.session.set_settings(self.settings)
 
@@ -384,7 +384,7 @@ class PreferencesManager(component.Component):
         self.settings.dont_count_slow_torrents = value
         self.session.set_settings(self.settings)
 
-    def _on_send_info(self, key, value):
+    def _on_set_send_info(self, key, value):
         log.debug("Sending anonymous stats..")
         """sends anonymous stats home"""
         class Send_Info_Thread(threading.Thread):
@@ -414,7 +414,7 @@ class PreferencesManager(component.Component):
         if value:
             Send_Info_Thread(self.config).start()
 
-    def _on_new_release_check(self, key, value):
+    def _on_set_new_release_check(self, key, value):
         if value:
             log.debug("Checking for new release..")
             threading.Thread(target=self.core.get_new_release).start()
@@ -440,12 +440,12 @@ class PreferencesManager(component.Component):
                 log.debug("setting %s proxy settings", k)
                 getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
 
-    def _on_rate_limit_ip_overhead(self, key, value):
+    def _on_set_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
         self.settings.rate_limit_ip_overhead = value
         self.session.set_settings(self.settings)
 
-    def _on_geoip_db_location(self, key, value):
+    def _on_set_geoip_db_location(self, key, value):
         log.debug("%s: %s", key, value)
         # Load the GeoIP DB for country look-ups if available
         geoip_db = ""
@@ -463,12 +463,12 @@ class PreferencesManager(component.Component):
                 log.error("Unable to load geoip database!")
                 log.exception(e)
 
-    def _on_cache_size(self, key, value):
+    def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
         self.settings.cache_size = value
         self.session.set_settings(self.settings)
 
-    def _on_cache_expiry(self, key, value):
+    def _on_set_cache_expiry(self, key, value):
         log.debug("%s: %s", key, value)
         self.settings.cache_expiry = value
         self.session.set_settings(self.settings)
