@@ -35,7 +35,7 @@ from setuptools import setup
 
 __plugin_name__ = "Blocklist"
 __author__ = "John Garland"
-__author_email__ = "johnnybg@gmail.com"
+__author_email__ = "johnnybg+deluge@gmail.com"
 __version__ = "1.2"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
