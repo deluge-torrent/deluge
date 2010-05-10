@@ -2,7 +2,7 @@
 # core.py
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2009 John Garland <johnnybg@gmail.com>
+# Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #
 # Deluge is free software.
 #
