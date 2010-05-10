@@ -153,8 +153,11 @@ class PreferencesManager(component.Component):
         self.core = component.get("Core")
         self.session = component.get("Core").session
         self.settings = component.get("Core").settings
-
         self.new_release_timer = None
+
+        # Set the initial preferences on start-up
+        for key in DEFAULT_PREFS:
+            self.do_config_set_func(key, self.config[key])
 
         self.config.register_change_callback(self._on_config_value_change)
 
@@ -163,11 +166,14 @@ class PreferencesManager(component.Component):
             self.new_release_timer.stop()
 
     # Config set functions
-    def _on_config_value_change(self, key, value):
-        component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
+    def do_config_set_func(self, key, value):
         on_set_func = getattr(self, "_on_set_" + key, None)
         if on_set_func:
             on_set_func(key, value)
+
+    def _on_config_value_change(self, key, value):
+        self.do_config_set_func(key, value)
+        component.get("EventManager").emit(ConfigValueChangedEvent(key, value))
 
     def _on_set_torrentfiles_location(self, key, value):
         if self.config["copy_torrent_file"]:
