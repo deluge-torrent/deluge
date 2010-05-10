@@ -422,7 +422,7 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
             # Set a timer to check for a new release every 3 days
             self.new_release_timer = LoopingCall(
-                self._on_new_release_check, "new_release_check", True)
+                self._on_set_new_release_check, "new_release_check", True)
             self.new_release_timer.start(72 * 60 * 60, False)
         else:
             if self.new_release_timer:
