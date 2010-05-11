@@ -7,11 +7,11 @@
 	* #1112: Fix renaming files in add torrent dialog
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
-	* Add AutoAdd plugin
+	* Add !AutoAdd plugin
 	* Add Notifications plugin
 
 ==== GtkUI ====
-	* Use new SessionProxy class for caching torrent status client-side
+	* Use new !SessionProxy class for caching torrent status client-side
 	* Use torrent status diffs to reduce RPC traffic
 
 ==== Blocklist ====
@@ -20,7 +20,7 @@
 	* Fix redirection not working with relative paths
 
 ==== Execute ====
-	* Fix running commands with the TorrentAdded event
+	* Fix running commands with the !TorrentAdded event
 	* Fix the web interface
 
 ==== Label ====
@@ -29,7 +29,7 @@
 ==== Web ====
 	* Migrate to ExtJS 3.1
 	* Add gzip compression of HTTP data to the server
-	* Improve the efficiency of the TorrentGrid with lots of torrents (#1026)
+	* Improve the efficiency of the !TorrentGrid with lots of torrents (#1026)
 	* Add a base parameter to allow reverse proxying (#1076)
 	* Fix showing all the peers in the details tab (#1054)
 	* Fix uploading torrent files in Opera or IE (#1087)
@@ -43,7 +43,7 @@
 	* Use system GeoIP database if available, this is now an optional dependency
 
 ==== GtkUI ====
-	* Remove SignalReceiver
+	* Remove !SignalReceiver
 	* Implemented a cross-platform IPC method thus removing the DBUS dependency
 	* Implement a "True" Classic Mode where there is no longer a separate daemon process
 	* Add preferences option "Add torrent in paused state"
