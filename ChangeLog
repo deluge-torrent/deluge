@@ -15,7 +15,7 @@
 ==== Web ====
 	* Migrate to ExtJS 3.1
 	* Add gzip compression of HTTP data to the server
-	* Improve the efficiency of the !TorrentGrid
+	* Improve the efficiency of the TorrentGrid
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
@@ -25,7 +25,7 @@
 	* Use system GeoIP database if available, this is now an optional dependency
 
 ==== GtkUI ====
-	* Remove !SignalReceiver
+	* Remove SignalReceiver
 	* Implemented a cross-platform IPC method thus removing the DBUS dependency
 	* Implement a "True" Classic Mode where there is no longer a separate daemon process
 	* Add preferences option "Add torrent in paused state"
