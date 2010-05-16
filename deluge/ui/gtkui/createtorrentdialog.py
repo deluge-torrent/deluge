@@ -210,7 +210,7 @@ class CreateTorrentDialog:
             client.core.get_path_size(result).addCallback(_on_get_path_size)
             client.force_call(True)
 
-        dialog.destroy()
+        dialog.hide()
 
     def _on_button_cancel_clicked(self, widget):
         log.debug("_on_button_cancel_clicked")
