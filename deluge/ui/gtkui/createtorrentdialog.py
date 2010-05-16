@@ -228,11 +228,14 @@ class CreateTorrentDialog:
         is_remote = self.files_treestore[0][1] == gtk.STOCK_NETWORK
         if is_remote:
             # This is a remote path
-            response = self.glade.get_widget("remote_save_dialog").run()
+            dialog = self.glade.get_widget("remote_save_dialog")
+            response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 result = self.glade.get_widget("entry_save_path").get_text()
             else:
+                dialog.hide()
                 return
+            dialog.hide()
         else:
             # Setup the filechooserdialog
             chooser = gtk.FileChooserDialog(_("Save .torrent file"),
@@ -344,7 +347,6 @@ class CreateTorrentDialog:
                     trackers,
                     add_to_session).addCallback(hide_progress)
 
-        chooser.destroy()
         self.dialog.destroy()
 
     def create_torrent(self, path, tracker, piece_length, progress, comment, target,
