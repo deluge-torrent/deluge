@@ -197,6 +197,11 @@ this should be an IP address", metavar="IFACE",
         write_pidfile()
 
     # Setup the logger
+    try:
+        # Try to make the logfile's directory if it doesn't exist
+        os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
+    except:
+        pass
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
     from deluge.log import LOG as log
 
