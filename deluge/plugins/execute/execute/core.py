@@ -97,7 +97,7 @@ class Core(CorePluginBase):
 
         # Grab the torrent name and save path
         torrent_name = info["name"]
-        if event == "completed":
+        if event == "complete":
             save_path = info["move_on_completed_path"] if info ["move_completed"] else info["save_path"]
         else:
             save_path = info["save_path"]
