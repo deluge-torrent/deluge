@@ -123,6 +123,7 @@ class Core(CorePluginBase):
     def add_command(self, event, command):
         command_id = hashlib.sha1(str(time.time())).hexdigest()
         self.config["commands"].append((command_id, event, command))
+        self.config.save()
         component.get("EventManager").emit(ExecuteCommandAddedEvent(command_id, event, command))
 
     @export
@@ -136,6 +137,7 @@ class Core(CorePluginBase):
                 self.config["commands"].remove(command)
                 component.get("EventManager").emit(ExecuteCommandRemovedEvent(command_id))
                 break
+        self.config.save()
 
     @export
     def save_command(self, command_id, event, cmd):
@@ -143,3 +145,4 @@ class Core(CorePluginBase):
             if command[EXECUTE_ID] == command_id:
                 self.config["commands"][i] = (command_id, event, cmd)
                 break
+        self.config.save()
