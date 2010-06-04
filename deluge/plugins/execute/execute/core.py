@@ -102,11 +102,14 @@ class Core(CorePluginBase):
         else:
             save_path = info["save_path"]
 
+        log.debug("[execute] Running commands for %s", EXECUTE_EVENT)
+
         # Go through and execute all the commands
         for command in self.config["commands"]:
             if command[EXECUTE_EVENT] == event:
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
+                log.debug("[execute] running %s", command)
                 p = Popen([command, torrent_id, torrent_name, save_path], stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 if p.wait() != 0:
                     log.warn("Execute command failed with exit code %d", p.returncode)
