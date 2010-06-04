@@ -99,7 +99,7 @@ Deluge.ux.EditExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
 	},
 
 	onSaveClick: function() {
-		var values = this.form.getForm().getValues();
+		var values = this.form.getForm().getFieldValues();
 		deluge.client.execute.save_command(this.command.id, values.event, values.command, {
 			success: function() {
 				this.fireEvent('commandedit', this, values.event, values.command);
@@ -124,7 +124,7 @@ Deluge.ux.AddExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
 	},
 
 	onAddClick: function() {
-		var values = this.form.getForm().getValues();
+		var values = this.form.getForm().getFieldValues();
 		deluge.client.execute.add_command(values.event, values.command, {
 			success: function() {
 				this.fireEvent('commandadd', this, values.event, values.command);
