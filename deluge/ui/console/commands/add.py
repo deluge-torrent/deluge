@@ -63,6 +63,9 @@ class Command(BaseCommand):
         # Keep a list of deferreds to make a DeferredList
         deferreds = []
         for arg in args:
+            if not os.path.exists(arg):
+                self.console.write("{!error!}%s doesn't exist!" % arg)
+                continue
             if not os.path.isfile(arg):
                 self.console.write("{!error!}This is a directory!")
                 continue
