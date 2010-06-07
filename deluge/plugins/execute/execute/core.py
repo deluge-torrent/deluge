@@ -84,8 +84,11 @@ class Core(CorePluginBase):
             if event in self.registered_events:
                 continue
 
-            def event_handler(torrent_id):
-                self.execute_commands(torrent_id, command[EXECUTE_EVENT])
+            def create_event_handler(event):
+                def event_handler(torrent_id):
+                    self.execute_commands(torrent_id, event)
+                return event_handler
+            event_handler = create_event_handler(event)
             event_manager.register_event_handler(EVENT_MAP[event], event_handler)
             self.registered_events[event] = event_handler
 
@@ -102,7 +105,7 @@ class Core(CorePluginBase):
         else:
             save_path = info["save_path"]
 
-        log.debug("[execute] Running commands for %s", EXECUTE_EVENT)
+        log.debug("[execute] Running commands for %s", event)
 
         # Go through and execute all the commands
         for command in self.config["commands"]:
