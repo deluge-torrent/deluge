@@ -263,7 +263,10 @@ class TrackerIcons(Component):
                 break
         parser.close()
         f.close()
-        os.remove(page)
+        try:
+            os.remove(page)
+        except Exception, e:
+            log.warning("Couldn't remove temp file: %s", e)
         return parser.get_icons()
 
     def on_parse_complete(self, icons, host):
