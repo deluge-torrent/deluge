@@ -126,7 +126,8 @@ def get_line_length(line, encoding="UTF-8"):
     if line.count("{!") != line.count("!}"):
         raise BadColorString("Number of {! is not equal to number of !}")
 
-    line = line.encode(encoding, "replace")
+    if isinstance(line, unicode):
+        line = line.encode(encoding, "replace")
 
     # Remove all the color tags
     line = strip_colors(line)
@@ -146,7 +147,8 @@ def parse_color_string(s, encoding="UTF-8"):
     if s.count("{!") != s.count("!}"):
         raise BadColorString("Number of {! is not equal to number of !}")
 
-    s = s.encode(encoding, "replace")
+    if isinstance(s, unicode):
+        s = s.encode(encoding, "replace")
 
     ret = []
     # Keep track of where the strings
