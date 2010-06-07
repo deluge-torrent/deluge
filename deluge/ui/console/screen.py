@@ -308,7 +308,7 @@ class Screen(CursesStdIO):
         if c == curses.KEY_ENTER or c == 10:
             if self.input:
                 self.add_line(">>> " + self.input)
-                self.command_parser(self.input)
+                self.command_parser(self.input.encode(self.encoding))
                 if len(self.input_history) == INPUT_HISTORY_SIZE:
                     # Remove the oldest input history if the max history size
                     # is reached.
@@ -404,21 +404,13 @@ class Screen(CursesStdIO):
             if c > 31 and c < 256:
                 # Emulate getwch
                 stroke = chr(c)
-
-                uchar = None
-
-                while 1:
+                uchar = ""
+                while not uchar:
                     try:
                         uchar = stroke.decode(self.encoding)
                     except UnicodeDecodeError:
-                        pass
-                    
-                    c = self.stdscr.getch()
-
-                    if c == -1:
-                        break
-
-                    stroke += chr(c) 
+                        c = self.stdscr.getch()
+                        stroke += chr(c)
 
                 if uchar:
                     if self.input_cursor == len(self.input):
@@ -426,7 +418,7 @@ class Screen(CursesStdIO):
                     else:
                         # Insert into string
                         self.input = self.input[:self.input_cursor] + uchar + self.input[self.input_cursor:]
-                        
+
                     # Move the cursor forward
                     self.input_cursor += 1
 
