@@ -2,6 +2,9 @@
 ==== ConsoleUI ====
 	* #1307: Fix not being able to add torrents
 
+==== Execute ====
+	* #1306: Fix always executing last event
+
 === Deluge 1.3.0-rc1 (08 May 2010) ===
 ==== Core ====
 	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
