@@ -1,6 +1,7 @@
 === Deluge 1.3.0-rc2 (In Development) ===
 ==== ConsoleUI ====
 	* #1307: Fix not being able to add torrents
+	* #1293: Fix not being able to add paths that contain backslashes
 
 ==== Execute ====
 	* #1306: Fix always executing last event
