@@ -497,7 +497,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 	},
 
 	onLabelRemoveClick: function() {
-		var state = this.filter.getFilter();
+		var state = this.filter.getState();
 		deluge.client.label.remove(state, {
 			success: function() {
 				deluge.ui.update();
