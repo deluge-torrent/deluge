@@ -84,12 +84,12 @@ Deluge.Formatters = {
 	/**
 	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
-	 * @param {Number} bits the number of bits per second
+	 * @param {Number} bytes the number of bytes per second
 	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	speed: function(bits, showZero) {
-		return (!bits && !showZero) ? '' : fsize(bits, showZero) + '/s';
+	speed: function(bytes, showZero) {
+		return (!bytess && !showZero) ? '' : fsize(bytes, showZero) + '/s';
 	},
 	
 	/**
