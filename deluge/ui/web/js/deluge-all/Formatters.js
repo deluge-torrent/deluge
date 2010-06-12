@@ -89,7 +89,7 @@ Deluge.Formatters = {
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
 	speed: function(bytes, showZero) {
-		return (!bytess && !showZero) ? '' : fsize(bytes, showZero) + '/s';
+		return (!bytes && !showZero) ? '' : fsize(bytes, showZero) + '/s';
 	},
 	
 	/**
