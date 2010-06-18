@@ -173,7 +173,7 @@ else:
         if osx_check():
             dynamic_lib_extension = ".dylib"
 
-        _lib_extensions = ['-mt_1_39', '-mt-1_38', '-mt-1_37', '-mt-1_36', '-mt-1_35', '-mt']
+        _lib_extensions = ['-mt', '-mt_1_39', '-mt-1_38', '-mt-1_37', '-mt-1_36', '-mt-1_35']
 
         # Modify the libs if necessary for systems with only -mt boost libs
         for lib in _libraries:
@@ -318,7 +318,7 @@ class build_debug(build):
     sub_commands = [x for x in build.sub_commands if x[0] != 'build_ext'] + [('build_ext_debug', None)]
 
 class build_ext_debug(_build_ext):
-    
+
     def run(self):
         if not self.distribution.ext_modules:
             return _build_ext.run(self)
