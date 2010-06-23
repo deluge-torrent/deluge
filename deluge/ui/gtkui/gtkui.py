@@ -252,12 +252,6 @@ class GtkUI(object):
         # Shutdown all components
         component.shutdown()
 
-        if self.started_in_classic:
-            try:
-                client.daemon.shutdown()
-            except:
-                pass
-
         # Make sure the config is saved.
         self.config.save()
 
