@@ -76,6 +76,9 @@ class SessionProxy(component.Component):
         return client.core.get_torrents_status({}, [], True).addCallback(on_torrent_status)
 
     def stop(self):
+        client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
+        client.deregister_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
+        client.deregister_event_handler("TorrentAddedEvent", self.on_torrent_added)
         self.torrents = {}
 
     def create_status_dict(self, torrent_ids, keys):
@@ -197,7 +200,8 @@ class SessionProxy(component.Component):
             return d.addCallback(on_status, None, keys)
 
     def on_torrent_state_changed(self, torrent_id, state):
-        self.torrents[torrent_id][1]["state"] = state
+        if torrent_id in self.torrents:
+            self.torrents[torrent_id][1]["state"] = state
 
     def on_torrent_added(self, torrent_id):
         self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
