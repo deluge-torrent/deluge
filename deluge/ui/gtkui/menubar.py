@@ -260,8 +260,6 @@ class MenuBar(component.Component):
 
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
-        if self.config["classic_mode"] and client.is_classicmode():
-            client.daemon.shutdown()
         self.window.quit()
 
     ## Edit Menu ##
