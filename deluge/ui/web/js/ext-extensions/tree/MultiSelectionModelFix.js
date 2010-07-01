@@ -48,6 +48,9 @@ Ext.override(Ext.tree.MultiSelectionModel, {
 			var fi = parentNode.indexOf(node),
 				li = parentNode.indexOf(this.lastSelNode);
 
+			// Select the last clicked node and wipe old selections
+			this.select(this.lastSelNode, e, false, true);
+
 			// Swap the values if required
 			if (fi > li) {
 				fi = fi + li, li = fi - li, fi = fi - li;
@@ -57,7 +60,7 @@ Ext.override(Ext.tree.MultiSelectionModel, {
 			parentNode.eachChild(function(n) {
 				var i = parentNode.indexOf(n);
 				if (fi < i && i < li) {
-					this.select(n, e, true);
+					this.select(n, e, true, true);
 				}
 			}, this);
 
@@ -66,6 +69,24 @@ Ext.override(Ext.tree.MultiSelectionModel, {
 		} else {
 			this.select(node, e, e.ctrlKey);
 		}
+	},
+
+	select: function(node, e, keepExisting, suppressEvent) {
+		if(keepExisting !== true){
+			this.clearSelections(true);
+		}         
+		if(this.isSelected(node)){
+			this.lastSelNode = node;
+			return node;
+		}         
+		this.selNodes.push(node);
+		this.selMap[node.id] = node;
+		this.lastSelNode = node;
+		node.ui.onSelectedChange(true);
+		if (suppressEvent !== true) {
+			this.fireEvent('selectionchange', this, this.selNodes);
+		}
+        return node;
 	}
 
 })
