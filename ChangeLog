@@ -8,14 +8,17 @@
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
 
-==== Blocklist ====
-	* Implement local blocklist support
-	* #861: Pause transfers until blocklist is imported
+==== GtkUI ====
+	* Fix uncaught exception when closing deluge in classic mode
 
-==== Web ====
+==== WebUI ====
 	* Migrate to ExtJS 3.1
 	* Add gzip compression of HTTP data to the server
 	* Improve the efficiency of the TorrentGrid
+
+==== Blocklist ====
+	* Implement local blocklist support
+	* #861: Pause transfers until blocklist is imported
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
