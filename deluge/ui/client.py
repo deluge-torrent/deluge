@@ -430,7 +430,7 @@ class DaemonClassicProxy(DaemonProxy):
         self.connected = True
         self.host = "localhost"
         self.port = 58846
-        self.user = "localclient"
+        self.username = "localclient"
         # Register the event handlers
         for event in event_handlers:
             for handler in event_handlers[event]:
