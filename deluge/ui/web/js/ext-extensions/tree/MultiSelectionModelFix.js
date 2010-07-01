@@ -45,16 +45,24 @@ Ext.override(Ext.tree.MultiSelectionModel, {
 			if (this.lastSelNode.parentNode.id != parentNode.id) return;
 
 			// Get the node indexes
-			var ni = parentNode.indexOf(node),
+			var fi = parentNode.indexOf(node),
 				li = parentNode.indexOf(this.lastSelNode);
+
+			// Swap the values if required
+			if (fi > li) {
+				fi = fi + li, li = fi - li, fi = fi - li;
+			}
 
 			// Select all the nodes
 			parentNode.eachChild(function(n) {
 				var i = parentNode.indexOf(n);
-				if (li < i && i <= ni) {
+				if (fi < i && i < li) {
 					this.select(n, e, true);
 				}
 			}, this);
+
+			// Select the clicked node
+			this.select(node, e, true);
 		} else {
 			this.select(node, e, e.ctrlKey);
 		}
