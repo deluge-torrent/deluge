@@ -854,7 +854,7 @@ class WebApi(JSONComponent):
         """
         web_config = component.get("DelugeWeb").config
         for key in config.keys():
-            if isinstance(config[key], unicode) or isinstance(config[key], str):
+            if isinstance(config[key], basestring):
                 config[key] = config[key].encode("utf8")
             web_config[key] = config[key]
 

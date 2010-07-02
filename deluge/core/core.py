@@ -454,7 +454,7 @@ class Core(component.Component):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
         for key in config.keys():
-            if isinstance(config[key], unicode) or isinstance(config[key], str):
+            if isinstance(config[key], basestring):
                 config[key] = config[key].encode("utf8")
             self.config[key] = config[key]
 
