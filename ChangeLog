@@ -16,7 +16,7 @@
 ==== Label ====
 	* Fix being able to remove labels in web ui
 
-==== Web =====
+==== WebUI ====
 	* #1319: Fix shift selecting in file trees
 
 === Deluge 1.3.0-rc1 (08 May 2010) ===
