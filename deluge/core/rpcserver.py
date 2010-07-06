@@ -90,13 +90,13 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
 def format_request(call):
     """
     Format the RPCRequest message for debug printing
-    
+
     :param call: the request
     :type call: a RPCRequest
-    
+
     :returns: a formatted string for printing
     :rtype: str
-    
+
     """
     try:
         s = call[1] + "("
@@ -111,7 +111,7 @@ def format_request(call):
         return "UnicodeEncodeError, call: %s" % call
     else:
         return s
-        
+
 class DelugeError(Exception):
     pass
 
@@ -139,7 +139,7 @@ class DelugeRPCProtocol(Protocol):
         """
         This method is called whenever data is received from a client.  The
         only message that a client sends to the server is a RPC Request message.
-        If the RPC Request message is valid, then the method is called in 
+        If the RPC Request message is valid, then the method is called in
         :meth:`dispatch`.
 
         :param data: the data from the client. It should be a zlib compressed
@@ -187,7 +187,7 @@ class DelugeRPCProtocol(Protocol):
         :param data: the object that is to be sent to the client.  This should
             be one of the RPC message types.
         :type data: object
-        
+
         """
         self.transport.write(zlib.compress(rencode.dumps(data)))
 
@@ -254,7 +254,7 @@ class DelugeRPCProtocol(Protocol):
             try:
                 ret = component.get("AuthManager").authorize(*args, **kwargs)
                 if ret:
-                    self.factory.authorized_sessions[self.transport.sessionno] = ret
+                    self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception, e:
                 sendError()
@@ -283,7 +283,7 @@ class DelugeRPCProtocol(Protocol):
         if method in self.factory.methods and self.transport.sessionno in self.factory.authorized_sessions:
             try:
                 method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
-                auth_level = self.factory.authorized_sessions[self.transport.sessionno]
+                auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]
                 if auth_level < method_auth_requirement:
                     # This session is not allowed to call this method
                     log.debug("Session %s is trying to call a method it is not authorized to call!", self.transport.sessionno)
@@ -338,7 +338,7 @@ class RPCServer(component.Component):
         self.factory = Factory()
         self.factory.protocol = DelugeRPCProtocol
         self.factory.session_id = -1
-        
+
         # Holds the registered methods
         self.factory.methods = {}
         # Holds the session_ids and auth levels
@@ -417,26 +417,41 @@ class RPCServer(component.Component):
     def get_session_id(self):
         """
         Returns the session id of the current RPC.
-        
+
         :returns: the session id, this will be -1 if no connections have been made
         :rtype: int
 
         """
         return self.factory.session_id
-        
+
+    def get_session_user(self):
+        """
+        Returns the username calling the current RPC.
+
+        :returns: the username of the user calling the current RPC
+        :rtype: string
+
+        """
+        session_id = self.get_session_id()
+        if session_id > -1:
+            return self.factory.authorized_sessions[session_id][1]
+        else:
+            # No connections made yet
+            return ""
+
     def is_session_valid(self, session_id):
         """
         Checks if the session is still valid, eg, if the client is still connected.
-        
+
         :param session_id: the session id
         :type session_id: int
-        
+
         :returns: True if the session is valid
         :rtype: bool
-        
+
         """
         return session_id in self.factory.authorized_sessions
-        
+
     def emit_event(self, event):
         """
         Emits the event to interested clients.
