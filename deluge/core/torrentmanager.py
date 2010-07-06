@@ -476,6 +476,7 @@ class TorrentManager(component.Component):
         # Emit the torrent_added signal
         component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id))
 
+        log.info("Torrent %s added by user: %s", torrent.get_status(["name"])["name"], component.get("RPCServer").get_session_user())
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
@@ -514,6 +515,8 @@ class TorrentManager(component.Component):
 
         if torrent_id not in self.torrents:
             raise InvalidTorrentError("torrent_id not in session")
+
+        torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
 
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
@@ -562,7 +565,7 @@ class TorrentManager(component.Component):
 
         # Emit the signal to the clients
         component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
-
+        log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
         return True
 
     def load_state(self):
