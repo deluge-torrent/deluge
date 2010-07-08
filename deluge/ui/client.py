@@ -35,7 +35,11 @@
 
 from twisted.internet.protocol import Protocol, ClientFactory
 from twisted.internet import reactor, ssl, defer
-import deluge.rencode as rencode
+try:
+    import rencode
+except ImportError:
+    import deluge.rencode as rencode
+
 import zlib
 
 import deluge.common
