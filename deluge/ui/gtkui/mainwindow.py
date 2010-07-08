@@ -153,10 +153,7 @@ class MainWindow(component.Component):
         return self.main_glade
 
     def quit(self):
-        if client.is_classicmode():
-            gtk.main_quit()
-        else:
-            reactor.stop()
+        reactor.stop()
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
