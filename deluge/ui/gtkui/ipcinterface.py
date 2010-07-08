@@ -38,7 +38,11 @@ import sys
 import os
 import base64
 
-import deluge.rencode
+try:
+    import rencode
+except ImportError:
+    import deluge.rencode as rencode
+    
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
@@ -51,12 +55,12 @@ import twisted.internet.error
 
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
-        data = deluge.rencode.loads(data)
+        data = rencode.loads(data)
         process_args(data)
 
 class IPCProtocolClient(Protocol):
     def connectionMade(self):
-        self.transport.write(deluge.rencode.dumps(self.factory.args))
+        self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()
         
     def connectionLost(self, reason):

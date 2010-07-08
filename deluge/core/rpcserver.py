@@ -47,7 +47,11 @@ from twisted.internet import ssl, reactor, defer
 from OpenSSL import crypto, SSL
 from types import FunctionType
 
-import deluge.rencode as rencode
+try:
+    import rencode
+except ImportError:
+    import deluge.rencode as rencode
+
 from deluge.log import LOG as log
 
 import deluge.component as component
