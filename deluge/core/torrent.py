@@ -795,8 +795,13 @@ class Torrent(object):
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         if not os.path.exists(dest):
-            log.error("Could not move storage for torrent %s since %s does not exist!", self.torrent_id, dest)
-            return False
+            try:
+                # Try to make the destination path if it doesn't exist
+                os.makedirs(dest)
+            except IOError, e:
+                log.exception(e)
+                log.error("Could not move storage for torrent %s since %s does not exist and could not create the directory.", self.torrent_id, dest)
+                return False
         try:
             self.handle.move_storage(dest.encode("utf8"))
         except:
