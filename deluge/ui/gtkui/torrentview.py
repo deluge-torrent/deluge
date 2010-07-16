@@ -88,14 +88,18 @@ def cell_data_statusicon(column, cell, model, row, data):
 
 def cell_data_trackericon(column, cell, model, row, data):
     def on_get_icon(icon):
+        def create_blank_icon():
+            i = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
+            i.fill(0x00000000)
+            return i
+
         if icon:
             try:
                 icon = gtk.gdk.pixbuf_new_from_file_at_size(icon.get_filename(), 16, 16)
             except Exception, e:
-                pass
+                icon = create_blank_icon()
         else:
-            icon = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-            icon.fill(0x00000000)
+            icon = create_blank_icon()
 
         if cell.get_property("pixbuf") != icon:
             cell.set_property("pixbuf", icon)
