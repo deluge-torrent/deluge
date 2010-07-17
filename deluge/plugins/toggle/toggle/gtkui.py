@@ -52,7 +52,7 @@ class GtkUI(GtkPluginBase):
         self.core = client.toggle
         self.plugin = component.get("PluginManager")
         self.separator = self.plugin.add_toolbar_separator()
-        self.button = self.plugin.add_toolbar_button(self._on_button_clicked, label="Pause Session", stock="gtk-media-pause", tooltip="Toggles the session")
+        self.button = self.plugin.add_toolbar_button(self._on_button_clicked, label="Pause Session", stock="gtk-media-pause", tooltip="Pause the session")
 
     def disable(self):
         component.get("PluginManager").remove_toolbar_button(self.button)
@@ -62,9 +62,11 @@ class GtkUI(GtkPluginBase):
         def _on_get_status(paused):
             if paused:
                 self.button.set_label("Resume Session")
+                self.button.set_tooltip_text("Resume the session")
                 self.button.set_stock_id("gtk-media-play")
             else:
                 self.button.set_label("Pause Session")
+                self.button.set_tooltip_text("Pause the session")
                 self.button.set_stock_id("gtk-media-pause")
         self.core.get_status().addCallback(_on_get_status)
 
