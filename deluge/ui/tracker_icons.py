@@ -315,9 +315,33 @@ class TrackerIcons(Component):
         (url, mimetype) = icons.pop(0)
         d = download_file(url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
                           force_filename=True)
+        d.addCallback(self.check_icon_is_valid)
         if icons:
             d.addErrback(self.on_download_icon_fail, host, icons)
         return d
+
+    @proxy(threads.deferToThread)
+    def check_icon_is_valid(self, icon_name):
+        """
+        Performs a sanity check on icon_name
+
+        :param icon_name: the name of the icon to check
+        :type icon_name: string
+        :returns: the name of the validated icon
+        :rtype: string
+        :raises: InvalidIconError
+        """
+
+        if PIL_INSTALLED:
+            try:
+                Image.open(icon_name)
+            except IOError, e:
+                raise InvalidIconError(e)
+        else:
+            if os.stat(icon_name).st_size == 0L:
+                raise InvalidIconError, "empty icon"
+
+        return icon_name
 
     def on_download_icon_complete(self, icon_name, host):
         """
@@ -546,4 +570,7 @@ def extension_to_mimetype(extension):
 ################################## EXCEPTIONS #################################
 
 class NoIconsError(Exception):
+    pass
+
+class InvalidIconError(Exception):
     pass
