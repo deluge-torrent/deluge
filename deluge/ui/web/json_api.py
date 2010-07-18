@@ -410,7 +410,10 @@ class WebApi(JSONComponent):
         self.host_list = ConfigManager("hostlist.conf.1.2", DEFAULT_HOSTS)
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
-        self.sessionproxy = SessionProxy()
+        try:
+            self.sessionproxy = component.get("SessionProxy")
+        except KeyError:
+            self.sessionproxy = SessionProxy()
 
     def get_host(self, host_id):
         """

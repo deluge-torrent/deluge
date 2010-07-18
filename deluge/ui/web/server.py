@@ -188,7 +188,13 @@ class Render(resource.Resource):
         return compress(template.render(), request)
 
 class Tracker(resource.Resource):
-    tracker_icons = TrackerIcons()
+
+    def __init__(self):
+        resource.Resource.__init__(self)
+        try:
+            self.tracker_icons = component.get("TrackerIcons")
+        except KeyError:
+            self.tracker_icons = TrackerIcons()
 
     def getChild(self, path, request):
         request.tracker_name = path
