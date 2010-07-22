@@ -1,3 +1,0 @@
-[submodule "libtorrent"]
-	path = libtorrent
-	url = git://deluge-torrent.org/libtorrent
