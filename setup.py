@@ -211,18 +211,29 @@ except ImportError:
 else:
     build_libtorrent = False
 
-if build_libtorrent and os.path.exists("libtorrent") and os.listdir("libtorrent"):
-    # There isn't a system libtorrent library, so let's build the one included with deluge
-    libtorrent = Extension(
-        'libtorrent',
-        extra_compile_args = _extra_compile_args,
-        include_dirs = _include_dirs,
-        libraries = _libraries,
-        library_dirs = _library_dirs,
-        sources = _sources
-    )
+if build_libtorrent:
+    got_libtorrent = False
+    if not os.path.exists("libtorrent"):
+        import subprocess
+        if subprocess.call(['./get_libtorrent.sh']) > 0:
+            got_libtorrent = False
+        else:
+            got_libtorrent = True
+    else:
+        got_libtorrent = True
 
-    _ext_modules = [libtorrent]
+    if got_libtorrent:
+        # There isn't a system libtorrent library, so let's build the one included with deluge
+        libtorrent = Extension(
+            'libtorrent',
+            extra_compile_args = _extra_compile_args,
+            include_dirs = _include_dirs,
+            libraries = _libraries,
+            library_dirs = _library_dirs,
+            sources = _sources
+        )
+
+        _ext_modules = [libtorrent]
 
 class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files'
