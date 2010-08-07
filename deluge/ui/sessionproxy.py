@@ -96,7 +96,11 @@ class SessionProxy(component.Component):
         """
         sd = {}
         for torrent_id in torrent_ids:
-            sd[torrent_id] = dict([(x, y) for x, y in self.torrents[torrent_id][1].iteritems() if x in keys])
+            if keys:
+                sd[torrent_id] = dict([(x, y) for x, y in self.torrents[torrent_id][1].iteritems() if x in keys])
+            else:
+                sd[torrent_id] = dict(self.torrents[torrent_id][1])
+
         return sd
 
     def get_torrent_status(self, torrent_id, keys):
