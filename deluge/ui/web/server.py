@@ -411,7 +411,7 @@ class ScriptResource(resource.Resource, component.Component):
 
     def getChild(self, path, request):
         if hasattr(request, "lookup_path"):
-            request.lookup_path = os.path.join(request.lookup_path, path)
+            request.lookup_path += '/' + path
         else:
             request.lookup_path = path
         return self
