@@ -110,7 +110,16 @@ class JSON(resource.Resource, component.Component):
         component.Component.__init__(self, "JSON")
         self._remote_methods = []
         self._local_methods = {}
-        client.disconnect_callback = self._on_client_disconnect
+        if client.is_classicmode():
+            def on_got_methods(methods):
+                """
+                Handles receiving the method names
+                """
+                self._remote_methods = methods
+
+            client.daemon.get_method_list().addCallback(on_got_methods)
+        else:
+            client.disconnect_callback = self._on_client_disconnect
 
     def connect(self, host="localhost", port=58846, username="", password=""):
         """
