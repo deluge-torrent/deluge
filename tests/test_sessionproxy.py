@@ -112,8 +112,17 @@ class SessionProxyTestCase(unittest.TestCase):
         return d
 
     def test_get_torrent_status_key_not_updated(self):
+        time.sleep(self.sp.cache_time + 0.1)
         self.sp.get_torrent_status("a", ["key1"])
         client.core.torrents["a"]["key2"] = 99
         d = self.sp.get_torrent_status("a", ["key2"])
         d.addCallback(self.assertEquals, {"key2": 99})
+        return d
+
+    def test_get_torrents_status_key_not_updated(self):
+        time.sleep(self.sp.cache_time + 0.1)
+        self.sp.get_torrents_status({"id": ["a"]}, ["key1"])
+        client.core.torrents["a"]["key2"] = 99
+        d = self.sp.get_torrents_status({"id": ["a"]}, ["key2"])
+        d.addCallback(self.assertEquals, {"a": {"key2": 99}})
         return d
