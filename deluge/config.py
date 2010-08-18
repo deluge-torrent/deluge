@@ -45,9 +45,9 @@ The format of the config file is two json encoded dicts:
 <version dict>
 <content dict>
 
-The version dict contains two keys: file and format.  The format version is 
-controlled by the Config class.  It should only be changed when anything below 
-it is changed directly by the Config class.  An example of this would be if we 
+The version dict contains two keys: file and format.  The format version is
+controlled by the Config class.  It should only be changed when anything below
+it is changed directly by the Config class.  An example of this would be if we
 changed the serializer for the content to something different.
 
 The config file version is changed by the 'owner' of the config file.  This is
@@ -93,13 +93,13 @@ def prop(func):
 def find_json_objects(s):
     """
     Find json objects in a string.
-    
+
     :param s: the string to find json objects in
     :type s: string
-    
+
     :returns: a list of tuples containing start and end locations of json objects in the string `s`
     :rtype: [(start, end), ...]
-    
+
     """
     objects = []
     opens = 0
@@ -119,8 +119,8 @@ def find_json_objects(s):
                 start = index + offset + 1
 
     return objects
-    
-    
+
+
 class Config(object):
     """
     This class is used to access/create/modify config files
@@ -348,21 +348,21 @@ what is currently in the config and it could not convert the value
             return
 
         objects = find_json_objects(data)
-        
+
         if not len(objects):
             # No json objects found, try depickling it
             try:
                 self.__config.update(pickle.loads(data))
             except Exception, e:
                 log.exception(e)
-                log.warning("Unable to load config file: %s", filename)                
+                log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 1:
             start, end = objects[0]
             try:
                 self.__config.update(json.loads(data[start:end]))
             except Exception, e:
                 log.exception(e)
-                log.warning("Unable to load config file: %s", filename)                
+                log.warning("Unable to load config file: %s", filename)
         elif len(objects) == 2:
             try:
                 start, end = objects[0]
@@ -371,8 +371,8 @@ what is currently in the config and it could not convert the value
                 self.__config.update(json.loads(data[start:end]))
             except Exception, e:
                 log.exception(e)
-                log.warning("Unable to load config file: %s", filename)                
-            
+                log.warning("Unable to load config file: %s", filename)
+
         log.debug("Config %s version: %s.%s loaded: %s", filename,
             self.__version["format"], self.__version["file"], self.__config)
 
@@ -396,26 +396,24 @@ what is currently in the config and it could not convert the value
             version = json.loads(data[start:end])
             start, end = objects[1]
             loaded_data = json.loads(data[start:end])
-
             if self.__config == loaded_data and self.__version == version:
                 # The config has not changed so lets just return
-                self._save_timer.cancel()
+                if self._save_timer:
+                    self._save_timer.cancel()
                 return
-        except Exception, e:
-            log.warning("Unable to open config file: %s", filename)
-
-        
+        except IOError, e:
+            log.warning("Unable to open config file: %s because: %s", filename, e)
 
         # Save the new config and make sure it's written to disk
         try:
             log.debug("Saving new config file %s", filename + ".new")
             f = open(filename + ".new", "wb")
-            json.dump(self.__version, f, indent=2)            
+            json.dump(self.__version, f, indent=2)
             json.dump(self.__config, f, indent=2)
             f.flush()
             os.fsync(f.fileno())
             f.close()
-        except Exception, e:
+        except IOError, e:
             log.error("Error writing new config file: %s", e)
             return False
 
