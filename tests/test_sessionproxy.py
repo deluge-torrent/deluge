@@ -110,3 +110,10 @@ class SessionProxyTestCase(unittest.TestCase):
         d = self.sp.get_torrent_status("a", [])
         d.addCallback(self.assertEquals, client.core.torrents["a"])
         return d
+
+    def test_get_torrent_status_key_not_updated(self):
+        self.sp.get_torrent_status("a", ["key1"])
+        client.core.torrents["a"]["key2"] = 99
+        d = self.sp.get_torrent_status("a", ["key2"])
+        d.addCallback(self.assertEquals, {"key2": 99})
+        return d
