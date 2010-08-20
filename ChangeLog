@@ -1,7 +1,9 @@
-=== Deluge 1.3.0-rc2 (In Development) ===
+=== Deluge 1.3.0-rc2 (20 August 2010) ===
 ==== Core ====
 	* Fix tracker_icons failing on windows
 	* Fix #1302 an uncaught exception in an state_changed event handler in SessionProxy was preventing the TorrentManager's stop method from properly saving all the resume data
+	* Fix issue with SessionProxy not updating the torrent status correctly when
+get_torrent_status calls take place within the cache_expiry time
 
 ==== ConsoleUI ====
 	* #1307: Fix not being able to add torrents
