@@ -37,14 +37,14 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.3.0-rc1"
+!define PROGRAM_VERSION "1.3.0-rc2"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
 !define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # Installer for GTK+ 2.12 runtime; will be downloaded from deluge-torrent.org
-!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2010-02-24-ash.exe"
+!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2010-05-12-ash.exe"
 
 
 # --- Interface settings ---
