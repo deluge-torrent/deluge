@@ -1276,7 +1276,7 @@
                     <child>
                       <widget class="GtkTable" id="table9">
                         <property name="visible">True</property>
-                        <property name="n_rows">8</property>
+                        <property name="n_rows">10</property>
                         <property name="n_columns">4</property>
                         <property name="column_spacing">5</property>
                         <property name="row_spacing">2</property>
@@ -1543,6 +1543,57 @@
                           </packing>
                         </child>
                         <child>
+                          <widget class="GtkLabel" id="label23">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="ypad">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Owner:&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">8</property>
+                            <property name="bottom_attach">9</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label24">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="ypad">1</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Public:&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">9</property>
+                            <property name="bottom_attach">10</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="summary_owner">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="wrap_mode">char</property>
+                            <property name="selectable">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">8</property>
+                            <property name="bottom_attach">9</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
                           <placeholder/>
                         </child>
                         <child>
@@ -1553,6 +1604,27 @@
                         </child>
                         <child>
                           <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="summary_public">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="wrap_mode">char</property>
+                            <property name="selectable">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">9</property>
+                            <property name="bottom_attach">10</property>
+                            <property name="y_options"></property>
+                          </packing>
                         </child>
                       </widget>
                     </child>
@@ -2019,8 +2091,8 @@
                                           <widget class="GtkFileChooserButton" id="filechooser_move_completed">
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
-                                            <property name="action">select-folder</property>
                                             <property name="local_only">False</property>
+                                            <property name="action">select-folder</property>
                                             <property name="title" translatable="yes">Select A Folder</property>
                                           </widget>
                                           <packing>
