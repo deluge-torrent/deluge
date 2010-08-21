@@ -241,9 +241,9 @@ class SessionProxy(component.Component):
 
     def on_torrent_added(self, torrent_id):
         self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
+        self.cache_times[torrent_id] = {}
         def on_status(status):
             self.torrents[torrent_id][1].update(status)
-            self.cache_times[torrent_id] = {}
             t = time.time()
             for key in status:
                 self.cache_times[torrent_id][key] = t
