@@ -76,7 +76,7 @@ class TorrentOptions(dict):
 class Torrent(object):
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, handle, options, state=None, filename=None, magnet=None):
+    def __init__(self, handle, options, state=None, filename=None, magnet=None, owner=None):
         log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
@@ -178,6 +178,12 @@ class Torrent(object):
             self.time_added = state.time_added
         else:
             self.time_added = time.time()
+
+        # Keep track of the owner
+        if state:
+            self.owner = state.owner
+        else:
+            self.owner = owner
 
         log.debug("Torrent object created.")
 
@@ -592,6 +598,7 @@ class Torrent(object):
             "next_announce": self.status.next_announce.seconds,
             "num_peers": self.status.num_peers - self.status.num_seeds,
             "num_seeds": self.status.num_seeds,
+            "owner": self.owner,
             "paused": self.status.paused,
             "prioritize_first_last": self.options["prioritize_first_last_pieces"],
             "progress": progress,

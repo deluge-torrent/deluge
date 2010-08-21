@@ -84,7 +84,8 @@ class TorrentState:
             move_completed=False,
             move_completed_path=None,
             magnet=None,
-            time_added=-1
+            time_added=-1,
+            owner=None
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -94,6 +95,7 @@ class TorrentState:
         self.is_finished = is_finished
         self.magnet = magnet
         self.time_added = time_added
+        self.owner = owner
 
         # Options
         self.compact = compact
@@ -434,7 +436,8 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        torrent = Torrent(handle, options, state, filename, magnet)
+        owner = state.owner if state else component.get("RPCServer").get_session_user()
+        torrent = Torrent(handle, options, state, filename, magnet, owner)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         if self.config["queue_new_to_top"]:
