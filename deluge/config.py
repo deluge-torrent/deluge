@@ -398,7 +398,7 @@ what is currently in the config and it could not convert the value
             loaded_data = json.loads(data[start:end])
             if self.__config == loaded_data and self.__version == version:
                 # The config has not changed so lets just return
-                if self._save_timer:
+                if self._save_timer and self._save_timer.active():
                     self._save_timer.cancel()
                 return
         except IOError, e:
