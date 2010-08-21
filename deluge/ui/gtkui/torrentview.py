@@ -233,8 +233,9 @@ class TorrentView(listview.ListView, component.Component):
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
                                  function=cell_data_trackericon)
-
         self.add_text_column(_("Save Path"), status_field=["save_path"])
+        self.add_text_column(_("Owner"), status_field=["owner"])
+        self.add_bool_column(_("Public"), status_field=["public"])
 
         # Set filter to None for now
         self.filter = None
