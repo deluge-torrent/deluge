@@ -85,7 +85,8 @@ class TorrentState:
             move_completed_path=None,
             magnet=None,
             time_added=-1,
-            owner=None
+            owner=None,
+            public=False
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -113,6 +114,7 @@ class TorrentState:
         self.remove_at_ratio = remove_at_ratio
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
+        self.public = public
 
 class TorrentManagerState:
     def __init__(self):
@@ -358,6 +360,7 @@ class TorrentManager(component.Component):
             options["move_completed"] = state.move_completed
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
+            options["public"] = state.public
 
             ti = self.get_torrent_info_from_file(
                     os.path.join(get_config_dir(),

@@ -140,7 +140,8 @@ DEFAULT_PREFS = {
     "rate_limit_ip_overhead": True,
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
-    "cache_expiry": 60
+    "cache_expiry": 60,
+    "public": False
 }
 
 class PreferencesManager(component.Component):
