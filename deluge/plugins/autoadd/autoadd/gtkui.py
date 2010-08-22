@@ -51,7 +51,7 @@ from common import get_resource
 class OptionsDialog():
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
     spin_int_ids = ["max_upload_slots", "max_connections"]
-    chk_ids = ["stop_at_ratio", "remove_at_ratio", "move_completed", "add_paused", "auto_managed"]
+    chk_ids = ["stop_at_ratio", "remove_at_ratio", "move_completed", "add_paused", "auto_managed", "queue_to_top"]
     def __init__(self):
         pass
         
@@ -87,6 +87,8 @@ class OptionsDialog():
 
     def load_options(self, options):
         self.glade.get_widget('enabled').set_active(options.get('enabled', False))
+        self.glade.get_widget('append_extension_toggle').set_active(options.get('append_extension_toggle', False))
+        self.glade.get_widget('append_extension').set_text(options.get('append_extension', '.added'))
         self.glade.get_widget('download_location_toggle').set_active(options.get('download_location_toggle', False))
         self.glade.get_widget('label').set_text(options.get('label', ''))
         self.glade.get_widget('label_toggle').set_active(options.get('label_toggle', False))
@@ -97,7 +99,9 @@ class OptionsDialog():
             self.glade.get_widget(id).set_active(bool(options.get(id, True)))
             self.glade.get_widget(id+'_toggle').set_active(options.get(id+'_toggle', False))
         if not options.get('add_paused', True):
-            self.glade.get_widget('isnt_add_paused').set_active(True) 
+            self.glade.get_widget('isnt_add_paused').set_active(True)
+        if not options.get('queue_to_top', True):
+            self.glade.get_widget('isnt_queue_to_top').set_active(True)
         if not options.get('auto_managed', True):
             self.glade.get_widget('isnt_auto_managed').set_active(True)
         for field in ['move_completed_path', 'path', 'download_location']:
@@ -121,9 +125,9 @@ class OptionsDialog():
         client.core.get_enabled_plugins().addCallback(on_get_enabled_plugins)
         
     def set_sensitive(self):
-        maintoggles = ['download_location', 'move_completed', 'label', \
+        maintoggles = ['download_location', 'append_extension', 'move_completed', 'label', \
             'max_download_speed', 'max_upload_speed', 'max_connections', \
-            'max_upload_slots', 'add_paused', 'auto_managed', 'stop_at_ratio']
+            'max_upload_slots', 'add_paused', 'auto_managed', 'stop_at_ratio', 'queue_to_top']
         [self.on_toggle_toggled(self.glade.get_widget(x+'_toggle')) for x in maintoggles]
         
     def on_toggle_toggled(self, tb):
@@ -132,6 +136,8 @@ class OptionsDialog():
         if toggle == 'download_location':
             self.glade.get_widget('download_location_chooser').set_sensitive(isactive)
             self.glade.get_widget('download_location_entry').set_sensitive(isactive)
+        elif toggle == 'append_extension':
+            self.glade.get_widget('append_extension').set_sensitive(isactive)
         elif toggle == 'move_completed':
             self.glade.get_widget('move_completed_path_chooser').set_sensitive(isactive)
             self.glade.get_widget('move_completed_path_entry').set_sensitive(isactive)
@@ -149,6 +155,9 @@ class OptionsDialog():
         elif toggle == 'add_paused':
             self.glade.get_widget('add_paused').set_sensitive(isactive)
             self.glade.get_widget('isnt_add_paused').set_sensitive(isactive)
+        elif toggle == 'queue_to_top':
+            self.glade.get_widget('queue_to_top').set_sensitive(isactive)
+            self.glade.get_widget('isnt_queue_to_top').set_sensitive(isactive)
         elif toggle == 'auto_managed':
             self.glade.get_widget('auto_managed').set_sensitive(isactive)
             self.glade.get_widget('isnt_auto_managed').set_sensitive(isactive)
@@ -193,6 +202,8 @@ class OptionsDialog():
             options['path'] = self.glade.get_widget('path_entry').get_text()
             options['download_location'] = self.glade.get_widget('download_location_entry').get_text()
             options['move_completed_path'] = self.glade.get_widget('move_completed_path_entry').get_text()
+        options['append_extension_toggle'] = self.glade.get_widget('append_extension_toggle').get_active()
+        options['append_extension'] = self.glade.get_widget('append_extension').get_text()
         options['download_location_toggle'] = self.glade.get_widget('download_location_toggle').get_active()
         options['label'] = self.glade.get_widget('label').get_text().lower()
         options['label_toggle'] = self.glade.get_widget('label_toggle').get_active()
