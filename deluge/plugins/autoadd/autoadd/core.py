@@ -56,6 +56,7 @@ DEFAULT_PREFS = {
 OPTIONS_AVAILABLE = { #option: builtin
     "enabled":False,
     "path":False,
+    "append_extension":False,
     "abspath":False, 
     "download_location":True,
     "max_download_speed":True,
@@ -70,7 +71,8 @@ OPTIONS_AVAILABLE = { #option: builtin
     "move_completed":True,
     "move_completed_path":True,
     "label":False,
-    "add_paused":True
+    "add_paused":True,
+    "queue_to_top":False
 }
 
 MAX_NUM_ATTEMPTS = 10
@@ -146,7 +148,7 @@ class Core(CorePluginBase):
                     raise Exception("Path is already being watched.")
         for key in options.keys():
             if not key in OPTIONS_AVAILABLE:
-                if not key in [key+'_toggle' for key in OPTIONS_AVAILABLE.iterkeys()]:
+                if not key in [key2+'_toggle' for key2 in OPTIONS_AVAILABLE.iterkeys()]:
                     raise Exception("autoadd: Invalid options key:%s" % key)
         #disable the watch loop if it was active
         if watchdir_id in self.update_timers:
@@ -231,13 +233,24 @@ class Core(CorePluginBase):
 
                 # The torrent looks good, so lets add it to the session
                 torrent_id = component.get("TorrentManager").add(filedump=filedump, filename=filename, options=opts)
-                if ('Label' in component.get("CorePluginManager").get_enabled_plugins()) and torrent_id:
-                    if watchdir.get('label_toggle', True) and watchdir.get('label'):
-                        label = component.get("CorePlugin.Label")
-                        if not watchdir['label'] in label.get_labels():
-                            label.add(watchdir['label'])
-                        label.set_torrent(torrent_id, watchdir['label'])
-                os.remove(filepath)
+                if torrent_id:
+                    if 'Label' in component.get("CorePluginManager").get_enabled_plugins():
+                        if watchdir.get('label_toggle', True) and watchdir.get('label'):
+                            label = component.get("CorePlugin.Label")
+                            if not watchdir['label'] in label.get_labels():
+                                label.add(watchdir['label'])
+                            label.set_torrent(torrent_id, watchdir['label'])
+                    if watchdir.get('queue_to_top_toggle'):
+                        if watchdir.get('queue_to_top', True):
+                            component.get("TorrentManager").queue_top(torrent_id)
+                        else:
+                            component.get("TorrentManager").queue_bottom(torrent_id)
+                if watchdir.get('append_extension_toggle', False):
+                    if not watchdir.get('append_extension'):
+                        watchdir['append_extension'] = ".added"
+                    os.rename(filepath, filepath + watchdir['append_extension'])
+                else:
+                    os.remove(filepath)
         
     @export
     def enable_watchdir(self, watchdir_id):
