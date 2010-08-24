@@ -63,7 +63,6 @@ if not hasattr(json, "dumps"):
     json.load = load
 
 import pkg_resources
-import xdg, xdg.BaseDirectory
 import gettext
 import locale
 
@@ -150,6 +149,7 @@ def get_default_config_dir(filename=None):
         else:
             return os.path.join(os.environ.get("APPDATA"), "deluge")
     else:
+        import xdg.BaseDirectory
         if filename:
             return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
         else:
