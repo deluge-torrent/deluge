@@ -173,6 +173,9 @@ class ListView:
         else:
             self.treeview = gtk.TreeView()
 
+        self.treeview.set_enable_search(True)
+        self.treeview.set_search_equal_func(self.on_keypress_search_by_name)
+
         if state_file:
             self.load_state(state_file)
 
@@ -599,3 +602,7 @@ class ListView:
                             pixbuf=0, text=1)
 
         return True
+
+    def on_keypress_search_by_name(self, model, columnn, key, iter):
+        TORRENT_NAME_COL = 5
+        return not model[iter][TORRENT_NAME_COL].lower().startswith(key.lower())
