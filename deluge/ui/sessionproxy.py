@@ -200,7 +200,7 @@ class SessionProxy(component.Component):
                 else:
                     # We need to check if a key is expired
                     for key in keys:
-                        if t - self.cache_times[torrent_id][key] > self.cache_time:
+                        if t - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
                             to_fetch.append(torrent_id)
                             break
 
