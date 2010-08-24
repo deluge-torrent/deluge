@@ -183,6 +183,8 @@ class GtkUI(GtkPluginBase):
         config["low_down"] = self.spin_download.get_value()
         config["low_up"] = self.spin_upload.get_value()
         config["low_active"] = self.spin_active.get_value_as_int()
+        config["low_active_down"] = self.spin_active_down.get_value_as_int()
+        config["low_active_up"] = self.spin_active_up.get_value_as_int()
         config["button_state"] = self.scheduler_select.button_state
         client.scheduler.set_config(config)
 
@@ -193,6 +195,8 @@ class GtkUI(GtkPluginBase):
             self.spin_download.set_value(config["low_down"])
             self.spin_upload.set_value(config["low_up"])
             self.spin_active.set_value(config["low_active"])
+            self.spin_active_down.set_value(config["low_active_down"])
+            self.spin_active_up.set_value(config["low_active_up"])
 
 
         client.scheduler.get_config().addCallback(on_get_config)
@@ -229,7 +233,7 @@ class GtkUI(GtkPluginBase):
         vbox.pack_start(frame, True, True)
         vbox.pack_start(hover)
 
-        table = gtk.Table(3, 2)
+        table = gtk.Table(3, 4)
 
         label = gtk.Label(_("Download Limit:"))
         label.set_alignment(0.0, 0.6)
@@ -251,12 +255,30 @@ class GtkUI(GtkPluginBase):
 
         label = gtk.Label(_("Active Torrents:"))
         label.set_alignment(0.0, 0.6)
-        table.attach(label, 0, 1, 2, 3, gtk.FILL)
+        table.attach(label, 2, 3, 0, 1, gtk.FILL)
         self.spin_active = gtk.SpinButton()
         self.spin_active.set_numeric(True)
         self.spin_active.set_range(-1, 9999)
         self.spin_active.set_increments(1, 10)
-        table.attach(self.spin_active, 1, 2, 2, 3, gtk.FILL)
+        table.attach(self.spin_active, 3, 4, 0, 1, gtk.FILL)
+
+        label = gtk.Label(_("Active Downloading:"))
+        label.set_alignment(0.0, 0.6)
+        table.attach(label, 2, 3, 1, 2, gtk.FILL)
+        self.spin_active_down = gtk.SpinButton()
+        self.spin_active_down.set_numeric(True)
+        self.spin_active_down.set_range(-1, 9999)
+        self.spin_active_down.set_increments(1, 10)
+        table.attach(self.spin_active_down, 3, 4, 1, 2, gtk.FILL)
+
+        label = gtk.Label(_("Active Seeding:"))
+        label.set_alignment(0.0, 0.6)
+        table.attach(label, 2, 3, 2, 3, gtk.FILL)
+        self.spin_active_up = gtk.SpinButton()
+        self.spin_active_up.set_numeric(True)
+        self.spin_active_up.set_range(-1, 9999)
+        self.spin_active_up.set_increments(1, 10)
+        table.attach(self.spin_active_up, 3, 4, 2, 3, gtk.FILL)
 
         eventbox = gtk.EventBox()
         eventbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EDD400"))

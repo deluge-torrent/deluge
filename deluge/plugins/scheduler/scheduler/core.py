@@ -51,6 +51,8 @@ DEFAULT_PREFS = {
     "low_down": -1.0,
     "low_up": -1.0,
     "low_active": -1,
+    "low_active_down": -1,
+    "low_active_up": -1,
     "button_state": [[0] * 7 for dummy in xrange(24)]
 }
 
@@ -77,6 +79,8 @@ class Core(CorePluginBase):
         DEFAULT_PREFS["low_down"] = core_config["max_download_speed"]
         DEFAULT_PREFS["low_up"] = core_config["max_upload_speed"]
         DEFAULT_PREFS["low_active"] = core_config["max_active_limit"]
+        DEFAULT_PREFS["low_active_down"] = core_config["max_active_downloading"]
+        DEFAULT_PREFS["low_active_up"] = core_config["max_active_seeding"]
 
         self.config = deluge.configmanager.ConfigManager("scheduler.conf", DEFAULT_PREFS)
 
@@ -110,6 +114,8 @@ class Core(CorePluginBase):
         core_config.apply_set_functions("max_download_speed")
         core_config.apply_set_functions("max_upload_speed")
         core_config.apply_set_functions("max_active_limit")
+        core_config.apply_set_functions("max_active_downloading")
+        core_config.apply_set_functions("max_active_seeding")
         # Resume the session if necessary
         component.get("Core").session.resume()
 
@@ -131,6 +137,8 @@ class Core(CorePluginBase):
             session.set_upload_rate_limit(int(self.config["low_up"] * 1024))
             settings = session.settings()
             settings.active_limit = self.config["low_active"]
+            settings.active_downloads = self.config["low_active_down"]
+            settings.active_seeds = self.config["low_active_up"]
             session.set_settings(settings)
             # Resume the session if necessary
             component.get("Core").session.resume()
