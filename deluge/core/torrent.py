@@ -403,12 +403,11 @@ class Torrent(object):
         else:
             status = self.status
 
-        if self.is_finished and (self.options["stop_at_ratio"] or self.config["stop_seed_at_ratio"]):
+        if self.is_finished and self.options["stop_at_ratio"]:
             # We're a seed, so calculate the time to the 'stop_share_ratio'
             if not status.upload_payload_rate:
                 return 0
-            stop_ratio = self.config["stop_seed_ratio"] if self.config["stop_seed_at_ratio"] else self.options["stop_ratio"]
-
+            stop_ratio = self.options["stop_ratio"]
             return ((status.all_time_download * stop_ratio) - status.all_time_upload) / status.upload_payload_rate
 
         left = status.total_wanted - status.total_done
@@ -773,13 +772,8 @@ class Torrent(object):
 
             if self.handle.is_finished():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
-                if self.config["stop_seed_at_ratio"] or self.options["stop_at_ratio"]:
-                    if self.options["stop_at_ratio"]:
-                        ratio = self.options["stop_ratio"]
-                    else:
-                        ratio = self.config["stop_seed_ratio"]
-
-                    if self.get_ratio() >= ratio:
+                if self.options["stop_at_ratio"]:
+                    if self.get_ratio() >= self.options["stop_ratio"]:
                         #XXX: This should just be returned in the RPC Response, no event
                         #self.signals.emit_event("torrent_resume_at_stop_ratio")
                         return
