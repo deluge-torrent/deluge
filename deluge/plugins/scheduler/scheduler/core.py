@@ -62,6 +62,14 @@ STATES = {
     2: "Red"
 }
 
+CONTROLLED_SETTINGS = [
+    "max_download_speed",
+    "max_download_speed",
+    "max_active_limit",
+    "max_active_downloading",
+    "max_active_seeding"
+]
+
 class SchedulerEvent(DelugeEvent):
     """
     Emitted when a schedule state changes.
@@ -94,28 +102,32 @@ class Core(CorePluginBase):
         secs_to_next_hour = ((60 - now[4]) * 60) + (60 - now[5])
         self.timer = reactor.callLater(secs_to_next_hour, self.do_schedule)
 
+        # Register for config changes so state isn't overridden
+        component.get("EventManager").register_event_handler("ConfigValueChangedEvent", self.on_config_value_changed)
+
     def disable(self):
         try:
             self.timer.cancel()
         except:
             pass
-
+        component.get("EventManager").deregister_event_handler("ConfigValueChangedEvent", self.on_config_value_changed)
         self.__apply_set_functions()
 
     def update(self):
         pass
 
 
+    def on_config_value_changed(self, key, value):
+        if key in CONTROLLED_SETTINGS:
+            self.do_schedule(False)
+
     def __apply_set_functions(self):
         """
         Have the core apply it's bandwidth settings as specified in core.conf.
         """
         core_config = deluge.configmanager.ConfigManager("core.conf")
-        core_config.apply_set_functions("max_download_speed")
-        core_config.apply_set_functions("max_upload_speed")
-        core_config.apply_set_functions("max_active_limit")
-        core_config.apply_set_functions("max_active_downloading")
-        core_config.apply_set_functions("max_active_seeding")
+        for setting in CONTROLLED_SETTINGS:
+            core_config.apply_set_functions(setting)
         # Resume the session if necessary
         component.get("Core").session.resume()
 
