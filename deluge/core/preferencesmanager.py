@@ -391,8 +391,7 @@ class PreferencesManager(component.Component):
         self.session_set_setting("connection_speed", value)
 
     def _on_ignore_limits_on_local_network(self, key, value):
-        self.settings.ignore_limits_on_local_network = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("ignore_limits_on_local_network", value)
 
     def _on_set_share_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
