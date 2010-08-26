@@ -153,7 +153,6 @@ class PreferencesManager(component.Component):
     def start(self):
         self.core = component.get("Core")
         self.session = component.get("Core").session
-        self.settings = component.get("Core").settings
         self.new_release_timer = None
 
         # Set the initial preferences on start-up
@@ -171,6 +170,11 @@ class PreferencesManager(component.Component):
         on_set_func = getattr(self, "_on_set_" + key, None)
         if on_set_func:
             on_set_func(key, value)
+
+    def session_set_setting(self, key, value):
+        settings = self.session.settings()
+        setattr(settings, key, value)
+        self.session.set_settings(settings)
 
     def _on_config_value_change(self, key, value):
         self.do_config_set_func(key, value)
@@ -214,8 +218,7 @@ class PreferencesManager(component.Component):
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:
             log.debug("outgoing port range set to %s-%s", value[0], value[1])
-            self.settings.outgoing_ports = value[0], value[1]
-            self.session.set_settings(self.settings)
+            self.session_set_setting("outgoing_ports", (value[0], value[1]))
 
     def _on_set_random_outgoing_ports(self, key, value):
         if value:
@@ -224,12 +227,10 @@ class PreferencesManager(component.Component):
     def _on_set_peer_tos(self, key, value):
         log.debug("setting peer_tos to: %s", value)
         try:
-            self.settings.peer_tos = chr(int(value, 16))
+            self.session_set_setting("peer_tos", chr(int(value, 16)))
         except ValueError, e:
             log.debug("Invalid tos byte: %s", e)
             return
-
-        self.session.set_settings(self.settings)
 
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
@@ -339,51 +340,39 @@ class PreferencesManager(component.Component):
         self.session.set_max_half_open_connections(value)
 
     def _on_set_max_connections_per_second(self, key, value):
-        self.settings.connection_speed = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("connection_speed", value)
 
     def _on_set_ignore_limits_on_local_network(self, key, value):
-        self.settings.ignore_limits_on_local_network = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("ignore_limits_on_local_network", value)
 
     def _on_set_share_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
-        self.settings.share_ratio_limit = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("share_ratio_limit", value)
 
     def _on_set_seed_time_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
-        self.settings.seed_time_ratio_limit = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("seed_time_ratio_limit", value)
 
     def _on_set_seed_time_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
         # This value is stored in minutes in deluge, but libtorrent wants seconds
-        self.settings.seed_time_limit = int(value * 60)
-        self.session.set_settings(self.settings)
+        self.session_set_setting("seed_time_limit", int(value * 60))
 
     def _on_set_max_active_downloading(self, key, value):
         log.debug("%s set to %s..", key, value)
-        log.debug("active_downloads: %s", self.settings.active_downloads)
-        self.settings.active_downloads = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("active_downloads", value)
 
     def _on_set_max_active_seeding(self, key, value):
         log.debug("%s set to %s..", key, value)
-        log.debug("active_seeds: %s", self.settings.active_seeds)
-        self.settings.active_seeds = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("active_seeds", value)
 
     def _on_set_max_active_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
-        log.debug("active_limit: %s", self.settings.active_limit)
-        self.settings.active_limit = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("active_limit", value)
 
     def _on_set_dont_count_slow_torrents(self, key, value):
         log.debug("%s set to %s..", key, value)
-        self.settings.dont_count_slow_torrents = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("dont_count_slow_torrents", value)
 
     def _on_set_send_info(self, key, value):
         log.debug("Sending anonymous stats..")
@@ -443,8 +432,7 @@ class PreferencesManager(component.Component):
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
-        self.settings.rate_limit_ip_overhead = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("rate_limit_ip_overhead", value)
 
     def _on_set_geoip_db_location(self, key, value):
         log.debug("%s: %s", key, value)
@@ -466,10 +454,8 @@ class PreferencesManager(component.Component):
 
     def _on_set_cache_size(self, key, value):
         log.debug("%s: %s", key, value)
-        self.settings.cache_size = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("cache_size", value)
 
     def _on_set_cache_expiry(self, key, value):
         log.debug("%s: %s", key, value)
-        self.settings.cache_expiry = value
-        self.session.set_settings(self.settings)
+        self.session_set_setting("cache_expiry", value)
