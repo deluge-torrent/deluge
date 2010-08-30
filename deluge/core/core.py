@@ -42,6 +42,7 @@ import shutil
 import threading
 import pkg_resources
 import warnings
+import tempfile
 
 
 from twisted.internet import reactor, defer
@@ -238,7 +239,13 @@ class Core(component.Component):
         log.info("Attempting to add url %s", url)
         def on_get_file(filename):
             # We got the file, so add it to the session
-            data = open(filename, "rb").read()
+            f = open(filename, "rb")
+            data = f.read()
+            f.close()
+            try:
+                os.remove(filename)
+            except Exception, e:
+                log.warning("Couldn't remove temp file: %s", e)
             return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_get_file_error(failure):
@@ -247,7 +254,7 @@ class Core(component.Component):
             log.error("Reason: %s", failure.getErrorMessage())
             return failure
 
-        d = download_file(url, url.split("/")[-1], headers=headers)
+        d = download_file(url, tempfile.mkstemp()[1], headers=headers)
         d.addCallback(on_get_file)
         d.addErrback(on_get_file_error)
         return d
