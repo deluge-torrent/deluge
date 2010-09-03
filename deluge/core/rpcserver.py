@@ -437,7 +437,7 @@ class RPCServer(component.Component):
 
         """
         session_id = self.get_session_id()
-        if session_id > -1:
+        if session_id > -1 and session_id in self.factory.authorized_sessions:
             return self.factory.authorized_sessions[session_id][1]
         else:
             # No connections made yet
