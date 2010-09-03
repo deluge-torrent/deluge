@@ -116,6 +116,10 @@ class FilterManager(component.Component):
 
         self.register_filter("tracker_host", tracker_error_filter)
 
+        def _init_users_tree():
+            return {"": 0}
+        self.register_tree_field("owner", _init_users_tree)
+
     def filter_torrent_ids(self, filter_dict):
         """
         returns a list of torrent_id's matching filter_dict.

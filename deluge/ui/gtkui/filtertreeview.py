@@ -60,7 +60,8 @@ STATE_PIX = {
 TRANSLATE = {
     "state": "States",
     "tracker_host": "Trackers",
-    "label": "Labels"
+    "label": "Labels",
+    "owner": "Owner"
 }
 
 FILTER_COLUMN = 5
