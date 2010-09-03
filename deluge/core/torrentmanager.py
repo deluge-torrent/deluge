@@ -85,7 +85,7 @@ class TorrentState:
             move_completed_path=None,
             magnet=None,
             time_added=-1,
-            owner=None,
+            owner="",
             public=False
         ):
         self.torrent_id = torrent_id
@@ -642,7 +642,9 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed"],
                 torrent.options["move_completed_path"],
                 torrent.magnet,
-                torrent.time_added
+                torrent.time_added,
+                torrent.owner,
+                torrent.options["public"]
             )
             state.torrents.append(torrent_state)
 
