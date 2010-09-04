@@ -204,3 +204,18 @@ class Daemon(object):
         Returns a list of the exported methods.
         """
         return self.rpcserver.get_method_list()
+
+    @export(1)
+    def authorized_call(self, rpc):
+        """
+        Returns True if authorized to call rpc.
+
+        :param rpc: a rpc, eg, "core.get_torrents_status"
+        :type rpc: string
+
+        """
+        if not rpc in self.get_method_list():
+            return False
+
+        auth_level = self.rpcserver.get_session_auth_level()
+        return auth_level >= self.rpcserver.get_rpc_auth_level()

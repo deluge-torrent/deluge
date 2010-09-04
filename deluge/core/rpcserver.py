@@ -443,6 +443,24 @@ class RPCServer(component.Component):
             # No connections made yet
             return ""
 
+    def get_session_auth_level(self):
+        """
+        Returns the auth level of the user calling the current RPC.
+
+        :returns: the auth level
+        :rtype: int
+        """
+        return self.factory.authorized_sessions[self.get_session_id()][0]
+
+    def get_rpc_auth_level(self, rpc):
+        """
+        Returns the auth level requirement for an exported rpc.
+
+        :returns: the auth level
+        :rtype: int
+        """
+        self.factory.methods[rpc]._rpcserver_auth_level
+
     def is_session_valid(self, session_id):
         """
         Checks if the session is still valid, eg, if the client is still connected.
