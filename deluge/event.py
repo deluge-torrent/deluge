@@ -164,6 +164,22 @@ class TorrentResumedEvent(DelugeEvent):
         """
         self._args = [torrent_id]
 
+class TorrentFileCompletedEvent(DelugeEvent):
+    """
+    Emitted when a file completes.
+
+    This will only work with libtorrent 0.15 or greater.
+
+    """
+    def __init__(self, torrent_id, index):
+        """
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
+        :param index: the file index
+        :type index: int
+        """
+        self._args = [torrent_id, index]
+
 class NewVersionAvailableEvent(DelugeEvent):
     """
     Emitted when a more recent version of Deluge is available.

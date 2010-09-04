@@ -192,6 +192,8 @@ class TorrentManager(component.Component):
             self.on_alert_metadata_received)
         self.alerts.register_handler("file_error_alert",
             self.on_alert_file_error)
+        self.alerts.register_handler("file_completed_alert",
+            self.on_alert_file_completed)
 
     def start(self):
         # Get the pluginmanager reference
@@ -1012,3 +1014,9 @@ class TorrentManager(component.Component):
         except:
             return
         torrent.update_state()
+
+    def on_alert_file_completed(self, alert):
+        log.debug("file_completed_alert: %s", alert.message())
+        torrent_id = str(alert.handle.info_hash())
+        component.get("EventManager").emit(
+            TorrentFileCompletedEvent(torrent_id, alert.index))
