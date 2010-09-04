@@ -78,9 +78,7 @@ OPTIONS_AVAILABLE = { #option: builtin
 MAX_NUM_ATTEMPTS = 10
 
 class AutoaddOptionsChangedEvent(DelugeEvent):
-    """
-    Emitted when a new command is added.
-    """
+    """Emitted when the options for the plugin are changed."""
     def __init__(self):
         pass
 
@@ -95,12 +93,9 @@ class Core(CorePluginBase):
         self.config = deluge.configmanager.ConfigManager("autoadd.conf", DEFAULT_PREFS)
         self.watchdirs = self.config["watchdirs"]
         self.core_cfg = deluge.configmanager.ConfigManager("core.conf")
-        
-        
-        # A list of filenames
-        self.invalid_torrents = []
-        # Filename:Attempts
-        self.attempts = {}
+
+        # Dict of Filename:Attempts
+        self.invalid_torrents = {}
         # Loopingcall timers for each enabled watchdir
         self.update_timers = {}
         # If core autoadd folder is enabled, move it to the plugin
@@ -127,16 +122,13 @@ class Core(CorePluginBase):
         for loopingcall in self.update_timers.itervalues():
             loopingcall.stop()
         self.config.save()
-        pass
 
     def update(self):
         pass
         
     @export()
     def set_options(self, watchdir_id, options):
-        """
-        update the options for a watch folder
-        """
+        """Update the options for a watch folder."""
         watchdir_id = str(watchdir_id)
         options = self._clean_unicode(options)
         CheckInput(watchdir_id in self.watchdirs , _("Watch folder does not exist."))
@@ -179,28 +171,25 @@ class Core(CorePluginBase):
         return filedump
         
     def update_watchdir(self, watchdir_id):
+        """Check the watch folder for new torrents to add."""
         watchdir_id = str(watchdir_id)
         watchdir = self.watchdirs[watchdir_id]
         if not watchdir['enabled']:
             # We shouldn't be updating because this watchdir is not enabled
-            #disable the looping call
-            self.update_timers[watchdir_id].stop()
-            del self.update_timers[watchdir_id]
+            self.disable_watchdir(watchdir_id)
             return
 
-        # Check the auto add folder for new torrents to add
         if not os.path.isdir(watchdir["abspath"]):
             log.warning("Invalid AutoAdd folder: %s", watchdir["abspath"])
-            #disable the looping call
-            watchdir['enabled'] = False
-            self.update_timers[watchdir_id].stop()
-            del self.update_timers[watchdir_id]
+            self.disable_watchdir(watchdir_id)
             return
         
-        #Generate options dict for watchdir
-        opts={}
-        if watchdir.get('stop_at_ratio_toggle'):
-            watchdir['stop_ratio_toggle'] = True
+        # Generate options dict for watchdir
+        opts = {}
+        if 'stop_at_ratio_toggle' in watchdir:
+            watchdir['stop_ratio_toggle'] = watchdir['stop_at_ratio_toggle']
+        # We default to True wher reading _toggle values, so a config
+        # without them is valid, and applies all its settings.
         for option, value in watchdir.iteritems():
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option+'_toggle', True):
@@ -221,18 +210,17 @@ class Core(CorePluginBase):
                     # torrents may not be fully saved during the pass.
                     log.debug("Torrent is invalid: %s", e)
                     if filename in self.invalid_torrents:
-                        self.attempts[filename] += 1
-                        if self.attempts[filename] >= MAX_NUM_ATTEMPTS:
+                        self.invalid_torrents[filename] += 1
+                        if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
                             os.rename(filepath, filepath + ".invalid")
-                            del self.attempts[filename]
-                            self.invalid_torrents.remove(filename)
+                            del self.invalid_torrents[filename]
                     else:
-                        self.invalid_torrents.append(filename)
-                        self.attempts[filename] = 1
+                        self.invalid_torrents[filename] = 1
                     continue
 
-                # The torrent looks good, so lets add it to the session
+                # The torrent looks good, so lets add it to the session.
                 torrent_id = component.get("TorrentManager").add(filedump=filedump, filename=filename, options=opts)
+                # If the torrent added successfully, set the extra options.
                 if torrent_id:
                     if 'Label' in component.get("CorePluginManager").get_enabled_plugins():
                         if watchdir.get('label_toggle', True) and watchdir.get('label'):
@@ -240,41 +228,54 @@ class Core(CorePluginBase):
                             if not watchdir['label'] in label.get_labels():
                                 label.add(watchdir['label'])
                             label.set_torrent(torrent_id, watchdir['label'])
-                    if watchdir.get('queue_to_top_toggle'):
-                        if watchdir.get('queue_to_top', True):
+                    if watchdir.get('queue_to_top_toggle', True) and 'queue_to_top' in watchdir:
+                        if watchdir['queue_to_top']:
                             component.get("TorrentManager").queue_top(torrent_id)
                         else:
                             component.get("TorrentManager").queue_bottom(torrent_id)
-                if watchdir.get('append_extension_toggle', False):
+                # Rename or delete the torrent once added to deluge.
+                if watchdir.get('append_extension_toggle'):
                     if not watchdir.get('append_extension'):
                         watchdir['append_extension'] = ".added"
                     os.rename(filepath, filepath + watchdir['append_extension'])
                 else:
                     os.remove(filepath)
+
+    def on_update_watchdir_error(self, failure, watchdir_id):
+        """Disables any watch folders with unhandled exceptions."""
+        self.disable_watchdir(watchdir_id)
+        log.error("Disabling '%s', error during update: %s" % (self.watchdirs[watchdir_id]["path"], failure))
         
     @export
     def enable_watchdir(self, watchdir_id):
         watchdir_id = str(watchdir_id)
-        self.watchdirs[watchdir_id]['enabled'] = True
-        #Enable the looping call
-        self.update_timers[watchdir_id] = LoopingCall(self.update_watchdir, watchdir_id)
-        self.update_timers[watchdir_id].start(5)
-        self.config.save()
-        component.get("EventManager").emit(AutoaddOptionsChangedEvent())
+        # Enable the looping call
+        if watchdir_id not in self.update_timers or not self.update_timers[watchdir_id].running:
+            self.update_timers[watchdir_id] = LoopingCall(self.update_watchdir, watchdir_id)
+            self.update_timers[watchdir_id].start(5).addErrback(self.on_update_watchdir_error, watchdir_id)
+        # Update the config
+        if not self.watchdirs[watchdir_id]['enabled']:
+            self.watchdirs[watchdir_id]['enabled'] = True
+            self.config.save()
+            component.get("EventManager").emit(AutoaddOptionsChangedEvent())
         
     @export
     def disable_watchdir(self, watchdir_id):
         watchdir_id = str(watchdir_id)
-        self.watchdirs[watchdir_id]['enabled'] = False
-        #disable the looping call here
-        self.update_timers[watchdir_id].stop()
-        del self.update_timers[watchdir_id]
-        self.config.save()
-        component.get("EventManager").emit(AutoaddOptionsChangedEvent())
+        # Disable the looping call
+        if watchdir_id in self.update_timers:
+            if self.update_timers[watchdir_id].running:
+                self.update_timers[watchdir_id].stop()
+            del self.update_timers[watchdir_id]
+        # Update the config
+        if self.watchdirs[watchdir_id]['enabled']:
+            self.watchdirs[watchdir_id]['enabled'] = False
+            self.config.save()
+            component.get("EventManager").emit(AutoaddOptionsChangedEvent())
 
     @export
     def set_config(self, config):
-        """sets the config dictionary"""
+        """Sets the config dictionary."""
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
@@ -282,7 +283,7 @@ class Core(CorePluginBase):
 
     @export
     def get_config(self):
-        """returns the config dictionary"""
+        """Returns the config dictionary."""
         return self.config.config
         
     @export()
@@ -298,19 +299,16 @@ class Core(CorePluginBase):
                 value = str(value)
             opts[key] = value
         return opts
-        
-    #Labels:
+
     @export()
     def add(self, options={}):
-        """add a watchdir
-        """
+        """Add a watch folder."""
         options = self._clean_unicode(options)
         abswatchdir = os.path.abspath(options['path'])
         CheckInput(os.path.isdir(abswatchdir) , _("Path does not exist."))
         CheckInput(os.access(abswatchdir, os.R_OK|os.W_OK), "You must have read and write access to watch folder.")
-        for watchdir_id, watchdir in self.watchdirs.iteritems():
-            if watchdir['abspath'] == abswatchdir:
-                raise Exception("Path is already being watched.")
+        if abswatchdir in [wd['abspath'] for wd in self.watchdirs.itervalues()]:
+            raise Exception("Path is already being watched.")
         options.setdefault('enabled', False)
         options['abspath'] = abswatchdir
         watchdir_id = self.config['next_id']
@@ -324,7 +322,7 @@ class Core(CorePluginBase):
         
     @export
     def remove(self, watchdir_id):
-        """remove a label"""
+        """Remove a watch folder."""
         watchdir_id = str(watchdir_id)
         CheckInput(watchdir_id in self.watchdirs, "Unknown Watchdir: %s" % self.watchdirs)
         if self.watchdirs[watchdir_id]['enabled']:
