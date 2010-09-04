@@ -57,7 +57,9 @@ class DelugeEvent(object):
     The base class for all events.
 
     :prop name: this is the name of the class which is in-turn the event name
+    :type name: string
     :prop args: a list of the attribute values
+    :type args: list
 
     """
     __metaclass__ = DelugeEventMetaClass
@@ -79,7 +81,8 @@ class TorrentAddedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id):
         """
-        :param torrent_id: str, the torrent_id of the torrent that was added
+        :param torrent_id: the torrent_id of the torrent that was added
+        :type torrent_id: string
         """
         self._args = [torrent_id]
 
@@ -89,7 +92,8 @@ class TorrentRemovedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id):
         """
-        :param torrent_id: str, the torrent_id
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
         """
         self._args = [torrent_id]
 
@@ -99,7 +103,8 @@ class PreTorrentRemovedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id):
         """
-        :param torrent_id: str, the torrent_id
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
         """
         self._args = [torrent_id]
 
@@ -109,8 +114,10 @@ class TorrentStateChangedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id, state):
         """
-        :param torrent_id: str, the torrent_id
-        :param state: str, the new state
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
+        :param state: the new state
+        :type state: string
         """
         self._args = [torrent_id, state]
 
@@ -126,9 +133,12 @@ class TorrentFolderRenamedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id, old, new):
         """
-        :param torrent_id: str, the torrent_id
-        :param old: str, the old folder name
-        :param new: str, the new folder name
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
+        :param old: the old folder name
+        :type old: string
+        :param new: the new folder name
+        :type new: string
         """
         self._args = [torrent_id, old, new]
 
@@ -138,9 +148,12 @@ class TorrentFileRenamedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id, index, name):
         """
-        :param torrent_id: str, the torrent_id
-        :param index: int, the index of the file
-        :param name: str, the new filename
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
+        :param index: the index of the file
+        :type index: int
+        :param name: the new filename
+        :type name: string
         """
         self._args = [torrent_id, index, name]
 
@@ -150,7 +163,8 @@ class TorrentFinishedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id):
         """
-        :param torrent_id: str, the torrent_id
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
         """
         self._args = [torrent_id]
 
@@ -160,7 +174,8 @@ class TorrentResumedEvent(DelugeEvent):
     """
     def __init__(self, torrent_id):
         """
-        :param torrent_id: str, the torrent_id
+        :param torrent_id: the torrent_id
+        :type torrent_id: string
         """
         self._args = [torrent_id]
 
@@ -186,7 +201,8 @@ class NewVersionAvailableEvent(DelugeEvent):
     """
     def __init__(self, new_release):
         """
-        :param new_release: str, the new version that is available
+        :param new_release: the new version that is available
+        :type new_release: string
         """
         self._args = [new_release]
 
@@ -215,7 +231,8 @@ class ConfigValueChangedEvent(DelugeEvent):
     """
     def __init__(self, key, value):
         """
-        :param key: str, the key that changed
+        :param key: the key that changed
+        :type key: string
         :param value: the new value of the `:param:key`
         """
         self._args = [key, value]
