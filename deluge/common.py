@@ -570,13 +570,15 @@ class VersionSplit(object):
     """
     def __init__(self, ver):
         ver = ver.lower()
-        vs = ver.split("_") if "_" in ver else ver.split("-")
+        vs = ver.replace("_", "-").split("-")
         self.version = [int(x) for x in vs[0].split(".")]
         self.suffix = None
+        self.dev = False
         if len(vs) > 1:
-            for s in ("rc", "alpha", "beta", "dev"):
-                if s in vs[1][:len(s)]:
-                    self.suffix = vs[1]
+            if vs[1].startswith(("rc", "alpha", "beta")):
+                self.suffix = vs[1]
+            if vs[-1] == 'dev':
+                self.dev = True
 
     def __cmp__(self, ver):
         """
@@ -587,19 +589,8 @@ class VersionSplit(object):
 
         """
 
-        if self.version > ver.version or (self.suffix and self.suffix[:3] == "dev"):
-            return 1
-        if self.version < ver.version:
-            return -1
-
-        if self.version == ver.version:
-            if self.suffix == ver.suffix:
-                return 0
-            if self.suffix is None:
-                return 1
-            if ver.suffix is None:
-                return -1
-            if self.suffix < ver.suffix:
-                return -1
-            if self.suffix > ver.suffix:
-                return 1
+        # If there is no suffix we use z because we want final
+        # to appear after alpha, beta, and rc alphabetically.
+        v1 = [self.version, self.suffix or 'z', self.dev]
+        v2 = [ver.version, ver.suffix or 'z', ver.dev]
+        return cmp(v1, v2)
