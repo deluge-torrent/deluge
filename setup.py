@@ -387,14 +387,6 @@ class clean(_clean):
             self.run_command(cmd_name)
         _clean.run(self)
 
-class install(_install):
-    def run(self):
-        for cmd_name in self.get_sub_commands():
-            self.run_command(cmd_name)
-        _install.run(self)
-        if not self.root:
-            self.do_egg_install()
-
 cmdclass = {
     'build': build,
     'build_trans': build_trans,
@@ -404,7 +396,6 @@ cmdclass = {
     'build_ext_debug': build_ext_debug,
     'clean_plugins': clean_plugins,
     'clean': clean,
-    'install': install
 }
 
 # Data files to be installed to the system
@@ -452,7 +443,6 @@ setup(
     data_files = _data_files,
     ext_package = "deluge",
     ext_modules = _ext_modules,
-    include_package_data = True,
     package_data = {"deluge": ["ui/gtkui/glade/*.glade",
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
