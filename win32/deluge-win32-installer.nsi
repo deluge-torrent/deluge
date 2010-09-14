@@ -122,9 +122,6 @@ BrandingText "Deluge Windows Installer v${DELUGE_INSTALLER_VERSION}"
 Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
 OutFile "..\build-win32\deluge-${PROGRAM_VERSION}-win32-setup.exe"
 
-# The Python bbfreeze files will be placed here
-!define DELUGE_PYTHON_SUBDIR "$INSTDIR\Deluge-Python"
-
 InstallDir "$PROGRAMFILES\Deluge"
 
 ShowInstDetails show
@@ -133,69 +130,31 @@ ShowUnInstDetails show
 # Install main application
 Section "Deluge Bittorrent Client" Section1
   SectionIn RO
-
-  Rmdir /r "${DELUGE_PYTHON_SUBDIR}"
-  SetOutPath "${DELUGE_PYTHON_SUBDIR}"
+  
+  SetOutPath $INSTDIR
   File /r "${DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR}\*.*"
 
-  # Clean up previous confusion between Deluge.ico and deluge.ico (seems to matter on Vista registry settings?)
-  Delete "$INSTDIR\Deluge.ico"
-
   SetOverwrite ifnewer
-  SetOutPath $INSTDIR
   File "..\LICENSE"
-  File "StartX.exe"
-  File "deluge.ico"
-
-  # Create deluge.cmd file
-  fileOpen $0 "$INSTDIR\deluge.cmd" w
-  fileWrite $0 '@ECHO OFF$\r$\n'
-  fileWrite $0 'SET DELUGEFOLDER="$INSTDIR"$\r$\n'
-  fileWrite $0 'SET STARTX_APP="$INSTDIR\StartX.exe"$\r$\n'
-  fileWrite $0 '$\r$\n'
-  fileWrite $0 'IF ""%1"" == """" ( $\r$\n'
-  fileWrite $0 '  %STARTX_APP% /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluge.exe"$\r$\n'
-  fileWrite $0 ') ELSE ( $\r$\n'
-  fileWrite $0 '  %STARTX_APP% /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluge.exe "%1" "%2" "%3" "%4""$\r$\n'
-  fileWrite $0 ')$\r$\n'
-  fileClose $0
-
-  # Create deluged.cmd file
-  fileOpen $0 "$INSTDIR\deluged.cmd" w
-  fileWrite $0 '@ECHO OFF$\r$\n'
-  fileWrite $0 'SET DELUGEFOLDER="$INSTDIR"$\r$\n'
-  fileWrite $0 '"$INSTDIR\StartX.exe" /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluged.exe "%1" "%2" "%3" "%4""$\r$\n'
-  fileClose $0
-
-  # Create deluge-webui.cmd file
-  fileOpen $0 "$INSTDIR\deluge-webui.cmd" w
-  fileWrite $0 '@ECHO OFF$\r$\n'
-  fileWrite $0 'SET DELUGEFOLDER="$INSTDIR"$\r$\n'
-  fileWrite $0 '"$INSTDIR\StartX.exe" /B /D%DELUGEFOLDER% "$INSTDIR\Deluge-Python\deluge.exe --ui web"$\r$\n'
-  fileWrite $0 "ECHO Deluge WebUI started and is running at http://localhost:8112 by default$\r$\n"
-  fileWrite $0 "ECHO NOTE: The Deluge WebUI process can only be stopped in the Windows Task Manager$\r$\n"
-  fileWrite $0 "ECHO.$\r$\n"
-  fileWrite $0 PAUSE
-  fileClose $0
 SectionEnd
 
 Section -StartMenu_Desktop_Links
   WriteIniStr "$INSTDIR\homepage.url" "InternetShortcut" "URL" "${PROGRAM_WEB_SITE}"
-
+  # create shortcuts for all users
+  SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\Deluge"
-  CreateShortCut "$SMPROGRAMS\Deluge\Deluge.lnk" "$INSTDIR\deluge.cmd" "" "$INSTDIR\deluge.ico"
-  CreateShortCut "$SMPROGRAMS\Deluge\Deluge daemon.lnk" "$INSTDIR\deluged.cmd" "" "$INSTDIR\deluge.ico"
-  CreateShortCut "$SMPROGRAMS\Deluge\Deluge webUI.lnk" "$INSTDIR\deluge-webui.cmd" "" "$INSTDIR\deluge.ico"
+  CreateShortCut "$SMPROGRAMS\Deluge\Deluge.lnk" "$INSTDIR\deluge.exe"
+  CreateShortCut "$SMPROGRAMS\Deluge\Deluge daemon.lnk" "$INSTDIR\deluged.exe"
+  CreateShortCut "$SMPROGRAMS\Deluge\Deluge webUI.lnk" "$INSTDIR\deluge-web.exe"
   CreateShortCut "$SMPROGRAMS\Deluge\Project homepage.lnk" "$INSTDIR\Homepage.url"
   CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\Deluge-uninst.exe"
-  CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.cmd" "" "$INSTDIR\deluge.ico"
+  CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.exe"
 SectionEnd
 
 Section -Uninstaller
   WriteUninstaller "$INSTDIR\Deluge-uninst.exe"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" "$INSTDIR\Deluge-uninst.exe"
-  WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayIcon" "$INSTDIR\deluge.ico"
 SectionEnd
 
 # Create file association for .torrent
@@ -208,9 +167,9 @@ Section "Create .torrent file association for Deluge" Section2
   DeleteRegKey HKCR "Deluge"
   WriteRegStr HKCR "Deluge" "" "Deluge"
   WriteRegStr HKCR "Deluge\Content Type" "" "application/x-bittorrent"
-  WriteRegStr HKCR "Deluge\DefaultIcon" "" '"$INSTDIR\deluge.ico"'
+  WriteRegStr HKCR "Deluge\DefaultIcon" "" "$INSTDIR\deluge.exe,0"
   WriteRegStr HKCR "Deluge\shell" "" "open"
-  WriteRegStr HKCR "Deluge\shell\open\command" "" '"$INSTDIR\deluge.cmd" "%1"'
+  WriteRegStr HKCR "Deluge\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
 
@@ -220,7 +179,7 @@ Section "Create magnet uri link association for Deluge" Section3
     WriteRegStr HKCR "magnet" "" "URL:magnet protocol"
     WriteRegStr HKCR "magnet" "URL Protocol" ""
 
-    WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.cmd" "%1"'
+    WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
 # Install GTK+ 2.16
@@ -267,17 +226,9 @@ LangString DESC_Section4 ${LANG_ENGLISH} "Download and install the GTK+ 2.16 run
 # --- Uninstallation section(s) ---
 
 Section Uninstall
-  Rmdir /r "${DELUGE_PYTHON_SUBDIR}"
-
-  Delete "$INSTDIR\Deluge-uninst.exe"
-  Delete "$INSTDIR\LICENSE"
-  Delete "$INSTDIR\deluge.cmd"
-  Delete "$INSTDIR\deluged.cmd"
-  Delete "$INSTDIR\deluge-webui.cmd"
-  Delete "$INSTDIR\StartX.exe"
-  Delete "$INSTDIR\Homepage.url"
-  Delete "$INSTDIR\deluge.ico"
-
+  RmDir /r "$INSTDIR"
+  
+  SetShellVarContext all
   Delete "$SMPROGRAMS\Deluge\Deluge.lnk"
   Delete "$SMPROGRAMS\Deluge\Deluge daemon.lnk"
   Delete "$SMPROGRAMS\Deluge\Deluge webUI.lnk"
@@ -286,7 +237,6 @@ Section Uninstall
   Delete "$DESKTOP\Deluge.lnk"
 
   RmDir "$SMPROGRAMS\Deluge"
-  RmDir "$INSTDIR"
 
   DeleteRegKey ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}"
 
