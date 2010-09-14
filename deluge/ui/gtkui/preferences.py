@@ -173,6 +173,10 @@ class Preferences(component.Component):
         if self.iter_to_remove != None:
             self.liststore.remove(self.iter_to_remove)
 
+        # We need to re-adjust the index values for the remaining pages
+        for i, (index, name) in enumerate(self.liststore):
+            self.liststore[i][0] = i
+
     def show(self, page=None):
         """Page should be the string in the left list.. ie, 'Network' or
         'Bandwidth'"""
