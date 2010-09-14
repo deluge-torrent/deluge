@@ -35,7 +35,6 @@ from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.build_ext import build_ext as _build_ext
 from distutils.command.clean import clean as _clean
-from setuptools.command.install import install as _install
 try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
@@ -448,8 +447,6 @@ setup(
                                 "data/pixmaps/*.svg",
                                 "data/pixmaps/*.ico",
                                 "data/pixmaps/flags/*.png",
-                                "data/revision",
-                                "data/GeoIP.dat",
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
@@ -461,7 +458,11 @@ setup(
                                 "ui/web/images/*.png",
                                 "ui/web/js/*.js",
                                 "ui/web/render/*.html",
-                                "ui/web/themes/*/*/*/*"
+                                "ui/web/themes/css/*.css",
+                                "ui/web/themes/*/*.gif",
+                                "ui/web/themes/*/*.png",
+                                "ui/web/themes/*/*/*.png",
+                                "ui/web/themes/*/*/*.gif"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
     entry_points = """
