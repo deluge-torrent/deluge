@@ -457,6 +457,8 @@ setup(
                                 "ui/web/images/*.gif",
                                 "ui/web/images/*.png",
                                 "ui/web/js/*.js",
+                                "ui/web/js/*/*.js",
+                                "ui/web/js/*/*/*.js",
                                 "ui/web/render/*.html",
                                 "ui/web/themes/css/*.css",
                                 "ui/web/themes/*/*.gif",
