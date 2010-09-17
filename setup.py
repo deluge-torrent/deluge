@@ -463,10 +463,10 @@ setup(
                                 "ui/web/js/*/*/.order",
                                 "ui/web/render/*.html",
                                 "ui/web/themes/css/*.css",
-                                "ui/web/themes/*/*.gif",
-                                "ui/web/themes/*/*.png",
-                                "ui/web/themes/*/*/*.png",
-                                "ui/web/themes/*/*/*.gif"
+                                "ui/web/themes/images/*/*.gif",
+                                "ui/web/themes/images/*/*.png",
+                                "ui/web/themes/images/*/*/*.gif",
+                                "ui/web/themes/images/*/*/*.png"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
     entry_points = """
