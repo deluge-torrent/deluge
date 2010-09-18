@@ -1,6 +1,7 @@
 build_version = "1.3.0"
 python_path = "C:\\Python26\\"
 
+import os, glob
 import shutil
 shutil.copy(python_path + "Scripts\deluge-script.py", python_path + "Scripts\deluge.py")
 shutil.copy(python_path + "Scripts\deluge-script.py", python_path + "Scripts\deluge-debug.py")
@@ -10,9 +11,9 @@ shutil.copy(python_path + "Scripts\deluge-gtk-script.py", python_path + "Scripts
 shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scripts\deluge-console.py")
 
 includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "wsgiref.handlers", "twisted.internet.utils", "gio", "gtk.glade")
-excludes=("numpy", "OpenGL", "psyco")
+excludes=("numpy", "OpenGL", "psyco", "win32ui")
 
-dst = "..\\build-win32\\deluge-bbfreeze-" + build_version
+dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
 
 from bbfreeze import Freezer
 f = Freezer(dst, includes=includes, excludes=excludes)
@@ -25,11 +26,18 @@ f.addScript(python_path + "Scripts\deluge-gtk.py", gui_only=True)
 f.addScript(python_path + "Scripts\deluge-console.py", gui_only=False)
 f()    # starts the freezing process
 
-
+# add icons to the exe files
 import icon
-icon.CopyIcons(dst+"\\deluge.exe", "deluge.ico")  
-icon.CopyIcons(dst+"\\deluge-debug.exe", "deluge.ico")
-icon.CopyIcons(dst+"\\deluged.exe", "deluge.ico")  
-icon.CopyIcons(dst+"\\deluge-web.exe", "deluge.ico")  
-icon.CopyIcons(dst+"\\deluge-gtk.exe", "deluge.ico")  
-icon.CopyIcons(dst+"\\deluge-console.exe", "deluge.ico")  
+icon.CopyIcons(dst+"deluge.exe", "deluge.ico")  
+icon.CopyIcons(dst+"deluge-debug.exe", "deluge.ico")
+icon.CopyIcons(dst+"deluged.exe", "deluge.ico")  
+icon.CopyIcons(dst+"deluge-web.exe", "deluge.ico")  
+icon.CopyIcons(dst+"deluge-gtk.exe", "deluge.ico")  
+icon.CopyIcons(dst+"deluge-console.exe", "deluge.ico")  
+
+# exclude files which are already included in GTK or Windows
+excludeFiles = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "freetype*.dll", "iconv.dll", "intl.dll", "libatk*.dll", "libcairo*.dll", "libexpat*.dll", "libfontconfig*.dll", "libfreetype*.dll", "libgio*.dll", "libpng*.dll", "libtiff*.dll", "zlib1.dll")
+for file in excludeFiles:
+    for filename in glob.glob(dst + file):
+        print "removing file:", filename
+        os.remove(filename)
