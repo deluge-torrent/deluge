@@ -425,7 +425,7 @@ _data_files = [
 # Main setup
 setup(
     name = "deluge",
-    version = "1.3.0-rc2",
+    version = "1.3.0",
     fullname = "Deluge Bittorrent Client",
     description = "Bittorrent Client",
     author = "Andrew Resch, Damien Churchill",

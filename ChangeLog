@@ -1,4 +1,4 @@
-=== Deluge 1.3.0 (13 September 2010) ===
+=== Deluge 1.3.0 (18 September 2010) ===
 	* Fix issue where the save_timer is cancelled when it's not active
 	* Fix unhandled exception when adding a torrent to the session
 	* Moved xdg import so it is not called on Windows, where it is unused. fixes #1343

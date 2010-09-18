@@ -37,7 +37,7 @@ SetCompressor lzma
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.3.0-rc2"
+!define PROGRAM_VERSION "1.3.0"
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
