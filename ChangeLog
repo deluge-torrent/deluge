@@ -1,18 +1,23 @@
 === Deluge 1.3.0 (18 September 2010) ===
+==== Core ====
 	* Fix issue where the save_timer is cancelled when it's not active
 	* Fix unhandled exception when adding a torrent to the session
 	* Moved xdg import so it is not called on Windows, where it is unused. fixes #1343
 	* Fix key error after enabling a plugin that introduces a new status key
-	* Add max active downloading and seeding options to scheduler.
 	* Ignore global stop ratio related settings in logic, so per torrent ones are used.
-	* Fix scheduler so that it keeps current state, even after global settings change.
 	* Ensure preferencesmanager only changes intended libtorrent session settings.
-	* Fix issue when adding torrents without a 'session'. This can happen when 
-	a plugin adds a torrent, like how the AutoAdd plugin works. The user that
-	adds this torrent will be an empty string.
+	* Fix issue when adding torrents without a 'session'. This can happen when a plugin adds a torrent, like how the AutoAdd plugin works. The user that adds this torrent will be an empty string.
 	* Add TorrentFileCompleted event
-	* AutoAdd plugin can now recover when one of the watchfolders has an unhandled exception.
+
+==== GtkUI ====
 	* Increase max piece size to 8 MiB in create torrent dialog (closes #1358)
+
+==== Scheduler ====
+	* Add max active downloading and seeding options to scheduler.
+	* Fix scheduler so that it keeps current state, even after global settings change.
+
+==== AutoAdd ====
+	* AutoAdd plugin can now recover when one of the watchfolders has an unhandled exception.
 	* Fix bug in AutoAdd plugin where watchdirs would not display in gtkui when first enabled.
 	* Fix bugs with unicode torrents in AutoAdd plugin.
 	
@@ -20,8 +25,7 @@
 ==== Core ====
 	* Fix tracker_icons failing on windows
 	* Fix #1302 an uncaught exception in an state_changed event handler in SessionProxy was preventing the TorrentManager's stop method from properly saving all the resume data
-	* Fix issue with SessionProxy not updating the torrent status correctly when
-get_torrent_status calls take place within the cache_expiry time
+	* Fix issue with SessionProxy not updating the torrent status correctly when get_torrent_status calls take place within the cache_expiry time
 
 ==== ConsoleUI ====
 	* #1307: Fix not being able to add torrents
