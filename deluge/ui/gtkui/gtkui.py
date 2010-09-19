@@ -47,6 +47,7 @@ import sys
 
 # Initialize gettext
 try:
+    locale.setlocale(locale.LC_ALL, '')
     if hasattr(locale, "bindtextdomain"):
         locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
     if hasattr(locale, "textdomain"):
