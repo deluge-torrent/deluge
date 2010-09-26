@@ -82,7 +82,7 @@ class Core(CorePluginBase):
         self.is_importing = False
         self.has_imported = False
         self.up_to_date = False
-        self.session_was_paused = True
+        self.need_to_resume_session = False
         self.num_blocked = 0
         self.file_progress = 0.0
 
@@ -96,7 +96,7 @@ class Core(CorePluginBase):
 
         update_now = False
         if self.config["load_on_start"]:
-            self.pause_transfers()
+            self.pause_session()
             if self.config["last_update"]:
                 last_update = datetime.fromtimestamp(self.config["last_update"])
                 check_period = timedelta(days=self.config["check_after_days"])
@@ -105,7 +105,8 @@ class Core(CorePluginBase):
             else:
                 d = self.import_list(deluge.configmanager.get_config_dir("blocklist.cache"))
                 d.addCallbacks(self.on_import_complete, self.on_import_error)
-                d.addBoth(self.resume_transfers)
+                if self.need_to_resume_session:
+                    d.addBoth(self.resume_session)
 
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
@@ -151,7 +152,8 @@ class Core(CorePluginBase):
         else:
             d = self.import_list(self.config["url"])
         d.addCallbacks(self.on_import_complete, self.on_import_error)
-        d.addBoth(self.resume_transfers)
+        if self.need_to_resume_session:
+            d.addBoth(self.resume_session)
 
         return d
 
@@ -419,13 +421,14 @@ class Core(CorePluginBase):
         else:
             self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
-    def pause_transfers(self):
-        self.session_was_paused = self.core.session.is_paused()
-        if not self.session_was_paused:
+    def pause_session(self):
+        if not self.core.session.is_paused():
             self.core.session.pause()
+            self.need_to_resume_session = True
+        else:
+            self.need_to_resume_session = False
 
-    def resume_transfers(self, result):
-        if not self.session_was_paused:
-            self.session_was_paused = True
-            self.core.session.resume()
+    def resume_session(self, result):
+        self.core.session.resume()
+        self.need_to_resume_session = False
         return result
