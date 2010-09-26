@@ -82,6 +82,7 @@ class Core(CorePluginBase):
         self.is_importing = False
         self.has_imported = False
         self.up_to_date = False
+        self.session_was_paused = True
         self.num_blocked = 0
         self.file_progress = 0.0
 
