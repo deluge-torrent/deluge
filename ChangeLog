@@ -1,3 +1,7 @@
+=== Deluge 1.3.1 (In Development) ===
+==== GtkUI ====
+	* #1365: Fix sidebar not updating show/hide trackers
+
 === Deluge 1.3.0 (18 September 2010) ===
 ==== Core ====
 	* Fix issue where the save_timer is cancelled when it's not active
