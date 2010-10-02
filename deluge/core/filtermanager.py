@@ -200,9 +200,8 @@ class FilterManager(component.Component):
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
 
-        items["tracker_host"]["All"] = len(torrent_ids)
-
         if "tracker_host" in items:
+            items["tracker_host"]["All"] = len(torrent_ids)
             items["tracker_host"]["Error"] = len(tracker_error_filter(torrent_ids, ("Error",)))
 
         if "state" in tree_keys and not show_zero_hits:
