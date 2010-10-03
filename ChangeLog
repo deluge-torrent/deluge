@@ -1,4 +1,7 @@
 === Deluge 1.3.1 (In Development) ===
+==== Core ====
+	* #1369: Fix non-ascii config folders not working in windows
+
 ==== GtkUI ====
 	* #1365: Fix sidebar not updating show/hide trackers
 
