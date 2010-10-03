@@ -146,7 +146,8 @@ class Config(object):
         self._save_timer = None
 
         if defaults:
-            self.__config = dict(defaults)
+            for key, value in defaults.iteritems():
+                self.set_item(key, value)
 
         # Load the config from file in the config_dir
         if config_dir:
@@ -187,6 +188,9 @@ what is currently in the config and it could not convert the value
         5
 
         """
+        if isinstance(value, basestring):
+            value = deluge.common.utf8_encoded(value)
+
         if not self.__config.has_key(key):
             self.__config[key] = value
             log.debug("Setting '%s' to %s of %s", key, value, type(value))
