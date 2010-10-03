@@ -41,6 +41,7 @@ import time
 import subprocess
 import platform
 import sys
+import chardet
 
 try:
     import json
@@ -559,6 +560,41 @@ def xml_encode(string):
     for char, escape in XML_ESCAPES:
         string = string.replace(char, escape)
     return string
+
+def decode_string(s, encoding="utf8"):
+    """
+    Decodes a string and re-encodes it in utf8.  If it cannot decode using
+    `:param:encoding` then it will try to detect the string encoding and
+    decode it.
+
+    :param s: string to decode
+    :type s: string
+    :keyword encoding: the encoding to use in the decoding
+    :type encoding: string
+
+    """
+
+    try:
+        s = s.decode(encoding).encode("utf8", "ignore")
+    except UnicodeDecodeError:
+        s = s.decode(chardet.detect(s)["encoding"], "ignore").encode("utf8", "ignore")
+    return s
+
+def utf8_encoded(s):
+    """
+    Returns a utf8 encoded string of s
+
+    :param s: (unicode) string to (re-)encode
+    :type s: basestring
+    :returns: a utf8 encoded string of s
+    :rtype: str
+
+    """
+    if isinstance(s, str):
+        s = decode_string(s, locale.getpreferredencoding())
+    elif isinstance(s, unicode):
+        s = s.encode("utf8", "ignore")
+    return s
 
 class VersionSplit(object):
     """

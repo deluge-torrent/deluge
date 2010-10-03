@@ -47,16 +47,14 @@ from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
 
-
 from deluge.event import *
 from deluge.error import *
-import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
-from deluge.ui.common import utf8_encoded
+from deluge.common import utf8_encoded
 
 from deluge.log import LOG as log
 
