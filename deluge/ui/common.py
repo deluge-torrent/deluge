@@ -42,7 +42,6 @@ import os
 import sys
 import urlparse
 
-import chardet
 import locale
 
 try:
@@ -50,44 +49,10 @@ try:
 except ImportError:
     from sha import sha
 
-from deluge import bencode, common
+from deluge import bencode
+from deluge.common import decode_string, path_join
 from deluge.log import LOG as log
 import deluge.configmanager
-
-def decode_string(s, encoding="utf8"):
-    """
-    Decodes a string and re-encodes it in utf8.  If it cannot decode using
-    `:param:encoding` then it will try to detect the string encoding and
-    decode it.
-
-    :param s: string to decode
-    :type s: string
-    :keyword encoding: the encoding to use in the decoding
-    :type encoding: string
-
-    """
-
-    try:
-        s = s.decode(encoding).encode("utf8", "ignore")
-    except UnicodeDecodeError:
-        s = s.decode(chardet.detect(s)["encoding"], "ignore").encode("utf8", "ignore")
-    return s
-
-def utf8_encoded(s):
-    """
-    Returns a utf8 encoded string of s
-
-    :param s: (unicode) string to (re-)encode
-    :type s: basestring
-    :returns: a utf8 encoded string of s
-    :rtype: str
-
-    """
-    if isinstance(s, str):
-        s = decode_string(s, locale.getpreferredencoding())
-    elif isinstance(s, unicode):
-        s = s.encode("utf8", "ignore")
-    return s
 
 class TorrentInfo(object):
     """
@@ -336,7 +301,7 @@ class FileTree2(object):
         """
         def walk(directory, parent_path):
             for path in directory["contents"].keys():
-                full_path = common.path_join(parent_path, path)
+                full_path = path_join(parent_path, path)
                 if directory["contents"][path]["type"] == "dir":
                     directory["contents"][path] = callback(full_path, directory["contents"][path]) or \
                              directory["contents"][path]
