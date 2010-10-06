@@ -150,7 +150,8 @@ class JSON(resource.Resource, component.Component):
         return d
 
     def disable(self):
-        client.disconnect()
+        if not client.is_classicmode():
+            client.disconnect()
 
     def enable(self):
         if component.get("DelugeWeb").config["default_daemon"]:
