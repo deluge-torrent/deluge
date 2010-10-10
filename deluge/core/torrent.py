@@ -179,6 +179,11 @@ class Torrent(object):
         else:
             self.time_added = time.time()
 
+        # Keep track if we're forcing a recheck of the torrent so that we can
+        # repause it after its done if necessary
+        self.forcing_recheck = False
+        self.forcing_recheck_paused = False
+        
         log.debug("Torrent object created.")
 
     ## Options methods ##
@@ -859,12 +864,15 @@ class Torrent(object):
 
     def force_recheck(self):
         """Forces a recheck of the torrents pieces"""
+        paused = self.handle.is_paused()
         try:
             self.handle.force_recheck()
             self.handle.resume()
         except Exception, e:
             log.debug("Unable to force recheck: %s", e)
             return False
+        self.forcing_recheck = True
+        self.forcing_recheck_paused = paused
         return True
 
     def rename_files(self, filenames):

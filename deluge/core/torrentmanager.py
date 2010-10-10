@@ -849,7 +849,14 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-
+        
+        # Check to see if we're forcing a recheck and set it back to paused
+        # if necessary
+        if torrent.forcing_recheck:
+            torrent.forcing_recheck = False
+            if torrent.forcing_recheck_paused:
+                torrent.handle.pause()
+                
         # Set the torrent state
         torrent.update_state()
 
