@@ -382,16 +382,21 @@ class EventQueue(object):
 
         # Create a deferred to and check again in 100ms
         d = Deferred()
-        reactor.callLater(0.5, self._get_events, listener_id, d)
+        reactor.callLater(0.1, self._get_events, listener_id, 0, d)
         return d
 
-    def _get_events(self, listener_id, d):
+    def _get_events(self, listener_id, count, d):
         if listener_id in self.__queue:
             queue = self.__queue[listener_id]
             del self.__queue[listener_id]
             d.callback(queue)
         else:
-            reactor.callLater(0.1, self._get_events, listener_id, d)
+            # Prevent this loop going on indefinitely incase a client leaves
+            # the page or disconnects uncleanly.
+            if count >= 3000:
+                d.callback(None)
+            else:
+                reactor.callLater(0.1, self._get_events, listener_id, count + 1, d)
 
     def remove_listener(self, listener_id, event):
         """
