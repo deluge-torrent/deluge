@@ -55,6 +55,7 @@ deluge.ui = {
 		deluge.preferences = new Deluge.preferences.PreferencesWindow();
 		deluge.sidebar = new Deluge.Sidebar();
 		deluge.statusbar = new Deluge.Statusbar();
+		deluge.toolbar = new Deluge.Toolbar();
 
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',

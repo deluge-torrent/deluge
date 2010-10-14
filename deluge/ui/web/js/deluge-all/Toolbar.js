@@ -190,5 +190,3 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		deluge.add.show();
 	}
 });
-
-deluge.toolbar = new Deluge.Toolbar();
