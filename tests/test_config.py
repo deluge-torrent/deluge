@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from twisted.trial import unittest
 from twisted.python.failure import Failure
 
@@ -6,7 +8,7 @@ import os
 
 from deluge.config import Config
 
-DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True}
+DEFAULTS = {"string": "foobar", "int": 1, "float": 0.435, "bool": True, "unicode": u"foobar"}
 
 class ConfigTestCase(unittest.TestCase):
     def setUp(self):
@@ -27,6 +29,9 @@ class ConfigTestCase(unittest.TestCase):
         config["foo"] = 2
         self.assertEquals(config.get_item("foo"), 2)
 
+        config["unicode"] = u"ВИДЕОФИЛЬМЫ"
+        self.assertEquals(config["unicode"], u"ВИДЕОФИЛЬМЫ")
+        
         config._save_timer.cancel()
 
     def test_load(self):

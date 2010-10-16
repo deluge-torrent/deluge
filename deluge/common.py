@@ -475,7 +475,7 @@ def free_space(path):
         sectors, bytes, free, total = map(long, win32file.GetDiskFreeSpace(path))
         return (free * sectors * bytes)
     else:
-        disk_data = os.statvfs(path)
+        disk_data = os.statvfs(path.encode("utf8"))
         block_size = disk_data.f_bsize
         return disk_data.f_bavail * block_size
 

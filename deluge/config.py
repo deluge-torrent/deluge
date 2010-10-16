@@ -191,6 +191,7 @@ what is currently in the config and it could not convert the value
         if isinstance(value, basestring):
             value = deluge.common.utf8_encoded(value)
 
+
         if not self.__config.has_key(key):
             self.__config[key] = value
             log.debug("Setting '%s' to %s of %s", key, value, type(value))
@@ -204,7 +205,10 @@ what is currently in the config and it could not convert the value
 
         if value is not None and oldtype != type(None) and oldtype != newtype:
             try:
-                value = oldtype(value)
+                if oldtype == unicode:
+                    value = oldtype(value, "utf8")
+                else:
+                    value = oldtype(value)
             except ValueError:
                 log.warning("Type '%s' invalid for '%s'", newtype, key)
                 raise
@@ -254,7 +258,10 @@ what is currently in the config and it could not convert the value
         5
 
         """
-        return self.__config[key]
+        if isinstance(self.__config[key], str):
+            return self.__config[key].decode("utf8")
+        else:
+            return self.__config[key]
 
     def register_change_callback(self, callback):
         """
@@ -404,7 +411,7 @@ what is currently in the config and it could not convert the value
                 # The config has not changed so lets just return
                 if self._save_timer and self._save_timer.active():
                     self._save_timer.cancel()
-                return
+                return True
         except IOError, e:
             log.warning("Unable to open config file: %s because: %s", filename, e)
 
