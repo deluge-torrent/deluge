@@ -122,7 +122,10 @@ class FilterTreeView(component.Component):
         self.label_view.set_show_expanders(True)
         self.label_view.set_headers_visible(False)
         self.label_view.set_level_indentation(-35)
-
+        # Force the theme to use an expander-size of 15 so that we don't cut out
+        # entries due to our indentation hack.
+        gtk.rc_parse_string('style "treeview-style" { GtkTreeView::expander-size = 15 } class "GtkTreeView" style "treeview-style"')
+        
         self.label_view.set_model(self.treestore)
         self.label_view.get_selection().connect("changed", self.on_selection_changed)
         self.create_model_filter()
