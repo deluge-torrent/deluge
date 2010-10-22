@@ -253,10 +253,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
-        # Tell the core to shutdown
-        def on_shutdown(result):
-            self.window.quit()
-        client.daemon.shutdown().addCallback(on_shutdown)
+        self.window.quit(shutdown=True)
 
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
