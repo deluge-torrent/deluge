@@ -152,7 +152,15 @@ class MainWindow(component.Component):
         """Returns a reference to the main window glade object."""
         return self.main_glade
 
-    def quit(self):
+    def quit(self, shutdown=False):
+        """
+        Quits the GtkUI
+
+        :param shutdown: whether or not to shutdown the daemon as well
+        :type shutdown: boolean
+        """
+        if shutdown:
+            client.daemon.shutdown()
         reactor.stop()
 
     def load_window_state(self):

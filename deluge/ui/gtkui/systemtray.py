@@ -323,9 +323,6 @@ class SystemTray(component.Component):
         if self.config["lock_tray"] and not self.window.visible():
             self.unlock_tray()
 
-        if self.config["classic_mode"]:
-            client.daemon.shutdown()
-
         self.window.quit()
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
@@ -333,8 +330,7 @@ class SystemTray(component.Component):
         if self.config["lock_tray"] and not self.window.visible():
             self.unlock_tray()
 
-        client.daemon.shutdown()
-        self.window.quit()
+        self.window.quit(shutdown=True)
 
     def tray_setbwdown(self, widget, data=None):
         self.setbwlimit(widget, _("Set Maximum Download Speed"), "max_download_speed",
