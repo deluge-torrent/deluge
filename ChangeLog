@@ -4,6 +4,7 @@
 	  of string.  This fixes a problem where using lt 0.14.10 wouldn't allow
 	  Deluge to start.
 	* Fix libtorrent 0.15 compatibility
+	* Fix hang on quit
 
 === Deluge 1.2.2 (19 March 2010) ===
 ==== Core ====
