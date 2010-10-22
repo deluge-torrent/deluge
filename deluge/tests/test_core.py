@@ -6,6 +6,7 @@ try:
 except ImportError:
     from sha import sha
 
+import os
 import common
 
 from deluge.core.rpcserver import RPCServer
@@ -32,7 +33,7 @@ class CoreTestCase(unittest.TestCase):
 
     def test_add_torrent_file(self):
         options = {}
-        filename = "../test.torrent"
+        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
         import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
 
@@ -76,7 +77,7 @@ class CoreTestCase(unittest.TestCase):
 
     def test_remove_torrent(self):
         options = {}
-        filename = "../test.torrent"
+        filename = os.path.join(os.path.dirname(__file__), "test.torrent")
         import base64
         torrent_id = self.core.add_torrent_file(filename, base64.encodestring(open(filename).read()), options)
 
