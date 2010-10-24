@@ -1,10 +1,10 @@
 === Deluge 1.3.1 (In Development) ===
 ==== Core ====
 	* #1369: Fix non-ascii config folders not working in windows
-	* Fix hang on quit
 
 ==== GtkUI ====
 	* #1365: Fix sidebar not updating show/hide trackers
+	* #1247: Fix hang on quit
 
 ==== WebUI ====
 	* #1364: Fix preferences not saving when the web ui plugin is enabled in classic mode
