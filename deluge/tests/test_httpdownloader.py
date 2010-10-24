@@ -39,14 +39,14 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_without_required_cookies(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=cookie"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=cookie"
         d = download_file(url, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_download_with_required_cookies(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=cookie"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=cookie"
         cookie = { "cookie" : "password=deluge" }
         d = download_file(url, "monster", headers=cookie)
         d.addCallback(self.assertEqual, "monster")
@@ -54,47 +54,47 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=rename&filename=renamed"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=rename&filename=renamed"
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "renamed")
         d.addCallback(self.assertContains, "This file should be called renamed")
         return d
 
     def test_download_with_rename_fail(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=rename&filename=renamed"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=rename&filename=renamed"
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "original")
         d.addCallback(self.assertContains, "This file should be called renamed")
         return d
 
     def test_download_with_rename_sanitised(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=rename&filename=/etc/passwd"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=rename&filename=/etc/passwd"
         d = download_file(url, "original")
         d.addCallback(self.assertEqual, "passwd")
         d.addCallback(self.assertContains, "This file should be called /etc/passwd")
         return d
 
     def test_download_with_rename_prevented(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=rename&filename=spam"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=rename&filename=spam"
         d = download_file(url, "forced", force_filename=True)
         d.addCallback(self.assertEqual, "forced")
         d.addCallback(self.assertContains, "This file should be called spam")
         return d
 
     def test_download_with_gzip_encoding(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=gzip&msg=success"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=gzip&msg=success"
         d = download_file(url, "gzip_encoded")
         d.addCallback(self.assertContains, "success")
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=gzip&msg=fail"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=gzip&msg=fail"
         d = download_file(url, "gzip_encoded", allow_compression=False)
         d.addCallback(self.failIfContains, "fail")
         return d
 
     def test_page_redirect(self):
-        url = "http://deluge-torrent.org/httpdownloader.php?test=redirect"
+        url = "http://damoxc.net/deluge/httpdownloader.php?test=redirect"
         d = download_file(url, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
