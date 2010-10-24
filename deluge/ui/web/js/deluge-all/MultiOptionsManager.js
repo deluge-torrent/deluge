@@ -174,7 +174,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 			this.stored[this.currentId][option] = value;
 			
 			if (!this.isDirty(option)) {
-				this.fireEvent('changed', this.currentId, option, value, oldValue);
+				this.fireEvent('changed', option, value, oldValue);
 			}
 		}
 	},
