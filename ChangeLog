@@ -8,6 +8,9 @@
 
 ==== WebUI ====
 	* #1364: Fix preferences not saving when the web ui plugin is enabled in classic mode
+	* #1377: Fix bug when enabling plugins
+	* #1370: Fix issues with preferences
+	* #1312: Fix deluge-web using 100% CPU
 
 === Deluge 1.3.0 (18 September 2010) ===
 ==== Core ====
