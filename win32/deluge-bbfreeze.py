@@ -1,4 +1,4 @@
-build_version = "1.2.2"
+build_version = "1.3.1"
 python_path = "C:\\Python26\\"
 
 import shutil
@@ -17,3 +17,21 @@ f.addScript(python_path + "Scripts\deluge-web.py", gui_only=False)
 f.addScript(python_path + "Scripts\deluge-gtk.py", gui_only=False)
 f.addScript(python_path + "Scripts\deluge-console.py", gui_only=False)
 f()    # starts the freezing process
+
+# add icons to the exe files
+import icon
+
+icon_path = os.path.join(os.path.dirname(__file__), "deluge.ico")
+icon.CopyIcons(dst+"deluge.exe", icon_path)
+icon.CopyIcons(dst+"deluge-debug.exe", icon_path)
+icon.CopyIcons(dst+"deluged.exe", icon_path)  
+icon.CopyIcons(dst+"deluge-web.exe", icon_path)  
+icon.CopyIcons(dst+"deluge-gtk.exe", icon_path)  
+icon.CopyIcons(dst+"deluge-console.exe", icon_path)  
+
+# exclude files which are already included in GTK or Windows
+excludeFiles = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "freetype*.dll", "iconv.dll", "intl.dll", "libatk*.dll", "libcairo*.dll", "libexpat*.dll", "libfontconfig*.dll", "libfreetype*.dll", "libgio*.dll", "libpng*.dll", "libtiff*.dll", "zlib1.dll")
+for file in excludeFiles:
+    for filename in glob.glob(dst + file):
+        print "removing file:", filename
+        os.remove(filename)
