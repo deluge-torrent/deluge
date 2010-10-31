@@ -436,7 +436,7 @@ entry_points = {
 
 
 if windows_check():
-    entry_points["console-scripts"].append("deluge-debug = deluge.main:start_ui")
+    entry_points["console_scripts"].append("deluge-debug = deluge.main:start_ui")
 
 # Main setup
 setup(
