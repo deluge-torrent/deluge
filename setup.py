@@ -422,10 +422,26 @@ _data_files = [
         'docs/man/deluge-console.1'])
 ]
 
+entry_points = {
+    "console_scripts": [
+        "deluge-console = deluge.ui.console:start",
+        "deluge-web = deluge.ui.web:start",
+        "deluged = deluge.main:start_daemon"
+    ],
+    "gui_scripts": [
+        "deluge = deluge.main:start_ui",
+        "deluge-gtk = deluge.ui.gtkui:start"
+    ]
+}
+
+
+if windows_check():
+    entry_points["console-scripts"].append("deluge-debug = deluge.main:start_ui")
+
 # Main setup
 setup(
     name = "deluge",
-    version = "1.3.0",
+    version = "1.3.1",
     fullname = "Deluge Bittorrent Client",
     description = "Bittorrent Client",
     author = "Andrew Resch, Damien Churchill",
@@ -469,12 +485,5 @@ setup(
                                 "ui/web/themes/images/*/*/*.png"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
-    entry_points = """
-    [console_scripts]
-        deluge = deluge.main:start_ui
-        deluge-console = deluge.ui.console:start
-        deluge-gtk = deluge.ui.gtkui:start
-        deluge-web = deluge.ui.web:start
-        deluged = deluge.main:start_daemon
-    """,
+    entry_points = entry_points
 )
