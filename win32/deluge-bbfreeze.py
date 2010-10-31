@@ -3,11 +3,11 @@ python_path = "C:\\Python26\\"
 
 import os, glob
 import shutil
-shutil.copy(python_path + "Scripts\deluge-script.py", python_path + "Scripts\deluge.py")
-shutil.copy(python_path + "Scripts\deluge-script.py", python_path + "Scripts\deluge-debug.py")
+shutil.copy(python_path + "Scripts\deluge-script.pyw", python_path + "Scripts\deluge.py")
+shutil.copy(python_path + "Scripts\deluge-script.pyw", python_path + "Scripts\deluge-debug.py")
 shutil.copy(python_path + "Scripts\deluged-script.py", python_path + "Scripts\deluged.py")
 shutil.copy(python_path + "Scripts\deluge-web-script.py", python_path + "Scripts\deluge-web.py")
-shutil.copy(python_path + "Scripts\deluge-gtk-script.py", python_path + "Scripts\deluge-gtk.py")
+shutil.copy(python_path + "Scripts\deluge-gtk-script.pyw", python_path + "Scripts\deluge-gtk.py")
 shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scripts\deluge-console.py")
 
 includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "wsgiref.handlers", "twisted.internet.utils", "gio", "gtk.glade")
