@@ -3883,9 +3883,9 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 
 	onPluginEnabled: function(pluginName) {
-		var index = this.grid.getStore().find('plugin', pluginName);
+		var index = this.list.getStore().find('plugin', pluginName);
 		if (index == -1) return;
-		var plugin = this.grid.getStore().getAt(index);
+		var plugin = this.list.getStore().getAt(index);
 		plugin.set('enabled', true);
 		plugin.commit();
 	},
@@ -6744,12 +6744,12 @@ Deluge.Formatters = {
 	/**
 	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
-	 * @param {Number} bits the number of bits per second
+	 * @param {Number} bytes the number of bytes per second
 	 * @param {Boolean} showZero pass in true to displays 0 values
 	 * @return {String} formatted string with KiB, MiB or GiB units.
 	 */
-	speed: function(bits, showZero) {
-		return (!bits && !showZero) ? '' : fsize(bits, showZero) + '/s';
+	speed: function(bytes, showZero) {
+		return (!bytes && !showZero) ? '' : fsize(bytes, showZero) + '/s';
 	},
 	
 	/**
@@ -7627,7 +7627,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
 			this.stored[this.currentId][option] = value;
 			
 			if (!this.isDirty(option)) {
-				this.fireEvent('changed', this.currentId, option, value, oldValue);
+				this.fireEvent('changed', option, value, oldValue);
 			}
 		}
 	},
@@ -8659,8 +8659,6 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		deluge.add.show();
 	}
 });
-
-deluge.toolbar = new Deluge.Toolbar();
 /*!
  * Deluge.TorrentGrid.js
  * 
@@ -9065,6 +9063,7 @@ deluge.ui = {
 		deluge.preferences = new Deluge.preferences.PreferencesWindow();
 		deluge.sidebar = new Deluge.Sidebar();
 		deluge.statusbar = new Deluge.Statusbar();
+		deluge.toolbar = new Deluge.Toolbar();
 
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
