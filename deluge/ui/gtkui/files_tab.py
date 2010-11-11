@@ -64,13 +64,13 @@ def cell_priority_icon(column, cell, model, row, data):
         cell.set_property("stock-id", None)
         return
     priority = model.get_value(row, data)
-    if deluge.common.FILE_PRIORITY[priority] == "Do Not Download":
-        cell.set_property("stock-id", gtk.STOCK_STOP)
-    elif deluge.common.FILE_PRIORITY[priority] == "Normal Priority":
+    if deluge.common.FILE_PRIORITY[priority] == _("Do Not Download"):
+        cell.set_property("stock-id", gtk.STOCK_NO)
+    elif deluge.common.FILE_PRIORITY[priority] == _("Normal Priority"):
         cell.set_property("stock-id", gtk.STOCK_YES)
-    elif deluge.common.FILE_PRIORITY[priority] == "High Priority":
+    elif deluge.common.FILE_PRIORITY[priority] == _("High Priority"):
         cell.set_property("stock-id", gtk.STOCK_GO_UP)
-    elif deluge.common.FILE_PRIORITY[priority] == "Highest Priority":
+    elif deluge.common.FILE_PRIORITY[priority] == _("Highest Priority"):
         cell.set_property("stock-id", gtk.STOCK_GOTO_TOP)
 
 def cell_filename(column, cell, model, row, data):
