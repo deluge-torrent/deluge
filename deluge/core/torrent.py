@@ -36,6 +36,7 @@
 
 import os
 import time
+import logging
 from urllib import unquote
 from urlparse import urlparse
 
@@ -44,10 +45,11 @@ from deluge._libtorrent import lt
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
-from deluge.log import LOG as log
 from deluge.event import *
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
+
+log = logging.getLogger(__name__)
 
 class TorrentOptions(dict):
     def __init__(self):

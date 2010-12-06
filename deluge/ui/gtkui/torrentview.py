@@ -38,18 +38,21 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import gettext
 import gobject
+import logging
 from urlparse import urlparse
 
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.log import LOG as log
 import listview
 from deluge.ui.tracker_icons import TrackerIcons
 from removetorrentdialog import RemoveTorrentDialog
+
+log = logging.getLogger(__name__)
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.

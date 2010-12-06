@@ -34,12 +34,14 @@
 #
 
 
+import logging
 import deluge.component as component
 import deluge.common
 import common
-from deluge.log import LOG as log
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
+
+log = logging.getLogger(__name__)
 
 class Notification:
     def __init__(self):
@@ -53,7 +55,9 @@ class Notification:
             self.get_torrent_status(torrent_id)
 
     def get_torrent_status(self, torrent_id):
-        component.get("SessionProxy").get_torrent_status(torrent_id, ["name", "num_files", "total_payload_download"]).addCallback(self._on_get_torrent_status)
+        component.get("SessionProxy").get_torrent_status(torrent_id, [
+            "name", "num_files", "total_payload_download"
+        ]).addCallback(self._on_get_torrent_status)
 
     def _on_get_torrent_status(self, status):
         if status is None:
@@ -77,7 +81,10 @@ class Notification:
                 if not pynotify.init("Deluge"):
                     return
                 title = deluge.common.xml_encode(_("Torrent complete"))
-                message = deluge.common.xml_encode(status["name"] + "\n" + _("Including %i files" % status["num_files"]))
+                message = deluge.common.xml_encode(
+                    status["name"] + "\n" +
+                    _("Including %i files" % status["num_files"])
+                )
                 self.note = pynotify.Notification(title, message)
                 self.note.set_icon_from_pixbuf(common.get_logo(48))
                 if not self.note.show():
@@ -106,9 +113,12 @@ class Notification:
         headers = "From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n" % (
             self.config["ntf_email_add"], self.config["ntf_email_add"],
                 "Finished torrent %s" % (status["name"]))
-        text = _("This email is to inform you that Deluge has finished downloading %(name)s , \
-            which includes %(num_files)i files.\nTo stop receiving these alerts, simply turn off \
-            email notification in Deluge's preferences.\n\nThank you,\nDeluge") % {"name": status["name"], "num_files": status["num_files"]}
+        text = _("This email is to inform you that Deluge has finished "
+                 "downloading %(name)s , which includes %(num_files)i files.\n"
+                 "To stop receiving these alerts, simply turn off email "
+                 "notification in Deluge's preferences.\n\n"
+                 "Thank you,\nDeluge") % {"name": status["name"],
+                                          "num_files": status["num_files"]}
         message = headers + text
         if self.config["ntf_security"] == 'SSL':
             port = 465

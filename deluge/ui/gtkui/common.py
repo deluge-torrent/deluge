@@ -39,14 +39,16 @@ import os
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
-
+import gtk
+import gtk.glade
+import logging
 import pkg_resources
 
 from deluge.ui.client import client
 import deluge.component as component
-from deluge.log import LOG as log
 import deluge.common
+
+log = logging.getLogger(__name__)
 
 def get_logo(size):
     """Returns a deluge logo pixbuf based on the size parameter."""

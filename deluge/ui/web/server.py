@@ -53,13 +53,13 @@ from twisted.web import http, resource, server, static
 
 from deluge import common, component, configmanager
 from deluge.core.rpcserver import check_ssl_keys
-from deluge.log import setupLogger, LOG as _log
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template, compress
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
+
 log = logging.getLogger(__name__)
 
 # Initialize gettext
@@ -248,7 +248,7 @@ class LookupResource(resource.Resource, component.Component):
         self.__paths = {}
         for directory in directories:
             self.addDirectory(directory)
-    
+
     def addDirectory(self, directory, path=""):
         log.debug("Adding directory `%s` with path `%s`", directory, path)
         paths = self.__paths.setdefault(path, [])
@@ -342,10 +342,10 @@ class ScriptResource(resource.Resource, component.Component):
         self.__scripts[type]["order"].append(path)
 
     def remove_script(self, path, type=None):
-    	"""
-    	Removes a script or folder of scripts from the script resource.
+        """
+        Removes a script or folder of scripts from the script resource.
 
-		:param path: The path of the folder
+        :param path: The path of the folder
         :type path: string
         :keyword type: The type of script to add (normal, debug, dev)
         :param type: string
@@ -667,13 +667,13 @@ class DelugeWeb(component.Component):
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site)
         log.info("serving on %s:%s view at http://127.0.0.1:%s", "0.0.0.0",
-            self.port, self.port)
+                 self.port, self.port)
 
     def start_ssl(self):
         check_ssl_keys()
         self.socket = reactor.listenSSL(self.port, self.site, ServerContextFactory())
         log.info("serving on %s:%s view at https://127.0.0.1:%s", "0.0.0.0",
-            self.port, self.port)
+                 self.port, self.port)
 
     def stop(self):
         log.info("Shutting down webserver")

@@ -68,13 +68,15 @@ version as this will be done internally.
 """
 
 import cPickle as pickle
+import logging
 import shutil
 import os
 
 import deluge.common
-from deluge.log import LOG as log
 
 json = deluge.common.json
+
+log = logging.getLogger(__name__)
 
 def prop(func):
     """Function decorator for defining property attributes

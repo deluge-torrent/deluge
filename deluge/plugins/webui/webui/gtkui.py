@@ -38,13 +38,15 @@
 
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -80,7 +82,7 @@ class GtkUI(GtkPluginBase):
         self.glade.get_widget("enabled_checkbutton").set_active(config["enabled"])
         self.glade.get_widget("ssl_checkbutton").set_active(config["ssl"])
         self.glade.get_widget("port_spinbutton").set_value(config["port"])
-    
+
     def cb_chk_deluge_web(self, have_web):
         self.have_web = have_web
         if have_web:

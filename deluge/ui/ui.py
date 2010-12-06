@@ -33,6 +33,7 @@
 #
 #
 
+import logging
 from optparse import OptionParser, OptionGroup
 import deluge.common
 import deluge.configmanager
@@ -65,6 +66,8 @@ class _UI(object):
             help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
         group.add_option("-q", "--quiet", dest="quiet",
             help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+        group.add_option("-r", "--rotate-logs",
+            help="Rotate logfiles.", action="store_true", default=False)
         self.__parser.add_option_group(group)
 
     @property
@@ -89,9 +92,17 @@ class _UI(object):
         if self.__options.quiet:
             self.__options.loglevel = "none"
 
+        logfile_mode = 'w'
+        if self.__options.rotate_logs:
+            logfile_mode = 'a'
+
         # Setup the logger
-        deluge.log.setupLogger(level=self.__options.loglevel, filename=self.__options.logfile)
-        log = deluge.log.LOG
+        # Setup the logger
+        deluge.log.setupLogger(level=self.__options.loglevel,
+                               filename=self.__options.logfile,
+                               filemode=logfile_mode)
+
+        log = logging.getLogger(__name__)
 
         if self.__options.config:
             if not deluge.configmanager.set_config_dir(self.__options.config):
@@ -105,7 +116,8 @@ class _UI(object):
 
 class UI:
     def __init__(self, options, args, ui_args):
-        from deluge.log import LOG as log
+        import logging
+        log = logging.getLogger(__name__)
         log.debug("UI init..")
 
         # Set the config directory

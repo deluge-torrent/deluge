@@ -40,6 +40,7 @@ import pkg_resources
 import os.path
 import gobject
 import base64
+import logging
 
 from twisted.internet.threads import deferToThread
 
@@ -48,7 +49,8 @@ import listview
 import deluge.component as component
 import deluge.common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class CreateTorrentDialog:
     def show(self):

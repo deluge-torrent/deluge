@@ -42,11 +42,13 @@ import threading  # for threaded updates
 import re         # for regular expressions
 from twisted.internet.task import LoopingCall
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+
+log = getPluginLogger(__name__)
 
 DEFAULT_PREFS = {
     "feeds": {},

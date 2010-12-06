@@ -39,8 +39,10 @@ import os
 import pkg_resources    # access plugin egg
 import deluge.component as component
 import deluge.common
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
+
+log = getPluginLogger(__name__)
 
 
 class LabelConfig(object):

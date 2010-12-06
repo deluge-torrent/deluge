@@ -39,9 +39,11 @@
 import os
 
 from deluge import common, component, configmanager
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
+
+log = getPluginLogger(__name__)
 
 DEFAULT_PREFS = {
     "enabled": False,
@@ -50,8 +52,8 @@ DEFAULT_PREFS = {
 }
 
 class Core(CorePluginBase):
-    
-    
+
+
     def enable(self):
         self.config = configmanager.ConfigManager("web_plugin.conf", DEFAULT_PREFS)
         self.server = None
@@ -64,13 +66,13 @@ class Core(CorePluginBase):
 
     def update(self):
         pass
-    
+
     def restart(self):
         if self.server:
             self.server.stop().addCallback(self.on_stop)
         else:
             self.start()
-        
+
     def on_stop(self, *args):
         self.start()
 
@@ -81,7 +83,7 @@ class Core(CorePluginBase):
             return True
         except ImportError:
             return False
-    
+
     @export
     def start(self):
         if not self.server:
@@ -96,7 +98,7 @@ class Core(CorePluginBase):
         self.server.https = self.config["ssl"]
         self.server.start(False)
         return True
-    
+
     @export
     def stop(self):
         if self.server:
@@ -110,7 +112,7 @@ class Core(CorePluginBase):
         if "enabled" in config:
             if config["enabled"] != self.config["enabled"]:
                 action = config["enabled"] and 'start' or 'stop'
-        
+
         if "ssl" in config:
             if not action:
                 action = 'restart'
@@ -118,7 +120,7 @@ class Core(CorePluginBase):
         for key in config.keys():
             self.config[key] = config[key]
         self.config.save()
-        
+
         if action == 'start':
             return self.start()
         elif action == 'stop':

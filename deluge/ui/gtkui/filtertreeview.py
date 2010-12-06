@@ -37,13 +37,15 @@
 
 import gtk
 import gtk.glade
+import logging
 import pkg_resources
 
 import deluge.component as component
 import deluge.common
-from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
+
+log = logging.getLogger(__name__)
 
 STATE_PIX = {
     "All": "all",
@@ -126,7 +128,7 @@ class FilterTreeView(component.Component):
         # Force the theme to use an expander-size of 15 so that we don't cut out
         # entries due to our indentation hack.
         gtk.rc_parse_string('style "treeview-style" { GtkTreeView::expander-size = 15 } class "GtkTreeView" style "treeview-style"')
-        
+
         self.label_view.set_model(self.treestore)
         self.label_view.get_selection().connect("changed", self.on_selection_changed)
         self.create_model_filter()

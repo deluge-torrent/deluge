@@ -34,18 +34,20 @@
 #
 #
 
+import re
+import logging
+import tokenize
+import cStringIO
+from optparse import make_option
+
 from twisted.internet import defer
 
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
 import deluge.component as component
-from deluge.log import LOG as log
 
-from optparse import make_option
-import re
-
-import cStringIO, tokenize
+log = logging.getLogger(__name__)
 
 def atom(next, token):
     """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""

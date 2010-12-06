@@ -34,7 +34,9 @@
 #
 #
 
-import os, sys
+import os
+import sys
+import logging
 import optparse
 import shlex
 import locale
@@ -50,8 +52,9 @@ from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
 import screen
 import colors
-from deluge.log import LOG as log
 from deluge.ui.ui import _UI
+
+log = logging.getLogger(__name__)
 
 class Console(_UI):
 

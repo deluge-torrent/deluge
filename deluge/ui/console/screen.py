@@ -34,6 +34,7 @@
 #
 
 import sys
+import logging
 try:
     import curses
 except ImportError:
@@ -48,8 +49,9 @@ try:
 except:
     pass
 
-from deluge.log import LOG as log
 from twisted.internet import reactor
+
+log = logging.getLogger(__name__)
 
 class CursesStdIO(object):
     """fake fd to be registered as a reader with the twisted reactor.

@@ -40,6 +40,7 @@ all the interfaces.
 
 import os
 import sys
+import logging
 import urlparse
 
 import locale
@@ -51,8 +52,9 @@ except ImportError:
 
 from deluge import bencode
 from deluge.common import decode_string, path_join
-from deluge.log import LOG as log
 import deluge.configmanager
+
+log = logging.getLogger(__name__)
 
 class TorrentInfo(object):
     """

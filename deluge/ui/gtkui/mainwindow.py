@@ -36,8 +36,10 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import gobject
+import logging
 import pkg_resources
 from urlparse import urlparse
 import urllib
@@ -51,7 +53,7 @@ from twisted.internet import reactor
 import deluge.common
 import common
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class MainWindow(component.Component):
     def __init__(self):

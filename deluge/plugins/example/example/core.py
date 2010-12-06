@@ -33,11 +33,13 @@
 #
 #
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+
+log = getPluginLogger(__name__)
 
 class Core(CorePluginBase):
     def enable(self):

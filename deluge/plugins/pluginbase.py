@@ -33,8 +33,10 @@
 #
 #
 
+import logging
 import deluge.component as component
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class PluginBase(component.Component):
 
@@ -42,7 +44,7 @@ class PluginBase(component.Component):
 
     def __init__(self, name):
         super(PluginBase, self).__init__(name, self.update_interval)
-                    
+
     def enable(self):
         raise NotImplementedError("Need to define an enable method!")
 
@@ -62,20 +64,20 @@ class GtkPluginBase(PluginBase):
         log.debug("GtkPlugin initialized..")
 
 class WebPluginBase(PluginBase):
-    
+
     scripts = []
     debug_scripts = []
-    
+
     stylesheets = []
     debug_stylesheets = []
-    
+
     def __init__(self, plugin_name):
         super(WebPluginBase, self).__init__("WebPlugin." + plugin_name)
-        
+
         # Register JSON rpc methods
         component.get("JSON").register_object(self, plugin_name.lower())
         log.debug("WebPlugin initialized..")
-    
+
     def enable(self):
         pass
 

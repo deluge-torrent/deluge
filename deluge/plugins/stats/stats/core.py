@@ -48,11 +48,13 @@ from twisted.internet.task import LoopingCall
 import time
 
 import deluge
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge import component
 from deluge import configmanager
 from deluge.core.rpcserver import export
+
+log = getPluginLogger(__name__)
 
 DEFAULT_PREFS = {
     "test": "NiNiNi",

@@ -34,10 +34,13 @@
 #
 
 import os
+import logging
 
 import deluge.common
-from deluge.log import LOG as log
+import deluge.log
 from deluge.config import Config
+
+log = logging.getLogger(__name__)
 
 class _ConfigManager:
     def __init__(self):
@@ -86,6 +89,7 @@ class _ConfigManager:
         # to reload based on the new config directory
         self.save()
         self.config_files = {}
+        deluge.log.tweak_logging_levels()
 
         return True
 

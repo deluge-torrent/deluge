@@ -36,7 +36,9 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
+import gtk.glade
+import logging
 import pkg_resources
 
 import deluge.error
@@ -46,7 +48,7 @@ import deluge.common
 import common
 from deluge.configmanager import ConfigManager
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class MenuBar(component.Component):
     def __init__(self):

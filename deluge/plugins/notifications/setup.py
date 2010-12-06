@@ -1,7 +1,7 @@
 #
 # setup.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -41,7 +41,7 @@ from setuptools import setup, find_packages
 
 __plugin_name__ = "Notifications"
 __author__ = "Pedro Algarvio"
-__author_email__ = "ufs@ufsoft.org"
+__author_email__ = "pedro@algarvio.me"
 __version__ = "0.1"
 __url__ = "http://dev.deluge-torrent.org/"
 __license__ = "GPLv3"

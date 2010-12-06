@@ -35,14 +35,16 @@
 
 
 import gtk
+import logging
 import pkg_resources
 
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 import common
+
+log = logging.getLogger(__name__)
 
 class SystemTray(component.Component):
     def __init__(self):

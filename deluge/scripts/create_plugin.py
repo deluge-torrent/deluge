@@ -7,6 +7,7 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 
 """
 
+from datetime import datetime
 from optparse import OptionParser
 import os
 import deluge.common
@@ -64,7 +65,8 @@ def create_plugin():
             "filename":filename,
             "plugin_base":plugin_base,
             "url": options.url,
-            "configdir": options.configdir
+            "configdir": options.configdir,
+            "current_year": datetime.utcnow().year
         }
 
         filename = os.path.join(path, filename)
@@ -98,7 +100,6 @@ def create_plugin():
 
 
 CORE = """
-from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -192,6 +193,7 @@ setup(
 """
 
 COMMON = """
+
 def get_resource(filename):
     import pkg_resources, os
     return pkg_resources.resource_filename("%(safe_name)s", os.path.join("data", filename))
@@ -200,13 +202,15 @@ def get_resource(filename):
 GTKUI = """
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -266,12 +270,14 @@ GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 """
 
 WEBUI = """
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class WebUI(WebPluginBase):
 
@@ -289,7 +295,7 @@ Script: %(filename)s
     The client-side javascript code for the %(name)s plugin.
 
 Copyright:
-    (C) %(author_name)s 2009 <%(author_email)s>
+    (C) %(author_name)s %(current_year)s <%(author_email)s>
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3, or (at your option)
@@ -318,20 +324,20 @@ Copyright:
 */
 
 %(name)sPlugin = Ext.extend(Deluge.Plugin, {
-	constructor: function(config) {
-		config = Ext.apply({
-			name: "%(name)s"
-		}, config);
-		%(name)sPlugin.superclass.constructor.call(this, config);
-	},
+    constructor: function(config) {
+        config = Ext.apply({
+            name: "%(name)s"
+        }, config);
+        %(name)sPlugin.superclass.constructor.call(this, config);
+    },
 
-	onDisable: function() {
+    onDisable: function() {
 
-	},
+    },
 
-	onEnable: function() {
+    onEnable: function() {
 
-	}
+    }
 });
 new %(name)sPlugin();
 """
@@ -339,12 +345,13 @@ new %(name)sPlugin();
 GPL = """#
 # %(filename)s
 #
-# Copyright (C) 2009 %(author_name)s <%(author_email)s>
+# Copyright (C) %(current_year)d %(author_name)s <%(author_email)s>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #

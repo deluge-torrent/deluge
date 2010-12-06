@@ -36,7 +36,9 @@
 """
 This base class is used in plugin's __init__ for the plugin entry points.
 """
-from deluge.log import LOG as log
+import logging
+
+log = logging.getLogger(__name__)
 
 class PluginInitBase(object):
     _plugin_cls = None

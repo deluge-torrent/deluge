@@ -33,11 +33,12 @@
 #
 #
 
-
+import logging
 import deluge.component as component
-from deluge.log import LOG as log
 
 STATE_SORT = ["All", "Downloading", "Seeding", "Active", "Paused", "Queued"]
+
+log = logging.getLogger(__name__)
 
 #special purpose filters:
 def filter_keywords(torrent_ids, values):

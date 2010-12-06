@@ -36,16 +36,19 @@ from twisted.web import client, http
 from twisted.web.error import PageRedirect
 from twisted.python.failure import Failure
 from twisted.internet import reactor
-from deluge.log import setupLogger, LOG as log
 from common import get_version
+import logging
 import os.path
 import zlib
+
+log = logging.getLogger(__name__)
 
 class HTTPDownloader(client.HTTPDownloader):
     """
     Factory class for downloading files and keeping track of progress.
     """
-    def __init__(self, url, filename, part_callback=None, headers=None, force_filename=False, allow_compression=True):
+    def __init__(self, url, filename, part_callback=None, headers=None,
+                 force_filename=False, allow_compression=True):
         """
         :param url: the url to download from
         :type url: string
@@ -141,7 +144,7 @@ def sanitise_filename(filename):
         log.warning("Potentially malicious server: trying to write to file '%s'" % filename)
         # Only use the basename
         filename = os.path.basename(filename)
-        
+
     filename = filename.strip()
     if filename.startswith(".") or ";" in filename or "|" in filename:
         # Dodgy server, log it
@@ -152,7 +155,8 @@ def sanitise_filename(filename):
 
     return filename
 
-def download_file(url, filename, callback=None, headers=None, force_filename=False, allow_compression=True):
+def download_file(url, filename, callback=None, headers=None,
+                  force_filename=False, allow_compression=True):
     """
     Downloads a file from a specific URL and returns a Deferred.  You can also
     specify a callback function to be called as parts are received.

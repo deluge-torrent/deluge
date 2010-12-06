@@ -41,12 +41,13 @@ This should typically only be used by the Core.  Plugins should utilize the
 
 """
 
+import logging
 from twisted.internet import reactor
 
 import deluge.component as component
 from deluge._libtorrent import lt
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class AlertManager(component.Component):
     def __init__(self):

@@ -1,7 +1,7 @@
 #
 # core.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -41,12 +41,14 @@ import smtplib
 from twisted.internet import defer, threads
 from deluge import component
 from deluge.event import known_events
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
 from notifications.common import CustomNotifications
+
+log = getPluginLogger(__name__)
 
 DEFAULT_PREFS = {
     "smtp_enabled": False,

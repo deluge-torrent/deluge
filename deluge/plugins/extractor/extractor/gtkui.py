@@ -39,13 +39,15 @@
 
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -89,7 +91,7 @@ class GtkUI(GtkPluginBase):
                 self.glade.get_widget("folderchooser_path").set_current_folder(config["extract_path"])
             else:
                 self.glade.get_widget("entry_path").set_text(config["extract_path"])
-            
+
             self.glade.get_widget("chk_use_name").set_active(config["use_name_folder"])
 
         client.extractor.get_config().addCallback(on_get_config)

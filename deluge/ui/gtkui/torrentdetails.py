@@ -36,17 +36,19 @@
 
 """The torrent details component shows info about the selected torrent."""
 
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import os
 import os.path
 import cPickle
+import logging
 
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class Tab:
     def __init__(self):

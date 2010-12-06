@@ -36,12 +36,13 @@
 import os
 import random
 import stat
+import logging
 
 import deluge.component as component
 import deluge.configmanager as configmanager
 import deluge.error
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 AUTH_LEVEL_NONE = 0
 AUTH_LEVEL_READONLY = 1

@@ -36,13 +36,15 @@
 
 import gtk
 import gobject
+import logging
 
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 import common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class StatusBarItem:
     def __init__(self, image=None, stock=None, text=None, callback=None, tooltip=None):
