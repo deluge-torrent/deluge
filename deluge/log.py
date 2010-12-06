@@ -155,7 +155,9 @@ def setupLogger(level="error", filename=None, filemode="w"):
             delay=0
         )
     elif filename and filemode=='w':
-        handler = logging.FileHandler(filename, filemode, 'utf-8', delay=0)
+        getattr(logging.handlers, 'WatchedFileHandler', logging.FileHandler)(
+            filename, filemode, 'utf-8', delay=0
+        )
     else:
         handler = logging.StreamHandler()
     handler.setLevel(level)
