@@ -40,7 +40,7 @@ import os
 import logging
 import inspect
 import pkg_resources
-from deluge import configmanager, common, component
+from deluge import common, component
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
 
@@ -191,6 +191,7 @@ def tweak_logging_levels():
     Remember, one rule per line and this WILL override the setting passed from
     the command line.
     """
+    from deluge import configmanager
     logging_config_file = os.path.join(configmanager.get_config_dir(),
                                        'logging.conf')
     if not os.path.isfile(logging_config_file):
