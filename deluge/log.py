@@ -39,8 +39,7 @@
 import os
 import logging
 import inspect
-import pkg_resources
-from deluge import common, component
+from deluge import common
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
 
@@ -119,6 +118,7 @@ class Logging(LoggingLoggerClass):
 
 levels = {
     "info": logging.INFO,
+    "warn": logging.WARNING,
     "warning": logging.WARNING,
     "error": logging.ERROR,
     "none": logging.CRITICAL,
@@ -202,13 +202,15 @@ def tweak_logging_levels():
     log = logging.getLogger(__name__)
     log.warn("logging.conf found! tweaking logging levels from %s",
              logging_config_file)
-    for line in open(logging_config_file, 'r'):
+    for line in open(logging_config_file, 'r').readlines():
         if line.strip().startswith("#"):
             continue
         name, level = line.strip().split(':')
-        if level in levels:
-            log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
-            logging.getLogger(name).setLevel(levels.get(level))
+        if level not in levels:
+            continue
+
+        log.warn("Setting logger \"%s\" to logging level \"%s\"", name, level)
+        setLoggerLevel(level, name)
 
 
 def setLoggerLevel(level, logger_name=None):
