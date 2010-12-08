@@ -241,7 +241,8 @@ class ConsoleUI(component.Component):
         client.core.get_session_state().addCallback(on_session_state)
 
         # Register some event handlers to keep the torrent list up-to-date
-        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
+        client.register_event_handler("TorrentLoadedEvent", self.on_torrent_loaded_or_added_event)
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_loaded_or_added_event)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed_event)
 
     def update(self):
@@ -439,7 +440,7 @@ class ConsoleUI(component.Component):
 
         return ret
 
-    def on_torrent_added_event(self, torrent_id):
+    def on_torrent_loaded_or_added_event(self, torrent_id):
         def on_torrent_status(status):
             self.torrents.append((torrent_id, status["name"]))
         client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)

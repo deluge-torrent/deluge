@@ -476,10 +476,24 @@ class TorrentManager(component.Component):
             # Save the session state
             self.save_state()
 
-        # Emit the torrent_added signal
-        component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id))
+        # Emit signals
+        if torrent_info and state is None:
+            # Emit the torrent_added signal
+            component.get("EventManager").emit(
+                TorrentAddedEvent(torrent.torrent_id)
+            )
+            signal_type = "added"
+        else:
+            # Emit the torrent_loaded signal
+            component.get("EventManager").emit(
+                TorrentLoadedEvent(torrent.torrent_id)
+            )
+            signal_type = "loaded"
 
-        log.info("Torrent %s added by user: %s", torrent.get_status(["name"])["name"], component.get("RPCServer").get_session_user())
+        log.info("Torrent %s %s by user: %s",
+                 torrent.get_status(["name"])["name"],
+                 signal_type,
+                 component.get("RPCServer").get_session_user())
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
@@ -857,14 +871,14 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        
+
         # Check to see if we're forcing a recheck and set it back to paused
         # if necessary
         if torrent.forcing_recheck:
             torrent.forcing_recheck = False
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
-                
+
         # Set the torrent state
         torrent.update_state()
 

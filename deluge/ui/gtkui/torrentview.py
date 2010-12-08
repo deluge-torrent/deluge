@@ -257,7 +257,8 @@ class TorrentView(listview.ListView, component.Component):
         self.treeview.connect("key-press-event", self.on_key_press_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
-        client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
+        client.register_event_handler("TorrentLoadedEvent", self.on_torrent_loaded_or_added_event)
+        client.register_event_handler("TorrentAddedEvent", self.on_torrent_loaded_or_added_event)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
         client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
         client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
@@ -512,7 +513,7 @@ class TorrentView(listview.ListView, component.Component):
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
 
-    def on_torrentadded_event(self, torrent_id):
+    def on_torrent_loaded_or_added_event(self, torrent_id):
         self.add_row(torrent_id)
         self.mark_dirty(torrent_id)
 

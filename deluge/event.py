@@ -86,6 +86,18 @@ class TorrentAddedEvent(DelugeEvent):
         """
         self._args = [torrent_id]
 
+class TorrentLoadedEvent(DelugeEvent):
+    """
+    Emitted when an already managed torrent is loaded successfully and added to
+    the session.
+    """
+    def __init__(self, torrent_id):
+        """
+        :param torrent_id: the torrent_id of the torrent that was added
+        :type torrent_id: string
+        """
+        self._args = [torrent_id]
+
 class TorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent has been removed from the session.
