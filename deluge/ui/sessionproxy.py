@@ -84,8 +84,7 @@ class SessionProxy(component.Component):
     def stop(self):
         client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
         client.deregister_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
-        client.deregister_event_handler("TorrentLoadedEvent", self.on_torrent_loaded_or_added)
-        client.deregister_event_handler("TorrentAddedEvent", self.on_torrent_loaded_or_added)
+        client.deregister_event_handler("TorrentAddedEvent", self.on_torrent_added)
         self.torrents = {}
 
     def create_status_dict(self, torrent_ids, keys):

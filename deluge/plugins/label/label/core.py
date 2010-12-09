@@ -121,8 +121,7 @@ class Core(CorePluginBase):
     def disable(self):
         self.plugin.deregister_status_field("label")
         component.get("FilterManager").deregister_tree_field("label")
-        component.get("EventManager").deregister_event_handler("TorrentLoadedEvent", self.post_torrent_load_or_add)
-        component.get("EventManager").deregister_event_handler("TorrentAddedEvent", self.post_torrent_load_or_add)
+        component.get("EventManager").deregister_event_handler("TorrentAddedEvent", self.post_torrent_add)
         component.get("EventManager").deregister_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
     def update(self):
@@ -133,7 +132,7 @@ class Core(CorePluginBase):
 
     ## Plugin hooks ##
     def post_torrent_add(self, torrent_id, from_state):
-        log.debug("post_torrent_load_or_add")
+        log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
         for label_id, options in self.labels.iteritems():
