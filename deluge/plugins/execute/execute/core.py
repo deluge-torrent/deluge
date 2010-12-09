@@ -55,7 +55,6 @@ EXECUTE_COMMAND = 2
 
 EVENT_MAP = {
     "complete": "TorrentFinishedEvent",
-    "loaded": "TorrentLoadedEvent",
     "added": "TorrentAddedEvent"
 }
 

@@ -110,8 +110,7 @@ class Core(CorePluginBase):
 
         self.clean_initial_config()
 
-        component.get("EventManager").register_event_handler("TorrentLoadedEvent", self.post_torrent_load_or_add)
-        component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_load_or_add)
+        component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
         component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
         #register tree:
@@ -133,7 +132,7 @@ class Core(CorePluginBase):
         return dict( [(label, 0) for label in self.labels.keys()])
 
     ## Plugin hooks ##
-    def post_torrent_load_or_add(self, torrent_id):
+    def post_torrent_add(self, torrent_id, from_state):
         log.debug("post_torrent_load_or_add")
         torrent = self.torrents[torrent_id]
 

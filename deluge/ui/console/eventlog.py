@@ -50,7 +50,6 @@ class EventLog(component.Component):
         self.console = component.get("ConsoleUI")
         self.prefix = "{!event!}* "
 
-        client.register_event_handler("TorrentLoadedEvent", self.on_torrent_loaded_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
         client.register_event_handler("PreTorrentRemovedEvent", self.on_torrent_removed_event)
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed_event)
@@ -62,14 +61,11 @@ class EventLog(component.Component):
         client.register_event_handler("PluginEnabledEvent", self.on_plugin_enabled_event)
         client.register_event_handler("PluginDisabledEvent", self.on_plugin_disabled_event)
 
-    def on_torrent_loaded_event(self, torrent_id):
+    def on_torrent_added_event(self, torrent_id, from_state):
         def on_torrent_status(status):
-            self.console.write(self.prefix + "TorrentLoaded: {!info!}%s (%s)" % (status["name"], torrent_id))
-        client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
-
-    def on_torrent_added_event(self, torrent_id):
-        def on_torrent_status(status):
-            self.console.write(self.prefix + "TorrentAdded: {!info!}%s (%s)" % (status["name"], torrent_id))
+            self.console.write(self.prefix + "TorrentAdded(from_state=%s): {!info!}%s (%s)" % (
+                from_state, status["name"], torrent_id)
+            )
         client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
