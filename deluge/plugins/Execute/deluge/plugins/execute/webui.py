@@ -1,7 +1,7 @@
 #
-# common.py
+# webui.py
 #
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -33,8 +33,15 @@
 #
 #
 
-import pkg_resources
-import os.path
 
-def get_resource(filename):
-    return pkg_resources.resource_filename("execute", os.path.join("data", filename))
+from deluge.log import LOG as log
+from deluge.ui.client import client
+from deluge import component
+from deluge.plugins.pluginbase import WebPluginBase
+
+from common import get_resource
+
+class WebUI(WebPluginBase):
+
+    scripts = [get_resource("execute.js")]
+    debug_scripts = scripts

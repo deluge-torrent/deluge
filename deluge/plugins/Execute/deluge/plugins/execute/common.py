@@ -33,54 +33,9 @@
 #
 #
 
-
 import pkg_resources
 import os.path
-from functools import wraps
-from sys import exc_info
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
-
-def raisesErrorsAs(error):
-    """
-    Factory class that returns a decorator which wraps
-    the decorated function to raise all exceptions as
-    the specified error type
-    """
-    def decorator(func):
-        """
-        Returns a function which wraps the given func
-        to raise all exceptions as error
-        """
-        @wraps(func)
-        def wrapper(self, *args, **kwargs):
-            """
-            Wraps the function in a try..except block
-            and calls it with the specified args
-
-            Raises any exceptions as error preserving the
-            message and traceback
-            """
-            try:
-                return func(self, *args, **kwargs)
-            except:
-                (value, tb) = exc_info()[1:]
-                raise error, value, tb
-        return wrapper
-    return decorator
-
-def remove_zeros(ip):
-    """
-    Removes unneeded zeros from ip addresses.
-    
-    Example: 000.000.000.003 -> 0.0.0.3
-    
-    :param ip: the ip address
-    :type ip: string
-    
-    :returns: the ip address without the unneeded zeros
-    :rtype: string
-    
-    """
-    return ".".join([part.lstrip("0").zfill(1) for part in ip.split(".")])
+    return pkg_resources.resource_filename("deluge.plugins.execute",
+                                           os.path.join("data", filename))

@@ -1,7 +1,7 @@
 #
 # setup.py
 #
-# Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,17 +31,17 @@
 #
 #
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
-__plugin_name__ = "Example"
-__author__ = "Andrew Resch"
-__author_email__ = "andrewresch@gmail.com"
+__plugin_name__ = "Execute"
+__author__ = "Damien Churchill"
+__author_email__ = "damoxc@gmail.com"
 __version__ = "1.2"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
-__description__ = "Example plugin"
+__description__ = "Plugin to execute a command upon an event"
 __long_description__ = __description__
-__pkg_data__ = {__plugin_name__.lower(): []}
+__pkg_data__ = {"deluge.plugins."+__plugin_name__.lower(): ["data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -53,15 +53,16 @@ setup(
     license=__license__,
     long_description=__long_description__,
 
-    packages=[__plugin_name__.lower()],
+    packages=find_packages(),
+    namespace_packages = ["deluge", "deluge.plugins"],
     package_data = __pkg_data__,
 
     entry_points="""
     [deluge.plugin.core]
-    %s = %s:CorePlugin
+    %s = %s:deluge.plugins.CorePlugin
     [deluge.plugin.gtkui]
-    %s = %s:GtkUIPlugin
-    [deluge.plugin.webui]
-    %s = %s:WebUIPlugin
+    %s = %s:deluge.plugins.GtkUIPlugin
+    [deluge.plugin.web]
+    %s = %s:deluge.plugins.WebUIPlugin
     """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
