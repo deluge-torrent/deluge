@@ -360,6 +360,7 @@ GPL = """#
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
