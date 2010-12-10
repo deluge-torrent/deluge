@@ -196,12 +196,12 @@ setup(
 
     entry_points=\"\"\"
     [deluge.plugin.core]
-    %%s = deluge.plugins.%%s:CorePlugin
+    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:CorePlugin
     [deluge.plugin.gtkui]
-    %%s = deluge.plugins.%%s:GtkUIPlugin
+    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:GtkUIPlugin
     [deluge.plugin.web]
-    %%s = deluge.plugins.%%s:WebUIPlugin
-    \"\"\" %% ((__plugin_name__, __plugin_name__.lower())*3)
+    %%(plugin_name)s = deluge.plugins.%%(plugin_module)s:WebUIPlugin
+    \"\"\" %% dict(plugin_name=__plugin_name__, plugin_module=__plugin_name__.lower())
 )
 """
 
