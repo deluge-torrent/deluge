@@ -37,7 +37,7 @@
 #
 #
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 __plugin_name__ = "Extractor"
 __author__ = "Andrew Resch"
@@ -47,7 +47,7 @@ __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
 __description__ = "Extract files upon completion"
 __long_description__ = """"""
-__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {"deluge.plugins."+__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -59,15 +59,16 @@ setup(
     license=__license__,
     long_description=__long_description__ if __long_description__ else __description__,
 
-    packages=[__plugin_name__.lower()],
+    packages=find_packages(),
+    namespace_packages = ["deluge", "deluge.plugins"],
     package_data = __pkg_data__,
 
     entry_points="""
     [deluge.plugin.core]
-    %s = %s:CorePlugin
+    %s = %s:deluge.plugins.CorePlugin
     [deluge.plugin.gtkui]
-    %s = %s:GtkUIPlugin
+    %s = %s:deluge.plugins.GtkUIPlugin
     [deluge.plugin.webui]
-    %s = %s:WebUIPlugin
+    %s = %s:deluge.plugins.WebUIPlugin
     """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )

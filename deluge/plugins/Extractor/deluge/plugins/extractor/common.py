@@ -35,4 +35,5 @@
 
 def get_resource(filename):
     import pkg_resources, os
-    return pkg_resources.resource_filename("extractor", os.path.join("data", filename))
+    return pkg_resources.resource_filename("deluge.plugins.extractor",
+                                           os.path.join("data", filename))
