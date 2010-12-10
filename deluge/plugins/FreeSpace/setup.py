@@ -37,7 +37,7 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 __plugin_name__ = "FreeSpace"
 __author__ = "Pedro Algarvio"
@@ -47,7 +47,7 @@ __url__ = "http://deluge.ufsoft.org/hg/Notification/"
 __license__ = "GPLv3"
 __description__ = "Plugin which continuously checks for available free space."
 __long_description__ = __description__
-__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {"deluge.plugins."+__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -59,13 +59,14 @@ setup(
     license=__license__,
     long_description=__long_description__ if __long_description__ else __description__,
 
-    packages=[__plugin_name__.lower()],
+    packages=find_packages(),
+    namespace_packages = ["deluge", "deluge.plugins"],
     package_data = __pkg_data__,
 
     entry_points="""
     [deluge.plugin.core]
-    %s = %s:CorePlugin
+    %s = deluge.plugins.%s:CorePlugin
     [deluge.plugin.gtkui]
-    %s = %s:GtkUIPlugin
+    %s = deluge.plugins.%s:GtkUIPlugin
     """ % ((__plugin_name__, __plugin_name__.lower())*2)
 )
