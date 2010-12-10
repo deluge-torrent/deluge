@@ -398,11 +398,14 @@ pkg_resources.declare_namespace(__name__)
 
 CREATE_DEV_LINK = """#!/bin/bash
 BASEDIR=$(cd `dirname $0` && pwd)
+CONFIG_DIR=$( test -z $1 && echo "%(configdir)s" || echo "$1")
+[ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory or is not a proper deluge config directory. Exiting"
+[ -d "$CONFIG_DIR/plugins" ] || exit 1
 cd $BASEDIR
 test -d $BASEDIR/temp || mkdir $BASEDIR/temp
 export PYTHONPATH=$BASEDIR/temp
 python setup.py build develop --install-dir $BASEDIR/temp
-cp $BASEDIR/temp/*.egg-link %(configdir)s/plugins
+cp $BASEDIR/temp/*.egg-link $CONFIG_DIR/plugins
 rm -fr $BASEDIR/temp
 """
 
