@@ -7,6 +7,7 @@
 	* #1112: Fix renaming files in add torrent dialog
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
+	* Make the distinction between adding to the session new unmanaged torrents and torrents loaded from state.
 
 ==== GtkUI ====
 	* Fix uncaught exception when closing deluge in classic mode
