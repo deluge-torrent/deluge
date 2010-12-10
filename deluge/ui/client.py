@@ -167,22 +167,9 @@ class DelugeRPCProtocol(Protocol):
                 #log.debug("Received RPCEvent: %s", event)
                 # A RPCEvent was received from the daemon so run any handlers
                 # associated with it.
-                def call_handler(event, handler, args):
-                    try:
-                        handler(*args)
-                    except TypeError:
-                        if event != "TorrentAddedEvent":
-                            raise
-                        else:
-                            log.warning("TorrentAddedEvent recently got an extra "
-                                        "argument, \"from_state\" and the handler "
-                                        "\"%s\" is not accepting that extra "
-                                        "argument. Correcting for now but this code "
-                                        "should be changed.", handler)
-                            handler(args[0])
                 if event in self.factory.event_handlers:
                     for handler in self.factory.event_handlers[event]:
-                        reactor.callLater(0, call_handler, event, handler, request[2])
+                        reactor.callLater(0, handler, *request[2])
                 continue
 
             request_id = request[1]
