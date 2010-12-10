@@ -46,7 +46,8 @@ from deluge.plugins.pluginbase import WebPluginBase
 from deluge import component
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("label", os.path.join("data", filename))
+    return pkg_resources.resource_filename("deluge.plugins.label",
+                                           os.path.join("data", filename))
 
 class WebUI(WebPluginBase):
 

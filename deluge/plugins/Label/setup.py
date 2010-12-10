@@ -31,7 +31,7 @@
 #
 
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 __plugin_name__ = "Label"
 __author__ = "Martijn Voncken"
@@ -49,7 +49,7 @@ adds a tracker column.
 future: Real labels.
 
 """
-__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
+__pkg_data__ = {"deluge.plugins."+__plugin_name__.lower(): ["template/*", "data/*"]}
 
 setup(
     name=__plugin_name__,
@@ -61,15 +61,16 @@ setup(
     license=__license__,
     long_description=__long_description__,
 
-    packages=[__plugin_name__.lower(), "label.gtkui"],
+    packages=find_packages(),
+    namespace_packages = ["deluge", "deluge.plugins"],
     package_data = __pkg_data__,
 
     entry_points="""
     [deluge.plugin.core]
-    %s = %s:CorePlugin
+    %s = deluge.plugins.%s:CorePlugin
     [deluge.plugin.gtkui]
-    %s = %s:GtkUIPlugin
+    %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
-    %s = %s:WebUIPlugin
+    %s = deluge.plugins.%s:WebUIPlugin
     """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
