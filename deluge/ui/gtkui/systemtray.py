@@ -173,12 +173,12 @@ class SystemTray(component.Component):
             "payload_upload_rate",
             "payload_download_rate"]).addCallback(self._on_get_session_status)
 
-    def config_value_changed(self, key, value):
+    def config_value_changed(self, event):
         """This is called when we received a config_value_changed signal from
         the core."""
 
-        if key in self.config_value_changed_dict.keys():
-            self.config_value_changed_dict[key](value)
+        if event.key in self.config_value_changed_dict.keys():
+            self.config_value_changed_dict[event.key](event.value)
 
     def _on_max_download_speed(self, max_download_speed):
         if self.max_download_speed != max_download_speed:

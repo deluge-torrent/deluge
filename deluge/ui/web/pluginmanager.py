@@ -58,26 +58,26 @@ def gather_info(plugin):
         "debug_scripts": debug_scripts,
         "script_directories": directories
     }
-    
+
 class PluginManager(PluginManagerBase, component.Component):
     def __init__(self):
         component.Component.__init__(self, "Web.PluginManager")
         self.config = ConfigManager("web.conf")
         PluginManagerBase.__init__(self, "web.conf", "deluge.plugin.web")
-        
+
         client.register_event_handler("PluginEnabledEvent", self._on_plugin_enabled_event)
         client.register_event_handler("PluginDisabledEvent", self._on_plugin_disabled_event)
-    
+
     def _on_get_enabled_plugins(self, plugins):
         for plugin in plugins:
             self.enable_plugin(plugin)
-    
-    def _on_plugin_enabled_event(self, name):
-        self.enable_plugin(name)
 
-    def _on_plugin_disabled_event(self, name):
-        self.disable_plugin(name)
-    
+    def _on_plugin_enabled_event(self, event):
+        self.enable_plugin(event.name)
+
+    def _on_plugin_disabled_event(self, event):
+        self.disable_plugin(event.name)
+
     def disable_plugin(self, name):
         # Get the plugin instance
         try:
@@ -85,31 +85,31 @@ class PluginManager(PluginManagerBase, component.Component):
         except KeyError:
             log.info("Plugin has no web ui")
             return
-        
+
         info = gather_info(plugin)
 
         scripts = component.get("Scripts")
         for script in info["scripts"]:
             scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()))
-        
+
         for script in info["debug_scripts"]:
             scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()), "debug")
             scripts.remove_script("%s/%s" % (name.lower(), os.path.basename(script).lower()), "dev")
-        
+
         super(PluginManager, self).disable_plugin(name)
-    
+
     def enable_plugin(self, name):
         super(PluginManager, self).enable_plugin(name)
-        
+
         # Get the plugin instance
         try:
             plugin = component.get("WebPlugin." + name)
         except KeyError:
             log.info("Plugin has no web ui")
             return
-        
+
         info = gather_info(plugin)
-        
+
         scripts = component.get("Scripts")
         for script in info["scripts"]:
             log.debug("adding script %s for %s", name, os.path.basename(script))
@@ -127,16 +127,16 @@ class PluginManager(PluginManagerBase, component.Component):
         # Update the enabled plugins from the core
         d = client.core.get_enabled_plugins()
         d.addCallback(self._on_get_enabled_plugins)
-    
+
     def stop(self):
         """
         Stop the plugin manager
         """
         self.disable_plugins()
-    
+
     def update(self):
         pass
-    
+
     def get_plugin_resources(self, name):
         # Get the plugin instance
         try:

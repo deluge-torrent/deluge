@@ -234,21 +234,21 @@ class SessionProxy(component.Component):
             d = client.core.get_torrents_status(filter_dict, keys, True)
             return d.addCallback(on_status, None, keys)
 
-    def on_torrent_state_changed(self, torrent_id, state):
-        if torrent_id in self.torrents:
-            self.torrents[torrent_id][1]["state"] = state
-            self.cache_times[torrent_id]["state"] = time.time()
+    def on_torrent_state_changed(self, event):
+        if event.torrent_id in self.torrents:
+            self.torrents[event.torrent_id][1]["state"] = event.state
+            self.cache_times[event.torrent_id]["state"] = time.time()
 
-    def on_torrent_added(self, torrent_id, from_state):
-        self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
-        self.cache_times[torrent_id] = {}
+    def on_torrent_added(self, event):
+        self.torrents[event.torrent_id] = [time.time() - self.cache_time - 1, {}]
+        self.cache_times[event.torrent_id] = {}
         def on_status(status):
-            self.torrents[torrent_id][1].update(status)
+            self.torrents[event.torrent_id][1].update(status)
             t = time.time()
             for key in status:
-                self.cache_times[torrent_id][key] = t
-        client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
+                self.cache_times[event.torrent_id][key] = t
+        client.core.get_torrent_status(event.torrent_id, []).addCallback(on_status)
 
-    def on_torrent_removed(self, torrent_id):
-        del self.torrents[torrent_id]
-        del self.cache_times[torrent_id]
+    def on_torrent_removed(self, event):
+        del self.torrents[event.torrent_id]
+        del self.cache_times[event.torrent_id]

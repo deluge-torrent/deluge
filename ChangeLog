@@ -1,4 +1,5 @@
 === Deluge 1.3.0 (In Development) ===
+
 ==== Core ====
 	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
 	* Implement #457 progress bars for folders
@@ -8,6 +9,7 @@
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
 	* Make the distinction between adding to the session new unmanaged torrents and torrents loaded from state. This will break backwards compatability.
+	* Pass a copy of an event instead of passing the event arguments to the event handlers. This will break backwards compatability.
 
 ==== GtkUI ====
 	* Fix uncaught exception when closing deluge in classic mode
