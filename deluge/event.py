@@ -273,24 +273,24 @@ class PluginEnabledEvent(DelugeEvent):
     """
     Emitted when a plugin is enabled in the Core.
     """
-    __slots__ = ('name',)
+    __slots__ = ('plugin_name',)
 
-    def __init__(self, name):
+    def __init__(self, plugin_name):
         """
-        :param name: the plugin name
-        :type name: string
+        :param plugin_name: the plugin name
+        :type plugin_name: string
         """
-        self.name = name
+        self.plugin_name = plugin_name
 
 class PluginDisabledEvent(DelugeEvent):
     """
     Emitted when a plugin is disabled in the Core.
     """
-    __slots__ = ('name',)
+    __slots__ = ('plugin_name',)
 
-    def __init__(self, name):
+    def __init__(self, plugin_name):
         """
-        :param name: the plugin name
-        :type name: string
+        :param plugin_name: the plugin name
+        :type plugin_name: string
         """
-        self.name = name
+        self.plugin_name = plugin_name

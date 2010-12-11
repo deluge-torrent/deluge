@@ -107,7 +107,7 @@ class EventLog(component.Component):
             (event.key, color, event.value))
 
     def on_plugin_enabled_event(self, event):
-        self.console.write(self.prefix + "PluginEnabled: {!info!}%s" % event.name)
+        self.console.write(self.prefix + "PluginEnabled: {!info!}%s" % event.plugin_name)
 
     def on_plugin_disabled_event(self, event):
-        self.console.write(self.prefix + "PluginDisabled: {!info!}%s" % event.name)
+        self.console.write(self.prefix + "PluginDisabled: {!info!}%s" % event.plugin_name)

@@ -57,7 +57,7 @@ OPTIONS_AVAILABLE = { #option: builtin
     "enabled":False,
     "path":False,
     "append_extension":False,
-    "abspath":False, 
+    "abspath":False,
     "download_location":True,
     "max_download_speed":True,
     "max_upload_speed":True,
@@ -79,8 +79,6 @@ MAX_NUM_ATTEMPTS = 10
 
 class AutoaddOptionsChangedEvent(DelugeEvent):
     """Emitted when the options for the plugin are changed."""
-    def __init__(self):
-        pass
 
 def CheckInput(cond, message):
     if not cond:
@@ -88,7 +86,7 @@ def CheckInput(cond, message):
 
 class Core(CorePluginBase):
     def enable(self):
-        
+
         #reduce typing, assigning some values to self...
         self.config = deluge.configmanager.ConfigManager("autoadd.conf", DEFAULT_PREFS)
         self.watchdirs = self.config["watchdirs"]
@@ -127,7 +125,7 @@ class Core(CorePluginBase):
 
     def update(self):
         pass
-        
+
     @export()
     def set_options(self, watchdir_id, options):
         """Update the options for a watch folder."""
@@ -147,14 +145,14 @@ class Core(CorePluginBase):
         #disable the watch loop if it was active
         if watchdir_id in self.update_timers:
             self.disable_watchdir(watchdir_id)
-        
+
         self.watchdirs[watchdir_id].update(options)
         #re-enable watch loop if appropriate
         if self.watchdirs[watchdir_id]['enabled']:
             self.enable_watchdir(watchdir_id)
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
-        
+
     def load_torrent(self, filename):
         try:
             log.debug("Attempting to open %s for add.", filename)
@@ -171,7 +169,7 @@ class Core(CorePluginBase):
         info = lt.torrent_info(lt.bdecode(filedump))
 
         return filedump
-        
+
     def update_watchdir(self, watchdir_id):
         """Check the watch folder for new torrents to add."""
         watchdir_id = str(watchdir_id)
@@ -185,7 +183,7 @@ class Core(CorePluginBase):
             log.warning("Invalid AutoAdd folder: %s", watchdir["abspath"])
             self.disable_watchdir(watchdir_id)
             return
-        
+
         # Generate options dict for watchdir
         opts = {}
         if 'stop_at_ratio_toggle' in watchdir:
@@ -246,7 +244,7 @@ class Core(CorePluginBase):
         """Disables any watch folders with unhandled exceptions."""
         self.disable_watchdir(watchdir_id)
         log.error("Disabling '%s', error during update: %s" % (self.watchdirs[watchdir_id]["path"], failure))
-        
+
     @export
     def enable_watchdir(self, watchdir_id):
         watchdir_id = str(watchdir_id)
@@ -259,7 +257,7 @@ class Core(CorePluginBase):
             self.watchdirs[watchdir_id]['enabled'] = True
             self.config.save()
             component.get("EventManager").emit(AutoaddOptionsChangedEvent())
-        
+
     @export
     def disable_watchdir(self, watchdir_id):
         watchdir_id = str(watchdir_id)
@@ -287,7 +285,7 @@ class Core(CorePluginBase):
     def get_config(self):
         """Returns the config dictionary."""
         return self.config.config
-        
+
     @export()
     def get_watchdirs(self):
         return self.watchdirs.keys()
@@ -319,7 +317,7 @@ class Core(CorePluginBase):
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
         return watchdir_id
-        
+
     @export
     def remove(self, watchdir_id):
         """Remove a watch folder."""
