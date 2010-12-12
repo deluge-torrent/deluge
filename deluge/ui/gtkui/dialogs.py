@@ -147,13 +147,16 @@ class ErrorDialog(BaseDialog):
 
     When run(), it will return a gtk.RESPONSE_CLOSE.
     """
-    def __init__(self, header, text, parent=None, details=None):
+    def __init__(self, header, text, parent=None, details=None, traceback=False):
         """
         :param header: see `:class:BaseDialog`
         :param text: see `:class:BaseDialog`
         :param parent: see `:class:BaseDialog`
-        :param details: str, extra information that will be displayed in a
+        :param details: extra information that will be displayed in a
             scrollable textview
+        :type details: string
+        :param traceback: show the traceback information in the details area
+        :type traceback: bool
         """
         super(ErrorDialog, self).__init__(
             header,
@@ -161,6 +164,16 @@ class ErrorDialog(BaseDialog):
             gtk.STOCK_DIALOG_ERROR,
             (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
             parent)
+
+        if traceback:
+            import traceback
+            import sys
+            tb = sys.exc_info()
+            tb = traceback.format_exc(tb[2])
+            if details:
+                details += "\n" + tb
+            else:
+                details = tb
 
         if details:
             self.set_default_size(500, 400)
