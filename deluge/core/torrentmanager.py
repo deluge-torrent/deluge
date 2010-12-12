@@ -52,6 +52,7 @@ from deluge.event import *
 from deluge.error import *
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
@@ -279,7 +280,16 @@ class TorrentManager(component.Component):
 
     def get_torrent_list(self):
         """Returns a list of torrent_ids"""
-        return self.torrents.keys()
+        torrent_ids = self.torrents.keys()
+        if component.get("RPCServer").get_session_auth_level() == AUTH_LEVEL_ADMIN:
+            return torrent_ids
+
+        current_user = component.get("RPCServer").get_session_user()
+        for torrent_id in torrent_ids[:]:
+            torrent_status = self[torrent_id].get_status(["owner", "public"])
+            if torrent_status["owner"] != current_user and torrent_status["public"] == False:
+                torrent_ids.pop(torrent_ids.index(torrent_id))
+        return torrent_ids
 
     def get_torrent_info_from_file(self, filepath):
         """Returns a torrent_info for the file specified or None"""
