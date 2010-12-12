@@ -114,6 +114,9 @@ deluge.ui = {
 
 	update: function() {
 		var filters = deluge.sidebar.getFilterStates();
+		this.oldFilters = this.filters;
+		this.filters = filters;
+
 		deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
 			success: this.onUpdate,
 			failure: this.onUpdateError,
@@ -170,7 +173,11 @@ deluge.ui = {
 				' (Down: ' + fspeed(data['stats'].download_rate, true) + 
 				' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
 		}
-		deluge.torrents.update(data['torrents']);
+		if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
+			deluge.torrents.update(data['torrents']);
+		} else {
+			deluge.torrents.update(data['torrents'], true);
+		}
 		deluge.statusbar.update(data['stats']);
 		deluge.sidebar.update(data['filters']);
 		this.errorCount = 0;

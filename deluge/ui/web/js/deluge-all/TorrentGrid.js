@@ -284,8 +284,15 @@
 		return ids;
 	},
 
-	update: function(torrents) {
+	update: function(torrents, wipe) {
 		var store = this.getStore();
+
+		// Need to perform a complete reload of the torrent grid.
+		if (wipe) {
+			store.removeAll();
+			this.torrents = {};
+		}
+
 		var newTorrents = [];
 
 		// Update and add any new torrents.
