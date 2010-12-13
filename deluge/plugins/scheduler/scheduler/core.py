@@ -76,11 +76,12 @@ class SchedulerEvent(DelugeEvent):
     """
     Emitted when a schedule state changes.
     """
+    __slots__ = ('colour',)
     def __init__(self, colour):
         """
         :param colour: str, the current scheduler state
         """
-        self._args = [colour]
+        self.colour = colour
 
 class Core(CorePluginBase):
     def enable(self):
@@ -119,8 +120,8 @@ class Core(CorePluginBase):
         pass
 
 
-    def on_config_value_changed(self, key, value):
-        if key in CONTROLLED_SETTINGS:
+    def on_config_value_changed(self, event):
+        if event.key in CONTROLLED_SETTINGS:
             self.do_schedule(False)
 
     def __apply_set_functions(self):

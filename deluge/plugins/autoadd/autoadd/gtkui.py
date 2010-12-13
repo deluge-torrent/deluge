@@ -334,7 +334,7 @@ class GtkUI(GtkPluginBase):
     def on_show_prefs(self):
         client.autoadd.get_config().addCallback(self.cb_get_config)
 
-    def on_options_changed_event(self):
+    def on_options_changed_event(self, event):
         client.autoadd.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):

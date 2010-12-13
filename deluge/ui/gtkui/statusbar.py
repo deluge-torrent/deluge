@@ -288,14 +288,14 @@ class StatusBar(component.Component):
         client.core.get_session_status(keys).addCallback(self._on_get_session_status)
         client.core.get_free_space().addCallback(self._on_get_free_space)
 
-    def on_configvaluechanged_event(self, key, value):
+    def on_configvaluechanged_event(self, event):
         """
         This is called when we receive a ConfigValueChangedEvent from
         the core.
         """
 
-        if key in self.config_value_changed_dict.keys():
-            self.config_value_changed_dict[key](value)
+        if event.key in self.config_value_changed_dict.keys():
+            self.config_value_changed_dict[event.key](event.value)
 
     def _on_max_connections_global(self, max_connections):
         self.max_connections = max_connections

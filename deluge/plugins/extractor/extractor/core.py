@@ -77,14 +77,14 @@ class Core(CorePluginBase):
     def update(self):
         pass
 
-    def _on_torrent_finished(self, torrent_id):
+    def _on_torrent_finished(self, event):
         """
         This is called when a torrent finishes.  We need to check to see if there
         are any files to extract.
         """
         # Get the save path
-        save_path = component.get("TorrentManager")[torrent_id].get_status(["save_path"])["save_path"]
-        files = component.get("TorrentManager")[torrent_id].get_files()
+        save_path = component.get("TorrentManager")[event.torrent_id].get_status(["save_path"])["save_path"]
+        files = component.get("TorrentManager")[event.torrent_id].get_files()
         for f in files:
             ext = os.path.splitext(f["path"])
             if ext[1] in (".gz", ".bz2", ".lzma"):
@@ -104,7 +104,7 @@ class Core(CorePluginBase):
             # Get the destination path
             dest = self.config["extract_path"]
             if self.config["use_name_folder"]:
-                name = component.get("TorrentManager")[torrent_id].get_status(["name"])["name"]
+                name = component.get("TorrentManager")[event.torrent_id].get_status(["name"])["name"]
                 dest = os.path.join(dest, name)
 
             # Create the destination folder if it doesn't exist
@@ -126,8 +126,8 @@ class Core(CorePluginBase):
 
             # Run the command and add some callbacks
             d = getProcessValue(cmd[0], cmd[1].split() + [str(fp)], {}, str(dest))
-            d.addCallback(on_extract_success, torrent_id)
-            d.addErrback(on_extract_failed, torrent_id)
+            d.addCallback(on_extract_success, event.torrent_id)
+            d.addErrback(on_extract_failed, event.torrent_id)
 
     @export
     def set_config(self, config):

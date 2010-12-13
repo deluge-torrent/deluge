@@ -230,11 +230,11 @@ class MenuBar(component.Component):
         return sep
 
     ### Callbacks ###
-    def on_torrentstatechanged_event(self, torrent_id, state):
-        if state == "Paused":
+    def on_torrentstatechanged_event(self, event):
+        if event.state == "Paused":
             self.update_menu()
 
-    def on_torrentresumed_event(self, torrent_id):
+    def on_torrentresumed_event(self, event):
         self.update_menu()
 
     def on_sessionpaused_event(self):

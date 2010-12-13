@@ -55,12 +55,14 @@ class LowDiskSpaceEvent(DelugeEvent):
     """Triggered when the available space for a specific path is getting
     too low.
     """
+    __slots__ = ('percents_dict',)
+
     def __init__(self, percents_dict):
         """
         :param percents: dictionary of path keys with their respecive
                          occupation percentages.
         """
-        self._args = [percents_dict]
+        self.percents_dict = percents_dict
 
 DEFAULT_PREFS = {
     "enabled": False,
@@ -172,25 +174,25 @@ class Core(CorePluginBase):
         free_percent = free_blocks * 100 / total_blocks
         return free_percent
 
-    def __custom_email_notification(self, ocupied_percents):
+    def __custom_email_notification(self, event):
 
         subject = _("Low Disk Space Warning")
         message = _("You're running low on disk space:\n")
 
-        for path, ocupied_percent in ocupied_percents.iteritems():
+        for path, ocupied_percent in event.percents_dict.iteritems():
             message += _('  %s%% ocupation in %s\n') % (ocupied_percent, path)
 #                    "\"%s\"%% space occupation on %s") % (ocupied_percent, path)
         return subject, message
 
-    def __on_plugin_enabled(self, plugin_name):
-        if plugin_name == 'Notifications':
+    def __on_plugin_enabled(self, event):
+        if event.plugin_name == 'Notifications':
             component.get("CorePlugin.Notifications"). \
                 register_custom_email_notification(
                     "LowDiskSpaceEvent", self.__custom_email_notification
             )
 
-    def __on_plugin_disabled(self, plugin_name):
-        if plugin_name == 'Notifications':
+    def __on_plugin_disabled(self, event):
+        if event.plugin_name == 'Notifications':
             component.get("CorePlugin.Notifications"). \
                 deregister_custom_email_notification("LowDiskSpaceEvent")
 

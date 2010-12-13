@@ -64,15 +64,19 @@ class ExecuteCommandAddedEvent(DelugeEvent):
     """
     Emitted when a new command is added.
     """
+    __slots__ = ('command_id', 'event', 'command')
     def __init__(self, command_id, event, command):
-        self._args = [command_id, event, command]
+        self.command_id = command_id
+        self.event = event
+        self.command = command
 
 class ExecuteCommandRemovedEvent(DelugeEvent):
     """
     Emitted when a command is removed.
     """
+    __slots__ = ('command_id',)
     def __init__(self, command_id):
-        self._args = [command_id]
+        self.command_id = command_id
 
 class Core(CorePluginBase):
     def enable(self):
@@ -82,17 +86,17 @@ class Core(CorePluginBase):
 
         # Go through the commands list and register event handlers
         for command in self.config["commands"]:
-            event = command[EXECUTE_EVENT]
-            if event in self.registered_events:
+            event_name = command[EXECUTE_EVENT]
+            if event_name in self.registered_events:
                 continue
 
-            def create_event_handler(event):
-                def event_handler(torrent_id):
-                    self.execute_commands(torrent_id, event)
+            def create_event_handler(event_name):
+                def event_handler(event):
+                    self.execute_commands(event.torrent_id, event_name)
                 return event_handler
-            event_handler = create_event_handler(event)
-            event_manager.register_event_handler(EVENT_MAP[event], event_handler)
-            self.registered_events[event] = event_handler
+            event_handler = create_event_handler(event_name)
+            event_manager.register_event_handler(EVENT_MAP[event_name], event_handler)
+            self.registered_events[event_name] = event_handler
 
         log.debug("Execute core plugin enabled!")
 

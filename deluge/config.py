@@ -261,7 +261,10 @@ what is currently in the config and it could not convert the value
 
         """
         if isinstance(self.__config[key], str):
-            return self.__config[key].decode("utf8")
+            try:
+                return self.__config[key].decode("utf8")
+            except UnicodeDecodeError:
+                return self.__config[key]
         else:
             return self.__config[key]
 

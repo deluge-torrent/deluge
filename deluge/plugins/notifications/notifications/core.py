@@ -188,9 +188,9 @@ Subject: %(subject)s
         return _("Notification email sent.")
 
 
-    def _on_torrent_finished_event(self, torrent_id):
+    def _on_torrent_finished_event(self, event):
         log.debug("Handler for TorrentFinishedEvent called for CORE")
-        torrent = component.get("TorrentManager")[torrent_id]
+        torrent = component.get("TorrentManager")[event.torrent_id]
         torrent_status = torrent.get_status({})
         # Email
         subject = _("Finished Torrent \"%(name)s\"") % torrent_status

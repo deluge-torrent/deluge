@@ -81,8 +81,6 @@ MAX_NUM_ATTEMPTS = 10
 
 class AutoaddOptionsChangedEvent(DelugeEvent):
     """Emitted when the options for the plugin are changed."""
-    def __init__(self):
-        pass
 
 def CheckInput(cond, message):
     if not cond:

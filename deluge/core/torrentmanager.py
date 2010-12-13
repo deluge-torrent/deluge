@@ -477,10 +477,17 @@ class TorrentManager(component.Component):
             # Save the session state
             self.save_state()
 
-        # Emit the torrent_added signal
-        component.get("EventManager").emit(TorrentAddedEvent(torrent.torrent_id))
-
-        log.info("Torrent %s added by user: %s", torrent.get_status(["name"])["name"], component.get("RPCServer").get_session_user())
+        # Emit torrent_added signal
+        from_state = False
+        if torrent_info and state is None:
+            from_state = True
+        component.get("EventManager").emit(
+            TorrentAddedEvent(torrent.torrent_id, from_state)
+        )
+        log.info("Torrent %s %s by user: %s",
+                 torrent.get_status(["name"])["name"],
+                 (from_state and "added" or "loaded"),
+                 component.get("RPCServer").get_session_user())
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):

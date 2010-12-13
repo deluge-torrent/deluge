@@ -134,22 +134,22 @@ class GtkUI(GtkPluginBase):
         self.glade.get_widget('enabled').set_active(config['enabled'])
         self.glade.get_widget('percent').set_value(config['percent'])
 
-    def __custom_popup_notification(self, ocupied_percents):
+    def __custom_popup_notification(self, event):
         title = _("Low Free Space")
         message = ''
-        for path, percent in ocupied_percents.iteritems():
+        for path, percent in event.percents_dict.iteritems():
             message += '%s%%  %s\n' % (percent, path)
         message += '\n'
         return title, message
 
-    def __custom_blink_notification(self, ocupied_percents):
+    def __custom_blink_notification(self, event):
         return True # Yes, do blink
 
-    def __custom_sound_notification(self, ocupied_percents):
+    def __custom_sound_notification(self, event):
         return ''   # Use default sound
 
-    def __on_plugin_enabled(self, plugin_name):
-        if plugin_name == 'Notifications':
+    def __on_plugin_enabled(self, event):
+        if event.plugin_name == 'Notifications':
             notifications = component.get("GtkPlugin.Notifications")
             notifications.register_custom_popup_notification(
                 "LowDiskSpaceEvent", self.__custom_popup_notification
@@ -161,7 +161,7 @@ class GtkUI(GtkPluginBase):
                 "LowDiskSpaceEvent", self.__custom_sound_notification
             )
 
-    def __on_plugin_disabled(self, plugin_name):
+    def __on_plugin_disabled(self, event):
         pass
 #        if plugin_name == 'Notifications':
 #            notifications = component.get("GtkPlugin.Notifications")
