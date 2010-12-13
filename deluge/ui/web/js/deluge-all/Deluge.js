@@ -46,7 +46,7 @@ Ext.apply(Ext, {
 		return true;
 	},
 
-	isObjectsEqual: function(obj1, obj2) {
+	areObjectsEqual: function(obj1, obj2) {
 		var equal = true;
 		if (!obj1 || !obj2) return false;
 		for (var i in obj1) {

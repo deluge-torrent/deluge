@@ -113,22 +113,22 @@ class OptionsDialog():
                 self.glade.get_widget(field+"_entry").show()
                 self.glade.get_widget(field+"_chooser").hide()
         self.set_sensitive()
-                
+
         def on_get_enabled_plugins(result):
-            if 'Label' in result: 
+            if 'Label' in result:
                 self.glade.get_widget('label_frame').show()
             else:
                 self.glade.get_widget('label_frame').hide()
                 self.glade.get_widget('label_toggle').set_active(False)
-                
+
         client.core.get_enabled_plugins().addCallback(on_get_enabled_plugins)
-        
+
     def set_sensitive(self):
         maintoggles = ['download_location', 'append_extension', 'move_completed', 'label', \
             'max_download_speed', 'max_upload_speed', 'max_connections', \
             'max_upload_slots', 'add_paused', 'auto_managed', 'stop_at_ratio', 'queue_to_top']
         [self.on_toggle_toggled(self.glade.get_widget(x+'_toggle')) for x in maintoggles]
-        
+
     def on_toggle_toggled(self, tb):
         toggle = str(tb.name).replace("_toggle", "")
         isactive = tb.get_active()
@@ -166,29 +166,29 @@ class OptionsDialog():
             self.glade.get_widget('stop_at_ratio').set_active(isactive)
             self.glade.get_widget('stop_ratio').set_sensitive(isactive)
             self.glade.get_widget('remove_at_ratio').set_sensitive(isactive)
-        
+
     def on_apply(self, Event=None):
         client.autoadd.set_options(str(self.watchdir_id), self.generate_opts()).addCallbacks(self.on_added, self.on_error_show)
-        
+
     def on_error_show(self, result):
         self.glade.get_widget('error_label').set_text(result.value.exception_msg)
         self.err_dialog = self.glade.get_widget('error_dialog')
         self.err_dialog.set_transient_for(self.dialog)
         result.cleanFailure()
         self.err_dialog.show()
-            
+
     def on_added(self, result):
         self.dialog.destroy()
-        
+
     def on_error_ok(self, Event=None):
         self.err_dialog.hide()
-            
+
     def on_add(self, Event=None):
         client.autoadd.add(self.generate_opts()).addCallbacks(self.on_added, self.on_error_show)
-        
+
     def on_cancel(self, Event=None):
         self.dialog.destroy()
-        
+
     def generate_opts(self):
         # generate options dict based on gtk objects
         options = {}
@@ -217,11 +217,11 @@ class OptionsDialog():
             options[id] = self.glade.get_widget(id).get_active()
             options[id+'_toggle'] = self.glade.get_widget(id+'_toggle').get_active()
         return options
-    
+
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        
+
         self.glade = gtk.glade.XML(get_resource("config.glade"))
         self.glade.signal_autoconnect({
             "on_add_button_clicked": self.on_add_button_clicked,
@@ -229,18 +229,18 @@ class GtkUI(GtkPluginBase):
             "on_remove_button_clicked": self.on_remove_button_clicked
         })
         self.opts_dialog = OptionsDialog()
-        
+
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         client.register_event_handler("AutoaddOptionsChangedEvent", self.on_options_changed_event)
-        
+
         self.watchdirs = {}
-        
+
         vbox = self.glade.get_widget("watchdirs_vbox")
         sw = gtk.ScrolledWindow()
         sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        
+
         vbox.pack_start(sw, True, True, 0)
 
         self.store = self.create_model()
@@ -256,28 +256,28 @@ class GtkUI(GtkPluginBase):
         component.get("Preferences").add_page("AutoAdd", self.glade.get_widget("prefs_box"))
         self.on_show_prefs()
 
-        
+
     def disable(self):
         component.get("Preferences").remove_page("AutoAdd")
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
-        
+
     def create_model(self):
-        
+
         store = gtk.ListStore(str, bool, str)
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             store.append([watchdir_id, watchdir['enabled'], watchdir['path']])
         return store
-        
+
     def create_columns(self, treeView):
         rendererToggle = gtk.CellRendererToggle()
         column = gtk.TreeViewColumn("On", rendererToggle, activatable=True, active=1)
-        column.set_sort_column_id(1)    
+        column.set_sort_column_id(1)
         treeView.append_column(column)
         tt = gtk.Tooltip()
         tt.set_text('Double-click to toggle')
         treeView.set_tooltip_cell(tt, None, None, rendererToggle)
-        
+
         rendererText = gtk.CellRendererText()
         column = gtk.TreeViewColumn("Path", rendererText, text=2)
         column.set_sort_column_id(2)
@@ -289,20 +289,20 @@ class GtkUI(GtkPluginBase):
 
     def load_watchdir_list(self):
         pass
-        
+
     def add_watchdir_entry(self):
         pass
-        
+
     def on_add_button_clicked(self, Event=None):
         #display options_window
         self.opts_dialog.show()
-        
+
     def on_remove_button_clicked(self, Event=None):
         tree, tree_id = self.treeView.get_selection().get_selected()
         watchdir_id = str(self.store.get_value(tree_id, 0))
         if watchdir_id:
             client.autoadd.remove(watchdir_id)
-        
+
     def on_edit_button_clicked(self, Event=None, a=None, col=None):
         tree, tree_id = self.treeView.get_selection().get_selected()
         watchdir_id = str(self.store.get_value(tree_id, 0))
@@ -314,7 +314,7 @@ class GtkUI(GtkPluginBase):
                     client.autoadd.enable_watchdir(watchdir_id)
             else:
                 self.opts_dialog.show(self.watchdirs[watchdir_id], watchdir_id)
-        
+
     def on_listitem_activated(self, treeview):
         tree, tree_id = self.treeView.get_selection().get_selected()
         if tree_id:
@@ -323,7 +323,7 @@ class GtkUI(GtkPluginBase):
         else:
             self.glade.get_widget('edit_button').set_sensitive(False)
             self.glade.get_widget('remove_button').set_sensitive(False)
-        
+
     def on_apply_prefs(self):
         log.debug("applying prefs for AutoAdd")
         for watchdir_id, watchdir in self.watchdirs.iteritems():
@@ -331,8 +331,8 @@ class GtkUI(GtkPluginBase):
 
     def on_show_prefs(self):
         client.autoadd.get_config().addCallback(self.cb_get_config)
-        
-    def on_options_changed_event(self):
+
+    def on_options_changed_event(self, event):
         client.autoadd.get_config().addCallback(self.cb_get_config)
 
     def cb_get_config(self, config):
@@ -344,4 +344,4 @@ class GtkUI(GtkPluginBase):
         # Disable the remove and edit buttons, because nothing in the store is selected
         self.glade.get_widget('remove_button').set_sensitive(False)
         self.glade.get_widget('edit_button').set_sensitive(False)
-        
+

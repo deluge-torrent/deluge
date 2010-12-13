@@ -439,14 +439,14 @@ class ConsoleUI(component.Component):
 
         return ret
 
-    def on_torrent_added_event(self, torrent_id, from_state):
+    def on_torrent_added_event(self, event):
         def on_torrent_status(status):
-            self.torrents.append((torrent_id, status["name"]))
-        client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
+            self.torrents.append((event.torrent_id, status["name"]))
+        client.core.get_torrent_status(event.torrent_id, ["name"]).addCallback(on_torrent_status)
 
-    def on_torrent_removed_event(self, torrent_id):
+    def on_torrent_removed_event(self, event):
         for index, (tid, name) in enumerate(self.torrents):
-            if torrent_id == tid:
+            if event.torrent_id == tid:
                 del self.torrents[index]
 
     def on_client_disconnect(self):

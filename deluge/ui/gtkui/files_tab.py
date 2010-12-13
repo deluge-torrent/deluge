@@ -602,34 +602,34 @@ class FilesTab(Tab):
     def _on_filename_editing_canceled(self, renderer):
         self._editing_index = None
 
-    def _on_torrentfilerenamed_event(self, torrent_id, index, name):
-        log.debug("index: %s name: %s", index, name)
+    def _on_torrentfilerenamed_event(self, event):
+        log.debug("index: %s name: %s", event.index, event.filename)
 
-        if torrent_id not in self.files_list:
+        if event.torrent_id not in self.files_list:
             return
 
-        old_name = self.files_list[torrent_id][index]["path"]
-        self.files_list[torrent_id][index]["path"] = name
+        old_name = self.files_list[event.torrent_id][event.index]["path"]
+        self.files_list[event.torrent_id][event.index]["path"] = event.filename
 
         # We need to update the filename displayed if we're currently viewing
         # this torrents files.
-        if torrent_id == self.torrent_id:
+        if event.torrent_id == self.torrent_id:
             old_name_len = len(old_name.split("/"))
-            name_len = len(name.split("/"))
+            name_len = len(event.filename.split("/"))
             if old_name_len != name_len:
                 # The parent path list changes depending on which way the file
                 # is moving in the tree
                 if old_name_len < name_len:
                     parent_path = [o for o in old_name.split("/")[:-1]]
                 else:
-                    parent_path = [o for o in name.split("/")[:-1]]
+                    parent_path = [o for o in event.filename.split("/")[:-1]]
                 # Find the iter to the parent folder we need to add a new folder
                 # to.
                 def find_parent(model, path, itr, user_data):
                     if model[itr][0] == parent_path[0] + "/":
                         if len(parent_path) == 1:
                             # This is the parent iter
-                            to_create = name.split("/")[len(old_name.split("/")[:-1]):-1]
+                            to_create = event.filename.split("/")[len(old_name.split("/")[:-1]):-1]
                             parent_iter = itr
 
                             for tc in to_create:
@@ -648,8 +648,8 @@ class FilesTab(Tab):
 
                             # Find the iter for the file that needs to be moved
                             def get_file_iter(model, path, itr, user_data):
-                                if model[itr][5] == index:
-                                    model[itr][0] = name.split("/")[-1]
+                                if model[itr][5] == event.index:
+                                    model[itr][0] = event.filename.split("/")[-1]
                                     t = self.treestore.append(
                                         parent_iter,
                                         self.treestore.get(itr,
@@ -668,7 +668,7 @@ class FilesTab(Tab):
                 if parent_path:
                     self.treestore.foreach(find_parent, None)
                 else:
-                    new_folders = name.split("/")[:-1]
+                    new_folders = event.filename.split("/")[:-1]
                     parent_iter = None
                     for f in new_folders:
                         parent_iter = self.treestore.append(parent_iter,
@@ -682,8 +682,8 @@ class FilesTab(Tab):
             else:
                 # This is just changing a filename without any folder changes
                 def set_file_name(model, path, itr, user_data):
-                    if model[itr][5] == index:
-                        model[itr][0] = os.path.split(name)[-1]
+                    if model[itr][5] == event.index:
+                        model[itr][0] = os.path.split(event.filename)[-1]
                         return True
                 self.treestore.foreach(set_file_name, None)
 
@@ -729,40 +729,40 @@ class FilesTab(Tab):
             self.treestore.remove(itr)
             itr = parent
 
-    def _on_torrentfolderrenamed_event(self, torrent_id, old_folder, new_folder):
+    def _on_torrentfolderrenamed_event(self, event):
         log.debug("on_torrent_folder_renamed_signal")
-        log.debug("old_folder: %s new_folder: %s", old_folder, new_folder)
+        log.debug("old_folder: %s new_folder: %s", event.old, event.new)
 
-        if torrent_id not in self.files_list:
+        if event.torrent_id not in self.files_list:
             return
 
-        if old_folder[-1] != "/":
-            old_folder += "/"
-        if new_folder[-1] != "/":
-            new_folder += "/"
+        if event.old[-1] != "/":
+            event.old += "/"
+        if event.new[-1] != "/":
+            event.new += "/"
 
-        for fd in self.files_list[torrent_id]:
-            if fd["path"].startswith(old_folder):
-                fd["path"] = fd["path"].replace(old_folder, new_folder, 1)
+        for fd in self.files_list[event.torrent_id]:
+            if fd["path"].startswith(event.old):
+                fd["path"] = fd["path"].replace(event.old, event.new, 1)
 
-        if torrent_id == self.torrent_id:
+        if event.torrent_id == self.torrent_id:
 
-            old_split = old_folder.split("/")
+            old_split = event.old.split("/")
             try:
                 old_split.remove("")
             except:
                 pass
 
-            new_split = new_folder.split("/")
+            new_split = event.new.split("/")
             try:
                 new_split.remove("")
             except:
                 pass
 
-            old_folder_iter = self.get_iter_at_path(old_folder)
+            old_folder_iter = self.get_iter_at_path(event.old)
             old_folder_iter_parent = self.treestore.iter_parent(old_folder_iter)
 
-            new_folder_iter = self.get_iter_at_path(new_folder)
+            new_folder_iter = self.get_iter_at_path(event.new)
             if len(new_split) == len(old_split):
                 # These are at the same tree depth, so it's a simple rename
                 self.treestore[old_folder_iter][0] = new_split[-1] + "/"
@@ -782,9 +782,9 @@ class FilesTab(Tab):
             # and if so, we delete it
             self.remove_childless_folders(old_folder_iter_parent)
 
-    def _on_torrentremoved_event(self, torrent_id):
-        if torrent_id in self.files_list:
-            del self.files_list[torrent_id]
+    def _on_torrentremoved_event(self, event):
+        if event.torrent_id in self.files_list:
+            del self.files_list[event.torrent_id]
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
         paths = self.listview.get_selection().get_selected_rows()[1]
