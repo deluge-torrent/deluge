@@ -122,11 +122,12 @@ class PreferencePage(object):
         :type obj: string
 
         """
-        builder = gtk.Builder()
-        builder.add_from_file(xmlfile)
-        self.set_widget(builder.get_object(obj))
-        
-        
+        if not os.path.isfile(xmlfile):
+            xmlfile = os.path.join(os.path.dirname(__file__), xmlfile)
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(xmlfile)
+        self.set_widget(self.builder.get_object(obj))
+
 class GtkUIPreferencePage(PreferencePage):
     def __init__(self, name, xml, widget):
         super(GtkUIPreferencePage, self).__init__()
