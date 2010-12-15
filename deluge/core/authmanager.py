@@ -72,6 +72,16 @@ class AuthManager(component.Component):
         pass
 
     def peek(self, username):
+        """
+        Peeks users based on username and returns their auth level
+
+        :param username: str, username
+        :returns: int, the auth level for this user
+        :rtype: int
+
+        :raises BadLoginError: if the username does not exist or password does not match
+
+        """
         if username not in self.__auth:
             # Let's try to re-load the file.. Maybe it's been updated
             self.__load_auth_file()

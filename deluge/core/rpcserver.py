@@ -254,6 +254,9 @@ class DelugeRPCProtocol(Protocol):
             ))
 
         if method == "daemon.peek":
+            # This is a special case and used in the initial connection process
+            # We need to peek the user here in order to get an auth level back
+            # and see if the user exists.
             try:
                 ret = component.get("AuthManager").peek(*args, **kwargs)
                 if ret:
