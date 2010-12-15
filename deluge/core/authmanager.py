@@ -54,6 +54,9 @@ AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 class BadLoginError(deluge.error.DelugeError):
     pass
 
+class PasswordRequired(BadLoginError):
+    pass
+
 class AuthManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "AuthManager")
@@ -68,6 +71,16 @@ class AuthManager(component.Component):
     def shutdown(self):
         pass
 
+    def peek(self, username):
+        if username not in self.__auth:
+            # Let's try to re-load the file.. Maybe it's been updated
+            self.__load_auth_file()
+            if username not in self.__auth:
+                raise BadLoginError("Username does not exist")
+
+        return int(self.__auth[username][1])
+
+
     def authorize(self, username, password):
         """
         Authorizes users based on username and password
@@ -80,16 +93,12 @@ class AuthManager(component.Component):
         :raises BadLoginError: if the username does not exist or password does not match
 
         """
-
-        if username not in self.__auth:
-            # Let's try to re-load the file.. Maybe it's been updated
-            self.__load_auth_file()
-            if username not in self.__auth:
-                raise BadLoginError("Username does not exist")
-
+        auth_level = self.peek(username)
         if self.__auth[username][0] == password:
             # Return the users auth level
-            return int(self.__auth[username][1])
+            return auth_level
+        elif not password and self.__auth[username][0]:
+            raise PasswordRequired("Password is required")
         else:
             raise BadLoginError("Password does not match")
 

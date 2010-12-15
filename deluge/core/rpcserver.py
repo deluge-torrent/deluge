@@ -253,9 +253,25 @@ class DelugeRPCProtocol(Protocol):
                 "".join(traceback.format_tb(exceptionTraceback)))
             ))
 
-        if method == "daemon.login":
+        if method == "daemon.peek":
+            try:
+                ret = component.get("AuthManager").peek(*args, **kwargs)
+                if ret:
+                    self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
+                    self.factory.session_protocols[self.transport.sessionno] = self
+            except Exception, e:
+                sendError()
+                log.exception(e)
+            else:
+                self.sendData((RPC_RESPONSE, request_id, ret))
+                if not ret:
+                    self.transport.loseConnection()
+            finally:
+                return
+        elif method == "daemon.login":
             # This is a special case and used in the initial connection process
             # We need to authenticate the user here
+            log.debug("RPC dispatch daemon.login")
             try:
                 ret = component.get("AuthManager").authorize(*args, **kwargs)
                 if ret:
@@ -271,6 +287,7 @@ class DelugeRPCProtocol(Protocol):
             finally:
                 return
         elif method == "daemon.set_event_interest" and self.transport.sessionno in self.factory.authorized_sessions:
+            log.debug("RPC dispatch daemon.set_event_interest")
             # This special case is to allow clients to set which events they are
             # interested in receiving.
             # We are expecting a sequence from the client.
@@ -286,6 +303,7 @@ class DelugeRPCProtocol(Protocol):
                 return
 
         if method in self.factory.methods and self.transport.sessionno in self.factory.authorized_sessions:
+            log.debug("RPC dispatch %s", method)
             try:
                 method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
                 auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]

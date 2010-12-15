@@ -133,6 +133,11 @@ class ConnectionManager(component.Component):
 
         self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
 
+        self.askpassword_dialog = self.glade.get_widget("askpassword_dialog")
+        self.askpassword_dialog.set_transient_for(self.connection_manager)
+        self.askpassword_dialog.set_icon(common.get_deluge_icon())
+        self.askpassword_dialog_entry = self.glade.get_widget("askpassword_dialog_entry")
+
         self.hostlist = self.glade.get_widget("hostlist")
 
         # Create status pixbufs
@@ -317,7 +322,7 @@ class ConnectionManager(component.Component):
 
             # Create a new Client instance
             c = deluge.ui.client.Client()
-            d = c.connect(host, port, user, password)
+            d = c.peek(host, port, user)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
 
@@ -352,7 +357,10 @@ class ConnectionManager(component.Component):
 
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
+            self.glade.get_widget("button_edithost").set_sensitive(False)
             return
+
+        self.glade.get_widget("button_edithost").set_sensitive(True)
 
         # Get some values about the selected host
         status = model[row][HOSTLIST_COL_STATUS]
@@ -428,6 +436,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
     # Signal handlers
     def __on_connected(self, connector, host_id):
+        log.debug("__on_connected called")
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
 
@@ -449,6 +458,10 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         port = model[row][HOSTLIST_COL_PORT]
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
+
+        if not password:
+            self.askpassword_dialog.run()
+            password = self.askpassword_dialog_entry.get_text()
 
         if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
             host in ("127.0.0.1", "localhost"):
@@ -475,7 +488,9 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
 
         def do_connect(*args):
-            client.connect(host, port, user, password).addCallback(self.__on_connected, host_id)
+            d = client.connect(host, port, user, password)
+            d.addCallback(self.__on_connected, host_id)
+            d.addErrback(self.__on_connected_failed, host_id, host, port, user)
 
         if client.connected():
             client.disconnect().addCallback(do_connect)
@@ -496,6 +511,10 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         port_spinbutton = self.glade.get_widget("spinbutton_port")
         username_entry = self.glade.get_widget("entry_username")
         password_entry = self.glade.get_widget("entry_password")
+        button_addhost_save = self.glade.get_widget("button_addhost_save")
+        button_addhost_save.hide()
+        button_addhost_add = self.glade.get_widget("button_addhost_add")
+        button_addhost_add.show()
         response = dialog.run()
         if response == 1:
             username = username_entry.get_text()
@@ -508,6 +527,54 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
             except Exception, e:
                 from deluge.ui.gtkui.dialogs import ErrorDialog
                 ErrorDialog(_("Error Adding Host"), e).run()
+
+        username_entry.set_text("")
+        password_entry.set_text("")
+        hostname_entry.set_text("")
+        port_spinbutton.set_value(58846)
+        dialog.hide()
+
+    def on_button_edithost_clicked(self, widget=None):
+        log.debug("on_button_edithost_clicked")
+        model, row = self.hostlist.get_selection().get_selected()
+        status = model[row][HOSTLIST_COL_STATUS]
+        if status == _("Connected"):
+            def on_disconnect(reason):
+                self.__update_list()
+            client.disconnect().addCallback(on_disconnect)
+            return
+
+        dialog = self.glade.get_widget("addhost_dialog")
+        dialog.set_transient_for(self.connection_manager)
+        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        hostname_entry = self.glade.get_widget("entry_hostname")
+        port_spinbutton = self.glade.get_widget("spinbutton_port")
+        username_entry = self.glade.get_widget("entry_username")
+        password_entry = self.glade.get_widget("entry_password")
+        button_addhost_save = self.glade.get_widget("button_addhost_save")
+        button_addhost_save.show()
+        button_addhost_add = self.glade.get_widget("button_addhost_add")
+        button_addhost_add.hide()
+
+        username_entry.set_text(self.liststore[row][HOSTLIST_COL_USER])
+        password_entry.set_text(self.liststore[row][HOSTLIST_COL_PASS])
+        hostname_entry.set_text(self.liststore[row][HOSTLIST_COL_HOST])
+        port_spinbutton.set_value(self.liststore[row][HOSTLIST_COL_PORT])
+
+        response = dialog.run()
+
+        if response == 2:
+            self.liststore[row][HOSTLIST_COL_HOST] = hostname_entry.get_text()
+            self.liststore[row][HOSTLIST_COL_PORT] = port_spinbutton.get_value_as_int()
+            self.liststore[row][HOSTLIST_COL_USER] = username_entry.get_text()
+            self.liststore[row][HOSTLIST_COL_PASS] = password_entry.get_text()
+            self.liststore[row][HOSTLIST_COL_STATUS] = _("Offline")
+
+        # Save the host list to file
+        self.__save_hostlist()
+
+        # Update the status of the hosts
+        self.__update_list()
 
         username_entry.set_text("")
         password_entry.set_text("")
@@ -579,3 +646,17 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
     def on_hostlist_selection_changed(self, treeselection):
         self.__update_buttons()
+
+    def on_askpassword_dialog_connect_button_clicked(self, widget):
+        log.debug("on on_askpassword_dialog_connect_button_clicked")
+        self.askpassword_dialog.response(gtk.RESPONSE_OK)
+
+    def on_askpassword_dialog_entry_activate(self, entry):
+        self.askpassword_dialog.response(gtk.RESPONSE_OK)
+
+    def __on_connected_failed(self, reason, host_id, host, port, user):
+        log.exception(reason)
+        log.debug(reason.value)
+        log.debug(reason.value.__dict__)
+        dialogs.ErrorDialog(_("Failed To Authenticate"),
+                            reason.value.exception_msg).run()

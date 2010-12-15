@@ -261,6 +261,26 @@ class DaemonSSLProxy(DaemonProxy):
         self.disconnect_deferred = None
         self.disconnect_callback = None
 
+    def peek(self, host, port, username):
+        self.host = host
+        self.port = port
+        self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
+        self.connect_deferred = defer.Deferred()
+        self.peek_deferred = defer.Deferred()
+
+        def on_connect(result, username):
+            self.__login_deferred = self.call("daemon.peek", username)
+            self.__login_deferred.addCallback(self.__on_peek, username)
+            self.__login_deferred.addErrback(self.__on_peek_fail)
+
+        def on_connect_fail(reason):
+            log.debug("connect_fail: %s", reason)
+            self.peek_deferred.errback(reason)
+
+        self.connect_deferred.addCallback(on_connect, username)
+        self.connect_deferred.addErrback(on_connect_fail)
+        return self.peek_deferred
+
     def connect(self, host, port, username, password):
         """
         Connects to a daemon at host:port
@@ -273,6 +293,7 @@ class DaemonSSLProxy(DaemonProxy):
         :returns: twisted.Deferred
 
         """
+        log.debug("sslproxy.connect()")
         self.host = host
         self.port = port
         self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
@@ -286,6 +307,7 @@ class DaemonSSLProxy(DaemonProxy):
         return self.login_deferred
 
     def disconnect(self):
+        log.debug("sslproxy.disconnect()")
         self.disconnect_deferred = defer.Deferred()
         self.__connector.disconnect()
         return self.disconnect_deferred
@@ -397,15 +419,18 @@ class DaemonSSLProxy(DaemonProxy):
         return error_data
 
     def __on_connect(self, result, username, password):
+        log.debug("__on_connect called")
         self.__login_deferred = self.call("daemon.login", username, password)
         self.__login_deferred.addCallback(self.__on_login, username)
         self.__login_deferred.addErrback(self.__on_login_fail)
 
     def __on_connect_fail(self, reason):
+        log.debug("__on_connect_fail called")
         log.debug("connect_fail: %s", reason)
         self.login_deferred.errback(reason)
 
     def __on_login(self, result, username):
+        log.debug("__on_login called")
         self.username = username
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
@@ -415,6 +440,15 @@ class DaemonSSLProxy(DaemonProxy):
     def __on_login_fail(self, result):
         log.debug("_on_login_fail(): %s", result)
         self.login_deferred.errback(result)
+
+    def __on_peek(self, result, username):
+        log.debug("__on_peek called. result: %s", result)
+        self.username = username
+        self.peek_deferred.callback(result)
+
+    def __on_peek_fail(self, result):
+        log.debug("__on_peek_fail called. result: %s", result)
+        self.peek_deferred.errback(result)
 
     def set_disconnect_callback(self, cb):
         """
@@ -531,6 +565,7 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
+        log.debug("real client connect")
         if not username and host in ("127.0.0.1", "localhost"):
             # No username was provided and it's the localhost, so we can try
             # to grab the credentials from the auth file.
@@ -540,6 +575,24 @@ class Client(object):
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port, username, password)
+        def on_connect_fail(result):
+            log.debug("on_connect_fail: %s", result)
+            self.disconnect()
+            return result
+
+        d.addErrback(on_connect_fail)
+        return d
+
+    def peek(self, host="127.0.0.1", port=58846, username=""):
+        if not username and host in ("127.0.0.1", "localhost"):
+            # No username was provided and it's the localhost, so we can try
+            # to grab the credentials from the auth file.
+            import common
+            username, password = common.get_localhost_auth()
+
+        self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
+        self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
+        d = self._daemon_proxy.peek(host, port, username)
         def on_connect_fail(result):
             log.debug("on_connect_fail: %s", result)
             self.disconnect()
