@@ -205,10 +205,6 @@ class GtkUI(object):
         self.queuedtorrents = QueuedTorrents()
         self.ipcinterface = IPCInterface(args)
 
-        # Initialize gdk threading
-        gtk.gdk.threads_init()
-        gobject.threads_init()
-
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
 
@@ -238,11 +234,8 @@ class GtkUI(object):
         rpc_stats.start(10)
 
         reactor.callWhenRunning(self._on_reactor_start)
-        # Start the gtk main loop
-        gtk.gdk.threads_enter()
+        reactor.addSystemEventTrigger("before", "shutdown", self.shutdown)
         reactor.run()
-        self.shutdown()
-        gtk.gdk.threads_leave()
 
     def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
