@@ -189,3 +189,27 @@ class ErrorDialog(BaseDialog):
             self.vbox.pack_start(label, False, False)
             self.vbox.pack_start(sw)
             self.vbox.show_all()
+
+class AuthenticationDialog(BaseDialog):
+    """
+    Displays a dialog with an entry field asking for a password.
+
+    When run(), it will return either a gtk.RESPONSE_CANCEL or a
+    gtk.RESPONSE_OK.
+    """
+    def __init__(self, err_msg="", parent=None):
+        """
+        :param err_msg: the error message we got back from the server
+        :type err_msg: string
+        """
+        super(AuthenticationDialog, self).__init__(
+            _("Authenticate"), err_msg,
+            gtk.STOCK_DIALOG_AUTHENTICATION,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
+            parent)
+
+        self.password = gtk.Entry()
+        self.password.set_visibility(False)
+        self.vbox.pack_start(self.password, False, False)
+        self.set_focus(self.password)
+        self.show_all()

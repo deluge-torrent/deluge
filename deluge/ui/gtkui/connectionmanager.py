@@ -435,12 +435,39 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
                 details=traceback.format_exc(tb[2])).run()
 
     # Signal handlers
+    def __connect(self, host_id, host, port, user, password):
+        def do_connect(*args):
+            d = client.connect(host, port, user, password)
+            d.addCallback(self.__on_connected, host_id)
+            d.addErrback(self.__on_connected_failed, host_id, host, port, user)
+            return d
+
+        if client.connected():
+            return client.disconnect().addCallback(do_connect)
+        else:
+            return do_connect()
+
     def __on_connected(self, connector, host_id):
         log.debug("__on_connected called")
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
 
+        self.connection_manager.response(gtk.RESPONSE_OK)
+
         component.start()
+
+    def __on_connected_failed(self, reason, host_id, host, port, user):
+        if reason.value.exception_type == "PasswordRequired":
+            log.debug("PasswordRequired exception")
+            dialog = dialogs.AuthenticationDialog(reason.value.exception_msg)
+            def dialog_finished(response_id, host, port, user):
+                if response_id == gtk.RESPONSE_OK:
+                    self.__connect(host_id, host, port, user,
+                                   dialog.password.get_text())
+            d = dialog.run().addCallback(dialog_finished, host, port, user)
+            return d
+        dialogs.ErrorDialog(_("Failed To Authenticate"),
+                            reason.value.exception_msg).run()
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
@@ -458,10 +485,6 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         port = model[row][HOSTLIST_COL_PORT]
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
-
-        if not password:
-            self.askpassword_dialog.run()
-            password = self.askpassword_dialog_entry.get_text()
 
         if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
             host in ("127.0.0.1", "localhost"):
@@ -486,18 +509,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
             do_retry_connect(6)
 
-
-        def do_connect(*args):
-            d = client.connect(host, port, user, password)
-            d.addCallback(self.__on_connected, host_id)
-            d.addErrback(self.__on_connected_failed, host_id, host, port, user)
-
-        if client.connected():
-            client.disconnect().addCallback(do_connect)
-        else:
-            do_connect()
-
-        self.connection_manager.response(gtk.RESPONSE_OK)
+        return self.__connect(host_id, host, port, user, password)
 
     def on_button_close_clicked(self, widget):
         self.connection_manager.response(gtk.RESPONSE_CLOSE)
@@ -653,10 +665,3 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
     def on_askpassword_dialog_entry_activate(self, entry):
         self.askpassword_dialog.response(gtk.RESPONSE_OK)
-
-    def __on_connected_failed(self, reason, host_id, host, port, user):
-        log.exception(reason)
-        log.debug(reason.value)
-        log.debug(reason.value.__dict__)
-        dialogs.ErrorDialog(_("Failed To Authenticate"),
-                            reason.value.exception_msg).run()
