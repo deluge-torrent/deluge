@@ -198,6 +198,8 @@ class Daemon(object):
 
         :returns: str, the version number
         """
+        print '\n\ndaemon.info called\n\n'
+
         return deluge.common.get_version()
 
     @export()

@@ -48,3 +48,14 @@ class InvalidTorrentError(DelugeError):
 
 class InvalidPathError(DelugeError):
     pass
+
+class NotAuthorizedError(DelugeError):
+    pass
+
+class BadLoginError(DelugeError):
+    pass
+
+class AuthenticationRequired(BadLoginError):
+    def __init__(self, message, username):
+        super(AuthenticationRequired, self).__init__(message)
+        self.username = username

@@ -55,7 +55,8 @@ except ImportError:
 
 import deluge.component as component
 import deluge.configmanager
-from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT
+from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_ADMIN
+from deluge.error import DelugeError, NotAuthorizedError
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -116,12 +117,6 @@ def format_request(call):
         return "UnicodeEncodeError, call: %s" % call
     else:
         return s
-
-class DelugeError(Exception):
-    pass
-
-class NotAuthorizedError(DelugeError):
-    pass
 
 class ServerContextFactory(object):
     def getContext(self):
@@ -253,24 +248,10 @@ class DelugeRPCProtocol(Protocol):
                 "".join(traceback.format_tb(exceptionTraceback)))
             ))
 
-        if method == "daemon.peek":
+        if method == "daemon.info":
             # This is a special case and used in the initial connection process
-            # We need to peek the user here in order to get an auth level back
-            # and see if the user exists.
-            try:
-                ret = component.get("AuthManager").peek(*args, **kwargs)
-                if ret:
-                    self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
-                    self.factory.session_protocols[self.transport.sessionno] = self
-            except Exception, e:
-                sendError()
-                log.exception(e)
-            else:
-                self.sendData((RPC_RESPONSE, request_id, ret))
-                if not ret:
-                    self.transport.loseConnection()
-            finally:
-                return
+            self.sendData((RPC_RESPONSE, request_id, deluge.common.get_version()))
+            return
         elif method == "daemon.login":
             # This is a special case and used in the initial connection process
             # We need to authenticate the user here
@@ -374,6 +355,7 @@ class RPCServer(component.Component):
         # Holds the interested event list for the sessions
         self.factory.interested_events = {}
 
+        self.listen = listen
         if not listen:
             return
 
@@ -458,6 +440,8 @@ class RPCServer(component.Component):
         :rtype: string
 
         """
+        if not self.listen:
+            return "localclient"
         session_id = self.get_session_id()
         if session_id > -1 and session_id in self.factory.authorized_sessions:
             return self.factory.authorized_sessions[session_id][1]
@@ -472,6 +456,8 @@ class RPCServer(component.Component):
         :returns: the auth level
         :rtype: int
         """
+        if not self.listen:
+            return AUTH_LEVEL_ADMIN
         return self.factory.authorized_sessions[self.get_session_id()][0]
 
     def get_rpc_auth_level(self, rpc):

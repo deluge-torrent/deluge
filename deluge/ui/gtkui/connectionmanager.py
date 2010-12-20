@@ -300,6 +300,7 @@ class ConnectionManager(component.Component):
             row = self.__get_host_row(host_id)
             if row:
                 row[HOSTLIST_COL_STATUS] = _("Offline")
+#                row[HOSTLIST_COL_VERSION] = ""
                 self.__update_buttons()
 
         for row in self.liststore:
@@ -307,22 +308,30 @@ class ConnectionManager(component.Component):
             host = row[HOSTLIST_COL_HOST]
             port = row[HOSTLIST_COL_PORT]
             user = row[HOSTLIST_COL_USER]
-            password = row[HOSTLIST_COL_PASS]
 
             if client.connected() and \
                 (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user) == client.connection_info():
                 def on_info(info):
+                    log.debug("\n\nClient connected, query info: %s:%s\n\n", info, self.running)
                     if not self.running:
                         return
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
+                    print row[HOSTLIST_COL_ID], row[HOSTLIST_COL_HOST], row[HOSTLIST_COL_PORT], row[HOSTLIST_COL_USER], row[HOSTLIST_COL_VERSION]
+
+                def on_info_fail(reason):
+                    print '\n\n'
+                    log.exception(reason)
+                    print '\n\n'
+
                 row[HOSTLIST_COL_STATUS] = _("Connected")
-                client.daemon.info().addCallback(on_info)
+                log.debug("\n\nquery daemons info\n\n")
+                client.daemon.info().addCallback(on_info).addErrback(on_info_fail)
                 continue
 
             # Create a new Client instance
             c = deluge.ui.client.Client()
-            d = c.peek(host, port, user)
+            d = c.connect(host, port)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
 
@@ -435,11 +444,11 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
                 details=traceback.format_exc(tb[2])).run()
 
     # Signal handlers
-    def __connect(self, host_id, host, port, user, password):
+    def __connect(self, host_id, host, port, username, password):
         def do_connect(*args):
-            d = client.connect(host, port, user, password)
+            d = client.connect(host, port, username, password)
             d.addCallback(self.__on_connected, host_id)
-            d.addErrback(self.__on_connected_failed, host_id, host, port, user)
+            d.addErrback(self.__on_connected_failed, host_id, host, port, username)
             return d
 
         if client.connected():
@@ -447,16 +456,25 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         else:
             return do_connect()
 
-    def __on_connected(self, connector, host_id):
-        log.debug("__on_connected called")
+    def __on_connected(self, daemon_info, host_id):
+#        log.debug("__on_connected called for hostid: %s  connector: %s",
+#                  host_id, daemon_info)
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
+
+#        row = self.__get_host_row(host_id)
+#        row[HOSTLIST_COL_STATUS] = _("Connected")
+#        row[HOSTLIST_COL_VERSION] = daemon_info
+#
+#        # Update the status of the hosts
+#        self.__update_list()
 
         self.connection_manager.response(gtk.RESPONSE_OK)
 
         component.start()
 
     def __on_connected_failed(self, reason, host_id, host, port, user):
+        log.exception(reason)
         if reason.value.exception_type == "PasswordRequired":
             log.debug("PasswordRequired exception")
             dialog = dialogs.AuthenticationDialog(reason.value.exception_msg)
