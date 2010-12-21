@@ -56,11 +56,12 @@ except ImportError:
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_ADMIN
-from deluge.error import DelugeError, NotAuthorizedError
+from deluge.error import DelugeError, NotAuthorizedError, AuthenticationRequired
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
+RPC_EVENT_AUTH = 4
 
 log = logging.getLogger(__name__)
 
@@ -261,6 +262,8 @@ class DelugeRPCProtocol(Protocol):
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
+            except AuthenticationRequired, err:
+                self.sendData((RPC_EVENT_AUTH, request_id, err.message, args[0]))
             except Exception, e:
                 sendError()
                 log.exception(e)

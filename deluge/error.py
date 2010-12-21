@@ -56,6 +56,23 @@ class BadLoginError(DelugeError):
     pass
 
 class AuthenticationRequired(BadLoginError):
+    def _get_message(self):
+        return self._message
+    def _set_message(self, message):
+        self._message = message
+    message = property(_get_message, _set_message)
+    del _get_message, _set_message
+
+    def _get_username(self):
+        return self._username
+    def _set_username(self, username):
+        self._username = username
+    username = property(_get_username, _set_username)
+    del _get_username, _set_username
+
+
     def __init__(self, message, username):
         super(AuthenticationRequired, self).__init__(message)
+        self.message = message
         self.username = username
+

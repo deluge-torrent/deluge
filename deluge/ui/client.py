@@ -46,6 +46,8 @@ import zlib
 import deluge.common
 import deluge.component as component
 from deluge.log import LOG as log
+from deluge.error import AuthenticationRequired
+from deluge.event import known_events
 
 if deluge.common.windows_check():
     import win32api
@@ -55,6 +57,7 @@ else:
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
+RPC_EVENT_AUTH = 4
 
 log = logging.getLogger(__name__)
 
@@ -184,6 +187,8 @@ class DelugeRPCProtocol(Protocol):
             if message_type == RPC_RESPONSE:
                 # Run the callbacks registered with this Deferred object
                 d.callback(request[2])
+            elif message_type == RPC_EVENT_AUTH:
+                d.errback(AuthenticationRequired(request[2], request[3]))
             elif message_type == RPC_ERROR:
                 # Create the DelugeRPCError to pass to the errback
                 r = self.__rpc_requests[request_id]
@@ -382,8 +387,19 @@ class DaemonSSLProxy(DaemonProxy):
         :param error_data: this is passed from the deferred errback with error.value
             containing a `:class:DelugeRPCError` object.
         """
+        try:
+            if error_data.check(AuthenticationRequired):
+                print error_data.value.__dict__
+                return error_data
+        except:
+            pass
+
+#        print 1234567, error_data
         # Get the DelugeRPCError object from the error_data
         error = error_data.value
+
+#        if error.exception_type == "AuthenticationRequired":
+#            return
         # Create a delugerpcrequest to print out a nice RPCRequest string
         r = DelugeRPCRequest()
         r.method = error.method
@@ -545,7 +561,8 @@ class Client(object):
         self.disconnect_callback = None
         self.__started_in_classic = False
 
-    def connect(self, host="127.0.0.1", port=58846, username="", password=""):
+    def connect(self, host="127.0.0.1", port=58846, username="", password="",
+                skip_authentication=False):
         """
         Connects to a daemon process.
 
@@ -573,7 +590,7 @@ class Client(object):
             return result
         d.addErrback(on_connect_fail)
 
-        if username or password:
+        if not skip_authentication:
             auth_deferred = defer.Deferred()
 
             def on_authenticate(result, daemon_info):

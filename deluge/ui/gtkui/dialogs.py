@@ -197,7 +197,7 @@ class AuthenticationDialog(BaseDialog):
     When run(), it will return either a gtk.RESPONSE_CANCEL or a
     gtk.RESPONSE_OK.
     """
-    def __init__(self, err_msg="", parent=None):
+    def __init__(self, err_msg="", username=None, parent=None):
         """
         :param err_msg: the error message we got back from the server
         :type err_msg: string

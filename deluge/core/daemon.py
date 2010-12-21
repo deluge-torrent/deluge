@@ -192,17 +192,6 @@ class Daemon(object):
             log.debug("Tried to stop the reactor but it is not running..")
 
     @export()
-    def info(self):
-        """
-        Returns some info from the daemon.
-
-        :returns: str, the version number
-        """
-        print '\n\ndaemon.info called\n\n'
-
-        return deluge.common.get_version()
-
-    @export()
     def get_method_list(self):
         """
         Returns a list of the exported methods.

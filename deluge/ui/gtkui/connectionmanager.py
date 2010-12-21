@@ -48,6 +48,8 @@ from deluge.ui.client import client
 import deluge.ui.client
 import deluge.ui.common
 from deluge.configmanager import ConfigManager
+from deluge.error import AuthenticationRequired
+from deluge.log import LOG as log
 import dialogs
 
 log = logging.getLogger(__name__)
@@ -234,7 +236,11 @@ class ConnectionManager(component.Component):
         # Grab the hosts from the liststore
         self.config["hosts"] = []
         for row in self.liststore:
-            self.config["hosts"].append((row[HOSTLIST_COL_ID], row[HOSTLIST_COL_HOST], row[HOSTLIST_COL_PORT], row[HOSTLIST_COL_USER], row[HOSTLIST_COL_PASS]))
+            self.config["hosts"].append((row[HOSTLIST_COL_ID],
+                                         row[HOSTLIST_COL_HOST],
+                                         row[HOSTLIST_COL_PORT],
+                                         row[HOSTLIST_COL_USER],
+                                         row[HOSTLIST_COL_PASS]))
 
         self.config.save()
 
@@ -250,6 +256,7 @@ class ConnectionManager(component.Component):
             self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
             self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
             self.liststore[new_row][HOSTLIST_COL_STATUS] = _("Offline")
+            self.liststore[new_row][HOSTLIST_COL_VERSION] = ""
 
     def __get_host_row(self, host_id):
         """
@@ -300,7 +307,7 @@ class ConnectionManager(component.Component):
             row = self.__get_host_row(host_id)
             if row:
                 row[HOSTLIST_COL_STATUS] = _("Offline")
-#                row[HOSTLIST_COL_VERSION] = ""
+                row[HOSTLIST_COL_VERSION] = ""
                 self.__update_buttons()
 
         for row in self.liststore:
@@ -312,21 +319,15 @@ class ConnectionManager(component.Component):
             if client.connected() and \
                 (host, port, "localclient" if not user and host in ("127.0.0.1", "localhost") else user) == client.connection_info():
                 def on_info(info):
-                    log.debug("\n\nClient connected, query info: %s:%s\n\n", info, self.running)
                     if not self.running:
                         return
+                    log.debug("Client connected, query info: %s", info)
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
-                    print row[HOSTLIST_COL_ID], row[HOSTLIST_COL_HOST], row[HOSTLIST_COL_PORT], row[HOSTLIST_COL_USER], row[HOSTLIST_COL_VERSION]
-
-                def on_info_fail(reason):
-                    print '\n\n'
-                    log.exception(reason)
-                    print '\n\n'
 
                 row[HOSTLIST_COL_STATUS] = _("Connected")
                 log.debug("\n\nquery daemons info\n\n")
-                client.daemon.info().addCallback(on_info).addErrback(on_info_fail)
+                client.daemon.info().addCallback(on_info)
                 continue
 
             # Create a new Client instance
@@ -446,7 +447,8 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
     # Signal handlers
     def __connect(self, host_id, host, port, username, password):
         def do_connect(*args):
-            d = client.connect(host, port, username, password)
+            d = client.connect(host, port, username, password,
+                               skip_authentication=False)
             d.addCallback(self.__on_connected, host_id)
             d.addErrback(self.__on_connected_failed, host_id, host, port, username)
             return d
@@ -457,27 +459,19 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
             return do_connect()
 
     def __on_connected(self, daemon_info, host_id):
-#        log.debug("__on_connected called for hostid: %s  connector: %s",
-#                  host_id, daemon_info)
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
 
-#        row = self.__get_host_row(host_id)
-#        row[HOSTLIST_COL_STATUS] = _("Connected")
-#        row[HOSTLIST_COL_VERSION] = daemon_info
-#
-#        # Update the status of the hosts
-#        self.__update_list()
-
         self.connection_manager.response(gtk.RESPONSE_OK)
-
         component.start()
 
     def __on_connected_failed(self, reason, host_id, host, port, user):
-        log.exception(reason)
-        if reason.value.exception_type == "PasswordRequired":
+        log.exception(reason.value)
+#        log.debug(reason.__dict__)
+#        log.debug(reason.value.__dict__)
+        if reason.check(AuthenticationRequired):
             log.debug("PasswordRequired exception")
-            dialog = dialogs.AuthenticationDialog(reason.value.exception_msg)
+            dialog = dialogs.AuthenticationDialog(reason.value.message)
             def dialog_finished(response_id, host, port, user):
                 if response_id == gtk.RESPONSE_OK:
                     self.__connect(host_id, host, port, user,
