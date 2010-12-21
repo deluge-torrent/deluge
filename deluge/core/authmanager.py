@@ -65,26 +65,6 @@ class AuthManager(component.Component):
     def shutdown(self):
         pass
 
-    def peek(self, username):
-        """
-        Peeks users based on username and returns their auth level
-
-        :param username: str, username
-        :returns: int, the auth level for this user
-        :rtype: int
-
-        :raises BadLoginError: if the username does not exist or password does not match
-
-        """
-        if username not in self.__auth:
-            # Let's try to re-load the file.. Maybe it's been updated
-            self.__load_auth_file()
-            if username not in self.__auth:
-                raise BadLoginError("Username does not exist")
-
-        return int(self.__auth[username][1])
-
-
     def authorize(self, username, password):
         """
         Authorizes users based on username and password
@@ -97,10 +77,19 @@ class AuthManager(component.Component):
         :raises BadLoginError: if the username does not exist or password does not match
 
         """
-        auth_level = self.peek(username)
+        if not username:
+            raise AuthenticationRequired("Username and Password are required.",
+                                         username)
+
+        if username and username not in self.__auth:
+            # Let's try to re-load the file.. Maybe it's been updated
+            self.__load_auth_file()
+            if username not in self.__auth:
+                raise BadLoginError("Username does not exist")
+
         if self.__auth[username][0] == password:
             # Return the users auth level
-            return auth_level
+            return int(self.__auth[username][1])
         elif not password and self.__auth[username][0]:
             raise AuthenticationRequired("Password is required", username)
         else:

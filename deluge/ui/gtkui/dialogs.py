@@ -208,8 +208,36 @@ class AuthenticationDialog(BaseDialog):
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
             parent)
 
-        self.password = gtk.Entry()
-        self.password.set_visibility(False)
-        self.vbox.pack_start(self.password, False, False)
-        self.set_focus(self.password)
+        table = gtk.Table(2, 2, False)
+        self.username_label = gtk.Label()
+        self.username_label.set_markup(_("<b>Username:</b>"))
+        self.username_label.set_alignment(1.0, 0.5)
+        self.username_label.set_padding(5, 5)
+        self.username_entry = gtk.Entry()
+        table.attach(self.username_label, 0, 1, 0, 1)
+        table.attach(self.username_entry, 1, 2, 0, 1)
+
+        self.password_label = gtk.Label()
+        self.password_label.set_markup(_("<b>Password:</b>"))
+        self.password_label.set_alignment(1.0, 0.5)
+        self.password_label.set_padding(5, 5)
+        self.password_entry = gtk.Entry()
+        self.password_entry.set_visibility(False)
+        table.attach(self.password_label, 0, 1, 1, 2)
+        table.attach(self.password_entry, 1, 2, 1, 2)
+
+        self.vbox.pack_start(table, False, False, padding=5)
+        self.set_focus(self.password_entry)
+        if username:
+            self.username_entry.set_text(username)
+            self.username_entry.set_editable(False)
+            self.set_focus(self.password_entry)
+        else:
+            self.set_focus(self.username_entry)
         self.show_all()
+
+    def get_username(self):
+        return self.username_entry.get_text()
+
+    def get_password(self):
+        return self.password_entry.get_text()

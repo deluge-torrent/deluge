@@ -332,7 +332,7 @@ class ConnectionManager(component.Component):
 
             # Create a new Client instance
             c = deluge.ui.client.Client()
-            d = c.connect(host, port)
+            d = c.connect(host, port, skip_authentication=True)
             d.addCallback(on_connect, c, host_id)
             d.addErrback(on_connect_failed, host_id)
 
@@ -445,10 +445,9 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
                 details=traceback.format_exc(tb[2])).run()
 
     # Signal handlers
-    def __connect(self, host_id, host, port, username, password):
+    def __connect(self, host_id, host, port, username, password, skip_authentication=False):
         def do_connect(*args):
-            d = client.connect(host, port, username, password,
-                               skip_authentication=False)
+            d = client.connect(host, port, username, password, skip_authentication)
             d.addCallback(self.__on_connected, host_id)
             d.addErrback(self.__on_connected_failed, host_id, host, port, username)
             return d
@@ -471,11 +470,13 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 #        log.debug(reason.value.__dict__)
         if reason.check(AuthenticationRequired):
             log.debug("PasswordRequired exception")
-            dialog = dialogs.AuthenticationDialog(reason.value.message)
+            dialog = dialogs.AuthenticationDialog(reason.value.message,
+                                                  reason.value.username)
             def dialog_finished(response_id, host, port, user):
                 if response_id == gtk.RESPONSE_OK:
-                    self.__connect(host_id, host, port, user,
-                                   dialog.password.get_text())
+                    self.__connect(host_id, host, port,
+                                   user and user or dialog.get_username(),
+                                   dialog.get_password())
             d = dialog.run().addCallback(dialog_finished, host, port, user)
             return d
         dialogs.ErrorDialog(_("Failed To Authenticate"),
@@ -521,7 +522,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
             do_retry_connect(6)
 
-        return self.__connect(host_id, host, port, user, password)
+        return self.__connect(host_id, host, port, user, password, skip_authentication=False)
 
     def on_button_close_clicked(self, widget):
         self.connection_manager.response(gtk.RESPONSE_CLOSE)

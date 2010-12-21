@@ -575,11 +575,11 @@ class Client(object):
             has been established or fails
         """
         log.debug("real client connect")
-        if not username and host in ("127.0.0.1", "localhost"):
-            # No username was provided and it's the localhost, so we can try
-            # to grab the credentials from the auth file.
-            import common
-            username, password = common.get_localhost_auth()
+#        if not username and host in ("127.0.0.1", "localhost"):
+#            # No username was provided and it's the localhost, so we can try
+#            # to grab the credentials from the auth file.
+#            import common
+#            username, password = common.get_localhost_auth()
 
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
