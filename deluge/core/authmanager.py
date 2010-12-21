@@ -40,7 +40,7 @@ import logging
 
 import deluge.component as component
 import deluge.configmanager as configmanager
-import deluge.error
+from deluge.error import BadLoginError, AuthenticationRequired
 
 log = logging.getLogger(__name__)
 
@@ -50,12 +50,6 @@ AUTH_LEVEL_NORMAL = 5
 AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
-
-class BadLoginError(deluge.error.DelugeError):
-    pass
-
-class PasswordRequired(BadLoginError):
-    pass
 
 class AuthManager(component.Component):
     def __init__(self):
@@ -108,7 +102,7 @@ class AuthManager(component.Component):
             # Return the users auth level
             return auth_level
         elif not password and self.__auth[username][0]:
-            raise PasswordRequired("Password is required")
+            raise AuthenticationRequired("Password is required", username)
         else:
             raise BadLoginError("Password does not match")
 
