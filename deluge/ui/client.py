@@ -44,7 +44,6 @@ except ImportError:
 import zlib
 
 import deluge.common
-import deluge.component as component
 from deluge.log import LOG as log
 from deluge.error import AuthenticationRequired
 from deluge.event import known_events
@@ -111,8 +110,10 @@ class DelugeRPCRequest(object):
 
         :returns: a properly formated RPCRequest
         """
-        if self.request_id is None or self.method is None or self.args is None or self.kwargs is None:
-            raise TypeError("You must set the properties of this object before calling format_message!")
+        if self.request_id is None or self.method is None or self.args is None \
+                                                        or self.kwargs is None:
+            raise TypeError("You must set the properties of this object "
+                            "before calling format_message!")
 
         return (self.request_id, self.method, self.args, self.kwargs)
 
@@ -163,7 +164,8 @@ class DelugeRPCProtocol(Protocol):
                 log.debug("Received invalid message: type is not tuple")
                 return
             if len(request) < 3:
-                log.debug("Received invalid message: number of items in response is %s", len(3))
+                log.debug("Received invalid message: number of items in "
+                          "response is %s", len(3))
                 return
 
             message_type = request[0]
@@ -192,7 +194,8 @@ class DelugeRPCProtocol(Protocol):
             elif message_type == RPC_ERROR:
                 # Create the DelugeRPCError to pass to the errback
                 r = self.__rpc_requests[request_id]
-                e = DelugeRPCError(r.method, r.args, r.kwargs, request[2][0], request[2][1], request[2][2])
+                e = DelugeRPCError(r.method, r.args, r.kwargs, request[2][0],
+                                   request[2][1], request[2][2])
                 # Run the errbacks registered with this Deferred object
                 d.errback(e)
 
@@ -281,7 +284,9 @@ class DaemonSSLProxy(DaemonProxy):
         log.debug("sslproxy.connect()")
         self.host = host
         self.port = port
-        self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
+        self.__connector = reactor.connectSSL(self.host, self.port,
+                                              self.__factory,
+                                              ssl.ClientContextFactory())
         self.connect_deferred = defer.Deferred()
         self.daemon_info_deferred = defer.Deferred()
 
@@ -389,17 +394,13 @@ class DaemonSSLProxy(DaemonProxy):
         """
         try:
             if error_data.check(AuthenticationRequired):
-                print error_data.value.__dict__
                 return error_data
         except:
             pass
 
-#        print 1234567, error_data
         # Get the DelugeRPCError object from the error_data
         error = error_data.value
 
-#        if error.exception_type == "AuthenticationRequired":
-#            return
         # Create a delugerpcrequest to print out a nice RPCRequest string
         r = DelugeRPCRequest()
         r.method = error.method
@@ -423,7 +424,8 @@ class DaemonSSLProxy(DaemonProxy):
             self.daemon_info_deferred.callback(daemon_info)
 
         def on_info_fail(reason):
-            log.debug("Failed to get info from daemon: %s", reason)
+            log.debug("Failed to get info from daemon")
+            log.exception(reason)
             self.daemon_info_deferred.errback(reason)
 
         self.call("daemon.info").addCallback(on_info).addErrback(on_info_fail)
@@ -431,7 +433,6 @@ class DaemonSSLProxy(DaemonProxy):
 
     def __on_connect_fail(self, reason):
         log.debug("__on_connect_fail called")
-        log.debug("connect_fail: %s", reason)
         log.exception(reason)
         self.daemon_info_deferred.errback(reason)
 
@@ -574,13 +575,6 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
-        log.debug("real client connect")
-#        if not username and host in ("127.0.0.1", "localhost"):
-#            # No username was provided and it's the localhost, so we can try
-#            # to grab the credentials from the auth file.
-#            import common
-#            username, password = common.get_localhost_auth()
-
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port)
@@ -604,34 +598,15 @@ class Client(object):
                 auth_deferred.errback(reason)
 
             def on_connected(daemon_version):
-                log.debug("Client.connect.on_connected: %s", daemon_version)
-                print 1234, self._daemon_proxy
+                log.debug("Client.connect.on_connected. Daemon version: %s",
+                          daemon_version)
                 d = self._daemon_proxy.authenticate(username, password)
-                print 1234, d
                 d.addCallback(on_authenticate, daemon_version)
                 d.addErrback(on_authenticate_fail)
-#                return d
 
             d.addCallback(on_connected)
             return auth_deferred
         return d
-
-
-#    def authenticate(self, username="", password=""):
-#        if not self.connected():
-#            raise Exception("You first need to call connect")
-#        if not username and self._daemon_proxy.host in ("127.0.0.1", "localhost"):
-#            # No username was provided and it's the localhost, so we can try
-#            # to grab the credentials from the auth file.
-#            import common
-#            username, password = common.get_localhost_auth()
-#
-#        def on_authenticate_fail(reason):
-#            log.debug("Failed to authenticate %s@%s:%s")
-#
-#        d = self._daemon_proxy.authenticate(username, password)
-#        d.addErrback(on_authenticate_fail)
-#        return d
 
     def disconnect(self):
         """

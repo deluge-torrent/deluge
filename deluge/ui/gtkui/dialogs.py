@@ -192,7 +192,7 @@ class ErrorDialog(BaseDialog):
 
 class AuthenticationDialog(BaseDialog):
     """
-    Displays a dialog with an entry field asking for a password.
+    Displays a dialog with entry fields asking for username and password.
 
     When run(), it will return either a gtk.RESPONSE_CANCEL or a
     gtk.RESPONSE_OK.

@@ -104,7 +104,8 @@ class AuthManager(component.Component):
             from hashlib import sha1 as sha_hash
         except ImportError:
             from sha import new as sha_hash
-        return "localclient:" + sha_hash(str(random.random())).hexdigest() + ":" + str(AUTH_LEVEL_ADMIN) + "\n"
+        return ("localclient:" + sha_hash(str(random.random())).hexdigest() +
+                ":" + str(AUTH_LEVEL_ADMIN) + "\n")
 
     def __load_auth_file(self):
         auth_file = configmanager.get_config_dir("auth")
@@ -135,7 +136,9 @@ class AuthManager(component.Component):
                 continue
             if len(lsplit) == 2:
                 username, password = lsplit
-                log.warning("Your auth entry for %s contains no auth level, using AUTH_LEVEL_DEFAULT(%s)..", username, AUTH_LEVEL_DEFAULT)
+                log.warning("Your auth entry for %s contains no auth level, "
+                            "using AUTH_LEVEL_DEFAULT(%s)..", username,
+                            AUTH_LEVEL_DEFAULT)
                 level = AUTH_LEVEL_DEFAULT
             elif len(lsplit) == 3:
                 username, password, level = lsplit

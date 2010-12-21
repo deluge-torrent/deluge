@@ -41,12 +41,10 @@ import logging
 from twisted.internet import reactor
 
 import deluge.component as component
-import deluge.common
 import common
 import deluge.configmanager
 from deluge.ui.client import client
 import deluge.ui.client
-import deluge.ui.common
 from deluge.configmanager import ConfigManager
 from deluge.error import AuthenticationRequired
 from deluge.log import LOG as log
@@ -58,7 +56,8 @@ DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
 
 DEFAULT_CONFIG = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST, DEFAULT_PORT, "", "")]
+    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST,
+               DEFAULT_PORT, "localclient", "")]
 }
 
 HOSTLIST_COL_ID = 0
@@ -145,7 +144,11 @@ class ConnectionManager(component.Component):
         # Create status pixbufs
         if not HOSTLIST_PIXBUFS:
             for stock_id in (gtk.STOCK_NO, gtk.STOCK_YES, gtk.STOCK_CONNECT):
-                HOSTLIST_PIXBUFS.append(self.connection_manager.render_icon(stock_id, gtk.ICON_SIZE_MENU))
+                HOSTLIST_PIXBUFS.append(
+                    self.connection_manager.render_icon(
+                        stock_id, gtk.ICON_SIZE_MENU
+                    )
+                )
 
         # Create the host list gtkliststore
         # id-hash, hostname, port, status, username, password, version
@@ -176,7 +179,9 @@ class ConnectionManager(component.Component):
 
         # Connect the signals to the handlers
         self.glade.signal_autoconnect(self)
-        self.hostlist.get_selection().connect("changed", self.on_hostlist_selection_changed)
+        self.hostlist.get_selection().connect(
+            "changed", self.on_hostlist_selection_changed
+        )
 
         self.__update_list()
 
@@ -208,7 +213,8 @@ class ConnectionManager(component.Component):
         # Check to see if there is already an entry for this host and return
         # if thats the case
         for entry in self.liststore:
-            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT], entry[HOSTLIST_COL_USER]] == [host, port, username]:
+            if [entry[HOSTLIST_COL_HOST], entry[HOSTLIST_COL_PORT],
+                entry[HOSTLIST_COL_USER]] == [host, port, username]:
                 raise Exception("Host already in list!")
 
         # Host isn't in the list, so lets add it
@@ -417,8 +423,7 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("button_startdaemon").set_sensitive(False)
 
         # Make sure label is displayed correctly using mnemonics
-        self.glade.get_widget("label_startdaemon").set_use_underline(
-            True)
+        self.glade.get_widget("label_startdaemon").set_use_underline(True)
 
     def start_daemon(self, port, config):
         """
@@ -431,8 +436,9 @@ class ConnectionManager(component.Component):
             if e.errno == 2:
                 dialogs.ErrorDialog(
                     _("Unable to start daemon!"),
-                    _("Deluge cannot find the 'deluged' executable, it is likely \
-that you forgot to install the deluged package or it's not in your PATH.")).run()
+                    _("Deluge cannot find the 'deluged' executable, it is "
+                      "likely that you forgot to install the deluged package "
+                      "or it's not in your PATH.")).run()
             else:
                 raise e
         except Exception, e:
@@ -465,9 +471,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         component.start()
 
     def __on_connected_failed(self, reason, host_id, host, port, user):
-        log.exception(reason.value)
-#        log.debug(reason.__dict__)
-#        log.debug(reason.value.__dict__)
+        log.debug("Failed to connect: %s", reason)
         if reason.check(AuthenticationRequired):
             log.debug("PasswordRequired exception")
             dialog = dialogs.AuthenticationDialog(reason.value.message,
@@ -499,8 +503,9 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
-        if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
-            host in ("127.0.0.1", "localhost"):
+        if status == _("Offline") and \
+                    self.glade.get_widget("chk_autostart").get_active() and \
+                    host in ("127.0.0.1", "localhost"):
             # We need to start this localhost
             self.start_daemon(port, deluge.configmanager.get_config_dir())
 
@@ -515,7 +520,6 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
                     do_retry_connect(try_counter)
                 return result
             def do_retry_connect(try_counter):
-                log.debug("user: %s pass: %s", user, password)
                 d = client.connect(host, port, user, password)
                 d.addCallback(self.__on_connected, host_id)
                 d.addErrback(on_connect_fail, try_counter)
@@ -548,7 +552,8 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
             # We add the host
             try:
-                self.add_host(hostname, port_spinbutton.get_value_as_int(), username, password)
+                self.add_host(hostname, port_spinbutton.get_value_as_int(),
+                              username, password)
             except Exception, e:
                 from deluge.ui.gtkui.dialogs import ErrorDialog
                 ErrorDialog(_("Error Adding Host"), e).run()
