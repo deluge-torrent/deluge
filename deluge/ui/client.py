@@ -758,6 +758,15 @@ class Client(object):
         """
         return self._daemon_proxy.get_bytes_sent()
 
+    def get_auth_user(self):
+        """
+        Returns the current authenticated username.
+
+        :returns: the authenticated username
+        :rtype: str
+        """
+        return self._daemon_proxy.username
+
     def get_auth_level(self):
         """
         Returns the authentication level the daemon returned upon authentication.
