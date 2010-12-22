@@ -229,14 +229,17 @@ class DelugeRPCClientFactory(ClientFactory):
         self.bytes_sent = 0
 
     def startedConnecting(self, connector):
-        log.info("Connecting to daemon at %s:%s..", connector.host, connector.port)
+        log.info("Connecting to daemon at \"%s:%s\"...",
+                 connector.host, connector.port)
 
     def clientConnectionFailed(self, connector, reason):
-        log.warning("Connection to daemon at %s:%s failed: %s", connector.host, connector.port, reason.value)
+        log.warning("Connection to daemon at \"%s:%s\" failed: %s",
+                    connector.host, connector.port, reason.value)
         self.daemon.connect_deferred.errback(reason)
 
     def clientConnectionLost(self, connector, reason):
-        log.info("Connection lost to daemon at %s:%s reason: %s", connector.host, connector.port, reason.value)
+        log.info("Connection lost to daemon at \"%s:%s\" reason: %s",
+                 connector.host, connector.port, reason.value)
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
@@ -263,6 +266,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.host = None
         self.port = None
         self.username = None
+        self.authentication_level = 0
 
         self.connected = False
 
@@ -432,8 +436,6 @@ class DaemonSSLProxy(DaemonProxy):
         return self.daemon_info_deferred
 
     def __on_connect_fail(self, reason):
-        log.debug("__on_connect_fail called")
-        log.exception(reason)
         self.daemon_info_deferred.errback(reason)
 
     def authenticate(self, username, password):
@@ -447,6 +449,7 @@ class DaemonSSLProxy(DaemonProxy):
     def __on_login(self, result, username):
         log.debug("__on_login called: %s %s", username, result)
         self.username = username
+        self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
             self.call("daemon.set_event_interest", self.__factory.event_handlers.keys())
@@ -578,10 +581,9 @@ class Client(object):
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port)
-        def on_connect_fail(result):
-            log.debug("on_connect_fail: %s", result)
+        def on_connect_fail(reason):
             self.disconnect()
-            return result
+            return reason
         d.addErrback(on_connect_fail)
 
         if not skip_authentication:
@@ -589,7 +591,6 @@ class Client(object):
 
             def on_authenticate(result, daemon_info):
                 log.debug("Authentication sucessfull: %s", result)
-                self.authentication_level = result
                 auth_deferred.callback(daemon_info)
 
             def on_authenticate_fail(reason):
@@ -652,10 +653,6 @@ class Client(object):
             return False
         else:
             return True
-
-    def daemon_info(self):
-        return self._daemon_proxy.daemon_info_deferred
-        return defer.succeed(self._daemon_proxy.daemon_info or None)
 
     def is_localhost(self):
         """
@@ -760,6 +757,15 @@ class Client(object):
         :rtype: int
         """
         return self._daemon_proxy.get_bytes_sent()
+
+    def get_auth_level(self):
+        """
+        Returns the authentication level the daemon returned upon authentication.
+
+        :returns: the authentication level
+        :rtype: int
+        """
+        return self._daemon_proxy.authentication_level
 
 # This is the object clients will use
 client = Client()
