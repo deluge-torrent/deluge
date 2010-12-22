@@ -211,12 +211,13 @@ class Torrent(object):
         for (key, value) in options.items():
             if OPTIONS_FUNCS.has_key(key):
                 OPTIONS_FUNCS[key](value)
-
         self.options.update(options)
 
     def get_options(self):
         return self.options
 
+    def set_owner(self, account):
+        self.owner = account
 
     def set_max_connections(self, max_connections):
         self.options["max_connections"] = int(max_connections)

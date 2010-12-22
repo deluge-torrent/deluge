@@ -197,7 +197,8 @@ class TorrentView(listview.ListView, component.Component):
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(
-                            self.window.main_glade.get_widget("menu_columns"))
+            self.window.main_glade.get_widget("menu_columns")
+        )
 
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
@@ -253,15 +254,14 @@ class TorrentView(listview.ListView, component.Component):
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
-        self.treeview.connect("button-press-event",
-                                    self.on_button_press_event)
+        self.treeview.connect("button-press-event", self.on_button_press_event)
         # Connect to the 'key-press-event' to know when the bring up the
         # torrent menu popup via keypress.
         self.treeview.connect("key-release-event", self.on_key_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect("changed",
-                                    self.on_selection_changed)
+                                              self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
         self.treeview.connect("key-press-event", self.on_key_press_event)

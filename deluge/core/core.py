@@ -55,6 +55,7 @@ import deluge.common
 import deluge.component as component
 from deluge.event import *
 from deluge.error import *
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
@@ -579,6 +580,25 @@ class Core(component.Component):
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
 
+    @export(AUTH_LEVEL_ADMIN)
+    def set_torrents_owner(self, torrent_ids, username):
+        """Set's the torrent owner.
+
+        :param torrent_id: the torrent_id of the torrent to remove
+        :type torrent_id: string
+        :param username: the new owner username
+        :type username: string
+
+        :raises DelugeError: if the username is not known
+        """
+        if username not in self.authmanager.get_known_accounts():
+            raise DelugeError("Username \"%s\" is not known." % username)
+        if isinstance(torrent_ids, basestring):
+            torrent_ids = [torrent_ids]
+        for torrent_id in torrent_ids:
+            self.torrentmanager[torrent_id].set_owner(username)
+        return None
+
     @export
     def get_path_size(self, path):
         """Returns the size of the file or folder 'path' and -1 if the path is
@@ -801,3 +821,7 @@ class Core(component.Component):
 
         """
         return lt.version
+
+    @export(AUTH_LEVEL_ADMIN)
+    def get_known_accounts(self):
+        return self.authmanager.get_known_accounts()

@@ -100,6 +100,10 @@ class MenuBar(component.Component):
         self.torrentmenu = self.torrentmenu_glade.get_widget("torrent_menu")
         self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
 
+        self.menuitem_change_owner = gtk.MenuItem(_("Change Ownership"))
+        self.torrentmenu_glade.get_widget("options_torrent_menu").append(self.menuitem_change_owner)
+
+
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
@@ -199,10 +203,21 @@ class MenuBar(component.Component):
         if not self.config["classic_mode"]:
             self.window.main_glade.get_widget("separatormenuitem").show()
             self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
+        # Hide the change owner submenu until we get the accounts back from the
+        # demon.
+        self.menuitem_change_owner.set_visible(False)
+
+        # Get Known accounts to allow chaning ownership
+        client.core.get_known_accounts().addCallback(self._on_known_accounts)
+
     def stop(self):
+        log.debug("MenuBar stopping")
+        self.menuitem_change_owner.remove_submenu()
+
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
 
@@ -211,6 +226,7 @@ class MenuBar(component.Component):
 
         self.window.main_glade.get_widget("separatormenuitem").hide()
         self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
+
 
     def update_menu(self):
         selected = component.get('TorrentView').get_selected_torrents()
@@ -465,3 +481,54 @@ class MenuBar(component.Component):
 
         for item in items:
             getattr(self.window.main_glade.get_widget(item), attr)()
+
+    def _on_known_accounts(self, known_accounts):
+        log.debug("_on_known_accounts: %s", known_accounts)
+        if len(known_accounts) <= 1:
+            return
+
+        self.menuitem_change_owner.set_visible(True)
+
+        self.change_owner_submenu = gtk.Menu()
+        self.change_owner_submenu_items = {}
+        maingroup = gtk.RadioMenuItem(None, None)
+
+        self.change_owner_submenu_items[None] = gtk.RadioMenuItem(maingroup)
+
+        for account in known_accounts:
+            self.change_owner_submenu_items[account] = item = gtk.RadioMenuItem(maingroup, account)
+            self.change_owner_submenu.append(item)
+            item.connect("toggled", self._on_change_owner_toggled, account)
+
+        self.change_owner_submenu.show_all()
+        self.change_owner_submenu_items[None].set_active(True)
+        self.change_owner_submenu_items[None].hide()
+        self.menuitem_change_owner.connect("activate", self._on_change_owner_submenu_active)
+        self.menuitem_change_owner.set_submenu(self.change_owner_submenu)
+
+    def _on_known_accounts_fail(self, reason):
+        self.menuitem_change_owner.set_visible(False)
+
+    def _on_change_owner_submenu_active(self, widget):
+        log.debug("_on_change_owner_submenu_active")
+        selected = component.get("TorrentView").get_selected_torrents()
+        if len(selected) > 1:
+            self.change_owner_submenu_items[None].set_active(True)
+            return
+
+        torrent_owner = component.get("TorrentView").get_torrent_status(selected[0])["owner"]
+        for account, item in self.change_owner_submenu_items.iteritems():
+            item.set_active(account == torrent_owner)
+
+    def _on_change_owner_toggled(self, widget, account):
+        log.debug("_on_change_owner_toggled")
+        update_torrents = []
+        selected = component.get("TorrentView").get_selected_torrents()
+        for torrent_id in selected:
+            torrent_status = component.get("TorrentView").get_torrent_status(torrent_id)
+            if torrent_status["owner"] != account:
+                update_torrents.append(torrent_id)
+        if update_torrents:
+            log.debug("Setting torrent owner \"%s\" on %s", account, update_torrents)
+            client.core.set_torrents_owner(update_torrents, account)
+

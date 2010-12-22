@@ -74,18 +74,16 @@ class AuthManager(component.Component):
         :returns: int, the auth level for this user
         :rtype: int
 
+        :raises AuthenticationRequired: if aditional details are required to authenticate
         :raises BadLoginError: if the username does not exist or password does not match
 
         """
         if not username:
-            raise AuthenticationRequired("Username and Password are required.",
-                                         username)
+            raise AuthenticationRequired(
+                "Username and Password are required.", username
+            )
 
-        if username and username not in self.__auth:
-            # Let's try to re-load the file.. Maybe it's been updated
-            self.__load_auth_file()
-            if username not in self.__auth:
-                raise BadLoginError("Username does not exist")
+        self.__test_existing_account(username)
 
         if self.__auth[username][0] == password:
             # Return the users auth level
@@ -94,6 +92,21 @@ class AuthManager(component.Component):
             raise AuthenticationRequired("Password is required", username)
         else:
             raise BadLoginError("Password does not match")
+
+    def get_known_accounts(self):
+        """
+        Returns a list of known deluge usernames.
+        """
+        self.__load_auth_file()
+        return self.__auth.keys()
+
+
+    def __test_existing_account(self, username):
+        if username not in self.__auth:
+            # Let's try to re-load the file.. Maybe it's been updated
+            self.__load_auth_file()
+            if username not in self.__auth:
+                raise BadLoginError("Username does not exist")
 
     def __create_localclient_account(self):
         """
