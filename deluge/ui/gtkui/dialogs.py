@@ -223,6 +223,7 @@ class AuthenticationDialog(BaseDialog):
         self.password_label.set_padding(5, 5)
         self.password_entry = gtk.Entry()
         self.password_entry.set_visibility(False)
+        self.password_entry.connect("activate", self.on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
         table.attach(self.password_entry, 1, 2, 1, 2)
 
@@ -241,3 +242,6 @@ class AuthenticationDialog(BaseDialog):
 
     def get_password(self):
         return self.password_entry.get_text()
+
+    def on_password_activate(self, widget):
+        self.response(gtk.RESPONSE_OK)

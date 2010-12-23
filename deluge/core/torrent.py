@@ -69,7 +69,7 @@ class TorrentOptions(dict):
                             "move_completed": "move_completed",
                             "move_completed_path": "move_completed_path",
                             "add_paused": "add_paused",
-                            "public": "public"
+                            "shared": "shared"
                            }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
@@ -610,7 +610,7 @@ class Torrent(object):
             "paused": self.status.paused,
             "prioritize_first_last": self.options["prioritize_first_last_pieces"],
             "progress": progress,
-            "public": self.options["public"],
+            "shared": self.options["shared"],
             "remove_at_ratio": self.options["remove_at_ratio"],
             "save_path": self.options["download_location"],
             "seeding_time": self.status.seeding_time,

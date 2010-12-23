@@ -66,7 +66,7 @@ class DetailsTab(Tab):
             (glade.get_widget("summary_hash"), str, ("hash",)),
             (glade.get_widget("summary_comments"), str, ("comment",)),
             (glade.get_widget("summary_owner"), str, ("owner",)),
-            (glade.get_widget("summary_public"), str, ("public",))
+            (glade.get_widget("summary_shared"), str, ("shared",))
         ]
 
     def update(self):
@@ -82,9 +82,9 @@ class DetailsTab(Tab):
             return
 
         # Get the torrent status
-        status_keys = ["name", "total_size", "num_files",
-            "tracker", "save_path", "message", "hash", "comment", "owner",
-            "public"]
+        status_keys = ["name", "total_size", "num_files", "tracker",
+                       "save_path", "message", "hash", "comment", "owner",
+                       "shared"]
 
         session = component.get("SessionProxy")
         session.get_torrent_status(selected, status_keys).addCallback(self._on_get_torrent_status)

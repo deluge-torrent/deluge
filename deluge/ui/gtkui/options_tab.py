@@ -60,6 +60,8 @@ class OptionsTab(Tab):
         self.chk_move_completed = glade.get_widget("chk_move_completed")
         self.filechooser_move_completed = glade.get_widget("filechooser_move_completed")
         self.entry_move_completed = glade.get_widget("entry_move_completed")
+        self.chk_shared = glade.get_widget("chk_shared")
+        self.button_apply = glade.get_widget("button_apply")
 
         self.prev_torrent_id = None
         self.prev_status = None
@@ -68,7 +70,8 @@ class OptionsTab(Tab):
             "on_button_apply_clicked": self._on_button_apply_clicked,
             "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled,
-            "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled
+            "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
+            "on_chk_shared_toggled": self._on_chk_shared_toggled
         })
 
     def start(self):
@@ -98,8 +101,8 @@ class OptionsTab(Tab):
         if torrent_id != self.prev_torrent_id:
             self.prev_status = None
 
-        component.get("SessionProxy").get_torrent_status(torrent_id,
-            ["max_download_speed",
+        component.get("SessionProxy").get_torrent_status(torrent_id, [
+            "max_download_speed",
             "max_upload_speed",
             "max_connections",
             "max_upload_slots",
@@ -110,7 +113,9 @@ class OptionsTab(Tab):
             "stop_ratio",
             "remove_at_ratio",
             "move_on_completed",
-            "move_on_completed_path"]).addCallback(self._on_get_torrent_status)
+            "move_on_completed_path",
+            "shared"
+        ]).addCallback(self._on_get_torrent_status)
         self.prev_torrent_id = torrent_id
 
     def clear(self):
@@ -153,6 +158,11 @@ class OptionsTab(Tab):
                     self.filechooser_move_completed.set_current_folder(status["move_on_completed_path"])
                 else:
                     self.entry_move_completed.set_text(status["move_on_completed_path"])
+            if status["shared"] != self.prev_status["shared"]:
+                self.chk_shared.set_active(status["shared"])
+
+            if self.button_apply.is_sensitive():
+                self.button_apply.set_sensitive(False)
 
             self.prev_status = status
 
@@ -183,14 +193,21 @@ class OptionsTab(Tab):
             else:
                 path = self.entry_move_completed.get_text()
             client.core.set_torrent_move_completed_path(self.prev_torrent_id, path)
-
+        if self.chk_shared.get_active() != self.prev_status["shared"]:
+            client.core.set_torrents_shared(self.prev_torrent_id, self.chk_shared.get_active())
+        self.button_apply.set_sensitive(False)
 
     def _on_button_edit_trackers_clicked(self, button):
         from edittrackersdialog import EditTrackersDialog
         dialog = EditTrackersDialog(
             self.prev_torrent_id,
             component.get("MainWindow").window)
-        dialog.run()
+
+        def on_response(result):
+            if result:
+                self.button_apply.set_sensitive(True)
+        dialog.run().addCallback(on_response)
+
 
     def _on_chk_move_completed_toggled(self, widget):
         value = self.chk_move_completed.get_active()
@@ -201,8 +218,18 @@ class OptionsTab(Tab):
 
         widget.set_sensitive(value)
 
+        if not self.button_apply.is_sensitive():
+            self.button_apply.set_sensitive(True)
+
     def _on_chk_stop_at_ratio_toggled(self, widget):
         value = widget.get_active()
 
         self.spin_stop_ratio.set_sensitive(value)
         self.chk_remove_at_ratio.set_sensitive(value)
+
+        if not self.button_apply.is_sensitive():
+            self.button_apply.set_sensitive(True)
+
+    def _on_chk_shared_toggled(self, widget):
+        if not self.button_apply.is_sensitive():
+            self.button_apply.set_sensitive(True)

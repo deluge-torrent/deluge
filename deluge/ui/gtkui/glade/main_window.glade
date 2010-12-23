@@ -11,7 +11,6 @@
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
@@ -470,7 +469,6 @@
             <child>
               <widget class="GtkVPaned" id="vpaned">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkHPaned" id="hpaned">
                     <property name="visible">True</property>
@@ -674,7 +672,6 @@
                       <widget class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
                           <widget class="GtkProgressBar" id="progressbar">
@@ -1561,9 +1558,10 @@
                         <child>
                           <widget class="GtkLabel" id="label24">
                             <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Torrent is shared between other Deluge users or not.</property>
                             <property name="xalign">0</property>
                             <property name="ypad">1</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Public:&lt;/b&gt;</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Shared:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -1589,32 +1587,9 @@
                           </packing>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="summary_public">
+                          <widget class="GtkLabel" id="summary_shared">
                             <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Torrent is shared between other Deluge users or not.</property>
                             <property name="xalign">0</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
@@ -1626,6 +1601,30 @@
                             <property name="bottom_attach">10</property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </widget>
                     </child>
@@ -1990,7 +1989,6 @@
                             <child>
                               <widget class="GtkVBox" id="vbox5">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chk_auto_managed">
                                     <property name="label" translatable="yes">Auto Managed</property>
@@ -2008,7 +2006,6 @@
                                 <child>
                                   <widget class="GtkVBox" id="vbox6">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkHBox" id="hbox2">
                                         <property name="visible">True</property>
@@ -2149,7 +2146,6 @@
                     <child>
                       <widget class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <child>
                           <widget class="GtkFrame" id="frame2">
                             <property name="visible">True</property>
@@ -2165,7 +2161,6 @@
                                 <child>
                                   <widget class="GtkVBox" id="vbox1">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkCheckButton" id="chk_private">
                                         <property name="label" translatable="yes">Private</property>
@@ -2173,6 +2168,7 @@
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="tooltip" translatable="yes">If checked this torrent won't be shared among trackers, DHT nodes, etc...</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
@@ -2193,6 +2189,20 @@
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkCheckButton" id="chk_shared">
+                                        <property name="label" translatable="yes">Shared</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="tooltip" translatable="yes">Torrent is shared between other Deluge users or not.</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_shared_toggled"/>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -2236,7 +2246,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -2275,6 +2285,7 @@
                                   <widget class="GtkButton" id="button_apply">
                                     <property name="label">gtk-apply</property>
                                     <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="use_stock">True</property>
@@ -2357,13 +2368,11 @@
       <widget class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <widget class="GtkHBox" id="hbox1">
@@ -2555,13 +2564,11 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkVBox" id="vbox7">
             <property name="visible">True</property>
             <property name="border_width">10</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <widget class="GtkHBox" id="hbox3">

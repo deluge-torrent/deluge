@@ -142,7 +142,7 @@ DEFAULT_PREFS = {
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
     "cache_expiry": 60,
-    "public": False
+    "shared": False
 }
 
 class PreferencesManager(component.Component):
@@ -150,6 +150,11 @@ class PreferencesManager(component.Component):
         component.Component.__init__(self, "PreferencesManager")
 
         self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
+        if 'public' in self.config:
+            log.debug("Updating configuration file: Renamed torrent's public "
+                      "attribute to shared.")
+            self.config["shared"] = self.config["public"]
+            del self.config["public"]
 
     def start(self):
         self.core = component.get("Core")

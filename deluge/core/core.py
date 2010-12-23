@@ -600,6 +600,13 @@ class Core(component.Component):
         return None
 
     @export
+    def set_torrents_shared(self, torrent_ids, shared):
+        if isinstance(torrent_ids, basestring):
+            torrent_ids = [torrent_ids]
+        for torrent_id in torrent_ids:
+            self.torrentmanager[torrent_id].set_options({"shared": shared})
+
+    @export
     def get_path_size(self, path):
         """Returns the size of the file or folder 'path' and -1 if the path is
         unaccessible (non-existent or insufficient privs)"""

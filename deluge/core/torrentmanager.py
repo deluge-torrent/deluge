@@ -86,7 +86,7 @@ class TorrentState:
             magnet=None,
             time_added=-1,
             owner="",
-            public=False
+            shared=False
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -114,7 +114,7 @@ class TorrentState:
         self.remove_at_ratio = remove_at_ratio
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
-        self.public = public
+        self.shared = shared
 
 class TorrentManagerState:
     def __init__(self):
@@ -286,8 +286,8 @@ class TorrentManager(component.Component):
 
         current_user = component.get("RPCServer").get_session_user()
         for torrent_id in torrent_ids[:]:
-            torrent_status = self[torrent_id].get_status(["owner", "public"])
-            if torrent_status["owner"] != current_user and torrent_status["public"] == False:
+            torrent_status = self[torrent_id].get_status(["owner", "shared"])
+            if torrent_status["owner"] != current_user and torrent_status["shared"] == False:
                 torrent_ids.pop(torrent_ids.index(torrent_id))
         return torrent_ids
 
@@ -368,7 +368,7 @@ class TorrentManager(component.Component):
             options["move_completed"] = state.move_completed
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
-            options["public"] = state.public
+            options["shared"] = state.shared
 
             ti = self.get_torrent_info_from_file(
                     os.path.join(get_config_dir(),
@@ -662,7 +662,7 @@ class TorrentManager(component.Component):
                 torrent.magnet,
                 torrent.time_added,
                 torrent.owner,
-                torrent.options["public"]
+                torrent.options["shared"]
             )
             state.torrents.append(torrent_state)
 
