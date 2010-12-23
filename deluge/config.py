@@ -72,6 +72,7 @@ import logging
 import shutil
 import os
 
+from twisted.internet import reactor
 import deluge.common
 
 json = deluge.common.json
@@ -219,7 +220,6 @@ what is currently in the config and it could not convert the value
 
         self.__config[key] = value
         # Run the set_function for this key if any
-        from twisted.internet import reactor
         try:
             for func in self.__set_functions[key]:
                 reactor.callLater(0, func, key, value)
@@ -244,9 +244,6 @@ what is currently in the config and it could not convert the value
         """
         return self.get_item(key)
 
-    def __delitem__(self, key):
-        del self.__config[key]
-
     def get_item(self, key):
         """
         Gets the value of item 'key'
@@ -270,6 +267,30 @@ what is currently in the config and it could not convert the value
                 return self.__config[key]
         else:
             return self.__config[key]
+
+    def __delitem__(self, key):
+        """
+        See
+        :meth:`del_item`
+        """
+        self.del_item(key)
+
+    def del_item(self, key):
+        """
+        Deletes item with a specific key from the configuration.
+
+        :param key: the item which you wish to delete.
+        :raises KeyError: if 'key' is not in the config dictionary
+
+        **Usage**
+        >>> config = Config("test.conf", defaults={"test": 5})
+        >>> del config["test"]
+        """
+        del self.__config[key]
+        # We set the save_timer for 5 seconds if not already set
+        if not self._save_timer or not self._save_timer.active():
+            self._save_timer = reactor.callLater(5, self.save)
+
 
     def register_change_callback(self, callback):
         """
