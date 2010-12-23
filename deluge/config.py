@@ -244,6 +244,9 @@ what is currently in the config and it could not convert the value
         """
         return self.get_item(key)
 
+    def __delitem__(self, key):
+        del self.__config[key]
+
     def get_item(self, key):
         """
         Gets the value of item 'key'
