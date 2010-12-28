@@ -39,12 +39,14 @@ import os.path
 import pickle
 import cPickle
 import shutil
+import logging
 
 from deluge._libtorrent import lt
 
 from deluge.configmanager import ConfigManager, get_config_dir
 import deluge.core.torrentmanager
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 #start : http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/286203
 def makeFakeClass(module, name):

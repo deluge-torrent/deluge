@@ -34,7 +34,9 @@
 #
 
 
-import gtk, gtk.glade
+import gtk
+import gtk.glade
+import logging
 import os.path
 import cPickle
 import pkg_resources
@@ -48,8 +50,9 @@ import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.log import LOG as log
 from deluge.ui.countries import COUNTRIES
+
+log = logging.getLogger(__name__)
 
 def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, data)

@@ -33,9 +33,11 @@
 #
 #
 
+import logging
 from twisted.internet.defer import maybeDeferred, succeed, DeferredList, fail
 from twisted.internet.task import LoopingCall
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class ComponentAlreadyRegistered(Exception):
     pass

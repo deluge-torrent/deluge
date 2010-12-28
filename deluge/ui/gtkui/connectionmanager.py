@@ -38,6 +38,7 @@ import pkg_resources
 import urlparse
 import time
 import hashlib
+import logging
 from twisted.internet import reactor
 
 import deluge.component as component
@@ -48,8 +49,9 @@ from deluge.ui.client import client
 import deluge.ui.client
 import deluge.ui.common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 import dialogs
+
+log = logging.getLogger(__name__)
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846

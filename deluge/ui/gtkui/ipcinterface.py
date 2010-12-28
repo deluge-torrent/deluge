@@ -37,21 +37,23 @@
 import sys
 import os
 import base64
+import logging
 
 try:
     import rencode
 except ImportError:
     import deluge.rencode as rencode
-    
+
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 
 from twisted.internet.protocol import Factory, Protocol, ClientFactory
 from twisted.internet import reactor
 import twisted.internet.error
+
+log = logging.getLogger(__name__)
 
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
@@ -62,11 +64,11 @@ class IPCProtocolClient(Protocol):
     def connectionMade(self):
         self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()
-        
+
     def connectionLost(self, reason):
         reactor.stop()
         self.factory.stop = True
-        
+
 class IPCClientFactory(ClientFactory):
     protocol = IPCProtocolClient
 
@@ -74,11 +76,11 @@ class IPCClientFactory(ClientFactory):
         self.stop = False
         self.args = args
         self.connect_failed = connect_failed
-        
+
     def clientConnectionFailed(self, connector, reason):
         log.info("Connection to running instance failed.  Starting new one..")
         reactor.stop()
-    
+
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
@@ -165,7 +167,7 @@ class IPCInterface(component.Component):
                 os.remove(socket)
             except Exception, e:
                 log.error("Unable to remove socket file: %s", e)
-                
+
         lock = socket + ".lock"
         if os.path.lexists(lock):
             try:
@@ -180,7 +182,7 @@ class IPCInterface(component.Component):
             log.error("Unable to start IPC listening socket: %s", e)
         finally:
             process_args(args)
-        
+
     def shutdown(self):
         if deluge.common.windows_check():
             import win32api

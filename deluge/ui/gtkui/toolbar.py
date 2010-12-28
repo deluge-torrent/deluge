@@ -36,14 +36,17 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import gobject
+import logging
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
 from deluge.configmanager import ConfigManager
+
+log = logging.getLogger(__name__)
 
 class ToolBar(component.Component):
     def __init__(self):

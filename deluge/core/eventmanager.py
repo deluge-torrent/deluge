@@ -33,8 +33,10 @@
 #
 #
 
+import logging
 import deluge.component as component
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class EventManager(component.Component):
     def __init__(self):

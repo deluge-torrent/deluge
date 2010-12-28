@@ -39,6 +39,7 @@ import os
 import glob
 import base64
 import shutil
+import logging
 import threading
 import pkg_resources
 import warnings
@@ -50,9 +51,6 @@ from twisted.internet.task import LoopingCall
 import twisted.web.client
 
 from deluge.httpdownloader import download_file
-from deluge.log import LOG as log
-
-
 
 import deluge.configmanager
 import deluge.common
@@ -68,6 +66,8 @@ from deluge.core.autoadd import AutoAdd
 from deluge.core.authmanager import AuthManager
 from deluge.core.eventmanager import EventManager
 from deluge.core.rpcserver import export
+
+log = logging.getLogger(__name__)
 
 class Core(component.Component):
     def __init__(self, listen_interface=None):

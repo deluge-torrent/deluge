@@ -36,7 +36,9 @@
 import base64
 import os.path
 
-import gtk, gtk.glade
+import gtk
+import gtk.glade
+import logging
 import gobject
 import pkg_resources
 
@@ -44,8 +46,9 @@ import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 import common
+
+log = logging.getLogger(__name__)
 
 class QueuedTorrents(component.Component):
     def __init__(self):
@@ -176,7 +179,7 @@ class QueuedTorrents(component.Component):
                 if self.config["interactive_add"]:
                     def on_show(result):
                         component.get("AddTorrentDialog").add_from_url(torrent_path)
-                        
+
                     d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
                     d.addCallback(on_show)
                 else:

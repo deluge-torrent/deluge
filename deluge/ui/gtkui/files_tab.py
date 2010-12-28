@@ -34,11 +34,14 @@
 #
 
 
-import gtk, gtk.glade, gtk.gdk
+import gtk
+import gtk.gdk
+import gtk.glade
 import gobject
 import gettext
 import os.path
 import cPickle
+import logging
 
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.client import client
@@ -48,7 +51,7 @@ import deluge.component as component
 import deluge.common
 import common
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 def cell_priority(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:

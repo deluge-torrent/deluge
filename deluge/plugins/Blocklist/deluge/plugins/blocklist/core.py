@@ -45,7 +45,7 @@ from twisted.internet.task import LoopingCall
 from twisted.internet import threads, defer
 from twisted.web import error
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -57,6 +57,8 @@ from readers import ReaderParseError
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
+
+log = getPluginLogger(__name__)
 
 DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
@@ -161,7 +163,7 @@ class Core(CorePluginBase):
     def get_config(self):
         """
         Returns the config dictionary
-        
+
         :returns: the config dictionary
         :rtype: dict
         """
@@ -182,7 +184,7 @@ class Core(CorePluginBase):
     def get_status(self):
         """
         Returns the status of the plugin
-        
+
         :returns: the status dict of the plugin
         :rtype: dict
         """
@@ -260,7 +262,7 @@ class Core(CorePluginBase):
     def on_download_complete(self, blocklist):
         """
         Runs any download clean up functions
-        
+
         :param blocklist: path of blocklist
         :type blocklist: string
         :returns: a Deferred which fires when clean up is done
@@ -273,7 +275,7 @@ class Core(CorePluginBase):
     def on_download_error(self, f):
         """
         Recovers from download error
-        
+
         :param f: failure that occured
         :type f: Failure
         :returns: a Deferred if recovery was possible
@@ -309,7 +311,7 @@ class Core(CorePluginBase):
     def import_list(self, blocklist):
         """
         Imports the downloaded blocklist into the session
-        
+
         :param blocklist: path of blocklist
         :type blocklist: string
         :returns: a Deferred that fires when the blocklist has been imported
@@ -333,7 +335,7 @@ class Core(CorePluginBase):
         self.is_importing = True
         self.num_blocked = 0
         self.blocklist = self.core.session.get_ip_filter()
-        
+
         if not blocklist:
             blocklist = self.filename
 
@@ -351,7 +353,7 @@ class Core(CorePluginBase):
     def on_import_complete(self, blocklist):
         """
         Runs any import clean up functions
-        
+
         :param blocklist: path of blocklist
         :type blocklist: string
         :returns: a Deferred that fires when clean up is done
@@ -374,7 +376,7 @@ class Core(CorePluginBase):
     def on_import_error(self, f):
         """
         Recovers from import error
-        
+
         :param f: failure that occured
         :type f: Failure
         :returns: a Deferred if recovery was possible

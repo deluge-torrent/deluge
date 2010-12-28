@@ -34,9 +34,11 @@
 #
 
 
+import logging
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 class CoreConfig(component.Component):
     def __init__(self):

@@ -34,14 +34,16 @@
 #
 
 
-import gtk, gtk.glade
+import gtk
+import gtk.glade
+import logging
 
 from deluge.ui.client import client
 import deluge.component as component
 from deluge.common import fsize, is_url
 from deluge.ui.gtkui.torrentdetails import Tab
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class DetailsTab(Tab):
     def __init__(self):

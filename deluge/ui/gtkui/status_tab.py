@@ -35,13 +35,16 @@
 #
 
 
-import gtk, gtk.glade
+import gtk
+import gtk.glade
+import logging
 
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 def fpeer_sized(first, second):
     return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))

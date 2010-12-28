@@ -39,6 +39,7 @@ import sys
 import zlib
 import os
 import stat
+import logging
 import traceback
 
 from twisted.internet.protocol import Factory, Protocol
@@ -52,8 +53,6 @@ try:
 except ImportError:
     import deluge.rencode as rencode
 
-from deluge.log import LOG as log
-
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT
@@ -61,6 +60,8 @@ from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
+
+log = logging.getLogger(__name__)
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
     """

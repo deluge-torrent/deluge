@@ -36,10 +36,12 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import gettext
 import gobject
 import base64
+import logging
 import os
 
 import pkg_resources
@@ -48,11 +50,12 @@ from deluge.ui.client import client
 import deluge.component as component
 import listview
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 import deluge.common
 import deluge.ui.common
 import dialogs
 import common
+
+log = logging.getLogger(__name__)
 
 class AddTorrentDialog(component.Component):
     def __init__(self):

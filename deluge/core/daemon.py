@@ -35,6 +35,7 @@
 import os
 import gettext
 import locale
+import logging
 import pkg_resources
 from twisted.internet import reactor
 import twisted.internet.error
@@ -43,8 +44,9 @@ import deluge.component as component
 import deluge.configmanager
 import deluge.common
 from deluge.core.rpcserver import RPCServer, export
-from deluge.log import LOG as log
 import deluge.error
+
+log = logging.getLogger(__name__)
 
 class Daemon(object):
     def __init__(self, options=None, args=None, classic=False):

@@ -36,12 +36,14 @@
 from datetime import datetime
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 from deluge.plugins.pluginbase import GtkPluginBase
 import common
+
+log = getPluginLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):

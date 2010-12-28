@@ -35,6 +35,7 @@
 
 
 import os
+import logging
 import threading
 import pkg_resources
 from twisted.internet import reactor
@@ -46,7 +47,8 @@ from deluge.event import *
 import deluge.configmanager
 import deluge.common
 import deluge.component as component
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "send_info": False,

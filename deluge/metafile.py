@@ -20,10 +20,12 @@ import os
 import os.path
 import sys
 import time
+import logging
 from hashlib import sha1 as sha
 
 from deluge.bencode import bencode
-from deluge.log import LOG as log
+
+log = logging.getLogger(__name__)
 
 ignore = ['core', 'CVS', 'Thumbs.db', 'desktop.ini']
 
@@ -180,7 +182,7 @@ def makeinfo(path, piece_length, progress, name = None,
         if done > 0:
             pieces.append(sh.digest())
             progress(piece_count, num_pieces)
-            
+
         if name is not None:
             assert isinstance(name, unicode)
             name = to_utf8(name)

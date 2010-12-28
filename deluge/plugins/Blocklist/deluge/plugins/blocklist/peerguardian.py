@@ -7,7 +7,9 @@ from exceptions import Exception
 from struct import unpack
 import gzip, socket
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
+
+log = getPluginLogger(__name__)
 
 class PGException(Exception):
     pass

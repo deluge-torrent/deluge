@@ -33,6 +33,7 @@
 #
 #
 
+import logging
 from twisted.internet.protocol import Protocol, ClientFactory
 from twisted.internet import reactor, ssl, defer
 try:
@@ -44,7 +45,6 @@ import zlib
 
 import deluge.common
 import deluge.component as component
-from deluge.log import LOG as log
 from deluge.event import known_events
 
 if deluge.common.windows_check():
@@ -55,6 +55,8 @@ else:
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
+
+log = logging.getLogger(__name__)
 
 def format_kwargs(kwargs):
     return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])

@@ -41,6 +41,7 @@ import os
 import time
 import shutil
 import operator
+import logging
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -56,7 +57,7 @@ from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
 from deluge.common import utf8_encoded
 
-from deluge.log import LOG as log
+log = logging.getLogger(__name__)
 
 class TorrentState:
     def __init__(self,

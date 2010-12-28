@@ -1,4 +1,5 @@
 === Deluge 1.3.0 (In Development) ===
+	* Improved Logging
 	* Enforced the use of the "deluge.plugins" namespace to reduce package names clashing beetween regular packages and deluge plugins.
 
 ==== Core ====

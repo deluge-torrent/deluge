@@ -39,7 +39,7 @@
 
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
@@ -47,6 +47,8 @@ import deluge.common
 import os
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class OptionsDialog():
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]

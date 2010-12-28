@@ -33,12 +33,14 @@
 #
 #
 
+import logging
 from twisted.internet.defer import maybeDeferred, succeed
 
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.log import LOG as log
 import time
+
+log = logging.getLogger(__name__)
 
 class SessionProxy(component.Component):
     """

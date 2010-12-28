@@ -48,7 +48,7 @@ port of old plugin by markybob.
 """
 import time
 import cairo
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 
 black = (0, 0, 0)
@@ -59,6 +59,8 @@ red = (1.0, 0, 0)
 green = (0, 1.0, 0)
 blue = (0, 0, 1.0)
 orange = (1.0, 0.74, 0)
+
+log = getPluginLogger(__name__)
 
 def default_formatter(value):
     return str(value)

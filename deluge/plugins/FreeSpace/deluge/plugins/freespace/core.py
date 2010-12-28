@@ -1,7 +1,7 @@
 #
 # core.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -41,12 +41,14 @@
 import os, statvfs
 from datetime import datetime, timedelta
 from twisted.internet import task
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.event import DelugeEvent
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+
+log = getPluginLogger(__name__)
 
 
 class LowDiskSpaceEvent(DelugeEvent):

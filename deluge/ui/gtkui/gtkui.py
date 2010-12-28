@@ -32,7 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from deluge.log import LOG as log
 
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
@@ -42,8 +41,12 @@ import gobject
 import gettext
 import locale
 import pkg_resources
-import gtk, gtk.glade
+import gtk
+import gtk.glade
 import sys
+import logging
+
+log = logging.getLogger(__name__)
 
 # Initialize gettext
 try:

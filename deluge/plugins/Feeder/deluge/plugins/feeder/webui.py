@@ -36,10 +36,12 @@
 
 import feedparser # for proccessing feed entries
 import os
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import sclient, aclient
 from deluge.plugins.webuipluginbase import WebUIPluginBase
 from deluge import component
+
+log = getPluginLogger(__name__)
 
 api = component.get("WebPluginApi")
 forms = api.forms
@@ -54,7 +56,7 @@ class feed_page:
             items = """%(old)s
                 <a href="%(link)s">
                 <li>%(entry)s</li>
-                </a>""" % { "old":items, "entry":item, "link":entries[item]} 
+                </a>""" % { "old":items, "entry":item, "link":entries[item]}
         return api.render.feeder.feeds(items, feedname)
 
 class filter_page:
@@ -63,7 +65,7 @@ class filter_page:
     def GET(self, args):
         new_filter = new_filter_form()
         filters = sclient.feeder_get_filters()
-        
+
         # List filters
         txt = ""
         for filter in filters:
@@ -83,7 +85,7 @@ class filter_page:
 class new_filter_form(forms.Form):
     "basic form for a new label"
     name = forms.CharField(label="")
-        
+
 class filter_settings_page:
     "Class for showing filter settings"
     @api.deco.deluge_page
@@ -117,7 +119,7 @@ class filter_settings_page:
             opts['max_upload_slots'] = int(-1)
         """opts['max_upload_slots'] = long(opts['max_upload_slots'])
         opts['max_connections'] = long(opts['max_connections'])"""
-        
+
         # TODO filter settings per feed not implemented.
         opts['feeds'] = []
 
@@ -151,7 +153,7 @@ class filter_settings_form(forms.Form):
         </ul>
         """ % list
 
-    regex = forms.CharField(_("regular_expression")) 
+    regex = forms.CharField(_("regular_expression"))
     all_feeds = forms.CheckBox(_("all_feeds"))
     active = forms.CheckBox(_("active"))
 
@@ -204,7 +206,7 @@ class remove_filter_page:
         </body>
 
         </html>"""
-    
+
 
 class WebUI(WebUIPluginBase):
     #map url's to classes: [(url,class), ..]

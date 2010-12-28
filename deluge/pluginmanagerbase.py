@@ -37,14 +37,15 @@
 """PluginManagerBase"""
 
 import os.path
-
+import logging
 import pkg_resources
 
 import deluge.common
 import deluge.configmanager
-from deluge.log import LOG as log
 
 import deluge.component as component
+
+log = logging.getLogger(__name__)
 
 METADATA_KEYS = [
     "Name",

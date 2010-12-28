@@ -1,7 +1,7 @@
 #
 # common.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -39,7 +39,9 @@
 
 from twisted.internet import defer
 from deluge import component
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
+
+log = getPluginLogger(__name__)
 
 try:
     from deluge.event import known_events

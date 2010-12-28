@@ -42,11 +42,14 @@ import subprocess
 import platform
 import sys
 import chardet
+import logging
 
 try:
     import json
 except ImportError:
     import simplejson as json
+
+log = logging.getLogger(__name__)
 
 # Do a little hack here just in case the user has json-py installed since it
 # has a different api
@@ -77,7 +80,6 @@ try:
     gettext.textdomain("deluge")
     gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
 except Exception, e:
-    from deluge.log import LOG as log
     log.error("Unable to initialize gettext/locale!")
     log.exception(e)
     import __builtin__
@@ -527,7 +529,7 @@ def path_join(*parts):
             path += '/' + part
     return path
 
-XML_ESCAPES = ( 
+XML_ESCAPES = (
     ('&', '&amp;'),
     ('<', '&lt;'),
     ('>', '&gt;'),
@@ -536,9 +538,9 @@ XML_ESCAPES = (
 )
 
 def xml_decode(string):
-    """ 
+    """
     Unescape a string that was previously encoded for use within xml.
-    
+
     :param string: The string to escape
     :type string: string
     :returns: The unescaped version of the string.
@@ -549,9 +551,9 @@ def xml_decode(string):
     return string
 
 def xml_encode(string):
-    """ 
+    """
     Escape a string for use within an xml element or attribute.
-    
+
     :param string: The string to escape
     :type string: string
     :returns: An escaped version of the string.

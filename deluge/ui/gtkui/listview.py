@@ -37,6 +37,7 @@
 
 import cPickle
 import os.path
+import logging
 
 import pygtk
 pygtk.require('2.0')
@@ -46,13 +47,13 @@ import gettext
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.common
-from deluge.log import LOG as log
 
 from gobject import signal_new, SIGNAL_RUN_LAST, TYPE_NONE
 from gtk import gdk
 signal_new('button-press-event', gtk.TreeViewColumn,
            SIGNAL_RUN_LAST, TYPE_NONE, (gdk.Event,))
 
+log = logging.getLogger(__name__)
 
 # Cell data functions to pass to add_func_column()
 def cell_data_speed(column, cell, model, row, data):

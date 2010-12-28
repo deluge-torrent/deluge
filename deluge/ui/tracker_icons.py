@@ -34,6 +34,7 @@
 #
 
 import os
+import logging
 from HTMLParser import HTMLParser, HTMLParseError
 from urlparse import urljoin, urlparse
 from tempfile import mkstemp
@@ -45,7 +46,7 @@ from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.httpdownloader import download_file
 from deluge.decorators import proxy
-from deluge.log import LOG as log
+
 
 try:
     import PIL.Image as Image
@@ -54,6 +55,8 @@ except ImportError:
     PIL_INSTALLED = False
 else:
     PIL_INSTALLED = True
+
+log = logging.getLogger(__name__)
 
 class TrackerIcon(object):
     """

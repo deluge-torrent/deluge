@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8 et
 # ==============================================================================
-# Copyright © 2009 UfSoft.org - Pedro Algarvio <ufs@ufsoft.org>
+# Copyright © 2009-2010 UfSoft.org - Pedro Algarvio <pedro@algarvio.me>
 #
 # License: BSD - Please view the LICENSE file for additional information.
 # ==============================================================================
 
-from twisted.internet import reactor, task
+from twisted.internet import task
 from deluge import component
 from deluge.event import DelugeEvent
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
+
+log = getPluginLogger(__name__)
 
 class FooEvent(DelugeEvent):
     """foo Event"""

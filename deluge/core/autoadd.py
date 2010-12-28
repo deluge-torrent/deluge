@@ -35,14 +35,16 @@
 
 
 import os
+import logging
 
 from deluge._libtorrent import lt
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.log import LOG as log
 
 MAX_NUM_ATTEMPTS = 10
+
+log = logging.getLogger(__name__)
 
 class AutoAdd(component.Component):
     def __init__(self):

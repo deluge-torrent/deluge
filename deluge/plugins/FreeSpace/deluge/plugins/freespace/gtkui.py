@@ -1,7 +1,7 @@
 #
 # gtkui.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -39,13 +39,15 @@
 
 import gtk
 
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
 from common import get_resource
+
+log = getPluginLogger(__name__)
 
 class GtkUI(GtkPluginBase):
 

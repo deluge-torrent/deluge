@@ -1,7 +1,7 @@
 #
 # gtkui.py
 #
-# Copyright (C) 2009 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -41,7 +41,7 @@ from os.path import basename
 import gtk
 
 from twisted.internet import defer
-from deluge.log import LOG as log
+from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
@@ -50,6 +50,8 @@ import deluge.configmanager
 
 # Relative imports
 from common import get_resource, CustomNotifications
+
+log = getPluginLogger(__name__)
 
 try:
     import pygame

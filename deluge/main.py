@@ -2,6 +2,7 @@
 # main.py
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
@@ -44,8 +45,7 @@ import sys
 from optparse import OptionParser
 
 import deluge.log
-import deluge.common
-import deluge.configmanager
+#import deluge.common
 import deluge.error
 
 
@@ -72,11 +72,24 @@ def start_ui():
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+    parser.add_option("-r", "--rotate-logs",
+        help="Rotate logfiles.", action="store_true", default=False)
     parser.add_option("-s", "--set-default-ui", dest="default_ui",
         help="Sets the default UI to be run when no UI is specified", action="store", type="str")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
+
+    if options.quiet:
+        options.loglevel = "none"
+
+    logfile_mode = 'w'
+    if options.rotate_logs:
+        logfile_mode = 'a'
+
+    # Setup the logger
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
+                           filemode=logfile_mode)
 
     if options.config:
         if not os.path.exists(options.config):
@@ -93,6 +106,7 @@ def start_ui():
             os.makedirs(deluge.common.get_default_config_dir())
 
     if options.default_ui:
+        import deluge.configmanager
         if options.config:
             deluge.configmanager.set_config_dir(options.config)
 
@@ -102,15 +116,10 @@ def start_ui():
         print "The default UI has been changed to", options.default_ui
         sys.exit(0)
 
-    if options.quiet:
-        options.loglevel = "none"
-
-    # Setup the logger
-    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-
     version = deluge.common.get_version()
 
-    from deluge.log import LOG as log
+    import logging
+    log = logging.getLogger(__name__)
     log.info("Deluge ui %s", version)
     log.debug("options: %s", options)
     log.debug("args: %s", args)
@@ -152,6 +161,8 @@ this should be an IP address", metavar="IFACE",
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
+    parser.add_option("-r", "--rotate-logs",
+        help="Rotate logfiles.", action="store_true", default=False)
     parser.add_option("--profile", dest="profile", action="store_true", default=False,
         help="Profiles the daemon")
 
@@ -161,6 +172,15 @@ this should be an IP address", metavar="IFACE",
     if options.quiet:
         options.loglevel = "none"
 
+    logfile_mode = 'w'
+    if options.rotate_logs:
+        logfile_mode = 'a'
+
+    # Setup the logger
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
+                           filemode=logfile_mode)
+
+    import deluge.configmanager
     if options.config:
         if not deluge.configmanager.set_config_dir(options.config):
             print("There was an error setting the config dir! Exiting..")
@@ -202,8 +222,9 @@ this should be an IP address", metavar="IFACE",
         os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
     except:
         pass
-    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-    from deluge.log import LOG as log
+
+    import logging
+    log = logging.getLogger(__name__)
 
     if options.profile:
         import hotshot
