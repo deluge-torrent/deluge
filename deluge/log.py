@@ -149,7 +149,7 @@ def setupLogger(level="error", filename=None, filemode="w"):
         import logging.handlers
         handler = logging.handlers.RotatingFileHandler(
             filename, filemode,
-            maxBytes=5*1024*1024,   # 5 Mb
+            maxBytes=50*1024*1024,   # 50 Mb
             backupCount=3,
             encoding='utf-8',
             delay=0
