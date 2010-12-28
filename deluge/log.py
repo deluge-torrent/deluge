@@ -37,8 +37,8 @@
 """Logging functions"""
 
 import os
-import logging
 import inspect
+import logging
 from deluge import common
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
@@ -155,6 +155,7 @@ def setupLogger(level="error", filename=None, filemode="w"):
             delay=0
         )
     elif filename and filemode=='w':
+        import logging.handlers
         handler = getattr(
             logging.handlers, 'WatchedFileHandler', logging.FileHandler)(
                 filename, filemode, 'utf-8', delay=0

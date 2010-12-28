@@ -55,7 +55,6 @@ class _ConfigManager:
         return self.__config_directory
 
     def __del__(self):
-        log.debug("ConfigManager stopping..")
         del self.config_files
 
     def set_config_dir(self, directory):
