@@ -263,21 +263,30 @@ class __BackwardsCompatibleLOG(object):
         import warnings
         logger_name = 'deluge'
         stack = inspect.stack()
-        module_stack = stack.pop(1)
+        stack.pop(0)                # The logging call from this module
+        module_stack = stack.pop(0) # The module that called the log function
         caller_module = inspect.getmodule(module_stack[0])
+        # In some weird cases caller_module might be None, try to continue
+        caller_module_name = getattr(caller_module, '__name__', '')
         warnings.warn_explicit(DEPRECATION_WARNING, DeprecationWarning,
                                module_stack[1], module_stack[2],
-                               caller_module.__name__)
-        for member in stack:
-            module = inspect.getmodule(member[0])
-            if not module:
-                continue
-            if module.__name__ in ('deluge.plugins.pluginbase',
-                                   'deluge.plugins.init'):
-                logger_name += '.plugin.%s' % caller_module.__name__
-                # Monkey Patch The Plugin Module
-                caller_module.log = logging.getLogger(logger_name)
-                break
+                               caller_module_name)
+        if caller_module:
+            for member in stack:
+                module = inspect.getmodule(member[0])
+                if not module:
+                    continue
+                if module.__name__ in ('deluge.plugins.pluginbase',
+                                       'deluge.plugins.init'):
+                    logger_name += '.plugin.%s' % caller_module_name
+                    # Monkey Patch The Plugin Module
+                    caller_module.log = logging.getLogger(logger_name)
+                    break
+        else:
+            logging.getLogger(logger_name).warning(
+                "Unable to monkey-patch the calling module's `log` attribute! "
+                "You should really update and rebuild your plugins..."
+            )
         return getattr(logging.getLogger(logger_name), name)
 
 LOG = __BackwardsCompatibleLOG()
