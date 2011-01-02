@@ -141,7 +141,7 @@ def setupLogger(level="error", filename=None, filemode="w"):
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)
 
-    level = levels.get(level, "error")
+    level = levels.get(level, logging.ERROR)
 
     rootLogger = logging.getLogger()
 
@@ -162,6 +162,7 @@ def setupLogger(level="error", filename=None, filemode="w"):
         )
     else:
         handler = logging.StreamHandler()
+
     handler.setLevel(level)
 
     formatter = logging.Formatter(
