@@ -117,6 +117,7 @@ class Logging(LoggingLoggerClass):
         return rv
 
 levels = {
+    "none": logging.NOTSET,
     "info": logging.INFO,
     "warn": logging.WARNING,
     "warning": logging.WARNING,
