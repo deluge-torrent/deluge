@@ -189,10 +189,11 @@ class Command(BaseCommand):
                 s += " %s" % (fp)
                 # Check if this is too long for the screen and reduce the path
                 # if necessary
-                cols = self.console.screen.cols
-                slen = colors.get_line_length(s, self.console.screen.encoding)
-                if slen > cols:
-                    s = s.replace(f["path"], f["path"][slen - cols + 1:])
+                if hasattr(self.console, "screen"):
+                    cols = self.console.screen.cols
+                    slen = colors.get_line_length(s, self.console.screen.encoding)
+                    if slen > cols:
+                        s = s.replace(f["path"], f["path"][slen - cols + 1:])
                 self.console.write(s)
 
             self.console.write("  {!info!}::Peers")
