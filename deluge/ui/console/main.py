@@ -213,7 +213,8 @@ class ConsoleUI(component.Component):
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
-        self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer, self.encoding)
+        from modes.alltorrents import AllTorrents
+        self.screen = AllTorrents(stdscr, self.coreconfig, self.encoding)
         self.statusbars = StatusBars()
         self.eventlog = EventLog()
 
@@ -271,7 +272,8 @@ class ConsoleUI(component.Component):
 
         """
         if self.interactive:
-            self.screen.add_line(line, not self.batch_write)
+            #self.screen.add_line(line, not self.batch_write)
+            pass
         else:
             print(colors.strip_colors(line))
 

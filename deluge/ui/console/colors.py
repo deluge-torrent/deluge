@@ -61,7 +61,12 @@ schemes = {
     "info": ("white", "black", "bold"),
     "error": ("red", "black", "bold"),
     "success": ("green", "black", "bold"),
-    "event": ("magenta", "black", "bold")
+    "event": ("magenta", "black", "bold"),
+    "selected": ("black", "white", "bold"),
+    "marked": ("white","blue","bold"),
+    "selectedmarked": ("blue","white","bold"),
+    "header": ("green","black","bold"),
+    "filterstatus": ("green", "blue", "bold")
 }
 
 # Colors for various torrent states
