@@ -889,8 +889,8 @@ class Torrent(object):
             log.error("Attempting to rename a folder with an invalid folder name: %s", new_folder)
             return
 
-        if new_folder[-1:] != "/":
-            new_folder += "/"
+        # Make sure the new folder path is nice and has a trailing slash
+        new_folder = os.path.norm(new_folder) + "/"
 
         wait_on_folder = (folder, new_folder, [])
         for f in self.get_files():
