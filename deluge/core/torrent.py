@@ -904,7 +904,7 @@ class Torrent(object):
             return
 
         # Make sure the new folder path is nice and has a trailing slash
-        new_folder = os.path.norm(new_folder) + "/"
+        new_folder = os.path.normpath(new_folder) + "/"
 
         wait_on_folder = (folder, new_folder, [])
         for f in self.get_files():
