@@ -357,13 +357,13 @@ class AllTorrents(BaseMode, component.Component):
         #cid = self._current_torrent_id()
         if len(self.marked):
             self.popup = SelectablePopup(self,"Torrent Actions",self._torrent_action)
-            self.popup.add_line("Pause",data=ACTION.PAUSE)
-            self.popup.add_line("Resume",data=ACTION.RESUME)
+            self.popup.add_line("_Pause",data=ACTION.PAUSE)
+            self.popup.add_line("_Resume",data=ACTION.RESUME)
             self.popup.add_divider()
-            self.popup.add_line("Update Tracker",data=ACTION.REANNOUNCE)
+            self.popup.add_line("_Update Tracker",data=ACTION.REANNOUNCE)
             self.popup.add_divider()
-            self.popup.add_line("Remove Torrent",data=ACTION.REMOVE)
-            self.popup.add_line("Force Recheck",data=ACTION.RECHECK)
+            self.popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
+            self.popup.add_line("_Force Recheck",data=ACTION.RECHECK)
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
@@ -394,14 +394,14 @@ class AllTorrents(BaseMode, component.Component):
 
     def _show_torrent_filter_popup(self):
         self.popup = SelectablePopup(self,"Filter Torrents",self._torrent_filter)
-        self.popup.add_line("All",data=FILTER.ALL)
-        self.popup.add_line("Active",data=FILTER.ACTIVE)
-        self.popup.add_line("Downloading",data=FILTER.DOWNLOADING,foreground="green")
-        self.popup.add_line("Seeding",data=FILTER.SEEDING,foreground="blue")
-        self.popup.add_line("Paused",data=FILTER.PAUSED)
-        self.popup.add_line("Error",data=FILTER.ERROR,foreground="red")
-        self.popup.add_line("Checking",data=FILTER.CHECKING,foreground="cyan")
-        self.popup.add_line("Queued",data=FILTER.QUEUED,foreground="yellow")
+        self.popup.add_line("_All",data=FILTER.ALL)
+        self.popup.add_line("Ac_tive",data=FILTER.ACTIVE)
+        self.popup.add_line("_Downloading",data=FILTER.DOWNLOADING,foreground="green")
+        self.popup.add_line("_Seeding",data=FILTER.SEEDING,foreground="cyan")
+        self.popup.add_line("_Paused",data=FILTER.PAUSED)
+        self.popup.add_line("_Error",data=FILTER.ERROR,foreground="red")
+        self.popup.add_line("_Checking",data=FILTER.CHECKING,foreground="blue")
+        self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
 
     def _do_add(self, result):
         log.debug("Doing adding %s (dl to %s)",result["file"],result["path"])
@@ -444,7 +444,8 @@ class AllTorrents(BaseMode, component.Component):
         else:
             self.add_string(0,"%s    {!filterstatus!}Current filter: %s"%(self.topbar,self._curr_filter))
         self.add_string(1,self.column_string)
-        self.add_string(self.rows - 1, self.bottombar)
+        hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.bottombar) - 10))
+        self.add_string(self.rows - 1, "%s%s"%(self.bottombar,hstr))
 
         # add all the torrents
         if self.curstate == {}:
@@ -490,13 +491,13 @@ class AllTorrents(BaseMode, component.Component):
                 if ts["state"] == "Downloading":
                     fg = "green"
                 elif ts["state"] == "Seeding":
-                    fg = "blue"
+                    fg = "cyan"
                 elif ts["state"] == "Error":              
                     fg = "red"
                 elif ts["state"] == "Queued":
                     fg = "yellow"
                 elif ts["state"] == "Checking":
-                    fg = "cyan"
+                    fg = "blue"
                     
                 if attr:
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
@@ -574,7 +575,11 @@ class AllTorrents(BaseMode, component.Component):
 
         else:
             if c > 31 and c < 256:
-                if chr(c) == 'i':
+                if chr(c) == 'j':
+                    self._scroll_up(1)
+                elif chr(c) == 'k':
+                    self._scroll_down(1)
+                elif chr(c) == 'i':
                     cid = self._current_torrent_id()
                     if cid:
                         self.popup = Popup(self,"Info",close_cb=lambda:self.updater.set_torrent_to_update(None,None))
