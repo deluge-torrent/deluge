@@ -158,9 +158,18 @@ class SelectablePopup(Popup):
         self._selectable_lines = []
         self._select_data = []
         self._line_foregrounds = []
+        self._udxs = {}
+        self._hotkeys = {}
         self._selected = -1
 
-    def add_line(self, string, selectable=True, data=None, foreground=None):
+    def add_line(self, string, selectable=True, use_underline=True, data=None, foreground=None):
+        if use_underline:
+            udx = string.find('_')
+            if udx >= 0:
+                string = string[:udx]+string[udx+1:]
+                self._udxs[len(self._lines)+1] = udx
+                c = string[udx].lower()
+                self._hotkeys[c] = len(self._lines)
         Popup.add_line(self,string)
         self._line_foregrounds.append(foreground)
         if selectable:
@@ -177,13 +186,24 @@ class SelectablePopup(Popup):
             if (row < self._lineoff):
                 continue
             fg = self._line_foregrounds[row]
+            udx = self._udxs.get(crow)
             if row == self._selected:
                 if fg == None: fg = "black"
                 colorstr = "{!%s,white,bold!}"%fg
+                if udx >= 0:
+                    ustr = "{!%s,white,bold,underline!}"%fg
             else:
                 if fg == None: fg = "white"
                 colorstr = "{!%s,black!}"%fg
-            self.parent.add_string(crow,"- %s%s"%(colorstr,line),self.screen,1,False,True)
+                if udx >= 0:
+                    ustr = "{!%s,black,underline!}"%fg
+            if udx == 0:
+                self.parent.add_string(crow,"- %s%c%s%s"%(ustr,line[0],colorstr,line[1:]),self.screen,1,False,True)
+            elif udx > 0:
+                # well, this is a litte gross
+                self.parent.add_string(crow,"- %s%s%s%c%s%s"%(colorstr,line[:udx],ustr,line[udx],colorstr,line[udx+1:]),self.screen,1,False,True)
+            else:
+                self.parent.add_string(crow,"- %s%s"%(colorstr,line),self.screen,1,False,True)
             crow+=1
 
     def add_divider(self,color="white"):
@@ -211,9 +231,15 @@ class SelectablePopup(Popup):
             idx = self._selectable_lines.index(self._selected)
             self._selection_callback(idx,self._select_data[idx],*self._selection_args)
             return True
-        if c > 31 and c < 256 and chr(c) == 'q':
-            return True # close the popup
-
+        if c > 31 and c < 256:
+            if chr(c) == 'q':
+                return True # close the popup
+            uc = chr(c).lower()
+            if uc in self._hotkeys:
+                # exec hotkey action
+                idx = self._selectable_lines.index(self._hotkeys[uc])
+                self._selection_callback(idx,self._select_data[idx],*self._selection_args)
+                return True
         self.refresh()
 
         return False
