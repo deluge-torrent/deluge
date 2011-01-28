@@ -48,114 +48,79 @@ from popup import Popup
 
 log = logging.getLogger(__name__)
 
-def complete(line):
-    line = os.path.abspath(os.path.expanduser(line))
-    ret = []
-    if os.path.exists(line):
-        # This is a correct path, check to see if it's a directory
-        if os.path.isdir(line):
-            # Directory, so we need to show contents of directory
-            #ret.extend(os.listdir(line))
-            for f in os.listdir(line):
-                # Skip hidden
-                if f.startswith("."):
-                    continue
-                f = os.path.join(line, f)
-                if os.path.isdir(f):
-                    f += "/"
-                ret.append(f)
-        else:
-            # This is a file, but we could be looking for another file that
-            # shares a common prefix.
-            for f in os.listdir(os.path.dirname(line)):
-                if f.startswith(os.path.split(line)[1]):
-                    ret.append(os.path.join( os.path.dirname(line), f))
-    else:
-        # This path does not exist, so lets do a listdir on it's parent
-        # and find any matches.
-        ret = []
-        if os.path.isdir(os.path.dirname(line)):
-            for f in os.listdir(os.path.dirname(line)):
-                if f.startswith(os.path.split(line)[1]):
-                    p = os.path.join(os.path.dirname(line), f)
+class InputField:
+    # render the input.  return number of rows taken up
+    def render(self,screen,row,width,selected):
+        return 0
+    def handle_read(self, c):
+        if c in [curses.KEY_ENTER, 10, 127, 113]:
+            return True
+        return False
+    def get_value(self):
+        return None
 
-                    if os.path.isdir(p):
-                        p += "/"
-                    ret.append(p)
+class SelectInput(InputField):
+    def __init__(self, parent, message, name, opts, selidx):
+        self.parent = parent
+        self.message = message
+        self.name = name
+        self.opts = opts
+        self.selidx = selidx
 
-    return ret
+    def render(self, screen, row, width, selected):
+        self.parent.add_string(row,self.message,screen,1,False,True)
+        off = 2
+        for i,opt in enumerate(self.opts):
+            if selected and i == self.selidx:
+                self.parent.add_string(row+1,"{!black,white,bold!}[%s]"%opt,screen,off,False,True)
+            elif i == self.selidx:
+                self.parent.add_string(row+1,"[{!white,black,underline!}%s{!white,black!}]"%opt,screen,off,False,True)
+            else:
+                self.parent.add_string(row+1,"[%s]"%opt,screen,off,False,True)
+            off += len(opt)+3
+        return 2
 
+    def handle_read(self, c):
+        if c == curses.KEY_LEFT:
+            self.selidx = max(0,self.selidx-1)
+        if c == curses.KEY_RIGHT:
+            self.selidx = min(len(self.opts)-1,self.selidx+1)
 
-class InputPopup(Popup):
-    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None):
-        Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
-        self.input_list = []
-        self.input_states = {}
-        self.current_input = 0
+    def get_value(self):
+        return self.opts[self.selidx]
+
+class TextInput(InputField):
+    def __init__(self, parent, move_func, width, message, name, value, docmp):
+        self.parent = parent
+        self.move_func = move_func
+        self.width = width
+
+        self.message = message
+        self.name = name
+        self.value = value
+        self.docmp = docmp
+
         self.tab_count = 0
+        self.cursor = 0
         self.opts = None
         self.opt_off = 0
-        curses.curs_set(2)
 
-    def add_text_input(self, message, name, value="", complete=True):
-        """ 
-        Add a text input field to the popup.
-        
-        :param message: string to display above the input field
-        :param name: name of the field, for the return callback
-        :param value: initial value of the field
-        :param complete: should completion be run when tab is hit and this field is active
-        """
-        self.input_list.append(name)
-        self.input_states[name] = [message,value,0,complete]
+    def render(self,screen,row,width,selected):
+        if selected:
+            if self.opts:
+                self.parent.add_string(row+2,self.opts[self.opt_off:],screen,1,False,True)
+            self.move_func(row+1,self.cursor+1)
+        self.parent.add_string(row,self.message,screen,1,False,True)
+        self.parent.add_string(row+1,"{!black,white,bold!}%s"%self.value.ljust(width-2),screen,1,False,False)
 
-    def _refresh_lines(self):
-        crow = 1
-        for i,ipt in enumerate(self.input_list):
-            msg,txt,curs,comp = self.input_states[ipt]
-            if i == self.current_input:
-                curs_row = crow+1
-                curs_col = curs
-                if self.opts:
-                    self.parent.add_string(crow+2,self.opts[self.opt_off:],self.screen,1,False,True)
-            self.parent.add_string(crow,msg,self.screen,1,False,True)
-            self.parent.add_string(crow+1,"{!selected!}%s"%txt.ljust(self.width-2),self.screen,1,False,False)
-            crow += 3
+        return 3
 
-        self.screen.move(curs_row,curs_col+1)
-
-    def _get_current_input_value(self):
-        return self.input_states[self.input_list[self.current_input]][1]
-
-    def _set_current_input_value(self, val):
-        self.input_states[self.input_list[self.current_input]][1] = val
-
-    def _get_current_cursor(self):
-        return self.input_states[self.input_list[self.current_input]][2]
-
-    def _move_current_cursor(self, amt):
-        self.input_states[self.input_list[self.current_input]][2] += amt
-
-    def _set_current_cursor(self, pos):
-        self.input_states[self.input_list[self.current_input]][2] = pos
+    def get_value(self):
+        return self.value
 
     # most of the cursor,input stuff here taken from ui/console/screen.py
-    def handle_read(self, c):
-        if c == curses.KEY_UP:
-            self.current_input = max(0,self.current_input-1)
-        elif c == curses.KEY_DOWN:
-            self.current_input = min(len(self.input_list)-1,self.current_input+1)
-
-        elif c == curses.KEY_ENTER or c == 10:
-            if self._close_cb:
-                vals = {}
-                for ipt in self.input_list:
-                    vals[ipt] = self.input_states[ipt][1]
-                curses.curs_set(0)
-                self._close_cb(vals)
-            return True # close the popup
-
-        elif c == 9:
+    def handle_read(self,c):
+        if c == 9 and self.docmp:
             # Keep track of tab hit count to know when it's double-hit
             self.tab_count += 1
             if self.tab_count > 1:
@@ -166,9 +131,7 @@ class InputPopup(Popup):
 
             # We only call the tab completer function if we're at the end of
             # the input string on the cursor is on a space
-            cur_input = self._get_current_input_value()
-            cur_cursor = self._get_current_cursor()
-            if cur_cursor == len(cur_input) or cur_input[cur_cursor] == " ":
+            if self.cursor == len(self.value) or self.value[self.cursor] == " ":
                 if self.opts:
                     prev = self.opt_off
                     self.opt_off += self.width-3
@@ -178,28 +141,23 @@ class InputPopup(Popup):
                     if second_hit and self.opt_off == prev: # double tap and we're at the end
                         self.opt_off = 0
                 else:
-                    opts = complete(cur_input)
+                    opts = self.complete(self.value)
                     if len(opts) == 1: # only one option, just complete it
-                        self._set_current_input_value(opts[0])
-                        self._set_current_cursor(len(opts[0]))
+                        self.value = opts[0]
+                        self.cursor = len(opts[0])
                         self.tab_count = 0
                     elif len(opts) > 1 and second_hit: # display multiple options on second tab hit
                         self.opts = "  ".join(opts)
 
-        elif c == 27: # close on esc, no action
-            return True
-
         # Cursor movement
         elif c == curses.KEY_LEFT:
-            if self._get_current_cursor():
-                self._move_current_cursor(-1)
+            self.cursor = max(0,self.cursor-1)
         elif c == curses.KEY_RIGHT:
-            if self._get_current_cursor() < len(self._get_current_input_value()):
-                self._move_current_cursor(1)
+            self.cursor = min(len(self.value),self.cursor+1)
         elif c == curses.KEY_HOME:
-            self._set_current_cursor(0)
+            self.cursor = 0
         elif c == curses.KEY_END:
-            self._set_current_cursor(len(self._get_current_input_value()))
+            self.cursor = len(self.value)
 
         if c != 9:
             self.opts = None
@@ -208,19 +166,13 @@ class InputPopup(Popup):
 
         # Delete a character in the input string based on cursor position
         if c == curses.KEY_BACKSPACE or c == 127:
-            cur_input = self._get_current_input_value()
-            cur_cursor = self._get_current_cursor()
-            if cur_input and  cur_cursor > 0:
-                self._set_current_input_value(cur_input[:cur_cursor - 1] + cur_input[cur_cursor:])
-                self._move_current_cursor(-1)
+            if self.value and  self.cursor > 0:
+                self.value = self.value[:self.cursor - 1] + self.value[self.cursor:]
+                self.cursor-=1
         elif c == curses.KEY_DC:
-            cur_input = self._get_current_input_value()
-            cur_cursor = self._get_current_cursor()
-            if cur_input and cur_cursor < len(cur_input):
-                self._set_current_input_value(cur_input[:cur_cursor] + cur_input[cur_cursor+1:])
+            if self.value and self.cursor < len(self.value):
+                self.value = self.value[:self.cursor] + self.value[self.cursor+1:]
         elif c > 31 and c < 256:
-            cur_input = self._get_current_input_value()
-            cur_cursor = self._get_current_cursor()
             # Emulate getwch
             stroke = chr(c)
             uchar = ""
@@ -231,13 +183,107 @@ class InputPopup(Popup):
                     c = self.parent.stdscr.getch()
                     stroke += chr(c)
             if uchar:
-                if cur_cursor == len(cur_input):
-                    self._set_current_input_value(cur_input+uchar)
+                if self.cursor == len(self.value):
+                    self.value += uchar
                 else:
                     # Insert into string
-                    self._set_current_input_value(cur_input[:cur_cursor] + uchar + cur_input[cur_cursor:])
+                    self.value = self.value[:self.cursor] + uchar + self.value[self.cursor:]
                 # Move the cursor forward
-                self._move_current_cursor(1)
+                self.cursor+=1
+
+    def complete(self,line):
+        line = os.path.abspath(os.path.expanduser(line))
+        ret = []
+        if os.path.exists(line):
+            # This is a correct path, check to see if it's a directory
+            if os.path.isdir(line):
+                # Directory, so we need to show contents of directory
+                #ret.extend(os.listdir(line))
+                for f in os.listdir(line):
+                    # Skip hidden
+                    if f.startswith("."):
+                        continue
+                    f = os.path.join(line, f)
+                    if os.path.isdir(f):
+                        f += "/"
+                    ret.append(f)
+            else:
+                # This is a file, but we could be looking for another file that
+                # shares a common prefix.
+                for f in os.listdir(os.path.dirname(line)):
+                    if f.startswith(os.path.split(line)[1]):
+                        ret.append(os.path.join( os.path.dirname(line), f))
+        else:
+            # This path does not exist, so lets do a listdir on it's parent
+            # and find any matches.
+            ret = []
+            if os.path.isdir(os.path.dirname(line)):
+                for f in os.listdir(os.path.dirname(line)):
+                    if f.startswith(os.path.split(line)[1]):
+                        p = os.path.join(os.path.dirname(line), f)
+
+                        if os.path.isdir(p):
+                            p += "/"
+                        ret.append(p)
+
+        return ret
+
+
+class InputPopup(Popup):
+    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None):
+        Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
+        self.inputs = []
+        self.current_input = 0
+
+    def move(self,r,c):
+        self._cursor_row = r
+        self._cursor_col = c
+
+    def add_text_input(self, message, name, value="", complete=True):
+        """ 
+        Add a text input field to the popup.
+        
+        :param message: string to display above the input field
+        :param name: name of the field, for the return callback
+        :param value: initial value of the field
+        :param complete: should completion be run when tab is hit and this field is active
+        """
+        self.inputs.append(TextInput(self.parent, self.move, self.width, message,
+                                     name, value, complete))
+
+    def add_select_input(self, message, name, opts, default_index=0):
+        self.inputs.append(SelectInput(self.parent, message, name, opts, default_index))
+
+    def _refresh_lines(self):
+        self._cursor_row = -1
+        self._cursor_col = -1
+        curses.curs_set(0)
+        crow = 1
+        for i,ipt in enumerate(self.inputs):
+            crow += ipt.render(self.screen,crow,self.width,i==self.current_input)
+
+        # need to do this last as adding things moves the cursor
+        if self._cursor_row >= 0:
+            curses.curs_set(2)
+            self.screen.move(self._cursor_row,self._cursor_col)
+
+    def handle_read(self, c):
+        if c == curses.KEY_UP:
+            self.current_input = max(0,self.current_input-1)
+        elif c == curses.KEY_DOWN:
+            self.current_input = min(len(self.inputs)-1,self.current_input+1)
+        elif c == curses.KEY_ENTER or c == 10:
+            if self._close_cb:
+                vals = {}
+                for ipt in self.inputs:
+                    vals[ipt.name] = ipt.get_value()
+                curses.curs_set(0)
+                self._close_cb(vals)
+            return True # close the popup
+        elif c == 27: # close on esc, no action
+            return True
+        elif self.inputs:
+            self.inputs[self.current_input].handle_read(c)
 
         self.refresh()
         return False
