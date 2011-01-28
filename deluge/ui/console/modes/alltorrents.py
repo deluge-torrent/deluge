@@ -145,7 +145,7 @@ class StateUpdater(component.Component):
 
 class AllTorrents(BaseMode, component.Component):
     def __init__(self, stdscr, coreconfig, encoding=None):
-        self.curstate = None
+        self.formatted_rows = None
         self.cursel = 1
         self.curoff = 1
         self.column_string = ""
@@ -231,8 +231,23 @@ class AllTorrents(BaseMode, component.Component):
         return "".join([self._format_column(row[i],self.column_widths[i]) for i in range(0,len(row))])
 
     def set_state(self, state, refresh):
-        self.curstate = state
+        self.curstate = state # cache in case we change sort order
+        newrows = []
+        self._sorted_ids = self._sort_torrents(self.curstate)
+        for torrent_id in self._sorted_ids:
+            ts = self.curstate[torrent_id]
+            newrows.append((self._format_row([self._format_queue(ts["queue"]),
+                                              ts["name"],
+                                              "%s"%deluge.common.fsize(ts["total_wanted"]),
+                                              ts["state"],
+                                              self._format_progress(ts["progress"]),
+                                              self._format_seeds_peers(ts["num_seeds"],ts["total_seeds"]),
+                                              self._format_seeds_peers(ts["num_peers"],ts["total_peers"]),
+                                              self._format_speed(ts["download_payload_rate"]),
+                                              self._format_speed(ts["upload_payload_rate"])
+                                             ]),ts["state"]))
         self.numtorrents = len(state)
+        self.formatted_rows = newrows
         if refresh:
             self.refresh()
 
@@ -243,6 +258,7 @@ class AllTorrents(BaseMode, component.Component):
 
     def _scroll_down(self, by):
         self.cursel = min(self.cursel + by,self.numtorrents)
+        log.error("cursel: %d",self.cursel)
         if ((self.curoff + self.rows - 5) < self.cursel):
             self.curoff = self.cursel - self.rows + 5
 
@@ -448,29 +464,14 @@ class AllTorrents(BaseMode, component.Component):
         self.add_string(self.rows - 1, "%s%s"%(self.bottombar,hstr))
 
         # add all the torrents
-        if self.curstate == {}:
+        if self.formatted_rows == []:
             msg = "No torrents match filter".center(self.cols)
             self.add_string(3, "{!info!}%s"%msg)
-        elif self.curstate != None:
-            tidx = 1
+        elif self.formatted_rows:
+            tidx = self.curoff
             currow = 2
-            self._sorted_ids = self._sort_torrents(self.curstate) 
-            for torrent_id in self._sorted_ids:
-                if (tidx < self.curoff):
-                    tidx += 1
-                    continue
-                ts = self.curstate[torrent_id]
-                s = self._format_row([self._format_queue(ts["queue"]),
-                                      ts["name"],
-                                      "%s"%deluge.common.fsize(ts["total_wanted"]),
-                                      ts["state"],
-                                      self._format_progress(ts["progress"]),
-                                      self._format_seeds_peers(ts["num_seeds"],ts["total_seeds"]),
-                                      self._format_seeds_peers(ts["num_peers"],ts["total_peers"]),
-                                      self._format_speed(ts["download_payload_rate"]),
-                                      self._format_speed(ts["upload_payload_rate"])
-                                      ])
 
+            for row in self.formatted_rows[tidx-1:]:
                 # default style
                 fg = "white"
                 bg = "black"
@@ -488,22 +489,22 @@ class AllTorrents(BaseMode, component.Component):
                     else:
                         fg = "black"
 
-                if ts["state"] == "Downloading":
+                if row[1] == "Downloading":
                     fg = "green"
-                elif ts["state"] == "Seeding":
+                elif row[1] == "Seeding":
                     fg = "cyan"
-                elif ts["state"] == "Error":              
+                elif row[1] == "Error":              
                     fg = "red"
-                elif ts["state"] == "Queued":
+                elif row[1] == "Queued":
                     fg = "yellow"
-                elif ts["state"] == "Checking":
+                elif row[1] == "Checking":
                     fg = "blue"
                     
                 if attr:
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
                 else:
                     colorstr = "{!%s,%s!}"%(fg,bg)
-                self.add_string(currow,"%s%s"%(colorstr,s))
+                self.add_string(currow,"%s%s"%(colorstr,row[0]))
                 tidx += 1
                 currow += 1 
                 if (currow > (self.rows - 2)):
@@ -550,7 +551,7 @@ class AllTorrents(BaseMode, component.Component):
                     reactor.stop()            
                 return
 
-        if self.curstate==None or self.popup:
+        if self.formatted_rows==None or self.popup:
             return
 
         #log.error("pressed key: %d\n",c)
