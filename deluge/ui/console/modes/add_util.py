@@ -49,6 +49,7 @@ def add_torrent(t_file, options, success_cb, fail_cb):
     t_options = {}
     if options["path"]:
         t_options["download_location"] = os.path.expanduser(options["path"])
+    t_options["add_paused"] = options["add_paused"]
 
     # Keep a list of deferreds to make a DeferredList
     if not os.path.exists(t_file):

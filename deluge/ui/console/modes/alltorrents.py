@@ -108,6 +108,9 @@ class ACTION:
     RECHECK=4
     REMOVE=5
 
+    REMOVE_DATA=6
+    REMOVE_NODATA=7
+
 class FILTER:
     ALL=0
     ACTIVE=1
@@ -258,7 +261,6 @@ class AllTorrents(BaseMode, component.Component):
 
     def _scroll_down(self, by):
         self.cursel = min(self.cursel + by,self.numtorrents)
-        log.error("cursel: %d",self.cursel)
         if ((self.curoff + self.rows - 5) < self.cursel):
             self.curoff = self.cursel - self.rows + 5
 
@@ -349,6 +351,7 @@ class AllTorrents(BaseMode, component.Component):
         self.refresh()
 
     def _torrent_action(self, idx, data):
+        log.error("Action %d",data)
         ids = self._selected_torrent_ids()
         if ids:
             if data==ACTION.PAUSE:
@@ -358,7 +361,23 @@ class AllTorrents(BaseMode, component.Component):
                 log.debug("Resuming torrents: %s", ids)
                 client.core.resume_torrent(ids).addErrback(self._action_error)
             elif data==ACTION.REMOVE:
-                log.error("Can't remove just yet")
+                def do_remove(tid,data):
+                    ids = self._selected_torrent_ids()
+                    if data:
+                        wd = data==ACTION.REMOVE_DATA
+                        for tid in ids:
+                            log.debug("Removing torrent: %s,%d",tid,wd)
+                            client.core.remove_torrent(tid,wd).addErrback(self._action_error)
+                    if len(ids) == 1:
+                        self.marked = []
+                        self.last_mark = -1
+                    return True
+                self.popup = SelectablePopup(self,"Confirm Remove",do_remove)
+                self.popup.add_line("Are you sure you want to remove the marked torrents?",selectable=False)
+                self.popup.add_line("Remove with _data",data=ACTION.REMOVE_DATA)
+                self.popup.add_line("Remove _torrent",data=ACTION.REMOVE_NODATA)
+                self.popup.add_line("_Cancel",data=0)
+                return False
             elif data==ACTION.RECHECK:
                 log.debug("Rechecking torrents: %s", ids)
                 client.core.force_recheck(ids).addErrback(self._action_error)
@@ -368,6 +387,7 @@ class AllTorrents(BaseMode, component.Component):
         if len(ids) == 1:
             self.marked = []
             self.last_mark = -1
+        return True
 
     def _show_torrent_actions_popup(self):
         #cid = self._current_torrent_id()
@@ -407,6 +427,7 @@ class AllTorrents(BaseMode, component.Component):
             self.updater.status_dict = {"state":"Queued"}
             self._curr_filter = "Queued"
         self._go_top = True
+        return True
 
     def _show_torrent_filter_popup(self):
         self.popup = SelectablePopup(self,"Filter Torrents",self._torrent_filter)
@@ -420,7 +441,8 @@ class AllTorrents(BaseMode, component.Component):
         self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
 
     def _do_add(self, result):
-        log.debug("Doing adding %s (dl to %s)",result["file"],result["path"])
+        result["add_paused"] = (result["add_paused"] == "Yes")
+        log.debug("Adding Torrent: %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
         def suc_cb(msg):
             self.report_message("Torrent Added",msg)
         def fail_cb(msg):
@@ -429,13 +451,21 @@ class AllTorrents(BaseMode, component.Component):
 
     def _show_torrent_add_popup(self):
         dl = ""
+        ap = 1
         try:
             dl = self.coreconfig["download_location"]
         except KeyError:
             pass
+        try:
+            if self.coreconfig["add_paused"]:
+                ap = 0
+        except KeyError:
+            pass
+
         self.popup = InputPopup(self,"Add Torrent (Esc to cancel)",close_cb=self._do_add)
         self.popup.add_text_input("Enter path to torrent file:","file")
         self.popup.add_text_input("Enter save path:","path",dl)
+        self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],ap)
 
     def report_message(self,title,message):
         self.messages.append((title,message))

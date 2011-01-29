@@ -229,8 +229,7 @@ class SelectablePopup(Popup):
             return True
         elif c == curses.KEY_ENTER or c == 10:
             idx = self._selectable_lines.index(self._selected)
-            self._selection_callback(idx,self._select_data[idx],*self._selection_args)
-            return True
+            return self._selection_callback(idx,self._select_data[idx],*self._selection_args)
         if c > 31 and c < 256:
             if chr(c) == 'q':
                 return True # close the popup
@@ -238,8 +237,7 @@ class SelectablePopup(Popup):
             if uc in self._hotkeys:
                 # exec hotkey action
                 idx = self._selectable_lines.index(self._hotkeys[uc])
-                self._selection_callback(idx,self._select_data[idx],*self._selection_args)
-                return True
+                return self._selection_callback(idx,self._select_data[idx],*self._selection_args)
         self.refresh()
 
         return False
