@@ -133,7 +133,7 @@ class Command(BaseCommand):
         deferred = defer.Deferred()
         config = component.get("CoreConfig")
         key = options["set"][0]
-        val = simple_eval(options["set"][1] + " " + " ".join(args))
+        val = simple_eval(options["set"][1] + " " .join(args))
 
         if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)
