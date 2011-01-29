@@ -62,7 +62,10 @@ def atom(next, token):
         return tuple(out)
     elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
-            return int(token[-1], 0)
+            if token[1] == "-":
+                return int(token[-1], 0)
+            else:
+                return int(token[1], 0)
         except ValueError:
             return float(token[-1])
     elif token[1].lower() == 'true':
