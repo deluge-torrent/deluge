@@ -250,7 +250,11 @@ class Screen(CursesStdIO):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
                 s += " " * (self.cols - (col + len(s)) - 1)
-            self.stdscr.addstr(row, col, s, color)
+            try:
+                self.stdscr.addstr(row, col, s, color)
+            except curses.error:
+                pass
+
             col += len(s)
 
     def refresh(self):
@@ -287,7 +291,10 @@ class Screen(CursesStdIO):
         self.add_string(self.rows - 1, self.input)
 
         # Move the cursor
-        self.stdscr.move(self.rows - 1, self.input_cursor)
+        try:
+            self.stdscr.move(self.rows - 1, self.input_cursor)
+        except curses.error:
+            pass
         self.stdscr.redrawwin()
         self.stdscr.refresh()
 
@@ -426,7 +433,10 @@ class Screen(CursesStdIO):
 
         # Update the input string on the screen
         self.add_string(self.rows - 1, self.input)
-        self.stdscr.move(self.rows - 1, self.input_cursor)
+        try:
+            self.stdscr.move(self.rows - 1, self.input_cursor)
+        except curses.error:
+            pass
         self.stdscr.refresh()
 
     def close(self):
