@@ -150,7 +150,7 @@ class AllTorrents(BaseMode, component.Component):
     def __init__(self, stdscr, coreconfig, encoding=None):
         self.formatted_rows = None
         self.cursel = 1
-        self.curoff = 1
+        self.curoff = 1 # TODO: this should really be 0 indexed
         self.column_string = ""
         self.popup = None
         self.messages = deque()
@@ -255,14 +255,18 @@ class AllTorrents(BaseMode, component.Component):
             self.refresh()
 
     def _scroll_up(self, by):
+        prevoff = self.curoff
         self.cursel = max(self.cursel - by,1)
         if ((self.cursel - 1) < self.curoff):
             self.curoff = max(self.cursel - 1,1)
+        return prevoff != self.curoff
 
     def _scroll_down(self, by):
+        prevoff = self.curoff
         self.cursel = min(self.cursel + by,self.numtorrents)
         if ((self.curoff + self.rows - 5) < self.cursel):
             self.curoff = self.cursel - self.rows + 5
+        return prevoff != self.curoff
 
     def _current_torrent_id(self):
         if self._sorted_ids:
@@ -470,7 +474,7 @@ class AllTorrents(BaseMode, component.Component):
     def report_message(self,title,message):
         self.messages.append((title,message))
 
-    def refresh(self):
+    def refresh(self,lines=None):
         # Something has requested we scroll to the top of the list
         if self._go_top:
             self.cursel = 1
@@ -482,7 +486,8 @@ class AllTorrents(BaseMode, component.Component):
             title,msg = self.messages.popleft()
             self.popup = MessagePopup(self,title,msg)
 
-        self.stdscr.clear()
+        if not lines:
+            self.stdscr.clear()
 
         # Update the status bars
         if self._curr_filter == None:
@@ -501,11 +506,21 @@ class AllTorrents(BaseMode, component.Component):
             tidx = self.curoff
             currow = 2
 
-            for row in self.formatted_rows[tidx-1:]:
+            if lines:
+                todraw = []
+                for l in lines:
+                    todraw.append(self.formatted_rows[l])
+                lines.reverse()
+            else:
+                todraw = self.formatted_rows[tidx-1:]
+
+            for row in todraw:
                 # default style
                 fg = "white"
                 bg = "black"
                 attr = None
+                if lines:
+                    tidx = lines.pop()+1
 
                 if tidx in self.marked:
                     bg = "blue"
@@ -534,6 +549,10 @@ class AllTorrents(BaseMode, component.Component):
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
                 else:
                     colorstr = "{!%s,%s!}"%(fg,bg)
+
+                if lines:
+                    currow = tidx-self.curoff+2
+
                 self.add_string(currow,"%s%s"%(colorstr,row[0]))
                 tidx += 1
                 currow += 1 
@@ -542,7 +561,7 @@ class AllTorrents(BaseMode, component.Component):
         else:
             self.add_string(1, "Waiting for torrents from core...")
 
-        self.stdscr.redrawwin()
+        #self.stdscr.redrawwin()
         self.stdscr.noutrefresh()
 
         if self.popup:
@@ -562,6 +581,8 @@ class AllTorrents(BaseMode, component.Component):
 
     def _doRead(self):
         # Read the character
+        effected_lines = None
+
         c = self.stdscr.getch()
 
         if self.popup:
@@ -590,11 +611,13 @@ class AllTorrents(BaseMode, component.Component):
         
         # Navigate the torrent list
         if c == curses.KEY_UP:
-            self._scroll_up(1)
+            if not self._scroll_up(1):
+                effected_lines = [self.cursel-1,self.cursel]
         elif c == curses.KEY_PPAGE:
             self._scroll_up(int(self.rows/2))
         elif c == curses.KEY_DOWN:
-            self._scroll_down(1)
+            if not self._scroll_down(1):
+                effected_lines = [self.cursel-2,self.cursel-1]
         elif c == curses.KEY_NPAGE:
             self._scroll_down(int(self.rows/2))
 
@@ -607,9 +630,11 @@ class AllTorrents(BaseMode, component.Component):
         else:
             if c > 31 and c < 256:
                 if chr(c) == 'j':
-                    self._scroll_up(1)
+                    if not self._scroll_up(1):
+                        effected_lines = [self.cursel-1,self.cursel]
                 elif chr(c) == 'k':
-                    self._scroll_down(1)
+                    if not self._scroll_down(1):
+                        effected_lines = [self.cursel-2,self.cursel-1]
                 elif chr(c) == 'i':
                     cid = self._current_torrent_id()
                     if cid:
@@ -635,4 +660,4 @@ class AllTorrents(BaseMode, component.Component):
                     for l in HELP_LINES:
                         self.popup.add_line(l)
 
-        self.refresh()
+        self.refresh(effected_lines)
