@@ -124,6 +124,11 @@ class StatusTab(Tab):
         if status is None:
             return
 
+        if status["is_auto_managed"]:
+            status["is_auto_managed"]=_("On")
+        else:
+            status["is_auto_managed"]=_("Off")
+
         # Update all the label widgets
         for widget in self.label_widgets:
             if widget[1] != None:
