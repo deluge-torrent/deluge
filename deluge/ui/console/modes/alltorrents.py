@@ -46,7 +46,9 @@ from deluge.ui.sessionproxy import SessionProxy
 from popup import Popup,SelectablePopup,MessagePopup
 from add_util import add_torrent
 from input_popup import InputPopup
+from torrentdetail import TorrentDetail
 
+import format_utils
 
 try:
     import curses
@@ -146,7 +148,7 @@ class StateUpdater(component.Component):
         self._status_cb(state,refresh)
 
 
-class AllTorrents(BaseMode, component.Component):
+class AllTorrents(BaseMode):
     def __init__(self, stdscr, coreconfig, encoding=None):
         self.formatted_rows = None
         self.cursel = 1
@@ -166,7 +168,6 @@ class AllTorrents(BaseMode, component.Component):
         BaseMode.__init__(self, stdscr, encoding)
         curses.curs_set(0)
         self.stdscr.notimeout(0)
-        self.sessionproxy = SessionProxy()
 
         self._status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
                                "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
@@ -180,21 +181,21 @@ class AllTorrents(BaseMode, component.Component):
         self._info_fields = [
             ("Name",None,("name",)),
             ("State", None, ("state",)),
-            ("Down Speed", self._format_speed, ("download_payload_rate",)),
-            ("Up Speed", self._format_speed, ("upload_payload_rate",)),
-            ("Progress", self._format_progress, ("progress",)),
+            ("Down Speed", format_utils.format_speed, ("download_payload_rate",)),
+            ("Up Speed", format_utils.format_speed, ("upload_payload_rate",)),
+            ("Progress", format_utils.format_progress, ("progress",)),
             ("ETA", deluge.common.ftime, ("eta",)),
             ("Path", None, ("save_path",)),
             ("Downloaded",deluge.common.fsize,("all_time_download",)),
             ("Uploaded", deluge.common.fsize,("total_uploaded",)),
             ("Share Ratio", lambda x:x < 0 and "∞" or "%.3f"%x, ("ratio",)),
-            ("Seeders",self._format_seeds_peers,("num_seeds","total_seeds")),
-            ("Peers",self._format_seeds_peers,("num_peers","total_peers")),
+            ("Seeders",format_utils.format_seeds_peers,("num_seeds","total_seeds")),
+            ("Peers",format_utils.format_seeds_peers,("num_peers","total_peers")),
             ("Active Time",deluge.common.ftime,("active_time",)),
             ("Seeding Time",deluge.common.ftime,("seeding_time",)),
             ("Date Added",deluge.common.fdate,("time_added",)),
             ("Availability", lambda x:x < 0 and "∞" or "%.3f"%x, ("distributed_copies",)),
-            ("Pieces", self._format_pieces, ("num_pieces","piece_length")),
+            ("Pieces", format_utils.format_pieces, ("num_pieces","piece_length")),
             ]
 
         self._status_keys = ["name","state","download_payload_rate","upload_payload_rate",
@@ -202,6 +203,11 @@ class AllTorrents(BaseMode, component.Component):
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
                              "piece_length","save_path"]
+
+    def resume(self):
+        component.start(["AllTorrentsStateUpdater"])
+        self.refresh()
+        
 
     def _update_columns(self):
         self.column_widths = [5,-1,15,13,10,10,10,15,15]
@@ -220,18 +226,6 @@ class AllTorrents(BaseMode, component.Component):
 
         self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
 
-    def _trim_string(self, string, w):
-        return "%s... "%(string[0:w-4])
-
-    def _format_column(self, col, lim):
-        size = len(col)
-        if (size >= lim - 1):
-            return self._trim_string(col,lim)
-        else:
-            return "%s%s"%(col," "*(lim-size))
-
-    def _format_row(self, row):
-        return "".join([self._format_column(row[i],self.column_widths[i]) for i in range(0,len(row))])
 
     def set_state(self, state, refresh):
         self.curstate = state # cache in case we change sort order
@@ -239,16 +233,16 @@ class AllTorrents(BaseMode, component.Component):
         self._sorted_ids = self._sort_torrents(self.curstate)
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
-            newrows.append((self._format_row([self._format_queue(ts["queue"]),
-                                              ts["name"],
-                                              "%s"%deluge.common.fsize(ts["total_wanted"]),
-                                              ts["state"],
-                                              self._format_progress(ts["progress"]),
-                                              self._format_seeds_peers(ts["num_seeds"],ts["total_seeds"]),
-                                              self._format_seeds_peers(ts["num_peers"],ts["total_peers"]),
-                                              self._format_speed(ts["download_payload_rate"]),
-                                              self._format_speed(ts["upload_payload_rate"])
-                                             ]),ts["state"]))
+            newrows.append((format_utils.format_row([self._format_queue(ts["queue"]),
+                                                     ts["name"],
+                                                     "%s"%deluge.common.fsize(ts["total_wanted"]),
+                                                     ts["state"],
+                                                     format_utils.format_progress(ts["progress"]),
+                                                     format_utils.format_seeds_peers(ts["num_seeds"],ts["total_seeds"]),
+                                                     format_utils.format_seeds_peers(ts["num_peers"],ts["total_peers"]),
+                                                     format_utils.format_speed(ts["download_payload_rate"]),
+                                                     format_utils.format_speed(ts["upload_payload_rate"])
+                                                     ],self.column_widths),ts["state"]))
         self.numtorrents = len(state)
         self.formatted_rows = newrows
         if refresh:
@@ -328,26 +322,11 @@ class AllTorrents(BaseMode, component.Component):
         "sorts by queue #"
         return sorted(state,cmp=self._queue_sort,key=lambda s:state.get(s)["queue"])
 
-    def _format_speed(self, speed):
-        if (speed > 0):
-            return deluge.common.fspeed(speed)
-        else:
-            return "-"
-
     def _format_queue(self, qnum):
         if (qnum >= 0):
             return "%d"%(qnum+1)
         else:
             return ""
-
-    def _format_seeds_peers(self, num, total):
-        return "%d (%d)"%(num,total)
-
-    def _format_pieces(self, num, size):
-        return "%d (%s)"%(num,deluge.common.fsize(size))
-
-    def _format_progress(self, perc):
-        return "%.2f%%"%perc
 
     def _action_error(self, error):
         rerr = error.value
@@ -475,6 +454,9 @@ class AllTorrents(BaseMode, component.Component):
         self.messages.append((title,message))
 
     def refresh(self,lines=None):
+        #log.error("ref")
+        #import traceback
+        #traceback.print_stack()
         # Something has requested we scroll to the top of the list
         if self._go_top:
             self.cursel = 1
@@ -491,12 +473,12 @@ class AllTorrents(BaseMode, component.Component):
 
         # Update the status bars
         if self._curr_filter == None:
-            self.add_string(0,self.topbar)
+            self.add_string(0,self.statusbars.topbar)
         else:
-            self.add_string(0,"%s    {!filterstatus!}Current filter: %s"%(self.topbar,self._curr_filter))
+            self.add_string(0,"%s    {!filterstatus!}Current filter: %s"%(self.statusbars.topbar,self._curr_filter))
         self.add_string(1,self.column_string)
-        hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.bottombar) - 10))
-        self.add_string(self.rows - 1, "%s%s"%(self.bottombar,hstr))
+        hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
+        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
 
         # add all the torrents
         if self.formatted_rows == []:
@@ -620,6 +602,15 @@ class AllTorrents(BaseMode, component.Component):
                 effected_lines = [self.cursel-2,self.cursel-1]
         elif c == curses.KEY_NPAGE:
             self._scroll_down(int(self.rows/2))
+
+        elif c == curses.KEY_RIGHT:
+            # We enter a new mode for the selected torrent here
+            if not self.marked:
+                component.stop(["AllTorrentsStateUpdater"])
+                self.stdscr.clear()
+                td = TorrentDetail(self,self._current_torrent_id(),self.stdscr,self.encoding)
+                component.get("ConsoleUI").set_mode(td)
+                return
 
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:

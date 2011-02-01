@@ -48,6 +48,7 @@ import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.ui.coreconfig import CoreConfig
+from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
 import screen
@@ -156,7 +157,10 @@ class ConsoleUI(component.Component):
 
         log.debug("Using encoding: %s", self.encoding)
         # Load all the commands
-        self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
+        #self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
+
+        # start up the session proxy
+        self.sessionproxy = SessionProxy()
 
         client.set_disconnect_callback(self.on_client_disconnect)
 
@@ -213,9 +217,9 @@ class ConsoleUI(component.Component):
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
+        self.statusbars = StatusBars()
         from modes.alltorrents import AllTorrents
         self.screen = AllTorrents(stdscr, self.coreconfig, self.encoding)
-        self.statusbars = StatusBars()
         self.eventlog = EventLog()
 
         self.screen.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
@@ -263,6 +267,12 @@ class ConsoleUI(component.Component):
         self.batch_write = batch
         if not batch and self.interactive:
             self.screen.refresh()
+
+    def set_mode(self, mode):
+        reactor.removeReader(self.screen)
+        self.screen = mode
+        self.statusbars.screen = self.screen
+        reactor.addReader(self.screen)
 
     def write(self, line):
         """

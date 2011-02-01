@@ -43,6 +43,7 @@ try:
 except ImportError:
     pass
 
+import deluge.component as component
 import deluge.ui.console.colors as colors
 try:
     import signal
@@ -98,8 +99,7 @@ class BaseMode(CursesStdIO):
         self.stdscr.nodelay(1)
 
         # Strings for the 2 status bars
-        self.topbar = ""
-        self.bottombar = ""
+        self.statusbars = component.get("StatusBars")
 
         # Keep track of the screen size
         self.rows, self.cols = self.stdscr.getmaxyx()
@@ -182,6 +182,10 @@ class BaseMode(CursesStdIO):
             screen.addstr(row, col, s, color)
             col += len(s)
 
+    def draw_statusbars(self):
+        self.add_string(0, self.statusbars.topbar)
+        self.add_string(self.rows - 1, self.statusbars.bottombar)        
+
     def refresh(self):
         """
         Refreshes the screen.
@@ -189,10 +193,9 @@ class BaseMode(CursesStdIO):
         attribute and the status bars.
         """
         self.stdscr.clear()
-
+        self.draw_statusbars()
         # Update the status bars
-        self.add_string(0, self.topbar)
-        self.add_string(self.rows - 1, self.bottombar)
+
         self.add_string(1,"{!info!}Base Mode (or subclass hasn't overridden refresh)")
 
         self.stdscr.redrawwin()
