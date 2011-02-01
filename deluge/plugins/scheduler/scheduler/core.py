@@ -66,7 +66,7 @@ STATES = {
 
 CONTROLLED_SETTINGS = [
     "max_download_speed",
-    "max_download_speed",
+    "max_upload_speed",
     "max_active_limit",
     "max_active_downloading",
     "max_active_seeding"
