@@ -593,11 +593,13 @@ class AllTorrents(BaseMode):
         
         # Navigate the torrent list
         if c == curses.KEY_UP:
+            if self.cursel == 1: return
             if not self._scroll_up(1):
                 effected_lines = [self.cursel-1,self.cursel]
         elif c == curses.KEY_PPAGE:
             self._scroll_up(int(self.rows/2))
         elif c == curses.KEY_DOWN:
+            if self.cursel >= self.numtorrents: return
             if not self._scroll_down(1):
                 effected_lines = [self.cursel-2,self.cursel-1]
         elif c == curses.KEY_NPAGE:
