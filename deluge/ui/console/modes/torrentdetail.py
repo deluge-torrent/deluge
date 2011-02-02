@@ -220,12 +220,24 @@ class TorrentDetail(BaseMode, component.Component):
             self.file_limit = idx
 
             if idx >= self.file_off:
-                # set fg/bg colors based on if we are selected or not
+                # set fg/bg colors based on if we are selected/marked or not
+
+                # default values
+                fg = "white"
+                bg = "black"
+
+                if fl[1] in self.marked:
+                    bg = "blue"
+
                 if idx == self.current_file_idx:
                     self.current_file = fl
-                    fc = "{!black,white!}"
-                else:
-                    fc = "{!white,black!}"
+                    bg = "white"
+                    if fl[1] in self.marked:
+                        fg = "blue"
+                    else:
+                        fg = "black"
+
+                color_string = "{!%s,%s!}"%(fg,bg)
 
                 #actually draw the dir/file string
                 if fl[3] and fl[4]: # this is an expanded directory
@@ -239,7 +251,7 @@ class TorrentDetail(BaseMode, component.Component):
                                              deluge.common.fsize(fl[2]),fl[5],fl[6]],
                                             self.column_widths)
                 
-                self.add_string(off,"%s%s"%(fc,r),trim=False)
+                self.add_string(off,"%s%s"%(color_string,r),trim=False)
                 off += 1
 
             if fl[3] and fl[4]:
@@ -322,6 +334,12 @@ class TorrentDetail(BaseMode, component.Component):
         component.get("ConsoleUI").set_mode(self.alltorrentmode)
         self.alltorrentmode.resume()
 
+    def _mark_unmark(self,idx):
+        if idx in self.marked:
+            del self.marked[idx]
+        else:
+            self.marked[idx] = True
+
     def _doRead(self):
         c = self.stdscr.getch()
 
@@ -359,5 +377,10 @@ class TorrentDetail(BaseMode, component.Component):
         # space
         elif c == 32:
             self.expcol_cur_file()
+        else:
+            if c > 31 and c < 256:
+                if chr(c) == 'm':
+                    if self.current_file:
+                        self._mark_unmark(self.current_file[1])
 
         self.refresh()
