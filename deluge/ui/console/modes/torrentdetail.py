@@ -130,7 +130,8 @@ class TorrentDetail(BaseMode, component.Component):
     # particular directory are returned together.  it won't work otherwise.
     # returned list is a list of lists of the form:
     # [file/dir_name,index,size,children,expanded,progress,priority]
-    # for directories index will be -1, for files the value returned in the
+    # for directories index values count down from maxint (for marking usage), 
+    # for files the index is the value returned in the
     # state object for use with other libtorrent calls (i.e. setting prio)
     #
     # Also returns a dictionary that maps index values to the file leaves
@@ -138,6 +139,7 @@ class TorrentDetail(BaseMode, component.Component):
     def build_file_list(self, file_tuples,prog,prio):
         ret = []
         retdict = {}
+        diridx = maxint
         for f in file_tuples:
             cur = ret
             ps = f["path"].split("/")
@@ -151,7 +153,9 @@ class TorrentDetail(BaseMode, component.Component):
                                format_utils.format_priority(prio[f["index"]])]
                         retdict[f["index"]] = ent
                     else:
-                        ent = [p,-1,-1,cl,False,"-","-"]
+                        ent = [p,diridx,-1,cl,False,"-","-"]
+                        retdict[diridx] = ent
+                        diridx-=1
                     cur.append(ent)
                     cur = cl
                 else:
