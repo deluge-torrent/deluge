@@ -96,6 +96,8 @@ class TorrentDetail(BaseMode, component.Component):
 
         self.column_string = ""
 
+        self.marked = {}
+
         BaseMode.__init__(self, stdscr, encoding)
         component.Component.__init__(self, "TorrentDetail", 1, depend=["SessionProxy"])
 

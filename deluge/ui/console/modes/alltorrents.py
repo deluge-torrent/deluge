@@ -503,6 +503,7 @@ class AllTorrents(BaseMode):
                 attr = None
                 if lines:
                     tidx = lines.pop()+1
+                    currow = tidx-self.curoff+2
 
                 if tidx in self.marked:
                     bg = "blue"
@@ -531,9 +532,6 @@ class AllTorrents(BaseMode):
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
                 else:
                     colorstr = "{!%s,%s!}"%(fg,bg)
-
-                if lines:
-                    currow = tidx-self.curoff+2
 
                 self.add_string(currow,"%s%s"%(colorstr,row[0]))
                 tidx += 1
@@ -636,11 +634,14 @@ class AllTorrents(BaseMode):
                         self.updater.set_torrent_to_update(cid,self._status_keys)
                 elif chr(c) == 'm':
                     self._mark_unmark(self.cursel)
+                    effected_lines = [self.cursel-1]
                 elif chr(c) == 'M':
                     if self.last_mark >= 0:
                         self.marked.extend(range(self.last_mark,self.cursel+1))
+                        effected_lines = range(self.last_mark,self.cursel)
                     else:
                         self._mark_unmark(self.cursel)
+                        effected_lines = [self.cursel-1]
                 elif chr(c) == 'c':
                     self.marked = []
                     self.last_mark = -1
