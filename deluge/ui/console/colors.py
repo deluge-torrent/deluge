@@ -99,6 +99,14 @@ def init_colors():
             curses.init_pair(counter, getattr(curses, fg), getattr(curses, bg))
             counter += 1
 
+    # try to redefine white/black as it makes underlining work for some terminals
+    # but can also fail on others, so we try/except
+    try:
+        curses.init_pair(counter, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        color_pairs[("white","black")] = counter
+    except:
+        pass
+
 class BadColorString(Exception):
     pass
 
