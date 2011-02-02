@@ -63,6 +63,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.alltorrentmode = alltorrentmode
         self.torrentid = torrentid
         self.torrent_state = None
+        self.popup = None
         self._status_keys = ["files", "name","state","download_payload_rate","upload_payload_rate",
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
@@ -262,6 +263,13 @@ class TorrentDetail(BaseMode, component.Component):
                 idx += 1
 
         return (off,idx)
+
+    def on_resize(self, *args):
+        BaseMode.on_resize_norefresh(self, *args)
+        self._update_columns()
+        if self.popup:
+            self.popup.handle_resize()
+        self.refresh()
 
     def refresh(self,lines=None):
         # Update the status bars
