@@ -50,7 +50,9 @@ colors = [
 ]
 
 # {(fg, bg): pair_number, ...}
-color_pairs = {}
+color_pairs = {
+    ("white", "black"): 0 # Special case, can't be changed
+}
 
 # Some default color schemes
 schemes = {
@@ -91,6 +93,8 @@ def init_colors():
     counter = 1
     for fg in colors:
         for bg in colors:
+            if fg == "COLOR_WHITE" and bg == "COLOR_BLACK":
+                continue
             color_pairs[(fg[6:].lower(), bg[6:].lower())] = counter
             curses.init_pair(counter, getattr(curses, fg), getattr(curses, bg))
             counter += 1
