@@ -117,6 +117,8 @@ class ACTION:
     REMOVE_DATA=6
     REMOVE_NODATA=7
 
+    DETAILS=8
+
 class FILTER:
     ALL=0
     ACTIVE=1
@@ -332,6 +334,13 @@ class AllTorrents(BaseMode):
         else:
             return ""
 
+
+    def show_torrent_details(self,tid):
+        component.stop(["AllTorrentsStateUpdater"])
+        self.stdscr.clear()
+        td = TorrentDetail(self,tid,self.stdscr,self.encoding)
+        component.get("ConsoleUI").set_mode(td)
+
     def _action_error(self, error):
         rerr = error.value
         self.report_message("An Error Occurred","%s got error %s: %s"%(rerr.method,rerr.exception_type,rerr.exception_msg))
@@ -371,6 +380,13 @@ class AllTorrents(BaseMode):
             elif data==ACTION.REANNOUNCE:
                 log.debug("Reannouncing torrents: %s",ids)
                 client.core.force_reannounce(ids).addErrback(self._action_error)
+            elif data==ACTION.DETAILS:
+                log.debug("Torrent details")
+                tid = self._current_torrent_id()
+                if tid:
+                    self.show_torrent_details(tid)
+                else:
+                    log.error("No current torrent in _torrent_action, this is a bug")
         if len(ids) == 1:
             self.marked = []
             self.last_mark = -1
@@ -387,6 +403,8 @@ class AllTorrents(BaseMode):
             self.popup.add_divider()
             self.popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
             self.popup.add_line("_Force Recheck",data=ACTION.RECHECK)
+            self.popup.add_divider()
+            self.popup.add_line("Torrent _Details",data=ACTION.DETAILS)            
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
@@ -609,14 +627,10 @@ class AllTorrents(BaseMode):
 
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
-            if not self.marked:
-                tid = self._current_torrent_id()
-                if tid:
-                    component.stop(["AllTorrentsStateUpdater"])
-                    self.stdscr.clear()
-                    td = TorrentDetail(self,self._current_torrent_id(),self.stdscr,self.encoding)
-                    component.get("ConsoleUI").set_mode(td)
-                    return
+            tid = self._current_torrent_id()
+            if tid:
+                self.show_torrent_details(tid)
+                return
 
         # Enter Key
         elif (c == curses.KEY_ENTER or c == 10) and self.numtorrents:
