@@ -93,6 +93,10 @@ The actions you can perform and the keys to perform them are as follows:
       and last marked torrent
 'c' - Un-mark all torrents
 
+Right Arrow - Show torrent details.  This includes more detailed information
+              about the currently selected torrent, as well as a view of the
+              files in the torrent and the ability to set file priorities.
+
 Enter - Show torrent actions popup.  Here you can do things like
         pause/resume, remove, recheck and so one.  These actions
         apply to all currently marked torrents.  The currently
