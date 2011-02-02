@@ -57,7 +57,6 @@ except ImportError:
 import logging
 log = logging.getLogger(__name__)
 
-
 class TorrentDetail(BaseMode, component.Component):
     def __init__(self, alltorrentmode, torrentid, stdscr, encoding=None):
         self.alltorrentmode = alltorrentmode
@@ -123,7 +122,7 @@ class TorrentDetail(BaseMode, component.Component):
             self._status_keys.remove("files")
         self._fill_progress(self.file_list,state["file_progress"])
         for i,prio in enumerate(state["file_priorities"]):
-            self.file_dict[i][6] = format_utils.format_priority(prio)
+            self.file_dict[i][6] = prio
         del state["file_progress"]
         del state["file_priorities"]
         self.torrent_state = state
@@ -153,10 +152,10 @@ class TorrentDetail(BaseMode, component.Component):
                     if p == fin:
                         ent = [p,f["index"],f["size"],cl,False,
                                format_utils.format_progress(prog[f["index"]]*100),
-                               format_utils.format_priority(prio[f["index"]])]
+                               prio[f["index"]]]
                         retdict[f["index"]] = ent
                     else:
-                        ent = [p,diridx,-1,cl,False,"-","-"]
+                        ent = [p,diridx,-1,cl,False,0,-1]
                         retdict[diridx] = ent
                         diridx-=1
                     cur.append(ent)
@@ -249,7 +248,8 @@ class TorrentDetail(BaseMode, component.Component):
                     xchar = '-'
 
                 r = format_utils.format_row(["%s%s %s"%(" "*depth,xchar,fl[0]),
-                                             deluge.common.fsize(fl[2]),fl[5],fl[6]],
+                                             deluge.common.fsize(fl[2]),fl[5],
+                                             format_utils.format_priority(fl[6])],
                                             self.column_widths)
                 
                 self.add_string(off,"%s%s"%(color_string,r),trim=False)
@@ -311,6 +311,9 @@ class TorrentDetail(BaseMode, component.Component):
         #self.stdscr.redrawwin()
         self.stdscr.noutrefresh()
 
+        if self.popup:
+            self.popup.refresh()
+
         curses.doupdate()
 
     # expand or collapse the current file
@@ -342,6 +345,48 @@ class TorrentDetail(BaseMode, component.Component):
         component.get("ConsoleUI").set_mode(self.alltorrentmode)
         self.alltorrentmode.resume()
 
+    # build list of priorities for all files in the torrent
+    # based on what is currently selected and a selected priority.
+    def build_prio_list(self, files, ret_list, parent_prio, selected_prio):
+        # has a priority been set on my parent (if so, I inherit it)
+        for f in files:
+            if f[3]: # dir, check if i'm setting on whole dir, then recurse
+                if f[1] in self.marked: # marked, recurse and update all children with new prio
+                    parent_prio = selected_prio
+                    self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
+                    parent_prio = -1
+                else: # not marked, just recurse
+                    self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
+            else: # file, need to add to list
+                if f[1] in self.marked or parent_prio >= 0:
+                    # selected (or parent selected), use requested priority
+                    ret_list.append((f[1],selected_prio))
+                else:
+                    # not selected, just keep old priority
+                    ret_list.append((f[1],f[6]))
+
+    def do_priority(self, idx, data):
+        plist = []
+        self.build_prio_list(self.file_list,plist,-1,data)
+        plist.sort()
+        priorities = [p[1] for p in plist]
+        log.debug("priorities: %s", priorities)
+
+        client.core.set_torrent_file_priorities(self.torrentid, priorities)
+
+        if len(self.marked) == 1:
+            self.marked = {}
+        return True
+
+    # show popup for priority selections
+    def show_priority_popup(self):
+        if self.marked:
+            self.popup = SelectablePopup(self,"Torrent Actions",self.do_priority)
+            self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"])
+            self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
+            self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"])
+            self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"])
+
     def _mark_unmark(self,idx):
         if idx in self.marked:
             del self.marked[idx]
@@ -350,6 +395,12 @@ class TorrentDetail(BaseMode, component.Component):
 
     def _doRead(self):
         c = self.stdscr.getch()
+
+        if self.popup:
+            if self.popup.handle_read(c):
+                self.popup = None
+            self.refresh()
+            return
 
         if c > 31 and c < 256:
             if chr(c) == 'Q':
@@ -378,9 +429,11 @@ class TorrentDetail(BaseMode, component.Component):
             self.file_list_down()
         elif c == curses.KEY_NPAGE:
             pass
+
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
-            pass
+            self.marked[self.current_file[1]] = True
+            self.show_priority_popup()
 
         # space
         elif c == 32:
@@ -390,5 +443,7 @@ class TorrentDetail(BaseMode, component.Component):
                 if chr(c) == 'm':
                     if self.current_file:
                         self._mark_unmark(self.current_file[1])
+                if chr(c) == 'c':
+                    self.marked = {}
 
         self.refresh()
