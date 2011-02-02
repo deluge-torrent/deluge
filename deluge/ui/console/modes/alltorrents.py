@@ -619,7 +619,7 @@ class AllTorrents(BaseMode):
                     return
 
         # Enter Key
-        elif c == curses.KEY_ENTER or c == 10:
+        elif (c == curses.KEY_ENTER or c == 10) and self.numtorrents:
             self.marked.append(self.cursel)
             self.last_mark = self.cursel
             self._show_torrent_actions_popup()
