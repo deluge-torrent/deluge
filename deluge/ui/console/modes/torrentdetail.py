@@ -384,7 +384,7 @@ class TorrentDetail(BaseMode, component.Component):
     # show popup for priority selections
     def show_priority_popup(self):
         if self.marked:
-            self.popup = SelectablePopup(self,"Torrent Actions",self.do_priority)
+            self.popup = SelectablePopup(self,"Set File Priority",self.do_priority)
             self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"])
             self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
             self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"])
