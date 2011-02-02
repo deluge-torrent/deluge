@@ -374,7 +374,7 @@ class AllTorrents(BaseMode):
 
     def _show_torrent_actions_popup(self):
         #cid = self._current_torrent_id()
-        if len(self.marked):
+        if self.marked:
             self.popup = SelectablePopup(self,"Torrent Actions",self._torrent_action)
             self.popup.add_line("_Pause",data=ACTION.PAUSE)
             self.popup.add_line("_Resume",data=ACTION.RESUME)
