@@ -95,6 +95,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.more_to_draw = False
 
         self.column_string = ""
+        self.files_sep = None
 
         self.marked = {}
 
@@ -118,6 +119,7 @@ class TorrentDetail(BaseMode, component.Component):
         log.debug("got state")
         if not self.file_list:
             # don't keep getting the files once we've got them once
+            self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (torrent has %d files)"%len(state["files"])).center(self.cols))
             self.file_list,self.file_dict = self.build_file_list(state["files"],state["file_progress"],state["file_priorities"])
             self._status_keys.remove("files")
         self._fill_progress(self.file_list,state["file_progress"])
@@ -207,7 +209,7 @@ class TorrentDetail(BaseMode, component.Component):
                 if (self.column_widths[i] < 0):
                     self.column_widths[i] = vw
 
-        self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
+        self.column_string = "{!green,black,bold!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
 
             
     def draw_files(self,files,depth,off,idx):
@@ -278,7 +280,8 @@ class TorrentDetail(BaseMode, component.Component):
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
         self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
 
-        self.stdscr.hline((self.rows/2)-1,0,"_",self.cols)
+        if self.files_sep:
+            self.add_string((self.rows/2)-1,self.files_sep)
 
         off = 1
         if self.torrent_state:
