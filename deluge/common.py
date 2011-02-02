@@ -591,7 +591,7 @@ def utf8_encoded(s):
 
     """
     if isinstance(s, str):
-        s = decode_string(s, locale.getpreferredencoding())
+        s = decode_string(s)
     elif isinstance(s, unicode):
         s = s.encode("utf8", "ignore")
     return s
