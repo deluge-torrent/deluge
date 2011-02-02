@@ -606,11 +606,13 @@ class AllTorrents(BaseMode):
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
             if not self.marked:
-                component.stop(["AllTorrentsStateUpdater"])
-                self.stdscr.clear()
-                td = TorrentDetail(self,self._current_torrent_id(),self.stdscr,self.encoding)
-                component.get("ConsoleUI").set_mode(td)
-                return
+                tid = self._current_torrent_id()
+                if tid:
+                    component.stop(["AllTorrentsStateUpdater"])
+                    self.stdscr.clear()
+                    td = TorrentDetail(self,self._current_torrent_id(),self.stdscr,self.encoding)
+                    component.get("ConsoleUI").set_mode(td)
+                    return
 
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
