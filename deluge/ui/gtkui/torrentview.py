@@ -208,6 +208,12 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("Size"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
+        self.add_func_column(_("Downloaded"), listview.cell_data_size,
+                             [gobject.TYPE_UINT64],
+                             status_field=["all_time_download"])
+        self.add_func_column(_("Uploaded"), listview.cell_data_size,
+                             [gobject.TYPE_UINT64],
+                             status_field=["total_uploaded"])
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
                                  col_types=[float, str],
