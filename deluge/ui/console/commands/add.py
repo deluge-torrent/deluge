@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 continue
             self.console.write("{!info!}Attempting to add torrent: %s" % arg)
             filename = os.path.split(arg)[-1]
-            filedump = base64.encodestring(open(arg).read())
+            filedump = base64.encodestring(open(arg, "rb").read())
 
             def on_success(result):
                 self.console.write("{!success!}Torrent added!")

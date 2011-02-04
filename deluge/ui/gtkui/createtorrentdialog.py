@@ -369,7 +369,7 @@ class CreateTorrentDialog:
         if add_to_session:
             client.core.add_torrent_file(
                 os.path.split(target)[-1],
-                base64.encodestring(open(target).read()),
+                base64.encodestring(open(target, "rb").read()),
                 {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
