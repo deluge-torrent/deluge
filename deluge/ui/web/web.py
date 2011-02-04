@@ -35,6 +35,7 @@
 
 import os
 
+import deluge.common
 from deluge.ui.ui import _UI, UI
 from optparse import OptionGroup
 
@@ -94,7 +95,6 @@ class Web(_UI):
     def start(self):
         super(Web, self).start()
         
-        import deluge.common
         # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
         # Section 1.7
         if self.options.fork:
