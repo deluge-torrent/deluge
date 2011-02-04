@@ -194,8 +194,13 @@ class ConsoleUI(component.Component):
             import curses.wrapper
             curses.wrapper(self.run)
         elif self.interactive and deluge.common.windows_check():
-            print "You cannot run the deluge-console in interactive mode in Windows.\
-            Please use commands from the command line, eg: deluge-console config;help;exit"
+            print """\nDeluge-console does not run in interactive mode on Windows. \n
+Please use commands from the command line, eg:\n
+    deluge-console.exe help
+    deluge-console.exe info
+    deluge-console.exe "add --help"
+    deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
+            """
         else:
             reactor.run()
 
