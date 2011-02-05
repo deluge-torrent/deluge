@@ -128,7 +128,7 @@ def cell_data_queue(column, cell, model, row, data):
     if value < 0:
         cell.set_property("text", "")
     else:
-        cell.set_property("text", value + 1)
+        cell.set_property("text", str(value + 1))
 
 def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
