@@ -254,7 +254,7 @@ class Core(component.Component):
             log.error("Reason: %s", failure.getErrorMessage())
             return failure
 
-        d = download_file(url, tempfile.mkstemp()[1], headers=headers)
+        d = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True)
         d.addCallback(on_get_file)
         d.addErrback(on_get_file_error)
         return d
