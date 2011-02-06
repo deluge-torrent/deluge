@@ -164,6 +164,8 @@ class PeersTab(Tab):
         column.set_resizable(True)
         column.set_expand(False)
         column.set_min_width(50)
+        # Bugfix: Last column needs max_width set to stop scrollbar appearing
+        column.set_max_width(150)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
