@@ -437,7 +437,11 @@ class FilesTab(Tab):
 
                 row = self.treestore.iter_next(row)
 
-            value = (float(bytes) / float(self.treestore[parent][1])) * 100
+            try:
+                value = (float(bytes) / float(self.treestore[parent][1])) * 100
+            except ZeroDivisionError:
+                # Catch the unusal error found when moving folders around
+                value = 0
             self.treestore[parent][3] = value
             self.treestore[parent][2] = "%.2f%%" % value
             return bytes
