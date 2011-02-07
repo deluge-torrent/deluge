@@ -40,6 +40,7 @@ import deluge.common
 from deluge.ui.client import client
 
 from sys import maxint
+from collections import deque
 
 from deluge.ui.sessionproxy import SessionProxy
 
@@ -48,6 +49,7 @@ from add_util import add_torrent
 from input_popup import InputPopup
 import format_utils
 
+from torrent_actions import torrent_actions_popup
 
 try:
     import curses
@@ -63,6 +65,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.torrentid = torrentid
         self.torrent_state = None
         self.popup = None
+        self.messages = deque()
         self._status_keys = ["files", "name","state","download_payload_rate","upload_payload_rate",
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
@@ -212,6 +215,17 @@ class TorrentDetail(BaseMode, component.Component):
 
         self.column_string = "{!green,black,bold!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
 
+
+    def report_message(self,title,message):
+        self.messages.append((title,message))
+
+    def clear_marks(self):
+        self.marked = {}
+
+    def set_popup(self,pu):
+        self.popup = pu
+        self.refresh()
+
             
     def draw_files(self,files,depth,off,idx):
         for fl in files:
@@ -275,6 +289,11 @@ class TorrentDetail(BaseMode, component.Component):
         self.refresh()
 
     def refresh(self,lines=None):
+        # show a message popup if there's anything queued
+        if self.popup == None and self.messages:
+            title,msg = self.messages.popleft()
+            self.popup = MessagePopup(self,title,msg)
+
         # Update the status bars
         self.stdscr.clear()
         self.add_string(0,self.statusbars.topbar)
@@ -449,5 +468,8 @@ class TorrentDetail(BaseMode, component.Component):
                         self._mark_unmark(self.current_file[1])
                 if chr(c) == 'c':
                     self.marked = {}
+                if chr(c) == 'a':
+                    torrent_actions_popup(self,[self.torrentid],details=False)
+                    return
 
         self.refresh()
