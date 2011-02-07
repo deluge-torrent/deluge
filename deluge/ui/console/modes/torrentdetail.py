@@ -67,10 +67,11 @@ class TorrentDetail(BaseMode, component.Component):
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
-                             "piece_length","save_path","file_progress","file_priorities"]
+                             "piece_length","save_path","file_progress","file_priorities","message"]
         self._info_fields = [
             ("Name",None,("name",)),
             ("State", None, ("state",)),
+            ("Status",None,("message",)),
             ("Down Speed", format_utils.format_speed, ("download_payload_rate",)),
             ("Up Speed", format_utils.format_speed, ("upload_payload_rate",)),
             ("Progress", format_utils.format_progress, ("progress",)),
