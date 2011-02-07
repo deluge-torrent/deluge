@@ -186,6 +186,18 @@ class BaseMode(CursesStdIO):
         self.add_string(0, self.statusbars.topbar)
         self.add_string(self.rows - 1, self.statusbars.bottombar)        
 
+    # This mode doesn't report errors
+    def report_message(self):
+        pass
+
+    # This mode doesn't do anything with popups
+    def set_popup(self,popup):
+        pass
+
+    # This mode doesn't support marking
+    def clear_marks(self):
+        pass
+
     def refresh(self):
         """
         Refreshes the screen.

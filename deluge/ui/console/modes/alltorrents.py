@@ -47,6 +47,7 @@ from popup import Popup,SelectablePopup,MessagePopup
 from add_util import add_torrent
 from input_popup import InputPopup
 from torrentdetail import TorrentDetail
+from torrent_actions import torrent_actions_popup
 
 import format_utils
 
@@ -105,19 +106,6 @@ Enter - Show torrent actions popup.  Here you can do things like
 'q'/Esc - Close a popup
 """
 HELP_LINES = HELP_STR.split('\n')
-
-class ACTION:
-    PAUSE=0
-    RESUME=1
-    REANNOUNCE=2
-    EDIT_TRACKERS=3
-    RECHECK=4
-    REMOVE=5
-
-    REMOVE_DATA=6
-    REMOVE_NODATA=7
-
-    DETAILS=8
 
 class FILTER:
     ALL=0
@@ -268,7 +256,7 @@ class AllTorrents(BaseMode):
             self.curoff = self.cursel - self.rows + 5
         return prevoff != self.curoff
 
-    def _current_torrent_id(self):
+    def current_torrent_id(self):
         if self._sorted_ids:
             return self._sorted_ids[self.cursel-1]
         else:
@@ -341,70 +329,6 @@ class AllTorrents(BaseMode):
         td = TorrentDetail(self,tid,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(td)
 
-    def _action_error(self, error):
-        rerr = error.value
-        self.report_message("An Error Occurred","%s got error %s: %s"%(rerr.method,rerr.exception_type,rerr.exception_msg))
-        self.refresh()
-
-    def _torrent_action(self, idx, data):
-        log.error("Action %d",data)
-        ids = self._selected_torrent_ids()
-        if ids:
-            if data==ACTION.PAUSE:
-                log.debug("Pausing torrents: %s",ids)
-                client.core.pause_torrent(ids).addErrback(self._action_error)
-            elif data==ACTION.RESUME:
-                log.debug("Resuming torrents: %s", ids)
-                client.core.resume_torrent(ids).addErrback(self._action_error)
-            elif data==ACTION.REMOVE:
-                def do_remove(tid,data):
-                    ids = self._selected_torrent_ids()
-                    if data:
-                        wd = data==ACTION.REMOVE_DATA
-                        for tid in ids:
-                            log.debug("Removing torrent: %s,%d",tid,wd)
-                            client.core.remove_torrent(tid,wd).addErrback(self._action_error)
-                    if len(ids) == 1:
-                        self.marked = []
-                        self.last_mark = -1
-                    return True
-                self.popup = SelectablePopup(self,"Confirm Remove",do_remove)
-                self.popup.add_line("Are you sure you want to remove the marked torrents?",selectable=False)
-                self.popup.add_line("Remove with _data",data=ACTION.REMOVE_DATA)
-                self.popup.add_line("Remove _torrent",data=ACTION.REMOVE_NODATA)
-                self.popup.add_line("_Cancel",data=0)
-                return False
-            elif data==ACTION.RECHECK:
-                log.debug("Rechecking torrents: %s", ids)
-                client.core.force_recheck(ids).addErrback(self._action_error)
-            elif data==ACTION.REANNOUNCE:
-                log.debug("Reannouncing torrents: %s",ids)
-                client.core.force_reannounce(ids).addErrback(self._action_error)
-            elif data==ACTION.DETAILS:
-                log.debug("Torrent details")
-                tid = self._current_torrent_id()
-                if tid:
-                    self.show_torrent_details(tid)
-                else:
-                    log.error("No current torrent in _torrent_action, this is a bug")
-        if len(ids) == 1:
-            self.marked = []
-            self.last_mark = -1
-        return True
-
-    def _show_torrent_actions_popup(self):
-        #cid = self._current_torrent_id()
-        if self.marked:
-            self.popup = SelectablePopup(self,"Torrent Actions",self._torrent_action)
-            self.popup.add_line("_Pause",data=ACTION.PAUSE)
-            self.popup.add_line("_Resume",data=ACTION.RESUME)
-            self.popup.add_divider()
-            self.popup.add_line("_Update Tracker",data=ACTION.REANNOUNCE)
-            self.popup.add_divider()
-            self.popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
-            self.popup.add_line("_Force Recheck",data=ACTION.RECHECK)
-            self.popup.add_divider()
-            self.popup.add_line("Torrent _Details",data=ACTION.DETAILS)            
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
@@ -474,6 +398,14 @@ class AllTorrents(BaseMode):
 
     def report_message(self,title,message):
         self.messages.append((title,message))
+
+    def clear_marks(self):
+        self.marked = []
+        self.last_mark = -1
+
+    def set_popup(self,pu):
+        self.popup = pu
+        self.refresh()
 
     def refresh(self,lines=None):
         #log.error("ref")
@@ -627,7 +559,7 @@ class AllTorrents(BaseMode):
 
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
-            tid = self._current_torrent_id()
+            tid = self.current_torrent_id()
             if tid:
                 self.show_torrent_details(tid)
                 return
@@ -636,7 +568,8 @@ class AllTorrents(BaseMode):
         elif (c == curses.KEY_ENTER or c == 10) and self.numtorrents:
             self.marked.append(self.cursel)
             self.last_mark = self.cursel
-            self._show_torrent_actions_popup()
+            torrent_actions_popup(self,self._selected_torrent_ids(),details=True)
+            return
 
         else:
             if c > 31 and c < 256:
@@ -647,7 +580,7 @@ class AllTorrents(BaseMode):
                     if not self._scroll_down(1):
                         effected_lines = [self.cursel-2,self.cursel-1]
                 elif chr(c) == 'i':
-                    cid = self._current_torrent_id()
+                    cid = self.current_torrent_id()
                     if cid:
                         self.popup = Popup(self,"Info",close_cb=lambda:self.updater.set_torrent_to_update(None,None))
                         self.popup.add_line("Getting torrent info...")
