@@ -746,6 +746,36 @@ class TorrentManager(component.Component):
             fastresume_file.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
+        
+    def remove_empty_folders(self, torrent_id, folder):
+        """
+        Recursively removes folders but only if they are empty.
+        Cleans up after libtorrent folder renames.
+            
+        """
+        if torrent_id not in self.torrents:
+            raise InvalidTorrentError("torrent_id is not in session")    
+          
+        info = self.torrents[torrent_id].get_status(['save_path'])
+        folder_full_path = os.path.join(info['save_path'], folder)
+
+        try:
+            if not os.listdir(folder_full_path):
+                os.removedirs(folder_full_path)
+                log.debug("Removed Empty Folder %s", folder_full_path)
+            else:
+                for root, dirs, files in os.walk(folder_full_path, topdown=False):
+                    for name in dirs:
+                        try:
+                            os.removedirs(os.path.join(root, name))
+                            log.debug("Removed Empty Folder %s", os.path.join(root, name))
+                        except OSError as (errno, strerror):
+                            if errno == 39:
+                                # Error raised if folder is not empty
+                                log.debug("%s", strerror)
+
+        except OSError as (errno, strerror):
+            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)    
 
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
@@ -1008,6 +1038,8 @@ class TorrentManager(component.Component):
                 if len(wait_on_folder[2]) == 1:
                     # This is the last alert we were waiting for, time to send signal
                     component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
+                    # Empty folders are removed after libtorrent folder renames 
+                    self.remove_empty_folders(torrent_id, wait_on_folder[0])
                     del torrent.waiting_on_folder_rename[i]
                     self.save_resume_data((torrent_id,))
                     break
