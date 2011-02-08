@@ -278,7 +278,7 @@ Please use commands from the command line, eg:\n
         if self.interactive:
             self.screen.add_line(line, not self.batch_write)
         else:
-            print(colors.strip_colors(line))
+            print(colors.strip_colors(line.encode("utf-8")))
 
     def do_command(self, cmd):
         """
