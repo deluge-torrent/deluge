@@ -109,9 +109,17 @@ class TextInput(InputField):
         if selected:
             if self.opts:
                 self.parent.add_string(row+2,self.opts[self.opt_off:],screen,1,False,True)
-            self.move_func(row+1,self.cursor+1)
+            if self.cursor > (width-3):
+                self.move_func(row+1,width-2)
+            else:
+                self.move_func(row+1,self.cursor+1)
         self.parent.add_string(row,self.message,screen,1,False,True)
-        self.parent.add_string(row+1,"{!black,white,bold!}%s"%self.value.ljust(width-2),screen,1,False,False)
+        slen = len(self.value)+3
+        if slen > width:
+            vstr = self.value[(slen-width):]
+        else:
+            vstr = self.value.ljust(width-2)
+        self.parent.add_string(row+1,"{!black,white,bold!}%s"%vstr,screen,1,False,False)
 
         return 3
 
