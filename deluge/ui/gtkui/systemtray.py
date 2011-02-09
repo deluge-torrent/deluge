@@ -33,6 +33,10 @@
 #
 #
 
+try:
+    import appindicator
+except ImportError:
+    appindicator = None
 
 import gtk
 import pkg_resources
@@ -63,7 +67,7 @@ class SystemTray(component.Component):
             "separatormenuitem4"
         ]
         self.config.register_set_function("enable_system_tray",
-            self.on_enable_system_tray_set)
+                                          self.on_enable_system_tray_set)
 
         self.max_download_speed = -1.0
         self.download_rate = 0.0
@@ -77,24 +81,9 @@ class SystemTray(component.Component):
 
     def enable(self):
         """Enables the system tray icon."""
-        log.debug("Enabling the system tray icon..")
         self.tray_glade = gtk.glade.XML(
             pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/tray_menu.glade"))
-
-        if deluge.common.windows_check() or deluge.common.osx_check():
-            self.tray = gtk.status_icon_new_from_pixbuf(
-                common.get_logo(32))
-        else:
-            try:
-                self.tray = gtk.status_icon_new_from_icon_name("deluge")
-            except:
-                log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
-                return
-
-        self.tray.connect("activate", self.on_tray_clicked)
-        self.tray.connect("popup-menu", self.on_tray_popup)
-
 
         self.tray_glade.signal_autoconnect({
             "on_menuitem_show_deluge_activate": \
@@ -112,20 +101,53 @@ class SystemTray(component.Component):
 
         self.tray_menu = self.tray_glade.get_widget("tray_menu")
 
-        self.tray_glade.get_widget("download-limit-image").set_from_file(
-            deluge.common.get_pixmap("downloading16.png"))
-        self.tray_glade.get_widget("upload-limit-image").set_from_file(
-            deluge.common.get_pixmap("seeding16.png"))
+        if appindicator:
+            log.debug("Enabling the Application Indicator..")
+            self.indicator = appindicator.Indicator (
+                "deluge", "deluge", appindicator.CATEGORY_APPLICATION_STATUS)
+            # Pass the menu to the Application Indicator
+            self.indicator.set_menu(self.tray_menu)
+
+            # Make sure the status of the Show Window MenuItem is correct
+            self._sig_win_hide = self.window.window.connect("hide", self._on_window_hide)
+            self._sig_win_show = self.window.window.connect("show", self._on_window_show)
+            if self.window.visible():
+                self.tray_glade.get_widget("menuitem_show_deluge").set_active(True)
+            else:
+                self.tray_glade.get_widget("menuitem_show_deluge").set_active(False)
+
+            # Show the Application Indicator
+            self.indicator.set_status(appindicator.STATUS_ACTIVE)
+
+        else:
+            log.debug("Enabling the system tray icon..")
+            if deluge.common.windows_check() or deluge.common.osx_check():
+                self.tray = gtk.status_icon_new_from_pixbuf(
+                    common.get_logo(32))
+            else:
+                try:
+                    self.tray = gtk.status_icon_new_from_icon_name("deluge")
+                except:
+                    log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
+                    return
+
+            self.tray.connect("activate", self.on_tray_clicked)
+            self.tray.connect("popup-menu", self.on_tray_popup)
+
+            # For some reason these icons do not display in appindicator
+            self.tray_glade.get_widget("download-limit-image").set_from_file(
+                deluge.common.get_pixmap("downloading16.png"))
+            self.tray_glade.get_widget("upload-limit-image").set_from_file(
+                deluge.common.get_pixmap("seeding16.png"))
 
         client.register_event_handler("ConfigValueChangedEvent", self.config_value_changed)
-        if not client.connected():
-        # Hide menu widgets because we're not connected to a host.
-            for widget in self.hide_widget_list:
-                self.tray_glade.get_widget(widget).hide()
-
         if client.connected():
             # We're connected so we need to get some values from the core
             self.__start()
+        else:
+            # Hide menu widgets because we're not connected to a host.
+            for widget in self.hide_widget_list:
+                self.tray_glade.get_widget(widget).hide()
 
     def __start(self):
         if self.config["enable_system_tray"]:
@@ -135,6 +157,16 @@ class SystemTray(component.Component):
                 self.hide_widget_list.remove("separatormenuitem4")
                 self.tray_glade.get_widget("menuitem_quitdaemon").hide()
                 self.tray_glade.get_widget("separatormenuitem4").hide()
+
+            # These do not work with appindicator currently and can crash Deluge.
+            # Related to Launchpad bug #608219
+            if appindicator:
+                self.hide_widget_list.remove("menuitem_download_limit")
+                self.hide_widget_list.remove("menuitem_upload_limit")
+                self.hide_widget_list.remove("separatormenuitem3")
+                self.tray_glade.get_widget("menuitem_download_limit").hide()
+                self.tray_glade.get_widget("menuitem_upload_limit").hide()
+                self.tray_glade.get_widget("separatormenuitem3").hide()
 
             # Show widgets in the hide list because we've connected to a host
             for widget in self.hide_widget_list:
@@ -166,7 +198,10 @@ class SystemTray(component.Component):
 
     def shutdown(self):
         if self.config["enable_system_tray"]:
-            self.tray.set_visible(False)
+            if appindicator:
+                self.indicator.set_status(appindicator.STATUS_PASSIVE)
+            else:
+                self.tray.set_visible(False)
 
     def send_status_request(self):
         client.core.get_session_status([
@@ -196,6 +231,10 @@ class SystemTray(component.Component):
 
     def update(self):
         if not self.config["enable_system_tray"]:
+            return
+
+        # Tool tip text not available for appindicator
+        if appindicator:
             return
 
         # Set the tool tip text
@@ -243,12 +282,25 @@ class SystemTray(component.Component):
         submenu_bwdownset.show_all()
         submenu_bwupset.show_all()
 
+        # Re-set the menu to partly work around Launchpad bug #608219
+        if appindicator:
+            self.indicator.set_menu(self.tray_menu)
+
     def disable(self):
-        """Disables the system tray icon."""
-        log.debug("Disabling the system tray icon..")
+        """Disables the system tray icon or appindicator."""
         try:
-            self.tray.set_visible(False)
-            del self.tray
+            if appindicator:
+                if hasattr(self, "_sig_win_hide"):
+                    self.window.window.disconnect(self._sig_win_hide)
+                    self.window.window.disconnect(self._sig_win_show)
+                    log.debug("Disabling the application indicator..")
+
+                self.indicator.set_status(appindicator.STATUS_PASSIVE)
+                del self.indicator
+            else:
+                log.debug("Disabling the system tray icon..")
+                self.tray.set_visible(False)
+                del self.tray
             del self.tray_glade
             del self.tray_menu
         except Exception, e:
@@ -335,6 +387,16 @@ class SystemTray(component.Component):
     def tray_setbwdown(self, widget, data=None):
         self.setbwlimit(widget, _("Set Maximum Download Speed"), "max_download_speed",
             "tray_download_speed_list", self.max_download_speed, "downloading.svg")
+
+    def _on_window_hide(self, widget, data=None):
+        """_on_window_hide - update the menuitem's status"""
+        log.debug("_on_window_hide")
+        self.tray_glade.get_widget("menuitem_show_deluge").set_active(False)
+
+    def _on_window_show(self, widget, data=None):
+        """_on_window_show - update the menuitem's status"""
+        log.debug("_on_window_show")
+        self.tray_glade.get_widget("menuitem_show_deluge").set_active(True)
 
     def tray_setbwup(self, widget, data=None):
         self.setbwlimit(widget, _("Set Maximum Upload Speed"), "max_upload_speed",
