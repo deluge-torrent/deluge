@@ -754,7 +754,11 @@ class Core(component.Component):
         def on_get_page(result):
             return bool(int(result))
 
+        def logError(failure):
+            log.warning("Error testing listen port: %s", failure)
+
         d.addCallback(on_get_page)
+        d.addErrback(logError)
 
         return d
 
