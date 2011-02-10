@@ -206,6 +206,11 @@ class SelectablePopup(Popup):
                 self.parent.add_string(crow,"- %s%s"%(colorstr,line),self.screen,1,False,True)
             crow+=1
 
+    def current_selection(self):
+        "Returns a tuple of (selected index, selected data)"
+        idx = self._selectable_lines.index(self._selected)
+        return (idx,self._select_data[idx])
+
     def add_divider(self,color="white"):
         if not self._divider:
             self._divider = "-"*(self.width-6)+" -"
