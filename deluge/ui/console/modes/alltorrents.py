@@ -143,7 +143,7 @@ class StateUpdater(component.Component):
 
 
 class AllTorrents(BaseMode):
-    def __init__(self, stdscr, coreconfig, encoding=None):
+    def __init__(self, stdscr, encoding=None):
         self.formatted_rows = None
         self.cursel = 1
         self.curoff = 1 # TODO: this should really be 0 indexed
@@ -157,7 +157,7 @@ class AllTorrents(BaseMode):
 
         self._curr_filter = None
 
-        self.coreconfig = coreconfig
+        self.coreconfig = component.get("ConsoleUI").coreconfig
 
         BaseMode.__init__(self, stdscr, encoding)
         curses.curs_set(0)

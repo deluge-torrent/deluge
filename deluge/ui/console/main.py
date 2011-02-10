@@ -171,28 +171,28 @@ class ConsoleUI(component.Component):
             self.interactive = False
 
         # Try to connect to the localhost daemon
-        def on_connect(result):
-            def on_started(result):
-                if not self.interactive:
-                    def on_started(result):
-                        deferreds = []
-                        # If we have args, lets process them and quit
-                        # allow multiple commands split by ";"
-                        for arg in args.split(";"):
-                            deferreds.append(defer.maybeDeferred(self.do_command, arg.strip()))
+        # def on_connect(result):
+        #     def on_started(result):
+        #         if not self.interactive:
+        #             def on_started(result):
+        #                 deferreds = []
+        #                 # If we have args, lets process them and quit
+        #                 # allow multiple commands split by ";"
+        #                 for arg in args.split(";"):
+        #                     deferreds.append(defer.maybeDeferred(self.do_command, arg.strip()))
 
-                        def on_complete(result):
-                            self.do_command("quit")
+        #                 def on_complete(result):
+        #                     self.do_command("quit")
 
-                        dl = defer.DeferredList(deferreds).addCallback(on_complete)
+        #                 dl = defer.DeferredList(deferreds).addCallback(on_complete)
 
-                    # We need to wait for the rpcs in start() to finish before processing
-                    # any of the commands.
-                    self.started_deferred.addCallback(on_started)
-            component.start().addCallback(on_started)
+        #             # We need to wait for the rpcs in start() to finish before processing
+        #             # any of the commands.
+        #             self.started_deferred.addCallback(on_started)
+        #     component.start().addCallback(on_started)
 
-        d = client.connect()
-        d.addCallback(on_connect)
+        #d = client.connect()
+        #d.addCallback(on_connect)
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
@@ -218,8 +218,8 @@ class ConsoleUI(component.Component):
         # pass it the function that handles commands
         colors.init_colors()
         self.statusbars = StatusBars()
-        from modes.alltorrents import AllTorrents
-        self.screen = AllTorrents(stdscr, self.coreconfig, self.encoding)
+        from modes.connectionmanager import ConnectionManager
+        self.screen = ConnectionManager(stdscr, self.encoding)
         self.eventlog = EventLog()
 
         self.screen.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
