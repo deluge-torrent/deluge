@@ -50,7 +50,7 @@ log = logging.getLogger(__name__)
 
 class InputField:
     # render the input.  return number of rows taken up
-    def render(self,screen,row,width,selected):
+    def render(self,screen,row,width,selected,col=1):
         return 0
     def handle_read(self, c):
         if c in [curses.KEY_ENTER, 10, 127, 113]:
@@ -67,18 +67,23 @@ class SelectInput(InputField):
         self.opts = opts
         self.selidx = selidx
 
-    def render(self, screen, row, width, selected):
-        self.parent.add_string(row,self.message,screen,1,False,True)
-        off = 2
+    def render(self, screen, row, width, selected, col=1):
+        if self.message:
+            self.parent.add_string(row,self.message,screen,col,False,True)
+            row += 1
+        off = col+1
         for i,opt in enumerate(self.opts):
             if selected and i == self.selidx:
-                self.parent.add_string(row+1,"{!black,white,bold!}[%s]"%opt,screen,off,False,True)
+                self.parent.add_string(row,"{!black,white,bold!}[%s]"%opt,screen,off,False,True)
             elif i == self.selidx:
-                self.parent.add_string(row+1,"[{!white,black,underline!}%s{!white,black!}]"%opt,screen,off,False,True)
+                self.parent.add_string(row,"[{!white,black,underline!}%s{!white,black!}]"%opt,screen,off,False,True)
             else:
-                self.parent.add_string(row+1,"[%s]"%opt,screen,off,False,True)
+                self.parent.add_string(row,"[%s]"%opt,screen,off,False,True)
             off += len(opt)+3
-        return 2
+        if self.message:
+            return 2
+        else:
+            return 1
 
     def handle_read(self, c):
         if c == curses.KEY_LEFT:
@@ -105,21 +110,21 @@ class TextInput(InputField):
         self.opts = None
         self.opt_off = 0
 
-    def render(self,screen,row,width,selected):
+    def render(self,screen,row,width,selected,col=1):
         if selected:
             if self.opts:
-                self.parent.add_string(row+2,self.opts[self.opt_off:],screen,1,False,True)
+                self.parent.add_string(row+2,self.opts[self.opt_off:],screen,col,False,True)
             if self.cursor > (width-3):
                 self.move_func(row+1,width-2)
             else:
                 self.move_func(row+1,self.cursor+1)
-        self.parent.add_string(row,self.message,screen,1,False,True)
+        self.parent.add_string(row,self.message,screen,col,False,True)
         slen = len(self.value)+3
         if slen > width:
             vstr = self.value[(slen-width):]
         else:
             vstr = self.value.ljust(width-2)
-        self.parent.add_string(row+1,"{!black,white,bold!}%s"%vstr,screen,1,False,False)
+        self.parent.add_string(row+1,"{!black,white,bold!}%s"%vstr,screen,col,False,False)
 
         return 3
 
