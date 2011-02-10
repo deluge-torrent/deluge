@@ -47,6 +47,7 @@ from popup import Popup,SelectablePopup,MessagePopup
 from add_util import add_torrent
 from input_popup import InputPopup
 from torrentdetail import TorrentDetail
+from preferences import Preferences
 from torrent_actions import torrent_actions_popup
 
 import format_utils
@@ -329,6 +330,11 @@ class AllTorrents(BaseMode):
         td = TorrentDetail(self,tid,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(td)
 
+    def show_prefrences(self):
+        component.stop(["AllTorrentsStateUpdater"])
+        self.stdscr.clear()
+        prefs = Preferences(self,self.stdscr,self.encoding)
+        component.get("ConsoleUI").set_mode(prefs)
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
@@ -606,5 +612,8 @@ class AllTorrents(BaseMode):
                     self.popup = Popup(self,"Help")
                     for l in HELP_LINES:
                         self.popup.add_line(l)
+                elif chr(c) == 'p':
+                    self.show_prefrences()
+                    return
 
         self.refresh(effected_lines)
