@@ -36,6 +36,8 @@
 
 import deluge.component as component
 from basemode import BaseMode
+from input_popup import SelectInput
+
 
 from collections import deque
 
@@ -60,9 +62,9 @@ class Preferences(BaseMode):
                            _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
                            _("Cache")] # , _("Plugins")]
         self.cur_cat = 0
-        self.cur_action = 0
         self.popup = None
         self.messages = deque()
+        self.action_input = None
 
         self.active_zone = ZONE.CATEGORIES
 
@@ -70,6 +72,8 @@ class Preferences(BaseMode):
         self.div_off = 15
 
         BaseMode.__init__(self, stdscr, encoding)
+        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],0)
+        self.refresh()
 
     def __draw_catetories(self):
         for i,category in enumerate(self.categories):
@@ -82,18 +86,10 @@ class Preferences(BaseMode):
         self.stdscr.vline(1,self.div_off,'|',self.rows-2)
 
     def __draw_actions(self):
-        c = self.cols-22
-        self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
-        if self.active_zone != ZONE.ACTIONS:
-            self.add_string(self.rows-2,"[Cancel] [Apply] [OK]",col=c)
-        else:
-            if self.cur_action == 0:
-                self.add_string(self.rows-2,"[{!black,white,bold!}Cancel{!white,black!}] [Apply] [OK]",col=c)
-            elif self.cur_action == 1:
-                self.add_string(self.rows-2,"[Cancel] [{!black,white,bold!}Apply{!white,black!}] [OK]",col=c)
-            elif self.cur_action == 2:
-                self.add_string(self.rows-2,"[Cancel] [Apply] [{!black,white,bold!}OK{!white,black!}]",col=c)
-
+        if self.action_input:
+            selected = self.active_zone == ZONE.ACTIONS
+            self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
+            self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
     
     def refresh(self):
         if self.popup == None and self.messages:
@@ -126,19 +122,15 @@ class Preferences(BaseMode):
         pass
 
     def __actions_read(self, c):
-        # Navigate actions
-        if c == curses.KEY_LEFT:
-            self.cur_action = max(0,self.cur_action-1)
-        elif c == curses.KEY_RIGHT:
-            self.cur_action = min(2,self.cur_action+1)
-        elif c == curses.KEY_ENTER or c == 10:
+        self.action_input.handle_read(c)
+        if c == curses.KEY_ENTER or c == 10:
             # take action
-            if self.cur_action == 0: # cancel
+            if self.action_input.selidx == 0: # cancel
                 self.back_to_parent()
-            elif self.cur_action == 1: # apply
+            elif self.action_input.selidx == 1: # apply
                 # TODO: Actually apply
                 pass
-            elif self.cur_action == 2: #  OK
+            elif self.action_input.selidx == 2: #  OK
                 # TODO: Actually apply 
                 self.back_to_parent()
                 
