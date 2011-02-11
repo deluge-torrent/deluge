@@ -793,10 +793,15 @@ class Torrent(object):
 
     def move_storage(self, dest):
         """Move a torrent's storage location"""
-        
-        # Convert path from utf8 to unicode
-        dest_u=unicode(dest,"utf-8")
-        
+
+        # Attempt to convert utf8 path to unicode
+        # Note: Inconsistent encoding for 'dest', needs future investigation
+        try:
+           dest_u = unicode(dest, "utf-8")
+        except TypeError:
+           # String is already unicode
+           dest_u = dest
+
         if not os.path.exists(dest_u):
             try:
                 # Try to make the destination path if it doesn't exist
