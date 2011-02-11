@@ -377,6 +377,8 @@ class CreateTorrentDialog:
     def _on_button_up_clicked(self, widget):
         log.debug("_on_button_up_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         if self.trackers_liststore[row][0] == 0:
             return
         else:
@@ -385,6 +387,8 @@ class CreateTorrentDialog:
     def _on_button_down_clicked(self, widget):
         log.debug("_on_button_down_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         self.trackers_liststore[row][0] += 1
 
     def _on_button_add_clicked(self, widget):
@@ -428,4 +432,6 @@ class CreateTorrentDialog:
     def _on_button_remove_clicked(self, widget):
         log.debug("_on_button_remove_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         self.trackers_liststore.remove(row)
