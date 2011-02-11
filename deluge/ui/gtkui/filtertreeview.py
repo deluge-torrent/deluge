@@ -39,6 +39,7 @@ import gtk
 import gtk.glade
 import logging
 import pkg_resources
+import glib
 
 import deluge.component as component
 import deluge.common
@@ -58,21 +59,38 @@ STATE_PIX = {
     "Active": "active"
     }
 
-
-TRANSLATE = {
-    "state": "States",
-    "tracker_host": "Trackers",
-    "label": "Labels",
-    "owner": "Owner"
+TRACKER_PIX = {
+    "All": "tracker_all",
+    "Error": "tracker_warning",
 }
 
-FILTER_COLUMN = 5
+def _(message): return message
+
+TRANSLATE = {
+    "state": _("States"),
+    "tracker_host": _("Trackers"),
+    "label": _("Labels"),
+    "owner": _("Owner"),
+    "All": _("All"),
+    "Downloading": _("Downloading"),
+    "Seeding": _("Seeding"),
+    "Paused": _("Paused"),
+    "Checking": _("Checking"),
+    "Queued": _("Queued"),
+    "Error": _("Error"),
+    "Active": _("Active"),
+    "none": _("None"),
+    "no_label": _("No Label"),
+}
+
+del _
 
 def _t(text):
     if text in TRANSLATE:
         text = TRANSLATE[text]
     return _(text)
 
+FILTER_COLUMN = 5
 
 #sidebar-treeview
 class FilterTreeView(component.Component):
@@ -87,7 +105,7 @@ class FilterTreeView(component.Component):
         self.tracker_icons = component.get("TrackerIcons")
 
         self.label_view = gtk.TreeView()
-        self.sidebar.add_tab(self.label_view, "filters", _("Filters"))
+        self.sidebar.add_tab(self.label_view, "filters", "Filters")
 
         #set filter to all when hidden:
         self.sidebar.notebook.connect("hide", self._on_hide)
@@ -109,7 +127,7 @@ class FilterTreeView(component.Component):
         self.treestore = gtk.TreeStore(str, str, str, int, gtk.gdk.Pixbuf, bool)
 
         # Create the column
-        column = gtk.TreeViewColumn(_("Filters"))
+        column = gtk.TreeViewColumn("Filters")
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         render = gtk.CellRendererPixbuf()
         self.renderpix = render
@@ -147,13 +165,18 @@ class FilterTreeView(component.Component):
         self.filters = {}
 
         #initial order of state filter:
-        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("State"), 0, None, False])
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _t("State"), 0, None, False])
         self.update_row("state", "All" , 0)
         self.update_row("state", "Downloading" , 0)
         self.update_row("state", "Seeding" , 0)
         self.update_row("state", "Active" , 0)
         self.update_row("state", "Paused" , 0)
         self.update_row("state", "Queued" , 0)
+
+        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _t("Trackers"), 0, None, False])
+        self.update_row("tracker_host", "All" , 0)
+        self.update_row("tracker_host", "Error" , 0)
+        self.update_row("tracker_host", "" , 0)
 
         # We set to this expand the rows on start-up
         self.expand_rows = True
@@ -211,8 +234,16 @@ class FilterTreeView(component.Component):
         else:
             pix = self.get_pixmap(cat, value)
             label = value
-            if cat == "state":
-                label = _(value)
+
+            if cat == "state" or cat == "tracker_host":
+                label = _t(value)
+
+            if label == "":
+                if cat == "tracker_host":
+                    label = _t("none")
+                elif cat == "label":
+                    label = _t("no_label")
+
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
 
@@ -231,9 +262,6 @@ class FilterTreeView(component.Component):
         count = model.get_value(row, 3)
         pix = model.get_value(row, 4)
 
-        if label == "" and cat == "label":
-            label = _("no label")
-
         if pix:
             self.renderpix.set_property("visible", True)
         else:
@@ -251,11 +279,23 @@ class FilterTreeView(component.Component):
         cell.set_property('text', txt)
 
     def get_pixmap(self, cat, value):
+        pix = None
         if cat == "state":
-            pix = STATE_PIX.get(value, "dht")
-            return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
+            pix = STATE_PIX.get(value, None)
+        elif cat == "tracker_host":
+            pix = TRACKER_PIX.get(value, None)
 
-        return None
+        if pix:
+            try:
+                return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
+            except glib.GError as e:
+                log.warning(e)
+        return self.get_transparent_pix(16, 16)
+
+    def get_transparent_pix(self,  width, height):
+        pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, width, height)
+        pix.fill(0x0000000)
+        return pix
 
     def set_row_image(self, cat, value, filename):
         pix = None
@@ -265,8 +305,7 @@ class FilterTreeView(component.Component):
             log.debug(e)
 
         if not pix:
-            pix = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 16, 16)
-            pix.fill(0x00000000)
+            pix = self.get_transparent_pix(16, 16)
         row = self.filters[(cat, value)]
         self.treestore.set_value(row, 4, pix)
         return False
