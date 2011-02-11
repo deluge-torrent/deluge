@@ -285,14 +285,11 @@ class CreateTorrentDialog:
             tracker = None
         else:
             # Create a list of lists [[tier0, ...], [tier1, ...], ...]
+            tier_dict = {}
             for tier, tracker in self.trackers_liststore:
-                try:
-                    tier_list = trackers[tier]
-                except IndexError:
-                    trackers.insert(tier, [])
+                tier_dict.setdefault(tier, []).append(tracker)
 
-                trackers[tier].append(tracker)
-
+            trackers = [tier_dict[tier] for tier in sorted(tier_dict)]
             # Get the first tracker in the first tier
             tracker = trackers[0][0]
 
