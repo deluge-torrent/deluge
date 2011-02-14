@@ -235,14 +235,13 @@ class FilterTreeView(component.Component):
             pix = self.get_pixmap(cat, value)
             label = value
 
-            if cat == "state" or cat == "tracker_host":
-                label = _t(value)
-
             if label == "":
                 if cat == "tracker_host":
                     label = _t("none")
                 elif cat == "label":
                     label = _t("no_label")
+            elif cat == "state" or cat == "tracker_host":
+                label = _t(value)
 
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
