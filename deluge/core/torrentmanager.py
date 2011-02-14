@@ -41,6 +41,7 @@ import os
 import time
 import shutil
 import operator
+import re
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -730,18 +731,20 @@ class TorrentManager(component.Component):
             fastresume_file.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
-        
+
     def remove_empty_folders(self, torrent_id, folder):
         """
         Recursively removes folders but only if they are empty.
         Cleans up after libtorrent folder renames.
-            
+
         """
         if torrent_id not in self.torrents:
-            raise InvalidTorrentError("torrent_id is not in session")    
-          
+            raise InvalidTorrentError("torrent_id is not in session")
+
         info = self.torrents[torrent_id].get_status(['save_path'])
-        folder_full_path = os.path.join(info['save_path'], folder)
+        # Regex removes leading slashes that causes join function to ignore save_path
+        folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
+        folder_full_path = os.path.normpath(folder_full_path)
 
         try:
             if not os.listdir(folder_full_path):
@@ -759,7 +762,7 @@ class TorrentManager(component.Component):
                                 log.debug("%s", strerror)
 
         except OSError as (errno, strerror):
-            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)    
+            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
@@ -879,14 +882,14 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        
+
         # Check to see if we're forcing a recheck and set it back to paused
         # if necessary
         if torrent.forcing_recheck:
             torrent.forcing_recheck = False
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
-                
+
         # Set the torrent state
         torrent.update_state()
 
@@ -1022,7 +1025,7 @@ class TorrentManager(component.Component):
                 if len(wait_on_folder[2]) == 1:
                     # This is the last alert we were waiting for, time to send signal
                     component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
-                    # Empty folders are removed after libtorrent folder renames 
+                    # Empty folders are removed after libtorrent folder renames
                     self.remove_empty_folders(torrent_id, wait_on_folder[0])
                     del torrent.waiting_on_folder_rename[i]
                     self.save_resume_data((torrent_id,))
