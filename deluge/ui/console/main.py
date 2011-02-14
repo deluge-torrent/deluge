@@ -92,6 +92,9 @@ class ConsoleUI(component.Component):
     def __init__(self, args=None):
         component.Component.__init__(self, "ConsoleUI", 2)
 
+        # keep track of events for the log view
+        self.events = []
+
         try:
             locale.setlocale(locale.LC_ALL, '')
             self.encoding = locale.getpreferredencoding()
@@ -160,3 +163,6 @@ class ConsoleUI(component.Component):
 
     def on_client_disconnect(self):
         component.stop()
+
+    def write(self, s):
+        self.events.append(s)
