@@ -24,7 +24,7 @@
                   <widget class="GtkMenu" id="menuitem1_menu1">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_addtorrent">
-                        <property name="label">_Add Torrent</property>
+                        <property name="label" translatable="yes">_Add Torrent</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="use_underline">True</property>
@@ -41,7 +41,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_createtorrent">
-                        <property name="label">_Create Torrent</property>
+                        <property name="label" translatable="yes">_Create Torrent</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -60,7 +60,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_quitdaemon">
-                        <property name="label">Quit &amp; _Shutdown Daemon</property>
+                        <property name="label" translatable="yes">Quit &amp; _Shutdown Daemon</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -81,7 +81,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_quit">
-                        <property name="label">gtk-quit</property>
+                        <property name="label" translatable="yes">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
@@ -102,7 +102,7 @@
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_preferences">
-                        <property name="label">gtk-preferences</property>
+                        <property name="label" translatable="yes">gtk-preferences</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
@@ -111,7 +111,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_connectionmanager">
-                        <property name="label">_Connection Manager</property>
+                        <property name="label" translatable="yes">_Connection Manager</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
@@ -236,7 +236,7 @@
                   <widget class="GtkMenu" id="menuitem2_menu1">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_homepage">
-                        <property name="label">_Homepage</property>
+                        <property name="label" translatable="yes">_Homepage</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
@@ -253,7 +253,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_faq">
-                        <property name="label">_FAQ</property>
+                        <property name="label" translatable="yes">_FAQ</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="tooltip" translatable="yes">Frequently Asked Questions</property>
@@ -271,7 +271,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_community">
-                        <property name="label">_Community</property>
+                        <property name="label" translatable="yes">_Community</property>
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_underline">True</property>
@@ -333,6 +333,7 @@
               <widget class="GtkToolButton" id="toolbutton_remove">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
+                <property name="tooltip" translatable="yes">Remove torrent</property>
                 <property name="label" translatable="yes">Remove Torrent</property>
                 <property name="stock_id">gtk-remove</property>
                 <signal name="clicked" handler="on_toolbutton_remove_clicked"/>
@@ -560,7 +561,7 @@
     </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_expand_all">
-        <property name="label">_Expand All</property>
+        <property name="label" translatable="yes">_Expand All</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="use_stock">False</property>
@@ -581,7 +582,7 @@
     </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_donotdownload">
-        <property name="label">_Do Not Download</property>
+        <property name="label" translatable="yes">_Do Not Download</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="use_stock">False</property>
@@ -597,7 +598,7 @@
     </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_normal">
-        <property name="label">_Normal Priority</property>
+        <property name="label" translatable="yes">_Normal Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="use_stock">False</property>
@@ -613,7 +614,7 @@
     </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_high">
-        <property name="label">_High Priority</property>
+        <property name="label" translatable="yes">_High Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="use_stock">False</property>
@@ -629,7 +630,7 @@
     </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_highest">
-        <property name="label">Hi_ghest Priority</property>
+        <property name="label" translatable="yes">Hi_ghest Priority</property>
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="use_stock">False</property>
@@ -2742,7 +2743,7 @@
     <property name="visible">True</property>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem4">
-        <property name="label">_Add Peer</property>
+        <property name="label" translatable="yes">_Add Peer</property>
         <property name="visible">True</property>
         <property name="tooltip" translatable="yes">Add a peer by its IP</property>
         <property name="use_underline">True</property>

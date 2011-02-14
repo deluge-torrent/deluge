@@ -71,7 +71,7 @@ class Preferences(component.Component):
         self.liststore = gtk.ListStore(int, str)
         self.treeview.set_model(self.liststore)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Categories", render, text=1)
+        column = gtk.TreeViewColumn(_("Categories"), render, text=1)
         self.treeview.append_column(column)
         # Add the default categories
         i = 0

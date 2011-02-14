@@ -53,13 +53,29 @@ import common
 
 log = logging.getLogger(__name__)
 
+def _(message): return message
+
+TRANSLATE = {
+    "Do Not Download": _("Do Not Download"),
+    "Normal Priority": _("Normal Priority"),
+    "High Priority": _("High Priority"),
+    "Highest Priority": _("Highest Priority"),
+}
+
+del _
+
+def _t(text):
+    if text in TRANSLATE:
+        text = TRANSLATE[text]
+    return _(text)
+
 def cell_priority(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:
         # This is a folder, so lets just set it blank for now
         cell.set_property("text", "")
         return
     priority = model.get_value(row, data)
-    cell.set_property("text", deluge.common.FILE_PRIORITY[priority])
+    cell.set_property("text", _t(deluge.common.FILE_PRIORITY[priority]))
 
 def cell_priority_icon(column, cell, model, row, data):
     if model.get_value(row, 5) == -1:
@@ -67,13 +83,13 @@ def cell_priority_icon(column, cell, model, row, data):
         cell.set_property("stock-id", None)
         return
     priority = model.get_value(row, data)
-    if deluge.common.FILE_PRIORITY[priority] == _("Do Not Download"):
+    if deluge.common.FILE_PRIORITY[priority] == "Do Not Download":
         cell.set_property("stock-id", gtk.STOCK_NO)
-    elif deluge.common.FILE_PRIORITY[priority] == _("Normal Priority"):
+    elif deluge.common.FILE_PRIORITY[priority] == "Normal Priority":
         cell.set_property("stock-id", gtk.STOCK_YES)
-    elif deluge.common.FILE_PRIORITY[priority] == _("High Priority"):
+    elif deluge.common.FILE_PRIORITY[priority] == "High Priority":
         cell.set_property("stock-id", gtk.STOCK_GO_UP)
-    elif deluge.common.FILE_PRIORITY[priority] == _("Highest Priority"):
+    elif deluge.common.FILE_PRIORITY[priority] == "Highest Priority":
         cell.set_property("stock-id", gtk.STOCK_GOTO_TOP)
 
 def cell_filename(column, cell, model, row, data):
