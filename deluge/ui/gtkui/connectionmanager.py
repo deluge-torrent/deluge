@@ -146,16 +146,16 @@ class ConnectionManager(component.Component):
         # Setup host list treeview
         self.hostlist.set_model(self.liststore)
         render = gtk.CellRendererPixbuf()
-        column = gtk.TreeViewColumn("Status", render)
+        column = gtk.TreeViewColumn(_("Status"), render)
         column.set_cell_data_func(render, cell_render_status, 3)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Host", render, text=HOSTLIST_COL_HOST)
+        column = gtk.TreeViewColumn(_("Host"), render, text=HOSTLIST_COL_HOST)
         column.set_cell_data_func(render, cell_render_host, (1, 2, 4))
         column.set_expand(True)
         self.hostlist.append_column(column)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn("Version", render, text=HOSTLIST_COL_VERSION)
+        column = gtk.TreeViewColumn(_("Version"), render, text=HOSTLIST_COL_VERSION)
         self.hostlist.append_column(column)
 
         # Load any saved host entries
@@ -383,7 +383,7 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text(
-                "_Stop Daemon")
+                _("_Stop Daemon"))
 
         # Update the start daemon button if the selected host is localhost
         if localhost and status == _("Offline"):
@@ -391,7 +391,7 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text(
-                "_Start Daemon")
+                _("_Start Daemon"))
 
         if not localhost:
             # An offline host
