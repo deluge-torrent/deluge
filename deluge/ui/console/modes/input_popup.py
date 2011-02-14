@@ -58,13 +58,121 @@ class InputField:
         return False
     def get_value(self):
         return None
+    def set_value(self, value):
+        pass
+
+class CheckedInput(InputField):
+    def __init__(self, parent, message, name, checked=False):
+        self.parent = parent
+        self.chkd_inact = "[X] %s"%message
+        self.unchkd_inact = "[ ] %s"%message
+        self.chkd_act = "[{!black,white,bold!}X{!white,black!}] %s"%message
+        self.unchkd_act = "[{!black,white,bold!} {!white,black!}] %s"%message
+        self.name = name
+        self.checked = checked
+
+    def render(self, screen, row, width, active, col=1):
+        if self.checked and active:
+            self.parent.add_string(row,self.chkd_act,screen,col,False,True)
+        elif self.checked:
+            self.parent.add_string(row,self.chkd_inact,screen,col,False,True)
+        elif active:
+            self.parent.add_string(row,self.unchkd_act,screen,col,False,True)
+        else:
+            self.parent.add_string(row,self.unchkd_inact,screen,col,False,True)
+        return 1
+        
+    def handle_read(self, c):
+        if c == 32:
+            self.checked = not self.checked
+
+    def get_value(self):
+        return self.checked
+
+    def set_value(self, c):
+        self.checked = c
+
+class IntSpinInput(InputField):
+    def __init__(self, parent, message, name, move_func, value, min_val, max_val):
+        self.parent = parent
+        self.message = message
+        self.name = name
+        self.value = int(value)
+        self.initvalue = self.value
+        self.valstr = "%d"%self.value
+        self.cursor = len(self.valstr)
+        self.cursoff = len(self.message)+4 # + 4 for the " [ " in the rendered string
+        self.move_func = move_func
+        self.min_val = min_val
+        self.max_val = max_val
+
+    def render(self, screen, row, width, active, col=1):
+        if not active and not self.valstr:
+            self.value = self.initvalue
+            self.valstr = "%d"%self.value 
+            self.cursor = len(self.valstr)
+        if not self.valstr:
+            self.parent.add_string(row,"%s [  ]"%self.message,screen,col,False,True)
+        elif active:
+            self.parent.add_string(row,"%s [ {!black,white,bold!}%d{!white,black!} ]"%(self.message,self.value),screen,col,False,True)
+        else:
+            self.parent.add_string(row,"%s [ %d ]"%(self.message,self.value),screen,col,False,True)
+
+        if active:
+            self.move_func(row,self.cursor+self.cursoff)
+
+        return 1
+
+    def handle_read(self, c):
+        if c  == curses.KEY_PPAGE:
+            self.value+=1
+        elif c == curses.KEY_NPAGE:
+            self.value-=1
+        elif c == curses.KEY_LEFT:
+            self.cursor = max(0,self.cursor-1)
+        elif c == curses.KEY_RIGHT:
+            self.cursor = min(len(self.valstr),self.cursor+1)
+        elif c == curses.KEY_HOME:
+            self.cursor = 0
+        elif c == curses.KEY_END:
+            self.cursor = len(self.value)
+        elif c == curses.KEY_BACKSPACE or c == 127:
+            if self.valstr and  self.cursor > 0:
+                self.valstr = self.valstr[:self.cursor - 1] + self.valstr[self.cursor:]
+                self.cursor-=1
+                if self.valstr:
+                    self.value = int(self.valstr)
+        elif c == curses.KEY_DC:
+            if self.valstr and self.cursor < len(self.valstr):
+                self.valstr = self.valstr[:self.cursor] + self.valstr[self.cursor+1:]
+        elif c > 47 and c < 58:
+            if c == 48 and self.cursor == 0: return
+            if self.cursor == len(self.valstr):
+                self.valstr += chr(c)
+                self.value = int(self.valstr)
+            else:
+                # Insert into string
+                self.valstr = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
+                self.value = int(self.valstr)
+            # Move the cursor forward
+            self.cursor+=1
+            
+
+    def get_value(self):
+        return self.value
+
+    def set_value(self, val):
+        self.value = int(val)
+        self.valstr = "%d"%self.value
+        self.cursor = len(self.valstr)
 
 class SelectInput(InputField):
-    def __init__(self, parent, message, name, opts, selidx):
+    def __init__(self, parent, message, name, opts, vals, selidx):
         self.parent = parent
         self.message = message
         self.name = name
         self.opts = opts
+        self.vals = vals
         self.selidx = selidx
 
     def render(self, screen, row, width, selected, col=1):
@@ -92,7 +200,14 @@ class SelectInput(InputField):
             self.selidx = min(len(self.opts)-1,self.selidx+1)
 
     def get_value(self):
-        return self.opts[self.selidx]
+        return self.vals[self.selidx]
+
+    def set_value(self, nv):
+        for i,val in enumerate(self.vals):
+            if nv == val:
+                self.selidx = i
+                return
+        raise Exception("Invalid value for SelectInput")
 
 class TextInput(InputField):
     def __init__(self, parent, move_func, width, message, name, value, docmp):
@@ -106,7 +221,7 @@ class TextInput(InputField):
         self.docmp = docmp
 
         self.tab_count = 0
-        self.cursor = 0
+        self.cursor = len(self.value)
         self.opts = None
         self.opt_off = 0
 
@@ -130,6 +245,10 @@ class TextInput(InputField):
 
     def get_value(self):
         return self.value
+
+    def set_value(self,val):
+        self.value = val
+        self.cursor = len(self.value)
 
     # most of the cursor,input stuff here taken from ui/console/screen.py
     def handle_read(self,c):
@@ -264,8 +383,8 @@ class InputPopup(Popup):
         self.inputs.append(TextInput(self.parent, self.move, self.width, message,
                                      name, value, complete))
 
-    def add_select_input(self, message, name, opts, default_index=0):
-        self.inputs.append(SelectInput(self.parent, message, name, opts, default_index))
+    def add_select_input(self, message, name, opts, vals, default_index=0):
+        self.inputs.append(SelectInput(self.parent, message, name, opts, vals, default_index))
 
     def _refresh_lines(self):
         self._cursor_row = -1

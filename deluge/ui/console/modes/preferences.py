@@ -35,9 +35,12 @@
 #
 
 import deluge.component as component
+from deluge.ui.client import client
 from basemode import BaseMode
 from input_popup import SelectInput
 
+from preference_panes import DownloadsPane,NetworkPane,BandwidthPane,InterfacePane
+from preference_panes import OtherPane,DaemonPane,QueuePane,ProxyPane,CachePane
 
 from collections import deque
 
@@ -56,7 +59,7 @@ class ZONE:
     ACTIONS = 2
 
 class Preferences(BaseMode):
-    def __init__(self, parent_mode, stdscr, encoding=None):
+    def __init__(self, parent_mode, core_config, stdscr, encoding=None):
         self.parent_mode = parent_mode
         self.categories = [_("Downloads"), _("Network"), _("Bandwidth"),
                            _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
@@ -66,13 +69,30 @@ class Preferences(BaseMode):
         self.messages = deque()
         self.action_input = None
 
+        self.core_config = core_config
+
         self.active_zone = ZONE.CATEGORIES
 
         # how wide is the left 'pane' with categories
         self.div_off = 15
 
-        BaseMode.__init__(self, stdscr, encoding)
-        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],0)
+        BaseMode.__init__(self, stdscr, encoding, False)
+
+        # create the panes
+        self.prefs_width = self.cols-self.div_off-1
+        self.panes = [
+            DownloadsPane(self.div_off+2, self, self.prefs_width),
+            NetworkPane(self.div_off+2, self, self.prefs_width),
+            BandwidthPane(self.div_off+2, self, self.prefs_width),
+            InterfacePane(self.div_off+2, self, self.prefs_width),
+            OtherPane(self.div_off+2, self, self.prefs_width),
+            DaemonPane(self.div_off+2, self, self.prefs_width),
+            QueuePane(self.div_off+2, self, self.prefs_width),
+            ProxyPane(self.div_off+2, self, self.prefs_width),
+            CachePane(self.div_off+2, self, self.prefs_width)
+            ]
+
+        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],[0,1,2],0)
         self.refresh()
 
     def __draw_catetories(self):
@@ -85,11 +105,13 @@ class Preferences(BaseMode):
                 self.add_string(i+1,"- %s"%category)
         self.stdscr.vline(1,self.div_off,'|',self.rows-2)
 
+    def __draw_preferences(self):
+        self.panes[self.cur_cat].render(self,self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
+
     def __draw_actions(self):
-        if self.action_input:
-            selected = self.active_zone == ZONE.ACTIONS
-            self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
-            self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
+        selected = self.active_zone == ZONE.ACTIONS
+        self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
+        self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
     
     def refresh(self):
         if self.popup == None and self.messages:
@@ -103,6 +125,9 @@ class Preferences(BaseMode):
 
         self.__draw_catetories()
         self.__draw_actions()
+
+        # do this last since it moves the cursor
+        self.__draw_preferences()
         
         self.stdscr.noutrefresh()
 
@@ -119,7 +144,32 @@ class Preferences(BaseMode):
             self.cur_cat = min(len(self.categories)-1,self.cur_cat+1)
 
     def __prefs_read(self, c):
-        pass
+        self.panes[self.cur_cat].handle_read(c)
+
+    def __apply_prefs(self):
+        new_core_config = {}
+        for pane in self.panes:
+            pane.add_config_values(new_core_config)
+        # Apply Core Prefs
+        if client.connected():
+            # Only do this if we're connected to a daemon
+            config_to_set = {}
+            for key in new_core_config.keys():
+                # The values do not match so this needs to be updated
+                if self.core_config[key] != new_core_config[key]:
+                    config_to_set[key] = new_core_config[key]
+
+            if config_to_set:
+                # Set each changed config value in the core
+                client.core.set_config(config_to_set)
+                client.force_call(True)
+                # Update the configuration
+                self.core_config.update(config_to_set)
+
+    def __update_preferences(self,core_config):
+        self.core_config = core_config
+        for pane in self.panes:
+            pane.update_values(core_config)
 
     def __actions_read(self, c):
         self.action_input.handle_read(c)
@@ -128,10 +178,10 @@ class Preferences(BaseMode):
             if self.action_input.selidx == 0: # cancel
                 self.back_to_parent()
             elif self.action_input.selidx == 1: # apply
-                # TODO: Actually apply
-                pass
+                self.__apply_prefs()
+                client.core.get_config().addCallback(self.__update_preferences)
             elif self.action_input.selidx == 2: #  OK
-                # TODO: Actually apply 
+                self.__apply_prefs()
                 self.back_to_parent()
                 
 
@@ -160,7 +210,7 @@ class Preferences(BaseMode):
                     reactor.stop()            
                 return
 
-        elif c == 9:
+        if c == 9:
             self.active_zone += 1
             if self.active_zone > ZONE.ACTIONS:
                 self.active_zone = ZONE.CATEGORIES

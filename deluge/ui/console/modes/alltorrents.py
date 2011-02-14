@@ -330,10 +330,10 @@ class AllTorrents(BaseMode):
         td = TorrentDetail(self,tid,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(td)
 
-    def show_prefrences(self):
+    def show_preferences(self, core_config):
         component.stop(["AllTorrentsStateUpdater"])
         self.stdscr.clear()
-        prefs = Preferences(self,self.stdscr,self.encoding)
+        prefs = Preferences(self,core_config,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(prefs)
 
     def _torrent_filter(self, idx, data):
@@ -376,7 +376,6 @@ class AllTorrents(BaseMode):
         self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
 
     def _do_add(self, result):
-        result["add_paused"] = (result["add_paused"] == "Yes")
         log.debug("Adding Torrent: %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
         def suc_cb(msg):
             self.report_message("Torrent Added",msg)
@@ -400,7 +399,7 @@ class AllTorrents(BaseMode):
         self.popup = InputPopup(self,"Add Torrent (Esc to cancel)",close_cb=self._do_add)
         self.popup.add_text_input("Enter path to torrent file:","file")
         self.popup.add_text_input("Enter save path:","path",dl)
-        self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],ap)
+        self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
 
     def report_message(self,title,message):
         self.messages.append((title,message))
@@ -613,7 +612,7 @@ class AllTorrents(BaseMode):
                     for l in HELP_LINES:
                         self.popup.add_line(l)
                 elif chr(c) == 'p':
-                    self.show_prefrences()
+                    client.core.get_config().addCallback(self.show_preferences)
                     return
 
         self.refresh(effected_lines)
