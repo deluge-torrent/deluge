@@ -49,6 +49,7 @@ from input_popup import InputPopup
 from torrentdetail import TorrentDetail
 from preferences import Preferences
 from torrent_actions import torrent_actions_popup
+from eventview import EventView
 
 import format_utils
 
@@ -336,6 +337,12 @@ class AllTorrents(BaseMode):
         prefs = Preferences(self,core_config,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(prefs)
 
+    def __show_events(self):
+        component.stop(["AllTorrentsStateUpdater"])
+        self.stdscr.clear()
+        ev = EventView(self,self.stdscr,self.encoding)
+        component.get("ConsoleUI").set_mode(ev)
+
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
             self.updater.status_dict = {}
@@ -613,6 +620,9 @@ class AllTorrents(BaseMode):
                         self.popup.add_line(l)
                 elif chr(c) == 'p':
                     client.core.get_config().addCallback(self.show_preferences)
+                    return
+                elif chr(c) == 'e':
+                    self.__show_events()
                     return
 
         self.refresh(effected_lines)
