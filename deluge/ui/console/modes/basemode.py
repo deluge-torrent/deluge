@@ -72,7 +72,7 @@ class CursesStdIO(object):
 
 
 class BaseMode(CursesStdIO):
-    def __init__(self, stdscr, encoding=None):
+    def __init__(self, stdscr, encoding=None, do_refresh=True):
         """
         A mode that provides a curses screen designed to run as a reader in a twisted reactor.
         This mode doesn't do much, just shows status bars and "Base Mode" on the screen
@@ -116,7 +116,8 @@ class BaseMode(CursesStdIO):
         colors.init_colors()
 
         # Do a refresh right away to draw the screen
-        self.refresh()
+        if do_refresh:
+            self.refresh()
 
     def on_resize_norefresh(self, *args):
         log.debug("on_resize_from_signal")
