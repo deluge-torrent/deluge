@@ -49,6 +49,7 @@ from popup import Popup
 log = logging.getLogger(__name__)
 
 class InputField:
+    depend = None
     # render the input.  return number of rows taken up
     def render(self,screen,row,width,selected,col=1):
         return 0
@@ -60,6 +61,20 @@ class InputField:
         return None
     def set_value(self, value):
         pass
+
+    def set_depend(self,i,inverse=False):
+        if not isinstance(i,CheckedInput):
+            raise Exception("Can only depend on CheckedInputs")
+        self.depend = i
+        self.inverse = inverse
+
+    def depend_skip(self):
+        if not self.depend:
+            return False
+        if self.inverse:
+            return self.depend.checked
+        else:
+            return not self.depend.checked
 
 class CheckedInput(InputField):
     def __init__(self, parent, message, name, checked=False):
@@ -92,6 +107,71 @@ class CheckedInput(InputField):
     def set_value(self, c):
         self.checked = c
 
+
+class CheckedPlusInput(InputField):
+    def __init__(self, parent, message, name, child,checked=False):
+        self.parent = parent
+        self.chkd_inact = "[X] %s"%message
+        self.unchkd_inact = "[ ] %s"%message
+        self.chkd_act = "[{!black,white,bold!}X{!white,black!}] %s"%message
+        self.unchkd_act = "[{!black,white,bold!} {!white,black!}] %s"%message
+        self.name = name
+        self.checked = checked
+        self.msglen = len(self.chkd_inact)+1
+        self.child = child
+        self.child_active = False
+
+    def render(self, screen, row, width, active, col=1):
+        isact = active and not self.child_active
+        if self.checked and isact:
+            self.parent.add_string(row,self.chkd_act,screen,col,False,True)
+        elif self.checked:
+            self.parent.add_string(row,self.chkd_inact,screen,col,False,True)
+        elif isact:
+            self.parent.add_string(row,self.unchkd_act,screen,col,False,True)
+        else:
+            self.parent.add_string(row,self.unchkd_inact,screen,col,False,True)
+
+        if active and self.checked and self.child_active:
+            self.parent.add_string(row+1,"(esc to leave)",screen,col,False,True)
+        elif active and self.checked:
+            self.parent.add_string(row+1,"(right arrow to edit)",screen,col,False,True)
+        rows = 2
+        # show child
+        if self.checked:
+            if isinstance(self.child,(TextInput,IntSpinInput,FloatSpinInput)):
+                crows = self.child.render(screen,row,width-self.msglen,self.child_active and active,col+self.msglen,self.msglen)
+            else:
+                crows = self.child.render(screen,row,width-self.msglen,self.child_active and active,col+self.msglen)
+            rows = max(rows,crows)
+        else:
+            self.parent.add_string(row,"(enable to view/edit value)",screen,col+self.msglen,False,True)
+        return rows
+        
+    def handle_read(self, c):
+        if self.child_active:
+            if c == 27: # leave child on esc
+                self.child_active = False
+                return
+            # pass keys through to child
+            self.child.handle_read(c)
+        else:
+            if c == 32:
+                self.checked = not self.checked
+            if c == curses.KEY_RIGHT:
+                self.child_active = True
+
+    def get_value(self):
+        return self.checked
+
+    def set_value(self, c):
+        self.checked = c
+
+    def get_child(self):
+        return self.child
+
+
+
 class IntSpinInput(InputField):
     def __init__(self, parent, message, name, move_func, value, min_val, max_val):
         self.parent = parent
@@ -106,7 +186,7 @@ class IntSpinInput(InputField):
         self.min_val = min_val
         self.max_val = max_val
 
-    def render(self, screen, row, width, active, col=1):
+    def render(self, screen, row, width, active, col=1, cursor_offset=0):
         if not active and not self.valstr:
             self.value = self.initvalue
             self.valstr = "%d"%self.value 
@@ -119,7 +199,7 @@ class IntSpinInput(InputField):
             self.parent.add_string(row,"%s [ %d ]"%(self.message,self.value),screen,col,False,True)
 
         if active:
-            self.move_func(row,self.cursor+self.cursoff)
+            self.move_func(row,self.cursor+self.cursoff+cursor_offset)
 
         return 1
 
@@ -165,6 +245,112 @@ class IntSpinInput(InputField):
         self.value = int(val)
         self.valstr = "%d"%self.value
         self.cursor = len(self.valstr)
+
+
+class FloatSpinInput(InputField):
+    def __init__(self, parent, message, name, move_func, value, inc_amt, precision, min_val, max_val):
+        self.parent = parent
+        self.message = message
+        self.name = name
+        self.precision = precision
+        self.inc_amt = inc_amt
+        self.value = round(float(value),self.precision)
+        self.initvalue = self.value
+        self.fmt = "%%.%df"%precision
+        self.valstr = self.fmt%self.value
+        self.cursor = len(self.valstr)
+        self.cursoff = len(self.message)+4 # + 4 for the " [ " in the rendered string
+        self.move_func = move_func
+        self.min_val = min_val
+        self.max_val = max_val
+        self.need_update = False
+
+    def render(self, screen, row, width, active, col=1, cursor_offset=0):
+        if not active and not self.valstr:
+            self.value = self.initvalue
+            self.valstr = self.fmt%self.value
+            self.cursor = len(self.valstr)
+        if not active and self.need_update:
+            self.value = round(float(self.valstr),self.precision)
+            self.valstr = self.fmt%self.value
+            self.cursor = len(self.valstr)
+        if not self.valstr:
+            self.parent.add_string(row,"%s [  ]"%self.message,screen,col,False,True)
+        elif active:
+            self.parent.add_string(row,"%s [ {!black,white,bold!}%s{!white,black!} ]"%(self.message,self.valstr),screen,col,False,True)
+        else:
+            self.parent.add_string(row,"%s [ %s ]"%(self.message,self.valstr),screen,col,False,True)
+        if active:
+            self.move_func(row,self.cursor+self.cursoff+cursor_offset)
+
+        return 1
+
+    def handle_read(self, c):
+        if c  == curses.KEY_PPAGE:
+            self.value+=self.inc_amt
+            self.valstr = self.fmt%self.value
+            self.cursor = len(self.valstr)
+        elif c == curses.KEY_NPAGE:
+            self.value-=self.inc_amt
+            self.valstr = self.fmt%self.value
+            self.cursor = len(self.valstr)
+        elif c == curses.KEY_LEFT:
+            self.cursor = max(0,self.cursor-1)
+        elif c == curses.KEY_RIGHT:
+            self.cursor = min(len(self.valstr),self.cursor+1)
+        elif c == curses.KEY_HOME:
+            self.cursor = 0
+        elif c == curses.KEY_END:
+            self.cursor = len(self.value)
+        elif c == curses.KEY_BACKSPACE or c == 127:
+            if self.valstr and  self.cursor > 0:
+                self.valstr = self.valstr[:self.cursor - 1] + self.valstr[self.cursor:]
+                self.cursor-=1
+                self.need_update = True
+        elif c == curses.KEY_DC:
+            if self.valstr and self.cursor < len(self.valstr):
+                self.valstr = self.valstr[:self.cursor] + self.valstr[self.cursor+1:]
+                self.need_update = True
+        elif c == 45 and self.cursor == 0 and self.min_val < 0:
+            minus_place = self.valstr.find('-')
+            if minus_place >= 0: return
+            self.valstr = chr(c)+self.valstr
+            self.cursor += 1
+            self.need_update = True
+        elif c == 46:
+            minus_place = self.valstr.find('-')
+            if self.cursor <= minus_place: return
+            point_place = self.valstr.find('.')
+            if point_place >= 0: return
+            if self.cursor == len(self.valstr):
+                self.valstr += chr(c)
+            else:
+                # Insert into string
+                self.valstr = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
+            self.need_update = True
+            # Move the cursor forward
+            self.cursor+=1
+        elif (c > 47 and c < 58):
+            minus_place = self.valstr.find('-')
+            if self.cursor <= minus_place: return
+            if self.cursor == len(self.valstr):
+                self.valstr += chr(c)
+            else:
+                # Insert into string
+                self.valstr = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
+            self.need_update = True
+            # Move the cursor forward
+            self.cursor+=1
+            
+
+    def get_value(self):
+        return self.value
+
+    def set_value(self, val):
+        self.value = round(float(val),self.precision)
+        self.valstr = self.fmt%self.value
+        self.cursor = len(self.valstr)
+
 
 class SelectInput(InputField):
     def __init__(self, parent, message, name, opts, vals, selidx):
@@ -225,23 +411,28 @@ class TextInput(InputField):
         self.opts = None
         self.opt_off = 0
 
-    def render(self,screen,row,width,selected,col=1):
+    def render(self,screen,row,width,selected,col=1,cursor_offset=0):
+        if self.message:
+            self.parent.add_string(row,self.message,screen,col,False,True)
+            row += 1
         if selected:
             if self.opts:
-                self.parent.add_string(row+2,self.opts[self.opt_off:],screen,col,False,True)
+                self.parent.add_string(row+1,self.opts[self.opt_off:],screen,col,False,True)
             if self.cursor > (width-3):
-                self.move_func(row+1,width-2)
+                self.move_func(row,width-2)
             else:
-                self.move_func(row+1,self.cursor+1)
-        self.parent.add_string(row,self.message,screen,col,False,True)
+                self.move_func(row,self.cursor+1+cursor_offset)
         slen = len(self.value)+3
         if slen > width:
             vstr = self.value[(slen-width):]
         else:
             vstr = self.value.ljust(width-2)
-        self.parent.add_string(row+1,"{!black,white,bold!}%s"%vstr,screen,col,False,False)
+        self.parent.add_string(row,"{!black,white,bold!}%s"%vstr,screen,col,False,False)
 
-        return 3
+        if self.message:
+            return 3
+        else:
+            return 2
 
     def get_value(self):
         return self.value

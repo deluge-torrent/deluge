@@ -59,7 +59,7 @@ class ZONE:
     ACTIONS = 2
 
 class Preferences(BaseMode):
-    def __init__(self, parent_mode, core_config, stdscr, encoding=None):
+    def __init__(self, parent_mode, core_config, active_port, status, stdscr, encoding=None):
         self.parent_mode = parent_mode
         self.categories = [_("Downloads"), _("Network"), _("Bandwidth"),
                            _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
@@ -70,6 +70,8 @@ class Preferences(BaseMode):
         self.action_input = None
 
         self.core_config = core_config
+        self.active_port = active_port
+        self.status = status
 
         self.active_zone = ZONE.CATEGORIES
 
@@ -219,6 +221,9 @@ class Preferences(BaseMode):
             self.active_zone -= 1
             if self.active_zone < ZONE.CATEGORIES:
                 self.active_zone = ZONE.ACTIONS
+
+        elif c == 114 and isinstance(self.panes[self.cur_cat],CachePane):
+            client.core.get_cache_status().addCallback(self.panes[self.cur_cat].update_cache_status)
 
         else:
             if self.active_zone == ZONE.CATEGORIES:

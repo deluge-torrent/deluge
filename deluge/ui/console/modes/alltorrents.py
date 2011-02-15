@@ -331,11 +331,21 @@ class AllTorrents(BaseMode):
         td = TorrentDetail(self,tid,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(td)
 
-    def show_preferences(self, core_config):
-        component.stop(["AllTorrentsStateUpdater"])
-        self.stdscr.clear()
-        prefs = Preferences(self,core_config,self.stdscr,self.encoding)
-        component.get("ConsoleUI").set_mode(prefs)
+    def show_preferences(self):
+        def _on_get_config(config):
+            client.core.get_listen_port().addCallback(_on_get_listen_port,config)
+
+        def _on_get_listen_port(port,config):
+            client.core.get_cache_status().addCallback(_on_get_cache_status,port,config)
+
+        def _on_get_cache_status(status,port,config):
+            component.stop(["AllTorrentsStateUpdater"])
+            self.stdscr.clear()
+            prefs = Preferences(self,config,port,status,self.stdscr,self.encoding)
+            component.get("ConsoleUI").set_mode(prefs)
+
+        client.core.get_config().addCallback(_on_get_config)
+        
 
     def __show_events(self):
         component.stop(["AllTorrentsStateUpdater"])
@@ -619,7 +629,7 @@ class AllTorrents(BaseMode):
                     for l in HELP_LINES:
                         self.popup.add_line(l)
                 elif chr(c) == 'p':
-                    client.core.get_config().addCallback(self.show_preferences)
+                    self.show_preferences()
                     return
                 elif chr(c) == 'e':
                     self.__show_events()
