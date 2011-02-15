@@ -439,7 +439,7 @@ class TorrentDetail(BaseMode, component.Component):
                 self.back_to_overview()
                 return
 
-        if c == 27:
+        if c == 27 or c == curses.KEY_LEFT:
             self.back_to_overview()
             return
 
