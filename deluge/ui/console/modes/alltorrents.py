@@ -80,9 +80,11 @@ All popup windows can be closed/canceled by hitting the Esc key
 
 The actions you can perform and the keys to perform them are as follows:
 
+'h' - Show this help
+
 'a' - Add a torrent
 
-'h' - Show this help
+'p' - View/Set preferences
 
 'f' - Show only torrents in a certain state
       (Will open a popup where you can select the state you want to see)
@@ -96,7 +98,7 @@ The actions you can perform and the keys to perform them are as follows:
       and last marked torrent
 'c' - Un-mark all torrents
 
-Right Arrow - Show torrent details.  This includes more detailed information
+Right Arrow - Torrent Detail Mode.  This includes more detailed information
               about the currently selected torrent, as well as a view of the
               files in the torrent and the ability to set file priorities.
 
