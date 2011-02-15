@@ -37,7 +37,7 @@
 import deluge.component as component
 from deluge.ui.client import client
 from basemode import BaseMode
-from input_popup import SelectInput
+from input_popup import Popup,SelectInput
 
 from preference_panes import DownloadsPane,NetworkPane,BandwidthPane,InterfacePane
 from preference_panes import OtherPane,DaemonPane,QueuePane,ProxyPane,CachePane
@@ -52,6 +52,52 @@ except ImportError:
 
 import logging
 log = logging.getLogger(__name__)
+
+
+# Big help string that gets displayed when the user hits 'h'
+HELP_STR = \
+"""This screen lets you view and configure various options
+in deluge.
+
+There are three main sections to this screen.  Only one
+section is active at a time.  You can switch the active
+section by hitting TAB (or Shift-TAB to go back one)
+
+The section on the left displays the various categories
+that the settings fall in.  You can navigate the list
+using the up/down arrows
+
+The section on the right shows the settings for the
+selected category.  When this section is active
+you can navigate the various settings with the up/down
+arrows.  Special keys for each input type are described
+below.
+
+The final section is at the bottom right, the: 
+[Cancel] [Apply] [OK] buttons.  When this section
+is active, simply select the option you want using
+the arrow keys and press Enter to confim.
+
+
+Special keys for various input types are as follows:
+- For text inputs you can simply type in the value.
+
+- For numeric inputs (indicated by the value being
+  in []s), you can type a value, or use PageUp and
+  PageDown to increment/decrement the value.
+
+- For checkbox inputs use the spacebar to toggle
+
+- For checkbox plus something else inputs (the
+  something else being only visible when you
+  check the box) you can toggle the check with
+  space, use the right arrow to edit the other
+  value, and escape to get back to the check box.
+
+
+"""
+HELP_LINES = HELP_STR.split('\n')
+
 
 class ZONE:
     CATEGORIES = 0
@@ -211,6 +257,10 @@ class Preferences(BaseMode):
                 else:
                     reactor.stop()            
                 return
+            elif chr(c) == 'h':
+                self.popup = Popup(self,"Preferences Help")
+                for l in HELP_LINES:
+                    self.popup.add_line(l)
 
         if c == 9:
             self.active_zone += 1
