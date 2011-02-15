@@ -67,7 +67,8 @@ HELP_STR = \
 """This screen shows an overview of the current torrents Deluge is managing.
 The currently selected torrent is indicated by having a white background.
 You can change the selected torrent using the up/down arrows or the 
-PgUp/Pg keys.
+PgUp/Pg keys.  Home and End keys go to the first and last torrent
+respectively.
 
 Operations can be performed on multiple torrents by marking them and
 then hitting Enter.  See below for the keys used to mark torrents.
@@ -85,6 +86,10 @@ The actions you can perform and the keys to perform them are as follows:
 'a' - Add a torrent
 
 'p' - View/Set preferences
+
+'/' - Search torrent names.  Enter to exectue search, ESC to cancel
+
+'n' - Next matching torrent for last search
 
 'f' - Show only torrents in a certain state
       (Will open a popup where you can select the state you want to see)
@@ -149,6 +154,7 @@ class StateUpdater(component.Component):
 class AllTorrents(BaseMode):
     def __init__(self, stdscr, encoding=None):
         self.formatted_rows = None
+        self.torrent_names = None
         self.cursel = 1
         self.curoff = 1 # TODO: this should really be 0 indexed
         self.column_string = ""
@@ -160,6 +166,9 @@ class AllTorrents(BaseMode):
         self._go_top = False
 
         self._curr_filter = None
+        self.entering_search = False
+        self.search_string = None
+        self.cursor = 0
 
         self.coreconfig = component.get("ConsoleUI").coreconfig
 
@@ -227,10 +236,12 @@ class AllTorrents(BaseMode):
 
     def set_state(self, state, refresh):
         self.curstate = state # cache in case we change sort order
+        newnames = []
         newrows = []
         self._sorted_ids = self._sort_torrents(self.curstate)
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
+            newnames.append(ts["name"])
             newrows.append((format_utils.format_row([self._format_queue(ts["queue"]),
                                                      ts["name"],
                                                      "%s"%deluge.common.fsize(ts["total_wanted"]),
@@ -243,6 +254,7 @@ class AllTorrents(BaseMode):
                                                      ],self.column_widths),ts["state"]))
         self.numtorrents = len(state)
         self.formatted_rows = newrows
+        self.torrent_names = newnames
         if refresh:
             self.refresh()
 
@@ -455,8 +467,12 @@ class AllTorrents(BaseMode):
         else:
             self.add_string(0,"%s    {!filterstatus!}Current filter: %s"%(self.statusbars.topbar,self._curr_filter))
         self.add_string(1,self.column_string)
-        hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
-        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
+
+        if self.entering_search:
+            self.add_string(self.rows - 1,"Search torrents: %s"%self.search_string)
+        else:
+            hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
+            self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
 
         # add all the torrents
         if self.formatted_rows == []:
@@ -520,6 +536,12 @@ class AllTorrents(BaseMode):
             self.add_string(1, "Waiting for torrents from core...")
 
         #self.stdscr.redrawwin()
+        if self.entering_search:
+            curses.curs_set(2)
+            self.stdscr.move(self.rows-1,self.cursor+17)
+        else:
+            curses.curs_set(0)
+
         self.stdscr.noutrefresh()
 
         if self.popup:
@@ -536,6 +558,54 @@ class AllTorrents(BaseMode):
             self.marked.append(idx)
             self.last_mark = idx
 
+    def __do_search(self):
+        # search forward for the next torrent matching self.search_string
+        for i,n in enumerate(self.torrent_names[self.cursel:]):
+            if n.find(self.search_string) >= 0:
+                self.cursel += (i+1)
+                if ((self.curoff + self.rows - 5) < self.cursel):
+                    self.curoff = self.cursel - self.rows + 5
+                return
+
+    def __update_search(self, c):
+        if c == curses.KEY_BACKSPACE or c == 127:
+            if self.search_string and  self.cursor > 0:
+                self.search_string = self.search_string[:self.cursor - 1] + self.search_string[self.cursor:]
+                self.cursor-=1
+        elif c == curses.KEY_DC:
+            if self.search_string and self.cursor < len(self.search_string):
+                self.search_string = self.search_string[:self.cursor] + self.search_string[self.cursor+1:]
+        elif c == curses.KEY_LEFT:
+            self.cursor = max(0,self.cursor-1)
+        elif c == curses.KEY_RIGHT:
+            self.cursor = min(len(self.search_string),self.cursor+1)
+        elif c == curses.KEY_HOME:
+            self.cursor = 0
+        elif c == curses.KEY_END:
+            self.cursor = len(self.search_string)
+        elif c == 27:
+            self.search_string = None
+            self.entering_search = False
+        elif c == 10 or c == curses.KEY_ENTER:
+            self.entering_search = False
+            self.__do_search()
+        elif c > 31 and c < 256:
+            stroke = chr(c)
+            uchar = ""
+            while not uchar:
+                try:
+                    uchar = stroke.decode(self.encoding)
+                except UnicodeDecodeError:
+                    c = self.stdscr.getch()
+                    stroke += chr(c)
+            if uchar:
+                if self.cursor == len(self.search_string):
+                    self.search_string += uchar
+                else:
+                    # Insert into string
+                    self.search_string = self.search_string[:self.cursor] + uchar + self.search_string[self.cursor:]
+                # Move the cursor forward
+                self.cursor+=1
 
     def _doRead(self):
         # Read the character
@@ -563,6 +633,11 @@ class AllTorrents(BaseMode):
         if self.formatted_rows==None or self.popup:
             return
 
+        elif self.entering_search:
+            self.__update_search(c)
+            self.refresh([])
+            return
+
         #log.error("pressed key: %d\n",c)
         #if c == 27: # handle escape
         #    log.error("CANCEL")
@@ -580,6 +655,10 @@ class AllTorrents(BaseMode):
                 effected_lines = [self.cursel-2,self.cursel-1]
         elif c == curses.KEY_NPAGE:
             self._scroll_down(int(self.rows/2))
+        elif c == curses.KEY_HOME:
+            self._scroll_up(self.cursel)
+        elif c == curses.KEY_END:
+            self._scroll_down(self.numtorrents-self.cursel)
 
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
@@ -594,10 +673,15 @@ class AllTorrents(BaseMode):
             self.last_mark = self.cursel
             torrent_actions_popup(self,self._selected_torrent_ids(),details=True)
             return
-
         else:
             if c > 31 and c < 256:
-                if chr(c) == 'j':
+                if chr(c) == '/':
+                    self.search_string = ""
+                    self.cursor = 0
+                    self.entering_search = True
+                elif chr(c) == 'n' and self.search_string:
+                    self.__do_search()
+                elif chr(c) == 'j':
                     if not self._scroll_up(1):
                         effected_lines = [self.cursel-1,self.cursel]
                 elif chr(c) == 'k':
