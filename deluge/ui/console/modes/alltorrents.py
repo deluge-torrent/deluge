@@ -469,7 +469,7 @@ class AllTorrents(BaseMode):
         self.add_string(1,self.column_string)
 
         if self.entering_search:
-            self.add_string(self.rows - 1,"Search torrents: %s"%self.search_string)
+            self.add_string(self.rows - 1,"{!black,white!}Search torrents: %s"%self.search_string)
         else:
             hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
             self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
