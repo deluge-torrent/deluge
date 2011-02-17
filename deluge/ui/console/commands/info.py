@@ -85,7 +85,7 @@ def format_progressbar(progress, width):
     s = "["
     p = int(round((progress/100) * w))
     s += "#" * p
-    s += "~" * (w - p)
+    s += "-" * (w - p)
     s += "]"
     return s
 
