@@ -42,31 +42,43 @@ from deluge.ui.client import client
 import deluge.component as component
 
 from optparse import make_option
-import os
-import base64
+import os,base64,glob
 
-def add_torrent(t_file, options, success_cb, fail_cb):
+try:
+    import libtorrent
+    add_get_info = libtorrent.torrent_info
+except:
+    add_get_info = deluge.ui.common.TorrentInfo
+
+def add_torrent(t_file, options, success_cb, fail_cb, ress):
     t_options = {}
     if options["path"]:
         t_options["download_location"] = os.path.expanduser(options["path"])
     t_options["add_paused"] = options["add_paused"]
 
-    # Keep a list of deferreds to make a DeferredList
-    if not os.path.exists(t_file):
-        fail_cb("{!error!}%s doesn't exist!" % t_file)
-        return
-    if not os.path.isfile(t_file):
-        fail_cb("{!error!}%s is a directory!" % t_file)
-        return
-        
+    files = glob.glob(t_file)
+    num_files = len(files)
+    ress["total"] = num_files
 
-    filename = os.path.split(t_file)[-1]
-    filedump = base64.encodestring(open(t_file).read())
+    if num_files <= 0:
+        fail_cb("Doesn't exist",t_file,ress)
 
-    def on_success(result):
-        success_cb("{!success!}Torrent added!")
-    def on_fail(result):
-        fail_cb("{!error!}Torrent was not added! %s" % result)
+    for f in files:
+        if not os.path.exists(f):
+            fail_cb("Doesn't exist",f,ress)
+            continue
+        if not os.path.isfile(f):
+            fail_cb("Is a directory",f,ress)
+            continue
 
-    client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail)
-        
+        try:
+            add_get_info(f)
+        except Exception as e:
+            fail_cb(e.message,f,ress)
+            continue
+
+        filename = os.path.split(f)[-1]
+        filedump = base64.encodestring(open(f).read())
+
+        client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+

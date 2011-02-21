@@ -412,13 +412,37 @@ class AllTorrents(BaseMode):
         self.popup.add_line("_Checking",data=FILTER.CHECKING,foreground="blue")
         self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
 
+    def __report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
+        if fail_cnt == 0:
+            self.report_message("Torrents Added","{!success!}Sucessfully added %d torrent(s)"%succ_cnt)
+        else:
+            msg = ("{!error!}Failed to add the following %d torrent(s):\n {!error!}"%fail_cnt)+"\n {!error!}".join(fail_msgs)
+            if succ_cnt != 0:
+                msg += "\n \n{!success!}Sucessfully added %d torrent(s)"%succ_cnt
+            self.report_message("Torrent Add Report",msg)
+
     def _do_add(self, result):
-        log.debug("Adding Torrent: %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
-        def suc_cb(msg):
-            self.report_message("Torrent Added",msg)
-        def fail_cb(msg):
-            self.report_message("Failed To Add Torrent",msg)
-        add_torrent(result["file"],result,suc_cb,fail_cb)
+        log.debug("Adding Torrent(s): %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
+        ress = {"succ":0,
+                "fail":0,
+                "fmsg":[]}
+
+        def fail_cb(msg,t_file,ress):
+            log.debug("failed to add torrent: %s: %s"%(t_file,msg))
+            ress["fail"]+=1
+            ress["fmsg"].append("%s: %s"%(t_file,msg))
+            if (ress["succ"]+ress["fail"]) >= ress["total"]:
+                self.__report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+        def suc_cb(tid,t_file,ress):
+            if tid:
+                log.debug("added torrent: %s (%s)"%(t_file,tid))
+                ress["succ"]+=1
+                if (ress["succ"]+ress["fail"]) >= ress["total"]:
+                    self.__report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+            else:
+                fail_cb("Already in session (probably)",t_file,ress)
+
+        add_torrent(result["file"],result,suc_cb,fail_cb,ress)
 
     def _show_torrent_add_popup(self):
         dl = ""
