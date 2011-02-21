@@ -258,6 +258,12 @@ class AllTorrents(BaseMode):
         if refresh:
             self.refresh()
 
+    def get_torrent_name(self, torrent_id):
+        for p,i in enumerate(self._sorted_ids):
+            if torrent_id == i:
+                return self.torrent_names[p]
+        return None
+
     def _scroll_up(self, by):
         prevoff = self.curoff
         self.cursel = max(self.cursel - by,1)
