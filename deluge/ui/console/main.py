@@ -306,6 +306,17 @@ class ConsoleUI(component.Component):
         return ret
 
 
+    def get_torrent_name(self, torrent_id):
+        if self.interactive and hasattr(self.screen,"get_torrent_name"):
+            return self.screen.get_torrent_name(torrent_id)
+
+        for tid, name in self.torrents:
+            if torrent_id == tid:
+                return name
+        
+        return None
+
+
     def set_batch_write(self, batch):
         # only kept for legacy reasons, don't actually do anything
         pass
