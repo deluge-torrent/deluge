@@ -577,6 +577,9 @@ class InputPopup(Popup):
     def add_select_input(self, message, name, opts, vals, default_index=0):
         self.inputs.append(SelectInput(self.parent, message, name, opts, vals, default_index))
 
+    def add_checked_input(self, message, name, checked=False):
+        self.inputs.append(CheckedInput(self.parent,message,name,checked))
+
     def _refresh_lines(self):
         self._cursor_row = -1
         self._cursor_col = -1
