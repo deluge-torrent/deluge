@@ -1,6 +1,9 @@
 #
-# halt.py
+# add_util.py
 #
+# Copyright (C) 2011 Nick Lanham <nick@afternight.org>
+#
+# Modified function from commands/add.py:
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -33,21 +36,49 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
+from twisted.internet import defer
+
 from deluge.ui.client import client
 import deluge.component as component
 
-class Command(BaseCommand):
-    "Shutdown the deluge server"
-    usage = "Usage: halt"
-    def handle(self, **options):
-        self.console = component.get("ConsoleUI")
+from optparse import make_option
+import os,base64,glob
 
-        def on_shutdown(result):
-            self.console.write("{!success!}Daemon was shutdown")
+try:
+    import libtorrent
+    add_get_info = libtorrent.torrent_info
+except:
+    add_get_info = deluge.ui.common.TorrentInfo
 
-        def on_shutdown_fail(reason):
-            self.console.write("{!error!}Unable to shutdown daemon: %s" % reason)
+def add_torrent(t_file, options, success_cb, fail_cb, ress):
+    t_options = {}
+    if options["path"]:
+        t_options["download_location"] = os.path.expanduser(options["path"])
+    t_options["add_paused"] = options["add_paused"]
 
-        return client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)
+    files = glob.glob(t_file)
+    num_files = len(files)
+    ress["total"] = num_files
+
+    if num_files <= 0:
+        fail_cb("Doesn't exist",t_file,ress)
+
+    for f in files:
+        if not os.path.exists(f):
+            fail_cb("Doesn't exist",f,ress)
+            continue
+        if not os.path.isfile(f):
+            fail_cb("Is a directory",f,ress)
+            continue
+
+        try:
+            add_get_info(f)
+        except Exception as e:
+            fail_cb(e.message,f,ress)
+            continue
+
+        filename = os.path.split(f)[-1]
+        filedump = base64.encodestring(open(f).read())
+
+        client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+

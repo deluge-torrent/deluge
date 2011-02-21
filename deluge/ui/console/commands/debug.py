@@ -44,7 +44,7 @@ import deluge.component as component
 
 class Command(BaseCommand):
     """Enable and disable debugging"""
-    usage = 'debug [on|off]'
+    usage = 'Usage: debug [on|off]'
     def handle(self, state='', **options):
         if state == 'on':
             deluge.log.setLoggerLevel("debug")

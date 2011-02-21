@@ -1,8 +1,6 @@
+# format_utils.py
 #
-# halt.py
-#
-# Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
-# Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
 # Deluge is free software.
 #
@@ -33,21 +31,41 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from deluge.ui.console.main import BaseCommand
-import deluge.ui.console.colors as colors
-from deluge.ui.client import client
-import deluge.component as component
 
-class Command(BaseCommand):
-    "Shutdown the deluge server"
-    usage = "Usage: halt"
-    def handle(self, **options):
-        self.console = component.get("ConsoleUI")
+import deluge.common
 
-        def on_shutdown(result):
-            self.console.write("{!success!}Daemon was shutdown")
+def format_speed(speed):
+    if (speed > 0):
+        return deluge.common.fspeed(speed)
+    else:
+        return "-"
 
-        def on_shutdown_fail(reason):
-            self.console.write("{!error!}Unable to shutdown daemon: %s" % reason)
+def format_seeds_peers(num, total):
+    return "%d (%d)"%(num,total)
 
-        return client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)
+def format_progress(perc):
+    return "%.2f%%"%perc
+
+def format_pieces(num, size):
+    return "%d (%s)"%(num,deluge.common.fsize(size))
+
+def format_priority(prio):
+    if prio < 0: return "-"
+    pstring = deluge.common.FILE_PRIORITY[prio]
+    if prio > 0:
+        return pstring[:pstring.index("Priority")-1]
+    else:
+        return pstring
+
+def trim_string(string, w):
+        return "%s... "%(string[0:w-4])
+
+def format_column(col, lim):
+    size = len(col)
+    if (size >= lim - 1):
+        return trim_string(col,lim)
+    else:
+        return "%s%s"%(col," "*(lim-size))
+
+def format_row(row,column_widths):
+    return "".join([format_column(row[i],column_widths[i]) for i in range(0,len(row))])

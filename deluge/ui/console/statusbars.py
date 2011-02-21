@@ -41,13 +41,16 @@ class StatusBars(component.Component):
     def __init__(self):
         component.Component.__init__(self, "StatusBars", 2, depend=["CoreConfig"])
         self.config = component.get("CoreConfig")
-        self.screen = component.get("ConsoleUI").screen
 
         # Hold some values we get from the core
         self.connections = 0
         self.download = ""
         self.upload = ""
         self.dht = 0
+
+        # Default values
+        self.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
+        self.bottombar = "{!status!}C: %s" % self.connections
 
     def start(self):
         self.update()
@@ -77,30 +80,28 @@ class StatusBars(component.Component):
 
     def update_statusbars(self):
         # Update the topbar string
-        self.screen.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
+        self.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
         if client.connected():
             info = client.connection_info()
-            self.screen.topbar += "%s@%s:%s" % (info[2], info[0], info[1])
+            self.topbar += "%s@%s:%s" % (info[2], info[0], info[1])
         else:
-            self.screen.topbar += "Not Connected"
+            self.topbar += "Not Connected"
 
         # Update the bottombar string
-        self.screen.bottombar = "{!status!}C: %s" % self.connections
+        self.bottombar = "{!status!}C: %s" % self.connections
 
         if self.config["max_connections_global"] > -1:
-            self.screen.bottombar += " (%s)" % self.config["max_connections_global"]
+            self.bottombar += " (%s)" % self.config["max_connections_global"]
 
-        self.screen.bottombar += " D: %s/s" % self.download
+        self.bottombar += " D: %s/s" % self.download
 
         if self.config["max_download_speed"] > -1:
-            self.screen.bottombar += " (%s KiB/s)" % self.config["max_download_speed"]
+            self.bottombar += " (%s KiB/s)" % self.config["max_download_speed"]
 
-        self.screen.bottombar += " U: %s/s" % self.upload
+        self.bottombar += " U: %s/s" % self.upload
 
         if self.config["max_upload_speed"] > -1:
-            self.screen.bottombar += " (%s KiB/s)" % self.config["max_upload_speed"]
+            self.bottombar += " (%s KiB/s)" % self.config["max_upload_speed"]
 
         if self.config["dht"]:
-            self.screen.bottombar += " DHT: %s" % self.dht
-
-        self.screen.refresh()
+            self.bottombar += " DHT: %s" % self.dht
