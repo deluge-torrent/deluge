@@ -260,7 +260,7 @@ class MessagePopup(Popup):
         self.message = message
         self.width= int(parent_mode.cols/2)
         lns = self._split_message()
-        Popup.__init__(self,parent_mode,title,height_req=len(lns))
+        Popup.__init__(self,parent_mode,title,height_req=(len(lns)+2))
         self._lines = lns
 
     def _split_message(self):
