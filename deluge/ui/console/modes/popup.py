@@ -259,25 +259,36 @@ class MessagePopup(Popup):
     def __init__(self, parent_mode, title, message):
         self.message = message
         self.width= int(parent_mode.cols/2)
-        lns = self._split_message(self.message)
-        height = max(len(lns),self._min_height)
-        Popup.__init__(self,parent_mode,title,height_req=(height+2))
-        lft = height - len(lns)
-        if lft:
-            for i in range(0,int(lft/2)):
-                lns.insert(0,"")
+        lns = self._split_message()
+        Popup.__init__(self,parent_mode,title,height_req=len(lns))
         self._lines = lns
 
-    def _split_message(self,message):
+    def _split_message(self):
         ret = []
         wl = (self.width-2)
-        for i in range(0,len(self.message),wl):
-            l = self.message[i:i+wl]
-            lp = (wl-len(self._strip_re.sub('',l)))/2
-            ret.append("%s%s"%(lp*" ",l))
+
+        s1 = self.message.split("\n")
+
+        for s in s1:
+            while len(self._strip_re.sub('',s)) > wl:
+                sidx = s.rfind(" ",0,wl-1)
+                sidx += 1
+                if sidx > 0:
+                    ret.append(s[0:sidx])
+                    s = s[sidx:]
+                else:
+                    # can't find a reasonable split, just split at width
+                    ret.append(s[0:wl])
+                    s = s[wl:]
+            if s:
+                ret.append(s)
+
+        for i in range(len(ret),self._min_height):
+            ret.append(" ")
+
         return ret
 
     def handle_resize(self):
         Popup.handle_resize(self)
         self.clear()
-        self._lines = self._split_message(self.message)
+        self._lines = self._split_message()
