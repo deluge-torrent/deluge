@@ -70,6 +70,8 @@ status_keys = ["state",
         "is_finished"
         ]
 
+states = ["Active", "Downloading", "Seeding", "Paused", "Checking", "Error", "Queued"]
+
 
 def format_progressbar(progress, width):
     """
@@ -98,10 +100,16 @@ class Command(BaseCommand):
                         help='shows more information per torrent'),
             make_option('-i', '--id', action='store_true', default=False, dest='tid',
                         help='use internal id instead of torrent name'),
+            make_option('-s', '--state', action='store', dest='state',
+                        help="Only retrieve torrents in state STATE. "
+                        "Allowable values are: %s "%(", ".join(states))),
     )
 
-    usage =  "Usage: info [<torrent-id> [<torrent-id> ...]]\n"\
+    usage =  "Usage: info [-v | -i | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
+             "       info -s <state> will show only torrents in state <state>\n"\
              "       You can give the first few characters of a torrent-id to identify the torrent."
+
+
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
@@ -121,7 +129,17 @@ class Command(BaseCommand):
         def on_torrents_status_fail(reason):
             self.console.write("{!error!}Error getting torrent info: %s" % reason)
 
-        d = client.core.get_torrents_status({"id": torrent_ids}, status_keys)
+        status_dict = {"id": torrent_ids}
+
+        if options["state"]:
+            if options["state"] not in states:
+                self.console.write("Invalid state: %s"%options["state"])
+                self.console.write("Allowble values are: %s."%(", ".join(states)))
+                return
+            else:
+                status_dict["state"] = options["state"]
+
+        d = client.core.get_torrents_status(status_dict, status_keys)
         d.addCallback(on_torrents_status)
         d.addErrback(on_torrents_status_fail)
         return d
