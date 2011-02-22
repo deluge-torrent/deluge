@@ -96,6 +96,8 @@ The actions you can perform and the keys to perform them are as follows:
 
 'i' - Show more detailed information about the current selected torrent
 
+'e' - Show the event log view ('q' to get out of event log)
+
 'Q' - quit
 
 'm' - Mark a torrent
