@@ -43,7 +43,7 @@ from deluge.ui.client import client
 import deluge.common as common
 import deluge.component as component
 
-status_keys = ["state",
+STATUS_KEYS = ["state",
         "save_path",
         "tracker",
         "tracker_status",
@@ -73,6 +73,8 @@ status_keys = ["state",
         "seeding_time"
         ]
 
+# Add filter specific state to torrent states
+STATES = ["Active"] + common.TORRENT_STATE
 
 def format_progressbar(progress, width):
     """
@@ -101,12 +103,8 @@ def format_time(seconds):
     hours = hours - days * 24
     return "%d days %02d:%02d:%02d" % (days, hours, minutes, seconds)
 
-
-
 class Command(BaseCommand):
     """Show information about the torrents"""
-
-    sort_help = 'sort items.  Possible keys: ' + ', '.join(status_keys)
 
     option_list = BaseCommand.option_list + (
             make_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
@@ -114,12 +112,15 @@ class Command(BaseCommand):
             make_option('-i', '--id', action='store_true', default=False, dest='tid',
                         help='use internal id instead of torrent name'),
             make_option('--sort', action='store', type='string', default='', dest='sort',
-                        help=sort_help),
+                        help='sort items by key. Possible keys:                  ' + ', '.join(STATUS_KEYS)),
             make_option('--sort-reverse', action='store', type='string', default='', dest='sort_rev',
-                        help='sort items in reverse order.  Same keys allowed as for --sort.')
+                        help='sort items in reverse order. Same keys as per --sort.'),
+            make_option('-s', '--state', action='store', dest='state',
+                        help="show torrents with state STATE. "
+                        "Possible values are:              %s"%(", ".join(STATES))),
     )
 
-    usage =  "Usage: info [<torrent-id> [<torrent-id> ...]]\n"\
+    usage =  "Usage: info [-v | -i | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
              "       You can give the first few characters of a torrent-id to identify the torrent."
 
     def handle(self, *args, **options):
@@ -142,7 +143,7 @@ class Command(BaseCommand):
             if not sort_key:
                 sort_key = 'name'
                 sort_reverse = False
-            if sort_key not in status_keys:
+            if sort_key not in STATUS_KEYS:
                 self.console.write('')
                 self.console.write("{!error!}Unknown sort key: " + sort_key + ", will sort on name")
                 sort_key = 'name'
@@ -155,7 +156,18 @@ class Command(BaseCommand):
         def on_torrents_status_fail(reason):
             self.console.write("{!error!}Error getting torrent info: %s" % reason)
 
-        d = client.core.get_torrents_status({"id": torrent_ids}, status_keys)
+        status_dict = {"id": torrent_ids}
+
+        if options["state"]:
+            options["state"] = options["state"].capitalize()
+            if options["state"] in STATES:
+                status_dict = {"state": options["state"]}
+            else:
+                self.console.write("Invalid state: %s"%options["state"])
+                self.console.write("Possible values are: %s."%(", ".join(STATES)))
+                return
+
+        d = client.core.get_torrents_status(status_dict, STATUS_KEYS)
         d.addCallback(on_torrents_status)
         d.addErrback(on_torrents_status_fail)
         return d
@@ -211,7 +223,6 @@ class Command(BaseCommand):
             pbar = format_progressbar(status["progress"], cols - (13 + len("%.2f%%" % status["progress"])))
             s = "{!info!}Progress: {!input!}%.2f%% %s" % (status["progress"], pbar)
             self.console.write(s)
-
 
         if verbose:
             self.console.write("  {!info!}::Files")
