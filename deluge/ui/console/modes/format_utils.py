@@ -33,6 +33,11 @@
 #
 
 import deluge.common
+try:
+    import unicodedata
+    haveud = True
+except:
+    haveud = False
 
 def format_speed(speed):
     if (speed > 0):
@@ -61,7 +66,14 @@ def trim_string(string, w):
         return "%s... "%(string[0:w-4])
 
 def format_column(col, lim):
-    size = len(col)
+    dbls = 0
+    if haveud and isinstance(col,unicode):
+        # might have some double width chars
+        for c in col:
+            if unicodedata.east_asian_width(c) in ['W','F']:
+                # found a wide/full char
+                dbls += 1
+    size = len(col)+dbls
     if (size >= lim - 1):
         return trim_string(col,lim)
     else:
