@@ -279,9 +279,9 @@ Please use commands from the command line, eg:\n
 
     def start(self):
         # Maintain a list of (torrent_id, name) for use in tab completion
+        self.torrents = []
         if not self.interactive:
             self.started_deferred = defer.Deferred()
-            self.torrents = []
             def on_session_state(result):
                 def on_torrents_status(torrents):
                     for torrent_id, status in torrents.items():
