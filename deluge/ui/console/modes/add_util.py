@@ -48,6 +48,7 @@ try:
     import libtorrent
     add_get_info = libtorrent.torrent_info
 except:
+    import deluge.ui.common
     add_get_info = deluge.ui.common.TorrentInfo
 
 def add_torrent(t_file, options, success_cb, fail_cb, ress):
