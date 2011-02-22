@@ -34,6 +34,7 @@
 
 from deluge.ui.client import client
 from popup import SelectablePopup
+from input_popup import InputPopup
 
 import logging
 log = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ class ACTION:
     EDIT_TRACKERS=3
     RECHECK=4
     REMOVE=5
+    MOVE_STORAGE=9
 
     REMOVE_DATA=6
     REMOVE_NODATA=7
@@ -81,6 +83,21 @@ def torrent_action(idx, data, mode, ids):
             popup.add_line("_Cancel",data=0)
             mode.set_popup(popup)
             return False
+        elif data==ACTION.MOVE_STORAGE:
+            def do_move(res):
+                import os.path
+                if os.path.exists(res["path"]) and not os.path.isdir(res["path"]):
+                    mode.report_message("Cannot Move Storage","{!error!}%s exists and is not a directory"%res["path"])
+                else:
+                    log.debug("Moving %s to: %s",ids,res["path"])
+                    client.core.move_storage(ids,res["path"]).addErrback(action_error,mode)
+                if len(ids) == 1:
+                    mode.clear_marks()
+                return True
+            popup = InputPopup(mode,"Move Storage (Esc to cancel)",close_cb=do_move)
+            popup.add_text_input("Enter path to move to:","path")
+            mode.set_popup(popup)
+            return False
         elif data==ACTION.RECHECK:
             log.debug("Rechecking torrents: %s", ids)
             client.core.force_recheck(ids).addErrback(action_error,mode)
@@ -108,6 +125,7 @@ def torrent_actions_popup(mode,tids,details=False):
     popup.add_divider()
     popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
     popup.add_line("_Force Recheck",data=ACTION.RECHECK)
+    popup.add_line("_Move Storage",data=ACTION.MOVE_STORAGE)
     if details:
         popup.add_divider()
         popup.add_line("Torrent _Details",data=ACTION.DETAILS)            
