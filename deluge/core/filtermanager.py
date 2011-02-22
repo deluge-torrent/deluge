@@ -136,7 +136,7 @@ class FilterManager(component.Component):
 
 
         if "id"in filter_dict: #optimized filter for id:
-            torrent_ids = filter_dict["id"]
+            torrent_ids = list(filter_dict["id"])
             del filter_dict["id"]
         else:
             torrent_ids = self.torrents.get_torrent_list()
