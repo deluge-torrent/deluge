@@ -701,7 +701,8 @@ class AllTorrents(BaseMode):
 
         # Enter Key
         elif (c == curses.KEY_ENTER or c == 10) and self.numtorrents:
-            self.marked.append(self.cursel)
+            if self.cursel not in self.marked:
+                self.marked.append(self.cursel)
             self.last_mark = self.cursel
             torrent_actions_popup(self,self._selected_torrent_ids(),details=True)
             return
