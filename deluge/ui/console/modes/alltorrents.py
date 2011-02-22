@@ -559,7 +559,7 @@ class AllTorrents(BaseMode):
                 else:
                     colorstr = "{!%s,%s!}"%(fg,bg)
 
-                self.add_string(currow,"%s%s"%(colorstr,row[0]))
+                self.add_string(currow,"%s%s"%(colorstr,row[0]),trim=False)
                 tidx += 1
                 currow += 1 
                 if (currow > (self.rows - 2)):
