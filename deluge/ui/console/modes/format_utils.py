@@ -62,20 +62,38 @@ def format_priority(prio):
     else:
         return pstring
 
-def trim_string(string, w):
+def trim_string(string, w, have_dbls):
+    if have_dbls:
+        # have to do this the slow way
+        chrs = []
+        width = 4
+        idx = 0
+        while width < w:
+            chrs.append(string[idx])
+            if unicodedata.east_asian_width(string[idx]) in ['W','F']:
+                width += 2
+            else:
+                width += 1
+            idx += 1
+        if width != w:
+            chrs.pop()
+            chrs.append('.')
+        return "%s... "%("".join(chrs))
+    else:
         return "%s... "%(string[0:w-4])
 
 def format_column(col, lim):
     dbls = 0
     if haveud and isinstance(col,unicode):
         # might have some double width chars
+        col = unicodedata.normalize("NFC",col)
         for c in col:
             if unicodedata.east_asian_width(c) in ['W','F']:
                 # found a wide/full char
                 dbls += 1
     size = len(col)+dbls
     if (size >= lim - 1):
-        return trim_string(col,lim)
+        return trim_string(col,lim,dbls>0)
     else:
         return "%s%s"%(col," "*(lim-size))
 
