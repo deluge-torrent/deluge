@@ -469,7 +469,13 @@ class TextInput(InputField):
                         self.value = opts[0]
                         self.cursor = len(opts[0])
                         self.tab_count = 0
-                    elif len(opts) > 1 and second_hit: # display multiple options on second tab hit
+                    elif len(opts) > 1:
+                        prefix = os.path.commonprefix(opts)
+                        if prefix:
+                            self.value = prefix
+                            self.cursor = len(prefix)
+
+                    if len(opts) > 1 and second_hit: # display multiple options on second tab hit
                         self.opts = "  ".join(opts)
 
         # Cursor movement
