@@ -36,21 +36,14 @@
 #    statement from all source files in the program, then also delete it here.
 #
 #
-from twisted.internet import defer
-
 from deluge.ui.client import client
 import deluge.component as component
+from deluge.ui.common import TorrentInfo
 import deluge.common
 
-from optparse import make_option
 import os,base64,glob
 
-try:
-    import libtorrent
-    add_get_info = libtorrent.torrent_info
-except:
-    import deluge.ui.common
-    add_get_info = deluge.ui.common.TorrentInfo
+
 
 def add_torrent(t_file, options, success_cb, fail_cb, ress):
     t_options = {}
@@ -82,7 +75,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
                 continue
 
             try:
-                add_get_info(f)
+                TorrentInfo(f)
             except Exception as e:
                 fail_cb(e.message,f,ress)
                 continue
