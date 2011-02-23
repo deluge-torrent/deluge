@@ -35,7 +35,6 @@
 
 import gtk
 import pkg_resources
-import urlparse
 import time
 import hashlib
 import logging

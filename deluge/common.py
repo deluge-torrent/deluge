@@ -40,7 +40,6 @@ import os
 import time
 import subprocess
 import platform
-import sys
 import chardet
 import logging
 

@@ -38,17 +38,9 @@ from deluge._libtorrent import lt
 import os
 import glob
 import base64
-import shutil
 import logging
 import threading
-import pkg_resources
-import warnings
 import tempfile
-
-
-from twisted.internet import reactor, defer
-from twisted.internet.task import LoopingCall
-import twisted.web.client
 
 from deluge.httpdownloader import download_file
 

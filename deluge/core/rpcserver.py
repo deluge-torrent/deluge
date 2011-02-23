@@ -43,7 +43,7 @@ import logging
 import traceback
 
 from twisted.internet.protocol import Factory, Protocol
-from twisted.internet import ssl, reactor, defer
+from twisted.internet import reactor, defer
 
 from OpenSSL import crypto, SSL
 from types import FunctionType

@@ -63,7 +63,6 @@ __all__ = ['dumps', 'loads']
 #
 
 import struct
-import string
 from threading import Lock
 
 # Default number of bits for serialized floats, either 32 or 64 (also a parameter for dumps()).

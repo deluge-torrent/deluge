@@ -44,7 +44,6 @@ import operator
 import logging
 import re
 
-from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
@@ -569,7 +568,7 @@ class TorrentManager(component.Component):
         # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]
-        except KeyError, ValueError:
+        except (KeyError, ValueError):
             return False
 
         # Save the session state
