@@ -127,7 +127,8 @@ class PreferencePage(object):
         self.builder = gtk.Builder()
         self.builder.add_from_file(xmlfile)
         self.set_widget(self.builder.get_object(obj))
-
+        
+        
 class GtkUIPreferencePage(PreferencePage):
     def __init__(self, name, xml, widget):
         super(GtkUIPreferencePage, self).__init__()
