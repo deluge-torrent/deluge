@@ -247,11 +247,11 @@ class MainWindow(component.Component):
         else:
             self.window.set_title("Deluge")
 
-    def on_newversionavailable_event(self, event):
+    def on_newversionavailable_event(self, new_version):
         if self.config["show_new_releases"]:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
-            reactor.callLater(5.0, NewReleaseDialog().show, event.new_release)
+            reactor.callLater(5.0, NewReleaseDialog().show, new_version)
 
-    def on_torrentfinished_event(self, event):
+    def on_torrentfinished_event(self, torrent_id):
         from deluge.ui.gtkui.notification import Notification
-        Notification().notify(event.torrent_id)
+        Notification().notify(torrent_id)

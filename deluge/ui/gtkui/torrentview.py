@@ -521,31 +521,31 @@ class TorrentView(listview.ListView, component.Component):
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
 
-    def on_torrentadded_event(self, event):
-        self.add_row(event.torrent_id)
-        self.mark_dirty(event.torrent_id)
+    def on_torrentadded_event(self, torrent_id, from_state):
+        self.add_row(torrent_id)
+        self.mark_dirty(torrent_id)
 
-    def on_torrentremoved_event(self, event):
-        self.remove_row(event.torrent_id)
+    def on_torrentremoved_event(self, torrent_id):
+        self.remove_row(torrent_id)
 
-    def on_torrentstatechanged_event(self, event):
+    def on_torrentstatechanged_event(self, torrent_id, state):
         # Update the torrents state
         for row in self.liststore:
-            if not event.torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
+            if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
                 continue
-            row[self.get_column_index(_("Progress"))[1]] = event.state
+            row[self.get_column_index(_("Progress"))[1]] = state
 
-        self.mark_dirty(event.torrent_id)
+        self.mark_dirty(torrent_id)
 
-    def on_sessionpaused_event(self, event):
+    def on_sessionpaused_event(self):
         self.mark_dirty()
         self.update()
 
-    def on_sessionresumed_event(self, event):
+    def on_sessionresumed_event(self):
         self.mark_dirty()
         self.update()
 
-    def on_torrentqueuechanged_event(self, event):
+    def on_torrentqueuechanged_event(self):
         self.mark_dirty()
         self.update()
 

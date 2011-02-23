@@ -45,7 +45,7 @@ import zlib
 
 import deluge.common
 import deluge.component as component
-from deluge.event import known_events
+from deluge.log import LOG as log
 
 if deluge.common.windows_check():
     import win32api
@@ -166,14 +166,13 @@ class DelugeRPCProtocol(Protocol):
             message_type = request[0]
 
             if message_type == RPC_EVENT:
-                event_name = request[1]
+                event = request[1]
                 #log.debug("Received RPCEvent: %s", event)
                 # A RPCEvent was received from the daemon so run any handlers
                 # associated with it.
-                if event_name in self.factory.event_handlers:
-                    event = known_events[event_name](*request[2])
-                    for handler in self.factory.event_handlers[event_name]:
-                        reactor.callLater(0, handler, event.copy())
+                if event in self.factory.event_handlers:
+                    for handler in self.factory.event_handlers[event]:
+                        reactor.callLater(0, handler, *request[2])
                 continue
 
             request_id = request[1]

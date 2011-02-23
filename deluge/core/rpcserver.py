@@ -486,8 +486,7 @@ class RPCServer(component.Component):
         # Find sessions interested in this event
         for session_id, interest in self.factory.interested_events.iteritems():
             if event.name in interest:
-                log.debug("Emit Event: %s %s", event.name, zip(event.__slots__,
-                                                               event.args))
+                log.debug("Emit Event: %s %s", event.name, event.args)
                 # This session is interested so send a RPC_EVENT
                 self.factory.session_protocols[session_id].sendData(
                     (RPC_EVENT, event.name, event.args)
