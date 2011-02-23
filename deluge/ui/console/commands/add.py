@@ -39,6 +39,7 @@ from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
 import deluge.component as component
+import deluge.common
 
 from optparse import make_option
 import os
@@ -49,36 +50,48 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
             make_option('-p', '--path', dest='path',
                         help='save path for torrent'),
+            make_option('-u', '--urls', action='store_true', default=False, dest='force_url',
+                        help='Interpret all given torrent-file arguments as URLs'),
+            make_option('-f', '--files', action='store_true', default=False, dest='force_file',
+                        help='Interpret all given torrent-file arguments as files'),
     )
 
-    usage = "Usage: add [-p <save-location>] <torrent-file> [<torrent-file> ...]"
+    usage = "Usage: add [-p <save-location>] [-u | --urls] [-f | --files] <torrent-file> [<torrent-file> ...]"
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
+
+        if options["force_file"] and options["force_url"]:
+            self.console.write("{!error!}Cannot specify --urls and --files at the same time")
+            return
 
         t_options = {}
         if options["path"]:
             t_options["download_location"] = os.path.expanduser(options["path"])
 
+        def on_success(result):
+            self.console.write("{!success!}Torrent added!")
+        def on_fail(result):
+            self.console.write("{!error!}Torrent was not added! %s" % result)
+
         # Keep a list of deferreds to make a DeferredList
         deferreds = []
         for arg in args:
-            if not os.path.exists(arg):
-                self.console.write("{!error!}%s doesn't exist!" % arg)
-                continue
-            if not os.path.isfile(arg):
-                self.console.write("{!error!}This is a directory!")
-                continue
-            self.console.write("{!info!}Attempting to add torrent: %s" % arg)
-            filename = os.path.split(arg)[-1]
-            filedump = base64.encodestring(open(arg, "rb").read())
+            if not options["force_file"] and (deluge.common.is_url(arg) or options["force_url"]):
+                self.console.write("{!info!}Attempting to add torrent from url: %s" % arg)
+                deferreds.append(client.core.add_torrent_url(arg, t_options).addCallback(on_success).addErrback(on_fail))
+            else:
+                if not os.path.exists(arg):
+                    self.console.write("{!error!}%s doesn't exist!" % arg)
+                    continue
+                if not os.path.isfile(arg):
+                    self.console.write("{!error!}This is a directory!")
+                    continue
+                self.console.write("{!info!}Attempting to add torrent: %s" % arg)
+                filename = os.path.split(arg)[-1]
+                filedump = base64.encodestring(open(arg, "rb").read())
 
-            def on_success(result):
-                self.console.write("{!success!}Torrent added!")
-            def on_fail(result):
-                self.console.write("{!error!}Torrent was not added! %s" % result)
-
-            deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail))
+                deferreds.append(client.core.add_torrent_file(filename, filedump, t_options).addCallback(on_success).addErrback(on_fail))
 
         return defer.DeferredList(deferreds)
 
