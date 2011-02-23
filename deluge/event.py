@@ -243,12 +243,13 @@ class PluginEnabledEvent(DelugeEvent):
     """
     Emitted when a plugin is enabled in the Core.
     """
-    def __init__(self, name):
-        self._args = [name]
+    def __init__(self, plugin_name):
+        self._args = [plugin_name]
 
 class PluginDisabledEvent(DelugeEvent):
     """
     Emitted when a plugin is disabled in the Core.
     """
-    def __init__(self, name):
-        self._args = [name]
+    def __init__(self, plugin_name):
+        self._args = [plugin_name]
+
