@@ -77,7 +77,7 @@ class PluginManager(PluginManagerBase, component.Component):
 
     def _on_plugin_disabled_event(self, name):
         self.disable_plugin(name)
-    
+
     def disable_plugin(self, name):
         # Get the plugin instance
         try:
