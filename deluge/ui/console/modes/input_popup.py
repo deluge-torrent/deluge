@@ -562,6 +562,7 @@ class InputPopup(Popup):
     def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None):
         Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
         self.inputs = []
+        self.spaces = []
         self.current_input = 0
 
     def move(self,r,c):
@@ -580,6 +581,9 @@ class InputPopup(Popup):
         self.inputs.append(TextInput(self.parent, self.move, self.width, message,
                                      name, value, complete))
 
+    def add_spaces(self, num):
+        self.spaces.append((len(self.inputs)-1,num))
+
     def add_select_input(self, message, name, opts, vals, default_index=0):
         self.inputs.append(SelectInput(self.parent, message, name, opts, vals, default_index))
 
@@ -591,8 +595,12 @@ class InputPopup(Popup):
         self._cursor_col = -1
         curses.curs_set(0)
         crow = 1
+        spos = 0
         for i,ipt in enumerate(self.inputs):
             crow += ipt.render(self.screen,crow,self.width,i==self.current_input)
+            if self.spaces and (spos < len(self.spaces)) and (i == self.spaces[spos][0]):
+                crow += self.spaces[spos][1]
+                spos += 1
 
         # need to do this last as adding things moves the cursor
         if self._cursor_row >= 0:
