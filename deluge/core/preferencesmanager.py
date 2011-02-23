@@ -38,7 +38,6 @@ import os
 import logging
 import threading
 import pkg_resources
-from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
