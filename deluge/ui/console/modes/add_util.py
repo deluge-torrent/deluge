@@ -40,6 +40,7 @@ from twisted.internet import defer
 
 from deluge.ui.client import client
 import deluge.component as component
+import deluge.common
 
 from optparse import make_option
 import os,base64,glob
@@ -57,7 +58,12 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
         t_options["download_location"] = os.path.expanduser(options["path"])
     t_options["add_paused"] = options["add_paused"]
 
-    files = glob.glob(t_file)
+    is_url = (not (options["path_type"]==1)) and (deluge.common.is_url(t_file) or options["path_type"]==2)
+
+    if is_url:
+        files = [t_file]
+    else:
+        files = glob.glob(t_file)
     num_files = len(files)
     ress["total"] = num_files
 
@@ -65,21 +71,24 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
         fail_cb("Doesn't exist",t_file,ress)
 
     for f in files:
-        if not os.path.exists(f):
-            fail_cb("Doesn't exist",f,ress)
-            continue
-        if not os.path.isfile(f):
-            fail_cb("Is a directory",f,ress)
-            continue
+        if is_url:
+            client.core.add_torrent_url(f, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+        else:
+            if not os.path.exists(f):
+                fail_cb("Doesn't exist",f,ress)
+                continue
+            if not os.path.isfile(f):
+                fail_cb("Is a directory",f,ress)
+                continue
 
-        try:
-            add_get_info(f)
-        except Exception as e:
-            fail_cb(e.message,f,ress)
-            continue
+            try:
+                add_get_info(f)
+            except Exception as e:
+                fail_cb(e.message,f,ress)
+                continue
 
-        filename = os.path.split(f)[-1]
-        filedump = base64.encodestring(open(f).read())
+            filename = os.path.split(f)[-1]
+            filedump = base64.encodestring(open(f).read())
 
-        client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+            client.core.add_torrent_file(filename, filedump, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
 

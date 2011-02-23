@@ -463,6 +463,8 @@ class AllTorrents(BaseMode):
         self.popup.add_text_input("Enter path to torrent file:","file")
         self.popup.add_text_input("Enter save path:","path",dl)
         self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
+        self.popup.add_spaces(1)
+        self.popup.add_select_input("Path is:","path_type",["Auto","File","URL"],[0,1,2],0)
 
     def report_message(self,title,message):
         self.messages.append((title,message))
