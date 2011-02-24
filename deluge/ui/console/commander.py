@@ -45,9 +45,10 @@ import logging
 log = logging.getLogger(__name__)
 
 class Commander:
-    def __init__(self, cmds):
+    def __init__(self, cmds, interactive=False):
         self._commands = cmds
         self.console = component.get("ConsoleUI")
+        self.interactive = interactive
 
     def write(self,line):
         print(strip_colors(line))    
