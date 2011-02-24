@@ -339,4 +339,4 @@ Please use commands from the command line, eg:\n
         if self.interactive:
             self.events.append(s)
         else:
-            print colors.strip_colors(s)
+            print colors.strip_colors(s.encode(self.encoding))
