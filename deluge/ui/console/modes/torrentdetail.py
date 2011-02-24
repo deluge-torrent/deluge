@@ -123,9 +123,12 @@ class TorrentDetail(BaseMode, component.Component):
         log.debug("got state")
         if not self.file_list:
             # don't keep getting the files once we've got them once
-            self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (torrent has %d files)"%len(state["files"])).center(self.cols))
-            self.file_list,self.file_dict = self.build_file_list(state["files"],state["file_progress"],state["file_priorities"])
-            self._status_keys.remove("files")
+            if state.get("files"):
+                self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (torrent has %d files)"%len(state["files"])).center(self.cols))
+                self.file_list,self.file_dict = self.build_file_list(state["files"],state["file_progress"],state["file_priorities"])
+                self._status_keys.remove("files")
+            else:
+                self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
         self._fill_progress(self.file_list,state["file_progress"])
         for i,prio in enumerate(state["file_priorities"]):
             self.file_dict[i][6] = prio
@@ -187,6 +190,7 @@ class TorrentDetail(BaseMode, component.Component):
     # fills in progress fields in all entries based on progs
     # returns the # of bytes complete in all the children of fs
     def _fill_progress(self,fs,progs):
+        if not progs: return 0
         tb = 0
         for f in fs:
             if f[3]: # dir, has some children
