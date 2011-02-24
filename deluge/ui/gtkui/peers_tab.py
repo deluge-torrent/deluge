@@ -40,7 +40,6 @@ import logging
 import os.path
 import cPickle
 import pkg_resources
-import gobject
 from itertools import izip
 
 from deluge.ui.client import client

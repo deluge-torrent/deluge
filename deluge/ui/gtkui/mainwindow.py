@@ -38,7 +38,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
-import gobject
 import logging
 import pkg_resources
 from urlparse import urlparse

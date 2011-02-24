@@ -37,8 +37,6 @@
 """PluginManager for Core"""
 
 import logging
-from twisted.internet import reactor
-from twisted.internet.task import LoopingCall
 
 from deluge.event import PluginEnabledEvent, PluginDisabledEvent
 import deluge.pluginmanagerbase
