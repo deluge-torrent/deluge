@@ -52,8 +52,9 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     t_options["add_paused"] = options["add_paused"]
 
     is_url = (not (options["path_type"]==1)) and (deluge.common.is_url(t_file) or options["path_type"]==2)
+    is_mag = not(is_url) and (not (options["path_type"]==1)) and deluge.common.is_magnet(t_file)
 
-    if is_url:
+    if is_url or is_mag:
         files = [t_file]
     else:
         files = glob.glob(t_file)
@@ -66,6 +67,8 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     for f in files:
         if is_url:
             client.core.add_torrent_url(f, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
+        elif is_mag:
+            client.core.add_torrent_magnet(f, t_options).addCallback(success_cb,f,ress).addErrback(fail_cb,f,ress)
         else:
             if not os.path.exists(f):
                 fail_cb("Doesn't exist",f,ress)

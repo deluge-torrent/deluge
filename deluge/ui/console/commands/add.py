@@ -56,7 +56,8 @@ class Command(BaseCommand):
                         help='Interpret all given torrent-file arguments as files'),
     )
 
-    usage = "Usage: add [-p <save-location>] [-u | --urls] [-f | --files] <torrent-file> [<torrent-file> ...]"
+    usage = "Usage: add [-p <save-location>] [-u | --urls] [-f | --files] <torrent-file> [<torrent-file> ...]\n"\
+            "             <torrent-file> arguments can be file paths, URLs or magnet uris"
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
@@ -80,6 +81,9 @@ class Command(BaseCommand):
             if not options["force_file"] and (deluge.common.is_url(arg) or options["force_url"]):
                 self.console.write("{!info!}Attempting to add torrent from url: %s" % arg)
                 deferreds.append(client.core.add_torrent_url(arg, t_options).addCallback(on_success).addErrback(on_fail))
+            elif not options["force_file"] and (deluge.common.is_magnet(arg)):
+                self.console.write("{!info!}Attempting to add torrent from magnet uri: %s" % arg)
+                deferreds.append(client.core.add_torrent_magnet(arg, t_options).addCallback(on_success).addErrback(on_fail))
             else:
                 if not os.path.exists(arg):
                     self.console.write("{!error!}%s doesn't exist!" % arg)
