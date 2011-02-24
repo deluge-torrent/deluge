@@ -622,7 +622,10 @@ class AllTorrents(BaseMode):
             self.entering_search = False
         elif c == 10 or c == curses.KEY_ENTER:
             self.entering_search = False
-            self.__do_search()
+            if self.search_string:
+                self.__do_search()
+            else:
+                self.search_string = None
         elif c > 31 and c < 256:
             stroke = chr(c)
             uchar = ""
