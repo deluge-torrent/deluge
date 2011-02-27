@@ -50,6 +50,7 @@ from torrentdetail import TorrentDetail
 from preferences import Preferences
 from torrent_actions import torrent_actions_popup
 from eventview import EventView
+from legacy import Legacy
 
 import format_utils
 
@@ -129,8 +130,9 @@ class FILTER:
     QUEUED=7
 
 class StateUpdater(component.Component):
-    def __init__(self, cb, sf,tcb):
+    def __init__(self, alltorrent, cb, sf,tcb):
         component.Component.__init__(self, "AllTorrentsStateUpdater", 1, depend=["SessionProxy"])
+        self.alltorrent = alltorrent
         self._status_cb = cb
         self._status_fields = sf
         self.status_dict = {}
@@ -174,6 +176,8 @@ class AllTorrents(BaseMode):
 
         self.coreconfig = component.get("ConsoleUI").coreconfig
 
+        self.legacy_mode = None
+
         BaseMode.__init__(self, stdscr, encoding)
         curses.curs_set(0)
         self.stdscr.notimeout(0)
@@ -181,7 +185,7 @@ class AllTorrents(BaseMode):
         self._status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
                                "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
 
-        self.updater = StateUpdater(self.set_state,self._status_fields,self._on_torrent_status)
+        self.updater = StateUpdater(self,self.set_state,self._status_fields,self._on_torrent_status)
 
         self.column_names = ["#", "Name","Size","State","Progress","Seeders","Peers","Down Speed","Up Speed"]
         self._update_columns()
@@ -374,6 +378,15 @@ class AllTorrents(BaseMode):
         self.stdscr.clear()
         ev = EventView(self,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(ev)
+
+    def __legacy_mode(self):
+        component.stop(["AllTorrentsStateUpdater"])
+        self.stdscr.clear()
+        if not self.legacy_mode:
+            self.legacy_mode = Legacy(self.stdscr,self.encoding)
+        component.get("ConsoleUI").set_mode(self.legacy_mode)
+        self.legacy_mode.refresh()
+        curses.curs_set(2)
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
@@ -757,6 +770,9 @@ class AllTorrents(BaseMode):
                     return
                 elif chr(c) == 'e':
                     self.__show_events()
+                    return
+                elif chr(c) == 'l':
+                    self.__legacy_mode()
                     return
 
         self.refresh(effected_lines)

@@ -50,10 +50,10 @@ from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
-#import screen
 import colors
 from deluge.ui.ui import _UI
 from deluge.ui.console import UI_PATH
+
 
 log = logging.getLogger(__name__)
 
@@ -216,6 +216,7 @@ class ConsoleUI(component.Component):
 
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
+        self._commands = cmds
         if args:
             args = args[0]
             self.interactive = False
@@ -223,7 +224,6 @@ class ConsoleUI(component.Component):
                 print "Sorry, couldn't find any commands"
                 return
             else:
-                self._commands = cmds
                 from commander import Commander
                 cmdr = Commander(cmds)
                 if daemon:
@@ -262,6 +262,7 @@ Please use commands from the command line, eg:\n
         colors.init_colors()
         self.statusbars = StatusBars()
         from modes.connectionmanager import ConnectionManager
+        self.stdscr = stdscr
         self.screen = ConnectionManager(stdscr, self.encoding)
         self.eventlog = EventLog()
 
@@ -303,6 +304,8 @@ Please use commands from the command line, eg:\n
             no matches are found.
 
         """
+        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.match_torrent(string)
         ret = []
         for tid, name in self.torrents:
             if tid.startswith(string) or name.startswith(string):
@@ -323,8 +326,12 @@ Please use commands from the command line, eg:\n
 
 
     def set_batch_write(self, batch):
-        # only kept for legacy reasons, don't actually do anything
-        pass
+        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.set_batch_write(batch)
+
+    def tab_complete_torrent(self, line):
+        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.tab_complete_torrent(line)
 
     def set_mode(self, mode):
         reactor.removeReader(self.screen)
@@ -337,6 +344,9 @@ Please use commands from the command line, eg:\n
 
     def write(self, s):
         if self.interactive:
-            self.events.append(s)
+            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+                self.screen.write(s)
+            else:
+                self.events.append(s)
         else:
             print colors.strip_colors(s.encode(self.encoding))
