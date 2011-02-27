@@ -99,6 +99,8 @@ The actions you can perform and the keys to perform them are as follows:
 
 'e' - Show the event log view ('q' to get out of event log)
 
+'l' - Go into 'legacy' mode (the way deluge-console used to work)
+
 'Q' - quit
 
 'm' - Mark a torrent
