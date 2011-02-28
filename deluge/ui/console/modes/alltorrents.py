@@ -317,7 +317,16 @@ class AllTorrents(BaseMode):
                 else:
                     info = state[f[2][0]]
                 
-                self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info))
+                nl = len(f[0])+4
+                if (nl+len(info))>self.popup.width:
+                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info[:(self.popup.width - nl)]))
+                    info = info[(self.popup.width - nl):]
+                    n = self.popup.width-3
+                    chunks = [info[i:i+n] for i in xrange(0, len(info), n)]
+                    for c in chunks:
+                        self.popup.add_line(" %s"%c)
+                else:
+                    self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info))
             self.refresh()
         else:
             self.updater.set_torrent_to_update(None,None)
