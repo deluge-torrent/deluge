@@ -304,7 +304,7 @@ Please use commands from the command line, eg:\n
             no matches are found.
 
         """
-        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.match_torrent(string)
         ret = []
         for tid, name in self.torrents:
@@ -326,11 +326,11 @@ Please use commands from the command line, eg:\n
 
 
     def set_batch_write(self, batch):
-        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.set_batch_write(batch)
 
     def tab_complete_torrent(self, line):
-        if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_torrent(line)
 
     def set_mode(self, mode):
