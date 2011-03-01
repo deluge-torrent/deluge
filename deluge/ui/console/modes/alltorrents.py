@@ -64,62 +64,60 @@ log = logging.getLogger(__name__)
 
 
 # Big help string that gets displayed when the user hits 'h'
-HELP_STR = \
-"""This screen shows an overview of the current torrents Deluge is managing.
-The currently selected torrent is indicated by having a white background.
-You can change the selected torrent using the up/down arrows or the 
-PgUp/Pg keys.  Home and End keys go to the first and last torrent
+HELP_STR = """\
+This screen shows an overview of the current torrents Deluge is managing. \
+The currently selected torrent is indicated by having a white background. \
+You can change the selected torrent using the up/down arrows or the \
+PgUp/Pg keys.  Home and End keys go to the first and last torrent \
 respectively.
 
-Operations can be performed on multiple torrents by marking them and
+Operations can be performed on multiple torrents by marking them and \
 then hitting Enter.  See below for the keys used to mark torrents.
 
-You can scroll a popup window that doesn't fit its content (like
+You can scroll a popup window that doesn't fit its content (like \
 this one) using the up/down arrows.
 
-All popup windows can be closed/canceled by hitting the Esc key 
+All popup windows can be closed/canceled by hitting the Esc key \
 (you might need to wait a second for an Esc to register)
 
-The actions you can perform and the keys to perform them are as follows:
+The actions you can perform and the keys to perform them are as follows: \
 
-'h' - Show this help
+{!info!}'h'{!normal!} - Show this help
 
-'a' - Add a torrent
+{!info!}'a'{!normal!} - Add a torrent
 
-'p' - View/Set preferences
+{!info!}'p'{!normal!} - View/Set preferences
 
-'/' - Search torrent names.  Enter to exectue search, ESC to cancel
+{!info!}'/'{!normal!} - Search torrent names.  Enter to exectue search, ESC to cancel
 
-'n' - Next matching torrent for last search
+{!info!}'n'{!normal!} - Next matching torrent for last search
 
-'f' - Show only torrents in a certain state
+{!info!}'f'{!normal!} - Show only torrents in a certain state
       (Will open a popup where you can select the state you want to see)
 
-'i' - Show more detailed information about the current selected torrent
+{!info!}'i'{!normal!} - Show more detailed information about the current selected torrent
 
-'e' - Show the event log view ('q' to get out of event log)
+{!info!}'e'{!normal!} - Show the event log view ({!info!}'q'{!normal!} to get out of event log)
 
-'l' - Go into 'legacy' mode (the way deluge-console used to work)
+{!info!}'l'{!normal!} - Go into 'legacy' mode (the way deluge-console used to work)
 
-'Q' - quit
+{!info!}'Q'{!normal!} - quit
 
-'m' - Mark a torrent
-'M' - Mark all torrents between currently selected torrent 
-      and last marked torrent
-'c' - Un-mark all torrents
+{!info!}'m'{!normal!} - Mark a torrent
+{!info!}'M'{!normal!} - Mark all torrents between currently selected torrent and last marked torrent
+{!info!}'c'{!normal!} - Un-mark all torrents
 
-Right Arrow - Torrent Detail Mode.  This includes more detailed information
-              about the currently selected torrent, as well as a view of the
-              files in the torrent and the ability to set file priorities.
+{!info!}Right Arrow{!normal!} - Torrent Detail Mode.  This includes more detailed information \
+about the currently selected torrent, as well as a view of the \
+files in the torrent and the ability to set file priorities.
 
-Enter - Show torrent actions popup.  Here you can do things like
-        pause/resume, remove, recheck and so one.  These actions
-        apply to all currently marked torrents.  The currently
-        selected torrent is automatically marked when you press enter.
+{!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
+pause/resume, remove, recheck and so one.  These actions \
+apply to all currently marked torrents.  The currently \
+selected torrent is automatically marked when you press enter. 
 
-'q'/Esc - Close a popup
+{!info!}'q'/Esc{!normal!} - Close a popup
 """
-HELP_LINES = HELP_STR.split('\n')
 
 class FILTER:
     ALL=0
@@ -184,6 +182,8 @@ class AllTorrents(BaseMode):
         curses.curs_set(0)
         self.stdscr.notimeout(0)
 
+        self.__split_help()
+
         self._status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
                                "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
 
@@ -218,6 +218,9 @@ class AllTorrents(BaseMode):
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
                              "piece_length","save_path"]
+
+    def __split_help(self):
+        self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     def resume(self):
         component.start(["AllTorrentsStateUpdater"])
@@ -335,6 +338,7 @@ class AllTorrents(BaseMode):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
         self._update_columns()
+        self.__split_help()
         if self.popup:
             self.popup.handle_resize()
         self.refresh()
@@ -773,9 +777,7 @@ class AllTorrents(BaseMode):
                 elif chr(c) == 'f':
                     self._show_torrent_filter_popup()
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help")
-                    for l in HELP_LINES:
-                        self.popup.add_line(l)
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines)
                 elif chr(c) == 'p':
                     self.show_preferences()
                     return
