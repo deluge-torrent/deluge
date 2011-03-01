@@ -78,10 +78,10 @@ class Popup:
         self.screen = curses.newwin(height_req,width_req,by,bx)
 
         self.title = title
-        self._close_cb = close_cb
+        self.__close_cb = close_cb
         self.height,self.width = self.screen.getmaxyx()
-        self._divider = None
-        self._lineoff = 0
+        self.divider = None
+        self.lineoff = 0
         if init_lines:
             self._lines = init_lines
         else:
@@ -89,11 +89,9 @@ class Popup:
 
     def _refresh_lines(self):
         crow = 1
-        for row,line in enumerate(self._lines):
+        for line in self._lines[self.lineoff:]:
             if (crow >= self.height-1):
                 break
-            if (row < self._lineoff):
-                continue
             self.parent.add_string(crow,line,self.screen,1,False,True)
             crow+=1
 
@@ -110,6 +108,13 @@ class Popup:
         self.parent.add_string(0,"{!white,black,bold!}%s"%self.title,self.screen,toff,False,True)
 
         self._refresh_lines()
+        if (len(self._lines) > (self.height-2)):
+            lts = len(self._lines)-(self.height-3)
+            perc_sc = float(self.lineoff)/lts
+            sb_pos = int((self.height-2)*perc_sc)+1
+            if (sb_pos == 1) and (self.lineoff != 0):
+                sb_pos += 1
+            self.parent.add_string(sb_pos, "{!white,black,bold!}|",self.screen,col=(self.width-1),pad=False,trim=False)
 
         self.screen.redrawwin()
         self.screen.noutrefresh()
@@ -119,19 +124,19 @@ class Popup:
 
     def handle_read(self, c):
         if c == curses.KEY_UP:
-            self._lineoff = max(0,self._lineoff -1)
+            self.lineoff = max(0,self.lineoff -1)
         elif c == curses.KEY_DOWN:
-            if len(self._lines)-self._lineoff > (self.height-2):
-                self._lineoff += 1
+            if len(self._lines)-self.lineoff > (self.height-2):
+                self.lineoff += 1
 
         elif c == curses.KEY_ENTER or c == 10 or c == 27: # close on enter/esc
-            if self._close_cb:
-                self._close_cb()
+            if self.__close_cb:
+                self.__close_cb()
             return True # close the popup        
 
         if c > 31 and c < 256 and chr(c) == 'q':
-            if self._close_cb:
-                self._close_cb()
+            if self.__close_cb:
+                self.__close_cb()
             return True # close the popup
 
         self.refresh()
@@ -145,9 +150,9 @@ class Popup:
         self._lines.append(string)
 
     def add_divider(self):
-        if not self._divider:
-            self._divider = "-"*(self.width-2)
-        self._lines.append(self._divider)
+        if not self.divider:
+            self.divider = "-"*(self.width-2)
+        self._lines.append(self.divider)
 
     
 class SelectablePopup(Popup):
@@ -187,7 +192,7 @@ class SelectablePopup(Popup):
         for row,line in enumerate(self._lines):
             if (crow >= self.height-1):
                 break
-            if (row < self._lineoff):
+            if (row < self.lineoff):
                 continue
             fg = self._line_foregrounds[row]
             udx = self._udxs.get(crow)
@@ -216,21 +221,21 @@ class SelectablePopup(Popup):
         return (idx,self._select_data[idx])
 
     def add_divider(self,color="white"):
-        if not self._divider:
-            self._divider = "-"*(self.width-6)+" -"
-        self._lines.append(self._divider)
+        if not self.divider:
+            self.divider = "-"*(self.width-6)+" -"
+        self._lines.append(self.divider)
         self._line_foregrounds.append(color)
 
     def handle_read(self, c):
         if c == curses.KEY_UP:
-            #self._lineoff = max(0,self._lineoff -1)
+            #self.lineoff = max(0,self.lineoff -1)
             if (self._selected != self._selectable_lines[0] and
                 len(self._selectable_lines) > 1):
                 idx = self._selectable_lines.index(self._selected)
                 self._selected = self._selectable_lines[idx-1]
         elif c == curses.KEY_DOWN:
-            #if len(self._lines)-self._lineoff > (self.height-2):
-            #    self._lineoff += 1
+            #if len(self._lines)-self.lineoff > (self.height-2):
+            #    self.lineoff += 1
             idx = self._selectable_lines.index(self._selected)
             if (idx < len(self._selectable_lines)-1):
                 self._selected = self._selectable_lines[idx+1]
