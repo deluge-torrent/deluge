@@ -57,6 +57,7 @@ color_pairs = {
 # Some default color schemes
 schemes = {
     "input": ("white", "black"),
+    "normal": ("white","black"),
     "status": ("yellow", "blue", "bold"),
     "info": ("white", "black", "bold"),
     "error": ("red", "black", "bold"),
