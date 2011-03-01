@@ -40,11 +40,12 @@ try:
 except ImportError:
     pass
 
+import format_utils
 import logging
 log = logging.getLogger(__name__)
 
 class Popup:
-    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None):
+    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None,init_lines=None):
         """
         Init a new popup.  The default constructor will handle sizing and borders and the like.
 
@@ -81,7 +82,10 @@ class Popup:
         self.height,self.width = self.screen.getmaxyx()
         self._divider = None
         self._lineoff = 0
-        self._lines = []
+        if init_lines:
+            self._lines = init_lines
+        else:
+            self._lines = []
 
     def _refresh_lines(self):
         crow = 1
@@ -252,41 +256,13 @@ class MessagePopup(Popup):
     """
     Popup that just displays a message
     """
-    import re
-    _strip_re = re.compile("\{!.*?!\}")
-    _min_height = 3
-
     def __init__(self, parent_mode, title, message):
         self.message = message
         self.width= int(parent_mode.cols/2)
-        lns = self._split_message()
-        Popup.__init__(self,parent_mode,title,height_req=(len(lns)+2))
+        lns = format_utils.wrap_string(self.message,self.width-2,3,True)
+        hr = min(len(lns)+2,int(parent_mode.rows/2))
+        Popup.__init__(self,parent_mode,title,height_req=hr)
         self._lines = lns
-
-    def _split_message(self):
-        ret = []
-        wl = (self.width-2)
-
-        s1 = self.message.split("\n")
-
-        for s in s1:
-            while len(self._strip_re.sub('',s)) > wl:
-                sidx = s.rfind(" ",0,wl-1)
-                sidx += 1
-                if sidx > 0:
-                    ret.append(s[0:sidx])
-                    s = s[sidx:]
-                else:
-                    # can't find a reasonable split, just split at width
-                    ret.append(s[0:wl])
-                    s = s[wl:]
-            if s:
-                ret.append(s)
-
-        for i in range(len(ret),self._min_height):
-            ret.append(" ")
-
-        return ret
 
     def handle_resize(self):
         Popup.handle_resize(self)
