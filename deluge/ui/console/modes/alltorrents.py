@@ -192,8 +192,6 @@ class AllTorrents(BaseMode, component.Component):
         self.legacy_mode = None
 
         self.__status_dict = {}
-        self.__status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
-                               "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
         self.__torrent_info_id = None
 
         BaseMode.__init__(self, stdscr, encoding)
@@ -246,6 +244,7 @@ class AllTorrents(BaseMode, component.Component):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
         self.__cols_to_show = [pref for pref in column_pref_names if self.config["show_%s"%pref]]
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
+        self.__status_fields = column.get_required_fields(self.__columns)
         self.__update_columns()
 
     def __split_help(self):
