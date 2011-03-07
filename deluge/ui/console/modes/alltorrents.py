@@ -168,33 +168,7 @@ prefs_to_names = {
     "upspeed":"Up Speed"
 }
 
-class StateUpdater(component.Component):
-    def __init__(self, alltorrent, cb, sf,tcb):
-        component.Component.__init__(self, "AllTorrentsStateUpdater", 1, depend=["SessionProxy"])
-        self.alltorrent = alltorrent
-        self._status_cb = cb
-        self._status_fields = sf
-        self.status_dict = {}
-        self._torrent_cb = tcb
-        self._torrent_to_update = None
-
-    def set_torrent_to_update(self, tid, keys):
-        self._torrent_to_update = tid
-        self._torrent_keys = keys
-
-    def start(self):
-        component.get("SessionProxy").get_torrents_status(self.status_dict, self._status_fields).addCallback(self._on_torrents_status,False)
-
-    def update(self):
-        component.get("SessionProxy").get_torrents_status(self.status_dict, self._status_fields).addCallback(self._on_torrents_status,True)
-        if self._torrent_to_update:
-            component.get("SessionProxy").get_torrent_status(self._torrent_to_update, self._torrent_keys).addCallback(self._torrent_cb)
-
-    def _on_torrents_status(self, state, refresh):
-        self._status_cb(state,refresh)
-
-
-class AllTorrents(BaseMode):
+class AllTorrents(BaseMode, component.Component):
     def __init__(self, stdscr, encoding=None):
         self.formatted_rows = None
         self.torrent_names = None
@@ -217,18 +191,20 @@ class AllTorrents(BaseMode):
 
         self.legacy_mode = None
 
+        self.__status_dict = {}
+        self.__status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
+                               "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
+        self.__torrent_info_id = None
+
         BaseMode.__init__(self, stdscr, encoding)
+        component.Component.__init__(self, "AllTorrents", 1, depend=["SessionProxy"])
         curses.curs_set(0)
         self.stdscr.notimeout(0)
 
         self.__split_help()
-
-        self._status_fields = ["queue","name","total_wanted","state","progress","num_seeds","total_seeds",
-                               "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
-
-        self.updater = StateUpdater(self,self.set_state,self._status_fields,self._on_torrent_status)
         self.update_config()
 
+        component.start(["AllTorrents"])
 
         self._info_fields = [
             ("Name",None,("name",)),
@@ -250,11 +226,21 @@ class AllTorrents(BaseMode):
             ("Pieces", format_utils.format_pieces, ("num_pieces","piece_length")),
             ]
 
-        self._status_keys = ["name","state","download_payload_rate","upload_payload_rate",
+        self.__status_keys = ["name","state","download_payload_rate","upload_payload_rate",
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
                              "piece_length","save_path"]
+
+    # component start/update
+    def start(self):
+        log.error("STARTING")
+        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,False)
+
+    def update(self):
+        component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,True)
+        if self.__torrent_info_id:
+            component.get("SessionProxy").get_torrent_status(self.__torrent_info_id, self.__status_keys).addCallback(self._on_torrent_status)
 
     def update_config(self):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
@@ -266,7 +252,7 @@ class AllTorrents(BaseMode):
         self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     def resume(self):
-        component.start(["AllTorrentsStateUpdater"])
+        component.start(["AllTorrents"])
         self.refresh()
         
     def __update_columns(self):
@@ -366,7 +352,7 @@ class AllTorrents(BaseMode):
                     self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info))
             self.refresh()
         else:
-            self.updater.set_torrent_to_update(None,None)
+            self.__torrent_info_id = None
             
 
     def on_resize(self, *args):
@@ -401,7 +387,7 @@ class AllTorrents(BaseMode):
 
 
     def show_torrent_details(self,tid):
-        component.stop(["AllTorrentsStateUpdater"])
+        component.stop(["AllTorrents"])
         self.stdscr.clear()
         td = TorrentDetail(self,tid,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(td)
@@ -414,7 +400,7 @@ class AllTorrents(BaseMode):
             client.core.get_cache_status().addCallback(_on_get_cache_status,port,config)
 
         def _on_get_cache_status(status,port,config):
-            component.stop(["AllTorrentsStateUpdater"])
+            component.stop(["AllTorrents"])
             self.stdscr.clear()
             prefs = Preferences(self,config,self.config,port,status,self.stdscr,self.encoding)
             component.get("ConsoleUI").set_mode(prefs)
@@ -423,13 +409,13 @@ class AllTorrents(BaseMode):
         
 
     def __show_events(self):
-        component.stop(["AllTorrentsStateUpdater"])
+        component.stop(["AllTorrents"])
         self.stdscr.clear()
         ev = EventView(self,self.stdscr,self.encoding)
         component.get("ConsoleUI").set_mode(ev)
 
     def __legacy_mode(self):
-        component.stop(["AllTorrentsStateUpdater"])
+        component.stop(["AllTorrents"])
         self.stdscr.clear()
         if not self.legacy_mode:
             self.legacy_mode = Legacy(self.stdscr,self.encoding)
@@ -439,28 +425,28 @@ class AllTorrents(BaseMode):
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:
-            self.updater.status_dict = {}
+            self.__status_dict = {}
             self._curr_filter = None
         elif data==FILTER.ACTIVE:
-            self.updater.status_dict = {"state":"Active"}
+            self.__status_dict = {"state":"Active"}
             self._curr_filter = "Active"
         elif data==FILTER.DOWNLOADING:
-            self.updater.status_dict = {"state":"Downloading"}
+            self.__status_dict = {"state":"Downloading"}
             self._curr_filter = "Downloading"
         elif data==FILTER.SEEDING:
-            self.updater.status_dict = {"state":"Seeding"}
+            self.__status_dict = {"state":"Seeding"}
             self._curr_filter = "Seeding"
         elif data==FILTER.PAUSED:
-            self.updater.status_dict = {"state":"Paused"}
+            self.__status_dict = {"state":"Paused"}
             self._curr_filter = "Paused"
         elif data==FILTER.CHECKING:
-            self.updater.status_dict = {"state":"Checking"}
+            self.__status_dict = {"state":"Checking"}
             self._curr_filter = "Checking"
         elif data==FILTER.ERROR:
-            self.updater.status_dict = {"state":"Error"}
+            self.__status_dict = {"state":"Error"}
             self._curr_filter = "Error"
         elif data==FILTER.QUEUED:
-            self.updater.status_dict = {"state":"Queued"}
+            self.__status_dict = {"state":"Queued"}
             self._curr_filter = "Queued"
         self._go_top = True
         return True
@@ -790,9 +776,10 @@ class AllTorrents(BaseMode):
                 elif chr(c) == 'i':
                     cid = self.current_torrent_id()
                     if cid:
-                        self.popup = Popup(self,"Info",close_cb=lambda:self.updater.set_torrent_to_update(None,None))
+                        def cb(): self.__torrent_info_id = None
+                        self.popup = Popup(self,"Info",close_cb=cb)
                         self.popup.add_line("Getting torrent info...")
-                        self.updater.set_torrent_to_update(cid,self._status_keys)
+                        self.__torrent_info_id = cid
                 elif chr(c) == 'm':
                     self._mark_unmark(self.cursel)
                     effected_lines = [self.cursel-1]

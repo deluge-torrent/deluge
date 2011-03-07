@@ -44,7 +44,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         console = component.get("ConsoleUI")
         try:
-            at = component.get("AllTorrentsStateUpdater").alltorrent
+            at = component.get("AllTorrents")
         except KeyError:
             at = AllTorrents(console.stdscr,console.encoding)
         console.set_mode(at)
