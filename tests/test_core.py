@@ -52,7 +52,7 @@ class CoreTestCase(unittest.TestCase):
         return d
 
     def test_add_torrent_url_with_cookie(self):
-        url = "http://deluge-torrent.org/test_torrent.php"
+        url = "http://deluge-torrent.org/test_torrent.php?test=cookie"
         options = {}
         headers = { "Cookie" : "password=deluge" }
         info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
@@ -61,6 +61,16 @@ class CoreTestCase(unittest.TestCase):
         d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
 
         d = self.core.add_torrent_url(url, options, headers)
+        d.addCallback(self.assertEquals, info_hash)
+
+        return d
+
+    def test_add_torrent_url_with_partial_download(self):
+        url = "http://deluge-torrent.org/test_torrent.php?test=partial"
+        options = {}
+        info_hash = "60d5d82328b4547511fdeac9bf4d0112daa0ce00"
+
+        d = self.core.add_torrent_url(url, options)
         d.addCallback(self.assertEquals, info_hash)
 
         return d

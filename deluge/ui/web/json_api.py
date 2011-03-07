@@ -45,6 +45,7 @@ from types import FunctionType
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
+import twisted.web.client
 
 from deluge import common, component, httpdownloader
 from deluge.configmanager import ConfigManager, get_config_dir
@@ -639,13 +640,29 @@ class WebApi(JSONComponent):
         :rtype: string
         """
 
+        def on_download_success(result):
+            log.debug("Successfully downloaded %s to %s", url, result)
+            return result
+
+        def on_download_fail(result):
+            if result.check(twisted.web.client.PartialDownloadError):
+                result = httpdownloader.download_file(url, tmp_file, headers=headers,
+                                                      allow_compression=False)
+                result.addCallbacks(on_download_success, on_download_fail)
+            else:
+                log.error("Error occured downloading torrent from %s", url)
+                log.error("Reason: %s", result.getErrorMessage())
+            return result
+
         tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
         log.debug("filename: %s", tmp_file)
         headers = {}
         if cookie:
             headers["Cookie"] = cookie
             log.debug("cookie: %s", cookie)
-        return httpdownloader.download_file(url, tmp_file, headers=headers)
+        d = httpdownloader.download_file(url, tmp_file, headers=headers)
+        d.addCallbacks(on_download_success, on_download_fail)
+        return d
 
     @export
     def get_torrent_info(self, filename):

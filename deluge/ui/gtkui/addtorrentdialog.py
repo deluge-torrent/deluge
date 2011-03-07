@@ -44,7 +44,9 @@ import os
 
 import pkg_resources
 
+import twisted.web.client
 from deluge.ui.client import client
+from deluge.httpdownloader import download_file
 import deluge.component as component
 import listview
 from deluge.configmanager import ConfigManager
@@ -651,14 +653,18 @@ class AddTorrentDialog(component.Component):
             dialog.destroy()
 
         def on_download_fail(result):
-            log.debug("Download failed: %s", result)
-            dialog.destroy()
-            dialogs.ErrorDialog(_("Download Failed"), _("Failed to download : %s" % url), details=result.getErrorMessage(), parent=self.dialog).run()
+            if result.check(twisted.web.client.PartialDownloadError):
+                result = download_file(url, tmp_file, on_part, allow_compression=False)
+                result.addCallbacks(on_download_success, on_download_fail)
+            else:
+                log.debug("Download failed: %s", result)
+                dialog.destroy()
+                dialogs.ErrorDialog(_("Download Failed"), _("Failed to download : %s" % url),
+                                    details=result.getErrorMessage(), parent=self.dialog).run()
+            return result
 
-        import deluge.httpdownloader
-        d = deluge.httpdownloader.download_file(url, tmp_file, on_part)
-        d.addCallback(on_download_success)
-        d.addErrback(on_download_fail)
+        d = download_file(url, tmp_file, on_part)
+        d.addCallbacks(on_download_success, on_download_fail)
 
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
