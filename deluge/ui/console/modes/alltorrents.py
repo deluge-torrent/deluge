@@ -132,7 +132,15 @@ class FILTER:
     QUEUED=7
 
 DEFAULT_PREFS = {
-    "columns":["#", "Name","Size","State","Progress","Seeders","Peers","Down Speed","Up Speed"],
+    "show_queue":True,
+    "show_name":True,
+    "show_size":True,
+    "show_state":True,
+    "show_progress":True,
+    "show_seeders":True,
+    "show_peers":True,
+    "show_downspeed":True,
+    "show_upspeed":True,
     "column_widths":{
         "#":5,
         "Name":-1,
@@ -143,6 +151,22 @@ DEFAULT_PREFS = {
         "Peers":10,
         "Down Speed":15,
         "Up Speed":15}
+}
+
+column_prefs = ["show_queue","show_name","show_size","show_state",
+                "show_progress","show_seeders","show_peers",
+                "show_downspeed","show_upspeed"]
+
+prefs_to_names = {
+    "show_queue":"#", 
+    "show_name":"Name",
+    "show_size":"Size",
+    "show_state":"State",
+    "show_progress":"Progress",
+    "show_seeders":"Seeders",
+    "show_peers":"Peers",
+    "show_downspeed":"Down Speed",
+    "show_upspeed":"Up Speed"
 }
 
 class StateUpdater(component.Component):
@@ -236,7 +260,7 @@ class AllTorrents(BaseMode):
 
     def __update_config(self):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
-        self.__columns = self.config["columns"]
+        self.__columns = [prefs_to_names[pref] for pref in column_prefs if self.config[pref]]
         self.__config_widths = self.config["column_widths"]
 
     def __split_help(self):
