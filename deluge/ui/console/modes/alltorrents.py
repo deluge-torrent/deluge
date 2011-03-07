@@ -38,6 +38,7 @@ import deluge.component as component
 from basemode import BaseMode
 import deluge.common
 from deluge.ui.client import client
+from deluge.configmanager import ConfigManager
 
 from collections import deque
 
@@ -52,7 +53,7 @@ from torrent_actions import torrent_actions_popup
 from eventview import EventView
 from legacy import Legacy
 
-import format_utils
+import format_utils,column
 
 try:
     import curses
@@ -116,7 +117,8 @@ pause/resume, remove, recheck and so one.  These actions \
 apply to all currently marked torrents.  The currently \
 selected torrent is automatically marked when you press enter. 
 
-{!info!}'q'/Esc{!normal!} - Close a popup
+{!info!}'q'/Esc{!normal!} - Close a popup (Note that Esc can take a moment to register \
+as having been pressed.
 """
 
 class FILTER:
@@ -128,6 +130,20 @@ class FILTER:
     CHECKING=5
     ERROR=6
     QUEUED=7
+
+DEFAULT_PREFS = {
+    "columns":["#", "Name","Size","State","Progress","Seeders","Peers","Down Speed","Up Speed"],
+    "column_widths":{
+        "#":5,
+        "Name":-1,
+        "Size":15,
+        "State":13,
+        "Progress":10,
+        "Seeders":10,
+        "Peers":10,
+        "Down Speed":15,
+        "Up Speed":15}
+}
 
 class StateUpdater(component.Component):
     def __init__(self, alltorrent, cb, sf,tcb):
@@ -175,6 +191,7 @@ class AllTorrents(BaseMode):
         self.cursor = 0
 
         self.coreconfig = component.get("ConsoleUI").coreconfig
+        self.__update_config()
 
         self.legacy_mode = None
 
@@ -188,9 +205,7 @@ class AllTorrents(BaseMode):
                                "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
 
         self.updater = StateUpdater(self,self.set_state,self._status_fields,self._on_torrent_status)
-
-        self.column_names = ["#", "Name","Size","State","Progress","Seeders","Peers","Down Speed","Up Speed"]
-        self._update_columns()
+        self.__update_columns()
 
 
         self._info_fields = [
@@ -219,6 +234,11 @@ class AllTorrents(BaseMode):
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
                              "piece_length","save_path"]
 
+    def __update_config(self):
+        self.config = ConfigManager("console.conf",DEFAULT_PREFS)
+        self.__columns = self.config["columns"]
+        self.__config_widths = self.config["column_widths"]
+
     def __split_help(self):
         self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
@@ -227,11 +247,11 @@ class AllTorrents(BaseMode):
         self.refresh()
         
 
-    def _update_columns(self):
-        self.column_widths = [5,-1,15,13,10,10,10,15,15]
+    def __update_columns(self):
+        self.column_widths = [self.__config_widths[c] for c in self.__columns]
         req = sum(filter(lambda x:x >= 0,self.column_widths))
         if (req > self.cols): # can't satisfy requests, just spread out evenly
-            cw = int(self.cols/len(self.column_names))
+            cw = int(self.cols/len(self.__columns))
             for i in range(0,len(self.column_widths)):
                 self.column_widths[i] = cw
         else:
@@ -242,7 +262,7 @@ class AllTorrents(BaseMode):
                 if (self.column_widths[i] < 0):
                     self.column_widths[i] = vw
 
-        self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.column_names[i]," "*(self.column_widths[i]-len(self.column_names[i]))) for i in range(0,len(self.column_names))]))
+        self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.__columns[i]," "*(self.column_widths[i]-len(self.__columns[i]))) for i in range(0,len(self.__columns))]))
 
 
     def set_state(self, state, refresh):
@@ -253,16 +273,8 @@ class AllTorrents(BaseMode):
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
             newnames.append(ts["name"])
-            newrows.append((format_utils.format_row([self._format_queue(ts["queue"]),
-                                                     ts["name"],
-                                                     "%s"%deluge.common.fsize(ts["total_wanted"]),
-                                                     ts["state"],
-                                                     format_utils.format_progress(ts["progress"]),
-                                                     format_utils.format_seeds_peers(ts["num_seeds"],ts["total_seeds"]),
-                                                     format_utils.format_seeds_peers(ts["num_peers"],ts["total_peers"]),
-                                                     format_utils.format_speed(ts["download_payload_rate"]),
-                                                     format_utils.format_speed(ts["upload_payload_rate"])
-                                                     ],self.column_widths),ts["state"]))
+            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths),ts["state"]))
+
         self.numtorrents = len(state)
         self.formatted_rows = newrows
         self.torrent_names = newnames
@@ -337,7 +349,7 @@ class AllTorrents(BaseMode):
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
-        self._update_columns()
+        self.__update_columns()
         self.__split_help()
         if self.popup:
             self.popup.handle_resize()
