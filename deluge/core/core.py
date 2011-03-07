@@ -229,7 +229,7 @@ class Core(component.Component):
         :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info("Attempting to add url %s", url)
-        def on_get_file(filename):
+        def on_download_success(filename):
             # We got the file, so add it to the session
             f = open(filename, "rb")
             data = f.read()
@@ -240,15 +240,20 @@ class Core(component.Component):
                 log.warning("Couldn't remove temp file: %s", e)
             return self.add_torrent_file(filename, base64.encodestring(data), options)
 
-        def on_get_file_error(failure):
-            # Log the error and pass the failure onto the client
-            log.error("Error occured downloading torrent from %s", url)
-            log.error("Reason: %s", failure.getErrorMessage())
-            return failure
+        def on_download_fail(failure):
+            if failure.check(twisted.web.client.PartialDownloadError):
+                result = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True,
+                                       allow_compression=False)
+                result.addCallbacks(on_download_success, on_download_fail)
+            else:
+                # Log the error and pass the failure onto the client
+                log.error("Error occured downloading torrent from %s", url)
+                log.error("Reason: %s", failure.getErrorMessage())
+                result = failure
+            return result
 
         d = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True)
-        d.addCallback(on_get_file)
-        d.addErrback(on_get_file_error)
+        d.addCallbacks(on_download_success, on_download_fail)
         return d
 
     @export
