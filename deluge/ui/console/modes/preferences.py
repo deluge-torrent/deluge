@@ -105,7 +105,7 @@ class ZONE:
     ACTIONS = 2
 
 class Preferences(BaseMode):
-    def __init__(self, parent_mode, core_config, active_port, status, stdscr, encoding=None):
+    def __init__(self, parent_mode, core_config, console_config, active_port, status, stdscr, encoding=None):
         self.parent_mode = parent_mode
         self.categories = [_("Downloads"), _("Network"), _("Bandwidth"),
                            _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
@@ -116,6 +116,7 @@ class Preferences(BaseMode):
         self.action_input = None
 
         self.core_config = core_config
+        self.console_config = console_config
         self.active_port = active_port
         self.status = status
 
@@ -197,7 +198,8 @@ class Preferences(BaseMode):
     def __apply_prefs(self):
         new_core_config = {}
         for pane in self.panes:
-            pane.add_config_values(new_core_config)
+            if not isinstance(pane,InterfacePane):
+                pane.add_config_values(new_core_config)
         # Apply Core Prefs
         if client.connected():
             # Only do this if we're connected to a daemon
@@ -213,6 +215,25 @@ class Preferences(BaseMode):
                 client.force_call(True)
                 # Update the configuration
                 self.core_config.update(config_to_set)
+
+        # Update Interface Prefs
+        new_console_config = {}
+        didupdate = False
+        for pane in self.panes:
+            # could just access panes by index, but that would break if panes
+            # are ever reordered, so do it the slightly slower but safer way
+            if isinstance(pane,InterfacePane):
+                pane.add_config_values(new_console_config)
+        for key in new_console_config.keys():
+            # The values do not match so this needs to be updated
+            if self.console_config[key] != new_console_config[key]:
+                self.console_config[key] = new_console_config[key]
+                didupdate = True
+        if didupdate:
+            # changed something, save config and tell alltorrents
+            self.console_config.save()
+            self.parent_mode.update_config()
+
 
     def __update_preferences(self,core_config):
         self.core_config = core_config

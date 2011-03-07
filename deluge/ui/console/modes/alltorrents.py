@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# alltorrens.py
+# alltorrents.py
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -141,32 +141,31 @@ DEFAULT_PREFS = {
     "show_peers":True,
     "show_downspeed":True,
     "show_upspeed":True,
-    "column_widths":{
-        "#":5,
-        "Name":-1,
-        "Size":15,
-        "State":13,
-        "Progress":10,
-        "Seeders":10,
-        "Peers":10,
-        "Down Speed":15,
-        "Up Speed":15}
+    "queue_width":5,
+    "name_width":-1,
+    "size_width":15,
+    "state_width":13,
+    "progress_width":10,
+    "seeders_width":10,
+    "peers_width":10,
+    "downspeed_width":15,
+    "upspeed_width":15,
 }
 
-column_prefs = ["show_queue","show_name","show_size","show_state",
-                "show_progress","show_seeders","show_peers",
-                "show_downspeed","show_upspeed"]
+column_pref_names = ["queue","name","size","state",
+                     "progress","seeders","peers",
+                     "downspeed","upspeed"]
 
 prefs_to_names = {
-    "show_queue":"#", 
-    "show_name":"Name",
-    "show_size":"Size",
-    "show_state":"State",
-    "show_progress":"Progress",
-    "show_seeders":"Seeders",
-    "show_peers":"Peers",
-    "show_downspeed":"Down Speed",
-    "show_upspeed":"Up Speed"
+    "queue":"#", 
+    "name":"Name",
+    "size":"Size",
+    "state":"State",
+    "progress":"Progress",
+    "seeders":"Seeders",
+    "peers":"Peers",
+    "downspeed":"Down Speed",
+    "upspeed":"Up Speed"
 }
 
 class StateUpdater(component.Component):
@@ -215,7 +214,6 @@ class AllTorrents(BaseMode):
         self.cursor = 0
 
         self.coreconfig = component.get("ConsoleUI").coreconfig
-        self.__update_config()
 
         self.legacy_mode = None
 
@@ -229,7 +227,7 @@ class AllTorrents(BaseMode):
                                "num_peers","total_peers","download_payload_rate", "upload_payload_rate"]
 
         self.updater = StateUpdater(self,self.set_state,self._status_fields,self._on_torrent_status)
-        self.__update_columns()
+        self.update_config()
 
 
         self._info_fields = [
@@ -258,10 +256,11 @@ class AllTorrents(BaseMode):
                              "seeding_time","time_added","distributed_copies", "num_pieces", 
                              "piece_length","save_path"]
 
-    def __update_config(self):
+    def update_config(self):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
-        self.__columns = [prefs_to_names[pref] for pref in column_prefs if self.config[pref]]
-        self.__config_widths = self.config["column_widths"]
+        self.__cols_to_show = [pref for pref in column_pref_names if self.config["show_%s"%pref]]
+        self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
+        self.__update_columns()
 
     def __split_help(self):
         self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
@@ -270,9 +269,8 @@ class AllTorrents(BaseMode):
         component.start(["AllTorrentsStateUpdater"])
         self.refresh()
         
-
     def __update_columns(self):
-        self.column_widths = [self.__config_widths[c] for c in self.__columns]
+        self.column_widths = [self.config["%s_width"%c] for c in self.__cols_to_show]
         req = sum(filter(lambda x:x >= 0,self.column_widths))
         if (req > self.cols): # can't satisfy requests, just spread out evenly
             cw = int(self.cols/len(self.__columns))
@@ -418,7 +416,7 @@ class AllTorrents(BaseMode):
         def _on_get_cache_status(status,port,config):
             component.stop(["AllTorrentsStateUpdater"])
             self.stdscr.clear()
-            prefs = Preferences(self,config,port,status,self.stdscr,self.encoding)
+            prefs = Preferences(self,config,self.config,port,status,self.stdscr,self.encoding)
             component.get("ConsoleUI").set_mode(prefs)
 
         client.core.get_config().addCallback(_on_get_config)

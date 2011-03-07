@@ -34,6 +34,7 @@
 #
 
 from deluge.ui.console.modes.input_popup import TextInput,SelectInput,CheckedInput,IntSpinInput,FloatSpinInput,CheckedPlusInput
+import deluge.ui.console.modes.alltorrents
 
 try:
     import curses
@@ -293,9 +294,18 @@ class BandwidthPane(BasePane):
 class InterfacePane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self,offset,parent,width)
-        self.add_header("Interface Settings Comming Soon")
-        # add title bar control here
-
+        self.add_header("Columns To Display")
+        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
+            pn = "show_%s"%cpn
+            self.add_checked_input(pn,
+                                   deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
+                                   parent.console_config[pn])
+        self.add_header("Column Widths (-1 = expand)",True)
+        for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
+            pn = "%s_width"%cpn
+            self.add_int_spin_input(pn,
+                                    deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
+                                    parent.console_config[pn],-1,100)
 
 class OtherPane(BasePane):
     def __init__(self, offset, parent, width):
