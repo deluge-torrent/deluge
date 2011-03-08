@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 # format_utils.py
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
@@ -44,6 +46,18 @@ def format_speed(speed):
         return deluge.common.fspeed(speed)
     else:
         return "-"
+
+def format_time(time):
+    if (time > 0):
+        return deluge.common.ftime(time)
+    else:
+        return "-"
+
+def format_float(x):
+    if x < 0:
+        return "∞"
+    else:
+        return "%.3f"%x
 
 def format_seeds_peers(num, total):
     return "%d (%d)"%(num,total)

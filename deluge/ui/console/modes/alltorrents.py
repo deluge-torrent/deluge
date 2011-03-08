@@ -141,6 +141,15 @@ DEFAULT_PREFS = {
     "show_peers":True,
     "show_downspeed":True,
     "show_upspeed":True,
+    "show_eta":False,
+    "show_ratio":False,
+    "show_avail":False,
+    "show_added":False,
+    "show_tracker":False,
+    "show_savepath":False,
+    "show_downloaded":False,
+    "show_uploaded":False,
+    "show_owner":False,
     "queue_width":5,
     "name_width":-1,
     "size_width":15,
@@ -150,11 +159,23 @@ DEFAULT_PREFS = {
     "peers_width":10,
     "downspeed_width":15,
     "upspeed_width":15,
+    "eta_width":10,
+    "ratio_width":10,
+    "avail_width":10,
+    "added_width":25,
+    "tracker_width":15,
+    "savepath_width":15,
+    "downloaded_width":13,
+    "uploaded_width":13,
+    "owner_width":10,
 }
 
 column_pref_names = ["queue","name","size","state",
                      "progress","seeders","peers",
-                     "downspeed","upspeed"]
+                     "downspeed","upspeed","eta",
+                     "ratio","avail","added","tracker",
+                     "savepath","downloaded","uploaded",
+                     "owner"]
 
 prefs_to_names = {
     "queue":"#", 
@@ -165,7 +186,16 @@ prefs_to_names = {
     "seeders":"Seeders",
     "peers":"Peers",
     "downspeed":"Down Speed",
-    "upspeed":"Up Speed"
+    "upspeed":"Up Speed",
+    "eta":"ETA",
+    "ratio":"Ratio",
+    "avail":"Avail",
+    "added":"Added",
+    "tracker":"Tracker",
+    "savepath":"Save Path",
+    "downloaded":"Downloaded",
+    "uploaded":"Uploaded",
+    "owner":"Owner",
 }
 
 class AllTorrents(BaseMode, component.Component):
@@ -214,13 +244,13 @@ class AllTorrents(BaseMode, component.Component):
             ("Path", None, ("save_path",)),
             ("Downloaded",deluge.common.fsize,("all_time_download",)),
             ("Uploaded", deluge.common.fsize,("total_uploaded",)),
-            ("Share Ratio", lambda x:x < 0 and "∞" or "%.3f"%x, ("ratio",)),
+            ("Share Ratio", format_utils.format_float, ("ratio",)),
             ("Seeders",format_utils.format_seeds_peers,("num_seeds","total_seeds")),
             ("Peers",format_utils.format_seeds_peers,("num_peers","total_peers")),
             ("Active Time",deluge.common.ftime,("active_time",)),
             ("Seeding Time",deluge.common.ftime,("seeding_time",)),
             ("Date Added",deluge.common.fdate,("time_added",)),
-            ("Availability", lambda x:x < 0 and "∞" or "%.3f"%x, ("distributed_copies",)),
+            ("Availability", format_utils.format_float, ("distributed_copies",)),
             ("Pieces", format_utils.format_pieces, ("num_pieces","piece_length")),
             ]
 

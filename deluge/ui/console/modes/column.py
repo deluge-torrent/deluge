@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # column.py
 #
@@ -36,6 +37,10 @@
 import deluge.common
 import format_utils
 
+import logging
+log = logging.getLogger(__name__)
+
+
 def format_queue(qnum):
     if (qnum >= 0):
         return "%d"%(qnum+1)
@@ -52,13 +57,22 @@ columns = {
     "Peers":(("num_peers","total_peers"),format_utils.format_seeds_peers),
     "Down Speed":(("download_payload_rate",),format_utils.format_speed),
     "Up Speed":(("upload_payload_rate",),format_utils.format_speed),
+    "ETA":(("eta",), format_utils.format_time),
+    "Ratio":(("ratio",), format_utils.format_float),
+    "Avail":(("distributed_copies",), format_utils.format_float),
+    "Added":(("time_added",), deluge.common.fdate),
+    "Tracker":(("tracker_host",), None),
+    "Save Path":(("save_path",), None),
+    "Downloaded":(("all_time_download",), deluge.common.fsize),
+    "Uploaded":(("total_uploaded",), deluge.common.fsize),
+    "Owner":(("owner",),None)
     }
 
 def get_column_value(name,state):
     try:
         col = columns[name]
     except KeyError:
-        log.debug("No such column: %s",name)
+        log.error("No such column: %s",name)
         return None
 
     if col[1] != None:
@@ -67,7 +81,7 @@ def get_column_value(name,state):
             for key in col[0]:
                 args.append(state[key])
         except:
-            log.debug("Could not get column field: %s",col[1])
+            log.error("Could not get column field: %s",col[0])
             return None
         colval = col[1](*args)
     else:
