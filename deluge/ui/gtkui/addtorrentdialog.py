@@ -43,10 +43,12 @@ import gobject
 import base64
 import logging
 import os
+from urlparse import urljoin
 
 import pkg_resources
 
 import twisted.web.client
+import twisted.web.error
 from deluge.ui.client import client
 from deluge.httpdownloader import download_file
 import deluge.component as component
@@ -656,7 +658,11 @@ class AddTorrentDialog(component.Component):
             dialog.destroy()
 
         def on_download_fail(result):
-            if result.check(twisted.web.client.PartialDownloadError):
+            if result.check(twisted.web.error.PageRedirect):
+                new_url = urljoin(url, result.getErrorMessage().split(" to ")[1])
+                result = download_file(new_url, tmp_file, on_part)
+                result.addCallbacks(on_download_success, on_download_fail)
+            elif result.check(twisted.web.client.PartialDownloadError):
                 result = download_file(url, tmp_file, on_part, allow_compression=False)
                 result.addCallbacks(on_download_success, on_download_fail)
             else:

@@ -40,12 +40,14 @@ import shutil
 import logging
 import hashlib
 import tempfile
+from urlparse import urljoin
 
 from types import FunctionType
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.web import http, resource, server
 import twisted.web.client
+import twisted.web.error
 
 from deluge import common, component, httpdownloader
 from deluge.configmanager import ConfigManager, get_config_dir
@@ -645,7 +647,11 @@ class WebApi(JSONComponent):
             return result
 
         def on_download_fail(result):
-            if result.check(twisted.web.client.PartialDownloadError):
+            if result.check(twisted.web.error.PageRedirect):
+                new_url = urljoin(url, result.getErrorMessage().split(" to ")[1])
+                result = httpdownloader.download_file(new_url, tmp_file, headers=headers)
+                result.addCallbacks(on_download_success, on_download_fail)
+            elif result.check(twisted.web.client.PartialDownloadError):
                 result = httpdownloader.download_file(url, tmp_file, headers=headers,
                                                       allow_compression=False)
                 result.addCallbacks(on_download_success, on_download_fail)

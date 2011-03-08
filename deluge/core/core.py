@@ -41,6 +41,12 @@ import base64
 import logging
 import threading
 import tempfile
+from urlparse import urljoin
+
+from twisted.internet import reactor, defer
+from twisted.internet.task import LoopingCall
+import twisted.web.client
+import twisted.web.error
 
 from deluge.httpdownloader import download_file
 
@@ -241,9 +247,13 @@ class Core(component.Component):
             return self.add_torrent_file(filename, base64.encodestring(data), options)
 
         def on_download_fail(failure):
-            if failure.check(twisted.web.client.PartialDownloadError):
+            if failure.check(twisted.web.error.PageRedirect):
+                new_url = urljoin(url, failure.getErrorMessage().split(" to ")[1])
+                result = download_file(new_url, tempfile.mkstemp()[1], headers=headers, force_filename=True)
+                result.addCallbacks(on_download_success, on_download_fail)
+            elif failure.check(twisted.web.client.PartialDownloadError):
                 result = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True,
-                                       allow_compression=False)
+                        allow_compression=False)
                 result.addCallbacks(on_download_success, on_download_fail)
             else:
                 # Log the error and pass the failure onto the client
