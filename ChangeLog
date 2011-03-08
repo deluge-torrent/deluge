@@ -1,42 +1,42 @@
 === Deluge 1.3.2 (In Development) ===
 ==== Core ====
-    * #1527: Fix Converting unicode to unicode error in move_storage
-    * #1373: Fix creating and moving non-ascii folder names in MS Windows
-    * #1507: Fix temporary file race condition in core/core.py:add_torrent_url
-    * Fix a bug that can occur when upgrading 1.1 config files
-	 * #1517: Fix isohunt urls not loading
-	 * Handle redirection when adding a torrent by url
+	* #1527: Fix Converting unicode to unicode error in move_storage
+	* #1373: Fix creating and moving non-ascii folder names in MS Windows
+	* #1507: Fix temporary file race condition in core/core.py:add_torrent_url
+	* Fix a bug that can occur when upgrading 1.1 config files
+	* #1517: Fix isohunt urls not loading
+	* Handle redirection when adding a torrent by url
 
 ==== GtkUI ====    
-    * #1514: Added Indicator Applet
-    * #1494: Add Downloaded and Uploaded columns to torrent view
-    * Add missing icons for Trackers filter
-    * Fix inconsistancies in the text for translation
-    * #1510: Fix cannot create a torrent with only non-zero tier trackers
-    * #1513: Fix unhandled Twisted Error in test_listen_port
-    * #690:  Fix renaming folders does not remove old empty folders
-    * #1336: Fix uneeded horizontal scrollbar showing in Files & Peers Tab
-    * #1508: Fix TypeError in cell_data_queue() could not convert argument to correct param type
-    * #1498: Fix double slashes appearing when renaming
-    * #1283: Fix consistent icons for Files tab
-    * #1282: Text for AutoManaged changed to 'On/Off' and localized
+	* #1514: Added Indicator Applet
+	* #1494: Add Downloaded and Uploaded columns to torrent view
+	* Add missing icons for Trackers filter
+	* Fix inconsistancies in the text for translation
+	* #1510: Fix cannot create a torrent with only non-zero tier trackers
+	* #1513: Fix unhandled Twisted Error in test_listen_port
+	* #690:  Fix renaming folders does not remove old empty folders
+	* #1336: Fix uneeded horizontal scrollbar showing in Files & Peers Tab
+	* #1508: Fix TypeError in cell_data_queue() could not convert argument to correct param type
+	* #1498: Fix double slashes appearing when renaming
+	* #1283: Fix consistent icons for Files tab
+	* #1282: Text for AutoManaged changed to 'On/Off' and localized
 
 ==== WebUI ====
-    * #1194: Fix infinite login prompt in web ui through reverse proxy
-    * #1355: Fix slow changing states in webUI
+	* #1194: Fix infinite login prompt in web ui through reverse proxy
+	* #1355: Fix slow changing states in webUI
 	* #1536: Fix Edit Trackers window not scrolling and not being resizable
 
 ==== ConsoleUI ====
-    * #755:  Fix can't set listen_ports through console UI
-    * #1500: Fix Console crashes on command longer than terminal width
-    * #1248: Fix deluge-console unicode support on redirected stdout
-    * Fix for deluge-console not adding torrent files on MS Windows
-    * #1450: Fix trailing white space in paths
-    * Misc: Updated help text for deluge-console on MS Windows
-    * #1484: Fix trying to access the screen object when not using interactive mode
+	* #755:  Fix can't set listen_ports through console UI
+	* #1500: Fix Console crashes on command longer than terminal width
+	* #1248: Fix deluge-console unicode support on redirected stdout
+	* Fix for deluge-console not adding torrent files on MS Windows
+	* #1450: Fix trailing white space in paths
+	* Misc: Updated help text for deluge-console on MS Windows
+	* #1484: Fix trying to access the screen object when not using interactive mode
 
 ==== Scheduler ====
-    * #1506: Fix max speed not restored on a yellow->green transition
+	* #1506: Fix max speed not restored on a yellow->green transition
 
 === Deluge 1.3.1 (31 October 2010) ===
 ==== Core ====
