@@ -262,7 +262,6 @@ class AllTorrents(BaseMode, component.Component):
 
     # component start/update
     def start(self):
-        log.error("STARTING")
         component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,False)
 
     def update(self):

@@ -129,6 +129,7 @@ class Preferences(BaseMode):
 
         # create the panes
         self.prefs_width = self.cols-self.div_off-1
+        self.prefs_height = self.rows-4
         self.panes = [
             DownloadsPane(self.div_off+2, self, self.prefs_width),
             NetworkPane(self.div_off+2, self, self.prefs_width),

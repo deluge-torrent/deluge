@@ -93,6 +93,9 @@ class BasePane:
         self.inputs = []
         self.active_input = -1
         
+        # have we scrolled down in the list
+        self.input_offset = 0
+        
     def move(self,r,c):
         self._cursor_row = r
         self._cursor_col = c
@@ -134,12 +137,25 @@ class BasePane:
                 if not isinstance(ipt,NoInput):
                     self.active_input = i
                     break
+        drew_act = not active
         crow = 1
         for i,ipt in enumerate(self.inputs):
-            if ipt.depend_skip():
+            if ipt.depend_skip() or i<self.input_offset:
+                if active and i==self.active_input:
+                    self.input_offset-=1
+                    mode.refresh()
+                    return 0
                 continue
             act = active and i==self.active_input
+            if act: drew_act = True
             crow += ipt.render(screen,crow,width, act, self.offset)
+            if crow >= (mode.prefs_height):
+                break
+
+        if not drew_act:
+            self.input_offset+=1
+            mode.refresh()
+            return 0
 
         if active and self._cursor_row >= 0:
             curses.curs_set(2)
