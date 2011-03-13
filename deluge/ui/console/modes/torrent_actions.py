@@ -46,12 +46,15 @@ class ACTION:
     EDIT_TRACKERS=3
     RECHECK=4
     REMOVE=5
-    MOVE_STORAGE=9
-
     REMOVE_DATA=6
     REMOVE_NODATA=7
-
     DETAILS=8
+    MOVE_STORAGE=9
+    QUEUE=10
+    QUEUE_TOP=11
+    QUEUE_UP=12
+    QUEUE_DOWN=13
+    QUEUE_BOTTOM=14
 
 def action_error(error,mode):
     rerr = error.value
@@ -66,6 +69,30 @@ def torrent_action(idx, data, mode, ids):
         elif data==ACTION.RESUME:
             log.debug("Resuming torrents: %s", ids)
             client.core.resume_torrent(ids).addErrback(action_error,mode)
+        elif data==ACTION.QUEUE:
+            def do_queue(idx,qact,mode,ids):
+                if qact == ACTION.QUEUE_TOP:
+                    log.debug("Queuing torrents top")
+                    client.core.queue_top(ids)
+                elif qact == ACTION.QUEUE_UP:
+                    log.debug("Queuing torrents up")
+                    client.core.queue_up(ids)
+                elif qact == ACTION.QUEUE_DOWN:
+                    log.debug("Queuing torrents down")
+                    client.core.queue_down(ids)
+                elif qact == ACTION.QUEUE_BOTTOM:
+                    log.debug("Queuing torrents bottom")
+                    client.core.queue_bottom(ids)
+                if len(ids) == 1:
+                    mode.clear_marks()
+                return True
+            popup = SelectablePopup(mode,"Queue Action",do_queue,mode,ids)
+            popup.add_line("_Top",data=ACTION.QUEUE_TOP)
+            popup.add_line("_Up",data=ACTION.QUEUE_UP)
+            popup.add_line("_Down",data=ACTION.QUEUE_DOWN)
+            popup.add_line("_Bottom",data=ACTION.QUEUE_BOTTOM)
+            mode.set_popup(popup)
+            return False
         elif data==ACTION.REMOVE:
             def do_remove(idx,data,mode,ids):
                 if data:
@@ -120,6 +147,8 @@ def torrent_actions_popup(mode,tids,details=False):
     popup = SelectablePopup(mode,"Torrent Actions",torrent_action,mode,tids)
     popup.add_line("_Pause",data=ACTION.PAUSE)
     popup.add_line("_Resume",data=ACTION.RESUME)
+    popup.add_divider()
+    popup.add_line("Queue",data=ACTION.QUEUE)
     popup.add_divider()
     popup.add_line("_Update Tracker",data=ACTION.REANNOUNCE)
     popup.add_divider()
