@@ -78,7 +78,7 @@ class Popup:
         self.screen = curses.newwin(height_req,width_req,by,bx)
 
         self.title = title
-        self.__close_cb = close_cb
+        self.close_cb = close_cb
         self.height,self.width = self.screen.getmaxyx()
         self.divider = None
         self.lineoff = 0
@@ -130,13 +130,13 @@ class Popup:
                 self.lineoff += 1
 
         elif c == curses.KEY_ENTER or c == 10 or c == 27: # close on enter/esc
-            if self.__close_cb:
-                self.__close_cb()
+            if self.close_cb:
+                self.close_cb()
             return True # close the popup        
 
         if c > 31 and c < 256 and chr(c) == 'q':
-            if self.__close_cb:
-                self.__close_cb()
+            if self.close_cb:
+                self.close_cb()
             return True # close the popup
 
         self.refresh()

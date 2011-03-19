@@ -613,12 +613,12 @@ class InputPopup(Popup):
         elif c == curses.KEY_DOWN:
             self.current_input = min(len(self.inputs)-1,self.current_input+1)
         elif c == curses.KEY_ENTER or c == 10:
-            if self._close_cb:
+            if self.close_cb:
                 vals = {}
                 for ipt in self.inputs:
                     vals[ipt.name] = ipt.get_value()
                 curses.curs_set(0)
-                self._close_cb(vals)
+                self.close_cb(vals)
             return True # close the popup
         elif c == 27: # close on esc, no action
             return True
