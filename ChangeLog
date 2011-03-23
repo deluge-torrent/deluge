@@ -6,6 +6,7 @@
 	* Fix a bug that can occur when upgrading 1.1 config files
 	* #1517: Fix isohunt urls not loading
 	* Handle redirection when adding a torrent by url
+	* #1614: Fix autoadd matching a directory called "torrent"
 
 ==== GtkUI ====    
 	* #1514: Added Indicator Applet
