@@ -2069,6 +2069,26 @@ Disabled</property>
                                           </packing>
                                         </child>
                                         <child>
+                                          <widget class="GtkAlignment" id="alignment32">
+                                            <property name="visible">True</property>
+                                            <property name="left_padding">10</property>
+                                            <child>
+                                              <widget class="GtkCheckButton" id="chk_enable_appindicator">
+                                                <property name="label" translatable="yes">Enable Application Indicator</property>
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="use_underline">True</property>
+                                                <property name="draw_indicator">True</property>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
                                           <widget class="GtkAlignment" id="alignment17">
                                             <property name="visible">True</property>
                                             <property name="bottom_padding">3</property>
@@ -2088,7 +2108,7 @@ Disabled</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
-                                            <property name="position">3</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2131,7 +2151,7 @@ Disabled</property>
                                             </child>
                                           </widget>
                                           <packing>
-                                            <property name="position">4</property>
+                                            <property name="position">5</property>
                                           </packing>
                                         </child>
                                       </widget>

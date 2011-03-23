@@ -68,6 +68,10 @@ class SystemTray(component.Component):
         ]
         self.config.register_set_function("enable_system_tray",
                                           self.on_enable_system_tray_set)
+        # bit of a hack to prevent function from doing something on startup
+        self.__enabled_set_once = False
+        self.config.register_set_function("enable_appindicator",
+                                          self.on_enable_appindicator_set)
 
         self.max_download_speed = -1.0
         self.download_rate = 0.0
@@ -101,7 +105,7 @@ class SystemTray(component.Component):
 
         self.tray_menu = self.tray_glade.get_widget("tray_menu")
 
-        if appindicator:
+        if appindicator and self.config["enable_appindicator"]:
             log.debug("Enabling the Application Indicator..")
             self.indicator = appindicator.Indicator (
                 "deluge", "deluge", appindicator.CATEGORY_APPLICATION_STATUS)
@@ -160,7 +164,7 @@ class SystemTray(component.Component):
 
             # These do not work with appindicator currently and can crash Deluge.
             # Related to Launchpad bug #608219
-            if appindicator:
+            if appindicator and self.config["enable_appindicator"]:
                 self.hide_widget_list.remove("menuitem_download_limit")
                 self.hide_widget_list.remove("menuitem_upload_limit")
                 self.hide_widget_list.remove("separatormenuitem3")
@@ -198,7 +202,7 @@ class SystemTray(component.Component):
 
     def shutdown(self):
         if self.config["enable_system_tray"]:
-            if appindicator:
+            if appindicator and self.config["enable_appindicator"]:
                 self.indicator.set_status(appindicator.STATUS_PASSIVE)
             else:
                 self.tray.set_visible(False)
@@ -234,7 +238,7 @@ class SystemTray(component.Component):
             return
 
         # Tool tip text not available for appindicator
-        if appindicator:
+        if appindicator and self.config["enable_appindicator"]:
             return
 
         # Set the tool tip text
@@ -283,13 +287,17 @@ class SystemTray(component.Component):
         submenu_bwupset.show_all()
 
         # Re-set the menu to partly work around Launchpad bug #608219
-        if appindicator:
+        if appindicator and self.config["enable_appindicator"]:
             self.indicator.set_menu(self.tray_menu)
 
-    def disable(self):
+    def disable(self,invert_app_ind_conf=False):
         """Disables the system tray icon or appindicator."""
         try:
-            if appindicator:
+            if invert_app_ind_conf:
+                app_ind_conf = not self.config["enable_appindicator"]
+            else:
+                app_ind_conf = self.config["enable_appindicator"]
+            if appindicator and app_ind_conf:
                 if hasattr(self, "_sig_win_hide"):
                     self.window.window.disconnect(self._sig_win_hide)
                     self.window.window.disconnect(self._sig_win_show)
@@ -320,6 +328,13 @@ class SystemTray(component.Component):
             self.enable()
         else:
             self.disable()
+
+    def on_enable_appindicator_set(self, key, value):
+        """Called whenever the 'enable_appindicator' config key is modified"""
+        if self.__enabled_set_once:
+            self.disable(True)
+            self.enable()
+        self.__enabled_set_once = True
 
     def on_tray_clicked(self, icon):
         """Called when the tray icon is left clicked."""

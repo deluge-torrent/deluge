@@ -468,6 +468,8 @@ class Preferences(component.Component):
             self.gtkui_config["close_to_tray"])
         self.glade.get_widget("chk_start_in_tray").set_active(
             self.gtkui_config["start_in_tray"])
+        self.glade.get_widget("chk_enable_appindicator").set_active(
+            self.gtkui_config["enable_appindicator"])
         self.glade.get_widget("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
         self.glade.get_widget("chk_classic_mode").set_active(
@@ -634,6 +636,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_min_on_close").get_active()
         new_gtkui_config["start_in_tray"] = \
             self.glade.get_widget("chk_start_in_tray").get_active()
+        new_gtkui_config["enable_appindicator"] = \
+            self.glade.get_widget("chk_enable_appindicator").get_active()
         new_gtkui_config["lock_tray"] = \
             self.glade.get_widget("chk_lock_tray").get_active()
         passhex = sha_hash(\
@@ -779,6 +783,7 @@ class Preferences(component.Component):
                                               "spin_outgoing_port_max": False},
                 "chk_use_tray": {"chk_min_on_close": True,
                                  "chk_start_in_tray": True,
+                                 "chk_enable_appindicator": True,
                                  "chk_lock_tray": True},
                 "chk_lock_tray": {"txt_tray_password": True,
                                   "password_label": True},
