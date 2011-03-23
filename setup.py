@@ -67,6 +67,7 @@ _extra_compile_args = [
     "-D_FILE_OFFSET_BITS=64",
     "-DNDEBUG",
     "-DTORRENT_USE_OPENSSL=1",
+    "-DBOOST_FILESYSTEM_VERSION=2",
     "-O2",
     ]
 
