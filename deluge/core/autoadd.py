@@ -74,12 +74,12 @@ class AutoAdd(component.Component):
             return
 
         for filename in os.listdir(self.config["autoadd_location"]):
-            if filename.split(".")[-1] == "torrent":
-                try:
-                    filepath = os.path.join(self.config["autoadd_location"], filename)
-                except UnicodeDecodeError, e:
-                    log.error("Unable to auto add torrent due to inproper filename encoding: %s", e)
-                    continue
+            try:
+                filepath = os.path.join(self.config["autoadd_location"], filename)
+            except UnicodeDecodeError, e:
+                log.error("Unable to auto add torrent due to improper filename encoding: %s", e)
+                continue
+            if os.path.isfile(filepath) and filename.endswith(".torrent"):
                 try:
                     filedump = self.load_torrent(filepath)
                 except (RuntimeError, Exception), e:
