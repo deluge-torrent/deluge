@@ -463,6 +463,7 @@ setup(
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
                                 "data/pixmaps/*.ico",
+                                "data/pixmaps/*.gif",
                                 "data/pixmaps/flags/*.png",
                                 "plugins/*.egg",
                                 "i18n/*.pot",
