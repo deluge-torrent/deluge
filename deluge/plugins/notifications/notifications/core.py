@@ -38,7 +38,7 @@
 #
 
 import smtplib
-from datetime import datetime
+from email.utils import formatdate
 from twisted.internet import defer, threads
 from deluge import component
 from deluge.event import known_events
@@ -125,7 +125,8 @@ Date: %(date)s
 """ % {'smtp_from': self.config['smtp_from'],
        'subject': subject,
        'smtp_recipients': to_addrs,
-       'date': datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S +0000').strip()}
+       'date': formatdate()
+      }
 
         message = '\r\n'.join((headers + message).splitlines())
 
