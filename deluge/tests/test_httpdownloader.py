@@ -13,8 +13,8 @@ from deluge.ui.web.common import compress
 
 from email.utils import formatdate
 
-def rpath(*paths):
-    return os.path.join(os.path.dirname(__file__), *paths)
+import common
+rpath = common.rpath
 
 class TestRedirectResource(Resource):
         
@@ -26,7 +26,7 @@ class TestRenameResource(Resource):
     def render(self, request):
         filename = request.args.get("filename", ["renamed_file"])[0]
         request.setHeader("Content-Type", "text/plain")
-        request.setHeader("Content-Disposition", "attachment; filename=" +
+        request.setHeader("Content-Disposition", "attachment; filename="
             filename)
         return "This file should be called " + filename
 

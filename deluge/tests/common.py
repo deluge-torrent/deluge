@@ -1,3 +1,5 @@
+import os
+
 import tempfile
 
 import deluge.configmanager
@@ -9,6 +11,9 @@ def set_tmp_config_dir():
     config_directory = tempfile.mkdtemp()
     deluge.configmanager.set_config_dir(config_directory)
     return config_directory
+
+def rpath(*args):
+    return os.path.join(os.path.dirname(__file__), *args)
 
 import gettext
 import locale
