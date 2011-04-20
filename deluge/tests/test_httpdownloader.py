@@ -17,7 +17,7 @@ import common
 rpath = common.rpath
 
 class TestRedirectResource(Resource):
-        
+
     def render(self, request):
         request.redirect("http://localhost:51242/")
 
@@ -26,7 +26,7 @@ class TestRenameResource(Resource):
     def render(self, request):
         filename = request.args.get("filename", ["renamed_file"])[0]
         request.setHeader("Content-Type", "text/plain")
-        request.setHeader("Content-Disposition", "attachment; filename="
+        request.setHeader("Content-Disposition", "attachment; filename=" +
             filename)
         return "This file should be called " + filename
 
@@ -107,14 +107,14 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_without_required_cookies(self):
-        url = "http://localhost:51242/cookie" 
+        url = "http://localhost:51242/cookie"
         d = download_file(url, "none")
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
         return d
 
     def test_download_with_required_cookies(self):
-        url = "http://localhost:51242/cookie" 
+        url = "http://localhost:51242/cookie"
         cookie = { "cookie" : "password=deluge" }
         d = download_file(url, "monster", headers=cookie)
         d.addCallback(self.assertEqual, "monster")
@@ -150,13 +150,13 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_gzip_encoding(self):
-        url = "http://localhost:51242/gzip?msg=success" 
+        url = "http://localhost:51242/gzip?msg=success"
         d = download_file(url, "gzip_encoded")
         d.addCallback(self.assertContains, "success")
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
-        url = "http://localhost:51242/gzip?msg=fail" 
+        url = "http://localhost:51242/gzip?msg=fail"
         d = download_file(url, "gzip_encoded", allow_compression=False)
         d.addCallback(self.failIfContains, "fail")
         return d
