@@ -245,6 +245,7 @@ class TorrentView(listview.ListView, component.Component):
         self.add_text_column(_("Save Path"), status_field=["save_path"])
         self.add_text_column(_("Owner"), status_field=["owner"])
         self.add_bool_column(_("Public"), status_field=["public"])
+        self.restore_columns_order_from_state()
 
         # Set filter to None for now
         self.filter = None
@@ -264,6 +265,7 @@ class TorrentView(listview.ListView, component.Component):
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
         self.treeview.connect("key-press-event", self.on_key_press_event)
+        self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
@@ -520,6 +522,10 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
+
+    def on_columns_changed_event(self, treeview):
+        log.debug("Treeview Columns Changed")
+        self.save_state()
 
     def on_torrentadded_event(self, torrent_id, from_state):
         self.add_row(torrent_id)

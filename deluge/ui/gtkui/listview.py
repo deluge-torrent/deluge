@@ -607,3 +607,21 @@ class ListView:
     def on_keypress_search_by_name(self, model, columnn, key, iter):
         TORRENT_NAME_COL = 5
         return not model[iter][TORRENT_NAME_COL].lower().startswith(key.lower())
+
+    def restore_columns_order_from_state(self):
+        columns = self.treeview.get_columns()
+        def find_column(header):
+            for column in columns:
+                if column.get_title() == header:
+                    return column
+
+        for col_state in self.state:
+            column_at_position = columns[col_state.position]
+            if col_state.name == column_at_position.get_title():
+                # It's in the right position
+                continue
+            column = find_column(col_state.name)
+            self.treeview.move_column_after(column, column_at_position)
+            # Get columns again to keep reordering since positions have changed
+            columns = self.treeview.get_columns()
+        self.create_new_liststore()
