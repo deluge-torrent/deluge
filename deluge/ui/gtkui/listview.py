@@ -630,3 +630,45 @@ class ListView:
     def on_keypress_search_by_name(self, model, columnn, key, iter):
         TORRENT_NAME_COL = 5
         return not model[iter][TORRENT_NAME_COL].lower().startswith(key.lower())
+
+    def restore_columns_order_from_state(self):
+        if self.state is None:
+            # No state file exists, so, no reordering can be done
+            return
+        columns = self.treeview.get_columns()
+        def find_column(header):
+            for column in columns:
+                if column.get_title() == header:
+                    return column
+
+        restored_columns = []
+        for col_state in self.state:
+            if col_state.name in restored_columns:
+                # Duplicate column in state!?!?!?
+                continue
+            elif not col_state.visible:
+                # Column is not visible, no need to reposition
+                continue
+
+            try:
+                column_at_position = columns[col_state.position]
+            except IndexError:
+                # Extra columns in loaded state, likely from plugins, so just skip them.
+                continue
+            if col_state.name == column_at_position.get_title():
+                # It's in the right position
+                continue
+            column = find_column(col_state.name)
+            if not column:
+                log.debug("Could not find column matching \"%s\" on state." %
+                          col_state.name)
+                # The cases where I've found that the column could not be found
+                # is when not using the english locale, ie, the default one, or
+                # when changing locales between runs.
+                # On the next load, all should be fine
+                continue
+            self.treeview.move_column_after(column, column_at_position)
+            # Get columns again to keep reordering since positions have changed
+            columns = self.treeview.get_columns()
+            restored_columns.append(col_state.name)
+        self.create_new_liststore()
