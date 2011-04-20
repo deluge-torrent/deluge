@@ -42,7 +42,7 @@ try:
 except ImportError:
     pass
 
-import logging,os.path
+import logging,os,os.path
 
 from popup import Popup
 
@@ -476,7 +476,8 @@ class TextInput(InputField):
                             self.cursor = len(prefix)
 
                     if len(opts) > 1 and second_hit: # display multiple options on second tab hit
-                        self.opts = "  ".join(opts)
+                        sp = self.value.rfind(os.sep)+1
+                        self.opts = "  ".join([o[sp:] for o in opts])
 
         # Cursor movement
         elif c == curses.KEY_LEFT:
@@ -519,6 +520,7 @@ class TextInput(InputField):
                     self.value = self.value[:self.cursor] + uchar + self.value[self.cursor:]
                 # Move the cursor forward
                 self.cursor+=1
+        
 
     def complete(self,line):
         line = os.path.abspath(os.path.expanduser(line))
@@ -534,7 +536,7 @@ class TextInput(InputField):
                         continue
                     f = os.path.join(line, f)
                     if os.path.isdir(f):
-                        f += "/"
+                        f += os.sep
                     ret.append(f)
             else:
                 # This is a file, but we could be looking for another file that
@@ -552,9 +554,8 @@ class TextInput(InputField):
                         p = os.path.join(os.path.dirname(line), f)
 
                         if os.path.isdir(p):
-                            p += "/"
+                            p += os.sep
                         ret.append(p)
-
         return ret
 
 

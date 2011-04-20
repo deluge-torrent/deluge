@@ -38,6 +38,7 @@
 #
 
 import smtplib
+from email.utils import formatdate
 from twisted.internet import defer, threads
 from deluge import component
 from deluge.event import known_events
@@ -118,11 +119,14 @@ class CoreNotifications(CustomNotifications):
 From: %(smtp_from)s
 To: %(smtp_recipients)s
 Subject: %(subject)s
+Date: %(date)s
 
 
 """ % {'smtp_from': self.config['smtp_from'],
        'subject': subject,
-       'smtp_recipients': to_addrs}
+       'smtp_recipients': to_addrs,
+       'date': formatdate()
+      }
 
         message = '\r\n'.join((headers + message).splitlines())
 
