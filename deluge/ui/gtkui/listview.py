@@ -609,6 +609,9 @@ class ListView:
         return not model[iter][TORRENT_NAME_COL].lower().startswith(key.lower())
 
     def restore_columns_order_from_state(self):
+        if self.state is None:
+            # No state file exists, so, no reordering can be done
+            return
         columns = self.treeview.get_columns()
         def find_column(header):
             for column in columns:
@@ -629,6 +632,14 @@ class ListView:
                 # It's in the right position
                 continue
             column = find_column(col_state.name)
+            if not column:
+                log.debug("Could not find column matching \"%s\" on state." %
+                          col_state.name)
+                # The cases where I've found that the column could not be found
+                # is when not using the english locale, ie, the default one, or
+                # when changing locales between runs.
+                # On the next load, all should be fine
+                continue
             self.treeview.move_column_after(column, column_at_position)
             # Get columns again to keep reordering since positions have changed
             columns = self.treeview.get_columns()
