@@ -615,7 +615,15 @@ class ListView:
                 if column.get_title() == header:
                     return column
 
+        restored_columns = []
         for col_state in self.state:
+            if col_state.name in restored_columns:
+                # Duplicate column in state!?!?!?
+                continue
+            elif not col_state.visible:
+                # Column is not visible, no need to reposition
+                continue
+
             column_at_position = columns[col_state.position]
             if col_state.name == column_at_position.get_title():
                 # It's in the right position
@@ -624,4 +632,5 @@ class ListView:
             self.treeview.move_column_after(column, column_at_position)
             # Get columns again to keep reordering since positions have changed
             columns = self.treeview.get_columns()
+            restored_columns.append(col_state.name)
         self.create_new_liststore()
