@@ -485,6 +485,12 @@ class RPCServer(component.Component):
         """
         return session_id in self.factory.authorized_sessions
 
+    def logout_current_session(self):
+        """
+        Makes the current session invalid logging out the current account
+        """
+        self.factory.protocol.connectionLost("Server logged out client")
+
     def emit_event(self, event):
         """
         Emits the event to interested clients.

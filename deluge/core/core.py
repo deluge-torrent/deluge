@@ -55,7 +55,7 @@ import deluge.common
 import deluge.component as component
 from deluge.event import *
 from deluge.error import *
-from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
@@ -829,6 +829,9 @@ class Core(component.Component):
         """
         return lt.version
 
-    @export(AUTH_LEVEL_ADMIN)
+    @export(AUTH_LEVEL_DEFAULT)
     def get_known_accounts(self):
-        return self.authmanager.get_known_accounts()
+        auth_level = component.get("RPCServer").get_session_auth_level()
+        return self.authmanager.get_known_accounts(
+            include_private_data=(auth_level==AUTH_LEVEL_ADMIN)
+        )
