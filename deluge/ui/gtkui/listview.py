@@ -627,7 +627,13 @@ class ListView:
                 # Column is not visible, no need to reposition
                 continue
 
-            column_at_position = columns[col_state.position]
+            try:
+                column_at_position = columns[col_state.position]
+            except IndexError:
+                # While updating the multiuser branch, which adds a new column
+                # an IndexError was raised, just continue processing, once
+                # deluge is restarted, it all should be good
+                continue
             if col_state.name == column_at_position.get_title():
                 # It's in the right position
                 continue
