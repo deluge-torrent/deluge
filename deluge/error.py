@@ -2,6 +2,7 @@
 # error.py
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -52,10 +53,9 @@ class InvalidPathError(DelugeError):
 class NotAuthorizedError(DelugeError):
     pass
 
-class BadLoginError(DelugeError):
-    pass
 
-class AuthenticationRequired(BadLoginError):
+class _UsernameBasedException(DelugeError):
+
     def _get_message(self):
         return self._message
     def _set_message(self, message):
@@ -70,9 +70,17 @@ class AuthenticationRequired(BadLoginError):
     username = property(_get_username, _set_username)
     del _get_username, _set_username
 
-
     def __init__(self, message, username):
-        super(AuthenticationRequired, self).__init__(message)
+        super(_UsernameBasedException, self).__init__(message)
         self.message = message
         self.username = username
 
+
+class BadLoginError(_UsernameBasedException):
+    pass
+
+class AuthenticationRequired(BadLoginError):
+    pass
+
+class AuthManagerError(_UsernameBasedException):
+    pass

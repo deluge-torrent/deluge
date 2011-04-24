@@ -2,6 +2,7 @@
 # menubar.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -212,7 +213,9 @@ class MenuBar(component.Component):
         self.menuitem_change_owner.set_visible(False)
 
         # Get Known accounts to allow chaning ownership
-        client.core.get_known_accounts().addCallback(self._on_known_accounts)
+        client.core.get_known_accounts().addCallback(
+            self._on_known_accounts).addErrback(self._on_known_accounts_fail
+        )
 
     def stop(self):
         log.debug("MenuBar stopping")
@@ -354,9 +357,9 @@ class MenuBar(component.Component):
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
-        glade = gtk.glade.XML(
-                pkg_resources.resource_filename("deluge.ui.gtkui",
-                                                "glade/move_storage_dialog.glade"))
+        glade = gtk.glade.XML(pkg_resources.resource_filename(
+            "deluge.ui.gtkui", "glade/move_storage_dialog.glade"
+        ))
         dialog = glade.get_widget("move_storage_dialog")
         dialog.set_transient_for(self.window.window)
         entry = glade.get_widget("entry_destination")
@@ -439,10 +442,21 @@ class MenuBar(component.Component):
         }
         # widget: (header, type_str, image_stockid, image_filename, default)
         other_dialog_info = {
-            "menuitem_down_speed": (_("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", -1.0),
-            "menuitem_up_speed": (_("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", -1.0),
-            "menuitem_max_connections": (_("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1),
-            "menuitem_upload_slots": (_("Set Maximum Upload Slots"), "", gtk.STOCK_SORT_ASCENDING, None, -1)
+            "menuitem_down_speed": (
+                _("Set Maximum Download Speed"),
+                "KiB/s", None, "downloading.svg", -1.0
+            ),
+            "menuitem_up_speed": (
+                _("Set Maximum Upload Speed"),
+                "KiB/s", None, "seeding.svg", -1.0
+            ),
+            "menuitem_max_connections": (
+                _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1
+            ),
+            "menuitem_upload_slots": (
+                _("Set Maximum Upload Slots"),
+                "", gtk.STOCK_SORT_ASCENDING, None, -1
+            )
         }
 
         # Show the other dialog
@@ -483,7 +497,15 @@ class MenuBar(component.Component):
             getattr(self.window.main_glade.get_widget(item), attr)()
 
     def _on_known_accounts(self, known_accounts):
-        log.debug("_on_known_accounts: %s", known_accounts)
+        known_accounts_to_log = []
+        for account in known_accounts:
+            account_to_log = {}
+            for key, value in account.copy().iteritems():
+                if key == 'password':
+                    value = '*' * len(value)
+                account_to_log[key] = value
+            known_accounts_to_log.append(account_to_log)
+        log.debug("_on_known_accounts: %s", known_accounts_to_log)
         if len(known_accounts) <= 1:
             return
 
@@ -496,14 +518,18 @@ class MenuBar(component.Component):
         self.change_owner_submenu_items[None] = gtk.RadioMenuItem(maingroup)
 
         for account in known_accounts:
-            self.change_owner_submenu_items[account] = item = gtk.RadioMenuItem(maingroup, account)
+            username = account["username"]
+            item = gtk.RadioMenuItem(maingroup, username)
+            self.change_owner_submenu_items[username] = item
             self.change_owner_submenu.append(item)
-            item.connect("toggled", self._on_change_owner_toggled, account)
+            item.connect("toggled", self._on_change_owner_toggled, username)
 
         self.change_owner_submenu.show_all()
         self.change_owner_submenu_items[None].set_active(True)
         self.change_owner_submenu_items[None].hide()
-        self.menuitem_change_owner.connect("activate", self._on_change_owner_submenu_active)
+        self.menuitem_change_owner.connect(
+            "activate", self._on_change_owner_submenu_active
+        )
         self.menuitem_change_owner.set_submenu(self.change_owner_submenu)
 
     def _on_known_accounts_fail(self, reason):
@@ -517,18 +543,18 @@ class MenuBar(component.Component):
             return
 
         torrent_owner = component.get("TorrentView").get_torrent_status(selected[0])["owner"]
-        for account, item in self.change_owner_submenu_items.iteritems():
-            item.set_active(account == torrent_owner)
+        for username, item in self.change_owner_submenu_items.iteritems():
+            item.set_active(username == torrent_owner)
 
-    def _on_change_owner_toggled(self, widget, account):
+    def _on_change_owner_toggled(self, widget, username):
         log.debug("_on_change_owner_toggled")
         update_torrents = []
         selected = component.get("TorrentView").get_selected_torrents()
         for torrent_id in selected:
             torrent_status = component.get("TorrentView").get_torrent_status(torrent_id)
-            if torrent_status["owner"] != account:
+            if torrent_status["owner"] != username:
                 update_torrents.append(torrent_id)
         if update_torrents:
-            log.debug("Setting torrent owner \"%s\" on %s", account, update_torrents)
-            client.core.set_torrents_owner(update_torrents, account)
+            log.debug("Setting torrent owner \"%s\" on %s", username, update_torrents)
+            client.core.set_torrents_owner(update_torrents, username)
 

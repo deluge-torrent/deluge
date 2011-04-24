@@ -2,6 +2,7 @@
 # preferences.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -46,10 +47,13 @@ from deluge.ui.client import client
 import deluge.common
 import deluge.error
 import common
+import dialogs
 from deluge.configmanager import ConfigManager
 import deluge.configmanager
 
 log = logging.getLogger(__name__)
+
+ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD = range(3)
 
 class Preferences(component.Component):
     def __init__(self):
@@ -81,6 +85,35 @@ class Preferences(component.Component):
             self.liststore.append([i, category])
             i += 1
 
+        # Setup accounts tab lisview
+        self.accounts_levels_mapping = None
+        self.accounts_authlevel = self.glade.get_widget("accounts_authlevel")
+        self.accounts_liststore = gtk.ListStore(str, str, str, int)
+        self.accounts_liststore.set_sort_column_id(ACCOUNTS_USERNAME,
+                                                   gtk.SORT_ASCENDING)
+        self.accounts_listview = self.glade.get_widget("accounts_listview")
+        self.accounts_listview.append_column(
+            gtk.TreeViewColumn(
+                _("Username"), gtk.CellRendererText(), text=ACCOUNTS_USERNAME
+            )
+        )
+        self.accounts_listview.append_column(
+            gtk.TreeViewColumn(
+                _("Level"), gtk.CellRendererText(), text=ACCOUNTS_LEVEL
+            )
+        )
+        password_column = gtk.TreeViewColumn(
+            'password', gtk.CellRendererText(), text=ACCOUNTS_PASSWORD
+        )
+        self.accounts_listview.append_column(password_column)
+        password_column.set_visible(False)
+        self.accounts_listview.set_model(self.accounts_liststore)
+
+        self.accounts_listview.get_selection().connect(
+            "changed", self._on_accounts_selection_changed
+        )
+        self.accounts_frame = self.glade.get_widget("AccountsFrame")
+
         # Setup plugin tab listview
         self.plugin_liststore = gtk.ListStore(str, bool)
         self.plugin_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
@@ -96,11 +129,13 @@ class Preferences(component.Component):
 
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
-        self.treeview.get_selection().connect("changed",
-                                    self.on_selection_changed)
+        self.treeview.get_selection().connect(
+            "changed", self.on_selection_changed
+        )
 
-        self.plugin_listview.get_selection().connect("changed",
-            self.on_plugin_selection_changed)
+        self.plugin_listview.get_selection().connect(
+            "changed", self.on_plugin_selection_changed
+        )
 
         self.glade.signal_autoconnect({
             "on_pref_dialog_delete_event": self.on_pref_dialog_delete_event,
@@ -114,7 +149,10 @@ class Preferences(component.Component):
             "on_button_find_plugins_clicked": self._on_button_find_plugins_clicked,
             "on_button_cache_refresh_clicked": self._on_button_cache_refresh_clicked,
             "on_combo_proxy_type_changed": self._on_combo_proxy_type_changed,
-            "on_button_associate_magnet_clicked": self._on_button_associate_magnet_clicked
+            "on_button_associate_magnet_clicked": self._on_button_associate_magnet_clicked,
+            "on_accounts_add_clicked": self._on_accounts_add_clicked,
+            "on_accounts_delete_clicked": self._on_accounts_delete_clicked,
+            "on_accounts_edit_clicked": self._on_accounts_edit_clicked
         })
 
         # These get updated by requests done to the core
@@ -191,9 +229,12 @@ class Preferences(component.Component):
 
         component.get("PluginManager").run_on_show_prefs()
 
+
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         if client.connected():
+            self._get_accounts_tab_data()
+
             def _on_get_config(config):
                 self.core_config = config
                 client.core.get_available_plugins().addCallback(_on_get_available_plugins)
@@ -832,6 +873,9 @@ class Preferences(component.Component):
         # Show the correct notebook page based on what row is selected.
         (model, row) = treeselection.get_selected()
         try:
+            if model.get_value(row, 1) == _("Daemon"):
+                # Let's see update the accounts related stuff
+                self._get_accounts_tab_data()
             self.notebook.set_current_page(model.get_value(row, 0))
         except TypeError:
             pass
@@ -961,3 +1005,169 @@ class Preferences(component.Component):
 
     def _on_button_associate_magnet_clicked(self, widget):
         common.associate_magnet_links(True)
+
+
+    def _get_accounts_tab_data(self):
+        def on_ok(accounts):
+            self.accounts_frame.show()
+            self._on_get_known_accounts(accounts)
+
+        def on_fail(failure):
+            if failure.value.exception_type == 'NotAuthorizedError':
+                self.accounts_frame.hide()
+            else:
+                dialogs.ErrorDialog(
+                    _("Server Side Error"),
+                    _("An error ocurred on the server"),
+                    self.pref_dialog, details=failure.value.logable()
+                ).run()
+        client.core.get_known_accounts().addCallback(on_ok).addErrback(on_fail)
+
+    def _on_get_known_accounts(self, known_accounts):
+        known_accounts_to_log = []
+        for account in known_accounts:
+            account_to_log = {}
+            for key, value in account.copy().iteritems():
+                if key == 'password':
+                    value = '*' * len(value)
+                account_to_log[key] = value
+            known_accounts_to_log.append(account_to_log)
+        log.debug("_on_known_accounts: %s", known_accounts_to_log)
+
+        self.accounts_liststore.clear()
+
+        for account in known_accounts:
+            iter = self.accounts_liststore.append()
+            self.accounts_liststore.set_value(
+                iter, ACCOUNTS_USERNAME, account['username']
+            )
+            self.accounts_liststore.set_value(
+                iter, ACCOUNTS_LEVEL, account['authlevel']
+            )
+            self.accounts_liststore.set_value(
+                iter, ACCOUNTS_PASSWORD, account['password']
+            )
+
+    def _on_accounts_selection_changed(self, treeselection):
+        log.debug("_on_accounts_selection_changed")
+        (model, itr) = treeselection.get_selected()
+        if not itr:
+            return
+        username = model[itr][0]
+        if username:
+            self.glade.get_widget("accounts_edit").set_sensitive(True)
+            self.glade.get_widget("accounts_delete").set_sensitive(True)
+        else:
+            self.glade.get_widget("accounts_edit").set_sensitive(False)
+            self.glade.get_widget("accounts_delete").set_sensitive(False)
+
+    def _on_accounts_add_clicked(self, widget):
+        dialog = dialogs.AccountDialog(
+            levels_mapping=client.auth_levels_mapping,
+            parent=self.pref_dialog
+        )
+
+        def dialog_finished(response_id):
+            username = dialog.get_username()
+            password = dialog.get_password()
+            authlevel = dialog.get_authlevel()
+
+            def add_ok(rv):
+                iter = self.accounts_liststore.append()
+                self.accounts_liststore.set_value(
+                    iter, ACCOUNTS_USERNAME, username
+                )
+                self.accounts_liststore.set_value(
+                    iter, ACCOUNTS_LEVEL, authlevel
+                )
+                self.accounts_liststore.set_value(
+                    iter, ACCOUNTS_PASSWORD, password
+                )
+
+            def add_fail(failure):
+                if failure.value.exception_type == 'AuthManagerError':
+                    dialogs.ErrorDialog(
+                        _("Error Adding Account"),
+                        failure.value.exception_msg
+                    ).run()
+                else:
+                    dialogs.ErrorDialog(
+                        _("Error Adding Account"),
+                        _("An error ocurred while adding account"),
+                          self.pref_dialog, details=failure.value.logable()
+                    ).run()
+
+            if response_id == gtk.RESPONSE_OK:
+                client.core.create_account(
+                    username, password, authlevel
+                ).addCallback(add_ok).addErrback(add_fail)
+
+        dialog.run().addCallback(dialog_finished)
+
+    def _on_accounts_edit_clicked(self, widget):
+        (model, itr) = self.accounts_listview.get_selection().get_selected()
+        if not itr:
+            return
+
+        dialog = dialogs.AccountDialog(
+            model[itr][ACCOUNTS_USERNAME],
+            model[itr][ACCOUNTS_PASSWORD],
+            model[itr][ACCOUNTS_LEVEL],
+            levels_mapping=client.auth_levels_mapping,
+            parent=self.pref_dialog
+        )
+
+        def dialog_finished(response_id):
+
+            def update_ok(rc):
+                model.set_value(itr, ACCOUNTS_PASSWORD, dialog.get_username())
+                model.set_value(itr, ACCOUNTS_LEVEL, dialog.get_authlevel())
+
+            def update_fail(failure):
+                dialogs.ErrorDialog(
+                    _("Error Updating Account"),
+                    _("An error ocurred while updating account"),
+                      self.pref_dialog, details=failure.value.logable()
+                ).run()
+
+            if response_id == gtk.RESPONSE_OK:
+                client.core.update_account(
+                    dialog.get_username(),
+                    dialog.get_password(),
+                    dialog.get_authlevel()
+                ).addCallback(update_ok).addErrback(update_fail)
+
+        dialog.run().addCallback(dialog_finished)
+
+    def _on_accounts_delete_clicked(self, widget):
+        (model, itr) = self.accounts_listview.get_selection().get_selected()
+        if not itr:
+            return
+
+        username = model[itr][0]
+        header = _("Remove Account")
+        text = _("Are you sure you wan't do remove the account with the "
+                 "username \"%(username)s\"?" % dict(username=username))
+        dialog = dialogs.YesNoDialog(header, text, parent=self.pref_dialog)
+
+        def dialog_finished(response_id):
+            def remove_ok(rc):
+                model.remove(itr)
+
+            def remove_fail(failure):
+                if failure.value.exception_type == 'AuthManagerError':
+                    dialogs.ErrorDialog(
+                        _("Error Removing Account"),
+                        failure.value.exception_msg
+                    ).run()
+                else:
+                    dialogs.ErrorDialog(
+                        _("Error Removing Account"),
+                        _("An error ocurred while removing account"),
+                          self.pref_dialog, details=failure.value.logable()
+                    ).run()
+            if response_id == gtk.RESPONSE_YES:
+                client.core.remove_account(
+                    username
+                ).addCallback(remove_ok).addErrback(remove_fail)
+        dialog.run().addCallback(dialog_finished)

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -11,13 +11,11 @@
     <property name="default_height">530</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <signal name="delete_event" handler="on_pref_dialog_delete_event"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkHPaned" id="hpaned1">
@@ -50,7 +48,7 @@
                 <property name="show_tabs">False</property>
                 <property name="scrollable">True</property>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow1">
+                  <widget class="GtkScrolledWindow" id="DownloadsScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -66,7 +64,6 @@
                           <widget class="GtkVBox" id="vbox1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label21">
                                 <property name="visible">True</property>
@@ -294,7 +291,7 @@
                                                   <widget class="GtkEntry" id="entry_torrents_path">
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
+                                                    <property name="invisible_char">●</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="position">1</property>
@@ -501,7 +498,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow2">
+                  <widget class="GtkScrolledWindow" id="NetworkScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -517,7 +514,6 @@
                           <widget class="GtkVBox" id="vbox2">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label22">
                                 <property name="visible">True</property>
@@ -557,7 +553,6 @@
                                     <child>
                                       <widget class="GtkVBox" id="vbox3">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox2">
                                             <property name="visible">True</property>
@@ -755,7 +750,6 @@
                                     <child>
                                       <widget class="GtkVBox" id="vbox25">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <property name="spacing">5</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="chk_random_outgoing_ports">
@@ -880,7 +874,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">Enter the IP address of the interface to listen for incoming bittorrent connections on.  Leave this empty if you want to use the default.</property>
                                             <property name="max_length">60</property>
-                                            <property name="invisible_char">&#x25CF;</property>
+                                            <property name="invisible_char">●</property>
                                             <property name="width_chars">30</property>
                                           </widget>
                                           <packing>
@@ -927,7 +921,6 @@
                                     <child>
                                       <widget class="GtkVBox" id="vbox4">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox4">
                                             <property name="visible">True</property>
@@ -1127,7 +1120,6 @@
                                           <widget class="GtkVBox" id="vbox10">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="orientation">vertical</property>
                                             <child>
                                               <widget class="GtkLabel" id="label7">
                                                 <property name="visible">True</property>
@@ -1159,7 +1151,6 @@
                                           <widget class="GtkVBox" id="vbox12">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="orientation">vertical</property>
                                             <child>
                                               <widget class="GtkComboBox" id="combo_encin">
                                                 <property name="visible">True</property>
@@ -1193,7 +1184,6 @@ Either</property>
                                           <widget class="GtkVBox" id="vbox15">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="orientation">vertical</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox15">
                                                 <property name="visible">True</property>
@@ -1291,7 +1281,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow3">
+                  <widget class="GtkScrolledWindow" id="BandwidthScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -1307,7 +1297,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox7">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label23">
                                 <property name="visible">True</property>
@@ -1347,7 +1336,6 @@ Disabled</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox21">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <property name="spacing">5</property>
                                         <child>
                                           <widget class="GtkTable" id="table1">
@@ -1361,7 +1349,7 @@ Disabled</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 0</property>
+                                                <property name="adjustment">0 -1 9999 1 10 0</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
@@ -1377,7 +1365,7 @@ Disabled</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 0</property>
+                                                <property name="adjustment">0 -1 9999 1 10 0</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
@@ -1456,7 +1444,7 @@ Disabled</property>
                                                 <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
                                                 <property name="max_length">4</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                                <property name="adjustment">0 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1488,7 +1476,7 @@ Disabled</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                 <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 60000 1 10 0</property>
+                                                <property name="adjustment">0 -1 60000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1507,7 +1495,7 @@ Disabled</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 60000 1 10 0</property>
+                                                <property name="adjustment">0 -1 60000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="digits">1</property>
                                                 <property name="numeric">True</property>
@@ -1526,7 +1514,7 @@ Disabled</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                                <property name="adjustment">0 -1 9000 1 10 0</property>
                                                 <property name="climb_rate">1</property>
                                                 <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
@@ -1631,7 +1619,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                            <property name="adjustment">0 -1 9000 1 10 0</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
@@ -1650,7 +1638,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                            <property name="adjustment">0 -1 9000 1 10 0</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1716,7 +1704,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                            <property name="adjustment">0 -1 9000 1 10 0</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1734,7 +1722,7 @@ Disabled</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 0</property>
+                                            <property name="adjustment">0 -1 9000 1 10 0</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </widget>
@@ -1790,7 +1778,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow4">
+                  <widget class="GtkScrolledWindow" id="InterfaceScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -1806,7 +1794,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox8">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label25">
                                 <property name="visible">True</property>
@@ -1892,7 +1879,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox27">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="chk_show_rate_in_title">
                                             <property name="label" translatable="yes">Show session speed in titlebar</property>
@@ -1943,7 +1929,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox5">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="chk_show_dialog">
                                             <property name="label" translatable="yes">Always show</property>
@@ -2013,7 +1998,6 @@ Disabled</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox17">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="chk_use_tray">
                                             <property name="label" translatable="yes">Enable system tray icon</property>
@@ -2196,7 +2180,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow7">
+                  <widget class="GtkScrolledWindow" id="OtherScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -2212,7 +2196,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox16">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label40">
                                 <property name="visible">True</property>
@@ -2254,7 +2237,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox18">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkAlignment" id="alignment36">
                                             <property name="visible">True</property>
@@ -2316,7 +2298,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox19">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkLabel" id="label44">
                                             <property name="visible">True</property>
@@ -2392,7 +2373,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox29">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkAlignment" id="alignment50">
                                             <property name="visible">True</property>
@@ -2417,7 +2397,7 @@ Disabled</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="tooltip" translatable="yes">If Deluge cannot find the database file at this location it will fallback to using DNS to resolve the peer's country.</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
+                                                    <property name="invisible_char">●</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="position">1</property>
@@ -2530,7 +2510,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow6">
+                  <widget class="GtkScrolledWindow" id="DaemonScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -2546,7 +2526,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox13">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label34">
                                 <property name="visible">True</property>
@@ -2588,7 +2567,6 @@ Disabled</property>
                                       <widget class="GtkVBox" id="vbox14">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox12">
                                             <property name="visible">True</property>
@@ -2736,6 +2714,111 @@ Disabled</property>
                                 <property name="position">4</property>
                               </packing>
                             </child>
+                            <child>
+                              <widget class="GtkFrame" id="AccountsFrame">
+                                <property name="visible">True</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">none</property>
+                                <child>
+                                  <widget class="GtkAlignment" id="alignment33">
+                                    <property name="visible">True</property>
+                                    <property name="left_padding">12</property>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox22">
+                                        <property name="visible">True</property>
+                                        <child>
+                                          <widget class="GtkTreeView" id="accounts_listview">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkVButtonBox" id="vbuttonbox1">
+                                            <property name="visible">True</property>
+                                            <property name="spacing">5</property>
+                                            <property name="homogeneous">True</property>
+                                            <property name="layout_style">start</property>
+                                            <child>
+                                              <widget class="GtkButton" id="accounts_add">
+                                                <property name="label">gtk-add</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="use_stock">True</property>
+                                                <signal name="clicked" handler="on_accounts_add_clicked"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="accounts_edit">
+                                                <property name="label">gtk-edit</property>
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="use_stock">True</property>
+                                                <signal name="clicked" handler="on_accounts_edit_clicked"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="accounts_delete">
+                                                <property name="label">gtk-delete</property>
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="use_stock">True</property>
+                                                <signal name="clicked" handler="on_accounts_delete_clicked"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="padding">4</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label61">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="xalign">0</property>
+                                    <property name="xpad">10</property>
+                                    <property name="ypad">10</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;Accounts&lt;/b&gt;</property>
+                                    <property name="use_markup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">5</property>
+                              </packing>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -2757,7 +2840,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow8">
+                  <widget class="GtkScrolledWindow" id="QueueScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -2773,7 +2856,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox9">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label46">
                                 <property name="visible">True</property>
@@ -2803,7 +2885,6 @@ Disabled</property>
                               <widget class="GtkVBox" id="queue_prefs_box2">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="orientation">vertical</property>
                                 <property name="spacing">5</property>
                                 <child>
                                   <widget class="GtkFrame" id="frame10">
@@ -2821,7 +2902,6 @@ Disabled</property>
                                           <widget class="GtkVBox" id="vbox6">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="orientation">vertical</property>
                                             <child>
                                               <widget class="GtkCheckButton" id="chk_queue_new_top">
                                                 <property name="label" translatable="yes">Queue new torrents to top</property>
@@ -2872,7 +2952,6 @@ Disabled</property>
                                         <child>
                                           <widget class="GtkVBox" id="vbox20">
                                             <property name="visible">True</property>
-                                            <property name="orientation">vertical</property>
                                             <property name="spacing">5</property>
                                             <child>
                                               <widget class="GtkTable" id="table3">
@@ -3024,7 +3103,6 @@ Disabled</property>
                                           <widget class="GtkVBox" id="vbox11">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="orientation">vertical</property>
                                             <property name="spacing">2</property>
                                             <child>
                                               <widget class="GtkTable" id="table2">
@@ -3234,7 +3312,7 @@ Disabled</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow9">
+                  <widget class="GtkScrolledWindow" id="ProxyScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -3250,7 +3328,6 @@ Disabled</property>
                           <widget class="GtkVBox" id="vbox22">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label83">
                                 <property name="visible">True</property>
@@ -3278,7 +3355,6 @@ Disabled</property>
                             <child>
                               <widget class="GtkVBox" id="vbox26">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <property name="spacing">5</property>
                                 <child>
                                   <widget class="GtkFrame" id="frame23">
@@ -3372,7 +3448,7 @@ Disabled</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="adjustment">8080 0 65535 1 10 0</property>
+                                                    <property name="adjustment">100 0 65535 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
                                                 </child>
@@ -3556,7 +3632,7 @@ HTTP W/ Auth</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="adjustment">8080 0 65535 1 10 0</property>
+                                                    <property name="adjustment">100 0 65535 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
                                                 </child>
@@ -3740,7 +3816,7 @@ HTTP W/ Auth</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="adjustment">8080 0 65535 1 10 0</property>
+                                                    <property name="adjustment">100 0 65535 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
                                                 </child>
@@ -3927,7 +4003,7 @@ HTTP W/ Auth</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="adjustment">8080 0 65535 1 10 0</property>
+                                                    <property name="adjustment">100 0 65535 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                   </widget>
                                                 </child>
@@ -4042,7 +4118,7 @@ HTTP W/ Auth</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow13">
+                  <widget class="GtkScrolledWindow" id="CacheScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="hscrollbar_policy">automatic</property>
@@ -4055,7 +4131,6 @@ HTTP W/ Auth</property>
                         <child>
                           <widget class="GtkVBox" id="vbox30">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label111">
                                 <property name="visible">True</property>
@@ -4087,7 +4162,6 @@ HTTP W/ Auth</property>
                                 <child>
                                   <widget class="GtkVBox" id="vbox31">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame32">
                                         <property name="visible">True</property>
@@ -4132,9 +4206,9 @@ HTTP W/ Auth</property>
                                                   <widget class="GtkSpinButton" id="spin_cache_size">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
+                                                    <property name="invisible_char">●</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">512 0 99999 1 10 0</property>
+                                                    <property name="adjustment">100 0 99999 1 10 0</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
                                                   </widget>
@@ -4149,7 +4223,7 @@ HTTP W/ Auth</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="max_length">5</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
+                                                    <property name="invisible_char">●</property>
                                                     <property name="width_chars">5</property>
                                                     <property name="xalign">1</property>
                                                     <property name="adjustment">60 1 32000 1 10 0</property>
@@ -4197,7 +4271,6 @@ HTTP W/ Auth</property>
                                             <child>
                                               <widget class="GtkVBox" id="vbox32">
                                                 <property name="visible">True</property>
-                                                <property name="orientation">vertical</property>
                                                 <child>
                                                   <widget class="GtkFrame" id="frame34">
                                                     <property name="visible">True</property>
@@ -4590,7 +4663,7 @@ HTTP W/ Auth</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow5">
+                  <widget class="GtkScrolledWindow" id="PluginsScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -4606,7 +4679,6 @@ HTTP W/ Auth</property>
                           <widget class="GtkVBox" id="vbox28">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkLabel" id="label51">
                                 <property name="visible">True</property>
@@ -4637,7 +4709,6 @@ HTTP W/ Auth</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkScrolledWindow" id="scrolledwindow12">
                                     <property name="visible">True</property>
@@ -4996,7 +5067,7 @@ HTTP W/ Auth</property>
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">9</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>

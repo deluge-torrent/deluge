@@ -2,6 +2,7 @@
 # core.py
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -43,8 +44,6 @@ import threading
 import tempfile
 from urlparse import urljoin
 
-from twisted.internet import reactor, defer
-from twisted.internet.task import LoopingCall
 import twisted.web.client
 import twisted.web.error
 
@@ -55,7 +54,8 @@ import deluge.common
 import deluge.component as component
 from deluge.event import *
 from deluge.error import *
-from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
+from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
@@ -77,7 +77,8 @@ class Core(component.Component):
         log.info("Starting libtorrent %s session..", lt.version)
 
         # Create the client fingerprint
-        version = [int(value.split("-")[0]) for value in deluge.common.get_version().split(".")]
+        version = [int(value.split("-")[0]) for value in
+                   deluge.common.get_version().split(".")]
         while len(version) < 4:
             version.append(0)
 
@@ -147,16 +148,16 @@ class Core(component.Component):
     def __save_session_state(self):
         """Saves the libtorrent session state"""
         try:
-            open(deluge.configmanager.get_config_dir("session.state"), "wb").write(
-                lt.bencode(self.session.state()))
+            session_state = deluge.configmanager.get_config_dir("session.state")
+            open(session_state, "wb").write(lt.bencode(self.session.state()))
         except Exception, e:
             log.warning("Failed to save lt state: %s", e)
 
     def __load_session_state(self):
         """Loads the libtorrent session state"""
         try:
-            self.session.load_state(lt.bdecode(
-                open(deluge.configmanager.get_config_dir("session.state"), "rb").read()))
+            session_state = deluge.configmanager.get_config_dir("session.state")
+            self.session.load_state(lt.bdecode(open(session_state, "rb").read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
 
@@ -212,7 +213,9 @@ class Core(component.Component):
             log.exception(e)
 
         try:
-            torrent_id = self.torrentmanager.add(filedump=filedump, options=options, filename=filename)
+            torrent_id = self.torrentmanager.add(
+                filedump=filedump, options=options, filename=filename
+            )
         except Exception, e:
             log.error("There was an error adding the torrent file %s", filename)
             log.exception(e)
@@ -245,16 +248,23 @@ class Core(component.Component):
                 os.remove(filename)
             except Exception, e:
                 log.warning("Couldn't remove temp file: %s", e)
-            return self.add_torrent_file(filename, base64.encodestring(data), options)
+            return self.add_torrent_file(
+                filename, base64.encodestring(data), options
+            )
 
         def on_download_fail(failure):
             if failure.check(twisted.web.error.PageRedirect):
                 new_url = urljoin(url, failure.getErrorMessage().split(" to ")[1])
-                result = download_file(new_url, tempfile.mkstemp()[1], headers=headers, force_filename=True)
+                result = download_file(
+                    new_url, tempfile.mkstemp()[1], headers=headers,
+                    force_filename=True
+                )
                 result.addCallbacks(on_download_success, on_download_fail)
             elif failure.check(twisted.web.client.PartialDownloadError):
-                result = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True,
-                        allow_compression=False)
+                result = download_file(
+                    url, tempfile.mkstemp()[1], headers=headers,
+                    force_filename=True, allow_compression=False
+                )
                 result.addCallbacks(on_download_success, on_download_fail)
             else:
                 # Log the error and pass the failure onto the client
@@ -263,7 +273,9 @@ class Core(component.Component):
                 result = failure
             return result
 
-        d = download_file(url, tempfile.mkstemp()[1], headers=headers, force_filename=True)
+        d = download_file(
+            url, tempfile.mkstemp()[1], headers=headers, force_filename=True
+        )
         d.addCallbacks(on_download_success, on_download_fail)
         return d
 
@@ -829,9 +841,22 @@ class Core(component.Component):
         """
         return lt.version
 
-    @export(AUTH_LEVEL_DEFAULT)
+    @export(AUTH_LEVEL_ADMIN)
     def get_known_accounts(self):
-        auth_level = component.get("RPCServer").get_session_auth_level()
-        return self.authmanager.get_known_accounts(
-            include_private_data=(auth_level==AUTH_LEVEL_ADMIN)
-        )
+        return self.authmanager.get_known_accounts()
+
+    @export(AUTH_LEVEL_NONE)
+    def get_auth_levels_mappings(self):
+        return (AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def create_account(self, username, password, authlevel):
+        return self.authmanager.create_account(username, password, authlevel)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def update_account(self, username, password, authlevel):
+        return self.authmanager.update_account(username, password, authlevel)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def remove_account(self, username):
+        return self.authmanager.remove_account(username)

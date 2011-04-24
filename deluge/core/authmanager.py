@@ -2,6 +2,7 @@
 # authmanager.py
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -40,7 +41,7 @@ import logging
 
 import deluge.component as component
 import deluge.configmanager as configmanager
-from deluge.error import BadLoginError, AuthenticationRequired
+from deluge.error import AuthManagerError, AuthenticationRequired, BadLoginError
 
 log = logging.getLogger(__name__)
 
@@ -51,21 +52,35 @@ AUTH_LEVEL_ADMIN = 10
 
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
+AUTH_LEVELS_MAPPING = {
+    'NONE': AUTH_LEVEL_NONE,
+    'READONLY': AUTH_LEVEL_READONLY,
+    'DEFAULT': AUTH_LEVEL_NORMAL,
+    'NORMAL': AUTH_LEVEL_DEFAULT,
+    'ADMIN': AUTH_LEVEL_ADMIN
+}
+
+AUTH_LEVELS_MAPPING_REVERSE = {}
+for key, value in AUTH_LEVELS_MAPPING.iteritems():
+    AUTH_LEVELS_MAPPING_REVERSE[value] = key
+
 class Account(object):
-    __slots__ = ('username', 'password', 'auth_level')
-    def __init__(self, username, password, auth_level):
+    __slots__ = ('username', 'password', 'authlevel')
+    def __init__(self, username, password, authlevel):
         self.username = username
         self.password = password
-        self.auth_level = auth_level
+        self.authlevel = authlevel
 
-    def data(self, include_private=True):
-        rv = self.__dict__.copy()
-        if not include_private:
-            rv['password'] = ''
-        return rv
+    def data(self):
+        return {
+            'username': self.username,
+            'password': self.password,
+            'authlevel': AUTH_LEVELS_MAPPING_REVERSE[self.authlevel],
+            'authlevel_int': self.authlevel
+        }
 
     def __repr__(self):
-        return ('<Account username="%(username)s" auth_level=%(auth_level)s>' %
+        return ('<Account username="%(username)s" authlevel=%(authlevel)s>' %
                 self.__dict__)
 
 
@@ -104,70 +119,77 @@ class AuthManager(component.Component):
                 "Username and Password are required.", username
             )
 
-        self.__test_existing_account(username)
+        if username not in self.__auth:
+            # Let's try to re-load the file.. Maybe it's been updated
+            self.__load_auth_file()
+            if username not in self.__auth:
+                raise BadLoginError("Username does not exist", username)
 
         if self.__auth[username].password == password:
             # Return the users auth level
-            return self.__auth[username].auth_level
+            return self.__auth[username].authlevel
         elif not password and self.__auth[username].password:
             raise AuthenticationRequired("Password is required", username)
         else:
-            raise BadLoginError("Password does not match")
+            raise BadLoginError("Password does not match", username)
 
-    def get_known_accounts(self, include_private_data=False):
+    def get_known_accounts(self):
         """
         Returns a list of known deluge usernames.
         """
         self.__load_auth_file()
-        rv = {}
-        for account in self.__auth.items():
-            rv[account.username] = account.data(include_private_data)
-        return rv
+        return [account.data() for account in self.__auth.values()]
 
-    def create_account(self, username, password='', auth_level=AUTH_LEVEL_DEFAULT):
+    def create_account(self, username, password, authlevel):
         if username in self.__auth:
-            raise Something()
-        self.__create_account(username, password, auth_level)
+            raise AuthManagerError("Username in use.", username)
+        try:
+            self.__auth[username] = Account(username, password,
+                                            AUTH_LEVELS_MAPPING[authlevel])
+            self.write_auth_file()
+            return True
+        except Exception, err:
+            log.exception(err)
+            raise err
 
-    def update_account(self, username, password='', auth_level=AUTH_LEVEL_DEFAULT):
-        if username in self.__auth:
-            raise Something()
-        self.__create_account(username, password, auth_level)
+    def update_account(self, username, password, authlevel):
+        if username not in self.__auth:
+            raise AuthManagerError("Username not known", username)
+        try:
+            self.__auth[username].username = username
+            self.__auth[username].password = password
+            self.__auth[username].authlevel = AUTH_LEVELS_MAPPING[authlevel]
+            self.write_auth_file()
+            return True
+        except Exception, err:
+            log.exception(err)
+            raise err
 
     def remove_account(self, username):
-        if username in self.__auth:
-            raise Something()
+        if username not in self.__auth:
+            raise AuthManagerError("Username not known", username)
+        elif username == component.get("RPCServer").get_session_user():
+            raise AuthManagerError(
+                "You cannot delete your own account while logged in!", username
+            )
+
         del self.__auth[username]
         self.write_auth_file()
-        if component.get("RPCServer").get_session_user() == username:
-            # Force a client logout by the server
-            component.get("RPCServer").logout_current_session()
+        return True
 
     def write_auth_file(self):
         old_auth_file = configmanager.get_config_dir("auth")
         new_auth_file = old_auth_file + '.new'
         fd = open(new_auth_file, "w")
-        for account in self.__auth.items():
+        for account in self.__auth.values():
             fd.write(
-                "%(username)s:%(password)s:%(auth_level)s\n" % account.__dict__
+                "%(username)s:%(password)s:%(authlevel_int)s\n" % account.data()
             )
         fd.flush()
         os.fsync(fd.fileno())
         fd.close()
         os.rename(new_auth_file, old_auth_file)
         self.__load_auth_file()
-
-    def __add_account(self, username, password, auth_level):
-        self.__auth[username] = Account(username, password, auth_level)
-        self.write_auth_file()
-
-    def __test_existing_account(self, username):
-        if username not in self.__auth:
-            # Let's try to re-load the file.. Maybe it's been updated
-            self.__load_auth_file()
-            if username not in self.__auth:
-                raise BadLoginError("Username does not exist")
-        return True
 
     def __create_localclient_account(self):
         """
@@ -217,23 +239,27 @@ class AuthManager(component.Component):
                 log.warning("Your auth entry for %s contains no auth level, "
                             "using AUTH_LEVEL_DEFAULT(%s)..", username,
                             AUTH_LEVEL_DEFAULT)
-                auth_level = AUTH_LEVEL_DEFAULT
+                authlevel = AUTH_LEVEL_DEFAULT
             elif len(lsplit) == 3:
-                username, password, auth_level = lsplit
+                username, password, authlevel = lsplit
             else:
-                log.error("Your auth file is malformed: Incorrect number of fields!")
+                log.error("Your auth file is malformed: "
+                          "Incorrect number of fields!")
                 continue
 
             username = username.strip()
             password = password.strip()
             try:
-                auth_level = int(auth_level)
+                authlevel = int(authlevel)
             except ValueError:
-                log.error("Your auth file is malformed: %r is not a valid auth "
-                          "level" % auth_level)
+                try:
+                    authlevel = AUTH_LEVELS_MAPPING[authlevel]
+                except KeyError:
+                    log.error("Your auth file is malformed: %r is not a valid auth "
+                              "level" % authlevel)
                 continue
 
-            self.__auth[username] = Account(username, password, auth_level)
+            self.__auth[username] = Account(username, password, authlevel)
 
         if "localclient" not in self.__auth:
             self.__create_localclient_account()

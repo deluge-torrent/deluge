@@ -2,6 +2,7 @@
 # client.py
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
 #
 # Deluge is free software.
 #
@@ -76,6 +77,20 @@ class DelugeRPCError(object):
         self.exception_msg = exception_msg
         self.traceback = traceback
 
+    def logable(self):
+        # Create a delugerpcrequest to print out a nice RPCRequest string
+        r = DelugeRPCRequest()
+        r.method = self.method
+        r.args = self.args
+        r.kwargs = self.kwargs
+        msg = "RPCError Message Received!"
+        msg += "\n" + "-" * 80
+        msg += "\n" + "RPCRequest: " + r.__repr__()
+        msg += "\n" + "-" * 80
+        msg += "\n" + self.traceback + "\n" + self.exception_type + ": " + self.exception_msg
+        msg += "\n" + "-" * 80
+        return msg
+
 class DelugeRPCRequest(object):
     """
     This object is created whenever there is a RPCRequest to be sent to the
@@ -118,6 +133,7 @@ class DelugeRPCRequest(object):
         return (self.request_id, self.method, self.args, self.kwargs)
 
 class DelugeRPCProtocol(Protocol):
+
     def connectionMade(self):
         self.__rpc_requests = {}
         self.__buffer = None
@@ -273,6 +289,9 @@ class DaemonSSLProxy(DaemonProxy):
         self.disconnect_deferred = None
         self.disconnect_callback = None
 
+        self.auth_levels_mapping = None
+        self.auth_levels_mapping_reverse = None
+
     def connect(self, host, port):
         """
         Connects to a daemon at host:port
@@ -402,21 +421,8 @@ class DaemonSSLProxy(DaemonProxy):
         except:
             pass
 
-        # Get the DelugeRPCError object from the error_data
-        error = error_data.value
-
-        # Create a delugerpcrequest to print out a nice RPCRequest string
-        r = DelugeRPCRequest()
-        r.method = error.method
-        r.args = error.args
-        r.kwargs = error.kwargs
-        msg = "RPCError Message Received!"
-        msg += "\n" + "-" * 80
-        msg += "\n" + "RPCRequest: " + r.__repr__()
-        msg += "\n" + "-" * 80
-        msg += "\n" + error.traceback + "\n" + error.exception_type + ": " + error.exception_msg
-        msg += "\n" + "-" * 80
-        log.error(msg)
+        if error_data.value.exception_type != 'AuthManagerError':
+            log.error(error_data.value.logable())
         return error_data
 
     def __on_connect(self, result):
@@ -452,12 +458,23 @@ class DaemonSSLProxy(DaemonProxy):
         self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
-            self.call("daemon.set_event_interest", self.__factory.event_handlers.keys())
+            self.call("daemon.set_event_interest",
+                      self.__factory.event_handlers.keys())
+
+            self.call("core.get_auth_levels_mappings").addCallback(
+                self.__on_auth_levels_mappings
+            )
+
         self.login_deferred.callback(result)
 
     def __on_login_fail(self, result):
         log.debug("_on_login_fail(): %s", result)
         self.login_deferred.errback(result)
+
+    def __on_auth_levels_mappings(self, result):
+        auth_levels_mapping, auth_levels_mapping_reverse = result
+        self.auth_levels_mapping = auth_levels_mapping
+        self.auth_levels_mapping_reverse = auth_levels_mapping_reverse
 
     def set_disconnect_callback(self, cb):
         """
@@ -481,9 +498,13 @@ class DaemonClassicProxy(DaemonProxy):
         self.host = "localhost"
         self.port = 58846
         # Running in classic mode, it's safe to import auth level
-        from deluge.core.authmanager import AUTH_LEVEL_ADMIN
+        from deluge.core.authmanager import (AUTH_LEVEL_ADMIN,
+                                             AUTH_LEVELS_MAPPING,
+                                             AUTH_LEVELS_MAPPING_REVERSE)
         self.username = "localclient"
         self.authentication_level = AUTH_LEVEL_ADMIN
+        self.auth_levels_mapping = AUTH_LEVELS_MAPPING
+        self.auth_levels_mapping_reverse = AUTH_LEVELS_MAPPING_REVERSE
         # Register the event handlers
         for event in event_handlers:
             for handler in event_handlers[event]:
@@ -775,6 +796,14 @@ class Client(object):
         :rtype: int
         """
         return self._daemon_proxy.authentication_level
+
+    @property
+    def auth_levels_mapping(self):
+        return self._daemon_proxy.auth_levels_mapping
+
+    @property
+    def auth_levels_mapping_reverse(self):
+        return self._daemon_proxy.auth_levels_mapping_reverse
 
 # This is the object clients will use
 client = Client()
