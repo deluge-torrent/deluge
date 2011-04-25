@@ -37,6 +37,7 @@
 import os
 import random
 import stat
+import shutil
 import logging
 
 import deluge.component as component
@@ -133,6 +134,9 @@ class AuthManager(component.Component):
         else:
             raise BadLoginError("Password does not match", username)
 
+    def has_account(self, username):
+        return username in self.__auth
+
     def get_known_accounts(self):
         """
         Returns a list of known deluge usernames.
@@ -180,15 +184,25 @@ class AuthManager(component.Component):
     def write_auth_file(self):
         old_auth_file = configmanager.get_config_dir("auth")
         new_auth_file = old_auth_file + '.new'
-        fd = open(new_auth_file, "w")
-        for account in self.__auth.values():
-            fd.write(
-                "%(username)s:%(password)s:%(authlevel_int)s\n" % account.data()
-            )
-        fd.flush()
-        os.fsync(fd.fileno())
-        fd.close()
-        os.rename(new_auth_file, old_auth_file)
+        bak_auth_file = old_auth_file + '.bak'
+        # Let's first create a backup
+        shutil.copy2(old_auth_file, bak_auth_file)
+
+        try:
+            fd = open(new_auth_file, "w")
+            for account in self.__auth.values():
+                fd.write(
+                    "%(username)s:%(password)s:%(authlevel_int)s\n" %
+                    account.data()
+                )
+            fd.flush()
+            os.fsync(fd.fileno())
+            fd.close()
+            os.rename(new_auth_file, old_auth_file)
+        except:
+            # Something failed, let's restore the previous file
+            os.rename(bak_auth_file, old_auth_file)
+
         self.__load_auth_file()
 
     def __create_localclient_account(self):
