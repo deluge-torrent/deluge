@@ -101,24 +101,17 @@ class AuthManager(component.Component):
         pass
 
     def update(self):
-        log.debug("Querying for changed auth file")
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
             log.info("Authfile not found, recreating it.")
-            self.__create_auth_file()
-            self.__create_localclient_account()
-            self.write_auth_file()
-
-        auth_file_modification_time = os.stat(auth_file).st_mtime
-        if self.__auth_modification_time is None:
-            self.__auth_modification_time = auth_file_modification_time
-        elif self.__auth_modification_time == auth_file_modification_time:
-            # File didn't change, no need for re-parsing's
+            self.__load_auth_file()
             return
 
-        log.info("auth file changed, reloading it!")
-        self.__load_auth_file()
+        auth_file_modification_time = os.stat(auth_file).st_mtime
+        if self.__auth_modification_time != auth_file_modification_time:
+            log.info("Auth file changed, reloading it!")
+            self.__load_auth_file()
 
     def authorize(self, username, password):
         """
@@ -305,6 +298,7 @@ class AuthManager(component.Component):
         if save_and_reload:
             log.info("Re-writing auth file (upgrade)")
             self.write_auth_file()
+        self.__auth_modification_time = auth_file_modification_time
 
 
     def __create_auth_file(self):
