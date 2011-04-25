@@ -221,6 +221,7 @@ class AuthManager(component.Component):
         )
 
     def __load_auth_file(self):
+        save_and_reload = False
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
@@ -254,6 +255,8 @@ class AuthManager(component.Component):
                             "using AUTH_LEVEL_DEFAULT(%s)..", username,
                             AUTH_LEVEL_DEFAULT)
                 authlevel = AUTH_LEVEL_DEFAULT
+                # This is probably an old auth file
+                save_and_reload = True
             elif len(lsplit) == 3:
                 username, password, authlevel = lsplit
             else:
@@ -277,6 +280,10 @@ class AuthManager(component.Component):
 
         if "localclient" not in self.__auth:
             self.__create_localclient_account()
+            self.write_auth_file()
+
+        if save_and_reload:
+            log.info("Re-writing auth file (upgrade)")
             self.write_auth_file()
 
 
