@@ -87,7 +87,7 @@ class Account(object):
 
 class AuthManager(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "AuthManager")
+        component.Component.__init__(self, "AuthManager", interval=10)
         self.__auth = {}
         self.__auth_modification_time = None
 
@@ -99,6 +99,26 @@ class AuthManager(component.Component):
 
     def shutdown(self):
         pass
+
+    def update(self):
+        log.debug("Querying for changed auth file")
+        auth_file = configmanager.get_config_dir("auth")
+        # Check for auth file and create if necessary
+        if not os.path.exists(auth_file):
+            log.info("Authfile not found, recreating it.")
+            self.__create_auth_file()
+            self.__create_localclient_account()
+            self.write_auth_file()
+
+        auth_file_modification_time = os.stat(auth_file).st_mtime
+        if self.__auth_modification_time is None:
+            self.__auth_modification_time = auth_file_modification_time
+        elif self.__auth_modification_time == auth_file_modification_time:
+            # File didn't change, no need for re-parsing's
+            return
+
+        log.info("auth file changed, reloading it!")
+        self.__load_auth_file()
 
     def authorize(self, username, password):
         """
