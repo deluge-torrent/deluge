@@ -329,7 +329,8 @@ class TorrentManager(component.Component):
             log.warning("Unable to delete the fastresume file: %s", e)
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None):
+            filedump=None, filename=None, magnet=None, resume_data=None,
+            owner='localclient'):
         """Add a torrent to the manager and returns it's torrent_id"""
 
         if torrent_info is None and state is None and filedump is None and magnet is None:
@@ -447,7 +448,10 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        owner = state.owner if state else component.get("RPCServer").get_session_user()
+        owner = state.owner if state else (owner if owner else component.get("RPCServer").get_session_user())
+        account_exists = component.get("AuthManager").has_account(owner)
+        if not account_exists:
+            owner = 'localclient'
         torrent = Torrent(handle, options, state, filename, magnet, owner)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
