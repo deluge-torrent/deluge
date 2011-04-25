@@ -295,7 +295,6 @@
                                               <widget class="GtkFileChooserButton" id="copy_torrent_chooser">
                                                 <property name="visible">True</property>
                                                 <property name="action">select-folder</property>
-                                                <property name="show_hidden">True</property>
                                                 <property name="title" translatable="yes">Select A Folder</property>
                                               </widget>
                                               <packing>

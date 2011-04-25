@@ -60,6 +60,7 @@ OPTIONS_AVAILABLE = { #option: builtin
     "enabled":False,
     "path":False,
     "append_extension":False,
+    "copy_torrent": False,
     "abspath":False,
     "download_location":True,
     "max_download_speed":True,
@@ -120,7 +121,7 @@ class Core(CorePluginBase):
     def update(self):
         pass
 
-    @export()
+    @export
     def set_options(self, watchdir_id, options):
         """Update the options for a watch folder."""
         watchdir_id = str(watchdir_id)
@@ -192,6 +193,7 @@ class Core(CorePluginBase):
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option+'_toggle', True):
                     opts[option] = value
+
         for filename in os.listdir(watchdir["abspath"]):
             if filename.split(".")[-1] == "torrent":
                 try:
@@ -239,6 +241,9 @@ class Core(CorePluginBase):
                     if not watchdir.get('append_extension'):
                         watchdir['append_extension'] = ".added"
                     os.rename(filepath, filepath + watchdir['append_extension'])
+                elif watchdir.get('copy_torrent_toggle'):
+                    copy_torrent_path = watchdir['copy_torrent']
+                    os.rename(filepath, copy_torrent_path)
                 else:
                     os.remove(filepath)
 
@@ -291,7 +296,7 @@ class Core(CorePluginBase):
         """Returns the config dictionary."""
         return self.config.config
 
-    @export()
+    @export
     def get_watchdirs(self):
         return self.watchdirs.keys()
 
@@ -303,13 +308,16 @@ class Core(CorePluginBase):
             opts[key] = options[key]
         return opts
 
-    @export()
+    @export
     def add(self, options={}):
         """Add a watch folder."""
         options = self._make_unicode(options)
         abswatchdir = os.path.abspath(options['path'])
         CheckInput(os.path.isdir(abswatchdir) , _("Path does not exist."))
-        CheckInput(os.access(abswatchdir, os.R_OK|os.W_OK), "You must have read and write access to watch folder.")
+        CheckInput(
+            os.access(abswatchdir, os.R_OK|os.W_OK),
+            "You must have read and write access to watch folder."
+        )
         if abswatchdir in [wd['abspath'] for wd in self.watchdirs.itervalues()]:
             raise Exception("Path is already being watched.")
         options.setdefault('enabled', False)
@@ -327,7 +335,8 @@ class Core(CorePluginBase):
     def remove(self, watchdir_id):
         """Remove a watch folder."""
         watchdir_id = str(watchdir_id)
-        CheckInput(watchdir_id in self.watchdirs, "Unknown Watchdir: %s" % self.watchdirs)
+        CheckInput(watchdir_id in self.watchdirs,
+                   "Unknown Watchdir: %s" % self.watchdirs)
         if self.watchdirs[watchdir_id]['enabled']:
             self.disable_watchdir(watchdir_id)
         del self.watchdirs[watchdir_id]
@@ -338,3 +347,7 @@ class Core(CorePluginBase):
         for watchdir_id in config['watchdirs'].iterkeys():
             config['watchdirs'][watchdir_id]['owner'] = 'localclient'
         return config
+
+    ### XXX: Handle torrent finished / remove torrent file per whatchdir
+    ### deluge/core/torrentmanager.py:
+    ###     filename = self.torrents[torrent_id].filename

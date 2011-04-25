@@ -90,9 +90,6 @@ class OptionsDialog():
         self.load_options(options)
 
         # Not implemented feateures present in UI
-        self.glade.get_widget("copy_torrent_toggle").hide()
-        self.glade.get_widget("copy_torrent_entry").hide()
-        self.glade.get_widget("copy_torrent_chooser").hide()
         self.glade.get_widget("delete_copy_torrent_toggle").hide()
 
         self.dialog.run()
@@ -107,6 +104,9 @@ class OptionsDialog():
         )
         self.glade.get_widget('download_location_toggle').set_active(
             options.get('download_location_toggle', False)
+        )
+        self.glade.get_widget('copy_torrent_toggle').set_active(
+            options.get('copy_torrent_toggle', False)
         )
         self.accounts.clear()
         self.labels.clear()
@@ -137,7 +137,7 @@ class OptionsDialog():
         for field in ['move_completed_path', 'path', 'download_location',
                       'copy_torrent']:
             if client.is_localhost():
-                self.glade.get_widget(field+"_chooser").set_filename(
+                self.glade.get_widget(field+"_chooser").set_current_folder(
                     options.get(field, os.path.expanduser("~"))
                 )
                 self.glade.get_widget(field+"_chooser").show()
@@ -268,19 +268,21 @@ class OptionsDialog():
             options['path'] = self.glade.get_widget('path_chooser').get_filename()
             options['download_location'] = self.glade.get_widget('download_location_chooser').get_filename()
             options['move_completed_path'] = self.glade.get_widget('move_completed_path_chooser').get_filename()
+            options['copy_torrent'] = self.glade.get_widget('copy_torrent_chooser').get_filename()
         else:
             options['path'] = self.glade.get_widget('path_entry').get_text()
             options['download_location'] = self.glade.get_widget('download_location_entry').get_text()
             options['move_completed_path'] = self.glade.get_widget('move_completed_path_entry').get_text()
+            options['copy_torrent'] = self.glade.get_widget('copy_torrent_entry').get_text()
 
+        options['label'] = self.glade.get_widget('label').child.get_text().lower()
+        options['append_extension'] = self.glade.get_widget('append_extension').get_text()
         options['owner'] = self.accounts[
             self.glade.get_widget('OwnerCombobox').get_active()][0]
 
-        options['append_extension_toggle'] = self.glade.get_widget('append_extension_toggle').get_active()
-        options['append_extension'] = self.glade.get_widget('append_extension').get_text()
-        options['download_location_toggle'] = self.glade.get_widget('download_location_toggle').get_active()
-        options['label'] = self.glade.get_widget('label').child.get_text().lower()
-        options['label_toggle'] = self.glade.get_widget('label_toggle').get_active()
+        for key in ['append_extension_toggle', 'download_location_toggle',
+                    'label_toggle', 'copy_torrent_toggle']:
+            options[key] = self.glade.get_widget(key).get_active()
 
         for id in self.spin_ids:
             options[id] = self.glade.get_widget(id).get_value()
