@@ -291,7 +291,6 @@ class AccountDialog(BaseDialog):
             elif not authlevel and level == 'DEFAULT':
                 active_idx = idx
 
-        print 'aidx', active_idx
         if active_idx is not None:
             self.authlevel_combo.set_active(active_idx)
 
