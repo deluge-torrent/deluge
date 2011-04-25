@@ -86,8 +86,6 @@ DEFAULT_PREFS = {
     "max_upload_speed_per_torrent": -1,
     "max_download_speed_per_torrent": -1,
     "enabled_plugins": [],
-    "autoadd_location": deluge.common.get_default_download_dir(),
-    "autoadd_enable": False,
     "add_paused": False,
     "max_active_seeding": 5,
     "max_active_downloading": 3,

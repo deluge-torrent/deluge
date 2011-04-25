@@ -275,10 +275,6 @@ class Preferences(component.Component):
                     ("active", self.core_config["del_copy_torrent_file"]),
                 "torrent_files_button": \
                     ("filename", self.core_config["torrentfiles_location"]),
-                "chk_autoadd": \
-                    ("active", self.core_config["autoadd_enable"]),
-                "folder_autoadd": \
-                    ("filename", self.core_config["autoadd_location"]),
                 "radio_compact_allocation": \
                     ("active", self.core_config["compact_allocation"]),
                 "radio_full_allocation": \
@@ -375,11 +371,6 @@ class Preferences(component.Component):
                 self.glade.get_widget("torrent_files_button").hide()
                 core_widgets.pop("torrent_files_button")
                 core_widgets["entry_torrents_path"] = ("text", self.core_config["torrentfiles_location"])
-
-                self.glade.get_widget("entry_autoadd").show()
-                self.glade.get_widget("folder_autoadd").hide()
-                core_widgets.pop("folder_autoadd")
-                core_widgets["entry_autoadd"] = ("text", self.core_config["autoadd_location"])
             else:
                 self.glade.get_widget("entry_download_path").hide()
                 self.glade.get_widget("download_path_button").show()
@@ -387,8 +378,6 @@ class Preferences(component.Component):
                 self.glade.get_widget("move_completed_path_button").show()
                 self.glade.get_widget("entry_torrents_path").hide()
                 self.glade.get_widget("torrent_files_button").show()
-                self.glade.get_widget("entry_autoadd").hide()
-                self.glade.get_widget("folder_autoadd").show()
 
             # Update the widgets accordingly
             for key in core_widgets.keys():
@@ -427,8 +416,6 @@ class Preferences(component.Component):
                 "chk_copy_torrent_file",
                 "chk_del_copy_torrent_file",
                 "torrent_files_button",
-                "chk_autoadd",
-                "folder_autoadd",
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
@@ -588,15 +575,6 @@ class Preferences(component.Component):
                 self.glade.get_widget("entry_move_completed_path").get_text()
             new_core_config["torrentfiles_location"] = \
                 self.glade.get_widget("entry_torrents_path").get_text()
-
-        new_core_config["autoadd_enable"] = \
-            self.glade.get_widget("chk_autoadd").get_active()
-        if client.is_localhost():
-            new_core_config["autoadd_location"] = \
-                self.glade.get_widget("folder_autoadd").get_filename()
-        else:
-            new_core_config["autoadd_location"] = \
-                self.glade.get_widget("entry_autoadd").get_text()
 
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
@@ -836,7 +814,6 @@ class Preferences(component.Component):
                 "chk_move_completed" : {"move_completed_path_button" : True},
                 "chk_copy_torrent_file" : {"torrent_files_button" : True,
                                            "chk_del_copy_torrent_file" : True},
-                "chk_autoadd" : {"folder_autoadd" : True},
                 "chk_seed_ratio" : {"spin_share_ratio": True,
                                     "chk_remove_ratio" : True}
             }
