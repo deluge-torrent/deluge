@@ -332,7 +332,7 @@ class ConnectionManager(component.Component):
                     self.__update_buttons()
 
                 row[HOSTLIST_COL_STATUS] = _("Connected")
-                log.debug("\n\nquery daemons info\n\n")
+                log.debug("Query daemon's info")
                 client.daemon.info().addCallback(on_info)
                 continue
 
