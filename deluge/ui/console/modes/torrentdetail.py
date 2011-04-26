@@ -482,6 +482,10 @@ class TorrentDetail(BaseMode, component.Component):
             self.back_to_overview()
             return
 
+        if not self.torrent_state:
+            # actions below only makes sense if there is a torrent state
+            return
+
         # Navigate the torrent list
         if c == curses.KEY_UP:
             self.file_list_up()
