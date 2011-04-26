@@ -813,8 +813,12 @@ class AllTorrents(BaseMode, component.Component):
                     effected_lines = [self.cursel-1]
                 elif chr(c) == 'M':
                     if self.last_mark >= 0:
-                        self.marked.extend(range(self.last_mark,self.cursel+1))
-                        effected_lines = range(self.last_mark,self.cursel)
+                        if (self.cursel+1) > self.last_mark:
+                            mrange = range(self.last_mark,self.cursel+1)
+                        else:
+                            mrange = range(self.cursel-1,self.last_mark)
+                        self.marked.extend(mrange[1:])
+                        effected_lines = mrange
                     else:
                         self._mark_unmark(self.cursel)
                         effected_lines = [self.cursel-1]
