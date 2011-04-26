@@ -274,6 +274,8 @@ class AllTorrents(BaseMode, component.Component):
         self.__cols_to_show = [pref for pref in column_pref_names if self.config["show_%s"%pref]]
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
         self.__status_fields = column.get_required_fields(self.__columns)
+        for rf in ["state","name","queue"]: # we always need these, even if we're not displaying them
+            if not rf in self.__status_fields: self.__status_fields.append(rf)
         self.__update_columns()
 
     def __split_help(self):
@@ -293,10 +295,11 @@ class AllTorrents(BaseMode, component.Component):
         else:
             rem = self.cols - req
             var_cols = len(filter(lambda x: x < 0,self.column_widths))
-            vw = int(rem/var_cols)
-            for i in range(0, len(self.column_widths)):
-                if (self.column_widths[i] < 0):
-                    self.column_widths[i] = vw
+            if (var_cols > 0):
+                vw = int(rem/var_cols)
+                for i in range(0, len(self.column_widths)):
+                    if (self.column_widths[i] < 0):
+                        self.column_widths[i] = vw
 
         self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.__columns[i]," "*(self.column_widths[i]-len(self.__columns[i]))) for i in range(0,len(self.__columns))]))
 
