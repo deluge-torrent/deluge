@@ -47,6 +47,7 @@ import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 import common
+import dialogs
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -554,7 +555,16 @@ class MenuBar(component.Component):
             torrent_status = component.get("TorrentView").get_torrent_status(torrent_id)
             if torrent_status["owner"] != username:
                 update_torrents.append(torrent_id)
+
         if update_torrents:
             log.debug("Setting torrent owner \"%s\" on %s", username, update_torrents)
-            client.core.set_torrents_owner(update_torrents, username)
+
+            def failed_change_owner(failure):
+                dialogs.ErrorDialog(
+                    _("Ownership Change Error"),
+                    _("There was an error while trying changing ownership."),
+                    self.window.window, details=failure.value.logable()
+                ).run()
+            client.core.set_torrents_owner(
+                update_torrents, username).addErrback(failed_change_owner)
 
