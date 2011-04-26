@@ -81,7 +81,7 @@ this one) using the up/down arrows.
 All popup windows can be closed/canceled by hitting the Esc key \
 (you might need to wait a second for an Esc to register)
 
-The actions you can perform and the keys to perform them are as follows: \
+The actions you can perform and the keys to perform them are as follows:
 
 {!info!}'h'{!normal!} - Show this help
 
@@ -113,7 +113,7 @@ about the currently selected torrent, as well as a view of the \
 files in the torrent and the ability to set file priorities.
 
 {!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
-pause/resume, remove, recheck and so one.  These actions \
+pause/resume, remove, recheck and so on.  These actions \
 apply to all currently marked torrents.  The currently \
 selected torrent is automatically marked when you press enter. 
 
