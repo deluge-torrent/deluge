@@ -185,18 +185,23 @@ class IntSpinInput(InputField):
         self.move_func = move_func
         self.min_val = min_val
         self.max_val = max_val
+        self.need_update = False
 
     def render(self, screen, row, width, active, col=1, cursor_offset=0):
-        if not active and not self.valstr:
-            self.value = self.initvalue
+        if not active and self.need_update:
+            if not self.valstr or self.valstr == '-':
+                self.value = self.initvalue
+            else:
+                self.value = int(self.valstr)
             self.valstr = "%d"%self.value 
             self.cursor = len(self.valstr)
+            self.need_update = False
         if not self.valstr:
             self.parent.add_string(row,"%s [  ]"%self.message,screen,col,False,True)
         elif active:
-            self.parent.add_string(row,"%s [ {!black,white,bold!}%d{!white,black!} ]"%(self.message,self.value),screen,col,False,True)
+            self.parent.add_string(row,"%s [ {!black,white,bold!}%s{!white,black!} ]"%(self.message,self.valstr),screen,col,False,True)
         else:
-            self.parent.add_string(row,"%s [ %d ]"%(self.message,self.value),screen,col,False,True)
+            self.parent.add_string(row,"%s [ %s ]"%(self.message,self.valstr),screen,col,False,True)
 
         if active:
             self.move_func(row,self.cursor+self.cursoff+cursor_offset)
@@ -206,8 +211,12 @@ class IntSpinInput(InputField):
     def handle_read(self, c):
         if c  == curses.KEY_PPAGE:
             self.value+=1
+            self.valstr = "%d"%self.value
+            self.cursor = len(self.valstr)
         elif c == curses.KEY_NPAGE:
             self.value-=1
+            self.valstr = "%d"%self.value
+            self.cursor = len(self.valstr)
         elif c == curses.KEY_LEFT:
             self.cursor = max(0,self.cursor-1)
         elif c == curses.KEY_RIGHT:
@@ -215,25 +224,32 @@ class IntSpinInput(InputField):
         elif c == curses.KEY_HOME:
             self.cursor = 0
         elif c == curses.KEY_END:
-            self.cursor = len(self.value)
+            self.cursor = len(self.valstr)
         elif c == curses.KEY_BACKSPACE or c == 127:
             if self.valstr and  self.cursor > 0:
                 self.valstr = self.valstr[:self.cursor - 1] + self.valstr[self.cursor:]
                 self.cursor-=1
-                if self.valstr:
-                    self.value = int(self.valstr)
+                self.need_update = True
         elif c == curses.KEY_DC:
             if self.valstr and self.cursor < len(self.valstr):
                 self.valstr = self.valstr[:self.cursor] + self.valstr[self.cursor+1:]
+                self.need_update = True
+        elif c == 45 and self.cursor == 0 and self.min_val < 0:
+            minus_place = self.valstr.find('-')
+            if minus_place >= 0: return
+            self.valstr = chr(c)+self.valstr
+            self.cursor += 1
+            self.need_update = True
         elif c > 47 and c < 58:
             if c == 48 and self.cursor == 0: return
+            minus_place = self.valstr.find('-')
+            if self.cursor <= minus_place: return
             if self.cursor == len(self.valstr):
                 self.valstr += chr(c)
-                self.value = int(self.valstr)
             else:
                 # Insert into string
                 self.valstr = self.valstr[:self.cursor] + chr(c) + self.valstr[self.cursor:]
-                self.value = int(self.valstr)
+            self.need_update = True
             # Move the cursor forward
             self.cursor+=1
             
@@ -266,14 +282,14 @@ class FloatSpinInput(InputField):
         self.need_update = False
 
     def render(self, screen, row, width, active, col=1, cursor_offset=0):
-        if not active and not self.valstr:
-            self.value = self.initvalue
-            self.valstr = self.fmt%self.value
-            self.cursor = len(self.valstr)
         if not active and self.need_update:
-            self.value = round(float(self.valstr),self.precision)
+            try:
+                self.value = round(float(self.valstr),self.precision)
+            except ValueError:
+                self.value = self.initvalue
             self.valstr = self.fmt%self.value
             self.cursor = len(self.valstr)
+            self.need_update = False
         if not self.valstr:
             self.parent.add_string(row,"%s [  ]"%self.message,screen,col,False,True)
         elif active:
@@ -301,7 +317,7 @@ class FloatSpinInput(InputField):
         elif c == curses.KEY_HOME:
             self.cursor = 0
         elif c == curses.KEY_END:
-            self.cursor = len(self.value)
+            self.cursor = len(self.valstr)
         elif c == curses.KEY_BACKSPACE or c == 127:
             if self.valstr and  self.cursor > 0:
                 self.valstr = self.valstr[:self.cursor - 1] + self.valstr[self.cursor:]
