@@ -43,7 +43,23 @@ import deluge.common
 
 import os,base64,glob
 
+import logging
+log = logging.getLogger(__name__)
 
+def __bracket_fixup(path):
+    if (path.find("[") == -1 and
+        path.find("]") == -1):
+        return path
+    sentinal = 256
+    while (path.find(unichr(sentinal)) != -1):
+        sentinal+=1
+        if sentinal > 65535: 
+            log.error("Can't fix brackets in path, path contains all possible sentinal characters")
+            return path
+    newpath = path.replace("]",unichr(sentinal))
+    newpath = newpath.replace("[","[[]")
+    newpath = newpath.replace(unichr(sentinal),"[]]")
+    return newpath
 
 def add_torrent(t_file, options, success_cb, fail_cb, ress):
     t_options = {}
@@ -57,7 +73,7 @@ def add_torrent(t_file, options, success_cb, fail_cb, ress):
     if is_url or is_mag:
         files = [t_file]
     else:
-        files = glob.glob(t_file)
+        files = glob.glob(__bracket_fixup(t_file))
     num_files = len(files)
     ress["total"] = num_files
 

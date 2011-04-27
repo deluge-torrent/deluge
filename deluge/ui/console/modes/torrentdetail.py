@@ -59,6 +59,35 @@ except ImportError:
 import logging
 log = logging.getLogger(__name__)
 
+# Big help string that gets displayed when the user hits 'h'
+HELP_STR = """\
+This screen shows detailed information about a torrent, and also the \
+information about the individual files in the torrent.
+
+You can navigate the file list with the Up/Down arrows and use space to \
+collapse/expand the file tree.
+
+All popup windows can be closed/canceled by hitting the Esc key \
+(you might need to wait a second for an Esc to register)
+
+The actions you can perform and the keys to perform them are as follows:
+
+{!info!}'h'{!normal!} - Show this help
+
+{!info!}'a'{!normal!} - Show torrent actions popup.  Here you can do things like \
+pause/resume, remove, recheck and so on.
+
+{!info!}'m'{!normal!} - Mark a file
+{!info!}'c'{!normal!} - Un-mark all files
+
+{!info!}Space{!normal!} - Expand/Collapse currently selected folder
+
+{!info!}Enter{!normal!} - Show priority popup in which you can set the \
+download priority of selected files.
+
+{!info!}Left Arrow{!normal!} - Go back to torrent overview.
+"""
+
 class TorrentDetail(BaseMode, component.Component):
     def __init__(self, alltorrentmode, torrentid, stdscr, encoding=None):
         self.alltorrentmode = alltorrentmode
@@ -106,6 +135,8 @@ class TorrentDetail(BaseMode, component.Component):
         BaseMode.__init__(self, stdscr, encoding)
         component.Component.__init__(self, "TorrentDetail", 1, depend=["SessionProxy"])
 
+        self.__split_help()
+
         self.column_names = ["Filename", "Size", "Progress", "Priority"]
         self._update_columns()
 
@@ -136,6 +167,9 @@ class TorrentDetail(BaseMode, component.Component):
         del state["file_priorities"]
         self.torrent_state = state
         self.refresh()
+
+    def __split_help(self):
+        self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     # split file list into directory tree. this function assumes all files in a
     # particular directory are returned together.  it won't work otherwise.
@@ -288,6 +322,7 @@ class TorrentDetail(BaseMode, component.Component):
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
         self._update_columns()
+        self.__split_help()
         if self.popup:
             self.popup.handle_resize()
         self.refresh()
@@ -447,6 +482,10 @@ class TorrentDetail(BaseMode, component.Component):
             self.back_to_overview()
             return
 
+        if not self.torrent_state:
+            # actions below only makes sense if there is a torrent state
+            return
+
         # Navigate the torrent list
         if c == curses.KEY_UP:
             self.file_list_up()
@@ -470,10 +509,12 @@ class TorrentDetail(BaseMode, component.Component):
                 if chr(c) == 'm':
                     if self.current_file:
                         self._mark_unmark(self.current_file[1])
-                if chr(c) == 'c':
+                elif chr(c) == 'c':
                     self.marked = {}
-                if chr(c) == 'a':
+                elif chr(c) == 'a':
                     torrent_actions_popup(self,[self.torrentid],details=False)
                     return
+                elif chr(c) == 'h':
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines)
 
         self.refresh()

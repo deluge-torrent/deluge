@@ -81,7 +81,7 @@ this one) using the up/down arrows.
 All popup windows can be closed/canceled by hitting the Esc key \
 (you might need to wait a second for an Esc to register)
 
-The actions you can perform and the keys to perform them are as follows: \
+The actions you can perform and the keys to perform them are as follows:
 
 {!info!}'h'{!normal!} - Show this help
 
@@ -113,7 +113,7 @@ about the currently selected torrent, as well as a view of the \
 files in the torrent and the ability to set file priorities.
 
 {!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
-pause/resume, remove, recheck and so one.  These actions \
+pause/resume, remove, recheck and so on.  These actions \
 apply to all currently marked torrents.  The currently \
 selected torrent is automatically marked when you press enter. 
 
@@ -274,6 +274,8 @@ class AllTorrents(BaseMode, component.Component):
         self.__cols_to_show = [pref for pref in column_pref_names if self.config["show_%s"%pref]]
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
         self.__status_fields = column.get_required_fields(self.__columns)
+        for rf in ["state","name","queue"]: # we always need these, even if we're not displaying them
+            if not rf in self.__status_fields: self.__status_fields.append(rf)
         self.__update_columns()
 
     def __split_help(self):
@@ -293,10 +295,11 @@ class AllTorrents(BaseMode, component.Component):
         else:
             rem = self.cols - req
             var_cols = len(filter(lambda x: x < 0,self.column_widths))
-            vw = int(rem/var_cols)
-            for i in range(0, len(self.column_widths)):
-                if (self.column_widths[i] < 0):
-                    self.column_widths[i] = vw
+            if (var_cols > 0):
+                vw = int(rem/var_cols)
+                for i in range(0, len(self.column_widths)):
+                    if (self.column_widths[i] < 0):
+                        self.column_widths[i] = vw
 
         self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.__columns[i]," "*(self.column_widths[i]-len(self.__columns[i]))) for i in range(0,len(self.__columns))]))
 
@@ -813,8 +816,12 @@ class AllTorrents(BaseMode, component.Component):
                     effected_lines = [self.cursel-1]
                 elif chr(c) == 'M':
                     if self.last_mark >= 0:
-                        self.marked.extend(range(self.last_mark,self.cursel+1))
-                        effected_lines = range(self.last_mark,self.cursel)
+                        if (self.cursel+1) > self.last_mark:
+                            mrange = range(self.last_mark,self.cursel+1)
+                        else:
+                            mrange = range(self.cursel-1,self.last_mark)
+                        self.marked.extend(mrange[1:])
+                        effected_lines = mrange
                     else:
                         self._mark_unmark(self.cursel)
                         effected_lines = [self.cursel-1]
