@@ -631,3 +631,43 @@ class VersionSplit(object):
         v1 = [self.version, self.suffix or 'z', self.dev]
         v2 = [ver.version, ver.suffix or 'z', ver.dev]
         return cmp(v1, v2)
+
+
+# Common AUTH stuff
+AUTH_LEVEL_NONE = 0
+AUTH_LEVEL_READONLY = 1
+AUTH_LEVEL_NORMAL = 5
+AUTH_LEVEL_ADMIN = 10
+AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
+def create_auth_file():
+    import stat, configmanager
+    auth_file = configmanager.get_config_dir("auth")
+    # Check for auth file and create if necessary
+    if not os.path.exists(auth_file):
+        fd = open(auth_file, "w")
+        fd.flush()
+        os.fsync(fd.fileno())
+        fd.close()
+        # Change the permissions on the file so only this user can read/write it
+        os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
+
+def create_localclient_account():
+    import configmanager, random
+    auth_file = configmanager.get_config_dir("auth")
+    if not os.path.exists(auth_file):
+        create_auth_file()
+
+    try:
+        from hashlib import sha1 as sha_hash
+    except ImportError:
+        from sha import new as sha_hash
+    fd = open(auth_file, "w")
+    fd.write(":".join([
+        "localclient",
+        sha_hash(str(random.random())).hexdigest(),
+        str(AUTH_LEVEL_ADMIN)
+    ]) + '\n')
+    fd.flush()
+    os.fsync(fd.fileno())
+    fd.close()

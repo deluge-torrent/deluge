@@ -546,6 +546,8 @@ class Preferences(component.Component):
         except ImportError:
             from sha import new as sha_hash
 
+        classic_mode_was_set = self.gtkui_config["classic_mode"]
+
         # Get the values from the dialog
         new_core_config = {}
         new_gtkui_config = {}
@@ -666,8 +668,10 @@ class Preferences(component.Component):
             self.glade.get_widget("txt_tray_password").get_text()).hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
-        new_gtkui_config["classic_mode"] = \
-            self.glade.get_widget("chk_classic_mode").get_active()
+
+        new_gtkui_in_classic_mode = self.glade.get_widget("chk_classic_mode").get_active()
+        new_gtkui_config["classic_mode"] = new_gtkui_in_classic_mode
+
         new_gtkui_config["show_rate_in_title"] = \
             self.glade.get_widget("chk_show_rate_in_title").get_active()
 
@@ -762,6 +766,32 @@ class Preferences(component.Component):
         else:
             # Re-show the dialog to make sure everything has been updated
             self.show()
+
+        if classic_mode_was_set==True and new_gtkui_in_classic_mode==False:
+            def on_response(response):
+                if response == gtk.RESPONSE_NO:
+                    # Set each changed config value in the core
+                    self.gtkui_config["classic_mode"] = True
+                    client.core.set_config({"classic_mode": True})
+                    client.force_call(True)
+                    # Update the configuration
+                    self.core_config.update({"classic_mode": True})
+                    self.glade.get_widget("chk_classic_mode").set_active(True)
+                else:
+                    client.disconnect()
+                    if client.is_classicmode():
+                        component.stop()
+            dialog = dialogs.YesNoDialog(
+                _("Attention"),
+                _("Your current session will be stopped. Continue?")
+            )
+            dialog.run().addCallback(on_response)
+        elif classic_mode_was_set==False and new_gtkui_in_classic_mode==True:
+            dialog = dialogs.InformationDialog(
+                _("Attention"),
+                _("You must now restart the deluge UI")
+            )
+            dialog.run()
 
     def hide(self):
         self.glade.get_widget("port_img").hide()

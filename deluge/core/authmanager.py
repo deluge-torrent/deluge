@@ -42,16 +42,13 @@ import logging
 
 import deluge.component as component
 import deluge.configmanager as configmanager
+from deluge.common import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVEL_NORMAL,
+                           AUTH_LEVEL_READONLY, AUTH_LEVEL_DEFAULT,
+                           create_auth_file, create_localclient_account)
+
 from deluge.error import AuthManagerError, AuthenticationRequired, BadLoginError
 
 log = logging.getLogger(__name__)
-
-AUTH_LEVEL_NONE = 0
-AUTH_LEVEL_READONLY = 1
-AUTH_LEVEL_NORMAL = 5
-AUTH_LEVEL_ADMIN = 10
-
-AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 AUTH_LEVELS_MAPPING = {
     'NONE': AUTH_LEVEL_NONE,
@@ -218,28 +215,13 @@ class AuthManager(component.Component):
 
         self.__load_auth_file()
 
-    def __create_localclient_account(self):
-        """
-        Returns the string.
-        """
-        # We create a 'localclient' account with a random password
-        try:
-            from hashlib import sha1 as sha_hash
-        except ImportError:
-            from sha import new as sha_hash
-        self.__auth["localclient"] = Account(
-            "localclient",
-            sha_hash(str(random.random())).hexdigest(),
-            AUTH_LEVEL_ADMIN
-        )
-
     def __load_auth_file(self):
         save_and_reload = False
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
-            self.__create_auth_file()
-            self.__create_localclient_account()
+            create_auth_file()
+            create_localclient_account()
             self.write_auth_file()
 
         auth_file_modification_time = os.stat(auth_file).st_mtime
@@ -295,7 +277,7 @@ class AuthManager(component.Component):
             self.__auth[username] = Account(username, password, authlevel)
 
         if "localclient" not in self.__auth:
-            self.__create_localclient_account()
+            create_localclient_account()
             self.write_auth_file()
 
         if save_and_reload:
@@ -303,14 +285,3 @@ class AuthManager(component.Component):
             self.write_auth_file()
         self.__auth_modification_time = auth_file_modification_time
 
-
-    def __create_auth_file(self):
-        auth_file = configmanager.get_config_dir("auth")
-        # Check for auth file and create if necessary
-        if not os.path.exists(auth_file):
-            fd = open(auth_file, "w")
-            fd.flush()
-            os.fsync(fd.fileno())
-            fd.close()
-            # Change the permissions on the file so only this user can read/write it
-            os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)

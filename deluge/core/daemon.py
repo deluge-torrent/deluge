@@ -54,7 +54,9 @@ class Daemon(object):
         if os.path.isfile(deluge.configmanager.get_config_dir("deluged.pid")):
             # Get the PID and the port of the supposedly running daemon
             try:
-                (pid, port) = open(deluge.configmanager.get_config_dir("deluged.pid")).read().strip().split(";")
+                (pid, port) = open(
+                    deluge.configmanager.get_config_dir("deluged.pid")
+                ).read().strip().split(";")
                 pid = int(pid)
                 port = int(port)
             except ValueError:
@@ -93,7 +95,10 @@ class Daemon(object):
                 else:
                     # This is a deluged!
                     s.close()
-                    raise deluge.error.DaemonRunningError("There is a deluge daemon running with this config directory!")
+                    raise deluge.error.DaemonRunningError(
+                        "There is a deluge daemon running with this config "
+                        "directory!"
+                    )
 
         # Initialize gettext
         try:

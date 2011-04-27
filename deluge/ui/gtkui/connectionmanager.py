@@ -33,6 +33,7 @@
 #
 #
 
+import os
 import gtk
 import pkg_resources
 import time
@@ -55,11 +56,6 @@ log = logging.getLogger(__name__)
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 58846
-
-DEFAULT_CONFIG = {
-    "hosts": [(hashlib.sha1(str(time.time())).hexdigest(), DEFAULT_HOST,
-               DEFAULT_PORT, "localclient", "")]
-}
 
 HOSTLIST_COL_ID = 0
 HOSTLIST_COL_HOST = 1
@@ -99,15 +95,11 @@ class ConnectionManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "ConnectionManager")
         self.gtkui_config = ConfigManager("gtkui.conf")
-
-        self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
-        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
-
         self.running = False
 
     # Component overrides
     def start(self):
-        pass
+        self.config = self.__load_config()
 
     def stop(self):
         # Close this dialog when we are shutting down
@@ -116,6 +108,26 @@ class ConnectionManager(component.Component):
 
     def shutdown(self):
         pass
+
+    def __load_config(self):
+        auth_file = deluge.configmanager.get_config_dir("auth")
+        if not os.path.exists(auth_file):
+            from deluge.common import create_localclient_account
+            create_localclient_account()
+
+        localclient_username, localclient_password = get_localhost_auth()
+        DEFAULT_CONFIG = {
+            "hosts": [(
+                hashlib.sha1(str(time.time())).hexdigest(),
+                 DEFAULT_HOST,
+                 DEFAULT_PORT,
+                 localclient_username,
+                 localclient_password
+            )]
+        }
+        config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
+        config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
+        return config
 
     # Public methods
     def show(self):

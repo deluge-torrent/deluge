@@ -515,6 +515,7 @@ class DaemonClassicProxy(DaemonProxy):
                 self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
     def disconnect(self):
+        self.connected = False
         self.__daemon = None
 
     def call(self, method, *args, **kwargs):
