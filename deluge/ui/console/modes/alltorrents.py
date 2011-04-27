@@ -418,10 +418,13 @@ class AllTorrents(BaseMode, component.Component):
 
 
     def show_torrent_details(self,tid):
-        component.stop(["AllTorrents"])
-        self.stdscr.clear()
-        td = TorrentDetail(self,tid,self.stdscr,self.encoding)
-        component.get("ConsoleUI").set_mode(td)
+        def dodeets(arg):
+            if arg and True in arg[0]:
+                self.stdscr.clear()
+                component.get("ConsoleUI").set_mode(TorrentDetail(self,tid,self.stdscr,self.encoding))
+            else:
+                self.messages.append(("Error","An error occured trying to display torrent details"))
+        component.stop(["AllTorrents"]).addCallback(dodeets)
 
     def show_preferences(self):
         def _on_get_config(config):
@@ -431,28 +434,38 @@ class AllTorrents(BaseMode, component.Component):
             client.core.get_cache_status().addCallback(_on_get_cache_status,port,config)
 
         def _on_get_cache_status(status,port,config):
-            component.stop(["AllTorrents"])
-            self.stdscr.clear()
-            prefs = Preferences(self,config,self.config,port,status,self.stdscr,self.encoding)
-            component.get("ConsoleUI").set_mode(prefs)
+            def doprefs(arg):
+                if arg and True in arg[0]:
+                    self.stdscr.clear()
+                    component.get("ConsoleUI").set_mode(Preferences(self,config,self.config,port,status,self.stdscr,self.encoding))
+                else:
+                    self.messages.append(("Error","An error occured trying to display preferences"))
+            component.stop(["AllTorrents"]).addCallback(doprefs)
 
         client.core.get_config().addCallback(_on_get_config)
         
 
     def __show_events(self):
-        component.stop(["AllTorrents"])
-        self.stdscr.clear()
-        ev = EventView(self,self.stdscr,self.encoding)
-        component.get("ConsoleUI").set_mode(ev)
+        def doevents(arg):
+            if arg and True in arg[0]:
+                self.stdscr.clear()
+                component.get("ConsoleUI").set_mode(EventView(self,self.stdscr,self.encoding))
+            else:
+                self.messages.append(("Error","An error occured trying to display events"))
+        component.stop(["AllTorrents"]).addCallback(doevents)
 
     def __legacy_mode(self):
-        component.stop(["AllTorrents"])
-        self.stdscr.clear()
-        if not self.legacy_mode:
-            self.legacy_mode = Legacy(self.stdscr,self.encoding)
-        component.get("ConsoleUI").set_mode(self.legacy_mode)
-        self.legacy_mode.refresh()
-        curses.curs_set(2)
+        def dolegacy(arg):
+            if arg and True in arg[0]:
+                self.stdscr.clear()
+                if not self.legacy_mode:
+                    self.legacy_mode = Legacy(self.stdscr,self.encoding)
+                component.get("ConsoleUI").set_mode(self.legacy_mode)
+                self.legacy_mode.refresh()
+                curses.curs_set(2)
+            else:
+                self.messages.append(("Error","An error occured trying to switch to legacy mode"))
+        component.stop(["AllTorrents"]).addCallback(dolegacy)
 
     def _torrent_filter(self, idx, data):
         if data==FILTER.ALL:

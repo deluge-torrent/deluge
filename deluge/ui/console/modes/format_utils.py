@@ -77,7 +77,11 @@ def format_priority(prio):
         return pstring
 
 def trim_string(string, w, have_dbls):
-    if have_dbls:
+    if w <= 0:
+        return ""
+    elif w == 1:
+        return "…"
+    elif have_dbls:
         # have to do this the slow way
         chrs = []
         width = 4
@@ -92,9 +96,9 @@ def trim_string(string, w, have_dbls):
         if width != w:
             chrs.pop()
             chrs.append('.')
-        return "%s... "%("".join(chrs))
+        return "%s… "%("".join(chrs))
     else:
-        return "%s... "%(string[0:w-4])
+        return "%s… "%(string[0:w-2])
 
 def format_column(col, lim):
     dbls = 0
