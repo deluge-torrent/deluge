@@ -267,7 +267,10 @@ class AuthManager(component.Component):
                 log.warning("Your auth entry for %s contains no auth level, "
                             "using AUTH_LEVEL_DEFAULT(%s)..", username,
                             AUTH_LEVEL_DEFAULT)
-                authlevel = AUTH_LEVEL_DEFAULT
+                if username == 'localclient':
+                    authlevel = AUTH_LEVEL_ADMIN
+                else:
+                    authlevel = AUTH_LEVEL_DEFAULT
                 # This is probably an old auth file
                 save_and_reload = True
             elif len(lsplit) == 3:
