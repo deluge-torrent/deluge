@@ -135,6 +135,7 @@ DEFAULT_PREFS = {
     "autoconnect": False,
     "autoconnect_host_id": None,
     "autostart_localhost": False,
+    "autoadd_queued": False,
     "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
     "show_new_releases": True,
     "signal_port": 40000,
