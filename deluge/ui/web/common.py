@@ -35,7 +35,6 @@
 
 import zlib
 import gettext
-from mako.template import Template as MakoTemplate
 from deluge import common
 
 _ = lambda x: gettext.gettext(x).decode("utf-8")
@@ -59,18 +58,31 @@ def compress(contents, request):
     contents += compress.flush()
     return contents
 
-class Template(MakoTemplate):
-    """
-    A template that adds some built-ins to the rendering
-    """
-    
-    builtins = {
-        "_": _,
-        "escape": escape,
-        "version": common.get_version()
-    }
-    
-    def render(self, *args, **data):
-        data.update(self.builtins)
-        rendered = MakoTemplate.render_unicode(self, *args, **data)
-        return rendered.encode('utf-8', 'replace')
+try:
+    # This is beeing done like this in order to allow tests to use the above
+    # `compress` without requiring Mako to be instaled
+    from mako.template import Template as MakoTemplate
+    class Template(MakoTemplate):
+        """
+        A template that adds some built-ins to the rendering
+        """
+
+        builtins = {
+            "_": _,
+            "escape": escape,
+            "version": common.get_version()
+        }
+
+        def render(self, *args, **data):
+            data.update(self.builtins)
+            rendered = MakoTemplate.render_unicode(self, *args, **data)
+            return rendered.encode('utf-8', 'replace')
+except ImportError:
+    import warnings
+    warnings.warn("The Mako library is required to run deluge.ui.web",
+                  RuntimeWarning)
+    class Template(object):
+        def __new__(cls, *args, **kwargs):
+            raise RuntimeError(
+                "The Mako library is required to run deluge.ui.web"
+            )

@@ -56,7 +56,7 @@ except ImportError:
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_ADMIN
-from deluge.error import DelugeError, NotAuthorizedError, AuthenticationRequired
+from deluge.error import DelugeError, NotAuthorizedError, __PassthroughError
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -219,6 +219,9 @@ class DelugeRPCProtocol(Protocol):
 
         log.info("Deluge client disconnected: %s", reason.value)
 
+    def valid_session(self):
+        return self.transport.sessionno in self.factory.authorized_sessions
+
     def dispatch(self, request_id, method, args, kwargs):
         """
         This method is run when a RPC Request is made.  It will run the local method
@@ -262,18 +265,23 @@ class DelugeRPCProtocol(Protocol):
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
-            except AuthenticationRequired, err:
-                self.sendData((RPC_EVENT_AUTH, request_id, err.message, args[0]))
             except Exception, e:
-                sendError()
-                log.exception(e)
+                if isinstance(e, __PassthroughError):
+                    self.sendData(
+                        (RPC_EVENT_AUTH, request_id,
+                         e.__class__.__name__,
+                         e._args, e._kwargs, args[0])
+                    )
+                else:
+                    sendError()
+                    log.exception(e)
             else:
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:
                     self.transport.loseConnection()
             finally:
                 return
-        elif method == "daemon.set_event_interest" and self.transport.sessionno in self.factory.authorized_sessions:
+        elif method == "daemon.set_event_interest" and self.valid_session():
             log.debug("RPC dispatch daemon.set_event_interest")
             # This special case is to allow clients to set which events they are
             # interested in receiving.
@@ -289,22 +297,24 @@ class DelugeRPCProtocol(Protocol):
             finally:
                 return
 
-        if method in self.factory.methods and self.transport.sessionno in self.factory.authorized_sessions:
+        if method in self.factory.methods and self.valid_session():
             log.debug("RPC dispatch %s", method)
             try:
                 method_auth_requirement = self.factory.methods[method]._rpcserver_auth_level
                 auth_level = self.factory.authorized_sessions[self.transport.sessionno][0]
                 if auth_level < method_auth_requirement:
                     # This session is not allowed to call this method
-                    log.debug("Session %s is trying to call a method it is not authorized to call!", self.transport.sessionno)
-                    raise NotAuthorizedError("Auth level too low: %s < %s" % (auth_level, method_auth_requirement))
+                    log.debug("Session %s is trying to call a method it is not "
+                              "authorized to call!", self.transport.sessionno)
+                    raise NotAuthorizedError(auth_level, method_auth_requirement)
                 # Set the session_id in the factory so that methods can know
                 # which session is calling it.
                 self.factory.session_id = self.transport.sessionno
                 ret = self.factory.methods[method](*args, **kwargs)
             except Exception, e:
                 sendError()
-                # Don't bother printing out DelugeErrors, because they are just for the client
+                # Don't bother printing out DelugeErrors, because they are just
+                # for the client
                 if not isinstance(e, DelugeError):
                     log.exception("Exception calling RPC request: %s", e)
             else:
@@ -545,8 +555,12 @@ def generate_ssl_keys():
 
     # Write out files
     ssl_dir = deluge.configmanager.get_config_dir("ssl")
-    open(os.path.join(ssl_dir, "daemon.pkey"), "w").write(crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey))
-    open(os.path.join(ssl_dir, "daemon.cert"), "w").write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+    open(os.path.join(ssl_dir, "daemon.pkey"), "w").write(
+        crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+    )
+    open(os.path.join(ssl_dir, "daemon.cert"), "w").write(
+        crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+    )
     # Make the files only readable by this user
     for f in ("daemon.pkey", "daemon.cert"):
         os.chmod(os.path.join(ssl_dir, f), stat.S_IREAD | stat.S_IWRITE)

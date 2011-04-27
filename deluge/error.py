@@ -50,11 +50,24 @@ class InvalidTorrentError(DelugeError):
 class InvalidPathError(DelugeError):
     pass
 
-class NotAuthorizedError(DelugeError):
-    pass
+class __PassthroughError(DelugeError):
+    def __new__(cls, *args, **kwargs):
+        inst = super(__PassthroughError, cls).__new__(cls, *args, **kwargs)
+        inst._args = args
+        inst._kwargs = kwargs
+        return inst
+
+class NotAuthorizedError(__PassthroughError):
+    def __init__(self, current_level, required_level):
+        self.message = _(
+            "Auth level too low: %(current_level)s < %(required_level)s" %
+            dict(current_level=current_level, required_level=required_level)
+        )
+        self.current_level = current_level
+        self.required_level = required_level
 
 
-class _UsernameBasedException(DelugeError):
+class __UsernameBasedPasstroughError(__PassthroughError):
 
     def _get_message(self):
         return self._message
@@ -71,16 +84,16 @@ class _UsernameBasedException(DelugeError):
     del _get_username, _set_username
 
     def __init__(self, message, username):
-        super(_UsernameBasedException, self).__init__(message)
+        super(__UsernameBasedPasstroughError, self).__init__(message)
         self.message = message
         self.username = username
 
 
-class BadLoginError(_UsernameBasedException):
+class BadLoginError(__UsernameBasedPasstroughError):
     pass
 
-class AuthenticationRequired(BadLoginError):
+class AuthenticationRequired(__UsernameBasedPasstroughError):
     pass
 
-class AuthManagerError(_UsernameBasedException):
+class AuthManagerError(__UsernameBasedPasstroughError):
     pass

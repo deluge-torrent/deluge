@@ -45,8 +45,8 @@ except ImportError:
 import zlib
 
 import deluge.common
+from deluge import error
 from deluge.log import LOG as log
-from deluge.error import AuthenticationRequired
 from deluge.event import known_events
 
 if deluge.common.windows_check():
@@ -206,7 +206,8 @@ class DelugeRPCProtocol(Protocol):
                 # Run the callbacks registered with this Deferred object
                 d.callback(request[2])
             elif message_type == RPC_EVENT_AUTH:
-                d.errback(AuthenticationRequired(request[2], request[3]))
+                # Recreate exception and errback'it
+                d.errback(getattr(error, request[2])(*request[3], **request[4]))
             elif message_type == RPC_ERROR:
                 # Create the DelugeRPCError to pass to the errback
                 r = self.__rpc_requests[request_id]
@@ -416,13 +417,16 @@ class DaemonSSLProxy(DaemonProxy):
             containing a `:class:DelugeRPCError` object.
         """
         try:
-            if error_data.check(AuthenticationRequired):
+            if isinstance(error_data.value, error.NotAuthorizedError):
+                # Still log these errors
+                log.error(error_data.value.logable())
+                return error_data
+            if isinstance(error_data.value, error.__PassthroughError):
                 return error_data
         except:
             pass
 
-        if error_data.value.exception_type != 'AuthManagerError':
-            log.error(error_data.value.logable())
+        log.error(error_data.value.logable())
         return error_data
 
     def __on_connect(self, result):

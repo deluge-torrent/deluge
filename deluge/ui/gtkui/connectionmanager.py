@@ -43,6 +43,7 @@ from twisted.internet import reactor
 import deluge.component as component
 import common
 import deluge.configmanager
+from deluge.ui.common import get_localhost_auth
 from deluge.ui.client import client
 import deluge.ui.client
 from deluge.configmanager import ConfigManager
@@ -100,6 +101,7 @@ class ConnectionManager(component.Component):
         self.gtkui_config = ConfigManager("gtkui.conf")
 
         self.config = ConfigManager("hostlist.conf.1.2", DEFAULT_CONFIG)
+        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
 
         self.running = False
 
@@ -483,8 +485,9 @@ class ConnectionManager(component.Component):
                                    dialog.get_password())
             d = dialog.run().addCallback(dialog_finished, host, port, user)
             return d
-        dialogs.ErrorDialog(_("Failed To Authenticate"),
-                            reason.value.exception_msg).run()
+        dialogs.ErrorDialog(
+            _("Failed To Authenticate"), reason.value.message
+        ).run()
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
@@ -683,3 +686,16 @@ class ConnectionManager(component.Component):
 
     def on_askpassword_dialog_entry_activate(self, entry):
         self.askpassword_dialog.response(gtk.RESPONSE_OK)
+
+    def __migrate_config_1_to_2(self, config):
+        localclient_username, localclient_password = get_localhost_auth()
+        if not localclient_username:
+            # Nothing to do here, there's no auth file
+            return
+        for idx, (_, host, _, username, _) in enumerate(config["hosts"][:]):
+            if host in ("127.0.0.1", "localhost"):
+                if not username:
+                    config["hosts"][idx][3] = localclient_username
+                    config["hosts"][idx][4] = localclient_password
+        return config
+

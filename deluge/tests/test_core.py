@@ -13,11 +13,14 @@ except ImportError:
 
 import os
 import common
+import warnings
 rpath = common.rpath
 
 from deluge.core.rpcserver import RPCServer
 from deluge.core.core import Core
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 from deluge.ui.web.common import compress
+warnings.resetwarnings()
 import deluge.component as component
 import deluge.error
 

@@ -1,4 +1,5 @@
 import os
+import warnings
 
 from twisted.trial import unittest
 from twisted.internet import reactor
@@ -9,7 +10,10 @@ from twisted.web.server import Site
 
 from deluge.httpdownloader import download_file
 from deluge.log import setupLogger
+
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 from deluge.ui.web.common import compress
+warnings.resetwarnings()
 
 from email.utils import formatdate
 
