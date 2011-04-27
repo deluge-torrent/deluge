@@ -193,6 +193,10 @@ class IntSpinInput(InputField):
                 self.value = self.initvalue
             else:
                 self.value = int(self.valstr)
+                if self.value < self.min_val:
+                    self.value = self.min_val
+                if self.value > self.max_val:
+                    self.value = self.max_val
             self.valstr = "%d"%self.value 
             self.cursor = len(self.valstr)
             self.need_update = False
@@ -209,11 +213,11 @@ class IntSpinInput(InputField):
         return 1
 
     def handle_read(self, c):
-        if c  == curses.KEY_PPAGE:
+        if c  == curses.KEY_PPAGE and self.value < self.max_val:
             self.value+=1
             self.valstr = "%d"%self.value
             self.cursor = len(self.valstr)
-        elif c == curses.KEY_NPAGE:
+        elif c == curses.KEY_NPAGE and self.value > self.min_val:
             self.value-=1
             self.valstr = "%d"%self.value
             self.cursor = len(self.valstr)
@@ -281,10 +285,17 @@ class FloatSpinInput(InputField):
         self.max_val = max_val
         self.need_update = False
 
+    def __limit_value(self):
+        if self.value < self.min_val:
+            self.value = self.min_val
+        if self.value > self.max_val:
+            self.value = self.max_val
+
     def render(self, screen, row, width, active, col=1, cursor_offset=0):
         if not active and self.need_update:
             try:
                 self.value = round(float(self.valstr),self.precision)
+                self.__limit_value()
             except ValueError:
                 self.value = self.initvalue
             self.valstr = self.fmt%self.value
@@ -304,10 +315,12 @@ class FloatSpinInput(InputField):
     def handle_read(self, c):
         if c  == curses.KEY_PPAGE:
             self.value+=self.inc_amt
+            self.__limit_value()
             self.valstr = self.fmt%self.value
             self.cursor = len(self.valstr)
         elif c == curses.KEY_NPAGE:
             self.value-=self.inc_amt
+            self.__limit_value()
             self.valstr = self.fmt%self.value
             self.cursor = len(self.valstr)
         elif c == curses.KEY_LEFT:
