@@ -1,5 +1,8 @@
 === Deluge 1.3.0 (In Development) ===
 	* Improved Logging
+	* Removed the AutoAdd feature on the core. It's now handled with the AutoAdd
+	plugin, which is also shipped with Deluge, and it does a better job and
+	now, it even supports multiple users perfectly.
 
 ==== Core ====
 	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
@@ -9,9 +12,14 @@
 	* #1112: Fix renaming files in add torrent dialog
 	* #1247: Fix deluge-gtk from hanging on shutdown
 	* #995: Rewrote tracker_icons
-	* Make the distinction between adding to the session new unmanaged torrents and torrents loaded from state. This will break backwards compatability.
-	* Pass a copy of an event instead of passing the event arguments to the event handlers. This will break backwards compatability.
+	* Make the distinction between adding to the session new unmanaged torrents
+	and torrents loaded from state. This will break backwards compatability.
+	* Pass a copy of an event instead of passing the event arguments to the
+	event handlers. This will break backwards compatability.
 	* Allow changing ownership of torrents.
+	* File modifications on the auth file are now detected and when they happen,
+	the file is reloaded. Upon finding an old auth file with an old format, an
+	upgrade to the new format is made, file saved, and reloaded.
 
 ==== GtkUI ====
 	* Fix uncaught exception when closing deluge in classic mode
