@@ -161,8 +161,20 @@ class MainWindow(component.Component):
         :type shutdown: boolean
         """
         if shutdown:
-            client.daemon.shutdown()
-        reactor.stop()
+            def on_daemon_shutdown(result):
+                reactor.stop()
+            client.daemon.shutdown().addCallback(on_daemon_shutdown)
+            return
+        if client.is_classicmode():
+            reactor.stop()
+            return
+        if not client.connected():
+            reactor.stop()
+            return
+        def on_client_disconnected(result):
+            reactor.stop()
+        client.disconnect().addCallback(on_client_disconnected)
+
 
     def load_window_state(self):
         x = self.config["window_x_pos"]

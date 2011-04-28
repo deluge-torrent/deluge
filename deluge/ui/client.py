@@ -607,13 +607,15 @@ class Client(object):
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
         d = self._daemon_proxy.connect(host, port)
+        auth_deferred = defer.Deferred()
+
         def on_connect_fail(reason):
             self.disconnect()
+            auth_deferred.errback(reason)
             return reason
         d.addErrback(on_connect_fail)
 
         if not skip_authentication:
-            auth_deferred = defer.Deferred()
 
             def on_authenticate(result, daemon_info):
                 log.debug("Authentication sucessfull: %s", result)

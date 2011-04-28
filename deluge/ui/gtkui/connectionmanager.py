@@ -95,11 +95,12 @@ class ConnectionManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "ConnectionManager")
         self.gtkui_config = ConfigManager("gtkui.conf")
+        self.config = self.__load_config()
         self.running = False
 
     # Component overrides
     def start(self):
-        self.config = self.__load_config()
+        pass
 
     def stop(self):
         # Close this dialog when we are shutting down
@@ -184,23 +185,22 @@ class ConnectionManager(component.Component):
         column = gtk.TreeViewColumn(_("Version"), render, text=HOSTLIST_COL_VERSION)
         self.hostlist.append_column(column)
 
+        # Connect the signals to the handlers
+        self.glade.signal_autoconnect(self)
+
         # Load any saved host entries
         self.__load_hostlist()
         self.__load_options()
-
-        # Select the first host if possible
-        if len(self.liststore) > 0:
-            self.hostlist.get_selection().select_path("0")
-
-        # Connect the signals to the handlers
-        self.glade.signal_autoconnect(self)
-        self.hostlist.get_selection().connect(
-            "changed", self.on_hostlist_selection_changed
-        )
-
         self.__update_list()
 
         self.running = True
+        # Trigger the on_selection_changed code and select the first host
+        # if possible
+        self.hostlist.get_selection().unselect_all()
+        if len(self.liststore) > 0:
+            self.hostlist.get_selection().select_path("0")
+
+        # Run the dialog
         response = self.connection_manager.run()
         self.running = False
 
@@ -361,9 +361,13 @@ class ConnectionManager(component.Component):
         """
         Set the widgets to show the correct options from the config.
         """
-        self.glade.get_widget("chk_autoconnect").set_active(self.gtkui_config["autoconnect"])
-        self.glade.get_widget("chk_autostart").set_active(self.gtkui_config["autostart_localhost"])
-        self.glade.get_widget("chk_donotshow").set_active(not self.gtkui_config["show_connection_manager_on_start"])
+        self.autoconnect_host_id = self.gtkui_config['autoconnect_host_id']
+        self.glade.get_widget("chk_autostart").set_active(
+            self.gtkui_config["autostart_localhost"]
+        )
+        self.glade.get_widget("chk_donotshow").set_active(
+            not self.gtkui_config["show_connection_manager_on_start"]
+        )
 
     def __save_options(self):
         """
@@ -385,17 +389,25 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text("_Start Daemon")
+            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
 
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
             self.glade.get_widget("button_edithost").set_sensitive(False)
+            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
             return
 
         self.glade.get_widget("button_edithost").set_sensitive(True)
+        self.glade.get_widget("chk_autoconnect").set_sensitive(True)
 
         # Get some values about the selected host
         status = model[row][HOSTLIST_COL_STATUS]
+        hostid = model[row][HOSTLIST_COL_ID]
         host = model[row][HOSTLIST_COL_HOST]
+
+        self.glade.get_widget("chk_autoconnect").set_active(
+            hostid == self.gtkui_config["autoconnect_host_id"]
+        )
 
         log.debug("Status: %s", status)
         # Check to see if we have a localhost entry selected
@@ -699,6 +711,44 @@ class ConnectionManager(component.Component):
 
     def on_askpassword_dialog_entry_activate(self, entry):
         self.askpassword_dialog.response(gtk.RESPONSE_OK)
+
+    def on_hostlist_cursor_changed(self, widget):
+        paths = self.hostlist.get_selection().get_selected_rows()[1]
+        if len(paths) < 1:
+            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
+            return
+        else:
+            self.glade.get_widget("chk_autoconnect").set_sensitive(True)
+
+        hostid = self.liststore[paths[0]][HOSTLIST_COL_ID]
+        self.glade.get_widget("chk_autoconnect").set_active(
+            hostid == self.gtkui_config["autoconnect_host_id"]
+        )
+
+    def on_chk_autoconnect_toggled(self, widget):
+        paths = self.hostlist.get_selection().get_selected_rows()[1]
+        if len(paths) < 1:
+            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
+            self.glade.get_widget("chk_autostart").set_sensitive(False)
+            return
+        else:
+            self.glade.get_widget("chk_autoconnect").set_sensitive(True)
+
+        self.glade.get_widget("chk_autostart").set_sensitive(widget.get_active())
+
+        hostid = self.liststore[paths[0]][HOSTLIST_COL_ID]
+
+        if widget.get_active():
+            if self.autoconnect_host_id != hostid:
+                self.gtkui_config["autoconnect_host_id"] = hostid
+                self.autoconnect_host_id = hostid
+                self.gtkui_config.save()
+            return
+
+        if self.autoconnect_host_id == hostid:
+            self.gtkui_config["autoconnect_host_id"] = None
+            self.autoconnect_host_id = None
+            self.gtkui_config.save()
 
     def __migrate_config_1_to_2(self, config):
         localclient_username, localclient_password = get_localhost_auth()

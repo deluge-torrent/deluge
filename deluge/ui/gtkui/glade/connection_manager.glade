@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -10,7 +10,6 @@
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
@@ -230,7 +229,6 @@
     <property name="default_height">300</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
@@ -294,6 +292,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <signal name="cursor_changed" handler="on_hostlist_cursor_changed"/>
                         <signal name="row_activated" handler="on_hostlist_row_activated"/>
                       </widget>
                     </child>
@@ -471,14 +470,21 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="chk_autostart">
-                        <property name="label" translatable="yes">Automatically start localhost if needed</property>
+                      <widget class="GtkAlignment" id="alignment2">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_chk_autostart_toggled"/>
+                        <property name="left_padding">15</property>
+                        <child>
+                          <widget class="GtkCheckButton" id="chk_autostart">
+                            <property name="label" translatable="yes">Automatically start localhost if needed</property>
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_chk_autostart_toggled"/>
+                          </widget>
+                        </child>
                       </widget>
                       <packing>
                         <property name="position">1</property>
@@ -585,7 +591,6 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox5">
         <property name="visible">True</property>
@@ -608,7 +613,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="visibility">False</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <signal name="activate" handler="on_askpassword_dialog_entry_activate"/>
               </widget>
               <packing>

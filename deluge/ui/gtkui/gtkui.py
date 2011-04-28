@@ -333,28 +333,66 @@ Please see the details below for more information."), details=traceback.format_e
                         # Check to see if we need to start the localhost daemon
                         if self.config["autostart_localhost"] and host[1] in ("localhost", "127.0.0.1"):
                             log.debug("Autostarting localhost:%s", host[2])
-                            try_connect = client.start_daemon(host[2], deluge.configmanager.get_config_dir())
+                            try_connect = client.start_daemon(
+                                host[2], deluge.configmanager.get_config_dir()
+                            )
                             log.debug("Localhost started: %s", try_connect)
                             if not try_connect:
                                 dialogs.ErrorDialog(
                                     _("Error Starting Daemon"),
-                                    _("There was an error starting the daemon process.  Try running it from a console to see if there is an error.")).run()
+                                    _("There was an error starting the daemon "
+                                      "process.  Try running it from a console "
+                                      "to see if there is an error.")
+                                ).run()
+
+#                            def refresh_connection_manager_list():
+#                                try:
+#                                    self.connectionmanager.glade.get_widget(
+#                                        "button_refresh"
+#                                    ).emit("clicked")
+#                                except:
+#                                    pass
+#
+#                            reactor.callLatter(1, refresh_connection_manager_list)
+
+                        def update_connection_manager():
+                            if not self.connectionmanager.running:
+                                return
+                            self.connectionmanager.glade.get_widget(
+                                "button_refresh"
+                            ).emit("clicked")
+
+                        def close_connection_manager():
+                            if not self.connectionmanager.running:
+                                return
+                            self.connectionmanager.glade.get_widget(
+                                "button_close"
+                            ).emit("clicked")
+
 
                         def on_connect(connector):
+                            print 'ON GTK UI CONNECT!!!!\n\n'
                             component.start()
+                            reactor.callLater(0.5, update_connection_manager)
+                            reactor.callLater(1, close_connection_manager)
+
                         def on_connect_fail(result, try_counter):
                             log.error("Connection to host failed..")
                             # We failed connecting to the daemon, but lets try again
                             if try_counter:
-                                log.info("Retrying connection.. Retries left: %s", try_counter)
+                                log.info("Retrying connection.. Retries left: "
+                                         "%s", try_counter)
                                 try_counter -= 1
                                 import time
                                 time.sleep(0.5)
                                 do_connect(try_counter)
+                                reactor.callLater(0.5, update_connection_manager)
                             return result
 
                         def do_connect(try_counter):
-                            client.connect(*host[1:]).addCallback(on_connect).addErrback(on_connect_fail, try_counter)
+                            d = client.connect(*host[1:])
+                            d.addCallback(on_connect)
+                            d.addErrback(on_connect_fail, try_counter)
 
                         if try_connect:
                             do_connect(6)
