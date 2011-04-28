@@ -63,7 +63,10 @@ def format_seeds_peers(num, total):
     return "%d (%d)"%(num,total)
 
 def format_progress(perc):
-    return "%.2f%%"%perc
+    if perc < 100:
+        return "%.2f%%"%perc
+    else:
+        return "100%"
 
 def format_pieces(num, size):
     return "%d (%s)"%(num,deluge.common.fsize(size))
