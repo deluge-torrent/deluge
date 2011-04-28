@@ -152,6 +152,7 @@ class TorrentDetail(BaseMode, component.Component):
 
     def set_state(self, state):
         log.debug("got state")
+        need_prio_update = False
         if not self.file_list:
             # don't keep getting the files once we've got them once
             if state.get("files"):
@@ -160,9 +161,14 @@ class TorrentDetail(BaseMode, component.Component):
                 self._status_keys.remove("files")
             else:
                 self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
+            need_prio_update = True
         self._fill_progress(self.file_list,state["file_progress"])
         for i,prio in enumerate(state["file_priorities"]):
-            self.file_dict[i][6] = prio
+            if self.file_dict[i][6] != prio:
+                need_prio_update = True
+                self.file_dict[i][6] = prio
+        if need_prio_update:
+            self.__fill_prio(self.file_list)
         del state["file_progress"]
         del state["file_priorities"]
         self.torrent_state = state
@@ -235,6 +241,16 @@ class TorrentDetail(BaseMode, component.Component):
                 f[5] = format_utils.format_progress(progs[f[1]]*100)
             tb += bd
         return tb
+
+    def __fill_prio(self,fs):
+        for f in fs:
+            if f[3]: # dir, so fill in children and compute our prio
+                self.__fill_prio(f[3])
+                s = set([e[6] for e in f[3]]) # pull out all child prios and turn into a set
+                if len(s) > 1:
+                    f[6] = -2  # mixed
+                else:
+                    f[6] = s.pop()
 
     def _update_columns(self):
         self.column_widths = [-1,15,15,20]

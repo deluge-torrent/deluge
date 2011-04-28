@@ -69,6 +69,7 @@ def format_pieces(num, size):
     return "%d (%s)"%(num,deluge.common.fsize(size))
 
 def format_priority(prio):
+    if prio == -2: return "[Mixed]"
     if prio < 0: return "-"
     pstring = deluge.common.FILE_PRIORITY[prio]
     if prio > 0:
