@@ -361,18 +361,30 @@ class MenuBar(component.Component):
         glade = gtk.glade.XML(pkg_resources.resource_filename(
             "deluge.ui.gtkui", "glade/move_storage_dialog.glade"
         ))
-        dialog = glade.get_widget("move_storage_dialog")
-        dialog.set_transient_for(self.window.window)
-        entry = glade.get_widget("entry_destination")
-        entry.set_text(status["save_path"])
-        def _on_response_event(widget, response_id):
+        # Keep it referenced:
+        #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
+        self.move_storage_dialog = glade.get_widget("move_storage_dialog")
+        self.move_storage_dialog.set_transient_for(self.window.window)
+        self.move_storage_dialog_entry = glade.get_widget("entry_destination")
+        self.move_storage_dialog_entry.set_text(status["save_path"])
+        def on_dialog_response_event(widget, response_id):
+
+            def on_core_result(result):
+                # Delete references
+                del self.move_storage_dialog
+                del self.move_storage_dialog_entry
+
             if response_id == gtk.RESPONSE_OK:
-                log.debug("Moving torrents to %s", entry.get_text())
-                path = entry.get_text()
-                client.core.move_storage(component.get("TorrentView").get_selected_torrents(), path)
-            dialog.hide()
-        dialog.connect("response", _on_response_event)
-        dialog.show()
+                log.debug("Moving torrents to %s",
+                          self.move_storage_dialog.get_text())
+                path = self.move_storage_dialog_entry.get_text()
+                client.core.move_storage(
+                    component.get("TorrentView").get_selected_torrents(), path
+                ).addCallback(on_core_result)
+            self.move_storage_dialog.hide()
+
+        self.move_storage_dialog.connect("response", on_dialog_response_event)
+        self.move_storage_dialog.show()
 
     def on_menuitem_queue_top_activate(self, value):
         log.debug("on_menuitem_queue_top_activate")
