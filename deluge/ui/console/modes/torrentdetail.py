@@ -138,7 +138,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.__split_help()
 
         self.column_names = ["Filename", "Size", "Progress", "Priority"]
-        self._update_columns()
+        self.__update_columns()
 
         component.start(["TorrentDetail"])
         curses.curs_set(0)
@@ -162,7 +162,7 @@ class TorrentDetail(BaseMode, component.Component):
             else:
                 self.files_sep = "{!green,black,bold,underline!}%s"%(("Files (File list unknown)").center(self.cols))
             need_prio_update = True
-        self._fill_progress(self.file_list,state["file_progress"])
+        self.__fill_progress(self.file_list,state["file_progress"])
         for i,prio in enumerate(state["file_priorities"]):
             if self.file_dict[i][6] != prio:
                 need_prio_update = True
@@ -211,16 +211,16 @@ class TorrentDetail(BaseMode, component.Component):
                     cur = cl
                 else:
                     cur = cur[-1][3]
-        self._build_sizes(ret)
-        self._fill_progress(ret,prog)
+        self.__build_sizes(ret)
+        self.__fill_progress(ret,prog)
         return (ret,retdict)
 
     # fill in the sizes of the directory entries based on their children
-    def _build_sizes(self, fs):
+    def __build_sizes(self, fs):
         ret = 0
         for f in fs:
             if f[2] == -1:
-                val = self._build_sizes(f[3])
+                val = self.__build_sizes(f[3])
                 ret += val
                 f[2] = val
             else:
@@ -229,12 +229,12 @@ class TorrentDetail(BaseMode, component.Component):
 
     # fills in progress fields in all entries based on progs
     # returns the # of bytes complete in all the children of fs
-    def _fill_progress(self,fs,progs):
+    def __fill_progress(self,fs,progs):
         if not progs: return 0
         tb = 0
         for f in fs:
             if f[3]: # dir, has some children
-                bd = self._fill_progress(f[3],progs)
+                bd = self.__fill_progress(f[3],progs)
                 f[5] = format_utils.format_progress((bd/f[2])*100)
             else: # file, update own prog and add to total
                 bd = f[2]*progs[f[1]]
@@ -252,7 +252,7 @@ class TorrentDetail(BaseMode, component.Component):
                 else:
                     f[6] = s.pop()
 
-    def _update_columns(self):
+    def __update_columns(self):
         self.column_widths = [-1,15,15,20]
         req = sum(filter(lambda x:x >= 0,self.column_widths))
         if (req > self.cols): # can't satisfy requests, just spread out evenly
@@ -337,7 +337,7 @@ class TorrentDetail(BaseMode, component.Component):
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
-        self._update_columns()
+        self.__update_columns()
         self.__split_help()
         if self.popup:
             self.popup.handle_resize()
@@ -465,7 +465,7 @@ class TorrentDetail(BaseMode, component.Component):
             self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"])
             self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"])
 
-    def _mark_unmark(self,idx):
+    def __mark_unmark(self,idx):
         if idx in self.marked:
             del self.marked[idx]
         else:
@@ -524,7 +524,7 @@ class TorrentDetail(BaseMode, component.Component):
             if c > 31 and c < 256:
                 if chr(c) == 'm':
                     if self.current_file:
-                        self._mark_unmark(self.current_file[1])
+                        self.__mark_unmark(self.current_file[1])
                 elif chr(c) == 'c':
                     self.marked = {}
                 elif chr(c) == 'a':
