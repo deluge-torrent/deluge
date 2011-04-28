@@ -134,6 +134,7 @@ class ConnectionManager(component.Component):
         """
         Show the ConnectionManager dialog.
         """
+        self.config = self.__load_config()
         # Get the glade file for the connection manager
         self.glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui",
