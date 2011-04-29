@@ -15,9 +15,9 @@ For past developers and contributers see: http://dev.deluge-torrent.org/wiki/Abo
 License
 ==========================
 Deluge is under the GNU GPLv3 license.
-Icon data/pixmaps/deluge.svg and derivatives in data/icons are copyright
+Icon ui/data/pixmaps/deluge.svg and derivatives in ui/data/icons are copyright
 Andrew Wedderburn and are under the GNU GPLv3.
-All other icons in data/pixmaps are copyright Andrew Resch and are under
+All other icons in ui/data/pixmaps are copyright Andrew Resch and are under
 the GNU GPLv3.
 
 ==========================

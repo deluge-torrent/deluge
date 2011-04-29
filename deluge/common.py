@@ -212,7 +212,7 @@ def osx_check():
 
 def get_pixmap(fname):
     """
-    Provides easy access to files in the deluge/data/pixmaps folder within the Deluge egg
+    Provides easy access to files in the deluge/ui/data/pixmaps folder within the Deluge egg
 
     :param fname: the filename to look for
     :type fname: string
@@ -220,7 +220,7 @@ def get_pixmap(fname):
     :rtype: string
 
     """
-    return pkg_resources.resource_filename("deluge", os.path.join("data", \
+    return pkg_resources.resource_filename("deluge", os.path.join("ui/data", \
                                            "pixmaps", fname))
 
 def open_file(path):
