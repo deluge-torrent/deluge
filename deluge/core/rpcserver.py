@@ -56,7 +56,7 @@ except ImportError:
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_ADMIN
-from deluge.error import DelugeError, NotAuthorizedError, __PassthroughError
+from deluge.error import DelugeError, NotAuthorizedError, _PassthroughError
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -266,7 +266,7 @@ class DelugeRPCProtocol(Protocol):
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception, e:
-                if isinstance(e, __PassthroughError):
+                if isinstance(e, _PassthroughError):
                     self.sendData(
                         (RPC_EVENT_AUTH, request_id,
                          e.__class__.__name__,

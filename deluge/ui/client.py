@@ -421,7 +421,7 @@ class DaemonSSLProxy(DaemonProxy):
                 # Still log these errors
                 log.error(error_data.value.logable())
                 return error_data
-            if isinstance(error_data.value, error.__PassthroughError):
+            if isinstance(error_data.value, error._PassthroughError):
                 return error_data
         except:
             pass
@@ -472,7 +472,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.login_deferred.callback(result)
 
     def __on_login_fail(self, result):
-        log.debug("_on_login_fail(): %s", result)
+        log.debug("_on_login_fail(): %s", result.value)
         self.login_deferred.errback(result)
 
     def __on_auth_levels_mappings(self, result):
@@ -529,12 +529,14 @@ class DaemonClassicProxy(DaemonProxy):
             log.exception(e)
             return defer.fail(e)
         else:
-            return defer.maybeDeferred(m, *copy.deepcopy(args), **copy.deepcopy(kwargs))
+            return defer.maybeDeferred(
+                m, *copy.deepcopy(args), **copy.deepcopy(kwargs)
+            )
 
     def register_event_handler(self, event, handler):
         """
-        Registers a handler function to be called when `:param:event` is received
-        from the daemon.
+        Registers a handler function to be called when `:param:event` is
+        received from the daemon.
 
         :param event: the name of the event to handle
         :type event: str
@@ -604,37 +606,39 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
+
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
+
         d = self._daemon_proxy.connect(host, port)
-        auth_deferred = defer.Deferred()
 
         def on_connect_fail(reason):
             self.disconnect()
-            auth_deferred.errback(reason)
             return reason
+
+        def on_authenticate(result, daemon_info):
+            log.debug("Authentication sucessfull: %s", result)
+            return result
+
+        def on_authenticate_fail(reason):
+            log.debug("Failed to authenticate: %s", reason.value)
+            return reason
+
+        def on_connected(daemon_version):
+            log.debug("Client.connect.on_connected. Daemon version: %s",
+                      daemon_version)
+            return daemon_version
+
+        def authenticate(daemon_version, username, password):
+            d = self._daemon_proxy.authenticate(username, password)
+            d.addCallback(on_authenticate, daemon_version)
+            d.addErrback(on_authenticate_fail)
+            return d
+
+        d.addCallback(on_connected)
         d.addErrback(on_connect_fail)
-
         if not skip_authentication:
-
-            def on_authenticate(result, daemon_info):
-                log.debug("Authentication sucessfull: %s", result)
-                auth_deferred.callback(daemon_info)
-
-            def on_authenticate_fail(reason):
-                log.debug("Failed to authenticate")
-                log.exception(reason)
-                auth_deferred.errback(reason)
-
-            def on_connected(daemon_version):
-                log.debug("Client.connect.on_connected. Daemon version: %s",
-                          daemon_version)
-                d = self._daemon_proxy.authenticate(username, password)
-                d.addCallback(on_authenticate, daemon_version)
-                d.addErrback(on_authenticate_fail)
-
-            d.addCallback(on_connected)
-            return auth_deferred
+            d.addCallback(authenticate, username, password)
         return d
 
     def disconnect(self):

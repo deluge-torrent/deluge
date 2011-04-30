@@ -327,14 +327,30 @@ Please see the details below for more information."), details=traceback.format_e
     def __start_non_classic(self):
             # Autoconnect to a host
             if self.config["autoconnect"]:
-                for host in self.connectionmanager.config["hosts"]:
-                    if host[0] == self.config["autoconnect_host_id"]:
+
+                def update_connection_manager():
+                    if not self.connectionmanager.running:
+                        return
+                    self.connectionmanager.glade.get_widget(
+                        "button_refresh"
+                    ).emit("clicked")
+
+                def close_connection_manager():
+                    if not self.connectionmanager.running:
+                        return
+                    self.connectionmanager.glade.get_widget(
+                        "button_close"
+                    ).emit("clicked")
+
+                for host_config in self.connectionmanager.config["hosts"]:
+                    hostid, host, port, user, passwd = host_config
+                    if hostid == self.config["autoconnect_host_id"]:
                         try_connect = True
                         # Check to see if we need to start the localhost daemon
-                        if self.config["autostart_localhost"] and host[1] in ("localhost", "127.0.0.1"):
-                            log.debug("Autostarting localhost:%s", host[2])
+                        if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
+                            log.debug("Autostarting localhost:%s", host)
                             try_connect = client.start_daemon(
-                                host[2], deluge.configmanager.get_config_dir()
+                                port, deluge.configmanager.get_config_dir()
                             )
                             log.debug("Localhost started: %s", try_connect)
                             if not try_connect:
@@ -345,57 +361,54 @@ Please see the details below for more information."), details=traceback.format_e
                                       "to see if there is an error.")
                                 ).run()
 
-#                            def refresh_connection_manager_list():
-#                                try:
-#                                    self.connectionmanager.glade.get_widget(
-#                                        "button_refresh"
-#                                    ).emit("clicked")
-#                                except:
-#                                    pass
-#
-#                            reactor.callLatter(1, refresh_connection_manager_list)
-
-                        def update_connection_manager():
-                            if not self.connectionmanager.running:
-                                return
-                            self.connectionmanager.glade.get_widget(
-                                "button_refresh"
-                            ).emit("clicked")
-
-                        def close_connection_manager():
-                            if not self.connectionmanager.running:
-                                return
-                            self.connectionmanager.glade.get_widget(
-                                "button_close"
-                            ).emit("clicked")
-
+                            # Daemon Started, let's update it's info
+                            reactor.callLater(0.5, update_connection_manager)
 
                         def on_connect(connector):
-                            print 'ON GTK UI CONNECT!!!!\n\n'
                             component.start()
-                            reactor.callLater(0.5, update_connection_manager)
-                            reactor.callLater(1, close_connection_manager)
+                            reactor.callLater(0.2, update_connection_manager)
+                            reactor.callLater(0.5, close_connection_manager)
 
-                        def on_connect_fail(result, try_counter):
+                        def on_connect_fail(reason, try_counter,
+                                            host, port, user, passwd):
+                            if not try_counter:
+                                return
+
+                            if reason.check(deluge.error.AuthenticationRequired,
+                                            deluge.error.BadLoginError):
+                                log.debug("PasswordRequired exception")
+                                dialog = dialogs.AuthenticationDialog(
+                                    reason.value.message, reason.value.username
+                                )
+                                def dialog_finished(response_id, host, port):
+                                    if response_id == gtk.RESPONSE_OK:
+                                        reactor.callLater(
+                                            0.5, do_connect, try_counter-1,
+                                            host, port, dialog.get_username(),
+                                            dialog.get_password())
+                                dialog.run().addCallback(dialog_finished,
+                                                         host, port)
+                                return
+
                             log.error("Connection to host failed..")
-                            # We failed connecting to the daemon, but lets try again
-                            if try_counter:
-                                log.info("Retrying connection.. Retries left: "
-                                         "%s", try_counter)
-                                try_counter -= 1
-                                import time
-                                time.sleep(0.5)
-                                do_connect(try_counter)
-                                reactor.callLater(0.5, update_connection_manager)
-                            return result
+                            log.info("Retrying connection.. Retries left: "
+                                     "%s", try_counter)
+                            reactor.callLater(0.5, update_connection_manager)
+                            reactor.callLater(0.5, do_connect, try_counter-1,
+                                              host, port, user, passwd)
 
-                        def do_connect(try_counter):
-                            d = client.connect(*host[1:])
+                        def do_connect(try_counter, host, port, user, passwd):
+                            log.debug("Trying to connect to %s@%s:%s",
+                                      user, host, port)
+                            d = client.connect(host, port, user, passwd)
                             d.addCallback(on_connect)
-                            d.addErrback(on_connect_fail, try_counter)
+                            d.addErrback(on_connect_fail, try_counter,
+                                         host, port, user, passwd)
 
                         if try_connect:
-                            do_connect(6)
+                            reactor.callLater(
+                                0.5, do_connect, 6, host, port, user, passwd
+                            )
                         break
 
             if self.config["show_connection_manager_on_start"]:

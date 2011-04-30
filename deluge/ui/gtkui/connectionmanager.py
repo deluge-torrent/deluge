@@ -48,8 +48,7 @@ from deluge.ui.common import get_localhost_auth
 from deluge.ui.client import client
 import deluge.ui.client
 from deluge.configmanager import ConfigManager
-from deluge.error import AuthenticationRequired
-from deluge.log import LOG as log
+from deluge.error import AuthenticationRequired, BadLoginError
 import dialogs
 
 log = logging.getLogger(__name__)
@@ -187,6 +186,9 @@ class ConnectionManager(component.Component):
 
         # Connect the signals to the handlers
         self.glade.signal_autoconnect(self)
+        self.hostlist.get_selection().connect(
+            "changed", self.on_hostlist_selection_changed
+        )
 
         # Load any saved host entries
         self.__load_hostlist()
@@ -361,7 +363,9 @@ class ConnectionManager(component.Component):
         """
         Set the widgets to show the correct options from the config.
         """
-        self.autoconnect_host_id = self.gtkui_config['autoconnect_host_id']
+        self.glade.get_widget("chk_autoconnect").set_active(
+            self.gtkui_config["autoconnect"]
+        )
         self.glade.get_widget("chk_autostart").set_active(
             self.gtkui_config["autostart_localhost"]
         )
@@ -389,25 +393,20 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text("_Start Daemon")
-            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
 
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
             self.glade.get_widget("button_edithost").set_sensitive(False)
-            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
             return
 
         self.glade.get_widget("button_edithost").set_sensitive(True)
-        self.glade.get_widget("chk_autoconnect").set_sensitive(True)
 
         # Get some values about the selected host
         status = model[row][HOSTLIST_COL_STATUS]
-        hostid = model[row][HOSTLIST_COL_ID]
         host = model[row][HOSTLIST_COL_HOST]
-
-        self.glade.get_widget("chk_autoconnect").set_active(
-            hostid == self.gtkui_config["autoconnect_host_id"]
-        )
+        port = model[row][HOSTLIST_COL_PORT]
+        user = model[row][HOSTLIST_COL_USER]
+        passwd = model[row][HOSTLIST_COL_PASS]
 
         log.debug("Status: %s", status)
         # Check to see if we have a localhost entry selected
@@ -445,8 +444,14 @@ class ConnectionManager(component.Component):
             self.glade.get_widget("label_startdaemon").set_text(
                 _("_Start Daemon"))
 
-        if not localhost:
-            # An offline host
+        if client.connected() and (host, port, user) == client.connection_info():
+            # If we're connected, we can stop the dameon
+            self.glade.get_widget("button_startdaemon").set_sensitive(True)
+        elif user and passwd:
+            # In this case we also have all the info to shutdown the dameon
+            self.glade.get_widget("button_startdaemon").set_sensitive(True)
+        else:
+            # Can't stop non localhost daemons, specially without the necessary info
             self.glade.get_widget("button_startdaemon").set_sensitive(False)
 
         # Make sure label is displayed correctly using mnemonics
@@ -493,16 +498,16 @@ class ConnectionManager(component.Component):
     def __on_connected(self, daemon_info, host_id):
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
-
         self.connection_manager.response(gtk.RESPONSE_OK)
         component.start()
 
     def __on_connected_failed(self, reason, host_id, host, port, user):
         log.debug("Failed to connect: %s", reason)
-        if reason.check(AuthenticationRequired):
+        if reason.check(AuthenticationRequired, BadLoginError):
             log.debug("PasswordRequired exception")
-            dialog = dialogs.AuthenticationDialog(reason.value.message,
-                                                  reason.value.username)
+            dialog = dialogs.AuthenticationDialog(
+                reason.value.message, reason.value.username
+            )
             def dialog_finished(response_id, host, port, user):
                 if response_id == gtk.RESPONSE_OK:
                     self.__connect(host_id, host, port,
@@ -547,6 +552,7 @@ class ConnectionManager(component.Component):
                     time.sleep(0.5)
                     do_retry_connect(try_counter)
                 return result
+
             def do_retry_connect(try_counter):
                 d = client.connect(host, port, user, password)
                 d.addCallback(self.__on_connected, host_id)
@@ -657,9 +663,11 @@ class ConnectionManager(component.Component):
         log.debug("on_button_startdaemon_clicked")
         if self.liststore.iter_n_children(None) < 1:
             # There is nothing in the list, so lets create a localhost entry
-            self.add_host(DEFAULT_HOST, DEFAULT_PORT)
+            self.add_host(DEFAULT_HOST, DEFAULT_PORT, *get_localhost_auth())
             # ..and start the daemon.
-            self.start_daemon(DEFAULT_PORT, deluge.configmanager.get_config_dir())
+            self.start_daemon(
+                DEFAULT_PORT, deluge.configmanager.get_config_dir()
+            )
             return
 
         paths = self.hostlist.get_selection().get_selected_rows()[1]
@@ -681,9 +689,10 @@ class ConnectionManager(component.Component):
             def on_daemon_shutdown(d):
                 # Update display to show change
                 self.__update_list()
+
             if client.connected() and client.connection_info() == (host, port, user):
                 client.daemon.shutdown().addCallback(on_daemon_shutdown)
-            else:
+            elif user and password:
                 # Create a new client instance
                 c = deluge.ui.client.Client()
                 def on_connect(d, c):
@@ -711,44 +720,6 @@ class ConnectionManager(component.Component):
 
     def on_askpassword_dialog_entry_activate(self, entry):
         self.askpassword_dialog.response(gtk.RESPONSE_OK)
-
-    def on_hostlist_cursor_changed(self, widget):
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        if len(paths) < 1:
-            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
-            return
-        else:
-            self.glade.get_widget("chk_autoconnect").set_sensitive(True)
-
-        hostid = self.liststore[paths[0]][HOSTLIST_COL_ID]
-        self.glade.get_widget("chk_autoconnect").set_active(
-            hostid == self.gtkui_config["autoconnect_host_id"]
-        )
-
-    def on_chk_autoconnect_toggled(self, widget):
-        paths = self.hostlist.get_selection().get_selected_rows()[1]
-        if len(paths) < 1:
-            self.glade.get_widget("chk_autoconnect").set_sensitive(False)
-            self.glade.get_widget("chk_autostart").set_sensitive(False)
-            return
-        else:
-            self.glade.get_widget("chk_autoconnect").set_sensitive(True)
-
-        self.glade.get_widget("chk_autostart").set_sensitive(widget.get_active())
-
-        hostid = self.liststore[paths[0]][HOSTLIST_COL_ID]
-
-        if widget.get_active():
-            if self.autoconnect_host_id != hostid:
-                self.gtkui_config["autoconnect_host_id"] = hostid
-                self.autoconnect_host_id = hostid
-                self.gtkui_config.save()
-            return
-
-        if self.autoconnect_host_id == hostid:
-            self.gtkui_config["autoconnect_host_id"] = None
-            self.autoconnect_host_id = None
-            self.gtkui_config.save()
 
     def __migrate_config_1_to_2(self, config):
         localclient_username, localclient_password = get_localhost_auth()

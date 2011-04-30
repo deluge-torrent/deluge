@@ -50,14 +50,23 @@ class InvalidTorrentError(DelugeError):
 class InvalidPathError(DelugeError):
     pass
 
-class __PassthroughError(DelugeError):
+class _PassthroughError(DelugeError):
+
+    def _get_message(self):
+        return self._message
+    def _set_message(self, message):
+        self._message = message
+    message = property(_get_message, _set_message)
+    del _get_message, _set_message
+
     def __new__(cls, *args, **kwargs):
-        inst = super(__PassthroughError, cls).__new__(cls, *args, **kwargs)
+        inst = super(_PassthroughError, cls).__new__(cls, *args, **kwargs)
         inst._args = args
         inst._kwargs = kwargs
         return inst
 
-class NotAuthorizedError(__PassthroughError):
+class NotAuthorizedError(_PassthroughError):
+
     def __init__(self, current_level, required_level):
         self.message = _(
             "Auth level too low: %(current_level)s < %(required_level)s" %
@@ -67,14 +76,7 @@ class NotAuthorizedError(__PassthroughError):
         self.required_level = required_level
 
 
-class __UsernameBasedPasstroughError(__PassthroughError):
-
-    def _get_message(self):
-        return self._message
-    def _set_message(self, message):
-        self._message = message
-    message = property(_get_message, _set_message)
-    del _get_message, _set_message
+class _UsernameBasedPasstroughError(_PassthroughError):
 
     def _get_username(self):
         return self._username
@@ -84,16 +86,16 @@ class __UsernameBasedPasstroughError(__PassthroughError):
     del _get_username, _set_username
 
     def __init__(self, message, username):
-        super(__UsernameBasedPasstroughError, self).__init__(message)
+        super(_UsernameBasedPasstroughError, self).__init__(message)
         self.message = message
         self.username = username
 
 
-class BadLoginError(__UsernameBasedPasstroughError):
+class BadLoginError(_UsernameBasedPasstroughError):
     pass
 
-class AuthenticationRequired(__UsernameBasedPasstroughError):
+class AuthenticationRequired(_UsernameBasedPasstroughError):
     pass
 
-class AuthManagerError(__UsernameBasedPasstroughError):
+class AuthManagerError(_UsernameBasedPasstroughError):
     pass

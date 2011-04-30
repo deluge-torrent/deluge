@@ -448,7 +448,9 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        owner = state.owner if state else (owner if owner else component.get("RPCServer").get_session_user())
+        owner = state.owner if state else (
+            owner if owner else component.get("RPCServer").get_session_user()
+        )
         account_exists = component.get("AuthManager").has_account(owner)
         if not account_exists:
             owner = 'localclient'
