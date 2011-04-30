@@ -882,7 +882,8 @@ class Preferences(component.Component):
         try:
             if model.get_value(row, 1) == _("Daemon"):
                 # Let's see update the accounts related stuff
-                self._get_accounts_tab_data()
+                if client.connected():
+                    self._get_accounts_tab_data()
             self.notebook.set_current_page(model.get_value(row, 0))
         except TypeError:
             pass
