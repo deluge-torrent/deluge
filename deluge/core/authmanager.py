@@ -44,7 +44,7 @@ import deluge.component as component
 import deluge.configmanager as configmanager
 from deluge.common import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVEL_NORMAL,
                            AUTH_LEVEL_READONLY, AUTH_LEVEL_DEFAULT,
-                           create_auth_file, create_localclient_account)
+                           create_localclient_account)
 
 from deluge.error import AuthManagerError, AuthenticationRequired, BadLoginError
 
