@@ -196,7 +196,8 @@ class AuthManager(component.Component):
         new_auth_file = old_auth_file + '.new'
         bak_auth_file = old_auth_file + '.bak'
         # Let's first create a backup
-        shutil.copy2(old_auth_file, bak_auth_file)
+        if os.path.exists(old_auth_file):
+            shutil.copy2(old_auth_file, bak_auth_file)
 
         try:
             fd = open(new_auth_file, "w")
@@ -211,7 +212,8 @@ class AuthManager(component.Component):
             os.rename(new_auth_file, old_auth_file)
         except:
             # Something failed, let's restore the previous file
-            os.rename(bak_auth_file, old_auth_file)
+            if os.path.exists(bak_auth_file):
+                os.rename(bak_auth_file, old_auth_file)
 
         self.__load_auth_file()
 
@@ -220,9 +222,8 @@ class AuthManager(component.Component):
         auth_file = configmanager.get_config_dir("auth")
         # Check for auth file and create if necessary
         if not os.path.exists(auth_file):
-            create_auth_file()
             create_localclient_account()
-            self.write_auth_file()
+            return self.__load_auth_file()
 
         auth_file_modification_time = os.stat(auth_file).st_mtime
         if self.__auth_modification_time is None:
@@ -277,8 +278,9 @@ class AuthManager(component.Component):
             self.__auth[username] = Account(username, password, authlevel)
 
         if "localclient" not in self.__auth:
-            create_localclient_account()
-            self.write_auth_file()
+            create_localclient_account(True)
+            return self.__load_auth_file()
+
 
         if save_and_reload:
             log.info("Re-writing auth file (upgrade)")

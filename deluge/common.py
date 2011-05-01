@@ -652,7 +652,7 @@ def create_auth_file():
         # Change the permissions on the file so only this user can read/write it
         os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
-def create_localclient_account():
+def create_localclient_account(append=False):
     import configmanager, random
     auth_file = configmanager.get_config_dir("auth")
     if not os.path.exists(auth_file):
@@ -662,7 +662,7 @@ def create_localclient_account():
         from hashlib import sha1 as sha_hash
     except ImportError:
         from sha import new as sha_hash
-    fd = open(auth_file, "w")
+    fd = open(auth_file, "a" if append else "w")
     fd.write(":".join([
         "localclient",
         sha_hash(str(random.random())).hexdigest(),

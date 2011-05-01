@@ -55,15 +55,16 @@ deluge.main.start_daemon()
         if "Factory starting on 58846" in line:
             time.sleep(0.3) # Slight pause just incase
             break
+        elif "Couldn't listen on localhost:58846" in line:
+            raise SystemExit("Could not start deluge test client. %s" % line)
         elif 'Traceback' in line:
             raise SystemExit(
-                "Failed to start core daemon. Do \"\"\"%s\"\"\" to see what's "
+                "Failed to start core daemon. Do \"\"\" %s \"\"\" to see what's "
                 "happening" %
-                "python -c \"import sys; import tempfile; "
-                "config_directory = tempfile.mkdtemp(); "
-                "import deluge.main; import deluge.configmanager; "
+                "python -c \"import sys; import tempfile; import deluge.main; "
+                "import deluge.configmanager; config_directory = tempfile.mkdtemp(); "
                 "deluge.configmanager.set_config_dir(config_directory); "
                 "sys.argv.extend(['-d', '-c', config_directory, '-L', 'info']); "
-                "deluge.main.start_daemon()"
+                "deluge.main.start_daemon()\""
             )
     return core
