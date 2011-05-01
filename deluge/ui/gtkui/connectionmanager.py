@@ -498,7 +498,12 @@ class ConnectionManager(component.Component):
     def __on_connected(self, daemon_info, host_id):
         if self.gtkui_config["autoconnect"]:
             self.gtkui_config["autoconnect_host_id"] = host_id
-        self.connection_manager.response(gtk.RESPONSE_OK)
+        if self.running:
+            # When connected to a client, and then trying to connect to another,
+            # this component will be stopped(while the connect deferred is
+            # runing), so, self.connection_manager will be deleted.
+            # If that's not the case, close the dialog.
+            self.connection_manager.response(gtk.RESPONSE_OK)
         component.start()
 
     def __on_connected_failed(self, reason, host_id, host, port, user):
