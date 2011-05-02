@@ -2,7 +2,7 @@
 # core.py
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #

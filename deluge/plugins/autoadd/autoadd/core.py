@@ -2,7 +2,7 @@
 # core.py
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
-# Copyright (C) 2011 Pedro Algarvio <ufs@ufsoft.org>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
