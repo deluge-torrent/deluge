@@ -723,6 +723,10 @@ class Torrent(object):
             if self.handle.has_metadata():
                 return self.torrent_info.piece_length()
             return 0
+        def ti_pieces_info():
+            if self.handle.has_metadata():
+                return self.get_pieces_info()
+            return None
 
         fns = {
             "comment": ti_comment,
@@ -733,6 +737,7 @@ class Torrent(object):
             "name": ti_name,
             "num_files": ti_num_files,
             "num_pieces": ti_num_pieces,
+            "pieces": ti_pieces_info,
             "peers": self.get_peers,
             "piece_length": ti_piece_length,
             "private": ti_priv,
@@ -987,3 +992,18 @@ class Torrent(object):
         log.trace("Torrent %s has all the pieces. Setting last seen complete.",
                   self.torrent_id)
         self._last_seen_complete = time.time()
+
+    def get_pieces_info(self):
+        pieces = {}
+        for peer in self.handle.get_peer_info():
+            pieces[peer.downloading_piece_index] = 2
+        availability = self.handle.piece_availability()
+        for idx, piece in enumerate(self.handle.status().pieces):
+            if idx in pieces:
+                continue
+            pieces[idx] = 3 if piece else (availability[idx] > 1 and 1 or 0)
+
+        for piece in self.handle.get_download_queue():
+            pieces[piece['piece_index']] = 1
+        return pieces.values()
+
