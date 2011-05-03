@@ -71,11 +71,11 @@ def get_session_id(session_id):
     """
     if not session_id:
         return None
-    
+
     try:
         checksum = int(session_id[-4:])
         session_id = session_id[:-4]
-        
+
         if checksum == make_checksum(session_id):
             return session_id
         return None
@@ -93,32 +93,32 @@ class Auth(JSONComponent):
     """
     The component that implements authentification into the JSON interface.
     """
-    
+
     def __init__(self):
         super(Auth, self).__init__("Auth")
         self.worker = LoopingCall(self._clean_sessions)
         self.worker.start(5)
-    
+
     def _clean_sessions(self):
         config = component.get("DelugeWeb").config
         session_ids = config["sessions"].keys()
-        
+
         now = time.gmtime()
         for session_id in session_ids:
             session = config["sessions"][session_id]
-            
+
             if "expires" not in session:
                 del config["sessions"][session_id]
                 continue
-                
+
             if time.gmtime(session["expires"]) < now:
                 del config["sessions"][session_id]
                 continue
-    
+
     def _create_session(self, request, login='admin'):
         """
         Creates a new session.
-        
+
         :keyword login: the username of the user logging in, currently \
         only for future use currently.
         :type login: string
@@ -131,14 +131,13 @@ class Auth(JSONComponent):
         session_id = m.hexdigest()
 
         config = component.get("DelugeWeb").config
-        
+
         expires, expires_str = make_expires(config["session_timeout"])
         checksum = str(make_checksum(session_id))
-        
-        base = str(component.get("Web").get_config()["base"])
+
         request.addCookie('_session_id', session_id + checksum,
-                path=base+"json", expires=expires_str)
-        
+                path=request.base+"json", expires=expires_str)
+
         log.debug("Creating session for %s", login)
         config = component.get("DelugeWeb").config
 
@@ -151,7 +150,7 @@ class Auth(JSONComponent):
             "expires": expires
         }
         return True
-    
+
     def check_password(self, password):
         config = component.get("DelugeWeb").config
         if "pwd_md5" in config.config:
@@ -165,14 +164,14 @@ class Auth(JSONComponent):
                 # the old passwords from the config file.
                 self._change_password(password)
                 del config.config["pwd_md5"]
-                
+
                 # Remove the older password if there is now.
                 if "old_pwd_md5" in config.config:
                     del config.config["old_pwd_salt"]
                     del config.config["old_pwd_md5"]
-                
+
                 return True
-        
+
         elif "old_pwd_md5" in config.config:
             # We are using the 1.1 webui auth method
             log.debug("Received a password via the 1.1 auth method")
@@ -181,13 +180,13 @@ class Auth(JSONComponent):
             m.update(decodestring(config["old_pwd_salt"]))
             m.update(password)
             if m.digest() == decodestring(config["old_pwd_md5"]):
-                
+
                 # We want to move the password over to sha1 and remove
                 # the old passwords from the config file.
                 self._change_password(password)
                 del config.config["old_pwd_salt"]
                 del config.config["old_pwd_md5"]
-                
+
                 return True
 
         elif "pwd_sha1" in config.config:
@@ -204,25 +203,25 @@ class Auth(JSONComponent):
             # access.
             log.debug("Failed to detect the login method")
             return False
-    
+
     def check_request(self, request, method=None, level=None):
         """
         Check to ensure that a request is authorised to call the specified
         method of authentication level.
-        
+
         :param request: The HTTP request in question
         :type request: twisted.web.http.Request
         :keyword method: Check the specified method
         :type method: function
         :keyword level: Check the specified auth level
         :type level: integer
-        
+
         :raises: Exception
         """
 
         config = component.get("DelugeWeb").config
         session_id = get_session_id(request.getCookie("_session_id"))
-        
+
         if session_id not in config["sessions"]:
             auth_level = AUTH_LEVEL_NONE
             session_id = None
@@ -233,34 +232,33 @@ class Auth(JSONComponent):
             session["expires"] = expires
 
             _session_id = request.getCookie("_session_id")
-            base = str(component.get("Web").get_config()["base"])
             request.addCookie('_session_id', _session_id,
-                    path=base+"json", expires=expires_str)
-        
+                    path=request.base+"json", expires=expires_str)
+
         if method:
             if not hasattr(method, "_json_export"):
                 raise Exception("Not an exported method")
-            
+
             method_level = getattr(method, "_json_auth_level")
             if method_level is None:
                 raise Exception("Method has no auth level")
 
             level = method_level
-        
+
         if level is None:
             raise Exception("No level specified to check against")
-        
+
         request.auth_level = auth_level
         request.session_id = session_id
-        
+
         if auth_level < level:
             raise AuthError("Not authenticated")
-    
+
     def _change_password(self, new_password):
         """
         Change the password. This is to allow the UI to change/reset a
         password.
-        
+
         :param new_password: the password to change to
         :type new_password: string
         """
@@ -272,12 +270,12 @@ class Auth(JSONComponent):
         config["pwd_salt"] = salt
         config["pwd_sha1"] = s.hexdigest()
         return True
-    
+
     @export
     def change_password(self, old_password, new_password):
         """
         Change the password.
-        
+
         :param old_password: the current password
         :type old_password: string
         :param new_password: the password to change to
@@ -286,22 +284,22 @@ class Auth(JSONComponent):
         if not self.check_password(old_password):
             return False
         return self._change_password(new_password)
-    
+
     @export(AUTH_LEVEL_NONE)
     def check_session(self, session_id=None):
         """
         Check a session to see if it's still valid.
-        
+
         :returns: True if the session is valid, False if not.
         :rtype: booleon
         """
         return __request__.session_id is not None
-    
+
     @export
     def delete_session(self):
         """
         Removes a session.
-        
+
         :param session_id: the id for the session to remove
         :type session_id: string
         """
@@ -309,18 +307,18 @@ class Auth(JSONComponent):
         config = component.get("DelugeWeb").config
         del config["sessions"][__request__.session_id]
         return True
-    
+
     @export(AUTH_LEVEL_NONE)
     def login(self, password):
         """
         Test a password to see if it's valid.
-        
+
         :param password: the password to test
         :type password: string
         :returns: a session id or False
         :rtype: string or False
         """
-        
+
         if self.check_password(password):
             return self._create_session(__request__)
         else:

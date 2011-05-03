@@ -518,12 +518,30 @@ class TopLevel(resource.Resource):
         self.__scripts.remove(script)
         self.__debug_scripts.remove(script)
 
-
     def getChild(self, path, request):
         if path == "":
             return self
         else:
             return resource.Resource.getChild(self, path, request)
+
+    def getChildWithDefault(self, path, request):
+        # Calculate the request base
+        header = request.getHeader('x-deluge-base')
+        base = header if header else component.get("DelugeWeb").base
+
+        # validate the base parameter
+        if not base:
+            base = '/'
+
+        if base[0] != '/':
+            base = '/' + base
+
+        if base[-1] != '/':
+            base += '/'
+
+        request.base = base.encode('idna')
+
+        return resource.Resource.getChildWithDefault(self, path, request)
 
     def render(self, request):
         debug = False
@@ -555,25 +573,12 @@ class TopLevel(resource.Resource):
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
 
-        header = request.getHeader('x-deluge-base')
-        base = header if header else component.get("DelugeWeb").base
-
-        # validate the base parameter
-        if not base:
-            base = '/'
-
-        if base[0] != '/':
-            base = '/' + base
-
-        if base[-1] != '/':
-            base += '/'
-
         web_config = component.get("Web").get_config()
-        web_config["base"] = base
+        web_config["base"] = request.base
         config = dict([(key, web_config[key]) for key in UI_CONFIG_KEYS])
         js_config = common.json.dumps(config)
         return template.render(scripts=scripts, stylesheets=self.stylesheets,
-            debug=debug, base=base, js_config=js_config)
+            debug=debug, base=request.base, js_config=js_config)
 
 class ServerContextFactory:
 
