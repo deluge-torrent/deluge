@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-requires gtk+ 2.24 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="pref_dialog">
     <property name="can_focus">False</property>
@@ -2235,6 +2235,33 @@ Disabled</property>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkCheckButton" id="piecesbar_toggle">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip" translatable="yes">Besides being experimental, using the pieces bar
+will increase the bandwidth used between client
+and daemon(does not apply in classic mode).
+Use at your own risk if you wish to help us debug
+this new feature.</property>
+                                            <property name="use_action_appearance">False</property>
+                                            <property name="draw_indicator">True</property>
+                                            <child>
+                                              <widget class="GtkLabel" id="label62">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Show pieces bar instead of the progress bar (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
+                                                <property name="use_markup">True</property>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </widget>
