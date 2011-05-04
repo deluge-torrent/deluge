@@ -2249,11 +2249,13 @@ Use at your own risk if you wish to help us debug
 this new feature.</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_piecesbar_toggle_toggled"/>
                                             <child>
                                               <widget class="GtkLabel" id="label62">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Show pieces bar instead of the progress bar (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
+                                                <property name="label" translatable="yes">Show a pieces bar in the torrent's
+status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <property name="use_markup">True</property>
                                               </widget>
                                             </child>
@@ -2262,6 +2264,245 @@ this new feature.</property>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkExpander" id="piecebar_colors_expander">
+                                            <property name="can_focus">True</property>
+                                            <child>
+                                              <widget class="GtkAlignment" id="alignment58">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="left_padding">25</property>
+                                                <child>
+                                                  <widget class="GtkTable" id="table6">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="n_rows">4</property>
+                                                    <property name="n_columns">3</property>
+                                                    <property name="column_spacing">5</property>
+                                                    <property name="row_spacing">1</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label66">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="xalign">1</property>
+                                                        <property name="label" translatable="yes">Completed:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkColorButton" id="completed_color">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="color">#000000000000</property>
+                                                        <signal name="color_set" handler="on_completed_color_set"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label67">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="xalign">1</property>
+                                                        <property name="label" translatable="yes">Downloading:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkColorButton" id="downloading_color">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="color">#000000000000</property>
+                                                        <signal name="color_set" handler="on_downloading_color_set"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label69">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="xalign">1</property>
+                                                        <property name="label" translatable="yes">Waiting:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">2</property>
+                                                        <property name="bottom_attach">3</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkColorButton" id="waiting_color">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="color">#000000000000</property>
+                                                        <signal name="color_set" handler="on_waiting_color_set"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">2</property>
+                                                        <property name="bottom_attach">3</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label70">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="xalign">1</property>
+                                                        <property name="label" translatable="yes">Missing:</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">3</property>
+                                                        <property name="bottom_attach">4</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkColorButton" id="missing_color">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="color">#000000000000</property>
+                                                        <signal name="color_set" handler="on_missing_color_set"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">3</property>
+                                                        <property name="bottom_attach">4</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="revert_color_completed">
+                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="tooltip" translatable="yes">Revert color to default</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="use_stock">True</property>
+                                                        <property name="image_position">right</property>
+                                                        <signal name="clicked" handler="on_revert_color_completed_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="revert_color_downloading">
+                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="tooltip" translatable="yes">Revert color to default</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="use_stock">True</property>
+                                                        <property name="image_position">right</property>
+                                                        <signal name="clicked" handler="on_revert_color_downloading_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="revert_color_waiting">
+                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="tooltip" translatable="yes">Revert color to default</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="use_stock">True</property>
+                                                        <property name="image_position">right</property>
+                                                        <signal name="clicked" handler="on_revert_color_waiting_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="top_attach">2</property>
+                                                        <property name="bottom_attach">3</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="revert_color_missing">
+                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="tooltip" translatable="yes">Revert color to default</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="use_stock">True</property>
+                                                        <property name="image_position">right</property>
+                                                        <signal name="clicked" handler="on_revert_color_missing_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="top_attach">3</property>
+                                                        <property name="bottom_attach">4</property>
+                                                        <property name="x_options"></property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label73">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Piece Colors</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="type">label_item</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </widget>

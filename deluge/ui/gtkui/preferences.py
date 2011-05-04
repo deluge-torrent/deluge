@@ -53,6 +53,14 @@ import deluge.configmanager
 log = logging.getLogger(__name__)
 
 ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD = range(3)
+COLOR_MISSING, COLOR_WAITING, COLOR_DOWNLOADING, COLOR_COMPLETED = range(4)
+
+COLOR_STATES = {
+    "missing": COLOR_MISSING,
+    "waiting": COLOR_WAITING,
+    "downloading": COLOR_DOWNLOADING,
+    "completed": COLOR_COMPLETED
+}
 
 class Preferences(component.Component):
     def __init__(self):
@@ -152,8 +160,23 @@ class Preferences(component.Component):
             "on_accounts_add_clicked": self._on_accounts_add_clicked,
             "on_accounts_delete_clicked": self._on_accounts_delete_clicked,
             "on_accounts_edit_clicked": self._on_accounts_edit_clicked,
-            "on_alocation_toggled": self._on_alocation_toggled
+            "on_alocation_toggled": self._on_alocation_toggled,
+            "on_piecesbar_toggle_toggled": self._on_piecesbar_toggle_toggled,
+            "on_completed_color_set": self._on_completed_color_set,
+            "on_revert_color_completed_clicked": self._on_revert_color_completed_clicked,
+            "on_downloading_color_set": self._on_downloading_color_set,
+            "on_revert_color_downloading_clicked": self._on_revert_color_downloading_clicked,
+            "on_waiting_color_set": self._on_waiting_color_set,
+            "on_revert_color_waiting_clicked": self._on_revert_color_waiting_clicked,
+            "on_missing_color_set": self._on_missing_color_set,
+            "on_revert_color_missing_clicked": self._on_revert_color_missing_clicked
         })
+
+        from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+        self.COLOR_DEFAULTS = {}
+        for key in ("missing", "waiting", "downloading", "completed"):
+            self.COLOR_DEFAULTS[key] = DEFAULT_PREFS["pieces_color_%s" % key][:]
+        del DEFAULT_PREFS
 
         # These get updated by requests done to the core
         self.all_plugins = []
@@ -527,6 +550,13 @@ class Preferences(component.Component):
             self.gtkui_config["classic_mode"])
         self.glade.get_widget("chk_show_rate_in_title").set_active(
             self.gtkui_config["show_rate_in_title"])
+        self.glade.get_widget("piecesbar_toggle").set_active(
+            self.gtkui_config["show_piecesbar"]
+        )
+        self.__set_color("completed", from_config=True)
+        self.__set_color("downloading", from_config=True)
+        self.__set_color("waiting", from_config=True)
+        self.__set_color("missing", from_config=True)
 
         ## Other tab ##
         self.glade.get_widget("chk_show_new_releases").set_active(
@@ -578,6 +608,13 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_show_dialog").get_active()
         new_gtkui_config["focus_add_dialog"] = \
             self.glade.get_widget("chk_focus_dialog").get_active()
+
+        for state in ("missing", "waiting", "downloading", "completed"):
+            color = self.glade.get_widget("%s_color" % state).get_color()
+            new_gtkui_config["pieces_color_%s" % state] = [
+                color.red, color.green, color.blue
+            ]
+
         new_core_config["copy_torrent_file"] = \
             self.glade.get_widget("chk_copy_torrent_file").get_active()
         new_core_config["del_copy_torrent_file"] = \
@@ -916,6 +953,7 @@ class Preferences(component.Component):
 
     def on_test_port_clicked(self, data):
         log.debug("on_test_port_clicked")
+
         def on_get_test(status):
             if status:
                 self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_YES, 4)
@@ -924,6 +962,8 @@ class Preferences(component.Component):
                 self.glade.get_widget("port_img").set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
                 self.glade.get_widget("port_img").show()
         client.core.test_listen_port().addCallback(on_get_test)
+        # XXX: Consider using gtk.Spinner() instead of the loading gif
+        #      It requires gtk.ver > 2.12
         self.glade.get_widget("port_img").set_from_file(
             deluge.common.get_pixmap('loading.gif')
         )
@@ -1210,3 +1250,60 @@ class Preferences(component.Component):
         full_allocation_active = self.glade.get_widget("radio_full_allocation").get_active()
         self.glade.get_widget("chk_prioritize_first_last_pieces").set_sensitive(full_allocation_active)
         self.glade.get_widget("chk_sequential_download").set_sensitive(full_allocation_active)
+
+    def _on_piecesbar_toggle_toggled(self, widget):
+        self.gtkui_config['show_piecesbar'] = widget.get_active()
+        colors_widget = self.glade.get_widget("piecebar_colors_expander")
+        colors_widget.set_visible(widget.get_active())
+
+    def _on_completed_color_set(self, widget):
+        self.__set_color("completed")
+
+    def _on_revert_color_completed_clicked(self, widget):
+        self.__revert_color("completed")
+
+    def _on_downloading_color_set(self, widget):
+        self.__set_color("downloading")
+
+    def _on_revert_color_downloading_clicked(self, widget):
+        self.__revert_color("downloading")
+
+    def _on_waiting_color_set(self, widget):
+        self.__set_color("waiting")
+
+    def _on_revert_color_waiting_clicked(self, widget):
+        self.__revert_color("waiting")
+
+    def _on_missing_color_set(self, widget):
+        self.__set_color("missing")
+
+    def _on_revert_color_missing_clicked(self, widget):
+        self.__revert_color("missing")
+
+    def __set_color(self, state, from_config=False):
+        if from_config:
+            color = gtk.gdk.Color(*self.gtkui_config["pieces_color_%s" % state])
+            log.debug("Setting %r color state from config to %s", state,
+                      (color.red, color.green, color.blue))
+            self.glade.get_widget("%s_color" % state).set_color(color)
+        else:
+            color = self.glade.get_widget("%s_color" % state).get_color()
+            log.debug("Setting %r color state to %s", state,
+                      (color.red, color.green, color.blue))
+            self.gtkui_config["pieces_color_%s" % state] = [
+                color.red, color.green, color.blue
+            ]
+            self.gtkui_config.save()
+            self.gtkui_config.apply_set_functions("pieces_colors")
+
+        self.glade.get_widget("revert_color_%s" % state).set_sensitive(
+            [color.red, color.green, color.blue] != self.COLOR_DEFAULTS[state]
+        )
+
+    def __revert_color(self, state, from_config=False):
+        log.debug("Reverting %r color state", state)
+        self.glade.get_widget("%s_color" % state).set_color(
+            gtk.gdk.Color(*self.COLOR_DEFAULTS[state])
+        )
+        self.glade.get_widget("revert_color_%s" % state).set_sensitive(False)
+        self.gtkui_config.apply_set_functions("pieces_colors")

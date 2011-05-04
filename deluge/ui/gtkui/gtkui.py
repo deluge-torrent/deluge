@@ -157,7 +157,18 @@ DEFAULT_PREFS = {
     "sidebar_show_trackers": True,
     "sidebar_position": 170,
     "show_rate_in_title": False,
-    "createtorrent.trackers": []
+    "createtorrent.trackers": [],
+    "show_piecesbar": False,
+#    "pieces_colors": [
+#        [65535, 0, 0],
+#        [4874, 56494, 0],
+#        [65535, 55255, 0],
+#        [4883, 26985, 56540]
+#    ],
+    "pieces_color_missing": [65535, 0, 0],
+    "pieces_color_waiting": [4874, 56494, 0],
+    "pieces_color_downloading": [65535, 55255, 0],
+    "pieces_color_completed": [4883, 26985, 56540],
 }
 
 class GtkUI(object):
