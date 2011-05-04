@@ -997,16 +997,11 @@ class Torrent(object):
         pieces = {}
         # First get the pieces availability.
         availability = self.handle.piece_availability()
-        # Now, the pieces being downloaded
-#        for piece in self.handle.get_download_queue():
-#            # In case the torrent is paused, the pieces in the download queue
-#            # will be shown as waiting
-##            pieces[piece['piece_index']] = self.handle.is_paused() and 1 or 2
-#            pieces[piece['piece_index']] = 1
-
         # Pieces from connected peers
         for peer_info in self.handle.get_peer_info():
             if peer_info.downloading_piece_index < 0:
+                # No piece index, then we're not downloading anything from
+                # this peer
                 continue
             pieces[peer_info.downloading_piece_index] = 2
 
