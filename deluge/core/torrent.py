@@ -995,15 +995,41 @@ class Torrent(object):
 
     def get_pieces_info(self):
         pieces = {}
-        for peer in self.handle.get_peer_info():
-            pieces[peer.downloading_piece_index] = 2
+        # First get the pieces availability.
         availability = self.handle.piece_availability()
+        # Now, the pieces being downloaded
+#        for piece in self.handle.get_download_queue():
+#            # In case the torrent is paused, the pieces in the download queue
+#            # will be shown as waiting
+##            pieces[piece['piece_index']] = self.handle.is_paused() and 1 or 2
+#            pieces[piece['piece_index']] = 1
+
+        # Pieces from connected peers
+        for peer_info in self.handle.get_peer_info():
+            if peer_info.downloading_piece_index < 0:
+                continue
+            pieces[peer_info.downloading_piece_index] = 2
+
+        # Now, the rest of the pieces
         for idx, piece in enumerate(self.handle.status().pieces):
             if idx in pieces:
+                # Piece beeing downloaded, handled above
                 continue
-            pieces[idx] = 3 if piece else (availability[idx] > 1 and 1 or 0)
+            elif piece:
+                # Completed Piece
+                pieces[idx] = 3
+                continue
+            elif availability[idx] > 1:
+                # Piece not downloaded nor beeing downloaded
+                pieces[idx] = 1
+                continue
+            # If we reached here, it means the piece is missing, ie, there's
+            # no known peer with this piece, or this piece has not been asked
+            # for so far.
+            pieces[idx] = 0
 
-        for piece in self.handle.get_download_queue():
-            pieces[piece['piece_index']] = 1
-        return pieces.values()
-
+        sorted_indexes = pieces.keys()
+        sorted_indexes.sort()
+        # Return only the piece states, no need for the piece index
+        # Keep the order
+        return [pieces[idx] for idx in sorted_indexes]
