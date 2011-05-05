@@ -26,6 +26,7 @@
 	these is missing, an authentication error will be sent to the client
 	which sould then ask the username/password to the user.
 	* Implemented sequential downloads.
+	* #378: Provide information about a torrent's pieces states
 
 ==== GtkUI ====
 	* Fix uncaught exception when closing deluge in classic mode
@@ -34,6 +35,8 @@
 	now also migrated from the old format were automatic localhost logins were
 	possible, which no longer is, this fixes #1814.
 	* Implemented sequential downloads UI handling.
+	* #378: Allow showing a pieces bar instead of a regular progress bar in a
+	torrent's status tab.
 
 ==== WebUI ====
 	* Migrate to ExtJS 3.1
