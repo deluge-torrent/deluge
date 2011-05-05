@@ -126,7 +126,7 @@ class StatusTab(Tab):
             "max_upload_speed", "max_download_speed", "active_time",
             "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
         if self.config['show_piecesbar']:
-            status_keys.append("pieces")
+            status_keys.extend(["pieces", "state"])
 
 
         component.get("SessionProxy").get_torrent_status(
@@ -166,7 +166,7 @@ class StatusTab(Tab):
         if w.get_fraction() != fraction:
             w.set_fraction(fraction)
         if self.config['show_piecesbar']:
-            self.piecesbar.set_pieces(status['pieces'], status["num_pieces"])
+            self.piecesbar.update_from_status(status)
 
     def on_show_pieces_bar_config_changed(self, key, show):
         self.show_pieces_bar(show)

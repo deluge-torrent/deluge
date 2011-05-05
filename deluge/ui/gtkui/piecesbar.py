@@ -34,11 +34,9 @@
 #
 #
 
-import pygtk
-pygtk.require('2.0')
 import gtk
-import gtk.gdk
-import cairo
+import pango
+import pangocairo
 import logging
 from deluge.configmanager import ConfigManager
 
@@ -58,12 +56,23 @@ class PiecesBar(gtk.DrawingArea):
 
     def __init__(self):
         gtk.DrawingArea.__init__(self)
+        # Get progress bar styles, in order to keep font consistency
+        pb = gtk.ProgressBar()
+        pb_style = pb.get_style()
+        self.text_font = pb_style.font_desc
+        self.text_font.set_weight(pango.WEIGHT_BOLD)
+        # Done with the ProgressBar styles, don't keep refs of it
+        del pb, pb_style
+
         self.set_size_request(-1, 25)
         self.gtkui_config = ConfigManager("gtkui.conf")
         self.width = 0
         self.height = 0
         self.pieces = ()
         self.num_pieces = None
+        self.text = ""
+        self.fraction = 0.0
+        self.torrent_state = None
         self.connect('size-allocate', self.do_size_allocate_event)
         self.set_colormap(self.get_screen().get_rgba_colormap())
         self.show()
@@ -82,30 +91,10 @@ class PiecesBar(gtk.DrawingArea):
                      event.area.width, event.area.height)
         cr.clip()
 
-#            # Sets the operator to clear which deletes everything below where
-#            # an object is drawn
-#            cr.set_operator(cairo.OPERATOR_CLEAR)
-#            # Makes the mask fill the entire area
-#            cr.rectangle(0.0, 0.0, event.area.width, event.area.height)
-#            # Deletes everything in the window (since the compositing operator
-#            # is clear and mask fills the entire window
-#            cr.fill()
-#            # Set the compositing operator back to the default
-#            cr.set_operator(cairo.OPERATOR_OVER)
-
-
         cr.set_line_width(max(cr.device_to_user_distance(0.5, 0.5)))
-#        bgColor = self.window.get_style().copy().bg[gtk.STATE_NORMAL]
-#        cr.set_source_rgba(0.53, 0.53, 0.53, 1.0) # Transparent
-#        cr.set_source_rgba(0.8, 0.8, 0.8, 1.0) # Transparent
-#        cr.set_source_rgb(0.3, 0.3, 0.3) # Transparent
-        cr.set_source_rgb(0.1, 0.1, 0.1) # Transparent
-#        cr.set_source_rgb(bgColor.red/65535.0, bgColor.green/65535.0, bgColor.blue/65535.0)
-#        cr.set_operator(cairo.OPERATOR_SOURCE)
+        cr.set_source_rgb(0.1, 0.1, 0.1)
         cr.rectangle(0.0, 0.0, event.area.width, event.area.height)
         cr.stroke()
-#        # Set the compositing operator back to the default
-#        cr.set_operator(cairo.OPERATOR_OVER)
 
 
         if not self.pieces and self.num_pieces is not None:
@@ -121,13 +110,14 @@ class PiecesBar(gtk.DrawingArea):
                     color[1]/65535.0,
                     color[2]/65535.0,
                 )
-#                cr.set_source_rgba(*list(self.colors[3])+[0.5])
                 cr.rectangle(start, 1, piece_width, piece_height)
                 cr.fill()
                 start += piece_width
+            self.__write_text(cr, event)
             return
 
         if not self.pieces:
+            self.__write_text(cr, event)
             return
 
         # Create the cairo context
@@ -137,19 +127,61 @@ class PiecesBar(gtk.DrawingArea):
         piece_height = self.height - 2
 
         for state in self.pieces:
-#            cr.set_source_rgb(*self.colors[state])
-#            cr.set_source_rgb(*self.colors[state])
-
             color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
             cr.set_source_rgb(
                 color[0]/65535.0,
                 color[1]/65535.0,
                 color[2]/65535.0,
             )
-#            cr.set_source_rgba(*list(self.colors[state])+[0.5])
             cr.rectangle(start_pos, 1, piece_width, piece_height)
             cr.fill()
             start_pos += piece_width
+
+        self.__write_text(cr, event)
+
+    def __draw_progress_overlay(self, cr):
+        cr.set_source_rgba(0.1, 0.1, 0.1, 0.2) # Transparent
+        cr.rectangle(0.0, 0.0, self.width*self.fraction, self.height)
+        cr.fill()
+
+    def __write_text(self, cr, event):
+        if not self.torrent_state:
+            # Nothing useful to draw, return now!
+            return
+        self.__draw_progress_overlay(cr)
+
+        pg = pangocairo.CairoContext(cr)
+        pl = pg.create_layout()
+        pl.set_font_description(self.text_font)
+        pl.set_width(-1)    # No text wrapping
+
+        text = ""
+        if self.text:
+            text += self.text
+        else:
+            if self.torrent_state:
+                text += self.torrent_state + " "
+            if self.fraction == 1.0:
+                format = "%d%%"
+            else:
+                format = "%.2f%%"
+            text += format % (self.fraction*100)
+        log.debug("PiecesBar text %r", text)
+        pl.set_text(text)
+        plsize = pl.get_size()
+        text_width = plsize[0]/pango.SCALE
+        text_height = plsize[1]/pango.SCALE
+        area_width_without_text = event.area.width - text_width
+        area_height_without_text = event.area.height - text_height
+        cr.move_to(area_width_without_text/2, area_height_without_text/2)
+        cr.set_source_rgb(1.0, 1.0, 1.0)
+        pg.update_layout(pl)
+        pg.show_layout(pl)
+
+
+    def set_fraction(self, fraction):
+        self.fraction = fraction
+        self.update()
 
     def set_pieces(self, pieces, num_pieces):
         if pieces != self.pieces:
@@ -157,28 +189,44 @@ class PiecesBar(gtk.DrawingArea):
             self.num_pieces = num_pieces
             self.update()
 
+    def update_from_status(self, status):
+        update = False
+
+        fraction = status["progress"]/100
+        if fraction != self.fraction:
+            self.fraction = fraction
+            update = True
+
+        torrent_state = status["state"]
+        if torrent_state != self.torrent_state:
+            self.torrent_state = torrent_state
+            update = True
+
+        if torrent_state == "Checking":
+            self.update()
+            # Skip the pieces assignment
+            return
+
+        if status['pieces'] != self.pieces:
+            self.pieces = status['pieces']
+            self.num_pieces = status['num_pieces']
+            update = True
+
+        if update:
+            self.update()
+
     def clear(self):
         self.pieces = []
         self.num_pieces = None
+        self.fraction = 0.0
         self.update()
 
     def update(self):
         self.queue_draw()
 
     def get_text(self):
-        return ""
+        return self.text
 
     def set_text(self, text):
-        pass
-
-#    def on_pieces_colors_updated(self, key, colors):
-#        log.debug("Pieces bar got config change for key: %s  values: %s",
-#                  key, colors)
-#        if key != "pieces_colors":
-#            return
-#        # Make sure there's no state color missong
-#        self.colors[0] = [c/65535.0 for c in colors[0]]
-#        self.colors[1] = [c/65535.0 for c in colors[1]]
-#        self.colors[2] = [c/65535.0 for c in colors[2]]
-#        self.colors[3] = [c/65535.0 for c in colors[3]]
-#        self.update()
+        self.text = text
+        self.update()
