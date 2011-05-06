@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.PluginsPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -64,7 +64,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		this.pluginTemplate.compile();
 
 		var checkboxRenderer = function(v, p, record){
-			p.css += ' x-grid3-check-col-td'; 
+			p.css += ' x-grid3-check-col-td';
 			return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
 		}
 
@@ -122,7 +122,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				}]
 			})
 		});
-	
+
 		var pp = this.pluginInfo = this.add({
 			xtype:     'panel',
 			border:     true,
@@ -145,7 +145,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 				style: 'margin-left: 10px'
 			}
 		});
-	
+
 		this.pluginInfo.on('render', this.onPluginInfoRender, this);
 		this.list.on('click', this.onNodeClick, this);
 		deluge.preferences.on('show', this.onPreferencesShow, this);
@@ -166,7 +166,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		var values = plugin || this.defaultValues;
 		this.pluginInfo.body.dom.innerHTML = this.pluginTemplate.apply(values);
 	},
-	
+
 	updatePlugins: function() {
 		deluge.client.web.get_plugins({
 			success: this.onGotPlugins,
@@ -238,7 +238,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 		plugin.set('enabled', true);
 		plugin.commit();
 	},
-	
+
 	onPluginDisabled: function(pluginName) {
 		var index = this.list.getStore().find('plugin', pluginName);
 		if (index == -1) return;
@@ -252,6 +252,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 	},
 
 	onPluginSelect: function(dv, selections) {
+        if (selections.length == 0) return;
 		var r = dv.getRecords(selections)[0];
 		deluge.client.web.get_plugin_info(r.get('plugin'), {
 			success: this.onGotPluginInfo,
