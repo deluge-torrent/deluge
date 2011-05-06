@@ -26,6 +26,8 @@
 	* #1194: Fix infinite login prompt in web ui through reverse proxy
 	* #1355: Fix slow changing states in webUI
 	* #1536: Fix Edit Trackers window not scrolling and not being resizable
+	* #1799: Fix Missing textbox for "Move completed" in torrent options
+	* #1562: Fix Javascript error in Web UI when re-opening preferences
 
 ==== ConsoleUI ====
 	* #755:  Fix can't set listen_ports through console UI
