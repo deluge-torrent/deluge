@@ -160,7 +160,7 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         if args:
-            args = args[0]
+            args = ' '.join(args)
             self.interactive = False
 
         # Try to connect to the localhost daemon
