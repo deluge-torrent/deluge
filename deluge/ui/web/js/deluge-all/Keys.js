@@ -86,7 +86,7 @@ Deluge.Keys = {
      * Keys used in the details tab of the statistics panel.
 	 */
     Details: [
-        'name', 'save_path', 'total_size', 'num_files', 'tracker_status',
+        'name', 'save_path', 'total_size', 'num_files', 'message',
         'tracker', 'comment'
     ],
 
