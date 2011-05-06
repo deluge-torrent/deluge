@@ -29,6 +29,7 @@
 	* #1799: Fix Missing textbox for "Move completed" in torrent options
 	* #1562: Fix Javascript error in Web UI when re-opening preferences
 	* #1567: Fix js from plugins does not work with different 'base' setting
+	* #1268: Fix torrent errors not displayed in webui
 
 ==== ConsoleUI ====
 	* #755:  Fix can't set listen_ports through console UI
