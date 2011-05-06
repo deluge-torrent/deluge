@@ -1,6 +1,6 @@
 /*!
  * Deluge.UI.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -74,7 +74,7 @@ deluge.ui = {
 			layout: 'fit',
 			items: [this.MainPanel]
 		});
-	
+
 		deluge.events.on("connect", this.onConnect, this);
 		deluge.events.on("disconnect", this.onDisconnect, this);
 		deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
@@ -82,7 +82,7 @@ deluge.ui = {
 		deluge.client = new Ext.ux.util.RpcClient({
 			url: deluge.config.base + 'json'
 		});
-	
+
 		// enable all the already active plugins
 		for (var plugin in Deluge.pluginStore) {
 			plugin = Deluge.createPlugin(plugin);
@@ -92,11 +92,11 @@ deluge.ui = {
 
 		// Initialize quicktips so all the tooltip configs start working.
 		Ext.QuickTips.init();
-	
+
 		deluge.client.on('connected', function(e) {
 			deluge.login.show();
 		}, this, {single: true});
-	
+
 		this.update = this.update.createDelegate(this);
 		this.checkConnection = this.checkConnection.createDelegate(this);
 
@@ -125,7 +125,7 @@ deluge.ui = {
 	},
 
 	onConnectionError: function(error) {
-		
+
 	},
 
 	onConnectionSuccess: function(result) {
@@ -168,8 +168,8 @@ deluge.ui = {
 		}
 
 		if (deluge.config.show_session_speed) {
-			document.title = this.originalTitle + 
-				' (Down: ' + fspeed(data['stats'].download_rate, true) + 
+			document.title = this.originalTitle +
+				' (Down: ' + fspeed(data['stats'].download_rate, true) +
 				' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
 		}
 		if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
@@ -231,7 +231,7 @@ deluge.ui = {
 		var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
 		Ext.each(scripts, function(script) {
 			Ext.ux.JSLoader({
-				url: script,
+				url: deluge.config.base + script,
 				onLoad: this.onPluginLoaded,
 				pluginName: resources.name
 			});
