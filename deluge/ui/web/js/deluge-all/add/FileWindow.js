@@ -1,6 +1,6 @@
 /*!
  * Deluge.add.File.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -78,7 +78,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
         if (this.form.getForm().isValid()) {
             this.torrentId = this.createTorrentId();
             this.form.getForm().submit({
-                url: '/upload',
+                url: deluge.config.base + 'upload',
                 waitMsg: _('Uploading your torrent...'),
                 failure: this.onUploadFailure,
                 success: this.onUploadSuccess,
