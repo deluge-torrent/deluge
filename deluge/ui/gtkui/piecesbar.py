@@ -35,6 +35,7 @@
 #
 
 import gtk
+import cairo
 import pango
 import pangocairo
 import logging
@@ -82,7 +83,10 @@ class PiecesBar(gtk.DrawingArea):
         self.height = size.height
 
     # Handle the expose-event by drawing
-    def do_expose_event(self, event=None):
+    def do_expose_event(self, event):
+        self.draw_pieces(event)
+
+    def draw_pieces(self, event):
         # Create the cairo context
         cr = self.window.cairo_create()
 
@@ -90,18 +94,12 @@ class PiecesBar(gtk.DrawingArea):
         cr.rectangle(event.area.x, event.area.y,
                      event.area.width, event.area.height)
         cr.clip()
-
-        cr.set_line_width(max(cr.device_to_user_distance(0.5, 0.5)))
-        cr.set_source_rgb(0.1, 0.1, 0.1)
-        cr.rectangle(0.0, 0.0, event.area.width, event.area.height)
-        cr.stroke()
-
+        self.__roundcorners_clipping(cr, event)
 
         if not self.pieces and self.num_pieces is not None:
             # Complete Torrent
-            piece_height = self.height - 2
             piece_width = self.width*1.0/self.num_pieces
-            start = 1
+            start = 0
             for _ in range(self.num_pieces):
                 # Like this to keep same aspect ratio
                 color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[3]]
@@ -110,7 +108,7 @@ class PiecesBar(gtk.DrawingArea):
                     color[1]/65535.0,
                     color[2]/65535.0,
                 )
-                cr.rectangle(start, 1, piece_width, piece_height)
+                cr.rectangle(start, 0, piece_width, self.height)
                 cr.fill()
                 start += piece_width
             self.__write_text(cr, event)
@@ -120,11 +118,9 @@ class PiecesBar(gtk.DrawingArea):
             self.__write_text(cr, event)
             return
 
-        # Create the cairo context
-        start_pos = 1
+        start_pos = 0
         num_pieces = self.num_pieces and self.num_pieces or len(self.pieces)
         piece_width = self.width*1.0/num_pieces
-        piece_height = self.height - 2
 
         for state in self.pieces:
             color = self.gtkui_config["pieces_color_%s" % COLOR_STATES[state]]
@@ -133,14 +129,32 @@ class PiecesBar(gtk.DrawingArea):
                 color[1]/65535.0,
                 color[2]/65535.0,
             )
-            cr.rectangle(start_pos, 1, piece_width, piece_height)
+            cr.rectangle(start_pos, 0, piece_width, self.height)
             cr.fill()
             start_pos += piece_width
-
         self.__write_text(cr, event)
 
+    def __roundcorners_clipping(self, cr, event):
+        from math import pi
+        x = 0
+        y = 0
+        width = event.area.width
+        height = event.area.height
+        aspect = 1.0
+        corner_radius = height/10.0
+        radius = corner_radius/aspect
+        degrees = pi/180.0
+
+        cr.new_sub_path()
+        cr.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
+        cr.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
+        cr.arc(x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees)
+        cr.arc(x + radius, y + radius, radius, 180 * degrees, 270 * degrees)
+        cr.close_path()
+        cr.clip()
+
     def __draw_progress_overlay(self, cr):
-        cr.set_source_rgba(0.1, 0.1, 0.1, 0.2) # Transparent
+        cr.set_source_rgba(0.1, 0.1, 0.1, 0.3) # Transparent
         cr.rectangle(0.0, 0.0, self.width*self.fraction, self.height)
         cr.fill()
 

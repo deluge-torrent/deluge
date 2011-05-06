@@ -72,7 +72,7 @@ class StatusTab(Tab):
     def __init__(self):
         Tab.__init__(self)
         # Get the labels we need to update.
-        # widgetname, modifier function, status keys
+        # widget name, modifier function, status keys
         self.glade = glade = component.get("MainWindow").main_glade
         self.progressbar = component.get("MainWindow").main_glade.get_widget("progressbar")
 
