@@ -1,6 +1,6 @@
 /*!
  * Deluge.details.PeersTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,9 @@
 
 (function() {
 	function flagRenderer(value) {
-		if (!value) return '';
+		if (!value.replace(' ', '').replace(' ', '')){
+            return '';
+        }
 		return String.format('<img src="flag/{0}" />', value);
 	}
 	function peerAddressRenderer(value, p, record) {
@@ -45,10 +47,10 @@
 	}
 
 	Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
-		
+
 		// fast way to figure out if we have a peer already.
 		peers: {},
-		
+
 		constructor: function(config) {
 			config = Ext.apply({
 				title: _('Peers'),
@@ -95,26 +97,26 @@
 					sortable: true,
 					renderer: fspeed,
 					dataIndex: 'up_speed'
-				}],	
+				}],
 				stripeRows: true,
 				deferredRender:false,
 				autoScroll:true
 			}, config);
 			Deluge.details.PeersTab.superclass.constructor.call(this, config);
 		},
-		
+
 		clear: function() {
 			this.getStore().removeAll();
 			this.peers = {};
 		},
-		
+
 		update: function(torrentId) {
 			deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Peers, {
 				success: this.onRequestComplete,
 				scope: this
 			});
 		},
-		
+
 		onRequestComplete: function(torrent, options) {
 			if (!torrent) return;
 
@@ -125,6 +127,14 @@
 			// Go through the peers updating and creating peer records
 			Ext.each(torrent.peers, function(peer) {
 				if (this.peers[peer.ip]) {
+                    var record = store.getById(peer.ip);
+                    record.beginEdit();
+                    for (var k in peer) {
+                        if (record.get(k) != peer[k]) {
+                            record.set(k, peer[k]);
+                        }
+                    }
+                    record.endEdit();
 				} else {
 					this.peers[peer.ip] = 1;
 					newPeers.push(new Deluge.data.Peer(peer, peer.ip));
