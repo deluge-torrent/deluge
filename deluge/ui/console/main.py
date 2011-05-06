@@ -218,7 +218,7 @@ class ConsoleUI(component.Component):
         self.interactive = True
         self._commands = cmds
         if args:
-            args = args[0]
+            args = ' '.join(args)
             self.interactive = False
             if not cmds:
                 print "Sorry, couldn't find any commands"
