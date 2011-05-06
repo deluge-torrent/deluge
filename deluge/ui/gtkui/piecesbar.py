@@ -39,6 +39,7 @@ import cairo
 import pango
 import pangocairo
 import logging
+from math import pi
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -91,6 +92,7 @@ class PiecesBar(gtk.DrawingArea):
     def do_expose_event(self, event):
         # Create cairo context
         self.__cr = self.window.cairo_create()
+        self.__cr.set_line_width(max(self.__cr.device_to_user_distance(0.5, 0.5)))
 
         # Restrict Cairo to the exposed area; avoid extra work
         self.__roundcorners_clipping()
@@ -104,6 +106,7 @@ class PiecesBar(gtk.DrawingArea):
 
         self.__draw_progress_overlay()
         self.__write_text()
+        self.__roundcorners_border()
 
         # Drawn once, update width, eight
         if self.__resized():
@@ -111,22 +114,30 @@ class PiecesBar(gtk.DrawingArea):
             self.__old_height = self.__height
 
     def __roundcorners_clipping(self):
-        from math import pi
-        x = 0
-        y = 0
-        width = self.__width
-        height = self.__height
+        self.__create_roundcorners_subpath(
+            self.__cr, 0, 0, self.__width, self.__height
+        )
+        self.__cr.clip()
+
+    def __roundcorners_border(self):
+        self.__create_roundcorners_subpath(
+            self.__cr, 0.5, 0.5, self.__width-1, self.__height-1
+        )
+        self.__cr.set_source_rgba(0.0, 0.0, 0.0, 0.9)
+        self.__cr.stroke()
+
+    def __create_roundcorners_subpath(self, ctx, x, y, width, height):
         aspect = 1.0
         corner_radius = height/10.0
         radius = corner_radius/aspect
         degrees = pi/180.0
-        self.__cr.new_sub_path()
-        self.__cr.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
-        self.__cr.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
-        self.__cr.arc(x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees)
-        self.__cr.arc(x + radius, y + radius, radius, 180 * degrees, 270 * degrees)
-        self.__cr.close_path()
-        self.__cr.clip()
+        ctx.new_sub_path()
+        ctx.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
+        ctx.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
+        ctx.arc(x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees)
+        ctx.arc(x + radius, y + radius, radius, 180 * degrees, 270 * degrees)
+        ctx.close_path()
+        return ctx
 
     def __draw_pieces(self):
         if (self.__resized() or self.__pieces != self.__old_pieces or
@@ -288,8 +299,11 @@ class PiecesBar(gtk.DrawingArea):
     def clear(self):
         self.__pieces = self.__old_pieces = ()
         self.__num_pieces = self.__old_num_pieces = None
-        self.__text = self.__oldtext = ""
+        self.__text = self.__old_text = ""
         self.__fraction = self.__old_fraction = 0.0
+        self.__state = self.__old_state = None
+        self.__progress_overlay = self.__text_overlay = self.__pieces_overlay = None
+        self.__cr = None
         self.update()
 
     def update(self):
