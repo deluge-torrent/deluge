@@ -33,6 +33,7 @@
 	* #1323: Fix filter panels not scrollable
 	* Fix file uploads from behind a reverse proxy.
 	* #1333: Fix peer list doesn't update automatically
+	* #1537: Fix editing trackers list, trackers have to be reselected
 
 ==== ConsoleUI ====
 	* #755:  Fix can't set listen_ports through console UI
