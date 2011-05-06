@@ -500,10 +500,10 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(
             TorrentAddedEvent(torrent.torrent_id, from_state)
         )
-        log.info("Torrent %s %s by user: %s",
+        log.info("Torrent %s from user \"%s\" %s",
                  torrent.get_status(["name"])["name"],
-                 (from_state and "added" or "loaded"),
-                 component.get("RPCServer").get_session_user())
+                 torrent.get_status(["owner"])["owner"],
+                 (from_state and "added" or "loaded"))
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
