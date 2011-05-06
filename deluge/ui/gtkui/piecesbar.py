@@ -236,7 +236,7 @@ class PiecesBar(gtk.DrawingArea):
                 else:
                     format = "%.2f%%"
                 text += format % (self.__fraction*100)
-            log.debug("PiecesBar text %r", text)
+            log.trace("PiecesBar text %r", text)
             pl.set_text(text)
             plsize = pl.get_size()
             text_width = plsize[0]/pango.SCALE
@@ -284,7 +284,7 @@ class PiecesBar(gtk.DrawingArea):
         return self.__state
 
     def update_from_status(self, status):
-        log.debug("Updating PiecesBar from status")
+        log.trace("Updating PiecesBar from status")
         self.set_fraction(status["progress"]/100)
         torrent_state = status["state"]
         self.set_state(torrent_state)
