@@ -43,6 +43,7 @@
 	* #1450: Fix trailing white space in paths
 	* Misc: Updated help text for deluge-console on MS Windows
 	* #1484: Fix trying to access the screen object when not using interactive mode
+	* #1548: Fix cli argument processing
 
 ==== Scheduler ====
 	* #1506: Fix max speed not restored on a yellow->green transition
