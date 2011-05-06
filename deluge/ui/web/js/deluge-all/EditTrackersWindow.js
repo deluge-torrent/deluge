@@ -1,6 +1,6 @@
 /*!
  * Deluge.EditTrackers.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -49,17 +49,17 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 	buttonAlign: 'right',
 	closeAction: 'hide',
 	iconCls: 'x-deluge-edit-trackers',
-	
+
 	initComponent: function() {
 		Deluge.EditTrackersWindow.superclass.initComponent.call(this);
-		
+
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Ok'), this.onOkClick, this);
 		this.addEvents('save');
-		
+
 		this.on('show', this.onShow, this);
 		this.on('save', this.onSave, this);
-		
+
 		this.addWindow = new Deluge.AddTrackerWindow();
 		this.addWindow.on('add', this.onAddTrackers, this);
 		this.editWindow = new Deluge.EditTrackerWindow();
@@ -91,7 +91,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 				'selectionchange': {fn: this.onSelect, scope: this}
 			}
 		});
-		
+
 		this.panel = this.add({
 			margins: '0 0 0 0',
 			items: [this.list],
@@ -128,11 +128,11 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 			})
 		});
 	},
-	
+
 	onAddClick: function() {
 		this.addWindow.show();
 	},
-	
+
 	onAddTrackers: function(trackers) {
 		var store = this.list.getStore();
 		Ext.each(trackers, function(tracker) {
@@ -150,15 +150,15 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 			store.add(new store.recordType({'tier': heightestTier + 1, 'url': tracker}));
 		}, this);
 	},
-	
+
 	onCancelClick: function() {
 		this.hide();
 	},
-	
+
 	onEditClick: function() {
 		this.editWindow.show(this.list.getSelectedRecords()[0]);
 	},
-	
+
 	onHide: function() {
 		this.list.getStore().removeAll();
 	},
@@ -166,7 +166,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 	onListNodeDblClicked: function(list, index, node, e) {
 		this.editWindow.show(this.list.getRecord(node));
 	},
-	
+
 	onOkClick: function() {
 		var trackers = [];
 		this.list.getStore().each(function(record) {
@@ -175,7 +175,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 				'url': record.get('url')
 			})
 		}, this);
-		
+
 		deluge.client.core.set_torrent_trackers(this.torrentId, trackers, {
 			failure: this.onSaveFail,
 			scope: this
@@ -183,27 +183,27 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 
 		this.hide();
 	},
-	
+
 	onRemoveClick: function() {
 		// Remove from the grid
 		this.list.getStore().remove(this.list.getSelectedRecords()[0]);
 	},
-	
+
 	onRequestComplete: function(status) {
 		this.list.getStore().loadData(status);
 		this.list.getStore().sort('tier', 'ASC');
 	},
-	
+
 	onSaveFail: function() {
-		
+
 	},
-	
+
 	onSelect: function(list) {
 		if (list.getSelectionCount()) {
 			this.panel.getBottomToolbar().items.get(4).enable();
 		}
 	},
-	
+
 	onShow: function() {
 		this.panel.getBottomToolbar().items.get(4).disable();
 		var r = deluge.torrents.getSelected();
@@ -216,16 +216,24 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 
 	onDownClick: function() {
 		var r = this.list.getSelectedRecords()[0];
+        if (!r) return;
+
 		r.set('tier', r.get('tier') + 1);
-		r.commit();
 		r.store.sort('tier', 'ASC');
+        r.store.commitChanges();
+
+        this.list.select(r.store.indexOf(r));
 	},
 
 	onUpClick: function() {
 		var r = this.list.getSelectedRecords()[0];
+        if (!r) return;
+
 		if (r.get('tier') == 0) return;
 		r.set('tier', r.get('tier') - 1);
-		r.commit();
 		r.store.sort('tier', 'ASC');
+        r.store.commitChanges();
+
+        this.list.select(r.store.indexOf(r));
 	}
 });
