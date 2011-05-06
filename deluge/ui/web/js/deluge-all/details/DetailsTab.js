@@ -52,7 +52,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		this.addItem('status', _('Status'));
 		this.addItem('tracker', _('Tracker'));
 	},
-	
+
 	onRender: function(ct, position) {
 		Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
 		this.body.setStyle('padding', '10px');
@@ -76,7 +76,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		Ext.DomHelper.append(this.dl, {tag: 'dt', cls: id, html: label + ':'});
 		this.fields[id] = Ext.DomHelper.append(this.dl, {tag: 'dd', cls: id, html: ''}, true);
 	},
-	
+
 	clear: function() {
 		if (!this.fields) return;
 		for (var k in this.fields) {
@@ -84,7 +84,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 		}
 		this.oldData = {}
 	},
-	
+
 	update: function(torrentId) {
 		deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Details, {
 			success: this.onRequestComplete,
@@ -92,7 +92,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 			torrentId: torrentId
 		});
 	},
-	
+
 	onRequestComplete: function(torrent, request, response, options) {
 		var data = {
 			torrent_name: torrent.name,
@@ -100,11 +100,11 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 			path: torrent.save_path,
 			size: fsize(torrent.total_size),
 			files: torrent.num_files,
-			status: torrent.tracker_status,
+			status: torrent.message,
 			tracker: torrent.tracker,
 			comment: torrent.comment
 		};
-		
+
 		for (var field in this.fields) {
 			if (!Ext.isDefined(data[field])) continue; // this is a field we aren't responsible for.
 			if (data[field] == this.oldData[field]) continue;
