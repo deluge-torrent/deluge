@@ -1,6 +1,6 @@
 /*!
  * Deluge.details.OptionsTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
 	initComponent: function() {
 		Deluge.details.OptionsTab.superclass.initComponent.call(this);
-		
+
 		this.fieldsets = {}, this.fields = {};
 		this.optionsManager = new Deluge.MultiOptionsManager({
 			options: {
@@ -65,12 +65,13 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				'stop_at_ratio': false,
 				'stop_ratio': 2.0,
 				'remove_at_ratio': false,
-				'move_completed': null,
+				'move_completed': false,
+                'move_completed_path': '',
 				'private': false,
 				'prioritize_first_last': false
 			}
 		});
-		
+
 		/*
 		 * Bandwidth Options
 		 */
@@ -78,16 +79,16 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'fieldset',
 			defaultType: 'spinnerfield',
 			bodyStyle: 'padding: 5px',
-			
+
 			layout: 'table',
 			layoutConfig: {columns: 3},
 			labelWidth: 150,
-			
+
 			style: 'margin-left: 10px; margin-right: 5px; padding: 5px',
 			title: _('Bandwidth'),
 			width: 250
 		});
-		
+
 		/*
 		 * Max Download Speed
 		 */
@@ -113,7 +114,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			text: _('KiB/s'),
 			style: 'margin-left: 10px'
 		});
-		
+
 		/*
 		 * Max Upload Speed
 		 */
@@ -140,7 +141,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			text: _('KiB/s'),
 			style: 'margin-left: 10px'
 		});
-		
+
 		/*
 		 * Max Connections
 		 */
@@ -163,7 +164,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			},
 			colspan: 2
 		});
-		
+
 		/*
 		 * Max Upload Slots
 		 */
@@ -195,17 +196,17 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			title: _('Queue'),
 			style: 'margin-left: 5px; margin-right: 5px; padding: 5px',
 			width: 210,
-			
+
 			layout: 'table',
 			layoutConfig: {columns: 2},
 			labelWidth: 0,
-			
+
 			defaults: {
 				fieldLabel: '',
 				labelSeparator: ''
 			}
 		});
-		
+
 		this.fields.auto_managed = this.fieldsets.queue.add({
 			xtype: 'checkbox',
 			fieldLabel: '',
@@ -215,7 +216,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			width: 200,
 			colspan: 2
 		});
-		
+
 		this.fields.stop_at_ratio = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
@@ -225,7 +226,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			handler: this.onStopRatioChecked,
 			scope: this
 		});
-		
+
 		this.fields.stop_ratio = this.fieldsets.queue.add({
 			xtype: 'spinnerfield',
 			id: 'stop_ratio',
@@ -242,7 +243,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 				decimalPrecision: 1
 			}
 		});
-		
+
 		this.fields.remove_at_ratio = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
@@ -253,16 +254,28 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			disabled: true,
 			colspan: 2
 		});
-		
+
 		this.fields.move_completed = this.fieldsets.queue.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			id: 'move_completed',
 			boxLabel: _('Move Completed'),
-			colspan: 2
+			colspan: 2,
+            handler: this.onMoveCompletedChecked,
+            scope: this
 		});
-		
-		
+
+        this.fields.move_completed_path = this.fieldsets.queue.add({
+            xtype: 'textfield',
+            fieldLabel: '',
+            id: 'move_completed_path',
+            colspan: 3,
+			bodyStyle: 'margin-left: 20px',
+            width: 180,
+            disabled: true
+        });
+
+
 		/*
 		 * General Options
 		 */
@@ -272,7 +285,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			style: 'margin-left: 5px',
 			width: 210
 		});
-		
+
 		this.fieldsets.general = this.rightColumn.add({
 			xtype: 'fieldset',
 			autoHeight: true,
@@ -280,7 +293,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			title: _('General'),
 			layout: 'form'
 		});
-		
+
 		this.fields['private'] = this.fieldsets.general.add({
 			fieldLabel: '',
 			labelSeparator: '',
@@ -288,19 +301,19 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			id: 'private',
 			disabled: true
 		});
-		
+
 		this.fields.prioritize_first_last = this.fieldsets.general.add({
 			fieldLabel: '',
 			labelSeparator: '',
 			boxLabel: _('Prioritize First/Last'),
 			id: 'prioritize_first_last'
 		});
-		
+
 		// Bind the fields so the options manager can manage them.
 		for (var id in this.fields) {
 			this.optionsManager.bind(id, this.fields[id]);
 		}
-		
+
 		/*
 		 * Buttons
 		 */
@@ -309,7 +322,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			xtype: 'panel',
 			border: false
 		});
-		
+
 		/*
 		 * Edit Trackers button
 		 */
@@ -324,7 +337,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			handler: this.onEditTrackers,
 			scope: this
 		});
-		
+
 		/*
 		 * Apply button
 		 */
@@ -339,31 +352,31 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			scope: this
 		});
 	},
-	
+
 	onRender: function(ct, position) {
 		Deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
-		
+
 		// This is another hack I think, so keep an eye out here when upgrading.
 		this.layout = new Ext.layout.ColumnLayout();
 		this.layout.setContainer(this);
 		this.doLayout();
 	},
-	
+
 	clear: function() {
 		if (this.torrentId == null) return;
 		this.torrentId = null;
 		this.optionsManager.changeId(null);
 	},
-	
+
 	reset: function() {
 		if (this.torrentId) this.optionsManager.reset();
 	},
-	
+
 	update: function(torrentId) {
 		if (this.torrentId && !torrentId) this.clear(); // we want to clear the pane if we get a null torrent torrentIds
-		
+
 		if (!torrentId) return; // we don't care about null torrentIds
-		
+
 		if (this.torrentId != torrentId) {
 			this.torrentId = torrentId;
 			this.optionsManager.changeId(torrentId);
@@ -373,7 +386,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			scope: this
 		});
 	},
-	
+
 	onApply: function() {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isEmpty(changed['prioritize_first_last'])) {
@@ -392,16 +405,23 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			scope: this
 		});
 	},
-	
+
 	onEditTrackers: function() {
 		deluge.editTrackers.show();
 	},
-	
+
+    onMoveCompletedChecked: function(checkbox, checked) {
+        this.fields.move_completed_path.setDisabled(!checked);
+
+        if (!checked) return;
+        this.fields.move_completed_path.focus();
+    },
+
 	onStopRatioChecked: function(checkbox, checked) {
 		this.fields.remove_at_ratio.setDisabled(!checked);
 		this.fields.stop_ratio.setDisabled(!checked);
 	},
-	
+
 	onRequestComplete: function(torrent, options) {
 		this.fields['private'].setValue(torrent['private']);
 		this.fields['private'].setDisabled(true);
@@ -411,5 +431,6 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		var stop_at_ratio = this.optionsManager.get('stop_at_ratio');
 		this.fields.remove_at_ratio.setDisabled(!stop_at_ratio);
 		this.fields.stop_ratio.setDisabled(!stop_at_ratio);
+        this.fields.move_completed_path.setDisabled(!this.optionsManager.get('move_completed'));
 	}
 });

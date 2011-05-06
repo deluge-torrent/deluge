@@ -603,6 +603,8 @@ class Torrent(object):
             "message": self.statusmsg,
             "move_on_completed_path": self.options["move_completed_path"],
             "move_on_completed": self.options["move_completed"],
+            "move_completed_path": self.options["move_completed_path"],
+            "move_completed": self.options["move_completed"],
             "next_announce": self.status.next_announce.seconds,
             "num_peers": self.status.num_peers - self.status.num_seeds,
             "num_seeds": self.status.num_seeds,

@@ -1,6 +1,6 @@
 /*!
  * Deluge.Keys.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ Deluge.Keys = {
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
         'is_auto_managed', 'time_added', 'tracker_host', 'save_path'
     ],
-    
+
     /**
      * Keys used in the status tab of the statistics panel.
      * These get updated to include the keys in {@link #Grid}.
@@ -65,7 +65,7 @@ Deluge.Keys = {
         'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
         'seed_rank'
     ],
-    
+
     /**
      * Keys used in the files tab of the statistics panel.
      * <pre>['files', 'file_progress', 'file_priorities']</pre>
@@ -73,7 +73,7 @@ Deluge.Keys = {
     Files: [
         'files', 'file_progress', 'file_priorities'
     ],
-    
+
     /**
      * Keys used in the peers tab of the statistics panel.
      * <pre>['peers']</pre>
@@ -81,7 +81,7 @@ Deluge.Keys = {
     Peers: [
         'peers'
     ],
-    
+
     /**
      * Keys used in the details tab of the statistics panel.
 	 */
@@ -89,7 +89,7 @@ Deluge.Keys = {
         'name', 'save_path', 'total_size', 'num_files', 'tracker_status',
         'tracker', 'comment'
     ],
-    
+
     /**
 	 * Keys used in the options tab of the statistics panel.
 	 * <pre>['max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
@@ -99,7 +99,8 @@ Deluge.Keys = {
     Options: [
         'max_download_speed', 'max_upload_speed', 'max_connections',
         'max_upload_slots','is_auto_managed', 'stop_at_ratio', 'stop_ratio',
-        'remove_at_ratio', 'private', 'prioritize_first_last'
+        'remove_at_ratio', 'private', 'prioritize_first_last',
+        'move_completed', 'move_completed_path'
     ]
 };
 
