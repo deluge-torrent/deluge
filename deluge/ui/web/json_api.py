@@ -740,46 +740,46 @@ class WebApi(JSONComponent):
         :param host_id: the hash id of the host
         :type host_id: string
     	"""
-        main_deferred = Deferred()
 
-        (host_id, host, port, user, password) = self.get_host(host_id)
+        def response(status, info=None):
+            return host_id, host, port, status, info
 
-        def callback(status, info=None):
-            main_deferred.callback((host_id, host, port, status, info))
+        try:
+            host_id, host, port, user, password = self.get_host(host_id)
+        except TypeError, e:
+            return response(_("Offline"))
 
         def on_connect(connected, c, host_id):
             def on_info(info, c):
                 c.disconnect()
-                callback(_("Online"), info)
+                return response(_("Online"), info)
 
             def on_info_fail(reason, c):
                 c.disconnect()
-                callback(_("Offline"))
+                return response(_("Offline"))
 
             if not connected:
-                callback(_("Offline"))
-                return
+                return response(_("Offline"))
 
-            d = c.daemon.info()
-            d.addCallback(on_info, c)
-            d.addErrback(on_info_fail, c)
+            return c.daemon.info(
+                ).addCallback(on_info, c
+                ).addErrback(on_info_fail, c)
 
         def on_connect_failed(reason, host_id):
-            callback(_("Offline"))
+            return response(_("Offline"))
 
-        if client.connected() and (host, port, "localclient" if not \
-                                   user and host in ("127.0.0.1", "localhost") else \
+        if client.connected() and (host, port, "localclient" if not
+                                   user and host in ("127.0.0.1", "localhost") else
                                    user)  == client.connection_info():
             def on_info(info):
-                callback(_("Connected"), info)
+                return response(_("Connected"), info)
 
-            client.daemon.info().addCallback(on_info)
+            return client.daemon.info().addCallback(on_info)
         else:
             c = Client()
-            d = c.connect(host, port, user, password)
-            d.addCallback(on_connect, c, host_id)
-            d.addErrback(on_connect_failed, host_id)
-        return main_deferred
+            return c.connect(host, port, user, password
+                ).addCallback(on_connect, c, host_id
+                ).addErrback(on_connect_failed, host_id)
 
     @export
     def start_daemon(self, port):
