@@ -1,6 +1,6 @@
 /*!
  * Deluge.ConnectionManager.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -88,7 +88,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 				'selectionchange': {fn: this.onSelectionChanged, scope: this}
 			}
 		});
-		
+
 		this.panel = this.add({
 			autoScroll: true,
 			items: [this.list],
@@ -172,7 +172,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 	 */
 	updateButtons: function(record) {
 		var button = this.buttons[1], status = record.get('status');
-	
+
 		// Update the Connect/Disconnect button
 		if (status == _('Connected')) {
 			button.enable();
@@ -183,7 +183,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 			button.enable();
 			button.setText(_('Connect'));
 		}
-		
+
 		// Update the Stop/Start Daemon button
 		if (status == _('Offline')) {
 			if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
@@ -333,6 +333,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 		}
 	},
 
+    // FIXME: Find out why this is being fired twice
 	// private
 	onShow: function() {
 		if (!this.addHostButton) {
@@ -342,9 +343,10 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 			this.stopHostButton = bbar.items.get('cm-stop');
 		}
 		this.loadHosts();
+        if (this.running) return;
 		this.running = window.setInterval(this.update, 2000, this);
 	},
-	
+
 	// private
 	onStopClick: function(button, e) {
 		var connection = this.list.getSelectedRecords()[0];
