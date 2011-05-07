@@ -71,7 +71,8 @@ class OptionsTab(Tab):
             "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled,
             "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
-            "on_chk_shared_toggled": self._on_chk_shared_toggled
+            "on_chk_shared_toggled": self._on_chk_shared_toggled,
+            "on_spin_value_changed": self._on_spin_value_changed
         })
 
     def start(self):
@@ -231,5 +232,9 @@ class OptionsTab(Tab):
             self.button_apply.set_sensitive(True)
 
     def _on_chk_shared_toggled(self, widget):
+        if not self.button_apply.is_sensitive():
+            self.button_apply.set_sensitive(True)
+
+    def _on_spin_value_changed(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
