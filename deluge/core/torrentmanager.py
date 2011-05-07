@@ -85,7 +85,8 @@ class TorrentState:
             move_completed_path=None,
             magnet=None,
             time_added=-1,
-            owner="",
+            last_seen_complete=0.0,   # 0 is the default returned when the info
+            owner="",                 # does not exist on lt >= .16
             shared=False
         ):
         self.torrent_id = torrent_id
@@ -96,6 +97,7 @@ class TorrentState:
         self.is_finished = is_finished
         self.magnet = magnet
         self.time_added = time_added
+        self.last_seen_complete = last_seen_complete
         self.owner = owner
 
         # Options
@@ -632,6 +634,17 @@ class TorrentManager(component.Component):
                 log.error("Torrent state file is either corrupt or incompatible! %s", e)
                 break
 
+
+        # XXX: Remove when libtorrent 0.16 get's released???
+        if lt.version_minor < 16:
+            log.debug("libtorrent version is lower than 0.16. Start looping "
+                      "callback to calculate last_seen_complete info.")
+            def calculate_last_seen_complete():
+                for torrent in self.torrents.values():
+                    torrent.calculate_last_seen_complete()
+            task = LoopingCall(calculate_last_seen_complete)
+            task.start(60)
+
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
@@ -670,6 +683,10 @@ class TorrentManager(component.Component):
                 torrent.owner,
                 torrent.options["shared"]
             )
+            # XXX: Remove when libtorrent 0.16 get's released???
+            if lt.version_minor < 16:
+                torrent_state.last_seen_complete = torrent._last_seen_complete
+
             state.torrents.append(torrent_state)
 
         # Pickle the TorrentManagerState object

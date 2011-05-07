@@ -240,6 +240,9 @@ class TorrentView(listview.ListView, component.Component):
                              status_field=["distributed_copies"])
         self.add_func_column(_("Added"), listview.cell_data_date, [float],
                              status_field=["time_added"])
+        self.add_func_column(_("Last Seen Complete"),
+                             listview.cell_data_date_or_never, [float],
+                             status_field=["last_seen_complete"])
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
                                  function=cell_data_trackericon)
@@ -395,7 +398,10 @@ class TorrentView(listview.ListView, component.Component):
                                 if row[column_index[i]] != row_value:
                                     row[column_index[i]] = row_value
                             except Exception, e:
-                                log.debug("%s", e)
+                                log.debug("Error while updating row for column "
+                                          "index %d, status field %r, value %r:"
+                                          " %s", column_index[0], status_field,
+                                          row_value, e)
 
         component.get("MenuBar").update_menu()
 

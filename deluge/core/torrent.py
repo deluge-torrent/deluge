@@ -188,6 +188,13 @@ class Torrent(object):
         else:
             self.owner = owner
 
+        # XXX: Remove when libtorrent 0.16 get's released???
+        if lt.version_minor < 16:
+            if state:
+                self._last_seen_complete = state.last_seen_complete or 0.0
+            else:
+                self._last_seen_complete = 0.0
+
         # Keep track if we're forcing a recheck of the torrent so that we can
         # repause it after its done if necessary
         self.forcing_recheck = False
@@ -585,7 +592,6 @@ class Torrent(object):
         if distributed_copies < 0:
             distributed_copies = 0.0
 
-        #if you add a key here->add it to core.py STATUS_KEYS too.
         full_status = {
             "active_time": self.status.active_time,
             "all_time_download": self.status.all_time_download,
@@ -633,6 +639,10 @@ class Torrent(object):
             "tracker_status": self.tracker_status,
             "upload_payload_rate": self.status.upload_payload_rate
         }
+        if lt.version_minor > 16:
+            full_status["last_seen_complete"] = self.status.last_seen_complete
+        else:
+            full_status["last_seen_complete"] = self._last_seen_complete
 
         def ti_comment():
             if self.handle.has_metadata():
@@ -935,3 +945,13 @@ class Torrent(object):
         for key in self.prev_status.keys():
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
+
+    # XXX: Remove when libtorrent 0.16 get's released???
+    def calculate_last_seen_complete(self):
+        availability = self.handle.piece_availability()
+        if filter(lambda x: x<1, availability):
+            # Torrent does not have all the pieces
+            return
+        log.trace("Torrent %s has all the pieces. Setting last seen complete.",
+                  self.torrent_id)
+        self._last_seen_complete = time.time()

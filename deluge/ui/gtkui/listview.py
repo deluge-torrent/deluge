@@ -103,6 +103,14 @@ def cell_data_date(column, cell, model, row, data):
     """Display value as date, eg 05/05/08"""
     cell.set_property('text', deluge.common.fdate(model.get_value(row, data)))
 
+def cell_data_date_or_never(column, cell, model, row, data):
+    """Display value as date, eg 05/05/08 or Never"""
+    value = model.get_value(row, data)
+    if value > 0.0:
+        cell.set_property('text', deluge.common.fdate(value))
+    else:
+        cell.set_property('text', _("Never"))
+
 class ListViewColumnState:
     """Used for saving/loading column state"""
     def __init__(self, name, position, width, visible, sort, sort_order):
