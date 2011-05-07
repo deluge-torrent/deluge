@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# listview.py
+# piecesbar.py
 #
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
