@@ -1014,8 +1014,8 @@ class Torrent(object):
                 # Completed Piece
                 pieces[idx] = 3
                 continue
-            elif availability[idx] > 1:
-                # Piece not downloaded nor beeing downloaded
+            elif availability[idx] > 0:
+                # Piece not downloaded nor beeing downloaded but available
                 pieces[idx] = 1
                 continue
             # If we reached here, it means the piece is missing, ie, there's
