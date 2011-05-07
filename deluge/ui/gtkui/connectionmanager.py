@@ -471,6 +471,7 @@ class ConnectionManager(component.Component):
                     _("Deluge cannot find the 'deluged' executable, it is "
                       "likely that you forgot to install the deluged package "
                       "or it's not in your PATH.")).run()
+                return False
             else:
                 raise e
         except Exception, e:
@@ -483,11 +484,13 @@ class ConnectionManager(component.Component):
                 details=traceback.format_exc(tb[2])).run()
 
     # Signal handlers
-    def __connect(self, host_id, host, port, username, password, skip_authentication=False):
+    def __connect(self, host_id, host, port, username, password,
+                  skip_authentication=False, try_counter=0):
         def do_connect(*args):
             d = client.connect(host, port, username, password, skip_authentication)
             d.addCallback(self.__on_connected, host_id)
-            d.addErrback(self.__on_connected_failed, host_id, host, port, username)
+            d.addErrback(self.__on_connected_failed, host_id, host, port,
+                         username, password, try_counter)
             return d
 
         if client.connected():
@@ -506,8 +509,11 @@ class ConnectionManager(component.Component):
             self.connection_manager.response(gtk.RESPONSE_OK)
         component.start()
 
-    def __on_connected_failed(self, reason, host_id, host, port, user):
-        log.debug("Failed to connect: %s", reason)
+    def __on_connected_failed(self, reason, host_id, host, port, user, passwd,
+                              try_counter):
+        log.debug("Failed to connect: %s", reason.value)
+        print reason, host_id, host, port, user, passwd, try_counter
+
         if reason.check(AuthenticationRequired, BadLoginError):
             log.debug("PasswordRequired exception")
             dialog = dialogs.AuthenticationDialog(
@@ -520,9 +526,19 @@ class ConnectionManager(component.Component):
                                    dialog.get_password())
             d = dialog.run().addCallback(dialog_finished, host, port, user)
             return d
-        dialogs.ErrorDialog(
-            _("Failed To Authenticate"), reason.value.message
-        ).run()
+
+        if try_counter:
+            log.info("Retrying connection.. Retries left: %s", try_counter)
+            return reactor.callLater(
+                0.5, self.__connect, host_id, host, port, user, passwd,
+                try_counter=try_counter-1
+            )
+
+        msg = str(reason.value)
+        if not self.glade.get_widget("chk_autostart").get_active():
+            msg += '\n' + _("Auto-starting the daemon localy is not enabled. "
+                            "See \"Options\" on the \"Connection Manager\".")
+        dialogs.ErrorDialog(_("Failed To Connect"), msg).run()
 
     def on_button_connect_clicked(self, widget=None):
         model, row = self.hostlist.get_selection().get_selected()
@@ -544,28 +560,13 @@ class ConnectionManager(component.Component):
         if status == _("Offline") and \
                     self.glade.get_widget("chk_autostart").get_active() and \
                     host in ("127.0.0.1", "localhost"):
-            # We need to start this localhost
-            self.start_daemon(port, deluge.configmanager.get_config_dir())
-
-            def on_connect_fail(result, try_counter):
-                log.error("Connection to host failed..")
-                # We failed connecting to the daemon, but lets try again
-                if try_counter:
-                    log.info("Retrying connection.. Retries left: %s", try_counter)
-                    try_counter -= 1
-                    import time
-                    time.sleep(0.5)
-                    do_retry_connect(try_counter)
-                return result
-
-            def do_retry_connect(try_counter):
-                d = client.connect(host, port, user, password)
-                d.addCallback(self.__on_connected, host_id)
-                d.addErrback(on_connect_fail, try_counter)
-
-            do_retry_connect(6)
-
-        return self.__connect(host_id, host, port, user, password, skip_authentication=False)
+            if not self.start_daemon(port, deluge.configmanager.get_config_dir()):
+                log.debug("Failed to auto-start daemon")
+                return
+            return self.__connect(
+                host_id, host, port, user, password, try_counter=6
+            )
+        return self.__connect(host_id, host, port, user, password)
 
     def on_button_close_clicked(self, widget):
         self.connection_manager.response(gtk.RESPONSE_CLOSE)
