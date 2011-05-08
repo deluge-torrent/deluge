@@ -130,7 +130,8 @@ class TorrentManager(component.Component):
     """
 
     def __init__(self):
-        component.Component.__init__(self, "TorrentManager", interval=5, depend=["CorePluginManager"])
+        component.Component.__init__(self, "TorrentManager", interval=5,
+                                     depend=["CorePluginManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = component.get("Core").session

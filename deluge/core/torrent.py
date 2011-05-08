@@ -564,6 +564,16 @@ class Torrent(object):
                 return host
         return ""
 
+    def get_last_seen_complete(self):
+        """
+        Returns the time a torrent was last seen complete, ie, with all pieces
+        available.
+        """
+        if lt.version_minor > 16:
+            return self.status.last_seen_complete
+        self.calculate_last_seen_complete()
+        return self._last_seen_complete
+
     def get_status(self, keys, diff=False):
         """
         Returns the status of the torrent based on the keys provided
@@ -639,10 +649,6 @@ class Torrent(object):
             "tracker_status": self.tracker_status,
             "upload_payload_rate": self.status.upload_payload_rate
         }
-        if lt.version_minor > 16:
-            full_status["last_seen_complete"] = self.status.last_seen_complete
-        else:
-            full_status["last_seen_complete"] = self._last_seen_complete
 
         def ti_comment():
             if self.handle.has_metadata():
@@ -715,6 +721,7 @@ class Torrent(object):
             "ratio": self.get_ratio,
             "total_size": ti_total_size,
             "tracker_host": self.get_tracker_host,
+            "last_seen_complete": self.get_last_seen_complete
         }
 
         # Create the desired status dictionary and return it
@@ -946,8 +953,11 @@ class Torrent(object):
             if not self.rpcserver.is_session_valid(key):
                 del self.prev_status[key]
 
-    # XXX: Remove when libtorrent 0.16 get's released???
     def calculate_last_seen_complete(self):
+        if self._last_seen_complete+60 > time.time():
+            # Simple caching. Only calculate every 1 min at minimum
+            return self._last_seen_complete
+
         availability = self.handle.piece_availability()
         if filter(lambda x: x<1, availability):
             # Torrent does not have all the pieces
