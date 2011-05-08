@@ -636,7 +636,6 @@ class TorrentManager(component.Component):
                 break
 
 
-        # XXX: Remove when libtorrent 0.16 get's released???
         if lt.version_minor < 16:
             log.debug("libtorrent version is lower than 0.16. Start looping "
                       "callback to calculate last_seen_complete info.")
@@ -681,13 +680,10 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed_path"],
                 torrent.magnet,
                 torrent.time_added,
+                torrent.get_last_seen_complete(),
                 torrent.owner,
                 torrent.options["shared"]
             )
-            # XXX: Remove when libtorrent 0.16 get's released???
-            if lt.version_minor < 16:
-                torrent_state.last_seen_complete = torrent._last_seen_complete
-
             state.torrents.append(torrent_state)
 
         # Pickle the TorrentManagerState object

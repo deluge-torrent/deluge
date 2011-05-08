@@ -188,12 +188,11 @@ class Torrent(object):
         else:
             self.owner = owner
 
-        # XXX: Remove when libtorrent 0.16 get's released???
-        if lt.version_minor < 16:
-            if state:
-                self._last_seen_complete = state.last_seen_complete or 0.0
-            else:
-                self._last_seen_complete = 0.0
+        # Keep trac of last seen complete
+        if state:
+            self._last_seen_complete = state.last_seen_complete or 0.0
+        else:
+            self._last_seen_complete = 0.0
 
         # Keep track if we're forcing a recheck of the torrent so that we can
         # repause it after its done if necessary
