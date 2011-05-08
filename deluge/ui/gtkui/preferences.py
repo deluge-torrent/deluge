@@ -45,7 +45,6 @@ import pkg_resources
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
-import deluge.error
 import common
 import dialogs
 from deluge.configmanager import ConfigManager
@@ -152,7 +151,8 @@ class Preferences(component.Component):
             "on_button_associate_magnet_clicked": self._on_button_associate_magnet_clicked,
             "on_accounts_add_clicked": self._on_accounts_add_clicked,
             "on_accounts_delete_clicked": self._on_accounts_delete_clicked,
-            "on_accounts_edit_clicked": self._on_accounts_edit_clicked
+            "on_accounts_edit_clicked": self._on_accounts_edit_clicked,
+            "on_alocation_toggled": self._on_alocation_toggled
         })
 
         # These get updated by requests done to the core
@@ -282,6 +282,9 @@ class Preferences(component.Component):
                 "chk_prioritize_first_last_pieces": \
                     ("active",
                         self.core_config["prioritize_first_last_pieces"]),
+                "chk_sequential_download": \
+                    ("active",
+                        self.core_config["sequential_download"]),
                 "chk_add_paused": ("active", self.core_config["add_paused"]),
                 "spin_port_min": ("value", self.core_config["listen_ports"][0]),
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
@@ -349,28 +352,44 @@ class Preferences(component.Component):
             }
             # Add proxy stuff
             for t in ("peer", "web_seed", "tracker", "dht"):
-                core_widgets["spin_proxy_port_%s" % t] = ("value", self.core_config["proxies"][t]["port"])
-                core_widgets["combo_proxy_type_%s" % t] = ("active", self.core_config["proxies"][t]["type"])
-                core_widgets["txt_proxy_server_%s" % t] = ("text", self.core_config["proxies"][t]["hostname"])
-                core_widgets["txt_proxy_username_%s" % t] = ("text", self.core_config["proxies"][t]["username"])
-                core_widgets["txt_proxy_password_%s" % t] = ("text", self.core_config["proxies"][t]["password"])
+                core_widgets["spin_proxy_port_%s" % t] = (
+                    "value", self.core_config["proxies"][t]["port"]
+                )
+                core_widgets["combo_proxy_type_%s" % t] = (
+                    "active", self.core_config["proxies"][t]["type"]
+                )
+                core_widgets["txt_proxy_server_%s" % t] = (
+                    "text", self.core_config["proxies"][t]["hostname"]
+                )
+                core_widgets["txt_proxy_username_%s" % t] = (
+                    "text", self.core_config["proxies"][t]["username"]
+                )
+                core_widgets["txt_proxy_password_%s" % t] = (
+                    "text", self.core_config["proxies"][t]["password"]
+                )
 
             # Change a few widgets if we're connected to a remote host
             if not client.is_localhost():
                 self.glade.get_widget("entry_download_path").show()
                 self.glade.get_widget("download_path_button").hide()
                 core_widgets.pop("download_path_button")
-                core_widgets["entry_download_path"] = ("text", self.core_config["download_location"])
+                core_widgets["entry_download_path"] = (
+                    "text", self.core_config["download_location"]
+                )
 
                 self.glade.get_widget("entry_move_completed_path").show()
                 self.glade.get_widget("move_completed_path_button").hide()
                 core_widgets.pop("move_completed_path_button")
-                core_widgets["entry_move_completed_path"] = ("text", self.core_config["move_completed_path"])
+                core_widgets["entry_move_completed_path"] = (
+                    "text", self.core_config["move_completed_path"]
+                )
 
                 self.glade.get_widget("entry_torrents_path").show()
                 self.glade.get_widget("torrent_files_button").hide()
                 core_widgets.pop("torrent_files_button")
-                core_widgets["entry_torrents_path"] = ("text", self.core_config["torrentfiles_location"])
+                core_widgets["entry_torrents_path"] = (
+                    "text", self.core_config["torrentfiles_location"]
+                )
             else:
                 self.glade.get_widget("entry_download_path").hide()
                 self.glade.get_widget("download_path_button").show()
@@ -419,6 +438,7 @@ class Preferences(component.Component):
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
+                "chk_sequential_download",
                 "chk_add_paused",
                 "spin_port_min",
                 "spin_port_max",
@@ -539,7 +559,8 @@ class Preferences(component.Component):
         """
         Sets all altered config values in the core.
 
-        :param hide: bool, if True, will not re-show the dialog and will hide it instead
+        :param hide: bool, if True, will not re-show the dialog and will hide
+        it instead
         """
         try:
             from hashlib import sha1 as sha_hash
@@ -583,6 +604,11 @@ class Preferences(component.Component):
         new_core_config["prioritize_first_last_pieces"] = \
             self.glade.get_widget(
                 "chk_prioritize_first_last_pieces").get_active()
+        new_core_config["sequential_download"] = \
+            self.glade.get_widget("chk_sequential_download").get_active()
+        new_core_config["sequential_download"] = \
+            self.glade.get_widget("radio_compact_allocation").get_active() and \
+            False or self.glade.get_widget("chk_sequential_download").get_active()
         new_core_config["add_paused"] = \
             self.glade.get_widget("chk_add_paused").get_active()
 
@@ -1179,3 +1205,8 @@ class Preferences(component.Component):
                     username
                 ).addCallback(remove_ok).addErrback(remove_fail)
         dialog.run().addCallback(dialog_finished)
+
+    def _on_alocation_toggled(self, widget):
+        full_allocation_active = self.glade.get_widget("radio_full_allocation").get_active()
+        self.glade.get_widget("chk_prioritize_first_last_pieces").set_sensitive(full_allocation_active)
+        self.glade.get_widget("chk_sequential_download").set_sensitive(full_allocation_active)
