@@ -569,7 +569,7 @@ class Torrent(object):
         Returns the time a torrent was last seen complete, ie, with all pieces
         available.
         """
-        if lt.version_minor > 16:
+        if lt.version_minor > 15:
             return self.status.last_seen_complete
         self.calculate_last_seen_complete()
         return self._last_seen_complete
