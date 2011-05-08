@@ -33,6 +33,7 @@
 	* Host entries in the Connection Manager UI are now editable. They're
 	now also migrated from the old format were automatic localhost logins were
 	possible, which no longer is, this fixes #1814.
+	* Implemented sequential downloads UI handling.
 
 ==== WebUI ====
 	* Migrate to ExtJS 3.1

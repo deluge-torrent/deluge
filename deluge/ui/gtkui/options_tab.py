@@ -116,7 +116,7 @@ class OptionsTab(Tab):
             "stop_at_ratio",
             "stop_ratio",
             "remove_at_ratio",
-            "compact_allocation",
+            "compact",
             "sequential_download",
             "move_on_completed",
             "move_on_completed_path",
@@ -167,7 +167,7 @@ class OptionsTab(Tab):
             if status["shared"] != self.prev_status["shared"]:
                 self.chk_shared.set_active(status["shared"])
 
-            if status["compact_allocation"]:
+            if status["compact"]:
                 self.chk_prioritize_first_last.set_sensitive(False)
                 self.chk_prioritize_first_last.hide()
                 self.chk_sequential_download.set_sensitive(False)
@@ -203,13 +203,13 @@ class OptionsTab(Tab):
             )
         if self.chk_prioritize_first_last.get_active() != \
                         self.prev_status["prioritize_first_last"] and \
-                                    not self.prev_status["compact_allocation"]:
+                                                not self.prev_status["compact"]:
             client.core.set_torrent_prioritize_first_last(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
             )
         if self.chk_sequential_download.get_active() != \
                         self.prev_status["sequential_download"] and \
-                                    not self.prev_status["compact_allocation"]:
+                                                not self.prev_status["compact"]:
             client.core.set_torrent_sequential_download(
                 self.prev_torrent_id, self.chk_prioritize_first_last.get_active()
             )
