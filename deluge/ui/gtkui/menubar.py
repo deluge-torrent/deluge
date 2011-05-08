@@ -213,10 +213,11 @@ class MenuBar(component.Component):
         # demon.
         self.menuitem_change_owner.set_visible(False)
 
-        # Get Known accounts to allow chaning ownership
-        client.core.get_known_accounts().addCallback(
-            self._on_known_accounts).addErrback(self._on_known_accounts_fail
-        )
+        if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
+            # Get Known accounts to allow chaning ownership
+            client.core.get_known_accounts().addCallback(
+                self._on_known_accounts).addErrback(self._on_known_accounts_fail
+            )
 
     def stop(self):
         log.debug("MenuBar stopping")
