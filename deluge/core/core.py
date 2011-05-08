@@ -412,7 +412,11 @@ class Core(component.Component):
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
         # Build the status dictionary
-        status = self.torrentmanager[torrent_id].get_status(keys, diff)
+        try:
+            status = self.torrentmanager[torrent_id].get_status(keys, diff)
+        except KeyError:
+            # Torrent was probaly removed meanwhile
+            return {}
 
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(keys) - set(status.keys()))
