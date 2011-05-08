@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="error_dialog">
+    <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">AutoAdd Error</property>
     <property name="resizable">False</property>
@@ -12,40 +13,11 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
-        <child>
-          <widget class="GtkHBox" id="hbox12">
-            <property name="visible">True</property>
-            <child>
-              <widget class="GtkImage" id="image7">
-                <property name="visible">True</property>
-                <property name="stock">gtk-dialog-error</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="error_label">
-                <property name="visible">True</property>
-                <property name="xalign">0.46000000834465027</property>
-                <property name="label" translatable="yes">Error</property>
-                <property name="wrap">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="position">2</property>
-          </packing>
-        </child>
+        <property name="can_focus">False</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="okbutton1">
@@ -55,6 +27,7 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_error_ok"/>
               </widget>
@@ -67,14 +40,53 @@
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="pack_type">end</property>
             <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox12">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="GtkImage" id="image7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-dialog-error</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="error_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0.46000000834465027</property>
+                <property name="label" translatable="yes">Error</property>
+                <property name="wrap">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </widget>
     </child>
   </widget>
   <widget class="GtkDialog" id="options_dialog">
+    <property name="can_focus">False</property>
     <property name="title" translatable="yes">Watch Folder Properties</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -83,9 +95,75 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <widget class="GtkButton" id="opts_cancel_button">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_opts_cancel"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkButton" id="opts_add_button">
+                <property name="label">gtk-add</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_opts_add"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkButton" id="opts_apply_button">
+                <property name="label">gtk-apply</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_opts_apply"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <widget class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <widget class="GtkNotebook" id="notebook1">
                 <property name="visible">True</property>
@@ -93,44 +171,60 @@
                 <child>
                   <widget class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="border_width">6</property>
                     <child>
                       <widget class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment3">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkVBox" id="vbox6">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox3">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkEntry" id="path_entry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkFileChooserButton" id="path_chooser">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="action">select-folder</property>
                                         <property name="title" translatable="yes">Select A Folder</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
@@ -140,6 +234,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_enabled_toggle_toggled"/>
@@ -157,6 +252,7 @@
                         <child>
                           <widget class="GtkLabel" id="label6">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Watch Folder&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -166,6 +262,7 @@
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
                         <property name="fill">False</property>
                         <property name="position">0</property>
                       </packing>
@@ -173,15 +270,18 @@
                     <child>
                       <widget class="GtkFrame" id="OwnerFrame">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment5">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkComboBox" id="OwnerCombobox">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                               </widget>
                             </child>
                           </widget>
@@ -189,6 +289,7 @@
                         <child>
                           <widget class="GtkLabel" id="label3">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Owner&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -198,51 +299,64 @@
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkFrame" id="frame1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment1">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment2">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkVBox" id="vbox7">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="isnt_append_extension">
                                         <property name="label" translatable="yes">Delete .torrent after adding</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_toggle_toggled"/>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkHBox" id="hbox1">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <child>
                                           <widget class="GtkRadioButton" id="append_extension_toggle">
                                             <property name="label" translatable="yes">Append extension after adding:</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
                                             <signal name="toggled" handler="on_toggle_toggled"/>
                                           </widget>
                                           <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
                                         </child>
@@ -252,19 +366,28 @@
                                             <property name="can_focus">True</property>
                                             <property name="invisible_char">•</property>
                                             <property name="text" translatable="yes">.added</property>
+                                            <property name="primary_icon_activatable">False</property>
+                                            <property name="secondary_icon_activatable">False</property>
+                                            <property name="primary_icon_sensitive">True</property>
+                                            <property name="secondary_icon_sensitive">True</property>
                                           </widget>
                                           <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkTable" id="table4">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="n_rows">2</property>
                                         <property name="n_columns">2</property>
                                         <child>
@@ -273,6 +396,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
                                             <signal name="toggled" handler="on_toggle_toggled"/>
@@ -281,23 +405,33 @@
                                         <child>
                                           <widget class="GtkHBox" id="hbox7">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <child>
                                               <widget class="GtkEntry" id="copy_torrent_entry">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">•</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="primary_icon_sensitive">True</property>
+                                                <property name="secondary_icon_sensitive">True</property>
                                               </widget>
                                               <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
                                               <widget class="GtkFileChooserButton" id="copy_torrent_chooser">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="action">select-folder</property>
                                                 <property name="title" translatable="yes">Select A Folder</property>
                                               </widget>
                                               <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
@@ -316,6 +450,7 @@
                                             <property name="has_tooltip">True</property>
                                             <property name="tooltip" translatable="yes">Delete the copy of the torrent file
 created when the torrent is removed</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
@@ -327,6 +462,8 @@ created when the torrent is removed</property>
                                         </child>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">2</property>
                                       </packing>
                                     </child>
@@ -339,6 +476,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label2">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Torrent File Action&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -348,27 +486,33 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkFrame" id="frame3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment4">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="download_location_toggle">
                                     <property name="label" translatable="yes">Set download location</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -382,28 +526,39 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox4">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkEntry" id="download_location_entry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkFileChooserButton" id="download_location_chooser">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="action">select-folder</property>
                                         <property name="title" translatable="yes">Select A Folder</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">True</property>
                                     <property name="fill">False</property>
                                     <property name="position">1</property>
                                   </packing>
@@ -415,6 +570,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label7">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Download Location&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -424,6 +580,7 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
                         <property name="fill">False</property>
                         <property name="position">3</property>
                       </packing>
@@ -431,21 +588,25 @@ created when the torrent is removed</property>
                     <child>
                       <widget class="GtkFrame" id="frame4">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment6">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkVBox" id="vbox4">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="move_completed_toggle">
                                     <property name="label" translatable="yes">Set move completed location</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -459,23 +620,33 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox5">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkEntry" id="move_completed_path_entry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkFileChooserButton" id="move_completed_path_chooser">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="action">select-folder</property>
                                         <property name="title" translatable="yes">Select A Folder</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -484,6 +655,7 @@ created when the torrent is removed</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">False</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
@@ -496,6 +668,7 @@ created when the torrent is removed</property>
                                     </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">True</property>
                                     <property name="fill">False</property>
                                     <property name="position">1</property>
                                   </packing>
@@ -507,6 +680,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label8">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Move Completed&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -516,27 +690,32 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
                         <property name="fill">False</property>
                         <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkFrame" id="label_frame">
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment15">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkHBox" id="hbox11">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="label_toggle">
                                     <property name="label" translatable="yes">Label: </property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -550,8 +729,20 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkComboBoxEntry" id="label">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child internal-child="entry">
+                                      <widget class="GtkEntry" id="comboboxentry-entry2">
+                                        <property name="can_focus">False</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
+                                      </widget>
+                                    </child>
                                   </widget>
                                   <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
@@ -562,6 +753,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label17">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Label&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -571,6 +763,8 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">5</property>
                       </packing>
                     </child>
@@ -579,6 +773,7 @@ created when the torrent is removed</property>
                 <child>
                   <widget class="GtkLabel" id="label4">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Main</property>
                   </widget>
                   <packing>
@@ -589,6 +784,7 @@ created when the torrent is removed</property>
                 <child>
                   <widget class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="border_width">6</property>
                     <child>
                       <placeholder/>
@@ -596,24 +792,30 @@ created when the torrent is removed</property>
                     <child>
                       <widget class="GtkFrame" id="frame5">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment11">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkTable" id="table1">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="border_width">3</property>
                                 <property name="n_rows">4</property>
                                 <property name="n_columns">3</property>
+                                <property name="column_spacing">2</property>
+                                <property name="row_spacing">4</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="max_upload_speed_toggle">
                                     <property name="label" translatable="yes">Max Upload Speed:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -631,6 +833,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -648,6 +851,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -663,6 +867,10 @@ created when the torrent is removed</property>
                                   <widget class="GtkSpinButton" id="max_download_speed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 -1 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -677,6 +885,10 @@ created when the torrent is removed</property>
                                   <widget class="GtkSpinButton" id="max_upload_speed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 -1 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -693,6 +905,10 @@ created when the torrent is removed</property>
                                   <widget class="GtkSpinButton" id="max_connections">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 -1 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -708,6 +924,10 @@ created when the torrent is removed</property>
                                   <widget class="GtkSpinButton" id="max_upload_slots">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 -1 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -722,6 +942,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkLabel" id="label14">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">KiB/s</property>
@@ -736,6 +957,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkLabel" id="label15">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">KiB/s</property>
@@ -755,6 +977,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -777,6 +1000,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label1">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Bandwidth&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -786,32 +1010,41 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkFrame" id="frame6">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <widget class="GtkAlignment" id="alignment12">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <widget class="GtkTable" id="table2">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="n_rows">5</property>
                                 <property name="n_columns">4</property>
+                                <property name="column_spacing">2</property>
+                                <property name="row_spacing">4</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment13">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkCheckButton" id="stop_at_ratio_toggle">
                                         <property name="label" translatable="yes">Stop seed at ratio:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_toggle_toggled"/>
@@ -827,6 +1060,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment14">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0</property>
                                     <property name="left_padding">12</property>
@@ -836,6 +1070,7 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
@@ -852,6 +1087,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
@@ -868,6 +1104,7 @@ created when the torrent is removed</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -886,6 +1123,7 @@ created when the torrent is removed</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -904,6 +1142,10 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">2 0 100 0.10000000149 10 0</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -919,6 +1161,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkHBox" id="auto_managed_box">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="auto_managed">
@@ -926,10 +1169,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -939,10 +1185,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                         <property name="group">auto_managed</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -961,6 +1210,7 @@ created when the torrent is removed</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -980,6 +1230,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
                                   </widget>
@@ -987,6 +1238,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkHBox" id="add_paused_box">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="add_paused">
@@ -994,10 +1246,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -1007,10 +1262,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                         <property name="group">add_paused</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -1026,6 +1284,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_toggle_toggled"/>
                                   </widget>
@@ -1037,6 +1296,7 @@ created when the torrent is removed</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox2">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="queue_to_top">
@@ -1044,10 +1304,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -1057,10 +1320,13 @@ created when the torrent is removed</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                         <property name="group">queue_to_top</property>
                                       </widget>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -1103,6 +1369,7 @@ created when the torrent is removed</property>
                         <child>
                           <widget class="GtkLabel" id="label16">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;b&gt;Queue&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
@@ -1112,6 +1379,8 @@ created when the torrent is removed</property>
                         </child>
                       </widget>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -1123,6 +1392,7 @@ created when the torrent is removed</property>
                 <child>
                   <widget class="GtkLabel" id="label5">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Options</property>
                   </widget>
                   <packing>
@@ -1133,79 +1403,27 @@ created when the torrent is removed</property>
                 </child>
               </widget>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkHButtonBox" id="hbuttonbox2">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
               </widget>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <widget class="GtkButton" id="opts_cancel_button">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_opts_cancel"/>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="opts_add_button">
-                <property name="label">gtk-add</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_opts_add"/>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="opts_apply_button">
-                <property name="label">gtk-apply</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_opts_apply"/>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
           </packing>
         </child>
       </widget>

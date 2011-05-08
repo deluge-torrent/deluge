@@ -44,6 +44,7 @@ from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
+from deluge.common import AUTH_LEVEL_ADMIN
 from deluge.core.rpcserver import export
 from twisted.internet.task import LoopingCall, deferLater
 from twisted.internet import reactor
@@ -61,6 +62,7 @@ OPTIONS_AVAILABLE = { #option: builtin
     "path":False,
     "append_extension":False,
     "copy_torrent": False,
+    "delete_copy_torrent_toggle": False,
     "abspath":False,
     "download_location":True,
     "max_download_speed":True,
@@ -100,6 +102,10 @@ class Core(CorePluginBase):
         self.config.save()
         self.watchdirs = self.config["watchdirs"]
 
+        component.get("EventManager").register_event_handler(
+            "PreTorrentRemovedEvent", self.__on_pre_torrent_removed
+        )
+
         # Dict of Filename:Attempts
         self.invalid_torrents = {}
         # Loopingcall timers for each enabled watchdir
@@ -107,13 +113,16 @@ class Core(CorePluginBase):
         deferLater(reactor, 5, self.enable_looping)
 
     def enable_looping(self):
-        #Enable all looping calls for enabled watchdirs here
+        # Enable all looping calls for enabled watchdirs here
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             if watchdir['enabled']:
                 self.enable_watchdir(watchdir_id)
 
     def disable(self):
         #disable all running looping calls
+        component.get("EventManager").deregister_event_handler(
+            "PreTorrentRemovedEvent", self.__on_pre_torrent_removed
+        )
         for loopingcall in self.update_timers.itervalues():
             loopingcall.stop()
         self.config.save()
@@ -165,16 +174,19 @@ class Core(CorePluginBase):
             raise e
 
         # Get the info to see if any exceptions are raised
-        info = lt.torrent_info(lt.bdecode(filedump))
+        lt.torrent_info(lt.bdecode(filedump))
 
         return filedump
 
     def update_watchdir(self, watchdir_id):
         """Check the watch folder for new torrents to add."""
+        log.trace("Updating watchdir id: %s", watchdir_id)
         watchdir_id = str(watchdir_id)
         watchdir = self.watchdirs[watchdir_id]
         if not watchdir['enabled']:
             # We shouldn't be updating because this watchdir is not enabled
+            log.debug("Watchdir id %s is not enabled. Disabling it.",
+                      watchdir_id)
             self.disable_watchdir(watchdir_id)
             return
 
@@ -193,15 +205,17 @@ class Core(CorePluginBase):
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option+'_toggle', True):
                     opts[option] = value
-
         for filename in os.listdir(watchdir["abspath"]):
-            if filename.split(".")[-1] == "torrent":
-                try:
-                    filepath = os.path.join(watchdir["abspath"], filename)
-                except UnicodeDecodeError, e:
-                    log.error("Unable to auto add torrent due to improper "
-                              "filename encoding: %s", e)
-                    continue
+            try:
+                filepath = os.path.join(watchdir["abspath"], filename)
+            except UnicodeDecodeError, e:
+                log.error("Unable to auto add torrent due to improper "
+                          "filename encoding: %s", e)
+                continue
+            if os.path.isdir(filepath):
+                # Skip directories
+                continue
+            elif os.path.splitext(filename)[1] == ".torrent":
                 try:
                     filedump = self.load_torrent(filepath)
                 except (RuntimeError, Exception), e:
@@ -212,6 +226,9 @@ class Core(CorePluginBase):
                     if filename in self.invalid_torrents:
                         self.invalid_torrents[filename] += 1
                         if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
+                            log.warning("Maximum attepts reached while trying "
+                                        "to add the torrent file with the path"
+                                        " %s", filepath)
                             os.rename(filepath, filepath + ".invalid")
                             del self.invalid_torrents[filename]
                     else:
@@ -236,14 +253,19 @@ class Core(CorePluginBase):
                             component.get("TorrentManager").queue_top(torrent_id)
                         else:
                             component.get("TorrentManager").queue_bottom(torrent_id)
-                # Rename or delete the torrent once added to deluge.
+
+                # Rename, copy or delete the torrent once added to deluge.
                 if watchdir.get('append_extension_toggle'):
                     if not watchdir.get('append_extension'):
                         watchdir['append_extension'] = ".added"
                     os.rename(filepath, filepath + watchdir['append_extension'])
                 elif watchdir.get('copy_torrent_toggle'):
                     copy_torrent_path = watchdir['copy_torrent']
-                    os.rename(filepath, copy_torrent_path)
+                    log.debug("Moving added torrent file \"%s\" to \"%s\"",
+                              os.path.basename(filepath), copy_torrent_path)
+                    os.rename(
+                        filepath, os.path.join(copy_torrent_path, filename)
+                    )
                 else:
                     os.remove(filepath)
 
@@ -298,7 +320,22 @@ class Core(CorePluginBase):
 
     @export
     def get_watchdirs(self):
-        return self.watchdirs.keys()
+        rpcserver = component.get("RPCServer")
+        session_user = rpcserver.get_session_user()
+        session_auth_level = rpcserver.get_session_auth_level()
+        if session_auth_level == AUTH_LEVEL_ADMIN:
+            log.debug("\n\nCurrent logged in user %s is an ADMIN, send all "
+                      "watchdirs", session_user)
+            return self.watchdirs
+
+        watchdirs = {}
+        for watchdir_id, watchdir in self.watchdirs.iteritems():
+            if watchdir.get("owner", "localclient") == session_user:
+                watchdirs[watchdir_id] = watchdir
+
+        log.debug("\n\nCurrent logged in user %s is not an ADMIN, send only "
+                  "his watchdirs: %s", session_user, watchdirs.keys())
+        return watchdirs
 
     def _make_unicode(self, options):
         opts = {}
@@ -348,6 +385,30 @@ class Core(CorePluginBase):
             config['watchdirs'][watchdir_id]['owner'] = 'localclient'
         return config
 
-    ### XXX: Handle torrent finished / remove torrent file per whatchdir
-    ### deluge/core/torrentmanager.py:
-    ###     filename = self.torrents[torrent_id].filename
+    def __on_pre_torrent_removed(self, torrent_id):
+        try:
+            torrent = component.get("TorrentManager")[torrent_id]
+        except KeyError:
+            log.warning("Unable to remove torrent file for torrent id %s. It"
+                        "was already deleted from the TorrentManager",
+                        torrent_id)
+            return
+        torrent_fname = torrent.filename
+        for watchdir in self.watchdirs.itervalues():
+            if not watchdir.get('copy_torrent_toggle', False):
+                # This watchlist does copy torrents
+                continue
+            elif not watchdir.get('delete_copy_torrent_toggle', False):
+                # This watchlist is not set to delete finished torrents
+                continue
+            copy_torrent_path = watchdir['copy_torrent']
+            torrent_fname_path = os.path.join(copy_torrent_path, torrent_fname)
+            if os.path.isfile(torrent_fname_path):
+                try:
+                    os.remove(torrent_fname_path)
+                    log.info("Removed torrent file \"%s\" from \"%s\"",
+                             torrent_fname, copy_torrent_path)
+                    break
+                except OSError, e:
+                    log.info("Failed to removed torrent file \"%s\" from "
+                             "\"%s\": %s", torrent_fname, copy_torrent_path, e)

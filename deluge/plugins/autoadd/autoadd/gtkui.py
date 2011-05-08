@@ -88,10 +88,6 @@ class OptionsDialog():
             self.watchdir_id = None
 
         self.load_options(options)
-
-        # Not implemented feateures present in UI
-        self.glade.get_widget("delete_copy_torrent_toggle").hide()
-
         self.dialog.run()
 
     def load_options(self, options):
@@ -107,6 +103,9 @@ class OptionsDialog():
         )
         self.glade.get_widget('copy_torrent_toggle').set_active(
             options.get('copy_torrent_toggle', False)
+        )
+        self.glade.get_widget('delete_copy_torrent_toggle').set_active(
+            options.get('delete_copy_torrent_toggle', False)
         )
         self.accounts.clear()
         self.labels.clear()
@@ -162,6 +161,13 @@ class OptionsDialog():
                     selected_idx = idx
             self.glade.get_widget('OwnerCombobox').set_active(selected_idx)
 
+        def on_accounts_failure(failure):
+            log.debug("Failed to get accounts!!! %s", failure)
+            iter = self.accounts.append()
+            self.accounts.set_value(iter, 0, client.get_auth_user())
+            self.glade.get_widget('OwnerCombobox').set_active(0)
+            self.glade.get_widget('OwnerCombobox').set_sensitive(False)
+
         def on_labels(labels):
             log.debug("Got Labels: %s", labels)
             for label in labels:
@@ -182,9 +188,15 @@ class OptionsDialog():
                 self.glade.get_widget('label_toggle').set_active(False)
 
         client.core.get_enabled_plugins().addCallback(on_get_enabled_plugins)
-        client.core.get_known_accounts().addCallback(
-            on_accounts, options.get('owner', 'localclient')
-        ).addErrback(on_failure)
+        if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
+            client.core.get_known_accounts().addCallback(
+                on_accounts, options.get('owner', 'localclient')
+            ).addErrback(on_accounts_failure)
+        else:
+            iter = self.accounts.append()
+            self.accounts.set_value(iter, 0, client.get_auth_user())
+            self.glade.get_widget('OwnerCombobox').set_active(0)
+            self.glade.get_widget('OwnerCombobox').set_sensitive(False)
 
     def set_sensitive(self):
         maintoggles = ['download_location', 'append_extension',
@@ -255,7 +267,9 @@ class OptionsDialog():
         self.err_dialog.hide()
 
     def on_add(self, Event=None):
-        client.autoadd.add(self.generate_opts()).addCallbacks(self.on_added, self.on_error_show)
+        client.autoadd.add(
+            self.generate_opts()
+        ).addCallbacks(self.on_added, self.on_error_show)
 
     def on_cancel(self, Event=None):
         self.dialog.destroy()
@@ -266,14 +280,20 @@ class OptionsDialog():
         options['enabled'] = self.glade.get_widget('enabled').get_active()
         if client.is_localhost():
             options['path'] = self.glade.get_widget('path_chooser').get_filename()
-            options['download_location'] = self.glade.get_widget('download_location_chooser').get_filename()
-            options['move_completed_path'] = self.glade.get_widget('move_completed_path_chooser').get_filename()
-            options['copy_torrent'] = self.glade.get_widget('copy_torrent_chooser').get_filename()
+            options['download_location'] = self.glade.get_widget(
+                'download_location_chooser').get_filename()
+            options['move_completed_path'] = self.glade.get_widget(
+                'move_completed_path_chooser').get_filename()
+            options['copy_torrent'] = self.glade.get_widget(
+                'copy_torrent_chooser').get_filename()
         else:
             options['path'] = self.glade.get_widget('path_entry').get_text()
-            options['download_location'] = self.glade.get_widget('download_location_entry').get_text()
-            options['move_completed_path'] = self.glade.get_widget('move_completed_path_entry').get_text()
-            options['copy_torrent'] = self.glade.get_widget('copy_torrent_entry').get_text()
+            options['download_location'] = self.glade.get_widget(
+                'download_location_entry').get_text()
+            options['move_completed_path'] = self.glade.get_widget(
+                'move_completed_path_entry').get_text()
+            options['copy_torrent'] = self.glade.get_widget(
+                'copy_torrent_entry').get_text()
 
         options['label'] = self.glade.get_widget('label').child.get_text().lower()
         options['append_extension'] = self.glade.get_widget('append_extension').get_text()
@@ -281,7 +301,8 @@ class OptionsDialog():
             self.glade.get_widget('OwnerCombobox').get_active()][0]
 
         for key in ['append_extension_toggle', 'download_location_toggle',
-                    'label_toggle', 'copy_torrent_toggle']:
+                    'label_toggle', 'copy_torrent_toggle',
+                    'delete_copy_torrent_toggle']:
             options[key] = self.glade.get_widget(key).get_active()
 
         for id in self.spin_ids:
@@ -307,9 +328,15 @@ class GtkUI(GtkPluginBase):
         })
         self.opts_dialog = OptionsDialog()
 
-        component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
-        component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
-        client.register_event_handler("AutoaddOptionsChangedEvent", self.on_options_changed_event)
+        component.get("PluginManager").register_hook(
+            "on_apply_prefs", self.on_apply_prefs
+        )
+        component.get("PluginManager").register_hook(
+            "on_show_prefs", self.on_show_prefs
+        )
+        client.register_event_handler(
+            "AutoaddOptionsChangedEvent", self.on_options_changed_event
+        )
 
         self.watchdirs = {}
 
@@ -330,14 +357,20 @@ class GtkUI(GtkPluginBase):
         self.create_columns(self.treeView)
         sw.add(self.treeView)
         sw.show_all()
-        component.get("Preferences").add_page("AutoAdd", self.glade.get_widget("prefs_box"))
+        component.get("Preferences").add_page(
+            "AutoAdd", self.glade.get_widget("prefs_box")
+        )
         self.on_show_prefs()
 
 
     def disable(self):
         component.get("Preferences").remove_page("AutoAdd")
-        component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
-        component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
+        component.get("PluginManager").deregister_hook(
+            "on_apply_prefs", self.on_apply_prefs
+        )
+        component.get("PluginManager").deregister_hook(
+            "on_show_prefs", self.on_show_prefs
+        )
 
     def create_model(self):
         store = gtk.ListStore(str, bool, str, str)
@@ -418,14 +451,14 @@ class GtkUI(GtkPluginBase):
             client.autoadd.set_options(watchdir_id, watchdir)
 
     def on_show_prefs(self):
-        client.autoadd.get_config().addCallback(self.cb_get_config)
+        client.autoadd.get_watchdirs().addCallback(self.cb_get_config)
 
     def on_options_changed_event(self):
-        client.autoadd.get_config().addCallback(self.cb_get_config)
+        client.autoadd.get_watchdirs().addCallback(self.cb_get_config)
 
-    def cb_get_config(self, config):
+    def cb_get_config(self, watchdirs):
         """callback for on show_prefs"""
-        self.watchdirs = config.get('watchdirs', {})
+        self.watchdirs = watchdirs
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             self.store.append([
