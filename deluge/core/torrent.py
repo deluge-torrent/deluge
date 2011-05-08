@@ -252,14 +252,26 @@ class Torrent(object):
 
     def set_prioritize_first_last(self, prioritize):
         self.options["prioritize_first_last_pieces"] = prioritize
-        if prioritize:
-            if self.handle.has_metadata():
-                if self.handle.get_torrent_info().num_files() == 1:
-                    # We only do this if one file is in the torrent
-                    priorities = [1] * self.handle.get_torrent_info().num_pieces()
-                    priorities[0] = 7
-                    priorities[-1] = 7
-                    self.handle.prioritize_pieces(priorities)
+        if self.handle.has_metadata():
+            if self.options["compact_allocation"]:
+                log.debug("Setting first/last priority with compact "
+                          "allocation does not work!")
+                return
+
+            paths = {}
+            ti = self.handle.get_torrent_info()
+            for n in range(ti.num_pieces()):
+                slices = ti.map_block(n, 0, ti.piece_size(n))
+                for slice in slices:
+                    fe = ti.file_at(slice.file_index)
+                    paths.setdefault(fe.path, []).append(n)
+
+            priorities = self.handle.piece_priorities()
+            for pieces in paths.itervalues():
+                two_percent = 2*100/len(pieces)
+                for piece in pieces[:two_percent]+pieces[-two_percent:]:
+                    priorities[piece] = prioritize and 7 or 1
+            self.handle.prioritize_pieces(priorities)
 
     def set_auto_managed(self, auto_managed):
         self.options["auto_managed"] = auto_managed
