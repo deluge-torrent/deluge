@@ -25,6 +25,7 @@
 	* Authentication no longer requires a username/password. If one or both of
 	these is missing, an authentication error will be sent to the client
 	which sould then ask the username/password to the user.
+	* Implemented sequential downloads.
 
 ==== GtkUI ====
 	* Fix uncaught exception when closing deluge in classic mode

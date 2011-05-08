@@ -74,6 +74,7 @@ class TorrentState:
             max_upload_speed=-1.0,
             max_download_speed=-1.0,
             prioritize_first_last=False,
+            sequential_download=False,
             file_priorities=None,
             queue=None,
             auto_managed=True,
@@ -109,6 +110,7 @@ class TorrentState:
         self.max_upload_speed = max_upload_speed
         self.max_download_speed = max_download_speed
         self.prioritize_first_last = prioritize_first_last
+        self.sequential_download = sequential_download
         self.file_priorities = file_priorities
         self.auto_managed = auto_managed
         self.stop_ratio = stop_ratio
@@ -362,6 +364,7 @@ class TorrentManager(component.Component):
             options["max_upload_speed"] = state.max_upload_speed
             options["max_download_speed"] = state.max_download_speed
             options["prioritize_first_last_pieces"] = state.prioritize_first_last
+            options["sequential_download"] = state.sequential_download
             options["file_priorities"] = state.file_priorities
             options["compact_allocation"] = state.compact
             options["download_location"] = state.save_path
@@ -669,6 +672,7 @@ class TorrentManager(component.Component):
                 torrent.options["max_upload_speed"],
                 torrent.options["max_download_speed"],
                 torrent.options["prioritize_first_last_pieces"],
+                torrent.options["sequential_download"],
                 torrent.options["file_priorities"],
                 torrent.get_queue_position(),
                 torrent.options["auto_managed"],

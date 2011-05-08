@@ -565,6 +565,11 @@ class Core(component.Component):
         return self.torrentmanager[torrent_id].set_prioritize_first_last(value)
 
     @export
+    def set_torrent_sequential_download(self, torrent_id, value):
+        """Toggle sequencial pieces download"""
+        return self.torrentmanager[torrent_id].set_sequential_download(value)
+
+    @export
     def set_torrent_auto_managed(self, torrent_id, value):
         """Sets the auto managed flag for queueing purposes"""
         return self.torrentmanager[torrent_id].set_auto_managed(value)

@@ -55,22 +55,23 @@ class TorrentOptions(dict):
     def __init__(self):
         config = ConfigManager("core.conf").config
         options_conf_map = {
-                            "max_connections": "max_connections_per_torrent",
-                            "max_upload_slots": "max_upload_slots_per_torrent",
-                            "max_upload_speed": "max_upload_speed_per_torrent",
-                            "max_download_speed": "max_download_speed_per_torrent",
-                            "prioritize_first_last_pieces": "prioritize_first_last_pieces",
-                            "compact_allocation": "compact_allocation",
-                            "download_location": "download_location",
-                            "auto_managed": "auto_managed",
-                            "stop_at_ratio": "stop_seed_at_ratio",
-                            "stop_ratio": "stop_seed_ratio",
-                            "remove_at_ratio": "remove_seed_at_ratio",
-                            "move_completed": "move_completed",
-                            "move_completed_path": "move_completed_path",
-                            "add_paused": "add_paused",
-                            "shared": "shared"
-                           }
+            "max_connections": "max_connections_per_torrent",
+            "max_upload_slots": "max_upload_slots_per_torrent",
+            "max_upload_speed": "max_upload_speed_per_torrent",
+            "max_download_speed": "max_download_speed_per_torrent",
+            "prioritize_first_last_pieces": "prioritize_first_last_pieces",
+            "sequential_download": "sequential_download",
+            "compact_allocation": "compact_allocation",
+            "download_location": "download_location",
+            "auto_managed": "auto_managed",
+            "stop_at_ratio": "stop_seed_at_ratio",
+            "stop_ratio": "stop_seed_ratio",
+            "remove_at_ratio": "remove_seed_at_ratio",
+            "move_completed": "move_completed",
+            "move_completed_path": "move_completed_path",
+            "add_paused": "add_paused",
+            "shared": "shared"
+        }
         for opt_k, conf_k in options_conf_map.iteritems():
             self[opt_k] = config[conf_k]
         self["file_priorities"] = []
@@ -212,7 +213,9 @@ class Torrent(object):
             "max_download_speed": self.set_max_download_speed,
             "max_upload_slots": self.handle.set_max_uploads,
             "max_upload_speed": self.set_max_upload_speed,
-            "prioritize_first_last_pieces": self.set_prioritize_first_last
+            "prioritize_first_last_pieces": self.set_prioritize_first_last,
+            "sequential_download": self.set_sequential_download
+
         }
         for (key, value) in options.items():
             if OPTIONS_FUNCS.has_key(key):
@@ -272,6 +275,10 @@ class Torrent(object):
                 for piece in pieces[:two_percent]+pieces[-two_percent:]:
                     priorities[piece] = prioritize and 7 or 1
             self.handle.prioritize_pieces(priorities)
+
+    def set_sequential_download(self, set_sequencial):
+        self.options["sequential_download"] = set_sequencial
+        self.handle.set_sequential_download(set_sequencial)
 
     def set_auto_managed(self, auto_managed):
         self.options["auto_managed"] = auto_managed
@@ -638,6 +645,7 @@ class Torrent(object):
             "owner": self.owner,
             "paused": self.status.paused,
             "prioritize_first_last": self.options["prioritize_first_last_pieces"],
+            "sequential_download": self.options["sequential_download"],
             "progress": progress,
             "shared": self.options["shared"],
             "remove_at_ratio": self.options["remove_at_ratio"],
@@ -776,6 +784,7 @@ class Torrent(object):
         self.handle.set_upload_limit(int(self.max_upload_speed * 1024))
         self.handle.set_download_limit(int(self.max_download_speed * 1024))
         self.handle.prioritize_files(self.file_priorities)
+        self.handle.set_sequential_download(self.options["sequential_download"])
         self.handle.resolve_countries(True)
 
     def pause(self):
@@ -842,10 +851,10 @@ class Torrent(object):
         # Attempt to convert utf8 path to unicode
         # Note: Inconsistent encoding for 'dest', needs future investigation
         try:
-           dest_u = unicode(dest, "utf-8")
+            dest_u = unicode(dest, "utf-8")
         except TypeError:
-           # String is already unicode
-           dest_u = dest
+            # String is already unicode
+            dest_u = dest
 
         if not os.path.exists(dest_u):
             try:
@@ -853,7 +862,9 @@ class Torrent(object):
                 os.makedirs(dest_u)
             except IOError, e:
                 log.exception(e)
-                log.error("Could not move storage for torrent %s since %s does not exist and could not create the directory.", self.torrent_id, dest_u)
+                log.error("Could not move storage for torrent %s since %s does "
+                          "not exist and could not create the directory.",
+                          self.torrent_id, dest_u)
                 return False
         try:
             self.handle.move_storage(dest_u)
