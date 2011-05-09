@@ -458,7 +458,8 @@ class GtkUI(GtkPluginBase):
 
     def cb_get_config(self, watchdirs):
         """callback for on show_prefs"""
-        self.watchdirs = watchdirs
+        log.debug("Got whatchdirs from core: %s", watchdirs)
+        self.watchdirs = watchdirs or {}
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             self.store.append([

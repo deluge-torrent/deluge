@@ -154,6 +154,7 @@ class PreferencesManager(component.Component):
                       "attribute to shared.")
             self.config["shared"] = self.config["public"]
             del self.config["public"]
+        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
 
     def start(self):
         self.core = component.get("Core")
@@ -196,7 +197,9 @@ class PreferencesManager(component.Component):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:
             log.debug("listen port range set to %s-%s", value[0], value[1])
-            self.session.listen_on(value[0], value[1], str(self.config["listen_interface"]))
+            self.session.listen_on(
+                value[0], value[1], str(self.config["listen_interface"])
+            )
 
     def _on_set_listen_interface(self, key, value):
         # Call the random_port callback since it'll do what we need
@@ -218,7 +221,10 @@ class PreferencesManager(component.Component):
         # Set the listen ports
         log.debug("listen port range set to %s-%s", listen_ports[0],
             listen_ports[1])
-        self.session.listen_on(listen_ports[0], listen_ports[1], str(self.config["listen_interface"]))
+        self.session.listen_on(
+            listen_ports[0], listen_ports[1],
+            str(self.config["listen_interface"])
+        )
 
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:
@@ -445,8 +451,12 @@ class PreferencesManager(component.Component):
         geoip_db = ""
         if os.path.exists(value):
             geoip_db = value
-        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        elif os.path.exists(
+            pkg_resources.resource_filename("deluge",
+                                            os.path.join("data", "GeoIP.dat"))):
+            geoip_db = pkg_resources.resource_filename(
+                "deluge", os.path.join("data", "GeoIP.dat")
+            )
         else:
             log.warning("Unable to find GeoIP database file!")
 
@@ -464,3 +474,8 @@ class PreferencesManager(component.Component):
     def _on_set_cache_expiry(self, key, value):
         log.debug("%s: %s", key, value)
         self.session_set_setting("cache_expiry", value)
+
+    def __migrate_config_1_to_2(self, config):
+        if 'sequential_download' not in config:
+            config['sequential_download'] = DEFAULT_PREFS['sequential_download']
+        return config
