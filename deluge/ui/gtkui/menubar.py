@@ -221,7 +221,9 @@ class MenuBar(component.Component):
 
     def stop(self):
         log.debug("MenuBar stopping")
-        self.menuitem_change_owner.remove_submenu()
+        if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
+            # If not an admin, no submenu was added
+            self.menuitem_change_owner.remove_submenu()
 
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
@@ -332,17 +334,21 @@ class MenuBar(component.Component):
         def _on_torrent_status(status):
             deluge.common.open_file(status["save_path"])
         for torrent_id in component.get("TorrentView").get_selected_torrents():
-            component.get("SessionProxy").get_torrent_status(torrent_id, ["save_path"]).addCallback(_on_torrent_status)
+            component.get("SessionProxy").get_torrent_status(
+                torrent_id, ["save_path"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
         if client.is_localhost():
             from deluge.configmanager import ConfigManager
             config = ConfigManager("gtkui.conf")
-            chooser = gtk.FileChooserDialog(_("Choose a directory to move files to"\
-                ) , component.get("MainWindow").window, \
-                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
-                gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+            chooser = gtk.FileChooserDialog(
+                _("Choose a directory to move files to"),
+                component.get("MainWindow").window,
+                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                         gtk.STOCK_OK, gtk.RESPONSE_OK)
+            )
             chooser.set_local_only(True)
             if not deluge.common.windows_check():
                 chooser.set_icon(common.get_deluge_icon())
@@ -355,7 +361,9 @@ class MenuBar(component.Component):
                     component.get("TorrentView").get_selected_torrents(), result)
             chooser.destroy()
         else:
-            component.get("SessionProxy").get_torrent_status(component.get("TorrentView").get_selected_torrent(), ["save_path"]).addCallback(self.show_move_storage_dialog)
+            component.get("SessionProxy").get_torrent_status(
+                component.get("TorrentView").get_selected_torrent(),
+                ["save_path"]).addCallback(self.show_move_storage_dialog)
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
@@ -377,7 +385,7 @@ class MenuBar(component.Component):
 
             if response_id == gtk.RESPONSE_OK:
                 log.debug("Moving torrents to %s",
-                          self.move_storage_dialog.get_text())
+                          self.move_storage_dialog_entry.get_text())
                 path = self.move_storage_dialog_entry.get_text()
                 client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), path
