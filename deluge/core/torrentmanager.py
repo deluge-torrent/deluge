@@ -148,6 +148,7 @@ class TorrentManager(component.Component):
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
+        self.last_seen_complete_loop = None
 
         # This is a list of torrent_id when we shutdown the torrentmanager.
         # We use this list to determine if all active torrents have been paused
@@ -220,6 +221,9 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
         self.save_resume_data_timer.start(190)
 
+        if self.last_seen_complete_loop:
+            self.last_seen_complete_loop.start(60)
+
     def stop(self):
         # Stop timers
         if self.save_state_timer.running:
@@ -227,6 +231,9 @@ class TorrentManager(component.Component):
 
         if self.save_resume_data_timer.running:
             self.save_resume_data_timer.stop()
+
+        if self.last_seen_complete_loop:
+            self.last_seen_complete_loop.stop()
 
         # Save state on shutdown
         self.save_state()
@@ -267,9 +274,12 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            if torrent.options["stop_at_ratio"] and torrent.state not in ("Checking", "Allocating", "Paused", "Queued"):
-                # If the global setting is set, but the per-torrent isn't.. Just skip to the next torrent
-                # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
+            if torrent.options["stop_at_ratio"] and torrent.state not in (
+                                "Checking", "Allocating", "Paused", "Queued"):
+                # If the global setting is set, but the per-torrent isn't..
+                # Just skip to the next torrent.
+                # This is so that a user can turn-off the stop at ratio option
+                # on a per-torrent basis
                 if not torrent.options["stop_at_ratio"]:
                     continue
                 if torrent.get_ratio() >= torrent.options["stop_ratio"] and torrent.is_finished:
@@ -598,7 +608,8 @@ class TorrentManager(component.Component):
 
         # Emit the signal to the clients
         component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
-        log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
+        log.info("Torrent %s removed by user: %s", torrent_name,
+                 component.get("RPCServer").get_session_user())
         return True
 
     def load_state(self):
@@ -645,8 +656,9 @@ class TorrentManager(component.Component):
             def calculate_last_seen_complete():
                 for torrent in self.torrents.values():
                     torrent.calculate_last_seen_complete()
-            task = LoopingCall(calculate_last_seen_complete)
-            task.start(60)
+            self.last_seen_complete_loop = LoopingCall(
+                calculate_last_seen_complete
+            )
 
         component.get("EventManager").emit(SessionStartedEvent())
 
