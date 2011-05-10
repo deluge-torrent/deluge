@@ -113,6 +113,8 @@ class Core(component.Component):
 
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
+        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
+        self.config.save()
 
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
@@ -158,6 +160,12 @@ class Core(component.Component):
             self.session.load_state(lt.bdecode(open(session_state, "rb").read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
+
+
+    def __migrate_config_1_to_2(self, config):
+        if 'sequential_download' not in config:
+            config['sequential_download'] = False
+        return config
 
     def save_dht_state(self):
         """Saves the dht state to a file"""

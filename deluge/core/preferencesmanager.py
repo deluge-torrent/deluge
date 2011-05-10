@@ -154,7 +154,6 @@ class PreferencesManager(component.Component):
                       "attribute to shared.")
             self.config["shared"] = self.config["public"]
             del self.config["public"]
-        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
 
     def start(self):
         self.core = component.get("Core")
@@ -474,8 +473,3 @@ class PreferencesManager(component.Component):
     def _on_set_cache_expiry(self, key, value):
         log.debug("%s: %s", key, value)
         self.session_set_setting("cache_expiry", value)
-
-    def __migrate_config_1_to_2(self, config):
-        if 'sequential_download' not in config:
-            config['sequential_download'] = DEFAULT_PREFS['sequential_download']
-        return config
