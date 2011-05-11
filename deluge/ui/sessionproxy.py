@@ -75,11 +75,11 @@ class SessionProxy(component.Component):
         def on_torrent_status(status):
             # Save the time we got the torrent status
             t = time.time()
-            for key, value in status.items():
+            for key, value in status.iteritems():
                 self.torrents[key] = [t, value]
                 self.cache_times[key] = {}
-                for k, v in value.items():
-                    self.cache_times[key][k] = t
+                for ikey in value.iterkeys():
+                    self.cache_times[key][ikey] = t
 
         return client.core.get_torrents_status({}, [], True).addCallback(on_torrent_status)
 
@@ -105,7 +105,10 @@ class SessionProxy(component.Component):
         sd = {}
         for torrent_id in torrent_ids:
             if keys:
-                sd[torrent_id] = dict([(x, y) for x, y in self.torrents[torrent_id][1].iteritems() if x in keys])
+                sd[torrent_id] = dict([
+                    (x, y) for x, y in self.torrents[torrent_id][1].iteritems()
+                    if x in keys
+                ])
             else:
                 sd[torrent_id] = dict(self.torrents[torrent_id][1])
 
@@ -135,7 +138,9 @@ class SessionProxy(component.Component):
                     keys_to_get.append(key)
 
             if not keys_to_get:
-                return succeed(self.create_status_dict([torrent_id], keys)[torrent_id])
+                return succeed(
+                    self.create_status_dict([torrent_id], keys)[torrent_id]
+                )
             else:
                 d = client.core.get_torrent_status(torrent_id, keys_to_get, True)
                 def on_status(result, torrent_id):
