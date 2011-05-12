@@ -567,9 +567,10 @@ class TorrentView(listview.ListView, component.Component):
     # Handle keyboard shortcuts
     def on_key_press_event(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
-        func = getattr(self, 'keypress_' + keyname, None)
-        if func:
-            return func(event)
+        if keyname is not None:
+            func = getattr(self, 'keypress_' + keyname, None)
+            if func:
+                return func(event)
 
     def keypress_Delete(self, event):
         log.debug("keypress_Delete")
