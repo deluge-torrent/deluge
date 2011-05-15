@@ -56,7 +56,8 @@ except ImportError:
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.authmanager import AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_ADMIN
-from deluge.error import DelugeError, NotAuthorizedError, _PassthroughError
+from deluge.error import (DelugeError, NotAuthorizedError, _PassthroughError,
+                          IncompatibleClient)
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -261,6 +262,13 @@ class DelugeRPCProtocol(Protocol):
             # We need to authenticate the user here
             log.debug("RPC dispatch daemon.login")
             try:
+                client_version = kwargs.pop('client_version', None)
+                if client_version is None:
+                    raise IncompatibleClient(
+                        "Your deluge client is not compatible with the daemon. "
+                        "Please upgrade your client to %s" %
+                        deluge.common.get_version()
+                    )
                 ret = component.get("AuthManager").authorize(*args, **kwargs)
                 if ret:
                     self.factory.authorized_sessions[self.transport.sessionno] = (ret, args[0])

@@ -46,7 +46,6 @@ import zlib
 
 import deluge.common
 from deluge import error
-from deluge.log import LOG as log
 from deluge.event import known_events
 
 if deluge.common.windows_check():
@@ -299,8 +298,6 @@ class DaemonSSLProxy(DaemonProxy):
 
         :param host: str, the host to connect to
         :param port: int, the listening port on the daemon
-        :param username: str, the username to login as
-        :param password: str, the password to login with
 
         :returns: twisted.Deferred
 
@@ -451,7 +448,8 @@ class DaemonSSLProxy(DaemonProxy):
     def authenticate(self, username, password):
         log.debug("%s.authenticate: %s", self.__class__.__name__, username)
         self.login_deferred = defer.Deferred()
-        d = self.call("daemon.login", username, password)
+        d = self.call("daemon.login", username, password,
+                      client_version=deluge.common.get_version())
         d.addCallback(self.__on_login, username)
         d.addErrback(self.__on_login_fail)
         return self.login_deferred

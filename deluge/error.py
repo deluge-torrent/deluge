@@ -65,6 +65,9 @@ class _PassthroughError(DelugeError):
         inst._kwargs = kwargs
         return inst
 
+class IncompatibleClient(_PassthroughError):
+    pass
+
 class NotAuthorizedError(_PassthroughError):
 
     def __init__(self, current_level, required_level):
