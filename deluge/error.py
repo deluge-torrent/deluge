@@ -66,7 +66,12 @@ class _PassthroughError(DelugeError):
         return inst
 
 class IncompatibleClient(_PassthroughError):
-    pass
+    def __init__(self, daemon_version):
+        self.daemon_version = daemon_version
+        self.message = _(
+            "Your deluge client is not compatible with the daemon. "
+            "Please upgrade your client to %(daemon_version)s"
+        ) % {'daemon_version': self.daemon_version}
 
 class NotAuthorizedError(_PassthroughError):
 

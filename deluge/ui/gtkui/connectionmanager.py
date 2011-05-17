@@ -48,7 +48,7 @@ from deluge.ui.common import get_localhost_auth
 from deluge.ui.client import client
 import deluge.ui.client
 from deluge.configmanager import ConfigManager
-from deluge.error import AuthenticationRequired, BadLoginError
+from deluge.error import AuthenticationRequired, BadLoginError, IncompatibleClient
 import dialogs
 
 log = logging.getLogger(__name__)
@@ -512,7 +512,6 @@ class ConnectionManager(component.Component):
     def __on_connected_failed(self, reason, host_id, host, port, user, passwd,
                               try_counter):
         log.debug("Failed to connect: %s", reason.value)
-        print reason, host_id, host, port, user, passwd, try_counter
 
         if reason.check(AuthenticationRequired, BadLoginError):
             log.debug("PasswordRequired exception")
@@ -526,6 +525,13 @@ class ConnectionManager(component.Component):
                                    dialog.get_password())
             d = dialog.run().addCallback(dialog_finished, host, port, user)
             return d
+
+        elif reason.trap(IncompatibleClient):
+            dialog = dialogs.ErrorDialog(
+                _("Incompatible Client"), reason.value.message
+            )
+            return dialog.run()
+
 
         if try_counter:
             log.info("Retrying connection.. Retries left: %s", try_counter)

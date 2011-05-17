@@ -56,7 +56,7 @@ else:
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
-RPC_EVENT_AUTH = 4
+RPC_EVENT_EXCEPTION = 4
 
 log = logging.getLogger(__name__)
 
@@ -204,7 +204,7 @@ class DelugeRPCProtocol(Protocol):
             if message_type == RPC_RESPONSE:
                 # Run the callbacks registered with this Deferred object
                 d.callback(request[2])
-            elif message_type == RPC_EVENT_AUTH:
+            elif message_type == RPC_EVENT_EXCEPTION:
                 # Recreate exception and errback'it
                 d.errback(getattr(error, request[2])(*request[3], **request[4]))
             elif message_type == RPC_ERROR:
