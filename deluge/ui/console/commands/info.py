@@ -50,6 +50,7 @@ from os.path import sep as dirsep
 STATUS_KEYS = ["state",
         "download_location",
         "tracker",
+        "tracker_status",
         "next_announce",
         "name",
         "total_size",
@@ -71,7 +72,9 @@ STATUS_KEYS = ["state",
         "file_progress",
         "peers",
         "is_seed",
-        "is_finished"
+        "is_finished",
+        "active_time",
+        "seeding_time"
         ]
 
 # Add filter specific state to torrent states
@@ -94,6 +97,17 @@ def format_progressbar(progress, width):
     s += "-" * (w - p)
     s += "]"
     return s
+
+
+def format_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds - minutes * 60
+    hours = minutes // 60
+    minutes = minutes - hours * 60
+    days = hours // 24
+    hours = hours - days * 24
+    return "%d days %02d:%02d:%02d" % (days, hours, minutes, seconds)
+
 
 class Command(BaseCommand):
     """Show information about the torrents"""
@@ -311,9 +325,14 @@ class Command(BaseCommand):
             s += " {!info!}Uploaded: {!input!}%s" % common.fsize(status["ratio"] * status["total_done"])
             self.console.write(s)
 
+            s = "{!info!}Seed time: {!input!}%s" % format_time(status["seeding_time"])
+            s += " {!info!}Active: {!input!}%s" % format_time(status["active_time"])
+            self.console.write(s)
+
             s = "{!info!}Tracker: {!input!}%s" % status["tracker"]
             self.console.write(s)
 
+            self.console.write("{!info!}Tracker status: {!input!}%s" % status["tracker_status"])
 
             if not status["is_finished"]:
                 pbar = format_progressbar(status["progress"], cols - (13 + len("%.2f%%" % status["progress"])))
