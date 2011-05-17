@@ -141,6 +141,8 @@ def setupLogger(level="error", filename=None, filemode="w"):
 
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)
+        logging.addLevelName(5, 'TRACE')
+        logging.addLevelName(1, 'GARBAGE')
 
     level = levels.get(level, logging.ERROR)
 
