@@ -156,7 +156,7 @@ class Command(BaseCommand):
         if status["state"] in ("Seeding", "Downloading", "Queued"):
             s = "{!info!}Seeds: {!input!}%s (%s)" % (status["num_seeds"], status["total_seeds"])
             s += " {!info!}Peers: {!input!}%s (%s)" % (status["num_peers"], status["total_peers"])
-            s += " {!info!}Availibility: {!input!}%.2f" % status["distributed_copies"]
+            s += " {!info!}Availability: {!input!}%.2f" % status["distributed_copies"]
             self.console.write(s)
 
         s = "{!info!}Size: {!input!}%s/%s" % (common.fsize(status["total_done"]), common.fsize(status["total_size"]))
