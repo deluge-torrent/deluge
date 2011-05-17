@@ -46,6 +46,7 @@ import deluge.component as component
 status_keys = ["state",
         "save_path",
         "tracker",
+        "tracker_status",
         "next_announce",
         "name",
         "total_size",
@@ -67,7 +68,9 @@ status_keys = ["state",
         "file_progress",
         "peers",
         "is_seed",
-        "is_finished"
+        "is_finished",
+        "active_time",
+        "seeding_time"
         ]
 
 
@@ -88,6 +91,16 @@ def format_progressbar(progress, width):
     s += "~" * (w - p)
     s += "]"
     return s
+
+def format_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds - minutes * 60
+    hours = minutes // 60
+    minutes = minutes - hours * 60
+    days = hours // 24
+    hours = hours - days * 24
+    return "%d days %02d:%02d:%02d" % (days, hours, minutes, seconds)
+
 
 
 class Command(BaseCommand):
@@ -162,6 +175,11 @@ class Command(BaseCommand):
         s = "{!info!}Size: {!input!}%s/%s" % (common.fsize(status["total_done"]), common.fsize(status["total_size"]))
         s += " {!info!}Ratio: {!input!}%.3f" % status["ratio"]
         self.console.write(s)
+
+        s = "{!info!}Seed time: {!input!}%s" % format_time(status["seeding_time"])
+        s += " {!info!}Active: {!input!}%s" % format_time(status["active_time"])
+        self.console.write(s)
+        self.console.write("{!info!}Tracker status: {!input!}%s" % status["tracker_status"])
 
         if not status["is_finished"]:
             if hasattr(self.console, "screen"):
