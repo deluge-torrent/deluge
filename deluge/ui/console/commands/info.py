@@ -112,6 +112,8 @@ def format_time(seconds):
 class Command(BaseCommand):
     """Show information about the torrents"""
 
+    sort_help = 'sort items.  Possible keys: ' + ', '.join(status_keys)
+
     option_list = BaseCommand.option_list + (
             make_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
                         help='shows more information per torrent'),
@@ -121,6 +123,10 @@ class Command(BaseCommand):
             make_option('-s', '--state', action='store', dest='state',
                         help="show torrents with state STATE. "
                         "Possible values are:              %s"%(", ".join(STATES))),
+            make_option('--sort', action='store', type='string', default='', dest='sort',
+                        help=sort_help),
+            make_option('--sort-reverse', action='store', type='string', default='', dest='sort_rev',
+                        help='sort items in reverse order.  Same keys allowed as for --sort.')
     )
 
     usage =  "Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
@@ -144,8 +150,23 @@ class Command(BaseCommand):
 
         def on_torrents_status(status):
             # Print out the information for each torrent
-            for key, value in status.items():
-                self.show_info(key, value, options["verbose"], options["detailed"])
+            sort_key = options['sort']
+            sort_reverse = False
+            if not sort_key:
+                sort_key = options['sort_rev']
+                sort_reverse = True
+            if not sort_key:
+                sort_key = 'name'
+                sort_reverse = False
+            if sort_key not in status_keys:
+                self.console.write('')
+                self.console.write("{!error!}Unknown sort key: " + sort_key + ", will sort on name")
+                sort_key = 'name'
+                sort_reverse = False
+            for key, value in sorted(status.items(),
+                                     key=lambda x : x[1].get(sort_key),
+                                     reverse=sort_reverse):
+                self.show_info(key, status[key], options["verbose"], options["detailed"])
 
         def on_torrents_status_fail(reason):
             self.console.write("{!error!}Error getting torrent info: %s" % reason)
