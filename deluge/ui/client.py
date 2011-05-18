@@ -56,39 +56,12 @@ else:
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
-RPC_EVENT_EXCEPTION = 4
 
 log = logging.getLogger(__name__)
 
 def format_kwargs(kwargs):
     return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
 
-class DelugeRPCError(object):
-    """
-    This object is passed to errback handlers in the event of a RPCError from the
-    daemon.
-    """
-    def __init__(self, method, args, kwargs, exception_type, exception_msg, traceback):
-        self.method = method
-        self.args = args
-        self.kwargs = kwargs
-        self.exception_type = exception_type
-        self.exception_msg = exception_msg
-        self.traceback = traceback
-
-    def logable(self):
-        # Create a delugerpcrequest to print out a nice RPCRequest string
-        r = DelugeRPCRequest()
-        r.method = self.method
-        r.args = self.args
-        r.kwargs = self.kwargs
-        msg = "RPCError Message Received!"
-        msg += "\n" + "-" * 80
-        msg += "\n" + "RPCRequest: " + r.__repr__()
-        msg += "\n" + "-" * 80
-        msg += "\n" + self.traceback + "\n" + self.exception_type + ": " + self.exception_msg
-        msg += "\n" + "-" * 80
-        return msg
 
 class DelugeRPCRequest(object):
     """
@@ -204,17 +177,29 @@ class DelugeRPCProtocol(Protocol):
             if message_type == RPC_RESPONSE:
                 # Run the callbacks registered with this Deferred object
                 d.callback(request[2])
-            elif message_type == RPC_EVENT_EXCEPTION:
-                # Recreate exception and errback'it
-                d.errback(getattr(error, request[2])(*request[3], **request[4]))
             elif message_type == RPC_ERROR:
-                # Create the DelugeRPCError to pass to the errback
-                r = self.__rpc_requests[request_id]
-                e = DelugeRPCError(r.method, r.args, r.kwargs, request[2][0],
-                                   request[2][1], request[2][2])
-                # Run the errbacks registered with this Deferred object
-                d.errback(e)
+                # Recreate exception and errback'it
+                exception_cls = getattr(error, request[2])
+                exception = exception_cls(*request[3], **request[4])
 
+                r = self.__rpc_requests[request_id]
+                msg = "RPCError Message Received!"
+                msg += "\n" + "-" * 80
+                msg += "\n" + "RPCRequest: " + r.__repr__()
+                msg += "\n" + "-" * 80
+                msg += "\n" + request[5] + "\n" + request[2] + ": "
+                msg += str(exception)
+                msg += "\n" + "-" * 80
+
+                if not isinstance(exception, error._ClientSideRecreateError):
+                    # Let's log these as errors
+                    log.error(msg)
+                else:
+                    # The rest just get's logged in debug level, just to log
+                    # what's happending
+                    log.debug(msg)
+
+                d.errback(exception)
             del self.__rpc_requests[request_id]
 
     def send_request(self, request):
@@ -347,7 +332,6 @@ class DaemonSSLProxy(DaemonProxy):
         # Create a Deferred object to return and add a default errback to print
         # the error.
         d = defer.Deferred()
-        d.addErrback(self.__rpcError)
 
         # Store the Deferred until we receive a response from the daemon
         self.__deferred[self.__request_counter] = d
@@ -404,27 +388,6 @@ class DaemonSSLProxy(DaemonProxy):
         """
         if event in self.__factory.event_handlers and handler in self.__factory.event_handlers[event]:
             self.__factory.event_handlers[event].remove(handler)
-
-    def __rpcError(self, error_data):
-        """
-        Prints out a RPCError message to the error log.  This includes the daemon
-        traceback.
-
-        :param error_data: this is passed from the deferred errback with error.value
-            containing a `:class:DelugeRPCError` object.
-        """
-        try:
-            if isinstance(error_data.value, error.NotAuthorizedError):
-                # Still log these errors
-                log.error(error_data.value.logable())
-                return error_data
-            if isinstance(error_data.value, error._PassthroughError):
-                return error_data
-        except:
-            pass
-
-        log.error(error_data.value.logable())
-        return error_data
 
     def __on_connect(self, result):
         log.debug("__on_connect called")

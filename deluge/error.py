@@ -36,7 +36,21 @@
 
 
 class DelugeError(Exception):
-    pass
+    def _get_message(self):
+        return self._message
+    def _set_message(self, message):
+        self._message = message
+    message = property(_get_message, _set_message)
+    del _get_message, _set_message
+
+    def __str__(self):
+        return self.message
+
+    def __new__(cls, *args, **kwargs):
+        inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)
+        inst._args = args
+        inst._kwargs = kwargs
+        return inst
 
 class NoCoreError(DelugeError):
     pass
@@ -50,30 +64,18 @@ class InvalidTorrentError(DelugeError):
 class InvalidPathError(DelugeError):
     pass
 
-class _PassthroughError(DelugeError):
+class _ClientSideRecreateError(DelugeError):
+    pass
 
-    def _get_message(self):
-        return self._message
-    def _set_message(self, message):
-        self._message = message
-    message = property(_get_message, _set_message)
-    del _get_message, _set_message
-
-    def __new__(cls, *args, **kwargs):
-        inst = super(_PassthroughError, cls).__new__(cls, *args, **kwargs)
-        inst._args = args
-        inst._kwargs = kwargs
-        return inst
-
-class IncompatibleClient(_PassthroughError):
+class IncompatibleClient(_ClientSideRecreateError):
     def __init__(self, daemon_version):
         self.daemon_version = daemon_version
         self.message = _(
             "Your deluge client is not compatible with the daemon. "
             "Please upgrade your client to %(daemon_version)s"
-        ) % {'daemon_version': self.daemon_version}
+        ) % dict(daemon_version=self.daemon_version)
 
-class NotAuthorizedError(_PassthroughError):
+class NotAuthorizedError(_ClientSideRecreateError):
 
     def __init__(self, current_level, required_level):
         self.message = _(
@@ -84,7 +86,7 @@ class NotAuthorizedError(_PassthroughError):
         self.required_level = required_level
 
 
-class _UsernameBasedPasstroughError(_PassthroughError):
+class _UsernameBasedPasstroughError(_ClientSideRecreateError):
 
     def _get_username(self):
         return self._username

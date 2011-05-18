@@ -37,6 +37,7 @@
 
 from twisted.internet import defer, reactor
 import deluge.component as component
+from deluge.error import DelugeError
 from deluge.ui.client import client
 from deluge.ui.console import UI_PATH
 from colors import strip_colors
@@ -51,7 +52,7 @@ class Commander:
         self.interactive = interactive
 
     def write(self,line):
-        print(strip_colors(line))    
+        print(strip_colors(line))
 
     def do_command(self, cmd):
         """
@@ -128,12 +129,11 @@ class Commander:
                 self.console.started_deferred.addCallback(on_started)
             component.start().addCallback(on_started)
 
-        def on_connect_fail(result):
-            from deluge.ui.client import DelugeRPCError
-            if isinstance(result.value,DelugeRPCError):
-                rm = result.value.exception_msg
+        def on_connect_fail(reason):
+            if reason.check(DelugeError):
+                rm = reason.value.message
             else:
-                rm = result.getErrorMessage()
+                rm = reason.getErrorMessage()
             print "Could not connect to: %s:%d\n %s"%(host,port,rm)
             self.do_command("quit")
 
@@ -143,4 +143,4 @@ class Commander:
             d = client.connect()
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
-        
+
