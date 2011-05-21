@@ -43,6 +43,7 @@ import gtk.glade
 import gettext
 import gobject
 import logging
+import warnings
 from urlparse import urlparse
 
 import deluge.common
@@ -84,8 +85,11 @@ def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     try:
         icon = ICON_STATE[model.get_value(row, data)]
-        if cell.get_property("pixbuf") != icon:
-            cell.set_property("pixbuf", icon)
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            if cell.get_property("pixbuf") != icon:
+                cell.set_property("pixbuf", icon)
     except KeyError:
         pass
 
@@ -104,8 +108,11 @@ def cell_data_trackericon(column, cell, model, row, data):
         else:
             icon = create_blank_icon()
 
-        if cell.get_property("pixbuf") != icon:
-            cell.set_property("pixbuf", icon)
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            if cell.get_property("pixbuf") != icon:
+                cell.set_property("pixbuf", icon)
 
     host = model[row][data]
     if host:
