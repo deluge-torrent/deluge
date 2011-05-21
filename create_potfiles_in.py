@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 
 # Paths to exclude
