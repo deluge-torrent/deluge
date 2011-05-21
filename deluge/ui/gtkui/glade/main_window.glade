@@ -30,6 +30,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate"/>
+                        <accelerator key="O" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image1">
                             <property name="visible">True</property>
@@ -46,6 +47,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_createtorrent_activate"/>
+                        <accelerator key="N" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image2">
                             <property name="visible">True</property>
@@ -65,6 +67,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_quitdaemon_activate"/>
+                        <accelerator key="Q" modifiers="GDK_SHIFT_MASK|GDK_CONTROL_MASK" signal="activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image3">
                             <property name="visible">True</property>
@@ -107,6 +110,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_menuitem_preferences_activate"/>
+                        <accelerator key="P" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                       </widget>
                     </child>
                     <child>
@@ -117,6 +121,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_connectionmanager_activate"/>
+                        <accelerator key="C" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image4">
                             <property name="visible">True</property>
@@ -260,6 +265,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_faq_activate"/>
+                        <accelerator key="F1" signal="activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image6">
                             <property name="visible">True</property>
