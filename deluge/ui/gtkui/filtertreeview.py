@@ -39,6 +39,7 @@ import gtk
 import gtk.glade
 import pkg_resources
 import glib
+import warnings
 
 import deluge.component as component
 import deluge.common
@@ -256,7 +257,11 @@ class FilterTreeView(component.Component):
         value = model.get_value(row, 1)
         label = model.get_value(row, 2)
         count = model.get_value(row, 3)
-        pix = model.get_value(row, 4)
+
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            pix = model.get_value(row, 4)
 
         if pix:
             self.renderpix.set_property("visible", True)
