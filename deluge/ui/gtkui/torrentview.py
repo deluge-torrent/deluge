@@ -235,10 +235,16 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("Peers"), listview.cell_data_peer, [int, int],
                              status_field=["num_peers", "total_peers"],
                              sort_func=seed_peer_column_sort)
+        self.add_func_column(_("Seeders") + "/" + _("Peers"), listview.cell_data_ratio, [float],
+                             status_field=["seeds_peers_ratio"])
         self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
                              status_field=["download_payload_rate"])
         self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
                              status_field=["upload_payload_rate"])
+        self.add_func_column(_("Down Limit"), listview.cell_data_speed_limit, [float],
+                             status_field=["max_download_speed"])
+        self.add_func_column(_("Up Limit"), listview.cell_data_speed_limit, [float],
+                             status_field=["max_upload_speed"])
         self.add_func_column(_("ETA"), listview.cell_data_time, [int],
                              status_field=["eta"], sort_func=eta_column_sort)
         self.add_func_column(_("Ratio"), listview.cell_data_ratio, [float],
