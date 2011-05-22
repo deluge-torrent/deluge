@@ -149,17 +149,6 @@ class EditTrackersDialog:
         """Returns the selected tracker"""
         return self.treeview.get_selection().get_selected()[1]
 
-    def on_button_up_clicked(self, widget):
-        log.debug("on_button_up_clicked")
-        selected = self.get_selected()
-        num_rows = self.liststore.iter_n_children(None)
-        if selected != None and num_rows > 1:
-            tier = self.liststore.get_value(selected, 0)
-            new_tier = tier + 1
-            # Now change the tier for this tracker
-            self.liststore.set_value(selected, 0, new_tier)
-            self.changed = True
-
     def on_button_add_clicked(self, widget):
         log.debug("on_button_add_clicked")
         # Show the add tracker dialog
@@ -196,8 +185,8 @@ class EditTrackersDialog:
         self.edit_tracker_entry.hide()
         self.changed = True
 
-    def on_button_down_clicked(self, widget):
-        log.debug("on_button_down_clicked")
+    def on_button_up_clicked(self, widget):
+        log.debug("on_button_up_clicked")
         selected = self.get_selected()
         num_rows = self.liststore.iter_n_children(None)
         if selected != None and num_rows > 1:
@@ -209,6 +198,16 @@ class EditTrackersDialog:
             self.liststore.set_value(selected, 0, new_tier)
             self.changed = True
 
+    def on_button_down_clicked(self, widget):
+        log.debug("on_button_down_clicked")
+        selected = self.get_selected()
+        num_rows = self.liststore.iter_n_children(None)
+        if selected != None and num_rows > 1:
+            tier = self.liststore.get_value(selected, 0)
+            new_tier = tier + 1
+            # Now change the tier for this tracker
+            self.liststore.set_value(selected, 0, new_tier)
+            self.changed = True
 
     def on_button_add_ok_clicked(self, widget):
         log.debug("on_button_add_ok_clicked")
