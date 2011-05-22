@@ -572,6 +572,13 @@ class Torrent(object):
         if distributed_copies < 0:
             distributed_copies = 0.0
 
+        # Calculate the seeds:peers ratio
+        if self.status.num_incomplete == 0:
+            # Use -1.0 to signify infinity
+            seeds_peers_ratio = -1.0
+        else:
+            seeds_peers_ratio = self.status.num_complete / float(self.status.num_incomplete)
+
         #if you add a key here->add it to core.py STATUS_KEYS too.
         full_status = {
             "active_time": self.status.active_time,
@@ -601,6 +608,7 @@ class Torrent(object):
             "remove_at_ratio": self.options["remove_at_ratio"],
             "save_path": self.options["download_location"],
             "seeding_time": self.status.seeding_time,
+            "seeds_peers_ratio": seeds_peers_ratio,
             "seed_rank": self.status.seed_rank,
             "state": self.state,
             "stop_at_ratio": self.options["stop_at_ratio"],
