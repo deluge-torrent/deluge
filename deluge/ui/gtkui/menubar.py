@@ -354,7 +354,7 @@ class MenuBar(component.Component):
 
             if response_id == gtk.RESPONSE_OK:
                 log.debug("Moving torrents to %s",
-                          self.move_storage_dialog.get_text())
+                          self.move_storage_dialog_entry.get_text())
                 path = self.move_storage_dialog_entry.get_text()
                 client.core.move_storage(
                     component.get("TorrentView").get_selected_torrents(), path
