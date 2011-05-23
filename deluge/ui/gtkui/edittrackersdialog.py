@@ -92,7 +92,6 @@ class EditTrackersDialog:
 
         self.dialog.connect("delete-event", self._on_delete_event)
         self.dialog.connect("response", self._on_response)
-        self.changed = False
 
     def run(self):
         # Make sure we have a torrent_id.. if not just return
@@ -143,7 +142,6 @@ class EditTrackersDialog:
     def add_tracker(self, tier, url):
         """Adds a tracker to the list"""
         self.liststore.append([tier, url])
-        self.changed = True
 
     def get_selected(self):
         """Returns the selected tracker"""
@@ -154,14 +152,12 @@ class EditTrackersDialog:
         # Show the add tracker dialog
         self.add_tracker_dialog.show()
         self.glade.get_widget("textview_trackers").grab_focus()
-        self.changed = True
 
     def on_button_remove_clicked(self, widget):
         log.debug("on_button_remove_clicked")
         selected = self.get_selected()
         if selected != None:
             self.liststore.remove(selected)
-            self.changed = True
 
     def on_button_edit_clicked(self, widget):
         """edits an existing tracker"""
@@ -183,7 +179,6 @@ class EditTrackersDialog:
         tracker = self.glade.get_widget("entry_edit_tracker").get_text()
         self.liststore.set_value(selected, 1, tracker)
         self.edit_tracker_entry.hide()
-        self.changed = True
 
     def on_button_up_clicked(self, widget):
         log.debug("on_button_up_clicked")
@@ -196,7 +191,6 @@ class EditTrackersDialog:
             new_tier = tier - 1
             # Now change the tier for this tracker
             self.liststore.set_value(selected, 0, new_tier)
-            self.changed = True
 
     def on_button_down_clicked(self, widget):
         log.debug("on_button_down_clicked")
@@ -207,7 +201,6 @@ class EditTrackersDialog:
             new_tier = tier + 1
             # Now change the tier for this tracker
             self.liststore.set_value(selected, 0, new_tier)
-            self.changed = True
 
     def on_button_add_ok_clicked(self, widget):
         log.debug("on_button_add_ok_clicked")
