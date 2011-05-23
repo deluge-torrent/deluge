@@ -9,9 +9,11 @@
 	* #1614: Fix autoadd matching a directory called "torrent"
 	* #1742: Fix failure in Event handler prevents further emissions
 
-==== GtkUI ====    
+==== GtkUI ====	
 	* #1514: Added Indicator Applet
-	* #1494: Add Downloaded and Uploaded columns to torrent view
+	* #1494: Add torrent columns Downloaded and Uploaded
+	* #1308: Add torrent column Seeds/Peers ratio
+	* #1646: Add torrent columns for per torrent upload and download speed limits
 	* Add missing icons for Trackers filter
 	* Fix inconsistancies in the text for translation
 	* #1510: Fix cannot create a torrent with only non-zero tier trackers
@@ -22,6 +24,8 @@
 	* #1498: Fix double slashes appearing when renaming
 	* #1283: Fix consistent icons for Files tab
 	* #1282: Text for AutoManaged changed to 'On/Off' and localized
+	* Fix Up/Down buttons in Edit Trackers Dialog
+	* Add Key Shortcuts for main menu functions
 
 ==== WebUI ====
 	* #1194: Fix infinite login prompt in web ui through reverse proxy
@@ -45,6 +49,8 @@
 	* Misc: Updated help text for deluge-console on MS Windows
 	* #1484: Fix trying to access the screen object when not using interactive mode
 	* #1548: Fix cli argument processing
+	* #1856: Add --sort option to info command
+	* #1857: Add seeding_time, active_time and tracker_status to info command
 
 ==== Scheduler ====
 	* #1506: Fix max speed not restored on a yellow->green transition
