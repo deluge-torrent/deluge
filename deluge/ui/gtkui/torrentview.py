@@ -217,43 +217,43 @@ class TorrentView(listview.ListView, component.Component):
                              status_field=["total_wanted"])
         self.add_func_column(_("Downloaded"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
-                             status_field=["all_time_download"])
+                             status_field=["all_time_download"], default=False)
         self.add_func_column(_("Uploaded"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
-                             status_field=["total_uploaded"])
+                             status_field=["total_uploaded"], default=False)
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
                                  col_types=[float, str],
                                  function=cell_data_progress)
         self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
-                             sort_func=seed_peer_column_sort)
+                             sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Peers"), listview.cell_data_peer, [int, int],
                              status_field=["num_peers", "total_peers"],
-                             sort_func=seed_peer_column_sort)
+                             sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Seeders") + "/" + _("Peers"), listview.cell_data_ratio, [float],
-                             status_field=["seeds_peers_ratio"])
+                             status_field=["seeds_peers_ratio"], default=False)
         self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
                              status_field=["download_payload_rate"])
         self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
                              status_field=["upload_payload_rate"])
         self.add_func_column(_("Down Limit"), listview.cell_data_speed_limit, [float],
-                             status_field=["max_download_speed"])
+                             status_field=["max_download_speed"], default=False)
         self.add_func_column(_("Up Limit"), listview.cell_data_speed_limit, [float],
-                             status_field=["max_upload_speed"])
+                             status_field=["max_upload_speed"], default=False)
         self.add_func_column(_("ETA"), listview.cell_data_time, [int],
                              status_field=["eta"], sort_func=eta_column_sort)
         self.add_func_column(_("Ratio"), listview.cell_data_ratio, [float],
-                             status_field=["ratio"])
+                             status_field=["ratio"], default=False)
         self.add_func_column(_("Avail"), listview.cell_data_ratio, [float],
-                             status_field=["distributed_copies"])
+                             status_field=["distributed_copies"], default=False)
         self.add_func_column(_("Added"), listview.cell_data_date, [float],
-                             status_field=["time_added"])
+                             status_field=["time_added"], default=False)
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
-                                 function=cell_data_trackericon)
+                                 function=cell_data_trackericon, default=False)
 
-        self.add_text_column(_("Save Path"), status_field=["save_path"])
+        self.add_text_column(_("Save Path"), status_field=["save_path"], default=False)
 
         # Set filter to None for now
         self.filter = None
