@@ -59,8 +59,8 @@ class AboutDialog:
         self.about.set_copyright(u'Copyright \u00A9 2007-2009 Deluge Team')
         self.about.set_comments(
             "A peer-to-peer file sharing program\nutilizing the Bittorrent "
-            "protocol.\n\nCore Version: %coreversion%\nlibtorrent version: "
-            "%ltversion%")
+            "protocol.\n\n"
+            "Client Version: %s\n" % version)
         self.about.set_version(version)
         self.about.set_authors([
             "Current Developers:", "Andrew Resch", "Damien Churchill",
@@ -279,6 +279,13 @@ class AboutDialog:
         ))
 
         if client.connected():
+            if not client.is_classicmode():
+                self.about.set_comments(
+                    self.about.get_comments() + "Server Version: %coreversion%\n")
+            
+            self.about.set_comments(
+                self.about.get_comments() + "libtorrent Version: %ltversion%\n")
+                
             def on_lt_version(result):
                 c = self.about.get_comments()
                 c = c.replace("%ltversion%", result)
@@ -290,7 +297,10 @@ class AboutDialog:
                 self.about.set_comments(c)
                 client.core.get_libtorrent_version().addCallback(on_lt_version)
 
-            client.daemon.info().addCallback(on_info)
+            if not client.is_classicmode():
+                client.daemon.info().addCallback(on_info)
+            else:
+                client.core.get_libtorrent_version().addCallback(on_lt_version)
 
     def run(self):
         self.about.show_all()
