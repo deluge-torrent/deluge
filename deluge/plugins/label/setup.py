@@ -39,15 +39,11 @@ __author_email__ = "mvoncken@gmail.com"
 __version__ = "0.1"
 __url__ = "http://deluge-torrent.org"
 __license__ = "GPLv3"
-__description__ = "Label plugin."
+__description__ = "Allows labels to be assigned to torrents"
 __long_description__ = """
-Label plugin.
+Allows labels to be assigned to torrents
 
-Offers filters on state,tracker and keyword.
-adds a tracker column.
-
-future: Real labels.
-
+Also offers filters on state, tracker and keywords
 """
 __pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
 
