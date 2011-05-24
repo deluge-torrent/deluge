@@ -1,106 +1,3549 @@
-# Traditional Chinese translation for deluge
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Chinese (Taiwan) translation for deluge
+# Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: deluge\n"
+"Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-04 16:58-0700\n"
-"PO-Revision-Date: 2009-10-08 13:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Traditional Chinese <zh_TW@li.org>\n"
+"POT-Creation-Date: 2011-02-19 11:23-0800\n"
+"PO-Revision-Date: 2011-05-07 15:53+0000\n"
+"Last-Translator: Pin-hsien Li <pspeter9931@gmail.com>\n"
+"Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-02 01:32+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-24 18:41+0000\n"
+"X-Generator: Launchpad (build 13085)\n"
+"X-Poedit-Country: Taiwan\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-#: deluge/plugins/execute/execute/gtkui.py:51
-msgid "Torrent Complete"
+#: deluge/plugins/blocklist/blocklist/gtkui.py:67
+#: deluge/plugins/blocklist/blocklist/gtkui.py:155
+#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+msgid "Blocklist"
+msgstr "黑名單"
+
+#: deluge/common.py:256
+msgid "KiB"
+msgstr "KiB"
+
+#: deluge/common.py:259
+msgid "MiB"
+msgstr "MiB"
+
+#: deluge/common.py:261
+msgid "GiB"
+msgstr "GiB"
+
+#: deluge/core/torrentmanager.py:905
+msgid "Announce OK"
+msgstr "通告完成"
+
+#: deluge/core/torrentmanager.py:921
+msgid "Announce Sent"
+msgstr "通告已送出"
+
+#: deluge/core/torrentmanager.py:929
+msgid "Warning"
+msgstr "警告"
+
+#: deluge/core/torrentmanager.py:939 deluge/ui/gtkui/filtertreeview.py:77
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:32
+msgid "Error"
+msgstr "錯誤"
+
+#: deluge/ui/countries.py:9
+msgid "Afghanistan"
+msgstr "阿富汗"
+
+#: deluge/ui/countries.py:10
+msgid "Aland Islands"
+msgstr "奧蘭群島"
+
+#: deluge/ui/countries.py:11
+msgid "Albania"
+msgstr "阿爾巴尼亞"
+
+#: deluge/ui/countries.py:12
+msgid "Algeria"
+msgstr "阿爾及利亞"
+
+#: deluge/ui/countries.py:13
+msgid "American Samoa"
+msgstr "美屬薩摩亞"
+
+#: deluge/ui/countries.py:14
+msgid "Andorra"
+msgstr "安道爾"
+
+#: deluge/ui/countries.py:15
+msgid "Angola"
+msgstr "安哥拉"
+
+#: deluge/ui/countries.py:16
+msgid "Anguilla"
+msgstr "安圭拉"
+
+#: deluge/ui/countries.py:17
+msgid "Antarctica"
+msgstr "南極洲"
+
+#: deluge/ui/countries.py:18
+msgid "Antigua and Barbuda"
+msgstr "安地卡及巴布達"
+
+#: deluge/ui/countries.py:19
+msgid "Argentina"
+msgstr "阿根廷"
+
+#: deluge/ui/countries.py:20
+msgid "Armenia"
+msgstr "亞美尼亞"
+
+#: deluge/ui/countries.py:21
+msgid "Aruba"
+msgstr "阿魯巴"
+
+#: deluge/ui/countries.py:22
+msgid "Australia"
+msgstr "澳大利亞"
+
+#: deluge/ui/countries.py:23
+msgid "Austria"
+msgstr "奧地利"
+
+#: deluge/ui/countries.py:24
+msgid "Azerbaijan"
+msgstr "亞塞拜然"
+
+#: deluge/ui/countries.py:25
+msgid "Bahamas"
+msgstr "巴哈馬"
+
+#: deluge/ui/countries.py:26
+msgid "Bahrain"
+msgstr "巴林"
+
+#: deluge/ui/countries.py:27
+msgid "Bangladesh"
+msgstr "孟加拉"
+
+#: deluge/ui/countries.py:28
+msgid "Barbados"
+msgstr "巴貝多"
+
+#: deluge/ui/countries.py:29
+msgid "Belarus"
+msgstr "白俄羅斯"
+
+#: deluge/ui/countries.py:30
+msgid "Belgium"
+msgstr "比利時"
+
+#: deluge/ui/countries.py:31
+msgid "Belize"
+msgstr "貝里斯"
+
+#: deluge/ui/countries.py:32
+msgid "Benin"
+msgstr "貝南"
+
+#: deluge/ui/countries.py:33
+msgid "Bermuda"
+msgstr "百慕達"
+
+#: deluge/ui/countries.py:34
+msgid "Bhutan"
+msgstr "不丹"
+
+#: deluge/ui/countries.py:35
+msgid "Bolivia"
+msgstr "玻利維亞"
+
+#: deluge/ui/countries.py:36
+msgid "Bosnia and Herzegovina"
+msgstr "波士尼亞與赫塞哥維納"
+
+#: deluge/ui/countries.py:37
+msgid "Botswana"
+msgstr "博茲瓦納"
+
+#: deluge/ui/countries.py:38
+msgid "Bouvet Island"
+msgstr "布威島"
+
+#: deluge/ui/countries.py:39
+msgid "Brazil"
+msgstr "巴西"
+
+#: deluge/ui/countries.py:40
+msgid "British Indian Ocean Territory"
+msgstr "英屬印度洋領地"
+
+#: deluge/ui/countries.py:41
+msgid "Brunei Darussalam"
+msgstr "汶萊"
+
+#: deluge/ui/countries.py:42
+msgid "Bulgaria"
+msgstr "保加利亞"
+
+#: deluge/ui/countries.py:43
+msgid "Burkina Faso"
+msgstr "布吉納法索"
+
+#: deluge/ui/countries.py:44
+msgid "Burundi"
+msgstr "蒲隆地"
+
+#: deluge/ui/countries.py:45
+msgid "Cambodia"
+msgstr "柬埔寨"
+
+#: deluge/ui/countries.py:46
+msgid "Cameroon"
+msgstr "喀麥隆"
+
+#: deluge/ui/countries.py:47
+msgid "Canada"
+msgstr "加拿大"
+
+#: deluge/ui/countries.py:48
+msgid "Cape Verde"
+msgstr "維德角"
+
+#: deluge/ui/countries.py:49
+msgid "Cayman Islands"
+msgstr "開曼群島"
+
+#: deluge/ui/countries.py:50
+msgid "Central African Republic"
+msgstr "中非共和國"
+
+#: deluge/ui/countries.py:51
+msgid "Chad"
+msgstr "查德"
+
+#: deluge/ui/countries.py:52
+msgid "Chile"
+msgstr "智利"
+
+#: deluge/ui/countries.py:53
+msgid "China"
+msgstr "中國"
+
+#: deluge/ui/countries.py:54
+msgid "Christmas Island"
+msgstr "聖誕島"
+
+#: deluge/ui/countries.py:55
+msgid "Cocos (Keeling) Islands"
+msgstr "科科斯（基林）群島"
+
+#: deluge/ui/countries.py:56
+msgid "Colombia"
+msgstr "哥倫比亞"
+
+#: deluge/ui/countries.py:57
+msgid "Comoros"
+msgstr "葛摩"
+
+#: deluge/ui/countries.py:58
+msgid "Congo"
+msgstr "剛果"
+
+#: deluge/ui/countries.py:59
+msgid "Congo, The Democratic Republic of the"
+msgstr "剛果民主共和國"
+
+#: deluge/ui/countries.py:60
+msgid "Cook Islands"
+msgstr "庫克群島"
+
+#: deluge/ui/countries.py:61
+msgid "Costa Rica"
+msgstr "哥斯大黎加"
+
+#: deluge/ui/countries.py:62
+msgid "Cote d'Ivoire"
+msgstr "象牙海岸"
+
+#: deluge/ui/countries.py:63
+msgid "Croatia"
+msgstr "克羅埃西亞"
+
+#: deluge/ui/countries.py:64
+msgid "Cuba"
+msgstr "古巴"
+
+#: deluge/ui/countries.py:65
+msgid "Cyprus"
+msgstr "賽普勒斯"
+
+#: deluge/ui/countries.py:66
+msgid "Czech Republic"
+msgstr "捷克"
+
+#: deluge/ui/countries.py:67
+msgid "Denmark"
+msgstr "丹麥"
+
+#: deluge/ui/countries.py:68
+msgid "Djibouti"
+msgstr "吉布地"
+
+#: deluge/ui/countries.py:69
+msgid "Dominica"
+msgstr "多米尼克"
+
+#: deluge/ui/countries.py:70
+msgid "Dominican Republic"
+msgstr "多明尼加"
+
+#: deluge/ui/countries.py:71
+msgid "Ecuador"
+msgstr "厄瓜多"
+
+#: deluge/ui/countries.py:72
+msgid "Egypt"
+msgstr "埃及"
+
+#: deluge/ui/countries.py:73
+msgid "El Salvador"
+msgstr "薩爾瓦多"
+
+#: deluge/ui/countries.py:74
+msgid "Equatorial Guinea"
+msgstr "赤道幾內亞"
+
+#: deluge/ui/countries.py:75
+msgid "Eritrea"
+msgstr "厄利垂亞"
+
+#: deluge/ui/countries.py:76
+msgid "Estonia"
+msgstr "愛沙尼亞"
+
+#: deluge/ui/countries.py:77
+msgid "Ethiopia"
+msgstr "衣索比亞"
+
+#: deluge/ui/countries.py:78
+msgid "Falkland Islands (Malvinas)"
+msgstr "福克蘭群島(馬爾維納斯群島)"
+
+#: deluge/ui/countries.py:79
+msgid "Faroe Islands"
+msgstr "法羅群島"
+
+#: deluge/ui/countries.py:80
+msgid "Fiji"
+msgstr "斐濟"
+
+#: deluge/ui/countries.py:81
+msgid "Finland"
+msgstr "芬蘭"
+
+#: deluge/ui/countries.py:82
+msgid "France"
+msgstr "法國"
+
+#: deluge/ui/countries.py:83
+msgid "French Guiana"
+msgstr "法屬圭亞那"
+
+#: deluge/ui/countries.py:84
+msgid "French Polynesia"
+msgstr "法屬玻里尼西亞"
+
+#: deluge/ui/countries.py:85
+msgid "French Southern Territories"
+msgstr "法屬南部領地"
+
+#: deluge/ui/countries.py:86
+msgid "Gabon"
+msgstr "加彭"
+
+#: deluge/ui/countries.py:87
+msgid "Gambia"
+msgstr "甘比亞"
+
+#: deluge/ui/countries.py:88
+msgid "Georgia"
+msgstr "喬治亞"
+
+#: deluge/ui/countries.py:89
+msgid "Germany"
+msgstr "德國"
+
+#: deluge/ui/countries.py:90 deluge/ui/countries.py:241
+msgid "United Kingdom"
+msgstr "英國"
+
+#: deluge/ui/countries.py:91
+msgid "Ghana"
+msgstr "迦納"
+
+#: deluge/ui/countries.py:92
+msgid "Gibraltar"
+msgstr "直布羅陀"
+
+#: deluge/ui/countries.py:93
+msgid "Greece"
+msgstr "希臘"
+
+#: deluge/ui/countries.py:94
+msgid "Greenland"
+msgstr "格陵蘭"
+
+#: deluge/ui/countries.py:95
+msgid "Grenada"
+msgstr "格瑞那達"
+
+#: deluge/ui/countries.py:96
+msgid "Guadeloupe"
+msgstr "瓜德羅普"
+
+#: deluge/ui/countries.py:97
+msgid "Guam"
+msgstr "關島"
+
+#: deluge/ui/countries.py:98
+msgid "Guatemala"
+msgstr "瓜地馬拉"
+
+#: deluge/ui/countries.py:99
+msgid "Guernsey"
+msgstr "根息島"
+
+#: deluge/ui/countries.py:100
+msgid "Guinea"
+msgstr "幾內亞"
+
+#: deluge/ui/countries.py:101
+msgid "Guinea-Bissau"
+msgstr "幾內亞比索"
+
+#: deluge/ui/countries.py:102
+msgid "Guyana"
+msgstr "蓋亞那"
+
+#: deluge/ui/countries.py:103
+msgid "Haiti"
+msgstr "海地"
+
+#: deluge/ui/countries.py:104
+msgid "Heard Island and McDonald Islands"
+msgstr "赫德島和麥克唐納群島"
+
+#: deluge/ui/countries.py:105
+msgid "Holy See (Vatican City State)"
+msgstr "教廷 (梵蒂岡)"
+
+#: deluge/ui/countries.py:106
+msgid "Honduras"
+msgstr "宏都拉斯"
+
+#: deluge/ui/countries.py:107
+msgid "Hong Kong"
+msgstr "香港"
+
+#: deluge/ui/countries.py:108
+msgid "Hungary"
+msgstr "匈牙利"
+
+#: deluge/ui/countries.py:109
+msgid "Iceland"
+msgstr "冰島"
+
+#: deluge/ui/countries.py:110
+msgid "India"
+msgstr "印度"
+
+#: deluge/ui/countries.py:111
+msgid "Indonesia"
+msgstr "印尼"
+
+#: deluge/ui/countries.py:112
+msgid "Iran, Islamic Republic of"
+msgstr "伊朗"
+
+#: deluge/ui/countries.py:113
+msgid "Iraq"
+msgstr "伊拉克"
+
+#: deluge/ui/countries.py:114
+msgid "Ireland"
+msgstr "愛爾蘭"
+
+#: deluge/ui/countries.py:115
+msgid "Isle of Man"
+msgstr "曼島"
+
+#: deluge/ui/countries.py:116
+msgid "Israel"
+msgstr "以色列"
+
+#: deluge/ui/countries.py:117
+msgid "Italy"
+msgstr "義大利"
+
+#: deluge/ui/countries.py:118
+msgid "Jamaica"
+msgstr "牙買加"
+
+#: deluge/ui/countries.py:119
+msgid "Japan"
+msgstr "日本"
+
+#: deluge/ui/countries.py:120
+msgid "Jersey"
+msgstr "澤西島"
+
+#: deluge/ui/countries.py:121
+msgid "Jordan"
+msgstr "約旦"
+
+#: deluge/ui/countries.py:122
+msgid "Kazakhstan"
+msgstr "哈薩克"
+
+#: deluge/ui/countries.py:123
+msgid "Kenya"
+msgstr "肯亞"
+
+#: deluge/ui/countries.py:124
+msgid "Kiribati"
+msgstr "吉里巴斯"
+
+#: deluge/ui/countries.py:125
+msgid "Korea, Democratic People's Republic of"
+msgstr "北韓"
+
+#: deluge/ui/countries.py:126
+msgid "Korea, Republic of"
+msgstr "韓國"
+
+#: deluge/ui/countries.py:127
+msgid "Kuwait"
+msgstr "科威特"
+
+#: deluge/ui/countries.py:128
+msgid "Kyrgyzstan"
+msgstr "吉爾吉斯"
+
+#: deluge/ui/countries.py:129
+msgid "Lao People's Democratic Republic"
+msgstr "寮國"
+
+#: deluge/ui/countries.py:130
+msgid "Latvia"
+msgstr "拉脫維亞"
+
+#: deluge/ui/countries.py:131
+msgid "Lebanon"
+msgstr "黎巴嫩"
+
+#: deluge/ui/countries.py:132
+msgid "Lesotho"
+msgstr "賴索托"
+
+#: deluge/ui/countries.py:133
+msgid "Liberia"
+msgstr "賴比瑞亞"
+
+#: deluge/ui/countries.py:134
+msgid "Libyan Arab Jamahiriya"
+msgstr "利比亞"
+
+#: deluge/ui/countries.py:135
+msgid "Liechtenstein"
+msgstr "列支敦斯登"
+
+#: deluge/ui/countries.py:136
+msgid "Lithuania"
+msgstr "立陶宛"
+
+#: deluge/ui/countries.py:137
+msgid "Luxembourg"
+msgstr "盧森堡"
+
+#: deluge/ui/countries.py:138
+msgid "Macao"
+msgstr "澳門"
+
+#: deluge/ui/countries.py:139
+msgid "Macedonia, The Former Yugoslav Republic of"
+msgstr "馬其頓"
+
+#: deluge/ui/countries.py:140
+msgid "Madagascar"
+msgstr "馬達加斯加"
+
+#: deluge/ui/countries.py:141
+msgid "Malawi"
+msgstr "馬拉威"
+
+#: deluge/ui/countries.py:142
+msgid "Malaysia"
+msgstr "馬來西亞"
+
+#: deluge/ui/countries.py:143
+msgid "Maldives"
+msgstr "馬爾地夫"
+
+#: deluge/ui/countries.py:144
+msgid "Mali"
+msgstr "馬利"
+
+#: deluge/ui/countries.py:145
+msgid "Malta"
+msgstr "馬爾他"
+
+#: deluge/ui/countries.py:146
+msgid "Marshall Islands"
+msgstr "馬紹爾群島"
+
+#: deluge/ui/countries.py:147
+msgid "Martinique"
+msgstr "馬提尼克"
+
+#: deluge/ui/countries.py:148
+msgid "Mauritania"
+msgstr "茅利塔尼亞"
+
+#: deluge/ui/countries.py:149
+msgid "Mauritius"
+msgstr "模里西斯"
+
+#: deluge/ui/countries.py:150
+msgid "Mayotte"
+msgstr "馬約特"
+
+#: deluge/ui/countries.py:151
+msgid "Mexico"
+msgstr "墨西哥"
+
+#: deluge/ui/countries.py:152
+msgid "Micronesia, Federated States of"
+msgstr "密克羅尼西亞聯邦"
+
+#: deluge/ui/countries.py:153
+msgid "Moldova"
+msgstr "摩爾多瓦"
+
+#: deluge/ui/countries.py:154
+msgid "Monaco"
+msgstr "摩納哥"
+
+#: deluge/ui/countries.py:155
+msgid "Mongolia"
+msgstr "蒙古"
+
+#: deluge/ui/countries.py:156
+msgid "Montenegro"
+msgstr "蒙特內哥羅"
+
+#: deluge/ui/countries.py:157
+msgid "Montserrat"
+msgstr "蒙特塞拉特"
+
+#: deluge/ui/countries.py:158
+msgid "Morocco"
+msgstr "摩洛哥"
+
+#: deluge/ui/countries.py:159
+msgid "Mozambique"
+msgstr "莫三比克"
+
+#: deluge/ui/countries.py:160
+msgid "Myanmar"
+msgstr "緬甸"
+
+#: deluge/ui/countries.py:161
+msgid "Namibia"
+msgstr "納米比亞"
+
+#: deluge/ui/countries.py:162
+msgid "Nauru"
+msgstr "諾魯"
+
+#: deluge/ui/countries.py:163
+msgid "Nepal"
+msgstr "尼泊爾"
+
+#: deluge/ui/countries.py:164
+msgid "Netherlands"
+msgstr "荷蘭"
+
+#: deluge/ui/countries.py:165
+msgid "Netherlands Antilles"
+msgstr "荷屬安地列斯"
+
+#: deluge/ui/countries.py:166
+msgid "New Caledonia"
+msgstr "新喀里多尼亞"
+
+#: deluge/ui/countries.py:167
+msgid "New Zealand"
+msgstr "紐西蘭"
+
+#: deluge/ui/countries.py:168
+msgid "Nicaragua"
+msgstr "尼加拉瓜"
+
+#: deluge/ui/countries.py:169
+msgid "Niger"
+msgstr "尼日"
+
+#: deluge/ui/countries.py:170
+msgid "Nigeria"
+msgstr "奈及利亞"
+
+#: deluge/ui/countries.py:171
+msgid "Niue"
+msgstr "紐埃"
+
+#: deluge/ui/countries.py:172
+msgid "Norfolk Island"
+msgstr "諾福克島"
+
+#: deluge/ui/countries.py:173
+msgid "Northern Mariana Islands"
+msgstr "北馬里安納群島"
+
+#: deluge/ui/countries.py:174
+msgid "Norway"
+msgstr "挪威"
+
+#: deluge/ui/countries.py:175
+msgid "Oman"
+msgstr "阿曼"
+
+#: deluge/ui/countries.py:176
+msgid "Pakistan"
+msgstr "巴基斯坦"
+
+#: deluge/ui/countries.py:177
+msgid "Palau"
+msgstr "帛琉"
+
+#: deluge/ui/countries.py:178
+msgid "Palestinian Territory, Occupied"
+msgstr "巴勒斯坦佔領區"
+
+#: deluge/ui/countries.py:179
+msgid "Panama"
+msgstr "巴拿馬"
+
+#: deluge/ui/countries.py:180
+msgid "Papua New Guinea"
+msgstr "巴布亞紐幾內亞"
+
+#: deluge/ui/countries.py:181
+msgid "Paraguay"
+msgstr "巴拉圭"
+
+#: deluge/ui/countries.py:182
+msgid "Peru"
+msgstr "秘魯"
+
+#: deluge/ui/countries.py:183
+msgid "Philippines"
+msgstr "菲律賓"
+
+#: deluge/ui/countries.py:184
+msgid "Pitcairn"
+msgstr "皮特肯群島"
+
+#: deluge/ui/countries.py:185
+msgid "Poland"
+msgstr "波蘭"
+
+#: deluge/ui/countries.py:186
+msgid "Portugal"
+msgstr "葡萄牙"
+
+#: deluge/ui/countries.py:187
+msgid "Puerto Rico"
+msgstr "波多黎各"
+
+#: deluge/ui/countries.py:188
+msgid "Qatar"
+msgstr "卡達"
+
+#: deluge/ui/countries.py:189
+msgid "Reunion"
+msgstr "留尼旺"
+
+#: deluge/ui/countries.py:190
+msgid "Romania"
+msgstr "羅馬尼亞"
+
+#: deluge/ui/countries.py:191
+msgid "Russian Federation"
+msgstr "俄羅斯"
+
+#: deluge/ui/countries.py:192
+msgid "Rwanda"
+msgstr "盧安達"
+
+#: deluge/ui/countries.py:193
+msgid "Saint Barthelemy"
+msgstr "聖巴托洛繆島"
+
+#: deluge/ui/countries.py:194
+msgid "Saint Helena"
+msgstr "聖赫勒拿島"
+
+#: deluge/ui/countries.py:195
+msgid "Saint Kitts and Nevis"
+msgstr "聖克里斯多福與尼維斯"
+
+#: deluge/ui/countries.py:196
+msgid "Saint Lucia"
+msgstr "聖露西亞"
+
+#: deluge/ui/countries.py:197
+msgid "Saint Martin"
+msgstr "聖馬丁島"
+
+#: deluge/ui/countries.py:198
+msgid "Saint Pierre and Miquelon"
+msgstr "聖皮耶與密克隆群島"
+
+#: deluge/ui/countries.py:199
+msgid "Saint Vincent and the Grenadines"
+msgstr "聖文森及格瑞那丁"
+
+#: deluge/ui/countries.py:200
+msgid "Samoa"
+msgstr "薩摩亞"
+
+#: deluge/ui/countries.py:201
+msgid "San Marino"
+msgstr "聖馬利諾"
+
+#: deluge/ui/countries.py:202
+msgid "Sao Tome and Principe"
+msgstr "聖多美普林西比"
+
+#: deluge/ui/countries.py:203
+msgid "Saudi Arabia"
+msgstr "沙烏地阿拉伯"
+
+#: deluge/ui/countries.py:204
+msgid "Senegal"
+msgstr "塞內加爾"
+
+#: deluge/ui/countries.py:205
+msgid "Serbia"
+msgstr "塞爾維亞"
+
+#: deluge/ui/countries.py:206
+msgid "Seychelles"
+msgstr "塞席爾"
+
+#: deluge/ui/countries.py:207
+msgid "Sierra Leone"
+msgstr "獅子山"
+
+#: deluge/ui/countries.py:208
+msgid "Singapore"
+msgstr "新加坡"
+
+#: deluge/ui/countries.py:209
+msgid "Slovakia"
+msgstr "斯洛伐克"
+
+#: deluge/ui/countries.py:210
+msgid "Slovenia"
+msgstr "斯洛維尼亞"
+
+#: deluge/ui/countries.py:211
+msgid "Solomon Islands"
+msgstr "索羅門群島"
+
+#: deluge/ui/countries.py:212
+msgid "Somalia"
+msgstr "索馬利亞"
+
+#: deluge/ui/countries.py:213
+msgid "South Africa"
+msgstr "南非"
+
+#: deluge/ui/countries.py:214
+msgid "South Georgia and the South Sandwich Islands"
+msgstr "南喬治亞與南三明治群島"
+
+#: deluge/ui/countries.py:215
+msgid "Spain"
+msgstr "西班牙"
+
+#: deluge/ui/countries.py:216
+msgid "Sri Lanka"
+msgstr "斯里蘭卡"
+
+#: deluge/ui/countries.py:217
+msgid "Sudan"
+msgstr "蘇丹"
+
+#: deluge/ui/countries.py:218
+msgid "Suriname"
+msgstr "蘇利南"
+
+#: deluge/ui/countries.py:219
+msgid "Svalbard and Jan Mayen"
+msgstr "斯瓦巴及尖棉"
+
+#: deluge/ui/countries.py:220
+msgid "Swaziland"
+msgstr "史瓦濟蘭"
+
+#: deluge/ui/countries.py:221
+msgid "Sweden"
+msgstr "瑞典"
+
+#: deluge/ui/countries.py:222
+msgid "Switzerland"
+msgstr "瑞士"
+
+#: deluge/ui/countries.py:223
+msgid "Syrian Arab Republic"
+msgstr "敘利亞"
+
+#: deluge/ui/countries.py:224
+msgid "Taiwan, Province of China"
+msgstr "臺灣"
+
+#: deluge/ui/countries.py:225
+msgid "Tajikistan"
+msgstr "塔吉克"
+
+#: deluge/ui/countries.py:226
+msgid "Tanzania, United Republic of"
+msgstr "坦尚尼亞"
+
+#: deluge/ui/countries.py:227
+msgid "Thailand"
+msgstr "泰國"
+
+#: deluge/ui/countries.py:228
+msgid "Timor-Leste"
+msgstr "東帝汶"
+
+#: deluge/ui/countries.py:229
+msgid "Togo"
+msgstr "多哥"
+
+#: deluge/ui/countries.py:230
+msgid "Tokelau"
+msgstr "托克勞"
+
+#: deluge/ui/countries.py:231
+msgid "Tonga"
+msgstr "東加"
+
+#: deluge/ui/countries.py:232
+msgid "Trinidad and Tobago"
+msgstr "千里達"
+
+#: deluge/ui/countries.py:233
+msgid "Tunisia"
+msgstr "突尼西亞"
+
+#: deluge/ui/countries.py:234
+msgid "Turkey"
+msgstr "土耳其"
+
+#: deluge/ui/countries.py:235
+msgid "Turkmenistan"
+msgstr "土庫曼"
+
+#: deluge/ui/countries.py:236
+msgid "Turks and Caicos Islands"
+msgstr "土克凱可群島"
+
+#: deluge/ui/countries.py:237
+msgid "Tuvalu"
+msgstr "吐瓦魯"
+
+#: deluge/ui/countries.py:238
+msgid "Uganda"
+msgstr "烏干達"
+
+#: deluge/ui/countries.py:239
+msgid "Ukraine"
+msgstr "烏克蘭"
+
+#: deluge/ui/countries.py:240
+msgid "United Arab Emirates"
+msgstr "阿拉伯聯合大公國"
+
+#: deluge/ui/countries.py:242
+msgid "United States"
+msgstr "美國"
+
+#: deluge/ui/countries.py:243
+msgid "United States Minor Outlying Islands"
+msgstr "美國本土外小島嶼"
+
+#: deluge/ui/countries.py:244
+msgid "Uruguay"
+msgstr "烏拉圭"
+
+#: deluge/ui/countries.py:245
+msgid "Uzbekistan"
+msgstr "烏茲別克"
+
+#: deluge/ui/countries.py:246
+msgid "Vanuatu"
+msgstr "萬那杜"
+
+#: deluge/ui/countries.py:247
+msgid "Venezuela"
+msgstr "委內瑞拉"
+
+#: deluge/ui/countries.py:248
+msgid "Viet Nam"
+msgstr "越南"
+
+#: deluge/ui/countries.py:249
+msgid "Virgin Islands, British"
+msgstr "英屬維京群島"
+
+#: deluge/ui/countries.py:250
+msgid "Virgin Islands, U.S."
+msgstr "美屬維京群島"
+
+#: deluge/ui/countries.py:251
+msgid "Wallis and Futuna"
+msgstr "瓦利斯群島和富圖納群島"
+
+#: deluge/ui/countries.py:252
+msgid "Western Sahara"
+msgstr "西撒哈拉"
+
+#: deluge/ui/countries.py:253
+msgid "Yemen"
+msgstr "葉門"
+
+#: deluge/ui/countries.py:254
+msgid "Zambia"
+msgstr "尚比亞"
+
+#: deluge/ui/countries.py:255
+msgid "Zimbabwe"
+msgstr "辛巴威"
+
+#: deluge/ui/gtkui/systemtray.py:197
+msgid ""
+"Deluge\n"
+"Not Connected.."
+msgstr ""
+"Deluge\n"
+"未連接.."
+
+#: deluge/ui/gtkui/systemtray.py:245 deluge/ui/gtkui/systemtray.py:249
+#: deluge/ui/gtkui/systemtray.py:408 deluge/ui/gtkui/statusbar.py:397
+#: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/statusbar.py:452
+#: deluge/ui/gtkui/common.py:67
+msgid "Unlimited"
+msgstr "未限制"
+
+#: deluge/ui/gtkui/systemtray.py:247 deluge/ui/gtkui/systemtray.py:251
+#: deluge/ui/gtkui/systemtray.py:267 deluge/ui/gtkui/systemtray.py:273
+#: deluge/ui/gtkui/systemtray.py:407 deluge/ui/gtkui/systemtray.py:412
+#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
+#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
+#: deluge/ui/gtkui/glade/main_window.glade:1828
+#: deluge/ui/gtkui/glade/main_window.glade:1840
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
+#: deluge/plugins/label/label/data/label_options.glade:132
+#: deluge/plugins/label/label/data/label_options.glade:195
+msgid "KiB/s"
+msgstr "KiB/秒"
+
+#: deluge/ui/gtkui/systemtray.py:254
+msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtkui/systemtray.py:254
+msgid "Down"
+msgstr "下載速度"
+
+#: deluge/ui/gtkui/systemtray.py:255
+msgid "Up"
+msgstr "上傳速度"
+
+#: deluge/ui/gtkui/systemtray.py:388 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/menubar.py:424
+msgid "Set Maximum Download Speed"
+msgstr "設定最大下載速度"
+
+#: deluge/ui/gtkui/systemtray.py:402 deluge/ui/gtkui/statusbar.py:429
+#: deluge/ui/gtkui/menubar.py:425
+msgid "Set Maximum Upload Speed"
+msgstr "設定最大上傳速度"
+
+#: deluge/ui/gtkui/systemtray.py:411 deluge/ui/gtkui/statusbar.py:399
+#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
+#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
+msgid "Other..."
+msgstr "其他..."
+
+#: deluge/ui/gtkui/systemtray.py:455
+msgid "<b><big>Deluge is password protected!</big></b>"
+msgstr "<b><big>Deluge 已受密碼保護！</big></b>"
+
+#: deluge/ui/gtkui/systemtray.py:461
+msgid "<i>Enter your password to continue</i>"
+msgstr "<i>輸入密碼以便繼續</i>"
+
+#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:99
+msgid "Torrent"
+msgstr "種子"
+
+#: deluge/ui/gtkui/queuedtorrents.py:135
+msgid " Torrents Queued"
+msgstr " 種子已排入佇列"
+
+#: deluge/ui/gtkui/queuedtorrents.py:137
+msgid " Torrent Queued"
+msgstr " 種子已佇列"
+
+#: deluge/ui/gtkui/aboutdialog.py:67
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. This program is distributed in the hope that it will be "
+"useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
+"Public License for more details. You should have received a copy of the GNU "
+"General Public License along with this program; if not, see "
+"<http://www.gnu.org/licenses>. In addition, as a special exception, the "
+"copyright holders give permission to link the code of portions of this "
+"program with the OpenSSL library. You must obey the GNU General Public "
+"License in all respects for all of the code used other than OpenSSL. If you "
+"modify file(s) with this exception, you may extend this exception to your "
+"version of the file(s), but you are not obligated to do so. If you do not "
+"wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then "
+"also delete it here."
 msgstr ""
 
-#: deluge/plugins/execute/execute/gtkui.py:52
-msgid "Torrent Added"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:56
+msgid "Do Not Download"
+msgstr "不要下載"
 
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
-msgid "Execute"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:57
+msgid "Normal Priority"
+msgstr "一般優先"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
-msgid "Event"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:58
+msgid "High Priority"
+msgstr "高優先"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
-msgid "Command"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:59
+msgid "Highest Priority"
+msgstr "最高優先"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
-msgid "<b>Add Command</b>"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:122 deluge/ui/gtkui/addtorrentdialog.py:107
+#: deluge/ui/gtkui/createtorrentdialog.py:80
+msgid "Filename"
+msgstr "檔案名稱"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:149
-msgid "<b>Commands</b>"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:142 deluge/ui/gtkui/addtorrentdialog.py:120
+#: deluge/ui/gtkui/createtorrentdialog.py:90
+#: deluge/ui/gtkui/torrentview.py:208
+msgid "Size"
+msgstr "大小"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
-msgid "Extract to:"
-msgstr ""
+#: deluge/ui/gtkui/files_tab.py:155 deluge/ui/gtkui/peers_tab.py:129
+#: deluge/ui/gtkui/torrentview.py:217 deluge/ui/gtkui/torrentview.py:532
+msgid "Progress"
+msgstr "進度"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:40
-#: deluge/ui/gtkui/glade/main_window.glade:1972
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:370
+#: deluge/ui/gtkui/files_tab.py:168
+msgid "Priority"
+msgstr "優先權"
+
+#: deluge/ui/gtkui/dialogs.py:174
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4709
+msgid "Details:"
+msgstr "詳細資料："
+
+#: deluge/ui/gtkui/gtkui.py:297 deluge/ui/gtkui/gtkui.py:312
+msgid "Turn off Classic Mode?"
+msgstr "關閉傳統模式？"
+
+#: deluge/ui/gtkui/gtkui.py:298
+msgid ""
+"It appears that a Deluge daemon process (deluged) is already running.\n"
+"\n"
+"You will either need to stop the daemon or turn off Classic Mode to continue."
+msgstr ""
+"似乎有一個 Deluge 常駐程式行程 (deluged) 正在執行當中。\n"
+"\n"
+"您需要停止該常駐，或者關閉傳統模式以便繼續。"
+
+#: deluge/ui/gtkui/gtkui.py:307
+msgid "Error Starting Core"
+msgstr "啟動核心時發生錯誤"
+
+#: deluge/ui/gtkui/gtkui.py:308
+msgid ""
+"There was an error starting the core component which is required to run "
+"Deluge in Classic Mode.\n"
+"\n"
+"Please see the details below for more information."
+msgstr ""
+"當載入執行 Deluge 傳統模式的核心組件時發生錯誤。\n"
+"\n"
+"請查看詳細資料以獲得更多資訊。"
+
+#: deluge/ui/gtkui/gtkui.py:313
+msgid ""
+"Since there was an error starting in Classic Mode would you like to continue "
+"by turning it off?"
+msgstr "以傳統模式啟動時發生錯誤，您是否要關閉傳統模式以便繼續？"
+
+#: deluge/ui/gtkui/gtkui.py:337
+msgid "Error Starting Daemon"
+msgstr "啟動常駐時發生錯誤"
+
+#: deluge/ui/gtkui/gtkui.py:338
+msgid ""
+"There was an error starting the daemon process.  Try running it from a "
+"console to see if there is an error."
+msgstr "在啟動常駐程序時發生錯誤。請嘗試在終端機執行，看看是否有任何錯誤發生。"
+
+#: deluge/ui/gtkui/notification.py:79
+msgid "Torrent complete"
+msgstr "種子下載完成"
+
+#: deluge/ui/gtkui/notification.py:80
+#, python-format
+msgid "Including %i files"
+msgstr "包含 %i 項檔案"
+
+#: deluge/ui/gtkui/notification.py:109
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading %(name)s ,  "
+"           which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off             email "
+"notification in Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge"
+msgstr ""
+"這封電子郵件是來提醒您，Deluge 已經完成下載 %(name)s，其中包含了 %(num_files)i 項檔案。\n"
+"若要停止接收這類提醒，請在 Deluge 的偏好設定內關閉電郵通知。\n"
+"\n"
+"謝謝您，\n"
+"Deluge"
+
+#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
+msgid "On"
+msgstr "開啟"
+
+#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
+msgid "Off"
+msgstr "關閉"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:202
+msgid "Invalid File"
+msgstr "無效的檔案"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:207
+msgid "Duplicate Torrent"
+msgstr "重複的種子"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:207
+msgid "You cannot add the same torrent twice."
+msgstr "你不能重複新增相同的種子。"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:488
+msgid "Unable to set file priority!"
+msgstr "無法設定優先權！"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:488
+msgid ""
+"File prioritization is unavailable when using Compact allocation.  Would you "
+"like to switch to Full allocation?"
+msgstr "在使用緊密檔案分配時無法設定檔案優先權。您要切換至完整檔案分配嗎？"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:537
+msgid "Choose a .torrent file"
+msgstr "請選取一個種子檔案 (.torrent)"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:549
+#: deluge/ui/gtkui/createtorrentdialog.py:253
+msgid "Torrent files"
+msgstr "種子檔案"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:553
+#: deluge/ui/gtkui/createtorrentdialog.py:257
+msgid "All files"
+msgstr "所有檔案"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:618
+msgid "Invalid URL"
+msgstr "無效的 URL"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:618
+#, python-format
+msgid "%s is not a valid URL."
+msgstr "%s 不是合法的網址。"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:622
+msgid "Downloading.."
+msgstr "下載中..."
+
+#: deluge/ui/gtkui/addtorrentdialog.py:656
+msgid "Download Failed"
+msgstr "下載失敗"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:656
+#, python-format
+msgid "Failed to download : %s"
+msgstr "無法下載：%s"
+
+#: deluge/ui/gtkui/filtertreeview.py:68
+msgid "States"
+msgstr "狀態"
+
+#: deluge/ui/gtkui/filtertreeview.py:69
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#: deluge/plugins/label/label/data/label_options.glade:596
+msgid "Trackers"
+msgstr "追蹤伺服器"
+
+#: deluge/ui/gtkui/filtertreeview.py:70
+msgid "Labels"
+msgstr "標示"
+
+#: deluge/ui/gtkui/filtertreeview.py:71
+msgid "All"
+msgstr "全部"
+
+#: deluge/ui/gtkui/filtertreeview.py:72
+msgid "Downloading"
+msgstr "下載中"
+
+#: deluge/ui/gtkui/filtertreeview.py:73
+msgid "Seeding"
+msgstr "作種中"
+
+#: deluge/ui/gtkui/filtertreeview.py:74
+msgid "Paused"
+msgstr "暫停"
+
+#: deluge/ui/gtkui/filtertreeview.py:75
+msgid "Checking"
+msgstr "檢查中"
+
+#: deluge/ui/gtkui/filtertreeview.py:76
+msgid "Queued"
+msgstr "已排入佇列"
+
+#: deluge/ui/gtkui/filtertreeview.py:78
+msgid "Active"
+msgstr "活躍"
+
+#: deluge/ui/gtkui/filtertreeview.py:79
+msgid "None"
+msgstr "無"
+
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "No Label"
+msgstr "無標籤"
+
+#: deluge/ui/gtkui/edittrackersdialog.py:84
+#: deluge/ui/gtkui/createtorrentdialog.py:103
+msgid "Tier"
+msgstr "階"
+
+#: deluge/ui/gtkui/edittrackersdialog.py:86
+#: deluge/ui/gtkui/createtorrentdialog.py:105
+#: deluge/ui/gtkui/torrentview.py:239
+msgid "Tracker"
+msgstr "追蹤伺服器"
+
+#: deluge/ui/gtkui/statusbar.py:146
+msgid "Not Connected"
+msgstr "未連線"
+
+#: deluge/ui/gtkui/statusbar.py:163
+msgid "Connections"
+msgstr "連接數"
+
+#: deluge/ui/gtkui/statusbar.py:168
+msgid "Download Speed"
+msgstr "下載速度"
+
+#: deluge/ui/gtkui/statusbar.py:173
+msgid "Upload Speed"
+msgstr "上傳速度"
+
+#: deluge/ui/gtkui/statusbar.py:178
+msgid "Protocol Traffic Download/Upload"
+msgstr "下載/上傳協定流量"
+
+#: deluge/ui/gtkui/statusbar.py:181
+msgid "DHT Nodes"
+msgstr "DHT 節點"
+
+#: deluge/ui/gtkui/statusbar.py:186
+msgid "Free Disk Space"
+msgstr "可用磁碟空間"
+
+#: deluge/ui/gtkui/statusbar.py:190
+msgid "No Incoming Connections!"
+msgstr "沒有連入的連接！"
+
+#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:426
+msgid "Set Maximum Connections"
+msgstr "設定最大連線數"
+
+#: deluge/ui/gtkui/removetorrentdialog.py:78
+msgid "Torrents"
+msgstr "種子"
+
+#: deluge/ui/gtkui/peers_tab.py:100
+msgid "Address"
+msgstr "位址"
+
+#: deluge/ui/gtkui/peers_tab.py:116
+msgid "Client"
+msgstr "用戶端"
+
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:227
+msgid "Down Speed"
+msgstr "下載速度"
+
+#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:229
+msgid "Up Speed"
+msgstr "上傳速度"
+
+#: deluge/ui/gtkui/common.py:70
+msgid "Activated"
+msgstr "正在下載"
+
+#: deluge/ui/gtkui/menubar.py:77
+msgid "Set Unlimited"
+msgstr "設為無限制"
+
+#: deluge/ui/gtkui/menubar.py:81
+msgid "Other.."
+msgstr "其他.."
+
+#: deluge/ui/gtkui/menubar.py:319
+msgid "Choose a directory to move files to"
+msgstr "選擇要移動的目的資料夾"
+
+#: deluge/ui/gtkui/menubar.py:427
+msgid "Set Maximum Upload Slots"
+msgstr "設定最大同時上傳數"
+
+#: deluge/ui/gtkui/connectionmanager.py:75
+#: deluge/ui/gtkui/connectionmanager.py:215
+#: deluge/ui/gtkui/connectionmanager.py:246
+#: deluge/ui/gtkui/connectionmanager.py:283
+#: deluge/ui/gtkui/connectionmanager.py:296
+#: deluge/ui/gtkui/connectionmanager.py:378
+#: deluge/ui/gtkui/connectionmanager.py:389
+#: deluge/ui/gtkui/connectionmanager.py:452
+#: deluge/ui/gtkui/connectionmanager.py:569 deluge/ui/web/json_api.py:710
+#: deluge/ui/web/json_api.py:734 deluge/ui/web/json_api.py:737
+#: deluge/ui/web/json_api.py:745
+msgid "Offline"
+msgstr "離線"
+
+#: deluge/ui/gtkui/connectionmanager.py:76
+#: deluge/ui/gtkui/connectionmanager.py:274
+#: deluge/ui/gtkui/connectionmanager.py:382
+#: deluge/ui/gtkui/connectionmanager.py:552 deluge/ui/web/json_api.py:730
+msgid "Online"
+msgstr "上線"
+
+#: deluge/ui/gtkui/connectionmanager.py:77
+#: deluge/ui/gtkui/connectionmanager.py:313
+#: deluge/ui/gtkui/connectionmanager.py:372
+#: deluge/ui/gtkui/connectionmanager.py:382
+#: deluge/ui/gtkui/connectionmanager.py:440
+#: deluge/ui/gtkui/connectionmanager.py:552 deluge/ui/web/json_api.py:751
+msgid "Connected"
+msgstr "已連接"
+
+#: deluge/ui/gtkui/connectionmanager.py:149
+msgid "Status"
+msgstr "狀態"
+
+#: deluge/ui/gtkui/connectionmanager.py:153
+msgid "Host"
+msgstr "主機"
+
+#: deluge/ui/gtkui/connectionmanager.py:158
+msgid "Version"
+msgstr "版本"
+
+#: deluge/ui/gtkui/connectionmanager.py:386
+msgid "_Stop Daemon"
+msgstr "停止常駐(_S)"
+
+#: deluge/ui/gtkui/connectionmanager.py:394
+msgid "_Start Daemon"
+msgstr "啟動常駐(_S)"
+
+#: deluge/ui/gtkui/connectionmanager.py:414
+#: deluge/ui/gtkui/connectionmanager.py:424
+msgid "Unable to start daemon!"
+msgstr "無法啟動常駐程式！"
+
+#: deluge/ui/gtkui/connectionmanager.py:415
+msgid ""
+"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
+"install the deluged package or it's not in your PATH."
+msgstr ""
+"Deluge 無法找到可執行的「deluged」，可能是您沒有安裝 deluged 套件，或者 deluged 並不在您的 PATH 環境參數內。"
+
+#: deluge/ui/gtkui/connectionmanager.py:425
+msgid "Please examine the details for more information."
+msgstr "請檢查詳細資料以獲得更多資訊。"
+
+#: deluge/ui/gtkui/connectionmanager.py:509
+msgid "Error Adding Host"
+msgstr "加入主機時發生錯誤"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:143
+msgid "Choose a file"
+msgstr "選擇檔案"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:172
+msgid "Choose a folder"
+msgstr "選擇資料夾"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:241
+msgid "Save .torrent file"
+msgstr "儲存種子檔案"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:373
+#, python-format
+msgid "%.2f%%"
+msgstr "%.2f%%"
+
+#: deluge/ui/gtkui/preferences.py:71
+msgid "Categories"
+msgstr "類別"
+
+#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
+msgid "Downloads"
+msgstr "下載"
+
+#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
+msgid "Network"
+msgstr "網路"
+
+#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
+msgid "Bandwidth"
+msgstr "頻寬"
+
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
+msgid "Interface"
+msgstr "介面"
+
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
+msgid "Other"
+msgstr "其他"
+
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
+msgid "Daemon"
+msgstr "常駐程式"
+
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
+#: deluge/plugins/label/label/data/label_options.glade:426
+msgid "Queue"
+msgstr "佇列"
+
+#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
+msgid "Proxy"
+msgstr "代理伺服器"
+
+#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences_old.py:77
+msgid "Cache"
+msgstr "快取"
+
+#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences_old.py:77
+msgid "Plugins"
+msgstr "外掛模組"
+
+#: deluge/ui/gtkui/preferences.py:90 deluge/ui/gtkui/preferences_old.py:90
+#: deluge/plugins/notifications/notifications/data/config.glade:420
+msgid "Enabled"
+msgstr "已啟用"
+
+#: deluge/ui/gtkui/preferences.py:92 deluge/ui/gtkui/preferences_old.py:92
+msgid "Plugin"
+msgstr "外掛模組"
+
+#: deluge/ui/gtkui/preferences.py:874 deluge/ui/gtkui/preferences_old.py:870
+msgid "Select the Plugin"
+msgstr "選取外掛"
+
+#: deluge/ui/gtkui/preferences.py:885 deluge/ui/gtkui/preferences_old.py:881
+msgid "Plugin Eggs"
+msgstr "外掛 Egg"
+
+#: deluge/ui/gtkui/mainwindow.py:238
+msgid "Down:"
+msgstr "下載："
+
+#: deluge/ui/gtkui/mainwindow.py:238
+msgid "Up:"
+msgstr "上傳："
+
+#: deluge/ui/gtkui/torrentview.py:205
+msgid "Name"
+msgstr "名稱"
+
+#: deluge/ui/gtkui/torrentview.py:211
+msgid "Downloaded"
+msgstr "已下載"
+
+#: deluge/ui/gtkui/torrentview.py:214
+msgid "Uploaded"
+msgstr "已上傳"
+
+#: deluge/ui/gtkui/torrentview.py:221
+msgid "Seeders"
+msgstr "種子數"
+
+#: deluge/ui/gtkui/torrentview.py:224
+msgid "Peers"
+msgstr "用戶數"
+
+#: deluge/ui/gtkui/torrentview.py:231
+msgid "ETA"
+msgstr "預計完成時間"
+
+#: deluge/ui/gtkui/torrentview.py:233
+msgid "Ratio"
+msgstr "分享率"
+
+#: deluge/ui/gtkui/torrentview.py:235
+msgid "Avail"
+msgstr "可得性"
+
+#: deluge/ui/gtkui/torrentview.py:237
+msgid "Added"
+msgstr "加入日期"
+
+#: deluge/ui/gtkui/torrentview.py:243
+msgid "Save Path"
+msgstr "儲存路徑"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "建立種子"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>建立種子</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:21
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+msgid "_File"
+msgstr "檔案(_F)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "資料夾(_D)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "遠端路徑(_R)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>檔案</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4735
+msgid "Author:"
+msgstr "作者："
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "註解："
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "資訊"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "網路種子"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "片段大小："
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:579
+msgid "Set Private Flag"
+msgstr "設定私人標籤"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:593
+msgid "Add this torrent to the session"
+msgstr "新增這個種子至此工作階段"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:623
+#: deluge/ui/gtkui/glade/connection_manager.glade:457
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
+msgid "Options"
+msgstr "選項"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:691
+msgid "Enter Remote Path"
+msgstr "輸入遠端路徑"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:727
+msgid "<b>Remote Path</b>"
+msgstr "<b>遠端路徑</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:761
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:943
+msgid "Path:"
+msgstr "路徑："
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:836
+msgid "Creating Torrent"
+msgstr "正在建立種子"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:873
+msgid "Save .torrent as"
+msgstr "另存種子為"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:909
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>儲存種子檔案</b>"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:10
+msgid "_Select All"
+msgstr "全選(_S)"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+msgid "_Pause All"
+msgstr "全部暫停(_P)"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
+#: deluge/ui/gtkui/glade/torrent_menu.glade:48
+msgid "Resume selected torrents."
+msgstr "繼續選取的種子檔。"
+
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:42
+msgid "Resu_me All"
+msgstr "全部繼續(_M)"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:37
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+msgid "label"
+msgstr "標籤"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+msgid "Add Peer"
+msgstr "加入用戶"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+msgid "<b>Add Peer</b>"
+msgstr "<b>加入用戶</b>"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr "主機名稱:通訊埠"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:11
+msgid "_Open Folder"
+msgstr "開啟資料夾(_O)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:49
+msgid "Resu_me"
+msgstr "繼續(_M)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:71
+msgid "Opt_ions"
+msgstr "選項(_I)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+msgid "_Queue"
+msgstr "佇列(_Q)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+msgid "_Update Tracker"
+msgstr "更新追蹤伺服器(_U)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2152
+msgid "_Edit Trackers"
+msgstr "編輯追蹤伺服器(_E)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+msgid "_Remove Torrent"
+msgstr "移除種子(_R)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:174
+msgid "_Force Re-check"
+msgstr "強制重新檢查 (_F)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:191
+msgid "Move _Storage"
+msgstr "更改儲存位置(_S)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+msgid "_Download Speed Limit"
+msgstr "下載速限(_D)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+msgid "_Upload Speed Limit"
+msgstr "上傳速限(_U)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:242
+msgid "_Connection Limit"
+msgstr "最大連接數量(_C)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:258
+msgid "Upload _Slot Limit"
+msgstr "上傳連接數限制(_S)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:273
+msgid "_Auto Managed"
+msgstr "自動管理(_A)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:27
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+msgid "_Add Torrent"
+msgstr "新增種子(_A)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:44
+msgid "_Create Torrent"
+msgstr "建立種子(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:63
+msgid "Quit & _Shutdown Daemon"
+msgstr "離開並關閉常駐(_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:98
+msgid "_Edit"
+msgstr "編輯(_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:114
+msgid "_Connection Manager"
+msgstr "連線管理員(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:135
+msgid "_Torrent"
+msgstr "種子(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:142
+msgid "_View"
+msgstr "檢視(_V)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:150
+msgid "_Toolbar"
+msgstr "工具列(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:160
+msgid "_Sidebar"
+msgstr "側邊欄(_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:169
+msgid "Status_bar"
+msgstr "狀態列(_B)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:183
+msgid "T_abs"
+msgstr "索引標籤(_A)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:190
+msgid "_Columns"
+msgstr "欄位(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:198
+msgid "S_idebar"
+msgstr "側邊欄(_I)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:207
+msgid "Show _Zero Hits"
+msgstr "顯示空的項目(_Z)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:216
+msgid "Show _Trackers"
+msgstr "顯示追蹤伺服器(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:233
+msgid "_Help"
+msgstr "說明(_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:239
+msgid "_Homepage"
+msgstr "首頁(_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:256
+msgid "_FAQ"
+msgstr "常見問題(_F)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:259
+msgid "Frequently Asked Questions"
+msgstr "常見問題"
+
+#: deluge/ui/gtkui/glade/main_window.glade:274
+msgid "_Community"
+msgstr "社群(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:321
+msgid "Add torrent"
+msgstr "新增種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:322
+msgid "Add Torrent"
+msgstr "新增種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:336
+msgid "Remove torrent"
+msgstr "移除種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:337
+msgid "Remove Torrent"
+msgstr "移除種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:358
+msgid "Pause the selected torrents"
+msgstr "暫停選取的種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:359
+msgid "Pause"
+msgstr "暫停"
+
+#: deluge/ui/gtkui/glade/main_window.glade:374
+msgid "Resume the selected torrents"
+msgstr "繼續選取的種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:375
+msgid "Resume"
+msgstr "恢復"
+
+#: deluge/ui/gtkui/glade/main_window.glade:397
+msgid "Queue Torrent Up"
+msgstr "佇列中種子上移"
+
+#: deluge/ui/gtkui/glade/main_window.glade:398
+msgid "Queue Up"
+msgstr "往上移"
+
+#: deluge/ui/gtkui/glade/main_window.glade:412
+msgid "Queue Torrent Down"
+msgstr "佇列中種子下移"
+
+#: deluge/ui/gtkui/glade/main_window.glade:413
+msgid "Queue Down"
+msgstr "往下移"
+
+#: deluge/ui/gtkui/glade/main_window.glade:434
+#: deluge/ui/gtkui/glade/main_window.glade:435
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+msgid "Preferences"
+msgstr "偏好設定"
+
+#: deluge/ui/gtkui/glade/main_window.glade:449
+#: deluge/ui/gtkui/glade/main_window.glade:450
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+msgid "Connection Manager"
+msgstr "連線管理員"
+
+#: deluge/ui/gtkui/glade/main_window.glade:564
+msgid "_Expand All"
+msgstr "全部展開(_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:585
+msgid "_Do Not Download"
+msgstr "不要下載(_D)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:601
+msgid "_Normal Priority"
+msgstr "一般優先(_N)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:617
+msgid "_High Priority"
+msgstr "高優先(_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:633
+msgid "Hi_ghest Priority"
+msgstr "最高優先(_G)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:715
+msgid "<b>Auto Managed:</b>"
+msgstr "<b>自動管理：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:756
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>種子等級：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:771
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>做種時間：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:797
+msgid "<b>Active Time:</b>"
+msgstr "<b>活動時間：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:854
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>追蹤伺服器狀態：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:884
+msgid "<b>Availability:</b>"
+msgstr "<b>可得性：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:938
+msgid "<b>Peers:</b>"
+msgstr "<b>用戶數：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:964
+msgid "<b>Seeders:</b>"
+msgstr "<b>種子數：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:982
+msgid "<b>Pieces:</b>"
+msgstr "<b>區塊：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1004
+msgid "<b>ETA:</b>"
+msgstr "<b>剩餘時間：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1026
+#: deluge/ui/gtkui/glade/main_window.glade:1048
+msgid "<b>Speed:</b>"
+msgstr "<b>速度：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1067
+msgid "<b>Next Announce:</b>"
+msgstr "<b>下次發佈：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1086
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>分享率：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1105
+msgid "<b>Uploaded:</b>"
+msgstr "<b>已上傳：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1124
+msgid "<b>Downloaded:</b>"
+msgstr "<b>已下載：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1185
+msgid "<b>Date Added:</b>"
+msgstr "<b>加入時間：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1243
+msgid "_Status"
+msgstr "狀態(_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1304
+msgid "<b>Comments:</b>"
+msgstr "<b>註解：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1333
+msgid "<b># of files:</b>"
+msgstr "<b>檔案總數：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1365
+msgid "<b>Hash:</b>"
+msgstr "<b>驗證碼 (Hash)：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1395
+msgid "<b>Tracker:</b>"
+msgstr "<b>追蹤伺服器：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1415
+msgid "<b>Total Size:</b>"
+msgstr "<b>總大小：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1453
+msgid "<b>Name:</b>"
+msgstr "<b>名稱：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1473
+msgid "<b>Path:</b>"
+msgstr "<b>路徑：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1507
+msgid "<b>Status:</b>"
+msgstr "<b>狀態：</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1588
+msgid "_Details"
+msgstr "詳細資訊(_D)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1640
+msgid "_Files"
+msgstr "檔案(_F)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1692
+msgid "_Peers"
+msgstr "用戶(_P)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1792
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
+msgid "Max Connections:"
+msgstr "最大連接數目："
+
+#: deluge/ui/gtkui/glade/main_window.glade:1805
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
+msgid "Max Upload Speed:"
+msgstr "最高上傳速度："
+
+#: deluge/ui/gtkui/glade/main_window.glade:1818
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
+msgid "Max Download Speed:"
+msgstr "最高下載速度："
+
+#: deluge/ui/gtkui/glade/main_window.glade:1855
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
+msgid "Max Upload Slots:"
+msgstr "最大上傳連接數量："
+
+#: deluge/ui/gtkui/glade/main_window.glade:1894
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
+msgid "<b>Bandwidth</b>"
+msgstr "<b>流量</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1924
+#: deluge/plugins/label/label/data/label_options.glade:336
+msgid "Auto Managed"
+msgstr "自動管理"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1946
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
+#: deluge/plugins/label/label/data/label_options.glade:349
+msgid "Stop seed at ratio:"
+msgstr "達到指定的分享率時停止種子："
+
+#: deluge/ui/gtkui/glade/main_window.glade:1987
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
+#: deluge/plugins/label/label/data/label_options.glade:364
+msgid "Remove at ratio"
+msgstr "達到分享率時刪除"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2003
+msgid "Move completed:"
+msgstr "移動完整檔："
+
+#: deluge/ui/gtkui/glade/main_window.glade:2025
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:161
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:198
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:279
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:227
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:287
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
 msgid "Select A Folder"
 msgstr "選擇一個資料夾"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:67
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
-#: deluge/ui/gtkui/glade/main_window.glade:2120
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:700
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2731
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4052
+#: deluge/ui/gtkui/glade/main_window.glade:2063
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
+msgid "<b>Queue</b>"
+msgstr "<b>佇列</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2099
+msgid "Private"
+msgstr "隱私"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2114
+msgid "Prioritize First/Last"
+msgstr "優先下載頭尾部份"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2177
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2826
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 msgid "<b>General</b>"
 msgstr "<b>一般</b>"
 
-#: deluge/plugins/webui/webui/data/config.glade:27
-msgid "Enable web interface"
-msgstr ""
+#: deluge/ui/gtkui/glade/main_window.glade:2259
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+msgid "_Options"
+msgstr "選項(_O)"
 
-#: deluge/plugins/webui/webui/data/config.glade:41
-msgid "Enable SSL"
-msgstr ""
+#: deluge/ui/gtkui/glade/main_window.glade:2279
+msgid "Remove Torrent?"
+msgstr "移除種子？"
 
-#: deluge/plugins/webui/webui/data/config.glade:60
-msgid "Listening port:"
-msgstr ""
+#: deluge/ui/gtkui/glade/main_window.glade:2318
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>您確定要移除已選擇的種子檔？</b></big>"
 
+#: deluge/ui/gtkui/glade/main_window.glade:2370
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>將移除相關的種子檔！</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2410
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>將移除已下載的資料！</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2454
+msgid "Remove Selected Torrent"
+msgstr "移除已選擇的種子"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2478
+msgid "New Release"
+msgstr "新版本"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2512
+msgid "<b><big>New Release Available!</big></b>"
+msgstr "<b><big>現在可以取得 Deluge 的新版本了！</big></b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2564
+msgid "<i>Available Version:</i>"
+msgstr "<i>新版本：</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2587
+msgid "<i>Current Version:</i>"
+msgstr "<i>目前的版本：</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2607
+msgid "Do not show this dialog in the future"
+msgstr "以後不要顯示這個對話視窗"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2646
+msgid "_Goto Website"
+msgstr "前往網站(_G)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2674
+msgid "_Add Peer"
+msgstr "加入用戶(_A)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2676
+msgid "Add a peer by its IP"
+msgstr "以 IP 加入一個用戶"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr "<big><b>刪除選取的種子？</b></big>"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr "若刪除本資料，它將永久消失。"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr "與資料一起刪除(_D)"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr "刪除種子(_T)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "顯示 Deluge 視窗(_S)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "全部續傳(_R)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:124
+msgid "Quit & Shutdown Daemon"
+msgstr "離開並關閉常駐"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:77
+msgid "<b><i><big>Downloads</big></i></b>"
+msgstr "<b><i><big>下載</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:187
+msgid "Auto add .torrents from:"
+msgstr "自動從這裡新增種子："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:203
+#: deluge/plugins/label/label/data/label_options.glade:453
+msgid "Move completed to:"
+msgstr "將完成的下載移至："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:252
+msgid "Download to:"
+msgstr "下載到："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:260
+msgid "Copy of .torrent files to:"
+msgstr "複製種子檔案到："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:315
+msgid "Delete copy of torrent file on remove"
+msgstr "移除時刪除種子檔副本"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:319
+msgid ""
+"Delete the copy of the torrent file created when the torrent is removed"
+msgstr "當種子被移除時也刪除建立的種子檔案副本"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:336
+msgid "<b>Folders</b>"
+msgstr "<b>資料夾</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:369
+msgid "Use Full Allocation"
+msgstr "使用完整檔案分配"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:374
+msgid ""
+"Full allocation preallocates all of the space that is needed for the torrent "
+"and prevents disk fragmentation"
+msgstr "預先分配完整的檔案空間，避免產生不連續片段"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:386
+msgid "Use Compact Allocation"
+msgstr "使用緊密檔案分配"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:391
+msgid "Compact allocation only allocates space as needed"
+msgstr "依下載大小分配檔案空間"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:408
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+msgid "<b>Allocation</b>"
+msgstr "<b>檔案分配</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:439
+msgid "Prioritize first and last pieces of torrent"
+msgstr "優先下載種子的開頭和最後的部份"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:444
+msgid "Prioritize first and last pieces of files in torrent"
+msgstr "先下載種子的頭尾部份"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:454
+msgid "Add torrents in Paused state"
+msgstr "以暫停狀態加入種子"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:471
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
+msgid "<b>Options</b>"
+msgstr "<b>選項</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:496
+msgid "page 6"
+msgstr "第6頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:528
+msgid "<b><i><big>Network</big></i></b>"
+msgstr "<b><i><big>網路</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:568
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:762
+msgid "Use Random Ports"
+msgstr "使用隨機連接埠"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:573
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "Deluge 每次啟動時隨機選擇一個通訊埠。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:591
+msgid "Active Port:"
+msgstr "啟用的通訊埠："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
+msgid "0000"
+msgstr "0000"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:632
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:782
+#: deluge/plugins/notifications/notifications/data/config.glade:397
+msgid "From:"
+msgstr "從："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:661
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:811
+msgid "To:"
+msgstr "至："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:689
+msgid "Test Active Port"
+msgstr "測試可用通訊埠"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:731
+msgid "<b>Incoming Ports</b>"
+msgstr "<b>連入通訊埠</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:849
+msgid "<b>Outgoing Ports</b>"
+msgstr "<b>連出通訊埠</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:881
+msgid ""
+"Enter the IP address of the interface to listen for incoming bittorrent "
+"connections on.  Leave this empty if you want to use the default."
+msgstr "輸入介面的 IP 位址以監聽傳入的 BT 連接。若您要使用預設值則留空。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:902
+msgid "<b>Interface</b>"
+msgstr "<b>介面</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:938
+msgid ""
+"The TOS byte set in the IP header of every packet sent to peers (including "
+"web seeds).  Expects a Hex value."
+msgstr "服務類型（TOS）位元組設定於每個送至用戶（包括網路種子）的封包 IP 標頭。應為一個十六進制（Hex）值。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
+msgid "Peer TOS Byte:"
+msgstr "用戶服務類型位元組："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:952
+msgid "0x00"
+msgstr "0x00"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:972
+msgid "<b>TOS</b>"
+msgstr "<b>服務類型</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1005
+msgid "UPnP"
+msgstr "UPnP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1009
+msgid "Universal Plug and Play"
+msgstr "通用隨插即用"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1020
+msgid "NAT-PMP"
+msgstr "NAT-PMP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
+msgid "NAT Port Mapping Protocol"
+msgstr "NAT 通訊埠對映協定"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1037
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1041
+msgid "Peer Exchange"
+msgstr "用戶交換"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1054
+msgid "LSD"
+msgstr "LSD"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1059
+msgid "Local Service Discovery finds local peers on your network."
+msgstr "本地服務探索可在您的網路上尋找本地用戶。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1070
+msgid "DHT"
+msgstr "DHT"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1074
+msgid "Distributed hash table may improve the amount of active connections."
+msgstr "分散式雜湊表 (DHT) 可以增加有效的連線數。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1096
+msgid "<b>Network Extras</b>"
+msgstr "<b>網路附加功能</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1135
+msgid "Inbound:"
+msgstr "向內連線："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1145
+msgid "Level:"
+msgstr "層級："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1166
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1216
+msgid ""
+"Forced\n"
+"Enabled\n"
+"Disabled"
+msgstr ""
+"強制\n"
+"啟用\n"
+"停用"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1177
+msgid ""
+"Handshake\n"
+"Full Stream\n"
+"Either"
+msgstr ""
+"交握階段\n"
+"整個串流\n"
+"兩者皆可"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1205
+msgid "Outbound:"
+msgstr "向外連線："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1232
+msgid "Encrypt entire stream"
+msgstr "加密整個串流"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1257
+msgid "<b>Encryption</b>"
+msgstr "<b>加密</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1285
+msgid "page 7"
+msgstr "第7頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1318
+msgid "<b><i><big>Bandwidth</big></i></b>"
+msgstr "<b><i><big>流量</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1395
+msgid "Maximum Connection Attempts per Second:"
+msgstr "每秒嘗試的最大連線數："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1407
+msgid "Maximum Half-Open Connections:"
+msgstr "最大半開連線數："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1418
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1508
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr "最大總上傳速度。若不限制，請設為 -1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1420
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1705
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "最大總上傳速度 (KiB/秒)："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1431
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1456
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "允許的最大連線數。若不限制請設為-1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1433
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1668
+msgid "Maximum Connections:"
+msgstr "最大連線數："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1527
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr "最大總上傳區段。若不限制，請設為 -1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1444
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1679
+msgid "Maximum Upload Slots:"
+msgstr "最大上傳區段："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1474
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1489
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr "最大總下載速度。若不限制，請設為 -1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1476
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1692
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "最大總下載速度 (KiB/秒)："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1553
+msgid "Ignore limits on local network"
+msgstr "本地網路忽略限制"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1572
+msgid "Rate limit IP overhead"
+msgstr "流量管制 IP 資訊量"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
+msgid ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
+msgstr "一旦勾選，估計的 TCP/IP 資料量將由流量管制器控制，以避免整體流量超出這些限制"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1593
+msgid "<b>Global Bandwidth Usage</b>"
+msgstr "<b>全域頻寬設定</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1632
+msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
+msgstr "各種子最大上傳區段。若不限制，請設為 -1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1651
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1717
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1735
+msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
+msgstr "各種子最大連線數。若不限制，請設為 -1。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1757
+msgid "<b>Per Torrent Bandwidth Usage</b>"
+msgstr "<b>各種子頻寬設定</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1784
+msgid "page 8"
+msgstr "第8頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1817
+msgid "<i><b><big>Interface</big></b></i>"
+msgstr "<i><b><big>介面</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1850
+msgid "Enable"
+msgstr "啟用"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1855
+msgid ""
+"Classic Mode will hide most of the daemon functionality and will make Deluge "
+"appear to be a single application.  Use this if you do not want to take "
+"advantage of running Deluge as a daemon. You need to restart Deluge for this "
+"setting to take effect."
+msgstr ""
+"傳統模式會隱藏常駐程式的大部分功能，並使 Deluge 成為一個單獨的應用程式。若不想讓 Deluge 以常駐執行則選擇此項。您必須重新啟動 "
+"Deluge 使設定生效。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1865
+msgid "<b>Classic Mode</b>"
+msgstr "<b>傳統模式</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1898
+msgid "Show session speed in titlebar"
+msgstr "在標題列顯示速度"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1916
+msgid "<b>Main Window</b>"
+msgstr "<b>主視窗</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1949
+msgid "Always show"
+msgstr "永遠顯示"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1967
+msgid "Bring the dialog to focus"
+msgstr "取得對話框焦點"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1987
+msgid "<b>Add Torrents Dialog</b>"
+msgstr "<b>新增種子對話視窗</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2019
+msgid "Enable system tray icon"
+msgstr "啟用系統列圖示"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2037
+msgid "Minimize to tray on close"
+msgstr "關閉時最小化到系統列"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2057
+msgid "Start in tray"
+msgstr "啟動於系統列"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+msgid "Password protect system tray"
+msgstr "縮小到系統列的密碼保護"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2108
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3285
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3653
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3837
+#: deluge/ui/gtkui/glade/connection_manager.glade:132
+#: deluge/plugins/notifications/notifications/data/config.glade:255
+msgid "Password:"
+msgstr "密碼："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2144
+msgid "<b>System Tray</b>"
+msgstr "<b>系統列</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
+msgid "page 10"
+msgstr "第10頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2203
+msgid "<i><b><big>Other</big></b></i>"
+msgstr "<i><b><big>其他</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2244
+msgid "Be alerted about new releases"
+msgstr "有新版本發佈時通知我"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2249
+msgid ""
+"Deluge will check our servers and will tell you if a newer version has been "
+"released"
+msgstr "Deluge 會定時檢查伺服器並通知您有無新版本發佈"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2268
+msgid "<b>Updates</b>"
+msgstr "<b>更新</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2305
+msgid ""
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
+"and processor types.  Absolutely no other information is sent."
+msgstr ""
+"傳送您使用的 Python 版本、PyGTK 版本、作業系統與處理器(CPU)種類來幫助我們改善 Deluge。絕對不會有額外的資訊被傳送出去。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2322
+msgid "Yes, please send anonymous statistics"
+msgstr "是的，請傳送匿名統計"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2344
+msgid "<b>System Information</b>"
+msgstr "<b>系統資訊</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
+msgid "Location:"
+msgstr "位置："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2399
+msgid ""
+"If Deluge cannot find the database file at this location it will fallback to "
+"using DNS to resolve the peer's country."
+msgstr "若 Deluge 無法在該位置找到資料庫檔案，將會回退至使用 DNS 來解析用戶所在國家。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2423
+msgid "<b>GeoIP Database</b>"
+msgstr "<b>GeoIP 資料庫</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2468
+msgid "Associate Magnet links with Deluge"
+msgstr "讓 Magnet 連結和 Deluge 產生關聯"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2504
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2731
+msgid "page 11"
+msgstr "第11頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2537
+msgid "<i><b><big>Daemon</big></b></i>"
+msgstr "<i><b><big>常駐程式</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2581
+msgid "Daemon port:"
+msgstr "常駐程式連接埠："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2618
+msgid "<b>Port</b>"
+msgstr "<b>連接埠</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2647
+msgid "Allow Remote Connections"
+msgstr "允許遠端連結"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2661
+msgid "<b>Connections</b>"
+msgstr "<b>連接數量</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2690
+msgid "Periodically check the website for new releases"
+msgstr "定期檢查此版本的更新"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2704
+msgid "<b>Other</b>"
+msgstr "<b>其它</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2764
+msgid "<i><b><big>Queue</big></b></i>"
+msgstr "<i><b><big>佇列</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2807
+msgid "Queue new torrents to top"
+msgstr "增加新的種子到佇列的首位"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2902
+msgid "Total active seeding:"
+msgstr "活躍的做種數量："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2915
+msgid "Total active:"
+msgstr "活躍的："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2944
+msgid "Total active downloading:"
+msgstr "活躍的下載數量："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2959
+msgid "Do not count slow torrents"
+msgstr "不計入過慢的種子"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2977
+msgid "<b>Active Torrents</b>"
+msgstr "<b>活躍的種子</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3019
+msgid "Share Ratio Limit:"
+msgstr "分享率限制："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3029
+msgid "Seed Time Ratio:"
+msgstr "做種時間率："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3041
+msgid "Seed Time (m):"
+msgstr "做種時間 (分鐘)："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3109
+msgid "Stop seeding when share ratio reaches:"
+msgstr "達到分享率時停止做種："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3154
+msgid "Remove torrent when share ratio reached"
+msgstr "刪除已達到分享率的種子"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3176
+msgid "<b>Seeding</b>"
+msgstr "<b>作種中</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3208
+msgid "page 12"
+msgstr "第12頁"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3241
+msgid "<i><b><big>Proxy</big></b></i>"
+msgstr "<i><b><big>代理伺服器</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3312
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3496
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3680
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3865
+msgid "Host:"
+msgstr "主機："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3337
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3521
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3705
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3891
+#: deluge/ui/gtkui/glade/connection_manager.glade:56
+#: deluge/plugins/notifications/notifications/data/config.glade:199
+msgid "Port:"
+msgstr "連接埠："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3386
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3754
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
+msgid ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+msgstr ""
+"無\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 需要認證\n"
+"HTTP\n"
+"HTTP 需要認證"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3406
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3590
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3774
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3961
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
+msgid "Type:"
+msgstr "類型："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3418
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3602
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3786
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3973
+#: deluge/ui/gtkui/glade/connection_manager.glade:143
+#: deluge/plugins/notifications/notifications/data/config.glade:231
+msgid "Username:"
+msgstr "帳號："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3433
+msgid "<b>Peer</b>"
+msgstr "<b>用戶</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3617
+msgid "<b>Web Seed</b>"
+msgstr "<b>網路種子</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3801
+msgid "<b>Tracker</b>"
+msgstr "<b>追蹤伺服器</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3989
+msgid "<b>DHT</b>"
+msgstr "<b>DHT</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4046
+msgid "<b><i><big>Cache</big></i></b>"
+msgstr "<b><i><big>快取</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4091
+msgid "Cache Size (16 KiB blocks):"
+msgstr "快取大小 (16 KiB 區塊)："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4101
+msgid ""
+"The number of seconds from the last cached write to a piece in the write "
+"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+msgstr "從最後一次寫入快取的時間到它強制寫入硬碟所經過的秒數。預設為 60 秒。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4103
+msgid "Cache Expiry (seconds):"
+msgstr "快取失效 (秒)："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4152
 #: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:150
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4435
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
 msgid "<b>Settings</b>"
 msgstr "<b>設定</b>"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:234
-msgid "Download Limit:"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4199
+msgid ""
+"The total number of 16 KiB blocks written to disk since this session was "
+"started."
+msgstr "自此工作階段開始以來，寫入硬碟的 16 KiB 區塊總數。"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:243
-msgid "Upload Limit:"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4201
+msgid "Blocks Written:"
+msgstr "已寫入區塊："
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:252
-msgid "Active Torrents:"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4210
+msgid ""
+"The total number of write operations performed since this session was "
+"started."
+msgstr "自此工作階段開始以來，寫入動作的總次數。"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:266
-msgid "<b>Slow Settings</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4212
+msgid "Writes:"
+msgstr "寫入："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4223
+msgid ""
+"The ratio (blocks_written - writes) / blocks_written represents the number "
+"of saved write operations per total write operations, i.e. a kind of cache "
+"hit ratio for the write cache."
+msgstr "比率「(已寫入區塊 - 寫入)/已寫入區塊」代表每一個寫入操作內有被儲存的個數，即寫入用快取的快取命中率。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4225
+msgid "Write Cache Hit Ratio:"
+msgstr "寫入快取命中率："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4277
+msgid "<b>Write</b>"
+msgstr "<b>寫入</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4307
+msgid ""
+"The number of blocks that were requested from the bittorrent engine (from "
+"peers), that were served from disk or cache."
+msgstr "BT 引擎 (用戶) 所要求的區塊數量，這些區塊由磁碟或快取所提供。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4309
+msgid "Blocks Read:"
+msgstr "已讀取區塊："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4318
+msgid "The number of blocks that were served from cache."
+msgstr "由快取提供的區塊個數。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4320
+msgid "Blocks Read Hit:"
+msgstr "讀取快取命中："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4331
+msgid "The cache hit ratio for the read cache."
+msgstr "讀取用快取的快取命中率。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4333
+msgid "Read Cache Hit Ratio:"
+msgstr "讀取快取命中率："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4382
+msgid ""
+"The total number of read operations performed since this session was started."
+msgstr "自此工作階段開始以來，讀取動作的總次數。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4384
+msgid "Reads:"
+msgstr "讀取："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4411
+msgid "<b>Read</b>"
+msgstr "<b>讀取</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4441
+msgid ""
+"The number of 16 KiB blocks currently in the disk cache. This includes both "
+"read and write cache."
+msgstr "目前於磁碟快取內的 16 KiB 區塊個數。包括讀取與寫入快取。"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4443
+msgid "Cache Size:"
+msgstr "快取大小："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4453
+msgid "Read Cache Size:"
+msgstr "讀取快取大小："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4492
+msgid "<b>Size</b>"
+msgstr "<b>大小</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4535
+msgid "<b>Status</b>"
+msgstr "<b>狀態</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4597
+msgid "<i><b><big>Plugins</big></b></i>"
+msgstr "<i><b><big>外掛模組</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4722
+msgid "Version:"
+msgstr "版本："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4746
+msgid "Homepage:"
+msgstr "首頁："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4759
+msgid "Author Email:"
+msgstr "作者電子郵件地址："
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4801
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
+msgid "<b>Info</b>"
+msgstr "<b>資訊</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4851
+msgid "_Install Plugin"
+msgstr "安裝外掛(_I)"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4894
+msgid "_Rescan Plugins"
+msgstr "重新掃描外掛(_R)"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4947
+msgid "_Find More Plugins"
+msgstr "尋找更多外掛(_F)"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+msgid "Edit Trackers"
+msgstr "編輯追蹤伺服器"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
+msgid "<big><b>Edit Trackers</b></big>"
+msgstr "<big><b>編輯追蹤伺服器</b></big>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:122
+#: deluge/plugins/autoadd/autoadd/data/config.glade:87
+msgid "gtk-edit"
+msgstr "gtk-edit"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+msgid "Add Tracker"
+msgstr "增加追蹤伺服器"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
+msgstr "<b>增加追蹤伺服器</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+msgid "Trackers:"
+msgstr "追蹤伺服器："
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+msgid "Edit Tracker"
+msgstr "編輯追蹤伺服器"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>編輯追蹤伺服器</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
+msgstr "追蹤伺服器："
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+msgid "Move Storage"
+msgstr "變更儲存位置"
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+msgid "<b>Move Storage</b>"
+msgstr "<b>變更儲存位置</b>"
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+msgid "Destination:"
+msgstr "目的地："
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:8
+msgid "Add Host"
+msgstr "新增主機"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:28
+#: deluge/plugins/notifications/notifications/data/config.glade:175
+msgid "Hostname:"
+msgstr "主機名稱："
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:237
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>連結管理</b></big>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:363
+msgid "_Start local daemon"
+msgstr "啟動本地常駐(_S)"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:415
+msgid "Automatically connect to selected host on start-up"
+msgstr "啟動時自動連線到選定的主機"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:426
+msgid "Automatically start localhost if needed"
+msgstr "需要時自動啟動 localhost"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:440
+msgid "Do not show this dialog on start-up"
+msgstr "啟動時不要顯示這個對話視窗"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:494
+msgid "gtk-connect"
+msgstr "gtk-連接"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+msgid "Add Torrents"
+msgstr "增加種子"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
+msgid "_URL"
+msgstr "網址(_U)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
+msgid "Info_hash"
+msgstr "資訊驗證碼(_H)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+msgid "_Remove"
+msgstr "移除(_R)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+msgid "<b>Torrents</b>"
+msgstr "<b>種子</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
+msgid "Fi_les"
+msgstr "檔案(_L)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
+msgid "<b>Download Location</b>"
+msgstr "<b>下載位置</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "Full"
+msgstr "完整"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
+msgid "Compact"
+msgstr "簡潔"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+msgid "Max Down Speed:"
+msgstr "最高下載速度："
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+msgid "Max Up Speed:"
+msgstr "最高上傳速度："
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+msgid "Add In _Paused State"
+msgstr "以暫停狀態新增(_P)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+msgid "Prioritize First/Last Pieces"
+msgstr "開頭與結尾區塊優先"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+msgid "Revert To Defaults"
+msgstr "回復預設值"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+msgid "Apply To All"
+msgstr "全部套用"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+msgid "Add URL"
+msgstr "新增 URL"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+msgid "<b>From URL</b>"
+msgstr "<b>從 URL 新增</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
+msgid "URL:"
+msgstr "URL："
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+msgid "Add Infohash"
+msgstr "新增資訊雜湊"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+msgid "<b>From Infohash</b>"
+msgstr "<b>來自資訊雜湊</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
+msgid "Infohash:"
+msgstr "資訊雜湊："
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+msgid "Queued Torrents"
+msgstr "已佇列的種子"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>新增佇列的種子</b></big>"
+
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+msgid "Automatically add torrents on connect"
+msgstr "連線時自動加入種子"
+
+#: deluge/ui/web/server.py:656
+msgid "Starting server in PID"
+msgstr "啟動伺服器於 PID"
+
+#: deluge/ui/web/json_api.py:779
+msgid "Daemon doesn't exist"
+msgstr "常駐程式並不存在"
+
+#: deluge/ui/web/json_api.py:785
+msgid "Daemon not running"
+msgstr "常駐程式並未執行"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:178
+msgid "Notification Blink shown"
+msgstr "顯示閃爍通知"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:183
+msgid "Popup notification is not enabled."
+msgstr "彈出通知未被啟用。"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:185
+msgid "pynotify is not installed"
+msgstr "pynotify 未被安裝"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:193
+msgid "pynotify failed to show notification"
+msgstr "pynotify 顯示通知失敗"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:196
+msgid "Notification popup shown"
+msgstr "顯示通知彈出視窗"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:200
+msgid "Sound notification not enabled"
+msgstr "音效通知未被啟用"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:202
+msgid "pygame is not installed"
+msgstr "pygame 未被安裝"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:214
+#, python-format
+msgid "Sound notification failed %s"
+msgstr "音效通知失敗 %s"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:218
+msgid "Sound notification Success"
+msgstr "音效通知成功"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:241
+msgid "Finished Torrent"
+msgstr "種子已完成"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:242
+#, python-format
+msgid ""
+"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgstr "種子「%(name)s」(內含 %(num_files)i 項檔案) 已經完成下載。"
+
+#: deluge/plugins/notifications/notifications/gtkui.py:644
+msgid "Choose Sound File"
+msgstr "選擇聲音檔案"
+
+#: deluge/plugins/notifications/notifications/core.py:138
+#: deluge/plugins/notifications/notifications/core.py:171
+#, python-format
+msgid "There was an error sending the notification email: %s"
+msgstr "在發送通知郵件時發生錯誤：%s"
+
+#: deluge/plugins/notifications/notifications/core.py:157
+#, python-format
+msgid "The server didn't reply properly to the helo greeting: %s"
+msgstr "伺服器對問候沒有正常回應：%s"
+
+#: deluge/plugins/notifications/notifications/core.py:162
+#, python-format
+msgid "The server didn't accept the username/password combination: %s"
+msgstr "伺服器不接受該帳號/密碼組合：%s"
+
+#: deluge/plugins/notifications/notifications/core.py:186
+msgid "Notification email sent."
+msgstr "通知郵件已送出。"
+
+#: deluge/plugins/notifications/notifications/core.py:194
+#, python-format
+msgid "Finished Torrent \"%(name)s\""
+msgstr "完成種子「%(name)s」"
+
+#: deluge/plugins/notifications/notifications/core.py:196
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading "
+"\"%(name)s\", which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge."
 msgstr ""
+"這封電子郵件是來提醒您，Deluge 已經完成下載「%(name)s」，其中包含了 %(num_files)i 項檔案。\n"
+"若要停止接收這類提醒，請在 Deluge 的偏好設定內關閉電郵通知。\n"
+"\n"
+"謝謝您，\n"
+"Deluge"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:29
+msgid "<b><i><big>Notifications</big></i></b>"
+msgstr "<b><i><big>通知</big></i></b>"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:81
+msgid "Tray icon blinks enabled"
+msgstr "啟用系統列圖示閃爍"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:93
+msgid "Popups enabled"
+msgstr "啟用彈出視窗"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:108
+msgid "Sound enabled"
+msgstr "啟用音效"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:144
+msgid "<b>UI Notifications</b>"
+msgstr "<b>使用者介面通知</b>"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:359
+msgid "<b>Recipients</b>"
+msgstr "<b>收件人</b>"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:382
+msgid "Server requires TLS/SSL"
+msgstr "伺服器需要 TLS/SSL"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:442
+msgid "<b>Email Notifications</b>"
+msgstr "<b>電郵通知</b>"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:459
+msgid "Settings"
+msgstr "設定"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:494
+msgid ""
+"This configuration does not mean that you'll actually receive notifications "
+"for all these events."
+msgstr "這個設定不代表您實際上可接受到所有這些事件的通知。"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:512
+msgid "Subscriptions"
+msgstr "訂閱"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:593
+msgid "Sound Customization"
+msgstr "音效自訂"
+
+#: deluge/plugins/freespace/build/lib/freespace/gtkui.py:138
+msgid "Low Free Space"
+msgstr "不足的可用空間"
+
+#: deluge/plugins/freespace/build/lib/freespace/core.py:179
+msgid "Low Disk Space Warning"
+msgstr "磁碟空間不足警告"
+
+#: deluge/plugins/freespace/build/lib/freespace/core.py:180
+msgid "You're running low on disk space:\n"
+msgstr "您的磁碟空間即將用罄：\n"
+
+#: deluge/plugins/freespace/build/lib/freespace/core.py:183
+#, python-format
+msgid "  %s%% ocupation in %s\n"
+msgstr "  %s%% 的佔用空間於 %s\n"
+
+#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:27
+msgid "Consider low when"
+msgstr "評定空間不足，當有"
+
+#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:65
+msgid "of the disk is occupied."
+msgstr "的磁碟大小被佔用。"
+
+#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:85
+msgid "<b>Free Space Checking</b>"
+msgstr "<b>檢查可用空間中</b>"
+
+#: deluge/plugins/webui/webui/gtkui.py:97
+msgid ""
+"The Deluge web interface is not installed, please install the\n"
+"interface and try again"
+msgstr ""
+"Deluge 網頁介面尚未被安裝，請先安裝好\n"
+"介面再重試一次"
+
+#: deluge/plugins/webui/webui/data/config.glade:27
+msgid "Enable web interface"
+msgstr "啟動網頁管理介面"
+
+#: deluge/plugins/webui/webui/data/config.glade:41
+msgid "Enable SSL"
+msgstr "啟動 SSL"
+
+#: deluge/plugins/webui/webui/data/config.glade:60
+msgid "Listening port:"
+msgstr "監聽連接埠："
+
+#: deluge/plugins/autoadd/autoadd/core.py:136
+msgid "Watch folder does not exist."
+msgstr "監控資料夾不存在。"
+
+#: deluge/plugins/autoadd/autoadd/core.py:139
+#: deluge/plugins/autoadd/autoadd/core.py:308
+msgid "Path does not exist."
+msgstr "路徑不存在。"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+msgid "AutoAdd Error"
+msgstr "AutoAdd 錯誤"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+msgid "Watch Folder Properties"
+msgstr "監控資料夾屬性"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+msgid "Enable this watch folder"
+msgstr "啟用此監控資料夾"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+msgid "<b>Watch Folder</b>"
+msgstr "<b>監控資料夾</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+msgid "Delete .torrent after adding"
+msgstr "加入後刪除種子檔"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+msgid "Append extension after adding:"
+msgstr "加入後附上副檔名："
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+msgid ".added"
+msgstr ".added"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+msgid "<b>Torrent File Action</b>"
+msgstr "<b>種子檔案動作</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+msgid "Set download location"
+msgstr "設定下載位置"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+msgid "Set move completed location"
+msgstr "設定檔案下載完後的移動位置"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+msgid "<b>Move Completed</b>"
+msgstr "<b>移動完整檔</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+msgid "Label: "
+msgstr "標籤： "
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+msgid "<b>Label</b>"
+msgstr "<b>標籤</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+msgid "Main"
+msgstr "主要"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+msgid "Auto Managed:"
+msgstr "自動管理："
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:836
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:904
+msgid "Yes"
+msgstr "確定"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:849
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:917
+msgid "No"
+msgstr "取消"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+msgid "Add Paused:"
+msgstr "加入暫停："
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+msgid "Queue to:"
+msgstr "佇列於："
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+msgid "Top"
+msgstr "最上方"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+msgid "Bottom"
+msgstr "最下方"
+
+#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+msgid "<b>Watch Folders:</b>"
+msgstr "<b>監控資料夾：</b>"
 
 #: deluge/plugins/label/label/core.py:186
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -114,23 +3557,35 @@ msgstr "空白的標籤"
 msgid "Label already exists"
 msgstr "標籤已存在"
 
-#: deluge/plugins/label/label/core.py:195
-#: deluge/plugins/label/label/core.py:252
-#: deluge/plugins/label/label/core.py:287
+#: deluge/plugins/label/label/core.py:196
+#: deluge/plugins/label/label/core.py:276
+#: deluge/plugins/label/label/core.py:311
 msgid "Unknown Label"
 msgstr "不明的標籤"
 
-#: deluge/plugins/label/label/core.py:288
+#: deluge/plugins/label/label/core.py:312
 msgid "Unknown Torrent"
-msgstr "不明的Torrent"
+msgstr "不明的種子"
 
-#: deluge/plugins/label/label/data/label_pref.glade:22
-msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr "<i>使用側邊欄來新增、修改與刪除標籤。</i>\n"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+msgid "Label _Options"
+msgstr "標籤選項(_O)"
 
-#: deluge/plugins/label/label/data/label_pref.glade:32
-msgid "<b>Labels</b>"
-msgstr "<b>標籤</b>"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+msgid "_Remove Label"
+msgstr "刪除標籤(_R)"
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+msgid "_Add Label"
+msgstr "新增標籤(_A)"
+
+#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:111
+#: deluge/plugins/label/label/gtkui/label_config.py:59
+#: deluge/plugins/label/label/gtkui/label_config.py:66
+msgid "Label"
+msgstr "標籤"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -139,20 +3594,6 @@ msgstr "標籤選項"
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
 msgstr "<b>標籤選項</b>"
-
-#: deluge/plugins/label/label/data/label_options.glade:132
-#: deluge/plugins/label/label/data/label_options.glade:195
-#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/systemtray.py:206
-#: deluge/ui/gtkui/systemtray.py:210 deluge/ui/gtkui/systemtray.py:226
-#: deluge/ui/gtkui/systemtray.py:232 deluge/ui/gtkui/systemtray.py:349
-#: deluge/ui/gtkui/systemtray.py:354 deluge/ui/gtkui/statusbar.py:349
-#: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:364
-#: deluge/ui/gtkui/statusbar.py:376 deluge/ui/gtkui/statusbar.py:387
-#: deluge/ui/gtkui/statusbar.py:404 deluge/ui/gtkui/statusbar.py:415
-#: deluge/ui/gtkui/glade/main_window.glade:1787
-#: deluge/ui/gtkui/glade/main_window.glade:1799
-msgid "KiB/s"
-msgstr "KiB/秒"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -178,34 +3619,9 @@ msgstr "每個種子套用最大值："
 msgid "Maximum"
 msgstr "最大值"
 
-#: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1877
-msgid "Auto Managed"
-msgstr "自動管理"
-
-#: deluge/plugins/label/label/data/label_options.glade:349
-#: deluge/ui/gtkui/glade/main_window.glade:1897
-msgid "Stop seed at ratio:"
-msgstr "達到指定的分享率時停止種子："
-
-#: deluge/plugins/label/label/data/label_options.glade:364
-#: deluge/ui/gtkui/glade/main_window.glade:1936
-msgid "Remove at ratio"
-msgstr "達到分享率時刪除"
-
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
 msgstr "套用佇列設定："
-
-#: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:72
-msgid "Queue"
-msgstr "佇列"
-
-#: deluge/plugins/label/label/data/label_options.glade:453
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:255
-msgid "Move completed to:"
-msgstr "將完成的下載移至:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -223,7 +3639,7 @@ msgid ""
 msgstr ""
 "tracker1.org\n"
 "tracker2.com\n"
-"這是無效的。\n"
+"這是無效的..\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:563
 msgid "<i>(1 line per tracker)</i>"
@@ -232,11 +3648,6 @@ msgstr "<i>(每個追蹤伺服器一行)</i>"
 #: deluge/plugins/label/label/data/label_options.glade:579
 msgid "Automatically apply label:"
 msgstr "自動套用標籤："
-
-#: deluge/plugins/label/label/data/label_options.glade:596
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
-msgid "Trackers"
-msgstr "追蹤伺服器"
 
 #: deluge/plugins/label/label/data/label_options.glade:649
 msgid "Add Label"
@@ -248,48 +3659,31 @@ msgstr "<b>加入標籤</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:714
 msgid "Name:"
-msgstr "名稱:"
+msgstr "名稱："
 
-#: deluge/plugins/label/label/gtkui/submenu.py:50
-#: deluge/plugins/label/label/gtkui/__init__.py:80
-#: deluge/plugins/label/label/gtkui/__init__.py:114
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
-msgid "Label"
-msgstr "標籤"
+#: deluge/plugins/label/label/data/label_pref.glade:22
+msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
+msgstr "<i>使用側邊欄來新增、修改與刪除標籤。</i>\n"
 
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
-msgid "Label _Options"
-msgstr "標籤選項(_O)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
-msgid "_Remove Label"
-msgstr "刪除標籤(_R)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
-msgid "_Add Label"
-msgstr "新增標籤(_A)"
+#: deluge/plugins/label/label/data/label_pref.glade:32
+msgid "<b>Labels</b>"
+msgstr "<b>標籤</b>"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
-msgstr "Leader 無效"
+msgstr "無效的 Leader"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:35
 msgid "Invalid magic code"
-msgstr "Magic Code 無效"
+msgstr "無效的 Magic Code"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
-msgstr "版本無效"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:66
-#: deluge/plugins/blocklist/blocklist/gtkui.py:185
-msgid "Blocklist"
-msgstr "阻擋清單"
+msgstr "無效的版本"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
-msgstr "Emule IP list (GZip)"
+msgstr "Emule IP 列表 (GZip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "SafePeer Text (Zipped)"
@@ -303,3046 +3697,827 @@ msgstr "PeerGuardian 文字檔 (未壓縮)"
 msgid "PeerGuardian P2B (GZip)"
 msgstr "PeerGuardian P2B (GZip)"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:26
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:378
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1007
-msgid "URL:"
-msgstr "網址:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:88
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
 msgid "Days"
 msgstr "日"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:114
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
 msgid "Check for new list every:"
-msgstr ""
+msgstr "確認新清單 每"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:130
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "啟動時匯入阻擋清單"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:185
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "下載阻擋清單(如果需要)並匯入檔案。"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:205
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
 msgid "Check Download and Import"
-msgstr ""
+msgstr "確認下載並匯入"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:227
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "下載新的阻擋清單並匯入檔案。"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:247
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
 msgid "Force Download and Import"
-msgstr ""
+msgstr "強制下載並匯入"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:271
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "阻擋清單已更新"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:288
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:452
-msgid "<b>Options</b>"
-msgstr "<b>選項</b>"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:390
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3307
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3491
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3675
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3862
-msgid "Type:"
-msgstr "類型："
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:402
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
 msgid "Date:"
-msgstr ""
+msgstr "日期："
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:414
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
 msgid "File Size:"
-msgstr ""
+msgstr "檔案大小："
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:434
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5081
-msgid "<b>Info</b>"
-msgstr "<b>資訊</b>"
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+msgid "Extract to:"
+msgstr "解壓縮到："
 
-#: deluge/ui/countries.py:9
-msgid "Afghanistan"
-msgstr ""
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+msgid "Create torrent name sub-folder"
+msgstr "以種子名稱建立子資料夾"
 
-#: deluge/ui/countries.py:10
-msgid "Aland Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:11
-msgid "Albania"
-msgstr ""
-
-#: deluge/ui/countries.py:12
-msgid "Algeria"
-msgstr ""
-
-#: deluge/ui/countries.py:13
-msgid "American Samoa"
-msgstr ""
-
-#: deluge/ui/countries.py:14
-msgid "Andorra"
-msgstr ""
-
-#: deluge/ui/countries.py:15
-msgid "Angola"
-msgstr ""
-
-#: deluge/ui/countries.py:16
-msgid "Anguilla"
-msgstr ""
-
-#: deluge/ui/countries.py:17
-msgid "Antarctica"
-msgstr ""
-
-#: deluge/ui/countries.py:18
-msgid "Antigua and Barbuda"
-msgstr ""
-
-#: deluge/ui/countries.py:19
-msgid "Argentina"
-msgstr ""
-
-#: deluge/ui/countries.py:20
-msgid "Armenia"
-msgstr ""
-
-#: deluge/ui/countries.py:21
-msgid "Aruba"
-msgstr ""
-
-#: deluge/ui/countries.py:22
-msgid "Australia"
-msgstr ""
-
-#: deluge/ui/countries.py:23
-msgid "Austria"
-msgstr ""
-
-#: deluge/ui/countries.py:24
-msgid "Azerbaijan"
-msgstr ""
-
-#: deluge/ui/countries.py:25
-msgid "Bahamas"
-msgstr ""
-
-#: deluge/ui/countries.py:26
-msgid "Bahrain"
-msgstr ""
-
-#: deluge/ui/countries.py:27
-msgid "Bangladesh"
-msgstr ""
-
-#: deluge/ui/countries.py:28
-msgid "Barbados"
-msgstr ""
-
-#: deluge/ui/countries.py:29
-msgid "Belarus"
-msgstr ""
-
-#: deluge/ui/countries.py:30
-msgid "Belgium"
-msgstr ""
-
-#: deluge/ui/countries.py:31
-msgid "Belize"
-msgstr ""
-
-#: deluge/ui/countries.py:32
-msgid "Benin"
-msgstr ""
-
-#: deluge/ui/countries.py:33
-msgid "Bermuda"
-msgstr ""
-
-#: deluge/ui/countries.py:34
-msgid "Bhutan"
-msgstr ""
-
-#: deluge/ui/countries.py:35
-msgid "Bolivia"
-msgstr ""
-
-#: deluge/ui/countries.py:36
-msgid "Bosnia and Herzegovina"
-msgstr ""
-
-#: deluge/ui/countries.py:37
-msgid "Botswana"
-msgstr ""
-
-#: deluge/ui/countries.py:38
-msgid "Bouvet Island"
-msgstr ""
-
-#: deluge/ui/countries.py:39
-msgid "Brazil"
-msgstr ""
-
-#: deluge/ui/countries.py:40
-msgid "British Indian Ocean Territory"
-msgstr ""
-
-#: deluge/ui/countries.py:41
-msgid "Brunei Darussalam"
-msgstr ""
-
-#: deluge/ui/countries.py:42
-msgid "Bulgaria"
-msgstr ""
-
-#: deluge/ui/countries.py:43
-msgid "Burkina Faso"
-msgstr ""
-
-#: deluge/ui/countries.py:44
-msgid "Burundi"
-msgstr ""
-
-#: deluge/ui/countries.py:45
-msgid "Cambodia"
-msgstr ""
-
-#: deluge/ui/countries.py:46
-msgid "Cameroon"
-msgstr ""
-
-#: deluge/ui/countries.py:47
-msgid "Canada"
-msgstr ""
-
-#: deluge/ui/countries.py:48
-msgid "Cape Verde"
-msgstr ""
-
-#: deluge/ui/countries.py:49
-msgid "Cayman Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:50
-msgid "Central African Republic"
-msgstr ""
-
-#: deluge/ui/countries.py:51
-msgid "Chad"
-msgstr ""
-
-#: deluge/ui/countries.py:52
-msgid "Chile"
-msgstr ""
-
-#: deluge/ui/countries.py:53
-msgid "China"
-msgstr ""
-
-#: deluge/ui/countries.py:54
-msgid "Christmas Island"
-msgstr ""
-
-#: deluge/ui/countries.py:55
-msgid "Cocos (Keeling) Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:56
-msgid "Colombia"
-msgstr ""
-
-#: deluge/ui/countries.py:57
-msgid "Comoros"
-msgstr ""
-
-#: deluge/ui/countries.py:58
-msgid "Congo"
-msgstr ""
-
-#: deluge/ui/countries.py:59
-msgid "Congo, The Democratic Republic of the"
-msgstr ""
-
-#: deluge/ui/countries.py:60
-msgid "Cook Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:61
-msgid "Costa Rica"
-msgstr ""
-
-#: deluge/ui/countries.py:62
-msgid "Cote d'Ivoire"
-msgstr ""
-
-#: deluge/ui/countries.py:63
-msgid "Croatia"
-msgstr ""
-
-#: deluge/ui/countries.py:64
-msgid "Cuba"
-msgstr ""
-
-#: deluge/ui/countries.py:65
-msgid "Cyprus"
-msgstr ""
-
-#: deluge/ui/countries.py:66
-msgid "Czech Republic"
-msgstr ""
-
-#: deluge/ui/countries.py:67
-msgid "Denmark"
-msgstr ""
-
-#: deluge/ui/countries.py:68
-msgid "Djibouti"
-msgstr ""
-
-#: deluge/ui/countries.py:69
-msgid "Dominica"
-msgstr ""
-
-#: deluge/ui/countries.py:70
-msgid "Dominican Republic"
-msgstr ""
-
-#: deluge/ui/countries.py:71
-msgid "Ecuador"
-msgstr ""
-
-#: deluge/ui/countries.py:72
-msgid "Egypt"
-msgstr ""
-
-#: deluge/ui/countries.py:73
-msgid "El Salvador"
-msgstr ""
-
-#: deluge/ui/countries.py:74
-msgid "Equatorial Guinea"
-msgstr ""
-
-#: deluge/ui/countries.py:75
-msgid "Eritrea"
-msgstr ""
-
-#: deluge/ui/countries.py:76
-msgid "Estonia"
-msgstr ""
-
-#: deluge/ui/countries.py:77
-msgid "Ethiopia"
-msgstr ""
-
-#: deluge/ui/countries.py:78
-msgid "Falkland Islands (Malvinas)"
-msgstr ""
-
-#: deluge/ui/countries.py:79
-msgid "Faroe Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:80
-msgid "Fiji"
-msgstr ""
-
-#: deluge/ui/countries.py:81
-msgid "Finland"
-msgstr ""
-
-#: deluge/ui/countries.py:82
-msgid "France"
-msgstr ""
-
-#: deluge/ui/countries.py:83
-msgid "French Guiana"
-msgstr ""
-
-#: deluge/ui/countries.py:84
-msgid "French Polynesia"
-msgstr ""
-
-#: deluge/ui/countries.py:85
-msgid "French Southern Territories"
-msgstr ""
-
-#: deluge/ui/countries.py:86
-msgid "Gabon"
-msgstr ""
-
-#: deluge/ui/countries.py:87
-msgid "Gambia"
-msgstr ""
-
-#: deluge/ui/countries.py:88
-msgid "Georgia"
-msgstr ""
-
-#: deluge/ui/countries.py:89
-msgid "Germany"
-msgstr ""
-
-#: deluge/ui/countries.py:90 deluge/ui/countries.py:241
-msgid "United Kingdom"
-msgstr ""
-
-#: deluge/ui/countries.py:91
-msgid "Ghana"
-msgstr ""
-
-#: deluge/ui/countries.py:92
-msgid "Gibraltar"
-msgstr ""
-
-#: deluge/ui/countries.py:93
-msgid "Greece"
-msgstr ""
-
-#: deluge/ui/countries.py:94
-msgid "Greenland"
-msgstr ""
-
-#: deluge/ui/countries.py:95
-msgid "Grenada"
-msgstr ""
-
-#: deluge/ui/countries.py:96
-msgid "Guadeloupe"
-msgstr ""
-
-#: deluge/ui/countries.py:97
-msgid "Guam"
-msgstr ""
-
-#: deluge/ui/countries.py:98
-msgid "Guatemala"
-msgstr ""
-
-#: deluge/ui/countries.py:99
-msgid "Guernsey"
-msgstr ""
-
-#: deluge/ui/countries.py:100
-msgid "Guinea"
-msgstr ""
-
-#: deluge/ui/countries.py:101
-msgid "Guinea-Bissau"
-msgstr ""
-
-#: deluge/ui/countries.py:102
-msgid "Guyana"
-msgstr ""
-
-#: deluge/ui/countries.py:103
-msgid "Haiti"
-msgstr ""
-
-#: deluge/ui/countries.py:104
-msgid "Heard Island and McDonald Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:105
-msgid "Holy See (Vatican City State)"
-msgstr ""
-
-#: deluge/ui/countries.py:106
-msgid "Honduras"
-msgstr ""
-
-#: deluge/ui/countries.py:107
-msgid "Hong Kong"
-msgstr ""
-
-#: deluge/ui/countries.py:108
-msgid "Hungary"
-msgstr ""
-
-#: deluge/ui/countries.py:109
-msgid "Iceland"
-msgstr ""
-
-#: deluge/ui/countries.py:110
-msgid "India"
-msgstr ""
-
-#: deluge/ui/countries.py:111
-msgid "Indonesia"
-msgstr ""
-
-#: deluge/ui/countries.py:112
-msgid "Iran, Islamic Republic of"
-msgstr ""
-
-#: deluge/ui/countries.py:113
-msgid "Iraq"
-msgstr ""
-
-#: deluge/ui/countries.py:114
-msgid "Ireland"
-msgstr ""
-
-#: deluge/ui/countries.py:115
-msgid "Isle of Man"
-msgstr ""
-
-#: deluge/ui/countries.py:116
-msgid "Israel"
-msgstr ""
-
-#: deluge/ui/countries.py:117
-msgid "Italy"
-msgstr ""
-
-#: deluge/ui/countries.py:118
-msgid "Jamaica"
-msgstr ""
-
-#: deluge/ui/countries.py:119
-msgid "Japan"
-msgstr ""
-
-#: deluge/ui/countries.py:120
-msgid "Jersey"
-msgstr ""
-
-#: deluge/ui/countries.py:121
-msgid "Jordan"
-msgstr ""
-
-#: deluge/ui/countries.py:122
-msgid "Kazakhstan"
-msgstr ""
-
-#: deluge/ui/countries.py:123
-msgid "Kenya"
-msgstr ""
-
-#: deluge/ui/countries.py:124
-msgid "Kiribati"
-msgstr ""
-
-#: deluge/ui/countries.py:125
-msgid "Korea, Democratic People's Republic of"
-msgstr ""
-
-#: deluge/ui/countries.py:126
-msgid "Korea, Republic of"
-msgstr ""
-
-#: deluge/ui/countries.py:127
-msgid "Kuwait"
-msgstr ""
-
-#: deluge/ui/countries.py:128
-msgid "Kyrgyzstan"
-msgstr ""
-
-#: deluge/ui/countries.py:129
-msgid "Lao People's Democratic Republic"
-msgstr ""
-
-#: deluge/ui/countries.py:130
-msgid "Latvia"
-msgstr ""
-
-#: deluge/ui/countries.py:131
-msgid "Lebanon"
-msgstr ""
-
-#: deluge/ui/countries.py:132
-msgid "Lesotho"
-msgstr ""
-
-#: deluge/ui/countries.py:133
-msgid "Liberia"
-msgstr ""
-
-#: deluge/ui/countries.py:134
-msgid "Libyan Arab Jamahiriya"
-msgstr ""
-
-#: deluge/ui/countries.py:135
-msgid "Liechtenstein"
-msgstr ""
-
-#: deluge/ui/countries.py:136
-msgid "Lithuania"
-msgstr ""
-
-#: deluge/ui/countries.py:137
-msgid "Luxembourg"
-msgstr ""
-
-#: deluge/ui/countries.py:138
-msgid "Macao"
-msgstr ""
-
-#: deluge/ui/countries.py:139
-msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
-
-#: deluge/ui/countries.py:140
-msgid "Madagascar"
-msgstr ""
-
-#: deluge/ui/countries.py:141
-msgid "Malawi"
-msgstr ""
-
-#: deluge/ui/countries.py:142
-msgid "Malaysia"
-msgstr ""
-
-#: deluge/ui/countries.py:143
-msgid "Maldives"
-msgstr ""
-
-#: deluge/ui/countries.py:144
-msgid "Mali"
-msgstr ""
-
-#: deluge/ui/countries.py:145
-msgid "Malta"
-msgstr ""
-
-#: deluge/ui/countries.py:146
-msgid "Marshall Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:147
-msgid "Martinique"
-msgstr ""
-
-#: deluge/ui/countries.py:148
-msgid "Mauritania"
-msgstr ""
-
-#: deluge/ui/countries.py:149
-msgid "Mauritius"
-msgstr ""
-
-#: deluge/ui/countries.py:150
-msgid "Mayotte"
-msgstr ""
-
-#: deluge/ui/countries.py:151
-msgid "Mexico"
-msgstr ""
-
-#: deluge/ui/countries.py:152
-msgid "Micronesia, Federated States of"
-msgstr ""
-
-#: deluge/ui/countries.py:153
-msgid "Moldova"
-msgstr ""
-
-#: deluge/ui/countries.py:154
-msgid "Monaco"
-msgstr ""
-
-#: deluge/ui/countries.py:155
-msgid "Mongolia"
-msgstr ""
-
-#: deluge/ui/countries.py:156
-msgid "Montenegro"
-msgstr ""
-
-#: deluge/ui/countries.py:157
-msgid "Montserrat"
-msgstr ""
-
-#: deluge/ui/countries.py:158
-msgid "Morocco"
-msgstr ""
-
-#: deluge/ui/countries.py:159
-msgid "Mozambique"
-msgstr ""
-
-#: deluge/ui/countries.py:160
-msgid "Myanmar"
-msgstr ""
-
-#: deluge/ui/countries.py:161
-msgid "Namibia"
-msgstr ""
-
-#: deluge/ui/countries.py:162
-msgid "Nauru"
-msgstr ""
-
-#: deluge/ui/countries.py:163
-msgid "Nepal"
-msgstr ""
-
-#: deluge/ui/countries.py:164
-msgid "Netherlands"
-msgstr ""
-
-#: deluge/ui/countries.py:165
-msgid "Netherlands Antilles"
-msgstr ""
-
-#: deluge/ui/countries.py:166
-msgid "New Caledonia"
-msgstr ""
-
-#: deluge/ui/countries.py:167
-msgid "New Zealand"
-msgstr ""
-
-#: deluge/ui/countries.py:168
-msgid "Nicaragua"
-msgstr ""
-
-#: deluge/ui/countries.py:169
-msgid "Niger"
-msgstr ""
-
-#: deluge/ui/countries.py:170
-msgid "Nigeria"
-msgstr ""
-
-#: deluge/ui/countries.py:171
-msgid "Niue"
-msgstr ""
-
-#: deluge/ui/countries.py:172
-msgid "Norfolk Island"
-msgstr ""
-
-#: deluge/ui/countries.py:173
-msgid "Northern Mariana Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:174
-msgid "Norway"
-msgstr ""
-
-#: deluge/ui/countries.py:175
-msgid "Oman"
-msgstr ""
-
-#: deluge/ui/countries.py:176
-msgid "Pakistan"
-msgstr ""
-
-#: deluge/ui/countries.py:177
-msgid "Palau"
-msgstr ""
-
-#: deluge/ui/countries.py:178
-msgid "Palestinian Territory, Occupied"
-msgstr ""
-
-#: deluge/ui/countries.py:179
-msgid "Panama"
-msgstr ""
-
-#: deluge/ui/countries.py:180
-msgid "Papua New Guinea"
-msgstr ""
-
-#: deluge/ui/countries.py:181
-msgid "Paraguay"
-msgstr ""
-
-#: deluge/ui/countries.py:182
-msgid "Peru"
-msgstr ""
-
-#: deluge/ui/countries.py:183
-msgid "Philippines"
-msgstr ""
-
-#: deluge/ui/countries.py:184
-msgid "Pitcairn"
-msgstr ""
-
-#: deluge/ui/countries.py:185
-msgid "Poland"
-msgstr ""
-
-#: deluge/ui/countries.py:186
-msgid "Portugal"
-msgstr ""
-
-#: deluge/ui/countries.py:187
-msgid "Puerto Rico"
-msgstr ""
-
-#: deluge/ui/countries.py:188
-msgid "Qatar"
-msgstr ""
-
-#: deluge/ui/countries.py:189
-msgid "Reunion"
-msgstr ""
-
-#: deluge/ui/countries.py:190
-msgid "Romania"
-msgstr ""
-
-#: deluge/ui/countries.py:191
-msgid "Russian Federation"
-msgstr ""
-
-#: deluge/ui/countries.py:192
-msgid "Rwanda"
-msgstr ""
-
-#: deluge/ui/countries.py:193
-msgid "Saint Barthelemy"
-msgstr ""
-
-#: deluge/ui/countries.py:194
-msgid "Saint Helena"
-msgstr ""
-
-#: deluge/ui/countries.py:195
-msgid "Saint Kitts and Nevis"
-msgstr ""
-
-#: deluge/ui/countries.py:196
-msgid "Saint Lucia"
-msgstr ""
-
-#: deluge/ui/countries.py:197
-msgid "Saint Martin"
-msgstr ""
-
-#: deluge/ui/countries.py:198
-msgid "Saint Pierre and Miquelon"
-msgstr ""
-
-#: deluge/ui/countries.py:199
-msgid "Saint Vincent and the Grenadines"
-msgstr ""
-
-#: deluge/ui/countries.py:200
-msgid "Samoa"
-msgstr ""
-
-#: deluge/ui/countries.py:201
-msgid "San Marino"
-msgstr ""
-
-#: deluge/ui/countries.py:202
-msgid "Sao Tome and Principe"
-msgstr ""
-
-#: deluge/ui/countries.py:203
-msgid "Saudi Arabia"
-msgstr ""
-
-#: deluge/ui/countries.py:204
-msgid "Senegal"
-msgstr ""
-
-#: deluge/ui/countries.py:205
-msgid "Serbia"
-msgstr ""
-
-#: deluge/ui/countries.py:206
-msgid "Seychelles"
-msgstr ""
-
-#: deluge/ui/countries.py:207
-msgid "Sierra Leone"
-msgstr ""
-
-#: deluge/ui/countries.py:208
-msgid "Singapore"
-msgstr ""
-
-#: deluge/ui/countries.py:209
-msgid "Slovakia"
-msgstr ""
-
-#: deluge/ui/countries.py:210
-msgid "Slovenia"
-msgstr ""
-
-#: deluge/ui/countries.py:211
-msgid "Solomon Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:212
-msgid "Somalia"
-msgstr ""
-
-#: deluge/ui/countries.py:213
-msgid "South Africa"
-msgstr ""
-
-#: deluge/ui/countries.py:214
-msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:215
-msgid "Spain"
-msgstr ""
-
-#: deluge/ui/countries.py:216
-msgid "Sri Lanka"
-msgstr ""
-
-#: deluge/ui/countries.py:217
-msgid "Sudan"
-msgstr ""
-
-#: deluge/ui/countries.py:218
-msgid "Suriname"
-msgstr ""
-
-#: deluge/ui/countries.py:219
-msgid "Svalbard and Jan Mayen"
-msgstr ""
-
-#: deluge/ui/countries.py:220
-msgid "Swaziland"
-msgstr ""
-
-#: deluge/ui/countries.py:221
-msgid "Sweden"
-msgstr ""
-
-#: deluge/ui/countries.py:222
-msgid "Switzerland"
-msgstr ""
-
-#: deluge/ui/countries.py:223
-msgid "Syrian Arab Republic"
-msgstr ""
-
-#: deluge/ui/countries.py:224
-msgid "Taiwan, Province of China"
-msgstr ""
-
-#: deluge/ui/countries.py:225
-msgid "Tajikistan"
-msgstr ""
-
-#: deluge/ui/countries.py:226
-msgid "Tanzania, United Republic of"
-msgstr ""
-
-#: deluge/ui/countries.py:227
-msgid "Thailand"
-msgstr ""
-
-#: deluge/ui/countries.py:228
-msgid "Timor-Leste"
-msgstr ""
-
-#: deluge/ui/countries.py:229
-msgid "Togo"
-msgstr ""
-
-#: deluge/ui/countries.py:230
-msgid "Tokelau"
-msgstr ""
-
-#: deluge/ui/countries.py:231
-msgid "Tonga"
-msgstr ""
-
-#: deluge/ui/countries.py:232
-msgid "Trinidad and Tobago"
-msgstr ""
-
-#: deluge/ui/countries.py:233
-msgid "Tunisia"
-msgstr ""
-
-#: deluge/ui/countries.py:234
-msgid "Turkey"
-msgstr ""
-
-#: deluge/ui/countries.py:235
-msgid "Turkmenistan"
-msgstr ""
-
-#: deluge/ui/countries.py:236
-msgid "Turks and Caicos Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:237
-msgid "Tuvalu"
-msgstr ""
-
-#: deluge/ui/countries.py:238
-msgid "Uganda"
-msgstr ""
-
-#: deluge/ui/countries.py:239
-msgid "Ukraine"
-msgstr ""
-
-#: deluge/ui/countries.py:240
-msgid "United Arab Emirates"
-msgstr ""
-
-#: deluge/ui/countries.py:242
-msgid "United States"
-msgstr ""
-
-#: deluge/ui/countries.py:243
-msgid "United States Minor Outlying Islands"
-msgstr ""
-
-#: deluge/ui/countries.py:244
-msgid "Uruguay"
-msgstr ""
-
-#: deluge/ui/countries.py:245
-msgid "Uzbekistan"
-msgstr ""
-
-#: deluge/ui/countries.py:246
-msgid "Vanuatu"
-msgstr ""
-
-#: deluge/ui/countries.py:247
-msgid "Venezuela"
-msgstr ""
-
-#: deluge/ui/countries.py:248
-msgid "Viet Nam"
-msgstr ""
-
-#: deluge/ui/countries.py:249
-msgid "Virgin Islands, British"
-msgstr ""
-
-#: deluge/ui/countries.py:250
-msgid "Virgin Islands, U.S."
-msgstr ""
-
-#: deluge/ui/countries.py:251
-msgid "Wallis and Futuna"
-msgstr ""
-
-#: deluge/ui/countries.py:252
-msgid "Western Sahara"
-msgstr ""
-
-#: deluge/ui/countries.py:253
-msgid "Yemen"
-msgstr ""
-
-#: deluge/ui/countries.py:254
-msgid "Zambia"
-msgstr ""
-
-#: deluge/ui/countries.py:255
-msgid "Zimbabwe"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:99 deluge/ui/gtkui/queuedtorrents.py:75
-msgid "Torrent"
-msgstr "Torrent"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:107
-#: deluge/ui/gtkui/createtorrentdialog.py:77 deluge/ui/gtkui/files_tab.py:110
-msgid "Filename"
-msgstr "檔案名稱"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:120
-#: deluge/ui/gtkui/createtorrentdialog.py:87
-#: deluge/ui/gtkui/torrentview.py:164 deluge/ui/gtkui/files_tab.py:130
-msgid "Size"
-msgstr "大小"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:202
-msgid "Invalid File"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:207
-msgid "Duplicate Torrent"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:207
-msgid "You cannot add the same torrent twice."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:479
-msgid "Unable to set file priority!"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:479
-msgid "File prioritization is unavailable when using Compact allocation."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:526
-msgid "Choose a .torrent file"
-msgstr "請選取一個種子檔案"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:538
-#: deluge/ui/gtkui/createtorrentdialog.py:240
-msgid "Torrent files"
-msgstr "種子檔案"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:542
-#: deluge/ui/gtkui/createtorrentdialog.py:244
-msgid "All files"
-msgstr "所有檔案"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:607
-msgid "Invalid URL"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:607
-#, python-format
-msgid "%s is not a valid URL."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:611
-msgid "Downloading.."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:645
-msgid "Download Failed"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:645
-#, python-format
-msgid "Failed to download : %s"
-msgstr ""
-
-#: deluge/ui/gtkui/removetorrentdialog.py:78
-msgid "Torrents"
-msgstr "種子"
-
-#: deluge/ui/gtkui/common.py:65 deluge/ui/gtkui/systemtray.py:204
-#: deluge/ui/gtkui/systemtray.py:208 deluge/ui/gtkui/systemtray.py:350
-#: deluge/ui/gtkui/statusbar.py:383 deluge/ui/gtkui/statusbar.py:411
-#: deluge/ui/gtkui/statusbar.py:438
-msgid "Unlimited"
-msgstr "未限制"
-
-#: deluge/ui/gtkui/common.py:68
-msgid "Activated"
-msgstr "正在下載"
-
-#: deluge/ui/gtkui/common.py:122 deluge/ui/gtkui/common.py:123
-#: deluge/ui/gtkui/systemtray.py:353 deluge/ui/gtkui/statusbar.py:385
-#: deluge/ui/gtkui/statusbar.py:413 deluge/ui/gtkui/statusbar.py:440
-msgid "Other..."
-msgstr "其他..."
-
-#: deluge/ui/gtkui/peers_tab.py:100
-msgid "Address"
-msgstr "位址"
-
-#: deluge/ui/gtkui/peers_tab.py:116
-msgid "Client"
-msgstr "用戶端"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/torrentview.py:168
-#: deluge/ui/gtkui/torrentview.py:499 deluge/ui/gtkui/files_tab.py:143
-msgid "Progress"
-msgstr "進度"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:182
-msgid "Down Speed"
-msgstr "下載速度"
-
-#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:186
-msgid "Up Speed"
-msgstr "上傳速度"
-
-#: deluge/ui/gtkui/systemtray.py:165
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
-"Deluge\n"
-"Not Connected.."
-msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:213
-msgid "Deluge"
-msgstr "Deluge"
-
-#: deluge/ui/gtkui/systemtray.py:213
-msgid "Down"
-msgstr "往下移"
-
-#: deluge/ui/gtkui/systemtray.py:214
-msgid "Up"
-msgstr "往上移"
-
-#: deluge/ui/gtkui/systemtray.py:340 deluge/ui/gtkui/statusbar.py:387
-#: deluge/ui/gtkui/menubar.py:430
-msgid "Set Maximum Download Speed"
-msgstr "設定最大下載速度"
-
-#: deluge/ui/gtkui/systemtray.py:344 deluge/ui/gtkui/statusbar.py:415
-#: deluge/ui/gtkui/menubar.py:431
-msgid "Set Maximum Upload Speed"
-msgstr "設定最大上傳速度"
-
-#: deluge/ui/gtkui/systemtray.py:381
-msgid "Deluge is locked"
-msgstr "Deluge 已鎖住"
-
-#: deluge/ui/gtkui/systemtray.py:384
-msgid ""
-"Deluge is password protected.\n"
-"To show the Deluge window, please enter your password"
-msgstr ""
-"Deluge 已受密碼保護。\n"
-"若要顯示 Deluge 視窗，請輸入您的密碼"
-
-#: deluge/ui/gtkui/notification.py:78
-msgid "Torrent complete"
-msgstr "種子下載完成"
-
-#: deluge/ui/gtkui/notification.py:79
-#, python-format
-msgid "Including %i files"
-msgstr "包含 %i 檔案"
-
-#: deluge/ui/gtkui/notification.py:107
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading %(name)s ,  "
-"           which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge"
-msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:84
-#: deluge/ui/gtkui/createtorrentdialog.py:100
-msgid "Tier"
-msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:86
-#: deluge/ui/gtkui/createtorrentdialog.py:102
-#: deluge/ui/gtkui/torrentview.py:206
-msgid "Tracker"
-msgstr "伺服器"
-
-#: deluge/ui/gtkui/mainwindow.py:229
-msgid "Down:"
-msgstr "下載："
-
-#: deluge/ui/gtkui/mainwindow.py:229
-msgid "Up:"
-msgstr "上傳："
-
-#: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4989
-msgid "Details:"
-msgstr "詳細資料："
-
-#: deluge/ui/gtkui/aboutdialog.py:67
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. This program is distributed in the hope that it will be "
-"useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-"Public License for more details. You should have received a copy of the GNU "
-"General Public License along with this program; if not, see "
-"<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-"copyright holders give permission to link the code of portions of this "
-"program with the OpenSSL library. You must obey the GNU General Public "
-"License in all respects for all of the code used other than OpenSSL. If you "
-"modify file(s) with this exception, you may extend this exception to your "
-"version of the file(s), but you are not obligated to do so. If you do not "
-"wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
-msgstr ""
-
-#: deluge/ui/gtkui/createtorrentdialog.py:136
-msgid "Choose a file"
-msgstr "選擇檔案"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:163
-msgid "Choose a folder"
-msgstr "選擇資料夾"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:228
-msgid "Save .torrent file"
-msgstr "儲存 .torrent"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:363
-#, python-format
-msgid "%.2f%%"
-msgstr "%.2f%%"
-
-#: deluge/ui/gtkui/statusbar.py:140
-msgid "Not Connected"
-msgstr "未連線"
-
-#: deluge/ui/gtkui/statusbar.py:157
-msgid "Connections"
-msgstr "連接數"
-
-#: deluge/ui/gtkui/statusbar.py:162
-msgid "Download Speed"
-msgstr "下載速度"
-
-#: deluge/ui/gtkui/statusbar.py:167
-msgid "Upload Speed"
-msgstr "上傳速度"
-
-#: deluge/ui/gtkui/statusbar.py:172
-msgid "Protocol Traffic Download/Upload"
-msgstr "下載/上傳協定流量"
-
-#: deluge/ui/gtkui/statusbar.py:180
-msgid "No Incoming Connections!"
-msgstr "沒有連入的連接!"
-
-#: deluge/ui/gtkui/statusbar.py:442 deluge/ui/gtkui/menubar.py:432
-msgid "Set Maximum Connections"
-msgstr "設定最大連線數"
-
-#: deluge/ui/gtkui/gtkui.py:269 deluge/ui/gtkui/gtkui.py:284
-msgid "Turn off Classic Mode?"
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:270
-msgid ""
-"It appears that a Deluge daemon process (deluged) is already running.\n"
-"\n"
-"You will either need to stop the daemon or turn off Classic Mode to continue."
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:279
-msgid "Error Starting Core"
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:280
-msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
-"\n"
-"Please see the details below for more information."
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:285
-msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
-msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:162
-msgid "Name"
-msgstr "名稱"
-
-#: deluge/ui/gtkui/torrentview.py:172
-msgid "Seeders"
-msgstr "種子數"
-
-#: deluge/ui/gtkui/torrentview.py:177
-msgid "Peers"
-msgstr "用戶數"
-
-#: deluge/ui/gtkui/torrentview.py:190
-msgid "ETA"
-msgstr "預計完成時間"
-
-#: deluge/ui/gtkui/torrentview.py:194
-msgid "Ratio"
-msgstr "分享率"
-
-#: deluge/ui/gtkui/torrentview.py:198
-msgid "Avail"
-msgstr "可得性"
-
-#: deluge/ui/gtkui/torrentview.py:202
-msgid "Added"
-msgstr "已加入"
-
-#: deluge/ui/gtkui/queuedtorrents.py:135
-msgid " Torrents Queued"
-msgstr " Torrent 在佇列中"
-
-#: deluge/ui/gtkui/queuedtorrents.py:137
-msgid " Torrent Queued"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:87 deluge/ui/gtkui/filtertreeview.py:109
-msgid "Filters"
-msgstr "過濾器"
-
-#: deluge/ui/gtkui/filtertreeview.py:144
-msgid "State"
-msgstr "狀態"
-
-#: deluge/ui/gtkui/filtertreeview.py:224
-msgid "no label"
-msgstr "沒有標籤"
-
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "設為無限制"
-
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other.."
-msgstr "其他.."
-
-#: deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "開啟"
-
-#: deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "關閉"
-
-#: deluge/ui/gtkui/menubar.py:324
-msgid "Choose a directory to move files to"
-msgstr "選擇要移動的目的資料夾"
-
-#: deluge/ui/gtkui/menubar.py:433
-msgid "Set Maximum Upload Slots"
-msgstr "設定最大同時上傳數"
-
-#: deluge/ui/gtkui/files_tab.py:156
-msgid "Priority"
-msgstr "優先權"
-
-#: deluge/ui/gtkui/preferences.py:71
-msgid "Downloads"
-msgstr "下載"
-
-#: deluge/ui/gtkui/preferences.py:71
-msgid "Network"
-msgstr "網路"
-
-#: deluge/ui/gtkui/preferences.py:71
-msgid "Bandwidth"
-msgstr "頻寬"
-
-#: deluge/ui/gtkui/preferences.py:71
-msgid "Interface"
-msgstr "界面"
-
-#: deluge/ui/gtkui/preferences.py:72
-msgid "Other"
-msgstr "其他"
-
-#: deluge/ui/gtkui/preferences.py:72
-msgid "Daemon"
-msgstr "守護程式"
-
-#: deluge/ui/gtkui/preferences.py:72
-msgid "Proxy"
-msgstr "代理伺服器"
-
-#: deluge/ui/gtkui/preferences.py:72
-msgid "Notification"
-msgstr "通知"
-
-#: deluge/ui/gtkui/preferences.py:73
-msgid "Cache"
-msgstr ""
-
-#: deluge/ui/gtkui/preferences.py:73
-msgid "Plugins"
-msgstr "外掛模組"
-
-#: deluge/ui/gtkui/preferences.py:85
-msgid "Enabled"
-msgstr "已啟用"
-
-#: deluge/ui/gtkui/preferences.py:87
-msgid "Plugin"
-msgstr "外掛模組"
-
-#: deluge/ui/gtkui/preferences.py:906
-msgid "Select the Plugin"
-msgstr "選取外掛"
-
-#: deluge/ui/gtkui/preferences.py:917
-msgid "Plugin Eggs"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:20
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:97
-msgid "_File"
-msgstr "檔案(_F)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:28
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-msgid "_Add Torrent"
-msgstr "新增種子(_A)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:43
-msgid "_Create Torrent"
-msgstr "建立 Torrent (_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:61
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
-msgid "Quit & Shutdown Daemon"
-msgstr "離開並關閉常駐"
-
-#: deluge/ui/gtkui/glade/main_window.glade:93
-msgid "_Edit"
-msgstr "編輯(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:111
-msgid "_Connection Manager"
-msgstr "連線管理員(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:128
-msgid "_Torrent"
-msgstr "種子(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_View"
-msgstr "檢視(_V)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:143
-msgid "_Toolbar"
-msgstr "工具列(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:153
-msgid "_Sidebar"
-msgstr "側邊欄(_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:162
-msgid "Status_bar"
-msgstr "狀態列(_b)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:176
-msgid "T_abs"
-msgstr "索引標籤(_a)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "_Columns"
-msgstr "欄位(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:191
-msgid "S_idebar"
-msgstr "側邊欄(_i)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:200
-msgid "Show _Zero Hits"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:209
-msgid "Show _Trackers"
-msgstr "顯示追蹤伺服器(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:226
-msgid "_Help"
-msgstr "_說明"
-
-#: deluge/ui/gtkui/glade/main_window.glade:234
-msgid "Homepage"
-msgstr "首頁"
-
-#: deluge/ui/gtkui/glade/main_window.glade:251
-msgid "Frequently Asked Questions"
-msgstr "常見問題"
-
-#: deluge/ui/gtkui/glade/main_window.glade:252
-msgid "FAQ"
-msgstr "常見問題"
-
-#: deluge/ui/gtkui/glade/main_window.glade:269
-msgid "Community"
-msgstr "社群"
-
-#: deluge/ui/gtkui/glade/main_window.glade:312
-msgid "Add torrent"
+"This option will create a sub-folder using the torrent's name within the "
+"selected extract folder and put the extracted files there."
+msgstr "這個選項將會以種子名稱建立子資料夾，之後將檔案解壓縮到那裡。"
+
+#: deluge/plugins/execute/execute/gtkui.py:51
+msgid "Torrent Complete"
+msgstr "種子完成"
+
+#: deluge/plugins/execute/execute/gtkui.py:52
+msgid "Torrent Added"
 msgstr "新增種子"
 
-#: deluge/ui/gtkui/glade/main_window.glade:313
-msgid "Add Torrent"
-msgstr "新增種子"
-
-#: deluge/ui/gtkui/glade/main_window.glade:326
-msgid "Remove Torrent"
-msgstr "移除種子"
-
-#: deluge/ui/gtkui/glade/main_window.glade:343
-msgid "Pause the selected torrents"
-msgstr "暫停選取的Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:344
-msgid "Pause"
-msgstr "暫停"
-
-#: deluge/ui/gtkui/glade/main_window.glade:358
-msgid "Resume the selected torrents"
-msgstr "繼續選取的Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:359
-msgid "Resume"
-msgstr "恢復"
-
-#: deluge/ui/gtkui/glade/main_window.glade:377
-msgid "Queue Torrent Up"
-msgstr "佇列中種子上移"
-
-#: deluge/ui/gtkui/glade/main_window.glade:378
-msgid "Queue Up"
-msgstr "往上移"
-
-#: deluge/ui/gtkui/glade/main_window.glade:391
-msgid "Queue Torrent Down"
-msgstr "佇列中種子下移"
-
-#: deluge/ui/gtkui/glade/main_window.glade:392
-msgid "Queue Down"
-msgstr "往下移"
-
-#: deluge/ui/gtkui/glade/main_window.glade:409
-#: deluge/ui/gtkui/glade/main_window.glade:410
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-msgid "Preferences"
-msgstr "偏好設定"
-
-#: deluge/ui/gtkui/glade/main_window.glade:423
-#: deluge/ui/gtkui/glade/main_window.glade:424
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Connection Manager"
-msgstr "連線管理員"
-
-#: deluge/ui/gtkui/glade/main_window.glade:537
-msgid "_Expand All"
-msgstr "全部展開(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:557
-msgid "_Do Not Download"
-msgstr "不要下載(_D)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:572
-msgid "_Normal Priority"
-msgstr "一般優先(_N)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:587
-msgid "_High Priority"
-msgstr "高優先(_H)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:602
-msgid "Hi_ghest Priority"
-msgstr "最高優先(_g)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:680
-msgid "<b>Auto Managed:</b>"
-msgstr "<b>自動管理：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:721
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>種子等級：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:736
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>做種時間:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:762
-msgid "<b>Active Time:</b>"
-msgstr "<b>活動時間：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:819
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>伺服器狀態：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:849
-msgid "<b>Availability:</b>"
-msgstr "<b>可得性：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:903
-msgid "<b>Peers:</b>"
-msgstr "<b>用戶數: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:929
-msgid "<b>Seeders:</b>"
-msgstr "<b>種子數: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:947
-msgid "<b>Pieces:</b>"
-msgstr "<b>區塊：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:969
-msgid "<b>ETA:</b>"
-msgstr "<b>剩餘時間: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:991
-#: deluge/ui/gtkui/glade/main_window.glade:1013
-msgid "<b>Speed:</b>"
-msgstr "<b>速度: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1032
-msgid "<b>Next Announce:</b>"
-msgstr "<b>下次發佈：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1051
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>分享率: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1070
-msgid "<b>Uploaded:</b>"
-msgstr "<b>已上傳: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1089
-msgid "<b>Downloaded:</b>"
-msgstr "<b>已下載: </b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1150
-msgid "<b>Date Added:</b>"
-msgstr "<b>加入時間：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1205
-msgid "_Status"
-msgstr "狀態(_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1278
-msgid "<b>Comments:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1307
-msgid "<b># of files:</b>"
-msgstr "<b>檔案總數：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1339
-msgid "<b>Hash:</b>"
-msgstr "<b>特徵碼:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1369
-msgid "<b>Tracker:</b>"
-msgstr "<b>伺服器：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1389
-msgid "<b>Total Size:</b>"
-msgstr "<b>總大小：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1427
-msgid "<b>Name:</b>"
-msgstr "<b>名稱：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1447
-msgid "<b>Path:</b>"
-msgstr "<b>路徑：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1481
-msgid "<b>Status:</b>"
-msgstr "<b>狀態：</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1547
-msgid "_Details"
-msgstr "詳細資訊(_D)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1596
-msgid "_Files"
-msgstr "檔案(_F)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1645
-msgid "_Peers"
-msgstr "用戶(_P)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1751
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:547
-msgid "Max Connections:"
-msgstr "最大連接數目:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1764
-msgid "Max Upload Speed:"
-msgstr "最高上傳速度::"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1777
-msgid "Max Download Speed:"
-msgstr "最高下載速度:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1814
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:561
-msgid "Max Upload Slots:"
-msgstr "最大上傳連接數量:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1847
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:630
-msgid "<b>Bandwidth</b>"
-msgstr "<b>流量</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1952
-msgid "Move completed:"
-msgstr "移動完成："
-
-#: deluge/ui/gtkui/glade/main_window.glade:2009
-msgid "<b>Queue</b>"
-msgstr "<b>隊列</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2046
-msgid "Private"
-msgstr "隱私"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2059
-msgid "Prioritize First/Last"
-msgstr "優先下載頭尾部份"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2095
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-msgid "_Edit Trackers"
-msgstr "編輯伺服器網址(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2199
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:862
-msgid "_Options"
-msgstr "選項(_O)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2219
-msgid "Remove Torrent?"
-msgstr "移除Torrent檔?"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2255
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr "<big><b>您確定要移除已選擇的Torrent檔?</b></big>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2306
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>將移除相關的Torrent檔!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2345
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>將移除已下載的資料!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2389
-msgid "Remove Selected Torrent"
-msgstr "移除已選擇的Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2407
-msgid "New Release"
-msgstr "新版本"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2438
-msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>現在可以取得Deluge的新版本了!</big></b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2489
-msgid "<i>Available Version:</i>"
-msgstr "<i>新版本:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2512
-msgid "<i>Current Version:</i>"
-msgstr "<i>目前的版本:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2534
-msgid "Do not show this dialog in the future"
-msgstr "以後不要顯示這個對話視窗"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2574
-msgid "_Goto Website"
-msgstr "前往網站(_G)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2600
-msgid "Add a peer by its IP"
-msgstr "以IP加入一個用戶"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2601
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
-msgid "Add Peer"
-msgstr "加入用戶"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>刪除選取的 torrent ？</b></big>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr "若刪除本資料，它將永久消失。"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr "與資料一起刪除(_D)"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr "刪除 Torrent(_T)"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "建立 Torrent"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>建立 Torrent</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "資料夾(_d)"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "遠端路徑(_R)"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>檔案</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5015
-msgid "Author:"
-msgstr "作者："
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "註解："
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "資訊"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "網路種子"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "片段大小:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
-msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB\n"
-"1 MiB\n"
-"2 MiB\n"
-"4 MiB"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:577
-msgid "Set Private Flag"
-msgstr "設定私人標籤"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:591
-msgid "Add this torrent to the session"
-msgstr "新增 torrent 檔至此工作階段"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:621
-#: deluge/ui/gtkui/glade/connection_manager.glade:457
-msgid "Options"
-msgstr "選項"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:689
-msgid "Enter Remote Path"
-msgstr "輸入遠端路徑"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:725
-msgid "<b>Remote Path</b>"
-msgstr "<b>遠端路徑</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:759
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:941
-msgid "Path:"
-msgstr "路徑："
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:834
-msgid "Creating Torrent"
-msgstr "正在建立 Torrent"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:871
-msgid "Save .torrent as"
-msgstr "另存 .torrent"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:907
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>儲存 .torrent </b>"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:11
-msgid "_Open Folder"
-msgstr "開啟資料夾(_O)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:48
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
-msgid "Resume selected torrents."
-msgstr "繼續選取的Torrent檔。"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:49
-msgid "Resu_me"
-msgstr "繼續(_u)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:71
-msgid "Opt_ions"
-msgstr "選項(_i)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
-msgid "_Queue"
-msgstr "佇列(_Q)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
-msgid "_Update Tracker"
-msgstr "更新伺服器 (_U)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
-msgid "_Remove Torrent"
-msgstr "移除種子(_R)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:174
-msgid "_Force Re-check"
-msgstr "強制重新檢查 (_F)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:191
-msgid "Move _Storage"
-msgstr "更改儲存位置"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-msgid "_Download Speed Limit"
-msgstr "下載速限(_D)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-msgid "_Upload Speed Limit"
-msgstr "上傳速限(_D)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:242
-msgid "_Connection Limit"
-msgstr "最大連接數量(_C)"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:258
-msgid "Upload _Slot Limit"
-msgstr "上傳連接數限制"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:273
-msgid "_Auto Managed"
-msgstr "自動管理(_A)"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-msgid "Edit Trackers"
-msgstr "編輯伺服器"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:47
-msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>編輯Trackers</b></big>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:122
-msgid "gtk-edit"
-msgstr "gtk-edit"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
-msgid "Add Tracker"
-msgstr "增加Tracker"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:260
-msgid "<b>Add Trackers</b>"
-msgstr "<b>增加追蹤伺服器</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1197
-msgid "Trackers:"
-msgstr "追蹤伺服器："
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
-msgid "Edit Tracker"
-msgstr "編輯追蹤伺服器"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:416
-msgid "<b>Edit Tracker</b>"
-msgstr "<b>編輯追蹤伺服器</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
-msgid "Tracker:"
-msgstr "追蹤伺服器："
-
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:10
-msgid "_Select All"
-msgstr "全選(_S)"
-
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:42
-msgid "Resu_me All"
-msgstr "全部繼續"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "顯示 Deluge 視窗(_S)"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "全部暫停(_P)"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "全部續傳(_R)"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:146
-msgid "_Quit"
-msgstr "結束(_Q)"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:37
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
-msgid "label"
-msgstr "標籤"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
-msgid "<b>Add Peer</b>"
-msgstr "<b>Add用戶</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr "主機名稱:通訊埠"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
-msgid "Move Storage"
-msgstr "變更儲存位置"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
-msgid "<b>Move Storage</b>"
-msgstr "<b>變更儲存位置</b>"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
-msgid "Destination:"
-msgstr "目的地："
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
-msgid "Add Host"
-msgstr "新增主機"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:28
-msgid "Hostname:"
-msgstr "主機名稱："
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3238
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3422
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3606
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3792
-msgid "Port:"
-msgstr "連接埠："
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2076
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3186
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3370
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3554
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3738
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4157
-msgid "Password:"
-msgstr "密碼:"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3319
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3503
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3687
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3874
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4182
-msgid "Username:"
-msgstr "帳號："
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>連結管理</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
-msgid "_Start local daemon"
-msgstr "啟動本地 daemon(_S)"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
-msgid "Automatically connect to selected host on start-up"
-msgstr "啟動時自動連線到選定的主機"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
-msgid "Automatically start localhost if needed"
-msgstr "需要時自動啟動 localhost"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
-msgid "Do not show this dialog on start-up"
-msgstr "啟動時不要顯示這個對話視窗"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:494
-msgid "gtk-connect"
-msgstr "gtk-連接"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
-msgid "Queued Torrents"
-msgstr "隊列中的Torrent"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>新增佇列的 Torrent 檔</b></big>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
-msgid "Automatically add torrents on connect"
-msgstr "連線時自動加入torrents"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
-msgid "Add Torrents"
-msgstr "增加Torrent檔"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-msgid "_URL"
-msgstr "網址(_U)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:193
-msgid "Info_hash"
-msgstr "哈希信息"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:239
-msgid "_Remove"
-msgstr "移除(_R)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:272
-msgid "<b>Torrents</b>"
-msgstr "<b>種子</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:329
-msgid "Fi_les"
-msgstr "檔案(_L)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
-msgid "<b>Download Location</b>"
-msgstr "<b>下載位置</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:430
-msgid "Full"
-msgstr "完整"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:446
-msgid "Compact"
-msgstr "簡潔"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:468
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:389
-msgid "<b>Allocation</b>"
-msgstr "<b>檔案分配</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:521
-msgid "Max Down Speed:"
-msgstr "最高下載速度:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:533
-msgid "Max Up Speed:"
-msgstr "最高上傳速度:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:663
-msgid "Add In _Paused State"
-msgstr "以暫停狀態新增(_P)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:679
-msgid "Prioritize First/Last Pieces"
-msgstr "開頭與結尾區塊優先"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:757
-msgid "Revert To Defaults"
-msgstr "回復預設值"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:811
-msgid "Apply To All"
-msgstr "全部套用"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:935
-msgid "Add URL"
-msgstr "新增 URL"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
-msgid "<b>From URL</b>"
-msgstr "<b>從 URL 新增</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1089
-msgid "Add Infohash"
-msgstr "新增資訊雜湊"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1126
-msgid "<b>From Infohash</b>"
-msgstr "<b>來自資訊雜湊</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1161
-msgid "Infohash:"
-msgstr "資訊雜湊："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:75
-msgid "<b><i><big>Downloads</big></i></b>"
-msgstr "<b><i><big>下載數量</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:224
-msgid "Auto add .torrents from:"
-msgstr "自動從這裡新增 .torrent ："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:240
-msgid "Copy of .torrent files to:"
-msgstr "複製 .torrent 檔案到："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:304
-msgid "Download to:"
-msgstr "下載到："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:317
-msgid "<b>Folders</b>"
-msgstr "<b>資料夾</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:350
-msgid "Use Full Allocation"
-msgstr "使用完整檔案分配"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:355
-msgid ""
-"Full allocation preallocates all of the space that is needed for the torrent "
-"and prevents disk fragmentation"
-msgstr "預先分配完整的檔案空間，避免產生不連續片段"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:367
-msgid "Use Compact Allocation"
-msgstr "使用緊密檔案分配"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
-msgid "Compact allocation only allocates space as needed"
-msgstr "依下載大小分配檔案空間"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:420
-msgid "Prioritize first and last pieces of torrent"
-msgstr "優先下載torrent的開頭和最後的部份"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:425
-msgid "Prioritize first and last pieces of files in torrent"
-msgstr "先下載種子的頭尾部份"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:435
-msgid "Add torrents in Paused state"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:477
-msgid "page 6"
-msgstr "第6頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:508
-msgid "<b><i><big>Network</big></i></b>"
-msgstr "<b><i><big>網路</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:547
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:740
-msgid "Use Random Ports"
-msgstr "使用隨機連接埠"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:552
-msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge 每次啟動時隨機選擇一個通訊埠。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:570
-msgid "Active Port:"
-msgstr "啟用的通訊埠:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:583
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:611
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:760
-msgid "From:"
-msgstr "從:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:640
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:789
-msgid "To:"
-msgstr "至："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:668
-msgid "Test Active Port"
-msgstr "測試可用通訊埠"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:710
-msgid "<b>Incoming Ports</b>"
-msgstr "<b>連入通訊埠</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:827
-msgid "<b>Outgoing Ports</b>"
-msgstr "<b>連出通訊埠</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:859
-msgid ""
-"Enter the IP address of the interface to listen for incoming bittorrent "
-"connections on.  Leave this empty if you want to use the default."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:880
-msgid "<b>Interface</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:915
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr "服務類型（TOS）位元組設定於每個送至用戶（包括網路種子）的封包 IP 標頭。應為一個十六進制（Hex）值。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:916
-msgid "Peer TOS Byte:"
-msgstr "用戶服務類型位元組："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:929
-msgid "0x00"
-msgstr "0x00"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:949
-msgid "<b>TOS</b>"
-msgstr "<b>服務類型</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:982
-msgid "UPnP"
-msgstr "UPnP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:986
-msgid "Universal Plug and Play"
-msgstr "通用隨插即用"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:997
-msgid "NAT-PMP"
-msgstr "NAT-PMP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1001
-msgid "NAT Port Mapping Protocol"
-msgstr "NAT 通訊埠對映協定"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1014
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1018
-msgid "Peer Exchange"
-msgstr "用戶交換"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1031
-msgid "LSD"
-msgstr "LSD"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1036
-msgid "Local Service Discovery finds local peers on your network."
-msgstr "本地服務探索可在您的網路上尋找本地用戶。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1047
-msgid "DHT"
-msgstr "DHT"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1051
-msgid "Distributed hash table may improve the amount of active connections."
-msgstr "分散式雜湊表 (DHT) 可以增加有效的連線數。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1073
-msgid "<b>Network Extras</b>"
-msgstr "<b>網路附加功能</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1111
-msgid "Inbound:"
-msgstr "向內連線:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1121
-msgid "Level:"
-msgstr "層級:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1141
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1190
-msgid ""
-"Forced\n"
-"Enabled\n"
-"Disabled"
-msgstr ""
-"強制\n"
-"啟用\n"
-"停用"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1152
-msgid ""
-"Handshake\n"
-"Full Stream\n"
-"Either"
-msgstr ""
-"交握階段\n"
-"整個串流\n"
-"兩者皆可"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1179
-msgid "Outbound:"
-msgstr "向外連線:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
-msgid "Encrypt entire stream"
-msgstr "加密整個串流"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1231
-msgid "<b>Encryption</b>"
-msgstr "<b>加密</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1259
-msgid "page 7"
-msgstr "第7頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1291
-msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr "<b><i><big>流量</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1367
-msgid "Maximum Connection Attempts per Second:"
-msgstr "每秒嘗試的最大連線數:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1379
-msgid "Maximum Half-Open Connections:"
-msgstr "最大半開連線數:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1390
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1480
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "最大總上傳速度。若不限制，請設為 -1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1392
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1677
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "最大總上傳速度 (KiB/秒):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1403
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1428
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "允許的最大連線數。若不限制請設為-1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1405
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1640
-msgid "Maximum Connections:"
-msgstr "最大連線數:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1499
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr "最大總上傳區段。若不限制，請設為 -1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1416
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1651
-msgid "Maximum Upload Slots:"
-msgstr "最大上傳區段:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1446
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1461
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "最大總下載速度。若不限制，請設為 -1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1448
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1664
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "最大總下載速度 (KiB/秒):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1525
-msgid "Ignore limits on local network"
-msgstr "本地網路忽略限制"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1544
-msgid "Rate limit IP overhead"
-msgstr "流量管制 IP 資訊量"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1548
-msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
-msgstr "一旦勾選，估計的 TCP/IP 資料量將由流量管制器控制，以避免整體流量超出這些限制"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1565
-msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>全域頻寬設定</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1604
-msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "各種子最大上傳區段。若不限制，請設為 -1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1623
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1689
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1707
-msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "各種子最大連線數。若不限制，請設為 -1。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1729
-msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>各種子頻寬設定</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1756
-msgid "page 8"
-msgstr "第8頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1788
-msgid "<i><b><big>Interface</big></b></i>"
-msgstr "<i><b><big>介面</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1821
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4254
-msgid "Enable"
-msgstr "啟用"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1826
-msgid ""
-"Classic Mode will hide most of the daemon functionality and will make Deluge "
-"appear to be a single application.  Use this if you do not want to take "
-"advantage of running Deluge as a daemon. You need to restart Deluge for this "
-"setting to take effect."
-msgstr ""
-"傳統模式會隱藏 daemon 大部分的功能，並使 Deluge 成為一個單獨的應用程式。若不需讓 Deluge 成為 daemon "
-"則選擇此項。您必須重新啟動 Deluge 使設定生效。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1836
-msgid "<b>Classic Mode</b>"
-msgstr "<b>傳統模式</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1868
-msgid "Show session speed in titlebar"
-msgstr "在標題列顯示速度"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1886
-msgid "<b>Main Window</b>"
-msgstr "<b>主視窗</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1918
-msgid "Always show"
-msgstr "永遠顯示"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1936
-msgid "Bring the dialog to focus"
-msgstr "取得對話框焦點"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1956
-msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>新增Torrent對話視窗</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1987
-msgid "Enable system tray icon"
-msgstr "啟用系統列圖示"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2005
-msgid "Minimize to tray on close"
-msgstr "關閉時最小化到系統列"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2025
-msgid "Start in tray"
-msgstr "啟動於系統列"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2046
-msgid "Password protect system tray"
-msgstr "縮小到系統列的密碼保護"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2112
-msgid "<b>System Tray</b>"
-msgstr "<b>系統列</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2138
-msgid "page 10"
-msgstr "第10頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
-msgid "<i><b><big>Other</big></b></i>"
-msgstr "<i><b><big>其他</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2210
-msgid "Be alerted about new releases"
-msgstr "新版本發佈時通知"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2215
-msgid ""
-"Deluge will check our servers and will tell you if a newer version has been "
-"released"
-msgstr "Deluge 會定時檢查伺服器以通知有無新版本發佈"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2234
-msgid "<b>Updates</b>"
-msgstr "<b>更新</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
-msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
-msgstr ""
-"傳送您使用的 Python 版本、PyGTK 版本、作業系統與處理器(CPU)種類來幫助我們改善 Deluge。絕對不會有額外的資訊被傳送出去。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2287
-msgid "Yes, please send anonymous statistics"
-msgstr "是的，請傳送匿名統計"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
-msgid "<b>System Information</b>"
-msgstr "<b>系統資訊</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2351
-msgid "Location:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2363
-msgid ""
-"If Deluge cannot find the database file at this location it will fallback to "
-"using DNS to resolve the peer's country."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
-msgid "<b>GeoIP Database</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2414
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
-msgid "page 11"
-msgstr "第11頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2446
-msgid "<i><b><big>Daemon</big></b></i>"
-msgstr "<i><b><big>Daemon</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
-msgid "Daemon port:"
-msgstr "Daemon 連接埠："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2526
-msgid "<b>Port</b>"
-msgstr "<b>連接埠</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2555
-msgid "Allow Remote Connections"
-msgstr "允許遠端連結"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2569
-msgid "<b>Connections</b>"
-msgstr "<b>連接數量</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2598
-msgid "Periodically check the website for new releases"
-msgstr "定期檢查此版本的更新"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2612
-msgid "<b>Other</b>"
-msgstr "<b>其它</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2671
-msgid "<i><b><big>Queue</big></b></i>"
-msgstr "<i><b><big> 隊列</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2712
-msgid "Queue new torrents to top"
-msgstr "增加新的Torrent到隊列的首位"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2806
-msgid "Total active seeding:"
-msgstr "活躍的做種數量:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2819
-msgid "Total active:"
-msgstr "活躍的:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2848
-msgid "Total active downloading:"
-msgstr "活躍的下載數量:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2863
-msgid "Do not count slow torrents"
-msgstr "不計入過慢的 torrent"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2881
-msgid "<b>Active Torrents</b>"
-msgstr "<b>活躍的Torrent</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2922
-msgid "Share Ratio Limit:"
-msgstr "分享率限制："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2932
-msgid "Seed Time Ratio:"
-msgstr "做種時間率："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2944
-msgid "Seed Time (m):"
-msgstr "做種時間 (分鐘)："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3012
-msgid "Stop seeding when share ratio reaches:"
-msgstr "達到分享率時停止做種："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3057
-msgid "Remove torrent when share ratio reached"
-msgstr "刪除已達到分享率的 torrent"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3079
-msgid "<b>Seeding</b>"
-msgstr "<b>作種中</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3111
-msgid "page 12"
-msgstr "第12頁"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3143
-msgid "<i><b><big>Proxy</big></b></i>"
-msgstr "<i><b><big>代理伺服器</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3213
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3397
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3581
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3766
-msgid "Host:"
-msgstr "主機："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3287
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3471
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3655
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3842
-msgid ""
-"None\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-msgstr ""
-"無\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 需要認證\n"
-"HTTP\n"
-"HTTP 需要認證"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3334
-msgid "<b>Peer</b>"
-msgstr "<b>用戶</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3518
-msgid "<b>Web Seed</b>"
-msgstr "<b>網路種子</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3702
-msgid "<b>Tracker</b>"
-msgstr "<b>追蹤伺服器</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3890
-msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3946
-msgid "<b><i><big>Notification</big></i></b>"
-msgstr "<b><i><big>通知</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3989
-msgid "Sound:"
-msgstr "聲音："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3993
-msgid "Only OGG and WAV files are supported"
-msgstr "只支援 OGG 與 WAV 格式"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4005
-msgid "Popup"
-msgstr "彈出式選單"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4009
-msgid "Not available on Windows"
-msgstr "在Windows上不支援"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4022
-msgid "Blinking tray icon"
-msgstr "閃爍系統列圖示"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4087
-msgid "Security:"
-msgstr "安全性："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4101
-msgid "None"
-msgstr "無"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4116
-msgid "SSL"
-msgstr "SSL"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4131
-msgid "TLS"
-msgstr "TLS"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4206
-msgid "Server:"
-msgstr "伺服器："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
-msgid "Address:"
-msgstr "位址："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4273
-msgid "<b>Email</b>"
-msgstr "<b>電子郵件</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
-msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4374
-msgid "Cache Size (16 KiB blocks):"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4384
-msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4386
-msgid "Cache Expiry (seconds):"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4481
-msgid ""
-"The total number of 16 KiB blocks written to disk since this session was "
-"started."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4483
-msgid "Blocks Written:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4492
-msgid ""
-"The total number of write operations performed since this session was "
-"started."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4494
-msgid "Writes:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4505
-msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4507
-msgid "Write Cache Hit Ratio:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4559
-msgid "<b>Write</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4589
-msgid ""
-"The number of blocks that were requested from the bittorrent engine (from "
-"peers), that were served from disk or cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4591
-msgid "Blocks Read:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4600
-msgid "The number of blocks that were served from cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4602
-msgid "Blocks Read Hit:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4613
-msgid "The cache hit ratio for the read cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4615
-msgid "Read Cache Hit Ratio:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4664
-msgid ""
-"The total number of read operations performed since this session was started."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4666
-msgid "Reads:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4693
-msgid "<b>Read</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4723
-msgid ""
-"The number of 16 KiB blocks currently in the disk cache. This includes both "
-"read and write cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4725
-msgid "Cache Size:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4735
-msgid "Read Cache Size:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4774
-msgid "<b>Size</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4817
-msgid "<b>Status</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4878
-msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>外掛</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5002
-msgid "Version:"
-msgstr "版本："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5026
-msgid "Homepage:"
-msgstr "首頁："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5039
-msgid "Author Email:"
-msgstr "作者電子郵件地址："
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5131
-msgid "_Install Plugin"
-msgstr "安裝外掛(_I)"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5174
-msgid "_Rescan Plugins"
-msgstr "重新掃描外掛(_R)"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:5227
-msgid "_Find More Plugins"
-msgstr ""
-
-#: deluge/ui/web/server.py:510
-msgid "Starting server in PID"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:623 deluge/ui/web/json_api.py:646
-#: deluge/ui/web/json_api.py:649 deluge/ui/web/json_api.py:657
-msgid "Offline"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:643
-msgid "Online"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:663
-msgid "Connected"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:691
-msgid "Daemon doesn't exist"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:697
-msgid "Daemon not running"
-msgstr ""
-
-#: deluge/core/torrentmanager.py:841
-msgid "Announce OK"
-msgstr "通告完成"
-
-#: deluge/core/torrentmanager.py:857
-msgid "Announce Sent"
-msgstr "通告以送出"
-
-#: deluge/core/torrentmanager.py:865
-msgid "Warning"
-msgstr "警告"
-
-#: deluge/core/torrentmanager.py:875
-msgid "Error"
-msgstr "錯誤"
+#: deluge/plugins/execute/execute/gtkui.py:77
+#: deluge/plugins/execute/execute/gtkui.py:88
+msgid "Execute"
+msgstr "執行"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+msgid "Event"
+msgstr "事件"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+msgid "Command"
+msgstr "指令"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+msgid "<b>Add Command</b>"
+msgstr "<b>新增指令</b>"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+msgid "<b>Commands</b>"
+msgstr "<b>指令</b>"
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:238
+msgid "Download Limit:"
+msgstr "下載限制："
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:247
+msgid "Upload Limit:"
+msgstr "上傳限制："
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:256
+msgid "Active Torrents:"
+msgstr "活躍的種子數："
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:265
+msgid "Active Downloading:"
+msgstr "活躍的下載數："
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:274
+msgid "Active Seeding:"
+msgstr "活躍的做種數："
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:288
+msgid "<b>Slow Settings</b>"
+msgstr "<b>慢速設定</b>"
+
+#~ msgid "seconds"
+#~ msgstr "秒"
+
+#~ msgid "Unknown"
+#~ msgstr "未知"
+
+#~ msgid "Download"
+#~ msgstr "下載"
+
+#~ msgid "Upload"
+#~ msgstr "上傳"
+
+#~ msgid "Update Tracker"
+#~ msgstr "更新伺服器"
+
+#~ msgid "Remove"
+#~ msgstr "移除"
+
+#~ msgid "Mainline DHT"
+#~ msgstr "連接 DHT (分散式雜湊表) 網絡"
+
+#~ msgid "Total Size"
+#~ msgstr "總大小"
+
+#~ msgid "Pieces"
+#~ msgstr "片段"
+
+#~ msgid "Share Ratio"
+#~ msgstr "分享率"
+
+#~ msgid "Tracker Status"
+#~ msgstr "伺服器狀態"
+
+#~ msgid "Details"
+#~ msgstr "詳細資訊"
+
+#~ msgid "Files"
+#~ msgstr "檔案"
+
+#~ msgid "General"
+#~ msgstr "一般"
+
+#~ msgid "Maximum Connections"
+#~ msgstr "最大連線數"
+
+#~ msgid "Start"
+#~ msgstr "開始"
+
+#~ msgid "Deluge is locked"
+#~ msgstr "Deluge 已鎖住"
+
+#~ msgid ""
+#~ "Deluge is password protected.\n"
+#~ "To show the Deluge window, please enter your password"
+#~ msgstr ""
+#~ "Deluge 已受密碼保護。\n"
+#~ "若要顯示 Deluge 視窗，請輸入您的密碼"
+
+#~ msgid "Select All"
+#~ msgstr "全選"
+
+#~ msgid "Port"
+#~ msgstr "通訊埠"
+
+#~ msgid "_Quit"
+#~ msgstr "結束(_Q)"
+
+#~ msgid "Delete .torrent file"
+#~ msgstr "刪除 .torrent 檔"
+
+#~ msgid "Server"
+#~ msgstr "伺服器"
+
+#~ msgid "Username"
+#~ msgstr "使用者名稱"
+
+#~ msgid "Password"
+#~ msgstr "密碼"
+
+#~ msgid "Clear"
+#~ msgstr "清除"
+
+#~ msgid "Add"
+#~ msgstr "新增"
+
+#~ msgid "Availability"
+#~ msgstr "可得性"
+
+#~ msgid "Graph"
+#~ msgstr "流量圖"
+
+#~ msgid "Speed"
+#~ msgstr "速度"
+
+#~ msgid "New Password"
+#~ msgstr "新密碼"
+
+#~ msgid "Template"
+#~ msgstr "樣板"
+
+#~ msgid "Image Only"
+#~ msgstr "只顯示圖片"
+
+#~ msgid "Text and image"
+#~ msgstr "文字及圖片"
+
+#~ msgid "Set"
+#~ msgstr "設定"
+
+#~ msgid "Auto refresh:"
+#~ msgstr "自動更新間隔:"
+
+#~ msgid "Password is invalid,try again"
+#~ msgstr "密碼無效，請再試一次"
+
+#~ msgid "Delete downloaded files."
+#~ msgstr "刪除已下載檔案"
+
+#~ msgid "Submit"
+#~ msgstr "送出"
+
+#~ msgid "Type"
+#~ msgstr "類型"
+
+#~ msgid "Disabled"
+#~ msgstr "已停用"
+
+#~ msgid "From"
+#~ msgstr "開始於"
+
+#~ msgid "Url"
+#~ msgstr "網址"
+
+#~ msgid "Upload torrent"
+#~ msgstr "上傳種子"
+
+#~ msgid "Torrent list"
+#~ msgstr "種子清單"
+
+#~ msgid "Resume all"
+#~ msgstr "全部續傳"
+
+#~ msgid "Set Timeout"
+#~ msgstr "設定逾時時間"
+
+#~ msgid "Reannounce"
+#~ msgstr "重新通告"
+
+#~ msgid "Next Announce"
+#~ msgstr "下次通告時間"
+
+#~ msgid "Pause all"
+#~ msgstr "全部暫停"
+
+#~ msgid "Login"
+#~ msgstr "登入"
+
+#~ msgid "Logout"
+#~ msgstr "登出"
+
+#~ msgid "Refresh page every:"
+#~ msgstr "更新頁面頻率:"
+
+#~ msgid "Ava"
+#~ msgstr "可得性"
+
+#~ msgid "Eta"
+#~ msgstr "完成時間"
+
+#~ msgid "Disable"
+#~ msgstr "停用"
+
+#~ msgid "Config"
+#~ msgstr "設定"
+
+#~ msgid "Choose an url or a torrent, not both."
+#~ msgstr "請選擇網址或種子，不要同時選擇"
+
+#~ msgid "refresh must be > 0"
+#~ msgstr "更新頻率要大於 0"
+
+#~ msgid "About"
+#~ msgstr "關於"
+
+#~ msgid "# Of Files"
+#~ msgstr "檔案總數"
+
+#~ msgid "translate something"
+#~ msgstr "翻譯成別種語言"
+
+#~ msgid "Text Only"
+#~ msgstr "只顯示文字"
+
+#~ msgid "Queue Position"
+#~ msgstr "佇列位置"
+
+#~ msgid "Download Location"
+#~ msgstr "下載位置"
+
+#~ msgid "Maximum Up Speed"
+#~ msgstr "最高上傳速度"
+
+#~ msgid "Maximum Down Speed"
+#~ msgstr "最高下載速度"
+
+#~ msgid "Forced"
+#~ msgstr "強制加密"
+
+#~ msgid "Maximum Download Speed (Kib/s)"
+#~ msgstr "最高下載速度 (Kib/s)"
+
+#~ msgid "Maximum Upload Speed (Kib/s)"
+#~ msgstr "最高上傳速度 (Kib/s)"
+
+#~ msgid "Save .torrent files to"
+#~ msgstr "儲存.torrent檔案於"
+
+#~ msgid "Store all downoads in"
+#~ msgstr "將所有新的下載放在"
+
+#~ msgid "Restart daemon and webui after changing these settings"
+#~ msgstr "儲存設定後重開伺服程式以及網頁介面"
+
+#~ msgid "-1 = unlimited"
+#~ msgstr "-1 = 不限"
+
+#~ msgid "Enabled Plugins"
+#~ msgstr "啟用的外掛"
+
+#~ msgid "Current Password"
+#~ msgstr "目前的密碼"
+
+#~ msgid "New Password (Confirm)"
+#~ msgstr "新的密碼 (確認)"
+
+#~ msgid "These changes were saved"
+#~ msgstr "成功儲存變更"
+
+#~ msgid "∞"
+#~ msgstr "∞"
+
+#~ msgid "This folder does not exist."
+#~ msgstr "資料夾不存在"
+
+#~ msgid "Recheck"
+#~ msgstr "重新檢察"
+
+#~ msgid "Queue Top"
+#~ msgstr "在隊列上移"
+
+#~ msgid "Queue Bottom"
+#~ msgstr "在隊列下移"
+
+#~ msgid "Total active torrents"
+#~ msgstr "活躍的Torrent數量"
+
+#~ msgid "Total active seeding"
+#~ msgstr "活躍的做種數量"
+
+#~ msgid "Total active downloading"
+#~ msgstr "活躍的下載數量"
+
+#~ msgid "Peer-Exchange"
+#~ msgstr "使用者資訊交換"
+
+#~ msgid "UpNP"
+#~ msgstr "UPnP"
+
+#~ msgid "Per Torrent"
+#~ msgstr "每個Torrent"
+
+#~ msgid "Import Now"
+#~ msgstr "現在匯入"
+
+#~ msgid "<big><b>Add Torrents</b></big>"
+#~ msgstr "<big><b>增加Torrent檔</b></big>"
+
+#~ msgid "Maximum Half-Open Connections"
+#~ msgstr "最大半開連結的數量"
+
+#~ msgid "Maximum Upload Slots"
+#~ msgstr "最大上傳連接數量"
+
+#~ msgid "-1 = Unlimited"
+#~ msgstr "-1 = 不限"
+
+#~ msgid "File"
+#~ msgstr "檔案"
+
+#~ msgid "Save"
+#~ msgstr "儲存"
+
+#~ msgid "No data"
+#~ msgstr "無資料"
+
+#~ msgid "Ports"
+#~ msgstr "通訊埠"
+
+#~ msgid "To"
+#~ msgstr "至"
+
+#~ msgid "Random"
+#~ msgstr "隨機"
+
+#~ msgid "Encryption"
+#~ msgstr "加密"
+
+#~ msgid "Handshake"
+#~ msgstr "握手"
+
+#~ msgid "Global"
+#~ msgstr "全域"
+
+#~ msgid "Move To"
+#~ msgstr "移動到"
+
+#~ msgid "Button style"
+#~ msgstr "按鈕類型"
+
+#~ msgid "Statistics"
+#~ msgstr "統計"
+
+#~ msgid "Delete"
+#~ msgstr "刪除"
+
+#~ msgid "Move"
+#~ msgstr "移動"
+
+#~ msgid "Stop"
+#~ msgstr "停止"
+
+#~ msgid "Inactive"
+#~ msgstr "不活躍"
+
+#~ msgid "Homepage"
+#~ msgstr "首頁"
+
+#~ msgid "Community"
+#~ msgstr "社群"
+
+#~ msgid "FAQ"
+#~ msgstr "常見問題"
+
+#~ msgid "Filters"
+#~ msgstr "過濾器"
+
+#~ msgid "no uri"
+#~ msgstr "沒有URI"
+
+#~ msgid "Error in torrent options."
+#~ msgstr "種子檔案有錯誤發生"
+
+#~ msgid "Add In Paused State"
+#~ msgstr "新增為暫停狀態"
+
+#~ msgid "Compact Allocation"
+#~ msgstr "緊密配置"
+
+#~ msgid "Prioritize first and last pieces"
+#~ msgstr "優先下載檔案的頭尾部份"
+
+#~ msgid "Extra's"
+#~ msgstr "額外的"
+
+#~ msgid "Outbound"
+#~ msgstr "流出"
+
+#~ msgid "Maximum Connection Attempts per Second"
+#~ msgstr "每秒最大連接數量"
+
+#~ msgid "Auto Add folder"
+#~ msgstr "自動新增資料夾"
+
+#~ msgid "Stop seeding when ratio reaches"
+#~ msgstr "比例到達時停止作種"
+
+#~ msgid "Old password is invalid"
+#~ msgstr "舊密碼錯誤"
+
+#~ msgid "New Password is not equal to New Password(confirm)"
+#~ msgstr "二次新密碼不相同"
+
+#~ msgid "Cache templates"
+#~ msgstr "快取範本"
+
+#~ msgid "Stop seed at ratio"
+#~ msgstr "停止作種在比例"
+
+#~ msgid "Correct the errors above and try again"
+#~ msgstr "修正錯誤並重試"
+
+#~ msgid "Enter a whole number."
+#~ msgstr "請輸入完整的數字"
+
+#~ msgid "Enter a valid value."
+#~ msgstr "請輸入合法的值"
+
+#~ msgid "This field is required."
+#~ msgstr "此為必要欄位"
+
+#~ msgid ""
+#~ "Select a valid choice. That choice is not one of the available choices."
+#~ msgstr "該選項不可用，請選擇正確的選項。"
+
+#, python-format
+#~ msgid "Select a valid choice. %s is not one of the available choices."
+#~ msgstr "%s 選項不可用，請選擇正確的選項。"
+
+#~ msgid "BlockList"
+#~ msgstr "黑名單"
+
+#~ msgid "Error setting label options"
+#~ msgstr "標籤選項設定錯誤"
+
+#~ msgid "Check for every (days)"
+#~ msgstr "每 (天) 檢查"
+
+#~ msgid "Import on daemon startup"
+#~ msgstr "當 daemon 啟動時匯入"
+
+#~ msgid "Times to attempt download"
+#~ msgstr "下載嘗試次數"
+
+#, python-format
+#~ msgid "Importing %s"
+#~ msgstr "%s 匯入中"
+
+#, python-format
+#~ msgid "Downloading %.2f%%"
+#~ msgstr "%.2f%% 下載中"
+
+#, python-format
+#~ msgid "Blocked Ranges: %s"
+#~ msgstr "封閉範圍：%s"
+
+#~ msgid "Refresh status"
+#~ msgstr "狀態重新整理"
+
+#~ msgid ""
+#~ "This program is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the Free "
+#~ "Software Foundation; either version 3 of the License, or (at your option) "
+#~ "any later version. This program is distributed in the hope that it will be "
+#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
+#~ "Public License for more details. You should have received a copy of the GNU "
+#~ "General Public License along with this program; if not, see "
+#~ "<http://www.gnu.org/licenses>."
+#~ msgstr ""
+#~ "本程式為自由軟體：您可以在符合 自由軟體基金會(Free Software Foundation) 發佈的 GNU通用公共許可證(GNU General "
+#~ "Public License) "
+#~ "限制下重新散佈、修改本軟體；您可以選擇第三版或任何後續的版本。期望本程式能帶來幫助，但不包含任何保證；即便是可售性或適用於任何特定目的的保證。細節請參閱 "
+#~ "GNU通用公共許可證(GNU General Public License)。GNU通用公共許可證(GNU General Public "
+#~ "License) 您應該會隨著本程式一起取得；如果找不到，請參閱 <http://www.gnu.org/licenses> 。"
+
+#~ msgid "no label"
+#~ msgstr "沒有標籤"
+
+#~ msgid "Inbound"
+#~ msgstr "向內"
+
+#~ msgid "Either"
+#~ msgstr "任一"
+
+#~ msgid "Connect"
+#~ msgstr "連線"
+
+#~ msgid "Level"
+#~ msgstr "等級"
+
+#~ msgid "Auto Add enabled"
+#~ msgstr "自動新增啟用"
+
+#~ msgid "Enter a number."
+#~ msgstr "輸入一個數字。"
+
+#~ msgid "No file was submitted. Check the encoding type on the form."
+#~ msgstr "沒有檔案被寄出。 檢查表單的編碼種類。"
+
+#~ msgid "Enter a valid e-mail address."
+#~ msgstr "輸入有效電子郵件位址。"
+
+#~ msgid "Enter a valid date."
+#~ msgstr "輸入有效日期。"
+
+#~ msgid "Enter a valid time."
+#~ msgstr "輸入有效時間。"
+
+#, python-format
+#~ msgid ""
+#~ "Ensure that there are no more than %s digits before the decimal point."
+#~ msgstr "確保小數點前不超過 %s 位數。"
+
+#~ msgid ""
+#~ "Upload a valid image. The file you uploaded was either not an image or a "
+#~ "corrupted image."
+#~ msgstr "上傳有效的圖片。 您上傳的檔案不是圖片，或是已經毀損。"
+
+#~ msgid "No file was submitted."
+#~ msgstr "沒有檔案被寄出。"
+
+#~ msgid "Auto refresh (seconds)"
+#~ msgstr "自動重新整理 (秒)"
+
+#~ msgid "Error in Path."
+#~ msgstr "路徑錯誤。"
+
+#~ msgid "Enter a valid URL."
+#~ msgstr "輸入有效的網址。"
+
+#~ msgid "Enter a valid IPv4 address."
+#~ msgstr "輸入有效的 IPv4 位址。"
+
+#~ msgid "This URL appears to be a broken link."
+#~ msgstr "這個網址有錯。"
+
+#~ msgid "Manually restart webui to apply changes."
+#~ msgstr "手動重新啟動網頁介面以套用變更。"
+
+#~ msgid "Show keyword search"
+#~ msgstr "顯示關鍵字搜尋"
+
+#~ msgid "Show sidebar"
+#~ msgstr "顯示側邊欄"
+
+#, python-format
+#~ msgid "Key not found at '%s'"
+#~ msgstr "無法在 '%s' 找到金鑰"
+
+#, python-format
+#~ msgid "Certificate not found at '%s'"
+#~ msgstr "無法在 '%s' 找到證書"
+
+#~ msgid "Sidebar"
+#~ msgstr "側邊欄"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
+
+#~ msgid "Active time"
+#~ msgstr "活動時間"
+
+#~ msgid "... and delete Torrent file"
+#~ msgstr "... 與刪除 Torrent 檔案"
+
+#~ msgid "... and delete Downloaded files"
+#~ msgstr "... 與刪除已下載的檔案"
+
+#~ msgid "... and delete All files"
+#~ msgstr "... 與刪除所有檔案"
+
+#~ msgid "Connected to"
+#~ msgstr "連線到"
+
+#~ msgid "Connection Limit"
+#~ msgstr "連線限制"
+
+#~ msgid "Deluge : Torrent List"
+#~ msgstr "Deluge : Torrent 清單"
+
+#~ msgid "Deluge Login"
+#~ msgstr "Deluge 登入"
+
+#~ msgid "Disk Space"
+#~ msgstr "磁諜空間"
+
+#~ msgid "Do not download"
+#~ msgstr "不要下載"
+
+#~ msgid "Force Recheck"
+#~ msgstr "強制重新檢查"
+
+#~ msgid "Filter on a keyword"
+#~ msgstr "關鍵字篩選"
+
+#~ msgid "Normal priority"
+#~ msgstr "一般優先權"
+
+#~ msgid "No Incoming Connections"
+#~ msgstr "沒有進入的連線"
+
+#~ msgid "Move torrent"
+#~ msgstr "移動 torrent"
+
+#~ msgid "Label torrent"
+#~ msgstr "為 Torrent 加上標籤"
+
+#~ msgid "From Url"
+#~ msgstr "從網址"
+
+#~ msgid "Keyword"
+#~ msgstr "關鍵字"
+
+#~ msgid "Highest priority"
+#~ msgstr "最高優先權"
+
+#~ msgid "Seed rank"
+#~ msgstr "種子等級"
+
+#~ msgid "Seeding time"
+#~ msgstr "作種時間"
+
+#~ msgid "Ok"
+#~ msgstr "確定"
+
+#~ msgid "Not Connected to a daemon"
+#~ msgstr "沒有連線到 daemon"
+
+#~ msgid "U/L Speed Limit"
+#~ msgstr "上傳速度限制"
+
+#~ msgid "Update"
+#~ msgstr "更新"
+
+#~ msgid "Search"
+#~ msgstr "搜尋"
+
+#~ msgid "Restart"
+#~ msgstr "重新啟動"
+
+#~ msgid ""
+#~ "32 KiB\n"
+#~ "64 KiB\n"
+#~ "128 KiB\n"
+#~ "256 KiB\n"
+#~ "512 KiB"
+#~ msgstr ""
+#~ "32 KiB\n"
+#~ "64 KiB\n"
+#~ "128 KiB\n"
+#~ "256 KiB\n"
+#~ "512 KiB"
+
+#~ msgid "Remove torrent when ratio reached"
+#~ msgstr "分享率到達時移除種子檔案"
+
+#~ msgid "max_connections"
+#~ msgstr "最大連線數目"
+
+#~ msgid "max_upload_speed"
+#~ msgstr "最低上傳速度"
+
+#~ msgid "max_download_speed"
+#~ msgstr "最高下載速度"
+
+#~ msgid "auto_add"
+#~ msgstr "自動新增"
+
+#, python-format
+#~ msgid ""
+#~ "This email is to inform you that Deluge has finished downloading %s ,        "
+#~ "     which includes %i files.\n"
+#~ "To stop receiving these alerts, simply turn off             email "
+#~ "notification in Deluge's preferences.\n"
+#~ "\n"
+#~ "Thank you,\n"
+#~ "Deluge"
+#~ msgstr ""
+#~ "這封郵件是Deluge通知你%s(共包含%i個檔案)已經下載完成。\n"
+#~ "想要停止收取這類的通知，只有關閉Deluge偏好設定中的電子郵件通知即可。\n"
+#~ "\n"
+#~ "謝謝你，\n"
+#~ "Deluge"
+
+#~ msgid "Socksv5"
+#~ msgstr "Socksv5"
+
+#~ msgid "Socksv4"
+#~ msgstr "Socksv4"
+
+#, python-format
+#~ msgid "Ensure this value is less than or equal to %s."
+#~ msgstr "確認這個值小於等於%s。"
+
+#~ msgid "HTTP"
+#~ msgstr "HTTP"
+
+#, python-format
+#~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+#~ msgstr "確保本值至多到 %(max)d 個字元(共有 %(length)d)"
+
+#, python-format
+#~ msgid "Ensure this value is greater than or equal to %s."
+#~ msgstr "確認這個值大於等於%s。"
+
+#~ msgid "Enter a valid date/time."
+#~ msgstr "輸入有效的日期/時間。"
+
+#~ msgid "Https"
+#~ msgstr "Https"
+
+#~ msgid "Upload Slot Limit"
+#~ msgstr "上傳連接數限制"
+
+#~ msgid "High priority"
+#~ msgstr "高優先權"
+
+#~ msgid "max_upload_slots"
+#~ msgstr "最大上傳連接數"
+
+#~ msgid "Show trackers"
+#~ msgstr "顯示追蹤伺服器"
+
+#~ msgid "auto_add_trackers"
+#~ msgstr "自動新增追蹤伺服器"
+
+#~ msgid "D/L Speed Limit"
+#~ msgstr "上傳/下載速度限制"
+
+#~ msgid "The submitted file is empty."
+#~ msgstr "提交的檔案是空的。"
+
+#~ msgid "State"
+#~ msgstr "狀態"
+
+#~ msgid "Timeout (seconds)"
+#~ msgstr "逾時(秒)"
