@@ -75,7 +75,8 @@ ICON_STATE = {
     "Seeding": icon_seeding,
     "Paused": icon_inactive,
     "Error": icon_alert,
-    "Queued": icon_queued
+    "Queued": icon_queued,
+    "Checking Resume Data": icon_checking
 }
 
 def cell_data_statusicon(column, cell, model, row, data):

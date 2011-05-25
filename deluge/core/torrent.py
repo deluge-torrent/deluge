@@ -346,7 +346,10 @@ class Torrent(object):
 
         # Set self.state to the ltstate right away just incase we don't hit some
         # of the logic below
-        self.state = str(ltstate)
+        if ltstate in LTSTATE:
+            self.state = LTSTATE[ltstate]
+        else:
+            self.state = str(ltstate)
 
         log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
         log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
