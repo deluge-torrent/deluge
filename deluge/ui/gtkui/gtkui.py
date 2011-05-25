@@ -34,11 +34,13 @@
 #
 from deluge.log import LOG as log
 
+import gobject
+gobject.set_prgname("deluge")
+
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
-import gobject
 import gettext
 import locale
 import pkg_resources
