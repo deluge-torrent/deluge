@@ -119,7 +119,8 @@ class FilesTab(Tab):
         self._editing_index = None
 
         # Filename column
-        column = gtk.TreeViewColumn(_("Filename"))
+        self.filename_column_name = _("Filename")
+        column = gtk.TreeViewColumn(self.filename_column_name)
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
         column.add_attribute(render, "stock-id", 6)
@@ -520,15 +521,24 @@ class FilesTab(Tab):
             return True
 
     def _on_key_press_event(self, widget, event):
-        # Menu key
-        if gtk.gdk.keyval_name(event.keyval) != "Menu":
-            return
-
         if not self.get_selected_files():
             return
 
+        keyname = gtk.gdk.keyval_name(event.keyval)
+        func = getattr(self, 'keypress_' + keyname, None)
+        if func:
+            return func(event)
+
+    def keypress_Menu(self, event):
         self.file_menu.popup(None, None, None, 3, event.time)
         return True
+
+    def keypress_F2(self, event):
+        path, col = self.listview.get_cursor()
+        for column in self.listview.get_columns():
+            if column.get_title() == self.filename_column_name:
+                self.listview.set_cursor(path, column, True)
+                return True
 
     def _on_menuitem_open_file_activate(self, menuitem):
         self._on_row_activated(None, None, None)
