@@ -166,6 +166,18 @@ def get_default_download_dir():
     if windows_check():
         return os.path.expanduser("~")
     else:
+        from xdg.BaseDirectory import xdg_config_home
+        userdir_file = os.path.join(xdg_config_home, 'user-dirs.dirs')
+        try:
+            for line in open(userdir_file, 'r'):
+                if not line.startswith('#') and 'XDG_DOWNLOAD_DIR' in line:
+                        download_dir = os.path.expandvars(\
+                                        line.partition("=")[2].rstrip().strip('"'))
+                        if os.path.isdir(download_dir):
+                            return download_dir
+        except IOError:
+            pass
+
         return os.environ.get("HOME")
 
 def windows_check():
