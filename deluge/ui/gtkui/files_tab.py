@@ -482,7 +482,10 @@ class FilesTab(Tab):
             if self._editing_index == row[5]:
                 continue
 
-            progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            try:
+                progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            except IndexError:
+                continue
             if row[2] != progress_string:
                 row[2] = progress_string
             progress_value = status["file_progress"][index] * 100
