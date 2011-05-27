@@ -441,9 +441,8 @@ class FilesTab(Tab):
         """
         Go through the tree and update the folder complete percentages.
         """
-
         root = self.treestore.get_iter_root()
-        if self.treestore[root][5] != -1:
+        if root is None or self.treestore[root][5] != -1:
             return
 
         def get_completed_bytes(row):
