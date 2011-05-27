@@ -502,17 +502,15 @@ class FilesTab(Tab):
         # We only care about right-clicks
         if event.button == 3:
             x, y = event.get_coords()
-            path = self.listview.get_path_at_pos(int(x), int(y))
-            if not path:
+            cursor_path = self.listview.get_path_at_pos(int(x), int(y))
+            if not cursor_path:
                 return
-            row = self.treestore.get_iter(path[0])
 
-            if self.get_selected_files():
-                if self.treestore.get_value(row, 5) not in self.get_selected_files():
+            paths = self.listview.get_selection().get_selected_rows()[1]
+            if cursor_path[0] not in paths:
+                    row = self.treestore.get_iter(cursor_path[0])
                     self.listview.get_selection().unselect_all()
                     self.listview.get_selection().select_iter(row)
-            else:
-                self.listview.get_selection().select_iter(row)
 
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not self.__compact)
@@ -521,13 +519,13 @@ class FilesTab(Tab):
             return True
 
     def _on_key_press_event(self, widget, event):
-        if not self.get_selected_files():
-            return
-
         keyname = gtk.gdk.keyval_name(event.keyval)
         func = getattr(self, 'keypress_' + keyname, None)
-        if func:
+        selected_rows = self.listview.get_selection().get_selected_rows()[1]
+        if func and selected_rows:
             return func(event)
+        else:
+            return
 
     def keypress_Menu(self, event):
         self.file_menu.popup(None, None, None, 3, event.time)
