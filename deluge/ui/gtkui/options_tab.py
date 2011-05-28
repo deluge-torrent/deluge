@@ -72,10 +72,9 @@ class OptionsTab(Tab):
             "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled,
             "on_chk_stop_at_ratio_toggled": self._on_chk_stop_at_ratio_toggled,
-            "on_chk_shared_toggled": self._on_chk_shared_toggled,
+            "on_chk_toggled": self._on_chk_toggled,
             "on_spin_value_changed": self._on_spin_value_changed,
-            "on_chk_sequential_download_toggled": \
-                                        self._on_chk_sequential_download_toggled
+            "on_move_completed_file_set": self._on_move_completed_file_set
         })
 
     def start(self):
@@ -85,6 +84,9 @@ class OptionsTab(Tab):
         else:
             self.filechooser_move_completed.hide()
             self.entry_move_completed.show()
+            self.entry_move_completed.connect(
+                "changed", self._on_entry_move_completed_changed
+            )
 
     def stop(self):
         pass
@@ -278,7 +280,7 @@ class OptionsTab(Tab):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_chk_shared_toggled(self, widget):
+    def _on_chk_toggled(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
@@ -286,6 +288,10 @@ class OptionsTab(Tab):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
 
-    def _on_chk_sequential_download_toggled(self, widget):
+    def _on_move_completed_file_set(self, widget):
+        if not self.button_apply.is_sensitive():
+            self.button_apply.set_sensitive(True)
+
+    def _on_entry_move_completed_changed(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
