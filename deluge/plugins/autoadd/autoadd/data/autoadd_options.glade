@@ -2,89 +2,6 @@
 <glade-interface>
   <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkDialog" id="error_dialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">6</property>
-    <property name="title" translatable="yes">AutoAdd Error</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <signal name="close" handler="on_error_dialog_close"/>
-    <child internal-child="vbox">
-      <widget class="GtkVBox" id="dialog-vbox2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <widget class="GtkButton" id="okbutton1">
-                <property name="label">gtk-ok</property>
-                <property name="response_id">-5</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_error_ok"/>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkHBox" id="hbox12">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <widget class="GtkImage" id="image7">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="stock">gtk-dialog-error</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="error_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0.46000000834465027</property>
-                <property name="label" translatable="yes">Error</property>
-                <property name="wrap">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
   <widget class="GtkDialog" id="options_dialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Watch Folder Properties</property>
@@ -196,6 +113,8 @@
                                       <widget class="GtkEntry" id="path_entry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="tooltip" translatable="yes">If a .torrent file is added to this directory,
+it will be added to the session.</property>
                                         <property name="invisible_char">●</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
@@ -212,6 +131,8 @@
                                       <widget class="GtkFileChooserButton" id="path_chooser">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip" translatable="yes">If a .torrent file is added to this directory,
+it will be added to the session.</property>
                                         <property name="action">select-folder</property>
                                         <property name="title" translatable="yes">Select A Folder</property>
                                       </widget>
@@ -282,6 +203,7 @@
                               <widget class="GtkComboBox" id="OwnerCombobox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="tooltip" translatable="yes">The user selected here will be the owner of the torrent.</property>
                               </widget>
                             </child>
                           </widget>
@@ -329,6 +251,8 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="tooltip" translatable="yes">Once the torrent is added to the session, 
+the .torrent will be deleted.</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
                                         <signal name="toggled" handler="on_toggle_toggled"/>
@@ -349,6 +273,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="tooltip" translatable="yes">Once the torrent is added to the session, 
+an extension will be appended to the .torrent
+and it will remain in the same directory.</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
@@ -396,6 +323,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="tooltip" translatable="yes">Once the torrent is added to the session, 
+the .torrent will copied to the chosen directory
+and deleted from the watch folder.</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">isnt_append_extension</property>
@@ -448,8 +378,8 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">Delete the copy of the torrent file
-created when the torrent is removed</property>
+                                            <property name="tooltip" translatable="yes">Once the torrent is deleted from the session, 
+also delete the .torrent file used to add it.</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
@@ -512,6 +442,7 @@ created when the torrent is removed</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="tooltip" translatable="yes">This directory will be the download location</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>

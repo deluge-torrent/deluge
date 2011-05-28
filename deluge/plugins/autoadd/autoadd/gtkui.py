@@ -41,6 +41,7 @@ import gtk
 
 from deluge.log import getPluginLogger
 from deluge.ui.client import client
+from deluge.ui.gtkui import dialogs
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
@@ -49,6 +50,9 @@ import os
 from common import get_resource
 
 log = getPluginLogger(__name__)
+
+class IncompatibleOption(Exception):
+    pass
 
 class OptionsDialog():
     spin_ids = ["max_download_speed", "max_upload_speed", "stop_ratio"]
@@ -59,6 +63,7 @@ class OptionsDialog():
     def __init__(self):
         self.accounts = gtk.ListStore(str)
         self.labels = gtk.ListStore(str)
+        self.core_config = {}
 
     def show(self, options={}, watchdir_id=None):
         self.glade = gtk.glade.XML(get_resource("autoadd_options.glade"))
@@ -67,14 +72,10 @@ class OptionsDialog():
             "on_opts_apply":self.on_apply,
             "on_opts_cancel":self.on_cancel,
             "on_options_dialog_close":self.on_cancel,
-            "on_error_ok":self.on_error_ok,
-            "on_error_dialog_close":self.on_error_ok,
             "on_toggle_toggled":self.on_toggle_toggled
         })
         self.dialog = self.glade.get_widget("options_dialog")
         self.dialog.set_transient_for(component.get("Preferences").pref_dialog)
-        self.err_dialog = self.glade.get_widget("error_dialog")
-        self.err_dialog.set_transient_for(self.dialog)
 
         if watchdir_id:
             #We have an existing watchdir_id, we are editing
@@ -91,7 +92,7 @@ class OptionsDialog():
         self.dialog.run()
 
     def load_options(self, options):
-        self.glade.get_widget('enabled').set_active(options.get('enabled', False))
+        self.glade.get_widget('enabled').set_active(options.get('enabled', True))
         self.glade.get_widget('append_extension_toggle').set_active(
             options.get('append_extension_toggle', False)
         )
@@ -149,17 +150,55 @@ class OptionsDialog():
                 self.glade.get_widget(field+"_chooser").hide()
         self.set_sensitive()
 
+        def on_core_config(config):
+            if client.is_localhost():
+                self.glade.get_widget('download_location_chooser').set_current_folder(
+                    options.get('download_location', config["download_location"])
+                )
+                if options.get('move_completed_toggle', config["move_completed"]):
+                    self.glade.get_widget('move_completed_toggle').set_active(True)
+                    self.glade.get_widget('move_completed_path_chooser').set_current_folder(
+                        options.get('move_completed_path', config["move_completed_path"])
+                    )
+                if options.get('copy_torrent_toggle', config["copy_torrent_file"]):
+                    self.glade.get_widget('copy_torrent_toggle').set_active(True)
+                    self.glade.get_widget('copy_torrent_chooser').set_current_folder(
+                        options.get('copy_torrent', config["torrentfiles_location"])
+                    )
+            else:
+                self.glade.get_widget('download_location_entry').set_text(
+                    options.get('download_location', config["download_location"])
+                )
+                if options.get('move_completed_toggle', config["move_completed"]):
+                    self.glade.get_widget('move_completed_toggle').set_active(
+                        options.get('move_completed_toggle', False)
+                    )
+                    self.glade.get_widget('move_completed_path_entry').set_text(
+                        options.get('move_completed_path', config["move_completed_path"])
+                    )
+                if options.get('copy_torrent_toggle', config["copy_torrent_file"]):
+                    self.glade.get_widget('copy_torrent_toggle').set_active(True)
+                    self.glade.get_widget('copy_torrent_entry').set_text(
+                        options.get('copy_torrent', config["torrentfiles_location"])
+                    )
+
+            if options.get('delete_copy_torrent_toggle', config["del_copy_torrent_file"]):
+                self.glade.get_widget('delete_copy_torrent_toggle').set_active(True)
+
+        if not options:
+            client.core.get_config().addCallback(on_core_config)
+
         def on_accounts(accounts, owner):
             log.debug("Got Accounts")
-            selected_idx = None
-            for idx, account in enumerate(accounts):
+            selected_iter = None
+            for account in accounts:
                 iter = self.accounts.append()
                 self.accounts.set_value(
                     iter, 0, account['username']
                 )
                 if account['username'] == owner:
-                    selected_idx = idx
-            self.glade.get_widget('OwnerCombobox').set_active(selected_idx)
+                    selected_iter = iter
+            self.glade.get_widget('OwnerCombobox').set_active_iter(selected_iter)
 
         def on_accounts_failure(failure):
             log.debug("Failed to get accounts!!! %s", failure)
@@ -190,7 +229,7 @@ class OptionsDialog():
         client.core.get_enabled_plugins().addCallback(on_get_enabled_plugins)
         if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
             client.core.get_known_accounts().addCallback(
-                on_accounts, options.get('owner', 'localclient')
+                on_accounts, options.get('owner', client.get_auth_user())
             ).addErrback(on_accounts_failure)
         else:
             iter = self.accounts.append()
@@ -249,27 +288,29 @@ class OptionsDialog():
             self.glade.get_widget('remove_at_ratio').set_sensitive(isactive)
 
     def on_apply(self, Event=None):
-        client.autoadd.set_options(
-            str(self.watchdir_id), self.generate_opts()
-        ).addCallbacks(self.on_added, self.on_error_show)
+        try:
+            options = self.generate_opts()
+            client.autoadd.set_options(
+                str(self.watchdir_id), options
+            ).addCallbacks(self.on_added, self.on_error_show)
+        except IncompatibleOption, err:
+            dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
+
 
     def on_error_show(self, result):
-        self.glade.get_widget('error_label').set_text(result.value.exception_msg)
-        self.err_dialog = self.glade.get_widget('error_dialog')
-        self.err_dialog.set_transient_for(self.dialog)
+        d = dialogs.ErrorDialog(_("Error"), result.value.exception_msg, self.dialog)
         result.cleanFailure()
-        self.err_dialog.show()
+        d.run()
 
     def on_added(self, result):
         self.dialog.destroy()
 
-    def on_error_ok(self, Event=None):
-        self.err_dialog.hide()
-
     def on_add(self, Event=None):
-        client.autoadd.add(
-            self.generate_opts()
-        ).addCallbacks(self.on_added, self.on_error_show)
+        try:
+            options = self.generate_opts()
+            client.autoadd.add(options).addCallbacks(self.on_added, self.on_error_show)
+        except IncompatibleOption, err:
+            dialogs.ErrorDialog(_("Incompatible Option"), str(err), self.dialog).run()
 
     def on_cancel(self, Event=None):
         self.dialog.destroy()
@@ -314,6 +355,10 @@ class OptionsDialog():
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
             options[id+'_toggle'] = self.glade.get_widget(id+'_toggle').get_active()
+
+        if options['copy_torrent_toggle'] and options['path'] == options['copy_torrent']:
+            raise IncompatibleOption(_("\"Watch Folder\" directory and \"Copy of .torrent"
+                                       " files to\" directory cannot be the same!"))
         return options
 
 
@@ -458,7 +503,7 @@ class GtkUI(GtkPluginBase):
 
     def cb_get_config(self, watchdirs):
         """callback for on show_prefs"""
-        log.debug("Got whatchdirs from core: %s", watchdirs)
+        log.trace("Got whatchdirs from core: %s", watchdirs)
         self.watchdirs = watchdirs or {}
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():

@@ -36,6 +36,7 @@ import gtk
 
 from twisted.internet import defer
 
+from deluge.ui.gtkui import common
 import deluge.component as component
 
 
@@ -57,6 +58,8 @@ class BaseDialog(gtk.Dialog):
             parent=parent if parent else component.get("MainWindow").window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
+
+        self.set_icon(common.get_deluge_icon())
 
         self.connect("delete-event", self._on_delete_event)
         self.connect("response", self._on_response)
