@@ -384,7 +384,7 @@ class GtkUI(GtkPluginBase):
     def create_columns(self, treeView):
         rendererToggle = gtk.CellRendererToggle()
         column = gtk.TreeViewColumn(
-            _("Active"), rendererToggle, activatable=True, active=1
+            _("Active"), rendererToggle, activatable=1, active=1
         )
         column.set_sort_column_id(1)
         treeView.append_column(column)

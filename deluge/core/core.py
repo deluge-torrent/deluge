@@ -88,7 +88,9 @@ class Core(component.Component):
 
         # Set the user agent
         self.settings = lt.session_settings()
-        self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
+        self.settings.user_agent = "Deluge/%(deluge_version)s Libtorrent/%(lt_version)s" % \
+                        { 'deluge_version': deluge.common.get_version(),
+                          'lt_version': self.get_libtorrent_version().rpartition(".")[0] }
 
         # Set session settings
         self.settings.send_redundant_have = True

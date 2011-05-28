@@ -33,11 +33,13 @@
 #
 #
 
+import gobject
+gobject.set_prgname("deluge")
+
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
-import gobject
 import gettext
 import locale
 import pkg_resources
@@ -114,7 +116,7 @@ DEFAULT_PREFS = {
     "interactive_add": True,
     "focus_add_dialog": True,
     "enable_system_tray": True,
-    "close_to_tray": True,
+    "close_to_tray": False,
     "start_in_tray": False,
     "enable_appindicator": False,
     "lock_tray": False,

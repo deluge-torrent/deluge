@@ -111,6 +111,15 @@ def cell_data_date_or_never(column, cell, model, row, data):
     else:
         cell.set_property('text', _("Never"))
 
+def cell_data_speed_limit(column, cell, model, row, data):
+    """Display value as a speed, eg. 2 KiB/s"""
+    speed = model.get_value(row, data)
+    speed_str = ""
+    if speed > 0:
+        speed_str = deluge.common.fspeed(speed * 1024)
+
+    cell.set_property('text', speed_str)
+
 class ListViewColumnState:
     """Used for saving/loading column state"""
     def __init__(self, name, position, width, visible, sort, sort_order):
@@ -435,7 +444,7 @@ class ListView:
 
     def add_column(self, header, render, col_types, hidden, position,
             status_field, sortid, text=0, value=0, pixbuf=0, function=None,
-            column_type=None, sort_func=None, tooltip=None):
+            column_type=None, sort_func=None, tooltip=None, default=True):
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
@@ -516,10 +525,12 @@ class ListView:
             column.get_widget().set_tooltip_markup(tooltip)
 
         # Check for loaded state and apply
+        column_in_state = False
         if self.state != None:
             for column_state in self.state:
                 if header == column_state.name:
                     # We found a loaded state
+                    column_in_state = True
                     if column_state.width > 0:
                         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                         column.set_fixed_width(column_state.width)
@@ -530,7 +541,13 @@ class ListView:
                         )
                     column.set_visible(column_state.visible)
                     position = column_state.position
-
+                    break
+            
+        # Set this column to not visible if its not in the state and
+        # its not supposed to be shown by default
+        if not column_in_state and not default and not hidden:
+            column.set_visible(False)
+                
         if position is not None:
             self.treeview.insert_column(column, position)
         else:
@@ -546,64 +563,64 @@ class ListView:
 
     def add_text_column(self, header, col_type=str, hidden=False, position=None,
                         status_field=None, sortid=0, column_type="text",
-                        sort_func=None, tooltip=None):
+                        sort_func=None, tooltip=None, default=True):
         """Add a text column to the listview.  Only the header name is required.
         """
         render = gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        sort_func=sort_func, tooltip=tooltip)
+                        sort_func=sort_func, tooltip=tooltip, default=default)
 
         return True
 
     def add_bool_column(self, header, col_type=bool, hidden=False,
                         position=None, status_field=None, sortid=0,
-                        column_type="bool", tooltip=None):
+                        column_type="bool", tooltip=None, default=True):
 
         """Add a bool column to the listview"""
         render = gtk.CellRendererToggle()
         self.add_column(header, render, col_type, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        tooltip=tooltip)
+                        tooltip=tooltip, default=default)
 
     def add_func_column(self, header, function, col_types, sortid=0,
                         hidden=False, position=None, status_field=None,
-                        column_type="func", sort_func=None, tooltip=None):
+                        column_type="func", sort_func=None, tooltip=None, default=True):
         """Add a function column to the listview.  Need a header name, the
         function and the column types."""
 
         render = gtk.CellRendererText()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        function=function, sort_func=sort_func, tooltip=tooltip)
+                        function=function, sort_func=sort_func, tooltip=tooltip, default=default)
 
         return True
 
     def add_progress_column(self, header, col_types=[float, str], sortid=0,
                             hidden=False, position=None, status_field=None,
                             function=None, column_type="progress",
-                            tooltip=None):
+                            tooltip=None, default=True):
         """Add a progress column to the listview."""
 
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
                         status_field, sortid, function=function,
                         column_type=column_type, value=0, text=1,
-                        tooltip=tooltip)
+                        tooltip=tooltip, default=default)
 
         return True
 
     def add_texticon_column(self, header, col_types=[str, str], sortid=1,
                             hidden=False, position=None, status_field=None,
                             column_type="texticon", function=None,
-                            tooltip=None):
+                            tooltip=None, default=True):
         """Adds a texticon column to the listview."""
         render1 = gtk.CellRendererPixbuf()
         render2 = gtk.CellRendererText()
 
         self.add_column(header, (render1, render2), col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        function=function, pixbuf=0, text=1, tooltip=tooltip)
+                        function=function, pixbuf=0, text=1, tooltip=tooltip, default=default)
 
         return True
 

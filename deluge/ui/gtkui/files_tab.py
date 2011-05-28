@@ -122,7 +122,8 @@ class FilesTab(Tab):
         self._editing_index = None
 
         # Filename column
-        column = gtk.TreeViewColumn(_("Filename"))
+        self.filename_column_name = _("Filename")
+        column = gtk.TreeViewColumn(self.filename_column_name)
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
         column.add_attribute(render, "stock-id", 6)
@@ -440,9 +441,8 @@ class FilesTab(Tab):
         """
         Go through the tree and update the folder complete percentages.
         """
-
         root = self.treestore.get_iter_root()
-        if self.treestore[root][5] != -1:
+        if root is None or self.treestore[root][5] != -1:
             return
 
         def get_completed_bytes(row):
@@ -485,7 +485,10 @@ class FilesTab(Tab):
             if self._editing_index == row[5]:
                 continue
 
-            progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            try:
+                progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            except IndexError:
+                continue
             if row[2] != progress_string:
                 row[2] = progress_string
             progress_value = status["file_progress"][index] * 100
@@ -504,17 +507,15 @@ class FilesTab(Tab):
         # We only care about right-clicks
         if event.button == 3:
             x, y = event.get_coords()
-            path = self.listview.get_path_at_pos(int(x), int(y))
-            if not path:
+            cursor_path = self.listview.get_path_at_pos(int(x), int(y))
+            if not cursor_path:
                 return
-            row = self.treestore.get_iter(path[0])
 
-            if self.get_selected_files():
-                if self.treestore.get_value(row, 5) not in self.get_selected_files():
+            paths = self.listview.get_selection().get_selected_rows()[1]
+            if cursor_path[0] not in paths:
+                    row = self.treestore.get_iter(cursor_path[0])
                     self.listview.get_selection().unselect_all()
                     self.listview.get_selection().select_iter(row)
-            else:
-                self.listview.get_selection().select_iter(row)
 
             for widget in self.file_menu_priority_items:
                 widget.set_sensitive(not self.__compact)
@@ -523,15 +524,24 @@ class FilesTab(Tab):
             return True
 
     def _on_key_press_event(self, widget, event):
-        # Menu key
-        if gtk.gdk.keyval_name(event.keyval) != "Menu":
+        keyname = gtk.gdk.keyval_name(event.keyval)
+        func = getattr(self, 'keypress_' + keyname, None)
+        selected_rows = self.listview.get_selection().get_selected_rows()[1]
+        if func and selected_rows:
+            return func(event)
+        else:
             return
 
-        if not self.get_selected_files():
-            return
-
+    def keypress_Menu(self, event):
         self.file_menu.popup(None, None, None, 3, event.time)
         return True
+
+    def keypress_F2(self, event):
+        path, col = self.listview.get_cursor()
+        for column in self.listview.get_columns():
+            if column.get_title() == self.filename_column_name:
+                self.listview.set_cursor(path, column, True)
+                return True
 
     def _on_menuitem_open_file_activate(self, menuitem):
         self._on_row_activated(None, None, None)

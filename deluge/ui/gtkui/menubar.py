@@ -102,10 +102,6 @@ class MenuBar(component.Component):
         self.torrentmenu = self.torrentmenu_glade.get_widget("torrent_menu")
         self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
 
-        self.menuitem_change_owner = gtk.MenuItem(_("Change Ownership"))
-        self.torrentmenu_glade.get_widget("options_torrent_menu").append(self.menuitem_change_owner)
-
-
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
@@ -209,12 +205,8 @@ class MenuBar(component.Component):
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
-        # Hide the change owner submenu until we get the accounts back from the
-        # demon.
-        self.menuitem_change_owner.set_visible(False)
-
         if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
-            # Get Known accounts to allow chaning ownership
+            # Get known accounts to allow changing ownership
             client.core.get_known_accounts().addCallback(
                 self._on_known_accounts).addErrback(self._on_known_accounts_fail
             )
@@ -233,7 +225,6 @@ class MenuBar(component.Component):
 
         self.window.main_glade.get_widget("separatormenuitem").hide()
         self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
-
 
     def update_menu(self):
         selected = component.get('TorrentView').get_selected_torrents()
@@ -531,7 +522,7 @@ class MenuBar(component.Component):
         if len(known_accounts) <= 1:
             return
 
-        self.menuitem_change_owner.set_visible(True)
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(True)
 
         self.change_owner_submenu = gtk.Menu()
         self.change_owner_submenu_items = {}
@@ -549,13 +540,13 @@ class MenuBar(component.Component):
         self.change_owner_submenu.show_all()
         self.change_owner_submenu_items[None].set_active(True)
         self.change_owner_submenu_items[None].hide()
-        self.menuitem_change_owner.connect(
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").connect(
             "activate", self._on_change_owner_submenu_active
         )
-        self.menuitem_change_owner.set_submenu(self.change_owner_submenu)
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_submenu(self.change_owner_submenu)
 
     def _on_known_accounts_fail(self, reason):
-        self.menuitem_change_owner.set_visible(False)
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(False)
 
     def _on_change_owner_submenu_active(self, widget):
         log.debug("_on_change_owner_submenu_active")

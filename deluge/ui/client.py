@@ -182,6 +182,13 @@ class DelugeRPCProtocol(Protocol):
                 exception_cls = getattr(error, request[2])
                 exception = exception_cls(*request[3], **request[4])
 
+                # Ideally we would chain the deferreds instead of instance
+                # checking just to log them. But, that would mean that any
+                # errback on the fist deferred should returns it's failure
+                # so it could pass back to the 2nd deferred on the chain. But,
+                # that does not always happen.
+                # So, just do some instance checking and just log rpc error at
+                # diferent levels.
                 r = self.__rpc_requests[request_id]
                 msg = "RPCError Message Received!"
                 msg += "\n" + "-" * 80

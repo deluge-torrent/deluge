@@ -56,11 +56,11 @@ class AboutDialog:
 
         version = deluge.common.get_version()
 
-        self.about.set_copyright(u'Copyright \u00A9 2007-2009 Deluge Team')
+        self.about.set_copyright(u'Copyright \u00A9 2007-2011 Deluge Team')
         self.about.set_comments(
-            "A peer-to-peer file sharing program\nutilizing the Bittorrent "
-            "protocol.\n\nCore Version: %coreversion%\nlibtorrent version: "
-            "%ltversion%")
+            "A peer-to-peer file sharing program\nutilizing the BitTorrent "
+            "protocol\n\n"
+            "Client Version: %s\n" % version)
         self.about.set_version(version)
         self.about.set_authors([
             "Current Developers:", "Andrew Resch", "Damien Churchill",
@@ -253,17 +253,21 @@ class AboutDialog:
             "This program is free software; you can redistribute it and/or "
             "modify it under the terms of the GNU General Public License as "
             "published by the Free Software Foundation; either version 3 of "
-            "the License, or (at your option) any later version. This program "
+            "the License, or (at your option) any later version. \n\n"
+            "This program "
             "is distributed in the hope that it will be useful, but WITHOUT "
             "ANY WARRANTY; without even the implied warranty of "
             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU "
-            "General Public License for more details. You should have received "
+            "General Public License for more details. \n\n"
+            "You should have received "
             "a copy of the GNU General Public License along with this program; "
-            "if not, see <http://www.gnu.org/licenses>. In addition, as a "
+            "if not, see <http://www.gnu.org/licenses>. \n\n"
+            "In addition, as a "
             "special exception, the copyright holders give permission to link "
             "the code of portions of this program with the OpenSSL library. "
             "You must obey the GNU General Public License in all respects for "
-            "all of the code used other than OpenSSL. If you modify file(s) "
+            "all of the code used other than OpenSSL. \n\n"
+            "If you modify file(s) "
             "with this exception, you may extend this exception to your "
             "version of the file(s), but you are not obligated to do so. If "
             "you do not wish to do so, delete this exception statement from "
@@ -271,7 +275,7 @@ class AboutDialog:
             "source files in the program, then also delete it here."
         ))
         self.about.set_website("http://deluge-torrent.org")
-        self.about.set_website_label("http://deluge-torrent.org")
+        self.about.set_website_label("www.deluge-torrent.org")
 
         self.about.set_icon(common.get_deluge_icon())
         self.about.set_logo(gtk.gdk.pixbuf_new_from_file(
@@ -279,6 +283,13 @@ class AboutDialog:
         ))
 
         if client.connected():
+            if not client.is_classicmode():
+                self.about.set_comments(
+                    self.about.get_comments() + "Server Version: %coreversion%\n")
+            
+            self.about.set_comments(
+                self.about.get_comments() + "Libtorrent Version: %ltversion%\n")
+                
             def on_lt_version(result):
                 c = self.about.get_comments()
                 c = c.replace("%ltversion%", result)
@@ -290,7 +301,10 @@ class AboutDialog:
                 self.about.set_comments(c)
                 client.core.get_libtorrent_version().addCallback(on_lt_version)
 
-            client.daemon.info().addCallback(on_info)
+            if not client.is_classicmode():
+                client.daemon.info().addCallback(on_info)
+            else:
+                client.core.get_libtorrent_version().addCallback(on_lt_version)
 
     def run(self):
         self.about.show_all()
