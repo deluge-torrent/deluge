@@ -246,14 +246,20 @@ class DelugeRPCProtocol(Protocol):
             Sends an error response with the contents of the exception that was raised.
             """
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-            self.sendData((
-                RPC_ERROR,
-                request_id,
-                exceptionType.__name__,
-                exceptionValue._args,
-                exceptionValue._kwargs,
-                "".join(traceback.format_tb(exceptionTraceback))
-            ))
+            try:
+                self.sendData((
+                    RPC_ERROR,
+                    request_id,
+                    exceptionType.__name__,
+                    exceptionValue._args,
+                    exceptionValue._kwargs,
+                    "".join(traceback.format_tb(exceptionTraceback))
+                ))
+            except Exception, err:
+                log.error("An exception occurred while sending RPC_ERROR to "
+                          "client. Error to send(exception goes next): %s",
+                          "".join(traceback.format_tb(exceptionTraceback)))
+                log.exception(err)
 
         if method == "daemon.info":
             # This is a special case and used in the initial connection process
