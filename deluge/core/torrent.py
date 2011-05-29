@@ -189,14 +189,14 @@ class Torrent(object):
         else:
             self.owner = owner
 
-        # Keep trac of last seen complete
+        # Keep track of last seen complete
         if state:
             self._last_seen_complete = state.last_seen_complete or 0.0
         else:
             self._last_seen_complete = 0.0
 
         # Keep track if we're forcing a recheck of the torrent so that we can
-        # repause it after its done if necessary
+        # re-pause it after its done if necessary
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
 
@@ -359,7 +359,7 @@ class Torrent(object):
         # Set the tracker list in the torrent object
         self.trackers = trackers
         if len(trackers) > 0:
-            # Force a reannounce if there is at least 1 tracker
+            # Force a re-announce if there is at least 1 tracker
             self.force_reannounce()
 
         self.tracker_host = None
