@@ -525,12 +525,11 @@ class FilesTab(Tab):
 
     def _on_key_press_event(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
-        func = getattr(self, 'keypress_' + keyname, None)
-        selected_rows = self.listview.get_selection().get_selected_rows()[1]
-        if func and selected_rows:
-            return func(event)
-        else:
-            return
+        if keyname is not None:
+            func = getattr(self, 'keypress_' + keyname, None)
+            selected_rows = self.listview.get_selection().get_selected_rows()[1]
+            if func and selected_rows:
+                return func(event)
 
     def keypress_Menu(self, event):
         self.file_menu.popup(None, None, None, 3, event.time)
