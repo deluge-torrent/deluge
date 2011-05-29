@@ -46,6 +46,8 @@ import logging
 import warnings
 from urlparse import urlparse
 
+from twisted.internet import reactor
+
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
@@ -270,6 +272,7 @@ class TorrentView(listview.ListView, component.Component):
 
         # Set filter to None for now
         self.filter = None
+        self.search_pending = None
 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
@@ -393,6 +396,9 @@ class TorrentView(listview.ListView, component.Component):
 
     def update(self):
         if self.got_state:
+            if self.search_pending is not None and self.search_pending.active():
+                # An update request is scheduled, let's wait for that one
+                return
             # Send a status request
             gobject.idle_add(self.send_status_request)
 
@@ -619,21 +625,28 @@ class TorrentView(listview.ListView, component.Component):
         if icon != gtk.ENTRY_ICON_SECONDARY:
             return
 
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
         entry.set_text("")
         if self.filter and 'name' in self.filter:
             self.filter.pop('name', None)
-            self.update()
+            self.search_pending = reactor.callLater(0.7, self.update)
 
     def on_search_torrents_entry_changed(self, widget):
         search_string = widget.get_text().lower()
+
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
         if not search_string:
             if self.filter and 'name' in self.filter:
                 self.filter.pop('name', None)
-                self.update()
+                self.search_pending = reactor.callLater(0.7, self.update)
             return
 
         if self.filter is None:
             self.filter = {}
 
         self.filter['name'] = search_string
-        self.update()
+        self.search_pending = reactor.callLater(0.7, self.update)
