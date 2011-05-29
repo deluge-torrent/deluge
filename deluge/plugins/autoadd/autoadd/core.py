@@ -280,12 +280,9 @@ class Core(CorePluginBase):
                                     open(copy_torrent_file, 'wb').write(
                                         open(filepath, 'rb').read()
                                     )
+                                    os.remove(filepath)
                                 except OSError, why:
                                     raise why
-                                else:
-                                    os.remove(filepath)
-                            else:
-                                os.remove(filepath)
                         else:
                             raise why
                 else:
