@@ -226,9 +226,10 @@ class Core(CorePluginBase):
                     if filename in self.invalid_torrents:
                         self.invalid_torrents[filename] += 1
                         if self.invalid_torrents[filename] >= MAX_NUM_ATTEMPTS:
-                            log.warning("Maximum attepts reached while trying "
-                                        "to add the torrent file with the path"
-                                        " %s", filepath)
+                            log.warning(
+                                "Maximum attempts reached while trying to add the "
+                                "torrent file with the path %s", filepath
+                            )
                             os.rename(filepath, filepath + ".invalid")
                             del self.invalid_torrents[filename]
                     else:
@@ -261,16 +262,37 @@ class Core(CorePluginBase):
                     os.rename(filepath, filepath + watchdir['append_extension'])
                 elif watchdir.get('copy_torrent_toggle'):
                     copy_torrent_path = watchdir['copy_torrent']
+                    copy_torrent_file = os.path.join(copy_torrent_path, filename)
                     log.debug("Moving added torrent file \"%s\" to \"%s\"",
                               os.path.basename(filepath), copy_torrent_path)
-                    os.rename(
-                        filepath, os.path.join(copy_torrent_path, filename)
-                    )
+                    try:
+                        os.rename(filepath, copy_torrent_file)
+                    except OSError, why:
+                        if why.errno == 18:
+                            # This can happen for different mount points
+                            from shutil import copyfile
+                            try:
+                                copyfile(filepath, copy_torrent_file)
+                                os.remove(filepath)
+                            except OSError:
+                                # Last Resort!
+                                try:
+                                    open(copy_torrent_file, 'wb').write(
+                                        open(filepath, 'rb').read()
+                                    )
+                                except OSError, why:
+                                    raise why
+                                else:
+                                    os.remove(filepath)
+                            else:
+                                os.remove(filepath)
+                        else:
+                            raise why
                 else:
                     os.remove(filepath)
 
     def on_update_watchdir_error(self, failure, watchdir_id):
-        """Disables any watch folders with unhandled exceptions."""
+        """Disables any watch folders with un-handled exceptions."""
         self.disable_watchdir(watchdir_id)
         log.error("Disabling '%s', error during update: %s",
                   self.watchdirs[watchdir_id]["path"], failure)
