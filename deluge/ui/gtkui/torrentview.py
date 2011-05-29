@@ -287,6 +287,15 @@ class TorrentView(listview.ListView, component.Component):
         self.treeview.connect("key-press-event", self.on_key_press_event)
         self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
+        self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
+        self.search_torrents_entry.connect(
+            "icon-press", self.on_search_torrents_entry_icon_press
+        )
+        self.search_torrents_entry.connect(
+            "changed", self.on_search_torrents_entry_changed
+        )
+
+
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
@@ -319,6 +328,8 @@ class TorrentView(listview.ListView, component.Component):
         # We need to clear the liststore
         self.liststore.clear()
         self.prev_status = {}
+        self.filter = None
+        self.search_torrents_entry.set_text("")
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
@@ -335,7 +346,10 @@ class TorrentView(listview.ListView, component.Component):
         """Sets filters for the torrentview..
         see: core.get_torrents_status
         """
+        search_filter = self.filter and self.filter.get('name', None) or None
         self.filter = dict(filter_dict) #copied version of filter_dict.
+        if search_filter and 'name' not in filter_dict:
+            self.filter['name'] = search_filter
         self.update()
 
     def set_columns_to_update(self, columns=None):
@@ -600,3 +614,26 @@ class TorrentView(listview.ListView, component.Component):
         torrentmenu = component.get("MenuBar").torrentmenu
         torrentmenu.popup(None, None, None, 3, event.time)
         return True
+
+    def on_search_torrents_entry_icon_press(self, entry, icon, event):
+        if icon != gtk.ENTRY_ICON_SECONDARY:
+            return
+
+        entry.set_text("")
+        if self.filter and 'name' in self.filter:
+            self.filter.pop('name', None)
+            self.update()
+
+    def on_search_torrents_entry_changed(self, widget):
+        search_string = widget.get_text().lower()
+        if not search_string:
+            if self.filter and 'name' in self.filter:
+                self.filter.pop('name', None)
+                self.update()
+            return
+
+        if self.filter is None:
+            self.filter = {}
+
+        self.filter['name'] = search_string
+        self.update()
