@@ -2717,6 +2717,7 @@
                                     <property name="receives_default">False</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_chk_toggled"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2789,6 +2790,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_chk_toggled"/>
                                           </widget>
                                         </child>
                                       </widget>
