@@ -136,10 +136,17 @@ def get_default_config_dir(filename=None):
 
     """
     if windows_check():
+        appDataPath = os.environ.get("APPDATA")
+        if not appDataPath:
+            import _winreg
+            hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
+            appDataReg = _winreg.QueryValueEx(hkey, "AppData")
+            appDataPath = appDataReg[0]
+            _winreg.CloseKey(hkey)
         if filename:
-            return os.path.join(os.environ.get("APPDATA"), "deluge", filename)
+            return os.path.join(appDataPath, "deluge", filename)
         else:
-            return os.path.join(os.environ.get("APPDATA"), "deluge")
+            return os.path.join(appDataPath, "deluge")
     else:
         import xdg.BaseDirectory
         if filename:
