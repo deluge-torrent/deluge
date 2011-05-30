@@ -273,7 +273,7 @@ class PeersTab(Tab):
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
                     pkg_resources.resource_filename(
                         "deluge",
-                         os.path.join("ui/data", "pixmaps", "flags", country.lower() + ".png")))
+                         os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
             except Exception, e:
                 log.debug("Unable to load flag: %s", e)
                 return None
