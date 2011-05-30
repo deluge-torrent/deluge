@@ -423,7 +423,6 @@ class TorrentManager(component.Component):
                     torrent_info.rename_file(index, utf8_encoded(name))
 
             add_torrent_params["ti"] = torrent_info
-            add_torrent_params["resume_data"] = ""
 
         #log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
