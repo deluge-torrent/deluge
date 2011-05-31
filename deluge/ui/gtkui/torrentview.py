@@ -201,6 +201,7 @@ class SearchBox(object):
     def show(self):
         self.visible = True
         self.search_box.show_all()
+        self.search_torrents_entry.grab_focus()
 
     def hide(self):
         self.visible = False
