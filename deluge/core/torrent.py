@@ -467,7 +467,7 @@ class Torrent(object):
             stop_ratio = self.options["stop_ratio"]
             return ((status.all_time_download * stop_ratio) - status.all_time_upload) / status.upload_payload_rate
 
-        left = status.total_wanted - status.total_done
+        left = status.total_wanted - status.total_wanted_done
 
         if left <= 0 or status.download_payload_rate == 0:
             return 0
