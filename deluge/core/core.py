@@ -94,6 +94,11 @@ class Core(component.Component):
 
         # Set session settings
         self.settings.send_redundant_have = True
+        if deluge.common.windows_check():
+            self.settings.disk_io_write_mode = \
+                lt.io_buffer_mode_t.disable_os_cache_for_aligned_files
+            self.settings.disk_io_read_mode = \
+                lt.io_buffer_mode_t.disable_os_cache_for_aligned_files
         self.session.set_settings(self.settings)
 
         # Load metadata extension
