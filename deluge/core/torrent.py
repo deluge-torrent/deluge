@@ -225,6 +225,30 @@ class Torrent(object):
     def get_options(self):
         return self.options
 
+    def get_name(self):
+        if self.handle.has_metadata():
+            name = self.torrent_info.file_at(0).path.split("/", 1)[0]
+            if not name:
+                name = self.torrent_info.name()
+            try:
+                return name.decode("utf8", "ignore")
+            except UnicodeDecodeError:
+                return name
+        elif self.magnet:
+            try:
+                keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
+                name = keys.get('dn')
+                if not name:
+                    return self.torrent_id
+                name = unquote(name).replace('+', ' ')
+                try:
+                    return name.decode("utf8", "ignore")
+                except UnicodeDecodeError:
+                    return name
+            except:
+                pass
+        return self.torrent_id
+
     def set_owner(self, account):
         self.owner = account
 
@@ -685,32 +709,6 @@ class Torrent(object):
                     return self.torrent_info.comment()
             return ""
 
-        def ti_name():
-            if self.handle.has_metadata():
-                name = self.torrent_info.file_at(0).path.split("/", 1)[0]
-                if not name:
-                    name = self.torrent_info.name()
-                try:
-                    return name.decode("utf8", "ignore")
-                except UnicodeDecodeError:
-                    return name
-
-            elif self.magnet:
-                try:
-                    keys = dict([k.split('=') for k in self.magnet.split('?')[-1].split('&')])
-                    name = keys.get('dn')
-                    if not name:
-                        return self.torrent_id
-                    name = unquote(name).replace('+', ' ')
-                    try:
-                        return name.decode("utf8", "ignore")
-                    except UnicodeDecodeError:
-                        return name
-                except:
-                    pass
-
-            return self.torrent_id
-
         def ti_priv():
             if self.handle.has_metadata():
                 return self.torrent_info.priv()
@@ -742,7 +740,7 @@ class Torrent(object):
             "file_progress": self.get_file_progress,
             "files": self.get_files,
             "is_seed": self.handle.is_seed,
-            "name": ti_name,
+            "name": self.get_name,
             "num_files": ti_num_files,
             "num_pieces": ti_num_pieces,
             "pieces": ti_pieces_info,

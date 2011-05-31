@@ -184,6 +184,86 @@ def seed_peer_column_sort(model, iter1, iter2, data):
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 
+class SearchBox(object):
+    def __init__(self, torrentview):
+        self.torrentview = torrentview
+        self.window = torrentview.window
+
+        self.visible = False
+        self.search_pending = None
+
+        self.search_box = self.window.main_glade.get_widget("search_box")
+        self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
+        self.close_search_button = self.window.main_glade.get_widget("close_search_button")
+        self.match_search_button = self.window.main_glade.get_widget("search_torrents_match")
+        self.window.main_glade.signal_autoconnect(self)
+
+    def show(self):
+        self.visible = True
+        self.search_box.show_all()
+
+    def hide(self):
+        self.visible = False
+        self.clear_search()
+        self.search_box.hide_all()
+
+    def clear_search(self):
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
+        self.search_torrents_entry.set_text("")
+        if self.torrentview.filter and 'name' in self.torrentview.filter:
+            self.torrentview.filter.pop('name', None)
+            self.search_pending = reactor.callLater(0.5, self.torrentview.update)
+
+    def set_search_filter(self):
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
+        if self.torrentview.filter and 'name' in self.torrentview.filter:
+            self.torrentview.filter.pop('name', None)
+
+        elif self.torrentview.filter is None:
+            self.torrentview.filter = {}
+
+        search_string = self.search_torrents_entry.get_text()
+        if not search_string:
+            self.clear_search()
+        else:
+            if self.match_search_button.get_active():
+                search_string += '::match'
+            self.torrentview.filter['name'] = search_string
+
+    def on_close_search_button_clicked(self, widget):
+        self.hide()
+
+    def on_find_menuitem_activate(self, widget):
+        if self.visible:
+            self.hide()
+        else:
+            self.show()
+
+    def on_toolbutton_filter_clicked(self, widget):
+        if self.visible:
+            self.hide()
+        else:
+            self.show()
+
+    def on_search_torrents_match_toggled(self, widget):
+        if self.search_torrents_entry.get_text():
+            self.set_search_filter()
+            self.search_pending = reactor.callLater(0.5, self.torrentview.update)
+
+    def on_search_torrents_entry_icon_press(self, entry, icon, event):
+        if icon != gtk.ENTRY_ICON_SECONDARY:
+            return
+        self.clear_search()
+
+    def on_search_torrents_entry_changed(self, widget):
+        self.set_search_filter()
+        self.search_pending = reactor.callLater(0.7, self.torrentview.update)
+
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -272,7 +352,6 @@ class TorrentView(listview.ListView, component.Component):
 
         # Set filter to None for now
         self.filter = None
-        self.search_pending = None
 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
@@ -290,21 +369,14 @@ class TorrentView(listview.ListView, component.Component):
         self.treeview.connect("key-press-event", self.on_key_press_event)
         self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
-        self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
-        self.search_torrents_entry.connect(
-            "icon-press", self.on_search_torrents_entry_icon_press
-        )
-        self.search_torrents_entry.connect(
-            "changed", self.on_search_torrents_entry_changed
-        )
-
-
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrentremoved_event)
         client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
         client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
         client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
+
+        self.search_box = SearchBox(self)
 
     def start(self):
         """Start the torrentview"""
@@ -332,7 +404,7 @@ class TorrentView(listview.ListView, component.Component):
         self.liststore.clear()
         self.prev_status = {}
         self.filter = None
-        self.search_torrents_entry.set_text("")
+        self.search_box.hide()
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
@@ -396,7 +468,7 @@ class TorrentView(listview.ListView, component.Component):
 
     def update(self):
         if self.got_state:
-            if self.search_pending is not None and self.search_pending.active():
+            if self.search_box.search_pending is not None and self.search_box.search_pending.active():
                 # An update request is scheduled, let's wait for that one
                 return
             # Send a status request
@@ -620,33 +692,3 @@ class TorrentView(listview.ListView, component.Component):
         torrentmenu = component.get("MenuBar").torrentmenu
         torrentmenu.popup(None, None, None, 3, event.time)
         return True
-
-    def on_search_torrents_entry_icon_press(self, entry, icon, event):
-        if icon != gtk.ENTRY_ICON_SECONDARY:
-            return
-
-        if self.search_pending and self.search_pending.active():
-            self.search_pending.cancel()
-
-        entry.set_text("")
-        if self.filter and 'name' in self.filter:
-            self.filter.pop('name', None)
-            self.search_pending = reactor.callLater(0.7, self.update)
-
-    def on_search_torrents_entry_changed(self, widget):
-        search_string = widget.get_text().lower()
-
-        if self.search_pending and self.search_pending.active():
-            self.search_pending.cancel()
-
-        if not search_string:
-            if self.filter and 'name' in self.filter:
-                self.filter.pop('name', None)
-                self.search_pending = reactor.callLater(0.7, self.update)
-            return
-
-        if self.filter is None:
-            self.filter = {}
-
-        self.filter['name'] = search_string
-        self.search_pending = reactor.callLater(0.7, self.update)

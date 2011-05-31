@@ -80,8 +80,23 @@ def filter_one_keyword(torrent_ids, keyword):
 
 def filter_by_name(torrent_ids, search_string):
     all_torrents = component.get("TorrentManager").torrents
+    try:
+        search_string, match_case = search_string[0].split('::match')
+    except ValueError:
+        search_string = search_string[0]
+        match_case = False
+
+    if match_case is False:
+        search_string = search_string.lower()
+
     for torrent_id in torrent_ids:
-        if search_string[0].lower() in all_torrents[torrent_id].filename.lower():
+        torrent_name = all_torrents[torrent_id].get_name()
+        if match_case is False:
+            torrent_name = all_torrents[torrent_id].get_name().lower()
+        else:
+            torrent_name = all_torrents[torrent_id].get_name()
+
+        if search_string in torrent_name:
             yield torrent_id
 
 def tracker_error_filter(torrent_ids, values):
