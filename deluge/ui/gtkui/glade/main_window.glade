@@ -215,7 +215,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">_Find ...</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_find_menuitem_activate"/>
+                        <signal name="activate" handler="on_search_filter_toggle"/>
                         <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -388,7 +388,7 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="label" translatable="yes">_Filter</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-find</property>
-                <signal name="clicked" handler="on_toolbutton_filter_clicked"/>
+                <signal name="clicked" handler="on_search_filter_toggle"/>
                 <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </widget>
               <packing>

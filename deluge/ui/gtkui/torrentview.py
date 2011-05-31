@@ -190,7 +190,7 @@ class SearchBox(object):
         self.window = torrentview.window
 
         self.visible = False
-        self.search_pending = None
+        self.search_pending = self.prefiltered = None
 
         self.search_box = self.window.main_glade.get_widget("search_box")
         self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
@@ -206,10 +206,13 @@ class SearchBox(object):
         self.visible = False
         self.clear_search()
         self.search_box.hide_all()
+        self.search_pending = self.prefiltered = None
 
     def clear_search(self):
         if self.search_pending and self.search_pending.active():
             self.search_pending.cancel()
+
+        self.prefiltered = None
 
         self.search_torrents_entry.set_text("")
         if self.torrentview.filter and 'name' in self.torrentview.filter:
@@ -233,17 +236,51 @@ class SearchBox(object):
             if self.match_search_button.get_active():
                 search_string += '::match'
             self.torrentview.filter['name'] = search_string
+        self.prefilter_torrentview()
+
+    def prefilter_torrentview(self):
+        filter_column = self.torrentview.columns["filter"].column_indices[0]
+        torrent_id_column = self.torrentview.columns["torrent_id"].column_indices[0]
+        torrent_name_column = self.torrentview.columns[_("Name")].column_indices[1]
+
+        match_case = self.match_search_button.get_active()
+        if match_case:
+            search_string = self.search_torrents_entry.get_text()
+        else:
+            search_string = self.search_torrents_entry.get_text().lower()
+
+        if self.prefiltered is None:
+            self.prefiltered = []
+
+        for row in self.torrentview.liststore:
+            torrent_id = row[torrent_id_column]
+
+            if torrent_id in self.prefiltered:
+                # Reset to previous filter state
+                self.prefiltered.pop(self.prefiltered.index(torrent_id))
+                row[filter_column] = not row[filter_column]
+
+
+            if not row[filter_column]:
+                # Row is not visible(filtered out, but not by our filter), skip it
+                continue
+
+            if match_case:
+                torrent_name = row[torrent_name_column]
+            else:
+                torrent_name = row[torrent_name_column].lower()
+
+            if search_string in torrent_name and not row[filter_column]:
+                row[filter_column] = True
+                self.prefiltered.append(torrent_id)
+            elif search_string not in torrent_name and row[filter_column]:
+                row[filter_column] = False
+                self.prefiltered.append(torrent_id)
 
     def on_close_search_button_clicked(self, widget):
         self.hide()
 
-    def on_find_menuitem_activate(self, widget):
-        if self.visible:
-            self.hide()
-        else:
-            self.show()
-
-    def on_toolbutton_filter_clicked(self, widget):
+    def on_search_filter_toggle(self, widget):
         if self.visible:
             self.hide()
         else:
@@ -252,7 +289,7 @@ class SearchBox(object):
     def on_search_torrents_match_toggled(self, widget):
         if self.search_torrents_entry.get_text():
             self.set_search_filter()
-            self.search_pending = reactor.callLater(0.5, self.torrentview.update)
+            self.search_pending = reactor.callLater(0.7, self.torrentview.update)
 
     def on_search_torrents_entry_icon_press(self, entry, icon, event):
         if icon != gtk.ENTRY_ICON_SECONDARY:
@@ -517,6 +554,8 @@ class TorrentView(listview.ListView, component.Component):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         self.status = status
+        if self.search_box.prefiltered is not None:
+            self.search_box.prefiltered = None
         if self.status == self.prev_status and self.prev_status:
             # We do not bother updating since the status hasn't changed
             self.prev_status = self.status
