@@ -115,7 +115,7 @@ class FilesTab(Tab):
 
         self.listview = glade.get_widget("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
-        self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, int, int, int, str)
+        self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, float, int, int, str)
 
         # We need to store the row that's being edited to prevent updating it until
         # it's been done editing
