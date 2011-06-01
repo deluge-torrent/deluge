@@ -62,13 +62,8 @@ class Daemon(object):
 
             def process_running(pid):
                 if deluge.common.windows_check():
-                    # Do some fancy WMI junk to see if the PID exists in Windows
-                    from win32com.client import GetObject
-                    def get_proclist():
-                        WMI = GetObject('winmgmts:')
-                        processes = WMI.InstancesOf('Win32_Process')
-                        return [process.Properties_('ProcessID').Value for process in processes]
-                    return pid in get_proclist()
+                    import win32process
+                    return pid in win32process.EnumProcesses()
                 else:
                     # We can just use os.kill on UNIX to test if the process is running
                     try:
