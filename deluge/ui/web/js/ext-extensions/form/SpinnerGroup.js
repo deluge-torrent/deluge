@@ -1,6 +1,6 @@
 /*!
  * Ext.ux.form.SpinnerGroup.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,12 +29,20 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Ext.ux.form');
 
 /**
+ * Ext.ux.form.SpinnerGroup class
  *
+ * @author Damien Churchill
+ * @version v0.1
+ *
+ * @class Ext.ux.form.SpinnerGroup
+ * @extends Ext.form.CheckboxGroup
  */
-Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
+Ext.define('Ext.ux.form.SpinnerGroup', {
+
+    extend: 'Ext.form.CheckboxGroup',
+    alias: 'widget.spinnergroup',
 
     // private
     defaultType: 'spinnerfield',
@@ -169,7 +177,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
             }
         }
 
-        Ext.ux.form.SpinnerGroup.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
     },
 
     onFieldChange: function(spinner) {
@@ -216,4 +224,3 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
         }
     }
 });
-Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);

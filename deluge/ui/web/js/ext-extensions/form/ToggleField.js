@@ -1,7 +1,7 @@
 /*!
  * Ext.ux.form.ToggleField.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace("Ext.ux.form");
 
 /**
   * Ext.ux.form.ToggleField class
@@ -40,12 +39,15 @@ Ext.namespace("Ext.ux.form");
   * @class Ext.ux.form.ToggleField
   * @extends Ext.form.TriggerField
   */
-Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
+Ext.define('Ext.ux.form.ToggleField', {
+
+    extend: 'Ext.form.Field',
+    alias: 'widget.togglefield',
 
     cls: 'x-toggle-field',
 
     initComponent: function() {
-        Ext.ux.form.ToggleField.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         this.toggle = new Ext.form.Checkbox();
         this.toggle.on('check', this.onToggleCheck, this);
@@ -75,7 +77,7 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 
             this.toggle.getEl().parent().setStyle('padding-right', '10px');
         }
-        Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
     },
 
     // private
@@ -92,4 +94,3 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
         this.input.setDisabled(!checked);
     }
 });
-Ext.reg('togglefield', Ext.ux.form.ToggleField);
