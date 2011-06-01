@@ -37,20 +37,20 @@ Ext.ns('Deluge');
  * @extends Ext.menu.Menu
  */
 Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
-	
-	initComponent: function() {
-		Deluge.StatusbarMenu.superclass.initComponent.call(this);
-		this.otherWin = new Deluge.OtherLimitWindow(this.initialConfig.otherWin || {});
+    
+    initComponent: function() {
+        Deluge.StatusbarMenu.superclass.initComponent.call(this);
+        this.otherWin = new Deluge.OtherLimitWindow(this.initialConfig.otherWin || {});
 
-		this.items.each(function(item) {
-			if (item.getXType() != 'menucheckitem') return;
-			if (item.value == 'other') {
-				item.on('click', this.onOtherClicked, this);
-			} else {
-				item.on('checkchange', this.onLimitChanged, this);
-			}
-		}, this);
-	},
+        this.items.each(function(item) {
+            if (item.getXType() != 'menucheckitem') return;
+            if (item.value == 'other') {
+                item.on('click', this.onOtherClicked, this);
+            } else {
+                item.on('checkchange', this.onLimitChanged, this);
+            }
+        }, this);
+    },
     
     setValue: function(value) {
         var beenSet = false;
@@ -81,20 +81,20 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
         other.resumeEvents();
     },
 
-	onLimitChanged: function(item, checked) {
-		if (!checked || item.value == 'other') return; // we don't care about unchecks or other
-		var config = {}
-		config[item.group] = item.value
-		deluge.client.core.set_config(config, {
-			success: function() {
-				deluge.ui.update();
-			}
-		});
-	},
+    onLimitChanged: function(item, checked) {
+        if (!checked || item.value == 'other') return; // we don't care about unchecks or other
+        var config = {}
+        config[item.group] = item.value
+        deluge.client.core.set_config(config, {
+            success: function() {
+                deluge.ui.update();
+            }
+        });
+    },
 
-	onOtherClicked: function(item, e) {
-		this.otherWin.group = item.group;
-		this.otherWin.setValue(this.value);
-		this.otherWin.show();
-	}
+    onOtherClicked: function(item, e) {
+        this.otherWin.group = item.group;
+        this.otherWin.setValue(this.value);
+        this.otherWin.show();
+    }
 });

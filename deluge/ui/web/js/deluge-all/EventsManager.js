@@ -37,79 +37,79 @@
  * Class for holding global events that occur within the UI.
  */
 Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
-	constructor: function() {
-		this.toRegister = [];
-		this.on('login', this.onLogin, this);
-		Deluge.EventsManager.superclass.constructor.call(this);
-	},
-	
-	/**
-	 * Append an event handler to this object.
-	 */
-	addListener: function(eventName, fn, scope, o) {
-		this.addEvents(eventName);
-		if (/[A-Z]/.test(eventName.substring(0, 1))) {
-			if (!deluge.client) {
-				this.toRegister.push(eventName);
-			} else {
-				deluge.client.web.register_event_listener(eventName);
-			}
-		}
-		Deluge.EventsManager.superclass.addListener.call(this, eventName, fn, scope, o);
-	},
+    constructor: function() {
+        this.toRegister = [];
+        this.on('login', this.onLogin, this);
+        Deluge.EventsManager.superclass.constructor.call(this);
+    },
+    
+    /**
+     * Append an event handler to this object.
+     */
+    addListener: function(eventName, fn, scope, o) {
+        this.addEvents(eventName);
+        if (/[A-Z]/.test(eventName.substring(0, 1))) {
+            if (!deluge.client) {
+                this.toRegister.push(eventName);
+            } else {
+                deluge.client.web.register_event_listener(eventName);
+            }
+        }
+        Deluge.EventsManager.superclass.addListener.call(this, eventName, fn, scope, o);
+    },
 
-	getEvents: function() {
-		deluge.client.web.get_events({
-			success: this.onGetEventsSuccess,
-			failure: this.onGetEventsFailure,
-			scope: this
-		});
-	},
+    getEvents: function() {
+        deluge.client.web.get_events({
+            success: this.onGetEventsSuccess,
+            failure: this.onGetEventsFailure,
+            scope: this
+        });
+    },
 
-	/**
-	 * Starts the EventsManagerManager checking for events.
-	 */
-	start: function() {
-		Ext.each(this.toRegister, function(eventName) {
-			deluge.client.web.register_event_listener(eventName);
-		});
-		this.running = true;
-		this.errorCount = 0;
-		this.getEvents();
-	},
+    /**
+     * Starts the EventsManagerManager checking for events.
+     */
+    start: function() {
+        Ext.each(this.toRegister, function(eventName) {
+            deluge.client.web.register_event_listener(eventName);
+        });
+        this.running = true;
+        this.errorCount = 0;
+        this.getEvents();
+    },
 
-	/**
-	 * Stops the EventsManagerManager checking for events.
-	 */
-	stop: function() {
-		this.running = false;
-	},
+    /**
+     * Stops the EventsManagerManager checking for events.
+     */
+    stop: function() {
+        this.running = false;
+    },
 
-	// private
-	onLogin: function() {
-		this.start();
-	},
+    // private
+    onLogin: function() {
+        this.start();
+    },
 
-	onGetEventsSuccess: function(events) {
-		if (!events) return;
-		Ext.each(events, function(event) {
-			var name = event[0], args = event[1];
-			args.splice(0, 0, name);
-			this.fireEvent.apply(this, args);
-		}, this);
-		if (this.running) this.getEvents();
-	},
+    onGetEventsSuccess: function(events) {
+        if (!events) return;
+        Ext.each(events, function(event) {
+            var name = event[0], args = event[1];
+            args.splice(0, 0, name);
+            this.fireEvent.apply(this, args);
+        }, this);
+        if (this.running) this.getEvents();
+    },
 
-	// private
-	onGetEventsFailure: function(result, error) {
-		// the request timed out or we had a communication failure
-		if (!this.running) return;
-		if (!error.isTimeout && this.errorCount++ >= 3) {
-			this.stop();
-			return;
-		}
-		this.getEvents();
-	}
+    // private
+    onGetEventsFailure: function(result, error) {
+        // the request timed out or we had a communication failure
+        if (!this.running) return;
+        if (!error.isTimeout && this.errorCount++ >= 3) {
+            this.stop();
+            return;
+        }
+        this.getEvents();
+    }
 });
 
 /**

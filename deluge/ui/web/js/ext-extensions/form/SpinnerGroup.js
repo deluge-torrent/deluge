@@ -99,7 +99,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
 
                 // Generate the column configs with the correct width setting
                 for(var i=0; i<numCols; i++){
-                	var cc = Ext.apply({items:[]}, colCfg);
+                    var cc = Ext.apply({items:[]}, colCfg);
                     cc[this.columns[i] <= 1 ? 'columnWidth' : 'width'] = this.columns[i];
                     if(this.defaults){
                         cc.defaults = Ext.apply(cc.defaults || {}, this.defaults)
@@ -156,17 +156,17 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
                 field.on('spin', this.onFieldChange, this);
             }, this);
 
-			if (this.lazyValueSet) {
-				this.setValue(this.value);
-				delete this.value;
-				delete this.lazyValueSet;
-			}
+            if (this.lazyValueSet) {
+                this.setValue(this.value);
+                delete this.value;
+                delete this.lazyValueSet;
+            }
 
-			if (this.lazyRawValueSet) {
-				this.setRawValue(this.rawValue);
-				delete this.rawValue;
-				delete this.lazyRawValueSet;
-			}
+            if (this.lazyRawValueSet) {
+                this.setRawValue(this.rawValue);
+                delete this.rawValue;
+                delete this.lazyRawValueSet;
+            }
         }
 
         Ext.ux.form.SpinnerGroup.superclass.onRender.call(this, ct, position);
@@ -176,7 +176,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
         this.fireEvent('change', this, this.getValue());
     },
 
-	initValue : Ext.emptyFn,
+    initValue : Ext.emptyFn,
 
     getValue: function() {
         var value = [this.items.getCount()];
@@ -195,25 +195,25 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
     },
 
     setValue: function(value) {
-		if (!this.rendered) {
-			this.value = value;
-			this.lazyValueSet = true;
-		} else {
-			this.items.each(function(item, i) {
-				item.setValue(value[i]);
-			});
-		}
+        if (!this.rendered) {
+            this.value = value;
+            this.lazyValueSet = true;
+        } else {
+            this.items.each(function(item, i) {
+                item.setValue(value[i]);
+            });
+        }
     },
 
     setRawValue: function(value) {
-		if (!this.rendered) {
-			this.rawValue = value;
-			this.lazyRawValueSet = true;
-		} else {
-			this.items.each(function(item, i) {
-				item.setRawValue(value[i]);
-			});
-		}
+        if (!this.rendered) {
+            this.rawValue = value;
+            this.lazyRawValueSet = true;
+        } else {
+            this.items.each(function(item, i) {
+                item.setRawValue(value[i]);
+            });
+        }
     }
 });
 Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);

@@ -42,54 +42,54 @@ Ext.namespace("Ext.ux.form");
   */
 Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 
-	cls: 'x-toggle-field',
+    cls: 'x-toggle-field',
 
-	initComponent: function() {
-		Ext.ux.form.ToggleField.superclass.initComponent.call(this);
+    initComponent: function() {
+        Ext.ux.form.ToggleField.superclass.initComponent.call(this);
 
-		this.toggle = new Ext.form.Checkbox();
-		this.toggle.on('check', this.onToggleCheck, this);
+        this.toggle = new Ext.form.Checkbox();
+        this.toggle.on('check', this.onToggleCheck, this);
 
-		this.input = new Ext.form.TextField({
-			disabled: true
-		});
-	},
+        this.input = new Ext.form.TextField({
+            disabled: true
+        });
+    },
 
-	onRender: function(ct, position) {
-		if (!this.el) {
-			this.panel = new Ext.Panel({
-				cls: this.groupCls,
-				layout: 'table',
-				layoutConfig: {
-					columns: 2
-				},
-				border: false,
-				renderTo: ct
-			});
-			this.panel.ownerCt = this;
-			this.el = this.panel.getEl();
+    onRender: function(ct, position) {
+        if (!this.el) {
+            this.panel = new Ext.Panel({
+                cls: this.groupCls,
+                layout: 'table',
+                layoutConfig: {
+                    columns: 2
+                },
+                border: false,
+                renderTo: ct
+            });
+            this.panel.ownerCt = this;
+            this.el = this.panel.getEl();
 
-			this.panel.add(this.toggle);
-			this.panel.add(this.input);
-			this.panel.doLayout();
+            this.panel.add(this.toggle);
+            this.panel.add(this.input);
+            this.panel.doLayout();
 
-			this.toggle.getEl().parent().setStyle('padding-right', '10px');
-		}
-		Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
-	},
+            this.toggle.getEl().parent().setStyle('padding-right', '10px');
+        }
+        Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
+    },
 
-	// private
-	onResize: function(w, h) {
-		this.panel.setSize(w, h);
-		this.panel.doLayout();
+    // private
+    onResize: function(w, h) {
+        this.panel.setSize(w, h);
+        this.panel.doLayout();
 
-		// we substract 10 for the padding :-)
-		var inputWidth = w - this.toggle.getSize().width - 25;
-		this.input.setSize(inputWidth, h);
-	},
+        // we substract 10 for the padding :-)
+        var inputWidth = w - this.toggle.getSize().width - 25;
+        this.input.setSize(inputWidth, h);
+    },
 
-	onToggleCheck: function(toggle, checked) {
-		this.input.setDisabled(!checked);
-	}
+    onToggleCheck: function(toggle, checked) {
+        this.input.setDisabled(!checked);
+    }
 });
 Ext.reg('togglefield', Ext.ux.form.ToggleField);

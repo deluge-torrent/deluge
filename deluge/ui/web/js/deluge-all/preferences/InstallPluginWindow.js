@@ -37,66 +37,66 @@ Ext.namespace('Deluge.preferences');
  */
 Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 
-	title: _('Install Plugin'),
-	layout: 'fit',
-	height: 115,
-	width: 350,
-	
-	bodyStyle: 'padding: 10px 5px;',
-	buttonAlign: 'center',
-	closeAction: 'hide',
-	iconCls: 'x-deluge-install-plugin',
-	modal: true,
-	plain: true,
+    title: _('Install Plugin'),
+    layout: 'fit',
+    height: 115,
+    width: 350,
+    
+    bodyStyle: 'padding: 10px 5px;',
+    buttonAlign: 'center',
+    closeAction: 'hide',
+    iconCls: 'x-deluge-install-plugin',
+    modal: true,
+    plain: true,
 
-	initComponent: function() {
-		Deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Install'), this.onInstall, this);
-		
-		this.form = this.add({
-			xtype: 'form',
-			baseCls: 'x-plain',
-			labelWidth: 70,
-			autoHeight: true,
-			fileUpload: true,
-			items: [{
-				xtype: 'fileuploadfield',
-				width: 240,
-				emptyText: _('Select an egg'),
-				fieldLabel: _('Plugin Egg'),
-				name: 'file',
-				buttonCfg: {
-					text: _('Browse') + '...'
-				}
-			}]
-		});
-	},
+    initComponent: function() {
+        Deluge.add.FileWindow.superclass.initComponent.call(this);
+        this.addButton(_('Install'), this.onInstall, this);
+        
+        this.form = this.add({
+            xtype: 'form',
+            baseCls: 'x-plain',
+            labelWidth: 70,
+            autoHeight: true,
+            fileUpload: true,
+            items: [{
+                xtype: 'fileuploadfield',
+                width: 240,
+                emptyText: _('Select an egg'),
+                fieldLabel: _('Plugin Egg'),
+                name: 'file',
+                buttonCfg: {
+                    text: _('Browse') + '...'
+                }
+            }]
+        });
+    },
 
-	onInstall: function(field, e) {
-		this.form.getForm().submit({
-			url: '/upload',
-			waitMsg: _('Uploading your plugin...'),
-			success: this.onUploadSuccess,
-			scope: this
-		}); 
-	},
+    onInstall: function(field, e) {
+        this.form.getForm().submit({
+            url: '/upload',
+            waitMsg: _('Uploading your plugin...'),
+            success: this.onUploadSuccess,
+            scope: this
+        }); 
+    },
 
-	onUploadPlugin: function(info, obj, response, request) {
-		this.fireEvent('pluginadded');
-	},
+    onUploadPlugin: function(info, obj, response, request) {
+        this.fireEvent('pluginadded');
+    },
 
-	onUploadSuccess: function(fp, upload) {
-		this.hide();
-		if (upload.result.success) {
-			var filename = this.form.getForm().getFieldValues().file;
-			filename = filename.split('\\').slice(-1)[0]
-			var path = upload.result.files[0];
-			this.form.getForm().setValues({file: ''});
-			deluge.client.web.upload_plugin(filename, path, {
-				success: this.onUploadPlugin,
-				scope: this,
-				filename: filename
-			});
-		}
-	}
+    onUploadSuccess: function(fp, upload) {
+        this.hide();
+        if (upload.result.success) {
+            var filename = this.form.getForm().getFieldValues().file;
+            filename = filename.split('\\').slice(-1)[0]
+            var path = upload.result.files[0];
+            this.form.getForm().setValues({file: ''});
+            deluge.client.web.upload_plugin(filename, path, {
+                success: this.onUploadPlugin,
+                scope: this,
+                filename: filename
+            });
+        }
+    }
 });

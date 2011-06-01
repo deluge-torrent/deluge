@@ -31,240 +31,240 @@
  */
 
 deluge.menus = {
-	onTorrentAction: function(item, e) {
-		var ids = deluge.torrents.getSelectedIds();
-		var action = item.initialConfig.torrentAction;
-		
-		switch (action) {
-			case 'pause':
-			case 'resume':
-				deluge.client.core[action + '_torrent'](ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
-			case 'top':
-			case 'up':
-			case 'down':
-			case 'bottom':
-				deluge.client.core['queue_' + action](ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
-			case 'edit_trackers':
-				deluge.editTrackers.show();
-				break;
-			case 'update':
-				deluge.client.core.force_reannounce(ids, {
-					success: function() {
-						deluge.ui.update();
-					}
-				});
-				break;
-			case 'remove':
-				deluge.removeWindow.show(ids);
-				break;
-			case 'recheck':
-				deluge.client.core.force_recheck(ids, {
-					success: function() {	
-						deluge.ui.update();
-					}
-				});
-				break;
-			case 'move':
-				deluge.moveStorage.show(ids);
-				break;
-		}
-	}
+    onTorrentAction: function(item, e) {
+        var ids = deluge.torrents.getSelectedIds();
+        var action = item.initialConfig.torrentAction;
+        
+        switch (action) {
+            case 'pause':
+            case 'resume':
+                deluge.client.core[action + '_torrent'](ids, {
+                    success: function() {
+                        deluge.ui.update();
+                    }
+                });
+                break;
+            case 'top':
+            case 'up':
+            case 'down':
+            case 'bottom':
+                deluge.client.core['queue_' + action](ids, {
+                    success: function() {
+                        deluge.ui.update();
+                    }
+                });
+                break;
+            case 'edit_trackers':
+                deluge.editTrackers.show();
+                break;
+            case 'update':
+                deluge.client.core.force_reannounce(ids, {
+                    success: function() {
+                        deluge.ui.update();
+                    }
+                });
+                break;
+            case 'remove':
+                deluge.removeWindow.show(ids);
+                break;
+            case 'recheck':
+                deluge.client.core.force_recheck(ids, {
+                    success: function() {    
+                        deluge.ui.update();
+                    }
+                });
+                break;
+            case 'move':
+                deluge.moveStorage.show(ids);
+                break;
+        }
+    }
 }
 
 deluge.menus.torrent = new Ext.menu.Menu({
-	id: 'torrentMenu',
-	items: [{
-		torrentAction: 'pause',
-		text: _('Pause'),
-		iconCls: 'icon-pause',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, {
-		torrentAction: 'resume',
-		text: _('Resume'),
-		iconCls: 'icon-resume',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, '-', {
-		text: _('Options'),
-		iconCls: 'icon-options',
-		menu: new Ext.menu.Menu({
-			items: [{
-				text: _('D/L Speed Limit'),
-				iconCls: 'x-deluge-downloading',
-				menu: new Ext.menu.Menu({
-					items: [{
-						text: _('5 KiB/s')
-					}, {
-						text: _('10 KiB/s')
-					}, {
-						text: _('30 KiB/s')
-					}, {
-						text: _('80 KiB/s')
-					}, {
-						text: _('300 KiB/s')
-					},{
-						text: _('Unlimited')
-					}]
-				})
-			}, {
-				text: _('U/L Speed Limit'),
-				iconCls: 'x-deluge-seeding',
-				menu: new Ext.menu.Menu({
-					items: [{
-						text: _('5 KiB/s')
-					}, {
-						text: _('10 KiB/s')
-					}, {
-						text: _('30 KiB/s')
-					}, {
-						text: _('80 KiB/s')
-					}, {
-						text: _('300 KiB/s')
-					},{
-						text: _('Unlimited')
-					}]
-				})
-			}, {
-				text: _('Connection Limit'),
-				iconCls: 'x-deluge-connections',
-				menu: new Ext.menu.Menu({
-					items: [{
-						text: _('50')
-					}, {
-						text: _('100')
-					}, {
-						text: _('200')
-					}, {
-						text: _('300')
-					}, {
-						text: _('500')
-					},{
-						text: _('Unlimited')
-					}]
-				})
-			}, {
-				text: _('Upload Slot Limit'),
-				iconCls: 'icon-upload-slots',
-				menu: new Ext.menu.Menu({
-					items: [{
-						text: _('0')
-					}, {
-						text: _('1')
-					}, {
-						text: _('2')
-					}, {
-						text: _('3')
-					}, {
-						text: _('5')
-					},{
-						text: _('Unlimited')
-					}]
-				})
-			}, {
-				id: 'auto_managed',
-				text: _('Auto Managed'),
-				checked: false
-			}]
-		})
-	}, '-', {
-		text: _('Queue'),
-		iconCls: 'icon-queue',
-		menu: new Ext.menu.Menu({
-			items: [{
-				torrentAction: 'top',
-				text: _('Top'),
-				iconCls: 'icon-top',
-				handler: deluge.menus.onTorrentAction,
-				scope: deluge.menus
-			},{
-				torrentAction: 'up',
-				text: _('Up'),
-				iconCls: 'icon-up',
-				handler: deluge.menus.onTorrentAction,
-				scope: deluge.menus
-			},{
-				torrentAction: 'down',
-				text: _('Down'),
-				iconCls: 'icon-down',
-				handler: deluge.menus.onTorrentAction,
-				scope: deluge.menus
-			},{
-				torrentAction: 'bottom',
-				text: _('Bottom'),
-				iconCls: 'icon-bottom',
-				handler: deluge.menus.onTorrentAction,
-				scope: deluge.menus
-			}]
-		})
-	}, '-', {
-		torrentAction: 'update',
-		text: _('Update Tracker'),
-		iconCls: 'icon-update-tracker',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, {
-		torrentAction: 'edit_trackers',
-		text: _('Edit Trackers'),
-		iconCls: 'icon-edit-trackers',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, '-', {
-		torrentAction: 'remove',
-		text: _('Remove Torrent'),
-		iconCls: 'icon-remove',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, '-', {
-		torrentAction: 'recheck',
-		text: _('Force Recheck'),
-		iconCls: 'icon-recheck',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}, {
-		torrentAction: 'move',
-		text: _('Move Storage'),
-		iconCls: 'icon-move',
-		handler: deluge.menus.onTorrentAction,
-		scope: deluge.menus
-	}]
+    id: 'torrentMenu',
+    items: [{
+        torrentAction: 'pause',
+        text: _('Pause'),
+        iconCls: 'icon-pause',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, {
+        torrentAction: 'resume',
+        text: _('Resume'),
+        iconCls: 'icon-resume',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, '-', {
+        text: _('Options'),
+        iconCls: 'icon-options',
+        menu: new Ext.menu.Menu({
+            items: [{
+                text: _('D/L Speed Limit'),
+                iconCls: 'x-deluge-downloading',
+                menu: new Ext.menu.Menu({
+                    items: [{
+                        text: _('5 KiB/s')
+                    }, {
+                        text: _('10 KiB/s')
+                    }, {
+                        text: _('30 KiB/s')
+                    }, {
+                        text: _('80 KiB/s')
+                    }, {
+                        text: _('300 KiB/s')
+                    },{
+                        text: _('Unlimited')
+                    }]
+                })
+            }, {
+                text: _('U/L Speed Limit'),
+                iconCls: 'x-deluge-seeding',
+                menu: new Ext.menu.Menu({
+                    items: [{
+                        text: _('5 KiB/s')
+                    }, {
+                        text: _('10 KiB/s')
+                    }, {
+                        text: _('30 KiB/s')
+                    }, {
+                        text: _('80 KiB/s')
+                    }, {
+                        text: _('300 KiB/s')
+                    },{
+                        text: _('Unlimited')
+                    }]
+                })
+            }, {
+                text: _('Connection Limit'),
+                iconCls: 'x-deluge-connections',
+                menu: new Ext.menu.Menu({
+                    items: [{
+                        text: _('50')
+                    }, {
+                        text: _('100')
+                    }, {
+                        text: _('200')
+                    }, {
+                        text: _('300')
+                    }, {
+                        text: _('500')
+                    },{
+                        text: _('Unlimited')
+                    }]
+                })
+            }, {
+                text: _('Upload Slot Limit'),
+                iconCls: 'icon-upload-slots',
+                menu: new Ext.menu.Menu({
+                    items: [{
+                        text: _('0')
+                    }, {
+                        text: _('1')
+                    }, {
+                        text: _('2')
+                    }, {
+                        text: _('3')
+                    }, {
+                        text: _('5')
+                    },{
+                        text: _('Unlimited')
+                    }]
+                })
+            }, {
+                id: 'auto_managed',
+                text: _('Auto Managed'),
+                checked: false
+            }]
+        })
+    }, '-', {
+        text: _('Queue'),
+        iconCls: 'icon-queue',
+        menu: new Ext.menu.Menu({
+            items: [{
+                torrentAction: 'top',
+                text: _('Top'),
+                iconCls: 'icon-top',
+                handler: deluge.menus.onTorrentAction,
+                scope: deluge.menus
+            },{
+                torrentAction: 'up',
+                text: _('Up'),
+                iconCls: 'icon-up',
+                handler: deluge.menus.onTorrentAction,
+                scope: deluge.menus
+            },{
+                torrentAction: 'down',
+                text: _('Down'),
+                iconCls: 'icon-down',
+                handler: deluge.menus.onTorrentAction,
+                scope: deluge.menus
+            },{
+                torrentAction: 'bottom',
+                text: _('Bottom'),
+                iconCls: 'icon-bottom',
+                handler: deluge.menus.onTorrentAction,
+                scope: deluge.menus
+            }]
+        })
+    }, '-', {
+        torrentAction: 'update',
+        text: _('Update Tracker'),
+        iconCls: 'icon-update-tracker',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, {
+        torrentAction: 'edit_trackers',
+        text: _('Edit Trackers'),
+        iconCls: 'icon-edit-trackers',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, '-', {
+        torrentAction: 'remove',
+        text: _('Remove Torrent'),
+        iconCls: 'icon-remove',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, '-', {
+        torrentAction: 'recheck',
+        text: _('Force Recheck'),
+        iconCls: 'icon-recheck',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }, {
+        torrentAction: 'move',
+        text: _('Move Storage'),
+        iconCls: 'icon-move',
+        handler: deluge.menus.onTorrentAction,
+        scope: deluge.menus
+    }]
 });
 
 deluge.menus.filePriorities = new Ext.menu.Menu({
-	id: 'filePrioritiesMenu',
-	items: [{
-		id: 'expandAll',
-		text: _('Expand All'),
-		iconCls: 'icon-expand-all'
-	}, '-', {
-		id: 'no_download',
-		text: _('Do Not Download'),
-		iconCls: 'icon-do-not-download',
-		filePriority: 0
-	}, {
-		id: 'normal',
-		text: _('Normal Priority'),
-		iconCls: 'icon-normal',
-		filePriority: 1
-	}, {
-		id: 'high',
-		text: _('High Priority'),
-		iconCls: 'icon-high',
-		filePriority: 2
-	}, {
-		id: 'highest',
-		text: _('Highest Priority'),
-		iconCls: 'icon-highest',
-		filePriority: 5
-	}]
+    id: 'filePrioritiesMenu',
+    items: [{
+        id: 'expandAll',
+        text: _('Expand All'),
+        iconCls: 'icon-expand-all'
+    }, '-', {
+        id: 'no_download',
+        text: _('Do Not Download'),
+        iconCls: 'icon-do-not-download',
+        filePriority: 0
+    }, {
+        id: 'normal',
+        text: _('Normal Priority'),
+        iconCls: 'icon-normal',
+        filePriority: 1
+    }, {
+        id: 'high',
+        text: _('High Priority'),
+        iconCls: 'icon-high',
+        filePriority: 2
+    }, {
+        id: 'highest',
+        text: _('Highest Priority'),
+        iconCls: 'icon-highest',
+        filePriority: 5
+    }]
 });

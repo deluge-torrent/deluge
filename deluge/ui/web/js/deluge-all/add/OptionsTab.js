@@ -37,148 +37,148 @@ Ext.ns('Deluge.add');
  */
 Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 
-	title:  _('Options'),
-	height: 170,
+    title:  _('Options'),
+    height: 170,
 
-	border:     false,
-	bodyStyle:  'padding: 5px',
-	disabled:   true,
-	labelWidth: 1,
+    border:     false,
+    bodyStyle:  'padding: 5px',
+    disabled:   true,
+    labelWidth: 1,
 
-	initComponent: function() {
-		Deluge.add.OptionsTab.superclass.initComponent.call(this);
+    initComponent: function() {
+        Deluge.add.OptionsTab.superclass.initComponent.call(this);
 
-		this.optionsManager = new Deluge.MultiOptionsManager();
+        this.optionsManager = new Deluge.MultiOptionsManager();
 
-		var fieldset = this.add({
-			xtype: 'fieldset',
-			title: _('Download Location'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'textfield',
-			labelWidth: 1,
-			fieldLabel: '',
-			style: 'padding-bottom: 5px; margin-bottom: 0px;'
-		});
+        var fieldset = this.add({
+            xtype: 'fieldset',
+            title: _('Download Location'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'textfield',
+            labelWidth: 1,
+            fieldLabel: '',
+            style: 'padding-bottom: 5px; margin-bottom: 0px;'
+        });
 
-		this.optionsManager.bind('download_location', fieldset.add({
-			fieldLabel: '',
-			name: 'download_location',
-			width: 400,
-			labelSeparator: ''
-		}));
-	
-		var panel = this.add({
-			border: false,
-			layout: 'column',
-			defaultType: 'fieldset'
-		});
-		fieldset = panel.add({
-			title: _('Allocation'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'radio',
-			width: 100
-		});
+        this.optionsManager.bind('download_location', fieldset.add({
+            fieldLabel: '',
+            name: 'download_location',
+            width: 400,
+            labelSeparator: ''
+        }));
+    
+        var panel = this.add({
+            border: false,
+            layout: 'column',
+            defaultType: 'fieldset'
+        });
+        fieldset = panel.add({
+            title: _('Allocation'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'radio',
+            width: 100
+        });
 
-		this.optionsManager.bind('compact_allocation', fieldset.add({
-			xtype: 'radiogroup',
-			columns: 1,
-			vertical: true,
-			labelSeparator: '',
-			items: [{
-				name: 'compact_allocation',
-				value: false,
-				inputValue: false,
-				boxLabel: _('Full'),
-				fieldLabel: '',
-				labelSeparator: ''
-			}, {
-				name: 'compact_allocation',
-				value: true,
-				inputValue: true,
-				boxLabel: _('Compact'),
-				fieldLabel: '',
-				labelSeparator: ''
-			}]
-		}));
+        this.optionsManager.bind('compact_allocation', fieldset.add({
+            xtype: 'radiogroup',
+            columns: 1,
+            vertical: true,
+            labelSeparator: '',
+            items: [{
+                name: 'compact_allocation',
+                value: false,
+                inputValue: false,
+                boxLabel: _('Full'),
+                fieldLabel: '',
+                labelSeparator: ''
+            }, {
+                name: 'compact_allocation',
+                value: true,
+                inputValue: true,
+                boxLabel: _('Compact'),
+                fieldLabel: '',
+                labelSeparator: ''
+            }]
+        }));
 
-		fieldset = panel.add({
-			title: _('Bandwidth'),
-			border: false,
-			autoHeight: true,
-			labelWidth: 100,
-			width: 200,
-			defaultType: 'spinnerfield'
-		});
-		this.optionsManager.bind('max_download_speed', fieldset.add({
-			fieldLabel: _('Max Down Speed'),
-			labelStyle: 'margin-left: 10px',
-			name: 'max_download_speed',
-			width: 60
-		}));
-		this.optionsManager.bind('max_upload_speed', fieldset.add({
-			fieldLabel: _('Max Up Speed'),
-			labelStyle: 'margin-left: 10px',
-			name: 'max_upload_speed',
-			width: 60
-		}));
-		this.optionsManager.bind('max_connections', fieldset.add({
-			fieldLabel: _('Max Connections'),
-			labelStyle: 'margin-left: 10px',
-			name: 'max_connections',
-			width: 60
-		}));
-		this.optionsManager.bind('max_upload_slots', fieldset.add({
-			fieldLabel: _('Max Upload Slots'),
-			labelStyle: 'margin-left: 10px',
-			name: 'max_upload_slots',
-			width: 60
-		}));
-	
-		fieldset = panel.add({
-			title: _('General'),
-			border: false,
-			autoHeight: true,
-			defaultType: 'checkbox'
-		});
-		this.optionsManager.bind('add_paused', fieldset.add({
-			name: 'add_paused',
-			boxLabel: _('Add In Paused State'),
-			fieldLabel: '',
-			labelSeparator: ''
-		}));
-		this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
-			name: 'prioritize_first_last_pieces',
-			boxLabel: _('Prioritize First/Last Pieces'),
-			fieldLabel: '',
-			labelSeparator: ''
-		}));
-	},
+        fieldset = panel.add({
+            title: _('Bandwidth'),
+            border: false,
+            autoHeight: true,
+            labelWidth: 100,
+            width: 200,
+            defaultType: 'spinnerfield'
+        });
+        this.optionsManager.bind('max_download_speed', fieldset.add({
+            fieldLabel: _('Max Down Speed'),
+            labelStyle: 'margin-left: 10px',
+            name: 'max_download_speed',
+            width: 60
+        }));
+        this.optionsManager.bind('max_upload_speed', fieldset.add({
+            fieldLabel: _('Max Up Speed'),
+            labelStyle: 'margin-left: 10px',
+            name: 'max_upload_speed',
+            width: 60
+        }));
+        this.optionsManager.bind('max_connections', fieldset.add({
+            fieldLabel: _('Max Connections'),
+            labelStyle: 'margin-left: 10px',
+            name: 'max_connections',
+            width: 60
+        }));
+        this.optionsManager.bind('max_upload_slots', fieldset.add({
+            fieldLabel: _('Max Upload Slots'),
+            labelStyle: 'margin-left: 10px',
+            name: 'max_upload_slots',
+            width: 60
+        }));
+    
+        fieldset = panel.add({
+            title: _('General'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'checkbox'
+        });
+        this.optionsManager.bind('add_paused', fieldset.add({
+            name: 'add_paused',
+            boxLabel: _('Add In Paused State'),
+            fieldLabel: '',
+            labelSeparator: ''
+        }));
+        this.optionsManager.bind('prioritize_first_last_pieces', fieldset.add({
+            name: 'prioritize_first_last_pieces',
+            boxLabel: _('Prioritize First/Last Pieces'),
+            fieldLabel: '',
+            labelSeparator: ''
+        }));
+    },
 
-	getDefaults: function() {
-		var keys = ['add_paused','compact_allocation','download_location',
-		'max_connections_per_torrent','max_download_speed_per_torrent',
-		'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
-		'prioritize_first_last_pieces'];
+    getDefaults: function() {
+        var keys = ['add_paused','compact_allocation','download_location',
+        'max_connections_per_torrent','max_download_speed_per_torrent',
+        'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
+        'prioritize_first_last_pieces'];
 
-		deluge.client.core.get_config_values(keys, {
-			success: function(config) {
-				var options = {
-					'file_priorities': [],
-					'add_paused': config.add_paused,
-					'compact_allocation': config.compact_allocation,
-					'download_location': config.download_location,
-					'max_connections': config.max_connections_per_torrent,
-					'max_download_speed': config.max_download_speed_per_torrent,
-					'max_upload_slots': config.max_upload_slots_per_torrent,
-					'max_upload_speed': config.max_upload_speed_per_torrent,
-					'prioritize_first_last_pieces': config.prioritize_first_last_pieces
-				}
-				this.optionsManager.options = options;
-				this.optionsManager.resetAll();
-			},
-			scope: this
-		});
-	}
+        deluge.client.core.get_config_values(keys, {
+            success: function(config) {
+                var options = {
+                    'file_priorities': [],
+                    'add_paused': config.add_paused,
+                    'compact_allocation': config.compact_allocation,
+                    'download_location': config.download_location,
+                    'max_connections': config.max_connections_per_torrent,
+                    'max_download_speed': config.max_download_speed_per_torrent,
+                    'max_upload_slots': config.max_upload_slots_per_torrent,
+                    'max_upload_speed': config.max_upload_speed_per_torrent,
+                    'prioritize_first_last_pieces': config.prioritize_first_last_pieces
+                }
+                this.optionsManager.options = options;
+                this.optionsManager.resetAll();
+            },
+            scope: this
+        });
+    }
 });

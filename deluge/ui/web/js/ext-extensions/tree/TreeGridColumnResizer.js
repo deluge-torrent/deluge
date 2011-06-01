@@ -56,7 +56,7 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
                 }
                 if(ps) {                    
                     this.activeHd = Ext.get(ps);
-    				ss.cursor = Ext.isWebKit ? 'e-resize' : 'col-resize';
+                    ss.cursor = Ext.isWebKit ? 'e-resize' : 'col-resize';
                 }
             } else if(r.right - x <= hw) {
                 var ns = hd.dom;
@@ -65,7 +65,7 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
                 }
                 if(ns) {
                     this.activeHd = Ext.get(ns);
-    				ss.cursor = Ext.isWebKit ? 'w-resize' : 'col-resize';                    
+                    ss.cursor = Ext.isWebKit ? 'w-resize' : 'col-resize';                    
                 }
             } else{
                 delete this.activeHd;
