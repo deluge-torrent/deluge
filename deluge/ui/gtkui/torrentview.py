@@ -213,6 +213,17 @@ class SearchBox(object):
         if self.search_pending and self.search_pending.active():
             self.search_pending.cancel()
 
+        if self.prefiltered:
+            filter_column = self.torrentview.columns["filter"].column_indices[0]
+            torrent_id_column = self.torrentview.columns["torrent_id"].column_indices[0]
+            for row in self.torrentview.liststore:
+                torrent_id = row[torrent_id_column]
+
+                if torrent_id in self.prefiltered:
+                    # Reset to previous filter state
+                    self.prefiltered.pop(self.prefiltered.index(torrent_id))
+                    row[filter_column] = not row[filter_column]
+
         self.prefiltered = None
 
         self.search_torrents_entry.set_text("")
@@ -573,10 +584,7 @@ class TorrentView(listview.ListView, component.Component):
         # Insert a new row to the liststore
         row = self.liststore.append()
         # Store the torrent id
-        self.liststore.set_value(
-                    row,
-                    self.columns["torrent_id"].column_indices[0],
-                    torrent_id)
+        self.liststore.set_value(row, self.columns["torrent_id"].column_indices[0], torrent_id)
         if update:
             self.update()
 
