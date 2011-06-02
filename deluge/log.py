@@ -48,9 +48,9 @@ __all__ = ["setupLogger", "setLoggerLevel", "getPluginLogger", "LOG"]
 LoggingLoggerClass = logging.getLoggerClass()
 
 if 'dev' in common.get_version():
-    DEFAULT_LOGGING_FORMAT = "%%(asctime)s.%%(msecs)03.0f [%%(name)-%ds:%%(lineno)-4d][%%(levelname)-8s] %%(message)s"
+    DEFAULT_LOGGING_FORMAT = "%%(asctime)s.%%(msecs)03.0f [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s"
 else:
-    DEFAULT_LOGGING_FORMAT = "%%(asctime)s [%%(name)-%ds][%%(levelname)-8s] %%(message)s"
+    DEFAULT_LOGGING_FORMAT = "%%(asctime)s [%%(levelname)-8s][%%(name)-%ds] %%(message)s"
 MAX_LOGGER_NAME_LENGTH = 3
 
 class Logging(LoggingLoggerClass):
