@@ -213,9 +213,6 @@ class MenuBar(component.Component):
 
     def stop(self):
         log.debug("MenuBar stopping")
-        if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
-            # If not an admin, no submenu was added
-            self.menuitem_change_owner.remove_submenu()
 
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
