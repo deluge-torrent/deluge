@@ -830,26 +830,21 @@ class Preferences(component.Component):
             # Re-show the dialog to make sure everything has been updated
             self.show()
 
-        if classic_mode_was_set==True and new_gtkui_in_classic_mode==False:
+        if classic_mode_was_set == True and new_gtkui_in_classic_mode == False:
             def on_response(response):
                 if response == gtk.RESPONSE_NO:
                     # Set each changed config value in the core
                     self.gtkui_config["classic_mode"] = True
-                    client.core.set_config({"classic_mode": True})
-                    client.force_call(True)
-                    # Update the configuration
-                    self.core_config.update({"classic_mode": True})
                     self.glade.get_widget("chk_classic_mode").set_active(True)
                 else:
                     client.disconnect()
-                    if client.is_classicmode():
-                        component.stop()
+                    component.stop()
             dialog = dialogs.YesNoDialog(
                 _("Attention"),
                 _("Your current session will be stopped. Continue?")
             )
             dialog.run().addCallback(on_response)
-        elif classic_mode_was_set==False and new_gtkui_in_classic_mode==True:
+        elif classic_mode_was_set == False and new_gtkui_in_classic_mode == True:
             dialog = dialogs.InformationDialog(
                 _("Attention"),
                 _("You must now restart the deluge UI")

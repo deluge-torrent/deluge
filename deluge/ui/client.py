@@ -613,6 +613,11 @@ class Client(object):
         """
         Disconnects from the daemon.
         """
+        if self.is_classicmode():
+            self._daemon_proxy.disconnect()
+            self.stop_classic_mode()
+            return
+            
         if self._daemon_proxy:
             return self._daemon_proxy.disconnect()
 
@@ -623,6 +628,13 @@ class Client(object):
         self._daemon_proxy = DaemonClassicProxy(self.__event_handlers)
         self.__started_in_classic = True
 
+    def stop_classic_mode(self):
+        """
+        Stops the daemon process in the client.
+        """
+        self._daemon_proxy = None
+        self.__started_in_classic = False
+        
     def start_daemon(self, port, config):
         """
         Starts a daemon process.
