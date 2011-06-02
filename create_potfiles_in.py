@@ -1,18 +1,25 @@
 #!/usr/bin/env python
 import os
+import re
 
 # Paths to exclude
 EXCLUSIONS = [
-    "deluge/scripts"
+    "deluge/scripts",
+    "deluge/i18n",
 ]
 
 POTFILE_IN = "deluge/i18n/POTFILES.in"
 
-print "Creating " + POTFILE_IN + " .."
+pattern = "deluge\/plugins\/.*\/build"
+compiled = re.compile(pattern)
+
+print "Creating " + POTFILE_IN + " ..."
 to_translate = []
 for (dirpath, dirnames, filenames) in os.walk("deluge"):
     for filename in filenames:
-        if os.path.splitext(filename)[1] in (".py", ".glade") and dirpath not in EXCLUSIONS:
+        if os.path.splitext(filename)[1] in (".py", ".glade") \
+                                            and dirpath not in EXCLUSIONS \
+                                            and not compiled.match(dirpath):
             to_translate.append(os.path.join(dirpath, filename))
 
 f = open(POTFILE_IN, "wb")
