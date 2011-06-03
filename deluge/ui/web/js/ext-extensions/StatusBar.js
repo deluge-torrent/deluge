@@ -339,9 +339,9 @@ statusBar.setStatus({
                 scope: this,
                 callback: function(){
                     this.setStatus({
-	                    text: text,
-	                    iconCls: iconCls
-	                });
+                        text: text,
+                        iconCls: iconCls
+                    });
 
                     this.statusEl.el.show();
                 }
@@ -349,10 +349,10 @@ statusBar.setStatus({
         }else{
             // hide/show the el to avoid jumpy text or icon
             this.statusEl.hide();
-	        this.setStatus({
-	            text: text,
-	            iconCls: iconCls
-	        });
+            this.setStatus({
+                text: text,
+                iconCls: iconCls
+            });
             this.statusEl.show();
         }
         return this;
@@ -391,14 +391,14 @@ statusBar.setStatus({
         cls = cls || '';
 
         if(this.rendered){
-	        if(this.currIconCls){
-	            this.statusEl.removeClass(this.currIconCls);
-	            this.currIconCls = null;
-	        }
-	        if(cls.length > 0){
-	            this.statusEl.addClass(cls);
-	            this.currIconCls = cls;
-	        }
+            if(this.currIconCls){
+                this.statusEl.removeClass(this.currIconCls);
+                this.currIconCls = null;
+            }
+            if(cls.length > 0){
+                this.statusEl.addClass(cls);
+                this.currIconCls = cls;
+            }
         }else{
             this.currIconCls = cls;
         }

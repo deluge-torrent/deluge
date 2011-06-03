@@ -72,11 +72,11 @@ class PluginManager(PluginManagerBase, component.Component):
         for plugin in plugins:
             self.enable_plugin(plugin)
 
-    def _on_plugin_enabled_event(self, event):
-        self.enable_plugin(event.plugin_name)
+    def _on_plugin_enabled_event(self, name):
+        self.enable_plugin(name)
 
-    def _on_plugin_disabled_event(self, event):
-        self.disable_plugin(event.plugin_name)
+    def _on_plugin_disabled_event(self, name):
+        self.disable_plugin(name)
 
     def disable_plugin(self, name):
         # Get the plugin instance
@@ -146,7 +146,7 @@ class PluginManager(PluginManagerBase, component.Component):
             return
         info = gather_info(plugin)
         info["name"] = name
-        info["scripts"] = ["/js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["scripts"]]
-        info["debug_scripts"] = ["/js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["debug_scripts"]]
+        info["scripts"] = ["js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["scripts"]]
+        info["debug_scripts"] = ["js/%s/%s" % (name.lower(), os.path.basename(s)) for s in info["debug_scripts"]]
         del info["script_directories"]
         return info

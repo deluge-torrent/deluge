@@ -285,14 +285,11 @@ class CreateTorrentDialog:
             tracker = None
         else:
             # Create a list of lists [[tier0, ...], [tier1, ...], ...]
+            tier_dict = {}
             for tier, tracker in self.trackers_liststore:
-                try:
-                    tier_list = trackers[tier]
-                except IndexError:
-                    trackers.insert(tier, [])
+                tier_dict.setdefault(tier, []).append(tracker)
 
-                trackers[tier].append(tracker)
-
+            trackers = [tier_dict[tier] for tier in sorted(tier_dict)]
             # Get the first tracker in the first tier
             tracker = trackers[0][0]
 
@@ -369,7 +366,7 @@ class CreateTorrentDialog:
         if add_to_session:
             client.core.add_torrent_file(
                 os.path.split(target)[-1],
-                base64.encodestring(open(target).read()),
+                base64.encodestring(open(target, "rb").read()),
                 {"download_location": os.path.split(path)[0]})
 
     def _on_create_torrent_progress(self, value, num_pieces):
@@ -382,6 +379,8 @@ class CreateTorrentDialog:
     def _on_button_up_clicked(self, widget):
         log.debug("_on_button_up_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         if self.trackers_liststore[row][0] == 0:
             return
         else:
@@ -390,6 +389,8 @@ class CreateTorrentDialog:
     def _on_button_down_clicked(self, widget):
         log.debug("_on_button_down_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         self.trackers_liststore[row][0] += 1
 
     def _on_button_add_clicked(self, widget):
@@ -433,4 +434,6 @@ class CreateTorrentDialog:
     def _on_button_remove_clicked(self, widget):
         log.debug("_on_button_remove_clicked")
         row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        if row is None:
+            return
         self.trackers_liststore.remove(row)

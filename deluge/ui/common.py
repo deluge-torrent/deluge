@@ -407,26 +407,28 @@ def get_localhost_auth():
     :rtype: tuple
     """
     auth_file = deluge.configmanager.get_config_dir("auth")
-    if os.path.exists(auth_file):
-        for line in open(auth_file):
-            if line.startswith("#"):
-                # This is a comment line
-                continue
-            line = line.strip()
-            try:
-                lsplit = line.split(":")
-            except Exception, e:
-                log.error("Your auth file is malformed: %s", e)
-                continue
+    if not os.path.exists(auth_file):
+        from deluge.common import create_localclient_account
+        create_localclient_account()
 
-            if len(lsplit) == 2:
-                username, password = lsplit
-            elif len(lsplit) == 3:
-                username, password, level = lsplit
-            else:
-                log.error("Your auth file is malformed: Incorrect number of fields!")
-                continue
+    for line in open(auth_file):
+        if line.startswith("#"):
+            # This is a comment line
+            continue
+        line = line.strip()
+        try:
+            lsplit = line.split(":")
+        except Exception, e:
+            log.error("Your auth file is malformed: %s", e)
+            continue
 
-            if username == "localclient":
-                return (username, password)
-    return ("", "")
+        if len(lsplit) == 2:
+            username, password = lsplit
+        elif len(lsplit) == 3:
+            username, password, level = lsplit
+        else:
+            log.error("Your auth file is malformed: Incorrect number of fields!")
+            continue
+
+        if username == "localclient":
+            return (username, password)

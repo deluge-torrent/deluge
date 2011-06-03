@@ -2,7 +2,6 @@
 # event.py
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
-# Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
@@ -48,8 +47,6 @@ class DelugeEventMetaClass(type):
     """
     This metaclass simply keeps a list of all events classes created.
     """
-    __slots__ = ()
-
     def __init__(cls, name, bases, dct):
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
         if name != "DelugeEvent":
@@ -65,26 +62,23 @@ class DelugeEvent(object):
     :type args: list
 
     """
-    __slots__     = ()
     __metaclass__ = DelugeEventMetaClass
 
     def _get_name(self):
         return self.__class__.__name__
-    name = property(fget=_get_name)
 
     def _get_args(self):
-        return [getattr(self, arg) for arg in self.__slots__]
-    args = property(fget=_get_args)
+        if not hasattr(self, "_args"):
+            return []
+        return self._args
 
-    def copy(self):
-        return self.__class__(*self.args)
+    name = property(fget=_get_name)
+    args = property(fget=_get_args)
 
 class TorrentAddedEvent(DelugeEvent):
     """
     Emitted when a new torrent is successfully added to the session.
     """
-    __slots__ = ('torrent_id', 'from_state')
-
     def __init__(self, torrent_id, from_state):
         """
         :param torrent_id: the torrent_id of the torrent that was added
@@ -92,41 +86,34 @@ class TorrentAddedEvent(DelugeEvent):
         :param from_state: was the torrent loaded from state? Or is it a new torrent.
         :type from_state: bool
         """
-        self.torrent_id = torrent_id
-        self.from_state = from_state
+        self._args = [torrent_id, from_state]
 
 class TorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent has been removed from the session.
     """
-    __slots__ = ('torrent_id',)
-
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
         :type torrent_id: string
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class PreTorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent is about to be removed from the session.
     """
-    __slots__ = ('torrent_id',)
-
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
         :type torrent_id: string
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentStateChangedEvent(DelugeEvent):
     """
     Emitted when a torrent changes state.
     """
-    __slots__ = ('torrent_id', 'state')
-
     def __init__(self, torrent_id, state):
         """
         :param torrent_id: the torrent_id
@@ -134,20 +121,18 @@ class TorrentStateChangedEvent(DelugeEvent):
         :param state: the new state
         :type state: string
         """
-        self.torrent_id = torrent_id
-        self.state = state
+        self._args = [torrent_id, state]
 
 class TorrentQueueChangedEvent(DelugeEvent):
     """
     Emitted when the queue order has changed.
     """
+    pass
 
 class TorrentFolderRenamedEvent(DelugeEvent):
     """
     Emitted when a folder within a torrent has been renamed.
     """
-    __slots__ = ('torrent_id', 'old', 'new')
-
     def __init__(self, torrent_id, old, new):
         """
         :param torrent_id: the torrent_id
@@ -157,54 +142,44 @@ class TorrentFolderRenamedEvent(DelugeEvent):
         :param new: the new folder name
         :type new: string
         """
-        self.torrent_id = torrent_id
-        self.old = old
-        self.new = new
+        self._args = [torrent_id, old, new]
 
 class TorrentFileRenamedEvent(DelugeEvent):
     """
     Emitted when a file within a torrent has been renamed.
     """
-    __slots__ = ('torrent_id', 'index', 'filename')
-
-    def __init__(self, torrent_id, index, filename):
+    def __init__(self, torrent_id, index, name):
         """
         :param torrent_id: the torrent_id
         :type torrent_id: string
         :param index: the index of the file
         :type index: int
-        :param filename: the new filename
-        :type filename: string
+        :param name: the new filename
+        :type name: string
         """
-        self.torrent_id = torrent_id
-        self.index = index
-        self.filename = filename
+        self._args = [torrent_id, index, name]
 
 class TorrentFinishedEvent(DelugeEvent):
     """
     Emitted when a torrent finishes downloading.
     """
-    __slots__ = ('torrent_id',)
-
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
         :type torrent_id: string
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentResumedEvent(DelugeEvent):
     """
     Emitted when a torrent resumes from a paused state.
     """
-    __slots__ = ('torrent_id',)
-
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
         :type torrent_id: string
         """
-        self.torrent_id = torrent_id
+        self._args = [torrent_id]
 
 class TorrentFileCompletedEvent(DelugeEvent):
     """
@@ -213,8 +188,6 @@ class TorrentFileCompletedEvent(DelugeEvent):
     This will only work with libtorrent 0.15 or greater.
 
     """
-    __slots__ = ('torrent_id', 'index')
-
     def __init__(self, torrent_id, index):
         """
         :param torrent_id: the torrent_id
@@ -222,75 +195,61 @@ class TorrentFileCompletedEvent(DelugeEvent):
         :param index: the file index
         :type index: int
         """
-        self.torrent_id = torrent_id
-        self.index = index
+        self._args = [torrent_id, index]
 
 class NewVersionAvailableEvent(DelugeEvent):
     """
     Emitted when a more recent version of Deluge is available.
     """
-    __slots__ = ('new_release',)
-
     def __init__(self, new_release):
         """
         :param new_release: the new version that is available
         :type new_release: string
         """
-        self.new_release = new_release
+        self._args = [new_release]
 
 class SessionStartedEvent(DelugeEvent):
     """
     Emitted when a session has started.  This typically only happens once when
     the daemon is initially started.
     """
+    pass
 
 class SessionPausedEvent(DelugeEvent):
     """
     Emitted when the session has been paused.
     """
+    pass
 
 class SessionResumedEvent(DelugeEvent):
     """
     Emitted when the session has been resumed.
     """
+    pass
 
 class ConfigValueChangedEvent(DelugeEvent):
     """
     Emitted when a config value changes in the Core.
     """
-    __slots__ = ('key', 'value')
-
     def __init__(self, key, value):
         """
         :param key: the key that changed
         :type key: string
         :param value: the new value of the `:param:key`
         """
-        self.key = key
-        self.value = value
+        self._args = [key, value]
 
 class PluginEnabledEvent(DelugeEvent):
     """
     Emitted when a plugin is enabled in the Core.
     """
-    __slots__ = ('plugin_name',)
-
     def __init__(self, plugin_name):
-        """
-        :param plugin_name: the plugin name
-        :type plugin_name: string
-        """
-        self.plugin_name = plugin_name
+        self._args = [plugin_name]
 
 class PluginDisabledEvent(DelugeEvent):
     """
     Emitted when a plugin is disabled in the Core.
     """
-    __slots__ = ('plugin_name',)
-
     def __init__(self, plugin_name):
-        """
-        :param plugin_name: the plugin name
-        :type plugin_name: string
-        """
-        self.plugin_name = plugin_name
+        self._args = [plugin_name]
+

@@ -36,65 +36,65 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
-	
-	layout: 'fit',
-	width: 210,
-	height: 100,
+    
+    layout: 'fit',
+    width: 210,
+    height: 100,
 
-	closeAction: 'hide',
+    closeAction: 'hide',
 
-	initComponent: function() {
-		Deluge.OtherLimitWindow.superclass.initComponent.call(this);
-		this.form = this.add({
-			xtype: 'form',
-			baseCls: 'x-plain',
-			bodyStyle: 'padding: 5px',
-			layout: 'hbox',
-			layoutConfig: {
-				pack: 'start'
-			},
-			items: [{
-				xtype: 'spinnerfield',
-				name: 'limit'
-			}]
-		});
-		if (this.initialConfig.unit) {
-			this.form.add({
-				border: false,
-				baseCls: 'x-plain',
-				bodyStyle: 'padding: 5px',
-				html: this.initialConfig.unit
-			});
-		} else {
-			this.setSize(180, 100);
-		}
+    initComponent: function() {
+        Deluge.OtherLimitWindow.superclass.initComponent.call(this);
+        this.form = this.add({
+            xtype: 'form',
+            baseCls: 'x-plain',
+            bodyStyle: 'padding: 5px',
+            layout: 'hbox',
+            layoutConfig: {
+                pack: 'start'
+            },
+            items: [{
+                xtype: 'spinnerfield',
+                name: 'limit'
+            }]
+        });
+        if (this.initialConfig.unit) {
+            this.form.add({
+                border: false,
+                baseCls: 'x-plain',
+                bodyStyle: 'padding: 5px',
+                html: this.initialConfig.unit
+            });
+        } else {
+            this.setSize(180, 100);
+        }
 
-		this.addButton(_('Cancel'), this.onCancelClick, this);
-		this.addButton(_('Ok'), this.onOkClick, this);
-		this.afterMethod('show', this.doFocusField, this);
-	},
+        this.addButton(_('Cancel'), this.onCancelClick, this);
+        this.addButton(_('Ok'), this.onOkClick, this);
+        this.afterMethod('show', this.doFocusField, this);
+    },
 
-	setValue: function(value) {
-		this.form.getForm().setValues({limit: value});
-	},
+    setValue: function(value) {
+        this.form.getForm().setValues({limit: value});
+    },
 
-	onCancelClick: function() {
-		this.form.getForm().reset();
-		this.hide();
-	},
+    onCancelClick: function() {
+        this.form.getForm().reset();
+        this.hide();
+    },
 
-	onOkClick: function() {
-		var config = {};
-		config[this.group] = this.form.getForm().getValues().limit;
-		deluge.client.core.set_config(config, {
-			success: function() {
-				deluge.ui.update();
-			}
-		});
-		this.hide();
-	},
+    onOkClick: function() {
+        var config = {};
+        config[this.group] = this.form.getForm().getValues().limit;
+        deluge.client.core.set_config(config, {
+            success: function() {
+                deluge.ui.update();
+            }
+        });
+        this.hide();
+    },
 
-	doFocusField: function() {
-		this.form.getForm().findField('limit').focus(true, 10);
-	}
+    doFocusField: function() {
+        this.form.getForm().findField('limit').focus(true, 10);
+    }
 });

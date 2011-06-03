@@ -42,8 +42,8 @@ import time
 import shutil
 import operator
 import logging
+import re
 
-from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
@@ -52,6 +52,7 @@ from deluge.event import *
 from deluge.error import *
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
@@ -73,6 +74,7 @@ class TorrentState:
             max_upload_speed=-1.0,
             max_download_speed=-1.0,
             prioritize_first_last=False,
+            sequential_download=False,
             file_priorities=None,
             queue=None,
             auto_managed=True,
@@ -84,8 +86,9 @@ class TorrentState:
             move_completed_path=None,
             magnet=None,
             time_added=-1,
-            owner="",
-            public=False
+            last_seen_complete=0.0,   # 0 is the default returned when the info
+            owner="",                 # does not exist on lt >= .16
+            shared=False
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -95,6 +98,7 @@ class TorrentState:
         self.is_finished = is_finished
         self.magnet = magnet
         self.time_added = time_added
+        self.last_seen_complete = last_seen_complete
         self.owner = owner
 
         # Options
@@ -106,6 +110,7 @@ class TorrentState:
         self.max_upload_speed = max_upload_speed
         self.max_download_speed = max_download_speed
         self.prioritize_first_last = prioritize_first_last
+        self.sequential_download = sequential_download
         self.file_priorities = file_priorities
         self.auto_managed = auto_managed
         self.stop_ratio = stop_ratio
@@ -113,7 +118,7 @@ class TorrentState:
         self.remove_at_ratio = remove_at_ratio
         self.move_completed = move_completed
         self.move_completed_path = move_completed_path
-        self.public = public
+        self.shared = shared
 
 class TorrentManagerState:
     def __init__(self):
@@ -127,7 +132,8 @@ class TorrentManager(component.Component):
     """
 
     def __init__(self):
-        component.Component.__init__(self, "TorrentManager", interval=5, depend=["CorePluginManager"])
+        component.Component.__init__(self, "TorrentManager", interval=5,
+                                     depend=["CorePluginManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = component.get("Core").session
@@ -142,6 +148,7 @@ class TorrentManager(component.Component):
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
+        self.last_seen_complete_loop = None
 
         # This is a list of torrent_id when we shutdown the torrentmanager.
         # We use this list to determine if all active torrents have been paused
@@ -214,6 +221,9 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
         self.save_resume_data_timer.start(190)
 
+        if self.last_seen_complete_loop:
+            self.last_seen_complete_loop.start(60)
+
     def stop(self):
         # Stop timers
         if self.save_state_timer.running:
@@ -221,6 +231,9 @@ class TorrentManager(component.Component):
 
         if self.save_resume_data_timer.running:
             self.save_resume_data_timer.stop()
+
+        if self.last_seen_complete_loop:
+            self.last_seen_complete_loop.stop()
 
         # Save state on shutdown
         self.save_state()
@@ -261,9 +274,12 @@ class TorrentManager(component.Component):
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            if torrent.options["stop_at_ratio"] and torrent.state not in ("Checking", "Allocating", "Paused", "Queued"):
-                # If the global setting is set, but the per-torrent isn't.. Just skip to the next torrent
-                # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
+            if torrent.options["stop_at_ratio"] and torrent.state not in (
+                                "Checking", "Allocating", "Paused", "Queued"):
+                # If the global setting is set, but the per-torrent isn't..
+                # Just skip to the next torrent.
+                # This is so that a user can turn-off the stop at ratio option
+                # on a per-torrent basis
                 if not torrent.options["stop_at_ratio"]:
                     continue
                 if torrent.get_ratio() >= torrent.options["stop_ratio"] and torrent.is_finished:
@@ -279,7 +295,16 @@ class TorrentManager(component.Component):
 
     def get_torrent_list(self):
         """Returns a list of torrent_ids"""
-        return self.torrents.keys()
+        torrent_ids = self.torrents.keys()
+        if component.get("RPCServer").get_session_auth_level() == AUTH_LEVEL_ADMIN:
+            return torrent_ids
+
+        current_user = component.get("RPCServer").get_session_user()
+        for torrent_id in torrent_ids[:]:
+            torrent_status = self[torrent_id].get_status(["owner", "shared"])
+            if torrent_status["owner"] != current_user and torrent_status["shared"] == False:
+                torrent_ids.pop(torrent_ids.index(torrent_id))
+        return torrent_ids
 
     def get_torrent_info_from_file(self, filepath):
         """Returns a torrent_info for the file specified or None"""
@@ -319,7 +344,8 @@ class TorrentManager(component.Component):
             log.warning("Unable to delete the fastresume file: %s", e)
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None):
+            filedump=None, filename=None, magnet=None, resume_data=None,
+            owner='localclient'):
         """Add a torrent to the manager and returns it's torrent_id"""
 
         if torrent_info is None and state is None and filedump is None and magnet is None:
@@ -348,6 +374,7 @@ class TorrentManager(component.Component):
             options["max_upload_speed"] = state.max_upload_speed
             options["max_download_speed"] = state.max_download_speed
             options["prioritize_first_last_pieces"] = state.prioritize_first_last
+            options["sequential_download"] = state.sequential_download
             options["file_priorities"] = state.file_priorities
             options["compact_allocation"] = state.compact
             options["download_location"] = state.save_path
@@ -358,7 +385,7 @@ class TorrentManager(component.Component):
             options["move_completed"] = state.move_completed
             options["move_completed_path"] = state.move_completed_path
             options["add_paused"] = state.paused
-            options["public"] = state.public
+            options["shared"] = state.shared
 
             ti = self.get_torrent_info_from_file(
                     os.path.join(get_config_dir(),
@@ -396,7 +423,6 @@ class TorrentManager(component.Component):
                     torrent_info.rename_file(index, utf8_encoded(name))
 
             add_torrent_params["ti"] = torrent_info
-            add_torrent_params["resume_data"] = ""
 
         #log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
@@ -437,7 +463,12 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        owner = state.owner if state else component.get("RPCServer").get_session_user()
+        owner = state.owner if state else (
+            owner if owner else component.get("RPCServer").get_session_user()
+        )
+        account_exists = component.get("AuthManager").has_account(owner)
+        if not account_exists:
+            owner = 'localclient'
         torrent = Torrent(handle, options, state, filename, magnet, owner)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
@@ -484,10 +515,10 @@ class TorrentManager(component.Component):
         component.get("EventManager").emit(
             TorrentAddedEvent(torrent.torrent_id, from_state)
         )
-        log.info("Torrent %s %s by user: %s",
+        log.info("Torrent %s from user \"%s\" %s",
                  torrent.get_status(["name"])["name"],
-                 (from_state and "added" or "loaded"),
-                 component.get("RPCServer").get_session_user())
+                 torrent.get_status(["owner"])["owner"],
+                 (from_state and "added" or "loaded"))
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
@@ -568,7 +599,7 @@ class TorrentManager(component.Component):
         # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]
-        except KeyError, ValueError:
+        except (KeyError, ValueError):
             return False
 
         # Save the session state
@@ -576,7 +607,8 @@ class TorrentManager(component.Component):
 
         # Emit the signal to the clients
         component.get("EventManager").emit(TorrentRemovedEvent(torrent_id))
-        log.info("Torrent %s removed by user: %s", torrent_name, component.get("RPCServer").get_session_user())
+        log.info("Torrent %s removed by user: %s", torrent_name,
+                 component.get("RPCServer").get_session_user())
         return True
 
     def load_state(self):
@@ -616,6 +648,17 @@ class TorrentManager(component.Component):
                 log.error("Torrent state file is either corrupt or incompatible! %s", e)
                 break
 
+
+        if lt.version_minor < 16:
+            log.debug("libtorrent version is lower than 0.16. Start looping "
+                      "callback to calculate last_seen_complete info.")
+            def calculate_last_seen_complete():
+                for torrent in self.torrents.values():
+                    torrent.calculate_last_seen_complete()
+            self.last_seen_complete_loop = LoopingCall(
+                calculate_last_seen_complete
+            )
+
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
@@ -640,6 +683,7 @@ class TorrentManager(component.Component):
                 torrent.options["max_upload_speed"],
                 torrent.options["max_download_speed"],
                 torrent.options["prioritize_first_last_pieces"],
+                torrent.options["sequential_download"],
                 torrent.options["file_priorities"],
                 torrent.get_queue_position(),
                 torrent.options["auto_managed"],
@@ -651,8 +695,9 @@ class TorrentManager(component.Component):
                 torrent.options["move_completed_path"],
                 torrent.magnet,
                 torrent.time_added,
+                torrent.get_last_seen_complete(),
                 torrent.owner,
-                torrent.options["public"]
+                torrent.options["shared"]
             )
             state.torrents.append(torrent_state)
 
@@ -746,6 +791,38 @@ class TorrentManager(component.Component):
             fastresume_file.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
+
+    def remove_empty_folders(self, torrent_id, folder):
+        """
+        Recursively removes folders but only if they are empty.
+        Cleans up after libtorrent folder renames.
+
+        """
+        if torrent_id not in self.torrents:
+            raise InvalidTorrentError("torrent_id is not in session")
+
+        info = self.torrents[torrent_id].get_status(['save_path'])
+        # Regex removes leading slashes that causes join function to ignore save_path
+        folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
+        folder_full_path = os.path.normpath(folder_full_path)
+
+        try:
+            if not os.listdir(folder_full_path):
+                os.removedirs(folder_full_path)
+                log.debug("Removed Empty Folder %s", folder_full_path)
+            else:
+                for root, dirs, files in os.walk(folder_full_path, topdown=False):
+                    for name in dirs:
+                        try:
+                            os.removedirs(os.path.join(root, name))
+                            log.debug("Removed Empty Folder %s", os.path.join(root, name))
+                        except OSError as (errno, strerror):
+                            if errno == 39:
+                                # Error raised if folder is not empty
+                                log.debug("%s", strerror)
+
+        except OSError as (errno, strerror):
+            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
@@ -1008,6 +1085,8 @@ class TorrentManager(component.Component):
                 if len(wait_on_folder[2]) == 1:
                     # This is the last alert we were waiting for, time to send signal
                     component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
+                    # Empty folders are removed after libtorrent folder renames
+                    self.remove_empty_folders(torrent_id, wait_on_folder[0])
                     del torrent.waiting_on_folder_rename[i]
                     self.save_resume_data((torrent_id,))
                     break

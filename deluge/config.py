@@ -268,6 +268,31 @@ what is currently in the config and it could not convert the value
         else:
             return self.__config[key]
 
+    def __delitem__(self, key):
+        """
+        See
+        :meth:`del_item`
+        """
+        self.del_item(key)
+
+    def del_item(self, key):
+        """
+        Deletes item with a specific key from the configuration.
+
+        :param key: the item which you wish to delete.
+        :raises KeyError: if 'key' is not in the config dictionary
+
+        **Usage**
+        >>> config = Config("test.conf", defaults={"test": 5})
+        >>> del config["test"]
+        """
+        del self.__config[key]
+        # We set the save_timer for 5 seconds if not already set
+        from twisted.internet import reactor
+        if not self._save_timer or not self._save_timer.active():
+            self._save_timer = reactor.callLater(5, self.save)
+
+
     def register_change_callback(self, callback):
         """
         Registers a callback function that will be called when a value is changed in the config dictionary

@@ -38,7 +38,6 @@ import os
 import logging
 import threading
 import pkg_resources
-from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
@@ -64,6 +63,7 @@ DEFAULT_PREFS = {
     "torrentfiles_location": deluge.common.get_default_download_dir(),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "prioritize_first_last_pieces": False,
+    "sequential_download": False,
     "random_port": True,
     "dht": True,
     "upnp": True,
@@ -87,8 +87,6 @@ DEFAULT_PREFS = {
     "max_upload_speed_per_torrent": -1,
     "max_download_speed_per_torrent": -1,
     "enabled_plugins": [],
-    "autoadd_location": deluge.common.get_default_download_dir(),
-    "autoadd_enable": False,
     "add_paused": False,
     "max_active_seeding": 5,
     "max_active_downloading": 3,
@@ -143,7 +141,7 @@ DEFAULT_PREFS = {
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
     "cache_expiry": 60,
-    "public": False
+    "shared": False
 }
 
 class PreferencesManager(component.Component):
@@ -151,6 +149,11 @@ class PreferencesManager(component.Component):
         component.Component.__init__(self, "PreferencesManager")
 
         self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
+        if 'public' in self.config:
+            log.debug("Updating configuration file: Renamed torrent's public "
+                      "attribute to shared.")
+            self.config["shared"] = self.config["public"]
+            del self.config["public"]
 
     def start(self):
         self.core = component.get("Core")
@@ -193,7 +196,9 @@ class PreferencesManager(component.Component):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:
             log.debug("listen port range set to %s-%s", value[0], value[1])
-            self.session.listen_on(value[0], value[1], str(self.config["listen_interface"]))
+            self.session.listen_on(
+                value[0], value[1], str(self.config["listen_interface"])
+            )
 
     def _on_set_listen_interface(self, key, value):
         # Call the random_port callback since it'll do what we need
@@ -215,7 +220,10 @@ class PreferencesManager(component.Component):
         # Set the listen ports
         log.debug("listen port range set to %s-%s", listen_ports[0],
             listen_ports[1])
-        self.session.listen_on(listen_ports[0], listen_ports[1], str(self.config["listen_interface"]))
+        self.session.listen_on(
+            listen_ports[0], listen_ports[1],
+            str(self.config["listen_interface"])
+        )
 
     def _on_set_outgoing_ports(self, key, value):
         if not self.config["random_outgoing_ports"]:
@@ -442,8 +450,12 @@ class PreferencesManager(component.Component):
         geoip_db = ""
         if os.path.exists(value):
             geoip_db = value
-        elif os.path.exists(pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
-            geoip_db = pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))
+        elif os.path.exists(
+            pkg_resources.resource_filename("deluge",
+                                            os.path.join("data", "GeoIP.dat"))):
+            geoip_db = pkg_resources.resource_filename(
+                "deluge", os.path.join("data", "GeoIP.dat")
+            )
         else:
             log.warning("Unable to find GeoIP database file!")
 

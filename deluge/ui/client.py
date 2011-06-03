@@ -2,6 +2,7 @@
 # client.py
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
@@ -44,7 +45,7 @@ except ImportError:
 import zlib
 
 import deluge.common
-import deluge.component as component
+from deluge import error
 from deluge.event import known_events
 
 if deluge.common.windows_check():
@@ -61,18 +62,6 @@ log = logging.getLogger(__name__)
 def format_kwargs(kwargs):
     return ", ".join([key + "=" + str(value) for key, value in kwargs.items()])
 
-class DelugeRPCError(object):
-    """
-    This object is passed to errback handlers in the event of a RPCError from the
-    daemon.
-    """
-    def __init__(self, method, args, kwargs, exception_type, exception_msg, traceback):
-        self.method = method
-        self.args = args
-        self.kwargs = kwargs
-        self.exception_type = exception_type
-        self.exception_msg = exception_msg
-        self.traceback = traceback
 
 class DelugeRPCRequest(object):
     """
@@ -108,12 +97,15 @@ class DelugeRPCRequest(object):
 
         :returns: a properly formated RPCRequest
         """
-        if self.request_id is None or self.method is None or self.args is None or self.kwargs is None:
-            raise TypeError("You must set the properties of this object before calling format_message!")
+        if self.request_id is None or self.method is None or self.args is None \
+                                                        or self.kwargs is None:
+            raise TypeError("You must set the properties of this object "
+                            "before calling format_message!")
 
         return (self.request_id, self.method, self.args, self.kwargs)
 
 class DelugeRPCProtocol(Protocol):
+
     def connectionMade(self):
         self.__rpc_requests = {}
         self.__buffer = None
@@ -160,20 +152,20 @@ class DelugeRPCProtocol(Protocol):
                 log.debug("Received invalid message: type is not tuple")
                 return
             if len(request) < 3:
-                log.debug("Received invalid message: number of items in response is %s", len(3))
+                log.debug("Received invalid message: number of items in "
+                          "response is %s", len(3))
                 return
 
             message_type = request[0]
 
             if message_type == RPC_EVENT:
-                event_name = request[1]
+                event = request[1]
                 #log.debug("Received RPCEvent: %s", event)
                 # A RPCEvent was received from the daemon so run any handlers
                 # associated with it.
-                if event_name in self.factory.event_handlers:
-                    event = known_events[event_name](*request[2])
-                    for handler in self.factory.event_handlers[event_name]:
-                        reactor.callLater(0, handler, event.copy())
+                if event in self.factory.event_handlers:
+                    for handler in self.factory.event_handlers[event]:
+                        reactor.callLater(0, handler, *request[2])
                 continue
 
             request_id = request[1]
@@ -186,12 +178,35 @@ class DelugeRPCProtocol(Protocol):
                 # Run the callbacks registered with this Deferred object
                 d.callback(request[2])
             elif message_type == RPC_ERROR:
-                # Create the DelugeRPCError to pass to the errback
-                r = self.__rpc_requests[request_id]
-                e = DelugeRPCError(r.method, r.args, r.kwargs, request[2][0], request[2][1], request[2][2])
-                # Run the errbacks registered with this Deferred object
-                d.errback(e)
+                # Recreate exception and errback'it
+                exception_cls = getattr(error, request[2])
+                exception = exception_cls(*request[3], **request[4])
 
+                # Ideally we would chain the deferreds instead of instance
+                # checking just to log them. But, that would mean that any
+                # errback on the fist deferred should returns it's failure
+                # so it could pass back to the 2nd deferred on the chain. But,
+                # that does not always happen.
+                # So, just do some instance checking and just log rpc error at
+                # diferent levels.
+                r = self.__rpc_requests[request_id]
+                msg = "RPCError Message Received!"
+                msg += "\n" + "-" * 80
+                msg += "\n" + "RPCRequest: " + r.__repr__()
+                msg += "\n" + "-" * 80
+                msg += "\n" + request[5] + "\n" + request[2] + ": "
+                msg += str(exception)
+                msg += "\n" + "-" * 80
+
+                if not isinstance(exception, error._ClientSideRecreateError):
+                    # Let's log these as errors
+                    log.error(msg)
+                else:
+                    # The rest just get's logged in debug level, just to log
+                    # what's happending
+                    log.debug(msg)
+
+                d.errback(exception)
             del self.__rpc_requests[request_id]
 
     def send_request(self, request):
@@ -222,14 +237,17 @@ class DelugeRPCClientFactory(ClientFactory):
         self.bytes_sent = 0
 
     def startedConnecting(self, connector):
-        log.info("Connecting to daemon at %s:%s..", connector.host, connector.port)
+        log.info("Connecting to daemon at \"%s:%s\"...",
+                 connector.host, connector.port)
 
     def clientConnectionFailed(self, connector, reason):
-        log.warning("Connection to daemon at %s:%s failed: %s", connector.host, connector.port, reason.value)
+        log.warning("Connection to daemon at \"%s:%s\" failed: %s",
+                    connector.host, connector.port, reason.value)
         self.daemon.connect_deferred.errback(reason)
 
     def clientConnectionLost(self, connector, reason):
-        log.info("Connection lost to daemon at %s:%s reason: %s", connector.host, connector.port, reason.value)
+        log.info("Connection lost to daemon at \"%s:%s\" reason: %s",
+                 connector.host, connector.port, reason.value)
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
@@ -256,37 +274,43 @@ class DaemonSSLProxy(DaemonProxy):
         self.host = None
         self.port = None
         self.username = None
+        self.authentication_level = 0
 
         self.connected = False
 
         self.disconnect_deferred = None
         self.disconnect_callback = None
 
-    def connect(self, host, port, username, password):
+        self.auth_levels_mapping = None
+        self.auth_levels_mapping_reverse = None
+
+    def connect(self, host, port):
         """
         Connects to a daemon at host:port
 
         :param host: str, the host to connect to
         :param port: int, the listening port on the daemon
-        :param username: str, the username to login as
-        :param password: str, the password to login with
 
         :returns: twisted.Deferred
 
         """
+        log.debug("sslproxy.connect()")
         self.host = host
         self.port = port
-        self.__connector = reactor.connectSSL(self.host, self.port, self.__factory, ssl.ClientContextFactory())
+        self.__connector = reactor.connectSSL(self.host, self.port,
+                                              self.__factory,
+                                              ssl.ClientContextFactory())
         self.connect_deferred = defer.Deferred()
-        self.login_deferred = defer.Deferred()
+        self.daemon_info_deferred = defer.Deferred()
 
         # Upon connect we do a 'daemon.login' RPC
-        self.connect_deferred.addCallback(self.__on_connect, username, password)
+        self.connect_deferred.addCallback(self.__on_connect)
         self.connect_deferred.addErrback(self.__on_connect_fail)
 
-        return self.login_deferred
+        return self.daemon_info_deferred
 
     def disconnect(self):
+        log.debug("sslproxy.disconnect()")
         self.disconnect_deferred = defer.Deferred()
         self.__connector.disconnect()
         return self.disconnect_deferred
@@ -315,7 +339,6 @@ class DaemonSSLProxy(DaemonProxy):
         # Create a Deferred object to return and add a default errback to print
         # the error.
         d = defer.Deferred()
-        d.addErrback(self.__rpcError)
 
         # Store the Deferred until we receive a response from the daemon
         self.__deferred[self.__request_counter] = d
@@ -373,49 +396,57 @@ class DaemonSSLProxy(DaemonProxy):
         if event in self.__factory.event_handlers and handler in self.__factory.event_handlers[event]:
             self.__factory.event_handlers[event].remove(handler)
 
-    def __rpcError(self, error_data):
-        """
-        Prints out a RPCError message to the error log.  This includes the daemon
-        traceback.
+    def __on_connect(self, result):
+        log.debug("__on_connect called")
 
-        :param error_data: this is passed from the deferred errback with error.value
-            containing a `:class:DelugeRPCError` object.
-        """
-        # Get the DelugeRPCError object from the error_data
-        error = error_data.value
-        # Create a delugerpcrequest to print out a nice RPCRequest string
-        r = DelugeRPCRequest()
-        r.method = error.method
-        r.args = error.args
-        r.kwargs = error.kwargs
-        msg = "RPCError Message Received!"
-        msg += "\n" + "-" * 80
-        msg += "\n" + "RPCRequest: " + r.__repr__()
-        msg += "\n" + "-" * 80
-        msg += "\n" + error.traceback + "\n" + error.exception_type + ": " + error.exception_msg
-        msg += "\n" + "-" * 80
-        log.error(msg)
-        return error_data
+        def on_info(daemon_info):
+            self.daemon_info = daemon_info
+            log.debug("Got info from daemon: %s", daemon_info)
+            self.daemon_info_deferred.callback(daemon_info)
 
-    def __on_connect(self, result, username, password):
-        self.__login_deferred = self.call("daemon.login", username, password)
-        self.__login_deferred.addCallback(self.__on_login, username)
-        self.__login_deferred.addErrback(self.__on_login_fail)
+        def on_info_fail(reason):
+            log.debug("Failed to get info from daemon")
+            log.exception(reason)
+            self.daemon_info_deferred.errback(reason)
+
+        self.call("daemon.info").addCallback(on_info).addErrback(on_info_fail)
+        return self.daemon_info_deferred
 
     def __on_connect_fail(self, reason):
-        log.debug("connect_fail: %s", reason)
-        self.login_deferred.errback(reason)
+        self.daemon_info_deferred.errback(reason)
+
+    def authenticate(self, username, password):
+        log.debug("%s.authenticate: %s", self.__class__.__name__, username)
+        self.login_deferred = defer.Deferred()
+        d = self.call("daemon.login", username, password,
+                      client_version=deluge.common.get_version())
+        d.addCallback(self.__on_login, username)
+        d.addErrback(self.__on_login_fail)
+        return self.login_deferred
 
     def __on_login(self, result, username):
+        log.debug("__on_login called: %s %s", username, result)
         self.username = username
+        self.authentication_level = result
         # We need to tell the daemon what events we're interested in receiving
         if self.__factory.event_handlers:
-            self.call("daemon.set_event_interest", self.__factory.event_handlers.keys())
+            self.call("daemon.set_event_interest",
+                      self.__factory.event_handlers.keys())
+
+            self.call("core.get_auth_levels_mappings").addCallback(
+                self.__on_auth_levels_mappings
+            )
+
         self.login_deferred.callback(result)
 
     def __on_login_fail(self, result):
-        log.debug("_on_login_fail(): %s", result)
+        log.debug("_on_login_fail(): %s", result.value)
         self.login_deferred.errback(result)
+
+    def __on_auth_levels_mappings(self, result):
+        auth_levels_mapping, auth_levels_mapping_reverse = result
+        self.auth_levels_mapping = auth_levels_mapping
+        self.auth_levels_mapping_reverse = auth_levels_mapping_reverse
 
     def set_disconnect_callback(self, cb):
         """
@@ -438,13 +469,21 @@ class DaemonClassicProxy(DaemonProxy):
         self.connected = True
         self.host = "localhost"
         self.port = 58846
+        # Running in classic mode, it's safe to import auth level
+        from deluge.core.authmanager import (AUTH_LEVEL_ADMIN,
+                                             AUTH_LEVELS_MAPPING,
+                                             AUTH_LEVELS_MAPPING_REVERSE)
         self.username = "localclient"
+        self.authentication_level = AUTH_LEVEL_ADMIN
+        self.auth_levels_mapping = AUTH_LEVELS_MAPPING
+        self.auth_levels_mapping_reverse = AUTH_LEVELS_MAPPING_REVERSE
         # Register the event handlers
         for event in event_handlers:
             for handler in event_handlers[event]:
                 self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
     def disconnect(self):
+        self.connected = False
         self.__daemon = None
 
     def call(self, method, *args, **kwargs):
@@ -458,12 +497,14 @@ class DaemonClassicProxy(DaemonProxy):
             log.exception(e)
             return defer.fail(e)
         else:
-            return defer.maybeDeferred(m, *copy.deepcopy(args), **copy.deepcopy(kwargs))
+            return defer.maybeDeferred(
+                m, *copy.deepcopy(args), **copy.deepcopy(kwargs)
+            )
 
     def register_event_handler(self, event, handler):
         """
-        Registers a handler function to be called when `:param:event` is received
-        from the daemon.
+        Registers a handler function to be called when `:param:event` is
+        received from the daemon.
 
         :param event: the name of the event to handle
         :type event: str
@@ -520,7 +561,8 @@ class Client(object):
         self.disconnect_callback = None
         self.__started_in_classic = False
 
-    def connect(self, host="127.0.0.1", port=58846, username="", password=""):
+    def connect(self, host="127.0.0.1", port=58846, username="", password="",
+                skip_authentication=False):
         """
         Connects to a daemon process.
 
@@ -532,27 +574,50 @@ class Client(object):
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
-        if not username and host in ("127.0.0.1", "localhost"):
-            # No username was provided and it's the localhost, so we can try
-            # to grab the credentials from the auth file.
-            import common
-            username, password = common.get_localhost_auth()
 
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
-        d = self._daemon_proxy.connect(host, port, username, password)
-        def on_connect_fail(result):
-            log.debug("on_connect_fail: %s", result)
+
+        d = self._daemon_proxy.connect(host, port)
+
+        def on_connect_fail(reason):
             self.disconnect()
+            return reason
+
+        def on_authenticate(result, daemon_info):
+            log.debug("Authentication sucessfull: %s", result)
             return result
 
+        def on_authenticate_fail(reason):
+            log.debug("Failed to authenticate: %s", reason.value)
+            return reason
+
+        def on_connected(daemon_version):
+            log.debug("Client.connect.on_connected. Daemon version: %s",
+                      daemon_version)
+            return daemon_version
+
+        def authenticate(daemon_version, username, password):
+            d = self._daemon_proxy.authenticate(username, password)
+            d.addCallback(on_authenticate, daemon_version)
+            d.addErrback(on_authenticate_fail)
+            return d
+
+        d.addCallback(on_connected)
         d.addErrback(on_connect_fail)
+        if not skip_authentication:
+            d.addCallback(authenticate, username, password)
         return d
 
     def disconnect(self):
         """
         Disconnects from the daemon.
         """
+        if self.is_classicmode():
+            self._daemon_proxy.disconnect()
+            self.stop_classic_mode()
+            return
+            
         if self._daemon_proxy:
             return self._daemon_proxy.disconnect()
 
@@ -563,6 +628,13 @@ class Client(object):
         self._daemon_proxy = DaemonClassicProxy(self.__event_handlers)
         self.__started_in_classic = True
 
+    def stop_classic_mode(self):
+        """
+        Stops the daemon process in the client.
+        """
+        self._daemon_proxy = None
+        self.__started_in_classic = False
+        
     def start_daemon(self, port, config):
         """
         Starts a daemon process.
@@ -697,6 +769,32 @@ class Client(object):
         :rtype: int
         """
         return self._daemon_proxy.get_bytes_sent()
+
+    def get_auth_user(self):
+        """
+        Returns the current authenticated username.
+
+        :returns: the authenticated username
+        :rtype: str
+        """
+        return self._daemon_proxy.username
+
+    def get_auth_level(self):
+        """
+        Returns the authentication level the daemon returned upon authentication.
+
+        :returns: the authentication level
+        :rtype: int
+        """
+        return self._daemon_proxy.authentication_level
+
+    @property
+    def auth_levels_mapping(self):
+        return self._daemon_proxy.auth_levels_mapping
+
+    @property
+    def auth_levels_mapping_reverse(self):
+        return self._daemon_proxy.auth_levels_mapping_reverse
 
 # This is the object clients will use
 client = Client()

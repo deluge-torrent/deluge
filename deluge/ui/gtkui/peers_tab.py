@@ -40,7 +40,6 @@ import logging
 import os.path
 import cPickle
 import pkg_resources
-import gobject
 from itertools import izip
 
 from deluge.ui.client import client
@@ -164,6 +163,8 @@ class PeersTab(Tab):
         column.set_resizable(True)
         column.set_expand(False)
         column.set_min_width(50)
+        # Bugfix: Last column needs max_width set to stop scrollbar appearing
+        column.set_max_width(150)
         column.set_reorderable(True)
         self.listview.append_column(column)
 
@@ -272,7 +273,7 @@ class PeersTab(Tab):
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
                     pkg_resources.resource_filename(
                         "deluge",
-                         os.path.join("data", "pixmaps", "flags", country.lower() + ".png")))
+                         os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
             except Exception, e:
                 log.debug("Unable to load flag: %s", e)
                 return None

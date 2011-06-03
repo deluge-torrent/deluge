@@ -40,7 +40,6 @@ import os
 import time
 import subprocess
 import platform
-import sys
 import chardet
 import logging
 
@@ -167,6 +166,18 @@ def get_default_download_dir():
     if windows_check():
         return os.path.expanduser("~")
     else:
+        from xdg.BaseDirectory import xdg_config_home
+        userdir_file = os.path.join(xdg_config_home, 'user-dirs.dirs')
+        try:
+            for line in open(userdir_file, 'r'):
+                if not line.startswith('#') and 'XDG_DOWNLOAD_DIR' in line:
+                        download_dir = os.path.expandvars(\
+                                        line.partition("=")[2].rstrip().strip('"'))
+                        if os.path.isdir(download_dir):
+                            return download_dir
+        except IOError:
+            pass
+
         return os.environ.get("HOME")
 
 def windows_check():
@@ -201,7 +212,7 @@ def osx_check():
 
 def get_pixmap(fname):
     """
-    Provides easy access to files in the deluge/data/pixmaps folder within the Deluge egg
+    Provides easy access to files in the deluge/ui/data/pixmaps folder within the Deluge egg
 
     :param fname: the filename to look for
     :type fname: string
@@ -209,7 +220,7 @@ def get_pixmap(fname):
     :rtype: string
 
     """
-    return pkg_resources.resource_filename("deluge", os.path.join("data", \
+    return pkg_resources.resource_filename("deluge", os.path.join("ui/data", \
                                            "pixmaps", fname))
 
 def open_file(path):
@@ -593,7 +604,7 @@ def utf8_encoded(s):
 
     """
     if isinstance(s, str):
-        s = decode_string(s, locale.getpreferredencoding())
+        s = decode_string(s)
     elif isinstance(s, unicode):
         s = s.encode("utf8", "ignore")
     return s
@@ -632,3 +643,43 @@ class VersionSplit(object):
         v1 = [self.version, self.suffix or 'z', self.dev]
         v2 = [ver.version, ver.suffix or 'z', ver.dev]
         return cmp(v1, v2)
+
+
+# Common AUTH stuff
+AUTH_LEVEL_NONE = 0
+AUTH_LEVEL_READONLY = 1
+AUTH_LEVEL_NORMAL = 5
+AUTH_LEVEL_ADMIN = 10
+AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
+
+def create_auth_file():
+    import stat, configmanager
+    auth_file = configmanager.get_config_dir("auth")
+    # Check for auth file and create if necessary
+    if not os.path.exists(auth_file):
+        fd = open(auth_file, "w")
+        fd.flush()
+        os.fsync(fd.fileno())
+        fd.close()
+        # Change the permissions on the file so only this user can read/write it
+        os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
+
+def create_localclient_account(append=False):
+    import configmanager, random
+    auth_file = configmanager.get_config_dir("auth")
+    if not os.path.exists(auth_file):
+        create_auth_file()
+
+    try:
+        from hashlib import sha1 as sha_hash
+    except ImportError:
+        from sha import new as sha_hash
+    fd = open(auth_file, "a" if append else "w")
+    fd.write(":".join([
+        "localclient",
+        sha_hash(str(random.random())).hexdigest(),
+        str(AUTH_LEVEL_ADMIN)
+    ]) + '\n')
+    fd.flush()
+    os.fsync(fd.fileno())
+    fd.close()

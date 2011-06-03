@@ -66,7 +66,7 @@ STATES = {
 
 CONTROLLED_SETTINGS = [
     "max_download_speed",
-    "max_download_speed",
+    "max_upload_speed",
     "max_active_limit",
     "max_active_downloading",
     "max_active_seeding"
@@ -76,12 +76,11 @@ class SchedulerEvent(DelugeEvent):
     """
     Emitted when a schedule state changes.
     """
-    __slots__ = ('colour',)
     def __init__(self, colour):
         """
         :param colour: str, the current scheduler state
         """
-        self.colour = colour
+        self._args = [colour]
 
 class Core(CorePluginBase):
     def enable(self):
@@ -120,8 +119,8 @@ class Core(CorePluginBase):
         pass
 
 
-    def on_config_value_changed(self, event):
-        if event.key in CONTROLLED_SETTINGS:
+    def on_config_value_changed(self, key, value):
+        if key in CONTROLLED_SETTINGS:
             self.do_schedule(False)
 
     def __apply_set_functions(self):

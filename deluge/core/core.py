@@ -2,6 +2,7 @@
 # core.py
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
@@ -38,17 +39,13 @@ from deluge._libtorrent import lt
 import os
 import glob
 import base64
-import shutil
 import logging
 import threading
-import pkg_resources
-import warnings
 import tempfile
+from urlparse import urljoin
 
-
-from twisted.internet import reactor, defer
-from twisted.internet.task import LoopingCall
 import twisted.web.client
+import twisted.web.error
 
 from deluge.httpdownloader import download_file
 
@@ -57,12 +54,13 @@ import deluge.common
 import deluge.component as component
 from deluge.event import *
 from deluge.error import *
+from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
+from deluge.core.authmanager import AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
 from deluge.core.filtermanager import FilterManager
 from deluge.core.preferencesmanager import PreferencesManager
-from deluge.core.autoadd import AutoAdd
 from deluge.core.authmanager import AuthManager
 from deluge.core.eventmanager import EventManager
 from deluge.core.rpcserver import export
@@ -78,7 +76,8 @@ class Core(component.Component):
         log.info("Starting libtorrent %s session..", lt.version)
 
         # Create the client fingerprint
-        version = [int(value.split("-")[0]) for value in deluge.common.get_version().split(".")]
+        version = [int(value.split("-")[0]) for value in
+                   deluge.common.get_version().split(".")]
         while len(version) < 4:
             version.append(0)
 
@@ -89,10 +88,17 @@ class Core(component.Component):
 
         # Set the user agent
         self.settings = lt.session_settings()
-        self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
+        self.settings.user_agent = "Deluge/%(deluge_version)s Libtorrent/%(lt_version)s" % \
+                        { 'deluge_version': deluge.common.get_version(),
+                          'lt_version': self.get_libtorrent_version().rpartition(".")[0] }
 
         # Set session settings
         self.settings.send_redundant_have = True
+        if deluge.common.windows_check():
+            self.settings.disk_io_write_mode = \
+                lt.io_buffer_mode_t.disable_os_cache_for_aligned_files
+            self.settings.disk_io_read_mode = \
+                lt.io_buffer_mode_t.disable_os_cache_for_aligned_files
         self.session.set_settings(self.settings)
 
         # Load metadata extension
@@ -107,7 +113,6 @@ class Core(component.Component):
         self.pluginmanager = PluginManager(self)
         self.torrentmanager = TorrentManager()
         self.filtermanager = FilterManager(self)
-        self.autoadd = AutoAdd()
         self.authmanager = AuthManager()
 
         # New release check information
@@ -115,6 +120,8 @@ class Core(component.Component):
 
         # Get the core config
         self.config = deluge.configmanager.ConfigManager("core.conf")
+        self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
+        self.config.save()
 
         # If there was an interface value from the command line, use it, but
         # store the one in the config so we can restore it on shutdown
@@ -148,18 +155,24 @@ class Core(component.Component):
     def __save_session_state(self):
         """Saves the libtorrent session state"""
         try:
-            open(deluge.configmanager.get_config_dir("session.state"), "wb").write(
-                lt.bencode(self.session.state()))
+            session_state = deluge.configmanager.get_config_dir("session.state")
+            open(session_state, "wb").write(lt.bencode(self.session.state()))
         except Exception, e:
             log.warning("Failed to save lt state: %s", e)
 
     def __load_session_state(self):
         """Loads the libtorrent session state"""
         try:
-            self.session.load_state(lt.bdecode(
-                open(deluge.configmanager.get_config_dir("session.state"), "rb").read()))
+            session_state = deluge.configmanager.get_config_dir("session.state")
+            self.session.load_state(lt.bdecode(open(session_state, "rb").read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
+
+
+    def __migrate_config_1_to_2(self, config):
+        if 'sequential_download' not in config:
+            config['sequential_download'] = False
+        return config
 
     def save_dht_state(self):
         """Saves the dht state to a file"""
@@ -213,7 +226,9 @@ class Core(component.Component):
             log.exception(e)
 
         try:
-            torrent_id = self.torrentmanager.add(filedump=filedump, options=options, filename=filename)
+            torrent_id = self.torrentmanager.add(
+                filedump=filedump, options=options, filename=filename
+            )
         except Exception, e:
             log.error("There was an error adding the torrent file %s", filename)
             log.exception(e)
@@ -237,7 +252,7 @@ class Core(component.Component):
         :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info("Attempting to add url %s", url)
-        def on_get_file(filename):
+        def on_download_success(filename):
             # We got the file, so add it to the session
             f = open(filename, "rb")
             data = f.read()
@@ -246,17 +261,35 @@ class Core(component.Component):
                 os.remove(filename)
             except Exception, e:
                 log.warning("Couldn't remove temp file: %s", e)
-            return self.add_torrent_file(filename, base64.encodestring(data), options)
+            return self.add_torrent_file(
+                filename, base64.encodestring(data), options
+            )
 
-        def on_get_file_error(failure):
-            # Log the error and pass the failure onto the client
-            log.error("Error occured downloading torrent from %s", url)
-            log.error("Reason: %s", failure.getErrorMessage())
-            return failure
+        def on_download_fail(failure):
+            if failure.check(twisted.web.error.PageRedirect):
+                new_url = urljoin(url, failure.getErrorMessage().split(" to ")[1])
+                result = download_file(
+                    new_url, tempfile.mkstemp()[1], headers=headers,
+                    force_filename=True
+                )
+                result.addCallbacks(on_download_success, on_download_fail)
+            elif failure.check(twisted.web.client.PartialDownloadError):
+                result = download_file(
+                    url, tempfile.mkstemp()[1], headers=headers,
+                    force_filename=True, allow_compression=False
+                )
+                result.addCallbacks(on_download_success, on_download_fail)
+            else:
+                # Log the error and pass the failure onto the client
+                log.error("Error occured downloading torrent from %s", url)
+                log.error("Reason: %s", failure.getErrorMessage())
+                result = failure
+            return result
 
-        d = download_file(url, tempfile.mkstemp()[1], headers=headers)
-        d.addCallback(on_get_file)
-        d.addErrback(on_get_file_error)
+        d = download_file(
+            url, tempfile.mkstemp()[1], headers=headers, force_filename=True
+        )
+        d.addCallbacks(on_download_success, on_download_fail)
         return d
 
     @export
@@ -394,7 +427,11 @@ class Core(component.Component):
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
         # Build the status dictionary
-        status = self.torrentmanager[torrent_id].get_status(keys, diff)
+        try:
+            status = self.torrentmanager[torrent_id].get_status(keys, diff)
+        except KeyError:
+            # Torrent was probaly removed meanwhile
+            return {}
 
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(keys) - set(status.keys()))
@@ -543,6 +580,11 @@ class Core(component.Component):
         return self.torrentmanager[torrent_id].set_prioritize_first_last(value)
 
     @export
+    def set_torrent_sequential_download(self, torrent_id, value):
+        """Toggle sequencial pieces download"""
+        return self.torrentmanager[torrent_id].set_sequential_download(value)
+
+    @export
     def set_torrent_auto_managed(self, torrent_id, value):
         """Sets the auto managed flag for queueing purposes"""
         return self.torrentmanager[torrent_id].set_auto_managed(value)
@@ -571,6 +613,32 @@ class Core(component.Component):
     def set_torrent_move_completed_path(self, torrent_id, value):
         """Sets the path for the torrent to be moved when completed"""
         return self.torrentmanager[torrent_id].set_move_completed_path(value)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def set_torrents_owner(self, torrent_ids, username):
+        """Set's the torrent owner.
+
+        :param torrent_id: the torrent_id of the torrent to remove
+        :type torrent_id: string
+        :param username: the new owner username
+        :type username: string
+
+        :raises DelugeError: if the username is not known
+        """
+        if not self.authmanager.has_account(username):
+            raise DelugeError("Username \"%s\" is not known." % username)
+        if isinstance(torrent_ids, basestring):
+            torrent_ids = [torrent_ids]
+        for torrent_id in torrent_ids:
+            self.torrentmanager[torrent_id].set_owner(username)
+        return None
+
+    @export
+    def set_torrents_shared(self, torrent_ids, shared):
+        if isinstance(torrent_ids, basestring):
+            torrent_ids = [torrent_ids]
+        for torrent_id in torrent_ids:
+            self.torrentmanager[torrent_id].set_options({"shared": shared})
 
     @export
     def get_path_size(self, path):
@@ -754,7 +822,11 @@ class Core(component.Component):
         def on_get_page(result):
             return bool(int(result))
 
+        def logError(failure):
+            log.warning("Error testing listen port: %s", failure)
+
         d.addCallback(on_get_page)
+        d.addErrback(logError)
 
         return d
 
@@ -790,3 +862,23 @@ class Core(component.Component):
 
         """
         return lt.version
+
+    @export(AUTH_LEVEL_ADMIN)
+    def get_known_accounts(self):
+        return self.authmanager.get_known_accounts()
+
+    @export(AUTH_LEVEL_NONE)
+    def get_auth_levels_mappings(self):
+        return (AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def create_account(self, username, password, authlevel):
+        return self.authmanager.create_account(username, password, authlevel)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def update_account(self, username, password, authlevel):
+        return self.authmanager.update_account(username, password, authlevel)
+
+    @export(AUTH_LEVEL_ADMIN)
+    def remove_account(self, username):
+        return self.authmanager.remove_account(username)

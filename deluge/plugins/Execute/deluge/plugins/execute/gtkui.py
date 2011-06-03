@@ -161,13 +161,13 @@ class ExecutePreferences(object):
                     command = widget.get_text()
             client.execute.save_command(command_id, event, command)
 
-    def on_command_added_event(self, event):
-        log.debug("Adding command %s: %s", event.event, event.command)
-        self.add_command(event.command_id, event.event, event.command)
+    def on_command_added_event(self, command_id, event, command):
+        log.debug("Adding command %s: %s", event, command)
+        self.add_command(command_id, event, command)
 
-    def on_command_removed_event(self, event):
-        log.debug("Removing command %s", event.command_id)
-        self.remove_command(event.command_id)
+    def on_command_removed_event(self, command_id):
+        log.debug("Removing command %s", command_id)
+        self.remove_command(command_id)
 
 class GtkUI(GtkPluginBase):
 

@@ -2,6 +2,7 @@
 # menubar.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Deluge is free software.
 #
@@ -46,6 +47,7 @@ import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 import common
+import dialogs
 from deluge.configmanager import ConfigManager
 
 log = logging.getLogger(__name__)
@@ -199,10 +201,19 @@ class MenuBar(component.Component):
         if not self.config["classic_mode"]:
             self.window.main_glade.get_widget("separatormenuitem").show()
             self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
+        if client.get_auth_level() == deluge.common.AUTH_LEVEL_ADMIN:
+            # Get known accounts to allow changing ownership
+            client.core.get_known_accounts().addCallback(
+                self._on_known_accounts).addErrback(self._on_known_accounts_fail
+            )
+
     def stop(self):
+        log.debug("MenuBar stopping")
+
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
 
@@ -230,11 +241,11 @@ class MenuBar(component.Component):
         return sep
 
     ### Callbacks ###
-    def on_torrentstatechanged_event(self, event):
-        if event.state == "Paused":
+    def on_torrentstatechanged_event(self, torrent_id, state):
+        if state == "Paused":
             self.update_menu()
 
-    def on_torrentresumed_event(self, event):
+    def on_torrentresumed_event(self, torrent_id):
         self.update_menu()
 
     def on_sessionpaused_event(self):
@@ -311,17 +322,21 @@ class MenuBar(component.Component):
         def _on_torrent_status(status):
             deluge.common.open_file(status["save_path"])
         for torrent_id in component.get("TorrentView").get_selected_torrents():
-            component.get("SessionProxy").get_torrent_status(torrent_id, ["save_path"]).addCallback(_on_torrent_status)
+            component.get("SessionProxy").get_torrent_status(
+                torrent_id, ["save_path"]).addCallback(_on_torrent_status)
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
         if client.is_localhost():
             from deluge.configmanager import ConfigManager
             config = ConfigManager("gtkui.conf")
-            chooser = gtk.FileChooserDialog(_("Choose a directory to move files to"\
-                ) , component.get("MainWindow").window, \
-                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
-                gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+            chooser = gtk.FileChooserDialog(
+                _("Choose a directory to move files to"),
+                component.get("MainWindow").window,
+                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                         gtk.STOCK_OK, gtk.RESPONSE_OK)
+            )
             chooser.set_local_only(True)
             if not deluge.common.windows_check():
                 chooser.set_icon(common.get_deluge_icon())
@@ -334,25 +349,39 @@ class MenuBar(component.Component):
                     component.get("TorrentView").get_selected_torrents(), result)
             chooser.destroy()
         else:
-            component.get("SessionProxy").get_torrent_status(component.get("TorrentView").get_selected_torrent(), ["save_path"]).addCallback(self.show_move_storage_dialog)
+            component.get("SessionProxy").get_torrent_status(
+                component.get("TorrentView").get_selected_torrent(),
+                ["save_path"]).addCallback(self.show_move_storage_dialog)
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
-        glade = gtk.glade.XML(
-                pkg_resources.resource_filename("deluge.ui.gtkui",
-                                                "glade/move_storage_dialog.glade"))
-        dialog = glade.get_widget("move_storage_dialog")
-        dialog.set_transient_for(self.window.window)
-        entry = glade.get_widget("entry_destination")
-        entry.set_text(status["save_path"])
-        def _on_response_event(widget, response_id):
+        glade = gtk.glade.XML(pkg_resources.resource_filename(
+            "deluge.ui.gtkui", "glade/move_storage_dialog.glade"
+        ))
+        # Keep it referenced:
+        #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
+        self.move_storage_dialog = glade.get_widget("move_storage_dialog")
+        self.move_storage_dialog.set_transient_for(self.window.window)
+        self.move_storage_dialog_entry = glade.get_widget("entry_destination")
+        self.move_storage_dialog_entry.set_text(status["save_path"])
+        def on_dialog_response_event(widget, response_id):
+
+            def on_core_result(result):
+                # Delete references
+                del self.move_storage_dialog
+                del self.move_storage_dialog_entry
+
             if response_id == gtk.RESPONSE_OK:
-                log.debug("Moving torrents to %s", entry.get_text())
-                path = entry.get_text()
-                client.core.move_storage(component.get("TorrentView").get_selected_torrents(), path)
-            dialog.hide()
-        dialog.connect("response", _on_response_event)
-        dialog.show()
+                log.debug("Moving torrents to %s",
+                          self.move_storage_dialog_entry.get_text())
+                path = self.move_storage_dialog_entry.get_text()
+                client.core.move_storage(
+                    component.get("TorrentView").get_selected_torrents(), path
+                ).addCallback(on_core_result)
+            self.move_storage_dialog.hide()
+
+        self.move_storage_dialog.connect("response", on_dialog_response_event)
+        self.move_storage_dialog.show()
 
     def on_menuitem_queue_top_activate(self, value):
         log.debug("on_menuitem_queue_top_activate")
@@ -423,10 +452,21 @@ class MenuBar(component.Component):
         }
         # widget: (header, type_str, image_stockid, image_filename, default)
         other_dialog_info = {
-            "menuitem_down_speed": (_("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", -1.0),
-            "menuitem_up_speed": (_("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", -1.0),
-            "menuitem_max_connections": (_("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1),
-            "menuitem_upload_slots": (_("Set Maximum Upload Slots"), "", gtk.STOCK_SORT_ASCENDING, None, -1)
+            "menuitem_down_speed": (
+                _("Set Maximum Download Speed"),
+                "KiB/s", None, "downloading.svg", -1.0
+            ),
+            "menuitem_up_speed": (
+                _("Set Maximum Upload Speed"),
+                "KiB/s", None, "seeding.svg", -1.0
+            ),
+            "menuitem_max_connections": (
+                _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1
+            ),
+            "menuitem_upload_slots": (
+                _("Set Maximum Upload Slots"),
+                "", gtk.STOCK_SORT_ASCENDING, None, -1
+            )
         }
 
         # Show the other dialog
@@ -465,3 +505,75 @@ class MenuBar(component.Component):
 
         for item in items:
             getattr(self.window.main_glade.get_widget(item), attr)()
+
+    def _on_known_accounts(self, known_accounts):
+        known_accounts_to_log = []
+        for account in known_accounts:
+            account_to_log = {}
+            for key, value in account.copy().iteritems():
+                if key == 'password':
+                    value = '*' * len(value)
+                account_to_log[key] = value
+            known_accounts_to_log.append(account_to_log)
+        log.debug("_on_known_accounts: %s", known_accounts_to_log)
+        if len(known_accounts) <= 1:
+            return
+
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(True)
+
+        self.change_owner_submenu = gtk.Menu()
+        self.change_owner_submenu_items = {}
+        maingroup = gtk.RadioMenuItem(None, None)
+
+        self.change_owner_submenu_items[None] = gtk.RadioMenuItem(maingroup)
+
+        for account in known_accounts:
+            username = account["username"]
+            item = gtk.RadioMenuItem(maingroup, username)
+            self.change_owner_submenu_items[username] = item
+            self.change_owner_submenu.append(item)
+            item.connect("toggled", self._on_change_owner_toggled, username)
+
+        self.change_owner_submenu.show_all()
+        self.change_owner_submenu_items[None].set_active(True)
+        self.change_owner_submenu_items[None].hide()
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").connect(
+            "activate", self._on_change_owner_submenu_active
+        )
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_submenu(self.change_owner_submenu)
+
+    def _on_known_accounts_fail(self, reason):
+        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(False)
+
+    def _on_change_owner_submenu_active(self, widget):
+        log.debug("_on_change_owner_submenu_active")
+        selected = component.get("TorrentView").get_selected_torrents()
+        if len(selected) > 1:
+            self.change_owner_submenu_items[None].set_active(True)
+            return
+
+        torrent_owner = component.get("TorrentView").get_torrent_status(selected[0])["owner"]
+        for username, item in self.change_owner_submenu_items.iteritems():
+            item.set_active(username == torrent_owner)
+
+    def _on_change_owner_toggled(self, widget, username):
+        log.debug("_on_change_owner_toggled")
+        update_torrents = []
+        selected = component.get("TorrentView").get_selected_torrents()
+        for torrent_id in selected:
+            torrent_status = component.get("TorrentView").get_torrent_status(torrent_id)
+            if torrent_status["owner"] != username:
+                update_torrents.append(torrent_id)
+
+        if update_torrents:
+            log.debug("Setting torrent owner \"%s\" on %s", username, update_torrents)
+
+            def failed_change_owner(failure):
+                dialogs.ErrorDialog(
+                    _("Ownership Change Error"),
+                    _("There was an error while trying changing ownership."),
+                    self.window.window, details=failure.value.logable()
+                ).run()
+            client.core.set_torrents_owner(
+                update_torrents, username).addErrback(failed_change_owner)
+

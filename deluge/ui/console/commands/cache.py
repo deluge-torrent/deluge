@@ -47,4 +47,6 @@ class Command(BaseCommand):
             for key, value in status.items():
                 self.console.write("{!info!}%s: {!input!}%s" % (key, value))
 
-        client.core.get_cache_status().addCallback(on_cache_status)
+        d = client.core.get_cache_status()
+        d.addCallback(on_cache_status)
+        return d

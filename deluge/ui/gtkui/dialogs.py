@@ -36,6 +36,7 @@ import gtk
 
 from twisted.internet import defer
 
+from deluge.ui.gtkui import common
 import deluge.component as component
 
 
@@ -57,6 +58,8 @@ class BaseDialog(gtk.Dialog):
             parent=parent if parent else component.get("MainWindow").window,
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons)
+
+        self.set_icon(common.get_deluge_icon())
 
         self.connect("delete-event", self._on_delete_event)
         self.connect("response", self._on_response)
@@ -147,13 +150,16 @@ class ErrorDialog(BaseDialog):
 
     When run(), it will return a gtk.RESPONSE_CLOSE.
     """
-    def __init__(self, header, text, parent=None, details=None):
+    def __init__(self, header, text, parent=None, details=None, traceback=False):
         """
         :param header: see `:class:BaseDialog`
         :param text: see `:class:BaseDialog`
         :param parent: see `:class:BaseDialog`
-        :param details: str, extra information that will be displayed in a
+        :param details: extra information that will be displayed in a
             scrollable textview
+        :type details: string
+        :param traceback: show the traceback information in the details area
+        :type traceback: bool
         """
         super(ErrorDialog, self).__init__(
             header,
@@ -162,8 +168,18 @@ class ErrorDialog(BaseDialog):
             (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE),
             parent)
 
+        if traceback:
+            import traceback
+            import sys
+            tb = sys.exc_info()
+            tb = traceback.format_exc(tb[2])
+            if details:
+                details += "\n" + tb
+            else:
+                details = tb
+
         if details:
-            self.set_default_size(500, 400)
+            self.set_default_size(600, 400)
             textview = gtk.TextView()
             textview.set_editable(False)
             textview.get_buffer().set_text(details)
@@ -176,3 +192,142 @@ class ErrorDialog(BaseDialog):
             self.vbox.pack_start(label, False, False)
             self.vbox.pack_start(sw)
             self.vbox.show_all()
+
+class AuthenticationDialog(BaseDialog):
+    """
+    Displays a dialog with entry fields asking for username and password.
+
+    When run(), it will return either a gtk.RESPONSE_CANCEL or a
+    gtk.RESPONSE_OK.
+    """
+    def __init__(self, err_msg="", username=None, parent=None):
+        """
+        :param err_msg: the error message we got back from the server
+        :type err_msg: string
+        """
+        super(AuthenticationDialog, self).__init__(
+            _("Authenticate"), err_msg,
+            gtk.STOCK_DIALOG_AUTHENTICATION,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
+            parent)
+
+        table = gtk.Table(2, 2, False)
+        self.username_label = gtk.Label()
+        self.username_label.set_markup(_("<b>Username:</b>"))
+        self.username_label.set_alignment(1.0, 0.5)
+        self.username_label.set_padding(5, 5)
+        self.username_entry = gtk.Entry()
+        table.attach(self.username_label, 0, 1, 0, 1)
+        table.attach(self.username_entry, 1, 2, 0, 1)
+
+        self.password_label = gtk.Label()
+        self.password_label.set_markup(_("<b>Password:</b>"))
+        self.password_label.set_alignment(1.0, 0.5)
+        self.password_label.set_padding(5, 5)
+        self.password_entry = gtk.Entry()
+        self.password_entry.set_visibility(False)
+        self.password_entry.connect("activate", self.on_password_activate)
+        table.attach(self.password_label, 0, 1, 1, 2)
+        table.attach(self.password_entry, 1, 2, 1, 2)
+
+        self.vbox.pack_start(table, False, False, padding=5)
+        self.set_focus(self.password_entry)
+        if username:
+            self.username_entry.set_text(username)
+            self.username_entry.set_editable(False)
+            self.set_focus(self.password_entry)
+        else:
+            self.set_focus(self.username_entry)
+        self.show_all()
+
+    def get_username(self):
+        return self.username_entry.get_text()
+
+    def get_password(self):
+        return self.password_entry.get_text()
+
+    def on_password_activate(self, widget):
+        self.response(gtk.RESPONSE_OK)
+
+class AccountDialog(BaseDialog):
+    def __init__(self, username=None, password=None, authlevel=None,
+                 levels_mapping=None, parent=None):
+        if username:
+            super(AccountDialog, self).__init__(
+                _("Edit Account"),
+                _("Edit existing account"),
+                gtk.STOCK_DIALOG_INFO,
+                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                 gtk.STOCK_APPLY, gtk.RESPONSE_OK),
+                parent)
+        else:
+            super(AccountDialog, self).__init__(
+                _("New Account"),
+                _("Create a new account"),
+                gtk.STOCK_DIALOG_INFO,
+                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                 gtk.STOCK_ADD, gtk.RESPONSE_OK),
+                parent)
+
+        self.levels_mapping = levels_mapping
+
+        table = gtk.Table(2, 3, False)
+        self.username_label = gtk.Label()
+        self.username_label.set_markup(_("<b>Username:</b>"))
+        self.username_label.set_alignment(1.0, 0.5)
+        self.username_label.set_padding(5, 5)
+        self.username_entry = gtk.Entry()
+        table.attach(self.username_label, 0, 1, 0, 1)
+        table.attach(self.username_entry, 1, 2, 0, 1)
+
+        self.authlevel_label = gtk.Label()
+        self.authlevel_label.set_markup(_("<b>Authentication Level:</b>"))
+        self.authlevel_label.set_alignment(1.0, 0.5)
+        self.authlevel_label.set_padding(5, 5)
+
+        self.authlevel_combo = gtk.combo_box_new_text()
+        active_idx = None
+        for idx, level in enumerate(levels_mapping.keys()):
+            self.authlevel_combo.append_text(level)
+            if authlevel and authlevel==level:
+                active_idx = idx
+            elif not authlevel and level == 'DEFAULT':
+                active_idx = idx
+
+        if active_idx is not None:
+            self.authlevel_combo.set_active(active_idx)
+
+        table.attach(self.authlevel_label, 0, 1, 1, 2)
+        table.attach(self.authlevel_combo, 1, 2, 1, 2)
+
+        self.password_label = gtk.Label()
+        self.password_label.set_markup(_("<b>Password:</b>"))
+        self.password_label.set_alignment(1.0, 0.5)
+        self.password_label.set_padding(5, 5)
+        self.password_entry = gtk.Entry()
+        self.password_entry.set_visibility(False)
+        table.attach(self.password_label, 0, 1, 2, 3)
+        table.attach(self.password_entry, 1, 2, 2, 3)
+
+        self.vbox.pack_start(table, False, False, padding=5)
+        if username:
+            self.username_entry.set_text(username)
+            self.username_entry.set_editable(False)
+        else:
+            self.set_focus(self.username_entry)
+
+        if password:
+            self.password_entry.set_text(username)
+
+        self.show_all()
+
+    def get_username(self):
+        return self.username_entry.get_text()
+
+    def get_password(self):
+        return self.password_entry.get_text()
+
+    def get_authlevel(self):
+        combobox = self.authlevel_combo
+        level = combobox.get_model()[combobox.get_active()][0]
+        return level

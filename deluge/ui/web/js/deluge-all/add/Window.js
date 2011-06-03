@@ -45,9 +45,9 @@ Deluge.add.Window = Ext.extend(Ext.Window, {
         );
     },
 
-	/**
-	 * Create an id for the torrent before we have any info about it.
-	 */
+    /**
+     * Create an id for the torrent before we have any info about it.
+     */
     createTorrentId: function() {
         return new Date().getTime();
     }

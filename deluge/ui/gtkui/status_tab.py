@@ -42,7 +42,9 @@ import logging
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.ui.gtkui.piecesbar import PiecesBar
 
 log = logging.getLogger(__name__)
 
@@ -70,13 +72,19 @@ class StatusTab(Tab):
     def __init__(self):
         Tab.__init__(self)
         # Get the labels we need to update.
-        # widgetname, modifier function, status keys
-        glade = component.get("MainWindow").main_glade
+        # widget name, modifier function, status keys
+        self.glade = glade = component.get("MainWindow").main_glade
+        self.progressbar = component.get("MainWindow").main_glade.get_widget("progressbar")
 
         self._name = "Status"
         self._child_widget = glade.get_widget("status_tab")
         self._tab_label = glade.get_widget("status_tab_label")
-
+        self.config = ConfigManager("gtkui.conf")
+        self.config.register_set_function(
+            "show_piecesbar",
+            self.on_show_pieces_bar_config_changed,
+            apply_now=True
+        )
         self.label_widgets = [
             (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
             (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
@@ -118,6 +126,9 @@ class StatusTab(Tab):
             "tracker_status", "max_connections", "max_upload_slots",
             "max_upload_speed", "max_download_speed", "active_time",
             "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
+        if self.config['show_piecesbar']:
+            status_keys.extend(["pieces", "state"])
+
 
         component.get("SessionProxy").get_torrent_status(
             selected, status_keys).addCallback(self._on_get_torrent_status)
@@ -126,6 +137,11 @@ class StatusTab(Tab):
         # Check to see if we got valid data from the core
         if status is None:
             return
+
+        if status["is_auto_managed"]:
+            status["is_auto_managed"]=_("On")
+        else:
+            status["is_auto_managed"]=_("Off")
 
         # Update all the label widgets
         for widget in self.label_widgets:
@@ -146,13 +162,37 @@ class StatusTab(Tab):
                 widget[0].set_text(txt)
 
         # Do the progress bar because it's a special case (not a label)
-        w = component.get("MainWindow").main_glade.get_widget("progressbar")
-        fraction = status["progress"] / 100
-        if w.get_fraction() != fraction:
-            w.set_fraction(fraction)
+        if self.config['show_piecesbar']:
+            self.piecesbar.update_from_status(status)
+        else:
+            fraction = status["progress"] / 100
+            if self.progressbar.get_fraction() != fraction:
+                self.progressbar.set_fraction(fraction)
+
+    def on_show_pieces_bar_config_changed(self, key, show):
+        self.show_pieces_bar(show)
+
+    def show_pieces_bar(self, show):
+        if hasattr(self, 'piecesbar'):
+            if show:
+                self.piecesbar.show()
+                self.progressbar.hide()
+            else:
+                self.piecesbar.hide()
+                self.progressbar.show()
+        else:
+            if show:
+                self.piecesbar = PiecesBar()
+                self.glade.get_widget("status_progress_vbox").pack_start(
+                    self.piecesbar, False, False, 5
+                )
+                self.progressbar.hide()
 
     def clear(self):
         for widget in self.label_widgets:
             widget[0].set_text("")
 
-        component.get("MainWindow").main_glade.get_widget("progressbar").set_fraction(0.0)
+        if self.config['show_piecesbar']:
+            self.piecesbar.clear()
+        else:
+            self.progressbar.set_fraction(0.0)

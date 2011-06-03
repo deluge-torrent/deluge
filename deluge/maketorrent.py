@@ -38,7 +38,7 @@ import os
 from hashlib import sha1 as sha
 
 from deluge.common import get_path_size
-from deluge.bencode import bencode, bdecode
+from deluge.bencode import bencode
 
 class InvalidPath(Exception):
     """

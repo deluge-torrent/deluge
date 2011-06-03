@@ -43,7 +43,10 @@ import gtk.glade
 import gettext
 import gobject
 import logging
+import warnings
 from urlparse import urlparse
+
+from twisted.internet import reactor
 
 import deluge.common
 import deluge.component as component
@@ -77,15 +80,19 @@ ICON_STATE = {
     "Seeding": icon_seeding,
     "Paused": icon_inactive,
     "Error": icon_alert,
-    "Queued": icon_queued
+    "Queued": icon_queued,
+    "Checking Resume Data": icon_checking
 }
 
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     try:
         icon = ICON_STATE[model.get_value(row, data)]
-        if cell.get_property("pixbuf") != icon:
-            cell.set_property("pixbuf", icon)
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            if cell.get_property("pixbuf") != icon:
+                cell.set_property("pixbuf", icon)
     except KeyError:
         pass
 
@@ -104,8 +111,11 @@ def cell_data_trackericon(column, cell, model, row, data):
         else:
             icon = create_blank_icon()
 
-        if cell.get_property("pixbuf") != icon:
-            cell.set_property("pixbuf", icon)
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            if cell.get_property("pixbuf") != icon:
+                cell.set_property("pixbuf", icon)
 
     host = model[row][data]
     if host:
@@ -131,7 +141,7 @@ def cell_data_queue(column, cell, model, row, data):
     if value < 0:
         cell.set_property("text", "")
     else:
-        cell.set_property("text", value + 1)
+        cell.set_property("text", str(value + 1))
 
 def queue_peer_seed_sort_function(v1, v2):
     if v1 == v2:
@@ -174,6 +184,135 @@ def seed_peer_column_sort(model, iter1, iter2, data):
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 
+class SearchBox(object):
+    def __init__(self, torrentview):
+        self.torrentview = torrentview
+        self.window = torrentview.window
+
+        self.visible = False
+        self.search_pending = self.prefiltered = None
+
+        self.search_box = self.window.main_glade.get_widget("search_box")
+        self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
+        self.close_search_button = self.window.main_glade.get_widget("close_search_button")
+        self.match_search_button = self.window.main_glade.get_widget("search_torrents_match")
+        self.window.main_glade.signal_autoconnect(self)
+
+    def show(self):
+        self.visible = True
+        self.search_box.show_all()
+        self.search_torrents_entry.grab_focus()
+
+    def hide(self):
+        self.visible = False
+        self.clear_search()
+        self.search_box.hide_all()
+        self.search_pending = self.prefiltered = None
+
+    def clear_search(self):
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
+        if self.prefiltered:
+            filter_column = self.torrentview.columns["filter"].column_indices[0]
+            torrent_id_column = self.torrentview.columns["torrent_id"].column_indices[0]
+            for row in self.torrentview.liststore:
+                torrent_id = row[torrent_id_column]
+
+                if torrent_id in self.prefiltered:
+                    # Reset to previous filter state
+                    self.prefiltered.pop(self.prefiltered.index(torrent_id))
+                    row[filter_column] = not row[filter_column]
+
+        self.prefiltered = None
+
+        self.search_torrents_entry.set_text("")
+        if self.torrentview.filter and 'name' in self.torrentview.filter:
+            self.torrentview.filter.pop('name', None)
+            self.search_pending = reactor.callLater(0.5, self.torrentview.update)
+
+    def set_search_filter(self):
+        if self.search_pending and self.search_pending.active():
+            self.search_pending.cancel()
+
+        if self.torrentview.filter and 'name' in self.torrentview.filter:
+            self.torrentview.filter.pop('name', None)
+
+        elif self.torrentview.filter is None:
+            self.torrentview.filter = {}
+
+        search_string = self.search_torrents_entry.get_text()
+        if not search_string:
+            self.clear_search()
+        else:
+            if self.match_search_button.get_active():
+                search_string += '::match'
+            self.torrentview.filter['name'] = search_string
+        self.prefilter_torrentview()
+
+    def prefilter_torrentview(self):
+        filter_column = self.torrentview.columns["filter"].column_indices[0]
+        torrent_id_column = self.torrentview.columns["torrent_id"].column_indices[0]
+        torrent_name_column = self.torrentview.columns[_("Name")].column_indices[1]
+
+        match_case = self.match_search_button.get_active()
+        if match_case:
+            search_string = self.search_torrents_entry.get_text()
+        else:
+            search_string = self.search_torrents_entry.get_text().lower()
+
+        if self.prefiltered is None:
+            self.prefiltered = []
+
+        for row in self.torrentview.liststore:
+            torrent_id = row[torrent_id_column]
+
+            if torrent_id in self.prefiltered:
+                # Reset to previous filter state
+                self.prefiltered.pop(self.prefiltered.index(torrent_id))
+                row[filter_column] = not row[filter_column]
+
+
+            if not row[filter_column]:
+                # Row is not visible(filtered out, but not by our filter), skip it
+                continue
+
+            if match_case:
+                torrent_name = row[torrent_name_column]
+            else:
+                torrent_name = row[torrent_name_column].lower()
+
+            if search_string in torrent_name and not row[filter_column]:
+                row[filter_column] = True
+                self.prefiltered.append(torrent_id)
+            elif search_string not in torrent_name and row[filter_column]:
+                row[filter_column] = False
+                self.prefiltered.append(torrent_id)
+
+    def on_close_search_button_clicked(self, widget):
+        self.hide()
+
+    def on_search_filter_toggle(self, widget):
+        if self.visible:
+            self.hide()
+        else:
+            self.show()
+
+    def on_search_torrents_match_toggled(self, widget):
+        if self.search_torrents_entry.get_text():
+            self.set_search_filter()
+            self.search_pending = reactor.callLater(0.7, self.torrentview.update)
+
+    def on_search_torrents_entry_icon_press(self, entry, icon, event):
+        if icon != gtk.ENTRY_ICON_SECONDARY:
+            return
+        self.clear_search()
+
+    def on_search_torrents_entry_changed(self, widget):
+        self.set_search_filter()
+        self.search_pending = reactor.callLater(0.7, self.torrentview.update)
+
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -197,7 +336,8 @@ class TorrentView(listview.ListView, component.Component):
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(
-                            self.window.main_glade.get_widget("menu_columns"))
+            self.window.main_glade.get_widget("menu_columns")
+        )
 
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
@@ -211,34 +351,53 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("Size"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
+        self.add_func_column(_("Downloaded"), listview.cell_data_size,
+                             [gobject.TYPE_UINT64],
+                             status_field=["all_time_download"], default=False)
+        self.add_func_column(_("Uploaded"), listview.cell_data_size,
+                             [gobject.TYPE_UINT64],
+                             status_field=["total_uploaded"], default=False)
         self.add_progress_column(_("Progress"),
                                  status_field=["progress", "state"],
                                  col_types=[float, str],
                                  function=cell_data_progress)
         self.add_func_column(_("Seeders"), listview.cell_data_peer, [int, int],
                              status_field=["num_seeds", "total_seeds"],
-                             sort_func=seed_peer_column_sort)
+                             sort_func=seed_peer_column_sort, default=False)
         self.add_func_column(_("Peers"), listview.cell_data_peer, [int, int],
                              status_field=["num_peers", "total_peers"],
-                             sort_func=seed_peer_column_sort)
+                             sort_func=seed_peer_column_sort, default=False)
+        self.add_func_column(_("Seeders") + "/" + _("Peers"), listview.cell_data_ratio, [float],
+                             status_field=["seeds_peers_ratio"], default=False)
         self.add_func_column(_("Down Speed"), listview.cell_data_speed, [float],
                              status_field=["download_payload_rate"])
         self.add_func_column(_("Up Speed"), listview.cell_data_speed, [float],
                              status_field=["upload_payload_rate"])
+        self.add_func_column(_("Down Limit"), listview.cell_data_speed_limit, [float],
+                             status_field=["max_download_speed"], default=False)
+        self.add_func_column(_("Up Limit"), listview.cell_data_speed_limit, [float],
+                             status_field=["max_upload_speed"], default=False)
         self.add_func_column(_("ETA"), listview.cell_data_time, [int],
                              status_field=["eta"], sort_func=eta_column_sort)
         self.add_func_column(_("Ratio"), listview.cell_data_ratio, [float],
-                             status_field=["ratio"])
+                             status_field=["ratio"], default=False)
         self.add_func_column(_("Avail"), listview.cell_data_ratio, [float],
-                             status_field=["distributed_copies"])
+                             status_field=["distributed_copies"], default=False)
         self.add_func_column(_("Added"), listview.cell_data_date, [float],
-                             status_field=["time_added"])
+                             status_field=["time_added"], default=False)
+        self.add_func_column(_("Last Seen Complete"),
+                             listview.cell_data_date_or_never, [float],
+                             status_field=["last_seen_complete"], default=False)
         self.add_texticon_column(_("Tracker"),
                                  status_field=["tracker_host", "tracker_host"],
-                                 function=cell_data_trackericon)
-        self.add_text_column(_("Save Path"), status_field=["save_path"])
-        self.add_text_column(_("Owner"), status_field=["owner"])
-        self.add_bool_column(_("Public"), status_field=["public"])
+                                 function=cell_data_trackericon, default=False)
+        self.add_text_column(_("Save Path"), status_field=["save_path"], default=False)
+        self.add_text_column(_("Owner"), status_field=["owner"], default=False)
+        self.add_bool_column(_("Public"), status_field=["public"], default=False)
+        self.restore_columns_order_from_state()
+        self.add_bool_column(_("Shared"), status_field=["shared"],
+                             tooltip=_("Torrent is shared between other Deluge "
+                                       "users or not."), default=False)
 
         # Set filter to None for now
         self.filter = None
@@ -246,18 +405,18 @@ class TorrentView(listview.ListView, component.Component):
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
-        self.treeview.connect("button-press-event",
-                                    self.on_button_press_event)
+        self.treeview.connect("button-press-event", self.on_button_press_event)
         # Connect to the 'key-press-event' to know when the bring up the
         # torrent menu popup via keypress.
         self.treeview.connect("key-release-event", self.on_key_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect("changed",
-                                    self.on_selection_changed)
+                                              self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
         self.treeview.connect("key-press-event", self.on_key_press_event)
+        self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentAddedEvent", self.on_torrentadded_event)
@@ -265,6 +424,8 @@ class TorrentView(listview.ListView, component.Component):
         client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
         client.register_event_handler("SessionResumedEvent", self.on_sessionresumed_event)
         client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
+
+        self.search_box = SearchBox(self)
 
     def start(self):
         """Start the torrentview"""
@@ -291,6 +452,8 @@ class TorrentView(listview.ListView, component.Component):
         # We need to clear the liststore
         self.liststore.clear()
         self.prev_status = {}
+        self.filter = None
+        self.search_box.hide()
 
     def shutdown(self):
         """Called when GtkUi is exiting"""
@@ -307,7 +470,10 @@ class TorrentView(listview.ListView, component.Component):
         """Sets filters for the torrentview..
         see: core.get_torrents_status
         """
+        search_filter = self.filter and self.filter.get('name', None) or None
         self.filter = dict(filter_dict) #copied version of filter_dict.
+        if search_filter and 'name' not in filter_dict:
+            self.filter['name'] = search_filter
         self.update()
 
     def set_columns_to_update(self, columns=None):
@@ -351,6 +517,9 @@ class TorrentView(listview.ListView, component.Component):
 
     def update(self):
         if self.got_state:
+            if self.search_box.search_pending is not None and self.search_box.search_pending.active():
+                # An update request is scheduled, let's wait for that one
+                return
             # Send a status request
             gobject.idle_add(self.send_status_request)
 
@@ -384,7 +553,10 @@ class TorrentView(listview.ListView, component.Component):
                                 if row[column_index[i]] != row_value:
                                     row[column_index[i]] = row_value
                             except Exception, e:
-                                log.debug("%s", e)
+                                log.debug("Error while updating row for column "
+                                          "index %d, status field %r, value %r:"
+                                          " %s", column_index[0], status_field,
+                                          row_value, e)
 
         component.get("MenuBar").update_menu()
 
@@ -394,6 +566,8 @@ class TorrentView(listview.ListView, component.Component):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         self.status = status
+        if self.search_box.prefiltered is not None:
+            self.search_box.prefiltered = None
         if self.status == self.prev_status and self.prev_status:
             # We do not bother updating since the status hasn't changed
             self.prev_status = self.status
@@ -410,10 +584,7 @@ class TorrentView(listview.ListView, component.Component):
         # Insert a new row to the liststore
         row = self.liststore.append()
         # Store the torrent id
-        self.liststore.set_value(
-                    row,
-                    self.columns["torrent_id"].column_indices[0],
-                    torrent_id)
+        self.liststore.set_value(row, self.columns["torrent_id"].column_indices[0], torrent_id)
         if update:
             self.update()
 
@@ -471,7 +642,7 @@ class TorrentView(listview.ListView, component.Component):
                 return []
 
             return torrent_ids
-        except ValueError, TypeError:
+        except (ValueError, TypeError):
             return []
 
     def get_torrent_status(self, torrent_id):
@@ -515,40 +686,45 @@ class TorrentView(listview.ListView, component.Component):
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
 
-    def on_torrentadded_event(self, event):
-        self.add_row(event.torrent_id)
-        self.mark_dirty(event.torrent_id)
+    def on_columns_changed_event(self, treeview):
+        log.debug("Treeview Columns Changed")
+        self.save_state()
 
-    def on_torrentremoved_event(self, event):
-        self.remove_row(event.torrent_id)
+    def on_torrentadded_event(self, torrent_id, from_state):
+        self.add_row(torrent_id)
+        self.mark_dirty(torrent_id)
 
-    def on_torrentstatechanged_event(self, event):
+    def on_torrentremoved_event(self, torrent_id):
+        self.remove_row(torrent_id)
+
+    def on_torrentstatechanged_event(self, torrent_id, state):
         # Update the torrents state
         for row in self.liststore:
-            if not event.torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
+            if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
                 continue
-            row[self.get_column_index(_("Progress"))[1]] = event.state
+            row[self.get_column_index(_("Progress"))[1]] = state
 
-        self.mark_dirty(event.torrent_id)
+        self.mark_dirty(torrent_id)
 
-    def on_sessionpaused_event(self, event):
+    def on_sessionpaused_event(self):
         self.mark_dirty()
         self.update()
 
-    def on_sessionresumed_event(self, event):
+    def on_sessionresumed_event(self):
         self.mark_dirty()
         self.update()
 
-    def on_torrentqueuechanged_event(self, event):
+    def on_torrentqueuechanged_event(self):
         self.mark_dirty()
         self.update()
 
     # Handle keyboard shortcuts
     def on_key_press_event(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
-        func = getattr(self, 'keypress_' + keyname, None)
-        if func:
-            return func(event)
+        if keyname is not None:
+            func = getattr(self, 'keypress_' + keyname, None)
+            if func:
+                return func(event)
 
     def keypress_Delete(self, event):
         log.debug("keypress_Delete")

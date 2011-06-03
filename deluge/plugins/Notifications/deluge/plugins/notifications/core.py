@@ -38,6 +38,7 @@
 #
 
 import smtplib
+from email.utils import formatdate
 from twisted.internet import defer, threads
 from deluge import component
 from deluge.event import known_events
@@ -118,11 +119,14 @@ class CoreNotifications(CustomNotifications):
 From: %(smtp_from)s
 To: %(smtp_recipients)s
 Subject: %(subject)s
+Date: %(date)s
 
 
 """ % {'smtp_from': self.config['smtp_from'],
        'subject': subject,
-       'smtp_recipients': to_addrs}
+       'smtp_recipients': to_addrs,
+       'date': formatdate()
+      }
 
         message = '\r\n'.join((headers + message).splitlines())
 
@@ -188,9 +192,9 @@ Subject: %(subject)s
         return _("Notification email sent.")
 
 
-    def _on_torrent_finished_event(self, event):
+    def _on_torrent_finished_event(self, torrent_id):
         log.debug("Handler for TorrentFinishedEvent called for CORE")
-        torrent = component.get("TorrentManager")[event.torrent_id]
+        torrent = component.get("TorrentManager")[torrent_id]
         torrent_status = torrent.get_status({})
         # Email
         subject = _("Finished Torrent \"%(name)s\"") % torrent_status

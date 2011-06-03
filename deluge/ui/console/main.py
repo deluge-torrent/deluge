@@ -43,16 +43,17 @@ import locale
 
 from twisted.internet import defer, reactor
 
-from deluge.ui.console import UI_PATH
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
 from deluge.ui.coreconfig import CoreConfig
+from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.console.eventlog import EventLog
-import screen
 import colors
 from deluge.ui.ui import _UI
+from deluge.ui.console import UI_PATH
+
 
 log = logging.getLogger(__name__)
 
@@ -62,16 +63,62 @@ class Console(_UI):
 
     def __init__(self):
         super(Console, self).__init__("console")
-        cmds = load_commands(os.path.join(UI_PATH, 'commands'))
+        group = optparse.OptionGroup(self.parser, "Console Options","These options control how "
+                                     "the console connects to the daemon.  These options will be "
+                                     "used if you pass a command, or if you have autoconnect "
+                                     "enabled for the console ui.")
 
-        group = optparse.OptionGroup(self.parser, "Console Commands",
-            "\n".join(cmds.keys()))
+        group.add_option("-d","--daemon",dest="daemon_addr",
+                         action="store",type="str",default="127.0.0.1",
+                         help="Set the address of the daemon to connect to."
+                              " [default: %default]")
+        group.add_option("-p","--port",dest="daemon_port",
+                         help="Set the port to connect to the daemon on. [default: %default]",
+                         action="store",type="int",default=58846)
+        group.add_option("-u","--username",dest="daemon_user",
+                         help="Set the username to connect to the daemon with. [default: %default]",
+                         action="store",type="string")
+        group.add_option("-P","--password",dest="daemon_pass",
+                         help="Set the password to connect to the daemon with. [default: %default]",
+                         action="store",type="string")
         self.parser.add_option_group(group)
+
+        self.cmds = load_commands(os.path.join(UI_PATH, 'commands'))
+        class CommandOptionGroup(optparse.OptionGroup):
+            def __init__(self, parser, title, description=None, cmds = None):
+                optparse.OptionGroup.__init__(self,parser,title,description)
+                self.cmds = cmds
+
+            def format_help(self, formatter):
+                result = formatter.format_heading(self.title)
+                formatter.indent()
+                if self.description:
+                    result += "%s\n"%formatter.format_description(self.description)
+                for cname in self.cmds:
+                    cmd = self.cmds[cname]
+                    if cmd.interactive_only or cname in cmd.aliases: continue
+                    allnames = [cname]
+                    allnames.extend(cmd.aliases)
+                    cname = "/".join(allnames)
+                    result += formatter.format_heading(" - ".join([cname,cmd.__doc__]))
+                    formatter.indent()
+                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage)
+                    formatter.dedent()
+                formatter.dedent()
+                return result
+        cmd_group = CommandOptionGroup(self.parser, "Console Commands",
+                                       description="The following commands can be issued at the "
+                                       "command line.  Commands should be quoted, so, for example, "
+                                       "to pause torrent with id 'abc' you would run: '%s "
+                                       "\"pause abc\"'"%os.path.basename(sys.argv[0]),
+                                       cmds=self.cmds)
+        self.parser.add_option_group(cmd_group)
 
     def start(self):
         super(Console, self).start()
-
-        ConsoleUI(self.args)
+        ConsoleUI(self.args,self.cmds,(self.options.daemon_addr,
+                  self.options.daemon_port,self.options.daemon_user,
+                  self.options.daemon_pass))
 
 def start():
     Console().start()
@@ -92,9 +139,11 @@ class OptionParser(optparse.OptionParser):
         """
         raise Exception(msg)
 
+
 class BaseCommand(object):
 
     usage = 'usage'
+    interactive_only = False
     option_list = tuple()
     aliases = []
 
@@ -122,6 +171,7 @@ class BaseCommand(object):
                             epilog = self.epilog,
                             option_list = self.option_list)
 
+
 def load_commands(command_dir, exclude=[]):
     def get_command(name):
         return getattr(__import__('deluge.ui.console.commands.%s' % name, {}, {}, ['Command']), 'Command')()
@@ -142,11 +192,13 @@ def load_commands(command_dir, exclude=[]):
     except OSError, e:
         return {}
 
+
 class ConsoleUI(component.Component):
-    def __init__(self, args=None):
+    def __init__(self, args=None, cmds = None, daemon = None):
         component.Component.__init__(self, "ConsoleUI", 2)
 
-        self.batch_write = False
+        # keep track of events for the log view
+        self.events = []
 
         try:
             locale.setlocale(locale.LC_ALL, '')
@@ -155,40 +207,30 @@ class ConsoleUI(component.Component):
             self.encoding = sys.getdefaultencoding()
 
         log.debug("Using encoding: %s", self.encoding)
-        # Load all the commands
-        self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
+
+
+        # start up the session proxy
+        self.sessionproxy = SessionProxy()
 
         client.set_disconnect_callback(self.on_client_disconnect)
 
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
+        self._commands = cmds
         if args:
             args = args[0]
             self.interactive = False
-
-        # Try to connect to the localhost daemon
-        def on_connect(result):
-            def on_started(result):
-                if not self.interactive:
-                    def on_started(result):
-                        deferreds = []
-                        # If we have args, lets process them and quit
-                        # allow multiple commands split by ";"
-                        for arg in args.split(";"):
-                            deferreds.append(defer.maybeDeferred(self.do_command, arg.strip()))
-
-                        def on_complete(result):
-                            self.do_command("quit")
-
-                        dl = defer.DeferredList(deferreds).addCallback(on_complete)
-
-                    # We need to wait for the rpcs in start() to finish before processing
-                    # any of the commands.
-                    self.started_deferred.addCallback(on_started)
-            component.start().addCallback(on_started)
-
-        d = client.connect()
-        d.addCallback(on_connect)
+            if not cmds:
+                print "Sorry, couldn't find any commands"
+                return
+            else:
+                from commander import Commander
+                cmdr = Commander(cmds)
+                if daemon:
+                    cmdr.exec_args(args,*daemon)
+                else:
+                    cmdr.exec_args(args,None,None,None,None)
+                
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
@@ -197,8 +239,13 @@ class ConsoleUI(component.Component):
             import curses.wrapper
             curses.wrapper(self.run)
         elif self.interactive and deluge.common.windows_check():
-            print "You cannot run the deluge-console in interactive mode in Windows.\
-            Please use commands from the command line, eg: deluge-console config;help;exit"
+            print """\nDeluge-console does not run in interactive mode on Windows. \n
+Please use commands from the command line, eg:\n
+    deluge-console.exe help
+    deluge-console.exe info
+    deluge-console.exe "add --help"
+    deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
+            """
         else:
             reactor.run()
 
@@ -213,8 +260,10 @@ class ConsoleUI(component.Component):
         # We want to do an interactive session, so start up the curses screen and
         # pass it the function that handles commands
         colors.init_colors()
-        self.screen = screen.Screen(stdscr, self.do_command, self.tab_completer, self.encoding)
         self.statusbars = StatusBars()
+        from modes.connectionmanager import ConnectionManager
+        self.stdscr = stdscr
+        self.screen = ConnectionManager(stdscr, self.encoding)
         self.eventlog = EventLog()
 
         self.screen.topbar = "{!status!}Deluge " + deluge.common.get_version() + " Console"
@@ -228,202 +277,22 @@ class ConsoleUI(component.Component):
         # Start the twisted mainloop
         reactor.run()
 
-    def start(self):
-        # This gets fired once we have received the torrents list from the core
-        self.started_deferred = defer.Deferred()
 
+    def start(self):
         # Maintain a list of (torrent_id, name) for use in tab completion
         self.torrents = []
-        def on_session_state(result):
-            def on_torrents_status(torrents):
-                for torrent_id, status in torrents.items():
-                    self.torrents.append((torrent_id, status["name"]))
-                self.started_deferred.callback(True)
+        if not self.interactive:
+            self.started_deferred = defer.Deferred()
+            def on_session_state(result):
+                def on_torrents_status(torrents):
+                    for torrent_id, status in torrents.items():
+                        self.torrents.append((torrent_id, status["name"]))
+                    self.started_deferred.callback(True)
 
-            client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
-        client.core.get_session_state().addCallback(on_session_state)
+                client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
+            client.core.get_session_state().addCallback(on_session_state)
 
-        # Register some event handlers to keep the torrent list up-to-date
-        client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
-        client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed_event)
-
-    def update(self):
-        pass
-
-    def set_batch_write(self, batch):
-        """
-        When this is set the screen is not refreshed after a `:meth:write` until
-        this is set to False.
-
-        :param batch: set True to prevent screen refreshes after a `:meth:write`
-        :type batch: bool
-
-        """
-        self.batch_write = batch
-        if not batch and self.interactive:
-            self.screen.refresh()
-
-    def write(self, line):
-        """
-        Writes a line out depending on if we're in interactive mode or not.
-
-        :param line: str, the line to print
-
-        """
-        if self.interactive:
-            self.screen.add_line(line, not self.batch_write)
-        else:
-            print(colors.strip_colors(line))
-
-    def do_command(self, cmd):
-        """
-        Processes a command.
-
-        :param cmd: str, the command string
-
-        """
-        if not cmd:
-            return
-        cmd, _, line = cmd.partition(' ')
-        try:
-            parser = self._commands[cmd].create_parser()
-        except KeyError:
-            self.write("{!error!}Unknown command: %s" % cmd)
-            return
-        args = self._commands[cmd].split(line)
-
-        # Do a little hack here to print 'command --help' properly
-        parser._print_help = parser.print_help
-        def print_help(f=None):
-            if self.interactive:
-                self.write(parser.format_help())
-            else:
-                parser._print_help(f)
-        parser.print_help = print_help
-
-        # Only these commands can be run when not connected to a daemon
-        not_connected_cmds = ["help", "connect", "quit"]
-        aliases = []
-        for c in not_connected_cmds:
-            aliases.extend(self._commands[c].aliases)
-        not_connected_cmds.extend(aliases)
-
-        if not client.connected() and cmd not in not_connected_cmds:
-            self.write("{!error!}Not connected to a daemon, please use the connect command first.")
-            return
-
-        try:
-            options, args = parser.parse_args(args)
-        except Exception, e:
-            self.write("{!error!}Error parsing options: %s" % e)
-            return
-
-        if not getattr(options, '_exit', False):
-            try:
-                ret = self._commands[cmd].handle(*args, **options.__dict__)
-            except Exception, e:
-                self.write("{!error!}" + str(e))
-                log.exception(e)
-                import traceback
-                self.write("%s" % traceback.format_exc())
-                return defer.succeed(True)
-            else:
-                return ret
-
-    def tab_completer(self, line, cursor, second_hit):
-        """
-        Called when the user hits 'tab' and will autocomplete or show options.
-        If a command is already supplied in the line, this function will call the
-        complete method of the command.
-
-        :param line: str, the current input string
-        :param cursor: int, the cursor position in the line
-        :param second_hit: bool, if this is the second time in a row the tab key
-            has been pressed
-
-        :returns: 2-tuple (string, cursor position)
-
-        """
-        # First check to see if there is no space, this will mean that it's a
-        # command that needs to be completed.
-        if " " not in line:
-            possible_matches = []
-            # Iterate through the commands looking for ones that startwith the
-            # line.
-            for cmd in self._commands:
-                if cmd.startswith(line):
-                    possible_matches.append(cmd + " ")
-
-            line_prefix = ""
-        else:
-            cmd = line.split(" ")[0]
-            if cmd in self._commands:
-                # Call the command's complete method to get 'er done
-                possible_matches = self._commands[cmd].complete(line.split(" ")[-1])
-                line_prefix = " ".join(line.split(" ")[:-1]) + " "
-            else:
-                # This is a bogus command
-                return (line, cursor)
-
-        # No matches, so just return what we got passed
-        if len(possible_matches) == 0:
-            return (line, cursor)
-        # If we only have 1 possible match, then just modify the line and
-        # return it, else we need to print out the matches without modifying
-        # the line.
-        elif len(possible_matches) == 1:
-            new_line = line_prefix + possible_matches[0]
-            return (new_line, len(new_line))
-        else:
-            if second_hit:
-                # Only print these out if it's a second_hit
-                self.write(" ")
-                for match in possible_matches:
-                    self.write(match)
-            else:
-                p = " ".join(line.split(" ")[:-1])
-                new_line = " ".join([p, os.path.commonprefix(possible_matches)])
-                if len(new_line) > len(line):
-                    line = new_line
-                    cursor = len(line)
-            return (line, cursor)
-
-    def tab_complete_torrent(self, line):
-        """
-        Completes torrent_ids or names.
-
-        :param line: str, the string to complete
-
-        :returns: list of matches
-
-        """
-
-        possible_matches = []
-
-        # Find all possible matches
-        for torrent_id, torrent_name in self.torrents:
-            if torrent_id.startswith(line):
-                possible_matches.append(torrent_id + " ")
-            if torrent_name.startswith(line):
-                possible_matches.append(torrent_name + " ")
-
-        return possible_matches
-
-    def get_torrent_name(self, torrent_id):
-        """
-        Gets a torrent name from the torrents list.
-
-        :param torrent_id: str, the torrent_id
-
-        :returns: the name of the torrent or None
-        """
-
-        for tid, name in self.torrents:
-            if torrent_id == tid:
-                return name
-
-        return None
-
+            
     def match_torrent(self, string):
         """
         Returns a list of torrent_id matches for the string.  It will search both
@@ -435,6 +304,8 @@ class ConsoleUI(component.Component):
             no matches are found.
 
         """
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.match_torrent(string)
         ret = []
         for tid, name in self.torrents:
             if tid.startswith(string) or name.startswith(string):
@@ -442,15 +313,40 @@ class ConsoleUI(component.Component):
 
         return ret
 
-    def on_torrent_added_event(self, event):
-        def on_torrent_status(status):
-            self.torrents.append((event.torrent_id, status["name"]))
-        client.core.get_torrent_status(event.torrent_id, ["name"]).addCallback(on_torrent_status)
 
-    def on_torrent_removed_event(self, event):
-        for index, (tid, name) in enumerate(self.torrents):
-            if event.torrent_id == tid:
-                del self.torrents[index]
+    def get_torrent_name(self, torrent_id):
+        if self.interactive and hasattr(self.screen,"get_torrent_name"):
+            return self.screen.get_torrent_name(torrent_id)
+
+        for tid, name in self.torrents:
+            if torrent_id == tid:
+                return name
+        
+        return None
+
+
+    def set_batch_write(self, batch):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.set_batch_write(batch)
+
+    def tab_complete_torrent(self, line):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.tab_complete_torrent(line)
+
+    def set_mode(self, mode):
+        reactor.removeReader(self.screen)
+        self.screen = mode
+        self.statusbars.screen = self.screen
+        reactor.addReader(self.screen)
 
     def on_client_disconnect(self):
         component.stop()
+
+    def write(self, s):
+        if self.interactive:
+            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+                self.screen.write(s)
+            else:
+                self.events.append(s)
+        else:
+            print colors.strip_colors(s.encode(self.encoding))

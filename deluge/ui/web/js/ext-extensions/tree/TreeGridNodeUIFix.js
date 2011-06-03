@@ -32,22 +32,22 @@
 
 Ext.override(Ext.ux.tree.TreeGridNodeUI, {
 
-	updateColumns: function() {
-		if (!this.rendered) return;
-		
-		var a = this.node.attributes,
-			t = this.node.getOwnerTree(),
-			cols = t.columns,
-			c = cols[0];
+    updateColumns: function() {
+        if (!this.rendered) return;
+        
+        var a = this.node.attributes,
+            t = this.node.getOwnerTree(),
+            cols = t.columns,
+            c = cols[0];
 
-		// Update the first column
-		this.anchor.firstChild.innerHTML = (c.tpl ? c.tpl.apply(a) : a[c.dataIndex] || c.text);
+        // Update the first column
+        this.anchor.firstChild.innerHTML = (c.tpl ? c.tpl.apply(a) : a[c.dataIndex] || c.text);
 
-		// Update the remaining columns
-		for(i = 1, len = cols.length; i < len; i++) {
-			c = cols[i];
-			this.elNode.childNodes[i].firstChild.innerHTML = (c.tpl ? c.tpl.apply(a) : a[c.dataIndex] || c.text);
-		}
-	}
+        // Update the remaining columns
+        for(i = 1, len = cols.length; i < len; i++) {
+            c = cols[i];
+            this.elNode.childNodes[i].firstChild.innerHTML = (c.tpl ? c.tpl.apply(a) : a[c.dataIndex] || c.text);
+        }
+    }
 
 });

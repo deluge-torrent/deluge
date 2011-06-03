@@ -35,6 +35,7 @@
 
 import os
 
+import deluge.common
 from deluge.ui.ui import _UI, UI
 from optparse import OptionGroup
 
@@ -56,9 +57,20 @@ class Web(_UI):
         group.add_option("-b", "--base", dest="base",
             help="Set the base path that the ui is running on (proxying)",
             action="store", default=None)
-        group.add_option("-f", "--fork", dest="fork",
-            help="Fork the web interface process into the background",
-            action="store_true", default=False)
+        if not (deluge.common.windows_check() or deluge.common.osx_check()):
+            group.add_option("-f", "--fork", dest="fork",
+                help="Fork the web interface process into the background",
+                action="store_true", default=False)
+        group.add_option("-P", "--pidfile", dest="pidfile", type="str",
+            help="Use pidfile to store process id",
+            action="store", default=None)
+        if not deluge.common.windows_check():
+            group.add_option("-U", "--user", dest="user", type="str",
+                help="User to switch to. Only use it when starting as root",
+                action="store", default=None)
+            group.add_option("-g", "--group", dest="group", type="str",
+                help="Group to switch to. Only use it when starting as root",
+                action="store", default=None)
         group.add_option("-p", "--port", dest="port", type="int",
             help="Sets the port to be used for the webserver",
             action="store", default=None)
@@ -83,10 +95,9 @@ class Web(_UI):
     def start(self):
         super(Web, self).start()
         
-        import deluge.common
         # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
         # Section 1.7
-        if self.options.fork and not deluge.common.windows_check():
+        if self.options.fork:
             # fork() so the parent can exit, returns control to the command line
             # or shell invoking the program.
             if os.fork():
@@ -103,7 +114,21 @@ class Web(_UI):
             # use that may prevent a filesystem unmount.
             import deluge.configmanager
             os.chdir(deluge.configmanager.get_config_dir())
-        
+
+        if self.options.pidfile:
+            open(self.options.pidfile, "wb").write("%d\n" % os.getpid())
+
+        if self.options.group:
+            if not self.options.group.isdigit():
+                import grp
+                self.options.group = grp.getgrnam(self.options.group)[2]
+            os.setuid(self.options.group)
+        if self.options.user:
+            if not self.options.user.isdigit():
+                import pwd
+                self.options.user = pwd.getpwnam(self.options.user)[2]
+            os.setuid(self.options.user)
+
         import server
         self.__server = server.DelugeWeb()
 

@@ -62,7 +62,10 @@ def atom(next, token):
         return tuple(out)
     elif token[0] is tokenize.NUMBER or token[1] == "-":
         try:
-            return int(token[-1], 0)
+            if token[1] == "-":
+                return int(token[-1], 0)
+            else:
+                return int(token[1], 0)
         except ValueError:
             return float(token[-1])
     elif token[1].lower() == 'true':
@@ -133,7 +136,7 @@ class Command(BaseCommand):
         deferred = defer.Deferred()
         config = component.get("CoreConfig")
         key = options["set"][0]
-        val = simple_eval(options["set"][1] + " " + " ".join(args))
+        val = simple_eval(options["set"][1] + " " .join(args))
 
         if key not in config.keys():
             self.console.write("{!error!}The key '%s' is invalid!" % key)

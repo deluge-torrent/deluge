@@ -43,10 +43,14 @@ import gobject
 import base64
 import logging
 import os
+from urlparse import urljoin
 
 import pkg_resources
 
+import twisted.web.client
+import twisted.web.error
 from deluge.ui.client import client
+from deluge.httpdownloader import download_file
 import deluge.component as component
 import listview
 from deluge.configmanager import ConfigManager
@@ -77,7 +81,8 @@ class AddTorrentDialog(component.Component):
             "on_button_cancel_clicked": self._on_button_cancel_clicked,
             "on_button_add_clicked": self._on_button_add_clicked,
             "on_button_apply_clicked": self._on_button_apply_clicked,
-            "on_button_revert_clicked": self._on_button_revert_clicked
+            "on_button_revert_clicked": self._on_button_revert_clicked,
+            "on_alocation_toggled": self._on_alocation_toggled
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
@@ -140,6 +145,7 @@ class AddTorrentDialog(component.Component):
             "max_upload_speed_per_torrent",
             "max_download_speed_per_torrent",
             "prioritize_first_last_pieces",
+            "sequential_download",
             "download_location",
             "add_paused"
         ]
@@ -207,7 +213,11 @@ class AddTorrentDialog(component.Component):
 
             if info.info_hash in self.files:
                 log.debug("Trying to add a duplicate torrent!")
-                dialogs.ErrorDialog(_("Duplicate Torrent"), _("You cannot add the same torrent twice."), self.dialog).run()
+                dialogs.ErrorDialog(
+                    _("Duplicate Torrent"),
+                    _("You cannot add the same torrent twice."),
+                    self.dialog
+                ).run()
                 continue
 
             name = "%s (%s)" % (info.name, os.path.split(filename)[-1])
@@ -292,7 +302,9 @@ class AddTorrentDialog(component.Component):
         split_files = { }
         i = 0
         for file in files:
-            self.prepare_file(file, file["path"], i, file["download"], split_files)
+            self.prepare_file(
+                file, file["path"], i, file["download"], split_files
+            )
             i += 1
         self.add_files(None, split_files)
         self.listview_files.set_model(self.files_treestore)
@@ -319,8 +331,10 @@ class AddTorrentDialog(component.Component):
                 self.files_treestore.set(chunk_iter, 2, chunk_size)
                 ret += chunk_size
             else:
-                self.files_treestore.append(parent_iter, [value[2], key,
-                                        value[1]["size"], value[0], False, gtk.STOCK_FILE])
+                self.files_treestore.append(parent_iter, [
+                    value[2], key, value[1]["size"],
+                    value[0], False, gtk.STOCK_FILE
+                ])
 
                 if parent_iter and self.files_treestore.iter_has_child(parent_iter):
                     # Iterate through the children and see what we should label the
@@ -376,12 +390,15 @@ class AddTorrentDialog(component.Component):
             options["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             options["prioritize_first_last_pieces"])
+        self.glade.get_widget("chk_sequential_download").set_active(
+            options["sequential_download"])
 
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
         # selected.
         if row is None:
-            if self.previous_selected_torrent and self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
+            if self.previous_selected_torrent and \
+                self.torrent_liststore.iter_is_valid(self.previous_selected_torrent):
                 row = self.previous_selected_torrent
             else:
                 return
@@ -421,12 +438,16 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("chk_paused").get_active()
         options["prioritize_first_last_pieces"] = \
             self.glade.get_widget("chk_prioritize").get_active()
+        options["sequential_download"] = \
+            self.glade.get_widget("radio_full").get_active() and \
+            self.glade.get_widget("chk_sequential_download").get_active() or False
 
         self.options[torrent_id] = options
 
         # Save the file priorities
         files_priorities = self.build_priorities(
-                                self.files_treestore.get_iter_first(), {})
+            self.files_treestore.get_iter_first(), {}
+        )
 
         if len(files_priorities) > 0:
             for i, file_dict in enumerate(self.files[torrent_id]):
@@ -438,7 +459,8 @@ class AddTorrentDialog(component.Component):
                 self.build_priorities(self.files_treestore.iter_children(iter),
                                           priorities)
             elif not self.files_treestore.get_value(iter, 1).endswith(os.path.sep):
-                priorities[self.files_treestore.get_value(iter, 3)] = self.files_treestore.get_value(iter, 0)
+                priorities[self.files_treestore.get_value(iter, 3)] = \
+                                        self.files_treestore.get_value(iter, 0)
             iter = self.files_treestore.iter_next(iter)
         return priorities
 
@@ -466,6 +488,8 @@ class AddTorrentDialog(component.Component):
             self.core_config["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             self.core_config["prioritize_first_last_pieces"])
+        self.glade.get_widget("chk_sequential_download").set_active(
+            self.core_config["sequential_download"])
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities
@@ -488,7 +512,12 @@ class AddTorrentDialog(component.Component):
                     self.options[model[row][0]]["compact_allocation"] = False
                     self.update_torrent_options(model[row][0])
 
-            d = dialogs.YesNoDialog(_("Unable to set file priority!"), _("File prioritization is unavailable when using Compact allocation.  Would you like to switch to Full allocation?"), self.dialog).run()
+            d = dialogs.YesNoDialog(
+                _("Unable to set file priority!"),
+                _("File prioritization is unavailable when using Compact "
+                  "allocation.  Would you like to switch to Full allocation?"),
+                self.dialog
+            ).run()
             d.addCallback(on_answer)
 
             return
@@ -537,11 +566,13 @@ class AddTorrentDialog(component.Component):
     def _on_button_file_clicked(self, widget):
         log.debug("_on_button_file_clicked")
         # Setup the filechooserdialog
-        chooser = gtk.FileChooserDialog(_("Choose a .torrent file"),
+        chooser = gtk.FileChooserDialog(
+            _("Choose a .torrent file"),
             None,
             gtk.FILE_CHOOSER_ACTION_OPEN,
             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
-                        gtk.RESPONSE_OK))
+                     gtk.RESPONSE_OK)
+        )
 
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(True)
@@ -602,7 +633,7 @@ class AddTorrentDialog(component.Component):
         response = dialog.run()
 
         if response == gtk.RESPONSE_OK:
-            url = entry.get_text().decode("utf_8")
+            url = entry.get_text().decode("utf-8")
         else:
             url = None
 
@@ -618,7 +649,11 @@ class AddTorrentDialog(component.Component):
             elif deluge.common.is_magnet(url):
                 self.add_from_magnets([url])
             else:
-                dialogs.ErrorDialog(_("Invalid URL"), _("%s is not a valid URL." % url), self.dialog).run()
+                dialogs.ErrorDialog(
+                    _("Invalid URL"),
+                    _("%s is not a valid URL." % url),
+                    self.dialog
+                ).run()
 
     def add_from_url(self, url):
         dialog = gtk.Dialog(
@@ -654,14 +689,24 @@ class AddTorrentDialog(component.Component):
             dialog.destroy()
 
         def on_download_fail(result):
-            log.debug("Download failed: %s", result)
-            dialog.destroy()
-            dialogs.ErrorDialog(_("Download Failed"), _("Failed to download : %s" % url), details=result.getErrorMessage(), parent=self.dialog).run()
+            if result.check(twisted.web.error.PageRedirect):
+                new_url = urljoin(url, result.getErrorMessage().split(" to ")[1])
+                result = download_file(new_url, tmp_file, on_part)
+                result.addCallbacks(on_download_success, on_download_fail)
+            elif result.check(twisted.web.client.PartialDownloadError):
+                result = download_file(url, tmp_file, on_part, allow_compression=False)
+                result.addCallbacks(on_download_success, on_download_fail)
+            else:
+                log.debug("Download failed: %s", result)
+                dialog.destroy()
+                dialogs.ErrorDialog(
+                    _("Download Failed"), _("Failed to download : %s" % url),
+                    details=result.getErrorMessage(), parent=self.dialog
+                ).run()
+            return result
 
-        import deluge.httpdownloader
-        d = deluge.httpdownloader.download_file(url, tmp_file, on_part)
-        d.addCallback(on_download_success)
-        d.addErrback(on_download_fail)
+        d = download_file(url, tmp_file, on_part)
+        d.addCallbacks(on_download_success, on_download_fail)
 
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
@@ -686,7 +731,7 @@ class AddTorrentDialog(component.Component):
             # handle this way.
             log.debug("trackers: %s", trackers)
             magnet = deluge.common.create_magnet_uri(
-                infohash=entry.get_text().decode("utf_8"),
+                infohash=entry.get_text().decode("utf-8"),
                 trackers=trackers)
             log.debug("magnet uri: %s", magnet)
             self.add_from_magnets([magnet])
@@ -836,7 +881,9 @@ class AddTorrentDialog(component.Component):
 
                 # Get the file path base once, since it will be the same for
                 # all siblings
-                file_path_base = self.get_file_path(self.files_treestore.iter_parent(row))
+                file_path_base = self.get_file_path(
+                    self.files_treestore.iter_parent(row)
+                )
 
                 # Iterate through all the siblings at this level
                 while row:
@@ -868,8 +915,9 @@ class AddTorrentDialog(component.Component):
                 for s in split_text[:-1]:
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
-                    parent = self.files_treestore.append(parent,
-                                [True, s + os.path.sep, 0, -1, False, gtk.STOCK_DIRECTORY])
+                    parent = self.files_treestore.append(parent, [
+                        True, s + os.path.sep, 0, -1, False, gtk.STOCK_DIRECTORY
+                    ])
 
                 self.files_treestore[itr][1] = split_text[-1] + os.path.sep
 
@@ -888,3 +936,8 @@ class AddTorrentDialog(component.Component):
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option
             walk_tree(itr)
+
+    def _on_alocation_toggled(self, widget):
+        full_allocation_active = self.glade.get_widget("radio_full").get_active()
+        self.glade.get_widget("chk_prioritize").set_sensitive(full_allocation_active)
+        self.glade.get_widget("chk_sequential_download").set_sensitive(full_allocation_active)

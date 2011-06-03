@@ -149,14 +149,20 @@ this should be an IP address", metavar="IFACE",
     parser.add_option("-u", "--ui-interface", dest="ui_interface",
         help="Interface daemon will listen for UI connections on, this should be\
  an IP address", metavar="IFACE", action="store", type="str")
-    parser.add_option("-d", "--do-not-daemonize", dest="donot",
-        help="Do not daemonize", action="store_true", default=False)
+    if not (deluge.common.windows_check() or deluge.common.osx_check()):
+        parser.add_option("-d", "--do-not-daemonize", dest="donot",
+            help="Do not daemonize", action="store_true", default=False)
     parser.add_option("-c", "--config", dest="config",
         help="Set the config location", action="store", type="str")
     parser.add_option("-l", "--logfile", dest="logfile",
         help="Set the logfile location", action="store", type="str")
     parser.add_option("-P", "--pidfile", dest="pidfile",
         help="Use pidfile to store process id", action="store", type="str")
+    if not deluge.common.windows_check():
+        parser.add_option("-U", "--user", dest="user",
+            help="User to switch to. Only use it when starting as root", action="store", type="str")
+        parser.add_option("-g", "--group", dest="group",
+            help="Group to switch to. Only use it when starting as root", action="store", type="str")
     parser.add_option("-L", "--loglevel", dest="loglevel",
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
@@ -197,24 +203,30 @@ this should be an IP address", metavar="IFACE",
             open(options.pidfile, "wb").write("%s\n" % os.getpid())
 
     # If the donot daemonize is set, then we just skip the forking
-    if not options.donot:
-        # Windows check, we log to the config folder by default
-        if deluge.common.windows_check() or deluge.common.osx_check():
-            open_logfile()
-            write_pidfile()
-        else:
-            if os.fork() == 0:
-                os.setsid()
-                if os.fork() == 0:
-                    open_logfile()
-                    write_pidfile()
-                else:
-                    os._exit(0)
-            else:
-                os._exit(0)
-    else:
-        # Do not daemonize
-        write_pidfile()
+    if not (deluge.common.windows_check() or deluge.common.osx_check() or options.donot):
+        if os.fork():
+            # We've forked and this is now the parent process, so die!
+            os._exit(0)
+        os.setsid()
+        # Do second fork
+        if os.fork():
+            os._exit(0)
+
+    # Write pid file before chuid
+    write_pidfile()
+
+    if options.user:
+        if not options.user.isdigit():
+            import pwd
+            options.user = pwd.getpwnam(options.user)[2]
+        os.setuid(options.user)
+    if options.group:
+        if not options.group.isdigit():
+            import grp
+            options.group = grp.getgrnam(options.group)[2]
+        os.setuid(options.group)
+
+    open_logfile()
 
     # Setup the logger
     try:

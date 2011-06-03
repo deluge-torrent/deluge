@@ -34,38 +34,38 @@
 Ext.override(Ext.form.RadioGroup, {
 
     afterRender: function() {
-		this.items.each(function(i) {
-	    	this.relayEvents(i, ['check']);
-		}, this);
-		if (this.lazyValue) {
-			this.setValue(this.value);
-			delete this.value;
-			delete this.lazyValue;
-		}
-		Ext.form.RadioGroup.superclass.afterRender.call(this)
+        this.items.each(function(i) {
+            this.relayEvents(i, ['check']);
+        }, this);
+        if (this.lazyValue) {
+            this.setValue(this.value);
+            delete this.value;
+            delete this.lazyValue;
+        }
+        Ext.form.RadioGroup.superclass.afterRender.call(this)
     },
 
     getName: function() {
-		return this.items.first().getName();
+        return this.items.first().getName();
     },
 
     getValue: function() {
-		return this.items.first().getGroupValue();
+        return this.items.first().getGroupValue();
     },
 
     setValue: function(v) {
-		if (!this.items.each) {
-			this.value = v;
-			this.lazyValue = true;
-			return;
-		}
-		this.items.each(function(item) {
-			if (item.rendered) {
-				var checked = (item.el.getValue() == String(v));
-				item.el.dom.checked = checked;
-				item.el.dom.defaultChecked = checked;
-				item.wrap[checked ? 'addClass' : 'removeClass'](item.checkedCls);
-			}
-		});
+        if (!this.items.each) {
+            this.value = v;
+            this.lazyValue = true;
+            return;
+        }
+        this.items.each(function(item) {
+            if (item.rendered) {
+                var checked = (item.el.getValue() == String(v));
+                item.el.dom.checked = checked;
+                item.el.dom.defaultChecked = checked;
+                item.wrap[checked ? 'addClass' : 'removeClass'](item.checkedCls);
+            }
+        });
     }
 });

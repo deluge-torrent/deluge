@@ -33,11 +33,13 @@
 #
 #
 
+import gobject
+gobject.set_prgname("deluge")
+
 # Install the twisted reactor
 from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
-import gobject
 import gettext
 import locale
 import pkg_resources
@@ -114,8 +116,9 @@ DEFAULT_PREFS = {
     "interactive_add": True,
     "focus_add_dialog": True,
     "enable_system_tray": True,
-    "close_to_tray": True,
+    "close_to_tray": False,
     "start_in_tray": False,
+    "enable_appindicator": False,
     "lock_tray": False,
     "tray_password": "",
     "check_new_releases": True,
@@ -135,8 +138,6 @@ DEFAULT_PREFS = {
     "autoconnect_host_id": None,
     "autostart_localhost": False,
     "autoadd_queued": False,
-    "autoadd_enable": False,
-    "autoadd_location": "",
     "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
     "show_new_releases": True,
     "signal_port": 40000,
@@ -158,7 +159,12 @@ DEFAULT_PREFS = {
     "sidebar_show_trackers": True,
     "sidebar_position": 170,
     "show_rate_in_title": False,
-    "createtorrent.trackers": []
+    "createtorrent.trackers": [],
+    "show_piecesbar": False,
+    "pieces_color_missing": [65535, 0, 0],
+    "pieces_color_waiting": [4874, 56494, 0],
+    "pieces_color_downloading": [65535, 55255, 0],
+    "pieces_color_completed": [4883, 26985, 56540],
 }
 
 class GtkUI(object):
@@ -206,7 +212,7 @@ class GtkUI(object):
 
         # Initialize gdk threading
         gtk.gdk.threads_init()
-        gobject.threads_init()
+
 
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
@@ -237,7 +243,8 @@ class GtkUI(object):
         rpc_stats.start(10)
 
         reactor.callWhenRunning(self._on_reactor_start)
-        # Start the gtk main loop
+
+        # Initialize gdk threading
         gtk.gdk.threads_enter()
         reactor.run()
         self.shutdown()
@@ -327,37 +334,88 @@ Please see the details below for more information."), details=traceback.format_e
     def __start_non_classic(self):
             # Autoconnect to a host
             if self.config["autoconnect"]:
-                for host in self.connectionmanager.config["hosts"]:
-                    if host[0] == self.config["autoconnect_host_id"]:
+
+                def update_connection_manager():
+                    if not self.connectionmanager.running:
+                        return
+                    self.connectionmanager.glade.get_widget(
+                        "button_refresh"
+                    ).emit("clicked")
+
+                def close_connection_manager():
+                    if not self.connectionmanager.running:
+                        return
+                    self.connectionmanager.glade.get_widget(
+                        "button_close"
+                    ).emit("clicked")
+
+                for host_config in self.connectionmanager.config["hosts"]:
+                    hostid, host, port, user, passwd = host_config
+                    if hostid == self.config["autoconnect_host_id"]:
                         try_connect = True
                         # Check to see if we need to start the localhost daemon
-                        if self.config["autostart_localhost"] and host[1] in ("localhost", "127.0.0.1"):
-                            log.debug("Autostarting localhost:%s", host[2])
-                            try_connect = client.start_daemon(host[2], deluge.configmanager.get_config_dir())
+                        if self.config["autostart_localhost"] and host in ("localhost", "127.0.0.1"):
+                            log.debug("Autostarting localhost:%s", host)
+                            try_connect = client.start_daemon(
+                                port, deluge.configmanager.get_config_dir()
+                            )
                             log.debug("Localhost started: %s", try_connect)
                             if not try_connect:
                                 dialogs.ErrorDialog(
                                     _("Error Starting Daemon"),
-                                    _("There was an error starting the daemon process.  Try running it from a console to see if there is an error.")).run()
+                                    _("There was an error starting the daemon "
+                                      "process.  Try running it from a console "
+                                      "to see if there is an error.")
+                                ).run()
+
+                            # Daemon Started, let's update it's info
+                            reactor.callLater(0.5, update_connection_manager)
 
                         def on_connect(connector):
                             component.start()
-                        def on_connect_fail(result, try_counter):
-                            log.error("Connection to host failed..")
-                            # We failed connecting to the daemon, but lets try again
-                            if try_counter:
-                                log.info("Retrying connection.. Retries left: %s", try_counter)
-                                try_counter -= 1
-                                import time
-                                time.sleep(0.5)
-                                do_connect(try_counter)
-                            return result
+                            reactor.callLater(0.2, update_connection_manager)
+                            reactor.callLater(0.5, close_connection_manager)
 
-                        def do_connect(try_counter):
-                            client.connect(*host[1:]).addCallback(on_connect).addErrback(on_connect_fail, try_counter)
+                        def on_connect_fail(reason, try_counter,
+                                            host, port, user, passwd):
+                            if not try_counter:
+                                return
+
+                            if reason.check(deluge.error.AuthenticationRequired,
+                                            deluge.error.BadLoginError):
+                                log.debug("PasswordRequired exception")
+                                dialog = dialogs.AuthenticationDialog(
+                                    reason.value.message, reason.value.username
+                                )
+                                def dialog_finished(response_id, host, port):
+                                    if response_id == gtk.RESPONSE_OK:
+                                        reactor.callLater(
+                                            0.5, do_connect, try_counter-1,
+                                            host, port, dialog.get_username(),
+                                            dialog.get_password())
+                                dialog.run().addCallback(dialog_finished,
+                                                         host, port)
+                                return
+
+                            log.error("Connection to host failed..")
+                            log.info("Retrying connection.. Retries left: "
+                                     "%s", try_counter)
+                            reactor.callLater(0.5, update_connection_manager)
+                            reactor.callLater(0.5, do_connect, try_counter-1,
+                                              host, port, user, passwd)
+
+                        def do_connect(try_counter, host, port, user, passwd):
+                            log.debug("Trying to connect to %s@%s:%s",
+                                      user, host, port)
+                            d = client.connect(host, port, user, passwd)
+                            d.addCallback(on_connect)
+                            d.addErrback(on_connect_fail, try_counter,
+                                         host, port, user, passwd)
 
                         if try_connect:
-                            do_connect(6)
+                            reactor.callLater(
+                                0.5, do_connect, 6, host, port, user, passwd
+                            )
                         break
 
             if self.config["show_connection_manager_on_start"]:

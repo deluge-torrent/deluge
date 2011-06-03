@@ -40,6 +40,7 @@ from twisted.internet import reactor
 class Command(BaseCommand):
     """Exit from the client."""
     aliases = ['exit']
+    interactive_only = True
     def handle(self, *args, **options):
         if client.connected():
             def on_disconnect(result):

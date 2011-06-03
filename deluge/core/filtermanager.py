@@ -78,6 +78,27 @@ def filter_one_keyword(torrent_ids, keyword):
                     yield torrent_id
                     break
 
+def filter_by_name(torrent_ids, search_string):
+    all_torrents = component.get("TorrentManager").torrents
+    try:
+        search_string, match_case = search_string[0].split('::match')
+    except ValueError:
+        search_string = search_string[0]
+        match_case = False
+
+    if match_case is False:
+        search_string = search_string.lower()
+
+    for torrent_id in torrent_ids:
+        torrent_name = all_torrents[torrent_id].get_name()
+        if match_case is False:
+            torrent_name = all_torrents[torrent_id].get_name().lower()
+        else:
+            torrent_name = all_torrents[torrent_id].get_name()
+
+        if search_string in torrent_name:
+            yield torrent_id
+
 def tracker_error_filter(torrent_ids, values):
     filtered_torrent_ids = []
     tm = component.get("TorrentManager")
@@ -108,6 +129,7 @@ class FilterManager(component.Component):
         self.torrents = core.torrentmanager
         self.registered_filters = {}
         self.register_filter("keyword", filter_keywords)
+        self.register_filter("name", filter_by_name)
         self.tree_fields = {}
 
         self.register_tree_field("state", self._init_state_tree)
@@ -136,7 +158,7 @@ class FilterManager(component.Component):
 
 
         if "id"in filter_dict: #optimized filter for id:
-            torrent_ids = filter_dict["id"]
+            torrent_ids = list(filter_dict["id"])
             del filter_dict["id"]
         else:
             torrent_ids = self.torrents.get_torrent_list()

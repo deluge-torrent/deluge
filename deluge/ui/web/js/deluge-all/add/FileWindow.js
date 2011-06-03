@@ -37,80 +37,80 @@ Ext.ns('Deluge.add');
  */
 Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 
-	title: _('Add from File'),
-	layout: 'fit',
-	width: 350,
-	height: 115,
-	modal: true,
-	plain: true,
-	buttonAlign: 'center',
-	closeAction: 'hide',
-	bodyStyle: 'padding: 10px 5px;',
-	iconCls: 'x-deluge-add-file',
+    title: _('Add from File'),
+    layout: 'fit',
+    width: 350,
+    height: 115,
+    modal: true,
+    plain: true,
+    buttonAlign: 'center',
+    closeAction: 'hide',
+    bodyStyle: 'padding: 10px 5px;',
+    iconCls: 'x-deluge-add-file',
 
-	initComponent: function() {
-		Deluge.add.FileWindow.superclass.initComponent.call(this);
-		this.addButton(_('Add'), this.onAddClick, this);
-		
-		this.form = this.add({
-			xtype: 'form',
-			baseCls: 'x-plain',
-			labelWidth: 35,
-			autoHeight: true,
-			fileUpload: true,
-			items: [{
-				xtype: 'fileuploadfield',
-				id: 'torrentFile',
-				width: 280,
-				emptyText: _('Select a torrent'),
-				fieldLabel: _('File'),
-				name: 'file',
-				buttonCfg: {
-					text: _('Browse') + '...'
-				}
-			}]
-		});
-	},
-	
-	// private
-	onAddClick: function(field, e) {
-		if (this.form.getForm().isValid()) {
-			this.torrentId = this.createTorrentId();
-			this.form.getForm().submit({
-				url: '/upload',
-				waitMsg: _('Uploading your torrent...'),
-				failure: this.onUploadFailure,
-				success: this.onUploadSuccess,
-				scope: this
-			});
-			var name = this.form.getForm().findField('torrentFile').value;
-			name = name.split('\\').slice(-1)[0];
-			this.fireEvent('beforeadd', this.torrentId, name);
-		}
-	},
-	
-	// private
-	onGotInfo: function(info, obj, response, request) {
-		info['filename'] = request.options.filename;
-		this.fireEvent('add', this.torrentId, info);
-	},
+    initComponent: function() {
+        Deluge.add.FileWindow.superclass.initComponent.call(this);
+        this.addButton(_('Add'), this.onAddClick, this);
+        
+        this.form = this.add({
+            xtype: 'form',
+            baseCls: 'x-plain',
+            labelWidth: 35,
+            autoHeight: true,
+            fileUpload: true,
+            items: [{
+                xtype: 'fileuploadfield',
+                id: 'torrentFile',
+                width: 280,
+                emptyText: _('Select a torrent'),
+                fieldLabel: _('File'),
+                name: 'file',
+                buttonCfg: {
+                    text: _('Browse') + '...'
+                }
+            }]
+        });
+    },
+    
+    // private
+    onAddClick: function(field, e) {
+        if (this.form.getForm().isValid()) {
+            this.torrentId = this.createTorrentId();
+            this.form.getForm().submit({
+                url: '/upload',
+                waitMsg: _('Uploading your torrent...'),
+                failure: this.onUploadFailure,
+                success: this.onUploadSuccess,
+                scope: this
+            });
+            var name = this.form.getForm().findField('torrentFile').value;
+            name = name.split('\\').slice(-1)[0];
+            this.fireEvent('beforeadd', this.torrentId, name);
+        }
+    },
+    
+    // private
+    onGotInfo: function(info, obj, response, request) {
+        info['filename'] = request.options.filename;
+        this.fireEvent('add', this.torrentId, info);
+    },
 
-	// private
-	onUploadFailure: function(form, action) {
-		this.hide();
-	},
-	
-	// private
-	onUploadSuccess: function(fp, upload) {
-		this.hide();
-		if (upload.result.success) {
-			var filename = upload.result.files[0];
-			this.form.getForm().findField('torrentFile').setValue('');
-			deluge.client.web.get_torrent_info(filename, {
-				success: this.onGotInfo,
-				scope: this,
-				filename: filename
-			});
-		}
-	}
+    // private
+    onUploadFailure: function(form, action) {
+        this.hide();
+    },
+    
+    // private
+    onUploadSuccess: function(fp, upload) {
+        this.hide();
+        if (upload.result.success) {
+            var filename = upload.result.files[0];
+            this.form.getForm().findField('torrentFile').setValue('');
+            deluge.client.web.get_torrent_info(filename, {
+                success: this.onGotInfo,
+                scope: this,
+                filename: filename
+            });
+        }
+    }
 });

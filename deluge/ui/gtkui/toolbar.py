@@ -74,7 +74,9 @@ class ToolBar(component.Component):
             "toolbutton_pause",
             "toolbutton_resume",
             "toolbutton_queue_up",
-            "toolbutton_queue_down"
+            "toolbutton_queue_down",
+            "toolbutton_filter",
+            "find_menuitem"
         ]
 
         self.config.register_set_function("classic_mode", self._on_classic_mode, True)

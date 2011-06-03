@@ -56,14 +56,14 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
                     return -1;
                 }
             }
-        	var v1 = sortType ? sortType(n1.attributes[p]) : (cs ? n1.attributes[p] : n1.attributes[p].toUpperCase());
-        	var v2 = sortType ? sortType(n2.attributes[p]) : (cs ? n2.attributes[p] : n2.attributes[p].toUpperCase());
-        	if(v1 < v2){
-    			return dsc ? +1 : -1;
-    		}else if(v1 > v2){
-    			return dsc ? -1 : +1;
+            var v1 = sortType ? sortType(n1.attributes[p]) : (cs ? n1.attributes[p] : n1.attributes[p].toUpperCase());
+            var v2 = sortType ? sortType(n2.attributes[p]) : (cs ? n2.attributes[p] : n2.attributes[p].toUpperCase());
+            if(v1 < v2){
+                return dsc ? +1 : -1;
+            }else if(v1 > v2){
+                return dsc ? -1 : +1;
             }else{
-    	    	return 0;
+                return 0;
             }
         };
 

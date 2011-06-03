@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>

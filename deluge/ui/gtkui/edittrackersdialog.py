@@ -39,6 +39,7 @@ import gtk.glade
 import logging
 import pkg_resources
 
+from twisted.internet import defer
 import deluge.common
 import common
 from deluge.ui.client import client
@@ -73,8 +74,6 @@ class EditTrackersDialog:
             "on_button_edit_ok_clicked": self.on_button_edit_ok_clicked,
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_down_clicked": self.on_button_down_clicked,
-            "on_button_ok_clicked": self.on_button_ok_clicked,
-            "on_button_cancel_clicked": self.on_button_cancel_clicked,
             "on_button_add_ok_clicked": self.on_button_add_ok_clicked,
             "on_button_add_cancel_clicked": self.on_button_add_cancel_clicked
         })
@@ -91,6 +90,9 @@ class EditTrackersDialog:
         self.treeview.set_model(self.liststore)
         self.liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
 
+        self.dialog.connect("delete-event", self._on_delete_event)
+        self.dialog.connect("response", self._on_response)
+
     def run(self):
         # Make sure we have a torrent_id.. if not just return
         if self.torrent_id == None:
@@ -98,14 +100,43 @@ class EditTrackersDialog:
 
         # Get the trackers for this torrent
         session = component.get("SessionProxy")
-        session.get_torrent_status(self.torrent_id, ["trackers"]).addCallback(self._on_get_torrent_status)
+        session.get_torrent_status(
+            self.torrent_id, ["trackers"]
+        ).addCallback(self._on_get_torrent_status)
         client.force_call()
+
+        self.deferred = defer.Deferred()
+        return self.deferred
+
+
+    def _on_delete_event(self, widget, event):
+        self.deferred.callback(gtk.RESPONSE_DELETE_EVENT)
+        self.dialog.destroy()
+
+    def _on_response(self, widget, response):
+        if response == 1:
+            self.trackers = []
+            def each(model, path, iter, data):
+                tracker = {}
+                tracker["tier"] = model.get_value(iter, 0)
+                tracker["url"] = model.get_value(iter, 1)
+                self.trackers.append(tracker)
+            self.liststore.foreach(each, None)
+            if self.old_trackers != self.trackers:
+                # Set the torrens trackers
+                client.core.set_torrent_trackers(self.torrent_id, self.trackers)
+                self.deferred.callback(gtk.RESPONSE_OK)
+            else:
+                self.deferred.callback(gtk.RESPONSE_CANCEL)
+        else:
+            self.deferred.callback(gtk.RESPONSE_CANCEL)
+        self.dialog.destroy()
 
     def _on_get_torrent_status(self, status):
         """Display trackers dialog"""
-        for tracker in status["trackers"]:
+        self.old_trackers = list(status["trackers"])
+        for tracker in self.old_trackers:
             self.add_tracker(tracker["tier"], tracker["url"])
-
         self.dialog.show()
 
     def add_tracker(self, tier, url):
@@ -115,16 +146,6 @@ class EditTrackersDialog:
     def get_selected(self):
         """Returns the selected tracker"""
         return self.treeview.get_selection().get_selected()[1]
-
-    def on_button_up_clicked(self, widget):
-        log.debug("on_button_up_clicked")
-        selected = self.get_selected()
-        num_rows = self.liststore.iter_n_children(None)
-        if selected != None and num_rows > 1:
-            tier = self.liststore.get_value(selected, 0)
-            new_tier = tier + 1
-            # Now change the tier for this tracker
-            self.liststore.set_value(selected, 0, new_tier)
 
     def on_button_add_clicked(self, widget):
         log.debug("on_button_add_clicked")
@@ -159,8 +180,8 @@ class EditTrackersDialog:
         self.liststore.set_value(selected, 1, tracker)
         self.edit_tracker_entry.hide()
 
-    def on_button_down_clicked(self, widget):
-        log.debug("on_button_down_clicked")
+    def on_button_up_clicked(self, widget):
+        log.debug("on_button_up_clicked")
         selected = self.get_selected()
         num_rows = self.liststore.iter_n_children(None)
         if selected != None and num_rows > 1:
@@ -171,22 +192,15 @@ class EditTrackersDialog:
             # Now change the tier for this tracker
             self.liststore.set_value(selected, 0, new_tier)
 
-    def on_button_ok_clicked(self, widget):
-        log.debug("on_button_ok_clicked")
-        self.trackers = []
-        def each(model, path, iter, data):
-            tracker = {}
-            tracker["tier"] = model.get_value(iter, 0)
-            tracker["url"] = model.get_value(iter, 1)
-            self.trackers.append(tracker)
-        self.liststore.foreach(each, None)
-        # Set the torrens trackers
-        client.core.set_torrent_trackers(self.torrent_id, self.trackers)
-        self.dialog.destroy()
-
-    def on_button_cancel_clicked(self, widget):
-        log.debug("on_button_cancel_clicked")
-        self.dialog.destroy()
+    def on_button_down_clicked(self, widget):
+        log.debug("on_button_down_clicked")
+        selected = self.get_selected()
+        num_rows = self.liststore.iter_n_children(None)
+        if selected != None and num_rows > 1:
+            tier = self.liststore.get_value(selected, 0)
+            new_tier = tier + 1
+            # Now change the tier for this tracker
+            self.liststore.set_value(selected, 0, new_tier)
 
     def on_button_add_ok_clicked(self, widget):
         log.debug("on_button_add_ok_clicked")

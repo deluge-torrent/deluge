@@ -133,20 +133,20 @@ class Core(CorePluginBase):
         return dict( [(label, 0) for label in self.labels.keys()])
 
     ## Plugin hooks ##
-    def post_torrent_add(self, event):
+    def post_torrent_add(self, torrent_id, from_state):
         log.debug("post_torrent_add")
-        torrent = self.torrents[event.torrent_id]
+        torrent = self.torrents[torrent_id]
 
         for label_id, options in self.labels.iteritems():
             if options["auto_add"]:
                 if self._has_auto_match(torrent, options):
-                    self.set_torrent(event.torrent_id, label_id)
+                    self.set_torrent(torrent_id, label_id)
                     return
 
-    def post_torrent_remove(self, event):
+    def post_torrent_remove(self, torrent_id):
         log.debug("post_torrent_remove")
-        if event.torrent_id in self.torrent_labels:
-            del self.torrent_labels[event.torrent_id]
+        if torrent_id in self.torrent_labels:
+            del self.torrent_labels[torrent_id]
 
     ## Utils ##
     def clean_config(self):

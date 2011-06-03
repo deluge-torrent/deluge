@@ -2,6 +2,7 @@
 # setup.py
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
+# Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -40,10 +41,10 @@
 from setuptools import setup, find_packages
 
 __plugin_name__ = "AutoAdd"
-__author__ = "Chase Sterling"
-__author_email__ = "chase.sterling@gmail.com"
+__author__ = "Chase Sterling, Pedro Algarvio"
+__author_email__ = "chase.sterling@gmail.com, pedro@algarvio.me"
 __version__ = "1.02"
-__url__ = "http://forum.deluge-torrent.org/viewtopic.php?f=9&t=26775"
+__url__ = "http://dev.deluge-torrent.org/wiki/Plugins/AutoAdd"
 __license__ = "GPLv3"
 __description__ = "Monitors folders for .torrent files."
 __long_description__ = """"""

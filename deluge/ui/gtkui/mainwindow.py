@@ -38,7 +38,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
-import gobject
 import logging
 import pkg_resources
 from urlparse import urlparse
@@ -162,8 +161,20 @@ class MainWindow(component.Component):
         :type shutdown: boolean
         """
         if shutdown:
-            client.daemon.shutdown()
-        reactor.stop()
+            def on_daemon_shutdown(result):
+                reactor.stop()
+            client.daemon.shutdown().addCallback(on_daemon_shutdown)
+            return
+        if client.is_classicmode():
+            reactor.stop()
+            return
+        if not client.connected():
+            reactor.stop()
+            return
+        def on_client_disconnected(result):
+            reactor.stop()
+        client.disconnect().addCallback(on_client_disconnected)
+
 
     def load_window_state(self):
         x = self.config["window_x_pos"]
@@ -247,11 +258,11 @@ class MainWindow(component.Component):
         else:
             self.window.set_title("Deluge")
 
-    def on_newversionavailable_event(self, event):
+    def on_newversionavailable_event(self, new_version):
         if self.config["show_new_releases"]:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
-            reactor.callLater(5.0, NewReleaseDialog().show, event.new_release)
+            reactor.callLater(5.0, NewReleaseDialog().show, new_version)
 
-    def on_torrentfinished_event(self, event):
+    def on_torrentfinished_event(self, torrent_id):
         from deluge.ui.gtkui.notification import Notification
-        Notification().notify(event.torrent_id)
+        Notification().notify(torrent_id)

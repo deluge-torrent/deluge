@@ -1,6 +1,6 @@
 /*!
  * Deluge.FilterPanel.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -36,133 +36,135 @@ Ext.ns('Deluge');
  * @extends Ext.list.ListView
  */
 Deluge.FilterPanel = Ext.extend(Ext.Panel, {
-	
-	border: false,
 
-	show_zero: null,
+    autoScroll: true,
 
-	initComponent: function() {
-		Deluge.FilterPanel.superclass.initComponent.call(this);
-		this.filterType = this.initialConfig.filter;
+    border: false,
 
-		var title = this.filterType.replace('_', ' '),
-			parts = title.split(' '),
-			title = '';
-		Ext.each(parts, function(p) {
-			fl = p.substring(0, 1).toUpperCase();
-			title += fl + p.substring(1) + ' ';
-		});
-		this.setTitle(_(title));
+    show_zero: null,
 
-		if (Deluge.FilterPanel.templates[this.filterType]) {
-			var tpl = Deluge.FilterPanel.templates[this.filterType];
-		} else {
-			var tpl = '<div class="x-deluge-filter x-deluge-{filter:lowercase}">{filter} ({count})</div>';
-		}
+    initComponent: function() {
+        Deluge.FilterPanel.superclass.initComponent.call(this);
+        this.filterType = this.initialConfig.filter;
 
-		this.list = this.add({
-			xtype: 'listview',
-			singleSelect: true,
-			hideHeaders: true,
-			reserveScrollOffset: true,
-			store: new Ext.data.ArrayStore({
-				idIndex: 0,
-				fields: ['filter', 'count']
-			}),
-			columns: [{
-				id: 'filter',
-				sortable: false,
-				tpl: tpl,
-				dataIndex: 'filter'
-			}]
-		});
-		this.relayEvents(this.list, ['selectionchange']);
-	},
+        var title = this.filterType.replace('_', ' '),
+            parts = title.split(' '),
+            title = '';
+        Ext.each(parts, function(p) {
+            fl = p.substring(0, 1).toUpperCase();
+            title += fl + p.substring(1) + ' ';
+        });
+        this.setTitle(_(title));
 
-	/**
-	 * Return the currently selected filter state
-	 * @returns {String} the current filter state
-	 */
-	getState: function() {
-		if (!this.list.getSelectionCount()) return;
+        if (Deluge.FilterPanel.templates[this.filterType]) {
+            var tpl = Deluge.FilterPanel.templates[this.filterType];
+        } else {
+            var tpl = '<div class="x-deluge-filter x-deluge-{filter:lowercase}">{filter} ({count})</div>';
+        }
 
-		var state = this.list.getSelectedRecords()[0];
-		if (state.id == 'All') return;
-		return state.id;
-	},
+        this.list = this.add({
+            xtype: 'listview',
+            singleSelect: true,
+            hideHeaders: true,
+            reserveScrollOffset: true,
+            store: new Ext.data.ArrayStore({
+                idIndex: 0,
+                fields: ['filter', 'count']
+            }),
+            columns: [{
+                id: 'filter',
+                sortable: false,
+                tpl: tpl,
+                dataIndex: 'filter'
+            }]
+        });
+        this.relayEvents(this.list, ['selectionchange']);
+    },
 
-	/**
-	 * Return the current states in the filter
-	 */
-	getStates: function() {
-		return this.states;
-	},
+    /**
+     * Return the currently selected filter state
+     * @returns {String} the current filter state
+     */
+    getState: function() {
+        if (!this.list.getSelectionCount()) return;
 
-	/**
-	 * Return the Store for the ListView of the FilterPanel
-	 * @returns {Ext.data.Store} the ListView store
-	 */
-	getStore: function() {
-		return this.list.getStore();
-	},
+        var state = this.list.getSelectedRecords()[0];
+        if (state.id == 'All') return;
+        return state.id;
+    },
 
-	/**
-	 * Update the states in the FilterPanel
-	 */
-	updateStates: function(states) {
-		this.states = {};
-		Ext.each(states, function(state) {
-			this.states[state[0]] = state[1];
-		}, this);
+    /**
+     * Return the current states in the filter
+     */
+    getStates: function() {
+        return this.states;
+    },
 
-		var show_zero = (this.show_zero == null) ? deluge.config.sidebar_show_zero : this.show_zero;
-		if (!show_zero) {
-			var newStates = [];
-			Ext.each(states, function(state) {
-				if (state[1] > 0 || state[0] == _('All')) {
-					newStates.push(state);
-				}
-			});
-			states = newStates;
-		}
+    /**
+     * Return the Store for the ListView of the FilterPanel
+     * @returns {Ext.data.Store} the ListView store
+     */
+    getStore: function() {
+        return this.list.getStore();
+    },
 
-		var store = this.getStore();
-		var filters = {};
-		Ext.each(states, function(s, i) {
-			var record = store.getById(s[0]);
-			if (!record) {
-				record = new store.recordType({
-					filter: s[0],
-					count: s[1]
-				});
-				record.id = s[0];
-				store.insert(i, record);
-			}
-			record.beginEdit();
-			record.set('filter', s[0]);
-			record.set('count', s[1]);
-			record.endEdit();
-			filters[s[0]] = true;
-		}, this);
+    /**
+     * Update the states in the FilterPanel
+     */
+    updateStates: function(states) {
+        this.states = {};
+        Ext.each(states, function(state) {
+            this.states[state[0]] = state[1];
+        }, this);
 
-		store.each(function(record) {
-			if (filters[record.id]) return;
-			var r = this.list.getSelectedRecords()[0];
-			store.remove(record);
-			if (r.id == record.id) {
-				this.list.select(0);
-			}
-		}, this);
+        var show_zero = (this.show_zero == null) ? deluge.config.sidebar_show_zero : this.show_zero;
+        if (!show_zero) {
+            var newStates = [];
+            Ext.each(states, function(state) {
+                if (state[1] > 0 || state[0] == _('All')) {
+                    newStates.push(state);
+                }
+            });
+            states = newStates;
+        }
 
-		store.commitChanges();
+        var store = this.getStore();
+        var filters = {};
+        Ext.each(states, function(s, i) {
+            var record = store.getById(s[0]);
+            if (!record) {
+                record = new store.recordType({
+                    filter: s[0],
+                    count: s[1]
+                });
+                record.id = s[0];
+                store.insert(i, record);
+            }
+            record.beginEdit();
+            record.set('filter', s[0]);
+            record.set('count', s[1]);
+            record.endEdit();
+            filters[s[0]] = true;
+        }, this);
 
-		if (!this.list.getSelectionCount()) {
-			this.list.select(0);
-		}
-	}
+        store.each(function(record) {
+            if (filters[record.id]) return;
+            var r = this.list.getSelectedRecords()[0];
+            store.remove(record);
+            if (r.id == record.id) {
+                this.list.select(0);
+            }
+        }, this);
+
+        store.commitChanges();
+
+        if (!this.list.getSelectionCount()) {
+            this.list.select(0);
+        }
+    }
 
 });
 
 Deluge.FilterPanel.templates = {
-	'tracker_host':  '<div class="x-deluge-filter" style="background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter} ({count})</div>'
+    'tracker_host':  '<div class="x-deluge-filter" style="background-image: url(' + deluge.config.base + 'tracker/{filter});">{filter} ({count})</div>'
 }

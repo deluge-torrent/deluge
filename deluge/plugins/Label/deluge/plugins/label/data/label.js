@@ -330,6 +330,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 	onOkClick: function() {
 		var values = this.form.getForm().getFieldValues();
+		values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
 		deluge.client.label.set_options(this.label, values);
 		this.hide();
 	},

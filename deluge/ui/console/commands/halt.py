@@ -39,7 +39,8 @@ from deluge.ui.client import client
 import deluge.component as component
 
 class Command(BaseCommand):
-    "Shutdown the deluge server."
+    "Shutdown the deluge server"
+    usage = "Usage: halt"
     def handle(self, **options):
         self.console = component.get("ConsoleUI")
 
