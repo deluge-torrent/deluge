@@ -33,20 +33,20 @@
 #
 #
 
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 
     scripts = [get_resource("stats.js")]
 
-    # The enable and disable methods are not scrictly required on the WebUI
+    # The enable and disable methods are not strictly required on the WebUI
     # plugins. They are only here if you need to register images/stylesheets
     # with the webserver.
     def enable(self):

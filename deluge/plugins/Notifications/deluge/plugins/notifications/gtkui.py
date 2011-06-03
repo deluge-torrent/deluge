@@ -37,11 +37,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+import logging
 from os.path import basename
 import gtk
 
 from twisted.internet import defer
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
@@ -51,7 +51,7 @@ import deluge.configmanager
 # Relative imports
 from common import get_resource, CustomNotifications
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 try:
     import pygame

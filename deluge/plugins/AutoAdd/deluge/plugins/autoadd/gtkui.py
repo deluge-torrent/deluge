@@ -38,8 +38,7 @@
 #
 
 import gtk
-
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
 from deluge.plugins.pluginbase import GtkPluginBase
@@ -49,7 +48,7 @@ import os
 
 from common import get_resource
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class IncompatibleOption(Exception):
     pass

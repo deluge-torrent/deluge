@@ -37,11 +37,11 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+import logging
 from twisted.internet import defer
 from deluge import component
-from deluge.log import getPluginLogger
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 try:
     from deluge.event import known_events

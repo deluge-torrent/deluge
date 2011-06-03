@@ -37,8 +37,7 @@
 #
 
 import gtk
-
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
@@ -46,7 +45,7 @@ import deluge.common
 
 from common import get_resource
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 

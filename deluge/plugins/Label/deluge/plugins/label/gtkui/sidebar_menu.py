@@ -37,13 +37,13 @@
 
 import gtk
 import gtk.glade
+import logging
 
 import deluge.component as component
 import deluge.common
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 NO_LABEL = "No Label"
 

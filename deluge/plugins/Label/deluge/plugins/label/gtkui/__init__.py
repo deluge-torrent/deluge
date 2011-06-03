@@ -35,8 +35,8 @@
 
 
 import os
+import logging
 import pkg_resources    # access plugin egg
-from deluge.log import getPluginLogger
 from deluge import component    # for systray
 from deluge.plugins.pluginbase import GtkPluginBase
 import gtk, gobject
@@ -46,7 +46,7 @@ import sidebar_menu
 import label_config
 import submenu
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 NO_LABEL = "No Label"
 

@@ -48,7 +48,7 @@ port of old plugin by markybob.
 """
 import time
 import cairo
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 
 black = (0, 0, 0)
@@ -60,13 +60,13 @@ green = (0, 1.0, 0)
 blue = (0, 0, 1.0)
 orange = (1.0, 0.74, 0)
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 def default_formatter(value):
     return str(value)
 
 def change_opacity(color, opactiy):
-    """A method to assist in changing the opactiy of a color inorder to draw the
+    """A method to assist in changing the opacity of a color in order to draw the
     fills.
     """
     color = list(color)

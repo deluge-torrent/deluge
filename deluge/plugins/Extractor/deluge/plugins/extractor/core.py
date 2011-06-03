@@ -38,16 +38,16 @@
 #
 
 import os
+import logging
 
 from twisted.internet.utils import getProcessValue
 
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "extract_path": "",
@@ -100,22 +100,22 @@ class Core(CorePluginBase):
 
             # Now that we have the cmd, lets run it to extract the files
             fp = os.path.join(save_path, f["path"])
-            
+
             # Get the destination path
             dest = self.config["extract_path"]
             if self.config["use_name_folder"]:
                 name = component.get("TorrentManager")[torrent_id].get_status(["name"])["name"]
                 dest = os.path.join(dest, name)
 
-            # Create the destination folder if it doesn't exist                
+            # Create the destination folder if it doesn't exist
             if not os.path.exists(dest):
                 try:
                     os.makedirs(dest)
                 except Exception, e:
                     log.error("Error creating destination folder: %s", e)
                     return
-            
-            log.debug("Extracting to %s", dest)        
+
+            log.debug("Extracting to %s", dest)
             def on_extract_success(result, torrent_id):
                 # XXX: Emit an event
                 log.debug("Extract was successful for %s", torrent_id)

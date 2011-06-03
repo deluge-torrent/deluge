@@ -37,18 +37,17 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-
+import logging
 import os, statvfs
 from datetime import datetime, timedelta
 from twisted.internet import task
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.event import DelugeEvent
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 class LowDiskSpaceEvent(DelugeEvent):

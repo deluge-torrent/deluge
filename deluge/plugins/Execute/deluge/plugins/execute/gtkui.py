@@ -35,15 +35,15 @@
 
 import os
 import gtk
+import logging
 import pkg_resources
 
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 EXECUTE_ID = 0
 EXECUTE_EVENT = 1

@@ -47,19 +47,19 @@
 
 import gtk
 import gobject
+import logging
 from gtk.glade import XML
 
 from twisted.internet import defer
 
 import graph
 from deluge import component
-from deluge.log import getPluginLogger
 from deluge.common import fspeed
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.plugins.pluginbase import GtkPluginBase
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class GraphsTab(Tab):
     def __init__(self, glade):

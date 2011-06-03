@@ -37,7 +37,7 @@ torrent-label core plugin.
 adds a status field for tracker.
 """
 
-from deluge.log import getPluginLogger
+import logging
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
 from deluge.configmanager import ConfigManager
@@ -47,7 +47,7 @@ from urlparse import urlparse
 import traceback
 import re
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 RE_VALID = re.compile("[a-z0-9_\-\.]*\Z")
 

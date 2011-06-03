@@ -44,17 +44,17 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
+import logging
 from twisted.internet.task import LoopingCall
 import time
 
 import deluge
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge import component
 from deluge import configmanager
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "test": "NiNiNi",

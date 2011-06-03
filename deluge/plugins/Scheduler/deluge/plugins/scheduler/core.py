@@ -37,8 +37,7 @@
 #
 
 import time
-
-from deluge.log import getPluginLogger
+import logging
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -47,7 +46,7 @@ from deluge.event import DelugeEvent
 
 from twisted.internet import reactor
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "low_down": -1.0,

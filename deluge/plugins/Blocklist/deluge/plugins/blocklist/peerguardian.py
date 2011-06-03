@@ -3,13 +3,12 @@
 # Distributed under the same terms as Deluge
 ##
 
+import logging
 from exceptions import Exception
 from struct import unpack
 import gzip, socket
 
-from deluge.log import getPluginLogger
-
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class PGException(Exception):
     pass

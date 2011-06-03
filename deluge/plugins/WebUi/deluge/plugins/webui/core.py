@@ -37,13 +37,13 @@
 #
 
 import os
+import logging
 
 from deluge import common, component, configmanager
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "enabled": False,

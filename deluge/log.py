@@ -232,6 +232,8 @@ def setLoggerLevel(level, logger_name=None):
 
 
 def getPluginLogger(logger_name):
+    if 'deluge.plugins.' in logger_name:
+        return logging.getLogger(logger_name)
     return logging.getLogger("deluge.plugin.%s" % logger_name)
 
 

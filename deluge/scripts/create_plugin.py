@@ -113,6 +113,7 @@ def create_plugin():
 
 
 CORE = """
+import logging
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -121,6 +122,8 @@ from deluge.core.rpcserver import export
 DEFAULT_PREFS = {
     "test":"NiNiNi"
 }
+
+log = logging.getLogger(__name__)
 
 class Core(CorePluginBase):
     def enable(self):
@@ -216,8 +219,8 @@ def get_resource(filename):
 
 GTKUI = """
 import gtk
+import logging
 
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
@@ -225,7 +228,7 @@ import deluge.common
 
 from common import get_resource
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):
@@ -285,14 +288,14 @@ GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 """
 
 WEBUI = """
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class WebUI(WebPluginBase):
 

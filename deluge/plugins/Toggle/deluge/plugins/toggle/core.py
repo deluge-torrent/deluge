@@ -37,13 +37,13 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from deluge.log import getPluginLogger
+import logging
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
 }

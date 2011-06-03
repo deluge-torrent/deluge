@@ -34,14 +34,14 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
+import logging
 import feedparser # for proccessing feed entries
 import os
-from deluge.log import getPluginLogger
 from deluge.ui.client import sclient, aclient
 from deluge.plugins.webuipluginbase import WebUIPluginBase
 from deluge import component
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 api = component.get("WebPluginApi")
 forms = api.forms

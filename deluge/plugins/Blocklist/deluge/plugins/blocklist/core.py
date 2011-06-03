@@ -36,6 +36,7 @@
 
 import os
 import time
+import logging
 from datetime import datetime, timedelta
 from wsgiref.handlers import format_date_time
 from urlparse import urljoin
@@ -45,7 +46,7 @@ from twisted.internet.task import LoopingCall
 from twisted.internet import threads, defer
 from twisted.web import error
 
-from deluge.log import getPluginLogger
+
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -58,7 +59,7 @@ from readers import ReaderParseError
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",

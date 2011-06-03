@@ -38,18 +38,18 @@
 #
 
 import smtplib
+import logging
 from email.utils import formatdate
 from twisted.internet import defer, threads
 from deluge import component
 from deluge.event import known_events
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
 from common import CustomNotifications
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "smtp_enabled": False,

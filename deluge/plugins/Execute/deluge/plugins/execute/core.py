@@ -36,16 +36,16 @@
 import os
 import time
 import hashlib
+import logging
 from subprocess import Popen, PIPE
 
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.rpcserver import export
 from deluge.event import DelugeEvent
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_CONFIG = {
     "commands": []

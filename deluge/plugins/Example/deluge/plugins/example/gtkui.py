@@ -34,14 +34,14 @@
 #
 
 import gtk
+import logging
 
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class GtkUI(GtkPluginBase):
     def enable(self):

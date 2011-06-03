@@ -38,14 +38,14 @@
 #
 
 import os
+import logging
 import pkg_resources
 from deluge.common import fspeed
-from deluge.log import getPluginLogger
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import WebPluginBase
 from deluge import component
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 def get_resource(filename):
     return pkg_resources.resource_filename("deluge.plugins.label",

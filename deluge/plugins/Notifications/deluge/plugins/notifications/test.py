@@ -6,12 +6,12 @@
 # License: BSD - Please view the LICENSE file for additional information.
 # ==============================================================================
 
+import logging
 from twisted.internet import task
 from deluge import component
 from deluge.event import DelugeEvent
-from deluge.log import getPluginLogger
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 class FooEvent(DelugeEvent):
     """foo Event"""

@@ -36,12 +36,12 @@
 
 
 import os
-from deluge.log import getPluginLogger
+import logging
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 #import deluge.ui.webui.lib.newforms_plus as forms
 

@@ -40,7 +40,7 @@
 
 from deluge._libtorrent import lt
 import os
-from deluge.log import getPluginLogger
+import logging
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
@@ -50,7 +50,7 @@ from twisted.internet.task import LoopingCall, deferLater
 from twisted.internet import reactor
 from deluge.event import DelugeEvent
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "watchdirs":{},

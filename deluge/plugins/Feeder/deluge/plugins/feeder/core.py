@@ -37,18 +37,18 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
+import logging
 import feedparser # for parsing rss feeds
 import threading  # for threaded updates
 import re         # for regular expressions
 from twisted.internet.task import LoopingCall
 
-from deluge.log import getPluginLogger
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
-log = getPluginLogger(__name__)
+log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
     "feeds": {},
