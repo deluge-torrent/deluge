@@ -649,13 +649,13 @@ class AddTorrentDialog(component.Component):
             else:
                 dialogs.ErrorDialog(
                     _("Invalid URL"),
-                    _("%s is not a valid URL." % url),
+                    "%s %s" % (url, _("is not a valid URL.")),
                     self.dialog
                 ).run()
 
     def add_from_url(self, url):
         dialog = gtk.Dialog(
-            _("Downloading.."),
+            _("Downloading..."),
             flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
             parent=self.dialog)
         dialog.set_transient_for(self.dialog)
@@ -698,7 +698,7 @@ class AddTorrentDialog(component.Component):
                 log.debug("Download failed: %s", result)
                 dialog.destroy()
                 dialogs.ErrorDialog(
-                    _("Download Failed"), _("Failed to download : %s" % url),
+                    _("Download Failed"), "%s %s" % (_("Failed to download:"), url),
                     details=result.getErrorMessage(), parent=self.dialog
                 ).run()
             return result
