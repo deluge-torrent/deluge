@@ -5,6 +5,8 @@
 	now, it even supports multiple users perfectly.
 	* Authentication/Permission exceptions are now sent to clients and recreated
 	there to allow acting upon them.
+	* Enforced the use of the "deluge.plugins" namespace to reduce package
+	names clashing beetween regular packages and deluge plugins.
 
 ==== Core ====
 	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent

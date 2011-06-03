@@ -488,5 +488,6 @@ setup(
                                 "ui/web/themes/images/*/*/*.png"
                                 ]},
     packages = find_packages(exclude=["plugins", "docs", "tests"]),
+    namespace_packages = ["deluge", "deluge.plugins"],
     entry_points = entry_points
 )
