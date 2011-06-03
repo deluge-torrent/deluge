@@ -81,7 +81,7 @@ class MenuBar(component.Component):
             item.set_name(menuitem)
             item.connect("activate", self.on_menuitem_set_unlimited)
             submenu.append(item)
-            item = gtk.MenuItem(_("Other.."))
+            item = gtk.MenuItem(_("Other..."))
             item.set_name(menuitem)
             item.connect("activate", self.on_menuitem_set_other)
             submenu.append(item)

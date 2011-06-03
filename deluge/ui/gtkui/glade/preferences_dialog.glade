@@ -741,7 +741,7 @@ used sparingly.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">0000</property>
+                                                    <property name="label" translatable="no">0000</property>
                                                     <property name="width_chars">5</property>
                                                   </widget>
                                                   <packing>
@@ -1146,7 +1146,7 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="width_chars">4</property>
-                                                <property name="text" translatable="yes">0x00</property>
+                                                <property name="text">0x00</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>

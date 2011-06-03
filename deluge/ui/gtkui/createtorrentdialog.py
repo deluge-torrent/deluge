@@ -371,7 +371,7 @@ class CreateTorrentDialog:
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)
         pbar = self.glade.get_widget("progressbar")
-        pbar.set_text(_("%.2f%%") % (percent*100))
+        pbar.set_text("%.2f%%" % (percent*100))
         if percent >= 0 and percent <= 1.0:
             pbar.set_fraction(percent)
 
