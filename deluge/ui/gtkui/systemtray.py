@@ -192,7 +192,7 @@ class SystemTray(component.Component):
         self.__start()
 
     def stop(self):
-        if self.config["enable_system_tray"]:
+        if self.config["enable_system_tray"] and not self.config["enable_appindicator"]:
             try:
                 # Hide widgets in hide list because we're not connected to a host
                 for widget in self.hide_widget_list:
