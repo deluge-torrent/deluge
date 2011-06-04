@@ -702,7 +702,22 @@ class TorrentView(listview.ListView, component.Component):
         for row in self.liststore:
             if not torrent_id == row[self.columns["torrent_id"].column_indices[0]]:
                 continue
-            row[self.get_column_index(_("Progress"))[1]] = state
+
+            for name in self.columns_to_update:
+                if not self.columns[name].status_field:
+                    continue
+                for idx, status_field in enumerate(self.columns[name].status_field):
+                    # Update all columns that use the state field to current state
+                    if status_field != 'state':
+                        continue
+                    row[self.get_column_index(name)[idx]] = state
+
+            if self.filter.get('state', None) is not None:
+                # We have a filter set, let's see if theres anything to hide
+                # and remove from status
+                if torrent_id in self.status and self.status[torrent_id]['state'] != state:
+                    row[self.columns["filter"].column_indices[0]] = False
+                    del self.status[torrent_id]
 
         self.mark_dirty(torrent_id)
 
