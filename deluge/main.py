@@ -45,7 +45,6 @@ import sys
 from optparse import OptionParser
 
 import deluge.log
-#import deluge.common
 import deluge.error
 
 

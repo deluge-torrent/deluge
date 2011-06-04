@@ -69,21 +69,6 @@ import pkg_resources
 import gettext
 import locale
 
-# Initialize gettext
-try:
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-except Exception, e:
-    log.error("Unable to initialize gettext/locale!")
-    log.exception(e)
-    import __builtin__
-    __builtin__.__dict__["_"] = lambda x: x
-
 from deluge.error import *
 
 LT_TORRENT_STATE = {
@@ -220,8 +205,19 @@ def get_pixmap(fname):
     :rtype: string
 
     """
-    return pkg_resources.resource_filename("deluge", os.path.join("ui/data", \
-                                           "pixmaps", fname))
+    return resource_filename("deluge", os.path.join("ui", "data", "pixmaps", fname))
+
+def resource_filename(package, path):
+    # While developing, if there's a second deluge package, installed globally
+    # and another in develop mode somewhere else, while pkg_resources.require("Deluge")
+    # returns the proper deluge instance, pkg_resources.resource_filename does
+    # not, it returns the first found on the python path, which is not good
+    # enough.
+    # This is a work-around that.
+    return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
+        pkg_resources.resource_filename.im_self,
+        os.path.join(package, path)
+    )
 
 def open_file(path):
     """
@@ -683,3 +679,20 @@ def create_localclient_account(append=False):
     fd.flush()
     os.fsync(fd.fileno())
     fd.close()
+
+
+# Initialize gettext
+try:
+    if hasattr(locale, "bindtextdomain"):
+        locale.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+    if hasattr(locale, "textdomain"):
+        locale.textdomain("deluge")
+    gettext.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+    gettext.textdomain("deluge")
+    gettext.install("deluge", resource_filename("deluge", "i18n"))
+except Exception, e:
+    raise
+    log.error("Unable to initialize gettext/locale!")
+    log.exception(e)
+    import __builtin__
+    __builtin__.__dict__["_"] = lambda x: x
