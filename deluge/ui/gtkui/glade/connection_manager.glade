@@ -491,7 +491,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-connect</property>
+                <property name="label" translatable="no">gtk-connect</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_button_connect_clicked"/>
