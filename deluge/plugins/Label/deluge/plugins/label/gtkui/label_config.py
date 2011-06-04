@@ -70,7 +70,9 @@ class LabelConfig(object):
         self.plugin.deregister_hook("on_show_prefs", self.load_settings)
 
     def get_resource(self, filename):
-        return pkg_resources.resource_filename("label", os.path.join("data", filename))
+        return pkg_resources.resource_filename(
+            "deluge.plugins.label", os.path.join("data", filename)
+        )
 
     def load_settings(self, widget=None, data=None):
         client.label.get_config().addCallback(self.cb_global_options)
