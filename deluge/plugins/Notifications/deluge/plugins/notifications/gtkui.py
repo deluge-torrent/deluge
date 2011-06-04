@@ -443,13 +443,15 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 snd_path = self.config['custom_sounds'][event_name]
             else:
                 snd_path = self.config['sound_path']
-            self.sounds_model.set(
-                self.sounds_model.append(),
-                SND_EVENT, event_name,
-                SND_EVENT_DOC, event_doc,
-                SND_NAME, basename(snd_path),
-                SND_PATH, snd_path
-            )
+
+            if snd_path:
+                self.sounds_model.set(
+                    self.sounds_model.append(),
+                    SND_EVENT, event_name,
+                    SND_EVENT_DOC, event_doc,
+                    SND_NAME, basename(snd_path),
+                    SND_PATH, snd_path
+                )
 
     def populate_subscriptions(self, handled_events, email_subscriptions=[]):
         subscriptions_dict = self.config['subscriptions']
