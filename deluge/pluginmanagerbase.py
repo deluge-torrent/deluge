@@ -113,18 +113,26 @@ class PluginManagerBase:
 
     def scan_for_plugins(self):
         """Scans for available plugins"""
-        plugin_dir = os.path.join(os.path.dirname(__file__), "plugins")
+        base_plugin_dir = deluge.common.resource_filename("deluge", "plugins")
+        pkg_resources.working_set.add_entry(base_plugin_dir)
         user_plugin_dir = os.path.join(deluge.configmanager.get_config_dir(), "plugins")
 
-        pkg_resources.working_set.add_entry(plugin_dir)
+        plugins_dirs = [base_plugin_dir]
+        for dirname in os.listdir(base_plugin_dir):
+            plugin_dir = os.path.join(base_plugin_dir, dirname)
+            pkg_resources.working_set.add_entry(plugin_dir)
+            plugins_dirs.append(plugin_dir)
         pkg_resources.working_set.add_entry(user_plugin_dir)
-        self.pkg_env = pkg_resources.Environment([plugin_dir, user_plugin_dir])
+        plugins_dirs.append(user_plugin_dir)
+
+        self.pkg_env = pkg_resources.Environment(plugins_dirs)
 
         self.available_plugins = []
         for name in self.pkg_env:
-            log.debug("Found plugin: %s %s",
+            log.debug("Found plugin: %s %s at %s",
                 self.pkg_env[name][0].project_name,
-                self.pkg_env[name][0].version)
+                self.pkg_env[name][0].version,
+                self.pkg_env[name][0].location)
             self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
@@ -146,7 +154,8 @@ class PluginManagerBase:
                 cls = entry_point.load()
                 instance = cls(plugin_name.replace("-", "_"))
             except Exception, e:
-                log.error("Unable to instantiate plugin!")
+                log.error("Unable to instantiate plugin %r from %r!",
+                          name, egg.location)
                 log.exception(e)
                 continue
             instance.enable()
