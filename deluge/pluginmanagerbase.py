@@ -150,7 +150,7 @@ class PluginManagerBase:
                 log.exception(e)
                 continue
             instance.enable()
-            if not instance.__module__.startswith("deluge.plugins"):
+            if not instance.__module__.startswith("deluge.plugins."):
                 import warnings
                 warnings.warn_explicit(
                     DEPRECATION_WARNING % name,

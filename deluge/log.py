@@ -232,6 +232,17 @@ def setLoggerLevel(level, logger_name=None):
 
 
 def getPluginLogger(logger_name):
+    import warnings
+    stack = inspect.stack()
+    stack.pop(0)                # The logging call from this module
+    module_stack = stack.pop(0) # The module that called the log function
+    caller_module = inspect.getmodule(module_stack[0])
+    # In some weird cases caller_module might be None, try to continue
+    caller_module_name = getattr(caller_module, '__name__', '')
+    warnings.warn_explicit(DEPRECATION_WARNING, DeprecationWarning,
+                           module_stack[1], module_stack[2],
+                            caller_module_name)
+
     if 'deluge.plugins.' in logger_name:
         return logging.getLogger(logger_name)
     return logging.getLogger("deluge.plugin.%s" % logger_name)
@@ -240,27 +251,22 @@ def getPluginLogger(logger_name):
 DEPRECATION_WARNING = """You seem to be using old style logging on your code, ie:
     from deluge.log import LOG as log
 
-This has been deprecated in favour of an enhanced logging system and "LOG" will
-be removed on the next major version release of Deluge, meaning, code will break,
-specially plugins.
+or:
+    from deluge.log import getPluginLogger
+
+This has been deprecated in favour of an enhanced logging system and both "LOG"
+and "getPluginLogger" will be removed on the next major version release of Deluge,
+meaning, code will break, specially plugins.
 If you're seeing this message and you're not the developer of the plugin which
 triggered this warning, please report to it's author.
 If you're the developer, please stop using the above code and instead use:
 
-   from deluge.log import getPluginLogger
-   log = getPluginLogger(__name__)
+   import logging
+   log = logging.getLogger(__name__)
 
 
 The above will result in, regarding the "Label" plugin for example a log message similar to:
-   15:33:54 [deluge.plugin.label.core:78  ][INFO    ] *** Start Label plugin ***
-
-If you wish not to have 'deluge.plugin' on the log message you can then instead use:
-
-  import logging
-  log = logging.getLogger(__name__)
-
-The above will result in, regarding the "Label" plugin for example a log message similar to:
-   15:33:54 [label.core:78  ][INFO    ] *** Start Label plugin ***
+   15:33:54 [deluge.plugins.label.core:78  ][INFO    ] *** Start Label plugin ***
 
 Triggering code:"""
 
