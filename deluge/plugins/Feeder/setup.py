@@ -36,7 +36,7 @@
 
 from setuptools import setup, find_packages
 
-__plugin_name__ = "feeder"
+__plugin_name__ = "Feeder"
 __author__ = "Fredrik Eriksson"
 __author_email__ = "feeder@winterbird.org"
 __version__ = "0.4"
