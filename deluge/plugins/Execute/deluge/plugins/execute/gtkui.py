@@ -92,8 +92,9 @@ class ExecutePreferences(object):
         self.plugin.deregister_hook("on_show_prefs", self.load_commands)
 
     def get_resource(self, filename):
-        return pkg_resources.resource_filename("execute", os.path.join("data",
-            filename))
+        return pkg_resources.resource_filename(
+            "deluge.plugins.execute", os.path.join("data", filename)
+        )
 
     def add_command(self, command_id, event, command):
         log.debug("Adding command `%s`", command_id)

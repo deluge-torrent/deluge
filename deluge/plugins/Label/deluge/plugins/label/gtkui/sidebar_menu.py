@@ -51,7 +51,9 @@ NO_LABEL = "No Label"
 def get_resource(filename):
     import pkg_resources
     import os
-    return pkg_resources.resource_filename("label", os.path.join("data", filename))
+    return pkg_resources.resource_filename(
+        "deluge.plugins.label", os.path.join("data", filename)
+    )
 
 #menu
 class LabelSidebarMenu(object):

@@ -150,4 +150,6 @@ class GtkUI(GtkPluginBase):
 
     def get_resource(self, filename):
         import pkg_resources, os
-        return pkg_resources.resource_filename("stats", os.path.join("data", filename))
+        return pkg_resources.resource_filename(
+            "deluge.plugins.stats", os.path.join("data", filename)
+        )
