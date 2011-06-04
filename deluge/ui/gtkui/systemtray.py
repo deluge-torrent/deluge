@@ -38,9 +38,9 @@ try:
 except ImportError:
     appindicator = None
 
+import os
 import gtk
 import logging
-import pkg_resources
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -87,9 +87,9 @@ class SystemTray(component.Component):
 
     def enable(self):
         """Enables the system tray icon."""
-        self.tray_glade = gtk.glade.XML(
-            pkg_resources.resource_filename("deluge.ui.gtkui",
-                                            "glade/tray_menu.glade"))
+        self.tray_glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "tray_menu.glade"))
+        )
 
         self.tray_glade.signal_autoconnect({
             "on_menuitem_show_deluge_activate": \

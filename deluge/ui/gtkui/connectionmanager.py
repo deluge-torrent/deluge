@@ -35,12 +35,12 @@
 
 import os
 import gtk
-import pkg_resources
 import time
 import hashlib
 import logging
 from twisted.internet import reactor
 
+import deluge.common
 import deluge.component as component
 import common
 import deluge.configmanager
@@ -136,9 +136,9 @@ class ConnectionManager(component.Component):
         """
         self.config = self.__load_config()
         # Get the glade file for the connection manager
-        self.glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui",
-                                            "glade/connection_manager.glade"))
+        self.glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "connection_manager.glade"))
+        )
         self.window = component.get("MainWindow")
 
         # Setup the ConnectionManager dialog

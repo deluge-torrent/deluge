@@ -33,12 +33,12 @@
 #
 #
 
+import sys
 import logging
 from optparse import OptionParser, OptionGroup
 import deluge.common
 import deluge.configmanager
 import deluge.log
-import os
 
 DEFAULT_PREFS = {
     "default_ui": "gtk"
@@ -52,8 +52,6 @@ class _UI(object):
 
     def __init__(self, name="gtk"):
         self.__name = name
-
-        usage="%prog [options] [actions]",
 
         self.__parser = OptionParser(version=deluge.common.get_version())
 
@@ -101,6 +99,8 @@ class _UI(object):
         deluge.log.setupLogger(level=self.__options.loglevel,
                                filename=self.__options.logfile,
                                filemode=logfile_mode)
+
+        deluge.common.setup_translations()
 
         log = logging.getLogger(__name__)
 

@@ -207,7 +207,7 @@ def get_pixmap(fname):
     """
     return resource_filename("deluge", os.path.join("ui", "data", "pixmaps", fname))
 
-def resource_filename(package, path):
+def resource_filename(module, path):
     # While developing, if there's a second deluge package, installed globally
     # and another in develop mode somewhere else, while pkg_resources.require("Deluge")
     # returns the proper deluge instance, pkg_resources.resource_filename does
@@ -215,8 +215,7 @@ def resource_filename(package, path):
     # enough.
     # This is a work-around that.
     return pkg_resources.require("Deluge>=%s" % get_version())[0].get_resource_filename(
-        pkg_resources.resource_filename.im_self,
-        os.path.join(package, path)
+        pkg_resources._manager, os.path.join(*(module.split('.')+[path]))
     )
 
 def open_file(path):
@@ -682,17 +681,22 @@ def create_localclient_account(append=False):
 
 
 # Initialize gettext
-try:
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", resource_filename("deluge", "i18n"))
-except Exception, e:
-    raise
-    log.error("Unable to initialize gettext/locale!")
-    log.exception(e)
-    import __builtin__
-    __builtin__.__dict__["_"] = lambda x: x
+def setup_translations(setup_pygtk=False):
+    try:
+        if hasattr(locale, "bindtextdomain"):
+            locale.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+        if hasattr(locale, "textdomain"):
+            locale.textdomain("deluge")
+        gettext.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+        gettext.textdomain("deluge")
+        gettext.install("deluge", resource_filename("deluge", "i18n"))
+        if setup_pygtk:
+            import gtk
+            import gtk.glade
+            gtk.glade.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+            gtk.glade.textdomain("deluge")
+    except Exception, e:
+        log.error("Unable to initialize gettext/locale!")
+        log.exception(e)
+        import __builtin__
+        __builtin__.__dict__["_"] = lambda x: x

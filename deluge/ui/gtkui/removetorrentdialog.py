@@ -33,12 +33,13 @@
 #
 #
 
+import os
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 
 from deluge.ui.client import client
+import deluge.common
 import deluge.component as component
 
 log = logging.getLogger(__name__)
@@ -63,9 +64,9 @@ class RemoveTorrentDialog(object):
 
         self.__torrent_ids = torrent_ids
 
-        glade = gtk.glade.XML(
-            pkg_resources.resource_filename("deluge.ui.gtkui",
-                "glade/remove_torrent_dialog.glade"))
+        glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "remove_torrent_dialog.glade"))
+        )
 
         self.__dialog = glade.get_widget("remove_torrent_dialog")
         self.__dialog.set_transient_for(component.get("MainWindow").window)

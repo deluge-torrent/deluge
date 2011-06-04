@@ -45,8 +45,6 @@ import logging
 import os
 from urlparse import urljoin
 
-import pkg_resources
-
 import twisted.web.client
 import twisted.web.error
 from deluge.ui.client import client
@@ -64,9 +62,9 @@ log = logging.getLogger(__name__)
 class AddTorrentDialog(component.Component):
     def __init__(self):
         component.Component.__init__(self, "AddTorrentDialog")
-        self.glade = gtk.glade.XML(
-            pkg_resources.resource_filename(
-                "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
+        self.glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "add_torrent_dialog.glade"))
+        )
 
         self.dialog = self.glade.get_widget("dialog_add_torrent")
 

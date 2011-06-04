@@ -33,11 +33,10 @@
 #
 #
 
-
+import os.path
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 
 from twisted.internet import defer
 import deluge.common
@@ -50,10 +49,9 @@ log = logging.getLogger(__name__)
 class EditTrackersDialog:
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
-        self.glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui",
-                                            "glade/edit_trackers.glade"))
-
+        self.glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.glade"))
+        )
         self.dialog = self.glade.get_widget("edit_trackers_dialog")
         self.treeview = self.glade.get_widget("tracker_treeview")
         self.add_tracker_dialog = self.glade.get_widget("add_tracker_dialog")

@@ -40,33 +40,11 @@ gobject.set_prgname("deluge")
 from twisted.internet import gtk2reactor
 reactor = gtk2reactor.install()
 
-import gettext
-import locale
-import pkg_resources
 import gtk
-import gtk.glade
 import sys
 import logging
 
 log = logging.getLogger(__name__)
-
-# Initialize gettext
-try:
-    locale.setlocale(locale.LC_ALL, '')
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gtk.glade.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gtk.glade.textdomain("deluge")
-except Exception, e:
-    log.error("Unable to initialize gettext/locale!")
-    log.exception(e)
-    import __builtin__
-    __builtin__.__dict__["_"] = lambda x: x
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -105,7 +83,7 @@ class Gtk(_UI):
 
     def start(self):
         super(Gtk, self).start()
-
+        deluge.common.setup_translations(setup_pygtk=True)
         GtkUI(self.args)
 
 def start():

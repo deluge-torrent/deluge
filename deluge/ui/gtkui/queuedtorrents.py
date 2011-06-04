@@ -40,7 +40,6 @@ import gtk
 import gtk.glade
 import logging
 import gobject
-import pkg_resources
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -57,9 +56,9 @@ class QueuedTorrents(component.Component):
         self.status_item = None
 
         self.config = ConfigManager("gtkui.conf")
-        self.glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui",
-                                            "glade/queuedtorrents.glade"))
+        self.glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.glade"))
+        )
         self.glade.get_widget("chk_autoadd").set_active(
             self.config["autoadd_queued"])
         self.dialog = self.glade.get_widget("queued_torrents_dialog")

@@ -34,12 +34,12 @@
 #
 
 
+import os
 import gtk
 import gtk.glade
 import logging
 import os.path
 import cPickle
-import pkg_resources
 from itertools import izip
 
 from deluge.ui.client import client
@@ -271,7 +271,7 @@ class PeersTab(Tab):
             # We haven't created a pixbuf for this country yet
             try:
                 self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
-                    pkg_resources.resource_filename(
+                    deluge.common.resource_filename(
                         "deluge",
                          os.path.join("ui", "data", "pixmaps", "flags", country.lower() + ".png")))
             except Exception, e:
@@ -378,9 +378,9 @@ class PeersTab(Tab):
     def _on_menuitem_add_peer_activate(self, menuitem):
         """This is a callback for manually adding a peer"""
         log.debug("on_menuitem_add_peer")
-        dialog_glade = gtk.glade.XML(
-            pkg_resources.resource_filename("deluge.ui.gtkui",
-                "glade/dgtkpopups.glade"))
+        dialog_glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "dgtkpopups.glade"))
+        )
         peer_dialog = dialog_glade.get_widget("connect_peer_dialog")
         txt_ip = dialog_glade.get_widget("txt_ip")
         response = peer_dialog.run()

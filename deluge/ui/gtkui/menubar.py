@@ -34,13 +34,12 @@
 #
 #
 
-
+import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 
 import deluge.error
 import deluge.component as component
@@ -60,9 +59,9 @@ class MenuBar(component.Component):
         self.config = ConfigManager("gtkui.conf")
 
         # Get the torrent menu from the glade file
-        self.torrentmenu_glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui",
-                                                "glade/torrent_menu.glade"))
+        self.torrentmenu_glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.glade"))
+        )
 
         self.torrentmenu_glade.get_widget("menuitem_queue").set_submenu(
             self.torrentmenu_glade.get_widget("queue_torrent_menu"))
@@ -355,8 +354,8 @@ class MenuBar(component.Component):
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
-        glade = gtk.glade.XML(pkg_resources.resource_filename(
-            "deluge.ui.gtkui", "glade/move_storage_dialog.glade"
+        glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "move_storage_dialog.glade")
         ))
         # Keep it referenced:
         #  https://bugzilla.gnome.org/show_bug.cgi?id=546802

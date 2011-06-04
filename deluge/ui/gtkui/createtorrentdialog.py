@@ -36,7 +36,6 @@
 
 import gtk
 import sys
-import pkg_resources
 import os.path
 import gobject
 import base64
@@ -55,9 +54,9 @@ log = logging.getLogger(__name__)
 class CreateTorrentDialog:
     def show(self):
         self.glade = gtk.glade.XML(
-            pkg_resources.resource_filename(
+            deluge.common.resource_filename(
                 "deluge.ui.gtkui",
-                "glade/create_torrent_dialog.glade"))
+                os.path.join("glade", "create_torrent_dialog.glade")))
 
         self.config = ConfigManager("gtkui.conf")
 
@@ -396,9 +395,9 @@ class CreateTorrentDialog:
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
         glade = gtk.glade.XML(
-            pkg_resources.resource_filename(
+            deluge.common.resource_filename(
                 "deluge.ui.gtkui",
-                "glade/edit_trackers.glade"))
+                os.path.join("glade", "edit_trackers.glade")))
         dialog = glade.get_widget("add_tracker_dialog")
         dialog.set_transient_for(self.dialog)
         textview = glade.get_widget("textview_trackers")

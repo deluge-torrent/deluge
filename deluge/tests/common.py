@@ -4,6 +4,7 @@ import time
 import tempfile
 from subprocess import Popen, PIPE
 
+import deluge.common
 import deluge.configmanager
 import deluge.log
 
@@ -22,17 +23,7 @@ import locale
 import pkg_resources
 
 # Initialize gettext
-try:
-    locale.setlocale(locale.LC_ALL, '')
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-except Exception, e:
-    print e
+deluge.common.setup_translations()
 
 def start_core():
     CWD = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))

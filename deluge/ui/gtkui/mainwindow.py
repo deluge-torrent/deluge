@@ -34,12 +34,12 @@
 #
 
 
+import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 from urlparse import urlparse
 import urllib
 
@@ -59,9 +59,9 @@ class MainWindow(component.Component):
         component.Component.__init__(self, "MainWindow", interval=2)
         self.config = ConfigManager("gtkui.conf")
         # Get the glade file for the main window
-        self.main_glade = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui",
-                                                    "glade/main_window.glade"))
+        self.main_glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.glade"))
+        )
 
         self.window = self.main_glade.get_widget("main_window")
 

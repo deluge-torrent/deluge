@@ -35,16 +35,13 @@
 
 import os
 import time
-import locale
 import shutil
 import urllib
 import fnmatch
-import gettext
 import hashlib
 import logging
 import tempfile
 import mimetypes
-import pkg_resources
 
 from twisted.application import service, internet
 from twisted.internet import reactor, defer, error
@@ -61,23 +58,6 @@ from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
 
 log = logging.getLogger(__name__)
-
-# Initialize gettext
-try:
-    locale.setlocale(locale.LC_ALL, "")
-    if hasattr(locale, "bindtextdomain"):
-        locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    if hasattr(locale, "textdomain"):
-        locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-except Exception, e:
-    log.error("Unable to initialize gettext/locale: %s", e)
-
-_ = gettext.gettext
-
-current_dir = os.path.dirname(__file__)
 
 CONFIG_DEFAULTS = {
     # Misc Settings
@@ -121,7 +101,7 @@ def rpath(*paths):
     """Convert a relative path into an absolute path relative to the location
     of this script.
     """
-    return os.path.join(current_dir, *paths)
+    return common.resource_filename(__name__, os.path.join(*paths))
 
 class GetText(resource.Resource):
     def render(self, request):
@@ -226,8 +206,7 @@ class Flag(resource.Resource):
     def render(self, request):
         headers = {}
         path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
-        filename = pkg_resources.resource_filename("deluge",
-                                                   os.path.join(*path))
+        filename = common.resource_filename("deluge", os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader("cache-control",
                               "public, must-revalidate, max-age=86400")

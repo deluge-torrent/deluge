@@ -42,7 +42,6 @@ pygtk.require('2.0')
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 
 from deluge.ui.client import client
 import deluge.component as component
@@ -152,9 +151,9 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
     if type(default) != int and type(default) != float:
         raise TypeError("default value needs to be an int or float")
 
-    glade = gtk.glade.XML(
-        pkg_resources.resource_filename("deluge.ui.gtkui",
-                                    "glade/dgtkpopups.glade"))
+    glade = gtk.glade.XML(deluge.common.resource_filename(
+        "deluge.ui.gtkui", os.path.join("glade", "dgtkpopups.glade"))
+    )
     dialog = glade.get_widget("other_dialog")
     dialog.set_transient_for(component.get("MainWindow").window)
     dialog.set_title("")

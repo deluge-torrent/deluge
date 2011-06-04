@@ -37,7 +37,6 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import pkg_resources
 from deluge.ui.client import client
 
 import deluge.common
@@ -286,10 +285,10 @@ class AboutDialog:
             if not client.is_classicmode():
                 self.about.set_comments(
                     self.about.get_comments() + "Server Version: %coreversion%\n")
-            
+
             self.about.set_comments(
                 self.about.get_comments() + "Libtorrent Version: %ltversion%\n")
-                
+
             def on_lt_version(result):
                 c = self.about.get_comments()
                 c = c.replace("%ltversion%", result)

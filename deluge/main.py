@@ -89,6 +89,7 @@ def start_ui():
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
                            filemode=logfile_mode)
+    deluge.common.setup_translations()
 
     if options.config:
         if not os.path.exists(options.config):
@@ -184,6 +185,7 @@ this should be an IP address", metavar="IFACE",
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
                            filemode=logfile_mode)
+    deluge.common.setup_translations()
 
     import deluge.configmanager
     if options.config:

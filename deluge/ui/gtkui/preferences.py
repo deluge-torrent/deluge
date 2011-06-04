@@ -34,13 +34,12 @@
 #
 #
 
-
+import os
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
 import logging
-import pkg_resources
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -66,8 +65,8 @@ class Preferences(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Preferences")
         self.window = component.get("MainWindow")
-        self.glade = gtk.glade.XML(pkg_resources.resource_filename(
-            "deluge.ui.gtkui", "glade/preferences_dialog.glade"
+        self.glade = gtk.glade.XML(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "preferences_dialog.glade")
         ))
         self.pref_dialog = self.glade.get_widget("pref_dialog")
         self.pref_dialog.set_icon(common.get_deluge_icon())

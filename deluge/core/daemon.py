@@ -33,10 +33,7 @@
 #
 
 import os
-import gettext
-import locale
 import logging
-import pkg_resources
 from twisted.internet import reactor
 import twisted.internet.error
 
@@ -101,19 +98,7 @@ class Daemon(object):
                     )
 
         # Initialize gettext
-        try:
-            locale.setlocale(locale.LC_ALL, '')
-            if hasattr(locale, "bindtextdomain"):
-                locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-            if hasattr(locale, "textdomain"):
-                locale.textdomain("deluge")
-            gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-            gettext.textdomain("deluge")
-            gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-        except Exception, e:
-            log.error("Unable to initialize gettext/locale: %s", e)
-            import __builtin__
-            __builtin__.__dict__["_"] = lambda x: x
+        deluge.common.setup_translations()
 
         # Twisted catches signals to terminate, so just have it call the shutdown
         # method.

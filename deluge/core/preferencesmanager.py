@@ -37,7 +37,6 @@
 import os
 import logging
 import threading
-import pkg_resources
 from twisted.internet.task import LoopingCall
 
 from deluge._libtorrent import lt
@@ -450,10 +449,8 @@ class PreferencesManager(component.Component):
         geoip_db = ""
         if os.path.exists(value):
             geoip_db = value
-        elif os.path.exists(
-            pkg_resources.resource_filename("deluge",
-                                            os.path.join("data", "GeoIP.dat"))):
-            geoip_db = pkg_resources.resource_filename(
+        elif os.path.exists(deluge.common.resource_filename("deluge", os.path.join("data", "GeoIP.dat"))):
+            geoip_db = deluge.common.resource_filename(
                 "deluge", os.path.join("data", "GeoIP.dat")
             )
         else:
