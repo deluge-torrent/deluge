@@ -65,10 +65,10 @@ setup(
 
     entry_points="""
     [deluge.plugin.core]
-    %s = %s:deluge.plugins.CorePlugin
+    %s = deluge.plugins.%s:CorePlugin
     [deluge.plugin.gtkui]
-    %s = %s:deluge.plugins.GtkUIPlugin
-    [deluge.plugin.webui]
-    %s = %s:deluge.plugins.WebUIPlugin
+    %s = deluge.plugins.%s:GtkUIPlugin
+    [deluge.plugin.web]
+    %s = deluge.plugins.%s:WebUIPlugin
     """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
