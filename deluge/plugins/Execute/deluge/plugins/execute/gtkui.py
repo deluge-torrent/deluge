@@ -33,15 +33,15 @@
 #
 #
 
-import os
 import gtk
 import logging
-import pkg_resources
 
 from deluge.ui.client import client
 from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
-import deluge.common
+
+# Relative import
+from . import common
 
 log = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class ExecutePreferences(object):
 
     def load(self):
         log.debug("Adding Execute Preferences page")
-        self.glade = gtk.glade.XML(self.get_resource("execute_prefs.glade"))
+        self.glade = gtk.glade.XML(common.get_resource("execute_prefs.glade"))
         self.glade.signal_autoconnect({
             "on_add_button_clicked": self.on_add_button_clicked
         })
@@ -90,11 +90,6 @@ class ExecutePreferences(object):
         self.plugin.remove_preferences_page(_("Execute"))
         self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.deregister_hook("on_show_prefs", self.load_commands)
-
-    def get_resource(self, filename):
-        return pkg_resources.resource_filename(
-            "deluge.plugins.execute", os.path.join("data", filename)
-        )
 
     def add_command(self, command_id, event, command):
         log.debug("Adding command `%s`", command_id)

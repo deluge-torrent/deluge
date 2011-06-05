@@ -45,14 +45,17 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
+import os
 import gtk
-import gobject
 import logging
 from gtk.glade import XML
 
 from twisted.internet import defer
 
-import graph
+# Relative imports
+from . import common
+from . import graph
+
 from deluge import component
 from deluge.common import fspeed
 from deluge.ui.client import client
@@ -118,13 +121,13 @@ class GraphsTab(Tab):
 class GtkUI(GtkPluginBase):
     def enable(self):
         log.debug("Stats plugin enable called")
-        self.glade = XML(self.get_resource("config.glade"))
+        self.glade = XML(common.get_resource("config.glade"))
         component.get("Preferences").add_page("Stats", self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         self.on_show_prefs()
 
-        self.graphs_tab = GraphsTab(XML(self.get_resource("tabs.glade")))
+        self.graphs_tab = GraphsTab(XML(common.get_resource("tabs.glade")))
         self.torrent_details = component.get('TorrentDetails')
         self.torrent_details.add_tab(self.graphs_tab)
 
@@ -148,8 +151,3 @@ class GtkUI(GtkPluginBase):
         "callback for on show_prefs"
         self.glade.get_widget("txt_test").set_text(config["test"])
 
-    def get_resource(self, filename):
-        import pkg_resources, os
-        return pkg_resources.resource_filename(
-            "deluge.plugins.stats", os.path.join("data", filename)
-        )
