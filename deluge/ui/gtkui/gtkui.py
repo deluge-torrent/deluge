@@ -58,7 +58,6 @@ from filtertreeview import FilterTreeView
 from preferences import Preferences
 from systemtray import SystemTray
 from statusbar import StatusBar
-from connectionmanager import ConnectionManager
 from pluginmanager import PluginManager
 from ipcinterface import IPCInterface
 from deluge.ui.tracker_icons import TrackerIcons
@@ -213,6 +212,8 @@ class GtkUI(object):
         # Initalize the plugins
         self.plugins = PluginManager()
 
+        # Late import because of setting up translations
+        from connectionmanager import ConnectionManager
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
 
