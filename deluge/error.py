@@ -64,6 +64,26 @@ class InvalidTorrentError(DelugeError):
 class InvalidPathError(DelugeError):
     pass
 
+class WrappedException(DelugeError):
+    def _get_traceback(self):
+        return self._traceback
+    def _set_traceback(self, traceback):
+        self._traceback = traceback
+    traceback = property(_get_traceback, _set_traceback)
+    del _get_traceback, _set_traceback
+
+    def _get_type(self):
+        return self._type
+    def _set_type(self, type):
+        self._type = type
+    type = property(_get_type, _set_type)
+    del _get_type, _set_type
+
+    def __init__(self, message, exception_type, traceback):
+        self.message = message
+        self.type = exception_type
+        self.traceback = traceback
+
 class _ClientSideRecreateError(DelugeError):
     pass
 

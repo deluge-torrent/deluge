@@ -194,8 +194,12 @@ class DelugeRPCProtocol(Protocol):
                 msg += "\n" + "-" * 80
                 msg += "\n" + "RPCRequest: " + r.__repr__()
                 msg += "\n" + "-" * 80
-                msg += "\n" + request[5] + "\n" + request[2] + ": "
-                msg += str(exception)
+                if isinstance(exception, error.WrappedException):
+                    msg += "\n" + exception.type + "\n" + exception.message + ": "
+                    msg += exception.traceback
+                else:
+                    msg += "\n" + request[5] + "\n" + request[2] + ": "
+                    msg += str(exception)
                 msg += "\n" + "-" * 80
 
                 if not isinstance(exception, error._ClientSideRecreateError):
@@ -203,7 +207,7 @@ class DelugeRPCProtocol(Protocol):
                     log.error(msg)
                 else:
                     # The rest just get's logged in debug level, just to log
-                    # what's happending
+                    # what's happening
                     log.debug(msg)
 
                 d.errback(exception)
@@ -617,7 +621,7 @@ class Client(object):
             self._daemon_proxy.disconnect()
             self.stop_classic_mode()
             return
-            
+
         if self._daemon_proxy:
             return self._daemon_proxy.disconnect()
 
@@ -634,7 +638,7 @@ class Client(object):
         """
         self._daemon_proxy = None
         self.__started_in_classic = False
-        
+
     def start_daemon(self, port, config):
         """
         Starts a daemon process.
