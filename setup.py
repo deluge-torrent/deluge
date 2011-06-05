@@ -293,6 +293,46 @@ class build_plugins(cmd.Command):
                 os.system("cd " + path + "&& " + sys.executable + " setup.py bdist_egg -d ..")
 
 
+class develop_plugins(cmd.Command):
+    description = "install plugin's in 'development mode'"
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build the plugin eggs
+        PLUGIN_PATH = "deluge/plugins/*"
+
+        for path in glob.glob(PLUGIN_PATH):
+            if os.path.exists(os.path.join(path, "setup.py")):
+                os.system("cd " + path + "&& " + sys.executable + " setup.py develop")
+
+
+class egg_info_plugins(cmd.Command):
+    description = "create a distribution's .egg-info directory"
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        # Build the plugin eggs
+        PLUGIN_PATH = "deluge/plugins/*"
+
+        for path in glob.glob(PLUGIN_PATH):
+            if os.path.exists(os.path.join(path, "setup.py")):
+                os.system("cd " + path + "&& " + sys.executable + " setup.py egg_info")
+
+
 class build_docs(BuildDoc):
     def run(self):
         class FakeModule(object):
@@ -363,7 +403,7 @@ class clean_plugins(cmd.Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        print("Cleaning the plugin folders..")
+        print("Cleaning the plugin's folders..")
 
         PLUGIN_PATH = "deluge/plugins/*"
 
@@ -378,6 +418,16 @@ class clean_plugins(cmd.Command):
             if path[-4:] == ".egg":
                 print("Deleting %s" % path)
                 os.remove(path)
+
+        EGG_INFO_DIR_PATH = "deluge/plugins/*/*.egg-info"
+
+        for path in glob.glob(EGG_INFO_DIR_PATH):
+            # Delete the .egg-info's directories
+            if path[-9:] == ".egg-info":
+                print("Deleting %s" % path)
+                for fpath in os.listdir(path):
+                    os.remove(os.path.join(path, fpath))
+                os.removedirs(path)
 
 class clean(_clean):
     sub_commands = _clean.sub_commands + [('clean_plugins', None)]
@@ -397,6 +447,8 @@ cmdclass = {
     'build_ext_debug': build_ext_debug,
     'clean_plugins': clean_plugins,
     'clean': clean,
+    'develop_plugins': develop_plugins,
+    'egg_info_plugins': egg_info_plugins
 }
 
 # Data files to be installed to the system
