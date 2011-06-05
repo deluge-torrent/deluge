@@ -549,10 +549,7 @@
                               <widget class="GtkTextView" id="auto_add_trackers">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="text" translatable="yes">tracker1.org
-tracker2.com
-this doesn't do anything yet..
-</property>
+                                <property name="text" translatable="no">tracker1.org</property>
                               </widget>
                             </child>
                           </widget>

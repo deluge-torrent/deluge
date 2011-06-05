@@ -200,7 +200,7 @@ class SystemTray(component.Component):
             except Exception, e:
                 log.debug("Unable to hide system tray menu widgets: %s", e)
 
-            self.tray.set_tooltip(_("Deluge\nNot Connected.."))
+            self.tray.set_tooltip(_("Deluge") + "\n" + _("Not Connected..."))
 
     def shutdown(self):
         if self.config["enable_system_tray"]:
@@ -469,13 +469,13 @@ class SystemTray(component.Component):
         vbox = gtk.VBox(spacing=5)
         hbox.pack_start(vbox, False)
 
-        label = gtk.Label(_("<b><big>Deluge is password protected!</big></b>"))
+        label = gtk.Label("<b><big>%s</big></b>" % _("Deluge is password protected!"))
         label.set_use_markup(True)
         label.set_alignment(0.0, 0.5)
         label.set_line_wrap(True)
         vbox.pack_start(label, False)
 
-        tlabel = gtk.Label(_("<i>Enter your password to continue</i>"))
+        tlabel = gtk.Label("<i>%s</i>" % _("Enter your password to continue"))
         tlabel.set_use_markup(True)
         tlabel.set_alignment(0.0, 0.5)
         tlabel.set_line_wrap(True)

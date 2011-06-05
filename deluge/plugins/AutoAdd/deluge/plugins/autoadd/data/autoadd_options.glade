@@ -1096,7 +1096,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="auto_managed">
-                                        <property name="label" translatable="yes">Yes</property>
+                                        <property name="label" translatable="no">gtk-yes</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -1112,7 +1112,7 @@ also delete the .torrent file used to add it.</property>
                                     </child>
                                     <child>
                                       <widget class="GtkRadioButton" id="isnt_auto_managed">
-                                        <property name="label" translatable="yes">No</property>
+                                        <property name="label" translatable="no">gtk-no</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -1173,7 +1173,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="add_paused">
-                                        <property name="label" translatable="yes">Yes</property>
+                                        <property name="label" translatable="no">gtk-yes</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -1189,7 +1189,7 @@ also delete the .torrent file used to add it.</property>
                                     </child>
                                     <child>
                                       <widget class="GtkRadioButton" id="isnt_add_paused">
-                                        <property name="label" translatable="yes">No</property>
+                                        <property name="label" translatable="no">gtk-no</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>

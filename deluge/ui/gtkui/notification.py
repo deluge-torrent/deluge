@@ -82,8 +82,8 @@ class Notification:
                     return
                 title = deluge.common.xml_encode(_("Torrent complete"))
                 message = deluge.common.xml_encode(
-                    status["name"] + "\n" +
-                    _("Including %i files" % status["num_files"])
+                    "%s\n%s %i %s"  % (status["name"],
+                    _("Including"), status["num_files"], _("files"))
                 )
                 self.note = pynotify.Notification(title, message)
                 self.note.set_icon_from_pixbuf(common.get_logo(48))

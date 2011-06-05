@@ -1,9 +1,9 @@
 #!/bin/sh
-for x in `find . -name '*.glade' |grep -v '.svn\|build'` ; do \
+for x in `find . -name '*.glade' |grep -v '.git\|build'` ; do \
     for y in gtk-add gtk-apply gtk-bold gtk-cancel gtk-cdrom gtk-clear \
-        gtk-close gtk-color-picker gtk-convert gtk-copy gtk-cut \
+        gtk-close gtk-color-picker gtk-connect gtk-convert gtk-copy gtk-cut \
         gtk-delete gtk-dialog-error gtk-dialog-info gtk-dialog-question \
-        gtk-dialog-warning gtk-dnd gtk-dnd-multiple gtk-execute gtk-find \
+        gtk-dialog-warning gtk-dnd gtk-dnd-multiple gtk-edit gtk-execute gtk-find \
         gtk-find-and-replace gtk-floppy gtk-goto-bottom gtk-goto-first \
         gtk-goto-last gtk-goto-top gtk-go-back gtk-go-down gtk-go-forward \
         gtk-go-up gtk-help gtk-home gtk-index gtk-italic gtk-jump-to \
