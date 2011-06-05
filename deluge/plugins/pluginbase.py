@@ -56,12 +56,12 @@ class CorePluginBase(PluginBase):
         super(CorePluginBase, self).__init__("CorePlugin." + plugin_name)
         # Register RPC methods
         component.get("RPCServer").register_object(self, plugin_name.lower())
-        log.debug("CorePlugin initialized..")
+        log.debug("CorePlugin '%s' initialized..", plugin_name)
 
 class GtkPluginBase(PluginBase):
     def __init__(self, plugin_name):
         super(GtkPluginBase, self).__init__("GtkPlugin." + plugin_name)
-        log.debug("GtkPlugin initialized..")
+        log.debug("GtkPlugin '%s' initialized..", plugin_name)
 
 class WebPluginBase(PluginBase):
 
@@ -76,7 +76,7 @@ class WebPluginBase(PluginBase):
 
         # Register JSON rpc methods
         component.get("JSON").register_object(self, plugin_name.lower())
-        log.debug("WebPlugin initialized..")
+        log.debug("WebPlugin '%s' initialized..", plugin_name)
 
     def enable(self):
         pass

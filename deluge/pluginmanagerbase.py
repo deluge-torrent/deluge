@@ -166,8 +166,13 @@ class PluginManagerBase:
                     DeprecationWarning,
                     instance.__module__, 0
                 )
+
+            if not component.registered(instance.plugin._component_name):
+                component.register(instance.plugin)
+
             if self._component_state == "Started":
                 component.start([instance.plugin._component_name])
+
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
