@@ -424,6 +424,17 @@ class RPCServer(component.Component):
                 log.debug("Registering method: %s", name + "." + d)
                 self.factory.methods[name + "." + d] = getattr(obj, d)
 
+    def deregister_object(self, obj):
+        """
+        Deregisters an objects exported rpc methods.
+        
+        :param obj: the object that was previously registered
+        
+        """
+        for key, value in self.factory.methods.items():
+            if value.im_self == obj:
+                del self.factory.methods[key]
+                
     def get_object_method(self, name):
         """
         Returns a registered method.

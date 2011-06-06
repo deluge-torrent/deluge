@@ -58,6 +58,9 @@ class CorePluginBase(PluginBase):
         component.get("RPCServer").register_object(self, plugin_name.lower())
         log.debug("CorePlugin initialized..")
 
+    def __del__(self):
+        component.get("RPCServer").deregister_object(self)
+
 class GtkPluginBase(PluginBase):
     def __init__(self, plugin_name):
         super(GtkPluginBase, self).__init__("GtkPlugin." + plugin_name)
