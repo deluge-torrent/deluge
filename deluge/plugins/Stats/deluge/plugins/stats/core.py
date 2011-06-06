@@ -22,18 +22,7 @@
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
-#
-#    In addition, as a special exception, the copyright holders give
-#    permission to link the code of portions of this program with the OpenSSL
-#    library.
-#    You must obey the GNU General Public License in all respects for all of
-#    the code used other than OpenSSL. If you modify file(s) with this
-#    exception, you may extend this exception to your version of the file(s),
-#    but you are not obligated to do so. If you do not wish to do so, delete
-#    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
-#
+# 	Boston, MA    02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -44,21 +33,19 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
-import logging
 from twisted.internet.task import LoopingCall
 import time
 
 import deluge
+from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge import component
 from deluge import configmanager
 from deluge.core.rpcserver import export
 
-log = logging.getLogger(__name__)
-
 DEFAULT_PREFS = {
     "test": "NiNiNi",
-    "update_interval": 2, #2 seconds.
+    "update_interval": 1, #2 seconds.
     "length": 150, # 2 seconds * 150 --> 5 minutes.
 }
 
@@ -70,24 +57,55 @@ DEFAULT_TOTALS = {
     "stats": {}
 }
 
+def get_key(config, key):
+    try:
+        return config[key]
+    except KeyError:
+        return None
+
+def mean(items):
+    try:
+        return sum(items)/ len(items)
+    except Exception:
+        return 0
+
 class Core(CorePluginBase):
     totals = {} #class var to catch only updating this once per session in enable.
 
     def enable(self):
+        log.debug("Stats plugin enabled")
         self.core = component.get("Core")
         self.stats ={}
+        self.count = {}
+        self.intervals = [1, 5, 30, 300]
+      
+        self.last_update = {}
+        t = time.time()
+        for i in self.intervals:
+            self.stats[i] = {}
+            self.last_update[i] = t
+            self.count[i] = 0
+        
 
         self.config = configmanager.ConfigManager("stats.conf", DEFAULT_PREFS)
         self.saved_stats = configmanager.ConfigManager("stats.totals", DEFAULT_TOTALS)
         if self.totals == {}:
             self.totals.update(self.saved_stats.config)
 
-        self.stats = self.saved_stats["stats"] or {}
+        self.length = self.config["length"]
 
-        self.stats_keys = [
-            "payload_download_rate",
-            "payload_upload_rate"
-        ]
+        #self.stats = get_key(self.saved_stats, "stats") or {}
+        self.stats_keys = []
+        self.add_stats(
+            'upload_rate',
+            'download_rate',
+            'num_connections',
+            'dht_nodes',
+            'dht_cache_nodes',
+            'dht_torrents',
+            'num_peers',
+        )
+
         self.update_stats()
 
         self.update_timer = LoopingCall(self.update_stats)
@@ -104,40 +122,94 @@ class Core(CorePluginBase):
         except:
             pass
 
+    def add_stats(self, *stats):
+        for stat in stats:
+            if stat not in self.stats_keys:
+                self.stats_keys.append(stat)
+            for i in self.intervals:
+                if stat not in self.stats[i]:
+                    self.stats[i][stat] = []
+
     def update_stats(self):
         try:
-            status = self.core.get_session_status(self.stats_keys)
-            for key, value in status.items():
-                if key not in self.stats:
-                    self.stats[key] = []
-                self.stats[key].insert(0, value)
+            #Get all possible stats!
+            stats = {}
+            for key in self.stats_keys:
+                #try all keys we have, very inefficient but saves having to
+                #work out where a key comes from...
+                try:
+                    stats.update(self.core.get_session_status([key]))
+                except AttributeError:
+                    pass
+            stats["num_connections"]  = self.core.get_num_connections()
+            stats.update(self.core.get_config_values(["max_download",
+                                                      "max_upload",
+                                                      "max_num_connections"]))
+           # status = self.core.session.status()
+           # for stat in dir(status):
+           #     if not stat.startswith('_') and stat not in stats:
+           #         stats[stat] = getattr(status, stat, None)
 
-            for stat_list in self.stats.values():
-                if len(stat_list) > self.config["length"]:
+            update_time = time.time()
+            self.last_update[1] = update_time
+
+            #extract the ones we are interested in
+            #adding them to the 1s array
+            for stat, stat_list in self.stats[1].iteritems():
+                if stat in stats:
+                    stat_list.insert(0, int(stats[stat]))
+                else:
+                    stat_list.insert(0, 0)
+                if len(stat_list) > self.length:
                     stat_list.pop()
-            self.last_update = time.time()
+                    
+            def update_interval(interval, base, multiplier):
+                self.count[interval] = self.count[interval] + 1
+                if self.count[interval] >= interval:
+                    self.last_update[interval] = update_time
+                    self.count[interval] =  0
+                    current_stats = self.stats[interval]
+                    for stat, stat_list in self.stats[base].iteritems():
+                        try:
+                            avg = mean(stat_list[0:multiplier])
+                        except ValueError:
+                            avg = 0
+                        current_stats[stat].insert(0, avg)
+                        if len(current_stats[stat]) > self.length:
+                            current_stats[stat].pop()
+
+            update_interval(5, 1, 5)
+            update_interval(30, 5, 6)
+            update_interval(300, 30, 10)
 
         except Exception, e:
-            log.exception(e)
+            log.error("Stats update error %s" % e)
+        return True
 
     def save_stats(self):
         try:
             self.saved_stats["stats"] = self.stats
             self.saved_stats.config.update(self.get_totals())
             self.saved_stats.save()
-        except Exception,e:
-            log.exception(e)
+        except Exception, e:
+            log.error("Stats save error", e)
         return True
 
 
     # export:
     @export
-    def get_stats(self, keys):
+    def get_stats(self, keys, interval):
+        if interval not in self.intervals:
+            return None
+
         stats_dict = {}
         for key in keys:
-            if key in self.stats:
-                stats_dict[key] = self.stats[key]
-        stats_dict["_last_update"] = self.last_update
+            if key in self.stats[interval]:
+                stats_dict[key] = self.stats[interval][key]
+          
+        stats_dict["_last_update"] = self.last_update[interval]
+        stats_dict["_length"] = self.config["length"]
+        stats_dict["_update_interval"] = interval
         return stats_dict
 
     @export
@@ -169,3 +241,8 @@ class Core(CorePluginBase):
     def get_config(self):
         "returns the config dictionary"
         return self.config.config
+
+    @export
+    def get_intervals(self):
+        "Returns the available resolutions"
+        return self.intervals

@@ -36,5 +36,4 @@ import pkg_resources
 import os.path
 
 def get_resource(filename):
-    return pkg_resources.resource_filename("deluge.plugins.stats",
-                                           os.path.join("data", filename))
+    return pkg_resources.resource_filename("deluge.plugins.stats", os.path.join("data", filename))
