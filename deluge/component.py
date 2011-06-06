@@ -97,11 +97,10 @@ class Component(object):
         self._component_starting_deferred = None
         self._component_stopping_deferred = None
         _ComponentRegistry.register(self)
-        log.debug("Component '%s' initialized", self._component_name)
 
     def __del__(self):
         _ComponentRegistry.deregister(self._component_name)
-
+        
     def _component_start_timer(self):
         if hasattr(self, "update"):
             self._component_timer = LoopingCall(self.update)
@@ -150,7 +149,7 @@ class Component(object):
             self._component_stopping_deferred = None
             log.error(result)
             return result
-
+            
         if self._component_state != "Stopped" and self._component_state != "Stopping":
             if hasattr(self, "stop"):
                 self._component_state = "Stopping"
@@ -250,18 +249,6 @@ class ComponentRegistry(object):
             return d.addCallback(on_stop, name)
         else:
             return succeed(None)
-
-    def registered(self, name):
-        """
-        Check if a component is registered with the us
-
-        :param name: the Component name to check
-        :type name: string
-
-        :returns: True or False
-        :rtype: bolean
-        """
-        return name in self.components
 
     def start(self, names=[]):
         """
@@ -405,9 +392,7 @@ class ComponentRegistry(object):
 
 _ComponentRegistry = ComponentRegistry()
 
-register = _ComponentRegistry.register
 deregister = _ComponentRegistry.deregister
-registered = _ComponentRegistry.registered
 start = _ComponentRegistry.start
 stop = _ComponentRegistry.stop
 pause = _ComponentRegistry.pause
