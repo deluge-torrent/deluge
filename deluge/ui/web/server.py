@@ -101,7 +101,7 @@ def rpath(*paths):
     """Convert a relative path into an absolute path relative to the location
     of this script.
     """
-    return common.resource_filename(__name__, os.path.join(*paths))
+    return common.resource_filename("deluge.ui.web", os.path.join(*paths))
 
 class GetText(resource.Resource):
     def render(self, request):
