@@ -100,7 +100,7 @@ class Web(_UI):
 
         # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
         # Section 1.7
-        if self.options.fork:
+        if self.options.ensure_value("fork", None):
             # fork() so the parent can exit, returns control to the command line
             # or shell invoking the program.
             if os.fork():
@@ -121,12 +121,12 @@ class Web(_UI):
         if self.options.pidfile:
             open(self.options.pidfile, "wb").write("%d\n" % os.getpid())
 
-        if self.options.group:
+        if self.options.ensure_value("group", None):
             if not self.options.group.isdigit():
                 import grp
                 self.options.group = grp.getgrnam(self.options.group)[2]
             os.setuid(self.options.group)
-        if self.options.user:
+        if self.options.ensure_value("user", None):
             if not self.options.user.isdigit():
                 import pwd
                 self.options.user = pwd.getpwnam(self.options.user)[2]
@@ -141,7 +141,7 @@ class Web(_UI):
         if self.options.port:
             self.server.port = self.options.port
 
-        if self.options.ssl:
+        if self.options.ensure_value("ssl", None):
             self.server.https = self.options.ssl
 
         if self.options.profile:
