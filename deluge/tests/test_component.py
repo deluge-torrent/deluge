@@ -94,7 +94,7 @@ class ComponentTestClass(unittest.TestCase):
 
     def finish_start_with_depends(self, *args):
         for c in args[1:]:
-            component.deregister(c._component_name)
+            component.deregister(c)
 
     def test_start_all(self):
         def on_start(*args):

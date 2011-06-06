@@ -180,7 +180,7 @@ class PluginManagerBase:
         """Disables a plugin"""
         try:
             self.plugins[name].disable()
-            component.deregister(self.plugins[name].plugin._component_name)
+            component.deregister(self.plugins[name].plugin)
             del self.plugins[name]
             self.config["enabled_plugins"].remove(name)
         except KeyError:

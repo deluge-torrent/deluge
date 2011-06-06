@@ -88,7 +88,7 @@ class SessionProxyTestCase(unittest.TestCase):
         return d
 
     def tearDown(self):
-        return component.deregister("SessionProxy")
+        return component.deregister(self.sp)
 
     def test_startup(self):
         self.assertEquals(client.core.torrents["a"], self.sp.torrents["a"][1])

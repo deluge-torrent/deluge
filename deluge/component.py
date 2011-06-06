@@ -99,7 +99,7 @@ class Component(object):
         _ComponentRegistry.register(self)
 
     def __del__(self):
-        _ComponentRegistry.deregister(self._component_name)
+        _ComponentRegistry.deregister(self)
         
     def _component_start_timer(self):
         if hasattr(self, "update"):
@@ -231,22 +231,22 @@ class ComponentRegistry(object):
 
         self.components[obj._component_name] = obj
 
-    def deregister(self, name):
+    def deregister(self, obj):
         """
         Deregisters a component from the registry.  A stop will be
         issued to the component prior to deregistering it.
 
-        :param name: the name of the component
-        :type name: string
+        :param obj: the Component object
+        :type obj: object
 
         """
 
-        if name in self.components:
-            log.debug("Deregistering Component: %s", name)
-            d = self.stop([name])
+        if obj in self.components.values():
+            log.debug("Deregistering Component: %s", obj._component_name)
+            d = self.stop([obj._component_name])
             def on_stop(result, name):
                 del self.components[name]
-            return d.addCallback(on_stop, name)
+            return d.addCallback(on_stop, obj._component_name)
         else:
             return succeed(None)
 

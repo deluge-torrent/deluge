@@ -418,7 +418,7 @@ class TorrentDetail(BaseMode, component.Component):
 
     def back_to_overview(self):
         component.stop(["TorrentDetail"])
-        component.deregister("TorrentDetail")
+        component.deregister(self)
         self.stdscr.clear()
         component.get("ConsoleUI").set_mode(self.alltorrentmode)
         self.alltorrentmode.resume()
