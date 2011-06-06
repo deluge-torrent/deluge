@@ -1,7 +1,11 @@
 #
 # webui.py
 #
-# Copyright (C) 2009 Damien Churchill <mvoncken@gmail.com>
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+#
+# Basic plugin template created by:
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+# Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
 #
@@ -33,20 +37,18 @@
 #
 #
 
-import logging
+from deluge.log import LOG as log
 from deluge.ui.client import client
 from deluge import component
 from deluge.plugins.pluginbase import WebPluginBase
 
 from common import get_resource
 
-log = logging.getLogger(__name__)
-
 class WebUI(WebPluginBase):
-
+    
     scripts = [get_resource("stats.js")]
-
-    # The enable and disable methods are not strictly required on the WebUI
+    
+    # The enable and disable methods are not scrictly required on the WebUI
     # plugins. They are only here if you need to register images/stylesheets
     # with the webserver.
     def enable(self):
