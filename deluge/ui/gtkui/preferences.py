@@ -974,7 +974,6 @@ class Preferences(component.Component):
             client.core.enable_plugin(name)
         else:
             client.core.disable_plugin(name)
-            component.get("PluginManager").disable_plugin(name)
 
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")
