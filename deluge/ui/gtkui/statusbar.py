@@ -273,11 +273,7 @@ class StatusBar(component.Component):
     def send_status_request(self):
         # Sends an async request for data from the core
         client.core.get_num_connections().addCallback(self._on_get_num_connections)
-        keys = [
-            "upload_rate",
-            "download_rate",
-            "payload_upload_rate",
-            "payload_download_rate"]
+        keys = ["upload_rate", "download_rate", "payload_upload_rate", "payload_download_rate"]
 
         if self.dht_status:
             keys.append("dht_nodes")

@@ -156,6 +156,7 @@ def show_other_dialog(header, type_str, image_stockid=None, image_filename=None,
     )
     dialog = glade.get_widget("other_dialog")
     dialog.set_transient_for(component.get("MainWindow").window)
+    dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
     dialog.set_title("")
     glade.get_widget("label_header").set_markup("<b>" + header + "</b>")
     glade.get_widget("label_type").set_text(type_str)
