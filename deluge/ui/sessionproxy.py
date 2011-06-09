@@ -58,7 +58,7 @@ class SessionProxy(component.Component):
         component.Component.__init__(self, "SessionProxy", interval=5)
 
         # Set the cache time in seconds
-        # This is how long data will be valid before refetching from the core
+        # This is how long data will be valid before re-fetching from the core
         self.cache_time = 1.5
 
         # Hold the torrents' status.. {torrent_id: [time, {status_dict}], ...}
@@ -72,16 +72,25 @@ class SessionProxy(component.Component):
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added)
 
     def start(self):
-        def on_torrent_status(status):
-            # Save the time we got the torrent status
-            t = time.time()
-            for key, value in status.iteritems():
-                self.torrents[key] = [t, value]
-                self.cache_times[key] = {}
-                for ikey in value.iterkeys():
-                    self.cache_times[key][ikey] = t
-
-        return client.core.get_torrents_status({}, [], True).addCallback(on_torrent_status)
+        def on_get_session_state(torrent_ids):
+            for torrent_id in torrent_ids:
+                # Let's at least store the torrent ids with empty statuses
+                # so that upcoming queries or status updates don't throw errors.
+                self.torrents.setdefault(torrent_id, [time.time(), {}])
+                self.cache_times.setdefault(torrent_id, {})
+            # These initial keys are the ones used for the visible columns(by
+            # default) on the GTK UI torrent view. If either the console-ui
+            # or the web-ui needs additional keys, add them here;
+            # There's NO need to fetch every bit of status information from
+            # core if it's not going to be used. Additional status fields
+            # will be queried later, for example, when viewing the status tab
+            # of a torrent.
+            inital_keys = [
+                'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
+                'download_payload_rate', 'upload_payload_rate', 'eta'
+            ]
+            self.get_torrents_status({'id': torrent_ids}, inital_keys)
+        return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):
         client.deregister_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
@@ -134,7 +143,7 @@ class SessionProxy(component.Component):
                 keys = self.torrents[torrent_id][1].keys()
 
             for key in keys:
-                if time.time() - self.cache_times[torrent_id][key] > self.cache_time:
+                if time.time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
                     keys_to_get.append(key)
 
             if not keys_to_get:
@@ -243,8 +252,8 @@ class SessionProxy(component.Component):
 
     def on_torrent_state_changed(self, torrent_id, state):
         if torrent_id in self.torrents:
-            self.torrents[torrent_id][1]["state"] = state
-            self.cache_times[torrent_id]["state"] = time.time()
+            self.torrents[torrent_id][1].setdefault("state", state)
+            self.cache_times.setdefault(torrent_id, {}).update(state=time.time())
 
     def on_torrent_added(self, torrent_id, from_state):
         self.torrents[torrent_id] = [time.time() - self.cache_time - 1, {}]
