@@ -7,6 +7,7 @@
 	* Show the checking icon for torrents in the 'Checking Resume Data' state
 	* #1195: Fix right-click selecting issue when switching between folders and files
 	* Add F2 key shortcut for renaming filenames in the Files Tab
+	* Increase max piece size to 16 MiB in create torrent dialog
 
 === AutoAdd ===
 	* #1861: Fix AutoAdd Warning (column number is a boolean)
