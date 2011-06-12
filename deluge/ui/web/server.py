@@ -1,7 +1,7 @@
 #
 # deluge/ui/web/server.py
 #
-# Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
+# Copyright (C) 2009-2011 Damien Churchill <damoxc@gmail.com>
 #
 # Deluge is free software.
 #
@@ -425,9 +425,9 @@ class TopLevel(resource.Resource):
     addSlash = True
 
     __stylesheets = [
-        "css/ext-all-notheme.css",
-        "css/ext-extensions.css",
-        "css/deluge.css"
+        "resources/css/ext-all-gray.css",
+#        "css/ext-extensions.css",
+#        "css/deluge.css"
     ]
 
     def __init__(self):
@@ -441,8 +441,8 @@ class TopLevel(resource.Resource):
         js = ScriptResource()
 
         # configure the dev scripts
-        js.add_script("ext-debug.js", rpath("js", "ext-debug.js"), "dev")
-        js.add_script("ext-all-debug.js", rpath("js", "ext-all-debug.js"), "dev")
+        js.add_script("ext-dev.js", rpath("js", "ext-dev.js"), "dev")
+        js.add_script("ext-all-dev.js", rpath("js", "ext-all-dev.js"), "dev")
         js.add_script_folder("ext-extensions", rpath("js", "ext-extensions"), "dev")
         js.add_script_folder("deluge-all", rpath("js", "deluge-all"), "dev")
 
@@ -463,7 +463,7 @@ class TopLevel(resource.Resource):
         self.putChild("json", JSON())
         self.putChild("upload", Upload())
         self.putChild("render", Render())
-        self.putChild("themes", static.File(rpath("themes")))
+        self.putChild("resources", static.File(rpath("resources")))
         self.putChild("tracker", Tracker())
 
         theme = component.get("DelugeWeb").config["theme"]
