@@ -1,7 +1,7 @@
 /*!
  * Deluge.ConnectionManager.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,8 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-Deluge.ConnectionManager = Ext.extend(Ext.Window, {
+Ext.define('Deluge.ConnectionManager', {
+    extend: 'Ext.Window',
 
     layout: 'fit',
     width: 300,
@@ -44,15 +45,15 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     iconCls: 'x-deluge-connect-window-icon',
 
     initComponent: function() {
-        Deluge.ConnectionManager.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.on('hide',  this.onHide, this);
         this.on('show', this.onShow, this);
 
         deluge.events.on('login', this.onLogin, this);
         deluge.events.on('logout', this.onLogout, this);
 
-        this.addButton(_('Close'), this.onClose, this);
-        this.addButton(_('Connect'), this.onConnect, this);
+        //this.addButton(_('Close'), this.onClose, this);
+        //this.addButton(_('Connect'), this.onConnect, this);
 
         this.list = new Ext.list.ListView({
             store: new Ext.data.ArrayStore({
@@ -121,7 +122,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                 ]
             })
         });
-        this.update = this.update.createDelegate(this);
+        this.update = this.update.bind(this);
     },
 
     /**
@@ -337,7 +338,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onShow: function() {
         if (!this.addHostButton) {
-            var bbar = this.panel.getBottomToolbar();
+            var bbar = this.panel.getDockedItems()[0];
             this.addHostButton = bbar.items.get('cm-add');
             this.removeHostButton = bbar.items.get('cm-remove');
             this.stopHostButton = bbar.items.get('cm-stop');

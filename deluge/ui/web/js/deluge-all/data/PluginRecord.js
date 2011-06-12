@@ -1,7 +1,7 @@
 /*!
- * Deluge.data.SortTypes.js
+ * Deluge.data.PluginRecord.js
  *
- * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,24 +29,22 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.data');
 
 /**
- * Common sort functions that can be used for data Stores.
+ * Deluge.data.Plugin record
  *
  * @author Damien Churchill <damoxc@gmail.com>
- * @version 1.3
+ * @version 1.4
  *
- * @class Deluge.data.SortTypes
- * @singleton
+ * @class Deluge.data.Plugin
+ * @extends Ext.data.Model
+ * @constructor
+ * @param {Object} data The plugin data
  */
-Deluge.data.SortTypes = {
-    asIPAddress: function(value) {
-        var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
-        return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
-    },
-
-    asQueuePosition: function(value) {
-        return (value > -1) ? value : Number.MAX_VALUE;
-    }
-}
+Ext.define('Deluge.data.Plugin', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'enabled', type: 'boolean'},
+        {name: 'plugin', type: 'string'}
+    ]
+});

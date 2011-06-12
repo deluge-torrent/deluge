@@ -1,7 +1,7 @@
 /*!
  * Deluge.data.TorrentRecord.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.data');
 
 /**
  * Deluge.data.Torrent record
@@ -38,57 +37,28 @@ Ext.namespace('Deluge.data');
  * @version 1.3
  *
  * @class Deluge.data.Torrent
- * @extends Ext.data.Record
+ * @extends Ext.data.Model
  * @constructor
  * @param {Object} data The torrents data
  */
-Deluge.data.Torrent = Ext.data.Record.create([{
-        name: 'queue',
-        type: 'int'
-    }, {
-        name: 'name',
-        type: 'string'
-    }, {
-        name: 'total_size',
-        type: 'int'
-    }, {
-        name: 'state',
-        type: 'string'
-    }, {
-        name: 'progress',
-        type: 'int'
-    }, {
-        name: 'num_seeds',
-        type: 'int'
-    }, {
-        name: 'total_seeds',
-        type: 'int'
-    }, {
-        name: 'num_peers',
-        type: 'int'
-    }, {
-        name: 'total_peers',
-        type: 'int'
-    }, {
-        name: 'download_payload_rate',
-        type: 'int'
-    }, {
-        name: 'upload_payload_rate',
-        type: 'int'
-    }, {
-        name: 'eta',
-        type: 'int'
-    }, {
-        name: 'ratio',
-        type: 'float'
-    }, {
-        name: 'distributed_copies',
-        type: 'float'
-    }, {
-        name: 'time_added',
-        type: 'int'
-    }, {
-        name: 'tracker_host',
-        type: 'string'
-    }
-]);
+Ext.define('Deluge.data.Torrent', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'queue', type: 'int', sortType: Deluge.data.SortTypes.asQueuePosition},
+        {name: 'name', type: 'string'},
+        {name: 'total_size', type: 'int'},
+        {name: 'state', type: 'string'},
+        {name: 'progress', type: 'int'},
+        {name: 'num_seeds', type: 'int'},
+        {name: 'total_seeds', type: 'int'},
+        {name: 'num_peers', type: 'int'},
+        {name: 'total_peers', type: 'int'},
+        {name: 'download_payload_rate', type: 'int'},
+        {name: 'upload_payload_rate', type: 'int'},
+        {name: 'eta', type: 'int'},
+        {name: 'ratio', type: 'float'},
+        {name: 'distributed_copies', type: 'float'},
+        {name: 'time_added', type: 'int'},
+        {name: 'tracker_host', type: 'string'}
+    ]
+});

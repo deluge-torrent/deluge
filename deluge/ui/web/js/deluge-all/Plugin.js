@@ -1,7 +1,7 @@
 /*!
  * Deluge.Plugin.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.Plugin
  * @extends Ext.util.Observable
  */
-Deluge.Plugin = Ext.extend(Ext.util.Observable, {
+Ext.define('Deluge.Plugin', {
+    extend: 'Ext.util.Observable',
 
     /**
      * The plugins name
@@ -59,9 +59,9 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
              */
             "disabled": true
         });
-        Deluge.Plugin.superclass.constructor.call(this, config);
+        this.callParent(arguments);
     },
-    
+
     /**
      * Disables the plugin, firing the "{@link #disabled}" event and
      * then executing the plugins clean up method onDisabled.
@@ -70,7 +70,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
         this.fireEvent("disabled", this);
         if (this.onDisable) this.onDisable();
     },
-    
+
     /**
      * Enables the plugin, firing the "{@link #enabled}" event and
      * then executes the plugins setup method, onEnabled.

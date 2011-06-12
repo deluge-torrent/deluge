@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.File.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.add');
 
 /**
  * @class Deluge.add.FileWindow
  * @extends Deluge.add.Window
  */
-Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
+Ext.define('Deluge.add.FileWindow', {
+    extend: 'Deluge.add.Window',
 
     title: _('Add from File'),
     layout: 'fit',
@@ -49,9 +49,9 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
     iconCls: 'x-deluge-add-file',
 
     initComponent: function() {
-        Deluge.add.FileWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.addButton(_('Add'), this.onAddClick, this);
-        
+
         this.form = this.add({
             xtype: 'form',
             baseCls: 'x-plain',
@@ -71,7 +71,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
             }]
         });
     },
-    
+
     // private
     onAddClick: function(field, e) {
         if (this.form.getForm().isValid()) {
@@ -88,7 +88,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
             this.fireEvent('beforeadd', this.torrentId, name);
         }
     },
-    
+
     // private
     onGotInfo: function(info, obj, response, request) {
         info['filename'] = request.options.filename;
@@ -99,7 +99,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
     onUploadFailure: function(form, action) {
         this.hide();
     },
-    
+
     // private
     onUploadSuccess: function(fp, upload) {
         this.hide();

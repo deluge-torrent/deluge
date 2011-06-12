@@ -1,7 +1,7 @@
 /*!
  * Deluge.details.PeersTab.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,64 +51,59 @@
         return Deluge.progressBar(progress, this.width - 8, progress + '%');
     }
 
-    Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
+    Ext.define('Deluge.details.PeersTab', {
+        extend: 'Ext.grid.Panel',
+        title: _('Peers'),
+        cls: 'x-deluge-peers',
+
+        store: Ext.create('Ext.data.Store', {
+            model: 'Deluge.data.Peer'
+        }),
+
+        columns: [{
+            header: '&nbsp;',
+            width: 30,
+            sortable: true,
+            renderer: flagRenderer,
+            dataIndex: 'country'
+        }, {
+            header: 'Address',
+            width: 125,
+            sortable: true,
+            renderer: peerAddressRenderer,
+            dataIndex: 'ip'
+        }, {
+            header: 'Client',
+            width: 125,
+            sortable: true,
+            renderer: function(v) { return fplain(v) },
+            dataIndex: 'client'
+        }, {
+            header: 'Progress',
+            width: 150,
+            sortable: true,
+            renderer: peerProgressRenderer,
+            dataIndex: 'progress'
+        }, {
+            header: 'Down Speed',
+            width: 100,
+            sortable: true,
+            renderer: function(v) { return fspeed(v) },
+            dataIndex: 'down_speed'
+        }, {
+            header: 'Up Speed',
+            width: 100,
+            sortable: true,
+            renderer: function(v) { return fspeed(v) },
+            dataIndex: 'up_speed'
+        }],
+
+        stripeRows: true,
+        deferredRender: false,
+        autoScroll: true,
 
         // fast way to figure out if we have a peer already.
         peers: {},
-
-        constructor: function(config) {
-            config = Ext.apply({
-                title: _('Peers'),
-                cls: 'x-deluge-peers',
-                store: new Ext.data.Store({
-                    reader: new Ext.data.JsonReader({
-                        idProperty: 'ip',
-                        root: 'peers'
-                    }, Deluge.data.Peer)
-                }),
-                columns: [{
-                    header: '&nbsp;',
-                    width: 30,
-                    sortable: true,
-                    renderer: flagRenderer,
-                    dataIndex: 'country'
-                }, {
-                    header: 'Address',
-                    width: 125,
-                    sortable: true,
-                    renderer: peerAddressRenderer,
-                    dataIndex: 'ip'
-                }, {
-                    header: 'Client',
-                    width: 125,
-                    sortable: true,
-                    renderer: fplain,
-                    dataIndex: 'client'
-                }, {
-                    header: 'Progress',
-                    width: 150,
-                    sortable: true,
-                    renderer: peerProgressRenderer,
-                    dataIndex: 'progress'
-                }, {
-                    header: 'Down Speed',
-                    width: 100,
-                    sortable: true,
-                    renderer: fspeed,
-                    dataIndex: 'down_speed'
-                }, {
-                    header: 'Up Speed',
-                    width: 100,
-                    sortable: true,
-                    renderer: fspeed,
-                    dataIndex: 'up_speed'
-                }],
-                stripeRows: true,
-                deferredRender:false,
-                autoScroll:true
-            }, config);
-            Deluge.details.PeersTab.superclass.constructor.call(this, config);
-        },
 
         clear: function() {
             this.getStore().removeAll();

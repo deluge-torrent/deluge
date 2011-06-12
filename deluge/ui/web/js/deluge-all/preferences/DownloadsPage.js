@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.DownloadsPage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,26 +29,21 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Downloads
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
-    constructor: function(config) {
-        config = Ext.apply({
-            border: false,
-            title: _('Downloads'),
-            layout: 'form',
-            autoHeight: true,
-            width: 320
-        }, config);
-        Deluge.preferences.Downloads.superclass.constructor.call(this, config);
-    },
+Ext.define('Deluge.preferences.Downloads', {
+    extend: 'Ext.form.Panel',
+    border: false,
+    title: _('Downloads'),
+    layout: 'anchor',
+    autoHeight: true,
+    width: 320,
 
     initComponent: function() {
-        Deluge.preferences.Downloads.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         var optMan = deluge.preferences.getOptionsManager();
         var fieldset = this.add({
@@ -93,7 +88,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         });
         optMan.bind('autoadd_enable', field.toggle);
         optMan.bind('autoadd_location', field.input);
-    
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -122,7 +117,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
                 inputValue: true
             }]
         }));
-    
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,

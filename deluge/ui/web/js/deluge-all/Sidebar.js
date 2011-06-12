@@ -1,7 +1,7 @@
 /*!
  * Deluge.Sidebar.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,8 @@
  * @author Damien Churchill <damoxc@gmail.com>
  * @version 1.3
  */
-Deluge.Sidebar = Ext.extend(Ext.Panel, {
+Ext.define('Deluge.Sidebar', {
+    extend: 'Ext.Panel',
 
     // private
     panels: {},
@@ -61,12 +62,12 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             margins: '5 0 0 5',
             cmargins: '5 0 0 5'
         }, config);
-        Deluge.Sidebar.superclass.constructor.call(this, config);
+        this.callParent(arguments);
     },
 
     // private
     initComponent: function() {
-        Deluge.Sidebar.superclass.initComponent.call(this);
+        this.callParent(arguments);
         deluge.events.on("disconnect", this.onDisconnect, this);
     },
 
@@ -78,7 +79,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             deluge.ui.update();
         });
         this.add(panel);
-    
+
         this.doLayout();
         this.panels[filter] = panel;
 
@@ -87,7 +88,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
                 deluge.ui.update();
             }
             if (!panel.list.getSelectionCount()) {
-                panel.list.select(0);    
+                panel.list.select(0);
             }
         });
         this.fireEvent('filtercreate', this, panel);

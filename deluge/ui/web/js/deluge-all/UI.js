@@ -1,7 +1,7 @@
 /*!
  * Deluge.UI.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,15 +47,18 @@ deluge.ui = {
      * and set up various events that the UI will utilise.
      */
     initialize: function() {
-        deluge.add = new Deluge.add.AddWindow();
-        deluge.details = new Deluge.details.DetailsPanel();
-        deluge.connectionManager = new Deluge.ConnectionManager();
-        deluge.editTrackers = new Deluge.EditTrackersWindow();
-        deluge.login = new Deluge.LoginWindow();
-        deluge.preferences = new Deluge.preferences.PreferencesWindow();
-        deluge.sidebar = new Deluge.Sidebar();
-        deluge.statusbar = new Deluge.Statusbar();
-        deluge.toolbar = new Deluge.Toolbar();
+
+        deluge.events = Ext.create('Deluge.EventsManager');
+        deluge.add = Ext.create('Deluge.add.AddWindow');
+        deluge.details = Ext.create('Deluge.details.DetailsPanel');
+        deluge.connectionManager = Ext.create('Deluge.ConnectionManager');
+        deluge.editTrackers = Ext.create('Deluge.EditTrackersWindow');
+        deluge.login = Ext.create('Deluge.LoginWindow');
+        deluge.preferences = Ext.create('Deluge.preferences.PreferencesWindow');
+        deluge.sidebar = Ext.create('Deluge.Sidebar');
+        deluge.statusbar = Ext.create('Deluge.Statusbar');
+        deluge.toolbar = Ext.create('Deluge.Toolbar');
+        deluge.torrents = Ext.create('Deluge.TorrentGrid');
 
         this.MainPanel = new Ext.Panel({
             id: 'mainPanel',
@@ -98,8 +101,8 @@ deluge.ui = {
             deluge.login.show();
         }, this, {single: true});
 
-        this.update = this.update.createDelegate(this);
-        this.checkConnection = this.checkConnection.createDelegate(this);
+        this.update = Ext.bind(this.update, this);
+        this.checkConnection = Ext.bind(this.checkConnection, this);
 
         this.originalTitle = document.title;
     },

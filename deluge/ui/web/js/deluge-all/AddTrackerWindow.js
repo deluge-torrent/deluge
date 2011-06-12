@@ -1,7 +1,7 @@
 /*!
  * Deluge.AddTrackerWindow.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,14 +29,14 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.AddTrackerWindow
  * @extends Ext.Window
  */
-Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
-    
+Ext.define('Deluge.AddTrackerWindow', {
+    extend: 'Ext.Window',
+
     title: _('Add Tracker'),
     layout: 'fit',
     width: 375,
@@ -51,12 +51,12 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
     iconCls: 'x-deluge-edit-trackers',
 
     initComponent: function() {
-        Deluge.AddTrackerWindow.superclass.initComponent.call(this);
-    
-        this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Add'), this.onAddClick, this);
+        this.callParent(arguments);
+
+        //this.addButton(_('Cancel'), this.onCancelClick, this);
+        //this.addButton(_('Add'), this.onAddClick, this);
         this.addEvents('add');
-    
+
         this.form = this.add({
             xtype: 'form',
             defaultType: 'textarea',
@@ -73,7 +73,7 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
     onAddClick: function() {
         var trackers = this.form.getForm().findField('trackers').getValue();
         trackers = trackers.split('\n');
-    
+
         var cleaned = [];
         Ext.each(trackers, function(tracker) {
             if (Ext.form.VTypes.url(tracker)) {

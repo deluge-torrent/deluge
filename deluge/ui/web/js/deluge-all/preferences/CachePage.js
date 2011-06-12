@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.CachePage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,23 +29,22 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Cache
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Deluge.preferences.Cache', {
+    extend: 'Ext.form.Panel',
 
     border: false,
     title: _('Cache'),
-    layout: 'form',
-    
+
     initComponent: function() {
-        Deluge.preferences.Cache.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         var om = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,

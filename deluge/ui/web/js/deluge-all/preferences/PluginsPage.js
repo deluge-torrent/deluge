@@ -54,7 +54,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     ),
 
     initComponent: function() {
-        Deluge.preferences.Plugins.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.defaultValues = {
             'version': '',
             'email': '',
@@ -68,14 +68,12 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
         }
 
-        this.list = this.add({
-            xtype: 'listview',
-            store: new Ext.data.ArrayStore({
-                fields: [
-                    {name: 'enabled', mapping: 0},
-                    {name: 'plugin', mapping: 1}
-                ]
+        this.grid = this.add({
+            xtype: 'grid',
+            store: Ext.create('Ext.data.JsonStore', {
+                model: 'Deluge.data.PluginRecord'
             }),
+            singleSelect: true,
             columns: [{
                 id: 'enabled',
                 header: _('Enabled'),
@@ -94,8 +92,6 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
                 sortable: true,
                 dataIndex: 'plugin'
             }],
-            singleSelect: true,
-            autoExpandColumn: 'plugin',
             listeners: {
                 selectionchange: {fn: this.onPluginSelect, scope: this}
             }
@@ -105,7 +101,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             region: 'center',
             autoScroll: true,
             margins: '5 5 5 5',
-            items: [this.list],
+            items: [this.grid],
             bbar: new Ext.Toolbar({
                 items: [{
                     cls: 'x-btn-text-icon',
@@ -147,7 +143,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         });
 
         this.pluginInfo.on('render', this.onPluginInfoRender, this);
-        this.list.on('click', this.onNodeClick, this);
+        this.grid.on('click', this.onNodeClick, this);
         deluge.preferences.on('show', this.onPreferencesShow, this);
         deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
         deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);

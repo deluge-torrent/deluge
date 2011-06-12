@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.FilesTab.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.add');
 
 /**
  * @class Deluge.add.FilesTab
  * @extends Ext.ux.tree.TreeGrid
  */
-Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
+Ext.define('Deluge.add.FilesTab', {
+    extend: 'Ext.tree.Panel',
 
     layout: 'fit',
     title:  _('Files'),
@@ -71,7 +71,7 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
     }],
 
     initComponent: function() {
-        Deluge.add.FilesTab.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.on('click', this.onNodeClick, this);
     },
 

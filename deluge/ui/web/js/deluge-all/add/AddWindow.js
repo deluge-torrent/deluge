@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.AddWindow.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,9 +30,8 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-Ext.namespace('Deluge.add');
-
-Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
+Ext.define('Deluge.add.AddWindow', {
+    extend: 'Deluge.add.Window',
 
     title: _('Add Torrents'),
     layout: 'border',
@@ -46,11 +45,11 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
     iconCls: 'x-deluge-add-window-icon',
 
     initComponent: function() {
-        Deluge.add.AddWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
+        // FIXME: replace with docked toolbar
+        //this.addButton(_('Cancel'), this.onCancelClick, this);
+        //this.addButton(_('Add'), this.onAddClick, this);
 
-        this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Add'), this.onAddClick, this);
-    
         function torrentRenderer(value, p, r) {
             if (r.data['info_hash']) {
                 return String.format('<div class="x-deluge-add-torrent-name">{0}</div>', value);
@@ -73,7 +72,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
                 sortable: true,
                 renderer: torrentRenderer,
                 dataIndex: 'text'
-            }],    
+            }],
             stripeRows: true,
             singleSelect: true,
             listeners: {
@@ -114,7 +113,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
                 }]
             })
         });
-    
+
         this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
         this.on('hide', this.onHide, this);
         this.on('show', this.onShow, this);
@@ -165,12 +164,12 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         var torrent = this.list.getSelectedRecords()[0];
         this.list.getStore().remove(torrent);
         this.optionsPanel.clear();
-        
+
         if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
     },
 
     onSelect: function(list, selections) {
-        if (selections.length) {    
+        if (selections.length) {
             var record = this.list.getRecord(selections[0]);
             this.optionsPanel.setTorrent(record.get('info_hash'));
             this.optionsPanel.files.setDisabled(false);
@@ -193,7 +192,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
             this.file.on('add', this.onTorrentAdd, this);
         }
-    
+
         this.optionsPanel.form.getDefaults();
     },
 

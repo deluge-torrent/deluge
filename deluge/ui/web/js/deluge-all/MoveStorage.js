@@ -1,7 +1,7 @@
 /*!
  * Deluge.MoveStorage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,30 +30,26 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-Ext.namespace('Deluge');
-Deluge.MoveStorage = Ext.extend(Ext.Window, {
-    
-    constructor: function(config) {
-        config = Ext.apply({
-            title: _('Move Storage'),
-            width: 375,
-            height: 110,
-            layout: 'fit',
-            buttonAlign: 'right',
-            closeAction: 'hide',
-            closable: true,
-            iconCls: 'x-deluge-move-storage',
-            plain: true,
-            resizable: false
-        }, config);
-        Deluge.MoveStorage.superclass.constructor.call(this, config);
-    },
+Ext.define('Deluge.MoveStorage', {
+    extend: 'Ext.Window',
+
+    title: _('Move Storage'),
+    width: 375,
+    height: 110,
+    layout: 'fit',
+    buttonAlign: 'right',
+    closeAction: 'hide',
+    closable: true,
+    iconCls: 'x-deluge-move-storage',
+    plain: true,
+    resizable: false,
 
     initComponent: function() {
-        Deluge.MoveStorage.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
-        this.addButton(_('Cancel'), this.onCancel, this);
-        this.addButton(_('Move'), this.onMove, this);
+        // FIXME: Replace the buttons
+        //this.addButton(_('Cancel'), this.onCancel, this);
+        //this.addButton(_('Move'), this.onMove, this);
 
         this.form = this.add({
             xtype: 'form',
@@ -82,12 +78,12 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
     },
 
     hide: function() {
-        Deluge.MoveStorage.superclass.hide.call(this);
+        this.callParent(arguments);
         this.torrentIds = null;
     },
 
     show: function(torrentIds) {
-        Deluge.MoveStorage.superclass.show.call(this);
+        this.callParent(arguments);
         this.torrentIds = torrentIds;
     },
 

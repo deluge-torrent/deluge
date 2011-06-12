@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.QueuePage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,23 +29,22 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Queue
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Deluge.preferences.Queue', {
+    extend: 'Ext.form.Panel',
 
     border: false,
     title: _('Queue'),
-    layout: 'form',
-    
+
     initComponent: function() {
-        Deluge.preferences.Queue.superclass.initComponent.call(this);
-        
+        this.callParent(arguments);
+
         var om = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -62,7 +61,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Queue new torrents to top'),
             name: 'queue_new_to_top'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -113,7 +112,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             hideLabel: true,
             boxLabel: _('Prefer Seeding over Downloading')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -154,17 +153,17 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             minValue: -1,
             maxValue: 99999
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
             autoHeight: true,
-            
+
             layout: 'table',
             layoutConfig: {columns: 2},
             labelWidth: 0,
             defaultType: 'checkbox',
-            
+
             defaults: {
                 fieldLabel: '',
                 labelSeparator: ''
@@ -176,7 +175,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
         });
         this.stopAtRatio.on('check', this.onStopRatioCheck, this);
         om.bind('stop_seed_at_ratio', this.stopAtRatio);
-        
+
         this.stopRatio = fieldset.add({
             xtype: 'spinnerfield',
             name: 'stop_seed_ratio',
@@ -191,7 +190,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             decimalPrecision: 2
         });
         om.bind('stop_seed_ratio', this.stopRatio);
-        
+
         this.removeAtRatio = fieldset.add({
             name: 'remove_seed_at_ratio',
             ctCls: 'x-deluge-indent-checkbox',
@@ -201,7 +200,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
         });
         om.bind('remove_seed_at_ratio', this.removeAtRatio);
     },
-    
+
     onStopRatioCheck: function(e, checked) {
         this.stopRatio.setDisabled(!checked);
         this.removeAtRatio.setDisabled(!checked);

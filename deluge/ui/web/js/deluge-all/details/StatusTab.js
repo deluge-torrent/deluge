@@ -1,7 +1,7 @@
 /*!
  * Deluge.details.StatusTab.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,52 +29,47 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.details');
 
 /**
  * @class Deluge.details.StatusTab
  * @extends Ext.Panel
  */
-Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
+Ext.define('Deluge.details.StatusTab', {
+    extend: 'Ext.Panel',
+
     title: _('Status'),
     autoScroll: true,
-    
+
     onRender: function(ct, position) {
-        Deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
-        
+        this.callParent(arguments);
+
         this.progressBar = this.add({
-            xtype: 'progress',
+            xtype: 'progressbar',
             cls: 'x-deluge-status-progressbar'
         });
-        
+
         this.status = this.add({
             cls: 'x-deluge-status',
             id: 'deluge-details-status',
-            
+
             border: false,
             width: 1000,
-            listeners: {
-                'render': {
-                    fn: function(panel) {
-                        panel.load({
-                            url: deluge.config.base + 'render/tab_status.html',
-                            text: _('Loading') + '...'
-                        });
-                        panel.getUpdater().on('update', this.onPanelUpdate, this);
-                    },
-                    scope: this
-                }
+            loader: {
+                url: deluge.config.base + 'render/tab_status.html',
+                loadMask: true,
+                success: this.onPanelUpdate,
+                scope: this
             }
         });
     },
-    
+
     clear: function() {
         this.progressBar.updateProgress(0, ' ');
         for (var k in this.fields) {
             this.fields[k].innerHTML = '';
         }
     },
-    
+
     update: function(torrentId) {
         if (!this.fields) this.getFields();
         deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Status, {
@@ -82,14 +77,14 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
             scope: this
         });
     },
-    
+
     onPanelUpdate: function(el, response) {
         this.fields = {};
         Ext.each(Ext.query('dd', this.status.body.dom), function(field) {
             this.fields[field.className] = field;
         }, this);
     },
-    
+
     onRequestComplete: function(status) {
         seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds;
         peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers;
@@ -117,7 +112,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 
         data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
         data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
-        
+
         for (var field in this.fields) {
             this.fields[field].innerHTML = data[field];
         }

@@ -1,7 +1,7 @@
 /*!
  * Deluge.EditTrackers.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,8 @@ Ext.ns('Deluge');
  * @class Deluge.EditTrackerWindow
  * @extends Ext.Window
  */
-Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
+Ext.define('Deluge.EditTrackersWindow', {
+    extend: 'Ext.Window',
 
     title: _('Edit Trackers'),
     layout: 'fit',
@@ -51,18 +52,17 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
     iconCls: 'x-deluge-edit-trackers',
 
     initComponent: function() {
-        Deluge.EditTrackersWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
-        this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Ok'), this.onOkClick, this);
+        //this.addButton(_('Cancel'), this.onCancelClick, this);
+        //this.addButton(_('Ok'), this.onOkClick, this);
         this.addEvents('save');
 
         this.on('show', this.onShow, this);
-        this.on('save', this.onSave, this);
 
-        this.addWindow = new Deluge.AddTrackerWindow();
+        this.addWindow = Ext.create('Deluge.AddTrackerWindow');
         this.addWindow.on('add', this.onAddTrackers, this);
-        this.editWindow = new Deluge.EditTrackerWindow();
+        this.editWindow = Ext.create('Deluge.EditTrackerWindow');
 
         this.list = new Ext.list.ListView({
             store: new Ext.data.JsonStore({
@@ -192,6 +192,10 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
     onRequestComplete: function(status) {
         this.list.getStore().loadData(status);
         this.list.getStore().sort('tier', 'ASC');
+    },
+
+    onSave: function() {
+        // What am I meant to do here?
     },
 
     onSaveFail: function() {

@@ -427,7 +427,7 @@ class TopLevel(resource.Resource):
     __stylesheets = [
         "resources/css/ext-all-gray.css",
 #        "css/ext-extensions.css",
-#        "css/deluge.css"
+        "css/deluge.css"
     ]
 
     def __init__(self):

@@ -32,17 +32,16 @@ Copyright:
 
 */
 
-Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
+Ext.define('Deluge.details.DetailsTab', {
+    extend: 'Ext.Panel',
+
     title: _('Details'),
-
     fields: {},
-
     queuedItems: {},
-
     oldData: {},
 
     initComponent: function() {
-        Deluge.details.DetailsTab.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.addItem('torrent_name', _('Name'));
         this.addItem('hash', _('Hash'));
         this.addItem('path', _('Path'));
@@ -54,7 +53,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     },
 
     onRender: function(ct, position) {
-        Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
         this.body.setStyle('padding', '10px');
         this.dl = Ext.DomHelper.append(this.body, {tag: 'dl'}, true);
 

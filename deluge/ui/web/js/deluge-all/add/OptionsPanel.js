@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.OptionsPanel.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,9 +29,9 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.add');
 
-Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
+Ext.define('Deluge.add.OptionsPanel', {
+    extend: 'Ext.TabPanel',
 
     torrents: {},
 
@@ -42,7 +42,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     height: 220,
 
     initComponent: function() {
-        Deluge.add.OptionsPanel.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.files = this.add(new Deluge.add.FilesTab());
         this.form = this.add(new Deluge.add.OptionsTab());
 
@@ -61,7 +61,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         Ext.each(Ext.keys(fileIndexes), function(index) {
             priorities[index] = fileIndexes[index];
         });
-        
+
         var oldId = this.form.optionsManager.changeId(torrent['info_hash'], true);
         this.form.optionsManager.setDefault('file_priorities', priorities);
         this.form.optionsManager.changeId(oldId, true);
@@ -91,7 +91,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
         this.torrentId = torrentId;
         this.form.optionsManager.changeId(torrentId);
-    
+
         this.files.clearFiles();
         var root = this.files.getRootNode();
         var priorities = this.form.optionsManager.get('file_priorities');
@@ -120,7 +120,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             } else {
                 var ret = callback(filename, type, entry, parentNode);
             }
-        
+
             if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
         }
     },
@@ -142,7 +142,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
                         }, this);
                     } else {
                         this.files.setDownload(nodes[0], oldValue, true);
-                    }    
+                    }
                 },
                 scope: this,
                 icon: Ext.MessageBox.QUESTION

@@ -1,7 +1,7 @@
 /*!
  * Deluge.Client.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Ext.ux.util');
 
 /**
  * A class that connects to a json-rpc resource and adds the available
@@ -37,23 +36,24 @@ Ext.namespace('Ext.ux.util');
  * @class Ext.ux.util.RpcClient
  * @namespace Ext.ux.util
  */
-Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
+Ext.define('Ext.ux.util.RpcClient', {
+    extend: 'Ext.util.Observable',
 
     _components: [],
-    
+
     _methods: [],
-    
+
     _requests: {},
-    
+
     _url: null,
-    
+
     _optionKeys: ['scope', 'success', 'failure'],
-    
+
     constructor: function(config) {
         Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
         this._url = config.url || null;
         this._id = 0;
-        
+
         this.addEvents(
             // raw events
             /**
@@ -62,12 +62,12 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
              * @param {Ext.ux.util.RpcClient} this
              */
              'connected',
-             
+
              'error'
         );
         this.reloadMethods();
     },
-    
+
     reloadMethods: function() {
         Ext.each(this._components, function(component) {
             delete this[component];
@@ -82,14 +82,14 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         options = options || {};
         options.params = options.params || [];
         options.id = this._id;
-        
+
         var request = Ext.encode({
             method: method,
             params: options.params,
             id: options.id
         });
         this._id++;
-        
+
         return Ext.Ajax.request({
             url: this._url,
             method: 'POST',
@@ -100,7 +100,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             options: options
         });
     },
-    
+
     _onFailure: function(response, requestOptions) {
         var options = requestOptions.options;
         errorObj = {
@@ -111,23 +111,23 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
                 code: 255
             }
         }
-        
+
         this.fireEvent('error', errorObj, response, requestOptions)
-        
+
         if (Ext.type(options.failure) != 'function') return;
         if (options.scope) {
             options.failure.call(options.scope, errorObj, response, requestOptions);
         } else {
             options.failure(errorObj, response, requestOptions);
-        }            
+        }
     },
-    
+
     _onSuccess: function(response, requestOptions) {
         var responseObj = Ext.decode(response.responseText);
         var options = requestOptions.options;
         if (responseObj.error) {
             this.fireEvent('error', responseObj, response, requestOptions);
-            
+
             if (Ext.type(options.failure) != 'function') return;
             if (options.scope) {
                 options.failure.call(options.scope, responseObj, response, requestOptions);
@@ -143,23 +143,23 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             }
         }
     },
-    
+
     _parseArgs: function(args) {
         var params = [];
         Ext.each(args, function(arg) {
             params.push(arg);
         });
-        
+
         var options = params[params.length - 1];
         if (Ext.type(options) == 'object') {
             var keys = Ext.keys(options), isOption = false;
-            
+
             Ext.each(this._optionKeys, function(key) {
                 if (keys.indexOf(key) > -1) isOption = true;
             });
-            
+
             if (isOption) {
-                params.remove(options)
+                params.pop(-1)
             } else {
                 options = {}
             }
@@ -172,11 +172,11 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
     _setMethods: function(methods) {
         var components = {}, self = this;
-        
+
         Ext.each(methods, function(method) {
             var parts = method.split('.');
             var component = components[parts[0]] || {};
-            
+
             var fn = function() {
                 var options = self._parseArgs(arguments);
                 return self._execute(method, options);
@@ -184,11 +184,11 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             component[parts[1]] = fn;
             components[parts[0]] = component;
         });
-        
+
         for (var name in components) {
             self[name] = components[name];
         }
-        
+
         this._components = Ext.keys(components);
         this.fireEvent('connected', this);
     }

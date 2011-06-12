@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.BandwidthPage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,26 +29,21 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Bandwidth
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
-    constructor: function(config) {
-        config = Ext.apply({
-            border: false,
-            title: _('Bandwidth'),
-            layout: 'form',
-            labelWidth: 10
-        }, config);
-        Deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
-    },
-    
+Ext.define('Deluge.preferences.Bandwidth', {
+    extend: 'Ext.form.Panel',
+
+    border: false,
+    title: _('Bandwidth'),
+    labelWidth: 10,
+
     initComponent: function() {
-        Deluge.preferences.Bandwidth.superclass.initComponent.call(this);
-        
+        this.callParent(arguments);
+
         var om = deluge.preferences.getOptionsManager();
         var fieldset = this.add({
             xtype: 'fieldset',
@@ -105,7 +100,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
             value: -1,
             decimalPrecision: 0
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -128,7 +123,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             boxLabel: _('Rate limit IP overhead')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,

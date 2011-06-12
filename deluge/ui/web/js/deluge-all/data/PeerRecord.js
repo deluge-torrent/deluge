@@ -1,7 +1,7 @@
 /*!
  * Deluge.data.PeerRecord.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.data');
 
 /**
  * Deluge.data.Peer record
@@ -38,32 +37,19 @@ Ext.namespace('Deluge.data');
  * @version 1.3
  *
  * @class Deluge.data.Peer
- * @extends Ext.data.Record
+ * @extends Ext.data.Model
  * @constructor
  * @param {Object} data The peer data
  */
-Deluge.data.Peer = Ext.data.Record.create([
-    {
-        name: 'country',
-        type: 'string'
-    }, {
-        name: 'ip',
-        type: 'string',
-        sortType: Deluge.data.SortTypes.asIPAddress
-    }, {
-        name: 'client',
-        type: 'string'
-    }, {
-        name: 'progress',
-        type: 'float'
-    }, {
-        name: 'down_speed',
-        type: 'int'
-    }, {
-        name: 'up_speed',
-        type: 'int'
-    }, {
-        name: 'seed',
-        type: 'int'
-    }
-]);
+Ext.define('Deluge.data.Peer', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'country', type: 'string'},
+        {name: 'ip', type: 'string', sortType: Deluge.data.SortTypes.asIPAddress},
+        {name: 'client', type: 'string'},
+        {name: 'progress', type: 'float'},
+        {name: 'down_speed', type: 'int'},
+        {name: 'up_speed', type: 'int'},
+        {name: 'seed', type: 'int'}
+    ]
+});

@@ -1,7 +1,7 @@
 /*!
  * Deluge.details.OptionsTab.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,29 +30,24 @@
  * statement from all source files in the program, then also delete it here.
  */
 
+Ext.define('Deluge.details.OptionsTab', {
+    extend: 'Ext.form.Panel',
 
-Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
-
-    constructor: function(config) {
-        config = Ext.apply({
-            autoScroll: true,
-            bodyStyle: 'padding: 5px;',
-            border: false,
-            cls: 'x-deluge-options',
-            defaults: {
-                autoHeight: true,
-                labelWidth: 1,
-                defaultType: 'checkbox'
-            },
-            deferredRender: false,
-            layout: 'column',
-            title: _('Options')
-        }, config);
-        Deluge.details.OptionsTab.superclass.constructor.call(this, config);
+    title: _('Options'),
+    autoScroll: true,
+    bodyStyle: 'padding: 5px;',
+    border: false,
+    cls: 'x-deluge-options',
+    defaults: {
+        autoHeight: true,
+        labelWidth: 1,
+        defaultType: 'checkbox'
     },
+    deferredRender: false,
+    layout: 'column',
 
     initComponent: function() {
-        Deluge.details.OptionsTab.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         this.fieldsets = {}, this.fields = {};
         this.optionsManager = new Deluge.MultiOptionsManager({
@@ -291,7 +286,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             autoHeight: true,
             defaultType: 'checkbox',
             title: _('General'),
-            layout: 'form'
+            layout: 'anchor'
         });
 
         this.fields['private'] = this.fieldsets.general.add({
@@ -354,7 +349,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     },
 
     onRender: function(ct, position) {
-        Deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
 
         // This is another hack I think, so keep an eye out here when upgrading.
         this.layout = new Ext.layout.ColumnLayout();

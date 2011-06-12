@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.UrlWindow.js
  *
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-Ext.namespace('Deluge.add');
-Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
+Ext.define('Deluge.add.UrlWindow', {
+    extend: 'Deluge.add.Window',
 
     title: _('Add from Url'),
     modal: true,
@@ -46,7 +46,7 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
     iconCls: 'x-deluge-add-url-window-icon',
 
     initComponent: function() {
-        Deluge.add.UrlWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.addButton(_('Add'), this.onAddClick, this);
 
         var form = this.add({

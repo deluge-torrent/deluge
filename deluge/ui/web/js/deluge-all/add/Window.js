@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.Window.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,16 +29,17 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.add');
 
 /**
  * @class Deluge.add.Window
  * @extends Ext.Window
  * Base class for an add Window
  */
-Deluge.add.Window = Ext.extend(Ext.Window, {
+Ext.define('Deluge.add.Window', {
+    extend: 'Ext.Window',
+
     initComponent: function() {
-        Deluge.add.Window.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.addEvents(
             'beforeadd',
             'add'

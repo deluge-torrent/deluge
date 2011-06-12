@@ -1,7 +1,7 @@
 /*!
  * Deluge.add.OptionsPanel.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge.add');
 
 /**
  * @class Deluge.add.OptionsTab
  * @extends Ext.form.FormPanel
  */
-Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Deluge.add.OptionsTab', {
+    extend: 'Ext.form.Panel',
 
     title:  _('Options'),
     height: 170,
@@ -46,7 +46,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     labelWidth: 1,
 
     initComponent: function() {
-        Deluge.add.OptionsTab.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         this.optionsManager = new Deluge.MultiOptionsManager();
 
@@ -67,7 +67,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             width: 400,
             labelSeparator: ''
         }));
-    
+
         var panel = this.add({
             border: false,
             layout: 'column',
@@ -135,7 +135,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             name: 'max_upload_slots',
             width: 60
         }));
-    
+
         fieldset = panel.add({
             title: _('General'),
             border: false,

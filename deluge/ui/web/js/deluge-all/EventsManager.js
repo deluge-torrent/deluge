@@ -1,7 +1,7 @@
 /*!
  * Deluge.EventsManager.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,12 +37,13 @@
  * Class for holding global events that occur within the UI.
  */
 Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
+
     constructor: function() {
         this.toRegister = [];
         this.on('login', this.onLogin, this);
-        Deluge.EventsManager.superclass.constructor.call(this);
+        this.callParent(arguments);
     },
-    
+
     /**
      * Append an event handler to this object.
      */
@@ -55,7 +56,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
                 deluge.client.web.register_event_listener(eventName);
             }
         }
-        Deluge.EventsManager.superclass.addListener.call(this, eventName, fn, scope, o);
+        this.callParent(arguments);
     },
 
     getEvents: function() {
@@ -114,14 +115,13 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 
 /**
  * Appends an event handler to this object (shorthand for {@link #addListener})
- * @method 
+ * @method
  */
 Deluge.EventsManager.prototype.on = Deluge.EventsManager.prototype.addListener
 
 /**
  * Fires the specified event with the passed parameters (minus the
  * event name).
- * @method 
+ * @method
  */
 Deluge.EventsManager.prototype.fire = Deluge.EventsManager.prototype.fireEvent
-deluge.events = new Deluge.EventsManager();

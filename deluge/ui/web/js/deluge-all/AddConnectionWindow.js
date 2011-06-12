@@ -1,7 +1,7 @@
 /*!
  * Deluge.AddConnectionWindow.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.AddConnectionWindow
  * @extends Ext.Window
  */
-Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
+Ext.define('Deluge.AddConnectionWindow', {
+    extend: 'Ext.Window',
 
     title: _('Add Connection'),
     iconCls: 'x-deluge-add-window-icon',
@@ -48,15 +48,15 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
     closeAction: 'hide',
 
     initComponent: function() {
-        Deluge.AddConnectionWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         this.addEvents('hostadded');
-    
+
         this.addButton(_('Close'), this.hide, this);
         this.addButton(_('Add'), this.onAddClick, this);
-    
+
         this.on('hide', this.onHide, this);
-    
+
         this.form = this.add({
             xtype: 'form',
             defaultType: 'textfield',

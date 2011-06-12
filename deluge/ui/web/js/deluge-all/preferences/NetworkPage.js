@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.NetworkPage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,22 +29,21 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Network
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
-    
+Ext.define('Deluge.preferences.Network', {
+    extend: 'Ext.form.Panel',
+
     border: false,
-    layout: 'form',
     title:  _('Network'),
 
     initComponent: function() {
-        Deluge.preferences.Network.superclass.initComponent.call(this);
+        this.callParent(arguments);
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -97,7 +96,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('listen_ports', this.listenPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -150,7 +149,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             }]
         });
         optMan.bind('outgoing_ports', this.outgoingPorts);
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -166,7 +165,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             width: 200
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -181,7 +180,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Peer TOS Byte'),
             width: 80
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -190,7 +189,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             layout: 'table',
             layoutConfig: {
                 columns: 3
-            },            
+            },
             defaultType: 'checkbox'
         });
         optMan.bind('upnp', fieldset.add({

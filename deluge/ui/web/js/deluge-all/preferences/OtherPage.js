@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.OtherPage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,27 +29,21 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Other
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
-    constructor: function(config) {
-        config = Ext.apply({
-            border: false,
-            title: _('Other'),
-            layout: 'form'
-        }, config);
-        Deluge.preferences.Other.superclass.constructor.call(this, config);
-    },
-    
+Ext.define('Deluge.preferences.Other', {
+    extend: 'Ext.form.Panel',
+    border: false,
+    title: _('Other'),
+
     initComponent: function() {
-        Deluge.preferences.Other.superclass.initComponent.call(this);
-        
+        this.callParent(arguments);
+
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -65,7 +59,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             name: 'new_release_check',
             boxLabel: _('Be alerted about new releases')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -90,7 +84,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Yes, please send anonymous statistics'),
             name: 'send_info'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,

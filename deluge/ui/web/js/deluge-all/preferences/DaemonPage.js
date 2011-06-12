@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.DaemonPage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,23 +29,22 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Daemon
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Deluge.preferences.Daemon', {
+    extend: 'Ext.form.Panel',
 
     border: false,
     title: _('Daemon'),
-    layout: 'form',
-    
+
     initComponent: function() {
-        Deluge.preferences.Daemon.superclass.initComponent.call(this);
+        this.callParent(arguments);
 
         var om = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -61,7 +60,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
             minValue: -1,
             maxValue: 99999
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -77,7 +76,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
             boxLabel: _('Allow Remote Connections'),
             name: 'allow_remote'
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,

@@ -1,7 +1,7 @@
 /*!
  * Deluge.preferences.InterfacePage.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,24 +29,23 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Interface
  * @extends Ext.form.FormPanel
  */
-Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Deluge.preferences.Interface', {
+    extend: 'Ext.form.Panel',
 
     border: false,
     title: _('Interface'),
-    layout: 'form',
-    
+
     initComponent: function() {
-        Deluge.preferences.Interface.superclass.initComponent.call(this);
-        
+        this.callParent(arguments);
+
         var om = this.optionsManager = new Deluge.OptionsManager();
         this.on('show', this.onPageShow, this);
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -77,7 +76,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             boxLabel: _('Allow the use of multiple filters at once')
         }));
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -91,7 +90,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 inputType: 'password'
             }
         });
-        
+
         this.oldPassword = fieldset.add({
             name: 'old_password',
             fieldLabel: _('Old Password')
@@ -104,7 +103,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             name: 'confirm_password',
             fieldLabel: _('Confirm Password')
         });
-        
+
         var panel = fieldset.add({
             xtype: 'panel',
             autoHeight: true,
@@ -122,7 +121,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 }
             }
         });
-        
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -173,7 +172,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Certificate')
         }));
     },
-    
+
     onApply: function() {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
@@ -187,11 +186,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             }
         }
     },
-    
+
     onGotConfig: function(config) {
         this.optionsManager.set(config);
     },
-    
+
     onPasswordChange: function() {
         var newPassword = this.newPassword.getValue();
         if (newPassword != this.confirmPassword.getValue()) {
@@ -205,7 +204,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             });
             return;
         }
-        
+
         var oldPassword = this.oldPassword.getValue();
         deluge.client.auth.change_password(oldPassword, newPassword, {
             success: function(result) {
@@ -236,18 +235,18 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             scope: this
         });
     },
-    
+
     onSetConfig: function() {
         this.optionsManager.commit();
     },
-    
+
     onPageShow: function() {
         deluge.client.web.get_config({
             success: this.onGotConfig,
             scope: this
         })
     },
-    
+
     onSSLCheck: function(e, checked) {
         this.pkeyField.setDisabled(!checked);
         this.certField.setDisabled(!checked);
