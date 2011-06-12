@@ -567,7 +567,7 @@ class WebApi(JSONComponent):
         dl.addCallback(on_complete)
         return d
 
-    def _on_got_files(self, torrent, d):
+    def _on_got_files(self, torrent):
         files = torrent.get("files")
         file_progress = torrent.get("file_progress")
         file_priorities = torrent.get("file_priorities")
@@ -610,7 +610,7 @@ class WebApi(JSONComponent):
 
         file_tree = uicommon.FileTree2(paths)
         file_tree.walk(walk)
-        d.callback(file_tree.get_tree())
+        return file_tree.get_tree()
 
     @export
     def get_torrent_status(self, torrent_id, keys):
@@ -626,10 +626,8 @@ class WebApi(JSONComponent):
         :returns: The torrents files in a tree
         :rtype: dictionary
         """
-        main_deferred = Deferred()
-        d = component.get("SessionProxy").get_torrent_status(torrent_id, FILES_KEYS)
-        d.addCallback(self._on_got_files, main_deferred)
-        return main_deferred
+        return component.get("SessionProxy").get_torrent_status(torrent_id, FILES_KEYS
+            ).addCallback(self._on_got_files)
 
     @export
     def download_torrent_from_url(self, url, cookie=None):
