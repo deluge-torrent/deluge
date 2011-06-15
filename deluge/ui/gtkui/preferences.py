@@ -363,6 +363,7 @@ class Preferences(component.Component):
                 "spin_seeding": ("value", self.core_config["max_active_seeding"]),
                 "spin_downloading": ("value", self.core_config["max_active_downloading"]),
                 "chk_dont_count_slow_torrents": ("active", self.core_config["dont_count_slow_torrents"]),
+                "chk_auto_manage_prefer_seeds": ("active", self.core_config["auto_manage_prefer_seeds"]),
                 "chk_queue_new_top": ("active", self.core_config["queue_new_to_top"]),
                 "spin_share_ratio_limit": ("value", self.core_config["share_ratio_limit"]),
                 "spin_seed_time_ratio_limit": \
@@ -503,6 +504,7 @@ class Preferences(component.Component):
                 "spin_downloading",
                 "spin_active",
                 "chk_dont_count_slow_torrents",
+                "chk_auto_manage_prefer_seeds",
                 "chk_queue_new_top",
                 "chk_seed_ratio",
                 "spin_share_ratio",
@@ -781,6 +783,8 @@ class Preferences(component.Component):
             self.glade.get_widget("spin_active").get_value_as_int()
         new_core_config["dont_count_slow_torrents"] = \
             self.glade.get_widget("chk_dont_count_slow_torrents").get_active()
+        new_core_config["auto_manage_prefer_seeds"] = \
+            self.glade.get_widget("chk_auto_manage_prefer_seeds").get_active()
         new_core_config["stop_seed_at_ratio"] = \
             self.glade.get_widget("chk_seed_ratio").get_active()
         new_core_config["remove_seed_at_ratio"] = \

@@ -354,6 +354,7 @@ class QueuePane(BasePane):
         self.add_int_spin_input("max_active_downloading","Total active downloading:",parent.core_config["max_active_downloading"],-1,9999)
         self.add_int_spin_input("max_active_seeding","Total active seeding:",parent.core_config["max_active_seeding"],-1,9999)
         self.add_checked_input("dont_count_slow_torrents","Do not count slow torrents",parent.core_config["dont_count_slow_torrents"])
+        self.add_checked_input("auto_manage_prefer_seeds","Prefer Seeding over Downloading",parent.core_config["auto_manage_prefer_seeds"])
         self.add_header("Seeding",True)
         self.add_float_spin_input("share_ratio_limit","Share Ratio Limit:",parent.core_config["share_ratio_limit"],1.0,2,-1.0,100.0)
         self.add_float_spin_input("seed_time_ratio_limit","Share Time Ratio:",parent.core_config["seed_time_ratio_limit"],1.0,2,-1.0,100.0)

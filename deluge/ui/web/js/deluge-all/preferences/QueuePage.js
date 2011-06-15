@@ -102,9 +102,16 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
         om.bind('dont_count_slow_torrents', fieldset.add({
             xtype: 'checkbox',
             name: 'dont_count_slow_torrents',
-            height: 40,
+            height: 22,
             hideLabel: true,
             boxLabel: _('Do not count slow torrents')
+        }));
+        om.bind('auto_manage_prefer_seeds', fieldset.add({
+            xtype: 'checkbox',
+            name: 'auto_manage_prefer_seeds',
+            height: 40,
+            hideLabel: true,
+            boxLabel: _('Prefer Seeding over Downloading')
         }));
         
         fieldset = this.add({

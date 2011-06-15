@@ -140,6 +140,7 @@ DEFAULT_PREFS = {
     "geoip_db_location": "/usr/share/GeoIP/GeoIP.dat",
     "cache_size": 512,
     "cache_expiry": 60,
+    "auto_manage_prefer_seeds": False,
     "shared": False
 }
 
@@ -470,3 +471,7 @@ class PreferencesManager(component.Component):
     def _on_set_cache_expiry(self, key, value):
         log.debug("%s: %s", key, value)
         self.session_set_setting("cache_expiry", value)
+
+    def _on_auto_manage_prefer_seeds(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        self.session_set_setting("auto_manage_prefer_seeds", value)

@@ -3846,6 +3846,21 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <widget class="GtkCheckButton" id="chk_auto_manage_prefer_seeds">
+                                                <property name="label" translatable="yes">Prefer Seeding over Downloading</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <property name="draw_indicator">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                         </child>
                                       </widget>
