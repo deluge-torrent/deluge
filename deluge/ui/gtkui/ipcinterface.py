@@ -90,7 +90,7 @@ class IPCInterface(component.Component):
         for arg in args:
             if arg.strip():
                 if not deluge.common.is_magnet(arg) and not deluge.common.is_url(arg):
-                    arg = os.path.abspath(arg)
+                    arg = os.path.abspath(arg.replace('file://', '', 1))
                 _args.append(arg)
         args = _args
 
@@ -218,11 +218,9 @@ def process_args(args):
                 client.core.add_torrent_magnet(arg, {})
         else:
             # Just a file
-            log.debug("Attempting to add %s from external source..",
-                os.path.abspath(arg))
+            log.debug("Attempting to add %s from external source..", arg)
             if config["interactive_add"]:
-                component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
+                component.get("AddTorrentDialog").add_from_files([arg])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                path = os.path.abspath(arg)
-                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)
+                client.core.add_torrent_file(os.path.split(arg)[-1], base64.encodestring(open(arg, "rb").read()), None)
