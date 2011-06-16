@@ -190,6 +190,10 @@ class QueuedTorrents(component.Component):
                 else:
                     client.core.add_magnet_uris([torrent_path], [])
             else:
+                if not os.path.exists(torrent_path):
+                    log.error("No such file: %s", torrent_path)
+                    return
+
                 if self.config["interactive_add"]:
                     def on_show(result):
                         component.get("AddTorrentDialog").add_from_files([torrent_path])
