@@ -221,6 +221,10 @@ def process_args(args):
         else:
             # Just a file
             log.debug("Attempting to add %s from external source..", arg)
+            if not os.path.exists(arg):
+                log.error("No such file: %s", arg)
+                continue
+
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_files([arg])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
