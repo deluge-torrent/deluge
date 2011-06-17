@@ -190,6 +190,7 @@ class QueuedTorrents(component.Component):
                 else:
                     client.core.add_magnet_uris([torrent_path], [])
             else:
+                torrent_path = os.path.abspath(torrent_path.replace('file://', '', 1))
                 if not os.path.exists(torrent_path):
                     log.error("No such file: %s", torrent_path)
                     return
