@@ -376,7 +376,7 @@ Please see the details below for more information."), details=traceback.format_e
                                                          host, port)
                                 return
 
-                            log.error("Connection to host failed..")
+                            log.info("Connection to host failed..")
                             log.info("Retrying connection.. Retries left: "
                                      "%s", try_counter)
                             reactor.callLater(0.5, update_connection_manager)
