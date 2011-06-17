@@ -87,15 +87,6 @@ class IPCInterface(component.Component):
         if not os.path.exists(deluge.configmanager.get_config_dir("ipc")):
             os.makedirs(deluge.configmanager.get_config_dir("ipc"))
 
-        # Make the args absolute paths
-        _args = []
-        for arg in args:
-            if arg.strip():
-                if not deluge.common.is_magnet(arg) and not deluge.common.is_url(arg):
-                    arg = os.path.abspath(arg.replace('file://', '', 1))
-                _args.append(arg)
-        args = _args
-
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
 
         if deluge.common.windows_check():
@@ -200,7 +191,7 @@ def process_args(args):
         return
     config = ConfigManager("gtkui.conf")
     for arg in args:
-        if not arg:
+        if not arg.strip():
             continue
         log.debug("arg: %s", arg)
         if deluge.common.is_url(arg):
@@ -220,13 +211,14 @@ def process_args(args):
                 client.core.add_torrent_magnet(arg, {})
         else:
             # Just a file
-            log.debug("Attempting to add %s from external source..", arg)
-            if not os.path.exists(arg):
-                log.error("No such file: %s", arg)
+            path = os.path.abspath(arg.replace('file://', '', 1))
+            log.debug("Attempting to add %s from external source..", path)
+            if not os.path.exists(path):
+                log.error("No such file: %s", path)
                 continue
 
             if config["interactive_add"]:
-                component.get("AddTorrentDialog").add_from_files([arg])
+                component.get("AddTorrentDialog").add_from_files([path])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.core.add_torrent_file(os.path.split(arg)[-1], base64.encodestring(open(arg, "rb").read()), None)
+                client.core.add_torrent_file(os.path.split(path)[-1], base64.encodestring(open(path, "rb").read()), None)
