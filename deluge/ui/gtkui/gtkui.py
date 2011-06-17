@@ -343,7 +343,7 @@ Please see the details below for more information."), details=traceback.format_e
                         def on_connect(connector):
                             component.start()
                         def on_connect_fail(result, try_counter):
-                            log.error("Connection to host failed..")
+                            log.info("Connection to host failed..")
                             # We failed connecting to the daemon, but lets try again
                             if try_counter:
                                 log.info("Retrying connection.. Retries left: %s", try_counter)
@@ -351,7 +351,7 @@ Please see the details below for more information."), details=traceback.format_e
                                 import time
                                 time.sleep(0.5)
                                 do_connect(try_counter)
-                            return result
+                            return
 
                         def do_connect(try_counter):
                             client.connect(*host[1:]).addCallback(on_connect).addErrback(on_connect_fail, try_counter)
