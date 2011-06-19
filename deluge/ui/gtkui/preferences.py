@@ -64,7 +64,6 @@ COLOR_STATES = {
 class Preferences(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Preferences")
-        self.window = component.get("MainWindow")
         self.glade = gtk.glade.XML(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "preferences_dialog.glade")
         ))
@@ -73,6 +72,8 @@ class Preferences(component.Component):
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
         self.gtkui_config = ConfigManager("gtkui.conf")
+
+        self.load_pref_dialog_state()
 
         self.glade.get_widget("image_magnet").set_from_file(
             deluge.common.get_pixmap("magnet.png"))
@@ -168,7 +169,8 @@ class Preferences(component.Component):
             "on_waiting_color_set": self._on_waiting_color_set,
             "on_revert_color_waiting_clicked": self._on_revert_color_waiting_clicked,
             "on_missing_color_set": self._on_missing_color_set,
-            "on_revert_color_missing_clicked": self._on_revert_color_missing_clicked
+            "on_revert_color_missing_clicked": self._on_revert_color_missing_clicked,
+            "on_pref_dialog_configure_event": self.on_pref_dialog_configure_event,
         })
 
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
@@ -876,6 +878,16 @@ class Preferences(component.Component):
     def on_pref_dialog_delete_event(self, widget, event):
         self.hide()
         return True
+
+    def load_pref_dialog_state(self):
+        w = self.gtkui_config["pref_dialog_width"]
+        h = self.gtkui_config["pref_dialog_height"]
+        if w != None and h != None:
+            self.pref_dialog.resize(w, h)
+
+    def on_pref_dialog_configure_event(self, widget, event):
+        self.gtkui_config["pref_dialog_width"] = event.width
+        self.gtkui_config["pref_dialog_height"] = event.height
 
     def on_toggle(self, widget):
         """Handles widget sensitivity based on radio/check button values."""

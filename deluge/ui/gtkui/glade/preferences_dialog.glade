@@ -8,10 +8,11 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Preferences</property>
     <property name="window_position">center-on-parent</property>
-    <property name="default_width">510</property>
-    <property name="default_height">530</property>
+    <property name="default_width">500</property>
+    <property name="default_height">560</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <signal name="configure_event" handler="on_pref_dialog_configure_event"/>
     <signal name="delete_event" handler="on_pref_dialog_delete_event"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
