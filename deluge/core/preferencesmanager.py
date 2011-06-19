@@ -228,7 +228,7 @@ class PreferencesManager(component.Component):
         self.config.register_change_callback(self._on_config_value_change)
 
     def stop(self):
-        if self.new_release_timer:
+        if self.new_release_timer and self.new_release_timer.running:
             self.new_release_timer.stop()
 
     # Config set functions
@@ -456,14 +456,14 @@ class PreferencesManager(component.Component):
         if value:
             log.debug("Checking for new release..")
             threading.Thread(target=self.core.get_new_release).start()
-            if self.new_release_timer:
+            if self.new_release_timer and self.new_release_timer.running:
                 self.new_release_timer.stop()
             # Set a timer to check for a new release every 3 days
             self.new_release_timer = LoopingCall(
                 self._on_new_release_check, "new_release_check", True)
             self.new_release_timer.start(72 * 60 * 60, False)
         else:
-            if self.new_release_timer:
+            if self.new_release_timer and self.new_release_timer.running:
                 self.new_release_timer.stop()
 
     def _on_set_proxies(self, key, value):
