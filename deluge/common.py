@@ -118,12 +118,12 @@ TORRENT_STATE = [
 FILE_PRIORITY = {
     0: "Do Not Download",
     1: "Normal Priority",
-    2: "High Priority",
-    5: "Highest Priority",
+    5: "High Priority",
+    7: "Highest Priority",
     "Do Not Download": 0,
     "Normal Priority": 1,
-    "High Priority": 2,
-    "Highest Priority": 5
+    "High Priority": 5,
+    "Highest Priority": 7
 }
 
 def get_version():
