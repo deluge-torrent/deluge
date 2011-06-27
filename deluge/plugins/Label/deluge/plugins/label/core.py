@@ -134,6 +134,8 @@ class Core(CorePluginBase):
 
     ## Plugin hooks ##
     def post_torrent_add(self, torrent_id, from_state):
+        if from_state:
+            return
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
