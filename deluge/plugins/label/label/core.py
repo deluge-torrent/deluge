@@ -110,7 +110,9 @@ class Core(CorePluginBase):
 
         self.clean_initial_config()
 
-        component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
+        def on_session_started():
+            component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
+        component.get("EventManager").register_event_handler("SessionStartedEvent", on_session_started)
         component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
         #register tree:

@@ -19,6 +19,9 @@
 === AutoAdd ===
 	* #1861: Fix AutoAdd Warning (column number is a boolean)
 
+=== Label ===
+	* #1246: Fix losing Labels upon restart
+
 === Deluge 1.3.2 (24 May 2011) ===
 ==== Core ====
 	* #1527: Fix Converting unicode to unicode error in move_storage
