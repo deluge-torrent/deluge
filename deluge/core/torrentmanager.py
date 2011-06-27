@@ -509,16 +509,14 @@ class TorrentManager(component.Component):
             self.save_state()
 
         # Emit torrent_added signal
-        from_state = False
-        if torrent_info and state is None:
-            from_state = True
+        from_state = state is not None
         component.get("EventManager").emit(
             TorrentAddedEvent(torrent.torrent_id, from_state)
         )
         log.info("Torrent %s from user \"%s\" %s",
                  torrent.get_status(["name"])["name"],
                  torrent.get_status(["owner"])["owner"],
-                 (from_state and "added" or "loaded"))
+                 (from_state and "loaded" or "added"))
         return torrent.torrent_id
 
     def load_torrent(self, torrent_id):
