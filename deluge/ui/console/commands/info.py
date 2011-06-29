@@ -247,7 +247,13 @@ class Command(BaseCommand):
                         s += "%sPeer\t{!input!}" % colors.state_color["Downloading"]
 
                     s += peer["country"] + "\t"
-                    s += peer["ip"]
+
+                    if peer["ip"].count(":") == 1:
+                        # IPv4
+                        s += peer["ip"]
+                    else:
+                        # IPv6
+                        s += "[%s]:%s" % (":".join(peer["ip"].split(":")[:-1]), peer["ip"].split(":")[-1])
 
                     c = peer["client"]
                     s += "\t" + c

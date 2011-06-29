@@ -38,7 +38,14 @@
 		return String.format('<img src="flag/{0}" />', value);
 	}
 	function peerAddressRenderer(value, p, record) {
-		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer'
+		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer';
+		// Modify display of IPv6 to include brackets
+		var peer_ip = value.split(':');
+		if (peer_ip.length > 2) {
+			var port = peer_ip.pop();
+			var ip = peer_ip.join(":");
+			value = "[" + ip + "]:" + port;
+		}
 		return String.format('<div class="{0}">{1}</div>', seed, value);
 	}
 	function peerProgressRenderer(value) {
