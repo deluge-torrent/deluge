@@ -317,6 +317,7 @@ class PeersTab(Tab):
                     # This is an IPv4 address
                     ip_int = sum([int(byte) << shift
                         for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                    peer_ip = peer["ip"]
                 else:
                     # This is an IPv6 address
                     import socket
@@ -324,6 +325,7 @@ class PeersTab(Tab):
                     # Split out the :port
                     ip = ":".join(peer["ip"].split(":")[:-1])
                     ip_int = long(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
+                    peer_ip = "[%s]:%s" % (ip, peer["ip"].split(":")[-1])
 
                 if peer["seed"]:
                     icon = self.seed_pixbuf
@@ -332,7 +334,7 @@ class PeersTab(Tab):
 
                 row = self.liststore.append([
                     self.get_flag_pixbuf(peer["country"]),
-                    peer["ip"],
+                    peer_ip,
                     peer["client"],
                     peer["down_speed"],
                     peer["up_speed"],
