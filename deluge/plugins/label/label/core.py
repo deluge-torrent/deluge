@@ -97,6 +97,7 @@ class Core(CorePluginBase):
         log.info("*** Start Label plugin ***")
         self.plugin = component.get("CorePluginManager")
         self.plugin.register_status_field("label", self._status_get_label)
+        self.torrent_manager = component.get("TorrentManager")
 
         #__init__
         core = component.get("Core")
@@ -110,9 +111,7 @@ class Core(CorePluginBase):
 
         self.clean_initial_config()
 
-        def on_session_started():
-            component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
-        component.get("EventManager").register_event_handler("SessionStartedEvent", on_session_started)
+        component.get("EventManager").register_event_handler("TorrentAddedEvent", self.post_torrent_add)
         component.get("EventManager").register_event_handler("TorrentRemovedEvent", self.post_torrent_remove)
 
         #register tree:
@@ -132,6 +131,8 @@ class Core(CorePluginBase):
 
     ## Plugin hooks ##
     def post_torrent_add(self, torrent_id):
+        if not self.torrent_manager.session_started:
+            return
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
