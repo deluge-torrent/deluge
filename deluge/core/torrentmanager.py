@@ -374,7 +374,35 @@ class TorrentManager(component.Component):
 
             add_torrent_params["resume_data"] = resume_data
         else:
-            # We have a torrent_info object so we're not loading from state.
+            # We have a torrent_info object or magnet uri so we're not loading from state.
+            if torrent_info:
+                add_torrent_id = str(torrent_info.info_hash())
+                if add_torrent_id in self.get_torrent_list():
+                    # Torrent already exists just append any extra trackers.
+                    log.debug("Torrent (%s) exists, checking for trackers to add...", add_torrent_id)
+                    add_torrent_trackers = []
+                    for value in torrent_info.trackers():
+                        tracker = {}
+                        tracker["url"] = value.url
+                        tracker["tier"] = value.tier
+                        add_torrent_trackers.append(tracker)
+
+                    torrent_trackers = {}
+                    tracker_list = []
+                    for tracker in  self[add_torrent_id].get_status(["trackers"])["trackers"]:
+                        torrent_trackers[(tracker["url"])] = tracker
+                        tracker_list.append(tracker)
+
+                    added_tracker = False
+                    for tracker in add_torrent_trackers:
+                        if tracker['url'] not in torrent_trackers:
+                            tracker_list.append(tracker)
+                            added_tracker = True
+
+                    if added_tracker:
+                        self[add_torrent_id].set_trackers(tracker_list)
+                    return
+
             # Check if options is None and load defaults
             if options == None:
                 options = TorrentOptions()
@@ -408,34 +436,6 @@ class TorrentManager(component.Component):
         add_torrent_params["paused"] = True
         add_torrent_params["auto_managed"] = False
         add_torrent_params["duplicate_is_error"] = True
-
-        # If torrent already exists just append any extra trackers.
-        if state is None:
-            add_torrent_id = str(add_torrent_params["ti"].info_hash())
-            if add_torrent_id in self.get_torrent_list():
-                log.debug("Torrent (%s) exists, checking for trackers to add...", add_torrent_id)
-                add_torrent_trackers = []
-                for value in add_torrent_params["ti"].trackers():
-                    tracker = {}
-                    tracker["url"] = value.url
-                    tracker["tier"] = value.tier
-                    add_torrent_trackers.append(tracker)
-
-                torrent_trackers = {}
-                tracker_list = []
-                for tracker in  self[add_torrent_id].get_status(["trackers"])["trackers"]:
-                    torrent_trackers[(tracker["url"])] = tracker
-                    tracker_list.append(tracker)
-
-                added_tracker = False
-                for tracker in add_torrent_trackers:
-                    if tracker['url'] not in torrent_trackers:
-                        tracker_list.append(tracker)
-                        added_tracker = True
-
-                if added_tracker:
-                    self[add_torrent_id].set_trackers(tracker_list)
-                return
 
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
