@@ -149,6 +149,9 @@ class TorrentManager(component.Component):
 
         # Keeps track of resume data that needs to be saved to disk
         self.resume_data = {}
+        
+        # Workaround to determine if TorrentAddedEvent is from state file
+        self.session_started = False
 
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -631,6 +634,7 @@ class TorrentManager(component.Component):
                 log.error("Torrent state file is either corrupt or incompatible! %s", e)
                 break
 
+        self.session_started = True
         component.get("EventManager").emit(SessionStartedEvent())
 
     def save_state(self):
