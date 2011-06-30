@@ -76,6 +76,7 @@ class Core(CorePluginBase):
     def enable(self):
         self.config = ConfigManager("execute.conf", DEFAULT_CONFIG)
         event_manager = component.get("EventManager")
+        self.torrent_manager = component.get("TorrentManager")
         self.registered_events = {}
 
         # Go through the commands list and register event handlers
@@ -102,6 +103,8 @@ class Core(CorePluginBase):
         torrent_name = info["name"]
         if event == "complete":
             save_path = info["move_on_completed_path"] if info ["move_on_completed"] else info["save_path"]
+        elif event == "added" and not self.torrent_manager.session_started:
+            return
         else:
             save_path = info["save_path"]
 
