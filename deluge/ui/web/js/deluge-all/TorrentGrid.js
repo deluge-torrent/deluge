@@ -75,6 +75,10 @@
         return eta * -1;
     }
 
+    function dateOrNever(date) {
+        return date > 0.0 ? fdate(date) : "Never"
+    }
+
     /**
      * Deluge.TorrentGrid Class
      *
@@ -169,7 +173,7 @@
             header: _('Last Seen Complete'),
             width: 80,
             sortable: true,
-            renderer: fdate,
+            renderer: dateOrNever,
             dataIndex: 'last_seen_complete'
         }, {
             header: _('Tracker'),

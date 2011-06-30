@@ -68,6 +68,13 @@ def fspeed(value, max_value=-1):
     else:
         return deluge.common.fspeed(value)
 
+def fdate_or_never(value):
+    """Display value as date, eg 05/05/08 or Never"""
+    if value > 0.0:
+        return deluge.common.fdate(value)
+    else:
+        return "Never"
+
 class StatusTab(Tab):
     def __init__(self):
         Tab.__init__(self)
@@ -103,7 +110,8 @@ class StatusTab(Tab):
             (glade.get_widget("summary_seed_rank"), str, ("seed_rank",)),
             (glade.get_widget("summary_auto_managed"), str, ("is_auto_managed",)),
             (glade.get_widget("progressbar"), fpcnt, ("progress",)),
-            (glade.get_widget("summary_date_added"), deluge.common.fdate, ("time_added",))
+            (glade.get_widget("summary_date_added"), deluge.common.fdate, ("time_added",)),
+            (glade.get_widget("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
         ]
 
     def update(self):
@@ -125,7 +133,7 @@ class StatusTab(Tab):
             "total_seeds", "eta", "ratio", "next_announce",
             "tracker_status", "max_connections", "max_upload_slots",
             "max_upload_speed", "max_download_speed", "active_time",
-            "seeding_time", "seed_rank", "is_auto_managed", "time_added"]
+            "seeding_time", "seed_rank", "is_auto_managed", "time_added", "last_seen_complete"]
         if self.config['show_piecesbar']:
             status_keys.extend(["pieces", "state"])
 

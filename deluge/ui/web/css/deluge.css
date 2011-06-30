@@ -112,6 +112,9 @@ dl.singleline dd {
 .x-deluge-status dd.time_added {
 	width: 100px;
 }
+.x-deluge-status dd.last_seen_complete {
+	width: 100px;
+}
 
 /* Torrent Details - Details Tab */
 #torrentDetails dd.torrent_name,
