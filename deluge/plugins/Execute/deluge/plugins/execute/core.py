@@ -87,8 +87,8 @@ class Core(CorePluginBase):
                 continue
 
             def create_event_handler(event):
-                def event_handler(torrent_id):
-                    self.execute_commands(torrent_id, event)
+                def event_handler(torrent_id, *arg):
+                    self.execute_commands(torrent_id, event, *arg)
                 return event_handler
             event_handler = create_event_handler(event)
             event_manager.register_event_handler(EVENT_MAP[event], event_handler)
@@ -96,7 +96,7 @@ class Core(CorePluginBase):
 
         log.debug("Execute core plugin enabled!")
 
-    def execute_commands(self, torrent_id, event):
+    def execute_commands(self, torrent_id, event, *arg):
         torrent = component.get("TorrentManager").torrents[torrent_id]
         info = torrent.get_status(["name", "save_path", "move_on_completed", "move_on_completed_path"])
 
@@ -104,6 +104,9 @@ class Core(CorePluginBase):
         torrent_name = info["name"]
         if event == "complete":
             save_path = info["move_on_completed_path"] if info ["move_on_completed"] else info["save_path"]
+        elif event == "added" and arg[0]:
+            # No futher action as from_state (arg[0]) is True
+            return
         else:
             save_path = info["save_path"]
 
