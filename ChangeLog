@@ -6,6 +6,7 @@
 	* #1869: Fix setting the disk io read/write to bypass OS cache in Windows
 	* #1504: Fix win32 running deluged as not logged in user via runas or service
 	* #890: If added torrent already exists, append extra trackers to it
+	* #1338: Fix Seeds and Peers totals not updating
 
 ==== GtkUI ====
 	* Show the checking icon for torrents in the 'Checking Resume Data' state
@@ -22,6 +23,9 @@
 
 === Label ===
 	* #1246: Fix losing Labels upon restart
+
+=== Execute ===
+	* #1477: Fix ignore Added events from state file on startup
 
 === Deluge 1.3.2 (24 May 2011) ===
 ==== Core ====
