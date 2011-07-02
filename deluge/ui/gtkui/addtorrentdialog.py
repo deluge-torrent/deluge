@@ -837,6 +837,7 @@ class AddTorrentDialog(component.Component):
             # We'll send this to the core when adding the torrent so it knows
             # what to rename before adding.
             self.options[torrent_id]["mapped_files"][index] = file_path
+            self.files[torrent_id][index]['path'] = file_path
         else:
             # Folder!
             def walk_tree(row):
@@ -861,6 +862,7 @@ class AddTorrentDialog(component.Component):
 
                         # Update the file path in the mapped_files dict
                         self.options[torrent_id]["mapped_files"][index] = file_path
+                        self.files[torrent_id][index]['path'] = file_path
 
                     # Get the next siblings iter
                     row = self.files_treestore.iter_next(row)
