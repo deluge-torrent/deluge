@@ -54,6 +54,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     ),
 
     initComponent: function() {
+        console.log('Plugins preferences page created');
         this.callParent(arguments);
         this.defaultValues = {
             'version': '',

@@ -1,7 +1,7 @@
 /*!
  * Deluge.Statusbar.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,25 +29,21 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge');
 
-Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
-    constructor: function(config) {
-        config = Ext.apply({
-            id: 'deluge-statusbar',
-            defaultIconCls: 'x-deluge-statusbar x-not-connected',
-            defaultText: _('Not Connected')
-        }, config);
-        Deluge.Statusbar.superclass.constructor.call(this, config);
-    },
-    
+Ext.define('Deluge.StatusBar', {
+    extend: 'Ext.ux.statusbar.StatusBar',
+
+    id: 'deluge-statusbar',
+    defaultIconCls: 'x-deluge-statusbar x-not-connected',
+    defaultText: _('Not Connected'),
+
     initComponent: function() {
-        Deluge.Statusbar.superclass.initComponent.call(this);
-        
+        this.callParent(arguments);
+
         deluge.events.on('connect', this.onConnect, this);
         deluge.events.on('disconnect', this.onDisconnect, this);
     },
-    
+
     createButtons: function() {
         this.buttons = this.add({
             id: 'statusbar-connections',
@@ -221,7 +217,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         });
         this.created = true;
     },
-    
+
     onConnect: function() {
         this.setStatus({
             iconCls: 'x-connected',
@@ -246,18 +242,18 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         });
         this.doLayout();
     },
-    
+
     update: function(stats) {
         if (!stats) return;
-        
+
         function addSpeed(val) {return val + ' KiB/s'}
-        
-        var updateStat = function(name, config) {
+
+        var updateStat = Ext.bind(function(name, config) {
             var item = this.items.get('statusbar-' + name);
             if (config.limit.value > 0) {
                 var value = (config.value.formatter) ? config.value.formatter(config.value.value, true) : config.value.value;
                 var limit = (config.limit.formatter) ? config.limit.formatter(config.limit.value, true) : config.limit.value;
-                var str = String.format(config.format, value, limit);
+                var str = Ext.String.format(config.format, value, limit);
             } else {
                 var str = (config.value.formatter) ? config.value.formatter(config.value.value, true) : config.value.value;
             }
@@ -265,8 +261,8 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 
             if (!item.menu) return;
             item.menu.setValue(config.limit.value);
-        }.createDelegate(this);
-        
+        }, this);
+
         updateStat('connections', {
             value: {value: stats.num_connections},
             limit: {value: stats.max_num_connections},

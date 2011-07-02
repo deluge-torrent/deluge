@@ -57,7 +57,7 @@ Ext.define('Deluge.details.DetailsPanel', {
     clear: function() {
         this.items.each(function(panel) {
             if (panel.clear) {
-                panel.clear.defer(100, panel);
+                Ext.defer(panel.clear, 100, panel);
                 panel.disable();
             }
         });

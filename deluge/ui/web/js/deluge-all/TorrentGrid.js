@@ -35,29 +35,29 @@ function queueRenderer(value) {
     return (value == -1) ? '' : value + 1;
 }
 function torrentNameRenderer(value, p, r) {
-    return String.format('<div class="torrent-name x-deluge-{0}">{1}</div>', r.data['state'].toLowerCase(), value);
+    return Ext.String.format('<div class="torrent-name x-deluge-{0}">{1}</div>', r.data['state'].toLowerCase(), value);
 }
 function torrentSpeedRenderer(value) {
     if (!value) return;
     return fspeed(value);
 }
-function torrentProgressRenderer(value, p, r) {
+function torrentProgressRenderer(value, md, r) {
     value = new Number(value);
-    var progress = value;
-    var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
-    var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
+    var width = this.query('gridcolumn[dataIndex=progress]')[0].getWidth(),
+        progress = value,
+        text = r.data['state'] + ' ' + value.toFixed(2) + '%';
     return Deluge.progressBar(value, width - 8, text);
 }
 function seedsRenderer(value, p, r) {
     if (r.data['total_seeds'] > -1) {
-        return String.format('{0} ({1})', value, r.data['total_seeds']);
+        return Ext.String.format('{0} ({1})', value, r.data['total_seeds']);
     } else {
         return value;
     }
 }
 function peersRenderer(value, p, r) {
     if (r.data['total_peers'] > -1) {
-        return String.format('{0} ({1})', value, r.data['total_peers']);
+        return Ext.String.format('{0} ({1})', value, r.data['total_peers']);
     } else {
         return value;
     }
@@ -66,7 +66,7 @@ function availRenderer(value, p, r)    {
     return (value < 0) ? '&infin;' : new Number(value).toFixed(3);
 }
 function trackerRenderer(value, p, r) {
-    return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
+    return Ext.String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 }
 
 function etaSorter(eta) {
@@ -84,7 +84,7 @@ function dateOrNever(date) {
  * @version 1.3
  *
  * @class Deluge.TorrentGrid
- * @extends Ext.grid.GridPanel
+ * @extends Ext.grid.Panel
  * @constructor
  * @param {Object} config Configuration options
  */
@@ -231,7 +231,7 @@ Ext.define('Deluge.TorrentGrid', {
     },
 
     store: Ext.create('Ext.data.Store', {
-        model: 'Deluge.data.TorrentRecord',
+        model: 'Deluge.data.Torrent',
         proxy: {
             type: 'memory',
             reader: {
@@ -281,14 +281,14 @@ Ext.define('Deluge.TorrentGrid', {
      * @ return {Array/Ext.data.Record} The record(s) representing the rows
      */
     getSelected: function() {
-        return this.getSelectionModel().getSelected();
+        return this.getSelectionModel().getLastSelected();
     },
 
     /**
      * Returns the currently selected records.
      */
     getSelections: function() {
-        return this.getSelectionModel().getSelections();
+        return this.getSelectionModel().getSelection();
     },
 
     /**
@@ -296,7 +296,7 @@ Ext.define('Deluge.TorrentGrid', {
      * @return {String} The currently selected id.
      */
     getSelectedId: function() {
-        return this.getSelectionModel().getSelected().id
+        return this.getSelected().getId()
     },
 
     /**
@@ -305,8 +305,8 @@ Ext.define('Deluge.TorrentGrid', {
      */
     getSelectedIds: function() {
         var ids = [];
-        Ext.each(this.getSelectionModel().getSelections(), function(r) {
-            ids.push(r.id);
+        Ext.each(this.getSelections(), function(r) {
+            ids.push(r.getId());
         });
         return ids;
     },
@@ -337,7 +337,7 @@ Ext.define('Deluge.TorrentGrid', {
                 record.endEdit();
             } else {
                 var record = new Deluge.data.Torrent(torrent);
-                record.id = t;
+                record.setId(t);
                 this.torrents[t] = 1;
                 newTorrents.push(record);
             }
@@ -346,16 +346,15 @@ Ext.define('Deluge.TorrentGrid', {
 
         // Remove any torrents that should not be in the store.
         store.each(function(record) {
-            if (!torrents[record.id]) {
+            if (!torrents[record.getId()]) {
                 store.remove(record);
-                delete this.torrents[record.id];
+                delete this.torrents[record.getId()];
             }
         }, this);
-        store.commitChanges();
+        store.sync();
 
-        var sortState = store.getSortState()
-        if (!sortState) return;
-        store.sort(sortState.field, sortState.direction);
+        // TODO: re-enable this is it's required.
+        //store.sort(store.sorters);
     },
 
     // private

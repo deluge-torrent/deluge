@@ -352,9 +352,9 @@ Ext.define('Deluge.details.OptionsTab', {
         this.callParent(arguments);
 
         // This is another hack I think, so keep an eye out here when upgrading.
-        this.layout = new Ext.layout.ColumnLayout();
-        this.layout.setContainer(this);
-        this.doLayout();
+        //this.layout = new Ext.layout.ColumnLayout();
+        //this.layout.setContainer(this);
+        //this.doLayout();
     },
 
     clear: function() {

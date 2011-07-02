@@ -727,8 +727,7 @@ class WebApi(JSONComponent):
         """
         Return the hosts in the hostlist.
         """
-        log.debug("get_hosts called")
-        return [(tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),)) for host in self.host_list["hosts"]]
+        return [dict(zip(('id', 'host', 'port', 'status'), tuple(host[HOSTS_ID:HOSTS_PORT+1]) + (_("Offline"),))) for host in self.host_list["hosts"]]
 
     @export
     def get_host_status(self, host_id):
@@ -740,12 +739,18 @@ class WebApi(JSONComponent):
     	"""
 
         def response(status, info=None):
-            return host_id, host, port, status, info
+            return dict (
+                id      = host_id,
+                host    = host,
+                port    = port,
+                status  = status,
+                version = info
+            )
 
         try:
             host_id, host, port, user, password = self.get_host(host_id)
         except TypeError, e:
-            return response(_("Offline"))
+            return None
 
         def on_connect(connected, c, host_id):
             def on_info(info, c):

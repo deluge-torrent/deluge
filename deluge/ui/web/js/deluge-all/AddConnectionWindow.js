@@ -52,10 +52,22 @@ Ext.define('Deluge.AddConnectionWindow', {
 
         this.addEvents('hostadded');
 
-        this.addButton(_('Close'), this.hide, this);
-        this.addButton(_('Add'), this.onAddClick, this);
+        this.addDocked({
+            xtype: 'toolbar',
+            dock: 'bottom',
+            defaultType: 'button',
+            items: [
+                '->',
+                {text: _('Close'), handler: function() {
+                    this.setVisible(false);
+                }, scope: this},
+                {text: _('Add'), handler: this.onAddClick, scope: this}
+            ]
+        });
 
-        this.on('hide', this.onHide, this);
+        this.on('hide', function() {
+            this.form.getForm().reset();
+        }, this);
 
         this.form = this.add({
             xtype: 'form',
@@ -65,28 +77,22 @@ Ext.define('Deluge.AddConnectionWindow', {
             items: [{
                 fieldLabel: _('Host'),
                 name: 'host',
-                anchor: '75%',
                 value: ''
             }, {
-                xtype: 'spinnerfield',
+                xtype: 'numberfield',
                 fieldLabel: _('Port'),
                 name: 'port',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: -1,
-                    maxValue: 65535
-                },
-                value: '58846',
-                anchor: '40%'
+                width: 175,
+                value: 58846,
+                minValue: -1,
+                maxValue: 65535,
+                decimalPrecision: 0,
             }, {
                 fieldLabel: _('Username'),
                 name: 'username',
-                anchor: '75%',
                 value: ''
             }, {
                 fieldLabel: _('Password'),
-                anchor: '75%',
                 name: 'password',
                 inputType: 'password',
                 value: ''
@@ -114,9 +120,5 @@ Ext.define('Deluge.AddConnectionWindow', {
             },
             scope: this
         });
-    },
-
-    onHide: function() {
-        this.form.getForm().reset();
     }
 });

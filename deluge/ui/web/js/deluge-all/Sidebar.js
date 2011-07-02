@@ -40,30 +40,25 @@
  * @version 1.3
  */
 Ext.define('Deluge.Sidebar', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.panel.Panel',
+
+    id: 'sidebar',
+    region: 'west',
+    cls: 'deluge-sidebar',
+    title: _('Filters'),
+    layout: 'accordion',
+    split: true,
+    width: 200,
+    minSize: 175,
+    collapsible: true,
+    margins: '5 0 0 5',
+    cmargins: '5 0 0 5',
 
     // private
     panels: {},
 
     // private
     selected: null,
-
-    constructor: function(config) {
-        config = Ext.apply({
-            id: 'sidebar',
-            region: 'west',
-            cls: 'deluge-sidebar',
-            title: _('Filters'),
-            layout: 'accordion',
-            split: true,
-            width: 200,
-            minSize: 175,
-            collapsible: true,
-            margins: '5 0 0 5',
-            cmargins: '5 0 0 5'
-        }, config);
-        this.callParent(arguments);
-    },
 
     // private
     initComponent: function() {

@@ -56,7 +56,7 @@ deluge.ui = {
         deluge.login = Ext.create('Deluge.LoginWindow');
         deluge.preferences = Ext.create('Deluge.preferences.PreferencesWindow');
         deluge.sidebar = Ext.create('Deluge.Sidebar');
-        deluge.statusbar = Ext.create('Deluge.Statusbar');
+        deluge.statusbar = Ext.create('Deluge.StatusBar');
         deluge.toolbar = Ext.create('Deluge.Toolbar');
         deluge.torrents = Ext.create('Deluge.TorrentGrid');
 

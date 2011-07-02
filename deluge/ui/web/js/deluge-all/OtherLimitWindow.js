@@ -1,7 +1,7 @@
 /*!
  * Deluge.OtherLimitWindow.js
- * 
- * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
+ *
+ * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,14 +29,14 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.OtherLimitWindow
  * @extends Ext.Window
  */
-Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
-    
+Ext.define('Deluge.OtherLimitWindow', {
+    extend: 'Ext.Window',
+
     layout: 'fit',
     width: 210,
     height: 100,
@@ -44,7 +44,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
     closeAction: 'hide',
 
     initComponent: function() {
-        Deluge.OtherLimitWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
         this.form = this.add({
             xtype: 'form',
             baseCls: 'x-plain',
@@ -69,8 +69,17 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
             this.setSize(180, 100);
         }
 
-        this.addButton(_('Cancel'), this.onCancelClick, this);
-        this.addButton(_('Ok'), this.onOkClick, this);
+        this.addDocked({
+            xtype: 'toolbar',
+            dock: 'bottom',
+            defaultType: 'button',
+            items: [
+                '->',
+                {text: _('Cancel'), handler: this.onCancelClick, scope: this},
+                {text: _('Ok'), handler: this.onOkClick, scope: this}
+            ]
+        });
+
         this.afterMethod('show', this.doFocusField, this);
     },
 

@@ -36,10 +36,11 @@
  * <p>Deluge.EventsManager is instantated as <tt>deluge.events</tt> and can be used by components of the UI to fire global events</p>
  * Class for holding global events that occur within the UI.
  */
-Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
+Ext.define('Deluge.EventsManager', {
+    extend: 'Ext.util.Observable',
+    toRegister: [],
 
     constructor: function() {
-        this.toRegister = [];
         this.on('login', this.onLogin, this);
         this.callParent(arguments);
     },
@@ -55,8 +56,9 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
             } else {
                 deluge.client.web.register_event_listener(eventName);
             }
+        } else {
+            this.callParent(arguments);
         }
-        this.callParent(arguments);
     },
 
     getEvents: function() {

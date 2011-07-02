@@ -1,6 +1,6 @@
 /*!
  * Deluge.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -56,7 +56,7 @@ Ext.apply(Ext, {
         }
         return equal;
     },
-    
+
     keys: function(obj) {
         var keys = [];
         for (var i in obj) if (obj.hasOwnProperty(i))
@@ -75,7 +75,7 @@ Ext.apply(Ext, {
         }
         return values;
     },
-        
+
     splat: function(obj) {
         var type = Ext.type(obj);
         return (type) ? ((type != 'array') ? [obj] : obj) : [];
@@ -90,7 +90,7 @@ Ext.apply(Deluge, {
 
     // private
     pluginStore: {},
-    
+
     // private
     progressTpl:    '<div class="x-progress-wrap x-progress-renderered">' +
                         '<div class="x-progress-inner">' +
@@ -105,7 +105,7 @@ Ext.apply(Deluge, {
                         '</div>' +
                     '</div>',
 
-    
+
     /**
      * A method to create a progress bar that can be used by renderers
      * to display a bar within a grid or tree.
@@ -119,7 +119,7 @@ Ext.apply(Deluge, {
         var progressWidth = ((width / 100.0) * progress).toFixed(0);
         var barWidth = progressWidth - 1;
         var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
-        return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
+        return Ext.String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
     },
 
     /**
@@ -146,7 +146,7 @@ Ext.apply(Deluge, {
     registerPlugin: function(name, plugin) {
         Deluge.pluginStore[name] = plugin;
     }
-    
+
 });
 
 // Setup a space for plugins to insert themselves
