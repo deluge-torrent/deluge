@@ -1031,7 +1031,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        torrent.set_save_path(alert.handle.save_path())
+        torrent.set_save_path(os.path.normpath(alert.handle.save_path()))
         torrent.set_move_completed(False)
 
     def on_alert_torrent_resumed(self, alert):
