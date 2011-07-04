@@ -7,6 +7,7 @@
 	* #1504: Fix win32 running deluged as not logged in user via runas or service
 	* #890: If added torrent already exists, append extra trackers to it
 	* #1338: Fix Seeds and Peers totals not updating
+	* #1239: Fix translated Tracker Error text not counted in sidebar Error status
 
 ==== GtkUI ====
 	* Show the checking icon for torrents in the 'Checking Resume Data' state
