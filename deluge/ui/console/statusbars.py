@@ -90,17 +90,17 @@ class StatusBars(component.Component):
         if self.config["max_connections_global"] > -1:
             self.screen.bottombar += " (%s)" % self.config["max_connections_global"]
 
-        self.screen.bottombar += " D: %s/s" % self.download
+        self.screen.bottombar += " D: %s" % self.download
 
         if self.config["max_download_speed"] > -1:
-            self.screen.bottombar += " (%s KiB/s)" % self.config["max_download_speed"]
+            self.screen.bottombar += " (%s " % self.config["max_download_speed"] + _("KiB/s") + ")" 
 
-        self.screen.bottombar += " U: %s/s" % self.upload
+        self.screen.bottombar += " U: %s" % self.upload
 
         if self.config["max_upload_speed"] > -1:
-            self.screen.bottombar += " (%s KiB/s)" % self.config["max_upload_speed"]
+            self.screen.bottombar += " (%s " % self.config["max_upload_speed"] + _("KiB/s") + ")"
 
         if self.config["dht"]:
-            self.screen.bottombar += " DHT: %s" % self.dht
+            self.screen.bottombar += " " + _("DHT") + ": %s" % self.dht
 
         self.screen.refresh()

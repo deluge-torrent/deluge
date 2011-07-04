@@ -433,8 +433,8 @@ class MenuBar(component.Component):
         }
         # widget: (header, type_str, image_stockid, image_filename, default)
         other_dialog_info = {
-            "menuitem_down_speed": (_("Set Maximum Download Speed"), "KiB/s", None, "downloading.svg", -1.0),
-            "menuitem_up_speed": (_("Set Maximum Upload Speed"), "KiB/s", None, "seeding.svg", -1.0),
+            "menuitem_down_speed": (_("Set Maximum Download Speed"), _("KiB/s"), None, "downloading.svg", -1.0),
+            "menuitem_up_speed": (_("Set Maximum Upload Speed"), _("KiB/s"), None, "seeding.svg", -1.0),
             "menuitem_max_connections": (_("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, -1),
             "menuitem_upload_slots": (_("Set Maximum Upload Slots"), "", gtk.STOCK_SORT_ASCENDING, None, -1)
         }

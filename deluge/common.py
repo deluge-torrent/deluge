@@ -311,7 +311,14 @@ def fspeed(bps):
     '42.1 KiB/s'
 
     """
-    return '%s/s' % (fsize(bps))
+    fspeed_kb = bps / 1024.0
+    if fspeed_kb < 1024:
+        return "%.1f %s" % (fspeed_kb, _("KiB/s"))
+    fspeed_mb = fspeed_kb / 1024.0
+    if fspeed_mb < 1024:
+        return "%.1f %s" % (fspeed_mb, _("MiB/s"))
+    fspeed_gb = fspeed_mb / 1024.0
+    return "%.1f %s" % (fspeed_gb, _("GiB/s"))
 
 def fpeer(num_peers, total_peers):
     """
