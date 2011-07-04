@@ -120,9 +120,9 @@ class StatusBar(component.Component):
         self.max_connections = -1
         self.num_connections = 0
         self.max_download_speed = -1.0
-        self.download_rate = 0.0
+        self.download_rate = ""
         self.max_upload_speed = -1.0
-        self.upload_rate = 0.0
+        self.upload_rate = ""
         self.dht_nodes = 0
         self.dht_status = False
         self.health = False
@@ -311,8 +311,8 @@ class StatusBar(component.Component):
             self.remove_item(self.dht_item)
 
     def _on_get_session_status(self, status):
-        self.download_rate = deluge.common.fsize(status["payload_download_rate"])
-        self.upload_rate = deluge.common.fsize(status["payload_upload_rate"])
+        self.download_rate = deluge.common.fspeed(status["payload_download_rate"])
+        self.upload_rate = deluge.common.fspeed(status["payload_upload_rate"])
         self.download_protocol_rate = (status["download_rate"] - status["payload_download_rate"]) / 1024
         self.upload_protocol_rate = (status["upload_rate"] - status["payload_upload_rate"]) / 1024
         self.update_download_label()
@@ -355,9 +355,9 @@ class StatusBar(component.Component):
     def update_download_label(self):
         # Set the download speed label
         if self.max_download_speed <= 0:
-            label_string = "%s/s" % self.download_rate
+            label_string = self.download_rate
         else:
-            label_string = "%s/s (%s %s)" % (
+            label_string = "%s (%s %s)" % (
                 self.download_rate, self.max_download_speed, _("KiB/s"))
 
         self.download_item.set_text(label_string)
@@ -365,9 +365,9 @@ class StatusBar(component.Component):
     def update_upload_label(self):
         # Set the upload speed label
         if self.max_upload_speed <= 0:
-            label_string = "%s/s" % self.upload_rate
+            label_string = self.upload_rate
         else:
-            label_string = "%s/s (%s %s)" % (
+            label_string = "%s (%s %s)" % (
                 self.upload_rate, self.max_upload_speed, _("KiB/s"))
 
         self.upload_item.set_text(label_string)
