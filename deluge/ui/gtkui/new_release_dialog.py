@@ -37,6 +37,7 @@
 import deluge.component as component
 import deluge.common
 from deluge.configmanager import ConfigManager
+from deluge.ui.client import client
 
 class NewReleaseDialog:
     def __init__(self):
@@ -53,15 +54,25 @@ class NewReleaseDialog:
         else:
             glade.get_widget("image_new_release").set_from_icon_name("deluge", 4)
         glade.get_widget("label_available_version").set_text(available_version)
-        glade.get_widget("label_current_version").set_text(
+        glade.get_widget("label_client_version").set_text(
             deluge.common.get_version())
         self.chk_not_show_dialog = glade.get_widget("chk_do_not_show_new_release")
         glade.get_widget("button_goto_downloads").connect(
             "clicked", self._on_button_goto_downloads)
         glade.get_widget("button_close_new_release").connect(
             "clicked", self._on_button_close_new_release)
+        
+        if client.connected():
+            def on_info(version):
+                glade.get_widget("label_server_version").set_text(version)
+                glade.get_widget("label_server_version").show()
+                glade.get_widget("label_server_version_text").show()
 
-        self.dialog.show_all()
+            if not client.is_classicmode():
+                glade.get_widget("label_client_version_text").set_label(_("<i>Client Version</i>"))
+                client.daemon.info().addCallback(on_info)
+
+        self.dialog.show()
 
     def _on_button_goto_downloads(self, widget):
         deluge.common.open_url_in_browser("http://deluge-torrent.org")
