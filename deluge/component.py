@@ -99,7 +99,8 @@ class Component(object):
         _ComponentRegistry.register(self)
 
     def __del__(self):
-        _ComponentRegistry.deregister(self)
+        if _ComponentRegistry:
+            _ComponentRegistry.deregister(self)
         
     def _component_start_timer(self):
         if hasattr(self, "update"):
