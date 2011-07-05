@@ -171,14 +171,20 @@ class OptionsTab(Tab):
 
             if status["compact"]:
                 self.chk_prioritize_first_last.set_sensitive(False)
-                self.chk_prioritize_first_last.hide()
+                if self.chk_sequential_download.get_property("visible"):
+                    self.chk_prioritize_first_last.hide()
                 self.chk_sequential_download.set_sensitive(False)
-                self.chk_sequential_download.hide()
+                if self.chk_sequential_download.get_property("visible"):
+                    self.chk_sequential_download.hide()
             else:
                 if status["prioritize_first_last"] != self.prev_status["prioritize_first_last"]:
                     self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
+                    if not self.chk_prioritize_first_last.get_property("visible"):
+                        self.chk_prioritize_first_last.show()
                 if status["sequential_download"] != self.prev_status["sequential_download"]:
                     self.chk_sequential_download.set_active(status["sequential_download"])
+                    if not self.chk_sequential_download.get_property("visible"):
+                        self.chk_sequential_download.show()
 
 
             if self.button_apply.is_sensitive():
