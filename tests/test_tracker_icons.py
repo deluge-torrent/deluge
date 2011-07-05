@@ -39,7 +39,7 @@ class TrackerIconsTestCase(unittest.TestCase):
 
     def test_get_ubuntu_ico(self):
         # ubuntu.com has inline css which causes HTMLParser issues
-        icon = TrackerIcon("../ubuntu.png")
+        icon = TrackerIcon("../ubuntu.ico")
         d = icons.get("www.ubuntu.com")
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEquals, icon)
