@@ -345,8 +345,13 @@ class TorrentManager(component.Component):
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None, magnet=None, resume_data=None,
-            owner='localclient'):
+            owner=Ellipsis):
         """Add a torrent to the manager and returns it's torrent_id"""
+
+        if owner is Ellipsis:
+            owner = component.get("RPCServer").get_session_user()
+            if not owner:
+                owner = "localclient"
 
         if torrent_info is None and state is None and filedump is None and magnet is None:
             log.debug("You must specify a valid torrent_info, torrent state or magnet.")
