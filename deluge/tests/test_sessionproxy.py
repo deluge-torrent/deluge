@@ -1,7 +1,6 @@
 import time
-import sys
 from twisted.trial import unittest
-from twisted.internet.defer import maybeDeferred, succeed, DeferredList
+from twisted.internet.defer import maybeDeferred, succeed
 import deluge.ui.sessionproxy
 import deluge.component as component
 
@@ -15,6 +14,9 @@ class Core(object):
         self.torrents["b"] = {"key1": 1, "key2": 2, "key3": 3}
         self.torrents["c"] = {"key1": 1, "key2": 2, "key3": 3}
         self.prev_status = {}
+
+    def get_session_state(self):
+        return maybeDeferred(self.torrents.keys)
 
     def get_torrent_status(self, torrent_id, keys, diff=False):
         if not keys:
