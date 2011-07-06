@@ -136,25 +136,35 @@ class ConnectionManager(component.Component):
         """
         self.config = self.__load_config()
         # Get the glade file for the connection manager
-        self.glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "connection_manager.glade"))
-        )
+        self.builder = gtk.Builder()
+        # The main dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "connection_manager.ui")
+        ))
+        # The add host dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "connection_manager.addhost.ui")
+        ))
+        # The ask password dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "connection_manager.askpassword.ui")
+        ))
         self.window = component.get("MainWindow")
 
         # Setup the ConnectionManager dialog
-        self.connection_manager = self.glade.get_widget("connection_manager")
+        self.connection_manager = self.builder.get_object("connection_manager")
         self.connection_manager.set_transient_for(self.window.window)
 
         self.connection_manager.set_icon(common.get_deluge_icon())
 
-        self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
+        self.builder.get_object("image1").set_from_pixbuf(common.get_logo(32))
 
-        self.askpassword_dialog = self.glade.get_widget("askpassword_dialog")
+        self.askpassword_dialog = self.builder.get_object("askpassword_dialog")
         self.askpassword_dialog.set_transient_for(self.connection_manager)
         self.askpassword_dialog.set_icon(common.get_deluge_icon())
-        self.askpassword_dialog_entry = self.glade.get_widget("askpassword_dialog_entry")
+        self.askpassword_dialog_entry = self.builder.get_object("askpassword_dialog_entry")
 
-        self.hostlist = self.glade.get_widget("hostlist")
+        self.hostlist = self.builder.get_object("hostlist")
 
         # Create status pixbufs
         if not HOSTLIST_PIXBUFS:
@@ -185,7 +195,7 @@ class ConnectionManager(component.Component):
         self.hostlist.append_column(column)
 
         # Connect the signals to the handlers
-        self.glade.signal_autoconnect(self)
+        self.builder.connect_signals(self)
         self.hostlist.get_selection().connect(
             "changed", self.on_hostlist_selection_changed
         )
@@ -211,7 +221,7 @@ class ConnectionManager(component.Component):
         self.__save_hostlist()
 
         self.connection_manager.destroy()
-        del self.glade
+        del self.builder
         del self.window
         del self.connection_manager
         del self.liststore
@@ -363,13 +373,13 @@ class ConnectionManager(component.Component):
         """
         Set the widgets to show the correct options from the config.
         """
-        self.glade.get_widget("chk_autoconnect").set_active(
+        self.builder.get_object("chk_autoconnect").set_active(
             self.gtkui_config["autoconnect"]
         )
-        self.glade.get_widget("chk_autostart").set_active(
+        self.builder.get_object("chk_autostart").set_active(
             self.gtkui_config["autostart_localhost"]
         )
-        self.glade.get_widget("chk_donotshow").set_active(
+        self.builder.get_object("chk_donotshow").set_active(
             not self.gtkui_config["show_connection_manager_on_start"]
         )
 
@@ -377,9 +387,9 @@ class ConnectionManager(component.Component):
         """
         Set options in gtkui config from the toggle buttons.
         """
-        self.gtkui_config["autoconnect"] = self.glade.get_widget("chk_autoconnect").get_active()
-        self.gtkui_config["autostart_localhost"] = self.glade.get_widget("chk_autostart").get_active()
-        self.gtkui_config["show_connection_manager_on_start"] = not self.glade.get_widget("chk_donotshow").get_active()
+        self.gtkui_config["autoconnect"] = self.builder.get_object("chk_autoconnect").get_active()
+        self.gtkui_config["autostart_localhost"] = self.builder.get_object("chk_autostart").get_active()
+        self.gtkui_config["show_connection_manager_on_start"] = not self.builder.get_object("chk_donotshow").get_active()
 
     def __update_buttons(self):
         """
@@ -387,19 +397,19 @@ class ConnectionManager(component.Component):
         """
         if len(self.liststore) == 0:
             # There is nothing in the list
-            self.glade.get_widget("button_startdaemon").set_sensitive(True)
-            self.glade.get_widget("button_connect").set_sensitive(False)
-            self.glade.get_widget("button_removehost").set_sensitive(False)
-            self.glade.get_widget("image_startdaemon").set_from_stock(
+            self.builder.get_object("button_startdaemon").set_sensitive(True)
+            self.builder.get_object("button_connect").set_sensitive(False)
+            self.builder.get_object("button_removehost").set_sensitive(False)
+            self.builder.get_object("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-            self.glade.get_widget("label_startdaemon").set_text("_Start Daemon")
+            self.builder.get_object("label_startdaemon").set_text("_Start Daemon")
 
         model, row = self.hostlist.get_selection().get_selected()
         if not row:
-            self.glade.get_widget("button_edithost").set_sensitive(False)
+            self.builder.get_object("button_edithost").set_sensitive(False)
             return
 
-        self.glade.get_widget("button_edithost").set_sensitive(True)
+        self.builder.get_object("button_edithost").set_sensitive(True)
 
         # Get some values about the selected host
         status = model[row][HOSTLIST_COL_STATUS]
@@ -415,47 +425,47 @@ class ConnectionManager(component.Component):
             localhost = True
 
         # Make sure buttons are sensitive at start
-        self.glade.get_widget("button_startdaemon").set_sensitive(True)
-        self.glade.get_widget("button_connect").set_sensitive(True)
-        self.glade.get_widget("button_removehost").set_sensitive(True)
+        self.builder.get_object("button_startdaemon").set_sensitive(True)
+        self.builder.get_object("button_connect").set_sensitive(True)
+        self.builder.get_object("button_removehost").set_sensitive(True)
 
         # See if this is the currently connected host
         if status == _("Connected"):
             # Display a disconnect button if we're connected to this host
-            self.glade.get_widget("button_connect").set_label("gtk-disconnect")
-            self.glade.get_widget("button_removehost").set_sensitive(False)
+            self.builder.get_object("button_connect").set_label("gtk-disconnect")
+            self.builder.get_object("button_removehost").set_sensitive(False)
         else:
-            self.glade.get_widget("button_connect").set_label("gtk-connect")
+            self.builder.get_object("button_connect").set_label("gtk-connect")
             if status == _("Offline") and not localhost:
-                self.glade.get_widget("button_connect").set_sensitive(False)
+                self.builder.get_object("button_connect").set_sensitive(False)
 
         # Check to see if the host is online
         if status == _("Connected") or status == _("Online"):
-            self.glade.get_widget("image_startdaemon").set_from_stock(
+            self.builder.get_object("image_startdaemon").set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
-            self.glade.get_widget("label_startdaemon").set_text(
+            self.builder.get_object("label_startdaemon").set_text(
                 _("_Stop Daemon"))
 
         # Update the start daemon button if the selected host is localhost
         if localhost and status == _("Offline"):
             # The localhost is not online
-            self.glade.get_widget("image_startdaemon").set_from_stock(
+            self.builder.get_object("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-            self.glade.get_widget("label_startdaemon").set_text(
+            self.builder.get_object("label_startdaemon").set_text(
                 _("_Start Daemon"))
 
         if client.connected() and (host, port, user) == client.connection_info():
             # If we're connected, we can stop the dameon
-            self.glade.get_widget("button_startdaemon").set_sensitive(True)
+            self.builder.get_object("button_startdaemon").set_sensitive(True)
         elif user and passwd:
             # In this case we also have all the info to shutdown the dameon
-            self.glade.get_widget("button_startdaemon").set_sensitive(True)
+            self.builder.get_object("button_startdaemon").set_sensitive(True)
         else:
             # Can't stop non localhost daemons, specially without the necessary info
-            self.glade.get_widget("button_startdaemon").set_sensitive(False)
+            self.builder.get_object("button_startdaemon").set_sensitive(False)
 
         # Make sure label is displayed correctly using mnemonics
-        self.glade.get_widget("label_startdaemon").set_use_underline(True)
+        self.builder.get_object("label_startdaemon").set_use_underline(True)
 
     def start_daemon(self, port, config):
         """
@@ -541,8 +551,8 @@ class ConnectionManager(component.Component):
             )
 
         msg = str(reason.value)
-        if not self.glade.get_widget("chk_autostart").get_active():
-            msg += '\n' + _("Auto-starting the daemon localy is not enabled. "
+        if not self.builder.get_object("chk_autostart").get_active():
+            msg += '\n' + _("Auto-starting the daemon locally is not enabled. "
                             "See \"Options\" on the \"Connection Manager\".")
         dialogs.ErrorDialog(_("Failed To Connect"), msg).run()
 
@@ -564,7 +574,7 @@ class ConnectionManager(component.Component):
         password = model[row][HOSTLIST_COL_PASS]
 
         if status == _("Offline") and \
-                    self.glade.get_widget("chk_autostart").get_active() and \
+                    self.builder.get_object("chk_autostart").get_active() and \
                     host in ("127.0.0.1", "localhost"):
             if not self.start_daemon(port, deluge.configmanager.get_config_dir()):
                 log.debug("Failed to auto-start daemon")
@@ -579,16 +589,16 @@ class ConnectionManager(component.Component):
 
     def on_button_addhost_clicked(self, widget):
         log.debug("on_button_addhost_clicked")
-        dialog = self.glade.get_widget("addhost_dialog")
+        dialog = self.builder.get_object("addhost_dialog")
         dialog.set_transient_for(self.connection_manager)
         dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        hostname_entry = self.glade.get_widget("entry_hostname")
-        port_spinbutton = self.glade.get_widget("spinbutton_port")
-        username_entry = self.glade.get_widget("entry_username")
-        password_entry = self.glade.get_widget("entry_password")
-        button_addhost_save = self.glade.get_widget("button_addhost_save")
+        hostname_entry = self.builder.get_object("entry_hostname")
+        port_spinbutton = self.builder.get_object("spinbutton_port")
+        username_entry = self.builder.get_object("entry_username")
+        password_entry = self.builder.get_object("entry_password")
+        button_addhost_save = self.builder.get_object("button_addhost_save")
         button_addhost_save.hide()
-        button_addhost_add = self.glade.get_widget("button_addhost_add")
+        button_addhost_add = self.builder.get_object("button_addhost_add")
         button_addhost_add.show()
         response = dialog.run()
         if response == 1:
@@ -620,16 +630,16 @@ class ConnectionManager(component.Component):
             client.disconnect().addCallback(on_disconnect)
             return
 
-        dialog = self.glade.get_widget("addhost_dialog")
+        dialog = self.builder.get_object("addhost_dialog")
         dialog.set_transient_for(self.connection_manager)
         dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        hostname_entry = self.glade.get_widget("entry_hostname")
-        port_spinbutton = self.glade.get_widget("spinbutton_port")
-        username_entry = self.glade.get_widget("entry_username")
-        password_entry = self.glade.get_widget("entry_password")
-        button_addhost_save = self.glade.get_widget("button_addhost_save")
+        hostname_entry = self.builder.get_object("entry_hostname")
+        port_spinbutton = self.builder.get_object("spinbutton_port")
+        username_entry = self.builder.get_object("entry_username")
+        password_entry = self.builder.get_object("entry_password")
+        button_addhost_save = self.builder.get_object("button_addhost_save")
         button_addhost_save.show()
-        button_addhost_add = self.glade.get_widget("button_addhost_add")
+        button_addhost_add = self.builder.get_object("button_addhost_add")
         button_addhost_add.hide()
 
         username_entry.set_text(self.liststore[row][HOSTLIST_COL_USER])
