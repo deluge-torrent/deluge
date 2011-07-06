@@ -49,12 +49,12 @@ class PluginInitBase(object):
         try:
             self.plugin.enable()
         except Exception, e:
-            log.error("Unable to enable plugin!")
+            log.error("Unable to enable plugin \"%s\"!", self.plugin._component_name)
             log.exception(e)
 
     def disable(self):
         try:
             self.plugin.disable()
         except Exception, e:
-            log.error("Unable to disable plugin!")
+            log.error("Unable to disable plugin \"%s\"!", self.plugin._component_name)
             log.exception(e)
