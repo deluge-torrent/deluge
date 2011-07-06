@@ -35,7 +35,6 @@
 
 import os
 import gtk
-import gtk.glade
 import logging
 
 from deluge.ui.client import client
@@ -64,19 +63,20 @@ class RemoveTorrentDialog(object):
 
         self.__torrent_ids = torrent_ids
 
-        glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "remove_torrent_dialog.glade"))
+        builder = gtk.Builder()
+        builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "remove_torrent_dialog.ui"))
         )
 
-        self.__dialog = glade.get_widget("remove_torrent_dialog")
+        self.__dialog = builder.get_object("remove_torrent_dialog")
         self.__dialog.set_transient_for(component.get("MainWindow").window)
         self.__dialog.set_title("")
 
         if len(self.__torrent_ids) > 1:
             # We need to pluralize the dialog
-            label_title = glade.get_widget("label_title")
-            button_ok = glade.get_widget("button_ok_label")
-            button_data = glade.get_widget("button_data_label")
+            label_title = builder.get_object("label_title")
+            button_ok = builder.get_object("button_ok_label")
+            button_data = builder.get_object("button_data_label")
 
             def pluralize_torrents(text):
                 plural_torrent = _("Torrents")
