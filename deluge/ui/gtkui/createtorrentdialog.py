@@ -334,7 +334,7 @@ class CreateTorrentDialog:
                 self._on_create_torrent_progress(piece_count, num_pieces)
                 if piece_count == num_pieces:
                     from twisted.internet import reactor
-                    reactor.callLater(0.5, torrent_created)
+                    reactor.callLater(0.5, torrent_created) # pylint: disable-msg=E1101
 
             client.register_event_handler("CreateTorrentProgressEvent", on_create_torrent_progress_event)
 
@@ -428,13 +428,13 @@ class CreateTorrentDialog:
 
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
-        glade = gtk.glade.XML(
-            deluge.common.resource_filename(
-                "deluge.ui.gtkui",
-                os.path.join("glade", "edit_trackers.glade")))
-        dialog = glade.get_widget("add_tracker_dialog")
+        builder = gtk.Builder()
+        builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "edit_trackers.ui")
+        ))
+        dialog = builder.get_object("add_tracker_dialog")
         dialog.set_transient_for(self.dialog)
-        textview = glade.get_widget("textview_trackers")
+        textview = builder.get_object("textview_trackers")
         if self.config["createtorrent.trackers"]:
             textview.get_buffer().set_text("\n".join(self.config["createtorrent.trackers"]))
         else:
