@@ -319,6 +319,11 @@ class TorrentView(listview.ListView, component.Component):
         """
         listview.ListView.save_state(self, "torrentview.state")
 
+    def remove_column(self, header):
+        """Removes the column with the name 'header' from the torrentview"""
+        self.save_state()
+        listview.ListView.remove_column(self, header)
+
     def set_filter(self, filter_dict):
         """Sets filters for the torrentview..
         see: core.get_torrents_status

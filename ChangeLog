@@ -18,6 +18,7 @@
 	* Add search as you type to the torrent view
 	* #1456: Fix no ETA showing with multiple files
 	* #1560: Fix FilesTab Progress value sorting by int instead of float
+	* #1263: Fix not remembering column widths
 
 === AutoAdd ===
 	* #1861: Fix AutoAdd Warning (column number is a boolean)
