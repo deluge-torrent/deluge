@@ -541,11 +541,11 @@ class Torrent(object):
             ret.append({
                 "client": client,
                 "country": country,
-                "down_speed": peer.down_speed,
+                "down_speed": peer.payload_down_speed,
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "progress": peer.progress,
                 "seed": peer.flags & peer.seed,
-                "up_speed": peer.up_speed,
+                "up_speed": peer.payload_up_speed,
             })
 
         return ret
