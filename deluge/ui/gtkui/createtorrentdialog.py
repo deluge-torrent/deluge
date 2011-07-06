@@ -53,17 +53,31 @@ log = logging.getLogger(__name__)
 
 class CreateTorrentDialog:
     def show(self):
-        self.glade = gtk.glade.XML(
-            deluge.common.resource_filename(
-                "deluge.ui.gtkui",
-                os.path.join("glade", "create_torrent_dialog.glade")))
+        self.builder = gtk.Builder()
+
+        # The main dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.ui")
+        ))
+        # The remote path dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_path.ui")
+        ))
+        # The remote save dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.remote_save.ui")
+        ))
+        # The progress dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "create_torrent_dialog.progress.ui")
+        ))
 
         self.config = ConfigManager("gtkui.conf")
 
-        self.dialog = self.glade.get_widget("create_torrent_dialog")
+        self.dialog = self.builder.get_object("create_torrent_dialog")
         self.dialog.set_transient_for(component.get("MainWindow").window)
 
-        self.glade.signal_autoconnect({
+        self.builder.connect_signals({
             "on_button_file_clicked": self._on_button_file_clicked,
             "on_button_folder_clicked": self._on_button_folder_clicked,
             "on_button_remote_path_clicked": self._on_button_remote_path_clicked,
@@ -86,32 +100,32 @@ class CreateTorrentDialog:
         column.pack_start(render, True)
         column.add_attribute(render, "text", 0)
         column.set_expand(True)
-        self.glade.get_widget("treeview_files").append_column(column)
+        self.builder.get_object("treeview_files").append_column(column)
 
         column = gtk.TreeViewColumn(_("Size"))
         render = gtk.CellRendererText()
         column.pack_start(render)
         column.set_cell_data_func(render, listview.cell_data_size, 2)
-        self.glade.get_widget("treeview_files").append_column(column)
+        self.builder.get_object("treeview_files").append_column(column)
 
-        self.glade.get_widget("treeview_files").set_model(self.files_treestore)
-        self.glade.get_widget("treeview_files").set_show_expanders(False)
+        self.builder.get_object("treeview_files").set_model(self.files_treestore)
+        self.builder.get_object("treeview_files").set_show_expanders(False)
 
         # tier, url
         self.trackers_liststore = gtk.ListStore(int, str)
 
-        self.glade.get_widget("tracker_treeview").append_column(
+        self.builder.get_object("tracker_treeview").append_column(
             gtk.TreeViewColumn(_("Tier"), gtk.CellRendererText(), text=0))
-        self.glade.get_widget("tracker_treeview").append_column(
+        self.builder.get_object("tracker_treeview").append_column(
             gtk.TreeViewColumn(_("Tracker"), gtk.CellRendererText(), text=1))
 
-        self.glade.get_widget("tracker_treeview").set_model(self.trackers_liststore)
+        self.builder.get_object("tracker_treeview").set_model(self.trackers_liststore)
         self.trackers_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
 
         if not client.is_localhost() and client.connected():
-            self.glade.get_widget("button_remote_path").show()
+            self.builder.get_object("button_remote_path").show()
         else:
-            self.glade.get_widget("button_remote_path").hide()
+            self.builder.get_object("button_remote_path").hide()
 
         self.dialog.show()
 
@@ -130,12 +144,12 @@ class CreateTorrentDialog:
     def adjust_piece_size(self):
         """Adjusts the recommended piece based on the file/folder/path selected."""
         size = self.files_treestore[0][2]
-        model = self.glade.get_widget("combo_piece_size").get_model()
+        model = self.builder.get_object("combo_piece_size").get_model()
         for index,value in enumerate(model):
             psize = self.parse_piece_size_text(value[0])
             pieces = size / psize
             if pieces < 2048 or (index + 1) == len(model):
-                self.glade.get_widget("combo_piece_size").set_active(index)
+                self.builder.get_object("combo_piece_size").set_active(index)
                 break
 
     def _on_button_file_clicked(self, widget):
@@ -197,8 +211,8 @@ class CreateTorrentDialog:
 
     def _on_button_remote_path_clicked(self, widget):
         log.debug("_on_button_remote_path_clicked")
-        dialog = self.glade.get_widget("remote_path_dialog")
-        entry = self.glade.get_widget("entry_path")
+        dialog = self.builder.get_object("remote_path_dialog")
+        entry = self.builder.get_object("entry_path")
         dialog.set_transient_for(self.dialog)
         entry.set_text("/")
         entry.grab_focus()
@@ -229,10 +243,14 @@ class CreateTorrentDialog:
         is_remote = self.files_treestore[0][1] == gtk.STOCK_NETWORK
         if is_remote:
             # This is a remote path
-            dialog = self.glade.get_widget("remote_save_dialog")
+            dialog = self.builder.get_object("remote_save_dialog")
+            dialog.set_transient_for(self.dialog)
+            self.builder.get_object("entry_save_path").set_text(
+                os.path.split(self.files_treestore[0][0])[-1] + ".torrent"
+            )
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                result = self.glade.get_widget("entry_save_path").get_text()
+                result = self.builder.get_object("entry_save_path").get_text()
             else:
                 dialog.hide()
                 return
@@ -242,8 +260,7 @@ class CreateTorrentDialog:
             chooser = gtk.FileChooserDialog(_("Save .torrent file"),
                 self.dialog,
                 gtk.FILE_CHOOSER_ACTION_SAVE,
-                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE,
-                            gtk.RESPONSE_OK))
+                buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK))
 
             chooser.set_transient_for(self.dialog)
             chooser.set_select_multiple(False)
@@ -294,22 +311,20 @@ class CreateTorrentDialog:
 
         # Get a list of webseeds
         webseeds = []
-        b = self.glade.get_widget("textview_webseeds").get_buffer()
+        b = self.builder.get_object("textview_webseeds").get_buffer()
         lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
         import deluge.common
         for l in lines:
             if deluge.common.is_url(l):
                 webseeds.append(l)
         # Get the piece length in bytes
-        combo = self.glade.get_widget("combo_piece_size")
-        piece_length = \
-            self.parse_piece_size_text(combo.get_model()[combo.get_active()][0])
-        num_pieces = self.files_treestore[0][2] / piece_length
+        combo = self.builder.get_object("combo_piece_size")
+        piece_length = self.parse_piece_size_text(combo.get_model()[combo.get_active()][0])
 
-        author = self.glade.get_widget("entry_author").get_text()
-        comment = self.glade.get_widget("entry_comments").get_text()
-        private = self.glade.get_widget("chk_private_flag").get_active()
-        add_to_session = self.glade.get_widget("chk_add_to_session").get_active()
+        author = self.builder.get_object("entry_author").get_text()
+        comment = self.builder.get_object("entry_comments").get_text()
+        private = self.builder.get_object("chk_private_flag").get_active()
+        add_to_session = self.builder.get_object("chk_add_to_session").get_active()
 
         if is_remote:
             client.core.create_torrent(
@@ -326,11 +341,11 @@ class CreateTorrentDialog:
 
         else:
             # Setup progress dialog
-            self.glade.get_widget("progress_dialog").set_transient_for(component.get("MainWindow").window)
-            self.glade.get_widget("progress_dialog").show_all()
+            self.builder.get_object("progress_dialog").set_transient_for(component.get("MainWindow").window)
+            self.builder.get_object("progress_dialog").show_all()
 
             def hide_progress(result):
-                self.glade.get_widget("progress_dialog").hide_all()
+                self.builder.get_object("progress_dialog").hide_all()
 
             deferToThread(self.create_torrent,
                     path.decode('utf-8'),
@@ -348,7 +363,7 @@ class CreateTorrentDialog:
         self.dialog.destroy()
 
     def create_torrent(self, path, tracker, piece_length, progress, comment, target,
-                        webseeds, private, created_by, trackers, add_to_session):
+                       webseeds, private, created_by, trackers, add_to_session):
         import deluge.metafile
         deluge.metafile.make_meta_file(
             path,
@@ -370,14 +385,14 @@ class CreateTorrentDialog:
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)
-        pbar = self.glade.get_widget("progressbar")
+        pbar = self.builder.get_object("progressbar")
         pbar.set_text("%.2f%%" % (percent*100))
         if percent >= 0 and percent <= 1.0:
             pbar.set_fraction(percent)
 
     def _on_button_up_clicked(self, widget):
         log.debug("_on_button_up_clicked")
-        row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        row = self.builder.get_object("tracker_treeview").get_selection().get_selected()[1]
         if row is None:
             return
         if self.trackers_liststore[row][0] == 0:
@@ -387,7 +402,7 @@ class CreateTorrentDialog:
 
     def _on_button_down_clicked(self, widget):
         log.debug("_on_button_down_clicked")
-        row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        row = self.builder.get_object("tracker_treeview").get_selection().get_selected()[1]
         if row is None:
             return
         self.trackers_liststore[row][0] += 1
@@ -419,7 +434,7 @@ class CreateTorrentDialog:
                 if deluge.common.is_url(l):
                     trackers.append(l)
 
-            # We are going to add these trackers to the heighest tier + 1
+            # We are going to add these trackers to the highest tier + 1
             tier = 0
             for row in self.trackers_liststore:
                 if row[0] > tier:
@@ -432,7 +447,7 @@ class CreateTorrentDialog:
 
     def _on_button_remove_clicked(self, widget):
         log.debug("_on_button_remove_clicked")
-        row = self.glade.get_widget("tracker_treeview").get_selection().get_selected()[1]
+        row = self.builder.get_object("tracker_treeview").get_selection().get_selected()[1]
         if row is None:
             return
         self.trackers_liststore.remove(row)
