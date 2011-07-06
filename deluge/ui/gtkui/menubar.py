@@ -38,7 +38,6 @@ import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 import logging
 
 import deluge.error
@@ -58,20 +57,29 @@ class MenuBar(component.Component):
         self.window = component.get("MainWindow")
         self.config = ConfigManager("gtkui.conf")
 
+        self.builder = gtk.Builder()
         # Get the torrent menu from the glade file
-        self.torrentmenu_glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.glade"))
-        )
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.ui")
+        ))
+        # Get the torrent options menu from the glade file
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.options.ui")
+        ))
+        # Get the torrent queue menu from the glade file
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.queue.ui")
+        ))
 
-        self.torrentmenu_glade.get_widget("menuitem_queue").set_submenu(
-            self.torrentmenu_glade.get_widget("queue_torrent_menu"))
+        self.builder.get_object("menuitem_queue").set_submenu(
+            self.builder.get_object("queue_torrent_menu"))
 
         # Attach options torrent menu
-        self.torrentmenu_glade.get_widget("menuitem_options").set_submenu(
-            self.torrentmenu_glade.get_widget("options_torrent_menu"))
-        self.torrentmenu_glade.get_widget("download-limit-image").set_from_file(
+        self.builder.get_object("menuitem_options").set_submenu(
+            self.builder.get_object("options_torrent_menu"))
+        self.builder.get_object("download-limit-image").set_from_file(
             deluge.common.get_pixmap("downloading16.png"))
-        self.torrentmenu_glade.get_widget("upload-limit-image").set_from_file(
+        self.builder.get_object("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
 
         for menuitem in ("menuitem_down_speed", "menuitem_up_speed",
@@ -86,7 +94,7 @@ class MenuBar(component.Component):
             item.connect("activate", self.on_menuitem_set_other)
             submenu.append(item)
             submenu.show_all()
-            self.torrentmenu_glade.get_widget(menuitem).set_submenu(submenu)
+            self.builder.get_object(menuitem).set_submenu(submenu)
 
         submenu = gtk.Menu()
         item = gtk.MenuItem(_("On"))
@@ -96,9 +104,9 @@ class MenuBar(component.Component):
         item.connect("activate", self.on_menuitem_set_automanaged_off)
         submenu.append(item)
         submenu.show_all()
-        self.torrentmenu_glade.get_widget("menuitem_auto_managed").set_submenu(submenu)
+        self.builder.get_object("menuitem_auto_managed").set_submenu(submenu)
 
-        self.torrentmenu = self.torrentmenu_glade.get_widget("torrent_menu")
+        self.torrentmenu = self.builder.get_object("torrent_menu")
         self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
 
         # Attach the torrent_menu to the Torrent file menu
@@ -149,7 +157,7 @@ class MenuBar(component.Component):
             "on_menuitem_sidebar_trackers_toggled":self.on_menuitem_sidebar_trackers_toggled
         })
 
-        self.torrentmenu_glade.signal_autoconnect({
+        self.builder.connect_signals({
             ## Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
             "on_menuitem_resume_activate": self.on_menuitem_resume_activate,
@@ -191,11 +199,11 @@ class MenuBar(component.Component):
         ]
         if not client.is_localhost():
             for widget in non_remote_items:
-                self.torrentmenu_glade.get_widget(widget).hide()
-                self.torrentmenu_glade.get_widget(widget).set_no_show_all(True)
+                self.builder.get_object(widget).hide()
+                self.builder.get_object(widget).set_no_show_all(True)
         else:
             for widget in non_remote_items:
-                self.torrentmenu_glade.get_widget(widget).set_no_show_all(False)
+                self.builder.get_object(widget).set_no_show_all(False)
 
         if not self.config["classic_mode"]:
             self.window.main_glade.get_widget("separatormenuitem").show()
@@ -354,14 +362,15 @@ class MenuBar(component.Component):
 
     def show_move_storage_dialog(self, status):
         log.debug("show_move_storage_dialog")
-        glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "move_storage_dialog.glade")
+        builder = gtk.Builder()
+        builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "move_storage_dialog.ui")
         ))
         # Keep it referenced:
         #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
-        self.move_storage_dialog = glade.get_widget("move_storage_dialog")
+        self.move_storage_dialog = builder.get_object("move_storage_dialog")
         self.move_storage_dialog.set_transient_for(self.window.window)
-        self.move_storage_dialog_entry = glade.get_widget("entry_destination")
+        self.move_storage_dialog_entry = builder.get_object("entry_destination")
         self.move_storage_dialog_entry.set_text(status["save_path"])
         def on_dialog_response_event(widget, response_id):
 
@@ -518,7 +527,7 @@ class MenuBar(component.Component):
         if len(known_accounts) <= 1:
             return
 
-        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(True)
+        self.builder.get_object("menuitem_change_owner").set_visible(True)
 
         self.change_owner_submenu = gtk.Menu()
         self.change_owner_submenu_items = {}
@@ -536,13 +545,13 @@ class MenuBar(component.Component):
         self.change_owner_submenu.show_all()
         self.change_owner_submenu_items[None].set_active(True)
         self.change_owner_submenu_items[None].hide()
-        self.torrentmenu_glade.get_widget("menuitem_change_owner").connect(
+        self.builder.get_object("menuitem_change_owner").connect(
             "activate", self._on_change_owner_submenu_active
         )
-        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_submenu(self.change_owner_submenu)
+        self.builder.get_object("menuitem_change_owner").set_submenu(self.change_owner_submenu)
 
     def _on_known_accounts_fail(self, reason):
-        self.torrentmenu_glade.get_widget("menuitem_change_owner").set_visible(False)
+        self.builder.get_object("menuitem_change_owner").set_visible(False)
 
     def _on_change_owner_submenu_active(self, widget):
         log.debug("_on_change_owner_submenu_active")
