@@ -37,18 +37,20 @@
 
 import gtk
 import gobject
+import logging
 from gtk.glade import XML
 
 import graph
 import deluge
 from deluge import component
-from deluge.log import LOG as log
 from deluge.common import fspeed
 from deluge.ui.client import client
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.plugins.pluginbase import GtkPluginBase
 
 import common
+
+log = logging.getLogger(__name__)
 
 DEFAULT_CONF = { 'version': 1,
                  'colors' :{

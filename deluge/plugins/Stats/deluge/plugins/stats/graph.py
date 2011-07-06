@@ -40,8 +40,10 @@ port of old plugin by markybob.
 import time
 import math
 import cairo
-from deluge.log import LOG as log
+import logging
 from deluge.ui.client import client
+
+log = logging.getLogger(__name__)
 
 black = (0, 0, 0)
 gray = (0.75, 0.75, 0.75)
@@ -137,7 +139,7 @@ class Graph:
         duration = self.length * self.interval
         start = self.last_update - duration
         ratio = (right - left) / float(duration)
-   
+
         if duration < 1800 * 10:
             #try rounding to nearest 1min, 5mins, 10mins, 30mins
             for step in [60, 300, 600, 1800]:
@@ -194,7 +196,7 @@ class Graph:
 
         self.draw_x_axis(bounds)
         self.draw_left_axis(bounds, y_ticks, y_tick_text)
-    
+
     def intervalise(self, x, limit=None):
         """Given a value x create an array of tick points to got with the graph
         The number of ticks returned can be constrained by limit, minimum of 3
@@ -215,9 +217,9 @@ class Graph:
         log = math.log10(x)
         intbit = math.floor(log)
 
-        interval = math.pow(10, intbit)    
+        interval = math.pow(10, intbit)
         steps =  int(math.ceil(x / interval))
-    
+
         if steps <= 1 and (limit is None or limit >= 10*steps):
             interval = interval * 0.1
             steps = steps * 10
@@ -234,7 +236,7 @@ class Graph:
                 interval = interval * 5
             else:
                 interval = interval * 2
-                
+
         intervals = [i * interval * scale for  i in xrange(1+int(math.ceil(x/ interval)))]
         return intervals
 

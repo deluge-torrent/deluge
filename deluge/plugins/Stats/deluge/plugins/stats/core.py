@@ -33,11 +33,11 @@
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
 
-from twisted.internet.task import LoopingCall
 import time
+import logging
+from twisted.internet.task import LoopingCall
 
 import deluge
-from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 from deluge import component
 from deluge import configmanager
@@ -56,6 +56,8 @@ DEFAULT_TOTALS = {
     "total_payload_download": 0,
     "stats": {}
 }
+
+log = logging.getLogger(__name__)
 
 def get_key(config, key):
     try:
@@ -78,14 +80,14 @@ class Core(CorePluginBase):
         self.stats ={}
         self.count = {}
         self.intervals = [1, 5, 30, 300]
-      
+
         self.last_update = {}
         t = time.time()
         for i in self.intervals:
             self.stats[i] = {}
             self.last_update[i] = t
             self.count[i] = 0
-        
+
 
         self.config = configmanager.ConfigManager("stats.conf", DEFAULT_PREFS)
         self.saved_stats = configmanager.ConfigManager("stats.totals", DEFAULT_TOTALS)
@@ -162,7 +164,7 @@ class Core(CorePluginBase):
                     stat_list.insert(0, 0)
                 if len(stat_list) > self.length:
                     stat_list.pop()
-                    
+
             def update_interval(interval, base, multiplier):
                 self.count[interval] = self.count[interval] + 1
                 if self.count[interval] >= interval:
@@ -206,7 +208,7 @@ class Core(CorePluginBase):
         for key in keys:
             if key in self.stats[interval]:
                 stats_dict[key] = self.stats[interval][key]
-          
+
         stats_dict["_last_update"] = self.last_update[interval]
         stats_dict["_length"] = self.config["length"]
         stats_dict["_update_interval"] = interval
