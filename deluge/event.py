@@ -197,6 +197,13 @@ class TorrentFileCompletedEvent(DelugeEvent):
         """
         self._args = [torrent_id, index]
 
+class CreateTorrentProgressEvent(DelugeEvent):
+    """
+    Emitted when creating a torrent file remotely.
+    """
+    def __init__(self, piece_count, num_pieces):
+        self._args = [piece_count, num_pieces]
+
 class NewVersionAvailableEvent(DelugeEvent):
     """
     Emitted when a more recent version of Deluge is available.

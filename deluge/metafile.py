@@ -16,14 +16,15 @@
 # Written by Bram Cohen
 # Modifications for use in Deluge by Andrew Resch 2008
 
-import os
 import os.path
 import sys
 import time
 import logging
 from hashlib import sha1 as sha
 
+import deluge.component as component
 from deluge.bencode import bencode
+from deluge.event import CreateTorrentProgressEvent
 
 log = logging.getLogger(__name__)
 
@@ -57,10 +58,18 @@ def decode_from_filesystem(path):
 def dummy(*v):
     pass
 
-def make_meta_file(path, url, piece_length, progress=dummy,
-                   title=None, comment=None, safe=None, content_type=None,
-                   target=None, webseeds=None, name=None, private=False,
-                   created_by=None, trackers=None):
+class RemoteFileProgress(object):
+    def __init__(self, session_id):
+        self.session_id = session_id
+
+    def __call__(self, piece_count, num_pieces):
+        component.get("RPCServer").emit_event_for_session_id(
+            self.session_id, CreateTorrentProgressEvent(piece_count, num_pieces)
+        )
+
+def make_meta_file(path, url, piece_length, progress=None, title=None, comment=None,
+                   safe=None, content_type=None, target=None, webseeds=None, name=None,
+                   private=False, created_by=None, trackers=None):
     data = {'creation date': int(gmtime())}
     if url:
         data['announce'] = url.strip()
@@ -72,6 +81,14 @@ def make_meta_file(path, url, piece_length, progress=dummy,
             f = os.path.join(a, b + '.torrent')
     else:
         f = target
+
+    if progress is None:
+        session_id = component.get("RPCServer").get_session_id()
+        if not session_id:
+            progress = dummy
+        else:
+            progress = RemoteFileProgress(component.get("RPCServer").get_session_id())
+
     info = makeinfo(path, piece_length, progress, name, content_type, private)
 
     #check_info(info)
@@ -118,18 +135,18 @@ def calcsize(path):
 
 def makeinfo(path, piece_length, progress, name = None,
              content_type = None, private=False):  # HEREDAVE. If path is directory,
-                                    # how do we assign content type?
+                                                   # how do we assign content type?
     def to_utf8(name):
         if isinstance(name, unicode):
             u = name
         else:
             try:
                 u = decode_from_filesystem(name)
-            except Exception, e:
+            except Exception:
                 raise Exception('Could not convert file/directory name %r to '
-                                  'Unicode. Either the assumed filesystem '
-                                  'encoding "%s" is wrong or the filename contains '
-                                  'illegal bytes.' % (name, get_filesystem_encoding()))
+                                'Unicode. Either the assumed filesystem '
+                                'encoding "%s" is wrong or the filename contains '
+                                'illegal bytes.' % (name, get_filesystem_encoding()))
 
         if u.translate(noncharacter_translate) != u:
             raise Exception('File/directory name "%s" contains reserved '
@@ -181,6 +198,7 @@ def makeinfo(path, piece_length, progress, name = None,
             h.close()
         if done > 0:
             pieces.append(sh.digest())
+            piece_count += 1
             progress(piece_count, num_pieces)
 
         if name is not None:

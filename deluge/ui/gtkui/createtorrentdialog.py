@@ -241,13 +241,12 @@ class CreateTorrentDialog:
             return
 
         is_remote = self.files_treestore[0][1] == gtk.STOCK_NETWORK
+        torrent_filename = "%s.torrent" % os.path.split(self.files_treestore[0][0].rstrip('/'))[-1]
         if is_remote:
             # This is a remote path
             dialog = self.builder.get_object("remote_save_dialog")
             dialog.set_transient_for(self.dialog)
-            self.builder.get_object("entry_save_path").set_text(
-                os.path.split(self.files_treestore[0][0])[-1] + ".torrent"
-            )
+            self.builder.get_object("entry_save_path").set_text(torrent_filename)
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 result = self.builder.get_object("entry_save_path").get_text()
@@ -276,7 +275,7 @@ class CreateTorrentDialog:
             file_filter.add_pattern("*")
             chooser.add_filter(file_filter)
 
-            chooser.set_current_name(os.path.split(self.files_treestore[0][0])[-1] + ".torrent")
+            chooser.set_current_name(torrent_filename)
             # Run the dialog
             response = chooser.run()
 
@@ -327,6 +326,18 @@ class CreateTorrentDialog:
         add_to_session = self.builder.get_object("chk_add_to_session").get_active()
 
         if is_remote:
+            def torrent_created():
+                self.builder.get_object("progress_dialog").hide_all()
+                client.deregister_event_handler("CreateTorrentProgressEvent", on_create_torrent_progress_event)
+
+            def on_create_torrent_progress_event(piece_count, num_pieces):
+                self._on_create_torrent_progress(piece_count, num_pieces)
+                if piece_count == num_pieces:
+                    from twisted.internet import reactor
+                    reactor.callLater(0.5, torrent_created)
+
+            client.register_event_handler("CreateTorrentProgressEvent", on_create_torrent_progress_event)
+
             client.core.create_torrent(
                 path,
                 tracker,
@@ -340,9 +351,6 @@ class CreateTorrentDialog:
                 add_to_session)
 
         else:
-            # Setup progress dialog
-            self.builder.get_object("progress_dialog").set_transient_for(component.get("MainWindow").window)
-            self.builder.get_object("progress_dialog").show_all()
 
             def hide_progress(result):
                 self.builder.get_object("progress_dialog").hide_all()
@@ -359,6 +367,10 @@ class CreateTorrentDialog:
                     author,
                     trackers,
                     add_to_session).addCallback(hide_progress)
+
+        # Setup progress dialog
+        self.builder.get_object("progress_dialog").set_transient_for(component.get("MainWindow").window)
+        self.builder.get_object("progress_dialog").show_all()
 
         self.dialog.destroy()
 
@@ -385,10 +397,17 @@ class CreateTorrentDialog:
 
     def _on_create_torrent_progress(self, value, num_pieces):
         percent = float(value)/float(num_pieces)
-        pbar = self.builder.get_object("progressbar")
-        pbar.set_text("%.2f%%" % (percent*100))
-        if percent >= 0 and percent <= 1.0:
+
+        def update_pbar_with_gobject(percent):
+            pbar = self.builder.get_object("progressbar")
+            pbar.set_text("%.2f%%" % (percent*100))
             pbar.set_fraction(percent)
+            return False
+
+        if percent >= 0 and percent <= 1.0:
+            # Make sure there are no threads race conditions that can
+            # crash the UI while updating it.
+            gobject.idle_add(update_pbar_with_gobject, percent)
 
     def _on_button_up_clicked(self, widget):
         log.debug("_on_button_up_clicked")

@@ -427,14 +427,14 @@ class RPCServer(component.Component):
     def deregister_object(self, obj):
         """
         Deregisters an objects exported rpc methods.
-        
+
         :param obj: the object that was previously registered
-        
+
         """
         for key, value in self.factory.methods.items():
             if value.im_self == obj:
                 del self.factory.methods[key]
-                
+
     def get_object_method(self, name):
         """
         Returns a registered method.
@@ -534,6 +534,29 @@ class RPCServer(component.Component):
                 self.factory.session_protocols[session_id].sendData(
                     (RPC_EVENT, event.name, event.args)
                 )
+
+    def emit_event_for_session_id(self, session_id, event):
+        """
+        Emits the event to specified session_id.
+
+        :param session_id: the event to emit
+        :type session_id: int
+        :param event: the event to emit
+        :type event: :class:`deluge.event.DelugeEvent`
+        """
+        if not self.is_session_valid(session_id):
+            log.debug("Session ID %s is not valid. Not sending event \"%s\".", session_id, event.name)
+            return
+        if session_id not in self.factory.interested_events:
+            log.debug("Session ID %s is not interested in any events. Not sending event \"%s\".", session_id, event.name)
+            return
+        if event.name not in self.factory.interested_events[session_id]:
+            log.debug("Session ID %s is not interested in event \"%s\". Not sending it.", session_id, event.name)
+            return
+        log.debug("Sending event \"%s\" with args \"%s\" to session id \"%s\".",
+                  event.name, event.args, session_id)
+        self.factory.session_protocols[session_id].sendData((RPC_EVENT, event.name, event.args))
+
 
 def check_ssl_keys():
     """
