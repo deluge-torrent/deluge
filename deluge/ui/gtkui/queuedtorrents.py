@@ -37,7 +37,6 @@ import base64
 import os.path
 
 import gtk
-import gtk.glade
 import logging
 import gobject
 
@@ -56,15 +55,15 @@ class QueuedTorrents(component.Component):
         self.status_item = None
 
         self.config = ConfigManager("gtkui.conf")
-        self.glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.glade"))
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "queuedtorrents.ui"))
         )
-        self.glade.get_widget("chk_autoadd").set_active(
-            self.config["autoadd_queued"])
-        self.dialog = self.glade.get_widget("queued_torrents_dialog")
+        self.builder.get_object("chk_autoadd").set_active(self.config["autoadd_queued"])
+        self.dialog = self.builder.get_object("queued_torrents_dialog")
         self.dialog.set_icon(common.get_logo(32))
 
-        self.glade.signal_autoconnect({
+        self.builder.connect_signals({
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_clear_clicked": self.on_button_clear_clicked,
             "on_button_close_clicked": self.on_button_close_clicked,
@@ -72,7 +71,7 @@ class QueuedTorrents(component.Component):
             "on_chk_autoadd_toggled": self.on_chk_autoadd_toggled
         })
 
-        self.treeview = self.glade.get_widget("treeview")
+        self.treeview = self.builder.get_object("treeview")
         self.treeview.append_column(
             gtk.TreeViewColumn(_("Torrent"), gtk.CellRendererText(), text=0))
 
@@ -94,12 +93,12 @@ class QueuedTorrents(component.Component):
         self.update_status_bar()
 
         # We only want the add button sensitive if we're connected to a host
-        self.glade.get_widget("button_add").set_sensitive(True)
+        self.builder.get_object("button_add").set_sensitive(True)
         self.run()
 
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
-        self.glade.get_widget("button_add").set_sensitive(False)
+        self.builder.get_object("button_add").set_sensitive(False)
         self.update_status_bar()
 
     def add_to_queue(self, torrents):
