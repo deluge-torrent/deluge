@@ -2,6 +2,26 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkImage" id="download-limit-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="menu-item-image16">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <property name="stock">gtk-network</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="menu-item-image17">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <property name="stock">gtk-sort-ascending</property>
+    <property name="icon-size">1</property>
+  </object>
   <object class="GtkMenu" id="options_torrent_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -12,6 +32,7 @@
         <property name="can_focus">False</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="use_action_appearance">False</property>
+        <property name="image">download-limit-image</property>
         <property name="use_stock">False</property>
       </object>
     </child>
@@ -21,6 +42,7 @@
         <property name="can_focus">False</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="use_action_appearance">False</property>
+        <property name="image">upload-limit-image</property>
         <property name="use_stock">False</property>
       </object>
     </child>
@@ -30,6 +52,7 @@
         <property name="can_focus">False</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="use_action_appearance">False</property>
+        <property name="image">menu-item-image16</property>
         <property name="use_stock">False</property>
       </object>
     </child>
@@ -39,6 +62,7 @@
         <property name="can_focus">False</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="use_action_appearance">False</property>
+        <property name="image">menu-item-image17</property>
         <property name="use_stock">False</property>
       </object>
     </child>
@@ -55,5 +79,11 @@
         <property name="use_action_appearance">False</property>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="upload-limit-image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <property name="stock">gtk-missing-image</property>
   </object>
 </interface>

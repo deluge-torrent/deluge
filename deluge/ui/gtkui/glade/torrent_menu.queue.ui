@@ -15,6 +15,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <property name="accel_group">accelgroup1</property>
       </object>
     </child>
     <child>
@@ -26,6 +27,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <property name="accel_group">accelgroup1</property>
       </object>
     </child>
     <child>
@@ -37,6 +39,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <property name="accel_group">accelgroup1</property>
       </object>
     </child>
     <child>
@@ -48,6 +51,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <property name="accel_group">accelgroup1</property>
       </object>
     </child>
   </object>
