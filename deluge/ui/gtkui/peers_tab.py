@@ -380,11 +380,12 @@ class PeersTab(Tab):
     def _on_menuitem_add_peer_activate(self, menuitem):
         """This is a callback for manually adding a peer"""
         log.debug("on_menuitem_add_peer")
-        dialog_glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "dgtkpopups.glade"))
-        )
-        peer_dialog = dialog_glade.get_widget("connect_peer_dialog")
-        txt_ip = dialog_glade.get_widget("txt_ip")
+        builder = gtk.Builder()
+        builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "connect_peer_dialog.ui")
+        ))
+        peer_dialog = builder.get_object("connect_peer_dialog")
+        txt_ip = builder.get_object("txt_ip")
         response = peer_dialog.run()
         if response:
             value = txt_ip.get_text()
