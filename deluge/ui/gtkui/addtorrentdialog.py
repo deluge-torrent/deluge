@@ -37,8 +37,6 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
-import gettext
 import gobject
 import base64
 import logging
@@ -62,15 +60,25 @@ log = logging.getLogger(__name__)
 class AddTorrentDialog(component.Component):
     def __init__(self):
         component.Component.__init__(self, "AddTorrentDialog")
-        self.glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "add_torrent_dialog.glade"))
-        )
+        self.builder = gtk.Builder()
+        # The base dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "add_torrent_dialog.ui")
+        ))
+        # The infohash dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "add_torrent_dialog.infohash.ui")
+        ))
+        # The url dialog
+        self.builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "add_torrent_dialog.url.ui")
+        ))
 
-        self.dialog = self.glade.get_widget("dialog_add_torrent")
+        self.dialog = self.builder.get_object("dialog_add_torrent")
 
         self.dialog.connect("delete-event", self._on_delete_event)
 
-        self.glade.signal_autoconnect({
+        self.builder.connect_signals({
             "on_button_file_clicked": self._on_button_file_clicked,
             "on_button_url_clicked": self._on_button_url_clicked,
             "on_button_hash_clicked": self._on_button_hash_clicked,
@@ -98,8 +106,8 @@ class AddTorrentDialog(component.Component):
         self.previous_selected_torrent = None
 
 
-        self.listview_torrents = self.glade.get_widget("listview_torrents")
-        self.listview_files = self.glade.get_widget("listview_files")
+        self.listview_torrents = self.builder.get_object("listview_torrents")
+        self.listview_files = self.builder.get_object("listview_files")
 
         render = gtk.CellRendererText()
         column = gtk.TreeViewColumn(_("Torrent"), render, text=1)
@@ -149,7 +157,7 @@ class AddTorrentDialog(component.Component):
         ]
         self.core_config = {}
 
-        self.glade.get_widget("notebook1").connect("switch-page", self._on_switch_page)
+        self.builder.get_object("notebook1").connect("switch-page", self._on_switch_page)
 
     def start(self):
         self.update_core_config()
@@ -159,11 +167,11 @@ class AddTorrentDialog(component.Component):
 
     def _show(self, focus=False):
         if client.is_localhost():
-            self.glade.get_widget("button_location").show()
-            self.glade.get_widget("entry_download_path").hide()
+            self.builder.get_object("button_location").show()
+            self.builder.get_object("entry_download_path").hide()
         else:
-            self.glade.get_widget("button_location").hide()
-            self.glade.get_widget("entry_download_path").show()
+            self.builder.get_object("button_location").hide()
+            self.builder.get_object("entry_download_path").show()
 
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.present()
@@ -366,29 +374,29 @@ class AddTorrentDialog(component.Component):
         options = self.options[torrent_id]
 
         if client.is_localhost():
-            self.glade.get_widget("button_location").set_current_folder(
+            self.builder.get_object("button_location").set_current_folder(
                 options["download_location"])
         else:
-            self.glade.get_widget("entry_download_path").set_text(
+            self.builder.get_object("entry_download_path").set_text(
                 options["download_location"])
 
-        self.glade.get_widget("radio_full").set_active(
+        self.builder.get_object("radio_full").set_active(
             not options["compact_allocation"])
-        self.glade.get_widget("radio_compact").set_active(
+        self.builder.get_object("radio_compact").set_active(
             options["compact_allocation"])
-        self.glade.get_widget("spin_maxdown").set_value(
+        self.builder.get_object("spin_maxdown").set_value(
             options["max_download_speed"])
-        self.glade.get_widget("spin_maxup").set_value(
+        self.builder.get_object("spin_maxup").set_value(
             options["max_upload_speed"])
-        self.glade.get_widget("spin_maxconnections").set_value(
+        self.builder.get_object("spin_maxconnections").set_value(
             options["max_connections"])
-        self.glade.get_widget("spin_maxupslots").set_value(
+        self.builder.get_object("spin_maxupslots").set_value(
             options["max_upload_slots"])
-        self.glade.get_widget("chk_paused").set_active(
+        self.builder.get_object("chk_paused").set_active(
             options["add_paused"])
-        self.glade.get_widget("chk_prioritize").set_active(
+        self.builder.get_object("chk_prioritize").set_active(
             options["prioritize_first_last_pieces"])
-        self.glade.get_widget("chk_sequential_download").set_active(
+        self.builder.get_object("chk_sequential_download").set_active(
             options["sequential_download"])
 
     def save_torrent_options(self, row=None):
@@ -410,12 +418,12 @@ class AddTorrentDialog(component.Component):
 
         if client.is_localhost():
             options["download_location"] = \
-                self.glade.get_widget("button_location").get_current_folder()
+                self.builder.get_object("button_location").get_current_folder()
         else:
             options["download_location"] = \
-                self.glade.get_widget("entry_download_path").get_text()
+                self.builder.get_object("entry_download_path").get_text()
         options["compact_allocation"] = \
-            self.glade.get_widget("radio_compact").get_active()
+            self.builder.get_object("radio_compact").get_active()
 
         if options["compact_allocation"]:
             # We need to make sure all the files are set to download
@@ -425,20 +433,20 @@ class AddTorrentDialog(component.Component):
             self.update_treeview_toggles(self.files_treestore.get_iter_first())
 
         options["max_download_speed"] = \
-            self.glade.get_widget("spin_maxdown").get_value()
+            self.builder.get_object("spin_maxdown").get_value()
         options["max_upload_speed"] = \
-            self.glade.get_widget("spin_maxup").get_value()
+            self.builder.get_object("spin_maxup").get_value()
         options["max_connections"] = \
-            self.glade.get_widget("spin_maxconnections").get_value_as_int()
+            self.builder.get_object("spin_maxconnections").get_value_as_int()
         options["max_upload_slots"] = \
-            self.glade.get_widget("spin_maxupslots").get_value_as_int()
+            self.builder.get_object("spin_maxupslots").get_value_as_int()
         options["add_paused"] = \
-            self.glade.get_widget("chk_paused").get_active()
+            self.builder.get_object("chk_paused").get_active()
         options["prioritize_first_last_pieces"] = \
-            self.glade.get_widget("chk_prioritize").get_active()
+            self.builder.get_object("chk_prioritize").get_active()
         options["sequential_download"] = \
-            self.glade.get_widget("radio_full").get_active() and \
-            self.glade.get_widget("chk_sequential_download").get_active() or False
+            self.builder.get_object("radio_full").get_active() and \
+            self.builder.get_object("chk_sequential_download").get_active() or False
 
         self.options[torrent_id] = options
 
@@ -464,29 +472,29 @@ class AddTorrentDialog(component.Component):
 
     def set_default_options(self):
         if client.is_localhost():
-            self.glade.get_widget("button_location").set_current_folder(
+            self.builder.get_object("button_location").set_current_folder(
                 self.core_config["download_location"])
         else:
-            self.glade.get_widget("entry_download_path").set_text(
+            self.builder.get_object("entry_download_path").set_text(
                 self.core_config["download_location"])
 
-        self.glade.get_widget("radio_compact").set_active(
+        self.builder.get_object("radio_compact").set_active(
             self.core_config["compact_allocation"])
-        self.glade.get_widget("radio_full").set_active(
+        self.builder.get_object("radio_full").set_active(
             not self.core_config["compact_allocation"])
-        self.glade.get_widget("spin_maxdown").set_value(
+        self.builder.get_object("spin_maxdown").set_value(
             self.core_config["max_download_speed_per_torrent"])
-        self.glade.get_widget("spin_maxup").set_value(
+        self.builder.get_object("spin_maxup").set_value(
             self.core_config["max_upload_speed_per_torrent"])
-        self.glade.get_widget("spin_maxconnections").set_value(
+        self.builder.get_object("spin_maxconnections").set_value(
             self.core_config["max_connections_per_torrent"])
-        self.glade.get_widget("spin_maxupslots").set_value(
+        self.builder.get_object("spin_maxupslots").set_value(
             self.core_config["max_upload_slots_per_torrent"])
-        self.glade.get_widget("chk_paused").set_active(
+        self.builder.get_object("chk_paused").set_active(
             self.core_config["add_paused"])
-        self.glade.get_widget("chk_prioritize").set_active(
+        self.builder.get_object("chk_prioritize").set_active(
             self.core_config["prioritize_first_last_pieces"])
-        self.glade.get_widget("chk_sequential_download").set_active(
+        self.builder.get_object("chk_sequential_download").set_active(
             self.core_config["sequential_download"])
 
     def get_file_priorities(self, torrent_id):
@@ -606,8 +614,8 @@ class AddTorrentDialog(component.Component):
 
     def _on_button_url_clicked(self, widget):
         log.debug("_on_button_url_clicked")
-        dialog = self.glade.get_widget("url_dialog")
-        entry = self.glade.get_widget("entry_url")
+        dialog = self.builder.get_object("url_dialog")
+        entry = self.builder.get_object("entry_url")
 
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
@@ -708,9 +716,9 @@ class AddTorrentDialog(component.Component):
 
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
-        dialog = self.glade.get_widget("dialog_infohash")
-        entry = self.glade.get_widget("entry_hash")
-        textview = self.glade.get_widget("text_trackers")
+        dialog = self.builder.get_object("dialog_infohash")
+        entry = self.builder.get_object("entry_hash")
+        textview = self.builder.get_object("text_trackers")
 
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
@@ -770,7 +778,7 @@ class AddTorrentDialog(component.Component):
             filename = self.torrent_liststore.get_value(row, 2)
             try:
                 options = self.options[torrent_id]
-            except:
+            except KeyError:
                 options = None
 
             file_priorities = self.get_file_priorities(torrent_id)
@@ -908,7 +916,7 @@ class AddTorrentDialog(component.Component):
 
             # We need to check if this folder has been split
             if os.path.sep in new_text:
-                # It's been split, so we need to add new folders and then reparent
+                # It's been split, so we need to add new folders and then re-parent
                 # itr.
                 parent = self.files_treestore.iter_parent(itr)
                 split_text = new_text.split(os.path.sep)
@@ -921,7 +929,7 @@ class AddTorrentDialog(component.Component):
 
                 self.files_treestore[itr][1] = split_text[-1] + os.path.sep
 
-                # Now reparent itr to parent
+                # Now re-parent itr to parent
                 common.reparent_iter(self.files_treestore, itr, parent)
                 itr = parent
 
@@ -938,6 +946,6 @@ class AddTorrentDialog(component.Component):
             walk_tree(itr)
 
     def _on_alocation_toggled(self, widget):
-        full_allocation_active = self.glade.get_widget("radio_full").get_active()
-        self.glade.get_widget("chk_prioritize").set_sensitive(full_allocation_active)
-        self.glade.get_widget("chk_sequential_download").set_sensitive(full_allocation_active)
+        full_allocation_active = self.builder.get_object("radio_full").get_active()
+        self.builder.get_object("chk_prioritize").set_sensitive(full_allocation_active)
+        self.builder.get_object("chk_sequential_download").set_sensitive(full_allocation_active)
