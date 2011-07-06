@@ -272,6 +272,9 @@ class ListView:
         # A list of ListViewColumnStates
         state = []
 
+        # Workaround for all zero widths after removing column on shutdown
+        if not any(c.get_width() for c in self.treeview.get_columns()): return
+
         # Get the list of TreeViewColumns from the TreeView
         for counter, column in enumerate(self.treeview.get_columns()):
             # Append a new column state to the state list
