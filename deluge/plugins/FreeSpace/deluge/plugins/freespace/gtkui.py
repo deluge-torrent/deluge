@@ -59,16 +59,10 @@ class GtkUI(GtkPluginBase):
         if parent:
             parent.remove(self.prefs)
 
-#        chk_ap = component.get("Preferences").glade.get_widget('chk_add_paused')
-#        downloads_vbox = chk_ap.get_parent().get_parent().get_parent().get_parent()
+        self.downloads_vbox = component.get("Preferences").builder.get_object('downloads_vbox')
+        self.downloads_vbox.pack_start(self.prefs, False, True, 0)
 
-        downloads_vbox = component.get("Preferences").glade.get_widget('vbox1')
-        downloads_vbox.pack_start(self.prefs, False, True, 0)
-#        self.prefs.set_parent(frame)
-
-#        component.get("Preferences").add_page("FreeSpace", self.glade.get_widget("prefs_box"))
-        component.get("PluginManager").register_hook("on_apply_prefs",
-                                                     self.on_apply_prefs)
+        component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs",
                                                      self.on_show_prefs)
 
@@ -86,18 +80,13 @@ class GtkUI(GtkPluginBase):
         except KeyError:
             pass
 
-        client.register_event_handler("PluginEnabledEvent",
-                                      self.__on_plugin_enabled)
-
-        client.register_event_handler("PluginDisabledEvent",
-                                      self.__on_plugin_disabled)
+        client.register_event_handler("PluginEnabledEvent", self.__on_plugin_enabled)
+        client.register_event_handler("PluginDisabledEvent", self.__on_plugin_disabled)
 
     def disable(self):
-        component.get("Preferences").remove_page("FreeSpace")
-        component.get("PluginManager").deregister_hook("on_apply_prefs",
-                                                       self.on_apply_prefs)
-        component.get("PluginManager").deregister_hook("on_show_prefs",
-                                                       self.on_show_prefs)
+        self.downloads_vbox.remove(self.prefs)
+        component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
+        component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
         try:
             notifications = component.get("GtkPlugin.Notifications")
             notifications.deregister_custom_popup_notification(
