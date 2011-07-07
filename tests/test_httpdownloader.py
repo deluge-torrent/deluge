@@ -60,10 +60,11 @@ class DownloadFileTestCase(unittest.TestCase):
         d.addCallback(self.assertContains, "This file should be called renamed")
         return d
 
-    def test_download_with_rename_fail(self):
+    def test_download_with_rename_exists(self):
+        open('renamed', 'w').close()
         url = "http://deluge-torrent.org/httpdownloader.php?test=rename&filename=renamed"
         d = download_file(url, "original")
-        d.addCallback(self.assertEqual, "original")
+        d.addCallback(self.assertEqual, "renamed-1")
         d.addCallback(self.assertContains, "This file should be called renamed")
         return d
 
