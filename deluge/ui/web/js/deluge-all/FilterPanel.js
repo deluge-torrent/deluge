@@ -29,18 +29,18 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.FilterPanel
- * @extends Ext.list.ListView
+ * @extends Ext.panel.Panel
  */
 Ext.define('Deluge.FilterPanel', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.panel.Panel',
 
     autoScroll: true,
     border: false,
     show_zero: null,
+    title: ' ',
 
     initComponent: function() {
         this.callParent(arguments);
@@ -63,12 +63,15 @@ Ext.define('Deluge.FilterPanel', {
 
         this.grid = this.add({
             xtype: 'grid',
+            border: false,
             singleSelect: true,
             hideHeaders: true,
             reserveScrollOffset: true,
-            store: new Ext.data.ArrayStore({
-                idIndex: 0,
-                fields: ['filter', 'count']
+            store: Ext.create('Ext.data.Store', {
+                model: 'Deluge.data.Filter',
+                proxy: {
+                    type: 'memory'
+                }
             }),
             columns: [{
                 id: 'filter',
@@ -78,6 +81,10 @@ Ext.define('Deluge.FilterPanel', {
             }]
         });
         this.relayEvents(this.grid, ['selectionchange']);
+    },
+
+    getSelectionModel: function() {
+        return this.grid.getSelectionModel();
     },
 
     /**
@@ -135,17 +142,18 @@ Ext.define('Deluge.FilterPanel', {
         Ext.each(states, function(s, i) {
             var record = store.getById(s[0]);
             if (!record) {
-                var record = store.add({
+                record = Ext.create('Deluge.data.Filter', {
                     filter: s[0],
-                    count: s[1]
-                })[0];
+                    count: [1]
+                });
                 record.setId(s[0]);
-                store.insert(i, record);
+                store.insert(i, [record]);
+            } else {
+                record.beginEdit();
+                record.set('filter', s[0]);
+                record.set('count', s[1]);
+                record.endEdit();
             }
-            record.beginEdit();
-            record.set('filter', s[0]);
-            record.set('count', s[1]);
-            record.endEdit();
             filters[s[0]] = true;
         }, this);
 
@@ -161,7 +169,7 @@ Ext.define('Deluge.FilterPanel', {
         store.sync();
 
         if (!sm.hasSelection()) {
-            sm.select(0);
+            //sm.select(0);
         }
     }
 

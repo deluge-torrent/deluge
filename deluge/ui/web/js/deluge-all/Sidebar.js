@@ -82,8 +82,8 @@ Ext.define('Deluge.Sidebar', {
             if (!deluge.config.sidebar_multiple_filters) {
                 deluge.ui.update();
             }
-            if (!panel.list.getSelectionCount()) {
-                panel.list.select(0);
+            if (!panel.getSelectionModel().hasSelection()) {
+                panel.getSelectionModel().select(0);
             }
         });
         this.fireEvent('filtercreate', this, panel);
