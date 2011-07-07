@@ -347,15 +347,16 @@ Ext.define('Deluge.ConnectionManager', {
 
     // private
     onStopClick: function(button, e) {
-        var connection = this.grid.getSelectedRecords()[0];
-        if (!connection) return;
+        var sm = this.grid.getSelectionModel(),
+            selected = sm.getLastSelected();
+        if (!selected) return;
 
-        if (connection.get('status') == 'Offline') {
+        if (selected.get('status') == 'Offline') {
             // This means we need to start the daemon
-            deluge.client.web.start_daemon(connection.get('port'));
+            deluge.client.web.start_daemon(selected.get('port'));
         } else {
             // This means we need to stop the daemon
-            deluge.client.web.stop_daemon(connection.id, {
+            deluge.client.web.stop_daemon(selected.getId(), {
                 success: function(result) {
                     if (!result[0]) {
                         Ext.MessageBox.show({
