@@ -44,7 +44,6 @@ import common
 
 class AboutDialog:
     def __init__(self):
-        # Get the glade file for the about dialog
         def url_hook(dialog, url):
             deluge.common.open_url_in_browser(url)
         gtk.about_dialog_set_url_hook(url_hook)

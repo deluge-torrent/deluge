@@ -38,7 +38,6 @@ import os
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 import logging
 
 import deluge.component as component

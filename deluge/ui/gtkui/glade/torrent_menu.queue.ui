@@ -15,7 +15,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
-        <property name="accel_group">accelgroup1</property>
+        <signal name="activate" handler="on_menuitem_queue_top_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -27,7 +27,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
-        <property name="accel_group">accelgroup1</property>
+        <signal name="activate" handler="on_menuitem_queue_up_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -39,7 +39,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
-        <property name="accel_group">accelgroup1</property>
+        <signal name="activate" handler="on_menuitem_queue_down_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -51,7 +51,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
-        <property name="accel_group">accelgroup1</property>
+        <signal name="activate" handler="on_menuitem_queue_bottom_activate" swapped="no"/>
       </object>
     </child>
   </object>

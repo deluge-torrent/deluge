@@ -45,31 +45,31 @@ class NewReleaseDialog:
 
     def show(self, available_version):
         self.config = ConfigManager("gtkui.conf")
-        glade = component.get("MainWindow").main_glade
-        self.dialog = glade.get_widget("new_release_dialog")
+        builder = component.get("MainWindow").get_builder()
+        self.dialog = builder.get_object("new_release_dialog")
         # Set the version labels
         if deluge.common.windows_check() or deluge.common.osx_check():
-            glade.get_widget("image_new_release").set_from_file(
+            builder.get_object("image_new_release").set_from_file(
                 deluge.common.get_pixmap("deluge16.png"))
         else:
-            glade.get_widget("image_new_release").set_from_icon_name("deluge", 4)
-        glade.get_widget("label_available_version").set_text(available_version)
-        glade.get_widget("label_client_version").set_text(
+            builder.get_object("image_new_release").set_from_icon_name("deluge", 4)
+        builder.get_object("label_available_version").set_text(available_version)
+        builder.get_object("label_client_version").set_text(
             deluge.common.get_version())
-        self.chk_not_show_dialog = glade.get_widget("chk_do_not_show_new_release")
-        glade.get_widget("button_goto_downloads").connect(
+        self.chk_not_show_dialog = builder.get_object("chk_do_not_show_new_release")
+        builder.get_object("button_goto_downloads").connect(
             "clicked", self._on_button_goto_downloads)
-        glade.get_widget("button_close_new_release").connect(
+        builder.get_object("button_close_new_release").connect(
             "clicked", self._on_button_close_new_release)
-        
+
         if client.connected():
             def on_info(version):
-                glade.get_widget("label_server_version").set_text(version)
-                glade.get_widget("label_server_version").show()
-                glade.get_widget("label_server_version_text").show()
+                builder.get_object("label_server_version").set_text(version)
+                builder.get_object("label_server_version").show()
+                builder.get_object("label_server_version_text").show()
 
             if not client.is_classicmode():
-                glade.get_widget("label_client_version_text").set_label(_("<i>Client Version</i>"))
+                builder.get_object("label_client_version_text").set_label(_("<i>Client Version</i>"))
                 client.daemon.info().addCallback(on_info)
 
         self.dialog.show()

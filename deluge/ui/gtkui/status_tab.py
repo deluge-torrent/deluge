@@ -34,12 +34,8 @@
 #
 #
 
-
-import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 from deluge.configmanager import ConfigManager
@@ -80,12 +76,12 @@ class StatusTab(Tab):
         Tab.__init__(self)
         # Get the labels we need to update.
         # widget name, modifier function, status keys
-        self.glade = glade = component.get("MainWindow").main_glade
-        self.progressbar = component.get("MainWindow").main_glade.get_widget("progressbar")
+        self.builder = builder = component.get("MainWindow").get_builder()
+        self.progressbar = builder.get_object("progressbar")
 
         self._name = "Status"
-        self._child_widget = glade.get_widget("status_tab")
-        self._tab_label = glade.get_widget("status_tab_label")
+        self._child_widget = builder.get_object("status_tab")
+        self._tab_label = builder.get_object("status_tab_label")
         self.config = ConfigManager("gtkui.conf")
         self.config.register_set_function(
             "show_piecesbar",
@@ -93,25 +89,25 @@ class StatusTab(Tab):
             apply_now=True
         )
         self.label_widgets = [
-            (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
-            (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
-            (glade.get_widget("summary_total_downloaded"), fpeer_sized, ("all_time_download", "total_payload_download")),
-            (glade.get_widget("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
-            (glade.get_widget("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
-            (glade.get_widget("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
-            (glade.get_widget("summary_seeders"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
-            (glade.get_widget("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
-            (glade.get_widget("summary_eta"), deluge.common.ftime, ("eta",)),
-            (glade.get_widget("summary_share_ratio"), fratio, ("ratio",)),
-            (glade.get_widget("summary_tracker_status"), None, ("tracker_status",)),
-            (glade.get_widget("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
-            (glade.get_widget("summary_active_time"), deluge.common.ftime, ("active_time",)),
-            (glade.get_widget("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),
-            (glade.get_widget("summary_seed_rank"), str, ("seed_rank",)),
-            (glade.get_widget("summary_auto_managed"), str, ("is_auto_managed",)),
-            (glade.get_widget("progressbar"), fpcnt, ("progress",)),
-            (glade.get_widget("summary_date_added"), deluge.common.fdate, ("time_added",)),
-            (glade.get_widget("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
+            (builder.get_object("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
+            (builder.get_object("summary_availability"), fratio, ("distributed_copies",)),
+            (builder.get_object("summary_total_downloaded"), fpeer_sized, ("all_time_download", "total_payload_download")),
+            (builder.get_object("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
+            (builder.get_object("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
+            (builder.get_object("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
+            (builder.get_object("summary_seeders"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
+            (builder.get_object("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
+            (builder.get_object("summary_eta"), deluge.common.ftime, ("eta",)),
+            (builder.get_object("summary_share_ratio"), fratio, ("ratio",)),
+            (builder.get_object("summary_tracker_status"), None, ("tracker_status",)),
+            (builder.get_object("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
+            (builder.get_object("summary_active_time"), deluge.common.ftime, ("active_time",)),
+            (builder.get_object("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),
+            (builder.get_object("summary_seed_rank"), str, ("seed_rank",)),
+            (builder.get_object("summary_auto_managed"), str, ("is_auto_managed",)),
+            (builder.get_object("progressbar"), fpcnt, ("progress",)),
+            (builder.get_object("summary_date_added"), deluge.common.fdate, ("time_added",)),
+            (builder.get_object("summary_last_seen_complete"), fdate_or_never, ("last_seen_complete",)),
         ]
 
     def update(self):
@@ -191,7 +187,7 @@ class StatusTab(Tab):
         else:
             if show:
                 self.piecesbar = PiecesBar()
-                self.glade.get_widget("status_progress_vbox").pack_start(
+                self.builder.get_object("status_progress_vbox").pack_start(
                     self.piecesbar, False, False, 5
                 )
                 self.progressbar.hide()

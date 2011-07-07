@@ -39,38 +39,28 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
-import gettext
 import gobject
 import logging
 import warnings
-from urlparse import urlparse
 
 from twisted.internet import reactor
 
+import listview
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-import listview
-from deluge.ui.tracker_icons import TrackerIcons
 from removetorrentdialog import RemoveTorrentDialog
 
 log = logging.getLogger(__name__)
 
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
-icon_downloading = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("downloading16.png"))
-icon_seeding = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("seeding16.png"))
-icon_inactive = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("inactive16.png"))
-icon_alert = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("alert16.png"))
-icon_queued = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("queued16.png"))
-icon_checking = gtk.gdk.pixbuf_new_from_file(
-    deluge.common.get_pixmap("checking16.png"))
+icon_downloading = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("downloading16.png"))
+icon_seeding = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
+icon_inactive = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("inactive16.png"))
+icon_alert = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("alert16.png"))
+icon_queued = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("queued16.png"))
+icon_checking = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("checking16.png"))
 
 # Holds the info for which status icon to display based on state
 ICON_STATE = {
@@ -192,11 +182,11 @@ class SearchBox(object):
         self.visible = False
         self.search_pending = self.prefiltered = None
 
-        self.search_box = self.window.main_glade.get_widget("search_box")
-        self.search_torrents_entry = self.window.main_glade.get_widget("search_torrents_entry")
-        self.close_search_button = self.window.main_glade.get_widget("close_search_button")
-        self.match_search_button = self.window.main_glade.get_widget("search_torrents_match")
-        self.window.main_glade.signal_autoconnect(self)
+        self.search_box = self.window.main_builder.get_object("search_box")
+        self.search_torrents_entry = self.window.main_builder.get_object("search_torrents_entry")
+        self.close_search_button = self.window.main_builder.get_object("close_search_button")
+        self.match_search_button = self.window.main_builder.get_object("search_torrents_match")
+        self.window.connect_signals(self)
 
     def show(self):
         self.visible = True
@@ -319,9 +309,7 @@ class TorrentView(listview.ListView, component.Component):
         component.Component.__init__(self, "TorrentView", interval=2, depend=["SessionProxy"])
         self.window = component.get("MainWindow")
         # Call the ListView constructor
-        listview.ListView.__init__(self,
-                            self.window.main_glade.get_widget("torrent_view"),
-                            "torrentview.state")
+        listview.ListView.__init__(self, self.window.main_builder.get_object("torrent_view"), "torrentview.state")
         log.debug("TorrentView Init..")
 
         # If we have gotten the state yet
@@ -333,11 +321,8 @@ class TorrentView(listview.ListView, component.Component):
         # We keep a copy of the previous status to compare for changes
         self.prev_status = {}
 
-        # Register the columns menu with the listview so it gets updated
-        # accordingly.
-        self.register_checklist_menu(
-            self.window.main_glade.get_widget("menu_columns")
-        )
+        # Register the columns menu with the listview so it gets updated accordingly.
+        self.register_checklist_menu(self.window.main_builder.get_object("menu_columns"))
 
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)

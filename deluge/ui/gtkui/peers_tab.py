@@ -33,17 +33,13 @@
 #
 #
 
-
-import os
 import gtk
-import gtk.glade
 import logging
 import os.path
 import cPickle
 from itertools import izip
 
 from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.component as component
 import deluge.common
@@ -61,17 +57,17 @@ def cell_data_progress(column, cell, model, row, data):
 class PeersTab(Tab):
     def __init__(self):
         Tab.__init__(self)
-        glade = component.get("MainWindow").get_glade()
+        builder = component.get("MainWindow").get_builder()
 
         self._name = "Peers"
-        self._child_widget = glade.get_widget("peers_tab")
-        self._tab_label = glade.get_widget("peers_tab_label")
-        self.peer_menu = glade.get_widget("menu_peer_tab")
-        glade.signal_autoconnect({
+        self._child_widget = builder.get_object("peers_tab")
+        self._tab_label = builder.get_object("peers_tab_label")
+        self.peer_menu = builder.get_object("menu_peer_tab")
+        component.get("MainWindow").connect_signals({
             "on_menuitem_add_peer_activate": self._on_menuitem_add_peer_activate,
-            })
+        })
 
-        self.listview = glade.get_widget("peers_listview")
+        self.listview = builder.get_object("peers_listview")
         self.listview.props.has_tooltip = True
         self.listview.connect("button-press-event", self._on_button_press_event)
         self.listview.connect("query-tooltip", self._on_query_tooltip)

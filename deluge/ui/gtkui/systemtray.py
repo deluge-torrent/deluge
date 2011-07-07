@@ -68,12 +68,10 @@ class SystemTray(component.Component):
             "separatormenuitem3",
             "separatormenuitem4"
         ]
-        self.config.register_set_function("enable_system_tray",
-                                          self.on_enable_system_tray_set)
+        self.config.register_set_function("enable_system_tray", self.on_enable_system_tray_set)
         # bit of a hack to prevent function from doing something on startup
         self.__enabled_set_once = False
-        self.config.register_set_function("enable_appindicator",
-                                          self.on_enable_appindicator_set)
+        self.config.register_set_function("enable_appindicator", self.on_enable_appindicator_set)
 
         self.max_download_speed = -1.0
         self.download_rate = 0.0
@@ -93,17 +91,12 @@ class SystemTray(component.Component):
         )
 
         self.builder.connect_signals({
-            "on_menuitem_show_deluge_activate": \
-                self.on_menuitem_show_deluge_activate,
-            "on_menuitem_add_torrent_activate": \
-                self.on_menuitem_add_torrent_activate,
-            "on_menuitem_pause_all_activate": \
-                self.on_menuitem_pause_all_activate,
-            "on_menuitem_resume_all_activate": \
-                self.on_menuitem_resume_all_activate,
+            "on_menuitem_show_deluge_activate": self.on_menuitem_show_deluge_activate,
+            "on_menuitem_add_torrent_activate": self.on_menuitem_add_torrent_activate,
+            "on_menuitem_pause_all_activate": self.on_menuitem_pause_all_activate,
+            "on_menuitem_resume_all_activate": self.on_menuitem_resume_all_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
-            "on_menuitem_quitdaemon_activate": \
-                self.on_menuitem_quitdaemon_activate
+            "on_menuitem_quitdaemon_activate": self.on_menuitem_quitdaemon_activate
         })
 
         self.tray_menu = self.builder.get_object("tray_menu")
@@ -129,8 +122,7 @@ class SystemTray(component.Component):
         else:
             log.debug("Enabling the system tray icon..")
             if deluge.common.windows_check() or deluge.common.osx_check():
-                self.tray = gtk.status_icon_new_from_pixbuf(
-                    common.get_logo(32))
+                self.tray = gtk.status_icon_new_from_pixbuf(common.get_logo(32))
             else:
                 try:
                     self.tray = gtk.status_icon_new_from_icon_name("deluge")

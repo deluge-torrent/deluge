@@ -41,33 +41,33 @@ from deluge.ui.gtkui.torrentdetails import Tab
 class OptionsTab(Tab):
     def __init__(self):
         Tab.__init__(self)
-        glade = component.get("MainWindow").get_glade()
+        builder = component.get("MainWindow").get_builder()
 
         self._name = "Options"
-        self._child_widget = glade.get_widget("options_tab")
-        self._tab_label = glade.get_widget("options_tab_label")
+        self._child_widget = builder.get_object("options_tab")
+        self._tab_label = builder.get_object("options_tab_label")
 
-        self.spin_max_download = glade.get_widget("spin_max_download")
-        self.spin_max_upload = glade.get_widget("spin_max_upload")
-        self.spin_max_connections = glade.get_widget("spin_max_connections")
-        self.spin_max_upload_slots = glade.get_widget("spin_max_upload_slots")
-        self.chk_private = glade.get_widget("chk_private")
-        self.chk_prioritize_first_last = glade.get_widget("chk_prioritize_first_last")
-        self.chk_sequential_download = glade.get_widget("chk_sequential_download")
-        self.chk_auto_managed = glade.get_widget("chk_auto_managed")
-        self.chk_stop_at_ratio = glade.get_widget("chk_stop_at_ratio")
-        self.chk_remove_at_ratio = glade.get_widget("chk_remove_at_ratio")
-        self.spin_stop_ratio = glade.get_widget("spin_stop_ratio")
-        self.chk_move_completed = glade.get_widget("chk_move_completed")
-        self.filechooser_move_completed = glade.get_widget("filechooser_move_completed")
-        self.entry_move_completed = glade.get_widget("entry_move_completed")
-        self.chk_shared = glade.get_widget("chk_shared")
-        self.button_apply = glade.get_widget("button_apply")
+        self.spin_max_download = builder.get_object("spin_max_download")
+        self.spin_max_upload = builder.get_object("spin_max_upload")
+        self.spin_max_connections = builder.get_object("spin_max_connections")
+        self.spin_max_upload_slots = builder.get_object("spin_max_upload_slots")
+        self.chk_private = builder.get_object("chk_private")
+        self.chk_prioritize_first_last = builder.get_object("chk_prioritize_first_last")
+        self.chk_sequential_download = builder.get_object("chk_sequential_download")
+        self.chk_auto_managed = builder.get_object("chk_auto_managed")
+        self.chk_stop_at_ratio = builder.get_object("chk_stop_at_ratio")
+        self.chk_remove_at_ratio = builder.get_object("chk_remove_at_ratio")
+        self.spin_stop_ratio = builder.get_object("spin_stop_ratio")
+        self.chk_move_completed = builder.get_object("chk_move_completed")
+        self.filechooser_move_completed = builder.get_object("filechooser_move_completed")
+        self.entry_move_completed = builder.get_object("entry_move_completed")
+        self.chk_shared = builder.get_object("chk_shared")
+        self.button_apply = builder.get_object("button_apply")
 
         self.prev_torrent_id = None
         self.prev_status = None
 
-        glade.signal_autoconnect({
+        component.get("MainWindow").connect_signals({
             "on_button_apply_clicked": self._on_button_apply_clicked,
             "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
             "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled,

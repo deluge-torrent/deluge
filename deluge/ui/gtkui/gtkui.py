@@ -319,16 +319,12 @@ Please see the details below for more information."), details=traceback.format_e
                 def update_connection_manager():
                     if not self.connectionmanager.running:
                         return
-                    self.connectionmanager.glade.get_widget(
-                        "button_refresh"
-                    ).emit("clicked")
+                    self.connectionmanager.builder.get_object("button_refresh").emit("clicked")
 
                 def close_connection_manager():
                     if not self.connectionmanager.running:
                         return
-                    self.connectionmanager.glade.get_widget(
-                        "button_close"
-                    ).emit("clicked")
+                    self.connectionmanager.builder.get_object("button_close").emit("clicked")
 
                 for host_config in self.connectionmanager.config["hosts"]:
                     hostid, host, port, user, passwd = host_config

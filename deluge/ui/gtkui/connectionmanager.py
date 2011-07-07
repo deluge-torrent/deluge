@@ -135,7 +135,7 @@ class ConnectionManager(component.Component):
         Show the ConnectionManager dialog.
         """
         self.config = self.__load_config()
-        # Get the glade file for the connection manager
+        # Get the gtk builder file for the connection manager
         self.builder = gtk.Builder()
         # The main dialog
         self.builder.add_from_file(deluge.common.resource_filename(
@@ -514,7 +514,7 @@ class ConnectionManager(component.Component):
         if self.running:
             # When connected to a client, and then trying to connect to another,
             # this component will be stopped(while the connect deferred is
-            # runing), so, self.connection_manager will be deleted.
+            # running), so, self.connection_manager will be deleted.
             # If that's not the case, close the dialog.
             self.connection_manager.response(gtk.RESPONSE_OK)
         component.start()
@@ -755,3 +755,10 @@ class ConnectionManager(component.Component):
                     config["hosts"][idx][4] = localclient_password
         return config
 
+
+#    # These handlers are defined on the GTK builder file but they were not used on this code.
+#    # Let's just stop the RuntimeWarning's until we find out if we really needed these handlers.
+#    def __dummy_gtkbuilder_handler(self, *a, **k): pass
+#    on_chk_donotshow_toggled = __dummy_gtkbuilder_handler
+#    on_chk_autostart_toggled = __dummy_gtkbuilder_handler
+#    on_chk_autoconnect_toggled = __dummy_gtkbuilder_handler

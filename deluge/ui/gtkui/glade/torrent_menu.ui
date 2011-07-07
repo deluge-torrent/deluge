@@ -3,11 +3,11 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAccelGroup" id="accelgroup1"/>
-  <object class="GtkImage" id="download-limit-image">
+  <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-    <property name="stock">gtk-missing-image</property>
+    <property name="stock">gtk-preferences</property>
+    <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image12">
     <property name="visible">True</property>
@@ -26,27 +26,6 @@
   <object class="GtkImage" id="menu-item-image14">
     <property name="can_focus">False</property>
     <property name="stock">gtk-media-pause</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="menu-item-image16">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-    <property name="stock">gtk-network</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="menu-item-image17">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-    <property name="stock">gtk-sort-ascending</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="menu-item-image18">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-    <property name="stock">gtk-preferences</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="menu-item-image19">
@@ -154,7 +133,7 @@
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
-        <property name="image">menu-item-image18</property>
+        <property name="image">image1</property>
         <property name="use_stock">False</property>
       </object>
     </child>
@@ -259,11 +238,5 @@
         <signal name="activate" handler="on_menuitem_move_activate" swapped="no"/>
       </object>
     </child>
-  </object>
-  <object class="GtkImage" id="upload-limit-image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-    <property name="stock">gtk-missing-image</property>
   </object>
 </interface>

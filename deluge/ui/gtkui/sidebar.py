@@ -36,7 +36,6 @@
 
 
 import gtk
-import gtk.glade
 import logging
 
 import deluge.component as component
@@ -53,9 +52,9 @@ class SideBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, "SideBar")
         self.window = component.get("MainWindow")
-        glade = self.window.main_glade
-        self.notebook = glade.get_widget("sidebar_notebook")
-        self.hpaned = glade.get_widget("hpaned")
+        builder = self.window.get_builder()
+        self.notebook = builder.get_object("sidebar_notebook")
+        self.hpaned = builder.get_object("main_window_hpaned")
         self.config = ConfigManager("gtkui.conf")
         #self.hpaned_position = self.hpaned.get_position()
 

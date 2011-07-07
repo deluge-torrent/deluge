@@ -36,16 +36,13 @@
 
 import gtk
 import gtk.gdk
-import gtk.glade
 import gobject
-import gettext
 import os.path
 import cPickle
 import logging
 
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.client import client
-from deluge.configmanager import ConfigManager
 import deluge.configmanager
 import deluge.component as component
 import deluge.common
@@ -107,13 +104,13 @@ def cell_progress(column, cell, model, row, data):
 class FilesTab(Tab):
     def __init__(self):
         Tab.__init__(self)
-        glade = component.get("MainWindow").get_glade()
+        builder = component.get("MainWindow").get_builder()
 
         self._name = "Files"
-        self._child_widget = glade.get_widget("files_tab")
-        self._tab_label = glade.get_widget("files_tab_label")
+        self._child_widget = builder.get_object("files_tab")
+        self._tab_label = builder.get_object("files_tab_label")
 
-        self.listview = glade.get_widget("files_listview")
+        self.listview = builder.get_object("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
         self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, float, int, int, str)
 
@@ -190,18 +187,18 @@ class FilesTab(Tab):
 
         self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
-        self.file_menu = glade.get_widget("menu_file_tab")
+        self.file_menu = builder.get_object("menu_file_tab")
         self.file_menu_priority_items = [
-            glade.get_widget("menuitem_donotdownload"),
-            glade.get_widget("menuitem_normal"),
-            glade.get_widget("menuitem_high"),
-            glade.get_widget("menuitem_highest"),
-            glade.get_widget("menuitem_priority_sep")
+            builder.get_object("menuitem_donotdownload"),
+            builder.get_object("menuitem_normal"),
+            builder.get_object("menuitem_high"),
+            builder.get_object("menuitem_highest"),
+            builder.get_object("menuitem_priority_sep")
         ]
 
         self.localhost_widgets = [
-            glade.get_widget("menuitem_open_file"),
-            glade.get_widget("menuitem3")
+            builder.get_object("menuitem_open_file"),
+            builder.get_object("menuitem3")
         ]
 
         self.listview.connect("row-activated", self._on_row_activated)
@@ -217,7 +214,7 @@ class FilesTab(Tab):
         self.listview.connect("drag_data_get", self._on_drag_data_get_data)
         self.listview.connect("drag_data_received", self._on_drag_data_received_data)
 
-        glade.signal_autoconnect({
+        component.get("MainWindow").connect_signals({
             "on_menuitem_open_file_activate": self._on_menuitem_open_file_activate,
             "on_menuitem_donotdownload_activate": self._on_menuitem_donotdownload_activate,
             "on_menuitem_normal_activate": self._on_menuitem_normal_activate,

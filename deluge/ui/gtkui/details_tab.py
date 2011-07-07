@@ -33,12 +33,8 @@
 #
 #
 
-
-import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
 import deluge.component as component
 from deluge.common import fsize, is_url
 from deluge.ui.gtkui.torrentdetails import Tab
@@ -49,24 +45,24 @@ class DetailsTab(Tab):
     def __init__(self):
         Tab.__init__(self)
         # Get the labels we need to update.
-        # widgetname, modifier function, status keys
-        glade = component.get("MainWindow").main_glade
+        # widget name, modifier function, status keys
+        builder = component.get("MainWindow").get_builder()
 
         self._name = "Details"
-        self._child_widget = glade.get_widget("details_tab")
-        self._tab_label = glade.get_widget("details_tab_label")
+        self._child_widget = builder.get_object("details_tab")
+        self._tab_label = builder.get_object("details_tab_label")
 
         self.label_widgets = [
-            (glade.get_widget("summary_name"), None, ("name",)),
-            (glade.get_widget("summary_total_size"), fsize, ("total_size",)),
-            (glade.get_widget("summary_num_files"), str, ("num_files",)),
-            (glade.get_widget("summary_tracker"), None, ("tracker",)),
-            (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
-            (glade.get_widget("summary_message"), str, ("message",)),
-            (glade.get_widget("summary_hash"), str, ("hash",)),
-            (glade.get_widget("summary_comments"), str, ("comment",)),
-            (glade.get_widget("summary_owner"), str, ("owner",)),
-            (glade.get_widget("summary_shared"), str, ("shared",))
+            (builder.get_object("summary_name"), None, ("name",)),
+            (builder.get_object("summary_total_size"), fsize, ("total_size",)),
+            (builder.get_object("summary_num_files"), str, ("num_files",)),
+            (builder.get_object("summary_tracker"), None, ("tracker",)),
+            (builder.get_object("summary_torrent_path"), None, ("save_path",)),
+            (builder.get_object("summary_message"), str, ("message",)),
+            (builder.get_object("summary_hash"), str, ("hash",)),
+            (builder.get_object("summary_comments"), str, ("comment",)),
+            (builder.get_object("summary_owner"), str, ("owner",)),
+            (builder.get_object("summary_shared"), str, ("shared",))
         ]
 
     def update(self):

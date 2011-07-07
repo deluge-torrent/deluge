@@ -40,10 +40,8 @@ import os
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 import logging
 
-from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
 

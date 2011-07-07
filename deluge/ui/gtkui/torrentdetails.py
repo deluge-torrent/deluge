@@ -37,7 +37,6 @@
 """The torrent details component shows info about the selected torrent."""
 
 import gtk
-import gtk.glade
 import os
 import os.path
 import cPickle
@@ -78,12 +77,12 @@ class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, "TorrentDetails", interval=2)
         self.window = component.get("MainWindow")
-        glade = self.window.main_glade
+        builder = self.window.get_builder()
 
-        self.notebook = glade.get_widget("torrent_info")
+        self.notebook = builder.get_object("torrent_info")
 
         # This is the menu item we'll attach the tabs checklist menu to
-        self.menu_tabs = glade.get_widget("menu_tabs")
+        self.menu_tabs = builder.get_object("menu_tabs")
 
         self.notebook.connect("switch-page", self._on_switch_page)
 

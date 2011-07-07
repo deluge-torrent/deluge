@@ -37,7 +37,6 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 import gobject
 import logging
 
@@ -53,18 +52,16 @@ class ToolBar(component.Component):
         component.Component.__init__(self, "ToolBar")
         log.debug("ToolBar Init..")
         self.window = component.get("MainWindow")
-        self.toolbar = self.window.main_glade.get_widget("toolbar")
+        self.toolbar = self.window.get_builder().get_object("toolbar")
         self.config = ConfigManager("gtkui.conf")
-        ### Connect Signals ###
-        self.window.main_glade.signal_autoconnect({
+        ### Connect main window Signals ###
+        self.window.connect_signals({
             "on_toolbutton_add_clicked": self.on_toolbutton_add_clicked,
             "on_toolbutton_remove_clicked": self.on_toolbutton_remove_clicked,
             "on_toolbutton_pause_clicked": self.on_toolbutton_pause_clicked,
             "on_toolbutton_resume_clicked": self.on_toolbutton_resume_clicked,
-            "on_toolbutton_preferences_clicked": \
-                self.on_toolbutton_preferences_clicked,
-            "on_toolbutton_connectionmanager_clicked": \
-                self.on_toolbutton_connectionmanager_clicked,
+            "on_toolbutton_preferences_clicked": self.on_toolbutton_preferences_clicked,
+            "on_toolbutton_connectionmanager_clicked": self.on_toolbutton_connectionmanager_clicked,
             "on_toolbutton_queue_up_clicked": self.on_toolbutton_queue_up_clicked,
             "on_toolbutton_queue_down_clicked": self.on_toolbutton_queue_down_clicked
         })
@@ -86,14 +83,14 @@ class ToolBar(component.Component):
 
     def start(self):
         if not self.config["classic_mode"]:
-            self.window.main_glade.get_widget("toolbutton_connectionmanager").show()
+            self.window.get_builder().get_object("toolbutton_connectionmanager").show()
 
         for widget in self.change_sensitivity:
-            self.window.main_glade.get_widget(widget).set_sensitive(True)
+            self.window.get_builder().get_object(widget).set_sensitive(True)
 
     def stop(self):
         for widget in self.change_sensitivity:
-            self.window.main_glade.get_widget(widget).set_sensitive(False)
+            self.window.get_builder().get_object(widget).set_sensitive(False)
 
     def visible(self, visible):
         if visible:
@@ -185,7 +182,7 @@ class ToolBar(component.Component):
         component.get("MenuBar").on_menuitem_queue_down_activate(data)
 
     def _on_classic_mode(self, key, value):
-        w = self.window.main_glade.get_widget("toolbutton_connectionmanager")
+        w = self.window.get_builder().get_object("toolbutton_connectionmanager")
         if value:
             w.hide()
         else:

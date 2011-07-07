@@ -51,36 +51,37 @@ from deluge.configmanager import ConfigManager
 log = logging.getLogger(__name__)
 
 class MenuBar(component.Component):
+
     def __init__(self):
         log.debug("MenuBar init..")
         component.Component.__init__(self, "MenuBar")
         self.window = component.get("MainWindow")
+        self.main_builder = self.window.get_builder()
         self.config = ConfigManager("gtkui.conf")
 
         self.builder = gtk.Builder()
-        # Get the torrent menu from the glade file
+        # Get the torrent menu from the gtk builder file
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.ui")
         ))
-        # Get the torrent options menu from the glade file
+        # Get the torrent options menu from the gtk builder file
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.options.ui")
         ))
-        # Get the torrent queue menu from the glade file
+        # Get the torrent queue menu from the gtk builder file
         self.builder.add_from_file(deluge.common.resource_filename(
             "deluge.ui.gtkui", os.path.join("glade", "torrent_menu.queue.ui")
         ))
 
-        self.builder.get_object("menuitem_queue").set_submenu(
-            self.builder.get_object("queue_torrent_menu"))
-
+        # Attach queue torrent menu
+        torrent_queue_menu = self.builder.get_object("queue_torrent_menu")
+        self.builder.get_object("menuitem_queue").set_submenu(torrent_queue_menu)
         # Attach options torrent menu
-        self.builder.get_object("menuitem_options").set_submenu(
-            self.builder.get_object("options_torrent_menu"))
-        self.builder.get_object("download-limit-image").set_from_file(
-            deluge.common.get_pixmap("downloading16.png"))
-        self.builder.get_object("upload-limit-image").set_from_file(
-            deluge.common.get_pixmap("seeding16.png"))
+        torrent_options_menu = self.builder.get_object("options_torrent_menu")
+        self.builder.get_object("menuitem_options").set_submenu(torrent_options_menu)
+
+        self.builder.get_object("download-limit-image").set_from_file(deluge.common.get_pixmap("downloading16.png"))
+        self.builder.get_object("upload-limit-image").set_from_file(deluge.common.get_pixmap("seeding16.png"))
 
         for menuitem in ("menuitem_down_speed", "menuitem_up_speed",
             "menuitem_max_connections", "menuitem_upload_slots"):
@@ -107,40 +108,30 @@ class MenuBar(component.Component):
         self.builder.get_object("menuitem_auto_managed").set_submenu(submenu)
 
         self.torrentmenu = self.builder.get_object("torrent_menu")
-        self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
+        self.menu_torrent = self.main_builder.get_object("menu_torrent")
 
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
         # Make sure the view menuitems are showing the correct active state
-        self.window.main_glade.get_widget("menuitem_toolbar").set_active(
-            self.config["show_toolbar"])
-        self.window.main_glade.get_widget("menuitem_sidebar").set_active(
-            self.config["show_sidebar"])
-        self.window.main_glade.get_widget("menuitem_statusbar").set_active(
-            self.config["show_statusbar"])
-        self.window.main_glade.get_widget("sidebar_show_zero").set_active(
-            self.config["sidebar_show_zero"])
-        self.window.main_glade.get_widget("sidebar_show_trackers").set_active(
-            self.config["sidebar_show_trackers"])
+        self.main_builder.get_object("menuitem_toolbar").set_active(self.config["show_toolbar"])
+        self.main_builder.get_object("menuitem_sidebar").set_active(self.config["show_sidebar"])
+        self.main_builder.get_object("menuitem_statusbar").set_active(self.config["show_statusbar"])
+        self.main_builder.get_object("sidebar_show_zero").set_active(self.config["sidebar_show_zero"])
+        self.main_builder.get_object("sidebar_show_trackers").set_active(self.config["sidebar_show_trackers"])
 
 
-        ### Connect Signals ###
-        self.window.main_glade.signal_autoconnect({
+        ### Connect main window Signals ###
+        component.get("MainWindow").connect_signals({
             ## File Menu
-            "on_menuitem_addtorrent_activate": \
-                                        self.on_menuitem_addtorrent_activate,
-            "on_menuitem_createtorrent_activate": \
-                                        self.on_menuitem_createtorrent_activate,
-            "on_menuitem_quitdaemon_activate": \
-                                        self.on_menuitem_quitdaemon_activate,
+            "on_menuitem_addtorrent_activate": self.on_menuitem_addtorrent_activate,
+            "on_menuitem_createtorrent_activate": self.on_menuitem_createtorrent_activate,
+            "on_menuitem_quitdaemon_activate": self.on_menuitem_quitdaemon_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
 
             ## Edit Menu
-            "on_menuitem_preferences_activate": \
-                                        self.on_menuitem_preferences_activate,
-            "on_menuitem_connectionmanager_activate": \
-                self.on_menuitem_connectionmanager_activate,
+            "on_menuitem_preferences_activate": self.on_menuitem_preferences_activate,
+            "on_menuitem_connectionmanager_activate": self.on_menuitem_connectionmanager_activate,
 
             ## View Menu
             "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
@@ -150,23 +141,20 @@ class MenuBar(component.Component):
             ## Help Menu
             "on_menuitem_homepage_activate": self.on_menuitem_homepage_activate,
             "on_menuitem_faq_activate": self.on_menuitem_faq_activate,
-            "on_menuitem_community_activate": \
-                self.on_menuitem_community_activate,
+            "on_menuitem_community_activate": self.on_menuitem_community_activate,
             "on_menuitem_about_activate": self.on_menuitem_about_activate,
             "on_menuitem_sidebar_zero_toggled":self.on_menuitem_sidebar_zero_toggled,
             "on_menuitem_sidebar_trackers_toggled":self.on_menuitem_sidebar_trackers_toggled
         })
 
+        # Connect menubar signals
         self.builder.connect_signals({
             ## Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
             "on_menuitem_resume_activate": self.on_menuitem_resume_activate,
-            "on_menuitem_updatetracker_activate": \
-                                    self.on_menuitem_updatetracker_activate,
-            "on_menuitem_edittrackers_activate": \
-                                    self.on_menuitem_edittrackers_activate,
-            "on_menuitem_remove_activate": \
-                self.on_menuitem_remove_activate,
+            "on_menuitem_updatetracker_activate": self.on_menuitem_updatetracker_activate,
+            "on_menuitem_edittrackers_activate": self.on_menuitem_edittrackers_activate,
+            "on_menuitem_remove_activate": self.on_menuitem_remove_activate,
             "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
             "on_menuitem_open_folder_activate": self.on_menuitem_open_folder_activate,
             "on_menuitem_move_activate": self.on_menuitem_move_activate,
@@ -189,7 +177,7 @@ class MenuBar(component.Component):
 
     def start(self):
         for widget in self.change_sensitivity:
-            self.window.main_glade.get_widget(widget).set_sensitive(True)
+            self.main_builder.get_object(widget).set_sensitive(True)
 
         # Hide the Open Folder menuitem and separator if not connected to a
         # localhost.
@@ -206,8 +194,8 @@ class MenuBar(component.Component):
                 self.builder.get_object(widget).set_no_show_all(False)
 
         if not self.config["classic_mode"]:
-            self.window.main_glade.get_widget("separatormenuitem").show()
-            self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+            self.main_builder.get_object("separatormenuitem").show()
+            self.main_builder.get_object("menuitem_quitdaemon").show()
 
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
@@ -222,13 +210,13 @@ class MenuBar(component.Component):
         log.debug("MenuBar stopping")
 
         for widget in self.change_sensitivity:
-            self.window.main_glade.get_widget(widget).set_sensitive(False)
+            self.main_builder.get_object(widget).set_sensitive(False)
 
         # Hide the Torrent menu
         self.menu_torrent.hide()
 
-        self.window.main_glade.get_widget("separatormenuitem").hide()
-        self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
+        self.main_builder.get_object("separatormenuitem").hide()
+        self.main_builder.get_object("menuitem_quitdaemon").hide()
 
     def update_menu(self):
         selected = component.get('TorrentView').get_selected_torrents()
@@ -392,6 +380,7 @@ class MenuBar(component.Component):
         self.move_storage_dialog.show()
 
     def on_menuitem_queue_top_activate(self, value):
+        print 1234567, '\n\n\n'
         log.debug("on_menuitem_queue_top_activate")
         client.core.queue_top(component.get("TorrentView").get_selected_torrents())
 
@@ -512,7 +501,7 @@ class MenuBar(component.Component):
             attr = "show"
 
         for item in items:
-            getattr(self.window.main_glade.get_widget(item), attr)()
+            getattr(self.main_builder.get_object(item), attr)()
 
     def _on_known_accounts(self, known_accounts):
         known_accounts_to_log = []
@@ -584,4 +573,3 @@ class MenuBar(component.Component):
                 ).run()
             client.core.set_torrents_owner(
                 update_torrents, username).addErrback(failed_change_owner)
-

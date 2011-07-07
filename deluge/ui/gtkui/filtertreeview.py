@@ -96,9 +96,9 @@ class FilterTreeView(component.Component):
     def __init__(self):
         component.Component.__init__(self, "FilterTreeView", interval=2)
         self.window = component.get("MainWindow")
-        glade = self.window.main_glade
-        self.hpaned = glade.get_widget("hpaned")
-        self.scrolled = glade.get_widget("scrolledwindow_sidebar")
+        main_builder = self.window.get_builder()
+        self.hpaned = main_builder.get_object("main_window_hpaned")
+        self.scrolled = main_builder.get_object("scrolledwindow_sidebar")
         self.sidebar = component.get("SideBar")
         self.config = ConfigManager("gtkui.conf")
         self.tracker_icons = component.get("TrackerIcons")

@@ -34,13 +34,12 @@
 #
 
 
+import copy
 import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 import logging
-from urlparse import urlparse
 import urllib
 
 from deluge.ui.client import client
@@ -54,20 +53,74 @@ import common
 
 log = logging.getLogger(__name__)
 
+class _GtkBuilderSignalsHolder(object):
+    def connect_signals(self, mapping_or_class):
+
+        if isinstance(mapping_or_class, dict):
+            for name, handler in mapping_or_class.iteritems():
+                if hasattr(self, name):
+                    raise RuntimeError(
+                        "A handler for signal %r has already been registered: %s" %
+                        (name, getattr(self, name))
+                    )
+                setattr(self, name, handler)
+        else:
+            for name in dir(mapping_or_class):
+                if not name.startswith('on_'):
+                    continue
+                if hasattr(self, name):
+                    raise RuntimeError("A handler for signal %r has already been registered: %s" %
+                                         (name, getattr(self, name)))
+                setattr(self, name, getattr(mapping_or_class, name))
+
 class MainWindow(component.Component):
     def __init__(self):
         component.Component.__init__(self, "MainWindow", interval=2)
         self.config = ConfigManager("gtkui.conf")
-        # Get the glade file for the main window
-        self.main_glade = gtk.glade.XML(deluge.common.resource_filename(
-            "deluge.ui.gtkui", os.path.join("glade", "main_window.glade"))
+        self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
+        self.main_builder = gtk.Builder()
+        # Patch this GtkBuilder to avoid connecting signals from elsewhere
+        #
+        # Think about splitting up the main window gtkbuilder file into the necessary parts
+        # in order not to have to monkey patch GtkBuilder. Those parts would then need to
+        # be added to the main window "by hand".
+        self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
+        def patched_connect_signals(*a, **k):
+            raise RuntimeError("In order to connect signals to this GtkBuilder instance please use "
+                               "'component.get(\"MainWindow\").connect_signals()'")
+        self.main_builder.connect_signals = patched_connect_signals
+
+        # Get the gtk builder file for the main window
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.ui"))
+        )
+        # The new release dialog
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.new_release.ui"))
+        )
+        # The move storage dialog
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.move_storage.ui"))
+        )
+        # The tabs
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.ui"))
+        )
+        # The tabs file menu
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_file.ui"))
+        )
+        # The tabs peer menu
+        self.main_builder.add_from_file(deluge.common.resource_filename(
+            "deluge.ui.gtkui", os.path.join("glade", "main_window.tabs.menu_peer.ui"))
         )
 
-        self.window = self.main_glade.get_widget("main_window")
+
+        self.window = self.main_builder.get_object("main_window")
 
         self.window.set_icon(common.get_deluge_icon())
 
-        self.vpaned = self.main_glade.get_widget("vpaned")
+        self.vpaned = self.main_builder.get_object("vpaned")
         self.initial_vpaned_position = self.config["window_pane_position"]
 
         # Load the window state
@@ -77,8 +130,7 @@ class MainWindow(component.Component):
         # UI when it is minimized.
         self.is_minimized = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0,
-            80)], gtk.gdk.ACTION_COPY)
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
 
         # Connect events
         self.window.connect("window-state-event", self.on_window_state_event)
@@ -93,11 +145,15 @@ class MainWindow(component.Component):
         client.register_event_handler("NewVersionAvailableEvent", self.on_newversionavailable_event)
         client.register_event_handler("TorrentFinishedEvent", self.on_torrentfinished_event)
 
+    def connect_signals(self, mapping_or_class):
+        self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
+
     def first_show(self):
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
+            self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
             self.show()
             while gtk.events_pending():
                 gtk.main_iteration(False)
@@ -149,9 +205,9 @@ class MainWindow(component.Component):
         """Returns True if window is visible, False if not."""
         return self.window.get_property("visible")
 
-    def get_glade(self):
-        """Returns a reference to the main window glade object."""
-        return self.main_glade
+    def get_builder(self):
+        """Returns a reference to the main window GTK builder object."""
+        return self.main_builder
 
     def quit(self, shutdown=False):
         """
