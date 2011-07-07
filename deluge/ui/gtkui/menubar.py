@@ -380,7 +380,6 @@ class MenuBar(component.Component):
         self.move_storage_dialog.show()
 
     def on_menuitem_queue_top_activate(self, value):
-        print 1234567, '\n\n\n'
         log.debug("on_menuitem_queue_top_activate")
         client.core.queue_top(component.get("TorrentView").get_selected_torrents())
 

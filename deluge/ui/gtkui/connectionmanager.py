@@ -754,11 +754,3 @@ class ConnectionManager(component.Component):
                     config["hosts"][idx][3] = localclient_username
                     config["hosts"][idx][4] = localclient_password
         return config
-
-
-#    # These handlers are defined on the GTK builder file but they were not used on this code.
-#    # Let's just stop the RuntimeWarning's until we find out if we really needed these handlers.
-#    def __dummy_gtkbuilder_handler(self, *a, **k): pass
-#    on_chk_donotshow_toggled = __dummy_gtkbuilder_handler
-#    on_chk_autostart_toggled = __dummy_gtkbuilder_handler
-#    on_chk_autoconnect_toggled = __dummy_gtkbuilder_handler
