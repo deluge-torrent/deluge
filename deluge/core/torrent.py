@@ -372,7 +372,7 @@ class Torrent(object):
         tracker_list = []
 
         for tracker in trackers:
-            new_entry = lt.announce_entry(tracker["url"])
+            new_entry = lt.announce_entry(str(tracker["url"]))
             new_entry.tier = tracker["tier"]
             tracker_list.append(new_entry)
         self.handle.replace_trackers(tracker_list)
