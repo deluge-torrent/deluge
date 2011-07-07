@@ -51,7 +51,7 @@ if 'dev' in common.get_version():
     DEFAULT_LOGGING_FORMAT = "%%(asctime)s.%%(msecs)03.0f [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s"
 else:
     DEFAULT_LOGGING_FORMAT = "%%(asctime)s [%%(levelname)-8s][%%(name)-%ds] %%(message)s"
-MAX_LOGGER_NAME_LENGTH = 3
+MAX_LOGGER_NAME_LENGTH = 10
 
 class Logging(LoggingLoggerClass):
     def __init__(self, logger_name):
