@@ -38,6 +38,7 @@
 #
 
 import gtk
+import gtk.glade
 import logging
 
 from deluge.ui.client import client
@@ -63,8 +64,7 @@ class GtkUI(GtkPluginBase):
         self.downloads_vbox.pack_start(self.prefs, False, True, 0)
 
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
-        component.get("PluginManager").register_hook("on_show_prefs",
-                                                     self.on_show_prefs)
+        component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
 
         try:
             notifications = component.get("GtkPlugin.Notifications")
@@ -101,11 +101,8 @@ class GtkUI(GtkPluginBase):
         except KeyError:
             pass
 
-        client.deregister_event_handler("PluginEnabledEvent",
-                                        self.__on_plugin_enabled)
-
-        client.deregister_event_handler("PluginDisabledEvent",
-                                        self.__on_plugin_disabled)
+        client.deregister_event_handler("PluginEnabledEvent", self.__on_plugin_enabled)
+        client.deregister_event_handler("PluginDisabledEvent", self.__on_plugin_disabled)
 
     def on_apply_prefs(self):
         log.debug("applying prefs for FreeSpace")

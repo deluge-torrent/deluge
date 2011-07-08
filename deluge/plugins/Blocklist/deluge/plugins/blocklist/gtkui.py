@@ -36,6 +36,7 @@
 import logging
 from datetime import datetime
 import gtk
+import gtk.glade
 
 from deluge.ui.client import client
 import deluge.component as component

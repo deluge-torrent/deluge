@@ -40,6 +40,7 @@
 import logging
 from os.path import basename
 import gtk
+import gtk.glade
 
 from twisted.internet import defer
 from deluge.ui.client import client

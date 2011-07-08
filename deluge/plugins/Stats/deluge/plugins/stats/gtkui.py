@@ -36,6 +36,7 @@
 #    this exception statement from your version. If you delete this exception
 
 import gtk
+import gtk.glade
 import gobject
 import logging
 from gtk.glade import XML

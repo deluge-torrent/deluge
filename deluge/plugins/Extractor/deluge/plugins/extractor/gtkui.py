@@ -38,6 +38,7 @@
 #
 
 import gtk
+import gtk.glade
 import logging
 
 from deluge.ui.client import client
