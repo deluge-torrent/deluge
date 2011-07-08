@@ -184,8 +184,11 @@ class ConsoleUI(component.Component):
                     self.started_deferred.addCallback(on_started)
             component.start().addCallback(on_started)
 
+        def on_connect_fail(result):
+            pass
         d = client.connect()
         d.addCallback(on_connect)
+        d.addErrback(on_connect_fail)
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
