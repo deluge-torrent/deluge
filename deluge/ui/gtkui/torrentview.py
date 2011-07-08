@@ -273,6 +273,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
+        self.treeview.connect("drag_data_received", self.on_drag_data_received)
         self.treeview.connect("key-press-event", self.on_key_press_event)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
@@ -535,6 +536,9 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
+
+    def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        widget.stop_emission("drag_data_received")
 
     def on_torrentadded_event(self, torrent_id):
         self.add_row(torrent_id)
