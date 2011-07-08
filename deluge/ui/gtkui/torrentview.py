@@ -399,6 +399,7 @@ class TorrentView(listview.ListView, component.Component):
         self.treeview.get_selection().connect("changed", self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
+        self.treeview.connect("drag_data_received", self.on_drag_data_received)
         self.treeview.connect("key-press-event", self.on_key_press_event)
         self.treeview.connect("columns-changed", self.on_columns_changed_event)
 
@@ -686,6 +687,9 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
+
+    def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        widget.stop_emission("drag_data_received")
 
     def on_columns_changed_event(self, treeview):
         log.debug("Treeview Columns Changed")
