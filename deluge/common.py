@@ -118,6 +118,7 @@ TORRENT_STATE = [
 FILE_PRIORITY = {
     0: "Do Not Download",
     1: "Normal Priority",
+    2: "High Priority",
     5: "High Priority",
     7: "Highest Priority",
     "Do Not Download": 0,

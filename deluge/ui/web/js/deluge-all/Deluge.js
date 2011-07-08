@@ -162,12 +162,13 @@ FILE_PRIORITY = {
     0: 'Do Not Download',
     1: 'Normal Priority',
     2: 'High Priority',
-    5: 'Highest Priority',
+    5: 'High Priority',
+    7: 'Highest Priority',
 	'Mixed': 9,
     'Do Not Download': 0,
     'Normal Priority': 1,
-    'High Priority': 2,
-    'Highest Priority': 5
+    'High Priority': 5,
+    'Highest Priority': 7
 }
 
 FILE_PRIORITY_CSS = {
@@ -175,5 +176,6 @@ FILE_PRIORITY_CSS = {
 	0: 'x-no-download',
 	1: 'x-normal-download',
 	2: 'x-high-download',
-	5: 'x-highest-download'
+	5: 'x-high-download',
+	7: 'x-highest-download'
 }
