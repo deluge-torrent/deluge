@@ -344,11 +344,10 @@ class TorrentManager(component.Component):
             log.warning("Unable to delete the fastresume file: %s", e)
 
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None, magnet=None, resume_data=None,
-            owner=Ellipsis):
+            filedump=None, filename=None, magnet=None, resume_data=None, owner=None):
         """Add a torrent to the manager and returns it's torrent_id"""
 
-        if owner is Ellipsis:
+        if owner is None:
             owner = component.get("RPCServer").get_session_user()
             if not owner:
                 owner = "localclient"
