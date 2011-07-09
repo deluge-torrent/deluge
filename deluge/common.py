@@ -690,18 +690,24 @@ def create_localclient_account(append=False):
 
 # Initialize gettext
 def setup_translations(setup_pygtk=False):
+    translations_path = resource_filename("deluge", "i18n")
+    log.info("Setting up translations from %s", translations_path)
+
     try:
         if hasattr(locale, "bindtextdomain"):
-            locale.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+            locale.bindtextdomain("deluge", translations_path)
         if hasattr(locale, "textdomain"):
             locale.textdomain("deluge")
-        gettext.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+        gettext.bindtextdomain("deluge", translations_path)
         gettext.textdomain("deluge")
-        gettext.install("deluge", resource_filename("deluge", "i18n"))
+        gettext.install("deluge", translations_path)
         if setup_pygtk:
+            # Even though we're not using glade anymore, let's set it up so that
+            # plugins still using it get properly translated.
+            log.info("Setting up GTK translations from %s", translations_path)
             import gtk
             import gtk.glade
-            gtk.glade.bindtextdomain("deluge", resource_filename("deluge", "i18n"))
+            gtk.glade.bindtextdomain("deluge", translations_path)
             gtk.glade.textdomain("deluge")
     except Exception, e:
         log.error("Unable to initialize gettext/locale!")
