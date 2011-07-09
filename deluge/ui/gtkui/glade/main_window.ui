@@ -79,7 +79,6 @@
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <child>
           <object class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
@@ -128,7 +127,6 @@
                       <object class="GtkImageMenuItem" id="menuitem_quitdaemon">
                         <property name="label" translatable="yes">Quit &amp; _Shutdown Daemon</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -187,7 +185,6 @@
                         <property name="label" translatable="yes">_Connection Manager</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -233,7 +230,6 @@
                       <object class="GtkCheckMenuItem" id="menuitem_sidebar">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">_Sidebar</property>
                         <property name="use_underline">True</property>
@@ -346,7 +342,6 @@
                         <property name="label" translatable="yes">_Homepage</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -358,7 +353,6 @@
                         <property name="label" translatable="yes">_FAQ</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="tooltip_text" translatable="yes">Frequently Asked Questions</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
@@ -372,7 +366,6 @@
                         <property name="label" translatable="yes">_Community</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
@@ -498,7 +491,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Resume the selected torrents</property>
                 <property name="use_action_appearance">False</property>
@@ -525,7 +517,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Queue Torrent Up</property>
                 <property name="use_action_appearance">False</property>
@@ -543,7 +534,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Queue Torrent Down</property>
                 <property name="use_action_appearance">False</property>
@@ -560,7 +550,6 @@ This will filter torrents for the current selection on the sidebar.</property>
               <object class="GtkSeparatorToolItem" id="toolbutton1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -587,7 +576,6 @@ This will filter torrents for the current selection on the sidebar.</property>
               <object class="GtkToolButton" id="toolbutton_connectionmanager">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_text" translatable="yes">Connection Manager</property>
                 <property name="use_action_appearance">False</property>
@@ -611,7 +599,6 @@ This will filter torrents for the current selection on the sidebar.</property>
           <object class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="top_padding">2</property>
             <child>
               <object class="GtkVPaned" id="vpaned">
@@ -621,7 +608,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                   <object class="GtkHPaned" id="main_window_hpaned">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                     <child>
                       <object class="GtkNotebook" id="sidebar_notebook">
                         <property name="can_focus">True</property>
