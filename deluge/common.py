@@ -73,9 +73,7 @@ try:
         locale.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
     if hasattr(locale, "textdomain"):
         locale.textdomain("deluge")
-    gettext.bindtextdomain("deluge", pkg_resources.resource_filename("deluge", "i18n"))
-    gettext.textdomain("deluge")
-    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"))
+    gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"), unicode=True)
 except Exception, e:
     from deluge.log import LOG as log
     log.error("Unable to initialize gettext/locale!")
