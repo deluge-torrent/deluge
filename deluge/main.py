@@ -48,6 +48,11 @@ import deluge.common
 import deluge.configmanager
 import deluge.error
 
+try:
+    from deluge._libtorrent import lt
+    lt_version = "\nlibtorrent: %s" % lt.version
+except ImportError:
+    lt_version = ""
 
 def start_ui():
     """Entry point for ui script"""
@@ -55,7 +60,7 @@ def start_ui():
 
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",
-                                           version=deluge.common.get_version())
+                  version= "%prog: " + deluge.common.get_version() + lt_version)
 
     parser.add_option("-u", "--ui", dest="ui",
         help="""The UI that you wish to launch.  The UI choices are:\n
@@ -130,7 +135,7 @@ def start_daemon():
 
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",
-                                           version=deluge.common.get_version())
+                  version= "%prog: " + deluge.common.get_version() + lt_version)
     parser.add_option("-p", "--port", dest="port",
         help="Port daemon will listen on", action="store", type="int")
     parser.add_option("-i", "--interface", dest="interface",

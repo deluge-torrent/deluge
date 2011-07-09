@@ -39,6 +39,12 @@ import deluge.configmanager
 import deluge.log
 import os
 
+try:
+    from deluge._libtorrent import lt
+    lt_version = "\nlibtorrent: %s" % lt.version
+except ImportError:
+    lt_version = ""
+
 DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
@@ -54,7 +60,7 @@ class _UI(object):
 
         usage="%prog [options] [actions]",
 
-        self.__parser = OptionParser(version=deluge.common.get_version())
+        self.__parser = OptionParser(version="%prog: " + deluge.common.get_version() + lt_version)
 
         group = OptionGroup(self.__parser, "Common Options")
         group.add_option("-c", "--config", dest="config",
