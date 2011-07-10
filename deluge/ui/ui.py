@@ -58,10 +58,14 @@ class _UI(object):
 
     def __init__(self, name="gtk"):
         self.__name = name
+        if name == "gtk":
+            deluge.common.setup_translations(setup_pygtk=True)
+        else:
+            deluge.common.setup_translations()
 
         self.__parser = OptionParser(version="%prog: " + deluge.common.get_version() + lt_version)
 
-        group = OptionGroup(self.__parser, "Common Options")
+        group = OptionGroup(self.__parser, _("Common Options"))
         group.add_option("-c", "--config", dest="config",
             help="Set the config folder location", action="store", type="str")
         group.add_option("-l", "--logfile", dest="logfile",
@@ -105,8 +109,6 @@ class _UI(object):
         deluge.log.setupLogger(level=self.__options.loglevel,
                                filename=self.__options.logfile,
                                filemode=logfile_mode)
-
-        deluge.common.setup_translations()
 
         log = logging.getLogger(__name__)
 

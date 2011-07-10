@@ -41,9 +41,6 @@ from optparse import OptionGroup
 
 class WebUI(UI):
     def __init__(self, args):
-        # Setup translations
-        deluge.common.setup_translations()
-
         import server
         deluge_web = server.DelugeWeb()
         deluge_web.start()

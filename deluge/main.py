@@ -56,6 +56,7 @@ except ImportError:
 def start_ui():
     """Entry point for ui script"""
     import deluge.common
+    deluge.common.setup_translations()
 
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]",
@@ -94,7 +95,6 @@ def start_ui():
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
                            filemode=logfile_mode)
-    deluge.common.setup_translations()
 
     if options.config:
         if not os.path.exists(options.config):
@@ -137,6 +137,7 @@ def start_ui():
 def start_daemon():
     """Entry point for daemon script"""
     import deluge.common
+    deluge.common.setup_translations()
 
     if 'dev' not in deluge.common.get_version():
         import warnings
@@ -190,7 +191,6 @@ this should be an IP address", metavar="IFACE",
     # Setup the logger
     deluge.log.setupLogger(level=options.loglevel, filename=options.logfile,
                            filemode=logfile_mode)
-    deluge.common.setup_translations()
 
     import deluge.configmanager
     if options.config:

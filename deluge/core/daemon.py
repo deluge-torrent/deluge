@@ -97,9 +97,6 @@ class Daemon(object):
                         "directory!"
                     )
 
-        # Initialize gettext
-        deluge.common.setup_translations()
-
         # Twisted catches signals to terminate, so just have it call the shutdown
         # method.
         reactor.addSystemEventTrigger("after", "shutdown", self.shutdown)

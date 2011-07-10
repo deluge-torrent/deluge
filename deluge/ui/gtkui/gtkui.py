@@ -82,7 +82,6 @@ class Gtk(_UI):
 
     def start(self):
         super(Gtk, self).start()
-        deluge.common.setup_translations(setup_pygtk=True)
         GtkUI(self.args)
 
 def start():
