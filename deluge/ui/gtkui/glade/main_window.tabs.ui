@@ -2,6 +2,35 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkAdjustment" id="spin_max_connections_adjustment">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="spin_max_download_adjustment">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="spin_max_upload_adjustment">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="spin_max_upload_slots_adjustment">
+    <property name="lower">-1</property>
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="spin_stop_ratio_adjustment">
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="tabs">
     <property name="can_focus">False</property>
     <child>
@@ -1296,6 +1325,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">spin_max_connections_adjustment</property>
                                     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
@@ -1319,6 +1349,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">spin_max_upload_adjustment</property>
                                     <property name="digits">1</property>
                                     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
@@ -1338,12 +1369,14 @@
                                     <property name="invisible_char">•</property>
                                     <property name="width_chars">6</property>
                                     <property name="xalign">1</property>
-                                    <property name="invisible_char_set">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">spin_max_download_adjustment</property>
+                                    <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
+                                    <property name="numeric">True</property>
                                     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
@@ -1447,6 +1480,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">spin_max_upload_slots_adjustment</property>
                                     <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
@@ -1560,6 +1594,7 @@
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
+                                            <property name="adjustment">spin_stop_ratio_adjustment</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                             <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
@@ -1781,6 +1816,7 @@
                                         <property name="use_action_appearance">False</property>
                                         <property name="xalign">0</property>
                                         <property name="yalign">0</property>
+                                        <signal name="clicked" handler="on_button_edit_trackers_clicked" swapped="no"/>
                                         <child>
                                           <object class="GtkHBox" id="hbox8">
                                             <property name="visible">True</property>
