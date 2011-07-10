@@ -177,7 +177,7 @@ class Core(CorePluginBase):
         message = _("You're running low on disk space:\n")
 
         for path, ocupied_percent in ocupied_percents.iteritems():
-            message += _('  %s%% ocupation in %s\n') % (ocupied_percent, path)
+            message += '  %s%% %s %s\n' % (ocupied_percent, _("ocupation in"), path)
 #                    "\"%s\"%% space occupation on %s") % (ocupied_percent, path)
         return subject, message
 
