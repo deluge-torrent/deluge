@@ -1280,9 +1280,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">5</property>
-                                <property name="n_rows">4</property>
+                                <property name="n_rows">5</property>
                                 <property name="n_columns">3</property>
                                 <property name="column_spacing">5</property>
+                                <property name="row_spacing">2</property>
                                 <child>
                                   <object class="GtkSpinButton" id="spin_max_connections">
                                     <property name="visible">True</property>
@@ -1295,7 +1296,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">adjustment1</property>
+                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1318,8 +1319,8 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">adjustment2</property>
                                     <property name="digits">1</property>
+                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1342,8 +1343,8 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">adjustment3</property>
                                     <property name="digits">1</property>
+                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1446,7 +1447,7 @@
                                     <property name="secondary_icon_activatable">False</property>
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
-                                    <property name="adjustment">adjustment4</property>
+                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1456,6 +1457,15 @@
                                     <property name="x_options"></property>
                                     <property name="y_options"></property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
                                 </child>
                                 <child>
                                   <placeholder/>
@@ -1506,6 +1516,7 @@
                                     <property name="receives_default">False</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1530,6 +1541,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_chk_stop_at_ratio_toggled" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1548,9 +1560,9 @@
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="primary_icon_sensitive">True</property>
                                             <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">adjustment5</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1578,6 +1590,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                           </object>
                                         </child>
                                       </object>
@@ -1595,6 +1608,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_move_completed_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1703,6 +1717,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1718,6 +1733,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1733,6 +1749,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1748,6 +1765,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1843,6 +1861,7 @@
                                     <property name="receives_default">True</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="use_stock">True</property>
+                                    <signal name="clicked" handler="on_button_apply_clicked" swapped="no"/>
                                   </object>
                                 </child>
                               </object>

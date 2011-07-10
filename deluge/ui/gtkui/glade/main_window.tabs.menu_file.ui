@@ -43,7 +43,7 @@
         <property name="use_action_appearance">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
-        <property name="accel_group">accelgroup1</property>
+        <signal name="activate" handler="on_menuitem_open_file_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -54,11 +54,14 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_expand_all">
+        <property name="label" translatable="yes">_Expand All</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
         <property name="image">image1</property>
         <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_expand_all_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -69,38 +72,50 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_donotdownload">
+        <property name="label" translatable="yes">_Do Not Download</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
         <property name="image">image2</property>
         <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_donotdownload_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_normal">
+        <property name="label" translatable="yes">_Normal Priority</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
         <property name="image">image3</property>
         <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_normal_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_high">
+        <property name="label" translatable="yes">_High Priority</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
         <property name="image">image4</property>
         <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_high_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_highest">
+        <property name="label" translatable="yes">Hi_ghest Priority</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
+        <property name="use_underline">True</property>
         <property name="image">image5</property>
         <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_highest_activate" swapped="no"/>
       </object>
     </child>
   </object>
