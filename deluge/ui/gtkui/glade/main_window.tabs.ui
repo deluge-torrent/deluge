@@ -7,29 +7,34 @@
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
   <object class="GtkAdjustment" id="spin_max_download_adjustment">
     <property name="lower">-1</property>
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
   <object class="GtkAdjustment" id="spin_max_upload_adjustment">
     <property name="lower">-1</property>
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
   <object class="GtkAdjustment" id="spin_max_upload_slots_adjustment">
     <property name="lower">-1</property>
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
   <object class="GtkAdjustment" id="spin_stop_ratio_adjustment">
     <property name="upper">999999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
   </object>
   <object class="GtkWindow" id="tabs">
     <property name="can_focus">False</property>
