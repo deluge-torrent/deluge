@@ -698,9 +698,7 @@ def setup_translations(setup_pygtk=False):
             locale.bindtextdomain("deluge", translations_path)
         if hasattr(locale, "textdomain"):
             locale.textdomain("deluge")
-        gettext.bindtextdomain("deluge", translations_path)
-        gettext.textdomain("deluge")
-        gettext.install("deluge", translations_path)
+        gettext.install("deluge", translations_path, unicode=True)
         if setup_pygtk:
             # Even though we're not using glade anymore, let's set it up so that
             # plugins still using it get properly translated.
