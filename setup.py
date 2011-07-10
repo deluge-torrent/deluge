@@ -242,24 +242,30 @@ class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files'
 
     user_options = [
-            ('build-lib', None, "lib build folder")
+            ('build-lib', None, "lib build folder"),
+            ('develop-mode', 'D', 'Compile translations in develop mode(into deluge/i18n')
     ]
+    boolean_options = ['develop_mode']
 
     def initialize_options(self):
         self.build_lib = None
+        self.develop_mode = False
 
     def finalize_options(self):
         self.set_undefined_options('build', ('build_lib', 'build_lib'))
 
     def run(self):
         po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
+        if self.develop_mode:
+            basedir = po_dir
+        else:
+            basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
                 if f.endswith('.po'):
                     lang = f[:len(f) - 3]
                     src = os.path.join(path, f)
-                    dest_path = os.path.join(self.build_lib, 'deluge', 'i18n', lang, \
-                        'LC_MESSAGES')
+                    dest_path = os.path.join(basedir, lang, 'LC_MESSAGES')
                     dest = os.path.join(dest_path, 'deluge.mo')
                     if not os.path.exists(dest_path):
                         os.makedirs(dest_path)
