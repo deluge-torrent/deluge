@@ -33,6 +33,7 @@
 #
 #
 
+import gtk.gdk
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -76,6 +77,12 @@ class OptionsTab(Tab):
             "on_spin_value_changed": self._on_spin_value_changed,
             "on_move_completed_file_set": self._on_move_completed_file_set
         })
+
+        self.spin_max_download.connect("key-press-event", self._on_key_press_event)
+        self.spin_max_upload.connect("key-press-event", self._on_key_press_event)
+        self.spin_max_connections.connect("key-press-event", self._on_key_press_event)
+        self.spin_max_upload_slots.connect("key-press-event", self._on_key_press_event)
+        self.spin_stop_ratio.connect("key-press-event", self._on_key_press_event)
 
     def start(self):
         if client.is_localhost():
@@ -293,6 +300,12 @@ class OptionsTab(Tab):
     def _on_spin_value_changed(self, widget):
         if not self.button_apply.is_sensitive():
             self.button_apply.set_sensitive(True)
+
+    def _on_key_press_event(self, widget, event):
+        keyname = gtk.gdk.keyval_name(event.keyval).lstrip("KP_").lower()
+        if keyname.isdigit() or keyname in ["period", "minus", "delete", "backspace"]:
+            if not self.button_apply.is_sensitive():
+                self.button_apply.set_sensitive(True)
 
     def _on_move_completed_file_set(self, widget):
         if not self.button_apply.is_sensitive():
