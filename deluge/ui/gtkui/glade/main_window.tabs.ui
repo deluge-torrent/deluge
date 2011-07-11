@@ -1331,7 +1331,6 @@
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_connections_adjustment</property>
-                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1356,7 +1355,6 @@
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_upload_adjustment</property>
                                     <property name="digits">1</property>
-                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1382,7 +1380,6 @@
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
                                     <property name="numeric">True</property>
-                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1486,7 +1483,6 @@
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_upload_slots_adjustment</property>
-                                    <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1602,7 +1598,6 @@
                                             <property name="adjustment">spin_stop_ratio_adjustment</property>
                                             <property name="digits">1</property>
                                             <property name="numeric">True</property>
-                                            <signal name="value-changed" handler="on_spin_value_changed" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
