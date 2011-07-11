@@ -1331,6 +1331,7 @@
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_connections_adjustment</property>
+                                    <property name="numeric">True</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1355,6 +1356,7 @@
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_upload_adjustment</property>
                                     <property name="digits">1</property>
+                                    <property name="numeric">True</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1483,6 +1485,7 @@
                                     <property name="primary_icon_sensitive">True</property>
                                     <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">spin_max_upload_slots_adjustment</property>
+                                    <property name="numeric">True</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
