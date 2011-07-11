@@ -334,7 +334,7 @@ class FilesTab(Tab):
             log.debug("Getting file list from core..")
             status_keys += ["files"]
 
-        component.get("SessionProxy").get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status)
+        component.get("SessionProxy").get_torrent_status(self.torrent_id, status_keys).addCallback(self._on_get_torrent_status, self.torrent_id)
 
     def clear(self):
         self.treestore.clear()
@@ -464,7 +464,11 @@ class FilesTab(Tab):
 
         get_completed_bytes(self.treestore.iter_children(root))
 
-    def _on_get_torrent_status(self, status):
+    def _on_get_torrent_status(self, status, torrent_id):
+        # Check stored torrent id matches the callback id
+        if self.torrent_id != torrent_id:
+            return
+
         # Store this torrent's compact setting
         if "compact" in status:
             self.__compact = status["compact"]
