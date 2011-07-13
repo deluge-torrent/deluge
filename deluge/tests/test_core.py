@@ -185,3 +185,19 @@ class CoreTestCase(unittest.TestCase):
 
         d.addCallback(result)
         return d
+
+    def test_sanitize_filepath(self):
+        pathlist = {
+            '\\backslash\\path\\' : 'backslash/path',
+            ' single_file ': 'single_file',
+            '..' : '',
+            '/../..../': '',
+            '  Def ////ad./ / . . /b  d /file': 'Def/ad./. ./b  d/file',
+            '/ test /\\.. /.file/': 'test/.file',
+            'mytorrent/subfold/file1': 'mytorrent/subfold/file1',
+            'Torrent/folder/': 'Torrent/folder',
+        }
+
+        for key in pathlist:
+            self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key])
+            self.assertEquals(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
