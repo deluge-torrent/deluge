@@ -6,6 +6,7 @@
  * simplejson (if python < 2.6)
  * setuptools
  * gettext
+ * intltool
  * pyxdg
  * chardet
  * geoip-database (optional)
