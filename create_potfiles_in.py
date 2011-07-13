@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import re
-
+import sys
 # Paths to exclude
 EXCLUSIONS = [
     "deluge/scripts",
@@ -13,11 +13,12 @@ POTFILE_IN = "deluge/i18n/POTFILES.in"
 pattern = "deluge\/plugins\/.*\/build"
 compiled = re.compile(pattern)
 
-print "Creating " + POTFILE_IN + " ..."
+sys.stdout.write("Creating " + POTFILE_IN + " ... ")
+sys.stdout.flush()
 to_translate = []
 for (dirpath, dirnames, filenames) in os.walk("deluge"):
     for filename in filenames:
-        if os.path.splitext(filename)[1] in (".py", ".glade") \
+        if os.path.splitext(filename)[1] in (".py", ".glade", ".in") \
                                             and dirpath not in EXCLUSIONS \
                                             and not compiled.match(dirpath):
             to_translate.append(os.path.join(dirpath, filename))
