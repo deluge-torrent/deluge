@@ -253,8 +253,20 @@ class build_trans(cmd.Command):
 
     def run(self):
         po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
+
+        # creates the translated desktop file
+        INTLTOOL_MERGE='intltool-merge'
+        INTLTOOL_MERGE_OPTS='--utf8 --quiet --desktop-style'
+        desktop_in='deluge/data/share/applications/deluge.desktop.in'
+        desktop_data='deluge/data/share/applications/deluge.desktop'
+        print('Creating desktop file: %s' % desktop_data)
+        os.system('C_ALL=C ' + '%s '*5 % (INTLTOOL_MERGE, INTLTOOL_MERGE_OPTS, \
+                    po_dir, desktop_in, desktop_data))
+
+        print('Compiling po files from %s...' % po_dir),
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
+                uptoDate = False
                 if f.endswith('.po'):
                     lang = f[:len(f) - 3]
                     src = os.path.join(path, f)
@@ -264,14 +276,22 @@ class build_trans(cmd.Command):
                     if not os.path.exists(dest_path):
                         os.makedirs(dest_path)
                     if not os.path.exists(dest):
-                        print('Compiling %s' % src)
+                        sys.stdout.write('%s, ' % lang)
+                        sys.stdout.flush()
                         msgfmt.make(src, dest)
                     else:
                         src_mtime = os.stat(src)[8]
                         dest_mtime = os.stat(dest)[8]
                         if src_mtime > dest_mtime:
-                            print('Compiling %s' % src)
+                            sys.stdout.write('%s, ' % lang)
+                            sys.stdout.flush()
                             msgfmt.make(src, dest)
+                        else:
+                            uptoDate = True
+                            
+        if uptoDate:
+            sys.stdout.write(' po files already upto date.  ')
+        sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
 class build_plugins(cmd.Command):
     description = "Build plugins into .eggs"
@@ -507,7 +527,6 @@ setup(
         libtorrent in it's backend to handle the bittorrent protocol.""",
     url = "http://deluge-torrent.org",
     license = "GPLv3",
-
     cmdclass = cmdclass,
     data_files = _data_files,
     ext_package = "deluge",
@@ -519,7 +538,6 @@ setup(
                                 "data/pixmaps/*.gif",
                                 "data/pixmaps/flags/*.png",
                                 "plugins/*.egg",
-                                "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
                                 "ui/web/gettext.js",
                                 "ui/web/index.html",

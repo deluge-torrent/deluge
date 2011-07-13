@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=Deluge
-GenericName=BitTorrent Client
-X-GNOME-FullName=Deluge BitTorrent Client
-Comment=Download and share files over BitTorrent
+_Name=Deluge
+_GenericName=BitTorrent Client
+_X-GNOME-FullName=Deluge BitTorrent Client
+_Comment=Download and share files over BitTorrent
 TryExec=deluge-gtk
 Exec=deluge-gtk %U
 Icon=deluge

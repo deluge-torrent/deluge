@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2011 Deluge Team
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-10 16:58+0100\n"
+"Project-Id-Version: Deluge 1.3.2\n"
+"Report-Msgid-Bugs-To: http://deluge-torrent.org\n"
+"POT-Creation-Date: 2011-07-13 21:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1831,6 +1831,7 @@ msgid "Up:"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
+#: deluge/data/share/applications/deluge.desktop.in.h:2
 msgid "Deluge"
 msgstr ""
 
@@ -3639,28 +3640,6 @@ msgstr ""
 msgid "_Auto Managed"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:51
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:66
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:127
-msgid "action"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:129
-msgid "Remove Files"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog2.glade:198
-msgid "Keep Files"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
 msgstr ""
@@ -3689,6 +3668,14 @@ msgstr ""
 msgid "Tracker:"
 msgstr ""
 
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr ""
+
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
 msgstr ""
@@ -3707,4 +3694,16 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
 msgid "Destination:"
+msgstr ""
+
+#: deluge/data/share/applications/deluge.desktop.in.h:1
+msgid "BitTorrent Client"
+msgstr ""
+
+#: deluge/data/share/applications/deluge.desktop.in.h:3
+msgid "Deluge BitTorrent Client"
+msgstr ""
+
+#: deluge/data/share/applications/deluge.desktop.in.h:4
+msgid "Download and share files over BitTorrent"
 msgstr ""

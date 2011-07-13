@@ -97,6 +97,7 @@ deluge/core/rpcserver.py
 deluge/core/daemon.py
 deluge/core/core.py
 deluge/core/pluginmanager.py
+deluge/data/share/applications/deluge.desktop.in
 deluge/ui/ui.py
 deluge/ui/common.py
 deluge/ui/coreconfig.py
@@ -155,7 +156,6 @@ deluge/ui/gtkui/glade/connection_manager.glade
 deluge/ui/gtkui/glade/preferences_dialog.glade
 deluge/ui/gtkui/glade/tray_menu.glade
 deluge/ui/gtkui/glade/torrent_menu.glade
-deluge/ui/gtkui/glade/remove_torrent_dialog2.glade
 deluge/ui/gtkui/glade/edit_trackers.glade
 deluge/ui/gtkui/glade/remove_torrent_dialog.glade
 deluge/ui/gtkui/glade/move_storage_dialog.glade
