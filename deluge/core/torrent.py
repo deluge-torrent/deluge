@@ -49,6 +49,31 @@ from deluge.event import *
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
+def sanitize_filepath(filepath, folder=False):
+    """
+    Returns a sanitized filepath to pass to libotorrent rename_file().
+    The filepath will have backslashes substituted along with whitespace
+    padding and duplicate slashes stripped. If `folder` is True a trailing
+    slash is appended to the returned filepath.
+    """
+    def clean_filename(filename):
+        filename = filename.strip()
+        if filename.replace('.', '') == '':
+            return ''
+        return filename
+
+    if '\\' in filepath or '/' in filepath:
+        folderpath = filepath.replace('\\', '/').split('/')
+        folderpath = [clean_filename(x) for x in folderpath]
+        newfilepath = '/'.join(filter(None, folderpath))
+    else:
+        newfilepath = clean_filename(filepath)
+
+    if folder is True:
+        return newfilepath + '/'
+    else:
+        return newfilepath
+
 class TorrentOptions(dict):
     def __init__(self):
         config = ConfigManager("core.conf").config
@@ -901,6 +926,7 @@ class Torrent(object):
         """Renames files in the torrent. 'filenames' should be a list of
         (index, filename) pairs."""
         for index, filename in filenames:
+            filename = sanitize_filepath(filename)
             self.handle.rename_file(index, filename.encode("utf-8"))
 
     def rename_folder(self, folder, new_folder):
@@ -911,8 +937,7 @@ class Torrent(object):
             log.error("Attempting to rename a folder with an invalid folder name: %s", new_folder)
             return
 
-        # Make sure the new folder path is nice and has a trailing slash
-        new_folder = os.path.normpath(new_folder) + "/"
+        new_folder = sanitize_filepath(new_folder, folder=True)
 
         wait_on_folder = (folder, new_folder, [])
         for f in self.get_files():
