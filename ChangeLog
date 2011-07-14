@@ -11,6 +11,7 @@
 	* Fix httpdownloader error with existing filename
 	* #1505: Add libtorrent info to version output
 	* #1637 Fix UnicodeDecodeError from 'deluge-* --help' with non-english languages
+	* #1714 Fix handling of backslashes when renaming files/folders
 
 ==== GtkUI ====
 	* Show the checking icon for torrents in the 'Checking Resume Data' state
