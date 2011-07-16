@@ -788,12 +788,12 @@ class TorrentManager(component.Component):
                         try:
                             os.removedirs(os.path.join(root, name))
                             log.debug("Removed Empty Folder %s", os.path.join(root, name))
-                        except OSError as (errno, strerror):
+                        except OSError, (errno, strerror):
                             if errno == 39:
                                 # Error raised if folder is not empty
                                 log.debug("%s", strerror)
 
-        except OSError as (errno, strerror):
+        except OSError, (errno, strerror):
             log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
     def queue_top(self, torrent_id):
