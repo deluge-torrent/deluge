@@ -62,7 +62,7 @@ class AboutDialog:
         self.about.set_version(version)
         self.about.set_authors([
             "Current Developers:", "Andrew Resch", "Damien Churchill",
-            "John Garland", "", "libtorrent (www.libtorrent.org):",
+            "John Garland", "Calum Lind", "", "libtorrent (www.libtorrent.org):",
             "Arvid Norberg", "", "Past Developers or Contributors:",
             "Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Alex Dedul",
             "Sadrul Habib Chowdhury", "Ido Abramovich", "Martijn Voncken"
