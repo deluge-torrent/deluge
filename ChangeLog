@@ -1,4 +1,4 @@
-=== Deluge 1.3.3 (In Development) ===
+=== Deluge 1.3.3 (22 July 2011) ===
 ==== Core ====
 	* Properly show the 'Checking Resume Data' state instead of just 7
 	* #1788: Added ability to use XDG_DOWNLOAD_DIR as default download folder

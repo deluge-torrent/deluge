@@ -1,4 +1,4 @@
-build_version = "1.3.2"
+build_version = "1.3.3"
 python_path = "C:\\Python26\\"
 
 import os, glob
