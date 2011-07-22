@@ -262,14 +262,15 @@ class build_trans(cmd.Command):
         else:
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
 
-        # creates the translated desktop file
-        INTLTOOL_MERGE='intltool-merge'
-        INTLTOOL_MERGE_OPTS='--utf8 --quiet --desktop-style'
-        desktop_in='deluge/ui/data/share/applications/deluge.desktop.in'
-        desktop_data='deluge/ui/data/share/applications/deluge.desktop'
-        print('Creating desktop file: %s' % desktop_data)
-        os.system('C_ALL=C ' + '%s '*5 % (INTLTOOL_MERGE, INTLTOOL_MERGE_OPTS, \
-                    po_dir, desktop_in, desktop_data))
+        if not windows_check():
+            # creates the translated desktop file
+            INTLTOOL_MERGE='intltool-merge'
+            INTLTOOL_MERGE_OPTS='--utf8 --quiet --desktop-style'
+            desktop_in='deluge/ui/data/share/applications/deluge.desktop.in'
+            desktop_data='deluge/ui/data/share/applications/deluge.desktop'
+            print('Creating desktop file: %s' % desktop_data)
+            os.system('C_ALL=C ' + '%s '*5 % (INTLTOOL_MERGE, INTLTOOL_MERGE_OPTS, \
+                        po_dir, desktop_in, desktop_data))
 
         print('Compiling po files from %s...' % po_dir),
         for path, names, filenames in os.walk(po_dir):
@@ -295,7 +296,7 @@ class build_trans(cmd.Command):
                             msgfmt.make(src, dest)
                         else:
                             uptoDate = True
-                            
+
         if uptoDate:
             sys.stdout.write(' po files already upto date.  ')
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
@@ -493,7 +494,6 @@ _data_files = [
     ('share/icons/hicolor/64x64/apps', ['deluge/ui/data/icons/hicolor/64x64/apps/deluge.png']),
     ('share/icons/hicolor/72x72/apps', ['deluge/ui/data/icons/hicolor/72x72/apps/deluge.png']),
     ('share/icons/hicolor/96x96/apps', ['deluge/ui/data/icons/hicolor/96x96/apps/deluge.png']),
-    ('share/applications', ['deluge/ui/data/share/applications/deluge.desktop']),
     ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png', 'deluge/ui/data/pixmaps/deluge.xpm']),
     ('share/man/man1', [
         'docs/man/deluge.1',
@@ -502,6 +502,9 @@ _data_files = [
         'docs/man/deluge-web.1',
         'docs/man/deluge-console.1'])
 ]
+
+if not windows_check():
+    _data_files.append(('share/applications', ['deluge/data/share/applications/deluge.desktop']))
 
 entry_points = {
     "console_scripts": [
