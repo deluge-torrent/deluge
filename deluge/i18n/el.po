@@ -7,42 +7,747 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-02-19 11:23-0800\n"
+"POT-Creation-Date: 2011-07-13 21:23+0100\n"
 "PO-Revision-Date: 2010-04-02 13:00+0000\n"
 "Last-Translator: Spiros Georgaras <sng@hellug.gr>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-24 18:42+0000\n"
-"X-Generator: Launchpad (build 13085)\n"
+"X-Launchpad-Export-Date: 2011-07-25 23:08+0000\n"
+"X-Generator: Launchpad (build 13503)\n"
 
-#: deluge/common.py:256
+#: deluge/common.py:274
 msgid "KiB"
 msgstr ""
 
-#: deluge/common.py:259
+#: deluge/common.py:277
 msgid "MiB"
 msgstr ""
 
-#: deluge/common.py:261
+#: deluge/common.py:279
 msgid "GiB"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:905
+#: deluge/common.py:315
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
+#: deluge/plugins/label/label/data/label_options.glade:132
+#: deluge/plugins/label/label/data/label_options.glade:195
+#: deluge/ui/gtkui/systemtray.py:251 deluge/ui/gtkui/systemtray.py:255
+#: deluge/ui/gtkui/systemtray.py:271 deluge/ui/gtkui/systemtray.py:277
+#: deluge/ui/gtkui/systemtray.py:422 deluge/ui/gtkui/systemtray.py:427
+#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
+#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
+#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
+#: deluge/ui/gtkui/statusbar.py:429 deluge/ui/gtkui/status_tab.py:62
+#: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/glade/main_window.glade:1834
+#: deluge/ui/gtkui/glade/main_window.glade:1846
+#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
+msgid "KiB/s"
+msgstr "KiB/s"
+
+#: deluge/common.py:318
+msgid "MiB/s"
+msgstr ""
+
+#: deluge/common.py:320
+msgid "GiB/s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:178
+msgid "Notification Blink shown"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:183
+msgid "Popup notification is not enabled."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:185
+msgid "pynotify is not installed"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:193
+msgid "pynotify failed to show notification"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:196
+msgid "Notification popup shown"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:200
+msgid "Sound notification not enabled"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:202
+msgid "pygame is not installed"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:214
+#, python-format
+msgid "Sound notification failed %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:218
+msgid "Sound notification Success"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:241
+msgid "Finished Torrent"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:242
+#, python-format
+msgid ""
+"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/gtkui.py:646
+msgid "Choose Sound File"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:138
+#: deluge/plugins/notifications/notifications/core.py:171
+#, python-format
+msgid "There was an error sending the notification email: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:157
+#, python-format
+msgid "The server didn't reply properly to the helo greeting: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:162
+#, python-format
+msgid "The server didn't accept the username/password combination: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:186
+msgid "Notification email sent."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:194
+#, python-format
+msgid "Finished Torrent \"%(name)s\""
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:196
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading "
+"\"%(name)s\", which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:29
+msgid "<b><i><big>Notifications</big></i></b>"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:81
+msgid "Tray icon blinks enabled"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:93
+msgid "Popups enabled"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:108
+msgid "Sound enabled"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:144
+msgid "<b>UI Notifications</b>"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:175
+#: deluge/ui/gtkui/glade/connection_manager.glade:28
+msgid "Hostname:"
+msgstr "Όνομα υπολογιστή:"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:199
+#: deluge/ui/gtkui/glade/connection_manager.glade:56
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+msgid "Port:"
+msgstr "Θύρα:"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:231
+#: deluge/ui/gtkui/glade/connection_manager.glade:143
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3439
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+msgid "Username:"
+msgstr "Όνομα χρήστη:"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:255
+#: deluge/ui/gtkui/glade/connection_manager.glade:132
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2129
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3306
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3490
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3674
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3858
+msgid "Password:"
+msgstr "Κωδικός πρόσβασης:"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:360
+msgid "<b>Recipients</b>"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:383
+msgid "Server requires TLS/SSL"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:398
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:783
+msgid "From:"
+msgstr "Από:"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:421
+#: deluge/ui/gtkui/preferences.py:91
+msgid "Enabled"
+msgstr "Ενεργό"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:443
+msgid "<b>Email Notifications</b>"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:460
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: deluge/plugins/notifications/notifications/data/config.glade:495
+msgid ""
+"This configuration does not mean that you'll actually receive notifications "
+"for all these events."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:513
+msgid "Subscriptions"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/data/config.glade:594
+msgid "Sound Customization"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/core.py:136
+msgid "Watch folder does not exist."
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/core.py:139
+#: deluge/plugins/autoadd/autoadd/core.py:308
+msgid "Path does not exist."
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
+msgid "AutoAdd Error"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
+msgid "Watch Folder Properties"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
+#: deluge/ui/gtkui/glade/main_window.glade:2031
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+msgid "Select A Folder"
+msgstr "Επιλογή φακέλου"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+msgid "Enable this watch folder"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+msgid "<b>Watch Folder</b>"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+msgid "Delete .torrent after adding"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+msgid "Append extension after adding:"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+msgid ".added"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+msgid "<b>Torrent File Action</b>"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+msgid "Set download location"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
+msgid "<b>Download Location</b>"
+msgstr "<b>Τοποθεσία αποθήκευσης λήψεων</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+msgid "Set move completed location"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+msgid "<b>Move Completed</b>"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+msgid "Label: "
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+msgid "<b>Label</b>"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+msgid "Main"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
+#: deluge/ui/gtkui/glade/main_window.glade:1811
+msgid "Max Upload Speed:"
+msgstr "Μέγιστη ταχύτητα αποστολής:"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
+#: deluge/ui/gtkui/glade/main_window.glade:1798
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+msgid "Max Connections:"
+msgstr "Μέγιστος αριθμός συνδέσεων:"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
+#: deluge/ui/gtkui/glade/main_window.glade:1861
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+msgid "Max Upload Slots:"
+msgstr "Μέγιστος αριθμός θυρίδων αποστολής:"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
+#: deluge/ui/gtkui/glade/main_window.glade:1824
+msgid "Max Download Speed:"
+msgstr "Μέγιστη ταχύτητα λήψης:"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
+#: deluge/ui/gtkui/glade/main_window.glade:1900
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+msgid "<b>Bandwidth</b>"
+msgstr "<b>Εύρος ζώνης δικτύου</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
+#: deluge/plugins/label/label/data/label_options.glade:349
+#: deluge/ui/gtkui/glade/main_window.glade:1952
+msgid "Stop seed at ratio:"
+msgstr "Διακοπή διαμοίρασης στην αναλογία:"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
+#: deluge/plugins/label/label/data/label_options.glade:364
+#: deluge/ui/gtkui/glade/main_window.glade:1993
+msgid "Remove at ratio"
+msgstr "Αφαίρεση σε αναλογία"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+msgid "Auto Managed:"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+msgid "Add Paused:"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+msgid "Queue to:"
+msgstr ""
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+msgid "Top"
+msgstr "Κορυφή"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+msgid "Bottom"
+msgstr "Κάτω"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
+#: deluge/ui/gtkui/glade/main_window.glade:2069
+msgid "<b>Queue</b>"
+msgstr "<b>Ουρά</b>"
+
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
+#: deluge/ui/gtkui/glade/connection_manager.glade:457
+msgid "Options"
+msgstr "Επιλογές"
+
+#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+msgid "<b>Watch Folders:</b>"
+msgstr ""
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:238
+msgid "Download Limit:"
+msgstr "Μέγιστη ταχύτητα λήψης:"
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:247
+msgid "Upload Limit:"
+msgstr "Μέγιστη ταχύτητα αποστολής:"
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:256
+msgid "Active Torrents:"
+msgstr "Ενεργά torrent:"
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:265
+msgid "Active Downloading:"
+msgstr ""
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:274
+msgid "Active Seeding:"
+msgstr ""
+
+#: deluge/plugins/scheduler/scheduler/gtkui.py:288
+msgid "<b>Slow Settings</b>"
+msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτητας</b>"
+
+#: deluge/plugins/label/label/core.py:189
+msgid "Invalid label, valid characters:[a-z0-9_-]"
+msgstr "Μη έγκυρη ετικέτα, έγκυροι χαρακτήρες: [a-z0-9_-]"
+
+#: deluge/plugins/label/label/core.py:190
+msgid "Empty Label"
+msgstr "Κενή ετικέτα"
+
+#: deluge/plugins/label/label/core.py:191
+msgid "Label already exists"
+msgstr "Η ετικέτα υπάρχει ήδη"
+
+#: deluge/plugins/label/label/core.py:199
+#: deluge/plugins/label/label/core.py:279
+#: deluge/plugins/label/label/core.py:314
+msgid "Unknown Label"
+msgstr "Άγνωστη ετικέτα"
+
+#: deluge/plugins/label/label/core.py:315
+msgid "Unknown Torrent"
+msgstr "Άγνωστο torrent"
+
+#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:111
+#: deluge/plugins/label/label/gtkui/label_config.py:59
+#: deluge/plugins/label/label/gtkui/label_config.py:66
+msgid "Label"
+msgstr "Ετικέτα"
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+msgid "Label _Options"
+msgstr "Επιλογές _ετικέτας"
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+msgid "_Remove Label"
+msgstr "_Αφαίρεση ετικέτας"
+
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+msgid "_Add Label"
+msgstr "_Προσθήκη ετικέτας"
+
+#: deluge/plugins/label/label/data/label_options.glade:7
+msgid "Label Options"
+msgstr "Επιλογές ετικέτας"
+
+#: deluge/plugins/label/label/data/label_options.glade:36
+msgid "<b>Label Options</b>"
+msgstr "<b>Επιλογές ετικέτας</b>"
+
+#: deluge/plugins/label/label/data/label_options.glade:158
+msgid "Upload Slots:\t"
+msgstr "Θυρίδες αποστολής:\t"
+
+#: deluge/plugins/label/label/data/label_options.glade:171
+msgid "Upload Speed:"
+msgstr "Ταχύτητα αποστολής:"
+
+#: deluge/plugins/label/label/data/label_options.glade:184
+msgid "Download Speed:"
+msgstr "Ταχύτητα λήψης:"
+
+#: deluge/plugins/label/label/data/label_options.glade:226
+msgid "Connections:"
+msgstr "Συνδέσεις:"
+
+#: deluge/plugins/label/label/data/label_options.glade:270
+msgid "Apply per torrent max settings:"
+msgstr "Εφαρμογή μέγιστων ρυθμίσεων ανά torrent:"
+
+#: deluge/plugins/label/label/data/label_options.glade:283
+msgid "Maximum"
+msgstr "Μέγιστο"
+
+#: deluge/plugins/label/label/data/label_options.glade:336
+#: deluge/ui/gtkui/glade/main_window.glade:1930
+msgid "Auto Managed"
+msgstr "Με αυτόματη διαχείριση"
+
+#: deluge/plugins/label/label/data/label_options.glade:410
+msgid "Apply Queue settings:"
+msgstr "Εφαρμογή ρυθμίσεων αναμονής:"
+
+#: deluge/plugins/label/label/data/label_options.glade:426
+#: deluge/ui/gtkui/preferences.py:77
+msgid "Queue"
+msgstr "Σειρά αναμονής"
+
+#: deluge/plugins/label/label/data/label_options.glade:453
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:204
+msgid "Move completed to:"
+msgstr "Μετακίνηση ολοκληρωμένων σε:"
+
+#: deluge/plugins/label/label/data/label_options.glade:504
+msgid "Apply location settings:"
+msgstr "Εφαρμογή τοπικών ρυθμίσεων:"
+
+#: deluge/plugins/label/label/data/label_options.glade:520
+msgid "Location"
+msgstr "Τοποθεσία"
+
+#: deluge/plugins/label/label/data/label_options.glade:560
+msgid "<i>(1 line per tracker)</i>"
+msgstr "<i>(1 σειρά ανά ιχνηλάτη)</i>"
+
+#: deluge/plugins/label/label/data/label_options.glade:576
+msgid "Automatically apply label:"
+msgstr "Αυτόματος ορισμός ετικέτας:"
+
+#: deluge/plugins/label/label/data/label_options.glade:593
+#: deluge/ui/gtkui/filtertreeview.py:70
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+msgid "Trackers"
+msgstr "Ανιχνευτές"
+
+#: deluge/plugins/label/label/data/label_options.glade:646
+msgid "Add Label"
+msgstr "Προσθήκη ετικέτας"
+
+#: deluge/plugins/label/label/data/label_options.glade:680
+msgid "<b>Add Label</b>"
+msgstr "<b>Προσθήκη ετικέτας</b>"
+
+#: deluge/plugins/label/label/data/label_options.glade:711
+msgid "Name:"
+msgstr "Όνομα:"
+
+#: deluge/plugins/label/label/data/label_pref.glade:22
+msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
+msgstr ""
+"<i>Χρησιμοποιήστε την πλευρική μπάρα για να προσθέσετε, επεξεργαστείτε και "
+"να αφαιρέσετε ετικέτες. <i>\n"
+
+#: deluge/plugins/label/label/data/label_pref.glade:32
+msgid "<b>Labels</b>"
+msgstr "<b>Ετικέτες</b>"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+msgid "Extract to:"
+msgstr "Αποσυμπίεση σε:"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+msgid "Create torrent name sub-folder"
+msgstr "Δημιουργία υποφακέλου ονόματος του torrent"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+msgid ""
+"This option will create a sub-folder using the torrent's name within the "
+"selected extract folder and put the extracted files there."
+msgstr ""
+"Η επιλογή αυτή θα δημιουργήσει έναν υποφάκελο με το όνομα του Torrent μέσα "
+"από τον επιλεγμένο φάκελο εξαγωγής και θα τοποθετήσει εκεί τα αρχεία που θα "
+"εξαχθούν."
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
+#: deluge/ui/gtkui/glade/main_window.glade:2183
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+msgid "<b>General</b>"
+msgstr "<b>Γενικά</b>"
+
+#: deluge/plugins/webui/webui/gtkui.py:97
+msgid ""
+"The Deluge web interface is not installed, please install the\n"
+"interface and try again"
+msgstr ""
+
+#: deluge/plugins/webui/webui/data/config.glade:27
+msgid "Enable web interface"
+msgstr "Ενεργοποίηση διεπαφής δικτύου"
+
+#: deluge/plugins/webui/webui/data/config.glade:41
+msgid "Enable SSL"
+msgstr "Ενεργοποίηση SSL"
+
+#: deluge/plugins/webui/webui/data/config.glade:60
+msgid "Listening port:"
+msgstr "Θύρα ακρόασης:"
+
+#: deluge/plugins/webui/webui/data/config.glade:94
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+msgid "<b>Settings</b>"
+msgstr "<b>Ρυθμίσεις</b>"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:49
+msgid "Emule IP list (GZip)"
+msgstr "Λίστα IP του Emule (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:50
+msgid "SafePeer Text (Zipped)"
+msgstr "Κείμενο SafePeer (συμπιεσμένο)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:51
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "Κείμενο PeerGuardian (ασυμπίεστο)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:52
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "Μη έγκυρος ηγέτης"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "Μη έγκυρος μαγικός κωδικός"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "Μη έγκυρη έκδοση"
+
+#: deluge/plugins/blocklist/blocklist/gtkui.py:67
+#: deluge/plugins/blocklist/blocklist/gtkui.py:155
+#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+msgid "Blocklist"
+msgstr "Λίστα αποκλεισμένων"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+msgid "URL:"
+msgstr "URL:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+msgid "Days"
+msgstr "Ημέρες"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+msgid "Check for new list every:"
+msgstr "Έλεγχος για νέα λίστα κάθε:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+msgid "Import blocklist on startup"
+msgstr "Εισαγωγή λίστας αποκλεισμένων κατά την εκκίνηση"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+msgid "Download the blocklist file if necessary and import the file."
+msgstr ""
+"Λήψη του αρχείου με τη λίστα αποκλεισμένων αν είναι απαραίτητο και εισαγωγή "
+"του αρχείου."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+msgid "Check Download and Import"
+msgstr "Έλεγχος λήψης και εισαγωγής"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+msgid "Download a new blocklist file and import it."
+msgstr "Λήψη και εισαγωγή νέου αρχείου με τη λίστα αποκλεισμένων."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+msgid "Force Download and Import"
+msgstr "Εξαναγκασμός λήψης και εισαγωγής"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+msgid "Blocklist is up to date"
+msgstr "Η λίστα αποκλεισμένων είναι ενημερωμένη"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+msgid "<b>Options</b>"
+msgstr "<b>Επιλογές</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+msgid "Type:"
+msgstr "Τύπος:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+msgid "Date:"
+msgstr "Ημερομηνία:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+msgid "File Size:"
+msgstr "Μέγεθος αρχείου:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+msgid "<b>Info</b>"
+msgstr "<b>Πληροφορίες</b>"
+
+#: deluge/plugins/execute/execute/gtkui.py:51
+msgid "Torrent Complete"
+msgstr "Το torrent oλοκληρώθηκε"
+
+#: deluge/plugins/execute/execute/gtkui.py:52
+msgid "Torrent Added"
+msgstr "Το torrent προστέθηκε"
+
+#: deluge/plugins/execute/execute/gtkui.py:77
+#: deluge/plugins/execute/execute/gtkui.py:88
+msgid "Execute"
+msgstr "Εκτέλεση"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+msgid "Event"
+msgstr "Συμβάν"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+msgid "Command"
+msgstr "Εντολή"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+msgid "<b>Add Command</b>"
+msgstr "<b>Προσθήκη εντολής</b>"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+msgid "<b>Commands</b>"
+msgstr "<b>Εντολές</b>"
+
+#: deluge/core/torrentmanager.py:937
 msgid "Announce OK"
 msgstr "Ανακοίνωση ΟΚ"
 
-#: deluge/core/torrentmanager.py:921
+#: deluge/core/torrentmanager.py:953
 msgid "Announce Sent"
 msgstr "Η ανακοίνωση στάλθηκε"
 
-#: deluge/core/torrentmanager.py:929
+#: deluge/core/torrentmanager.py:961
 msgid "Warning"
 msgstr "Προειδοποιήση"
 
-#: deluge/core/torrentmanager.py:939 deluge/ui/gtkui/filtertreeview.py:77
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:32
+#: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
+#: deluge/ui/gtkui/filtertreeview.py:78
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -1030,74 +1735,71 @@ msgstr "Ζάμπια"
 msgid "Zimbabwe"
 msgstr "Ζιμπάμπουε"
 
-#: deluge/ui/gtkui/systemtray.py:197
-msgid ""
-"Deluge\n"
-"Not Connected.."
-msgstr ""
-"Deluge\n"
-"Αποσυνδεδεμένο"
+#: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
+#: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
+#: deluge/ui/web/json_api.py:769 deluge/ui/gtkui/connectionmanager.py:75
+#: deluge/ui/gtkui/connectionmanager.py:215
+#: deluge/ui/gtkui/connectionmanager.py:246
+#: deluge/ui/gtkui/connectionmanager.py:283
+#: deluge/ui/gtkui/connectionmanager.py:296
+#: deluge/ui/gtkui/connectionmanager.py:378
+#: deluge/ui/gtkui/connectionmanager.py:389
+#: deluge/ui/gtkui/connectionmanager.py:452
+#: deluge/ui/gtkui/connectionmanager.py:569
+msgid "Offline"
+msgstr "Εκτός σύνδεσης"
 
-#: deluge/ui/gtkui/systemtray.py:245 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:408 deluge/ui/gtkui/statusbar.py:397
-#: deluge/ui/gtkui/statusbar.py:425 deluge/ui/gtkui/statusbar.py:452
-#: deluge/ui/gtkui/common.py:67
-msgid "Unlimited"
-msgstr "Χωρίς περιορισμό"
+#: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
+#: deluge/ui/gtkui/connectionmanager.py:274
+#: deluge/ui/gtkui/connectionmanager.py:382
+#: deluge/ui/gtkui/connectionmanager.py:552
+msgid "Online"
+msgstr "Σε σύνδεση"
 
-#: deluge/ui/gtkui/systemtray.py:247 deluge/ui/gtkui/systemtray.py:251
-#: deluge/ui/gtkui/systemtray.py:267 deluge/ui/gtkui/systemtray.py:273
-#: deluge/ui/gtkui/systemtray.py:407 deluge/ui/gtkui/systemtray.py:412
-#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
-#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
-#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/glade/main_window.glade:1828
-#: deluge/ui/gtkui/glade/main_window.glade:1840
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
-#: deluge/plugins/label/label/data/label_options.glade:132
-#: deluge/plugins/label/label/data/label_options.glade:195
-msgid "KiB/s"
-msgstr "KiB/s"
+#: deluge/ui/web/json_api.py:775 deluge/ui/gtkui/connectionmanager.py:77
+#: deluge/ui/gtkui/connectionmanager.py:313
+#: deluge/ui/gtkui/connectionmanager.py:372
+#: deluge/ui/gtkui/connectionmanager.py:382
+#: deluge/ui/gtkui/connectionmanager.py:440
+#: deluge/ui/gtkui/connectionmanager.py:552
+msgid "Connected"
+msgstr "Συνδεδεμένος"
 
-#: deluge/ui/gtkui/systemtray.py:254
-msgid "Deluge"
-msgstr "Deluge"
+#: deluge/ui/web/json_api.py:802
+msgid "Daemon doesn't exist"
+msgstr "Ο δαίμονας δεν υπάρχει"
 
-#: deluge/ui/gtkui/systemtray.py:254
-msgid "Down"
-msgstr "Κάτω"
+#: deluge/ui/web/json_api.py:808
+msgid "Daemon not running"
+msgstr "Ο δαίμονας δεν εκτελείται"
 
-#: deluge/ui/gtkui/systemtray.py:255
-msgid "Up"
-msgstr "Πάνω"
+#: deluge/ui/web/server.py:661
+msgid "Starting server in PID"
+msgstr "Εκκίνηση διακομιστή στο PID"
 
-#: deluge/ui/gtkui/systemtray.py:388 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/menubar.py:424
-msgid "Set Maximum Download Speed"
-msgstr "Ορισμός της μέγιστης ταχύτητας λήψης"
+#: deluge/ui/gtkui/peers_tab.py:100
+msgid "Address"
+msgstr "Διεύθυνση"
 
-#: deluge/ui/gtkui/systemtray.py:402 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/menubar.py:425
-msgid "Set Maximum Upload Speed"
-msgstr "Ορισμός της μέγιστης ταχύτητας αποστολής"
+#: deluge/ui/gtkui/peers_tab.py:116
+msgid "Client"
+msgstr "Πελάτης"
 
-#: deluge/ui/gtkui/systemtray.py:411 deluge/ui/gtkui/statusbar.py:399
-#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
-#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
-msgid "Other..."
-msgstr "Άλλο..."
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
+#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+msgid "Progress"
+msgstr "Πρόοδος"
 
-#: deluge/ui/gtkui/systemtray.py:455
-msgid "<b><big>Deluge is password protected!</big></b>"
-msgstr "<b><big>Το Deluge προστατεύεται με κωδικό!</big></b>"
+#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
+msgid "Down Speed"
+msgstr "Ταχύτητα λήψης"
 
-#: deluge/ui/gtkui/systemtray.py:461
-msgid "<i>Enter your password to continue</i>"
-msgstr "<i>Εισάγετε τον κωδικό σας για να συνεχίσετε</i>"
+#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
+msgid "Up Speed"
+msgstr "Ταχύτητα αποστολής"
 
-#: deluge/ui/gtkui/queuedtorrents.py:75 deluge/ui/gtkui/addtorrentdialog.py:99
+#: deluge/ui/gtkui/queuedtorrents.py:75
+#: deluge/ui/gtkui/addtorrentdialog.py:103
 msgid "Torrent"
 msgstr "Torrent"
 
@@ -1109,128 +1811,78 @@ msgstr " Torrent στην ουρά"
 msgid " Torrent Queued"
 msgstr " Torrent στην ουρά"
 
-#: deluge/ui/gtkui/aboutdialog.py:67
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. This program is distributed in the hope that it will be "
-"useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-"Public License for more details. You should have received a copy of the GNU "
-"General Public License along with this program; if not, see "
-"<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-"copyright holders give permission to link the code of portions of this "
-"program with the OpenSSL library. You must obey the GNU General Public "
-"License in all respects for all of the code used other than OpenSSL. If you "
-"modify file(s) with this exception, you may extend this exception to your "
-"version of the file(s), but you are not obligated to do so. If you do not "
-"wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
+#: deluge/ui/gtkui/common.py:67 deluge/ui/gtkui/systemtray.py:249
+#: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
+#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
+#: deluge/ui/gtkui/statusbar.py:452
+msgid "Unlimited"
+msgstr "Χωρίς περιορισμό"
+
+#: deluge/ui/gtkui/common.py:70
+msgid "Activated"
+msgstr "Ενεργοποιημένο"
+
+#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
+#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
+#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
+#: deluge/ui/gtkui/menubar.py:81
+msgid "Other..."
+msgstr "Άλλο..."
+
+#: deluge/ui/gtkui/mainwindow.py:235
+msgid "Down:"
+msgstr "Κάτω:"
+
+#: deluge/ui/gtkui/mainwindow.py:235
+msgid "Up:"
+msgstr "Πάνω:"
+
+#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
+#: deluge/data/share/applications/deluge.desktop.in.h:2
+msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtkui/systemtray.py:201
+msgid "Not Connected..."
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:56
-msgid "Do Not Download"
+#: deluge/ui/gtkui/systemtray.py:258
+msgid "Down"
+msgstr "Κάτω"
+
+#: deluge/ui/gtkui/systemtray.py:259
+msgid "Up"
+msgstr "Πάνω"
+
+#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/menubar.py:436
+msgid "Set Maximum Download Speed"
+msgstr "Ορισμός της μέγιστης ταχύτητας λήψης"
+
+#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
+#: deluge/ui/gtkui/menubar.py:437
+msgid "Set Maximum Upload Speed"
+msgstr "Ορισμός της μέγιστης ταχύτητας αποστολής"
+
+#: deluge/ui/gtkui/systemtray.py:470
+msgid "Deluge is password protected!"
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:57
-msgid "Normal Priority"
+#: deluge/ui/gtkui/systemtray.py:476
+msgid "Enter your password to continue"
 msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:58
-msgid "High Priority"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:59
-msgid "Highest Priority"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:122 deluge/ui/gtkui/addtorrentdialog.py:107
-#: deluge/ui/gtkui/createtorrentdialog.py:80
-msgid "Filename"
-msgstr "'Ονομα αρχείου"
-
-#: deluge/ui/gtkui/files_tab.py:142 deluge/ui/gtkui/addtorrentdialog.py:120
-#: deluge/ui/gtkui/createtorrentdialog.py:90
-#: deluge/ui/gtkui/torrentview.py:208
-msgid "Size"
-msgstr "Μέγεθος"
-
-#: deluge/ui/gtkui/files_tab.py:155 deluge/ui/gtkui/peers_tab.py:129
-#: deluge/ui/gtkui/torrentview.py:217 deluge/ui/gtkui/torrentview.py:532
-msgid "Progress"
-msgstr "Πρόοδος"
-
-#: deluge/ui/gtkui/files_tab.py:168
-msgid "Priority"
-msgstr "Προτεραιότητα"
-
-#: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4709
-msgid "Details:"
-msgstr "Λεπτομέρειες:"
-
-#: deluge/ui/gtkui/gtkui.py:297 deluge/ui/gtkui/gtkui.py:312
-msgid "Turn off Classic Mode?"
-msgstr "Απενεργοποίηση της κλασικής λειτουργίας;"
-
-#: deluge/ui/gtkui/gtkui.py:298
-msgid ""
-"It appears that a Deluge daemon process (deluged) is already running.\n"
-"\n"
-"You will either need to stop the daemon or turn off Classic Mode to continue."
-msgstr ""
-"Απ' ό,τι φαίνεται, εκτελείται ήδη μια διεργασία του δαίμονα Deluge "
-"(deluged).\n"
-"\n"
-"Θα χρειαστεί να σταματήσετε τον δαίμονα ή να απενεργοποιήσετε την Κλασική "
-"Λειτουργία για να συνεχίσετε."
-
-#: deluge/ui/gtkui/gtkui.py:307
-msgid "Error Starting Core"
-msgstr "Σφάλμα στην εκκίνηση του πυρήνα"
-
-#: deluge/ui/gtkui/gtkui.py:308
-msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
-"\n"
-"Please see the details below for more information."
-msgstr ""
-"Προέκυψε ένα σφάλμα κατά την εκκίνηση του στοιχείου πυρήνα, το οποίο είναι "
-"απαραίτητο για την κλασική λειτουργία του Deluge.\n"
-"\n"
-"Παρακαλώ δείτε τις λεπτομέρειες παρακάτω για περισσότερες πληροφορίες."
-
-#: deluge/ui/gtkui/gtkui.py:313
-msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
-msgstr ""
-"Καθώς προέκυψε ένα σφάλμα κατά την εκκίνηση στην κλασική λειτουργία. "
-"Επιθυμείτε να συνεχίσετε απενεργοποιώντας την;"
-
-#: deluge/ui/gtkui/gtkui.py:337
-msgid "Error Starting Daemon"
-msgstr "Σφάλμα εκκίνησης διεργασίας"
-
-#: deluge/ui/gtkui/gtkui.py:338
-msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
-msgstr ""
-"Παρουσιάστηκε σφάλμα κατά την εκκίνηση του δαίμονα. Προσπαθήστε να τον "
-"εκτελέσετε από τη γραμμή εντολών για να δείτε αν υπάρχει κάποιο σφάλμα."
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
 msgstr "Ολοκλήρωση torrent"
 
 #: deluge/ui/gtkui/notification.py:80
-#, python-format
-msgid "Including %i files"
-msgstr "Συμπεριλαμβάνω %i αρχεία"
+msgid "Including"
+msgstr ""
+
+#: deluge/ui/gtkui/notification.py:80
+msgid "files"
+msgstr ""
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -1251,132 +1903,150 @@ msgstr ""
 "Ευχαριστώ,\n"
 "Deluge"
 
-#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "Ενεργό"
+#: deluge/ui/gtkui/new_release_dialog.py:72
+msgid "<i>Client Version</i>"
+msgstr ""
 
-#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "Ανενεργό"
+#: deluge/ui/gtkui/preferences.py:72
+msgid "Categories"
+msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:202
+#: deluge/ui/gtkui/preferences.py:76
+msgid "Downloads"
+msgstr "Λήψεις"
+
+#: deluge/ui/gtkui/preferences.py:76
+msgid "Network"
+msgstr "Δίκτυο"
+
+#: deluge/ui/gtkui/preferences.py:76
+msgid "Bandwidth"
+msgstr "Εύρος ζώνης"
+
+#: deluge/ui/gtkui/preferences.py:77
+msgid "Interface"
+msgstr "Διεπαφή"
+
+#: deluge/ui/gtkui/preferences.py:77
+msgid "Other"
+msgstr "Άλλο"
+
+#: deluge/ui/gtkui/preferences.py:77
+msgid "Daemon"
+msgstr "Δαίμονας"
+
+#: deluge/ui/gtkui/preferences.py:77
+msgid "Proxy"
+msgstr "Διαμεσολαβητής"
+
+#: deluge/ui/gtkui/preferences.py:78
+msgid "Cache"
+msgstr "Προσωρινή μνήμη"
+
+#: deluge/ui/gtkui/preferences.py:78
+msgid "Plugins"
+msgstr "Πρόσθετα"
+
+#: deluge/ui/gtkui/preferences.py:93
+msgid "Plugin"
+msgstr "Πρόσθετο"
+
+#: deluge/ui/gtkui/preferences.py:891
+msgid "Select the Plugin"
+msgstr "Επιλογή πρόσθετου"
+
+#: deluge/ui/gtkui/preferences.py:902
+msgid "Plugin Eggs"
+msgstr "Πρόσθετο Eggs"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:111
+#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
+msgid "Filename"
+msgstr "'Ονομα αρχείου"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:124
+#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
+#: deluge/ui/gtkui/torrentview.py:216
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:206
 msgid "Invalid File"
 msgstr "Μη έγκυρο αρχείο"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:207
+#: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "Duplicate Torrent"
 msgstr "Διπλό Torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:207
+#: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "You cannot add the same torrent twice."
 msgstr "Δεν μπορείτε να προσθέσετε το ίδιο torrent δύο φορές."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:488
+#: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid "Unable to set file priority!"
 msgstr "Αποτυχία ορισμού προτεραιότητας αρχείου!"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:488
+#: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:537
+#: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
 msgstr "Επιλογή αρχείου .torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:549
+#: deluge/ui/gtkui/addtorrentdialog.py:553
 #: deluge/ui/gtkui/createtorrentdialog.py:253
 msgid "Torrent files"
 msgstr "Αρχεία Τorrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:553
+#: deluge/ui/gtkui/addtorrentdialog.py:557
 #: deluge/ui/gtkui/createtorrentdialog.py:257
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:618
+#: deluge/ui/gtkui/addtorrentdialog.py:622
 msgid "Invalid URL"
 msgstr "Μη έγκυρη διεύθυνση"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:618
-#, python-format
-msgid "%s is not a valid URL."
-msgstr "Το %s δεν είναι έγκυρο URL."
-
 #: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "Downloading.."
-msgstr "Λήψη..."
+msgid "is not a valid URL."
+msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:656
+#: deluge/ui/gtkui/addtorrentdialog.py:626
+msgid "Downloading..."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
 msgstr "Η λήψη απέτυχε"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:656
-#, python-format
-msgid "Failed to download : %s"
-msgstr "Αποτυχία λήψης του: %s"
-
-#: deluge/ui/gtkui/filtertreeview.py:68
-msgid "States"
+#: deluge/ui/gtkui/addtorrentdialog.py:668
+msgid "Failed to download:"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:69
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
-#: deluge/plugins/label/label/data/label_options.glade:596
-msgid "Trackers"
-msgstr "Ανιχνευτές"
-
-#: deluge/ui/gtkui/filtertreeview.py:70
-msgid "Labels"
-msgstr "Ετικέτες"
-
-#: deluge/ui/gtkui/filtertreeview.py:71
-msgid "All"
-msgstr "Όλα"
-
-#: deluge/ui/gtkui/filtertreeview.py:72
-msgid "Downloading"
-msgstr "Γίνεται λήψη"
-
-#: deluge/ui/gtkui/filtertreeview.py:73
-msgid "Seeding"
-msgstr "Διαμοιράζεται"
-
-#: deluge/ui/gtkui/filtertreeview.py:74
-msgid "Paused"
-msgstr "Σε παύση"
-
-#: deluge/ui/gtkui/filtertreeview.py:75
-msgid "Checking"
-msgstr "Έλεγχος"
-
-#: deluge/ui/gtkui/filtertreeview.py:76
-msgid "Queued"
-msgstr "Στην ουρά"
-
-#: deluge/ui/gtkui/filtertreeview.py:78
-msgid "Active"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:79
-msgid "None"
-msgstr "Κανένα"
-
-#: deluge/ui/gtkui/filtertreeview.py:80
-msgid "No Label"
-msgstr "Χωρίς ετικέτα"
-
-#: deluge/ui/gtkui/edittrackersdialog.py:84
 #: deluge/ui/gtkui/createtorrentdialog.py:103
+#: deluge/ui/gtkui/edittrackersdialog.py:84
 msgid "Tier"
 msgstr "Βαθμίδα"
 
-#: deluge/ui/gtkui/edittrackersdialog.py:86
 #: deluge/ui/gtkui/createtorrentdialog.py:105
-#: deluge/ui/gtkui/torrentview.py:239
+#: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
 msgid "Tracker"
 msgstr "Ιχνηλάτης"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:143
+msgid "Choose a file"
+msgstr "Επιλογή αρχείου"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:172
+msgid "Choose a folder"
+msgstr "Επιλογή φακέλου"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:241
+msgid "Save .torrent file"
+msgstr "Αποθήκευση αρχείου .torrent"
 
 #: deluge/ui/gtkui/statusbar.py:146
 msgid "Not Connected"
@@ -1410,7 +2080,7 @@ msgstr ""
 msgid "No Incoming Connections!"
 msgstr "Καμία εισερχόμενη σύνδεση!"
 
-#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:426
+#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
 msgid "Set Maximum Connections"
 msgstr "Ορισμός μέγιστου αριθμού συνδέσεων"
 
@@ -1418,71 +2088,76 @@ msgstr "Ορισμός μέγιστου αριθμού συνδέσεων"
 msgid "Torrents"
 msgstr "Torrent"
 
-#: deluge/ui/gtkui/peers_tab.py:100
-msgid "Address"
-msgstr "Διεύθυνση"
+#: deluge/ui/gtkui/filtertreeview.py:69
+msgid "States"
+msgstr ""
 
-#: deluge/ui/gtkui/peers_tab.py:116
-msgid "Client"
-msgstr "Πελάτης"
+#: deluge/ui/gtkui/filtertreeview.py:71
+msgid "Labels"
+msgstr "Ετικέτες"
 
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:227
-msgid "Down Speed"
-msgstr "Ταχύτητα λήψης"
+#: deluge/ui/gtkui/filtertreeview.py:72
+msgid "All"
+msgstr "Όλα"
 
-#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:229
-msgid "Up Speed"
-msgstr "Ταχύτητα αποστολής"
+#: deluge/ui/gtkui/filtertreeview.py:73
+msgid "Downloading"
+msgstr "Γίνεται λήψη"
 
-#: deluge/ui/gtkui/common.py:70
-msgid "Activated"
-msgstr "Ενεργοποιημένο"
+#: deluge/ui/gtkui/filtertreeview.py:74
+msgid "Seeding"
+msgstr "Διαμοιράζεται"
 
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "Χωρίς περιορισμό"
+#: deluge/ui/gtkui/filtertreeview.py:75
+msgid "Paused"
+msgstr "Σε παύση"
 
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other.."
-msgstr "Άλλο.."
+#: deluge/ui/gtkui/filtertreeview.py:76
+msgid "Checking"
+msgstr "Έλεγχος"
 
-#: deluge/ui/gtkui/menubar.py:319
-msgid "Choose a directory to move files to"
-msgstr "Επιλογή προορισμού για τη μετακίνηση των αρχείων"
+#: deluge/ui/gtkui/filtertreeview.py:77
+msgid "Queued"
+msgstr "Στην ουρά"
 
-#: deluge/ui/gtkui/menubar.py:427
-msgid "Set Maximum Upload Slots"
-msgstr "Ορισμός Μέγιστών Θυρών Αποστολής"
+#: deluge/ui/gtkui/filtertreeview.py:79
+msgid "Active"
+msgstr ""
 
-#: deluge/ui/gtkui/connectionmanager.py:75
-#: deluge/ui/gtkui/connectionmanager.py:215
-#: deluge/ui/gtkui/connectionmanager.py:246
-#: deluge/ui/gtkui/connectionmanager.py:283
-#: deluge/ui/gtkui/connectionmanager.py:296
-#: deluge/ui/gtkui/connectionmanager.py:378
-#: deluge/ui/gtkui/connectionmanager.py:389
-#: deluge/ui/gtkui/connectionmanager.py:452
-#: deluge/ui/gtkui/connectionmanager.py:569 deluge/ui/web/json_api.py:710
-#: deluge/ui/web/json_api.py:734 deluge/ui/web/json_api.py:737
-#: deluge/ui/web/json_api.py:745
-msgid "Offline"
-msgstr "Εκτός σύνδεσης"
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "None"
+msgstr "Κανένα"
 
-#: deluge/ui/gtkui/connectionmanager.py:76
-#: deluge/ui/gtkui/connectionmanager.py:274
-#: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:552 deluge/ui/web/json_api.py:730
-msgid "Online"
-msgstr "Σε σύνδεση"
+#: deluge/ui/gtkui/filtertreeview.py:81
+msgid "No Label"
+msgstr "Χωρίς ετικέτα"
 
-#: deluge/ui/gtkui/connectionmanager.py:77
-#: deluge/ui/gtkui/connectionmanager.py:313
-#: deluge/ui/gtkui/connectionmanager.py:372
-#: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:440
-#: deluge/ui/gtkui/connectionmanager.py:552 deluge/ui/web/json_api.py:751
-msgid "Connected"
-msgstr "Συνδεδεμένος"
+#: deluge/ui/gtkui/aboutdialog.py:253
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. \n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details. \n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program; if not, see <http://www.gnu.org/licenses>. \n"
+"\n"
+"In addition, as a special exception, the copyright holders give permission "
+"to link the code of portions of this program with the OpenSSL library. You "
+"must obey the GNU General Public License in all respects for all of the code "
+"used other than OpenSSL. \n"
+"\n"
+"If you modify file(s) with this exception, you may extend this exception to "
+"your version of the file(s), but you are not obligated to do so. If you do "
+"not wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then "
+"also delete it here."
+msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
 msgid "Status"
@@ -1523,231 +2198,514 @@ msgstr ""
 msgid "Error Adding Host"
 msgstr "Σφάλμα κατά την προσθήκη υπολογιστή"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:143
-msgid "Choose a file"
-msgstr "Επιλογή αρχείου"
+#: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+msgid "Turn off Classic Mode?"
+msgstr "Απενεργοποίηση της κλασικής λειτουργίας;"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:172
-msgid "Choose a folder"
-msgstr "Επιλογή φακέλου"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:241
-msgid "Save .torrent file"
-msgstr "Αποθήκευση αρχείου .torrent"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:373
-#, python-format
-msgid "%.2f%%"
-msgstr "%.2f%%"
-
-#: deluge/ui/gtkui/preferences.py:71
-msgid "Categories"
+#: deluge/ui/gtkui/gtkui.py:303
+msgid ""
+"It appears that a Deluge daemon process (deluged) is already running.\n"
+"\n"
+"You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Απ' ό,τι φαίνεται, εκτελείται ήδη μια διεργασία του δαίμονα Deluge "
+"(deluged).\n"
+"\n"
+"Θα χρειαστεί να σταματήσετε τον δαίμονα ή να απενεργοποιήσετε την Κλασική "
+"Λειτουργία για να συνεχίσετε."
 
-#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
-msgid "Downloads"
-msgstr "Λήψεις"
+#: deluge/ui/gtkui/gtkui.py:312
+msgid "Error Starting Core"
+msgstr "Σφάλμα στην εκκίνηση του πυρήνα"
 
-#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
-msgid "Network"
-msgstr "Δίκτυο"
+#: deluge/ui/gtkui/gtkui.py:313
+msgid ""
+"There was an error starting the core component which is required to run "
+"Deluge in Classic Mode.\n"
+"\n"
+"Please see the details below for more information."
+msgstr ""
+"Προέκυψε ένα σφάλμα κατά την εκκίνηση του στοιχείου πυρήνα, το οποίο είναι "
+"απαραίτητο για την κλασική λειτουργία του Deluge.\n"
+"\n"
+"Παρακαλώ δείτε τις λεπτομέρειες παρακάτω για περισσότερες πληροφορίες."
 
-#: deluge/ui/gtkui/preferences.py:75 deluge/ui/gtkui/preferences_old.py:75
-msgid "Bandwidth"
-msgstr "Εύρος ζώνης"
+#: deluge/ui/gtkui/gtkui.py:318
+msgid ""
+"Since there was an error starting in Classic Mode would you like to continue "
+"by turning it off?"
+msgstr ""
+"Καθώς προέκυψε ένα σφάλμα κατά την εκκίνηση στην κλασική λειτουργία. "
+"Επιθυμείτε να συνεχίσετε απενεργοποιώντας την;"
 
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
-msgid "Interface"
-msgstr "Διεπαφή"
+#: deluge/ui/gtkui/gtkui.py:342
+msgid "Error Starting Daemon"
+msgstr "Σφάλμα εκκίνησης διεργασίας"
 
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
-msgid "Other"
-msgstr "Άλλο"
+#: deluge/ui/gtkui/gtkui.py:343
+msgid ""
+"There was an error starting the daemon process.  Try running it from a "
+"console to see if there is an error."
+msgstr ""
+"Παρουσιάστηκε σφάλμα κατά την εκκίνηση του δαίμονα. Προσπαθήστε να τον "
+"εκτελέσετε από τη γραμμή εντολών για να δείτε αν υπάρχει κάποιο σφάλμα."
 
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
-msgid "Daemon"
-msgstr "Δαίμονας"
-
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
-#: deluge/plugins/label/label/data/label_options.glade:426
-msgid "Queue"
-msgstr "Σειρά αναμονής"
-
-#: deluge/ui/gtkui/preferences.py:76 deluge/ui/gtkui/preferences_old.py:76
-msgid "Proxy"
-msgstr "Διαμεσολαβητής"
-
-#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences_old.py:77
-msgid "Cache"
-msgstr "Προσωρινή μνήμη"
-
-#: deluge/ui/gtkui/preferences.py:77 deluge/ui/gtkui/preferences_old.py:77
-msgid "Plugins"
-msgstr "Πρόσθετα"
-
-#: deluge/ui/gtkui/preferences.py:90 deluge/ui/gtkui/preferences_old.py:90
-#: deluge/plugins/notifications/notifications/data/config.glade:420
-msgid "Enabled"
+#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
+msgid "On"
 msgstr "Ενεργό"
 
-#: deluge/ui/gtkui/preferences.py:92 deluge/ui/gtkui/preferences_old.py:92
-msgid "Plugin"
-msgstr "Πρόσθετο"
+#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
+msgid "Off"
+msgstr "Ανενεργό"
 
-#: deluge/ui/gtkui/preferences.py:874 deluge/ui/gtkui/preferences_old.py:870
-msgid "Select the Plugin"
-msgstr "Επιλογή πρόσθετου"
+#: deluge/ui/gtkui/menubar.py:77
+msgid "Set Unlimited"
+msgstr "Χωρίς περιορισμό"
 
-#: deluge/ui/gtkui/preferences.py:885 deluge/ui/gtkui/preferences_old.py:881
-msgid "Plugin Eggs"
-msgstr "Πρόσθετο Eggs"
+#: deluge/ui/gtkui/menubar.py:319
+msgid "Choose a directory to move files to"
+msgstr "Επιλογή προορισμού για τη μετακίνηση των αρχείων"
 
-#: deluge/ui/gtkui/mainwindow.py:238
-msgid "Down:"
-msgstr "Κάτω:"
+#: deluge/ui/gtkui/menubar.py:439
+msgid "Set Maximum Upload Slots"
+msgstr "Ορισμός Μέγιστών Θυρών Αποστολής"
 
-#: deluge/ui/gtkui/mainwindow.py:238
-msgid "Up:"
-msgstr "Πάνω:"
+#: deluge/ui/gtkui/files_tab.py:56
+msgid "Do Not Download"
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:205
+#: deluge/ui/gtkui/files_tab.py:57
+msgid "Normal Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:58
+msgid "High Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:59
+msgid "Highest Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:169
+msgid "Priority"
+msgstr "Προτεραιότητα"
+
+#: deluge/ui/gtkui/dialogs.py:174
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+msgid "Details:"
+msgstr "Λεπτομέρειες:"
+
+#: deluge/ui/gtkui/torrentview.py:213
 msgid "Name"
 msgstr "Όνομα"
 
-#: deluge/ui/gtkui/torrentview.py:211
+#: deluge/ui/gtkui/torrentview.py:219
 msgid "Downloaded"
 msgstr "Λήφθηκαν"
 
-#: deluge/ui/gtkui/torrentview.py:214
+#: deluge/ui/gtkui/torrentview.py:222
 msgid "Uploaded"
 msgstr "Απεσταλμένα"
 
-#: deluge/ui/gtkui/torrentview.py:221
+#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
 msgid "Seeders"
 msgstr "Διαμοιραστές"
 
-#: deluge/ui/gtkui/torrentview.py:224
+#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
 msgid "Peers"
 msgstr "Ομότιμοι χρήστες"
 
-#: deluge/ui/gtkui/torrentview.py:231
+#: deluge/ui/gtkui/torrentview.py:241
+msgid "Down Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:243
+msgid "Up Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
 msgstr "Εκτιμ. χρ. αναμονής"
 
-#: deluge/ui/gtkui/torrentview.py:233
+#: deluge/ui/gtkui/torrentview.py:247
 msgid "Ratio"
 msgstr "Αναλογία"
 
-#: deluge/ui/gtkui/torrentview.py:235
+#: deluge/ui/gtkui/torrentview.py:249
 msgid "Avail"
 msgstr "Διαθεσ"
 
-#: deluge/ui/gtkui/torrentview.py:237
+#: deluge/ui/gtkui/torrentview.py:251
 msgid "Added"
 msgstr "Προστέθηκε"
 
-#: deluge/ui/gtkui/torrentview.py:243
+#: deluge/ui/gtkui/torrentview.py:257
 msgid "Save Path"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "Δημιουργία Torrent"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>Δημιουργία Torrent</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "Φάκε_λος"
+#: deluge/ui/gtkui/glade/main_window.glade:27
+#: deluge/ui/gtkui/glade/tray_menu.glade:26
+msgid "_Add Torrent"
+msgstr "_Προσθήκη Torrent"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "Απομακ_ρυσμένη διαδρομή"
+#: deluge/ui/gtkui/glade/main_window.glade:45
+msgid "_Create Torrent"
+msgstr "_Δημιουργία Torrent"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>Αρχεία</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4735
-msgid "Author:"
-msgstr "Δημιουργός:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "Σχόλια:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "Πληροφορίες"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "Διαμοιραστές Web"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "Μέγεθος κοματιού:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
-msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB\n"
-"1 MiB\n"
-"2 MiB\n"
-"4 MiB\n"
-"8 MiB\n"
+#: deluge/ui/gtkui/glade/main_window.glade:65
+msgid "Quit & _Shutdown Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:579
-msgid "Set Private Flag"
-msgstr "Ορισμός ιδιωτικής σημαίας"
+#: deluge/ui/gtkui/glade/main_window.glade:101
+msgid "_Edit"
+msgstr "_Επεξεργασία"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:593
-msgid "Add this torrent to the session"
-msgstr "Πρόσθεση αυτού του Torrent στη συνεδρία"
+#: deluge/ui/gtkui/glade/main_window.glade:118
+msgid "_Connection Manager"
+msgstr "Διαχειριστής _σύνδεσης"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:623
-#: deluge/ui/gtkui/glade/connection_manager.glade:457
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
-msgid "Options"
-msgstr "Επιλογές"
+#: deluge/ui/gtkui/glade/main_window.glade:140
+msgid "_Torrent"
+msgstr "_Torrent"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:691
-msgid "Enter Remote Path"
-msgstr "Εισαγωγή απομακρυσμένης διαδρομής"
+#: deluge/ui/gtkui/glade/main_window.glade:147
+msgid "_View"
+msgstr "_Προβολή"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:727
-msgid "<b>Remote Path</b>"
-msgstr "<b>Απομακρυσμένη διαδρομή</b>"
+#: deluge/ui/gtkui/glade/main_window.glade:155
+msgid "_Toolbar"
+msgstr "_Γραμμή εργαλείων"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:761
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:943
-msgid "Path:"
-msgstr "Διαδρομή:"
+#: deluge/ui/gtkui/glade/main_window.glade:165
+msgid "_Sidebar"
+msgstr "_Πλευρική στήλη"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:836
-msgid "Creating Torrent"
-msgstr "Δημιουργία Torrent"
+#: deluge/ui/gtkui/glade/main_window.glade:174
+msgid "Status_bar"
+msgstr "_Μπάρα κατάστασης"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:873
-msgid "Save .torrent as"
-msgstr "Αποθήκευση .torrent ως"
+#: deluge/ui/gtkui/glade/main_window.glade:188
+msgid "T_abs"
+msgstr "_Καρτέλες"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:909
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>Αποθήκευση αρχείου .torrent </b>"
+#: deluge/ui/gtkui/glade/main_window.glade:195
+msgid "_Columns"
+msgstr "_Στήλες"
+
+#: deluge/ui/gtkui/glade/main_window.glade:203
+msgid "S_idebar"
+msgstr "_Πλευρική στήλη"
+
+#: deluge/ui/gtkui/glade/main_window.glade:212
+msgid "Show _Zero Hits"
+msgstr "Εμφάνιση _μηδενικών εγγραφών"
+
+#: deluge/ui/gtkui/glade/main_window.glade:221
+msgid "Show _Trackers"
+msgstr "Εμφάνιση _ιχνηλατών"
+
+#: deluge/ui/gtkui/glade/main_window.glade:238
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: deluge/ui/gtkui/glade/main_window.glade:244
+msgid "_Homepage"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:261
+msgid "_FAQ"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:264
+msgid "Frequently Asked Questions"
+msgstr "Συχνές ερωτήσεις"
+
+#: deluge/ui/gtkui/glade/main_window.glade:280
+msgid "_Community"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+msgid "Add torrent"
+msgstr "Προσθήκη Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:328
+msgid "Add Torrent"
+msgstr "Προσθήκη Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:342
+msgid "Remove torrent"
+msgstr "Αφαίρεση torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:343
+msgid "Remove Torrent"
+msgstr "Διαγραφή Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+msgid "Pause the selected torrents"
+msgstr "Παύση των επιλεγμένων Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:365
+msgid "Pause"
+msgstr "Παύση"
+
+#: deluge/ui/gtkui/glade/main_window.glade:380
+msgid "Resume the selected torrents"
+msgstr "Συνέχιση των επιλεγμένων Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:381
+msgid "Resume"
+msgstr "Συνέχιση"
+
+#: deluge/ui/gtkui/glade/main_window.glade:403
+msgid "Queue Torrent Up"
+msgstr "Μετακίνηση του Torrent ψηλότερα στην σειρά αναμονής"
+
+#: deluge/ui/gtkui/glade/main_window.glade:404
+msgid "Queue Up"
+msgstr "Πάνω στην ουρά"
+
+#: deluge/ui/gtkui/glade/main_window.glade:418
+msgid "Queue Torrent Down"
+msgstr "Μετακίνηση του Torrent χαμηλότερα στην σειρά αναμονής"
+
+#: deluge/ui/gtkui/glade/main_window.glade:419
+msgid "Queue Down"
+msgstr "Κάτω στην ουρά"
+
+#: deluge/ui/gtkui/glade/main_window.glade:440
+#: deluge/ui/gtkui/glade/main_window.glade:441
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#: deluge/ui/gtkui/glade/main_window.glade:455
+#: deluge/ui/gtkui/glade/main_window.glade:456
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+msgid "Connection Manager"
+msgstr "Διαχειριστής σύνδεσης"
+
+#: deluge/ui/gtkui/glade/main_window.glade:570
+msgid "_Expand All"
+msgstr "Ανάπτυξη όλων"
+
+#: deluge/ui/gtkui/glade/main_window.glade:591
+msgid "_Do Not Download"
+msgstr "_Να μην γίνει λήψη"
+
+#: deluge/ui/gtkui/glade/main_window.glade:607
+msgid "_Normal Priority"
+msgstr "_Κανονική προτεραιότητα"
+
+#: deluge/ui/gtkui/glade/main_window.glade:623
+msgid "_High Priority"
+msgstr "_Υψηλή προτεραιότητα"
+
+#: deluge/ui/gtkui/glade/main_window.glade:639
+msgid "Hi_ghest Priority"
+msgstr "Υψηλότερη προτεραιότητα"
+
+#: deluge/ui/gtkui/glade/main_window.glade:721
+msgid "<b>Auto Managed:</b>"
+msgstr "<b>Αυτόματη διαχείριση:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:762
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>Θέση διαμοιρασμού:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:777
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>Χρόνος διαμοιρασμού:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:803
+msgid "<b>Active Time:</b>"
+msgstr "<b>Ενεργός χρόνος:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:860
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Κατάσταση ιχνηλάτη:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:890
+msgid "<b>Availability:</b>"
+msgstr "<b>Διαθεσιμότητα:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:944
+msgid "<b>Peers:</b>"
+msgstr "<b>Υπολογιστές:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:970
+msgid "<b>Seeders:</b>"
+msgstr "<b>Χρήστες που διανέμουν:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:988
+msgid "<b>Pieces:</b>"
+msgstr "<b>Κομμάτια:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1010
+msgid "<b>ETA:</b>"
+msgstr "<b>Υπολειπόμενος χρόνος:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1032
+msgid "<b>Up Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1054
+msgid "<b>Down Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1073
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Επόμενη ανακοίνωση:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1092
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Αναλογία διαμοιρασμού:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1111
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Απεσταλμένα:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1130
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Ληφθέντα:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1191
+msgid "<b>Date Added:</b>"
+msgstr "<b>Ημερομηνία προσθήκης:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1249
+msgid "_Status"
+msgstr "_Κατάσταση"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1310
+msgid "<b>Comments:</b>"
+msgstr "<b>Σχόλια:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1339
+msgid "<b># of files:</b>"
+msgstr "<b>Αριθμός αρχείων:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Hash:</b>"
+msgstr "<b>Κατακερματισμός:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1401
+msgid "<b>Tracker:</b>"
+msgstr "<b>Ιχνηλάτης:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1421
+msgid "<b>Total Size:</b>"
+msgstr "<b>Συνολικό μέγεθος:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1459
+msgid "<b>Name:</b>"
+msgstr "<b>Όνομα:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1479
+msgid "<b>Path:</b>"
+msgstr "<b>Διαδρομή:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1513
+msgid "<b>Status:</b>"
+msgstr "<b>Κατάσταση:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1594
+msgid "_Details"
+msgstr "_Λεπτομέρειες"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1646
+msgid "_Files"
+msgstr "_Αρχεία"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1698
+msgid "_Peers"
+msgstr "_Υπολογιστές"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2009
+msgid "Move completed:"
+msgstr "Όταν ολοκληρωθεί να μετακινηθεί στο:"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2105
+msgid "Private"
+msgstr "Ιδιωτικό"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2120
+msgid "Prioritize First/Last"
+msgstr "Προτεραιότητα πρώτων/τελευταίων κομματιών"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+msgid "_Edit Trackers"
+msgstr "_Επεξεργασία ιχνηλατών"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2265
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+msgid "_Options"
+msgstr "_Επιλογές"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2285
+msgid "Remove Torrent?"
+msgstr "Διαγραφή Torrent;"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2324
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr ""
+"<big><b>Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο Torrent "
+";</b></big>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2376
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>Το σχετιζόμενο .torrent θα διαγραφεί!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2416
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>Τα ληφθέντα δεδομένα θα διαγραφούν!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2460
+msgid "Remove Selected Torrent"
+msgstr "Αφαίρεση eπιλεγμένου Torrent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2484
+msgid "New Release"
+msgstr "Νέα έκδοση"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2518
+msgid "<b><big>New Release Available!</big></b>"
+msgstr "<b><big>Νέα έκδοση διαθέσιμη!</big></b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2570
+msgid "<i>Available Version:</i>"
+msgstr "<i>Διαθέσιμη έκδοση:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2593
+msgid "<i>Current Version:</i>"
+msgstr "<i>Τρέχουσα έκδοση:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2604
+msgid "<i>Server Version</i>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2637
+msgid "Do not show this dialog in the future"
+msgstr "Να μην εμφανίζεται στο μέλλον αυτό το παράθυρο διαλόγου"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2676
+msgid "_Goto Website"
+msgstr "_Μετάβαση στην ιστοσελίδα"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2704
+msgid "_Add Peer"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2706
+msgid "Add a peer by its IP"
+msgstr "Πρόσθεση ενός υπολογιστή με την IP του"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
@@ -1766,1423 +2724,6 @@ msgstr "Συνέχιση επιλεγμένων Torrent."
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
 msgstr "Συνέ_χιση όλων"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:37
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
-msgid "label"
-msgstr "ετικέτα"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
-msgid "Add Peer"
-msgstr "Προσθήκη υπολογιστή"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
-msgid "<b>Add Peer</b>"
-msgstr "<b>Προσθήκη υπολογιστή</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr "υπολογιστής:θύρα"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:11
-msgid "_Open Folder"
-msgstr "Ά_νοιγμα φακέλου"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:49
-msgid "Resu_me"
-msgstr "Συνέχιση"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:71
-msgid "Opt_ions"
-msgstr "Επ_ιλογές"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:93
-msgid "_Queue"
-msgstr "_Τοποθέτηση στην ουρά"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:113
-msgid "_Update Tracker"
-msgstr "_Ενημέρωση ιχνηλάτη"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2152
-msgid "_Edit Trackers"
-msgstr "_Επεξεργασία ιχνηλατών"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:152
-msgid "_Remove Torrent"
-msgstr "_Αφαίρεση Torrent"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:174
-msgid "_Force Re-check"
-msgstr "_Εξαναγκασμός επανελέγχου"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:191
-msgid "Move _Storage"
-msgstr "Μετακίνηση _αρχείων"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-msgid "_Download Speed Limit"
-msgstr "Όριο ταχύτητας _λήψης"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-msgid "_Upload Speed Limit"
-msgstr "Όριο ταχύτητας _αποστολής"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:242
-msgid "_Connection Limit"
-msgstr "Όριο _συνδέσεων"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:258
-msgid "Upload _Slot Limit"
-msgstr "Όριο _θυρίδων αποστολής"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:273
-msgid "_Auto Managed"
-msgstr "_Αυτόματη διαχείριση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:27
-#: deluge/ui/gtkui/glade/tray_menu.glade:26
-msgid "_Add Torrent"
-msgstr "_Προσθήκη Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:44
-msgid "_Create Torrent"
-msgstr "_Δημιουργία Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:63
-msgid "Quit & _Shutdown Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:98
-msgid "_Edit"
-msgstr "_Επεξεργασία"
-
-#: deluge/ui/gtkui/glade/main_window.glade:114
-msgid "_Connection Manager"
-msgstr "Διαχειριστής _σύνδεσης"
-
-#: deluge/ui/gtkui/glade/main_window.glade:135
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:142
-msgid "_View"
-msgstr "_Προβολή"
-
-#: deluge/ui/gtkui/glade/main_window.glade:150
-msgid "_Toolbar"
-msgstr "_Γραμμή εργαλείων"
-
-#: deluge/ui/gtkui/glade/main_window.glade:160
-msgid "_Sidebar"
-msgstr "_Πλευρική στήλη"
-
-#: deluge/ui/gtkui/glade/main_window.glade:169
-msgid "Status_bar"
-msgstr "_Μπάρα κατάστασης"
-
-#: deluge/ui/gtkui/glade/main_window.glade:183
-msgid "T_abs"
-msgstr "_Καρτέλες"
-
-#: deluge/ui/gtkui/glade/main_window.glade:190
-msgid "_Columns"
-msgstr "_Στήλες"
-
-#: deluge/ui/gtkui/glade/main_window.glade:198
-msgid "S_idebar"
-msgstr "_Πλευρική στήλη"
-
-#: deluge/ui/gtkui/glade/main_window.glade:207
-msgid "Show _Zero Hits"
-msgstr "Εμφάνιση _μηδενικών εγγραφών"
-
-#: deluge/ui/gtkui/glade/main_window.glade:216
-msgid "Show _Trackers"
-msgstr "Εμφάνιση _ιχνηλατών"
-
-#: deluge/ui/gtkui/glade/main_window.glade:233
-msgid "_Help"
-msgstr "_Βοήθεια"
-
-#: deluge/ui/gtkui/glade/main_window.glade:239
-msgid "_Homepage"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:256
-msgid "_FAQ"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:259
-msgid "Frequently Asked Questions"
-msgstr "Συχνές ερωτήσεις"
-
-#: deluge/ui/gtkui/glade/main_window.glade:274
-msgid "_Community"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:321
-msgid "Add torrent"
-msgstr "Προσθήκη Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:322
-msgid "Add Torrent"
-msgstr "Προσθήκη Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:336
-msgid "Remove torrent"
-msgstr "Αφαίρεση torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:337
-msgid "Remove Torrent"
-msgstr "Διαγραφή Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:358
-msgid "Pause the selected torrents"
-msgstr "Παύση των επιλεγμένων Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:359
-msgid "Pause"
-msgstr "Παύση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:374
-msgid "Resume the selected torrents"
-msgstr "Συνέχιση των επιλεγμένων Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:375
-msgid "Resume"
-msgstr "Συνέχιση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:397
-msgid "Queue Torrent Up"
-msgstr "Μετακίνηση του Torrent ψηλότερα στην σειρά αναμονής"
-
-#: deluge/ui/gtkui/glade/main_window.glade:398
-msgid "Queue Up"
-msgstr "Πάνω στην ουρά"
-
-#: deluge/ui/gtkui/glade/main_window.glade:412
-msgid "Queue Torrent Down"
-msgstr "Μετακίνηση του Torrent χαμηλότερα στην σειρά αναμονής"
-
-#: deluge/ui/gtkui/glade/main_window.glade:413
-msgid "Queue Down"
-msgstr "Κάτω στην ουρά"
-
-#: deluge/ui/gtkui/glade/main_window.glade:434
-#: deluge/ui/gtkui/glade/main_window.glade:435
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-msgid "Preferences"
-msgstr "Προτιμήσεις"
-
-#: deluge/ui/gtkui/glade/main_window.glade:449
-#: deluge/ui/gtkui/glade/main_window.glade:450
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Connection Manager"
-msgstr "Διαχειριστής σύνδεσης"
-
-#: deluge/ui/gtkui/glade/main_window.glade:564
-msgid "_Expand All"
-msgstr "Ανάπτυξη όλων"
-
-#: deluge/ui/gtkui/glade/main_window.glade:585
-msgid "_Do Not Download"
-msgstr "_Να μην γίνει λήψη"
-
-#: deluge/ui/gtkui/glade/main_window.glade:601
-msgid "_Normal Priority"
-msgstr "_Κανονική προτεραιότητα"
-
-#: deluge/ui/gtkui/glade/main_window.glade:617
-msgid "_High Priority"
-msgstr "_Υψηλή προτεραιότητα"
-
-#: deluge/ui/gtkui/glade/main_window.glade:633
-msgid "Hi_ghest Priority"
-msgstr "Υψηλότερη προτεραιότητα"
-
-#: deluge/ui/gtkui/glade/main_window.glade:715
-msgid "<b>Auto Managed:</b>"
-msgstr "<b>Αυτόματη διαχείριση:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:756
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>Θέση διαμοιρασμού:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:771
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>Χρόνος διαμοιρασμού:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:797
-msgid "<b>Active Time:</b>"
-msgstr "<b>Ενεργός χρόνος:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:854
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Κατάσταση ιχνηλάτη:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:884
-msgid "<b>Availability:</b>"
-msgstr "<b>Διαθεσιμότητα:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:938
-msgid "<b>Peers:</b>"
-msgstr "<b>Υπολογιστές:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:964
-msgid "<b>Seeders:</b>"
-msgstr "<b>Χρήστες που διανέμουν:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:982
-msgid "<b>Pieces:</b>"
-msgstr "<b>Κομμάτια:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1004
-msgid "<b>ETA:</b>"
-msgstr "<b>Υπολειπόμενος χρόνος:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1026
-#: deluge/ui/gtkui/glade/main_window.glade:1048
-msgid "<b>Speed:</b>"
-msgstr "<b>Ταχύτητα:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1067
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Επόμενη ανακοίνωση:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1086
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Αναλογία διαμοιρασμού:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1105
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Απεσταλμένα:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1124
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Ληφθέντα:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1185
-msgid "<b>Date Added:</b>"
-msgstr "<b>Ημερομηνία προσθήκης:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1243
-msgid "_Status"
-msgstr "_Κατάσταση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1304
-msgid "<b>Comments:</b>"
-msgstr "<b>Σχόλια:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1333
-msgid "<b># of files:</b>"
-msgstr "<b>Αριθμός αρχείων:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1365
-msgid "<b>Hash:</b>"
-msgstr "<b>Κατακερματισμός:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1395
-msgid "<b>Tracker:</b>"
-msgstr "<b>Ιχνηλάτης:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1415
-msgid "<b>Total Size:</b>"
-msgstr "<b>Συνολικό μέγεθος:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1453
-msgid "<b>Name:</b>"
-msgstr "<b>Όνομα:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1473
-msgid "<b>Path:</b>"
-msgstr "<b>Διαδρομή:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1507
-msgid "<b>Status:</b>"
-msgstr "<b>Κατάσταση:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1588
-msgid "_Details"
-msgstr "_Λεπτομέρειες"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1640
-msgid "_Files"
-msgstr "_Αρχεία"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1692
-msgid "_Peers"
-msgstr "_Υπολογιστές"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1792
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
-msgid "Max Connections:"
-msgstr "Μέγιστος αριθμός συνδέσεων:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1805
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
-msgid "Max Upload Speed:"
-msgstr "Μέγιστη ταχύτητα αποστολής:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1818
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
-msgid "Max Download Speed:"
-msgstr "Μέγιστη ταχύτητα λήψης:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1855
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
-msgid "Max Upload Slots:"
-msgstr "Μέγιστος αριθμός θυρίδων αποστολής:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1894
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
-msgid "<b>Bandwidth</b>"
-msgstr "<b>Εύρος ζώνης δικτύου</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1924
-#: deluge/plugins/label/label/data/label_options.glade:336
-msgid "Auto Managed"
-msgstr "Με αυτόματη διαχείριση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1946
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
-#: deluge/plugins/label/label/data/label_options.glade:349
-msgid "Stop seed at ratio:"
-msgstr "Διακοπή διαμοίρασης στην αναλογία:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1987
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
-#: deluge/plugins/label/label/data/label_options.glade:364
-msgid "Remove at ratio"
-msgstr "Αφαίρεση σε αναλογία"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2003
-msgid "Move completed:"
-msgstr "Όταν ολοκληρωθεί να μετακινηθεί στο:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2025
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:161
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:227
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:287
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-msgid "Select A Folder"
-msgstr "Επιλογή φακέλου"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2063
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
-msgid "<b>Queue</b>"
-msgstr "<b>Ουρά</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2099
-msgid "Private"
-msgstr "Ιδιωτικό"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2114
-msgid "Prioritize First/Last"
-msgstr "Προτεραιότητα πρώτων/τελευταίων κομματιών"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2177
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2826
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-msgid "<b>General</b>"
-msgstr "<b>Γενικά</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2259
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
-msgid "_Options"
-msgstr "_Επιλογές"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2279
-msgid "Remove Torrent?"
-msgstr "Διαγραφή Torrent;"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2318
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
-"<big><b>Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο Torrent "
-";</b></big>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2370
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>Το σχετιζόμενο .torrent θα διαγραφεί!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2410
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>Τα ληφθέντα δεδομένα θα διαγραφούν!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2454
-msgid "Remove Selected Torrent"
-msgstr "Αφαίρεση eπιλεγμένου Torrent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2478
-msgid "New Release"
-msgstr "Νέα έκδοση"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2512
-msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>Νέα έκδοση διαθέσιμη!</big></b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2564
-msgid "<i>Available Version:</i>"
-msgstr "<i>Διαθέσιμη έκδοση:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2587
-msgid "<i>Current Version:</i>"
-msgstr "<i>Τρέχουσα έκδοση:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2607
-msgid "Do not show this dialog in the future"
-msgstr "Να μην εμφανίζεται στο μέλλον αυτό το παράθυρο διαλόγου"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2646
-msgid "_Goto Website"
-msgstr "_Μετάβαση στην ιστοσελίδα"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2674
-msgid "_Add Peer"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2676
-msgid "Add a peer by its IP"
-msgstr "Πρόσθεση ενός υπολογιστή με την IP του"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Διαγραφή του επιλεγμένου Torrent;</b></big>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr "Αν διαγράψετε τα δεδομένα, θα χαθούν για πάντα."
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr "Διαγραφή Torrent και _δεδομένων"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr "Διαγραφή _Torrent"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "_Εμφάνιση του Deluge"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "_Συνέχιση όλων"
-
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
-msgid "Quit & Shutdown Daemon"
-msgstr "Έξοδος & τερματισμός δαίμονα"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:77
-msgid "<b><i><big>Downloads</big></i></b>"
-msgstr "<b><i><big>Λήψεις</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:187
-msgid "Auto add .torrents from:"
-msgstr "Αυτόματη προσθήκη .torrent από:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:203
-#: deluge/plugins/label/label/data/label_options.glade:453
-msgid "Move completed to:"
-msgstr "Μετακίνηση ολοκληρωμένων σε:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:252
-msgid "Download to:"
-msgstr "Αποθήκευση σε:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:260
-msgid "Copy of .torrent files to:"
-msgstr "Αντιγραφή των αρχείων .torrent  σε:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:315
-msgid "Delete copy of torrent file on remove"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:319
-msgid ""
-"Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:336
-msgid "<b>Folders</b>"
-msgstr "<b>Φάκελοι</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:369
-msgid "Use Full Allocation"
-msgstr "Χρήση πλήρους ανάθεσης χώρου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:374
-msgid ""
-"Full allocation preallocates all of the space that is needed for the torrent "
-"and prevents disk fragmentation"
-msgstr ""
-"Η πλήρης ανάθεση χώρου στο δίσκο αναθέτει εκ των προτέρων όλο τον απαραίτητο "
-"χώρο στο torrent και αποτρέπει τον κατακερματισμό του  δίσκου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:386
-msgid "Use Compact Allocation"
-msgstr "Χρήση συμπαγούς ανάθεσης χώρου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:391
-msgid "Compact allocation only allocates space as needed"
-msgstr ""
-"Η συμπαγής ανάθεση χώρου στο δίσκου αναθέτει στο torrent μόνο τον απαραίτητο "
-"σε κάθε στιγμή χώρο."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:408
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
-msgid "<b>Allocation</b>"
-msgstr "<b>Ανάθεση χώρου</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:439
-msgid "Prioritize first and last pieces of torrent"
-msgstr "Να δοθεί προτεραιότητα στα πρώτα και τελευταία τμήματα του torrent"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:444
-msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
-"Να δοθεί προτεραιότητα στα πρώτα και τα τελευταία τμήματα αρχείων αυτού του "
-"torrent."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:454
-msgid "Add torrents in Paused state"
-msgstr "Προσθήκη των Torrent σε κατάσταση πάυσης"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:471
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
-msgid "<b>Options</b>"
-msgstr "<b>Επιλογές</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:496
-msgid "page 6"
-msgstr "σελίδα 6"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:528
-msgid "<b><i><big>Network</big></i></b>"
-msgstr "<b><i><big>Δίκτυο</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:568
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:762
-msgid "Use Random Ports"
-msgstr "Χρήση τυχαίων θυρών:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:573
-msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Το Deluge θα επιλέγει αυτόματα διαφορετική θύρα κάθε φορά."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:591
-msgid "Active Port:"
-msgstr "Ενεργή θύρα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:604
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:632
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:782
-#: deluge/plugins/notifications/notifications/data/config.glade:397
-msgid "From:"
-msgstr "Από:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:661
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:811
-msgid "To:"
-msgstr "Έως:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:689
-msgid "Test Active Port"
-msgstr "Έλεγχος ενεργής θύρας"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:731
-msgid "<b>Incoming Ports</b>"
-msgstr "<b>Εισερχόμενες θύρες</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:849
-msgid "<b>Outgoing Ports</b>"
-msgstr "<b>Εξερχόμενες θύρες</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:881
-msgid ""
-"Enter the IP address of the interface to listen for incoming bittorrent "
-"connections on.  Leave this empty if you want to use the default."
-msgstr ""
-"Εισάγετε την διεύθυνση IP της διεπαφής, στην οποία θέλετε να γίνεται ακρόαση "
-"για εισερχόμενες συνδέσεις BitTorrent. Αφήστε το πεδίο κενό αν επιθυμείτε να "
-"χρησιμοποιήσετε την προκαθορισμένη διεπαφή."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:902
-msgid "<b>Interface</b>"
-msgstr "Διεπαφή"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:938
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr ""
-"Το TOS byte που βρίσκεται στην κεφαλίδα IP του κάθε πακέτου στέλνεται στους "
-"διαμοιραστές (συμπεριλαμβανομένων και των διαμοιραστών web).  Αναμένεται μια "
-"δεκαεξαδική τιμή."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
-msgid "Peer TOS Byte:"
-msgstr "Διαμοιραστές TOS Byte:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:952
-msgid "0x00"
-msgstr "0x00"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:972
-msgid "<b>TOS</b>"
-msgstr "<b>TOS</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1005
-msgid "UPnP"
-msgstr "UPnP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1009
-msgid "Universal Plug and Play"
-msgstr "Universal Plug and Play"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1020
-msgid "NAT-PMP"
-msgstr "NAT-PMP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1024
-msgid "NAT Port Mapping Protocol"
-msgstr "NAT Port Mapping Protocol"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1037
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1041
-msgid "Peer Exchange"
-msgstr "Ανταλλαγή μεταξύ υπολογιστών"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1054
-msgid "LSD"
-msgstr "LSD"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1059
-msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
-"Η υπηρεσία αναζήτησης τοπικών υπηρεσιών βρίσκει τοπικούς υπολογιστές στο "
-"δίκτυό σας."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1070
-msgid "DHT"
-msgstr "DHT"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1074
-msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
-"Ο κατανεμημένος πίνακας κατακερματισμού (DHT) πιθανώς να βελτιώσει τον "
-"αριθμό των ενεργών συνδέσεων."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1096
-msgid "<b>Network Extras</b>"
-msgstr "<b>Επιπλέον ρυθμίσεις δικτύου</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1135
-msgid "Inbound:"
-msgstr "Εισερχόμενα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1145
-msgid "Level:"
-msgstr "Επίπεδο:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1166
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1216
-msgid ""
-"Forced\n"
-"Enabled\n"
-"Disabled"
-msgstr ""
-"Εξαναγκασμένο\n"
-"Ενεργοποιημένο\n"
-"Απενεργοποιημένο"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1177
-msgid ""
-"Handshake\n"
-"Full Stream\n"
-"Either"
-msgstr ""
-"Χαιρετισμός\n"
-"Πλήρης Ροή\n"
-"Οποιοδήποτε"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1205
-msgid "Outbound:"
-msgstr "Εξερχόμενα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1232
-msgid "Encrypt entire stream"
-msgstr "Κρυπτογράφηση ολόκληρης της ροής"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1257
-msgid "<b>Encryption</b>"
-msgstr "<b> Κρυπτογράφηση </b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1285
-msgid "page 7"
-msgstr "σελίδα 7"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1318
-msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr "<b><i><big>Εύρος ζώνης</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1395
-msgid "Maximum Connection Attempts per Second:"
-msgstr "Μέγιστος αριθμός προσπαθειών σύνδεσης ανά δευτερόλεπτο:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1407
-msgid "Maximum Half-Open Connections:"
-msgstr "Μέγιστος αριθμός ημι-ανοικτών συνδέσεων:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1418
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1508
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Η μέγιστη ταχύτητα αποστολής για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1420
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1705
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Μέγιστη ταχύτητα αποστολής (KiB/s):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1431
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1456
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος επιτρεπτός αριθμός συνδέσεων. Εισάγετε -1 για απεριόριστο."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1433
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1668
-msgid "Maximum Connections:"
-msgstr "Μέγιστος αριθμός συνδέσεων:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1442
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1527
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός θυρίδων αποστολής για όλα τα Torrent. Εισάγετε -1 για "
-"απεριόριστες."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1444
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1679
-msgid "Maximum Upload Slots:"
-msgstr "Μέγιστος αριθμός θυρίδων αποστολής:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1474
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1489
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Η μέγιστη ταχύτητα λήψης για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1476
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1692
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "Μέγιστη ταχύτητα λήψης (KiB/s):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1553
-msgid "Ignore limits on local network"
-msgstr "Αγνόηση ορίων για το τοπικό δίκτυο"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1572
-msgid "Rate limit IP overhead"
-msgstr "Καθορισμός ορίου επίβαρου IP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1576
-msgid ""
-"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
-"to avoid exceeding the limits with the total traffic"
-msgstr ""
-"Αν επιλεγεί, το εκτιμώμενο επίβαρο TCP/IP δε συμπεριλαμβάνεται στην τιμή του "
-"περιορισμού, για να αποφευχθεί η υπέρβαση του ορίου με τη συνολική κίνηση."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1593
-msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Καθολική χρήση εύρους ζώνης</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1632
-msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Εισάγετε -1 για "
-"απεριόριστες."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1651
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1717
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1735
-msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός συνδέσεων ανά Torrent. Εισάγετε -1 για απεριόριστες."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1757
-msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>Χρήση εύρους ζώνης ανά Torrent</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1784
-msgid "page 8"
-msgstr "σελίδα 8"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1817
-msgid "<i><b><big>Interface</big></b></i>"
-msgstr "<i><b><big>Διεπαφή</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1850
-msgid "Enable"
-msgstr "Ενεργοποίηση"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1855
-msgid ""
-"Classic Mode will hide most of the daemon functionality and will make Deluge "
-"appear to be a single application.  Use this if you do not want to take "
-"advantage of running Deluge as a daemon. You need to restart Deluge for this "
-"setting to take effect."
-msgstr ""
-"Η κλασσική λειτουργία θα κρύψει τις περισσότερες υθμίσεις του δαίμονα και θα "
-"κάνει το Deluge να φαίνεται ότι είναι μια απλή εφαρμογή. Χρησιμοποιήστε το "
-"αν δεν θέλετε να τρέχετε το Deluge σαν δαίμονα. Πρέπει να επανεκκινήσετε το "
-"Deluge για να εφαρμοσθεί αυτή η ρύθμιση."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1865
-msgid "<b>Classic Mode</b>"
-msgstr "<b>Κλασσική λειτουργία</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1898
-msgid "Show session speed in titlebar"
-msgstr "Εμφάνιση της ταχύτητας της συνεδρίας στην γραμμή τίτλου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1916
-msgid "<b>Main Window</b>"
-msgstr "<b>Κύριο παράθυρο</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1949
-msgid "Always show"
-msgstr "Εμφάνιση πάντα"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1967
-msgid "Bring the dialog to focus"
-msgstr "Εστίαση διαλόγου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1987
-msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Διάλογος εισαγωγής  Torrent</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2019
-msgid "Enable system tray icon"
-msgstr "Εικονίδιο στη μπάρα συστήματος"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2037
-msgid "Minimize to tray on close"
-msgstr "Ελαχιστοποίηση στη μπάρα συστήματος κατά την έξοδο"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2057
-msgid "Start in tray"
-msgstr "Εκκίνηση στην μπάρα συστήματος"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
-msgid "Password protect system tray"
-msgstr "Προστασία μεγιστοποίησης από την μπάρα με κωδικό"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2108
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3285
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3469
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3653
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3837
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
-#: deluge/plugins/notifications/notifications/data/config.glade:255
-msgid "Password:"
-msgstr "Κωδικός πρόσβασης:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2144
-msgid "<b>System Tray</b>"
-msgstr "<b>Μπάρα συστήματος</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
-msgid "page 10"
-msgstr "σελίδα 10"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2203
-msgid "<i><b><big>Other</big></b></i>"
-msgstr "<i><b><big>Άλλα</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2244
-msgid "Be alerted about new releases"
-msgstr "Ενημέρωση για νέες εκδόσεις"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2249
-msgid ""
-"Deluge will check our servers and will tell you if a newer version has been "
-"released"
-msgstr ""
-"Το Deluge θα ελέγχει τους εξυπηρετητές μας και θα σας ενημερώνει εάν υπάρχει "
-"νεότερη διαθέσιμη έκδοση"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2268
-msgid "<b>Updates</b>"
-msgstr "<b>Ενημερώσεις</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2305
-msgid ""
-"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
-"and processor types.  Absolutely no other information is sent."
-msgstr ""
-"Βοηθήστε μας να βελτιώσουμε το Deluge στέλνοντας μας την έκδοση Python, την "
-"έκδοση PyGTK, το λειτουργικό σύστημα και τον τύπο επεξεργαστή. Σε καμία "
-"περίπτωση δεν στέλνονται άλλες πληροφορίες."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2322
-msgid "Yes, please send anonymous statistics"
-msgstr "Ναι, παρακαλώ στείλε στατιστικά ανώνυμα"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2344
-msgid "<b>System Information</b>"
-msgstr "<b>Πληροφορίες συστήματος</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2387
-msgid "Location:"
-msgstr "Τοποθεσία:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2399
-msgid ""
-"If Deluge cannot find the database file at this location it will fallback to "
-"using DNS to resolve the peer's country."
-msgstr ""
-"Αν το Deluge δεν μπορεί να βρει το αρχείο της βάσης δεδομένων σε αυτή την "
-"τοποθεσία, θα προσπαθήσει  να εντοπίσει την τοποθεσία (κράτος) του "
-"υπολογιστή μέσω του DNS."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2423
-msgid "<b>GeoIP Database</b>"
-msgstr "<b>Βάση δεδομένων GeoIP</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2468
-msgid "Associate Magnet links with Deluge"
-msgstr "Συσχετισμός των συνδέσμων Magnet με το Deluge"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2504
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2731
-msgid "page 11"
-msgstr "σελίδα 11"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2537
-msgid "<i><b><big>Daemon</big></b></i>"
-msgstr "<i><b><big>Δαίμονας</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2581
-msgid "Daemon port:"
-msgstr "Θύρα δαίμονα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2618
-msgid "<b>Port</b>"
-msgstr "<b>Θύρα</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2647
-msgid "Allow Remote Connections"
-msgstr "Αποδοχή απομακρυσμένων συνδέσεων"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2661
-msgid "<b>Connections</b>"
-msgstr "<b>Συνδέσεις</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2690
-msgid "Periodically check the website for new releases"
-msgstr "Περιοδικός έλεγχος της ιστοσελίδας για νέες εκδόσεις"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2704
-msgid "<b>Other</b>"
-msgstr "<b>Άλλα</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2764
-msgid "<i><b><big>Queue</big></b></i>"
-msgstr "<i><b><big>Ουρά</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2807
-msgid "Queue new torrents to top"
-msgstr "Τοποθέτηση των νέων Torrent στην κορυφή της ουράς"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2902
-msgid "Total active seeding:"
-msgstr "Συνολικός αριθμός ενεργών Torrent που διαμοιράζονται:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2915
-msgid "Total active:"
-msgstr "Συνολικός αριθμός ενεργών Torrent:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2944
-msgid "Total active downloading:"
-msgstr "Συνολικός αριθμός ενεργών Torrent που λαμβάνονται:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2959
-msgid "Do not count slow torrents"
-msgstr "Να μην καταμετρώνται τα αργά Torrent"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2977
-msgid "<b>Active Torrents</b>"
-msgstr "<b>Ενεργά Torrent</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3019
-msgid "Share Ratio Limit:"
-msgstr "Όριο αναλογίας διαμοιρασμού:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3029
-msgid "Seed Time Ratio:"
-msgstr "Όριο χρόνου διαμοιρασμού:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3041
-msgid "Seed Time (m):"
-msgstr "Χρόνος διαμοιρασμού (λεπτά):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3109
-msgid "Stop seeding when share ratio reaches:"
-msgstr "Διακοπή διαμοιρασμού όταν η αναλογία φτάσει:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3154
-msgid "Remove torrent when share ratio reached"
-msgstr "Αφαίρεση του torrent όταν συμπληρωθεί η αναλογία"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3176
-msgid "<b>Seeding</b>"
-msgstr "<b>Διαμοιρασμός</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3208
-msgid "page 12"
-msgstr "σελίδα 12"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3241
-msgid "<i><b><big>Proxy</big></b></i>"
-msgstr "<i><b><big>Διαμεσολαβητής</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3312
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3496
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3680
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3865
-msgid "Host:"
-msgstr "Υπολογιστής:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3337
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3521
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3705
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3891
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
-#: deluge/plugins/notifications/notifications/data/config.glade:199
-msgid "Port:"
-msgstr "Θύρα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3386
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3754
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3941
-msgid ""
-"None\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-msgstr ""
-"Κανένα\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3406
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3590
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3774
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3961
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
-msgid "Type:"
-msgstr "Τύπος:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3418
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3602
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3786
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3973
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
-#: deluge/plugins/notifications/notifications/data/config.glade:231
-msgid "Username:"
-msgstr "Όνομα χρήστη:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3433
-msgid "<b>Peer</b>"
-msgstr "<b>Υπολογιστής</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3617
-msgid "<b>Web Seed</b>"
-msgstr "<b>Διαμοιραστής Web</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3801
-msgid "<b>Tracker</b>"
-msgstr "<b>Ιχνηλάτης</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3989
-msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4046
-msgid "<b><i><big>Cache</big></i></b>"
-msgstr "<b><i><big>Προσωρινή μνήμη</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4091
-msgid "Cache Size (16 KiB blocks):"
-msgstr "Μέγεθος προσωρινής μνήμης (μπλοκ των 16 KiB):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4101
-msgid ""
-"The number of seconds from the last cached write to a piece in the write "
-"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
-msgstr ""
-"Ο αριθμός των δευτερολέπτων που πρέπει να περάσει μετά την τελευταία εγγραφή "
-"στην προσωρινή μνήμη, για να γίνει εγγραφή στο δίσκο. Η προκαθορισμένη τιμή "
-"είναι 60 δευτερόλεπτα."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4103
-msgid "Cache Expiry (seconds):"
-msgstr "Λήξη προσωρινής μνήμης (δευτερόλεπτα):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4152
-#: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
-msgid "<b>Settings</b>"
-msgstr "<b>Ρυθμίσεις</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4199
-msgid ""
-"The total number of 16 KiB blocks written to disk since this session was "
-"started."
-msgstr ""
-"Συνολικά μπλοκ των 16 KiB που γράφτηκαν στον δίσκο από την έναρξη αυτής της "
-"συνεδρίας."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4201
-msgid "Blocks Written:"
-msgstr "Γραμμένα μπλοκ:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4210
-msgid ""
-"The total number of write operations performed since this session was "
-"started."
-msgstr ""
-"Ο συνολικός αριθμός εκτελεσθέντων λειτουργιών εγγραφής από την έναρξη αυτής "
-"της συνεδρίας."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4212
-msgid "Writes:"
-msgstr "Εγγραφές:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4223
-msgid ""
-"The ratio (blocks_written - writes) / blocks_written represents the number "
-"of saved write operations per total write operations, i.e. a kind of cache "
-"hit ratio for the write cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4225
-msgid "Write Cache Hit Ratio:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4277
-msgid "<b>Write</b>"
-msgstr "<b>Εγγραφή</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4307
-msgid ""
-"The number of blocks that were requested from the bittorrent engine (from "
-"peers), that were served from disk or cache."
-msgstr ""
-"Ο αριθμός των μπλοκ που ζητήθηκαν από τη μηχανή bittorrent (από "
-"απομακρυσμένους υπολογιτές), και που εξυπηρετήθηκαν από το δίσκο ή την "
-"λανθάνουσα μνήμη."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4309
-msgid "Blocks Read:"
-msgstr "Αναγνωσμένα μπλοκ:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4318
-msgid "The number of blocks that were served from cache."
-msgstr "Ο αριθμός των μπλοκ που εξυπηρετήθηκαν από την λανθάνιυσα μνήμη."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4320
-msgid "Blocks Read Hit:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4331
-msgid "The cache hit ratio for the read cache."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4333
-msgid "Read Cache Hit Ratio:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4382
-msgid ""
-"The total number of read operations performed since this session was started."
-msgstr ""
-"Ο συνολικός αριθμός λοευτουργιών ανάγνωσης που εκτελέστηκαν μέχρι την "
-"εκκίνηση αυτής της συνεδρίας."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4384
-msgid "Reads:"
-msgstr "Αναγνώσεις:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4411
-msgid "<b>Read</b>"
-msgstr "<b>Ανάγνωση</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4441
-msgid ""
-"The number of 16 KiB blocks currently in the disk cache. This includes both "
-"read and write cache."
-msgstr ""
-"Ο αριθμός των μπλοκ των 16 KiB που βρίσκονται στην προσωρινή μνήμη. "
-"Περιλαμβάνει τη μνήμη εγγραφής και ανάγνωσης."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4443
-msgid "Cache Size:"
-msgstr "Μέγεθος προσωρινής μνήμης:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4453
-msgid "Read Cache Size:"
-msgstr "Μέγεθος προσωρινής μνήμης ανάγνωσης:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4492
-msgid "<b>Size</b>"
-msgstr "<b>Μέγεθος</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4535
-msgid "<b>Status</b>"
-msgstr "<b>Κατάσταση</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4597
-msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>Πρόσθετα</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4722
-msgid "Version:"
-msgstr "Έκδοση:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4746
-msgid "Homepage:"
-msgstr "Ιστοσελίδα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4759
-msgid "Author Email:"
-msgstr "Email συγγραφέα:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4801
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
-msgid "<b>Info</b>"
-msgstr "<b>Πληροφορίες</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4851
-msgid "_Install Plugin"
-msgstr "_Εγκατάσταση πρόσθετου"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4894
-msgid "_Rescan Plugins"
-msgstr "_Επανάληψη σάρωσης πρόσθετων"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4947
-msgid "_Find More Plugins"
-msgstr "_Εύρεση περισσότερων πρόσθετων"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-msgid "Edit Trackers"
-msgstr "Επεξεργασία ιχνηλατών"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:47
-msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Επεξεργασία ιχνηλατών</b></big>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:122
-#: deluge/plugins/autoadd/autoadd/data/config.glade:87
-msgid "gtk-edit"
-msgstr "gtk-επεξεργασία"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
-msgid "Add Tracker"
-msgstr "Προσθήκη ιχνηλάτη"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:260
-msgid "<b>Add Trackers</b>"
-msgstr "<b>Προσθήκη ιχνηλατών</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
-msgid "Trackers:"
-msgstr "Ιχνηλάτες:"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
-msgid "Edit Tracker"
-msgstr "Επεξεργασία ιχνηλάτη"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:416
-msgid "<b>Edit Tracker</b>"
-msgstr "<b>Επεξεργασία ιχνηλάτη</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
-msgid "Tracker:"
-msgstr "Ιχνηλάτης:"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
-msgid "Move Storage"
-msgstr "Μετακίνηση αρχείων"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
-msgid "<b>Move Storage</b>"
-msgstr "<b>Μετακίνηση αρχείων</b>"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
-msgid "Destination:"
-msgstr "Προορισμός:"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
-msgid "Add Host"
-msgstr "Προσθήκη υπολογιστή"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:28
-#: deluge/plugins/notifications/notifications/data/config.glade:175
-msgid "Hostname:"
-msgstr "Όνομα υπολογιστή:"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>Διαχειριστής σύνδεσης</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
-msgid "_Start local daemon"
-msgstr "_Εκκίνηση τοπικού δαίμονα"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
-msgid "Automatically connect to selected host on start-up"
-msgstr "Αυτόματη σύνδεση στην επιλεγμένη θύρα κατά την εκκίνηση"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
-msgid "Automatically start localhost if needed"
-msgstr "Αυτόματη εκκίνηση του τοπικού διακομιστή αν είναι απαραίτητο"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
-msgid "Do not show this dialog on start-up"
-msgstr "Μη εμφάνιση του διαλόγου αυτού κατά την εκκίνηση"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:494
-msgid "gtk-connect"
-msgstr "gtk-σύνδεση"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
 msgid "Add Torrents"
@@ -3208,11 +2749,6 @@ msgstr "<b>Torrent</b>"
 msgid "Fi_les"
 msgstr "Αρ_χεία"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
-msgid "<b>Download Location</b>"
-msgstr "<b>Τοποθεσία αποθήκευσης λήψεων</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "Full"
 msgstr "Πλήρης"
@@ -3220,6 +2756,11 @@ msgstr "Πλήρης"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
 msgid "Compact"
 msgstr "Συμπαγής"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+msgid "<b>Allocation</b>"
+msgstr "<b>Ανάθεση χώρου</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
 msgid "Max Down Speed:"
@@ -3253,12 +2794,6 @@ msgstr "Προσθήκη URL"
 msgid "<b>From URL</b>"
 msgstr "<b>Από URL</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
-msgid "URL:"
-msgstr "URL:"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
 msgid "Add Infohash"
 msgstr "Προσθήκη πληροφορίων κατακερματισμού"
@@ -3270,6 +2805,99 @@ msgstr "<b>Από πληροφορίες κατακερματισμού</b>"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
 msgid "Infohash:"
 msgstr "Πληροφορίες κατακερματισμού:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+msgid "Trackers:"
+msgstr "Ιχνηλάτες:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "Δημιουργία Torrent"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>Δημιουργία Torrent</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "Φάκε_λος"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "Απομακ_ρυσμένη διαδρομή"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>Αρχεία</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+msgid "Author:"
+msgstr "Δημιουργός:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "Σχόλια:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "Πληροφορίες"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "Διαμοιραστές Web"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "Μέγεθος κοματιού:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+msgid "Set Private Flag"
+msgstr "Ορισμός ιδιωτικής σημαίας"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+msgid "Add this torrent to the session"
+msgstr "Πρόσθεση αυτού του Torrent στη συνεδρία"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+msgid "Enter Remote Path"
+msgstr "Εισαγωγή απομακρυσμένης διαδρομής"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+msgid "<b>Remote Path</b>"
+msgstr "<b>Απομακρυσμένη διαδρομή</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+msgid "Path:"
+msgstr "Διαδρομή:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+msgid "Creating Torrent"
+msgstr "Δημιουργία Torrent"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+msgid "Save .torrent as"
+msgstr "Αποθήκευση .torrent ως"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>Αποθήκευση αρχείου .torrent </b>"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -3283,573 +2911,897 @@ msgstr "<big><b>Προσθήκη Torrent στην Ουρά</b></big>"
 msgid "Automatically add torrents on connect"
 msgstr "Αυτόματη προσθήκη Torrent κατά τη σύνδεση"
 
-#: deluge/ui/web/server.py:656
-msgid "Starting server in PID"
-msgstr "Εκκίνηση διακομιστή στο PID"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+msgid "label"
+msgstr "ετικέτα"
 
-#: deluge/ui/web/json_api.py:779
-msgid "Daemon doesn't exist"
-msgstr "Ο δαίμονας δεν υπάρχει"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+msgid "Add Peer"
+msgstr "Προσθήκη υπολογιστή"
 
-#: deluge/ui/web/json_api.py:785
-msgid "Daemon not running"
-msgstr "Ο δαίμονας δεν εκτελείται"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+msgid "<b>Add Peer</b>"
+msgstr "<b>Προσθήκη υπολογιστή</b>"
 
-#: deluge/plugins/notifications/notifications/gtkui.py:178
-msgid "Notification Blink shown"
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr "υπολογιστής:θύρα"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:8
+msgid "Add Host"
+msgstr "Προσθήκη υπολογιστή"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:237
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>Διαχειριστής σύνδεσης</b></big>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:363
+msgid "_Start local daemon"
+msgstr "_Εκκίνηση τοπικού δαίμονα"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:415
+msgid "Automatically connect to selected host on start-up"
+msgstr "Αυτόματη σύνδεση στην επιλεγμένη θύρα κατά την εκκίνηση"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:426
+msgid "Automatically start localhost if needed"
+msgstr "Αυτόματη εκκίνηση του τοπικού διακομιστή αν είναι απαραίτητο"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:440
+msgid "Do not show this dialog on start-up"
+msgstr "Μη εμφάνιση του διαλόγου αυτού κατά την εκκίνηση"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:78
+msgid "<b><i><big>Downloads</big></i></b>"
+msgstr "<b><i><big>Λήψεις</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:188
+msgid "Auto add .torrents from:"
+msgstr "Αυτόματη προσθήκη .torrent από:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:253
+msgid "Download to:"
+msgstr "Αποθήκευση σε:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:261
+msgid "Copy of .torrent files to:"
+msgstr "Αντιγραφή των αρχείων .torrent  σε:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+msgid "Delete copy of torrent file on remove"
 msgstr ""
 
-#: deluge/plugins/notifications/notifications/gtkui.py:183
-msgid "Popup notification is not enabled."
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:185
-msgid "pynotify is not installed"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:193
-msgid "pynotify failed to show notification"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:196
-msgid "Notification popup shown"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:200
-msgid "Sound notification not enabled"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:202
-msgid "pygame is not installed"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:214
-#, python-format
-msgid "Sound notification failed %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:218
-msgid "Sound notification Success"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:241
-msgid "Finished Torrent"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/gtkui.py:242
-#, python-format
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:320
 msgid ""
-"The torrent \"%(name)s\" including %(num_files)i has finished downloading."
+"Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
 
-#: deluge/plugins/notifications/notifications/gtkui.py:644
-msgid "Choose Sound File"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+msgid "<b>Folders</b>"
+msgstr "<b>Φάκελοι</b>"
 
-#: deluge/plugins/notifications/notifications/core.py:138
-#: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
-msgid "There was an error sending the notification email: %s"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:370
+msgid "Use Full Allocation"
+msgstr "Χρήση πλήρους ανάθεσης χώρου"
 
-#: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
-msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
-msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:186
-msgid "Notification email sent."
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
-msgid "Finished Torrent \"%(name)s\""
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:375
 msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge."
+"Full allocation preallocates all of the space that is needed for the torrent "
+"and prevents disk fragmentation"
 msgstr ""
+"Η πλήρης ανάθεση χώρου στο δίσκο αναθέτει εκ των προτέρων όλο τον απαραίτητο "
+"χώρο στο torrent και αποτρέπει τον κατακερματισμό του  δίσκου"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:29
-msgid "<b><i><big>Notifications</big></i></b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:387
+msgid "Use Compact Allocation"
+msgstr "Χρήση συμπαγούς ανάθεσης χώρου"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:392
+msgid "Compact allocation only allocates space as needed"
 msgstr ""
+"Η συμπαγής ανάθεση χώρου στο δίσκου αναθέτει στο torrent μόνο τον απαραίτητο "
+"σε κάθε στιγμή χώρο."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:81
-msgid "Tray icon blinks enabled"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:440
+msgid "Prioritize first and last pieces of torrent"
+msgstr "Να δοθεί προτεραιότητα στα πρώτα και τελευταία τμήματα του torrent"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:445
+msgid "Prioritize first and last pieces of files in torrent"
 msgstr ""
+"Να δοθεί προτεραιότητα στα πρώτα και τα τελευταία τμήματα αρχείων αυτού του "
+"torrent."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:93
-msgid "Popups enabled"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+msgid "Add torrents in Paused state"
+msgstr "Προσθήκη των Torrent σε κατάσταση πάυσης"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:108
-msgid "Sound enabled"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:529
+msgid "<b><i><big>Network</big></i></b>"
+msgstr "<b><i><big>Δίκτυο</big></i></b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:144
-msgid "<b>UI Notifications</b>"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:569
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:763
+msgid "Use Random Ports"
+msgstr "Χρήση τυχαίων θυρών:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:359
-msgid "<b>Recipients</b>"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:574
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "Το Deluge θα επιλέγει αυτόματα διαφορετική θύρα κάθε φορά."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:382
-msgid "Server requires TLS/SSL"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+msgid "Active Port:"
+msgstr "Ενεργή θύρα:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:442
-msgid "<b>Email Notifications</b>"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:662
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:812
+msgid "To:"
+msgstr "Έως:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:459
-msgid "Settings"
-msgstr "Ρυθμίσεις"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+msgid "Test Active Port"
+msgstr "Έλεγχος ενεργής θύρας"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:494
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:732
+msgid "<b>Incoming Ports</b>"
+msgstr "<b>Εισερχόμενες θύρες</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:850
+msgid "<b>Outgoing Ports</b>"
+msgstr "<b>Εξερχόμενες θύρες</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:882
 msgid ""
-"This configuration does not mean that you'll actually receive notifications "
-"for all these events."
+"Enter the IP address of the interface to listen for incoming bittorrent "
+"connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Εισάγετε την διεύθυνση IP της διεπαφής, στην οποία θέλετε να γίνεται ακρόαση "
+"για εισερχόμενες συνδέσεις BitTorrent. Αφήστε το πεδίο κενό αν επιθυμείτε να "
+"χρησιμοποιήσετε την προκαθορισμένη διεπαφή."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:512
-msgid "Subscriptions"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:903
+msgid "<b>Interface</b>"
+msgstr "Διεπαφή"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:593
-msgid "Sound Customization"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/gtkui.py:138
-msgid "Low Free Space"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/core.py:179
-msgid "Low Disk Space Warning"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/core.py:180
-msgid "You're running low on disk space:\n"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/core.py:183
-#, python-format
-msgid "  %s%% ocupation in %s\n"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:27
-msgid "Consider low when"
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:65
-msgid "of the disk is occupied."
-msgstr ""
-
-#: deluge/plugins/freespace/build/lib/freespace/data/config.glade:85
-msgid "<b>Free Space Checking</b>"
-msgstr ""
-
-#: deluge/plugins/webui/webui/gtkui.py:97
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid ""
-"The Deluge web interface is not installed, please install the\n"
-"interface and try again"
+"The TOS byte set in the IP header of every packet sent to peers (including "
+"web seeds).  Expects a Hex value."
 msgstr ""
+"Το TOS byte που βρίσκεται στην κεφαλίδα IP του κάθε πακέτου στέλνεται στους "
+"διαμοιραστές (συμπεριλαμβανομένων και των διαμοιραστών web).  Αναμένεται μια "
+"δεκαεξαδική τιμή."
 
-#: deluge/plugins/webui/webui/data/config.glade:27
-msgid "Enable web interface"
-msgstr "Ενεργοποίηση διεπαφής δικτύου"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+msgid "Peer TOS Byte:"
+msgstr "Διαμοιραστές TOS Byte:"
 
-#: deluge/plugins/webui/webui/data/config.glade:41
-msgid "Enable SSL"
-msgstr "Ενεργοποίηση SSL"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:973
+msgid "<b>TOS</b>"
+msgstr "<b>TOS</b>"
 
-#: deluge/plugins/webui/webui/data/config.glade:60
-msgid "Listening port:"
-msgstr "Θύρα ακρόασης:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1006
+msgid "UPnP"
+msgstr "UPnP"
 
-#: deluge/plugins/autoadd/autoadd/core.py:136
-msgid "Watch folder does not exist."
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1010
+msgid "Universal Plug and Play"
+msgstr "Universal Plug and Play"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1021
+msgid "NAT-PMP"
+msgstr "NAT-PMP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1025
+msgid "NAT Port Mapping Protocol"
+msgstr "NAT Port Mapping Protocol"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
+msgid "Peer Exchange"
+msgstr "Ανταλλαγή μεταξύ υπολογιστών"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
+msgid "LSD"
+msgstr "LSD"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
+msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
+"Η υπηρεσία αναζήτησης τοπικών υπηρεσιών βρίσκει τοπικούς υπολογιστές στο "
+"δίκτυό σας."
 
-#: deluge/plugins/autoadd/autoadd/core.py:139
-#: deluge/plugins/autoadd/autoadd/core.py:308
-msgid "Path does not exist."
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
+#: deluge/ui/console/statusbars.py:104
+msgid "DHT"
+msgstr "DHT"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
+msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
+"Ο κατανεμημένος πίνακας κατακερματισμού (DHT) πιθανώς να βελτιώσει τον "
+"αριθμό των ενεργών συνδέσεων."
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
-msgid "AutoAdd Error"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
+msgid "<b>Network Extras</b>"
+msgstr "<b>Επιπλέον ρυθμίσεις δικτύου</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
-msgid "Watch Folder Properties"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
+msgid "Inbound:"
+msgstr "Εισερχόμενα:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
-msgid "Enable this watch folder"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1146
+msgid "Level:"
+msgstr "Επίπεδο:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
-msgid "<b>Watch Folder</b>"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
-msgid "Delete .torrent after adding"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
-msgid "Append extension after adding:"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
-msgid ".added"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
-msgid "<b>Torrent File Action</b>"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
-msgid "Set download location"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
-msgid "Set move completed location"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
-msgid "<b>Move Completed</b>"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
-msgid "Label: "
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
-msgid "<b>Label</b>"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
-msgid "Main"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
-msgid "Auto Managed:"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:836
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:904
-msgid "Yes"
-msgstr "Ναι"
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:849
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:917
-msgid "No"
-msgstr "Όχι"
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
-msgid "Add Paused:"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
-msgid "Queue to:"
-msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
-msgid "Top"
-msgstr "Κορυφή"
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
-msgid "Bottom"
-msgstr "Κάτω"
-
-#: deluge/plugins/autoadd/autoadd/data/config.glade:41
-msgid "<b>Watch Folders:</b>"
-msgstr ""
-
-#: deluge/plugins/label/label/core.py:186
-msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Μη έγκυρη ετικέτα, έγκυροι χαρακτήρες: [a-z0-9_-]"
-
-#: deluge/plugins/label/label/core.py:187
-msgid "Empty Label"
-msgstr "Κενή ετικέτα"
-
-#: deluge/plugins/label/label/core.py:188
-msgid "Label already exists"
-msgstr "Η ετικέτα υπάρχει ήδη"
-
-#: deluge/plugins/label/label/core.py:196
-#: deluge/plugins/label/label/core.py:276
-#: deluge/plugins/label/label/core.py:311
-msgid "Unknown Label"
-msgstr "Άγνωστη ετικέτα"
-
-#: deluge/plugins/label/label/core.py:312
-msgid "Unknown Torrent"
-msgstr "Άγνωστο torrent"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
-msgid "Label _Options"
-msgstr "Επιλογές _ετικέτας"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
-msgid "_Remove Label"
-msgstr "_Αφαίρεση ετικέτας"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
-msgid "_Add Label"
-msgstr "_Προσθήκη ετικέτας"
-
-#: deluge/plugins/label/label/gtkui/submenu.py:48
-#: deluge/plugins/label/label/gtkui/__init__.py:77
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
-msgid "Label"
-msgstr "Ετικέτα"
-
-#: deluge/plugins/label/label/data/label_options.glade:7
-msgid "Label Options"
-msgstr "Επιλογές ετικέτας"
-
-#: deluge/plugins/label/label/data/label_options.glade:36
-msgid "<b>Label Options</b>"
-msgstr "<b>Επιλογές ετικέτας</b>"
-
-#: deluge/plugins/label/label/data/label_options.glade:158
-msgid "Upload Slots:\t"
-msgstr "Θυρίδες αποστολής:\t"
-
-#: deluge/plugins/label/label/data/label_options.glade:171
-msgid "Upload Speed:"
-msgstr "Ταχύτητα αποστολής:"
-
-#: deluge/plugins/label/label/data/label_options.glade:184
-msgid "Download Speed:"
-msgstr "Ταχύτητα λήψης:"
-
-#: deluge/plugins/label/label/data/label_options.glade:226
-msgid "Connections:"
-msgstr "Συνδέσεις:"
-
-#: deluge/plugins/label/label/data/label_options.glade:270
-msgid "Apply per torrent max settings:"
-msgstr "Εφαρμογή μέγιστων ρυθμίσεων ανά torrent:"
-
-#: deluge/plugins/label/label/data/label_options.glade:283
-msgid "Maximum"
-msgstr "Μέγιστο"
-
-#: deluge/plugins/label/label/data/label_options.glade:410
-msgid "Apply Queue settings:"
-msgstr "Εφαρμογή ρυθμίσεων αναμονής:"
-
-#: deluge/plugins/label/label/data/label_options.glade:504
-msgid "Apply location settings:"
-msgstr "Εφαρμογή τοπικών ρυθμίσεων:"
-
-#: deluge/plugins/label/label/data/label_options.glade:520
-msgid "Location"
-msgstr "Τοποθεσία"
-
-#: deluge/plugins/label/label/data/label_options.glade:552
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
 msgid ""
-"tracker1.org\n"
-"tracker2.com\n"
-"this doesn't do anything yet..\n"
+"Forced\n"
+"Enabled\n"
+"Disabled"
 msgstr ""
-"tracker1.org\n"
-"tracker2.com\n"
-"Αυτό δεν κάνει ακόμα τίποτα...\n"
+"Εξαναγκασμένο\n"
+"Ενεργοποιημένο\n"
+"Απενεργοποιημένο"
 
-#: deluge/plugins/label/label/data/label_options.glade:563
-msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(1 σειρά ανά ιχνηλάτη)</i>"
-
-#: deluge/plugins/label/label/data/label_options.glade:579
-msgid "Automatically apply label:"
-msgstr "Αυτόματος ορισμός ετικέτας:"
-
-#: deluge/plugins/label/label/data/label_options.glade:649
-msgid "Add Label"
-msgstr "Προσθήκη ετικέτας"
-
-#: deluge/plugins/label/label/data/label_options.glade:683
-msgid "<b>Add Label</b>"
-msgstr "<b>Προσθήκη ετικέτας</b>"
-
-#: deluge/plugins/label/label/data/label_options.glade:714
-msgid "Name:"
-msgstr "Όνομα:"
-
-#: deluge/plugins/label/label/data/label_pref.glade:22
-msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
-"<i>Χρησιμοποιήστε την πλευρική μπάρα για να προσθέσετε, επεξεργαστείτε και "
-"να αφαιρέσετε ετικέτες. <i>\n"
-
-#: deluge/plugins/label/label/data/label_pref.glade:32
-msgid "<b>Labels</b>"
-msgstr "<b>Ετικέτες</b>"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:67
-#: deluge/plugins/blocklist/blocklist/gtkui.py:155
-#: deluge/plugins/blocklist/blocklist/gtkui.py:186
-msgid "Blocklist"
-msgstr "Λίστα αποκλεισμένων"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "Μη έγκυρος ηγέτης"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "Μη έγκυρος μαγικός κωδικός"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "Μη έγκυρη έκδοση"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:49
-msgid "Emule IP list (GZip)"
-msgstr "Λίστα IP του Emule (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:50
-msgid "SafePeer Text (Zipped)"
-msgstr "Κείμενο SafePeer (συμπιεσμένο)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:51
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "Κείμενο PeerGuardian (ασυμπίεστο)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:52
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
-msgid "Days"
-msgstr "Ημέρες"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
-msgid "Check for new list every:"
-msgstr "Έλεγχος για νέα λίστα κάθε:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
-msgid "Import blocklist on startup"
-msgstr "Εισαγωγή λίστας αποκλεισμένων κατά την εκκίνηση"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
-msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
-"Λήψη του αρχείου με τη λίστα αποκλεισμένων αν είναι απαραίτητο και εισαγωγή "
-"του αρχείου."
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
-msgid "Check Download and Import"
-msgstr "Έλεγχος λήψης και εισαγωγής"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
-msgid "Download a new blocklist file and import it."
-msgstr "Λήψη και εισαγωγή νέου αρχείου με τη λίστα αποκλεισμένων."
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
-msgid "Force Download and Import"
-msgstr "Εξαναγκασμός λήψης και εισαγωγής"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
-msgid "Blocklist is up to date"
-msgstr "Η λίστα αποκλεισμένων είναι ενημερωμένη"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
-msgid "Date:"
-msgstr "Ημερομηνία:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
-msgid "File Size:"
-msgstr "Μέγεθος αρχείου:"
-
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
-msgid "Extract to:"
-msgstr "Αποσυμπίεση σε:"
-
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
-msgid "Create torrent name sub-folder"
-msgstr "Δημιουργία υποφακέλου ονόματος του torrent"
-
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
 msgid ""
-"This option will create a sub-folder using the torrent's name within the "
-"selected extract folder and put the extracted files there."
+"Handshake\n"
+"Full Stream\n"
+"Either"
 msgstr ""
-"Η επιλογή αυτή θα δημιουργήσει έναν υποφάκελο με το όνομα του Torrent μέσα "
-"από τον επιλεγμένο φάκελο εξαγωγής και θα τοποθετήσει εκεί τα αρχεία που θα "
-"εξαχθούν."
+"Χαιρετισμός\n"
+"Πλήρης Ροή\n"
+"Οποιοδήποτε"
 
-#: deluge/plugins/execute/execute/gtkui.py:51
-msgid "Torrent Complete"
-msgstr "Το torrent oλοκληρώθηκε"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
+msgid "Outbound:"
+msgstr "Εξερχόμενα:"
 
-#: deluge/plugins/execute/execute/gtkui.py:52
-msgid "Torrent Added"
-msgstr "Το torrent προστέθηκε"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+msgid "Encrypt entire stream"
+msgstr "Κρυπτογράφηση ολόκληρης της ροής"
 
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
-msgid "Execute"
-msgstr "Εκτέλεση"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
+msgid "<b>Encryption</b>"
+msgstr "<b> Κρυπτογράφηση </b>"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
-msgid "Event"
-msgstr "Συμβάν"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
+msgid "<b><i><big>Bandwidth</big></i></b>"
+msgstr "<b><i><big>Εύρος ζώνης</big></i></b>"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
-msgid "Command"
-msgstr "Εντολή"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+msgid "Maximum Connection Attempts per Second:"
+msgstr "Μέγιστος αριθμός προσπαθειών σύνδεσης ανά δευτερόλεπτο:"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
-msgid "<b>Add Command</b>"
-msgstr "<b>Προσθήκη εντολής</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+msgid "Maximum Half-Open Connections:"
+msgstr "Μέγιστος αριθμός ημι-ανοικτών συνδέσεων:"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
-msgid "<b>Commands</b>"
-msgstr "<b>Εντολές</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Η μέγιστη ταχύτητα αποστολής για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:238
-msgid "Download Limit:"
-msgstr "Μέγιστη ταχύτητα λήψης:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "Μέγιστη ταχύτητα αποστολής (KiB/s):"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:247
-msgid "Upload Limit:"
-msgstr "Μέγιστη ταχύτητα αποστολής:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος επιτρεπτός αριθμός συνδέσεων. Εισάγετε -1 για απεριόριστο."
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:256
-msgid "Active Torrents:"
-msgstr "Ενεργά torrent:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+msgid "Maximum Connections:"
+msgstr "Μέγιστος αριθμός συνδέσεων:"
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:265
-msgid "Active Downloading:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος αριθμός θυρίδων αποστολής για όλα τα Torrent. Εισάγετε -1 για "
+"απεριόριστες."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+msgid "Maximum Upload Slots:"
+msgstr "Μέγιστος αριθμός θυρίδων αποστολής:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Η μέγιστη ταχύτητα λήψης για όλα τα Torrent. Εισάγετε -1 για απεριόριστη."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "Μέγιστη ταχύτητα λήψης (KiB/s):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+msgid "Ignore limits on local network"
+msgstr "Αγνόηση ορίων για το τοπικό δίκτυο"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+msgid "Rate limit IP overhead"
+msgstr "Καθορισμός ορίου επίβαρου IP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
+msgid ""
+"If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
+"to avoid exceeding the limits with the total traffic"
+msgstr ""
+"Αν επιλεγεί, το εκτιμώμενο επίβαρο TCP/IP δε συμπεριλαμβάνεται στην τιμή του "
+"περιορισμού, για να αποφευχθεί η υπέρβαση του ορίου με τη συνολική κίνηση."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+msgid "<b>Global Bandwidth Usage</b>"
+msgstr "<b>Καθολική χρήση εύρους ζώνης</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
+msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Εισάγετε -1 για "
+"απεριόριστες."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
+msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος αριθμός συνδέσεων ανά Torrent. Εισάγετε -1 για απεριόριστες."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
+msgid "<b>Per Torrent Bandwidth Usage</b>"
+msgstr "<b>Χρήση εύρους ζώνης ανά Torrent</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+msgid "<i><b><big>Interface</big></b></i>"
+msgstr "<i><b><big>Διεπαφή</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
+msgid "Enable"
+msgstr "Ενεργοποίηση"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
+msgid ""
+"Classic Mode will hide most of the daemon functionality and will make Deluge "
+"appear to be a single application.  Use this if you do not want to take "
+"advantage of running Deluge as a daemon. You need to restart Deluge for this "
+"setting to take effect."
+msgstr ""
+"Η κλασσική λειτουργία θα κρύψει τις περισσότερες υθμίσεις του δαίμονα και θα "
+"κάνει το Deluge να φαίνεται ότι είναι μια απλή εφαρμογή. Χρησιμοποιήστε το "
+"αν δεν θέλετε να τρέχετε το Deluge σαν δαίμονα. Πρέπει να επανεκκινήσετε το "
+"Deluge για να εφαρμοσθεί αυτή η ρύθμιση."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
+msgid "<b>Classic Mode</b>"
+msgstr "<b>Κλασσική λειτουργία</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
+msgid "Show session speed in titlebar"
+msgstr "Εμφάνιση της ταχύτητας της συνεδρίας στην γραμμή τίτλου"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
+msgid "<b>Main Window</b>"
+msgstr "<b>Κύριο παράθυρο</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
+msgid "Always show"
+msgstr "Εμφάνιση πάντα"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+msgid "Bring the dialog to focus"
+msgstr "Εστίαση διαλόγου"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+msgid "<b>Add Torrents Dialog</b>"
+msgstr "<b>Διάλογος εισαγωγής  Torrent</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
+msgid "Enable system tray icon"
+msgstr "Εικονίδιο στη μπάρα συστήματος"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
+msgid "Minimize to tray on close"
+msgstr "Ελαχιστοποίηση στη μπάρα συστήματος κατά την έξοδο"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+msgid "Start in tray"
+msgstr "Εκκίνηση στην μπάρα συστήματος"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+msgid "Enable Application Indicator"
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:274
-msgid "Active Seeding:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
+msgid "Password protect system tray"
+msgstr "Προστασία μεγιστοποίησης από την μπάρα με κωδικό"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
+msgid "<b>System Tray</b>"
+msgstr "<b>Μπάρα συστήματος</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2224
+msgid "<i><b><big>Other</big></b></i>"
+msgstr "<i><b><big>Άλλα</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+msgid "Be alerted about new releases"
+msgstr "Ενημέρωση για νέες εκδόσεις"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
+msgid ""
+"Deluge will check our servers and will tell you if a newer version has been "
+"released"
+msgstr ""
+"Το Deluge θα ελέγχει τους εξυπηρετητές μας και θα σας ενημερώνει εάν υπάρχει "
+"νεότερη διαθέσιμη έκδοση"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
+msgid "<b>Updates</b>"
+msgstr "<b>Ενημερώσεις</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
+msgid ""
+"Help us improve Deluge by sending us your Python version, PyGTK version, OS "
+"and processor types.  Absolutely no other information is sent."
+msgstr ""
+"Βοηθήστε μας να βελτιώσουμε το Deluge στέλνοντας μας την έκδοση Python, την "
+"έκδοση PyGTK, το λειτουργικό σύστημα και τον τύπο επεξεργαστή. Σε καμία "
+"περίπτωση δεν στέλνονται άλλες πληροφορίες."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+msgid "Yes, please send anonymous statistics"
+msgstr "Ναι, παρακαλώ στείλε στατιστικά ανώνυμα"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+msgid "<b>System Information</b>"
+msgstr "<b>Πληροφορίες συστήματος</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+msgid "Location:"
+msgstr "Τοποθεσία:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
+msgid ""
+"If Deluge cannot find the database file at this location it will fallback to "
+"using DNS to resolve the peer's country."
+msgstr ""
+"Αν το Deluge δεν μπορεί να βρει το αρχείο της βάσης δεδομένων σε αυτή την "
+"τοποθεσία, θα προσπαθήσει  να εντοπίσει την τοποθεσία (κράτος) του "
+"υπολογιστή μέσω του DNS."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+msgid "<b>GeoIP Database</b>"
+msgstr "<b>Βάση δεδομένων GeoIP</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+msgid "Associate Magnet links with Deluge"
+msgstr "Συσχετισμός των συνδέσμων Magnet με το Deluge"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
+msgid "<i><b><big>Daemon</big></b></i>"
+msgstr "<i><b><big>Δαίμονας</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+msgid "Daemon port:"
+msgstr "Θύρα δαίμονα:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+msgid "<b>Port</b>"
+msgstr "<b>Θύρα</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+msgid "Allow Remote Connections"
+msgstr "Αποδοχή απομακρυσμένων συνδέσεων"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
+msgid "<b>Connections</b>"
+msgstr "<b>Συνδέσεις</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+msgid "Periodically check the website for new releases"
+msgstr "Περιοδικός έλεγχος της ιστοσελίδας για νέες εκδόσεις"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
+msgid "<b>Other</b>"
+msgstr "<b>Άλλα</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
+msgid "<i><b><big>Queue</big></b></i>"
+msgstr "<i><b><big>Ουρά</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
+msgid "Queue new torrents to top"
+msgstr "Τοποθέτηση των νέων Torrent στην κορυφή της ουράς"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+msgid "Total active seeding:"
+msgstr "Συνολικός αριθμός ενεργών Torrent που διαμοιράζονται:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+msgid "Total active:"
+msgstr "Συνολικός αριθμός ενεργών Torrent:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+msgid "Total active downloading:"
+msgstr "Συνολικός αριθμός ενεργών Torrent που λαμβάνονται:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+msgid "Do not count slow torrents"
+msgstr "Να μην καταμετρώνται τα αργά Torrent"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
+msgid "<b>Active Torrents</b>"
+msgstr "<b>Ενεργά Torrent</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+msgid "Share Ratio Limit:"
+msgstr "Όριο αναλογίας διαμοιρασμού:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+msgid "Seed Time Ratio:"
+msgstr "Όριο χρόνου διαμοιρασμού:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+msgid "Seed Time (m):"
+msgstr "Χρόνος διαμοιρασμού (λεπτά):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+msgid "Stop seeding when share ratio reaches:"
+msgstr "Διακοπή διαμοιρασμού όταν η αναλογία φτάσει:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+msgid "Remove torrent when share ratio reached"
+msgstr "Αφαίρεση του torrent όταν συμπληρωθεί η αναλογία"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
+msgid "<b>Seeding</b>"
+msgstr "<b>Διαμοιρασμός</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3262
+msgid "<i><b><big>Proxy</big></b></i>"
+msgstr "<i><b><big>Διαμεσολαβητής</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3333
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3517
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3886
+msgid "Host:"
+msgstr "Υπολογιστής:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3407
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3775
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3962
+msgid ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+msgstr ""
+"Κανένα\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+msgid "<b>Peer</b>"
+msgstr "<b>Υπολογιστής</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3638
+msgid "<b>Web Seed</b>"
+msgstr "<b>Διαμοιραστής Web</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+msgid "<b>Tracker</b>"
+msgstr "<b>Ιχνηλάτης</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
+msgid "<b>DHT</b>"
+msgstr "<b>DHT</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+msgid "<b><i><big>Cache</big></i></b>"
+msgstr "<b><i><big>Προσωρινή μνήμη</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+msgid "Cache Size (16 KiB blocks):"
+msgstr "Μέγεθος προσωρινής μνήμης (μπλοκ των 16 KiB):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
+msgid ""
+"The number of seconds from the last cached write to a piece in the write "
+"cache, to when it's forcefully flushed to disk. Default is 60 seconds."
+msgstr ""
+"Ο αριθμός των δευτερολέπτων που πρέπει να περάσει μετά την τελευταία εγγραφή "
+"στην προσωρινή μνήμη, για να γίνει εγγραφή στο δίσκο. Η προκαθορισμένη τιμή "
+"είναι 60 δευτερόλεπτα."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+msgid "Cache Expiry (seconds):"
+msgstr "Λήξη προσωρινής μνήμης (δευτερόλεπτα):"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+msgid ""
+"The total number of 16 KiB blocks written to disk since this session was "
+"started."
+msgstr ""
+"Συνολικά μπλοκ των 16 KiB που γράφτηκαν στον δίσκο από την έναρξη αυτής της "
+"συνεδρίας."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+msgid "Blocks Written:"
+msgstr "Γραμμένα μπλοκ:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+msgid ""
+"The total number of write operations performed since this session was "
+"started."
+msgstr ""
+"Ο συνολικός αριθμός εκτελεσθέντων λειτουργιών εγγραφής από την έναρξη αυτής "
+"της συνεδρίας."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+msgid "Writes:"
+msgstr "Εγγραφές:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+msgid ""
+"The ratio (blocks_written - writes) / blocks_written represents the number "
+"of saved write operations per total write operations, i.e. a kind of cache "
+"hit ratio for the write cache."
 msgstr ""
 
-#: deluge/plugins/scheduler/scheduler/gtkui.py:288
-msgid "<b>Slow Settings</b>"
-msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτητας</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+msgid "Write Cache Hit Ratio:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
+msgid "<b>Write</b>"
+msgstr "<b>Εγγραφή</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+msgid ""
+"The number of blocks that were requested from the bittorrent engine (from "
+"peers), that were served from disk or cache."
+msgstr ""
+"Ο αριθμός των μπλοκ που ζητήθηκαν από τη μηχανή bittorrent (από "
+"απομακρυσμένους υπολογιτές), και που εξυπηρετήθηκαν από το δίσκο ή την "
+"λανθάνουσα μνήμη."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+msgid "Blocks Read:"
+msgstr "Αναγνωσμένα μπλοκ:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
+msgid "The number of blocks that were served from cache."
+msgstr "Ο αριθμός των μπλοκ που εξυπηρετήθηκαν από την λανθάνιυσα μνήμη."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+msgid "Blocks Read Hit:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+msgid "The cache hit ratio for the read cache."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+msgid "Read Cache Hit Ratio:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+msgid ""
+"The total number of read operations performed since this session was started."
+msgstr ""
+"Ο συνολικός αριθμός λοευτουργιών ανάγνωσης που εκτελέστηκαν μέχρι την "
+"εκκίνηση αυτής της συνεδρίας."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+msgid "Reads:"
+msgstr "Αναγνώσεις:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+msgid "<b>Read</b>"
+msgstr "<b>Ανάγνωση</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
+msgid ""
+"The number of 16 KiB blocks currently in the disk cache. This includes both "
+"read and write cache."
+msgstr ""
+"Ο αριθμός των μπλοκ των 16 KiB που βρίσκονται στην προσωρινή μνήμη. "
+"Περιλαμβάνει τη μνήμη εγγραφής και ανάγνωσης."
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+msgid "Cache Size:"
+msgstr "Μέγεθος προσωρινής μνήμης:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+msgid "Read Cache Size:"
+msgstr "Μέγεθος προσωρινής μνήμης ανάγνωσης:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
+msgid "<b>Size</b>"
+msgstr "<b>Μέγεθος</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4556
+msgid "<b>Status</b>"
+msgstr "<b>Κατάσταση</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
+msgid "<i><b><big>Plugins</big></b></i>"
+msgstr "<i><b><big>Πρόσθετα</big></b></i>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+msgid "Version:"
+msgstr "Έκδοση:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+msgid "Homepage:"
+msgstr "Ιστοσελίδα:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+msgid "Author Email:"
+msgstr "Email συγγραφέα:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
+msgid "_Install Plugin"
+msgstr "_Εγκατάσταση πρόσθετου"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
+msgid "_Rescan Plugins"
+msgstr "_Επανάληψη σάρωσης πρόσθετων"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
+msgid "_Find More Plugins"
+msgstr "_Εύρεση περισσότερων πρόσθετων"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "_Εμφάνιση του Deluge"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "_Συνέχιση όλων"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+msgid "_Download Speed Limit"
+msgstr "Όριο ταχύτητας _λήψης"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+msgid "_Upload Speed Limit"
+msgstr "Όριο ταχύτητας _αποστολής"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:124
+msgid "Quit & Shutdown Daemon"
+msgstr "Έξοδος & τερματισμός δαίμονα"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:11
+msgid "_Open Folder"
+msgstr "Ά_νοιγμα φακέλου"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:49
+msgid "Resu_me"
+msgstr "Συνέχιση"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:71
+msgid "Opt_ions"
+msgstr "Επ_ιλογές"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:93
+msgid "_Queue"
+msgstr "_Τοποθέτηση στην ουρά"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:113
+msgid "_Update Tracker"
+msgstr "_Ενημέρωση ιχνηλάτη"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:152
+msgid "_Remove Torrent"
+msgstr "_Αφαίρεση Torrent"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:174
+msgid "_Force Re-check"
+msgstr "_Εξαναγκασμός επανελέγχου"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:191
+msgid "Move _Storage"
+msgstr "Μετακίνηση _αρχείων"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:242
+msgid "_Connection Limit"
+msgstr "Όριο _συνδέσεων"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:258
+msgid "Upload _Slot Limit"
+msgstr "Όριο _θυρίδων αποστολής"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:273
+msgid "_Auto Managed"
+msgstr "_Αυτόματη διαχείριση"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+msgid "Edit Trackers"
+msgstr "Επεξεργασία ιχνηλατών"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
+msgid "<big><b>Edit Trackers</b></big>"
+msgstr "<big><b>Επεξεργασία ιχνηλατών</b></big>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+msgid "Add Tracker"
+msgstr "Προσθήκη ιχνηλάτη"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
+msgstr "<b>Προσθήκη ιχνηλατών</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+msgid "Edit Tracker"
+msgstr "Επεξεργασία ιχνηλάτη"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>Επεξεργασία ιχνηλάτη</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
+msgstr "Ιχνηλάτης:"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr "<big><b>Διαγραφή του επιλεγμένου Torrent;</b></big>"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr "Αν διαγράψετε τα δεδομένα, θα χαθούν για πάντα."
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr "Διαγραφή Torrent και _δεδομένων"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr "Διαγραφή _Torrent"
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+msgid "Move Storage"
+msgstr "Μετακίνηση αρχείων"
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+msgid "<b>Move Storage</b>"
+msgstr "<b>Μετακίνηση αρχείων</b>"
+
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+msgid "Destination:"
+msgstr "Προορισμός:"
+
+#: deluge/data/share/applications/deluge.desktop.in.h:1
+msgid "BitTorrent Client"
+msgstr ""
+
+#: deluge/data/share/applications/deluge.desktop.in.h:3
+msgid "Deluge BitTorrent Client"
+msgstr ""
+
+#: deluge/data/share/applications/deluge.desktop.in.h:4
+msgid "Download and share files over BitTorrent"
+msgstr ""
 
 #~ msgid "Unknown"
 #~ msgstr "Άγνωστο"
@@ -3862,6 +3814,12 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 
 #~ msgid "Upload"
 #~ msgstr "Αποστέλεται"
+
+#~ msgid "Yes"
+#~ msgstr "Ναι"
+
+#~ msgid "No"
+#~ msgstr "Όχι"
 
 #~ msgid "Update Tracker"
 #~ msgstr "Ενημέρωση του Ιχνηλάτη"
@@ -3881,6 +3839,9 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "General"
 #~ msgstr "Γενικά"
 
+#~ msgid "0000"
+#~ msgstr "0000"
+
 #~ msgid "Maximum Connections"
 #~ msgstr "Μέγιστος Αριθμός Συνδέσεων"
 
@@ -3899,6 +3860,9 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 
 #~ msgid "Availability"
 #~ msgstr "Διαθεσιμότητα"
+
+#~ msgid "<b>Speed:</b>"
+#~ msgstr "<b>Ταχύτητα:</b>"
 
 #~ msgid "Select All"
 #~ msgstr "Επιλογή Όλων"
@@ -4328,6 +4292,9 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "Move"
 #~ msgstr "Μετακίνηση"
 
+#~ msgid "Other.."
+#~ msgstr "Άλλο.."
+
 #~ msgid "Torrent is past stop ratio."
 #~ msgstr "Το torrent έχει ξεπεράσει την αναλογία τερματισμού."
 
@@ -4387,6 +4354,15 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "Refresh status"
 #~ msgstr "Κατάσταση ανανέωσης"
 
+#~ msgid "gtk-connect"
+#~ msgstr "gtk-σύνδεση"
+
+#~ msgid "page 6"
+#~ msgstr "σελίδα 6"
+
+#~ msgid "page 7"
+#~ msgstr "σελίδα 7"
+
 #~ msgid "Maximum Upload Speed (Kib/s)"
 #~ msgstr "Μέγιστη Ταχύτητα Αποστολής"
 
@@ -4405,6 +4381,9 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "BlockList"
 #~ msgstr "Λίστα Μπλοκαρισμένων"
 
+#~ msgid "page 8"
+#~ msgstr "σελίδα 8"
+
 #~ msgid "From Session"
 #~ msgstr "Από τη Συνεδρία"
 
@@ -4414,11 +4393,26 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "Community"
 #~ msgstr "Κοινότητα"
 
+#~ msgid "gtk-edit"
+#~ msgstr "gtk-επεξεργασία"
+
 #~ msgid "no uri"
 #~ msgstr "χωρίς uri"
 
 #~ msgid "Auto refresh (seconds)"
 #~ msgstr "Αυτόματη ανανέωση (δευτερόλεπτα)"
+
+#~ msgid "0x00"
+#~ msgstr "0x00"
+
+#~ msgid "page 11"
+#~ msgstr "σελίδα 11"
+
+#~ msgid "page 10"
+#~ msgstr "σελίδα 10"
+
+#~ msgid "page 12"
+#~ msgstr "σελίδα 12"
 
 #~ msgid ""
 #~ "32 KiB\n"
@@ -4489,6 +4483,10 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 
 #~ msgid "State"
 #~ msgstr "Κατάσταση"
+
+#, python-format
+#~ msgid "Including %i files"
+#~ msgstr "Συμπεριλαμβάνω %i αρχεία"
 
 #, python-format
 #~ msgid ""
@@ -4658,6 +4656,10 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "Upload Slot Limit"
 #~ msgstr "Όριο Θυρών Αποστολής"
 
+#, python-format
+#~ msgid "%.2f%%"
+#~ msgstr "%.2f%%"
+
 #~ msgid "Rate Limit IP Overhead"
 #~ msgstr "Καθορισμός Oρίου Eπίβαρου IP"
 
@@ -4669,6 +4671,24 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 
 #~ msgid "Graphs"
 #~ msgstr "Γραφήματα"
+
+#~ msgid "Downloading.."
+#~ msgstr "Λήψη..."
+
+#, python-format
+#~ msgid "%s is not a valid URL."
+#~ msgstr "Το %s δεν είναι έγκυρο URL."
+
+#~ msgid ""
+#~ "Deluge\n"
+#~ "Not Connected.."
+#~ msgstr ""
+#~ "Deluge\n"
+#~ "Αποσυνδεδεμένο"
+
+#, python-format
+#~ msgid "Failed to download : %s"
+#~ msgstr "Αποτυχία λήψης του: %s"
 
 #~ msgid "Test config value"
 #~ msgstr "Τιμή δοκιμαστικής διαμόρφωσης"
@@ -4690,8 +4710,23 @@ msgstr "<b>Ρυθμίσεις λειτουργίας χαμηλής ταχύτη
 #~ msgid "Test config value:"
 #~ msgstr "Τιμή δοκιμαστικής διαμόρφωσης:"
 
+#~ msgid "<i>Enter your password to continue</i>"
+#~ msgstr "<i>Εισάγετε τον κωδικό σας για να συνεχίσετε</i>"
+
+#~ msgid "<b><big>Deluge is password protected!</big></b>"
+#~ msgstr "<b><big>Το Deluge προστατεύεται με κωδικό!</big></b>"
+
 #~ msgid "<big><b>Add Torrents</b></big>"
 #~ msgstr "<big><b>Προσθήκη Torrent</b></big>"
 
 #~ msgid "FAQ"
 #~ msgstr "Συχνές ερωτήσεις"
+
+#~ msgid ""
+#~ "tracker1.org\n"
+#~ "tracker2.com\n"
+#~ "this doesn't do anything yet..\n"
+#~ msgstr ""
+#~ "tracker1.org\n"
+#~ "tracker2.com\n"
+#~ "Αυτό δεν κάνει ακόμα τίποτα...\n"
