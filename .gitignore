@@ -7,5 +7,5 @@ dist
 *.pyc
 *.tar.*
 _trial_temp
-deluge/i18n/*
+deluge/i18n/*/
 *.desktop

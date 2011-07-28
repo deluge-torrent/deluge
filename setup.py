@@ -289,7 +289,7 @@ class build_trans(cmd.Command):
                             msgfmt.make(src, dest)
                         else:
                             uptoDate = True
-                            
+
         if uptoDate:
             sys.stdout.write(' po files already upto date.  ')
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
@@ -498,7 +498,7 @@ _data_files = [
 
 if not windows_check():
     _data_files.append(('share/applications', ['deluge/data/share/applications/deluge.desktop']))
-    
+
 entry_points = {
     "console_scripts": [
         "deluge-console = deluge.ui.console:start",
@@ -514,7 +514,7 @@ entry_points = {
 
 if windows_check():
     entry_points["console_scripts"].append("deluge-debug = deluge.main:start_ui")
-    
+
 # Main setup
 setup(
     name = "deluge",
