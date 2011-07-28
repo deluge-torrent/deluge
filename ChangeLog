@@ -1,3 +1,6 @@
+=== Deluge 1.3.4 (In Development) ===
+
+
 === Deluge 1.3.3 (22 July 2011) ===
 ==== Core ====
 	* Properly show the 'Checking Resume Data' state instead of just 7
@@ -26,13 +29,13 @@
 	* #948: New Release Dialog now shows the server version
 	* Fix peers in PeersTab showing non-zero download rate when seeding
 
-=== AutoAdd ===
+==== AutoAdd ====
 	* #1861: Fix AutoAdd Warning (column number is a boolean)
 
-=== Label ===
+==== Label ====
 	* #1246: Fix losing Labels upon restart
 
-=== Execute ===
+==== Execute ====
 	* #1477: Fix ignore Added events from state file on startup
 
 ==== ConsoleUI ====
