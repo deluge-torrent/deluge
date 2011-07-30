@@ -504,7 +504,7 @@ _data_files = [
 ]
 
 if not windows_check():
-    _data_files.append(('share/applications', ['deluge/data/share/applications/deluge.desktop']))
+    _data_files.append(('share/applications', ['deluge/ui/data/share/applications/deluge.desktop']))
 
 entry_points = {
     "console_scripts": [
