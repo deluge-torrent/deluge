@@ -411,6 +411,7 @@ class TorrentView(listview.ListView, component.Component):
         client.register_event_handler("TorrentQueueChangedEvent", self.on_torrentqueuechanged_event)
 
         self.search_box = SearchBox(self)
+        self.permanent_status_keys = ["owner"]
 
     def start(self):
         """Start the torrentview"""
@@ -497,8 +498,9 @@ class TorrentView(listview.ListView, component.Component):
                     status_keys.append(field)
                     self.columns_to_update.append(column)
 
-        # Remove duplicate keys
+        # Remove duplicates
         self.columns_to_update = list(set(self.columns_to_update))
+        status_keys = list(set(status_keys + self.permanent_status_keys))
         return status_keys
 
     def send_status_request(self, columns=None):

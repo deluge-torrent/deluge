@@ -87,7 +87,7 @@ class SessionProxy(component.Component):
             # of a torrent.
             inital_keys = [
                 'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
-                'download_payload_rate', 'upload_payload_rate', 'eta'
+                'download_payload_rate', 'upload_payload_rate', 'eta', 'owner'
             ]
             self.get_torrents_status({'id': torrent_ids}, inital_keys)
         return client.core.get_session_state().addCallback(on_get_session_state)
