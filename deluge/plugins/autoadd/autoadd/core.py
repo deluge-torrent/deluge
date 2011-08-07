@@ -104,7 +104,7 @@ class Core(CorePluginBase):
             self.core_cfg['autoadd_enable'] = False
             self.core_cfg.save()
             # Check if core autoadd folder is already added in plugin
-            for watchdir in self.watchdirs:
+            for watchdir in self.watchdirs.itervalues():
                 if os.path.abspath(self.core_cfg['autoadd_location']) == watchdir['abspath']:
                     watchdir['enabled'] = True
                     break
