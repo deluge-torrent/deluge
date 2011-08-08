@@ -137,10 +137,14 @@ class Commander:
             print "Could not connect to: %s:%d\n %s"%(host,port,rm)
             self.do_command("quit")
 
+        if not username and host in ("127.0.0.1", "localhost"):
+            # No username was provided and it's the localhost, so we can try
+            # to grab the credentials from the auth file.
+            from deluge.ui.common import get_localhost_auth
+            username, password = get_localhost_auth()
         if host:
             d = client.connect(host,port,username,password)
         else:
             d = client.connect()
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
-
