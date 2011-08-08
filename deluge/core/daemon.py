@@ -109,7 +109,7 @@ class Daemon(object):
             def win_handler(ctrl_type):
                 log.debug("ctrl_type: %s", ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
-                    self.__shutdown()
+                    self._shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
 
