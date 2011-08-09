@@ -84,7 +84,7 @@ def trim_string(string, w, have_dbls):
     if w <= 0:
         return ""
     elif w == 1:
-        return "…"
+        return u"…"
     elif have_dbls:
         # have to do this the slow way
         chrs = []
@@ -100,9 +100,9 @@ def trim_string(string, w, have_dbls):
         if width != w:
             chrs.pop()
             chrs.append('.')
-        return "%s… "%("".join(chrs))
+        return u"%s… "%("".join(chrs))
     else:
-        return "%s… "%(string[0:w-2])
+        return u"%s… "%(string[0:w-2])
 
 def format_column(col, lim):
     dbls = 0
