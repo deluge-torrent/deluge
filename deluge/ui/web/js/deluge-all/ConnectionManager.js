@@ -46,8 +46,8 @@ Ext.define('Deluge.ConnectionManager', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.on('hide',  this.onHide, this);
-        this.on('show', this.onShow, this);
+        this.afterMethod('onHide', this.afterHide, this);
+        this.afterMethod('onShow', this.afterShow, this);
 
         deluge.events.on('login', this.onLogin, this);
         deluge.events.on('logout', this.onLogout, this);
@@ -261,7 +261,7 @@ Ext.define('Deluge.ConnectionManager', {
     },
 
     // private
-    onHide: function() {
+    afterHide: function() {
         if (this.running) window.clearInterval(this.running);
     },
 
@@ -333,7 +333,7 @@ Ext.define('Deluge.ConnectionManager', {
 
     // FIXME: Find out why this is being fired twice
     // private
-    onShow: function() {
+    afterShow: function() {
         if (!this.addHostButton) {
             var buttons = this.grid.query('button');
             this.addHostButton = buttons[0];
