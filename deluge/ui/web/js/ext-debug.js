@@ -612,7 +612,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 (function() {
 
 // Current core version
-var version = '4.0.2', Version;
+var version = '4.0.2a', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -8616,7 +8616,7 @@ window.undefined = window.undefined;
         document.execCommand("BackgroundImageCache", false, true);
     } catch(e) {}
 
-    Ext.setVersion('extjs', '4.0.2');
+    Ext.setVersion('extjs', '4.0.2a');
     Ext.apply(Ext, {
         /**
          * URL to a blank file used by Ext when in secure mode for iframe src and onReady src to prevent

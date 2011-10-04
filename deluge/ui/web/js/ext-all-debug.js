@@ -407,7 +407,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 (function() {
 
 
-var version = '4.0.2', Version;
+var version = '4.0.2a', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         
@@ -5085,7 +5085,7 @@ window.undefined = window.undefined;
         document.execCommand("BackgroundImageCache", false, true);
     } catch(e) {}
 
-    Ext.setVersion('extjs', '4.0.2');
+    Ext.setVersion('extjs', '4.0.2a');
     Ext.apply(Ext, {
         
         SSL_SECURE_URL : Ext.isSecure && isIE ? 'javascript:""' : 'about:blank',
@@ -15609,8 +15609,13 @@ Ext.define('Ext.layout.Layout', {
     },
 
     beforeLayout : function() {
-        this.renderItems(this.getLayoutItems(), this.getRenderTarget());
+        this.renderChildren();
         return true;
+    },
+
+    renderChildren: function () {
+        var me = this;
+        me.renderItems(me.getLayoutItems(), me.getRenderTarget());
     },
 
     /**
@@ -18500,6 +18505,9 @@ Ext.define('Ext.AbstractComponent', {
     
     rendered: false,
 
+    
+    componentLayoutCounter: 0,
+
     weight: 0,
 
     trimRe: /^\s+|\s+$/g,
@@ -18636,7 +18644,10 @@ Ext.define('Ext.AbstractComponent', {
         
         if (layout && me.flex) {
             state.flex = me.flex;
-            state[layout.perpendicularPrefix] = me['get' + layout.perpendicularPrefixCap]();
+            if (layout.perpendicularPrefix) {
+                state[layout.perpendicularPrefix] = me['get' + layout.perpendicularPrefixCap]();
+            } else {
+            }
         }
         
         else if (layout && me.anchor) {
@@ -18908,6 +18919,12 @@ Ext.define('Ext.AbstractComponent', {
         
         if (!me.ownerCt || (me.height || me.width)) {
             me.setSize(me.width, me.height);
+        } else {
+            
+            
+            
+            
+            me.renderChildren();
         }
 
         
@@ -18931,6 +18948,15 @@ Ext.define('Ext.AbstractComponent', {
         if (me.styleHtmlContent) {
             me.getTargetEl().addCls(me.styleHtmlCls);
         }
+    },
+
+    renderChildren: function () {
+        var me = this,
+            layout = me.getComponentLayout();
+
+        me.suspendLayout = true;
+        layout.renderChildren();
+        delete me.suspendLayout;
     },
 
     frameCls: Ext.baseCSSPrefix + 'frame',
@@ -20287,6 +20313,7 @@ Ext.define('Ext.AbstractComponent', {
 
     
     afterComponentLayout: function(width, height, isSetSize, callingContainer) {
+        ++this.componentLayoutCounter;
         this.fireEvent('resize', this, width, height);
     },
 
@@ -27860,10 +27887,10 @@ Ext.define('Ext.layout.container.Container', {
     
 
     layoutItem: function(item, box) {
-        box = box || {};
-        if (item.componentLayout.initialized !== true) {
-            this.setItemSize(item, box.width || item.width || undefined, box.height || item.height || undefined);
-            
+        if (box) {
+            item.doComponentLayout(box.width, box.height);
+        } else {
+            item.doComponentLayout();
         }
     },
 
@@ -27976,15 +28003,11 @@ Ext.define('Ext.layout.container.Auto', {
     },
 
     configureItem: function(item) {
-
-        
-        
-        if (this.type === 'autocontainer') {
-            item.layoutManagedHeight = 2;
-            item.layoutManagedWidth = 2;
-        }
-
         this.callParent(arguments);
+
+        
+        item.layoutManagedHeight = 2;
+        item.layoutManagedWidth = 2;
     }
 });
 
@@ -28017,6 +28040,9 @@ Ext.define('Ext.container.AbstractContainer', {
     defaultType: 'panel',
 
     isContainer : true,
+
+    
+    layoutCounter : 0,
 
     baseCls: Ext.baseCSSPrefix + 'container',
 
@@ -28072,6 +28098,20 @@ Ext.define('Ext.container.AbstractContainer', {
         this.callParent();
     },
 
+    renderChildren: function () {
+        var me = this,
+            layout = me.getLayout();
+
+        me.callParent();
+        
+
+        if (layout) {
+            me.suspendLayout = true;
+            layout.renderChildren();
+            delete me.suspendLayout;
+        }
+    },
+
     
     setLayout : function(layout) {
         var currentLayout = this.layout;
@@ -28124,6 +28164,7 @@ Ext.define('Ext.container.AbstractContainer', {
 
     
     afterLayout : function(layout) {
+        ++this.layoutCounter;
         this.fireEvent('afterlayout', this, layout);
     },
 
@@ -31183,7 +31224,12 @@ Ext.define('Ext.layout.container.Box', {
         for (i = 0; i < visibleCount; i++) {
             child = visibleItems[i];
             childPerpendicular = child[perpendicularPrefix];
-            me.layoutItem(child);
+            if (!child.flex || !(me.align == 'stretch' || me.align == 'stretchmax')) {
+                if (child.componentLayout.initialized !== true) {
+                    me.layoutItem(child);
+                }
+            }
+
             childMargins = child.margins;
             parallelMargins = childMargins[me.parallelBefore] + childMargins[me.parallelAfter];
 
@@ -37550,10 +37596,14 @@ Ext.define('Ext.panel.Panel', {
         me.callParent(arguments);
     },
 
-    afterRender: function() {
+    afterComponentLayout: function() {
         var me = this;
         me.callParent(arguments);
-        if (me.collapsed) {
+
+        
+        
+        
+        if (me.collapsed && me.componentLayoutCounter == 1) {
             me.collapsed = false;
             me.collapse(null, false, true);
         }
@@ -57336,7 +57386,7 @@ Ext.define('Ext.layout.container.AbstractCard', {
 
     beforeLayout: function() {
         var me = this;
-        me.activeItem = me.getActiveItem();
+        me.getActiveItem();
         if (me.activeItem && me.deferredRender) {
             me.renderItems([me.activeItem], me.getRenderTarget());
             return true;
@@ -57344,6 +57394,11 @@ Ext.define('Ext.layout.container.AbstractCard', {
         else {
             return this.callParent(arguments);
         }
+    },
+
+    renderChildren: function () {
+        this.getActiveItem();
+        this.callParent();
     },
 
     onLayout: function() {
@@ -74020,6 +74075,7 @@ Ext.define('Ext.grid.Lockable', {
         var me = this,
             width = me.lockedGrid.headerCt.getFullWidth(true);
         me.lockedGrid.setWidth(width);
+        me.doComponentLayout();
     },
     
     onLockedHeaderResize: function() {
@@ -74655,15 +74711,6 @@ Ext.define('Ext.panel.Table', {
             view,
             border = me.border;
 
-        
-        
-        
-        
-        
-        
-        
-        me.injectView = Ext.Function.createThrottled(me.injectView, 30, me);
-
         if (me.hideHeaders) {
             border = false;
         }
@@ -74782,78 +74829,92 @@ Ext.define('Ext.panel.Table', {
             
             view = me.getView();
 
-            if (view) {
-                me.mon(view.store, {
-                    load: me.onStoreLoad,
-                    scope: me
-                });
-                me.mon(view, {
-                    refresh: me.onViewRefresh,
-                    scope: me
-                });
-                this.relayEvents(view, [
+            view.on({
+                afterrender: function () {
                     
-                    'beforeitemmousedown',
+                    view.el.scroll = Ext.Function.bind(me.elScroll, me);
                     
-                    'beforeitemmouseup',
                     
-                    'beforeitemmouseenter',
-                    
-                    'beforeitemmouseleave',
-                    
-                    'beforeitemclick',
-                    
-                    'beforeitemdblclick',
-                    
-                    'beforeitemcontextmenu',
-                    
-                    'itemmousedown',
-                    
-                    'itemmouseup',
-                    
-                    'itemmouseenter',
-                    
-                    'itemmouseleave',
-                    
-                    'itemclick',
-                    
-                    'itemdblclick',
-                    
-                    'itemcontextmenu',
-                    
-                    'beforecontainermousedown',
-                    
-                    'beforecontainermouseup',
-                    
-                    'beforecontainermouseover',
-                    
-                    'beforecontainermouseout',
-                    
-                    'beforecontainerclick',
-                    
-                    'beforecontainerdblclick',
-                    
-                    'beforecontainercontextmenu',
-                    
-                    'containermouseup',
-                    
-                    'containermouseover',
-                    
-                    'containermouseout',
-                    
-                    'containerclick',
-                    
-                    'containerdblclick',
-                    
-                    'containercontextmenu',
+                    me.mon(view.el, {
+                        mousewheel: me.onMouseWheel,
+                        scope: me
+                    });
+                },
+                single: true
+            });
+            this.items = [view];
 
-                    
-                    'selectionchange',
-                    
-                    'beforeselect'
-                ]);
-            }
+            me.mon(view.store, {
+                load: me.onStoreLoad,
+                scope: me
+            });
+            me.mon(view, {
+                refresh: me.onViewRefresh,
+                scope: me
+            });
+            this.relayEvents(view, [
+                
+                'beforeitemmousedown',
+                
+                'beforeitemmouseup',
+                
+                'beforeitemmouseenter',
+                
+                'beforeitemmouseleave',
+                
+                'beforeitemclick',
+                
+                'beforeitemdblclick',
+                
+                'beforeitemcontextmenu',
+                
+                'itemmousedown',
+                
+                'itemmouseup',
+                
+                'itemmouseenter',
+                
+                'itemmouseleave',
+                
+                'itemclick',
+                
+                'itemdblclick',
+                
+                'itemcontextmenu',
+                
+                'beforecontainermousedown',
+                
+                'beforecontainermouseup',
+                
+                'beforecontainermouseover',
+                
+                'beforecontainermouseout',
+                
+                'beforecontainerclick',
+                
+                'beforecontainerdblclick',
+                
+                'beforecontainercontextmenu',
+                
+                'containermouseup',
+                
+                'containermouseover',
+                
+                'containermouseout',
+                
+                'containerclick',
+                
+                'containerdblclick',
+                
+                'containercontextmenu',
+
+                
+                'selectionchange',
+                
+                'beforeselect'
+            ]);
         }
+
         me.callParent(arguments);
     },
 
@@ -75061,48 +75122,6 @@ Ext.define('Ext.panel.Table', {
     },
 
     
-    injectView: function() {
-        if (!this.hasView && !this.collapsed) {
-            var me   = this,
-                view = me.getView();
-
-            me.hasView = true;
-            me.add(view);
-
-            function viewReady () {
-                
-                view.el.scroll = Ext.Function.bind(me.elScroll, me);
-                
-                
-                me.mon(view.el, {
-                    mousewheel: me.onMouseWheel,
-                    scope: me
-                });
-                if (!me.height) {
-                    me.doComponentLayout();
-                }
-            }
-
-            if (view.rendered) {
-                viewReady();
-            } else {
-                view.on({
-                    afterrender: viewReady,
-                    single: true
-                });
-            }
-        }
-    },
-
-    afterExpand: function() {
-        
-        this.callParent(arguments);
-        if (!this.hasView) {
-            this.injectView();
-        }
-    },
-
-    
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
         var me = this,
             header;
@@ -75204,9 +75223,6 @@ Ext.define('Ext.panel.Table', {
     afterComponentLayout: function() {
         var me = this;
         me.callParent(arguments);
-
-        
-        me.injectView();
 
         
         if (!me.changingScrollBars) {
@@ -75346,7 +75362,7 @@ Ext.define('Ext.panel.Table', {
         var me = this,
             vertScroller = me.getVerticalScroller(),
             horizScroller = me.getHorizontalScroller(),
-            scrollDelta = me.scrollDelta / -5,
+            scrollDelta = -me.scrollDelta,
             deltas = e.getWheelDeltas(),
             deltaX = scrollDelta * deltas.x,
             deltaY = scrollDelta * deltas.y,
@@ -82395,12 +82411,22 @@ Ext.define('Ext.layout.container.Border', {
 
         
         this.shadowLayout.beforeLayout();
+
+        
     },
 
     renderItems: function(items, target) {
     },
 
     renderItem: function(item) {
+    },
+
+    renderChildren: function() {
+        if (!this.borderLayoutInitialized) {
+            this.initializeBorderLayout();
+        }
+
+        this.shadowLayout.renderChildren();
     },
 
     
@@ -83452,9 +83478,9 @@ Ext.define('Ext.layout.container.Column', {
             item = items[i];
             if (item.columnWidth) {
                 columnWidth = Math.floor(item.columnWidth * availableWidth) - parallelMargins[i];
-                if (item.getWidth() != columnWidth) {
-                    me.setItemSize(item, columnWidth, item.height);
-                }
+                me.setItemSize(item, columnWidth, item.height);
+            } else {
+                me.layoutItem(item);
             }
         }
 
@@ -83479,13 +83505,11 @@ Ext.define('Ext.layout.container.Column', {
     },
 
     configureItem: function(item) {
+        this.callParent(arguments);
+
         if (item.columnWidth) {
             item.layoutManagedWidth = 1;
-        } else {
-            item.layoutManagedWidth = 2;
         }
-        item.layoutManagedHeight = 2;
-        this.callParent(arguments);
     }
 });
 

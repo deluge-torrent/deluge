@@ -1,0 +1,22 @@
+@import 'mixins/background-gradient';
+@import 'mixins/theme-background-image';
+@import 'mixins/inner-border';
+@import 'mixins/frame';
+
+@mixin no-select {
+    -moz-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:ignore;
+    
+    cursor:default;
+}
+
+@mixin important-no-border-radius {
+    //we need to hard code this so we can declare !important
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -o-border-radius: 0 !important;
+    -ms-border-radius: 0 !important;
+    -khtml-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
