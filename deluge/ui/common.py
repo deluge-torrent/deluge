@@ -244,6 +244,83 @@ class TorrentInfo(object):
         """
         return self.__m_filedata
 
+class ExtFileTree(object):
+    """
+    Convert a list of paths into a compatible file tree format for Ext.
+
+    :param paths: The paths to be converted
+    :type paths: list
+    """
+
+    def __init__(self, paths):
+        self.tree = {"children": [], "text": ""}
+
+        def get_parent(path):
+            parent = self.tree
+            while "/" in path:
+                directory, sep, path = path.partition("/")
+                new_parent = None
+                for child in parent["children"]:
+                    if child["text"] == directory:
+                        new_parent = child
+                if not new_parent:
+                    new_parent = {"children": [], "text": directory}
+                    parent["children"].append(new_parent)
+                parent = new_parent
+            return parent, path
+
+        for path in paths:
+            if path[-1] == "/":
+                path = path[:-1]
+                parent, path = get_parent(path)
+                parent["children"].append({
+                    "text": path,
+                    "children": []
+                })
+            else:
+                parent, path = get_parent(path)
+                parent["children"].append({"text": path})
+
+    def get_tree(self):
+        """
+        Return the tree.
+
+        :returns: the file tree.
+        :rtype: dictionary
+        """
+        return self.tree
+
+    def walk(self):
+        """
+        Walk through the file tree calling the callback function on each item
+        contained.
+
+        :param callback: The function to be used as a callback, it should have
+            the signature func(item, path) where item is a `tuple` for a file
+            and `dict` for a directory.
+        :type callback: function
+        """
+        for path, child in self.__walk(self.tree, ""):
+            yield path, child
+
+    def __walk(self, directory, parent_path):
+        for item in directory["children"]:
+            path = path_join(parent_path, item["text"])
+            if "children" in item:
+                for path, child in self.__walk(item, path):
+                    yield path, child
+            yield path, item
+
+    def __str__(self):
+        lines = []
+        def write(path, item):
+            depth = path.count("/")
+            path = os.path.basename(path)
+            path = path + "/" if item["type"] == "dir" else path
+            lines.append("  " * depth + path)
+        self.walk(write)
+        return "\n".join(lines)
+
 class FileTree2(object):
     """
     Converts a list of paths in to a file tree.
