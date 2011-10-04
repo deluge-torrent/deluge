@@ -31,7 +31,14 @@
  */
 
 // Setup the state manager
-Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+var provider = Ext.state.CookieProvider;
+try {
+    if ('localStorage' in window && window['localStorage'] !== null) {
+        provider = Ext.state.LocalStorageProvider;
+    }
+} catch (e) {
+}
+Ext.state.Manager.setProvider(new provider());
 
 // Add some additional functions to ext and setup some of the
 // configurable parameters
