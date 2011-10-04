@@ -505,11 +505,11 @@ class WebApi(JSONComponent):
         d = Deferred()
         ui_info = {
             "connected": client.connected(),
-            "torrents": None,
-            "filters": None,
+            "torrents":  None,
+            "filters":   None,
             "stats": {
-                "max_download": self.core_config.get("max_download_speed"),
-                "max_upload": self.core_config.get("max_upload_speed"),
+                "max_download":        self.core_config.get("max_download_speed"),
+                "max_upload":          self.core_config.get("max_upload_speed"),
                 "max_num_connections": self.core_config.get("max_connections_global")
             }
         }
