@@ -51,11 +51,14 @@ import time
 import random
 import hashlib
 import logging
+
 from datetime import datetime, timedelta
 from email.utils import formatdate
+from types import FunctionType
 
 from twisted.internet.defer import Deferred
 from twisted.internet.task import LoopingCall
+from twisted.web.http import FORBIDDEN
 
 from deluge import component
 from deluge.ui.web.json_api import JSONComponent, export
@@ -88,6 +91,29 @@ def make_expires(timeout):
     expires = time.mktime((datetime.now() + dt).timetuple())
     expires_str = formatdate(timeval=expires, localtime=False, usegmt=True)
     return expires, expires_str
+
+def secure(auth_level=AUTH_LEVEL_DEFAULT):
+    """
+    Decorator function to secure a Twisted resource ensuring that the
+    user is authenticated with the web interface.
+    """
+    def wrap(func, *args, **kwargs):
+        def secure_render(self, request):
+            try:
+                component.get("Auth").check_request(request,
+                                                    level=auth_level)
+            except AuthError:
+                request.setResponseCode(FORBIDDEN)
+                return "<h1>Forbidden</h1>"
+            return func(self, request)
+        return secure_render
+
+    if type(auth_level) is FunctionType:
+        func = auth_level
+        auth_level = AUTH_LEVEL_DEFAULT
+        return wrap(func)
+    else:
+        return wrap
 
 class Auth(JSONComponent):
     """
