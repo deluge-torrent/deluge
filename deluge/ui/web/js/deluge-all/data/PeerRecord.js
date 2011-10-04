@@ -1,5 +1,5 @@
 /*!
- * Deluge.data.PeerRecord.js
+ * Deluge.data.Peer.js
  *
  * Copyright (c) Damien Churchill 2009-2011 <damoxc@gmail.com>
  *

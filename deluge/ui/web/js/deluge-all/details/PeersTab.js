@@ -30,131 +30,93 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-(function() {
-    function flagRenderer(value) {
-        if (!value.replace(' ', '').replace(' ', '')){
-            return '';
+Ext.define('Deluge.details.PeersTab', {
+    extend: 'Ext.grid.Panel',
+    title: _('Peers'),
+    cls: 'x-deluge-peers',
+    viewConfig: {
+        loadMask: false,
+    },
+    invalidateScrollerOnRefresh: false,
+
+    store: {
+        model: 'Deluge.data.Peer',
+        proxy: {
+            type: 'ajax',
+            url: 'peers/',
+            reader: {
+                type: 'json',
+                root: 'peers'
+            }
         }
-        return String.format('<img src="flag/{0}" />', value);
-    }
-    function peerAddressRenderer(value, p, record) {
-        var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer';
-        if (peer_ip.length > 2) {
-            var port = peer_ip.pop();
-            var ip = peer_ip.join(":");
-            value = "[" + ip + "]:" + port;
+    },
+
+    columns: [{
+        text: '&nbsp;',
+        dataIndex: 'country',
+        width: 30,
+        sortable: true,
+        renderer: function(v) {
+            if (!v.replace(' ', '').replace(' ', '')) {
+                return '';
+            }
+            return Ext.String.format('<img src="flag/{0}" />', v);
         }
-        return String.format('<div class="{0}">{1}</div>', seed, value);
-    }
-    function peerProgressRenderer(value) {
-        var progress = (value * 100).toFixed(0);
-        return Deluge.progressBar(progress, this.width - 8, progress + '%');
-    }
-
-    Ext.define('Deluge.details.PeersTab', {
-        extend: 'Ext.grid.Panel',
-        title: _('Peers'),
-        cls: 'x-deluge-peers',
-
-        store: Ext.create('Ext.data.Store', {
-            model: 'Deluge.data.Peer'
-        }),
-
-        columns: [{
-            header: '&nbsp;',
-            width: 30,
-            sortable: true,
-            renderer: flagRenderer,
-            dataIndex: 'country'
-        }, {
-            header: 'Address',
-            width: 125,
-            sortable: true,
-            renderer: peerAddressRenderer,
-            dataIndex: 'ip'
-        }, {
-            header: 'Client',
-            width: 125,
-            sortable: true,
-            renderer: function(v) { return fplain(v) },
-            dataIndex: 'client'
-        }, {
-            header: 'Progress',
-            width: 150,
-            sortable: true,
-            renderer: peerProgressRenderer,
-            dataIndex: 'progress'
-        }, {
-            header: 'Down Speed',
-            width: 100,
-            sortable: true,
-            renderer: function(v) { return fspeed(v) },
-            dataIndex: 'down_speed'
-        }, {
-            header: 'Up Speed',
-            width: 100,
-            sortable: true,
-            renderer: function(v) { return fspeed(v) },
-            dataIndex: 'up_speed'
-        }],
-
-        stripeRows: true,
-        deferredRender: false,
-        autoScroll: true,
-
-        // fast way to figure out if we have a peer already.
-        peers: {},
-
-        clear: function() {
-            this.getStore().removeAll();
-            this.peers = {};
-        },
-
-        update: function(torrentId) {
-            deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Peers, {
-                success: this.onRequestComplete,
-                scope: this
-            });
-        },
-
-        onRequestComplete: function(torrent, options) {
-            if (!torrent) return;
-
-            var store = this.getStore();
-            var newPeers = [];
-            var addresses = {};
-
-            // Go through the peers updating and creating peer records
-            Ext.each(torrent.peers, function(peer) {
-                if (this.peers[peer.ip]) {
-                    var record = store.getById(peer.ip);
-                    record.beginEdit();
-                    for (var k in peer) {
-                        if (record.get(k) != peer[k]) {
-                            record.set(k, peer[k]);
-                        }
-                    }
-                    record.endEdit();
-                } else {
-                    this.peers[peer.ip] = 1;
-                    newPeers.push(new Deluge.data.Peer(peer, peer.ip));
-                }
-                addresses[peer.ip] = 1;
-            }, this);
-            store.add(newPeers);
-
-            // Remove any peers that shouldn't be left in the store
-            store.each(function(record) {
-                if (!addresses[record.id]) {
-                    store.remove(record);
-                    delete this.peers[record.id];
-                }
-            }, this);
-            store.commitChanges();
-
-            var sortState = store.getSortState();
-            if (!sortState) return;
-            store.sort(sortState.field, sortState.direction);
+    }, {
+        text: 'Address',
+        dataIndex: 'ip',
+        width: 125,
+        sortable: true,
+        renderer: function(v, p, r) {
+            var cls = (r.data['seed'] == 1024) ? 'x-deluge-seed': 'x-deluge-peer';
+            return Ext.String.format('<div class="{0}">{1}</div>', cls, v);
         }
-    });
-})();
+    }, {
+        text: 'Client',
+        dataIndex: 'client',
+        width: 125,
+        sortable: true,
+        renderer: function(v) { return fplain(v) }
+    }, {
+        text: 'Progress',
+        dataIndex: 'progress',
+        width: 150,
+        sortable: true,
+        renderer: function(v) {
+            var progress = (v * 100).toFixed(0);
+            return Deluge.progressBar(progress, this.width - 8, progress + '%');
+        }
+    }, {
+        text: 'Down Speed',
+        dataIndex: 'down_speed',
+        width: 100,
+        sortable: true,
+        renderer: function(v) { return fspeed(v) }
+    }, {
+        text: 'Up Speed',
+        dataIndex: 'up_speed',
+        width: 100,
+        sortable: true,
+        renderer: function(v) { return fspeed(v) }
+    }],
+
+    autoScroll: true,
+    deferredRender: false,
+    stripeRows: true,
+
+    clear: function() {
+        this.getStore().removeAll();
+    },
+
+    update: function(torrentId) {
+        var store = this.getStore(),
+            view  = this.getView();
+
+        if (torrentId != this.torrentId) {
+            store.removeAll();
+            store.getProxy().url = 'peers/' + torrentId;
+            this.torrentId = torrentId;
+        }
+        store.load();
+    }
+});
