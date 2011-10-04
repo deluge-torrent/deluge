@@ -32,6 +32,7 @@
 
 Ext.define('Deluge.details.PeersTab', {
     extend: 'Ext.grid.Panel',
+    id: 'peersGrid',
     title: _('Peers'),
     cls: 'x-deluge-peers',
     viewConfig: {
