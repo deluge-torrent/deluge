@@ -99,6 +99,8 @@ deluge.ui = {
 
         deluge.client.on('connected', function(e) {
             deluge.login.show();
+            Ext.get('loading').remove();
+            Ext.get('loading-mask').fadeOut({remove:true});
         }, this, {single: true});
 
         this.update = Ext.bind(this.update, this);
