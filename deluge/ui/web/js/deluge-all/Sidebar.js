@@ -47,6 +47,10 @@ Ext.define('Deluge.Sidebar', {
     cls: 'deluge-sidebar',
     title: _('Filters'),
     layout: 'accordion',
+    layoutCfg: {
+        multi: true,
+        collapseFirst: true
+    },
     split: true,
     width: 200,
     minSize: 175,
