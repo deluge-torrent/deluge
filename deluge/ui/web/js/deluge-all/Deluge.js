@@ -101,7 +101,7 @@ Ext.apply(Deluge, {
     // private
     progressTpl:    '<div class="x-progress x-progress-default">' +
                         '<div class="x-progress-text x-progress-text-back" style="width: {1}px;">{0}</div>' +
-                        '<div class="x-progress-bar" style="width: {2}px;">' +
+                        '<div class="x-progress-bar" style="width: {3}px;">' +
                             '<div class="x-progress-text" style="width: {1}px;">{0}</div>' +
                         '</div>' +
                     '</div>',
@@ -116,7 +116,7 @@ Ext.apply(Deluge, {
      * @param {Number} modified Amount to subtract from the width allowing for fixes
      */
     progressBar: function(progress, width, text, modifier) {
-        modifier = Ext.value(modifier, 10);
+        modifier = Ext.value(modifier, 5);
         var progressWidth = ((width / 100.0) * progress).toFixed(0);
         var barWidth = progressWidth - 1;
         var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);

@@ -84,8 +84,9 @@ Ext.define('Deluge.details.PeersTab', {
         width: 150,
         sortable: true,
         renderer: function(v) {
-            var progress = (v * 100).toFixed(0);
-            return Deluge.progressBar(progress, this.width - 8, progress + '%');
+            var progress = (v * 100).toFixed(0),
+                width    = this.query('gridcolumn[dataIndex=progress]')[0].getWidth();
+            return Deluge.progressBar(progress, width - 8, progress + '%');
         }
     }, {
         text: 'Down Speed',
