@@ -99,16 +99,10 @@ Ext.apply(Deluge, {
     pluginStore: {},
 
     // private
-    progressTpl:    '<div class="x-progress-wrap x-progress-renderered">' +
-                        '<div class="x-progress-inner">' +
-                            '<div style="width: {2}px" class="x-progress-bar">' +
-                                '<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
-                                    '<div style="width: {1}px;">{0}</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="x-progress-text x-progress-text-back">' +
-                                '<div style="width: {1}px;">{0}</div>' +
-                            '</div>' +
+    progressTpl:    '<div class="x-progress x-progress-default">' +
+                        '<div class="x-progress-text x-progress-text-back" style="width: {1}px;">{0}</div>' +
+                        '<div class="x-progress-bar" style="width: {2}px;">' +
+                            '<div class="x-progress-text" style="width: {1}px;">{0}</div>' +
                         '</div>' +
                     '</div>',
 
