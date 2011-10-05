@@ -47,11 +47,11 @@ Ext.define('Deluge.details.DetailsPanel', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.add(new Deluge.details.StatusTab());
-        this.add(new Deluge.details.DetailsTab());
-        this.add(new Deluge.details.FilesTab());
-        this.add(new Deluge.details.PeersTab());
-        this.add(new Deluge.details.OptionsTab());
+        this.add(Ext.create('Deluge.details.StatusTab'));
+        this.add(Ext.create('Deluge.details.DetailsTab'));
+        this.add(Ext.create('Deluge.details.FilesTab'));
+        this.add(Ext.create('Deluge.details.PeersTab'));
+        this.add(Ext.create('Deluge.details.OptionsTab'));
     },
 
     clear: function() {

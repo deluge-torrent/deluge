@@ -79,12 +79,15 @@ Ext.define('Deluge.Sidebar', {
         this.panels[filter] = panel;
 
         panel.header.on('click', function(header) {
+            var s = panel.getStore(),
+                sm = panel.getSelectionModel();
+
             if (!deluge.config.sidebar_multiple_filters) {
                 deluge.ui.update();
             }
-            if (!panel.getSelectionModel().hasSelection()) {
-                panel.getSelectionModel().select(0);
-            }
+            //if (!sm.hasSelection() && s.count() > 0) {
+            //    sm.select([s.first()]);
+            //}
         });
         this.fireEvent('filtercreate', this, panel);
 

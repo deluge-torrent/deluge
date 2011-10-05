@@ -48,7 +48,8 @@ Deluge.Keys = {
         'queue', 'name', 'total_size', 'state', 'progress', 'num_seeds',
         'total_seeds', 'num_peers', 'total_peers', 'download_payload_rate',
         'upload_payload_rate', 'eta', 'ratio', 'distributed_copies',
-        'is_auto_managed', 'time_added', 'tracker_host', 'save_path', 'last_seen_complete'
+        'is_auto_managed', 'time_added', 'tracker_host', 'save_path',
+        'last_seen_complete', 'owner', 'public', 'shared'
     ],
 
     /**
@@ -63,7 +64,7 @@ Deluge.Keys = {
         'total_done', 'total_payload_download', 'total_uploaded',
         'total_payload_upload', 'next_announce', 'tracker_status', 'num_pieces',
         'piece_length', 'is_auto_managed', 'active_time', 'seeding_time',
-        'seed_rank', 'last_seen_complete', 'owner', 'public', 'shared'
+        'seed_rank'
     ],
 
     /**
