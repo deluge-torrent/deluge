@@ -614,7 +614,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_torrent_status(self, torrent_id, keys):
-        return component.get("SessionProxy").get_torrent_status(torrent_id, keys)
+        return component.get("SessionProxy").get_torrent_status(torrent_id, map(str, keys))
 
     @export
     def get_torrent_files(self, torrent_id):
