@@ -43,7 +43,6 @@ Ext.define('Deluge.details.DetailsPanel', {
     minSize: 100,
     collapsible: true,
     margins: '0 5 5 5',
-    activeTab: 0,
 
     initComponent: function() {
         this.callParent(arguments);
@@ -52,6 +51,7 @@ Ext.define('Deluge.details.DetailsPanel', {
         this.add(Ext.create('Deluge.details.FilesTab'));
         this.add(Ext.create('Deluge.details.PeersTab'));
         this.add(Ext.create('Deluge.details.OptionsTab'));
+        this.setActiveTab(0);
     },
 
     clear: function() {
