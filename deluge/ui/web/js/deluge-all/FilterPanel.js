@@ -77,7 +77,8 @@ Ext.define('Deluge.FilterPanel', {
                 id: 'filter',
                 sortable: false,
                 tpl: tpl,
-                dataIndex: 'filter'
+                dataIndex: 'filter',
+                flex: 1
             }]
         });
         this.relayEvents(this.grid, ['selectionchange']);
