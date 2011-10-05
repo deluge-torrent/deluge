@@ -87,6 +87,7 @@ CONFIG_DEFAULTS = {
     "cert": "ssl/daemon.cert"
 }
 
+FILES_KEYS = ["files", "file_progress", "file_priorities"]
 PEERS_KEYS = ["peers"]
 
 UI_CONFIG_KEYS = (
@@ -216,6 +217,60 @@ class TorrentResource(resource.Resource):
         request.write(compress(json.dumps(response), request))
         request.finish()
 
+class Files(TorrentResource):
+    """
+    """
+
+    def on_got_files(self, torrent, request):
+        files           = torrent.get("files")
+        file_progress   = torrent.get("file_progress")
+        file_priorities = torrent.get("file_priorities")
+
+        paths = []
+        info  = {}
+
+        for i, torrent_file in enumerate(files):
+            path = torrent_file["path"]
+            paths.append(path)
+            torrent_file["progress"] = file_progress[i]
+            torrent_file["priority"] = file_priorities[i]
+            torrent_file["index"]    = i
+            torrent_file["path"]     = path
+            info[path]               = torrent_file
+
+            # Update the directory info
+            dirname = os.path.dirname(path)
+            while dirname:
+                dirinfo = info.setdefault(dirname, {})
+                dirinfo["size"] = dirinfo.get("size", 0) + torrent_file["size"]
+                if "priority" not in dirinfo:
+                    dirinfo["priority"] = torrent_file["priority"]
+                else:
+                    if dirinfo["priority"] != torrent_file["priority"]:
+                        dirinfo["priority"] = 9
+
+                progresses = dirinfo.setdefault("progresses", [])
+                progresses.append(torrent_file["size"] * (torrent_file["progress"] / 100.0))
+                dirinfo["progress"] = float(sum(progresses)) / dirinfo["size"] * 100
+                dirinfo["path"] = dirname
+                dirname = os.path.dirname(dirname)
+
+        tree = uicommon.ExtFileTree(paths)
+        for path, item in tree.walk():
+            item.update(info[path])
+        self.send_response(tree.get_tree(), request)
+
+    @secure
+    def render(self, request):
+        if not hasattr(request, 'torrent_id'):
+            request.setResponseCode(http.NOT_FOUND)
+            return '<h1>Not Found</h1>'
+
+        component.get("SessionProxy"
+            ).get_torrent_status(request.torrent_id, FILES_KEYS
+            ).addCallback(self.on_got_files, request)
+        return server.NOT_DONE_YET
+
 class Peers(TorrentResource):
     """
     Returns a list of the peers that a torrent currently has in JSON format.
@@ -230,6 +285,9 @@ class Peers(TorrentResource):
 
     @secure
     def render(self, request):
+        if not hasattr(request, 'torrent_id'):
+            request.setResponseCode(http.NOT_FOUND)
+            return '<h1>Not Found</h1>'
         component.get("SessionProxy"
             ).get_torrent_status(request.torrent_id, PEERS_KEYS
             ).addCallback(self.on_got_peers, request)
@@ -504,6 +562,7 @@ class TopLevel(resource.Resource):
         self.putChild("tracker", Tracker())
 
         # Torrent REST resources
+        self.putChild("files", Files())
         self.putChild("peers", Peers())
 
         theme = component.get("DelugeWeb").config["theme"]
