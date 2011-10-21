@@ -300,7 +300,8 @@ class Flag(resource.Resource):
 
     def render(self, request):
         headers = {}
-        path = ("data", "pixmaps", "flags", request.country.lower() + ".png")
+        path = ("ui", "data", "pixmaps", "flags",
+                request.country.lower() + ".png")
         filename = common.resource_filename("deluge", os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader("cache-control",
