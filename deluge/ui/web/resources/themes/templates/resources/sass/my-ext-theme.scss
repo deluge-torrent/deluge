@@ -19,6 +19,7 @@ $include-default: false;
 @include extjs-form;
     @include extjs-form-field;
     @include extjs-form-fieldset;
+    @include extjs-form-file;
     @include extjs-form-checkboxfield;
     @include extjs-form-checkboxgroup;
     @include extjs-form-triggerfield;

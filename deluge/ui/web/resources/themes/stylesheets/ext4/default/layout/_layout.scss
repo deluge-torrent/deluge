@@ -74,6 +74,10 @@
         position: absolute;
     }
 
+    .#{$prefix}fit-item {
+        position: relative;
+    }
+
     .#{$prefix}border-layout-ct {
         background-color: $border-layout-ct-background;
     }
@@ -184,7 +188,7 @@
             cursor: pointer;
             height: $tab-height;
             background: transparent no-repeat -18px 0;
-            @include theme-background-image($theme-name, 'tab-bar/scroll-left.gif');
+            background-image: theme-background-image($theme-name, 'tab-bar/scroll-left.gif');
         }
         .#{$prefix}toolbar-scroll-left-hover {
             background-position: 0 0;
@@ -198,7 +202,7 @@
         }
 
         .#{$prefix}toolbar-scroll-left {
-            @include theme-background-image($theme-name, 'toolbar/scroll-left.gif');
+            background-image: theme-background-image($theme-name, 'toolbar/scroll-left.gif');
             background-position: -14px 0;
         }
         .#{$prefix}toolbar-scroll-left-hover {
@@ -232,7 +236,7 @@
             cursor: pointer;
             height: $tab-height;
             background: transparent no-repeat 0 0;
-            @include theme-background-image($theme-name, 'tab-bar/scroll-right.gif');
+            background-image: theme-background-image($theme-name, 'tab-bar/scroll-right.gif');
         }
         .#{$prefix}toolbar-scroll-right-hover {
             background-position: -18px 0;
@@ -246,7 +250,7 @@
         }
 
         .#{$prefix}toolbar-scroll-right {
-            @include theme-background-image($theme-name, 'toolbar/scroll-right.gif');
+            background-image: theme-background-image($theme-name, 'toolbar/scroll-right.gif');
         }
         .#{$prefix}toolbar-scroll-right-hover {
             background-position: -14px 0;
@@ -271,7 +275,7 @@
         }
         .#{$prefix}menu-scroll-top {
             background: transparent no-repeat center center;
-            @include theme-background-image($theme-name, 'layout/mini-top.gif');
+            background-image: theme-background-image($theme-name, 'layout/mini-top.gif');
             height: 8px;
             cursor: pointer;
         }
@@ -283,7 +287,7 @@
         }
         .#{$prefix}menu-scroll-bottom {
             background: transparent no-repeat center center;
-            @include theme-background-image($theme-name, 'layout/mini-bottom.gif');
+            background-image: theme-background-image($theme-name, 'layout/mini-bottom.gif');
             height: 8px;
             cursor: pointer;
         }

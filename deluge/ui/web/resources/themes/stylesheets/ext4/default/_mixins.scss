@@ -2,11 +2,14 @@
 @import 'mixins/theme-background-image';
 @import 'mixins/inner-border';
 @import 'mixins/frame';
+@import 'mixins/reset-extras';
 
 @mixin no-select {
-    -moz-user-select:none;
-    -khtml-user-select:none;
-    -webkit-user-select:ignore;
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
     
     cursor:default;
 }

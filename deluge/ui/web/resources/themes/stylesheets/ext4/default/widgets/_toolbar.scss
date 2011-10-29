@@ -101,7 +101,7 @@
 
     // Background for overflow button inserted by the Menu box overflow handler within a toolbar
     .#{$prefix}toolbar-more-icon {
-        background-image: theme-image($theme-name, 'toolbar/more.gif') !important;
+        background-image: theme-background-image($theme-name, 'toolbar/more.gif') !important;
         background-position: 2px center !important;
         background-repeat: no-repeat;
     }
@@ -110,7 +110,7 @@
         'default',
         $background-color: $toolbar-background-color,
         $background-gradient: $toolbar-background-gradient,
-        $border-color: $tabbar-border-color
+        $border-color: $toolbar-border-color
     );
     
     //plain toolbars have no border
@@ -149,7 +149,7 @@
         @if $background-gradient != null {
             .#{$prefix}nlg {
                 .#{$prefix}toolbar-#{$ui} {
-                    background-image: theme-image($theme-name, 'toolbar/toolbar-#{$ui}-bg.gif') !important;
+                    background-image: theme-background-image($theme-name, 'toolbar/toolbar-#{$ui}-bg.gif') !important;
                     background-repeat: repeat-x;
                 }
             }

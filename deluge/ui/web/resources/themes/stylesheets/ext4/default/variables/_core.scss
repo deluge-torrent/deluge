@@ -47,7 +47,7 @@ $neutral-color: #eeeeee !default;
  * @var {boolean} $include-not-found-images
  * True to include files which are not found when compiling your SASS
  */
-$include-missing-images: false !default;
+$include-missing-images: true !default;
 
 /**
  * @var {boolean} $include-ie

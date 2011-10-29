@@ -1,4 +1,12 @@
 @if $scope-reset-css {
+    .#{$prefix}border-box .#{$prefix}reset, 
+    .#{$prefix}border-box .#{$prefix}reset * {
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -ms-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+    }
+
     .#{$prefix}reset {
         html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3,
         h4, h5, h6, pre, code, form, fieldset, legend,
@@ -125,12 +133,14 @@
     *:focus {
         outline:none;
     }
+
+    .#{$prefix}border-box, 
+    .#{$prefix}border-box * {
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -ms-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+    }
 }
 
-.#{$prefix}border-box .#{$prefix}reset, 
-.#{$prefix}border-box .#{$prefix}reset * {
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -ms-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-}
+

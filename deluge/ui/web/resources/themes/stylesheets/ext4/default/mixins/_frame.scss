@@ -90,7 +90,7 @@
         .#{$prefix}nlg {
             .#{$prefix}#{$cls-ui}-mc {
                 @if $background-gradient != null {
-                    @include theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-bg.gif', false, $relative-image-path-for-uis);
+                    background-image: theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-bg.gif', false, $relative-image-path-for-uis);
                 }
                 @if $background-color != null {
                     background-color: $background-color;
@@ -148,7 +148,7 @@
                 zoom:1;
                 
                 @if $background-color != transparent {
-                    @include theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-corners.gif', false, $relative-image-path-for-uis);
+                    background-image: theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-corners.gif', false, $relative-image-path-for-uis);
                 }
             }
             
@@ -158,7 +158,7 @@
                     zoom:1;
 
                     @if $background-color != transparent {
-                        @include theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-sides.gif', false, $relative-image-path-for-uis);
+                        background-image: theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-sides.gif', false, $relative-image-path-for-uis);
                         background-position: 0 0;
                         background-repeat: repeat-x;
                     }
@@ -169,7 +169,7 @@
                     zoom:1;
 
                     @if $background-color != transparent {
-                        @include theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-sides.gif', false, $relative-image-path-for-uis);
+                        background-image: theme-background-image($theme-name, '#{$cls}/#{$cls-ui}-sides.gif', false, $relative-image-path-for-uis);
                         background-position: 0 0;
                         @if $background-gradient == null {
                             background-repeat: repeat-y;

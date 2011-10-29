@@ -39,6 +39,7 @@ $include-default-uis: true !default;
         	@include extjs-form;
         	    @include extjs-form-field;
         	    @include extjs-form-fieldset;
+        	    @include extjs-form-file;
         	    @include extjs-form-checkboxfield;
         	    @include extjs-form-checkboxgroup;
         	    @include extjs-form-triggerfield;
@@ -66,6 +67,8 @@ $include-default-uis: true !default;
         
         @include extjs-html;
     }
+
+    @include extjs-reset-extras;
 }
 @else {
     @if $include-default {

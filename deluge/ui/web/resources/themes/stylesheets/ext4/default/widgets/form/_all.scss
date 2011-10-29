@@ -50,7 +50,8 @@
         font: $form-error-msg-font;
         line-height: $form-error-msg-line-height;
 
-        background: theme-image($theme-name, $form-exclamation-icon) no-repeat 0 2px;
+        background: no-repeat 0 2px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
     }
     
     .#{$prefix}form-invalid-icon {
@@ -63,7 +64,8 @@
         left: 0;
         top: 0;
         
-        background: theme-image($theme-name, $form-exclamation-icon) no-repeat 2px 3px;
+        background: no-repeat 2px 3px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
 
         ul {
             /* prevent inner elements from interfering with QuickTip hovering */

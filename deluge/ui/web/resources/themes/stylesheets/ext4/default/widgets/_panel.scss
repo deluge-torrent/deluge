@@ -83,6 +83,12 @@
         display: -moz-inline-stack;
         display: inline-block;
     }
+    
+    .#{$prefix}panel-header-text-container {
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }
 
     .#{$prefix}panel-header-text {
         @include no-select;
@@ -263,19 +269,19 @@
     @if $ui-header-background-color != null and $ui-header-background-gradient != null {
         @if not $supports-gradients or $compile-all {
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-top {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-top-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-top-bg.gif');
             }
             
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-bottom {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-bottom-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-bottom-bg.gif');
             }
 
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-left {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-left-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-left-bg.gif');
             }
 
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-right {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-right-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-right-bg.gif');
             }
         }
     }

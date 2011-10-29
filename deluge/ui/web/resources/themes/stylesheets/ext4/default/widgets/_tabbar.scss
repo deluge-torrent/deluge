@@ -10,7 +10,7 @@
     }
 
     .#{$prefix}nlg .#{$prefix}tab-bar {
-        background-image: theme-image($theme-name, 'tab-bar/tab-bar-bg.gif');
+        background-image: theme-background-image($theme-name, 'tab-bar/tab-bar-default-bg.gif');
     }
 
     .#{$prefix}tab-bar-default-plain,

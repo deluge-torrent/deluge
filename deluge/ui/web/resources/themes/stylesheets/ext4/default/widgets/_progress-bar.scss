@@ -108,7 +108,8 @@
             .#{$prefix}nlg {
                 .#{$prefix}progress-#{$ui-label} {
                     .#{$prefix}progress-bar {
-                        background: theme-image($theme-name, 'progress/progress-#{$ui-label}-bg.gif') repeat-x;
+                        background: repeat-x;
+                        background-image: theme-background-image($theme-name, 'progress/progress-#{$ui-label}-bg.gif');
                     }
                 }
             }

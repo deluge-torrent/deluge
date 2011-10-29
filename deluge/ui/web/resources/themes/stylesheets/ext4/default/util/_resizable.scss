@@ -190,33 +190,33 @@
         .#{$prefix}resizable-handle-east,
         .#{$prefix}resizable-handle-west {
                 background-position: left;
-                @include theme-background-image($theme-name, 'sizer/e-handle.gif');
+                background-image: theme-background-image($theme-name, 'sizer/e-handle.gif');
         }
         
         .#{$prefix}resizable-handle-south,
         .#{$prefix}resizable-handle-north {
             background-position: top;
-            @include theme-background-image($theme-name, 'sizer/s-handle.gif');
+            background-image: theme-background-image($theme-name, 'sizer/s-handle.gif');
         }
         
         .#{$prefix}resizable-handle-southeast {
             background-position: top left;
-            @include theme-background-image($theme-name, 'sizer/se-handle.gif');
+            background-image: theme-background-image($theme-name, 'sizer/se-handle.gif');
         }
         
         .#{$prefix}resizable-handle-northwest {
             background-position: bottom right;
-            @include theme-background-image($theme-name, 'sizer/nw-handle.gif');
+            background-image: theme-background-image($theme-name, 'sizer/nw-handle.gif');
         }
         
         .#{$prefix}resizable-handle-northeast {
             background-position: bottom left;
-            @include theme-background-image($theme-name, 'sizer/ne-handle.gif');
+            background-image: theme-background-image($theme-name, 'sizer/ne-handle.gif');
         }
 
         .#{$prefix}resizable-handle-southwest {
             background-position: top right;
-            @include theme-background-image($theme-name, 'sizer/sw-handle.gif');
+            background-image: theme-background-image($theme-name, 'sizer/sw-handle.gif');
         }
     }
 }

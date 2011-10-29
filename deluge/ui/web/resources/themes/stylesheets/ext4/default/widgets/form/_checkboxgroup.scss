@@ -1,13 +1,14 @@
 @mixin extjs-form-checkboxgroup {
 
     .#{$prefix}form-checkboxgroup-body {
-        padding: 3px 4px;
+        //padding: 3px 4px;
     }
 
     .#{$prefix}form-invalid {
         .#{$prefix}form-checkboxgroup-body {
             border: 1px solid #c30;
-            background: #fff theme-image($theme-name, 'grid/invalid_line.gif') repeat-x bottom;
+            background: #fff repeat-x bottom;
+            background-image: theme-background-image($theme-name, 'grid/invalid_line.gif');
             padding: 2px 3px;
         }
     }

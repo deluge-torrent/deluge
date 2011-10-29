@@ -66,7 +66,7 @@
         right: 5px;
 
         a {
-            @include theme-background-image($theme-name, $datepicker-next-image);
+            background-image: theme-background-image($theme-name, $datepicker-next-image);
         }
     }
 
@@ -74,7 +74,7 @@
         left: 5px;
 
         a {
-            @include theme-background-image($theme-name, $datepicker-prev-image);
+            background-image: theme-background-image($theme-name, $datepicker-prev-image);
         }
     }      
             
@@ -107,7 +107,7 @@
         
         .#{$prefix}btn-split-right {
             background: no-repeat right center !important;
-            @include theme-background-image($theme-name, $datepicker-month-arrow-image);
+            background-image: theme-background-image($theme-name, $datepicker-month-arrow-image);
             
             padding-right: 12px;
         }
@@ -327,12 +327,12 @@
         height: 28px;
         
         button {
-            @include theme-background-image($theme-name, $datepicker-tool-sprite-image);
+            background-image: theme-background-image($theme-name, $datepicker-tool-sprite-image);
             height: 15px;
             width: 15px;
             padding: 0;
             margin: 6px 12px 5px 15px;
-            border: none;
+            border: 0;
             outline: 0 none;
             &::-moz-focus-inner {
                 border: 0;
@@ -403,7 +403,7 @@
         .#{$prefix}nlg {
             @if $datepicker-header-background-gradient != null {
                 .#{$prefix}datepicker-header {
-                    @include theme-background-image($theme-name, 'datepicker/datepicker-header-bg.gif');
+                    background-image: theme-background-image($theme-name, 'datepicker/datepicker-header-bg.gif');
                     background-repeat: repeat-x;
                     background-position: top left;
                 }
@@ -412,7 +412,7 @@
             @if $datepicker-footer-background-gradient != null {
                 .#{$prefix}datepicker-footer,
                 .#{$prefix}monthpicker-buttons {
-                    @include theme-background-image($theme-name, 'datepicker/datepicker-footer-bg.gif');
+                    background-image: theme-background-image($theme-name, 'datepicker/datepicker-footer-bg.gif');
                     background-repeat: repeat-x;
                     background-position: top left;
                 }

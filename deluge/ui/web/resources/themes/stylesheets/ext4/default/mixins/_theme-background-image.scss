@@ -5,17 +5,21 @@
  * but this can be changed by changing the default value of $include-missing-images to 
  * be true. 
  */
-@mixin theme-background-image($theme-name, $path, $without-url: false, $relative: false) {
+@function theme-background-image($theme-name, $path, $without-url: false, $relative: false) {
     $exists_image: theme-image($theme-name, $path, true, false);
-
+    
     @if $exists_image {
         $exists: theme_image_exists($exists_image);
 
-        @if $exists or $include-missing-images {
-            background-image: theme-image($theme-name, $path, $without-url, $relative);
+        @if $exists == true {
+            @return theme-image($theme-name, $path, $without-url, $relative);
         }
         @else {
             @warn "@theme-background-image: Theme image not found: #{$exists_image}";
+
+            @if $include-missing-images {
+                @return theme-image($theme-name, $path, $without-url, $relative);
+            }
         }
     }
     @else {

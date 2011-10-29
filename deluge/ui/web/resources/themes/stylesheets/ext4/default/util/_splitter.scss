@@ -32,43 +32,43 @@
 
     .#{$prefix}layout-split-left {
         background: no-repeat top right;
-        @include theme-background-image($theme-name, 'util/splitter/mini-left.gif');
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-left.gif');
     }
 
     .#{$prefix}layout-split-right {
         background: no-repeat top left;
-        @include theme-background-image($theme-name, 'util/splitter/mini-right.gif');
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-right.gif');
     }
 
     .#{$prefix}layout-split-top {
         background: no-repeat top left;
-        @include theme-background-image($theme-name, 'util/splitter/mini-top.gif');
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-top.gif');
     }
 
     .#{$prefix}layout-split-bottom {
         background: no-repeat top left;
-        @include theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
+        background-image: theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
     }
 
     .#{$prefix}splitter-collapsed {
         .#{$prefix}layout-split-left {
             background: no-repeat top left;
-            @include theme-background-image($theme-name, 'util/splitter/mini-right.gif');
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-right.gif');
         }
 
         .#{$prefix}layout-split-right {
             background: no-repeat top right;
-            @include theme-background-image($theme-name, 'util/splitter/mini-left.gif');
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-left.gif');
         }
 
         .#{$prefix}layout-split-top {
             background: no-repeat top left;
-            @include theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-bottom.gif');
         }
 
         .#{$prefix}layout-split-bottom {
             background: no-repeat top left;
-            @include theme-background-image($theme-name, 'util/splitter/mini-top.gif');
+            background-image: theme-background-image($theme-name, 'util/splitter/mini-top.gif');
         }
     }
 

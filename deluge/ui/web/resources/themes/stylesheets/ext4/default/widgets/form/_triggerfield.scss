@@ -4,7 +4,7 @@
     }
     
     .#{$prefix}form-trigger {
-        background-image: theme-image($theme-name, 'form/trigger.gif');
+        background-image: theme-background-image($theme-name, 'form/trigger.gif');
 		background-position: 0 0;
 		
 		width: $form-trigger-width;
@@ -81,22 +81,22 @@
     
     .#{$prefix}form-arrow-trigger {
         .#{$prefix}form-trigger-icon {
-            background-image: theme-image($theme-name, 'boundlist/trigger-arrow.png');
+            background-image: theme-background-image($theme-name, 'boundlist/trigger-arrow.png');
         }
     }
     
     .#{$prefix}form-date-trigger {
-        background-image: theme-image($theme-name, 'form/date-trigger.gif');
+        background-image: theme-background-image($theme-name, 'form/date-trigger.gif');
     }
 
     $spinner-btn-height: $form-trigger-height / 2;
     .#{$prefix}form-trigger-wrap {
         .#{$prefix}form-spinner-up,
         .#{$prefix}form-spinner-down {
-            background-image: theme-image($theme-name, 'form/spinner.gif');
+            background-image: theme-background-image($theme-name, 'form/spinner.gif');
 
-            width: $form-trigger-width;
-            height: $spinner-btn-height;
+            width: $form-trigger-width !important;
+            height: $spinner-btn-height !important;
 
             font-size: 0; /*for IE*/
 
@@ -125,8 +125,8 @@
         .#{$prefix}form-trigger-wrap {
             .#{$prefix}form-spinner-up,
             .#{$prefix}form-spinner-down {
-                   background-image: theme-image($theme-name, 'form/spinner-small.gif');
-                height: $spinner-btn-height;
+               background-image: theme-background-image($theme-name, 'form/spinner-small.gif');
+                height: $spinner-btn-height !important;
             }
             .#{$prefix}form-spinner-down {
                 background-position: 0 (-$spinner-btn-height);
@@ -154,9 +154,9 @@
 
 
     .#{$prefix}form-clear-trigger {
-        background-image: theme-image($theme-name, 'form/clear-trigger.gif');
+        background-image: theme-background-image($theme-name, 'form/clear-trigger.gif');
     }
     .#{$prefix}form-search-trigger {
-        background-image: theme-image($theme-name, 'form/search-trigger.gif');
+        background-image: theme-background-image($theme-name, 'form/search-trigger.gif');
     }
 }

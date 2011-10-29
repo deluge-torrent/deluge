@@ -29,22 +29,22 @@
     }
 
     .#{$prefix}message-box .#{$prefix}msg-box-wait {
-        @include theme-background-image($theme-name, 'shared/blue-loading.gif');
+        background-image: theme-background-image($theme-name, 'shared/blue-loading.gif');
     }
 
     .#{$prefix}message-box .ext-mb-info {
-        @include theme-background-image($theme-name, 'shared/icon-info.gif');
+        background-image: theme-background-image($theme-name, 'shared/icon-info.gif');
     }
 
     .#{$prefix}message-box .ext-mb-warning {
-        @include theme-background-image($theme-name, 'shared/icon-warning.gif');
+        background-image: theme-background-image($theme-name, 'shared/icon-warning.gif');
     }
 
     .#{$prefix}message-box .ext-mb-question {
-        @include theme-background-image($theme-name, 'shared/icon-question.gif');
+        background-image: theme-background-image($theme-name, 'shared/icon-question.gif');
     }
 
     .#{$prefix}message-box .ext-mb-error {
-        @include theme-background-image($theme-name, 'shared/icon-error.gif');
+        background-image: theme-background-image($theme-name, 'shared/icon-error.gif');
     }
 }

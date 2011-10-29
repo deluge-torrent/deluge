@@ -1,7 +1,5 @@
-# $ext_path: This should be the path of where the ExtJS SDK is installed
-# Generally this will be in a lib/extjs folder in your applications root
-# <root>/lib/extjs
-$ext_path = "../../lib/extjs"
+# $ext_path: This should be the path of the Ext JS SDK relative to this file
+$ext_path = "../../extjs"
 
 # sass_path: the directory your Sass files are in. THIS file should also be in the Sass folder
 # Generally this will be in a resources/sass folder

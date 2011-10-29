@@ -63,14 +63,14 @@
     }
     
     .#{$prefix}dd-drop-nodrop .#{$prefix}dd-drop-icon {
-        @include theme-background-image($theme-name, 'dd/drop-no.gif');
+        background-image: theme-background-image($theme-name, 'dd/drop-no.gif');
     }
 
     .#{$prefix}dd-drop-ok .#{$prefix}dd-drop-icon {
-        @include theme-background-image($theme-name, 'dd/drop-yes.gif');
+        background-image: theme-background-image($theme-name, 'dd/drop-yes.gif');
     }
 
     .#{$prefix}dd-drop-ok-add .#{$prefix}dd-drop-icon {
-        @include theme-background-image($theme-name, 'dd/drop-add.gif');
+        background-image: theme-background-image($theme-name, 'dd/drop-add.gif');
     }
 }

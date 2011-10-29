@@ -36,7 +36,7 @@
 }
 
 .#{$prefix}item-disabled {
-    @include opacity(0.4);
+    @include opacity(0.3);
 }
 
 .#{$prefix}ie6 .#{$prefix}item-disabled {
@@ -152,7 +152,7 @@
     float: left;
 
     @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow.png');
+        background-image: theme-background-image($theme-name, 'shared/shadow.png');
     }
 }
 
@@ -163,7 +163,7 @@
     height: 100%;
 
     @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow-lr.png');
+        background-image: theme-background-image($theme-name, 'shared/shadow-lr.png');
     }
 }
 
@@ -172,7 +172,7 @@
     height: 100%;
 
     @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow-c.png');
+        background-image: theme-background-image($theme-name, 'shared/shadow-c.png');
     }
 }
 
@@ -248,24 +248,24 @@
 }
 
 .x-box-tl {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
 .x-box-tc {
-    @include theme-background-image($theme-name, 'box/tb.gif');
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
 }
 
 .x-box-tr {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
 .x-box-ml {
-    @include theme-background-image($theme-name, 'box/l.gif');
+    background-image: theme-background-image($theme-name, 'box/l.gif');
 }
 
 .x-box-mc {
     background-color: #eee;
-    @include theme-background-image($theme-name, 'box/tb.gif');
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
     font-family: "Myriad Pro","Myriad Web","Tahoma","Helvetica","Arial",sans-serif;
     color: #393939;
     font-size: 15px;
@@ -277,27 +277,27 @@
 }
 
 .x-box-mr {
-    @include theme-background-image($theme-name, 'box/r.gif');
+    background-image: theme-background-image($theme-name, 'box/r.gif');
 }
 
 .x-box-bl {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
 .x-box-bc {
-    @include theme-background-image($theme-name, 'box/tb.gif');
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
 }
 
 .x-box-br {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
 .x-box-blue .x-box-bl, .x-box-blue .x-box-br, .x-box-blue .x-box-tl, .x-box-blue .x-box-tr {
-    @include theme-background-image($theme-name, 'box/corners-blue.gif');
+    background-image: theme-background-image($theme-name, 'box/corners-blue.gif');
 }
 
 .x-box-blue .x-box-bc, .x-box-blue .x-box-mc, .x-box-blue .x-box-tc {
-    @include theme-background-image($theme-name, 'box/tb-blue.gif');
+    background-image: theme-background-image($theme-name, 'box/tb-blue.gif');
 }
 
 .x-box-blue .x-box-mc {
@@ -309,9 +309,9 @@
 }
 
 .x-box-blue .x-box-ml {
-    @include theme-background-image($theme-name, 'box/l-blue.gif');
+    background-image: theme-background-image($theme-name, 'box/l-blue.gif');
 }
 
 .x-box-blue .x-box-mr {
-    @include theme-background-image($theme-name, 'box/r-blue.gif');
+    background-image: theme-background-image($theme-name, 'box/r-blue.gif');
 }

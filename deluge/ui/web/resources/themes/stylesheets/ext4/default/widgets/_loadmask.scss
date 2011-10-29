@@ -42,7 +42,7 @@
         
         //if an icon is defined show it
         @if $loadmask-msg-inner-icon != null {
-            background-image: theme-image($theme-name, $loadmask-msg-inner-icon);
+            background-image: theme-background-image($theme-name, $loadmask-msg-inner-icon);
             background-repeat: no-repeat;
             background-position: 5px center;
         }

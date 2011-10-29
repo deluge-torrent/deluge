@@ -50,6 +50,10 @@
         }
     }
 
+    .#{$prefix}accordion-item .#{$prefix}grid-header-ct {
+        border: 0 none;
+    }
+
     @if $include-ie or $compile-all {
         .#{$prefix}border-box .#{$prefix}ie9 {
             .#{$prefix}grid-header-ct {
@@ -125,14 +129,14 @@
             .#{$prefix}grid-header-ct,
             .#{$prefix}column-header {
                 background: repeat-x 0 top;
-                @include theme-background-image($theme-name, 'grid/column-header-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/column-header-bg.gif');
             }
 
             .#{$prefix}column-header-over,
             .#{$prefix}column-header-sort-ASC,
             .#{$prefix}column-header-sort-DESC {
                 background: #ebf3fd repeat-x 0 top;
-                @include theme-background-image($theme-name, 'grid/column-header-over-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/column-header-over-bg.gif');
             }
         }
     }
@@ -143,7 +147,7 @@
         width: $grid-header-trigger-width;
         background: no-repeat left center;
         background-color: #c3daf9;
-        @include theme-background-image($theme-name, 'grid/grid3-hd-btn.gif');
+        background-image: theme-background-image($theme-name, 'grid/grid3-hd-btn.gif');
         position: absolute;
         right: 0;
         top: 0;
@@ -176,12 +180,12 @@
     .#{$prefix}column-header-sort-ASC .#{$prefix}column-header-text {
         padding-right: 16px;
         background: no-repeat right 6px;
-        @include theme-background-image($theme-name, 'grid/sort_asc.gif');
+        background-image: theme-background-image($theme-name, 'grid/sort_asc.gif');
     }
     .#{$prefix}column-header-sort-DESC .#{$prefix}column-header-text {
         padding-right: 16px;
         background: no-repeat right 6px;
-        @include theme-background-image($theme-name, 'grid/sort_desc.gif');
+        background-image: theme-background-image($theme-name, 'grid/sort_desc.gif');
     }
 
     //grid rows
@@ -192,16 +196,14 @@
 
         padding: $grid-row-padding;
 
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: ignore;
+        @include no-select;
 
         .#{$prefix}grid-cell {
             @if $grid-row-cell-color {
                 color: $grid-row-cell-color;
             }
             font: $grid-row-cell-font;
-
+            background-color: $grid-row-cell-background;
             border-color: $grid-row-cell-border-color;
             border-style: $grid-row-cell-border-style;
             border-width: $grid-row-cell-border-width;
@@ -274,9 +276,7 @@
 
         font: $grid-cell-font;
 
-        -moz-user-select: none;
-        -khtml-user-select:none;
-        -webkit-user-select:ignore;
+        @include no-select;
     }
 
     .#{$prefix}grid-cell-inner {
@@ -335,7 +335,7 @@
     }
 
     .#{$prefix}grid-dirty-cell {
-        @include theme-background-image($theme-name, 'grid/dirty.gif');
+        background-image: theme-background-image($theme-name, 'grid/dirty.gif');
         background-position: 0 0;
         background-repeat: no-repeat;
     }
@@ -353,13 +353,13 @@
 
             .#{$prefix}grid-row .#{$prefix}grid-cell-special,
             .#{$prefix}grid-row-over .#{$prefix}grid-cell-special {
-                @include theme-background-image($theme-name, 'grid/cell-special-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/cell-special-bg.gif');
 
             }
 
             .#{$prefix}grid-row-focused .#{$prefix}grid-cell-special,
             .#{$prefix}grid-row-selected .#{$prefix}grid-cell-special {
-                @include theme-background-image($theme-name, 'grid/cell-special-selected-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/cell-special-selected-bg.gif');
             }
         }
     }
@@ -386,7 +386,7 @@
         .#{$prefix}grid-row .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner,
         .#{$prefix}grid-row-over .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner {
             padding-left: 12px;
-            @include theme-background-image($theme-name, 'grid/property-cell-bg.gif');
+            background-image: theme-background-image($theme-name, 'grid/property-cell-bg.gif');
             background-repeat: no-repeat;
             background-position: -16px 1px;
         }
@@ -399,9 +399,7 @@
     }
 
     .#{$prefix}unselectable {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: ignore;
+        @include no-select;
     }
 
     .#{$prefix}grid-row-body-hidden {
@@ -432,7 +430,7 @@
     }
 
     .#{$prefix}grid-row-expander {
-        @include theme-background-image($theme-name, 'grid/group-collapse.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-collapse.gif');
         background-color: transparent;
 
         width: 9px;
@@ -446,7 +444,7 @@
 
     .#{$prefix}grid-row-collapsed {
         .#{$prefix}grid-row-expander {
-            @include theme-background-image($theme-name, 'grid/group-expand.gif');
+            background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
         }
     }
 
@@ -473,11 +471,11 @@
     }
 
     .col-move-top {
-        @include theme-background-image($theme-name, 'grid/col-move-top.gif');
+        background-image: theme-background-image($theme-name, 'grid/col-move-top.gif');
     }
 
     .col-move-bottom {
-        @include theme-background-image($theme-name, 'grid/col-move-bottom.gif');
+        background-image: theme-background-image($theme-name, 'grid/col-move-bottom.gif');
     }
 
     //pading toolbar
@@ -510,7 +508,7 @@
 
     .#{$prefix}grid-group-title {
         background: transparent no-repeat 0 -1px;
-        @include theme-background-image($theme-name, 'grid/group-collapse.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-collapse.gif');
 
         color: $grid-grouped-title-color;
         font: $grid-grouped-title-font;
@@ -520,7 +518,7 @@
 
     .#{$prefix}grid-group-hd-collapsed {
         .#{$prefix}grid-group-title {
-            @include theme-background-image($theme-name, 'grid/group-expand.gif');
+            background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
         }
     }
 
@@ -529,15 +527,15 @@
     }
 
     .#{$prefix}grid-group-collapsed .#{$prefix}grid-group-title {
-        @include theme-background-image($theme-name, 'grid/group-expand.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
     }
 
     .#{$prefix}group-by-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}show-groups-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}column-header-checkbox .#{$prefix}column-header-inner {
@@ -552,7 +550,7 @@
     .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
         height: 14px;
         width: 14px;
-        @include theme-background-image($theme-name, 'grid/unchecked.gif');
+        background-image: theme-background-image($theme-name, 'grid/unchecked.gif');
         background-position: -1px -1px;
         background-repeat: no-repeat;
         background-color: transparent;
@@ -584,7 +582,7 @@
     }
 
     .#{$prefix}grid-hd-checker-on .#{$prefix}column-header-text {
-        @include theme-background-image($theme-name, 'grid/checked.gif');
+        background-image: theme-background-image($theme-name, 'grid/checked.gif');
     }
 
     .#{$prefix}grid-row-checker {
@@ -595,79 +593,79 @@
 
     .#{$prefix}grid-row-selected .#{$prefix}grid-row-checker,
     .#{$prefix}grid-row-checked .#{$prefix}grid-row-checker {
-        @include theme-background-image($theme-name, 'grid/checked.gif');
+        background-image: theme-background-image($theme-name, 'grid/checked.gif');
     }
 
     //grid icons
     .#{$prefix}tbar-page-first {
-        background-image: theme-image($theme-name, 'grid/page-first.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-first.gif') !important;
     }
 
     .#{$prefix}tbar-loading {
-        background-image: theme-image($theme-name, 'grid/refresh.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/refresh.gif') !important;
     }
 
     .#{$prefix}tbar-page-last {
-        background-image: theme-image($theme-name, 'grid/page-last.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-last.gif') !important;
     }
 
     .#{$prefix}tbar-page-next {
-        background-image: theme-image($theme-name, 'grid/page-next.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-next.gif') !important;
     }
 
     .#{$prefix}tbar-page-prev {
-        background-image: theme-image($theme-name, 'grid/page-prev.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-prev.gif') !important;
     }
 
     .#{$prefix}item-disabled {
         .#{$prefix}tbar-loading {
-            background-image: theme-image($theme-name, 'grid/refresh-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/refresh-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-first {
-            background-image: theme-image($theme-name, 'grid/page-first-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-first-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-last {
-            background-image: theme-image($theme-name, 'grid/page-last-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-last-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-next {
-            background-image: theme-image($theme-name, 'grid/page-next-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-next-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-prev {
-            background-image: theme-image($theme-name, 'grid/page-prev-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-prev-disabled.gif') !important;
         }
     }
 
     //menu icons
-    .xg-hmenu-sort-asc .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-asc.gif');
+    .#{$prefix}hmenu-sort-asc .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-asc.gif');
     }
 
-    .xg-hmenu-sort-desc .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-desc.gif');
+    .#{$prefix}hmenu-sort-desc .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-desc.gif');
     }
 
-    .xg-hmenu-lock .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-lock.gif');
+    .#{$prefix}hmenu-lock .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-lock.gif');
     }
 
-    .xg-hmenu-unlock .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-unlock.gif');
+    .#{$prefix}hmenu-unlock .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-unlock.gif');
     }
 
     .#{$prefix}group-by-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}cols-icon .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/columns.gif');
+        background-image: theme-background-image($theme-name, 'grid/columns.gif');
     }
 
     .#{$prefix}show-groups-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     // Drag/drop indicator styles
@@ -682,7 +680,7 @@
             position: absolute;
             top: -8px;
             left: -12px;
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-right.png');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-right.png');
             height: 16px;
             width: 16px;
         }
@@ -691,7 +689,7 @@
             position: absolute;
             top: -8px;
             right: -11px;
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-left.png');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-left.png');
             height: 16px;
             width: 16px;
         }
@@ -699,11 +697,11 @@
 
     .#{$prefix}ie6 {
         .#{$prefix}grid-drop-indicator-left {
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-right.gif');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-right.gif');
         }
 
         .#{$prefix}grid-drop-indicator-right {
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-left.gif');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-left.gif');
         }
     }
 
@@ -720,6 +718,7 @@
         .#{$prefix}form-display-field {
             font: $grid-row-editor-font;
             padding-top: 0;
+            padding-left: 4px;
         }
 
         .#{$prefix}panel-body {
@@ -770,7 +769,7 @@
             width: 4px;
             height: 4px;
             bottom: 0px;
-            @include theme-background-image($theme-name, 'panel/panel-default-framed-corners.gif');
+            background-image: theme-background-image($theme-name, 'panel/panel-default-framed-corners.gif');
         }
         &-bl {
             left: 0px;

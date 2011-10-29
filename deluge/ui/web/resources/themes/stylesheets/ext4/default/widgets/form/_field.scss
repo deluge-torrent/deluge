@@ -18,7 +18,7 @@
         
         background-color: $form-field-background-color;
         @if $form-field-background-image {
-            background-image: theme-image($theme-name, $form-field-background-image);
+            background-image: theme-background-image($theme-name, $form-field-background-image);
         }
         
         border-color: $form-field-border-color;
@@ -52,7 +52,7 @@
         background: repeat-x 0 0;
         background-color: $form-field-background-color;
         @if $form-field-background-image {
-            background-image: theme-image($theme-name, $form-field-background-image);
+            background-image: theme-background-image($theme-name, $form-field-background-image);
         }
         resize: none; //Disable browser resizable textarea
     }
@@ -76,7 +76,7 @@
     textarea.#{$prefix}form-invalid-field {
         background-color: $form-field-invalid-background-color;
         @if $form-field-invalid-background-image {
-            background-image: theme-image($theme-name, $form-field-invalid-background-image);
+            background-image: theme-background-image($theme-name, $form-field-invalid-background-image);
             background-repeat: $form-field-invalid-background-repeat;
             background-position: $form-field-invalid-background-position;
         }

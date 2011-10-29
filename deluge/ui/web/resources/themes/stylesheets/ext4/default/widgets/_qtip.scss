@@ -141,7 +141,7 @@
 
     .#{$prefix}form-invalid-tip-body {
         background: 1px 1px no-repeat;
-        @include theme-background-image($theme-name, 'form/exclamation.gif');
+        background-image: theme-background-image($theme-name, 'form/exclamation.gif');
         padding-left: 22px;
 
         li {
