@@ -41,6 +41,18 @@ input {
 	height:     auto;
 }
 
+.x-deluge-dropzone {
+	position: absolute;
+	z-index: 1;
+	margin: 10px;
+	border: 2px dashed black;
+	width: 420px;
+	height: 110px;
+	line-height: 110px;
+	text-align: center;
+	font-size: 2em;
+}
+
 .x-deluge-main-panel {
 	background-image: url('../icons/deluge.png');
 }
@@ -177,7 +189,7 @@ dl.singleline dd {
 .x-deluge-add-torrent-name-loading {
 	padding-left: 20px;
 	line-height: 20px;
-	background: url('/themes/default/tree/loading.gif') no-repeat 2px;
+	background: url('/resources/themes/images/default/tree/loading.gif') no-repeat 2px;
 }
 
 /* Add Url Window */

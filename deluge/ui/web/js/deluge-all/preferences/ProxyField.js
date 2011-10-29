@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.ProxyField.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -49,7 +49,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             name: 'proxytype',
             mode: 'local',
             width: 150,
-            store: new Ext.data.ArrayStore({
+            store: Ext.create('Ext.data.Store', {
                 fields: ['id', 'text'],
                 data: [
                     [0, _('None')],
@@ -58,8 +58,8 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
                     [3, _('Socksv5 with Auth')],
                     [4, _('HTTP')],
                     [5, _('HTTP with Auth')]
-                ]       
-            }),    
+                ]
+            }),
             editable: false,
             triggerAction: 'all',
             valueField: 'id',

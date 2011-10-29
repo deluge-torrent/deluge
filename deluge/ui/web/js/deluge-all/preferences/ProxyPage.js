@@ -42,25 +42,25 @@ Ext.define('Deluge.preferences.Proxy', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.peer = this.add(new Deluge.preferences.ProxyField({
+        this.peer = this.add(Ext.create('Deluge.preferences.ProxyField', {
             title: _('Peer'),
             name: 'peer'
         }));
         this.peer.on('change', this.onProxyChange, this);
 
-        this.web_seed = this.add(new Deluge.preferences.ProxyField({
+        this.web_seed = this.add(Ext.create('Deluge.preferences.ProxyField',{
             title: _('Web Seed'),
             name: 'web_seed'
         }));
         this.web_seed.on('change', this.onProxyChange, this);
 
-        this.tracker = this.add(new Deluge.preferences.ProxyField({
+        this.tracker = this.add(Ext.create('Deluge.preferences.ProxyField', {
             title: _('Tracker'),
             name: 'tracker'
         }));
         this.tracker.on('change', this.onProxyChange, this);
 
-        this.dht = this.add(new Deluge.preferences.ProxyField({
+        this.dht = this.add(Ext.create('Deluge.preferences.ProxyField', {
             title: _('DHT'),
             name: 'dht'
         }));

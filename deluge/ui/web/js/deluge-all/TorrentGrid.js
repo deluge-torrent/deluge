@@ -42,7 +42,7 @@ function torrentSpeedRenderer(value) {
     return fspeed(value);
 }
 function torrentProgressRenderer(value, md, r) {
-    value = new Number(value);
+    value = Number(value);
     var width = this.query('gridcolumn[dataIndex=progress]')[0].getWidth(),
         progress = value,
         text = r.data['state'] + ' ' + value.toFixed(2) + '%';
@@ -63,7 +63,7 @@ function peersRenderer(value, p, r) {
     }
 }
 function availRenderer(value, p, r)    {
-    return (value < 0) ? '&infin;' : new Number(value).toFixed(3);
+    return (value < 0) ? '&infin;' : Number(value).toFixed(3);
 }
 function trackerRenderer(value, p, r) {
     return Ext.String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
@@ -95,14 +95,13 @@ Ext.define('Deluge.TorrentGrid', {
     torrents: {},
 
     columns: [{
-        id:'queue',
         header: _('#'),
         width: 30,
         sortable: true,
         renderer: queueRenderer,
         dataIndex: 'queue'
     }, {
-        id:'name',
+        flex: 1,
         header: _('Name'),
         width: 150,
         sortable: true,
@@ -245,11 +244,10 @@ Ext.define('Deluge.TorrentGrid', {
     region: 'center',
     cls: 'deluge-torrents',
     stripeRows: true,
-    autoExpandColumn: 'name',
-    deferredRender:false,
     autoScroll:true,
+    deferredRender:false,
+    invalidateScrollOnRefresh: false,
     margins: '5 5 0 0',
-    stateful: true,
 
     initComponent: function() {
         this.callParent(arguments);
@@ -328,8 +326,9 @@ Ext.define('Deluge.TorrentGrid', {
                     }
                 }
                 record.endEdit();
+                record.commit();
             } else {
-                var record = new Deluge.data.Torrent(torrent);
+                var record = Ext.create('Deluge.data.Torrent', torrent);
                 record.setId(t);
                 this.torrents[t] = 1;
                 newTorrents.push(record);

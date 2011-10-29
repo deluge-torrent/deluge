@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.namespace('Deluge.preferences');
 
 /**
  * @class Deluge.preferences.Plugins
@@ -43,7 +42,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     height: 400,
     cls: 'x-deluge-plugins',
 
-    pluginTemplate: new Ext.Template(
+    pluginTemplate: Ext.create('Ext.Template',
         '<dl class="singleline">' +
             '<dt>Author:</dt><dd>{author}</dd>' +
             '<dt>Version:</dt><dd>{version}</dd>' +
@@ -69,10 +68,15 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             return '<div class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
         }
 
+
+
         this.grid = this.add({
             xtype: 'grid',
-            store: Ext.create('Ext.data.JsonStore', {
-                model: 'Deluge.data.PluginRecord'
+            store: Ext.create('Ext.data.Store', {
+                model: 'Deluge.data.Plugin',
+                proxy: {
+                    type: 'memory'
+                }
             }),
             singleSelect: true,
             columns: [{
@@ -80,7 +84,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
                 header: _('Enabled'),
                 width: .2,
                 sortable: true,
-                tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
+                tpl: Ext.create('Ext.XTemplate', '{enabled:this.getCheckbox}', {
                     getCheckbox: function(v) {
                         return '<div class="x-grid3-check-col'+(v?'-on':'')+'" rel="chkbox"> </div>';
                     }
@@ -103,7 +107,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             autoScroll: true,
             margins: '5 5 5 5',
             items: [this.grid],
-            bbar: new Ext.Toolbar({
+            bbar: {
                 items: [{
                     cls: 'x-btn-text-icon',
                     iconCls: 'x-deluge-install-plugin',
@@ -117,7 +121,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
                     handler: this.onFindMorePlugins,
                     scope: this
                 }]
-            })
+            }
         });
 
         var pp = this.pluginInfo = this.add({
@@ -184,7 +188,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
     },
 
     onNodeClick: function(dv, index, node, e) {
-        var el = new Ext.Element(e.target);
+        var el = Ext.fly(e.target);
         if (el.getAttribute('rel') != 'chkbox') return;
 
         var r = dv.getStore().getAt(index);
@@ -222,7 +226,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
 
     onInstallPluginWindow: function() {
         if (!this.installWindow) {
-            this.installWindow = new Deluge.preferences.InstallPluginWindow();
+            this.installWindow = Ext.create('Deluge.preferences.InstallPluginWindow');
             this.installWindow.on('pluginadded', this.onPluginInstall, this);
         }
         this.installWindow.show();

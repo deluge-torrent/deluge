@@ -55,12 +55,13 @@ deluge.ui = {
         deluge.editTrackers = Ext.create('Deluge.EditTrackersWindow');
         deluge.login = Ext.create('Deluge.LoginWindow');
         deluge.preferences = Ext.create('Deluge.preferences.PreferencesWindow');
+        deluge.removeWindow = Ext.create('Deluge.RemoveWindow');
         deluge.sidebar = Ext.create('Deluge.Sidebar');
         deluge.statusbar = Ext.create('Deluge.StatusBar');
         deluge.toolbar = Ext.create('Deluge.Toolbar');
         deluge.torrents = Ext.create('Deluge.TorrentGrid');
 
-        this.MainPanel = new Ext.Panel({
+        this.MainPanel = Ext.create('Ext.Panel', {
             id: 'mainPanel',
             iconCls: 'x-deluge-main-panel',
             title: 'Deluge',
@@ -74,7 +75,7 @@ deluge.ui = {
             bbar: deluge.statusbar
         });
 
-        this.Viewport = new Ext.Viewport({
+        this.Viewport = Ext.create('Ext.Viewport', {
             layout: 'fit',
             items: [this.MainPanel]
         });
@@ -83,7 +84,7 @@ deluge.ui = {
         deluge.events.on("disconnect", this.onDisconnect, this);
         deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
         deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
-        deluge.client = new Ext.ux.util.RpcClient({
+        deluge.client = Ext.create('Ext.ux.util.RpcClient', {
             url: deluge.config.base + 'json'
         });
 

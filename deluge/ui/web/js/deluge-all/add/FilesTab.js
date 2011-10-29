@@ -47,28 +47,38 @@ Ext.define('Deluge.add.FilesTab', {
     rootVisible: false,
 
     columns: [{
+        xtype: 'treecolumn',
         header: _('Filename'),
         width: 295,
         dataIndex: 'filename'
     },{
+        xtype: 'templatecolumn',
         header: _('Size'),
         width: 60,
         dataIndex: 'size',
-        tpl: new Ext.XTemplate('{size:this.fsize}', {
+        tpl: Ext.create('Ext.XTemplate', '{size:this.fsize}', {
             fsize: function(v) {
                 return fsize(v);
             }
         })
     },{
+        xtype: 'templatecolumn',
         header: _('Download'),
         width: 65,
         dataIndex: 'download',
-        tpl: new Ext.XTemplate('{download:this.format}', {
+        tpl: Ext.create('Ext.XTemplate', '{download:this.format}', {
             format: function(v) {
                 return '<div rel="chkbox" class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
             }
         })
     }],
+
+    store: Ext.create('Ext.data.TreeStore', {
+        model: 'Deluge.data.AddTorrentFile',
+        proxy: {
+            type: 'memory'
+        }
+    }),
 
     initComponent: function() {
         this.callParent(arguments);
@@ -76,12 +86,7 @@ Ext.define('Deluge.add.FilesTab', {
     },
 
     clearFiles: function() {
-        var root = this.getRootNode();
-        if (!root.hasChildNodes()) return;
-        root.cascade(function(node) {
-            if (!node.parentNode || !node.getOwnerTree()) return;
-            node.remove();
-        });
+        this.getStore().removeAll();
     },
 
     setDownload: function(node, value, suppress) {
@@ -106,7 +111,7 @@ Ext.define('Deluge.add.FilesTab', {
     },
 
     onNodeClick: function(node, e) {
-        var el = new Ext.Element(e.target);
+        var el = Ext.fly(e.target);
         if (el.getAttribute('rel') == 'chkbox') {
             this.setDownload(node, !node.attributes.download);
         }

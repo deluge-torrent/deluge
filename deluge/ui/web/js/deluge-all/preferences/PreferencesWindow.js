@@ -30,11 +30,6 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-Ext.define('PreferencesRecord', {
-    extend: 'Ext.data.Model',
-    fields: [{name: 'name', type: 'string'}]
-});
-
 /**
  * @class Deluge.preferences.PreferencesWindow
  * @extends Ext.Window
@@ -64,14 +59,14 @@ Ext.define('Deluge.preferences.PreferencesWindow', {
     initComponent: function() {
         this.callParent(arguments);
 
-        this.list = new Ext.list.ListView({
+        this.list = Ext.create('Ext.list.ListView', {
             store: Ext.create('Ext.data.Store', {
-                model: 'PreferencesRecord'
+                model: 'Deluge.data.Preferences'
             }),
             columns: [{
-                id: 'name',
                 renderer: fplain,
-                dataIndex: 'name'
+                dataIndex: 'name',
+                flex: 1
             }],
             singleSelect: true,
             listeners: {
@@ -80,7 +75,6 @@ Ext.define('Deluge.preferences.PreferencesWindow', {
                 }
             },
             hideHeaders: true,
-            autoExpandColumn: 'name',
             deferredRender: false,
             autoScroll: true,
             collapsible: true
@@ -112,26 +106,26 @@ Ext.define('Deluge.preferences.PreferencesWindow', {
         //this.addButton(_('Apply'), this.onApply, this);
         //this.addButton(_('Ok'), this.onOk, this);
 
-        this.optionsManager = new Deluge.OptionsManager();
+        this.optionsManager = Ext.create('Deluge.OptionsManager');
         this.on('afterrender', this.onAfterRender, this);
-        this.on('show', this.onShow, this);
 
+        this.afterMethod('onShow', this.afterShown, this);
         this.initPages();
     },
 
     initPages: function() {
         deluge.preferences = this;
-        this.addPage(new Deluge.preferences.Downloads());
-        this.addPage(new Deluge.preferences.Network());
-        this.addPage(new Deluge.preferences.Encryption());
-        this.addPage(new Deluge.preferences.Bandwidth());
-        this.addPage(new Deluge.preferences.Interface());
-        this.addPage(new Deluge.preferences.Other());
-        this.addPage(new Deluge.preferences.Daemon());
-        this.addPage(new Deluge.preferences.Queue());
-        this.addPage(new Deluge.preferences.Proxy());
-        this.addPage(new Deluge.preferences.Cache());
-        this.addPage(new Deluge.preferences.Plugins());
+        this.addPage(Ext.create('Deluge.preferences.Downloads'));
+        //this.addPage(Ext.create('Deluge.preferences.Network'));
+        this.addPage(Ext.create('Deluge.preferences.Encryption'));
+        this.addPage(Ext.create('Deluge.preferences.Bandwidth'));
+        this.addPage(Ext.create('Deluge.preferences.Interface'));
+        this.addPage(Ext.create('Deluge.preferences.Other'));
+        this.addPage(Ext.create('Deluge.preferences.Daemon'));
+        this.addPage(Ext.create('Deluge.preferences.Queue'));
+        this.addPage(Ext.create('Deluge.preferences.Proxy'));
+        this.addPage(Ext.create('Deluge.preferences.Cache'));
+        this.addPage(Ext.create('Deluge.preferences.Plugins'));
     },
 
     onApply: function(e) {
@@ -164,7 +158,7 @@ Ext.define('Deluge.preferences.PreferencesWindow', {
     addPage: function(page) {
         var store = this.list.getStore();
         var name = page.title;
-        store.add([new PreferencesRecord({name: name})]);
+        store.add({name: name});
         page['bodyStyle'] = 'padding: 5px';
         page.preferences = this;
         this.pages[name] = this.configPanel.add(page);
@@ -229,7 +223,7 @@ Ext.define('Deluge.preferences.PreferencesWindow', {
     },
 
     // private
-    onShow: function() {
+    afterShown: function() {
         if (!deluge.client.core) return;
         deluge.client.core.get_config({
             success: this.onGotConfig,

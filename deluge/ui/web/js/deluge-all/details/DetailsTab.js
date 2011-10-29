@@ -104,7 +104,8 @@ Ext.define('Deluge.details.DetailsTab', {
         };
 
         for (var field in this.fields) {
-            if (!Ext.isDefined(data[field])) continue; // this is a field we aren't responsible for.
+            // this is a field we aren't responsible for.
+            if (!Ext.isDefined(data[field])) continue;
             if (data[field] == this.oldData[field]) continue;
             this.fields[field].dom.innerHTML = Ext.escapeHTML(data[field]);
         }

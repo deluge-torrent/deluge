@@ -46,17 +46,25 @@ Ext.define('Deluge.RemoveWindow', {
     closeAction: 'hide',
     closable:    true,
     iconCls:     'x-deluge-remove-window-icon',
-    plain:       true,
-
-    bodyStyle: 'padding: 5px; padding-left: 10px;',
-    html: 'Are you sure you wish to remove the torrent (s)?',
 
     initComponent: function() {
         this.callParent(arguments);
-        // FIXME: Replace with docked toolbar
-        //this.addButton(_('Cancel'), this.onCancel, this);
-        //this.addButton(_('Remove With Data'), this.onRemoveData, this);
-        //this.addButton(_('Remove Torrent'), this.onRemove, this);
+        this.addDocked({
+            xtype: 'toolbar',
+            dock: 'bottom',
+            defaultType: 'button',
+            items: [
+                '->',
+                {text: _('Cancel'), handler: this.onCancel, scope: this},
+                {text: _('Remove With Data'), handler: this.onRemoveData, scope: this},
+                {text: _('Remove Torrent'), handler: this.onRemove, scope: this}
+            ]
+        });
+        this.add({
+            bodyStyle: 'padding: 10px;',
+            border: false,
+            html: 'Are you sure you wish to remove the torrent (s)?',
+        });
     },
 
     remove: function(removeData) {
@@ -96,5 +104,3 @@ Ext.define('Deluge.RemoveWindow', {
         deluge.ui.update();
     }
 });
-
-deluge.removeWindow = new Deluge.RemoveWindow();

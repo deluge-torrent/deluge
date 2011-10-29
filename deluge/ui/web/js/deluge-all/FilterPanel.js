@@ -46,6 +46,18 @@ Ext.define('Deluge.FilterPanel', {
         this.callParent(arguments);
         this.filterType = this.initialConfig.filter;
 
+        this.on('activate', function() {
+            console.log('activate');
+        });
+
+        this.on('show', function() {
+            console.log('show');
+        });
+
+        this.on('render', function() {
+            console.log('render');
+        });
+
         var title = this.filterType.replace('_', ' '),
             parts = title.split(' '),
             title = '';
@@ -74,7 +86,7 @@ Ext.define('Deluge.FilterPanel', {
                 }
             }),
             columns: [{
-                id: 'filter',
+                xtype: 'templatecolumn',
                 sortable: false,
                 tpl: tpl,
                 dataIndex: 'filter',
@@ -173,7 +185,6 @@ Ext.define('Deluge.FilterPanel', {
             //sm.select(0);
         }
     }
-
 });
 
 Deluge.FilterPanel.templates = {

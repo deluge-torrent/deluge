@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.EncryptionPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,12 +39,12 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
 
     border: false,
     title: _('Encryption'),
-    
+
     initComponent: function() {
         Deluge.preferences.Encryption.superclass.initComponent.call(this);
 
         var optMan = deluge.preferences.getOptionsManager();
-        
+
         var fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -57,7 +57,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Inbound'),
             mode: 'local',
             width: 150,
-            store: new Ext.data.ArrayStore({
+            store: Ext.create('Ext.data.Store', {
                 fields: ['id', 'text'],
                 data: [
                     [0, _('Forced')],
@@ -74,7 +74,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Outbound'),
             mode: 'local',
             width: 150,
-            store: new Ext.data.SimpleStore({
+            store: Ext.create('Ext.data.Store', {
                 fields: ['id', 'text'],
                 data: [
                     [0, _('Forced')],
@@ -91,7 +91,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: _('Level'),
             mode: 'local',
             width: 150,
-            store: new Ext.data.SimpleStore({
+            store: Ext.create('Ext.data.Store', {
                 fields: ['id', 'text'],
                 data: [
                     [0, _('Handshake')],

@@ -50,7 +50,7 @@ Ext.define('Deluge.details.OptionsTab', {
         this.callParent(arguments);
 
         this.fieldsets = {}, this.fields = {};
-        this.optionsManager = new Deluge.MultiOptionsManager({
+        this.optionsManager = Ext.create('Deluge.MultiOptionsManager', {
             options: {
                 'max_download_speed': -1,
                 'max_upload_speed': -1,

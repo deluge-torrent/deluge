@@ -1,6 +1,6 @@
 /*!
  * Deluge.Menus.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@ deluge.menus = {
     onTorrentAction: function(item, e) {
         var ids = deluge.torrents.getSelectedIds();
         var action = item.initialConfig.torrentAction;
-        
+
         switch (action) {
             case 'pause':
             case 'resume':
@@ -69,7 +69,7 @@ deluge.menus = {
                 break;
             case 'recheck':
                 deluge.client.core.force_recheck(ids, {
-                    success: function() {    
+                    success: function() {
                         deluge.ui.update();
                     }
                 });
@@ -81,7 +81,7 @@ deluge.menus = {
     }
 }
 
-deluge.menus.torrent = new Ext.menu.Menu({
+deluge.menus.torrent = Ext.create('Ext.menu.Menu', {
     id: 'torrentMenu',
     items: [{
         torrentAction: 'pause',
@@ -98,11 +98,11 @@ deluge.menus.torrent = new Ext.menu.Menu({
     }, '-', {
         text: _('Options'),
         iconCls: 'icon-options',
-        menu: new Ext.menu.Menu({
+        menu: {
             items: [{
                 text: _('D/L Speed Limit'),
                 iconCls: 'x-deluge-downloading',
-                menu: new Ext.menu.Menu({
+                menu: {
                     items: [{
                         text: _('5 KiB/s')
                     }, {
@@ -116,11 +116,11 @@ deluge.menus.torrent = new Ext.menu.Menu({
                     },{
                         text: _('Unlimited')
                     }]
-                })
+                }
             }, {
                 text: _('U/L Speed Limit'),
                 iconCls: 'x-deluge-seeding',
-                menu: new Ext.menu.Menu({
+                menu: {
                     items: [{
                         text: _('5 KiB/s')
                     }, {
@@ -134,11 +134,11 @@ deluge.menus.torrent = new Ext.menu.Menu({
                     },{
                         text: _('Unlimited')
                     }]
-                })
+                }
             }, {
                 text: _('Connection Limit'),
                 iconCls: 'x-deluge-connections',
-                menu: new Ext.menu.Menu({
+                menu: {
                     items: [{
                         text: _('50')
                     }, {
@@ -152,11 +152,11 @@ deluge.menus.torrent = new Ext.menu.Menu({
                     },{
                         text: _('Unlimited')
                     }]
-                })
+                }
             }, {
                 text: _('Upload Slot Limit'),
                 iconCls: 'icon-upload-slots',
-                menu: new Ext.menu.Menu({
+                menu: {
                     items: [{
                         text: _('0')
                     }, {
@@ -170,17 +170,17 @@ deluge.menus.torrent = new Ext.menu.Menu({
                     },{
                         text: _('Unlimited')
                     }]
-                })
+                }
             }, {
                 id: 'auto_managed',
                 text: _('Auto Managed'),
                 checked: false
             }]
-        })
+        }
     }, '-', {
         text: _('Queue'),
         iconCls: 'icon-queue',
-        menu: new Ext.menu.Menu({
+        menu: {
             items: [{
                 torrentAction: 'top',
                 text: _('Top'),
@@ -206,7 +206,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
                 handler: deluge.menus.onTorrentAction,
                 scope: deluge.menus
             }]
-        })
+        }
     }, '-', {
         torrentAction: 'update',
         text: _('Update Tracker'),
@@ -240,7 +240,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
     }]
 });
 
-deluge.menus.filePriorities = new Ext.menu.Menu({
+deluge.menus.filePriorities = Ext.create('Ext.menu.Menu', {
     id: 'filePrioritiesMenu',
     items: [{
         id: 'expandAll',

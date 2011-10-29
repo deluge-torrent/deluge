@@ -51,7 +51,7 @@ Ext.define('Deluge.StatusBar', {
             cls: 'x-btn-text-icon',
             iconCls: 'x-deluge-connections',
             tooltip: _('Connections'),
-            menu: new Deluge.StatusbarMenu({
+            menu: Ext.create('Deluge.StatusbarMenu', {
                 items: [{
                     text: '50',
                     value: '50',
@@ -98,7 +98,7 @@ Ext.define('Deluge.StatusBar', {
             cls: 'x-btn-text-icon',
             iconCls: 'x-deluge-downloading',
             tooltip: _('Download Speed'),
-            menu: new Deluge.StatusbarMenu({
+            menu: Ext.create('Deluge.StatusbarMenu', {
                 items: [{
                     value: '5',
                     text: '5 KiB/s',
@@ -146,7 +146,7 @@ Ext.define('Deluge.StatusBar', {
             cls: 'x-btn-text-icon',
             iconCls: 'x-deluge-seeding',
             tooltip: _('Upload Speed'),
-            menu: new Deluge.StatusbarMenu({
+            menu: Ext.create('Deluge.StatusbarMenu', {
                 items: [{
                     value: '5',
                     text: '5 KiB/s',

@@ -1,5 +1,5 @@
 /*!
- * Deluge.data.PluginRecord.js
+ * Deluge.data.Preference.js
  *
  * Copyright (c) Damien Churchill 2011 <damoxc@gmail.com>
  *
@@ -30,21 +30,9 @@
  * statement from all source files in the program, then also delete it here.
  */
 
-/**
- * Deluge.data.Plugin record
- *
- * @author Damien Churchill <damoxc@gmail.com>
- * @version 1.4
- *
- * @class Deluge.data.Plugin
- * @extends Ext.data.Model
- * @constructor
- * @param {Object} data The plugin data
- */
-Ext.define('Deluge.data.Plugin', {
+Ext.define('Deluge.data.Preferences', {
     extend: 'Ext.data.Model',
     fields: [
-        {name: 'enabled', type: 'boolean'},
-        {name: 'plugin', type: 'string'}
+        {name: 'name', type: 'string'}
     ]
 });

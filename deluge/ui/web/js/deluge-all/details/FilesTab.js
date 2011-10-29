@@ -45,22 +45,22 @@ Ext.define('Deluge.details.FilesTab', {
 
     title: _('Files'),
 
-    autoScroll: true,
-    rootVisible: false,
-
     columns: [{
-        header: _('Filename'),
+        xtype: 'treecolumn',
+        text: _('Filename'),
         width: 330,
         dataIndex: 'filename'
     }, {
-        header: _('Size'),
+        xtype: 'templatecolumn',
+        text: _('Size'),
         width: 150,
         dataIndex: 'size',
         tpl: Ext.create('Ext.XTemplate', '{size:this.fsize}', {
             fsize: function(v) { return fsize(v); }
         })
     }, {
-        header: _('Progress'),
+        xtype: 'templatecolumn',
+        text: _('Progress'),
         width: 150,
         dataIndex: 'progress',
         tpl: Ext.create('Ext.XTemplate', '{progress:this.progress}', {
@@ -70,10 +70,11 @@ Ext.define('Deluge.details.FilesTab', {
             }
         })
     }, {
-        header: _('Priority'),
+        xtype: 'templatecolumn',
+        text: _('Priority'),
         width: 150,
         dataIndex: 'priority',
-        tpl: new Ext.XTemplate('<tpl if="!isNaN(priority)">' +
+        tpl: Ext.create('Ext.XTemplate', '<tpl if="!isNaN(priority)">' +
             '<div class="{priority:this.getClass}">' +
                 '{priority:this.getName}' +
             '</div></tpl>', {
@@ -87,88 +88,45 @@ Ext.define('Deluge.details.FilesTab', {
         })
     }],
 
+    store: Ext.create('Ext.data.TreeStore', {
+        model: 'Deluge.data.File',
+        proxy: {
+            type: 'memory'
+        }
+    }),
+
+    autoScroll: true,
     multiSelect: true,
+    rootVisible: false,
+    useArrows: true,
 
     clear: function() {
-        var root = this.getRootNode();
-        if (!root.hasChildNodes()) return;
-        root.cascade(function(node) {
-            var parentNode = node.parentNode;
-            if (!parentNode) return;
-            if (!parentNode.ownerTree) return;
-            parentNode.removeChild(node);
-        });
-    },
-
-    createFileTree: function(files) {
-        function walk(files, parentNode) {
-            for (var file in files.contents) {
-                var item = files.contents[file];
-                if (item.type == 'dir') {
-                    walk(item, parentNode.appendChild(new Ext.tree.TreeNode({
-                        text: file,
-                        filename: file,
-                        size: item.size,
-                        progress: item.progress,
-                        priority: item.priority
-                    })));
-                } else {
-                    parentNode.appendChild(new Ext.tree.TreeNode({
-                        text: file,
-                        filename: file,
-                        fileIndex: item.index,
-                        size: item.size,
-                        progress: item.progress,
-                        priority: item.priority,
-                        leaf: true,
-                        iconCls: 'x-deluge-file',
-                        uiProvider: Ext.ux.tree.TreeGridNodeUI
-                    }));
-                }
-            }
-        }
-        var root = this.getRootNode();
-        walk(files, root);
-        root.firstChild.expand();
+        this.getStore().removeAll();
     },
 
     update: function(torrentId) {
+        var store = this.getStore(),
+            view  = this.getView();
+
         if (this.torrentId != torrentId) {
-            this.clear();
+            //store.removeAll();
+            store.setProxy({
+                type: 'ajax',
+                url:  'files/' + torrentId
+            })
             this.torrentId = torrentId;
         }
 
-        deluge.client.web.get_torrent_files(torrentId, {
-            success: this.onRequestComplete,
-            scope: this,
-            torrentId: torrentId
-        });
-    },
-
-    updateFileTree: function(files) {
-        function walk(files, parentNode) {
-            for (var file in files.contents) {
-                var item = files.contents[file];
-                var node = parentNode.findChild('filename', file);
-                node.attributes.size     = item.size;
-                node.attributes.progress = item.progress;
-                node.attributes.priority = item.priority;
-                node.ui.updateColumns();
-                if (item.type == 'dir') {
-                    walk(item, node);
-                }
-            }
-        }
-        walk(files, this.getRootNode());
+        store.load();
     },
 
     onRender: function(ct, position) {
         Deluge.details.FilesTab.superclass.onRender.call(this, ct, position);
         deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
         this.on('contextmenu', this.onContextMenu, this);
-        this.sorter = new Ext.tree.TreeSorter(this, {
-            folderSort: true
-        });
+        //this.sorter = new Ext.tree.TreeSorter(this, {
+        //    folderSort: true
+        //});
     },
 
     onContextMenu: function(node, e) {
@@ -222,14 +180,6 @@ Ext.define('Deluge.details.FilesTab', {
                     scope: this
                 });
                 break;
-        }
-    },
-
-    onRequestComplete: function(files, options) {
-        if (!this.getRootNode().hasChildNodes()) {
-            this.createFileTree(files);
-        } else {
-            this.updateFileTree(files);
         }
     }
 });

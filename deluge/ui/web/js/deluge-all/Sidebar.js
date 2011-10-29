@@ -71,7 +71,7 @@ Ext.define('Deluge.Sidebar', {
     },
 
     createFilter: function(filter, states) {
-        var panel = new Deluge.FilterPanel({
+        var panel = Ext.create('Deluge.FilterPanel', {
             filter: filter
         });
         panel.on('selectionchange', function(view, nodes) {
@@ -89,6 +89,11 @@ Ext.define('Deluge.Sidebar', {
             if (!deluge.config.sidebar_multiple_filters) {
                 deluge.ui.update();
             }
+
+            Ext.defer(function() {
+                panel.doLayout();
+            }, 100);
+            console.log('switching');
             //if (!sm.hasSelection() && s.count() > 0) {
             //    sm.select([s.first()]);
             //}

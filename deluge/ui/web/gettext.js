@@ -22,7 +22,7 @@ GetText = {
     }
 }
 
-function _(string) {
+window._ = function(string) {
     return GetText.get(string);
 }
 

@@ -43,8 +43,8 @@ Ext.define('Deluge.add.OptionsPanel', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.files = this.add(new Deluge.add.FilesTab());
-        this.form = this.add(new Deluge.add.OptionsTab());
+        this.files = this.add(Ext.create('Deluge.add.FilesTab'));
+        this.form = this.add(Ext.create('Deluge.add.OptionsTab'));
 
         this.files.on('fileschecked', this.onFilesChecked, this);
     },

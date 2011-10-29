@@ -38,7 +38,7 @@ Ext.define('Deluge.add.UrlWindow', {
     plain: true,
     layout: 'fit',
     width: 350,
-    height: 155,
+    height: 130,
 
     buttonAlign: 'center',
     closeAction: 'hide',
@@ -47,28 +47,38 @@ Ext.define('Deluge.add.UrlWindow', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.addButton(_('Add'), this.onAddClick, this);
+
+        this.addDocked({
+            xtype: 'toolbar',
+            dock: 'bottom',
+            defaultType: 'button',
+            items: [
+                '->',
+                {text: _('Add'), handler: this.onAddClick, scope: this}
+            ]
+        });
 
         var form = this.add({
             xtype: 'form',
             defaultType: 'textfield',
             baseCls: 'x-plain',
-            labelWidth: 55
+            defaults: {
+                labelWidth: 55,
+                anchor: '100%'
+            }
         });
 
         this.urlField = form.add({
             fieldLabel: _('Url'),
             id: 'url',
-            name: 'url',
-            width: '97%'
+            name: 'url'
         });
         this.urlField.on('specialkey', this.onAdd, this);
 
         this.cookieField = form.add({
             fieldLabel: _('Cookies'),
             id: 'cookies',
-            name: 'cookies',
-            width: '97%'
+            name: 'cookies'
         });
         this.cookieField.on('specialkey', this.onAdd, this);
     },

@@ -29,7 +29,6 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-Ext.ns('Deluge');
 
 /**
  * @class Deluge.EditTrackerWindow
@@ -64,8 +63,8 @@ Ext.define('Deluge.EditTrackersWindow', {
         this.addWindow.on('add', this.onAddTrackers, this);
         this.editWindow = Ext.create('Deluge.EditTrackerWindow');
 
-        this.list = new Ext.list.ListView({
-            store: new Ext.data.JsonStore({
+        this.list = Ext.create('Ext.list.ListView', {
+            store: Ext.create('Ext.data.Store', {
                 root: 'trackers',
                 fields: [
                     'tier',
@@ -96,7 +95,7 @@ Ext.define('Deluge.EditTrackersWindow', {
             margins: '0 0 0 0',
             items: [this.list],
             autoScroll: true,
-            bbar: new Ext.Toolbar({
+            bbar: {
                 items: [
                     {
                         text: _('Up'),
@@ -125,7 +124,7 @@ Ext.define('Deluge.EditTrackersWindow', {
                         scope: this
                     }
                 ]
-            })
+            }
         });
     },
 
@@ -147,7 +146,7 @@ Ext.define('Deluge.EditTrackersWindow', {
                 }
             }, this);
             if (duplicate) return;
-            store.add(new store.recordType({'tier': heightestTier + 1, 'url': tracker}));
+            store.add({'tier': heightestTier + 1, 'url': tracker});
         }, this);
     },
 

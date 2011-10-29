@@ -40,27 +40,50 @@ Ext.define('Deluge.details.StatusTab', {
     title: _('Status'),
     autoScroll: true,
 
-    onRender: function(ct, position) {
+    initComponent: function() {
         this.callParent(arguments);
-
+        this.columns = [];
+        this.queuedItems = {};
         this.progressBar = this.add({
             xtype: 'progressbar',
-            cls: 'x-deluge-status-progressbar'
+            cls: 'x-deluge-torrent-progressbar'
         });
-
-        this.status = this.add({
-            cls: 'x-deluge-status',
-            id: 'deluge-details-status',
-
-            border: false,
-            width: 1000,
-            loader: {
-                url: deluge.config.base + 'render/tab_status.html',
-                loadMask: true,
-                success: this.onPanelUpdate,
-                scope: this
-            }
+        this.torrentPanel = this.add({
+            xtype: 'panel'
         });
+        this.body = this.torrentPanel.body;
+    },
+
+    addColumn: function() {
+        var i = this.columns.push(false);
+        if (this.rendered) {
+            this.doAddColumn();
+        }
+        return i;
+    },
+
+    addItem: function(id, label) {
+        if (!this.rendered) {
+            this.queuedItems[id] = label;
+        } else {
+            this.doAddItem(id, label);
+        }
+    },
+
+    update: function(torrentId) {
+        deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Status, {
+            success: this.onRequestComplete,
+            scope: this
+        });
+    },
+
+    doAddColumn: function() {
+        var dl = Ext.core.DomHelper.append(this.body, {tag: 'dl'}, true);
+        return this.columns.push(dl);
+    },
+
+    doAddItem: function(id, label) {
+        //Ext.core.DomHelper.append(this.dl,
     },
 
     clear: function() {
@@ -70,53 +93,46 @@ Ext.define('Deluge.details.StatusTab', {
         }
     },
 
-    update: function(torrentId) {
-        if (!this.fields) this.getFields();
-        deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Status, {
-            success: this.onRequestComplete,
-            scope: this
-        });
-    },
-
     onPanelUpdate: function(el, response) {
         this.fields = {};
-        Ext.each(Ext.query('dd', this.status.body.dom), function(field) {
+        Ext.each(Ext.query('dd', this.torrent.body.dom), function(field) {
             this.fields[field.className] = field;
         }, this);
     },
 
-    onRequestComplete: function(status) {
-        seeders = status.total_seeds > -1 ? status.num_seeds + ' (' + status.total_seeds + ')' : status.num_seeds;
-        peers = status.total_peers > -1 ? status.num_peers + ' (' + status.total_peers + ')' : status.num_peers;
-        last_seen_complete = status.last_seen_complete > 0.0 ? fdate(status.last_seen_complete) : "Never";
+    onRequestComplete: function(torrent) {
+        var text = torrent.state + ' ' + torrent.progress.toFixed(2) + '%';
+        this.progressBar.updateProgress(torrent.progress / 100.0, text);
+
+        seeders = torrent.total_seeds > -1 ? torrent.num_seeds + ' (' + torrent.total_seeds + ')' : torrent.num_seeds;
+        peers = torrent.total_peers > -1 ? torrent.num_peers + ' (' + torrent.total_peers + ')' : torrent.num_peers;
+        last_seen_complete = torrent.last_seen_complete > 0.0 ? fdate(torrent.last_seen_complete) : "Never";
         var data = {
-            downloaded: fsize(status.total_done, true),
-            uploaded: fsize(status.total_uploaded, true),
-            share: (status.ratio == -1) ? '&infin;' : status.ratio.toFixed(3),
-            announce: ftime(status.next_announce),
-            tracker_status: status.tracker_status,
-            downspeed: (status.download_payload_rate) ? fspeed(status.download_payload_rate) : '0.0 KiB/s',
-            upspeed: (status.upload_payload_rate) ? fspeed(status.upload_payload_rate) : '0.0 KiB/s',
-            eta: ftime(status.eta),
-            pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
+            downloaded: fsize(torrent.total_done, true),
+            uploaded: fsize(torrent.total_uploaded, true),
+            share: (torrent.ratio == -1) ? '&infin;' : torrent.ratio.toFixed(3),
+            announce: ftime(torrent.next_announce),
+            tracker_torrent: torrent.tracker_torrent,
+            downspeed: (torrent.download_payload_rate) ? fspeed(torrent.download_payload_rate) : '0.0 KiB/s',
+            upspeed: (torrent.upload_payload_rate) ? fspeed(torrent.upload_payload_rate) : '0.0 KiB/s',
+            eta: ftime(torrent.eta),
+            pieces: torrent.num_pieces + ' (' + fsize(torrent.piece_length) + ')',
             seeders: seeders,
             peers: peers,
-            avail: status.distributed_copies.toFixed(3),
-            active_time: ftime(status.active_time),
-            seeding_time: ftime(status.seeding_time),
-            seed_rank: status.seed_rank,
-            time_added: fdate(status.time_added),
+            avail: torrent.distributed_copies.toFixed(3),
+            active_time: ftime(torrent.active_time),
+            seeding_time: ftime(torrent.seeding_time),
+            seed_rank: torrent.seed_rank,
+            time_added: fdate(torrent.time_added),
             last_seen_complete: last_seen_complete
         }
-        data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
+        data.auto_managed = _((torrent.is_auto_managed) ? 'True' : 'False');
 
-        data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
-        data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
+        data.downloaded += ' (' + ((torrent.total_payload_download) ? fsize(torrent.total_payload_download) : '0.0 KiB') + ')';
+        data.uploaded += ' (' + ((torrent.total_payload_download) ? fsize(torrent.total_payload_download): '0.0 KiB') + ')';
 
         for (var field in this.fields) {
             this.fields[field].innerHTML = data[field];
         }
-        var text = status.state + ' ' + status.progress.toFixed(2) + '%';
-        this.progressBar.updateProgress(status.progress / 100.0, text);
     }
 });

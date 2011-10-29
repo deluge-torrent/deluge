@@ -97,4 +97,3 @@ Ext.define('Deluge.MoveStorage', {
         this.hide();
     }
 });
-deluge.moveStorage = new Deluge.MoveStorage();
