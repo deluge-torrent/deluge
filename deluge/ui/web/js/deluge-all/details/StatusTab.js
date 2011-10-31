@@ -32,41 +32,79 @@
 
 /**
  * @class Deluge.details.StatusTab
- * @extends Ext.Panel
+ * @extends Ext.panel.Panel
  */
 Ext.define('Deluge.details.StatusTab', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.panel.Panel',
 
     title: _('Status'),
     autoScroll: true,
+    bodyPadding: 10,
 
     initComponent: function() {
         this.callParent(arguments);
+
         this.columns = [];
+        this.queuedColumns = [];
         this.queuedItems = {};
+        this.fields = {};
         this.progressBar = this.add({
             xtype: 'progressbar',
             cls: 'x-deluge-torrent-progressbar'
         });
         this.torrentPanel = this.add({
-            xtype: 'panel'
+            xtype: 'panel',
+            cls: 'x-deluge-status',
+            bodyPadding: 10,
+            border: 0
         });
         this.body = this.torrentPanel.body;
+
+        this.addColumn();
+        this.addColumn();
+        this.addColumn({width: '300px'});
+        this.addColumn();
+
+        this.addItem(0, 'downloaded', _('Downloaded'));
+        this.addItem(0, 'uploaded', _('Uploaded'));
+        this.addItem(0, 'share', _('Share Ratio'));
+        this.addItem(0, 'announce', _('Next Announce'));
+        this.addItem(0, 'tracker', _('Tracker Status'));
+
+        this.addItem(1, 'downspeed', _('Speed'));
+        this.addItem(1, 'upspeed', _('Speed'));
+        this.addItem(1, 'eta', _('ETA'));
+        this.addItem(1, 'pieces', _('Pieces'));
+
+        this.addItem(2, 'seeders', _('Seeders'));
+        this.addItem(2, 'peers', _('Peers'));
+        this.addItem(2, 'avail', _('Availability'));
+        this.addItem(2, 'auto_managed', _('Auto Managed'));
+        this.addItem(2, 'last_seen_complete', _('Last Seen Complete'));
+
+        this.addItem(3, 'active_time', _('Active Time'));
+        this.addItem(3, 'seeding_time', _('Seeding Time'));
+        this.addItem(3, 'seed_rank', _('Seed Rank'));
+        this.addItem(3, 'time_rank', _('Date Added'));
     },
 
-    addColumn: function() {
-        var i = this.columns.push(false);
-        if (this.rendered) {
-            this.doAddColumn();
-        }
-        return i;
-    },
-
-    addItem: function(id, label) {
+    addColumn: function(style) {
+        style = style || {};
         if (!this.rendered) {
-            this.queuedItems[id] = label;
+            this.queuedColumns.push(style);
         } else {
-            this.doAddItem(id, label);
+            this.doAddColumn(style);
+        }
+    },
+
+    addItem: function(col, id, label) {
+        if (!this.rendered) {
+            this.queuedItems[id] = {
+                col:   col,
+                label: label
+            };
+        } else {
+            this.doAddItem(col, id, label);
         }
     },
 
@@ -77,19 +115,39 @@ Ext.define('Deluge.details.StatusTab', {
         });
     },
 
-    doAddColumn: function() {
-        var dl = Ext.core.DomHelper.append(this.body, {tag: 'dl'}, true);
+    doAddColumn: function(style) {
+        var dl = Ext.core.DomHelper.append(this.body, {
+            tag: 'dl',
+            style: style
+        }, true);
         return this.columns.push(dl);
     },
 
-    doAddItem: function(id, label) {
-        //Ext.core.DomHelper.append(this.dl,
+    doAddItem: function(col, id, label) {
+        var col = this.columns[col],
+            dh  = Ext.core.DomHelper;
+
+        dh.append(col, {tag: 'dt', cls: id, html: label + ':'});
+        this.fields[id] = dh.append(col, {tag: 'dd', cls: id, html: ''}, true);
     },
 
     clear: function() {
         this.progressBar.updateProgress(0, ' ');
         for (var k in this.fields) {
             this.fields[k].innerHTML = '';
+        }
+    },
+
+    onRender: function(ct, position) {
+        this.callParent(arguments);
+        var i = 0;
+        for (; i < this.queuedColumns.length; i++) {
+            this.doAddColumn(this.queuedColumns[i]);
+        }
+
+        for (var id in this.queuedItems) {
+            var item = this.queuedItems[id];
+            this.doAddItem(item.col, id, item.label);
         }
     },
 
@@ -132,7 +190,7 @@ Ext.define('Deluge.details.StatusTab', {
         data.uploaded += ' (' + ((torrent.total_payload_download) ? fsize(torrent.total_payload_download): '0.0 KiB') + ')';
 
         for (var field in this.fields) {
-            this.fields[field].innerHTML = data[field];
+            this.fields[field].dom.innerHTML = data[field];
         }
     }
 });
