@@ -91,6 +91,18 @@ input {
 .x-deluge-install-plugin, .x-btn .x-deluge-install-plugin {background-image: url('../icons/install_plugin.png'); }
 .x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('../icons/find_more.png'); }
 
+.x-status-item {
+	position: relative;
+}
+
+.x-status-label {
+	font-weight: bold;
+	display: inline-block;
+}
+
+.x-status-text {
+	display: inline-block;
+}
 
 /* Torrent Details */
 #torrentDetails dl, dl.singleline {
@@ -121,41 +133,6 @@ dl.singleline dd {
 
 .x-deluge-plugins {
 	background: White;
-}
-
-/* Torrent Details - Status Tab */
-.x-deluge-status-progressbar {
-    margin: 5px;
-}
-
-.x-deluge-status {
-	margin: 10px;
-}
-
-.x-deluge-status dd.downloaded,
-.x-deluge-status dd.uploaded,
-.x-deluge-status dd.share,
-.x-deluge-status dd.announce,
-.x-deluge-status dd.tracker_status {
-	width: 200px;
-	margin-left: 100px;
-}
-
-.x-deluge-status dd.downspeed,
-.x-deluge-status dd.upspeed,
-.x-deluge-status dd.eta,
-.x-deluge-status dd.pieces {
-	margin-left: 100px;
-}
-
-.x-deluge-status dd.active_time,
-.x-deluge-status dd.seeding_time,
-.x-deluge-status dd.seed_rank,
-.x-deluge-status dd.time_added {
-	width: 100px;
-}
-.x-deluge-status dd.last_seen_complete {
-	width: 100px;
 }
 
 /* Torrent Details - Details Tab */

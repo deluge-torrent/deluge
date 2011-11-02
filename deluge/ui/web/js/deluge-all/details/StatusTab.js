@@ -40,72 +40,116 @@ Ext.define('Deluge.details.StatusTab', {
     title: _('Status'),
     autoScroll: true,
     bodyPadding: 10,
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
 
     initComponent: function() {
         this.callParent(arguments);
 
-        this.columns = [];
-        this.queuedColumns = [];
-        this.queuedItems = {};
         this.fields = {};
         this.progressBar = this.add({
             xtype: 'progressbar',
             cls: 'x-deluge-torrent-progressbar'
         });
-        this.torrentPanel = this.add({
-            xtype: 'panel',
-            cls: 'x-deluge-status',
-            bodyPadding: 10,
-            border: 0
+        this.add({
+            xtype: 'container',
+            margins: 10,
+            border: false,
+            flex: 1,
+            layout: {
+                type: 'hbox',
+                align: 'stretch'
+            },
+            defaultType: 'container',
+            defaults: {
+                flex: 1,
+                layout: 'vbox',
+                border: false,
+                defaultType: 'statusitem'
+            },
+
+            items: [{
+                defaults: {
+                    labelWidth: 100,
+                    width: 300
+                },
+                items: [{
+                    label: _('Downloaded'),
+                    dataIndex: 'downloaded'
+                }, {
+                    label: _('Uploaded'),
+                    dataIndex: 'uploaded'
+                }, {
+                    label: _('Share Ratio'),
+                    dataIndex: 'share'
+                }, {
+                    label: _('Next Announce'),
+                    dataIndex: 'announce'
+                }, {
+                    label: _('Tracker Status'),
+                    dataIndex: 'tracker'
+                }]
+            }, {
+                defaults: {
+                    labelWidth: 55,
+                    width: 300
+                },
+                items: [{
+                    label: _('Speed'),
+                    dataIndex: 'downspeed'
+                }, {
+                    label: _('Speed'),
+                    dataIndex: 'upspeed'
+                }, {
+                    label: _('ETA'),
+                    dataIndex: 'eta'
+                }, {
+                    label: _('Pieces'),
+                    dataIndex: 'pieces'
+                }]
+            }, {
+                defaults: {
+                    labelWidth: 130,
+                    width: 300
+                },
+                items: [{
+                    label: _('Seeders'),
+                    dataIndex: 'seeders'
+                }, {
+                    label: _('Peers'),
+                    dataIndex: 'peers'
+                }, {
+                    label: _('Availability'),
+                    dataIndex: 'avail'
+                }, {
+                    label: _('Auto Managed'),
+                    dataIndex: 'auto_managed'
+                }, {
+                    label: _('Last Seen Complete'),
+                    dataIndex: 'last_seen_complete'
+                }]
+            }, {
+                defaults: {
+                    labelWidth: 100,
+                    width: 300
+                },
+                items: [{
+                    label: _('Active Time'),
+                    dataIndex: 'active_time'
+                }, {
+                    label: _('Seeding Time'),
+                    dataIndex: 'seeding_time'
+                }, {
+                    label: _('Seed Rank'),
+                    dataIndex: 'seed_rank'
+                }, {
+                    label: _('Date Added'),
+                    dataIndex: 'time_rank'
+                }]
+            }]
         });
-        this.body = this.torrentPanel.body;
-
-        this.addColumn();
-        this.addColumn();
-        this.addColumn({width: '300px'});
-        this.addColumn();
-
-        this.addItem(0, 'downloaded', _('Downloaded'));
-        this.addItem(0, 'uploaded', _('Uploaded'));
-        this.addItem(0, 'share', _('Share Ratio'));
-        this.addItem(0, 'announce', _('Next Announce'));
-        this.addItem(0, 'tracker', _('Tracker Status'));
-
-        this.addItem(1, 'downspeed', _('Speed'));
-        this.addItem(1, 'upspeed', _('Speed'));
-        this.addItem(1, 'eta', _('ETA'));
-        this.addItem(1, 'pieces', _('Pieces'));
-
-        this.addItem(2, 'seeders', _('Seeders'));
-        this.addItem(2, 'peers', _('Peers'));
-        this.addItem(2, 'avail', _('Availability'));
-        this.addItem(2, 'auto_managed', _('Auto Managed'));
-        this.addItem(2, 'last_seen_complete', _('Last Seen Complete'));
-
-        this.addItem(3, 'active_time', _('Active Time'));
-        this.addItem(3, 'seeding_time', _('Seeding Time'));
-        this.addItem(3, 'seed_rank', _('Seed Rank'));
-        this.addItem(3, 'time_rank', _('Date Added'));
-    },
-
-    addColumn: function(style) {
-        style = style || {};
-        if (!this.rendered) {
-            this.queuedColumns.push(style);
-        } else {
-            this.doAddColumn(style);
-        }
-    },
-
-    addItem: function(col, id, label) {
-        if (!this.rendered) {
-            this.queuedItems[id] = {
-                col:   col,
-                label: label
-            };
-        } else {
-            this.doAddItem(col, id, label);
-        }
     },
 
     update: function(torrentId) {
@@ -115,22 +159,6 @@ Ext.define('Deluge.details.StatusTab', {
         });
     },
 
-    doAddColumn: function(style) {
-        var dl = Ext.core.DomHelper.append(this.body, {
-            tag: 'dl',
-            style: style
-        }, true);
-        return this.columns.push(dl);
-    },
-
-    doAddItem: function(col, id, label) {
-        var col = this.columns[col],
-            dh  = Ext.core.DomHelper;
-
-        dh.append(col, {tag: 'dt', cls: id, html: label + ':'});
-        this.fields[id] = dh.append(col, {tag: 'dd', cls: id, html: ''}, true);
-    },
-
     clear: function() {
         this.progressBar.updateProgress(0, ' ');
         for (var k in this.fields) {
@@ -138,29 +166,11 @@ Ext.define('Deluge.details.StatusTab', {
         }
     },
 
-    onRender: function(ct, position) {
-        this.callParent(arguments);
-        var i = 0;
-        for (; i < this.queuedColumns.length; i++) {
-            this.doAddColumn(this.queuedColumns[i]);
-        }
-
-        for (var id in this.queuedItems) {
-            var item = this.queuedItems[id];
-            this.doAddItem(item.col, id, item.label);
-        }
-    },
-
-    onPanelUpdate: function(el, response) {
-        this.fields = {};
-        Ext.each(Ext.query('dd', this.torrent.body.dom), function(field) {
-            this.fields[field.className] = field;
-        }, this);
-    },
-
     onRequestComplete: function(torrent) {
+        var me = this;
+
         var text = torrent.state + ' ' + torrent.progress.toFixed(2) + '%';
-        this.progressBar.updateProgress(torrent.progress / 100.0, text);
+        me.progressBar.updateProgress(torrent.progress / 100.0, text);
 
         seeders = torrent.total_seeds > -1 ? torrent.num_seeds + ' (' + torrent.total_seeds + ')' : torrent.num_seeds;
         peers = torrent.total_peers > -1 ? torrent.num_peers + ' (' + torrent.total_peers + ')' : torrent.num_peers;
@@ -189,8 +199,8 @@ Ext.define('Deluge.details.StatusTab', {
         data.downloaded += ' (' + ((torrent.total_payload_download) ? fsize(torrent.total_payload_download) : '0.0 KiB') + ')';
         data.uploaded += ' (' + ((torrent.total_payload_download) ? fsize(torrent.total_payload_download): '0.0 KiB') + ')';
 
-        for (var field in this.fields) {
-            this.fields[field].dom.innerHTML = data[field];
-        }
+        Ext.Array.each(me.query('statusitem'), function(item) {
+            item.setText(data[item.dataIndex]);
+        }, me);
     }
 });
