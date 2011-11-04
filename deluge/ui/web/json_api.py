@@ -273,6 +273,7 @@ class JSON(resource.Resource, component.Component):
     def _send_response(self, request, response):
         response = json.dumps(response)
         request.setHeader("content-type", "application/x-json")
+        request.setHeader("x-powered-by", "Rum")
         request.write(compress(response, request))
         request.finish()
 
