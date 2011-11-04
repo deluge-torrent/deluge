@@ -240,11 +240,15 @@ Ext.define('Deluge.TorrentGrid', {
         }
     }),
 
+    viewConfig: {
+        stateId: 'torrentGridView',
+        stateful: true
+    },
+
     id: 'torrentGrid',
     region: 'center',
     cls: 'deluge-torrents',
     stripeRows: true,
-    autoScroll:true,
     deferredRender:false,
     invalidateScrollOnRefresh: false,
     margins: '5 5 0 0',
@@ -255,6 +259,29 @@ Ext.define('Deluge.TorrentGrid', {
         deluge.events.on('disconnect', this.onDisconnect, this);
 
         this.on('itemcontextmenu', this.onTorrentSelected, this);
+
+        this.on('staterestore', function(stateful, state, eopts) {
+            deluge.log('grid restoring state');
+        });
+
+        this.on('selectionchange', function(grid, selected) {
+            if (selected.length)
+                deluge.details.update();
+            else
+                deluge.details.clear();
+        });
+
+        this.on('statesave', function() {
+            deluge.log('grid saving state');
+        });
+
+        this.getView().on('statesave', function() {
+            deluge.log('view saving state');
+        });
+
+        this.getView().on('staterestore', function(stateful, state, eopts) {
+            deluge.log('view restoring state');
+        });
     },
 
     /**
