@@ -153,6 +153,13 @@ Ext.apply(Deluge, {
 // Setup a space for plugins to insert themselves
 deluge.plugins = {};
 
+deluge.logDateFormat = 'd/m/Y H:i:s,u';
+
+deluge.log = function(msg) {
+    var date = new Date()
+    console.log(Ext.Date.format(date, deluge.logDateFormat) + ' - ' + msg);
+}
+
 // Hinting for gettext_gen.py
 // _('Do Not Download')
 // _('Normal Priority')
