@@ -54,7 +54,7 @@ from deluge.core.rpcserver import check_ssl_keys
 from deluge.ui import common as uicommon
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth, secure
-from deluge.ui.web.common import Template, compress
+from deluge.ui.web.common import Resource, Template, compress
 from deluge.ui.web.json_api import JSON, WebApi
 from deluge.ui.web.pluginmanager import PluginManager
 
@@ -107,14 +107,15 @@ def rpath(*paths):
     """
     return common.resource_filename("deluge.ui.web", os.path.join(*paths))
 
-class GetText(resource.Resource):
+class GetText(Resource):
     def render(self, request):
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
+
         request.setHeader("content-type", "text/javascript; encoding=utf-8")
         template = Template(filename=rpath("gettext.js"))
         return compress(template.render(), request)
 
-class Upload(resource.Resource):
+class Upload(Resource):
     """
     Twisted Web resource to handle file uploads
     """
@@ -124,7 +125,7 @@ class Upload(resource.Resource):
         Saves all uploaded files to the disk and returns a list of filenames,
         each on a new line.
         """
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
 
         # Block all other HTTP methods.
         if request.method != "POST":
@@ -156,14 +157,15 @@ class Upload(resource.Resource):
             'files': filenames
         }), request)
 
-class Render(resource.Resource):
+class Render(Resource):
 
     def getChild(self, path, request):
         request.render_file = path
         return self
 
     def render(self, request):
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
+
         if not hasattr(request, "render_file"):
             request.setResponseCode(http.INTERNAL_SERVER_ERROR)
             return ""
@@ -188,8 +190,6 @@ class Tracker(resource.Resource):
         return self
 
     def on_got_icon(self, icon, request):
-        headers = {}
-        request.setHeader("x-powered-by", "Rum")
         if icon:
             request.setHeader("cache-control",
                               "public, must-revalidate, max-age=86400")
@@ -202,11 +202,12 @@ class Tracker(resource.Resource):
             request.finish()
 
     def render(self, request):
+        Resource.render(self, request)
         d = self.tracker_icons.get(request.tracker_name)
         d.addCallback(self.on_got_icon, request)
         return server.NOT_DONE_YET
 
-class TorrentResource(resource.Resource):
+class TorrentResource(Resource):
     """
     Base class for exposing parts of a torrent's information
     as a REST-ish interface.
@@ -218,7 +219,6 @@ class TorrentResource(resource.Resource):
 
     def send_response(self, response, request):
         request.setHeader("content-type", "text/plain")
-        request.setHeader("x-powered-by", "Rum")
         request.write(compress(json.dumps(response), request))
         request.finish()
 
@@ -267,7 +267,7 @@ class Files(TorrentResource):
 
     @secure
     def render(self, request):
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
         if not hasattr(request, 'torrent_id'):
             request.setResponseCode(http.NOT_FOUND)
             return '<h1>Not Found</h1>'
@@ -291,7 +291,8 @@ class Peers(TorrentResource):
 
     @secure
     def render(self, request):
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
+
         if not hasattr(request, 'torrent_id'):
             request.setResponseCode(http.NOT_FOUND)
             return '<h1>Not Found</h1>'
@@ -300,14 +301,13 @@ class Peers(TorrentResource):
             ).addCallback(self.on_got_peers, request)
         return server.NOT_DONE_YET
 
-class Flag(resource.Resource):
+class Flag(Resource):
     def getChild(self, path, request):
         request.country = path
         return self
 
     def render(self, request):
-        headers = {}
-        request.setHeader("x-powered-by", "Rum")
+        Resource.render(self, request)
         path = ("ui", "data", "pixmaps", "flags",
                 request.country.lower() + ".png")
         filename = common.resource_filename("deluge", os.path.join(*path))
@@ -322,10 +322,10 @@ class Flag(resource.Resource):
             request.setResponseCode(http.NOT_FOUND)
             return ""
 
-class LookupResource(resource.Resource, component.Component):
+class LookupResource(Resource, component.Component):
 
     def __init__(self, name, *directories):
-        resource.Resource.__init__(self)
+        Resource.__init__(self)
         component.Component.__init__(self, name)
 
         self.__paths = {}
@@ -349,8 +349,8 @@ class LookupResource(resource.Resource, component.Component):
         return self
 
     def render(self, request):
+        Resource.render(self, request)
         log.debug("Requested path: '%s'", request.lookup_path)
-        request.setHeader("x-powered-by", "Rum")
         path = os.path.dirname(request.lookup_path)
 
         if path not in self.__paths:
@@ -369,10 +369,10 @@ class LookupResource(resource.Resource, component.Component):
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
 
-class ScriptResource(resource.Resource, component.Component):
+class ScriptResource(Resource, component.Component):
 
     def __init__(self):
-        resource.Resource.__init__(self)
+        Resource.__init__(self)
         component.Component.__init__(self, "Scripts")
         self.__scripts = {
             "normal": {
@@ -501,8 +501,9 @@ class ScriptResource(resource.Resource, component.Component):
         return self
 
     def render(self, request):
+        Resource.render(self, request)
+
         log.debug("Requested path: '%s'", request.lookup_path)
-        request.setHeader("x-powered-by", "Rum")
 
         for type in ("dev", "debug", "normal"):
             scripts = self.__scripts[type]["scripts"]
@@ -527,7 +528,7 @@ class ScriptResource(resource.Resource, component.Component):
         request.setResponseCode(http.NOT_FOUND)
         return "<h1>404 - Not Found</h1>"
 
-class TopLevel(resource.Resource):
+class TopLevel(Resource):
     addSlash = True
 
     __stylesheets = [
@@ -633,6 +634,8 @@ class TopLevel(resource.Resource):
         return resource.Resource.getChildWithDefault(self, path, request)
 
     def render(self, request):
+        Resource.render(self, request)
+
         debug = False
         if 'debug' in request.args:
             debug_arg = request.args.get('debug')[-1]
@@ -661,7 +664,6 @@ class TopLevel(resource.Resource):
 
         template = Template(filename=rpath("index.html"))
         request.setHeader("content-type", "text/html; charset=utf-8")
-        request.setHeader("x-powered-by", "Rum")
 
         web_config = component.get("Web").get_config()
         web_config["base"] = request.base

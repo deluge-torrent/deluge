@@ -37,6 +37,8 @@ import zlib
 import gettext
 from deluge import common
 
+from twisted.web.resource import Resource as _Resource
+
 _ = lambda x: gettext.gettext(x).decode("utf-8")
 
 def escape(text):
@@ -86,3 +88,10 @@ except ImportError:
             raise RuntimeError(
                 "The Mako library is required to run deluge.ui.web"
             )
+
+class Resource(_Resource):
+
+    def render(self, request):
+        request.setHeader("x-powered-by", "Rum")
+        request.setHeader("x-accept-rum",
+                          "Morgans Spiced, Sailor Jerry, Bundaberg")
