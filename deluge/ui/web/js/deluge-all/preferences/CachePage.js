@@ -56,7 +56,7 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 			defaults: {
 				decimalPrecision: 0,
 				minValue: -1,
-				maxValue: 99999
+				maxValue: 999999
 			}
 		});
 		om.bind('cache_size', fieldset.add({
