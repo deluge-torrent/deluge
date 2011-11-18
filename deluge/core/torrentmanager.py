@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -452,7 +452,7 @@ class TorrentManager(component.Component):
             if options["mapped_files"]:
                 for index, filename in options["mapped_files"].items():
                     filename = deluge.core.torrent.sanitize_filepath(filename)
-                    log.debug("renaming file index %s to %s", index, filename)  
+                    log.debug("renaming file index %s to %s", index, filename)
                     torrent_info.rename_file(index, utf8_encoded(filename))
 
             add_torrent_params["ti"] = torrent_info
@@ -914,9 +914,9 @@ class TorrentManager(component.Component):
         log.debug("on_alert_torrent_finished")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
+            torrent_id = str(alert.handle.info_hash())
         except:
             return
-        torrent_id = str(alert.handle.info_hash())
         log.debug("%s is finished..", torrent_id)
 
         # Get the total_download and if it's 0, do not move.. It's likely
@@ -949,9 +949,9 @@ class TorrentManager(component.Component):
         log.debug("on_alert_torrent_paused")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
+            torrent_id = str(alert.handle.info_hash())
         except:
             return
-        torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
         old_state = torrent.state
         torrent.update_state()
@@ -1043,9 +1043,9 @@ class TorrentManager(component.Component):
         log.debug("on_alert_torrent_resumed")
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
+            torrent_id = str(alert.handle.info_hash())
         except:
             return
-        torrent_id = str(alert.handle.info_hash())
         torrent.is_finished = torrent.handle.is_seed()
         old_state = torrent.state
         torrent.update_state()
@@ -1070,10 +1070,8 @@ class TorrentManager(component.Component):
 
     def on_alert_save_resume_data(self, alert):
         log.debug("on_alert_save_resume_data")
-
-        torrent_id = str(alert.handle.info_hash())
-
         try:
+            torrent_id = str(alert.handle.info_hash())
             torrent = self.torrents[torrent_id]
         except:
             return
@@ -1104,9 +1102,9 @@ class TorrentManager(component.Component):
         log.debug("index: %s name: %s", alert.index, alert.name.decode("utf8"))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
+            torrent_id = str(alert.handle.info_hash())
         except:
             return
-        torrent_id = str(alert.handle.info_hash())
 
         # We need to see if this file index is in a waiting_on_folder list
         folder_rename = False
@@ -1148,6 +1146,9 @@ class TorrentManager(component.Component):
 
     def on_alert_file_completed(self, alert):
         log.debug("file_completed_alert: %s", alert.message())
-        torrent_id = str(alert.handle.info_hash())
+        try:
+            torrent_id = str(alert.handle.info_hash())
+        except:
+            return
         component.get("EventManager").emit(
             TorrentFileCompletedEvent(torrent_id, alert.index))
