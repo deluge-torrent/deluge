@@ -114,7 +114,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
 
 		data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
-		data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
+		data.uploaded += ' (' + ((status.total_payload_upload) ? fsize(status.total_payload_upload): '0.0 KiB') + ')';
 		
 		for (var field in this.fields) {
 			this.fields[field].innerHTML = data[field];
