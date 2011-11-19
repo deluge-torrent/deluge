@@ -52,7 +52,7 @@ from deluge.ui.gtkui.torrentdetails import TorrentDetails
 from deluge.ui.gtkui.torrentview import TorrentView
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.ui import _UI
+from deluge.ui.ui import UI
 
 
 gobject.set_prgname("deluge")
@@ -68,21 +68,6 @@ except ImportError:
     def getproctitle():
         return
 
-
-class Gtk(_UI):
-
-    help = """Starts the Deluge GTK+ interface"""
-
-    def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__("gtk", *args, **kwargs)
-
-    def start(self, args=None):
-        super(Gtk, self).start(args)
-        GtkUI(self.args)
-
-
-def start():
-    Gtk().start()
 
 DEFAULT_PREFS = {
     "classic_mode": True,
@@ -144,6 +129,25 @@ DEFAULT_PREFS = {
     "focus_main_window_on_add": True,
     "language": None,
 }
+
+
+class Gtk(UI):
+
+    help = """Starts the Deluge GTK+ interface"""
+    cmdline = """A GTK-based graphical user interface"""
+
+    def __init__(self, *args, **kwargs):
+        super(Gtk, self).__init__("gtk", *args, **kwargs)
+
+        group = self.parser.add_argument_group(_('GTK Options'))
+        group.add_argument("torrents", metavar="<torrent>", nargs="*", default=None,
+                           help="Add one or more torrent files, torrent URLs or magnet URIs"
+                           " to a currently running Deluge GTK instance")
+
+    def start(self, args=None):
+        from gtkui import GtkUI
+        super(Gtk, self).start(args)
+        GtkUI(self.options)
 
 
 class GtkUI(object):

@@ -1,3 +1,5 @@
-from deluge.ui.gtkui.gtkui import start
+from deluge.ui.gtkui.gtkui import Gtk
 
-assert start  # silence pyflakes
+
+def start():
+    Gtk().start()

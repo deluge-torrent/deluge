@@ -13,7 +13,6 @@ from __future__ import print_function
 import locale
 import logging
 import optparse
-import os
 import re
 import shlex
 import sys
@@ -23,73 +22,13 @@ from twisted.internet import defer, reactor
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
-from deluge.ui.console import UI_PATH, colors
+from deluge.ui.console import colors
 from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.statusbars import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.ui import _UI
 
 log = logging.getLogger(__name__)
-
-
-class Console(_UI):
-
-    help = """Starts the Deluge console interface"""
-
-    def __init__(self, *args, **kwargs):
-        super(Console, self).__init__("console", *args, **kwargs)
-        group = optparse.OptionGroup(self.parser, "Console Options", "These daemon connect options will be "
-                                     "used for commands, or if console ui autoconnect is enabled.")
-        group.add_option("-d", "--daemon", dest="daemon_addr")
-        group.add_option("-p", "--port", dest="daemon_port", type="int")
-        group.add_option("-u", "--username", dest="daemon_user")
-        group.add_option("-P", "--password", dest="daemon_pass")
-
-        self.parser.add_option_group(group)
-        self.parser.disable_interspersed_args()
-
-        self.console_cmds = load_commands(os.path.join(UI_PATH, "commands"))
-
-        class CommandOptionGroup(optparse.OptionGroup):
-            def __init__(self, parser, title, description=None, cmds=None):
-                optparse.OptionGroup.__init__(self, parser, title, description)
-                self.cmds = cmds
-
-            def format_help(self, formatter):
-                result = formatter.format_heading(self.title)
-                formatter.indent()
-                if self.description:
-                    result += "%s\n" % formatter.format_description(self.description)
-                for cname in self.cmds:
-                    cmd = self.cmds[cname]
-                    if cmd.interactive_only or cname in cmd.aliases:
-                        continue
-                    allnames = [cname]
-                    allnames.extend(cmd.aliases)
-                    cname = "/".join(allnames)
-                    result += formatter.format_heading(" - ".join([cname, cmd.__doc__]))
-                    formatter.indent()
-                    result += "%*s%s\n" % (formatter.current_indent, "", cmd.usage.split("\n")[0])
-                    formatter.dedent()
-                formatter.dedent()
-                return result
-        cmd_group = CommandOptionGroup(self.parser, "Console Commands",
-                                       description="""These commands can be issued from the command line.
-                                                    They require quoting and multiple commands separated by ';'
-                                                    e.g. Pause torrent with id 'abcd' and get information for id 'efgh':
-                                                    `%s \"pause abcd; info efgh\"`"""
-                                       % os.path.basename(sys.argv[0]), cmds=self.console_cmds)
-        self.parser.add_option_group(cmd_group)
-
-    def start(self, args=None):
-        super(Console, self).start(args)
-        ConsoleUI(self.args, self.console_cmds, (self.options.daemon_addr, self.options.daemon_port,
-                                                 self.options.daemon_user, self.options.daemon_pass))
-
-
-def start():
-    Console().start()
 
 
 class DelugeHelpFormatter(optparse.IndentedHelpFormatter):
@@ -245,30 +184,6 @@ class BaseCommand(object):
 
     def create_parser(self):
         return OptionParser(prog=self.name, usage=self.usage, epilog=self.epilog, option_list=self.option_list)
-
-
-def load_commands(command_dir, exclude=None):
-    if not exclude:
-        exclude = []
-
-    def get_command(name):
-        return getattr(__import__("deluge.ui.console.commands.%s" % name, {}, {}, ["Command"]), "Command")()
-
-    try:
-        commands = []
-        for filename in os.listdir(command_dir):
-            if filename.split(".")[0] in exclude or filename.startswith("_"):
-                continue
-            if not (filename.endswith(".py") or filename.endswith(".pyc")):
-                continue
-            cmd = get_command(filename.split(".")[len(filename.split(".")) - 2])
-            aliases = [filename.split(".")[len(filename.split(".")) - 2]]
-            aliases.extend(cmd.aliases)
-            for a in aliases:
-                commands.append((a, cmd))
-        return dict(commands)
-    except OSError:
-        return {}
 
 
 class ConsoleUI(component.Component):

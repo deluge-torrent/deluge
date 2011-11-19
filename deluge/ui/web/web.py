@@ -14,7 +14,7 @@ from optparse import OptionGroup
 
 from deluge.common import osx_check, windows_check
 from deluge.configmanager import get_config_dir
-from deluge.ui.ui import _UI
+from deluge.ui.ui import UI
 
 
 class WebUI(object):
@@ -24,9 +24,10 @@ class WebUI(object):
         deluge_web.start()
 
 
-class Web(_UI):
+class Web(UI):
 
     help = """Starts the Deluge web interface"""
+    cmdline = """A web-based interface (http://localhost:8112)"""
 
     def __init__(self, *args, **kwargs):
         super(Web, self).__init__("web", *args, **kwargs)

@@ -1,3 +1,5 @@
-from deluge.ui.web.web import start
+from deluge.ui.web.web import Web
 
-assert start  # silence pyflakes
+
+def start():
+    Web().start()

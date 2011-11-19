@@ -20,6 +20,8 @@ import os
 import sys
 from logging import FileHandler, getLogger
 
+import pkg_resources
+
 import deluge.common
 import deluge.configmanager
 import deluge.error
@@ -38,11 +40,14 @@ def start_ui():
     parser = CommonOptionParser()
     group = optparse.OptionGroup(parser, _("Default Options"))
 
-    group.add_option("-u", "--ui", dest="ui",
-                     help="""The UI that you wish to launch.  The UI choices are:\n
-                     \t gtk -- A GTK-based graphical user interface (default)\n
-                     \t web -- A web-based interface (http://localhost:8112)\n
-                     \t console -- A console or command-line interface""", action="store", type="str")
+    ui_entrypoints = dict([(entrypoint.name, entrypoint.load())
+                           for entrypoint in pkg_resources.iter_entry_points('deluge.ui')])
+
+    cmd_help = ['The UI that you wish to launch.  The UI choices are:']
+    cmd_help.extend(["%s -- %s" % (k, getattr(v, 'cmdline', "")) for k, v in ui_entrypoints.iteritems()])
+
+    parser.add_option("-u", "--ui", dest="ui",
+                      choices=ui_entrypoints.keys(), help="\n\t ".join(cmd_help), action="store")
     group.add_option("-a", "--args", dest="args",
                      help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
     group.add_option("-s", "--set-default-ui", dest="default_ui",
@@ -79,22 +84,11 @@ def start_ui():
     client_args.extend(args)
 
     try:
-        if selected_ui == "gtk":
-            log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import Gtk
-            ui = Gtk(skip_common=True)
-            ui.start(client_args)
-        elif selected_ui == "web":
-            log.info("Starting WebUI..")
-            from deluge.ui.web.web import Web
-            ui = Web(skip_common=True)
-            ui.start(client_args)
-        elif selected_ui == "console":
-            log.info("Starting ConsoleUI..")
-            from deluge.ui.console.main import Console
-            ui = Console(skip_common=True)
-            ui.start(client_args)
-    except ImportError, e:
+        ui = ui_entrypoints[selected_ui](skip_common=True)
+    except KeyError as ex:
+        log.error("Unable to find the requested UI: '%s'. Please select a different UI with the '-u' option"
+                  " or alternatively use the '-s' option to select a different default UI.", selected_ui)
+    except ImportError as ex:
         import sys
         import traceback
         error_type, error_value, tb = sys.exc_info()
@@ -104,10 +98,12 @@ def start_ui():
             log.error("Unable to find the requested UI: %s.  Please select a different UI with the '-u' "
                       "option or alternatively use the '-s' option to select a different default UI.", selected_ui)
         else:
-            log.exception(e)
+            log.exception(ex)
             log.error("There was an error whilst launching the request UI: %s", selected_ui)
             log.error("Look at the traceback above for more information.")
         sys.exit(1)
+    else:
+        ui.start(client_args)
 
 
 def start_daemon(skip_start=False):

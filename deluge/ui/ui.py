@@ -30,7 +30,7 @@ if 'dev' not in deluge.common.get_version():
     warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
 
-class _UI(object):
+class UI(object):
 
     def __init__(self, name="gtk", skip_common=False):
         self.__name = name

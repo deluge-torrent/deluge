@@ -310,7 +310,12 @@ entry_points = {
     'gui_scripts': [
         'deluge = deluge.main:start_ui',
         'deluge-gtk = deluge.ui.gtkui:start'
-    ]
+    ],
+    'deluge.ui': [
+        'console = deluge.ui.console:Console',
+        'web = deluge.ui.web:Web',
+        'gtk = deluge.ui.gtkui:Gtk',
+    ],
 }
 
 if windows_check():
