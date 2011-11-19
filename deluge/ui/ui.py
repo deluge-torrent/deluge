@@ -11,19 +11,17 @@ from __future__ import print_function
 
 import logging
 import sys
-from optparse import OptionGroup, OptionParser
 
 import deluge.common
 import deluge.configmanager
 import deluge.log
-from deluge.main import version_callback
+from deluge.commonoptions import CommonOptionParser
 
 try:
     from setproctitle import setproctitle
 except ImportError:
     def setproctitle(title):
         return
-
 
 DEFAULT_PREFS = {
     "default_ui": "gtk"
@@ -39,18 +37,12 @@ class _UI(object):
     def __init__(self, name="gtk"):
         self.__name = name
 
-        self.__parser = OptionParser(usage="%prog [options] [actions]")
-        self.__parser.add_option("-v", "--version", action="callback", callback=version_callback,
-                                 help="Show program's version number and exit")
-        group = OptionGroup(self.__parser, "Common Options")
-        group.add_option("-c", "--config", dest="config", help="Set the config folder location")
-        group.add_option("-l", "--logfile", dest="logfile", help="Output to designated logfile instead of stdout")
-        group.add_option("-L", "--loglevel", dest="loglevel",
-                         help="Set the log level: none, info, warning, error, critical, debug")
-        group.add_option("-q", "--quiet", dest="quiet", action="store_true", default=False,
-                         help="Sets the log level to 'none', this is the same as `-L none`")
-        group.add_option("-r", "--rotate-logs", help="Rotate logfiles.", action="store_true", default=False)
-        self.__parser.add_option_group(group)
+        if name == "gtk":
+            deluge.common.setup_translations(setup_pygtk=True)
+        else:
+            deluge.common.setup_translations()
+
+        self.__parser = CommonOptionParser()
 
     @property
     def name(self):
@@ -73,30 +65,7 @@ class _UI(object):
         argv = deluge.common.unicode_argv()[1:]
         (self.__options, self.__args) = self.__parser.parse_args(argv)
 
-        if self.__options.quiet:
-            self.__options.loglevel = "none"
-
-        logfile_mode = 'w'
-        if self.__options.rotate_logs:
-            logfile_mode = 'a'
-
-        if self.__options.loglevel:
-            self.__options.loglevel = self.__options.loglevel.lower()
-
-        # Setup the logger
-        deluge.log.setup_logger(level=self.__options.loglevel,
-                                filename=self.__options.logfile,
-                                filemode=logfile_mode)
-
         log = logging.getLogger(__name__)
-
-        if self.__options.config:
-            if not deluge.configmanager.set_config_dir(self.__options.config):
-                log.error("There was an error setting the config dir! Exiting..")
-                sys.exit(1)
-
-        # Setup gettext
-        deluge.common.setup_translations()
 
         setproctitle("deluge-%s" % self.__name)
 
