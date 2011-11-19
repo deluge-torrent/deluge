@@ -29,6 +29,7 @@ DEFAULT_PREFS = {
     "default_ui": "gtk"
 }
 
+
 def start_ui():
     """Entry point for ui script"""
     deluge.common.setup_translations()
@@ -70,19 +71,29 @@ def start_ui():
     config.save()
     del config
 
+    # reconstruct arguments to hand off to child client
+    client_args = []
+    if options.args:
+        import shlex
+        client_args.extend(shlex.split(options.args))
+    client_args.extend(args)
+
     try:
         if selected_ui == "gtk":
             log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI(args)
+            from deluge.ui.gtkui.gtkui import Gtk
+            ui = Gtk(skip_common=True)
+            ui.start(client_args)
         elif selected_ui == "web":
             log.info("Starting WebUI..")
-            from deluge.ui.web.web import WebUI
-            ui = WebUI(args)
+            from deluge.ui.web.web import Web
+            ui = Web(skip_common=True)
+            ui.start(client_args)
         elif selected_ui == "console":
             log.info("Starting ConsoleUI..")
-            from deluge.ui.console.main import ConsoleUI
-            ui = ConsoleUI(options.args)
+            from deluge.ui.console.main import Console
+            ui = Console(skip_common=True)
+            ui.start(client_args)
     except ImportError, e:
         import sys
         import traceback

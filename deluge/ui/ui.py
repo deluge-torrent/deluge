@@ -7,10 +7,8 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
-
 import logging
-import sys
+import optparse
 
 import deluge.common
 import deluge.configmanager
@@ -34,7 +32,7 @@ if 'dev' not in deluge.common.get_version():
 
 class _UI(object):
 
-    def __init__(self, name="gtk"):
+    def __init__(self, name="gtk", skip_common=False):
         self.__name = name
 
         if name == "gtk":
@@ -42,7 +40,7 @@ class _UI(object):
         else:
             deluge.common.setup_translations()
 
-        self.__parser = CommonOptionParser()
+        self.__parser = optparse.OptionParser() if skip_common else CommonOptionParser()
 
     @property
     def name(self):
@@ -60,10 +58,12 @@ class _UI(object):
     def args(self):
         return self.__args
 
-    def start(self):
-        # Make sure all arguments are unicode
-        argv = deluge.common.unicode_argv()[1:]
-        (self.__options, self.__args) = self.__parser.parse_args(argv)
+    def start(self, args=None):
+        if args is None:
+            # Make sure all arguments are unicode
+            args = deluge.common.unicode_argv()[1:]
+
+        self.__options, self.__args = self.__parser.parse_args(args)
 
         log = logging.getLogger(__name__)
 
