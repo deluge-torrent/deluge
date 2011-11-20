@@ -492,7 +492,7 @@ def free_space(path):
         return (free * sectors * bytes)
     else:
         disk_data = os.statvfs(path.encode("utf8"))
-        block_size = disk_data.f_bsize
+        block_size = disk_data.f_frsize
         return disk_data.f_bavail * block_size
 
 def is_ip(ip):
