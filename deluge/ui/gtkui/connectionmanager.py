@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -409,7 +409,8 @@ class ConnectionManager(component.Component):
         try:
             return client.start_daemon(port, config)
         except OSError, e:
-            if e.errno == 2:
+            from errno import ENOENT
+            if e.errno == ENOENT:
                 dialogs.ErrorDialog(
                     _("Unable to start daemon!"),
                     _("Deluge cannot find the 'deluged' executable, it is likely \
