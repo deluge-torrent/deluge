@@ -848,7 +848,8 @@ class TorrentManager(component.Component):
                             os.removedirs(os.path.join(root, name))
                             log.debug("Removed Empty Folder %s", os.path.join(root, name))
                         except OSError as (errno, strerror):
-                            if errno == 39:
+                            from errno import ENOTEMPTY
+                            if errno == ENOTEMPTY:
                                 # Error raised if folder is not empty
                                 log.debug("%s", strerror)
 

@@ -268,7 +268,8 @@ class Core(CorePluginBase):
                     try:
                         os.rename(filepath, copy_torrent_file)
                     except OSError, why:
-                        if why.errno == 18:
+                        from errno import EXDEV
+                        if why.errno == errno.EXDEV:
                             # This can happen for different mount points
                             from shutil import copyfile
                             try:
