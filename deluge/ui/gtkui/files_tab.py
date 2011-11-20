@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -822,7 +822,11 @@ class FilesTab(Tab):
         selection.set_text(cPickle.dumps(paths))
 
     def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
-        selected = cPickle.loads(selection.data)
+        try:
+            selected = cPickle.loads(selection.data)
+        except cPickle.UnpicklingError:
+            log.debug("Invalid selection data: %s", selection.data)
+            return
         log.debug("selection.data: %s", selected)
         drop_info = treeview.get_dest_row_at_pos(x, y)
         model = treeview.get_model()
