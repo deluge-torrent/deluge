@@ -304,7 +304,7 @@ class ListView:
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError), e:
+        except (EOFError, IOError, cPickle.UnpicklingError), e:
             log.warning("Unable to load state file: %s", e)
 
         # Keep the state in self.state so we can access it as we add new columns
@@ -545,12 +545,12 @@ class ListView:
                     column.set_visible(column_state.visible)
                     position = column_state.position
                     break
-            
+
         # Set this column to not visible if its not in the state and
         # its not supposed to be shown by default
         if not column_in_state and not default and not hidden:
             column.set_visible(False)
-                
+
         if position is not None:
             self.treeview.insert_column(column, position)
         else:

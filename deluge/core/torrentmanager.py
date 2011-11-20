@@ -652,7 +652,7 @@ class TorrentManager(component.Component):
                 os.path.join(get_config_dir(), "state", "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError, Exception), e:
+        except (EOFError, IOError, Exception, cPickle.UnpicklingError), e:
             log.warning("Unable to load state file: %s", e)
 
         # Try to use an old state
@@ -741,8 +741,8 @@ class TorrentManager(component.Component):
             state_file.flush()
             os.fsync(state_file.fileno())
             state_file.close()
-        except IOError:
-            log.warning("Unable to save state file.")
+        except IOError, e:
+            log.warning("Unable to save state file: %s", e)
             return True
 
         # We have to move the 'torrents.state.new' file to 'torrents.state'

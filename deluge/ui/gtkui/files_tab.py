@@ -281,7 +281,7 @@ class FilesTab(Tab):
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError, AttributeError), e:
+        except (EOFError, IOError, AttributeError, cPickle.UnpicklingError), e:
             log.warning("Unable to load state file: %s", e)
 
         if state == None:
