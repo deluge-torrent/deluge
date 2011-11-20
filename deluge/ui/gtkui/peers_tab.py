@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -212,7 +212,7 @@ class PeersTab(Tab):
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError, AttributeError), e:
+        except (EOFError, IOError, AttributeError, cPickle.UnpicklingError), e:
             log.warning("Unable to load state file: %s", e)
 
         if state == None:
