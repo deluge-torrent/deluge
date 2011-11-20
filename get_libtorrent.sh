@@ -9,6 +9,11 @@ VERSION=14
 [ "$1" != "" ] && VERSION=$1
 BRANCH=branches/RC_0_$VERSION
 
+if [ -z $SVN ]; then
+    echo "Please install an 'svn' client"
+    exit 1
+fi
+
 if [ -d libtorrent ]; then
 	$SVN up libtorrent
 else
