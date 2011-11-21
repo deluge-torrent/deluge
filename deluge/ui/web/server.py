@@ -176,10 +176,10 @@ class Render(Resource):
         request.setResponseCode(http.OK)
         return compress(template.render(), request)
 
-class Tracker(resource.Resource):
+class Tracker(Resource):
 
     def __init__(self):
-        resource.Resource.__init__(self)
+        Resource.__init__(self)
         try:
             self.tracker_icons = component.get("TrackerIcons")
         except KeyError:
