@@ -174,7 +174,9 @@ Ext.define('Deluge.FilterPanel', {
             if (filters[record.getId()]) return;
             var r = sm.getLastSelected();
             store.remove(record);
-            if (r.id == record.id) {
+            if (r === undefined)
+                return;
+            if (r.getId() == record.getId()) {
                 sm.select(0);
             }
         }, this);

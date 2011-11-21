@@ -90,13 +90,9 @@ Ext.define('Deluge.Sidebar', {
                 deluge.ui.update();
             }
 
-            Ext.defer(function() {
-                panel.doLayout();
-            }, 100);
-            console.log('switching');
-            //if (!sm.hasSelection() && s.count() > 0) {
-            //    sm.select([s.first()]);
-            //}
+            if (!sm.hasSelection() && s.count() > 0) {
+                sm.select([s.first()]);
+            }
         });
         this.fireEvent('filtercreate', this, panel);
 
