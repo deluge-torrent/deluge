@@ -250,21 +250,21 @@ deluge.menus.filePriorities = new Ext.menu.Menu({
 		id: 'no_download',
 		text: _('Do Not Download'),
 		iconCls: 'icon-do-not-download',
-		filePriority: 0
+		filePriority: FILE_PRIORITY['Do Not Download']
 	}, {
 		id: 'normal',
 		text: _('Normal Priority'),
 		iconCls: 'icon-normal',
-		filePriority: 1
+		filePriority: FILE_PRIORITY['Normal Priority']
 	}, {
 		id: 'high',
 		text: _('High Priority'),
 		iconCls: 'icon-high',
-		filePriority: 2
+		filePriority: FILE_PRIORITY['High Priority']
 	}, {
 		id: 'highest',
 		text: _('Highest Priority'),
 		iconCls: 'icon-highest',
-		filePriority: 5
+		filePriority: FILE_PRIORITY['Highest Priority']
 	}]
 });
