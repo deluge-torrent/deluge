@@ -42,6 +42,7 @@ import pkg_resources
 
 import deluge.component as component
 from deluge.ui.client import client
+from deluge.ui.gtkui.ipcinterface import process_args
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -172,40 +173,8 @@ class QueuedTorrents(component.Component):
         # Add all the torrents in the liststore
         def add_torrent(model, path, iter, data):
             torrent_path = model.get_value(iter, 1)
-            if deluge.common.is_url(torrent_path):
-                if self.config["interactive_add"]:
-                    def on_show(result):
-                        component.get("AddTorrentDialog").add_from_url(torrent_path)
-                        
-                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
-                    d.addCallback(on_show)
-                else:
-                    client.core.add_torrent_url(torrent_path, None)
-            elif deluge.common.is_magnet(torrent_path):
-                if self.config["interactive_add"]:
-                    def on_show(result):
-                        component.get("AddTorrentDialog").add_from_magnets([torrent_path])
-                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
-                    d.addCallback(on_show)
-                else:
-                    client.core.add_magnet_uris([torrent_path], [])
-            else:
-                torrent_path = os.path.abspath(torrent_path.replace('file://', '', 1))
-                if not os.path.exists(torrent_path):
-                    log.error("No such file: %s", torrent_path)
-                    return
-
-                if self.config["interactive_add"]:
-                    def on_show(result):
-                        component.get("AddTorrentDialog").add_from_files([torrent_path])
-                    d = component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
-                    d.addCallback(on_show)
-                else:
-                    client.core.add_torrent_file(
-                        os.path.split(torrent_path)[-1],
-                        base64.encodestring(open(torrent_path, "rb").read()),
-                        None)
-
+            process_args([torrent_path])
+            
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]
         self.dialog.hide()
