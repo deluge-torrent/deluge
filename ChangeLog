@@ -1,5 +1,18 @@
 === Deluge 1.3.4 (In Development) ===
-
+==== Core ====
+	#1921: Free disk space reporting incorrectly in FreeBSD
+	#1964: Fix unhandled UnpicklingErrors
+	#1967: Fix unhandled IndexError when trying to open a non-json conf file
+	
+==== GtkUI ====
+	#1918: Fix Drag'n'Drop not working in Windows
+	#1941: Increase maximum Cache Size to 999999 (15GiB)
+	#1940: File & folder renaming issue when using Add Torrent dialog in Windows
+	LP#821577: Fix UnpicklingError when external selection dragged onto Files Tab
+	
+==== WebUI ====
+	Fix Webui files-tab menu setting wrong priority
+	#1960: Fix statustab showing total_payload_download for upload as well
 
 === Deluge 1.3.3 (22 July 2011) ===
 ==== Core ====
