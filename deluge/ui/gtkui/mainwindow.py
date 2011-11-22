@@ -284,10 +284,8 @@ class MainWindow(component.Component):
         self.config["window_pane_position"] = self.vpaned.get_position()
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
-        args = []
-        for uri in selection_data.data.split():
-            args.append(urllib.unquote(uri))
-        process_args(args)
+        log.debug("Selection(s) dropped on main window %s", selection_data.get_uris())
+        process_args(selection_data.get_uris())
         drag_context.finish(True, True)
 
     def on_expose_event(self, widget, event):

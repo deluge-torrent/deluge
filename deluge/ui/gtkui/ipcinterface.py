@@ -38,6 +38,8 @@ import sys
 import os
 import base64
 import logging
+from urllib import url2pathname
+from urlparse import urlparse
 
 try:
     import rencode
@@ -190,29 +192,34 @@ def process_args(args):
         component.get("QueuedTorrents").add_to_queue(args)
         return
     config = ConfigManager("gtkui.conf")
+
     for arg in args:
         if not arg.strip():
             continue
         log.debug("arg: %s", arg)
+
         if deluge.common.is_url(arg):
-            log.debug("Attempting to add %s from external source..",
-                arg)
+            log.debug("Attempting to add url (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_url(arg)
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
                 client.core.add_torrent_url(arg, None)
+
         elif deluge.common.is_magnet(arg):
-            log.debug("Attempting to add %s from external source..", arg)
+            log.debug("Attempting to add magnet (%s) from external source...", arg)
             if config["interactive_add"]:
                 component.get("AddTorrentDialog").add_from_magnets([arg])
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
                 client.core.add_torrent_magnet(arg, {})
+
         else:
-            # Just a file
-            path = os.path.abspath(arg.replace('file://', '', 1))
-            log.debug("Attempting to add %s from external source..", path)
+            log.debug("Attempting to add file (%s) from external source...", arg)
+            if urlparse(arg).scheme == "file":
+                arg = url2pathname(urlparse(arg).path)
+            path = os.path.abspath(arg)
+
             if not os.path.exists(path):
                 log.error("No such file: %s", path)
                 continue
