@@ -463,7 +463,7 @@ what is currently in the config and it could not convert the value
             log.debug("Backing up old config file to %s~", filename)
             shutil.move(filename, filename + "~")
         except Exception, e:
-            log.error("Error backing up old config..")
+            log.warning("Unable to backup old config...")
 
         # The new config file has been written successfully, so let's move it over
         # the existing one.
