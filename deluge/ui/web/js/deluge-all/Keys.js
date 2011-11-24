@@ -88,7 +88,7 @@ Deluge.Keys = {
      */
     Details: [
         'name', 'save_path', 'total_size', 'num_files', 'message',
-        'tracker', 'comment'
+        'tracker', 'comment', 'owner', 'shared'
     ],
 
     /**

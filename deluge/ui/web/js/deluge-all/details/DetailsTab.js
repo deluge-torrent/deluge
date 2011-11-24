@@ -35,6 +35,7 @@ Ext.define('Deluge.details.DetailsTab', {
     extend: 'Ext.Panel',
 
     title: _('Details'),
+    autoScroll: true,
     fields: {},
     queuedItems: {},
     oldData: {},
@@ -49,6 +50,8 @@ Ext.define('Deluge.details.DetailsTab', {
         this.addItem('comment', _('Comment'));
         this.addItem('status', _('Status'));
         this.addItem('tracker', _('Tracker'));
+        this.addItem('owner', _('Owner'));
+        this.addItem('shared', _('Shared'));
     },
 
     onRender: function(ct, position) {
@@ -100,7 +103,9 @@ Ext.define('Deluge.details.DetailsTab', {
             files: torrent.num_files,
             status: torrent.message,
             tracker: torrent.tracker,
-            comment: torrent.comment
+            comment: torrent.comment,
+            owner: torrent.owner,
+            shared: torrent.shared
         };
 
         for (var field in this.fields) {
