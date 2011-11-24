@@ -1,0 +1,111 @@
+.icon-create {
+    background-image: url('../icons/create.png') !important;
+}
+
+.icon-add {
+    background-image: url('../icons/add.png') !important;
+}
+
+.icon-add-url {
+    background-image: url('../icons/add_url.png') !important;
+}
+
+.icon-add-magnet {
+    background-image: url('../icons/add_magnet.png') !important;
+}
+
+.icon-options {
+    background-image: url('../icons/preferences.png') !important;
+}
+
+.icon-queue {
+    background-image: url('../icons/queue.png') !important;
+}
+
+.icon-top {
+    background-image: url('../icons/top.png') !important;
+}
+
+.icon-up {
+    background-image: url('../icons/up.png') !important;
+}
+
+.icon-down {
+    background-image: url('../icons/down.png') !important;
+}
+
+.icon-bottom {
+    background-image: url('../icons/bottom.png') !important;
+}
+
+.icon-update-tracker {
+    background-image: url('../icons/update.png') !important;
+}
+
+.icon-edit-trackers, .icon-edit {
+    background-image: url('../icons/edit_trackers.png') !important;
+}
+
+.icon-remove {
+    background-image: url('../icons/remove.png') !important;
+}
+
+.icon-recheck {
+    background-image: url('../icons/recheck.png') !important;
+}
+
+.icon-move {
+    background-image: url('../icons/move.png') !important;
+}
+
+.icon-help {
+    background-image: url('../icons/help.png') !important;
+}
+
+.icon-logout {
+    background-image: url('../icons/logout.png') !important;
+}
+
+.icon-back {
+    background-image: url('../icons/back.png') !important;
+}
+
+.icon-forward {
+    background-image: url('../icons/forward.png') !important;
+}
+
+.icon-home {
+    background-image: url('../icons/home.png') !important;
+}
+
+.icon-ok {
+    background-image: url('../icons/ok.png') !important;
+}
+
+.icon-error {
+    background-image: url('../icons/error.png') !important;
+}
+
+.icon-upload-slots {
+    background-image: url('../icons/upload_slots.png') !important;
+}
+
+.icon-expand-all {
+    background-image: url('../icons/expand_all.png') !important;
+}
+
+.icon-do-not-download {
+    background-image: url('../icons/no_download.png') !important;
+}
+
+.icon-normal {
+    background-image: url('../icons/normal.png') !important;
+}
+
+.icon-high {
+    background-image: url('../icons/high.png') !important;
+}
+
+.icon-highest {
+    background-image: url('../icons/highest.png') !important;
+}
