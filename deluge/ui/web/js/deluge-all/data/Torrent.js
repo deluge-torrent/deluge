@@ -48,7 +48,7 @@ Ext.define('Deluge.data.Torrent', {
         {name: 'name', type: 'string'},
         {name: 'total_size', type: 'int'},
         {name: 'state', type: 'string'},
-        {name: 'progress', type: 'int'},
+        {name: 'progress', type: 'float'},
         {name: 'num_seeds', type: 'int'},
         {name: 'total_seeds', type: 'int'},
         {name: 'num_peers', type: 'int'},
