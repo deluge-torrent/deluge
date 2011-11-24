@@ -73,7 +73,8 @@ Ext.define('Deluge.details.StatusTab', {
             items: [{
                 defaults: {
                     labelWidth: 100,
-                    width: 300
+                    width: 300,
+                    margins: '2 0 2 0'
                 },
                 items: [{
                     label: _('Downloaded'),
@@ -89,7 +90,7 @@ Ext.define('Deluge.details.StatusTab', {
                     dataIndex: 'announce'
                 }, {
                     label: _('Tracker Status'),
-                    dataIndex: 'tracker'
+                    dataIndex: 'tracker_status'
                 }]
             }, {
                 defaults: {
@@ -146,7 +147,7 @@ Ext.define('Deluge.details.StatusTab', {
                     dataIndex: 'seed_rank'
                 }, {
                     label: _('Date Added'),
-                    dataIndex: 'time_rank'
+                    dataIndex: 'time_added'
                 }]
             }]
         });
@@ -180,6 +181,7 @@ Ext.define('Deluge.details.StatusTab', {
             uploaded: fsize(torrent.total_uploaded, true),
             share: (torrent.ratio == -1) ? '&infin;' : torrent.ratio.toFixed(3),
             announce: ftime(torrent.next_announce),
+            tracker_status: torrent.tracker_status,
             tracker_torrent: torrent.tracker_torrent,
             downspeed: (torrent.download_payload_rate) ? fspeed(torrent.download_payload_rate) : '0.0 KiB/s',
             upspeed: (torrent.upload_payload_rate) ? fspeed(torrent.upload_payload_rate) : '0.0 KiB/s',
