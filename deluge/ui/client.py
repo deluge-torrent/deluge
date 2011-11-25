@@ -18,9 +18,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -266,7 +266,9 @@ class DaemonProxy(object):
     pass
 
 class DaemonSSLProxy(DaemonProxy):
-    def __init__(self, event_handlers={}):
+    def __init__(self, event_handlers=None):
+        if event_handlers is None:
+            event_handlers = {}
         self.__factory = DelugeRPCClientFactory(self, event_handlers)
         self.__request_counter = 0
         self.__deferred = {}
@@ -466,7 +468,9 @@ class DaemonSSLProxy(DaemonProxy):
         return self.__factory.bytes_sent
 
 class DaemonClassicProxy(DaemonProxy):
-    def __init__(self, event_handlers={}):
+    def __init__(self, event_handlers=None):
+        if event_handlers is None:
+            event_handlers = {}
         import deluge.core.daemon
         self.__daemon = deluge.core.daemon.Daemon(classic=True)
         log.debug("daemon created!")
