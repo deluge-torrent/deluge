@@ -547,6 +547,7 @@ class AddTorrentDialog(component.Component):
         chooser.set_transient_for(self.dialog)
         chooser.set_select_multiple(True)
         chooser.set_property("skip-taskbar-hint", True)
+        chooser.set_local_only(False)
 
         # Add .torrent and * file filters
         file_filter = gtk.FileFilter()
