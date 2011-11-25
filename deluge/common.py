@@ -150,7 +150,7 @@ def get_default_download_dir():
 
     """
     if windows_check():
-        return os.path.expanduser("~")
+        return os.path.join(os.path.expanduser("~"), 'Downloads')
     else:
         from xdg.BaseDirectory import xdg_config_home
         userdir_file = os.path.join(xdg_config_home, 'user-dirs.dirs')
