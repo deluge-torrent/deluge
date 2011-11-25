@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -140,7 +140,7 @@ class DelugeRPCProtocol(Protocol):
         while data:
             # Increase the byte counter
             self.factory.bytes_recv += len(data)
-            
+
             dobj = zlib.decompressobj()
             try:
                 request = rencode.loads(dobj.decompress(data))
@@ -213,7 +213,7 @@ class DelugeRPCClientFactory(ClientFactory):
     def __init__(self, daemon, event_handlers):
         self.daemon = daemon
         self.event_handlers = event_handlers
-        
+
         self.bytes_recv = 0
         self.bytes_sent = 0
 
@@ -240,7 +240,9 @@ class DaemonProxy(object):
     pass
 
 class DaemonSSLProxy(DaemonProxy):
-    def __init__(self, event_handlers={}):
+    def __init__(self, event_handlers=None):
+        if event_handlers is None:
+            event_handlers = {}
         self.__factory = DelugeRPCClientFactory(self, event_handlers)
         self.__request_counter = 0
         self.__deferred = {}
@@ -329,7 +331,7 @@ class DaemonSSLProxy(DaemonProxy):
 
         :param request_id: the request_id of the Deferred to pop
         :type request_id: int
-        
+
         """
         return self.__deferred.pop(request_id)
 
@@ -343,7 +345,7 @@ class DaemonSSLProxy(DaemonProxy):
         :param handler: the function to be called when `:param:event`
             is emitted from the daemon
         :type handler: function
-        
+
         """
         if event not in self.__factory.event_handlers:
             # This is a new event to handle, so we need to tell the daemon
@@ -422,12 +424,14 @@ class DaemonSSLProxy(DaemonProxy):
 
     def get_bytes_recv(self):
         return self.__factory.bytes_recv
-    
+
     def get_bytes_sent(self):
         return self.__factory.bytes_sent
-        
+
 class DaemonClassicProxy(DaemonProxy):
-    def __init__(self, event_handlers={}):
+    def __init__(self, event_handlers=None):
+        if event_handlers is None:
+            event_handlers = {}
         import deluge.core.daemon
         self.__daemon = deluge.core.daemon.Daemon(classic=True)
         log.debug("daemon created!")
@@ -466,7 +470,7 @@ class DaemonClassicProxy(DaemonProxy):
         :param handler: the function to be called when `:param:event`
             is emitted from the daemon
         :type handler: function
-        
+
         """
         self.__daemon.core.eventmanager.register_event_handler(event, handler)
 
@@ -571,7 +575,7 @@ class Client(object):
         :rtype: bool
 
         :raises OSError: received from subprocess.call()
-        
+
         """
         try:
             if deluge.common.windows_check():
@@ -679,7 +683,7 @@ class Client(object):
     def get_bytes_recv(self):
         """
         Returns the number of bytes received from the daemon.
-        
+
         :returns: the number of bytes received
         :rtype: int
         """
@@ -688,11 +692,11 @@ class Client(object):
     def get_bytes_sent(self):
         """
         Returns the number of bytes sent to the daemon.
-        
+
         :returns: the number of bytes sent
         :rtype: int
         """
         return self._daemon_proxy.get_bytes_sent()
-        
+
 # This is the object clients will use
 client = Client()
