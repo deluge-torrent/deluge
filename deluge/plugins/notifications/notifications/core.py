@@ -111,7 +111,8 @@ class CoreNotifications(CustomNotifications):
 
     def _notify_email(self, subject='', message=''):
         log.debug("Email prepared")
-        to_addrs = '; '.join(self.config['smtp_recipients'])
+        to_addrs = self.config['smtp_recipients']
+        to_addrs_str = ', '.join(self.config['smtp_recipients'])
         headers = """\
 From: %(smtp_from)s
 To: %(smtp_recipients)s
@@ -120,7 +121,7 @@ Subject: %(subject)s
 
 """ % {'smtp_from': self.config['smtp_from'],
        'subject': subject,
-       'smtp_recipients': to_addrs}
+       'smtp_recipients': to_addrs_str}
 
         message = '\r\n'.join((headers + message).splitlines())
 
