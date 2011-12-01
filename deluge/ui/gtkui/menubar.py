@@ -169,7 +169,7 @@ class MenuBar(component.Component):
             "menuitem_addtorrent"
         ]
 
-        self.config.register_set_function("classic_mode", self._on_classic_mode)
+        self.config.register_set_function("classic_mode", self._on_classic_mode, True)
 
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
@@ -468,10 +468,12 @@ class MenuBar(component.Component):
             "menuitem_connectionmanager"
         ]
 
-        if value:
-            attr = "hide"
-        else:
-            attr = "show"
-
         for item in items:
-            getattr(self.window.main_glade.get_widget(item), attr)()
+            w = self.window.main_glade.get_widget(item)
+            if value:
+                w.hide()
+            else:
+                if client.connected() or item is "menuitem_connectionmanager":
+                    w.show()
+                else:
+                    w.hide()
