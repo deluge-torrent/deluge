@@ -727,7 +727,10 @@ class Preferences(component.Component):
             config_to_set = {}
             for key in new_core_config.keys():
                 # The values do not match so this needs to be updated
-                if self.core_config[key] != new_core_config[key]:
+                try:
+                    if self.core_config[key] != new_core_config[key]:
+                        config_to_set[key] = new_core_config[key]
+                except KeyError:
                     config_to_set[key] = new_core_config[key]
 
             if config_to_set:
