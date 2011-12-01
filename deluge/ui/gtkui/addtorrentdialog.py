@@ -196,7 +196,16 @@ class AddTorrentDialog(component.Component):
 
         for filename in filenames:
             # Convert the path to unicode
-            filename = unicode(filename)
+            log.debug("Adding torrent from file: %s (%s)", filename, type(filename))
+            try:
+                filename = unicode(filename, "utf8")
+            except UnicodeDecodeError:
+                # Try 'latin-1' if filename has originated from http
+                log.debug("Decode with 'utf-8' failed trying 'latin-1'")
+                filename = unicode(filename, "latin-1")
+            except TypeError:
+                # Already unicode
+                pass
 
             # Get the torrent data from the torrent file
             try:
