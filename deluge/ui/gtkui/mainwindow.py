@@ -158,7 +158,10 @@ class MainWindow(component.Component):
         :type shutdown: boolean
         """
         if shutdown:
-            client.daemon.shutdown()
+            try:
+                client.daemon.shutdown()
+            except AttributeError, e:
+                log.error("Encountered error attempting to shutdown daemon: %s", e)
         reactor.stop()
 
     def load_window_state(self):
