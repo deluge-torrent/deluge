@@ -840,6 +840,8 @@ class Torrent(object):
            # String is already unicode
            dest_u = dest
 
+        dest_u = sanitize_filepath(dest_u)
+
         if not os.path.exists(dest_u):
             try:
                 # Try to make the destination path if it doesn't exist
