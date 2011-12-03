@@ -125,7 +125,7 @@ Date: %(date)s
 
 """ % {'smtp_from': self.config['smtp_from'],
        'subject': subject,
-       'smtp_recipients': to_addrs_str
+       'smtp_recipients': to_addrs_str,
        'date': formatdate()
       }
 
