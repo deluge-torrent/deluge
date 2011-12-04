@@ -79,7 +79,7 @@ class PiecesBar(gtk.DrawingArea):
         self.__cr = None
 
         self.connect('size-allocate', self.do_size_allocate_event)
-        self.set_colormap(self.get_screen().get_rgba_colormap())
+        self.set_colormap(gtk.gdk.colormap_get_system())
         self.show()
 
     def do_size_allocate_event(self, widget, size):
