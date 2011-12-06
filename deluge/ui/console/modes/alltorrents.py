@@ -509,11 +509,11 @@ class AllTorrents(BaseMode, component.Component):
 
     def __report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
         if fail_cnt == 0:
-            self.report_message("Torrents Added","{!success!}Sucessfully added %d torrent(s)"%succ_cnt)
+            self.report_message("Torrents Added","{!success!}Successfully added %d torrent(s)"%succ_cnt)
         else:
             msg = ("{!error!}Failed to add the following %d torrent(s):\n {!error!}"%fail_cnt)+"\n {!error!}".join(fail_msgs)
             if succ_cnt != 0:
-                msg += "\n \n{!success!}Sucessfully added %d torrent(s)"%succ_cnt
+                msg += "\n \n{!success!}Successfully added %d torrent(s)"%succ_cnt
             self.report_message("Torrent Add Report",msg)
 
     def _do_add(self, result):
