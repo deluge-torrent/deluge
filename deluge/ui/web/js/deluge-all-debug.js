@@ -1136,7 +1136,14 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 		return String.format('<img src="flag/{0}" />', value);
 	}
 	function peerAddressRenderer(value, p, record) {
-		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer'
+		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer';
+		// Modify display of IPv6 to include brackets
+		var peer_ip = value.split(':');
+		if (peer_ip.length > 2) {
+			var port = peer_ip.pop();
+			var ip = peer_ip.join(":");
+			value = "[" + ip + "]:" + port;
+		}
 		return String.format('<div class="{0}">{1}</div>', seed, value);
 	}
 	function peerProgressRenderer(value) {
@@ -1372,7 +1379,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
 		data.auto_managed = _((status.is_auto_managed) ? 'True' : 'False');
 
 		data.downloaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download) : '0.0 KiB') + ')';
-		data.uploaded += ' (' + ((status.total_payload_download) ? fsize(status.total_payload_download): '0.0 KiB') + ')';
+		data.uploaded += ' (' + ((status.total_payload_upload) ? fsize(status.total_payload_upload): '0.0 KiB') + ')';
 		
 		for (var field in this.fields) {
 			this.fields[field].innerHTML = data[field];
@@ -2607,7 +2614,7 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
 			defaults: {
 				decimalPrecision: 0,
 				minValue: -1,
-				maxValue: 99999
+				maxValue: 999999
 			}
 		});
 		om.bind('cache_size', fieldset.add({
@@ -5995,12 +6002,13 @@ FILE_PRIORITY = {
     0: 'Do Not Download',
     1: 'Normal Priority',
     2: 'High Priority',
-    5: 'Highest Priority',
+    5: 'High Priority',
+    7: 'Highest Priority',
 	'Mixed': 9,
     'Do Not Download': 0,
     'Normal Priority': 1,
-    'High Priority': 2,
-    'Highest Priority': 5
+    'High Priority': 5,
+    'Highest Priority': 7
 }
 
 FILE_PRIORITY_CSS = {
@@ -6008,7 +6016,8 @@ FILE_PRIORITY_CSS = {
 	0: 'x-no-download',
 	1: 'x-normal-download',
 	2: 'x-high-download',
-	5: 'x-highest-download'
+	5: 'x-high-download',
+	7: 'x-highest-download'
 }
 /*!
  * Deluge.EditTrackerWindow.js
@@ -7374,22 +7383,22 @@ deluge.menus.filePriorities = new Ext.menu.Menu({
 		id: 'no_download',
 		text: _('Do Not Download'),
 		iconCls: 'icon-do-not-download',
-		filePriority: 0
+		filePriority: FILE_PRIORITY['Do Not Download']
 	}, {
 		id: 'normal',
 		text: _('Normal Priority'),
 		iconCls: 'icon-normal',
-		filePriority: 1
+		filePriority: FILE_PRIORITY['Normal Priority']
 	}, {
 		id: 'high',
 		text: _('High Priority'),
 		iconCls: 'icon-high',
-		filePriority: 2
+		filePriority: FILE_PRIORITY['High Priority']
 	}, {
 		id: 'highest',
 		text: _('Highest Priority'),
 		iconCls: 'icon-highest',
-		filePriority: 5
+		filePriority: FILE_PRIORITY['Highest Priority']
 	}]
 });
 /*!
