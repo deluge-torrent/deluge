@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE_DIR="${PWD}/`dirname ${0}`"
 BASE_DIR=`readlink -f "$BASE_DIR"`
@@ -11,6 +11,14 @@ BUILD_DATA_GENERATED=0
 
 YUI_COMPRESSOR=`which yuicompressor`
 BUILD_TYPE="js"
+
+if [ -z $YUI_COMPRESSOR ]; then
+    YUI_COMPRESSOR=`which yui-compressor`
+    if [ -z $YUI_COMPRESSOR ]; then
+	echo "Please install yuicompressor"
+	exit 1
+    fi
+fi
 
 add_file()
 {
@@ -64,6 +72,7 @@ check()
 
 build()
 {
+
 	echo "building $BUILD_NAME"
 
 	# generated the unminified version
