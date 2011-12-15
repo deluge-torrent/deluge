@@ -136,9 +136,12 @@ class Core(component.Component):
         self.__new_release = None
 
     def stop(self):
+        log.debug("Core stopping...")
+
         # Save the DHT state if necessary
         if self.config["dht"]:
             self.save_dht_state()
+
         # Save the libtorrent session state
         self.__save_session_state()
 
@@ -155,8 +158,9 @@ class Core(component.Component):
     def __save_session_state(self):
         """Saves the libtorrent session state"""
         try:
-            open(deluge.configmanager.get_config_dir("session.state"), "wb").write(
-                lt.bencode(self.session.state()))
+            lt_data = open(deluge.configmanager.get_config_dir("session.state"), "wb")
+            lt_data.write(lt.bencode(self.session.save_state()))
+            lt_data.close()
         except Exception, e:
             log.warning("Failed to save lt state: %s", e)
 
