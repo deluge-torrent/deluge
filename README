@@ -1,4 +1,3 @@
-
 ==========================
  Deluge BitTorrent Client
 ==========================
@@ -9,86 +8,50 @@ Authors:
     Andrew Resch
     Damien Churchill
 
-For past developers and contributers see: http://dev.deluge-torrent.org/wiki/About
-
-==========================
-License
-==========================
-Deluge is under the GNU GPLv3 license.
-Icon data/pixmaps/deluge.svg and derivatives in data/icons are copyright
-Andrew Wedderburn and are under the GNU GPLv3.
-All other icons in data/pixmaps are copyright Andrew Resch and are under
-the GNU GPLv3.
-
-==========================
-Contact/Support:
-==========================
-
-We have two options available for support:
-
-	Our Forum, at: http://forum.deluge-torrent.org
-		or
-	Our IRC Channel, at #deluge on Freenode: http://freenode.net
+For contributors and past developers see: 
+    AUTHORS
 
 ==========================
 Installation Instructions:
 ==========================
 
-For more detailed instructions see: http://dev.deluge-torrent.org/wiki/Installing/Source
+For detailed instructions see: http://dev.deluge-torrent.org/wiki/Installing/Source
 
-See: DEPENDS for a full list of dependencies.
+Ensure build dependencies are installed, see DEPENDS for a full listing.
 
-First, make sure you have the proper build dependencies installed.  On a normal
-Debian or Ubuntu system:
+Build and install by running:
 
-sudo apt-get install g++ make python-all-dev python-all python-dbus \
-    python-gtk2 python-notify librsvg2-common python-xdg python-support \
-    subversion libboost-dev libboost-python-dev \
-    libboost-thread-dev libboost-date-time-dev libboost-filesystem-dev \
-    libssl-dev zlib1g-dev python-setuptools \
-    python-mako python-twisted-web python-chardet python-simplejson
+    $ python setup.py build
+    $ sudo python setup.py install
 
-The names of the packages may vary depending on your OS / distro.
+==========================
+Contact/Support:
+==========================
 
-Once you have the needed libraries installed, build and install by running:
-
-	$ python setup.py build
-	$ sudo python setup.py install
+   Forum: http://forum.deluge-torrent.org
+   IRC Channel: #deluge on irc.freenode.net
 
 ==========================
 FAQ
 ==========================
 
+For the full FAQ see: http://dev.deluge-torrent.org/wiki/Faq
+
 How to start the various user-interfaces
 
     Gtk:
-        deluge-gtk
+        deluge or deluge-gtk
     Console:
         deluge-console
     Web:
         deluge-web
         Go to http://localhost:8112/ default-password = "deluge"
-
-Why is deluge still listed in my system tray even after I close it ?
-
-    You closed the gtk user-interface but you did not close the daemon. Choose "Quit & Shutdown Daemon" to close both Daemon and gtk-ui.
-
+    
 How do I start the daemon?
 
     deluged
 
-How do I start the daemon with logging to console?
-
-    deluged -d -L <log level>
-
 I can't connect to the daemon from another machine
 
-    * Configure the daemon to allow remote connections
-    * Add a user to the auth file located in the config folder: ~/.config/deluge/auth
-    * Restart the daemon.
+    See: http://dev.deluge-torrent.org/wiki/UserGuide/ThinClient
 
-I upgraded from 0.5 and plugin x is missing
-
-    1.0 is a rewrite, all old 0.5 plugins have to be rewritten.
-
-For the full FAQ see: http://dev.deluge-torrent.org/wiki/Faq
