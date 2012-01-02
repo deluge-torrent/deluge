@@ -239,7 +239,7 @@ if build_libtorrent:
         _ext_modules = [libtorrent]
 
 class build_trans(cmd.Command):
-    description = 'Compile .po files into .mo files'
+    description = 'Compile .po files into .mo files & create .desktop file'
 
     user_options = [
             ('build-lib', None, "lib build folder")
@@ -458,6 +458,11 @@ class clean(_clean):
         for cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
         _clean.run(self)
+
+        desktop_data='deluge/data/share/applications/deluge.desktop'
+        if os.path.exists(desktop_data):
+            print("Deleting %s" % desktop_data)
+            os.remove(desktop_data)
 
 cmdclass = {
     'build': build,
