@@ -52,20 +52,19 @@ class AboutDialog:
         self.about = gtk.AboutDialog()
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_name("Deluge")
-        self.about.set_program_name("Deluge")
+        self.about.set_program_name(_("Deluge"))
 
         version = deluge.common.get_version()
 
-        self.about.set_copyright(u'Copyright \u00A9 2007-2011 Deluge Team')
+        self.about.set_copyright(_('Copyright 2007-2011 Deluge Team'))
         self.about.set_comments(
-            "A peer-to-peer file sharing program\nutilizing the BitTorrent "
-            "protocol\n\n"
-            "Client Version: %s\n" % version)
+            _("A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.")
+            + "\n\n" + _("Client:") + " %s\n" % version)
         self.about.set_version(version)
         self.about.set_authors([
-            "Current Developers:", "Andrew Resch", "Damien Churchill",
-            "John Garland", "Calum Lind", "", "libtorrent (www.libtorrent.org):",
-            "Arvid Norberg", "", "Past Developers or Contributors:",
+            _("Current Developers:"), "Andrew Resch", "Damien Churchill",
+            "John Garland", "Calum Lind", "", "libtorrent (libtorrent.org):",
+            "Arvid Norberg", "", _("Past Developers or Contributors:"),
             "Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Alex Dedul",
             "Sadrul Habib Chowdhury", "Ido Abramovich", "Martijn Voncken"
         ])
@@ -275,7 +274,7 @@ class AboutDialog:
             "source files in the program, then also delete it here."
         ))
         self.about.set_website("http://deluge-torrent.org")
-        self.about.set_website_label("www.deluge-torrent.org")
+        self.about.set_website_label("deluge-torrent.org")
 
         self.about.set_icon(common.get_deluge_icon())
         self.about.set_logo(gtk.gdk.pixbuf_new_from_file(
@@ -285,10 +284,10 @@ class AboutDialog:
         if client.connected():
             if not client.is_classicmode():
                 self.about.set_comments(
-                    self.about.get_comments() + "Server Version: %coreversion%\n")
+                    self.about.get_comments() + _("Server:") + " %coreversion%\n")
             
             self.about.set_comments(
-                self.about.get_comments() + "Libtorrent Version: %ltversion%\n")
+                self.about.get_comments() + "\n" + _("libtorrent:")  + " %ltversion%\n")
                 
             def on_lt_version(result):
                 c = self.about.get_comments()
