@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-06-27 16:01+0000\n"
-"Last-Translator: Alessandro Pischedda <uub@virgilio.it>\n"
+"PO-Revision-Date: 2011-08-12 13:14+0000\n"
+"Last-Translator: Enrico \"eNry\" Carafa <ironenry@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:54+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -142,11 +142,11 @@ msgstr "KiB/s"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MB/s"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GB/s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -1922,7 +1922,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
 msgid "Not Connected..."
-msgstr ""
+msgstr "Non connesso..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1944,11 +1944,11 @@ msgstr "Imposta velocità massima di upload"
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge è protetto da password!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Inserisci la password per continuare"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -1956,7 +1956,7 @@ msgstr "Torrent completato"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
-msgstr ""
+msgstr "Compresi"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
@@ -1983,7 +1983,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Versione client</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2090,11 +2090,11 @@ msgstr "URL non valido"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
 msgid "is not a valid URL."
-msgstr ""
+msgstr "non è un URL valido."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
 msgid "Downloading..."
-msgstr ""
+msgstr "Scaricamento..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
@@ -2102,7 +2102,7 @@ msgstr "Scaricamento Fallito"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Failed to download:"
-msgstr ""
+msgstr "Impossibile scaricare:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2396,11 +2396,11 @@ msgstr "Peers"
 
 #: deluge/ui/gtkui/torrentview.py:241
 msgid "Down Limit"
-msgstr ""
+msgstr "Limite download"
 
 #: deluge/ui/gtkui/torrentview.py:243
 msgid "Up Limit"
-msgstr ""
+msgstr "Limite Velocità"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2631,11 +2631,11 @@ msgstr "<b>Tempo rimanente:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Velocità di upload:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Velocità di download:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2763,7 +2763,7 @@ msgstr "<i>Versione Corrente:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Versione Server</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -3364,7 +3364,7 @@ msgstr "Avviare nell'area di notifica"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Abilita indicatore applicazione"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3836,15 +3836,15 @@ msgstr "Destinazione:"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "Client BitTorrent"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Client BitTorrent Deluge"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Scarica e condivide i file via BitTorrent"
 
 #~ msgid "seconds"
 #~ msgstr "secondi"
@@ -3936,9 +3936,6 @@ msgstr ""
 
 #~ msgid "Availability"
 #~ msgstr "Disponibilità"
-
-#~ msgid "Graph"
-#~ msgstr "Grafico"
 
 #~ msgid "Filters"
 #~ msgstr "Filtri"
@@ -4541,27 +4538,8 @@ msgstr ""
 #~ msgid "Active time"
 #~ msgstr "Tempo d' attività"
 
-#~ msgid "All Finished!"
-#~ msgstr "Tutti Terminati!"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Procedura di configurazione guidata"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr ""
-#~ "La procedura guidata ti aiuterà a configurare Deluge come preferisci."
-
-#~ msgid "Graphs"
-#~ msgstr "Grafici"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seeds/Peers"
-
 #~ msgid "State"
 #~ msgstr "Stato"
-
-#~ msgid "Stats"
-#~ msgstr "Statistiche"
 
 #~ msgid "Show keyword search"
 #~ msgstr "Visualizza chiavi di ricerca"
@@ -4709,15 +4687,6 @@ msgstr ""
 #~ msgid "Socksv5 W/ Auth"
 #~ msgstr "Socksv5 W/ Auth"
 
-#~ msgid "Test config value:"
-#~ msgstr "Prova valori configurazione:"
-
-#~ msgid "Test config value"
-#~ msgstr "Prova valori configurazione"
-
-#~ msgid "Force Download"
-#~ msgstr "Forza Download"
-
 #, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s non è un URL valido"
@@ -4779,55 +4748,3 @@ msgstr ""
 #~ "la frase riguardante questa eccezione dalla vostra versione. Se cancellate "
 #~ "tale frase da tutti i file sorgenti nel programma, allora cancellatela anche "
 #~ "qui."
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-
-#~ msgid "Low Free Space"
-#~ msgstr "Spazio Libero Scarso"
-
-#~ msgid "Consider low when"
-#~ msgstr "Considera scarso quando"
-
-#~ msgid "of the disk is occupied."
-#~ msgstr "del disco è occupata."
-
-#~ msgid "<b>Free Space Checking</b>"
-#~ msgstr "<b>Controllo Spazio Libero</b>"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "Avviso di poco spazio su disco"
-
-#, python-format
-#~ msgid "  %s%% ocupation in %s\n"
-#~ msgstr "  %s%% occupato in %s\n"
-
-#~ msgid "You're running low on disk space:\n"
-#~ msgstr "Hai poco spazio su disco\n"
-
-#~ msgid "Remove Files"
-#~ msgstr "Rimuovi i File"
-
-#~ msgid "action"
-#~ msgstr "azione"
-
-#~ msgid "Keep Files"
-#~ msgstr "Mantieni i File"

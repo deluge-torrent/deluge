@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-07-03 02:58+0000\n"
-"Last-Translator: klondike <Unknown>\n"
+"PO-Revision-Date: 2011-12-12 09:47+0000\n"
+"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:54+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -251,87 +251,89 @@ msgstr "KiB/s"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/s"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Mostrando notificación de parpadeo"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Las notificaciones emergentes no están habilitadas"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify no está instalado"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify no pudo mostrar la notificación"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Mostrando notificación emergente"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Notificación sonora no habilitada"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame no está instalado"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Notificación sonora falló %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Notificación sonora exitosa"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Torrent terminado"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"El archivo torrent \"%(name)s\" que incluye %(num_files)i ha terminado de "
+"descargar."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Elija un archivo de sonido"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Hubo un error al enviar la notificación por email: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "El servidor de correo no respondió apropiadamente al saludo HELO: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "El servidor no acepta la combinación usuario/contraseña: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
 msgid "Notification email sent."
-msgstr ""
+msgstr "Enviada notificación por email."
 
 #: deluge/plugins/notifications/notifications/core.py:194
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Torrent \"%(name)s\" finalizado"
 
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
@@ -344,26 +346,33 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Este email es para informarte que Deluge ha terminado de descargar "
+"\"%(name)s\", which que incluye %(num_files)i archivos.\n"
+"Para dejar de recibir estas alertas, simplemente desactiva las "
+"notificaciones por email dentro de las preferencias de Deluge.\n"
+"\n"
+"Atentamente,\n"
+"Deluge."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Notificaciones</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Habilitado el destello de íconos de la bandeja"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Ventanas emergentes activadas"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
 msgid "Sound enabled"
-msgstr ""
+msgstr "Sonido activado"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Notificaciones de Interfaz de Usuario</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -400,11 +409,11 @@ msgstr "Contraseña:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Destinatarios</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "El servidor requiere TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -419,7 +428,7 @@ msgstr "Activado"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Notificaciones por email</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
 msgid "Settings"
@@ -430,31 +439,33 @@ msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Esta configuración no significa que realmente recibirá notificaciones para "
+"todos estos eventos."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Suscripciones"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Personalización de sonido"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "La carpeta a vigilar no existe"
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
 msgid "Path does not exist."
-msgstr ""
+msgstr "La ruta no existe."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Error al agregar automáticamente"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Propiedades de carpeta vigilada"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -470,31 +481,31 @@ msgstr "Seleccione una carpeta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Habilitar la vigilancia en esta carpeta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Carpeta vigilada</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Borrar archivo .torrent después de agregar"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Agregar extensión después de agregar:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
-msgstr ""
+msgstr ".added"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Acción de Archivo Torrent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
 msgid "Set download location"
-msgstr ""
+msgstr "Definir ubicación de las descargas"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
@@ -503,23 +514,23 @@ msgstr "<b>Ubicación de descarga</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
 msgid "Set move completed location"
-msgstr ""
+msgstr "Definir ubicación de descargas completas"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Mover descargas completas</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
 msgid "Label: "
-msgstr ""
+msgstr "Etiqueta: "
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "<b>Etiqueta</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -563,15 +574,15 @@ msgstr "Eliminar en proporción"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto Administrado:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
 msgid "Add Paused:"
-msgstr ""
+msgstr "Agregar en pausa:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
-msgstr ""
+msgstr "Encolar en:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -594,7 +605,7 @@ msgstr "Opciones"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Carpetas vigiladas:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -610,11 +621,11 @@ msgstr "Torrents activos:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Descargas Activas:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Sembrando:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -781,6 +792,8 @@ msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"La interfaz web de Deluge no está instalada, por favor instale\n"
+"la interfaz e inténtelo nuevamente"
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
@@ -2029,7 +2042,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
 msgid "Not Connected..."
-msgstr ""
+msgstr "No conectado..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -2051,11 +2064,11 @@ msgstr "Establecer Máxima Velocidad de Subida"
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge está protegido con contraseña!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Ingrese la contraseña para continuar"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -2063,11 +2076,11 @@ msgstr "Torrent completo"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
-msgstr ""
+msgstr "Incluyendo"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
-msgstr ""
+msgstr "archivos"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -2090,11 +2103,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Versión del cliente</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
-msgstr ""
+msgstr "Categorias"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -2176,6 +2189,8 @@ msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"La priorización de archivos no está disponible cuando se usa reserva de "
+"espacio Compacto. Prefiere cambiar a reserva de espacio Completa?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2197,11 +2212,11 @@ msgstr "URL no válida"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
 msgid "is not a valid URL."
-msgstr ""
+msgstr "No es una dirección URL válida"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
 msgid "Downloading..."
-msgstr ""
+msgstr "Descargando..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
@@ -2209,7 +2224,7 @@ msgstr "La descarga falló"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Failed to download:"
-msgstr ""
+msgstr "Falló al descargar:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2259,7 +2274,7 @@ msgstr "Nodos DHT"
 
 #: deluge/ui/gtkui/statusbar.py:186
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Espacio libre en disco"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2275,7 +2290,7 @@ msgstr "Torrents"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
 msgid "States"
-msgstr ""
+msgstr "Estados"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2307,7 +2322,7 @@ msgstr "En cola"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
 msgid "Active"
-msgstr ""
+msgstr "Activo(s)"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
@@ -2343,10 +2358,33 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Este programa es software libre: usted puede redistribuirlo y/o modificarlo "
+"conforme a los términos de la Licencia Pública General de GNU publicada por "
+"la Fundación para el Software Libre, ya sea la versión 3 de esta Licencia o "
+"(a su elección) cualquier versión posterior.\n"
+"\n"
+"Este programa se distribuye con el deseo de que le resulte útil, pero SIN "
+"GARANTÍAS DE NINGÚN TIPO; ni siquiera con las garantías implícitas de "
+"COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO DETERMINADO.  Para más "
+"información, consulte la Licencia Pública General de GNU.\n"
+"\n"
+"Junto con este programa, se debería incluir una copia de la Licencia Pública "
+"General de GNU.  De no ser así, visite <http://www.gnu.org/licenses/>.\n"
+"\n"
+"Adicionalmente, como excepción especial, los poseedores del copyright "
+"otorgan permiso para enlazar el código de porciones de este programa con la "
+"biblioteca OpenSSL. Usted debe obedecer la Licencia Pública General de GNU "
+"en todo lo que respecta al código que no sea de OpenSSL.\n"
+"\n"
+"Si modifica archivo(s) con esta excepción, puede que quiera extender esta "
+"excepción a su propia versión de los archivos, pero no está obligado a "
+"hacerlo. Si no desea hacerlo, borre esta excepción de su versión de la "
+"licencia. Si borra esta excepción de todos los archivos fuentes de su "
+"programa, entonces también puede borrarla de aquí."
 
 #: deluge/ui/gtkui/connectionmanager.py:149
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
@@ -2354,30 +2392,33 @@ msgstr "Servidor"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Detener demonio"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
 msgid "_Start Daemon"
-msgstr ""
+msgstr "Iniciar _Demonio"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "No es posible iniciar demonio!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Deluge no puede encontrar el ejecutable 'deluged', es posible que haya "
+"olvidado instalar el paquete 'deluged' o que éste no se encuentre en su "
+"variable de entorno PATH."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Por favor, examine los detalles para más información."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2455,19 +2496,19 @@ msgstr "Establecer la Cantidad Máxima de Ranuras de Subida"
 
 #: deluge/ui/gtkui/files_tab.py:56
 msgid "Do Not Download"
-msgstr ""
+msgstr "No descargar"
 
 #: deluge/ui/gtkui/files_tab.py:57
 msgid "Normal Priority"
-msgstr ""
+msgstr "Prioridad normal"
 
 #: deluge/ui/gtkui/files_tab.py:58
 msgid "High Priority"
-msgstr ""
+msgstr "Prioridad alta"
 
 #: deluge/ui/gtkui/files_tab.py:59
 msgid "Highest Priority"
-msgstr ""
+msgstr "Prioridad máxima"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
@@ -2496,11 +2537,11 @@ msgstr "Pares"
 
 #: deluge/ui/gtkui/torrentview.py:241
 msgid "Down Limit"
-msgstr ""
+msgstr "Límite de bajada"
 
 #: deluge/ui/gtkui/torrentview.py:243
 msgid "Up Limit"
-msgstr ""
+msgstr "Límite de subida"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2516,7 +2557,7 @@ msgstr "Agregado"
 
 #: deluge/ui/gtkui/torrentview.py:257
 msgid "Save Path"
-msgstr ""
+msgstr "Ruta para guardar archivos"
 
 #: deluge/ui/gtkui/glade/main_window.glade:21
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
@@ -2535,7 +2576,7 @@ msgstr "_Crear torrent"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "_Salir y detener demonio"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2579,11 +2620,11 @@ msgstr "Ay_uda"
 
 #: deluge/ui/gtkui/glade/main_window.glade:244
 msgid "_Homepage"
-msgstr ""
+msgstr "_Página de inicio"
 
 #: deluge/ui/gtkui/glade/main_window.glade:261
 msgid "_FAQ"
-msgstr ""
+msgstr "Preguntas _Frecuentes"
 
 #: deluge/ui/gtkui/glade/main_window.glade:264
 msgid "Frequently Asked Questions"
@@ -2591,7 +2632,7 @@ msgstr "Preguntas frecuentes"
 
 #: deluge/ui/gtkui/glade/main_window.glade:280
 msgid "_Community"
-msgstr ""
+msgstr "_Comunidad"
 
 #: deluge/ui/gtkui/glade/main_window.glade:327
 msgid "Add torrent"
@@ -2701,11 +2742,11 @@ msgstr "<b>Tiempo restante estimado:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Velocidad de subida:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Velocidad de bajada:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2837,7 +2878,7 @@ msgstr "<i>Versión actual:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Versión del servidor</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -2849,7 +2890,7 @@ msgstr "_Ir al sitio web"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2704
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Agregar Par"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2706
 msgid "Add a peer by its IP"
@@ -3009,6 +3050,16 @@ msgid ""
 "8 MiB\n"
 "16 MiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
@@ -3109,12 +3160,13 @@ msgstr "Copiar archivos .torrent a:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:316
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Eliminar copia del archivo torrent al eliminar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:320
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
 msgstr ""
+"Eliminar copia del archivo torrent cuando el archivo torrent sea borrado"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 msgid "<b>Folders</b>"
@@ -3360,7 +3412,7 @@ msgstr "Ignorar límites en la red local"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
 msgid "Rate limit IP overhead"
-msgstr "Límite de Tasa de sobrecarga IP"
+msgstr "Tasa límite de sobrecarga de IP"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
 msgid ""
@@ -3439,7 +3491,7 @@ msgstr "Abrir minimizado en el área de notificación"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Habilitar indicador de la aplicación"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3894,15 +3946,15 @@ msgstr "Destino:"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "Cliente de BitTorrent"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Cliente BitTorrent Deluge"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Descargue y comparta archivos mediante BitTorrent"
 
 #~ msgid "seconds"
 #~ msgstr "segundos"
@@ -4493,20 +4545,8 @@ msgstr ""
 #~ "Gracias,\n"
 #~ "Deluge"
 
-#~ msgid "Graphs"
-#~ msgstr "Gráficos"
-
-#~ msgid "All Finished!"
-#~ msgstr "Todo terminado"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Asistente de configuración Deluge"
-
 #~ msgid "State"
 #~ msgstr "Estado"
-
-#~ msgid "Stats"
-#~ msgstr "Estadísticas"
 
 #~ msgid "no label"
 #~ msgstr "sin etiqueta"
@@ -4514,20 +4554,11 @@ msgstr ""
 #~ msgid "Show sidebar"
 #~ msgstr "Mostrar barra lateral"
 
-#~ msgid "Test config value:"
-#~ msgstr "Valor de configuración de prueba:"
-
 #~ msgid "Delete"
 #~ msgstr "Borrar"
 
 #~ msgid "BlockList"
 #~ msgstr "Lista de bloqueados"
-
-#~ msgid "Test config value"
-#~ msgstr "Valor de configuración de prueba"
-
-#~ msgid "Graph"
-#~ msgstr "Gráfico"
 
 #~ msgid "Show keyword search"
 #~ msgstr "Mostrar búsqueda de palabra clave"
@@ -4537,12 +4568,6 @@ msgstr ""
 
 #~ msgid "Show zero hits"
 #~ msgstr "Mostrar no acertados"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Este asistente le ayudará a configurar Deluge a su gusto."
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Semillas/Clientes"
 
 #~ msgid "HTTP"
 #~ msgstr "HTTP"
@@ -4662,9 +4687,6 @@ msgstr ""
 #, python-format
 #~ msgid "Key not found at '%s'"
 #~ msgstr "Llave no encontrada en '%s'"
-
-#~ msgid "Force Download"
-#~ msgstr "Forzar Descarga"
 
 #, python-format
 #~ msgid "%s is not a valid URL."

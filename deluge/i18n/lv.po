@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/core/torrentmanager.py:937
 msgid "Announce OK"
@@ -418,11 +418,11 @@ msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
-msgstr "Lejupielādes ierobežojumi:"
+msgstr "Lejupielādes ierobežojums:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
 msgid "Upload Limit:"
-msgstr "Augšupielādes ierobežojumi:"
+msgstr "Augšupielādes ierobežojums:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
 msgid "Active Torrents:"
@@ -496,11 +496,11 @@ msgstr "Augšupielādes pieslēgvietas:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
-msgstr "Augšupielādes ātrums:"
+msgstr "Augšupielādes Ātrums:"
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Lejupielādes ātrums:"
+msgstr "Lejupielādes Ātrums:"
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
@@ -526,7 +526,7 @@ msgstr "Apstiprināt secības iestatījumus:"
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:77
 msgid "Queue"
-msgstr "secības"
+msgstr "Secība"
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
@@ -635,7 +635,7 @@ msgstr "SafePeer Teksts (Zip formātā)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:51
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian Teksta (nnesaspiests)"
+msgstr "PeerGuardian Teksta (Nesaspiests)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:52
 msgid "PeerGuardian P2B (GZip)"
@@ -663,7 +663,7 @@ msgstr "Bloķēto IP saraksts"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
 msgid "URL:"
-msgstr "Tīmekļa vietne:"
+msgstr "Saite:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
 msgid "Days"
@@ -679,7 +679,8 @@ msgstr "Importēt bloķēšanas sarakstu darbu uzsākot"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
 msgid "Download the blocklist file if necessary and import the file."
-msgstr "Ja nepieciešams lejupielādēt un importēt bloķēšanas sarakstu"
+msgstr ""
+"Lejupielādējiet bloķēto saraksta failu, ja nepieciešams un importējiet to."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
 msgid "Check Download and Import"
@@ -687,7 +688,7 @@ msgstr "Pārbaudīt Lejupielādi un Importēt"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
 msgid "Download a new blocklist file and import it."
-msgstr "Lejupielādēt jaunu blokēšanas sarakstu un impotet to."
+msgstr "Lejupielādējiet jauno bloķēto saraksta failu un importējiet to."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
 msgid "Force Download and Import"
@@ -695,7 +696,7 @@ msgstr "Piespiedu Lejupielāde un imoportēšana"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
 msgid "Blocklist is up to date"
-msgstr "Melnajam sarakstam ir jaunāka versiоф"
+msgstr "Bloķēto sarakstam ir jaunākā versija"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
@@ -795,11 +796,11 @@ msgstr "Angola"
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr "Angilja"
+msgstr "Anguilla"
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
-msgstr "Antarktīda"
+msgstr "Antarktika"
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
@@ -963,7 +964,7 @@ msgstr "Komoras"
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
-msgstr "Kongo Republika"
+msgstr "Kongo"
 
 #: deluge/ui/countries.py:59
 msgid "Congo, The Democratic Republic of the"
@@ -1011,7 +1012,7 @@ msgstr "Dominika"
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr "Dominikāna"
+msgstr "Dominikāņu Republika"
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
@@ -1043,11 +1044,11 @@ msgstr "Etiopija"
 
 #: deluge/ui/countries.py:78
 msgid "Falkland Islands (Malvinas)"
-msgstr "Folklendu salas"
+msgstr "Folklenda (Maldīvu) salas"
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"
-msgstr "Farēru salas"
+msgstr "Fēru Salas"
 
 #: deluge/ui/countries.py:80
 msgid "Fiji"
@@ -1107,7 +1108,7 @@ msgstr "Grieķija"
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr "Grenlande"
+msgstr "Grēnlande"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
@@ -1167,7 +1168,7 @@ msgstr "Ungārija"
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
-msgstr "Īslande"
+msgstr "Islande"
 
 #: deluge/ui/countries.py:110
 msgid "India"
@@ -1211,7 +1212,7 @@ msgstr "Japāna"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr "Džersija"
+msgstr "Džerzija"
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
@@ -3848,9 +3849,6 @@ msgstr ""
 #~ msgid "_Quit"
 #~ msgstr "_Aizvērt"
 
-#~ msgid "Graph"
-#~ msgstr "Grafiks"
-
 #~ msgid "Filters"
 #~ msgstr "Filtri"
 
@@ -4408,15 +4406,6 @@ msgstr ""
 #~ msgid "<big><b>Add Torrents</b></big>"
 #~ msgstr "<big><b>Pievienot Torrentus</b></big>"
 
-#~ msgid "Graphs"
-#~ msgstr "Grafiki"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Devēji/Dalībnieki"
-
-#~ msgid "Test config value:"
-#~ msgstr "Uzstādījumu vertību tests:"
-
 #, python-format
 #~ msgid ""
 #~ "This email is to inform you that Deluge has finished downloading %s ,        "
@@ -4718,24 +4707,3 @@ msgstr ""
 #~ "wish to do so, delete this exception statement from your version. If you "
 #~ "delete this exception statement from all source files in the program, then "
 #~ "also delete it here."
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -3855,24 +3855,6 @@ msgstr ""
 #~ msgid "Refresh page every:"
 #~ msgstr "Парақты келесі уақыт сайын жаңарту:"
 
-#~ msgid "Graphs"
-#~ msgstr "Графиктер"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Таратушылар/Жалпы қатысушылар"
-
-#~ msgid "Test config value:"
-#~ msgstr "Баптауларды тексеру:"
-
-#~ msgid "All Finished!"
-#~ msgstr "Аяқталды!"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge баптау шебері"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Бұл шебер Deluge баптауға көмектеседі"
-
 #~ msgid "max_upload_slots"
 #~ msgstr "тарату_слоттардың_максимал_саны"
 
@@ -3953,15 +3935,6 @@ msgstr ""
 #~ msgid "Check for every (days)"
 #~ msgstr "Келесі күн(дер) саны сайын тексеру"
 
-#~ msgid "Force Download"
-#~ msgstr "Мәжбүрлі түрде жүктеп алу"
-
-#~ msgid "Test config value"
-#~ msgstr "Мәнді тексеру"
-
-#~ msgid "Stats"
-#~ msgstr "Статистика"
-
 #~ msgid "Refresh status"
 #~ msgstr "Күйін жаңарту"
 
@@ -3971,9 +3944,6 @@ msgstr ""
 
 #~ msgid "Inactive"
 #~ msgstr "Белсенді еместер"
-
-#~ msgid "Graph"
-#~ msgstr "График"
 
 #~ msgid "Deluge is locked"
 #~ msgstr "Deluge оқшауланды"
@@ -4713,24 +4683,3 @@ msgstr ""
 
 #~ msgid "page 6"
 #~ msgstr "6-шы парақ"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 КиБ\n"
-#~ "64 КиБ\n"
-#~ "128 КиБ\n"
-#~ "256 КиБ\n"
-#~ "512 КиБ\n"
-#~ "1 МиБ\n"
-#~ "2 МиБ\n"
-#~ "4 МиБ\n"
-#~ "8 МиБ\n"

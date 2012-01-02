@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:54+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -3929,9 +3929,6 @@ msgstr ""
 #~ msgid "Availability"
 #~ msgstr "Verfügbarkeit"
 
-#~ msgid "Graph"
-#~ msgstr "Diagramm"
-
 #~ msgid "Filters"
 #~ msgstr "Filter"
 
@@ -4662,34 +4659,6 @@ msgstr ""
 #~ msgid "Highest priority"
 #~ msgstr "Höchste Priorität"
 
-#~ msgid "Graphs"
-#~ msgstr "Graphen"
-
-#~ msgid "Test config value:"
-#~ msgstr "Probiere Einstellungswert:"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seeds/Peers"
-
-#~ msgid "All Finished!"
-#~ msgstr "Fertig!"
-
-#~ msgid "Test config value"
-#~ msgstr "Teste Einstellung"
-
-#~ msgid "Stats"
-#~ msgstr "Statistiken"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr ""
-#~ "Dieser Assistent wird Ihnen helfen, Deluge nach Ihren Wünschen einzurichten."
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge-Einrichtungsassistent"
-
-#~ msgid "Force Download"
-#~ msgstr "Download erzwingen"
-
 #, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s ist keine gültige URL."
@@ -4753,24 +4722,3 @@ msgstr ""
 
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge ist Passwortgeschützt!</big></b>"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KB\n"
-#~ "64 KB\n"
-#~ "128 KB\n"
-#~ "256 KB\n"
-#~ "512 KB\n"
-#~ "1 MB\n"
-#~ "2 MB\n"
-#~ "4 MB\n"
-#~ "8 MB\n"

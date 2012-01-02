@@ -9,13 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
 "PO-Revision-Date: 2009-06-30 17:39+0000\n"
-"Last-Translator: Robert Hartl <hartl.robert@gmail.com>\n"
+"Last-Translator: Robert Hartl <robert@chami.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:77
@@ -487,7 +487,7 @@ msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Pomalé nastavenia</b>"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -621,13 +621,15 @@ msgstr "Rozbaliť do:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
-msgstr ""
+msgstr "Vytvoriť podzložku s názvom torrentu"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Táto možnosť vytvorí podzložku s názvom torrentu vo vybranej extrahovacej "
+"zložke, v ktorej budú uložené rozbalené súbory."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
@@ -731,7 +733,7 @@ msgstr "Vynútiť stiahnutie a importovať"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "Zoznam blokovaných účastníkov je aktuálny"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
@@ -782,7 +784,7 @@ msgstr "Príkaz"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Pridať príkaz</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:151
 msgid "<b>Commands</b>"
@@ -1825,11 +1827,11 @@ msgstr "Démon neexistuje"
 
 #: deluge/ui/web/json_api.py:808
 msgid "Daemon not running"
-msgstr ""
+msgstr "Démon nie je spustený"
 
 #: deluge/ui/web/server.py:661
 msgid "Starting server in PID"
-msgstr ""
+msgstr "Spúšťa sa server v PID"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1949,6 +1951,12 @@ msgid ""
 "Thank you,\n"
 "Deluge"
 msgstr ""
+"Tento email Vás má informovať, že program Deluge dokončil sťahovanie "
+"torrentu %(name)s , ktorý obsahoval %(num_files)i súborov.\n"
+"Na ukončenie prijímania týchto upozornení, jednoducho vpynite emailovú "
+"notifikáciu v nastaveniach programu Deluge.\n"
+"Ďakujeme,\n"
+"Deluge"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
@@ -2023,15 +2031,15 @@ msgstr "Neplatný súbor"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "Duplicate Torrent"
-msgstr ""
+msgstr "Duplikátny torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:211
 msgid "You cannot add the same torrent twice."
-msgstr ""
+msgstr "Nemôžete pridať ten istý torrent dvakrát."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid "Unable to set file priority!"
-msgstr ""
+msgstr "Nedá sa nastaviť priorita súboru!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:492
 msgid ""
@@ -2067,7 +2075,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
-msgstr ""
+msgstr "Sťahovanie neúspešné"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Failed to download:"
@@ -2243,11 +2251,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
-msgstr ""
+msgstr "Chyba počas pridávania Hostu"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
 msgid "Turn off Classic Mode?"
-msgstr ""
+msgstr "Vypnúť klasický mód?"
 
 #: deluge/ui/gtkui/gtkui.py:303
 msgid ""
@@ -2255,10 +2263,12 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
+"Zdá sa, že proces démona Deluge (deluged) už je spustený.\n"
+"Pre pokračovanie musíte buď zastaviť démona alebo vypnúť Klasický mód."
 
 #: deluge/ui/gtkui/gtkui.py:312
 msgid "Error Starting Core"
-msgstr ""
+msgstr "Chyba pri spúštaní jadra"
 
 #: deluge/ui/gtkui/gtkui.py:313
 msgid ""
@@ -2267,22 +2277,29 @@ msgid ""
 "\n"
 "Please see the details below for more information."
 msgstr ""
+"Nastala chyba pri spúšťaní súčasti jadra, ktorá je potrebná na spustenie "
+"programu Deluge v Klasickom móde.\n"
+"Prosím, pre viac informácií si pozrite podrobnosti nižšie."
 
 #: deluge/ui/gtkui/gtkui.py:318
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
+"Pretože bola chyba so spúšťaním Klasického módu, chcete pokračovať s jeho "
+"vypnutím?"
 
 #: deluge/ui/gtkui/gtkui.py:342
 msgid "Error Starting Daemon"
-msgstr ""
+msgstr "Chyba pri spúšťaní démona"
 
 #: deluge/ui/gtkui/gtkui.py:343
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
+"Nastala chyba pri spúšťaní procesu démona. Skúste ho spustiť z terminálu, na "
+"zobrazenie vzniknutej chyby."
 
 #: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
 msgid "On"
@@ -2598,7 +2615,7 @@ msgstr "_Stav"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1310
 msgid "<b>Comments:</b>"
-msgstr ""
+msgstr "<b>Komentáre:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1339
 msgid "<b># of files:</b>"
@@ -3006,7 +3023,7 @@ msgstr "Uprednostniť prvé a posledné diely torrentu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:455
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "Pridať torrenty v pozastavenom stave"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:529
 msgid "<b><i><big>Network</big></i></b>"
@@ -3047,6 +3064,8 @@ msgid ""
 "Enter the IP address of the interface to listen for incoming bittorrent "
 "connections on.  Leave this empty if you want to use the default."
 msgstr ""
+"Zadajte IP adresu rozhrania na načúvanie pre prichádzajúce bittorentové "
+"spojenia. Nechajte prázdne, ak chcete použiť štandardnú."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:903
 msgid "<b>Interface</b>"
@@ -3353,14 +3372,16 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"Ak Deluge nemôže nájsť súbor databázy na tomto umiestnení, použije DNS na "
+"rozpoznanie krajín účastníkov."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
 msgid "<b>GeoIP Database</b>"
-msgstr ""
+msgstr "<b>Databáza GeoIP</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
 msgid "Associate Magnet links with Deluge"
-msgstr ""
+msgstr "Asociovať magnetové link s Deluge"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
 msgid "<i><b><big>Daemon</big></b></i>"
@@ -3490,11 +3511,11 @@ msgstr "<b>DHT</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Vyrovnávacia pamäť</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
 msgid "Cache Size (16 KiB blocks):"
-msgstr ""
+msgstr "Veľkosť (16 KiB bloky):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
@@ -3504,27 +3525,27 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "Uplynutie pamäti (sekundy):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
-msgstr ""
+msgstr "Celkový počet 16 KiB blokov zapísaných na disk od začiatku sedenia."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Zapísané bloky:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
-msgstr ""
+msgstr "Celkový počet zapisovacích operácií vykonaných od začiatku sedenia."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid "Writes:"
-msgstr ""
+msgstr "Zápisy:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
 msgid ""
@@ -3549,11 +3570,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid "Blocks Read:"
-msgstr ""
+msgstr "Načítané bloky:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
 msgid "The number of blocks that were served from cache."
-msgstr ""
+msgstr "Počet blokov, ktoré boli podané z vyrovnávacej pamäti."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
 msgid "Blocks Read Hit:"
@@ -3570,29 +3591,31 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
 msgid ""
 "The total number of read operations performed since this session was started."
-msgstr ""
+msgstr "Celkový počet čítacích operácií vykonaných od začiatku sedenia."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
 msgid "Reads:"
-msgstr ""
+msgstr "Načítavania:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
 msgid "<b>Read</b>"
-msgstr ""
+msgstr "<b>Čítanie</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
+"Počet 16 KiB blokov aktuálne v diskovej vyrovnávacej pamäti. Toto zahŕňa "
+"čítaciu aj zapisovaciu vyrovnávaciu pamäť."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
 msgid "Cache Size:"
-msgstr ""
+msgstr "Veľkosť v. pamäte:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "Veľkosť čítacej pamäti:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
 msgid "<b>Size</b>"
@@ -3624,7 +3647,7 @@ msgstr "Obnoviť rozšírenia"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
 msgid "_Find More Plugins"
-msgstr ""
+msgstr "_Nájsť viac rozšírení"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -3807,9 +3830,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Deluge je chránený heslom.\n"
 #~ "Okno Deluge sa zobrazí po zadaní hesla"
-
-#~ msgid "Graph"
-#~ msgstr "Graf"
 
 #~ msgid "Filters"
 #~ msgstr "Filtre"
@@ -4219,12 +4239,6 @@ msgstr ""
 #~ "tracker2.com\n"
 #~ "toto zatiaľ nič nerobí..\n"
 
-#~ msgid "Graphs"
-#~ msgstr "Grafy"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seedi/Peeri"
-
 #~ msgid "page 10"
 #~ msgstr "strana 10"
 
@@ -4463,12 +4477,6 @@ msgstr ""
 #~ msgid "Show keyword search"
 #~ msgstr "Zobraziť vyhľadávanie kľúčového slova"
 
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Tento sprievodca Vám pomôže nastaviť Deluge podľa Vašich predstáv."
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Sprievodca nastavením Deluge"
-
 #~ msgid "Community"
 #~ msgstr "Komunita"
 
@@ -4624,3 +4632,27 @@ msgstr ""
 
 #~ msgid "Enter a list of values."
 #~ msgstr "Zadajte zoznam hodnôt."
+
+#, python-format
+#~ msgid "%s is not a valid URL."
+#~ msgstr "%s nie je platnou URL."
+
+#~ msgid "<i>Enter your password to continue</i>"
+#~ msgstr "<i>Na pokračovanie zadajte heslo</i>"
+
+#~ msgid "<b><big>Deluge is password protected!</big></b>"
+#~ msgstr "<b><big>Deluge je chránený heslom!</big></b>"
+
+#~ msgid "Downloading.."
+#~ msgstr "Sťahuje sa.."
+
+#~ msgid ""
+#~ "Deluge\n"
+#~ "Not Connected.."
+#~ msgstr ""
+#~ "Deluge\n"
+#~ "Nepripojený.."
+
+#, python-format
+#~ msgid "Failed to download : %s"
+#~ msgstr "Zlyhalo sťahovanie : %s"

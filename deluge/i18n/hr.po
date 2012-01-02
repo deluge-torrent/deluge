@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-07-22 22:21+0000\n"
+"PO-Revision-Date: 2012-01-01 16:12+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <trebelnik2@Gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 "X-Poedit-Country: CROATIA\n"
 "X-Poedit-Language: Croatian\n"
 
@@ -97,14 +97,15 @@ msgstr "Zvučna obavijest uspjela"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
-msgstr "Torrent završen"
+msgstr "Završeno preuzimanje torrenta"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
-"Torrent \"%(name)s\"koji uključuje %(num_files)i je završio preuzimanje."
+"Torrent \"%(name)s\"koji uključuje %(num_files)i datoteku(a) je završio "
+"preuzimanje."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
@@ -648,7 +649,7 @@ msgstr "Pogrešna inačica"
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
 #: deluge/plugins/blocklist/blocklist/gtkui.py:186
 msgid "Blocklist"
-msgstr "Popis blokiranih"
+msgstr "Popis blokiranih IP adresa"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
@@ -666,11 +667,11 @@ msgstr "Provjeri za novi popis svakih:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
 msgid "Import blocklist on startup"
-msgstr "Uvezi popis blokiranih prilikom pokretanja"
+msgstr "Uvezi popis blokiranih IP adresa prilikom pokretanja"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
 msgid "Download the blocklist file if necessary and import the file."
-msgstr "Preuzmi popis blokiranih ako je potrebno i uvezi ga."
+msgstr "Preuzmi popis blokiranih IP adresa i ako je potrebno uvezi ga."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
 msgid "Check Download and Import"
@@ -678,7 +679,7 @@ msgstr "Ažuriraj preuzmi i uvezi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
 msgid "Download a new blocklist file and import it."
-msgstr "Preuzmi novi popis blokiranih i uvezi ga."
+msgstr "Preuzmi novi popis blokiranih IP adresa i uvezi ga."
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
 msgid "Force Download and Import"
@@ -686,7 +687,7 @@ msgstr "Forsiraj preuzimanje i uvezi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
 msgid "Blocklist is up to date"
-msgstr "Popis blokiranih je ažuriran"
+msgstr "Popis blokiranih IP adresa je ažuriran"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:472
@@ -716,7 +717,7 @@ msgstr "<b>Info</b>"
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr "Torrent završen"
+msgstr "Torrent preuzet"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
@@ -1883,7 +1884,7 @@ msgstr "Unesite svoju lozinku za nastavak"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
-msgstr "Torrent završen"
+msgstr "Torrent preuzet"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
@@ -2137,7 +2138,7 @@ msgstr "Aktivno"
 
 #: deluge/ui/gtkui/filtertreeview.py:80
 msgid "None"
-msgstr ""
+msgstr "Ništa"
 
 #: deluge/ui/gtkui/filtertreeview.py:81
 msgid "No Label"
@@ -2298,7 +2299,7 @@ msgstr "Postavi neograničeno"
 
 #: deluge/ui/gtkui/menubar.py:319
 msgid "Choose a directory to move files to"
-msgstr "Odaberi direktorij za premještanje datoteka"
+msgstr "Odaberi mapu za premještanje datoteka"
 
 #: deluge/ui/gtkui/menubar.py:439
 msgid "Set Maximum Upload Slots"
@@ -2594,7 +2595,7 @@ msgstr "<b>Brzina preuzimanja:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
-msgstr "<b>Slijedeće objavljivanje :</b>"
+msgstr "<b>Sljedeće objavljivanje :</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1092
 msgid "<b>Share Ratio:</b>"
@@ -3348,7 +3349,7 @@ msgstr "Uključi ikonu u sistemskoj traci"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
 msgid "Minimize to tray on close"
-msgstr "Minimiziraj u sistemsku traku pri zatvaranju"
+msgstr "Smanji u sistemsku traku pri zatvaranju"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
 msgid "Start in tray"
@@ -3615,7 +3616,7 @@ msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
 msgstr ""
-"Broj blokada zahtjevanih iz bittorrent engina (iz točaka), koji su posluženi "
+"Broj blokada zahtjevanih iz bittorrent pogona (iz točaka), koji su posluženi "
 "iz diska ili priručne memorije."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
@@ -3911,9 +3912,6 @@ msgstr "Preuzmite i dijelite datoteke preko BitTorrenta"
 #~ "Deluge je zaključan sa lozinkom.\n"
 #~ "Kako biste prikazali Deluge prozor molim vas unesite lozinku"
 
-#~ msgid "Graph"
-#~ msgstr "Graf"
-
 #~ msgid "Filters"
 #~ msgstr "Filteri"
 
@@ -4028,9 +4026,6 @@ msgstr "Preuzmite i dijelite datoteke preko BitTorrenta"
 #~ "tracker2.com\n"
 #~ "ovo zasad ne radi ništa...\n"
 
-#~ msgid "Graphs"
-#~ msgstr "Grafovi"
-
 #~ msgid "gtk-edit"
 #~ msgstr "gtk-uredi"
 
@@ -4111,45 +4106,8 @@ msgstr "Preuzmite i dijelite datoteke preko BitTorrenta"
 #~ msgid "page 10"
 #~ msgstr "10. stranica"
 
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-
 #~ msgid "_Quit"
 #~ msgstr "_Zatvorite Deluge"
-
-#~ msgid "You're running low on disk space:\n"
-#~ msgstr "Koristite malo slobodnog prostora na disku:\n"
-
-#, python-format
-#~ msgid "  %s%% ocupation in %s\n"
-#~ msgstr "  %s%% zauzeto u %s\n"
-
-#~ msgid "Consider low when"
-#~ msgstr "Smatraj nisko kada"
-
-#~ msgid "of the disk is occupied."
-#~ msgstr "diska je zauzeto."
-
-#~ msgid "All Finished!"
-#~ msgstr "Sve Završeno!"
 
 #~ msgid ""
 #~ "This program is free software; you can redistribute it and/or modify it "
@@ -4192,24 +4150,94 @@ msgstr "Preuzmite i dijelite datoteke preko BitTorrenta"
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge je zaštićen lozinkom!</big></b>"
 
-#~ msgid "Low Free Space"
-#~ msgstr "Malo slobodnog prostora na disku"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "Upozorenje o malo slobodnog prostora na disku"
-
-#~ msgid "<b>Free Space Checking</b>"
-#~ msgstr "<b>Provjera slobodnog prostora<b>"
-
-#~ msgid "Keep Files"
-#~ msgstr "Zadrži datoteke"
-
-#~ msgid "Remove Files"
-#~ msgstr "Ukloni datoteke"
-
-#~ msgid "action"
-#~ msgstr "radnja"
-
 #, python-format
 #~ msgid "%.2f%%"
 #~ msgstr "%.2f%%"
+
+#~ msgid "Maximum Download Speed (Kib/s)"
+#~ msgstr "Maksimalna brzina preuzimanja (Kib/s)"
+
+#, python-format
+#~ msgid "Downloading %.2f%%"
+#~ msgstr "Preuzimam %.2f%%"
+
+#~ msgid "Refresh status"
+#~ msgstr "Osvježi status"
+
+#~ msgid "Correct the errors above and try again"
+#~ msgstr "Ispravite greške iznad i pokušajte ponovno"
+
+#~ msgid "These changes were saved"
+#~ msgstr "Ove su izmjene bile spremljene"
+
+#~ msgid "∞"
+#~ msgstr "∞"
+
+#~ msgid "UpNP"
+#~ msgstr "UpNP"
+
+#~ msgid "Recheck"
+#~ msgstr "Ponovno provjeri"
+
+#~ msgid "-1 = Unlimited"
+#~ msgstr "-1 = Neograničeno"
+
+#~ msgid "Save .torrent files to"
+#~ msgstr "Spremi torent datoteke u"
+
+#~ msgid "Store all downoads in"
+#~ msgstr "Spremi sva preuzimanja u"
+
+#~ msgid "-1 = unlimited"
+#~ msgstr "-1 = neograničeno"
+
+#~ msgid "Total active torrents"
+#~ msgstr "Ukupno aktivnih torenta"
+
+#~ msgid "Total active downloading"
+#~ msgstr "Ukupno aktivnih preuzimanja"
+
+#~ msgid "Enabled Plugins"
+#~ msgstr "Omogući priključke"
+
+#~ msgid "This folder does not exist."
+#~ msgstr "Ova mapa ne postoji."
+
+#~ msgid "Enter a number."
+#~ msgstr "Unesite broj."
+
+#~ msgid "Enter a valid date/time."
+#~ msgstr "Unesite ispravan datum/vrijeme"
+
+#~ msgid "Enter a valid date."
+#~ msgstr "Unesite ispravan datum."
+
+#~ msgid "Enter a valid time."
+#~ msgstr "Unesite ispravno vrijeme."
+
+#~ msgid "Enter a valid e-mail address."
+#~ msgstr "Unesite ispravnu e-mail adresu."
+
+#~ msgid "refresh must be > 0"
+#~ msgstr "osvvježenje mora biti > 0"
+
+#~ msgid "Enter a valid IPv4 address."
+#~ msgstr "Unesite ispravnu IPv4 adresu."
+
+#~ msgid "Enter a valid URL."
+#~ msgstr "Unesite ispravni URL."
+
+#~ msgid "Download Location"
+#~ msgstr "Lokacija preuzimanja"
+
+#~ msgid "Current Password"
+#~ msgstr "Trenutna lozinka"
+
+#~ msgid "Old password is invalid"
+#~ msgstr "Stara lozinka nije ispravna"
+
+#~ msgid "New Password (Confirm)"
+#~ msgstr "Nova lozinka (potvrdi)"
+
+#~ msgid "From Session"
+#~ msgstr "Iz sesije"

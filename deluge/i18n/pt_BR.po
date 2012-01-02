@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-04-10 17:20+0000\n"
-"Last-Translator: José Carlos Neto a.k.a jcn <jcn@redes.ufsm.br>\n"
+"PO-Revision-Date: 2011-12-01 13:06+0000\n"
+"Last-Translator: |Akuma| <Unknown>\n"
 "Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
 #: deluge/ui/gtkui/filtertreeview.py:78
@@ -52,15 +52,15 @@ msgstr "Destino:"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr ""
+msgstr "KB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr ""
+msgstr "MB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr ""
+msgstr "GB"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -79,15 +79,15 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1846
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr "KB/s"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MB/s"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GB/s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -144,17 +144,17 @@ msgstr "Escolha o Arquivo de Som"
 #: deluge/plugins/notifications/notifications/core.py:171
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Houve um erro ao enviar o e-mail de notificação: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:157
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "O servidor não respondeu adequadamente a saudação helo: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "O servidor não aceitou a combinação do usuário/senha: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
 msgid "Notification email sent."
@@ -163,7 +163,7 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/core.py:194
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Torrent Finalizado \"%(name)s\""
 
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
@@ -180,22 +180,24 @@ msgstr ""
 #: deluge/plugins/notifications/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr ""
+"Copy text \t\r\n"
+"<b><i><big>Notificações</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Tray icon habilitado"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Popups habilitados"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
 msgid "Sound enabled"
-msgstr ""
+msgstr "Som habilitado"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:144
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Notificações UI</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:175
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -218,7 +220,7 @@ msgstr "Porta:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
 msgid "Username:"
-msgstr "Nome de usuário:"
+msgstr "Nome do usuário:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
 #: deluge/ui/gtkui/glade/connection_manager.glade:132
@@ -236,7 +238,7 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Servidor requer TLS/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -251,7 +253,7 @@ msgstr "Habilitado"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:443
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>E-mail de Notificação</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:460
 msgid "Settings"
@@ -262,10 +264,12 @@ msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Está configuração não signaifica que você receberá notificações para todos "
+"estes eventos"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Assinaturas"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
 msgid "Sound Customization"
@@ -273,12 +277,12 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "A pasta Watch não existe."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
 msgid "Path does not exist."
-msgstr ""
+msgstr "O caminho não existe."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
@@ -286,7 +290,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Propriedades da pasta watch"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -298,19 +302,19 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:228
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:288
 msgid "Select A Folder"
-msgstr "Selecionar uma pasta"
+msgstr "Selecione uma pasta"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Habilitar pasta Watch"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Pasta Watch</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Apagar .torrent após adicinado"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
@@ -318,7 +322,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
-msgstr ""
+msgstr ".Adicionado"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
 msgid "<b>Torrent File Action</b>"
@@ -326,12 +330,12 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
 msgid "Set download location"
-msgstr ""
+msgstr "Definir local do download"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
 msgid "<b>Download Location</b>"
-msgstr "<b>Localização do Download</b>"
+msgstr "Local do download"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
 msgid "Set move completed location"
@@ -343,15 +347,15 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
 msgid "Label: "
-msgstr ""
+msgstr "Nome: "
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "<b>Nome</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
-msgstr ""
+msgstr "Início"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -368,7 +372,7 @@ msgstr "Máximo de conexões:"
 #: deluge/ui/gtkui/glade/main_window.glade:1861
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
 msgid "Max Upload Slots:"
-msgstr "Número máximo de vagas para envio"
+msgstr "Número máximo de slots para envio:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
 #: deluge/ui/gtkui/glade/main_window.glade:1824
@@ -395,15 +399,15 @@ msgstr "Remover ao atingir proporção"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Auto gerenciamento:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
 msgid "Add Paused:"
-msgstr ""
+msgstr "Adicionar pausa:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
-msgstr ""
+msgstr "Fila para:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
 msgid "Top"
@@ -426,7 +430,7 @@ msgstr "Opções"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Pastas Watch:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -442,11 +446,11 @@ msgstr "Torrents Ativos:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Downloads Ativos:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Seeding Ativos:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -454,21 +458,21 @@ msgstr "<b>Definições Lentas</b>"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Rótulo inválido, caracteres válidos:[a-z0-9_-]"
+msgstr "Nome inválido, caracteres válidos:[a-z0-9_-]"
 
 #: deluge/plugins/label/label/core.py:190
 msgid "Empty Label"
-msgstr "Rótulo Vazio"
+msgstr "Nome Vazio"
 
 #: deluge/plugins/label/label/core.py:191
 msgid "Label already exists"
-msgstr "O Rótulo já existe"
+msgstr "O Nome já existe"
 
 #: deluge/plugins/label/label/core.py:199
 #: deluge/plugins/label/label/core.py:279
 #: deluge/plugins/label/label/core.py:314
 msgid "Unknown Label"
-msgstr "Rótulo Desconhecido"
+msgstr "Nome Desconhecido"
 
 #: deluge/plugins/label/label/core.py:315
 msgid "Unknown Torrent"
@@ -480,19 +484,19 @@ msgstr "Torrent Desconhecido"
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
 msgid "Label"
-msgstr "Rótulo"
+msgstr "Nome"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
 msgid "Label _Options"
-msgstr "_Opções de Rótulo"
+msgstr "Opções de Nome"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
-msgstr "_Remover Rótulo"
+msgstr "_Remover Nome"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr "_Adicionar Rótulo"
+msgstr "_Adicionar Nome"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -3901,9 +3905,6 @@ msgstr ""
 #~ msgid "Availability"
 #~ msgstr "Disponibilidade"
 
-#~ msgid "Graph"
-#~ msgstr "Gráfico"
-
 #~ msgid "Filters"
 #~ msgstr "Filtros"
 
@@ -4510,15 +4511,6 @@ msgstr ""
 #~ "tracker2.com\n"
 #~ "isso ainda não faz nada...\n"
 
-#~ msgid "Graphs"
-#~ msgstr "Gráficos"
-
-#~ msgid "Test config value:"
-#~ msgstr "Testar valor de configuração:"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Assistente de configuração do Deluge"
-
 #~ msgid "max_upload_slots"
 #~ msgstr "máximo_de_vagas_de_upload"
 
@@ -4566,9 +4558,6 @@ msgstr ""
 
 #~ msgid "Work in progress.."
 #~ msgstr "Ainda não está pronto..."
-
-#~ msgid "Stats"
-#~ msgstr "Estatísticas"
 
 #~ msgid "State"
 #~ msgstr "Estado"
@@ -4734,12 +4723,6 @@ msgstr ""
 #~ "delete this exception statement from all source files in the program, then "
 #~ "also delete it here.\r\n"
 
-#~ msgid "Seeds/Peers"
-#~ msgstr "Sementes/Compartilhadores"
-
 #, python-format
 #~ msgid "%s is not a valid URL."
 #~ msgstr "%s não é uma URL válida."
-
-#~ msgid "Force Download"
-#~ msgstr "Forçar Download"

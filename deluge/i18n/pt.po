@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -3848,9 +3848,6 @@ msgstr ""
 #~ msgid "Deluge is locked"
 #~ msgstr "O Deluge está bloqueado"
 
-#~ msgid "Graph"
-#~ msgstr "Gráfico"
-
 #~ msgid "Clear"
 #~ msgstr "Limpar"
 
@@ -4435,23 +4432,11 @@ msgstr ""
 #~ msgid "High priority"
 #~ msgstr "Prioridade Elevada"
 
-#~ msgid "Test config value:"
-#~ msgstr "Avaliando teste de configuração"
-
-#~ msgid "Graphs"
-#~ msgstr "Gráficos"
-
 #~ msgid "page 10"
 #~ msgstr "página 10"
 
 #~ msgid "page 11"
 #~ msgstr "página 11"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Este assistente irá ajudá-lo a configurar o Deluge a seu modo."
-
-#~ msgid "All Finished!"
-#~ msgstr "Termino"
 
 #~ msgid "max_download_speed"
 #~ msgstr "velocidade_máxima_de_download"
@@ -4464,9 +4449,6 @@ msgstr ""
 
 #~ msgid "Times to attempt download"
 #~ msgstr "Vezes para tentar o download"
-
-#~ msgid "Force Download"
-#~ msgstr "Força Download"
 
 #, python-format
 #~ msgid "Downloading %.2f%%"
@@ -4481,12 +4463,6 @@ msgstr ""
 
 #~ msgid "Refresh status"
 #~ msgstr "Estado de atualização"
-
-#~ msgid "Stats"
-#~ msgstr "Status"
-
-#~ msgid "Test config value"
-#~ msgstr "Avaliando teste de configuração"
 
 #~ msgid ""
 #~ "Deluge is password protected.\n"
@@ -4729,17 +4705,11 @@ msgstr ""
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge é protegido por senha!</big></b>"
 
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Assistente de Instalação Deluge"
-
 #~ msgid "<i>Enter your password to continue</i>"
 #~ msgstr "<i>Introduza a sua palavra-passe para continuar</i>"
 
 #~ msgid "<b>Speed:</b>"
 #~ msgstr "<b>Velocidade:</b>"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Semenando/Peers"
 
 #~ msgid "Delete"
 #~ msgstr "Apagar"

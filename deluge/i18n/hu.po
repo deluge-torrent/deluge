@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2010-08-03 19:54+0000\n"
-"Last-Translator: akirawatanabe <Unknown>\n"
+"PO-Revision-Date: 2011-11-29 09:05+0000\n"
+"Last-Translator: Attila <sneax88@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
@@ -125,15 +125,15 @@ msgstr "Mutassa a munkamenet sebességét az állapotsorban"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -156,11 +156,11 @@ msgstr "KiB/s"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/s"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -211,7 +211,7 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Válasszon egy hangfájlt"
 
 #: deluge/plugins/notifications/notifications/core.py:138
 #: deluge/plugins/notifications/notifications/core.py:171
@@ -2283,9 +2283,9 @@ msgid ""
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
-"Úgy tűnik, már fut egy Deluge démon folyamat (deluged).\n"
+"Úgy tűnik, már fut egy Deluge folyamat.\n"
 "\n"
-"A folytatáshoz le kell állítani a démont, vagy ki kell kapcsolni a "
+"A folytatáshoz le kell állítani a folyamatot, vagy ki kell kapcsolni a "
 "klasszikus módot."
 
 #: deluge/ui/gtkui/gtkui.py:312
@@ -3558,7 +3558,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Blocks Written:"
-msgstr ""
+msgstr "Kiírt blokkok:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
 msgid ""
@@ -3888,9 +3888,6 @@ msgstr ""
 
 #~ msgid "Filters"
 #~ msgstr "Szűrők"
-
-#~ msgid "Graph"
-#~ msgstr "Grafikon"
 
 #~ msgid "New Password"
 #~ msgstr "Új Jelszó"
@@ -4622,35 +4619,8 @@ msgstr ""
 #~ msgid "Key not found at '%s'"
 #~ msgstr "Nem találtam a '%s' helyen a keresési értéket"
 
-#~ msgid "Graphs"
-#~ msgstr "Grafikonok"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Megosztók/Letöltők"
-
-#~ msgid "Test config value:"
-#~ msgstr "Teszt konfigurációs érték:"
-
-#~ msgid "All Finished!"
-#~ msgstr "Mind befejezve!"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge Beállítások Varázsló"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Ez a varázsló segít a Deluge személyre szabásában"
-
-#~ msgid "Force Download"
-#~ msgstr "Letöltés erőltetése"
-
-#~ msgid "Stats"
-#~ msgstr "Statisztika"
-
 #~ msgid "U/L Speed Limit"
 #~ msgstr "Feltöltési sebességkorlát"
-
-#~ msgid "Test config value"
-#~ msgstr "Beállítás kipróbálása"
 
 #, python-format
 #~ msgid "%s is not a valid URL."

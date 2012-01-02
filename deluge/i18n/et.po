@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -3869,9 +3869,6 @@ msgstr ""
 #~ msgid "Filters"
 #~ msgstr "Filtrid"
 
-#~ msgid "Graph"
-#~ msgstr "Graafik"
-
 #~ msgid "New Password"
 #~ msgstr "Uus parool"
 
@@ -4251,12 +4248,6 @@ msgstr ""
 #~ msgid "Restart"
 #~ msgstr "Taaskäivita"
 
-#~ msgid "Graphs"
-#~ msgstr "Graafikud"
-
-#~ msgid "Stats"
-#~ msgstr "Statistika"
-
 #~ msgid "Import Now"
 #~ msgstr "Impordi kohe"
 
@@ -4337,15 +4328,6 @@ msgstr ""
 
 #~ msgid "Torrent is past stop ratio."
 #~ msgstr "Torrent on üle peatamise suhte."
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge seadistamisnõustaja"
-
-#~ msgid "All Finished!"
-#~ msgstr "Kõik lõpetatud!"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "See nõustaja aitab muuta Deluge Sulle sobivaks."
 
 #~ msgid "Check for every (days)"
 #~ msgstr "Kontrollimise intervall (päeva)"
@@ -4430,9 +4412,6 @@ msgstr ""
 
 #~ msgid "Refresh page every:"
 #~ msgstr "Lehe värskendamise intervall:"
-
-#~ msgid "Force Download"
-#~ msgstr "Allalaadimine jõuga"
 
 #, python-format
 #~ msgid "Blocked Ranges: %s"
@@ -4668,17 +4647,8 @@ msgstr ""
 #~ msgid "Set Timeout"
 #~ msgstr "Määra ajapiirang"
 
-#~ msgid "Test config value"
-#~ msgstr "Testi seadeväärtust"
-
 #~ msgid "Auto Add folder"
 #~ msgstr "Lisa kataloog automaatselt"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Levitamisi/masinaid"
-
-#~ msgid "Test config value:"
-#~ msgstr "Testi seadeväärtust:"
 
 #~ msgid "Auto Add enabled"
 #~ msgstr "Automaatlisamine lubatud"

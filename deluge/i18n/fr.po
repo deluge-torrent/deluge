@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
 #: deluge/plugins/label/label/data/label_options.glade:349
@@ -522,7 +522,7 @@ msgstr "<b>File d'attente</b>"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
 msgid "Options"
-msgstr "Paramétres"
+msgstr "Paramètres"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
@@ -3954,9 +3954,6 @@ msgstr ""
 #~ msgid "Port"
 #~ msgstr "Port"
 
-#~ msgid "Graph"
-#~ msgstr "Graphique"
-
 #~ msgid "Availability"
 #~ msgstr "Disponibilité"
 
@@ -4562,26 +4559,8 @@ msgstr ""
 #~ msgid "Auto Add enabled"
 #~ msgstr "Ajout automatique activé"
 
-#~ msgid "Graphs"
-#~ msgstr "Graphiques"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Sources/Pairs"
-
-#~ msgid "All Finished!"
-#~ msgstr "Terminé!"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Assistant de Configuration Deluge"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Cet assistant va vous aider à regler Deluge selon vos préférences"
-
 #~ msgid "State"
 #~ msgstr "État"
-
-#~ msgid "Stats"
-#~ msgstr "Statistiques"
 
 #~ msgid "no label"
 #~ msgstr "aucun label"
@@ -4597,9 +4576,6 @@ msgstr ""
 
 #~ msgid "Update Tracker"
 #~ msgstr "Mettre à jour le tracker"
-
-#~ msgid "Test config value:"
-#~ msgstr "Tester la valeur configurée:"
 
 #~ msgid "_Quit"
 #~ msgstr "_Quitter"
@@ -4654,12 +4630,6 @@ msgstr ""
 
 #~ msgid "Search"
 #~ msgstr "Chercher"
-
-#~ msgid "Test config value"
-#~ msgstr "Tester les valeurs de la configuration"
-
-#~ msgid "Force Download"
-#~ msgstr "Forcer le téléchargement"
 
 #~ msgid "Https"
 #~ msgstr "Https"
@@ -4823,18 +4793,3 @@ msgstr ""
 
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge est protégé par un mot de passe !</big></b>"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "Avertissement d'espace disque faible"
-
-#~ msgid "Low Free Space"
-#~ msgstr "Espace disque faible"
-
-#~ msgid "Remove Files"
-#~ msgstr "Supprimer les fichiers"
-
-#~ msgid "action"
-#~ msgstr "action"
-
-#~ msgid "Keep Files"
-#~ msgstr "Conserver les fichiers"

@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2009-09-24 11:33+0000\n"
-"Last-Translator: Stuart Bishop <Unknown>\n"
+"PO-Revision-Date: 2011-09-12 15:38+0000\n"
+"Last-Translator: Ian Higginson <xeriouxi@fastmail.fm>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -50,31 +50,31 @@ msgstr "KiB/s"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/s"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Notification Blink shown"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Popup notification is not enabled."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify is not installed"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify failed to show notification"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Notification popup shown"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
@@ -3864,9 +3864,6 @@ msgstr ""
 #~ msgid "Port"
 #~ msgstr "Port"
 
-#~ msgid "Graph"
-#~ msgstr "Graph"
-
 #~ msgid "Filters"
 #~ msgstr "Filters"
 
@@ -4645,33 +4642,6 @@ msgstr ""
 
 #~ msgid "No Incoming Connections"
 #~ msgstr "No Incoming Connections"
-
-#~ msgid "Test config value"
-#~ msgstr "Test config value"
-
-#~ msgid "Stats"
-#~ msgstr "Stats"
-
-#~ msgid "All Finished!"
-#~ msgstr "All Finished!"
-
-#~ msgid "Force Download"
-#~ msgstr "Force Download"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "This wizard will help you set up Deluge to your liking."
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge Setup Wizard"
-
-#~ msgid "Graphs"
-#~ msgstr "Graphs"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seeds/Peers"
-
-#~ msgid "Test config value:"
-#~ msgstr "Test config value:"
 
 #, python-format
 #~ msgid "Failed to download : %s"

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -3929,9 +3929,6 @@ msgstr ""
 #~ msgid "Upload"
 #~ msgstr "Szybk. wysyłania"
 
-#~ msgid "Graph"
-#~ msgstr "Wykres"
-
 #~ msgid "New Password"
 #~ msgstr "Nowe hasło"
 
@@ -4340,35 +4337,11 @@ msgstr ""
 #~ msgid "Auto Add folder"
 #~ msgstr "Automatycznie dodaj katalog"
 
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Konfigurator Ustawień Deluge"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Rozsiewający/Uczestnicy"
-
 #~ msgid "Show trackers"
 #~ msgstr "Pokaż trackery"
 
 #~ msgid "no label"
 #~ msgstr "brak etykiety"
-
-#~ msgid "All Finished!"
-#~ msgstr "Wszystko zakończone!"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Ten kreator pozwoli Ci dopasować Deluge do twoich potrzeb."
-
-#~ msgid "Graphs"
-#~ msgstr "Wykresy"
-
-#~ msgid "Test config value:"
-#~ msgstr "Sprawdź wartość ustawienia:"
-
-#~ msgid "Test config value"
-#~ msgstr "Sprawdź wartość ustawienia"
-
-#~ msgid "Stats"
-#~ msgstr "Statystyki"
 
 #~ msgid "State"
 #~ msgstr "Stan"
@@ -4652,9 +4625,6 @@ msgstr ""
 
 #~ msgid "False"
 #~ msgstr "Nie"
-
-#~ msgid "Force Download"
-#~ msgstr "Wymuś pobranie"
 
 #~ msgid "Show zero hits"
 #~ msgstr "Wyświetl puste kategorie"

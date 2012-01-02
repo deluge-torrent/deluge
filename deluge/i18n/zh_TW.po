@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-06-25 15:03+0000\n"
+"PO-Revision-Date: 2011-08-21 01:51+0000\n"
 "Last-Translator: Pin-hsien Li <pspeter9931@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -59,11 +59,11 @@ msgstr "KiB/秒"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/秒"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/秒"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -1906,7 +1906,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>用戶端版本</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2547,11 +2547,11 @@ msgstr "<b>剩餘時間：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>上傳速度：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>下載速度：</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2682,7 +2682,7 @@ msgstr "<i>目前的版本：</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>伺服器版本</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -3747,15 +3747,15 @@ msgstr "目的地："
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent 用戶端"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Deluge BitTorrent 用戶端"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "透過 BitTorrent 協定來下載和分享檔案"
 
 #~ msgid "seconds"
 #~ msgstr "秒"
@@ -3853,9 +3853,6 @@ msgstr ""
 
 #~ msgid "Availability"
 #~ msgstr "可得性"
-
-#~ msgid "Graph"
-#~ msgstr "流量圖"
 
 #~ msgid "Speed"
 #~ msgstr "速度"
@@ -4550,49 +4547,6 @@ msgstr ""
 #~ msgstr "%s 不是合法的網址。"
 
 #~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-
-#~ msgid "Low Free Space"
-#~ msgstr "不足的可用空間"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "磁碟空間不足警告"
-
-#~ msgid "You're running low on disk space:\n"
-#~ msgstr "您的磁碟空間即將用罄：\n"
-
-#, python-format
-#~ msgid "  %s%% ocupation in %s\n"
-#~ msgstr "  %s%% 的佔用空間於 %s\n"
-
-#~ msgid "Consider low when"
-#~ msgstr "評定空間不足，當有"
-
-#~ msgid "of the disk is occupied."
-#~ msgstr "的磁碟大小被佔用。"
-
-#~ msgid "<b>Free Space Checking</b>"
-#~ msgstr "<b>檢查可用空間中</b>"
-
-#~ msgid ""
 #~ "tracker1.org\n"
 #~ "tracker2.com\n"
 #~ "this doesn't do anything yet..\n"
@@ -4600,12 +4554,3 @@ msgstr ""
 #~ "tracker1.org\n"
 #~ "tracker2.com\n"
 #~ "這是無效的..\n"
-
-#~ msgid "Remove Files"
-#~ msgstr "移除檔案"
-
-#~ msgid "action"
-#~ msgstr "動作"
-
-#~ msgid "Keep Files"
-#~ msgstr "保留檔案"

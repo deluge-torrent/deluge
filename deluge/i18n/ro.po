@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-04-23 14:56+0000\n"
-"Last-Translator: Mihai Capotă <mihai@mihaic.ro>\n"
+"PO-Revision-Date: 2011-09-28 06:23+0000\n"
+"Last-Translator: Robert Dumitrescu <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -491,11 +491,11 @@ msgstr "Parolă:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:360
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Destinatari</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Serverul necesită TTL/SSL"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -524,11 +524,11 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonamente"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Personalizare sunet"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
@@ -537,7 +537,7 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
 msgid "Path does not exist."
-msgstr ""
+msgstr "Calea nu există."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
@@ -557,7 +557,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Șterge .torrent după adăugare"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
@@ -590,15 +590,15 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
 msgid "Label: "
-msgstr ""
+msgstr "Etichetă: "
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "<b>Etichetă</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
 #: deluge/ui/gtkui/glade/main_window.glade:1798
@@ -2110,7 +2110,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
 msgid "Not Connected..."
-msgstr ""
+msgstr "Neconectat..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -2148,7 +2148,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
-msgstr ""
+msgstr "fişiere"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -2175,7 +2175,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
-msgstr ""
+msgstr "Categorii"
 
 #: deluge/ui/gtkui/preferences.py:76
 msgid "Downloads"
@@ -2344,7 +2344,7 @@ msgstr "Torente"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
 msgid "States"
-msgstr ""
+msgstr "Stări"
 
 #: deluge/ui/gtkui/filtertreeview.py:71
 msgid "Labels"
@@ -2415,7 +2415,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:149
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
@@ -2423,7 +2423,7 @@ msgstr "Gazdă"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
 msgid "Version"
-msgstr ""
+msgstr "Versiune"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
@@ -2446,7 +2446,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/connectionmanager.py:425
 msgid "Please examine the details for more information."
-msgstr ""
+msgstr "Examinați detaliile pentru mai multe informații."
 
 #: deluge/ui/gtkui/connectionmanager.py:509
 msgid "Error Adding Host"
@@ -2521,15 +2521,15 @@ msgstr "Setează numărul maxim de sloturi pentru încărcare"
 
 #: deluge/ui/gtkui/files_tab.py:56
 msgid "Do Not Download"
-msgstr ""
+msgstr "Nu descărca"
 
 #: deluge/ui/gtkui/files_tab.py:57
 msgid "Normal Priority"
-msgstr ""
+msgstr "Prioritate normală"
 
 #: deluge/ui/gtkui/files_tab.py:58
 msgid "High Priority"
-msgstr ""
+msgstr "Prioritate ridicată"
 
 #: deluge/ui/gtkui/files_tab.py:59
 msgid "Highest Priority"
@@ -4010,9 +4010,6 @@ msgstr ""
 #~ msgid "Filters"
 #~ msgstr "Filtre"
 
-#~ msgid "Graph"
-#~ msgstr "Grafic"
-
 #~ msgid "From"
 #~ msgstr "De la"
 
@@ -4516,21 +4513,6 @@ msgstr ""
 #~ msgid "Auto refresh (seconds)"
 #~ msgstr "Împrospătare automată (secunde)"
 
-#~ msgid "All Finished!"
-#~ msgstr "Descărcări terminate"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Vrăjitor instalare Deluge"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Vrăjitorul vă va ajuta să setați Deluge așa cum doriți"
-
-#~ msgid "Graphs"
-#~ msgstr "Grafice"
-
-#~ msgid "Test config value:"
-#~ msgstr "Valoare test configurare"
-
 #~ msgid "max_upload_slots"
 #~ msgstr "sloturi_macime_incarcare"
 
@@ -4572,15 +4554,6 @@ msgstr ""
 
 #~ msgid "move_completed_path"
 #~ msgstr "cale_mutare_completa"
-
-#~ msgid "Test config value"
-#~ msgstr "Valoare test configurare"
-
-#~ msgid "Stats"
-#~ msgstr "Statistici"
-
-#~ msgid "Force Download"
-#~ msgstr "Forțează descărcarea"
 
 #~ msgid "auto_add_trackers"
 #~ msgstr "adaugare_automata_trackere"
@@ -4738,6 +4711,3 @@ msgstr ""
 
 #~ msgid "Rate Limit IP Overhead"
 #~ msgstr "Depășire raport IP limită"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Surse/Parteneri"

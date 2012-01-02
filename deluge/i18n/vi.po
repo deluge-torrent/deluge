@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:54+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -397,15 +397,15 @@ msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
-msgstr ""
+msgstr "Giới hạn tải xuống:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
 msgid "Upload Limit:"
-msgstr ""
+msgstr "Giới hạn tải lên:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
 msgid "Active Torrents:"
-msgstr ""
+msgstr "Torrent đang hoạt động:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
@@ -417,7 +417,7 @@ msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>Thiết lập chậm</b>"
 
 #: deluge/plugins/label/label/core.py:189
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -556,7 +556,7 @@ msgstr ""
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
-msgstr ""
+msgstr "Giải nén vào:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
 msgid "Create torrent name sub-folder"
@@ -567,6 +567,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
+"Chức năng này sẽ tạo một thư mục con cùng tên với torrent trong thư mục giải "
+"nén đã chọn và đặt những tập tin được giải nén ở đó."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
@@ -574,7 +576,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Chung</b>"
 
 #: deluge/plugins/webui/webui/gtkui.py:97
 msgid ""
@@ -584,21 +586,21 @@ msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:27
 msgid "Enable web interface"
-msgstr ""
+msgstr "Sử dụng giao diện web"
 
 #: deluge/plugins/webui/webui/data/config.glade:41
 msgid "Enable SSL"
-msgstr ""
+msgstr "Sử dụng SSL"
 
 #: deluge/plugins/webui/webui/data/config.glade:60
 msgid "Listening port:"
-msgstr ""
+msgstr "Cổng nhận:"
 
 #: deluge/plugins/webui/webui/data/config.glade:94
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Thiết lập</b>"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
@@ -700,32 +702,32 @@ msgstr ""
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr ""
+msgstr "Torrent đã tải xong"
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr ""
+msgstr "Torrent đã được thêm vào"
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr ""
+msgstr "Thực thi"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
-msgstr ""
+msgstr "Sự kiện"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:41
 msgid "Command"
-msgstr ""
+msgstr "Lệnh"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:112
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>Thêm lệnh</b>"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:151
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>Lệnh</b>"
 
 #: deluge/core/torrentmanager.py:937
 msgid "Announce OK"

@@ -8,19 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-05-27 03:53+0000\n"
-"Last-Translator: Sardan <serdar.zeybek@gmail.com>\n"
+"PO-Revision-Date: 2011-08-30 06:43+0000\n"
+"Last-Translator: Muhammet Aklan <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
-
-#: deluge/plugins/notifications/notifications/data/config.glade:175
-#: deluge/ui/gtkui/glade/connection_manager.glade:28
-msgid "Hostname:"
-msgstr "Bilgisayar adı:"
+"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -299,15 +294,15 @@ msgstr "Hedef:"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr "KiB"
+msgstr "KB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr "MiB"
+msgstr "MB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr "GiB"
+msgstr "GB"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -330,23 +325,23 @@ msgstr "KB/sn"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "MB/sn"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "GB/sn"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Yanıp Sönme bildirimi gösterildi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Açılır pencere bildirimi etkin değil."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
-msgstr "pynotify uygulaması yüklenmemiş"
+msgstr "pynotify yüklü değil"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
 msgid "pynotify failed to show notification"
@@ -354,7 +349,7 @@ msgstr "pynotify bildirim gösteremedi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Açılır pencere bildirimi gösterildi"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
@@ -362,7 +357,7 @@ msgstr "Ses bildirimi etkin değil"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
 msgid "pygame is not installed"
-msgstr "pygame uygulaması yüklenmemiş"
+msgstr "pygame yüklü değil"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
 #, python-format
@@ -382,6 +377,8 @@ msgstr "Torrent Tamamlandı"
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
 msgstr ""
+"\"%(name)s\" adlı torrent içinde indirilmesi bitmiş olan %(num_files)i dosya "
+"var."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
@@ -396,12 +393,12 @@ msgstr "Bildirim e-postası gönderilirken bir hata oluştu: %s"
 #: deluge/plugins/notifications/notifications/core.py:157
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Sunucu helo selamlamasına düzgün cevap vermedi: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:162
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr "Sunucu kullanıcı adı/şifre terkibini kabul etmedi: %s"
+msgstr "Sunucu, kullanıcı adı ve şifre birleşimini kabul etmedi: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:186
 msgid "Notification email sent."
@@ -410,7 +407,7 @@ msgstr "Bildirim e-postası gönderildi."
 #: deluge/plugins/notifications/notifications/core.py:194
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "\"%(name)s\" adlı torrent tamamlandı"
 
 #: deluge/plugins/notifications/notifications/core.py:196
 #, python-format
@@ -430,11 +427,11 @@ msgstr "<b><i><big>Bildirimler</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:81
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Bildirim simgesinin yanıp sönmesi etkinleştirildi"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:93
 msgid "Popups enabled"
-msgstr ""
+msgstr "Açılır pencereler etkin"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:108
 msgid "Sound enabled"
@@ -444,6 +441,11 @@ msgstr "Sesler etkin"
 msgid "<b>UI Notifications</b>"
 msgstr "<b>Kullanıcı Arayüzü Bildirimleri</b>"
 
+#: deluge/plugins/notifications/notifications/data/config.glade:175
+#: deluge/ui/gtkui/glade/connection_manager.glade:28
+msgid "Hostname:"
+msgstr "Makine adı:"
+
 #: deluge/plugins/notifications/notifications/data/config.glade:199
 #: deluge/ui/gtkui/glade/connection_manager.glade:56
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
@@ -451,7 +453,7 @@ msgstr "<b>Kullanıcı Arayüzü Bildirimleri</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
 msgid "Port:"
-msgstr "Port:"
+msgstr "Bağlantı noktası:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
 #: deluge/ui/gtkui/glade/connection_manager.glade:143
@@ -478,7 +480,7 @@ msgstr "<b>Alıcılar</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:383
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Sunucu TLS/SSL gerektiriyor"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:398
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
@@ -504,23 +506,25 @@ msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Bu yapılandırma, tüm bu olaylar için gerçekten bildirim alacağınız anlamına "
+"gelmez."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:513
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonelikler"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:594
 msgid "Sound Customization"
-msgstr ""
+msgstr "Ses Özelleştirme"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "İzleme dizini mevcut değil."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
 msgid "Path does not exist."
-msgstr "Böyle bir konum yok"
+msgstr "Yol mevcut değil."
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
@@ -528,15 +532,15 @@ msgstr "Otomatik Ekleme Hatası"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "İzleme Dizini Özellikleri"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Bu izleme dizinini etkinleştir"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>İzleme Dizini</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
 msgid "Delete .torrent after adding"
@@ -544,15 +548,15 @@ msgstr "Ekledikten sonra .torrent dosyasını sil"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Uzantıyı şunu ekledikten sonra ekle:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
-msgstr ""
+msgstr ".eklendi"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Torrent Dosyası Eylemi</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
 msgid "Set download location"
@@ -581,7 +585,7 @@ msgstr "<b>Etiket</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
 msgid "Main"
-msgstr ""
+msgstr "Ana"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
 #: deluge/ui/gtkui/glade/main_window.glade:1811
@@ -619,11 +623,11 @@ msgstr "Şu orana ulaşıldığında torrenti sil:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Otomatik Yönetilen:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
 msgid "Add Paused:"
-msgstr ""
+msgstr "Duraklatılmış Olarak Ekle:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
@@ -650,7 +654,7 @@ msgstr "Ayarlar"
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:41
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>İzleme Dizinleri:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -666,11 +670,11 @@ msgstr "Aktif Torrentler"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Etkin İndirilen:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Etkin Dağıtılan:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -1998,7 +2002,7 @@ msgstr "Art hizmet çalışmıyor"
 
 #: deluge/ui/web/server.py:661
 msgid "Starting server in PID"
-msgstr ""
+msgstr "PID'deki sunucu başlatılıyor"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -2059,7 +2063,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
 msgid "Not Connected..."
-msgstr ""
+msgstr "Bağlı Değil..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -2081,11 +2085,11 @@ msgstr "Azami Gönderme Hızını Ayarla"
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge parola korumalı!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Devam etmek için parolanızı girin"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -2093,11 +2097,11 @@ msgstr "Torrent tamamlandı"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
-msgstr ""
+msgstr "İçeriyor"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
-msgstr ""
+msgstr "dosya"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -2120,7 +2124,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>İstemci Sürümü</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2206,6 +2210,8 @@ msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Yoğun alan tahsisi kullanılırken dosyalara öncelik verme özelliği "
+"kullanılamıyor. Tam alan tahsisine geçmek ister misiniz?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:541
 msgid "Choose a .torrent file"
@@ -2227,11 +2233,11 @@ msgstr "Geçersiz URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
 msgid "is not a valid URL."
-msgstr ""
+msgstr "geçerli bir URL değil"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
 msgid "Downloading..."
-msgstr ""
+msgstr "İndiriliyor..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
@@ -2239,7 +2245,7 @@ msgstr "İndirme Başarısız"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Failed to download:"
-msgstr ""
+msgstr "İndirme başarısız:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2388,22 +2394,24 @@ msgstr "Sürüm"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Hizmeti Durdur"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Hizmeti Başlat"
 
 #: deluge/ui/gtkui/connectionmanager.py:414
 #: deluge/ui/gtkui/connectionmanager.py:424
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Himet başlatılamadı!"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Deluge, 'deluged' çalıştırılabilir uygulamasını bulamıyor, deluged paketini "
+"kurmayı unuttunuz ya da bu uygulama PATH konumunuzda değil gibi görünüyor."
 
 #: deluge/ui/gtkui/connectionmanager.py:425
 msgid "Please examine the details for more information."
@@ -2531,11 +2539,11 @@ msgstr "Eşler"
 
 #: deluge/ui/gtkui/torrentview.py:241
 msgid "Down Limit"
-msgstr ""
+msgstr "İndirme Sınırı"
 
 #: deluge/ui/gtkui/torrentview.py:243
 msgid "Up Limit"
-msgstr ""
+msgstr "Gönderme Sınırı"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2574,7 +2582,7 @@ msgstr "Torrent _Yarat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:65
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Çık ve Hizmeti _Kapat"
 
 #: deluge/ui/gtkui/glade/main_window.glade:101
 msgid "_Edit"
@@ -2754,11 +2762,11 @@ msgstr "<b>Tahmini Kalan Süre</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Gönderme Hızı:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>İndirme Hızı:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2868,7 +2876,7 @@ msgstr "<i>Şimdiki Sürüm:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Sunucu Sürümü</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2676
 msgid "_Goto Website"
@@ -3023,6 +3031,16 @@ msgid ""
 "8 MiB\n"
 "16 MiB\n"
 msgstr ""
+"32 KB\n"
+"64 KB\n"
+"128 KB\n"
+"256 KB\n"
+"512 KB\n"
+"1 MB\n"
+"2 MB\n"
+"4 MB\n"
+"8 MB\n"
+"16 MB\n"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
 msgid "Set Private Flag"
@@ -3365,7 +3383,7 @@ msgstr "Görev çubuğunda başlat"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Uygulama Göstergesini Etkinleştir"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
 msgid "Password protect system tray"
@@ -3781,15 +3799,15 @@ msgstr "Torrenti _Kaldır"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent İstemcisi"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Deluge BitTorrent İstemcisi"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "BitTorrent üzerinden dosya indirin ve paylaşın"
 
 #~ msgid "seconds"
 #~ msgstr "saniye"
@@ -3943,9 +3961,6 @@ msgstr ""
 
 #~ msgid "Select All"
 #~ msgstr "Tümünü Seç"
-
-#~ msgid "Graph"
-#~ msgstr "Grafik"
 
 #~ msgid "Refresh page every:"
 #~ msgstr "Sayfayı yenile:"
@@ -4418,12 +4433,6 @@ msgstr ""
 #~ msgid "Auto Add enabled"
 #~ msgstr "Kendiliğinden Ekleme etkinleştirildi"
 
-#~ msgid "Graphs"
-#~ msgstr "Grafikler"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Yayıncılar/Eşler"
-
 #~ msgid ""
 #~ "tracker1.org\n"
 #~ "tracker2.com\n"
@@ -4433,17 +4442,11 @@ msgstr ""
 #~ "tracker2.com\n"
 #~ "bu henüz birşey yapmıyor..\n"
 
-#~ msgid "Test config value:"
-#~ msgstr "Ayar değerini test et:"
-
 #~ msgid "page 12"
 #~ msgstr "sayfa 12"
 
 #~ msgid "0x00"
 #~ msgstr "0x00"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge Kurulum Sihirbazı"
 
 #~ msgid ""
 #~ "32 KiB\n"
@@ -4458,21 +4461,9 @@ msgstr ""
 #~ "256 KiB\n"
 #~ "512 KiB"
 
-#~ msgid "All Finished!"
-#~ msgstr "Hepsi Bitti!"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Bu sihirbaz Deluge'u isteklerinize göre kurmanıza yardım edecek"
-
 #, python-format
 #~ msgid "Including %i files"
 #~ msgstr "%i dosya içerir"
-
-#~ msgid "Test config value"
-#~ msgstr "Ayar değerini test et"
-
-#~ msgid "Stats"
-#~ msgstr "İstatistikler"
 
 #~ msgid "State"
 #~ msgstr "Durum"
@@ -4690,9 +4681,6 @@ msgstr ""
 #~ msgid "<b><big>Deluge is password protected!</big></b>"
 #~ msgstr "<b><big>Deluge şifre korumalı!</big></b>"
 
-#~ msgid "Force Download"
-#~ msgstr "İndirmeye Zorla"
-
 #~ msgid "move_completed"
 #~ msgstr "tamamlananı_taşı"
 
@@ -4738,33 +4726,3 @@ msgstr ""
 #~ "zorunluluğunuz yok. Eğer bunu yapmazsanız istisnayı belirten bölümü kendi "
 #~ "sürümünüzden çıkarınız. Eğer bu istisna bölümünü bütün kaynak dosyalarından "
 #~ "silerseniz buradan da siliniz."
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-
-#~ msgid "Low Free Space"
-#~ msgstr "Düşük Disk Alanı"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "Düşük Disk Alanı Uyarısı"
-
-#~ msgid "You're running low on disk space:\n"
-#~ msgstr "Diskinizde çok az boş alan kaldı:\n"

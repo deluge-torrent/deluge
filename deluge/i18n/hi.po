@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -711,7 +711,7 @@ msgstr "टॉरेंट जुड़ गया"
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr "चलाएँ"
+msgstr "चालू करें"
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:29
 msgid "Event"
@@ -3780,9 +3780,6 @@ msgstr ""
 #~ msgid "Files"
 #~ msgstr "फ़ाइलें"
 
-#~ msgid "Graph"
-#~ msgstr "ग्राफ"
-
 #~ msgid "Text Only"
 #~ msgstr "सिर्फ पाठ"
 
@@ -3886,9 +3883,6 @@ msgstr ""
 #~ msgid "<big><b>Add Torrents</b></big>"
 #~ msgstr "<big><b>टोरेंट जोड़ें</b></big>"
 
-#~ msgid "Graphs"
-#~ msgstr "रेखाचित्र"
-
 #~ msgid "page 11"
 #~ msgstr "पृष्ठ 11"
 
@@ -3903,9 +3897,6 @@ msgstr ""
 
 #~ msgid "<b>Speed:</b>"
 #~ msgstr "<b>गति :</b>"
-
-#~ msgid "Stats"
-#~ msgstr "आंकड़े"
 
 #~ msgid "Connect"
 #~ msgstr "जोड़ें"
@@ -4179,12 +4170,6 @@ msgstr ""
 #~ "tracker2.com\n"
 #~ "this doesn't do anything yet..\n"
 
-#~ msgid "Seeds/Peers"
-#~ msgstr "Seeds/Peers"
-
-#~ msgid "Test config value:"
-#~ msgstr "Test config value:"
-
 #~ msgid "0x00"
 #~ msgstr "0x00"
 
@@ -4193,15 +4178,6 @@ msgstr ""
 
 #~ msgid "gtk-connect"
 #~ msgstr "gtk-connect"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Deluge Setup Wizard"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "This wizard will help you set up Deluge to your liking."
-
-#~ msgid "All Finished!"
-#~ msgstr "सभी सम्पूर्ण हुआ"
 
 #~ msgid "FAQ"
 #~ msgstr "FAQ"
@@ -4256,12 +4232,6 @@ msgstr ""
 
 #~ msgid "BlockList"
 #~ msgstr "ब्लॉकलिस्ट (BlockList)"
-
-#~ msgid "Test config value"
-#~ msgstr "Test config value"
-
-#~ msgid "Force Download"
-#~ msgstr "बलपूर्वक डाउनलोड"
 
 #, python-format
 #~ msgid "Including %i files"

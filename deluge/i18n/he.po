@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 "X-Poedit-Language: Hebrew\n"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
@@ -3813,9 +3813,6 @@ msgstr ""
 #~ msgid "_Quit"
 #~ msgstr "_סיים"
 
-#~ msgid "Graph"
-#~ msgstr "גרף"
-
 #~ msgid "Filters"
 #~ msgstr "פילטרים"
 
@@ -4374,15 +4371,6 @@ msgstr ""
 #~ msgid "Prioritize first and last pieces"
 #~ msgstr "תן עדיפות לחלק אחרון וראשון"
 
-#~ msgid "Graphs"
-#~ msgstr "גרפים"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "משתפים/מקורות"
-
-#~ msgid "Test config value:"
-#~ msgstr "בחן ערך הגדרה:"
-
 #~ msgid "Auto Add enabled"
 #~ msgstr "הוספה אוטומטית מופעלת"
 
@@ -4514,17 +4502,8 @@ msgstr ""
 #~ msgid "apply_max"
 #~ msgstr "apply_max"
 
-#~ msgid "All Finished!"
-#~ msgstr "הכל סוים!"
-
 #~ msgid "max_download_speed"
 #~ msgstr "max_download_speed"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "אשף ההתקנה של Deluge"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "אשף זה יעזור לך להגדיר את Deluge לפי רצונך."
 
 #~ msgid "max_upload_slots"
 #~ msgstr "max_upload_slots"
@@ -4558,12 +4537,6 @@ msgstr ""
 
 #~ msgid "move_completed_path"
 #~ msgstr "move_completed_path"
-
-#~ msgid "Force Download"
-#~ msgstr "הכרח הורדה"
-
-#~ msgid "Stats"
-#~ msgstr "סטטיסטיקה"
 
 #~ msgid "auto_add"
 #~ msgstr "auto_add"

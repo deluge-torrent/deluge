@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-06-05 22:51+0000\n"
-"Last-Translator: stmc <Unknown>\n"
+"PO-Revision-Date: 2011-10-12 17:21+0000\n"
+"Last-Translator: Alexander Yastrebov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:10+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:54+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #~ msgid "From Session"
 #~ msgstr "Оставить все файлы"
@@ -55,15 +55,15 @@ msgstr ""
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr "Кб"
+msgstr "КиБ"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr "Мб"
+msgstr "МиБ"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr "ГБ"
+msgstr "ГиБ"
 
 #: deluge/common.py:315
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
@@ -82,15 +82,15 @@ msgstr "ГБ"
 #: deluge/ui/gtkui/glade/main_window.glade:1846
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
-msgstr "КБ/с"
+msgstr "КиБ/с"
 
 #: deluge/common.py:318
 msgid "MiB/s"
-msgstr ""
+msgstr "МиБ/с"
 
 #: deluge/common.py:320
 msgid "GiB/s"
-msgstr ""
+msgstr "ГиБ/с"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -285,7 +285,7 @@ msgstr "Изменение звуков"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Просматриваемая папка не существует."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:308
@@ -298,7 +298,7 @@ msgstr "Ошибка при автодобавлении"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Параметры просматриваемой папки"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
@@ -318,7 +318,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Watch Folder</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
 msgid "Delete .torrent after adding"
@@ -326,11 +326,11 @@ msgstr "Удалить файл .torrent после добавления"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Дописать расширение после добавления:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
 msgid ".added"
-msgstr ""
+msgstr ".добавлен"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
 msgid "<b>Torrent File Action</b>"
@@ -411,7 +411,7 @@ msgstr "Автоматически управляемые:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
 msgid "Add Paused:"
-msgstr ""
+msgstr "Добавить приостановленным:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
 msgid "Queue to:"
@@ -1890,7 +1890,7 @@ msgstr "Deluge"
 
 #: deluge/ui/gtkui/systemtray.py:201
 msgid "Not Connected..."
-msgstr ""
+msgstr "Не подключено..."
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
@@ -1912,11 +1912,11 @@ msgstr "Установить максимальную скорость разд�
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge защищен паролем!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Введите пароль для продолжения"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -1924,11 +1924,11 @@ msgstr "Задание завершено"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "Including"
-msgstr ""
+msgstr "Включение"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
-msgstr ""
+msgstr "файлы"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -1951,7 +1951,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Версия клиента</i>"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2060,11 +2060,11 @@ msgstr "Неверный URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:622
 msgid "is not a valid URL."
-msgstr ""
+msgstr "является некорректным URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:626
 msgid "Downloading..."
-msgstr ""
+msgstr "Загрузка..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Download Failed"
@@ -2072,7 +2072,7 @@ msgstr "Ошибка загрузки"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:668
 msgid "Failed to download:"
-msgstr ""
+msgstr "Не удалось загрузить:"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
@@ -2366,11 +2366,11 @@ msgstr "Всего узлов"
 
 #: deluge/ui/gtkui/torrentview.py:241
 msgid "Down Limit"
-msgstr ""
+msgstr "Нижнее ограничение"
 
 #: deluge/ui/gtkui/torrentview.py:243
 msgid "Up Limit"
-msgstr ""
+msgstr "Верхнее ограничение"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "ETA"
@@ -2601,11 +2601,11 @@ msgstr "<b>Оставшееся время:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Увеличить скорость:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1054
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Понизить скорость:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1073
 msgid "<b>Next Announce:</b>"
@@ -2736,7 +2736,7 @@ msgstr "<i>Текущая версия:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2604
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Версия сервера</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2637
 msgid "Do not show this dialog in the future"
@@ -3829,15 +3829,15 @@ msgstr "Назначение:"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent клиент"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent клиент Deluge"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Загружайте и обменивайтесь файлами в сети BitTorrent"
 
 #~ msgid "Unknown"
 #~ msgstr "Неизвестно"
@@ -3910,9 +3910,6 @@ msgstr ""
 
 #~ msgid "Speed"
 #~ msgstr "Скорость"
-
-#~ msgid "Graph"
-#~ msgstr "График"
 
 #~ msgid "Filters"
 #~ msgstr "Фильтры"
@@ -4494,21 +4491,6 @@ msgstr ""
 #~ msgid "Auto Add enabled"
 #~ msgstr "Разрешить автоматическое добавление"
 
-#~ msgid "Graphs"
-#~ msgstr "Графики"
-
-#~ msgid "Deluge Setup Wizard"
-#~ msgstr "Мастер настройки Deluge"
-
-#~ msgid "This wizard will help you set up Deluge to your liking."
-#~ msgstr "Этот мастер поможет настроить Deluge"
-
-#~ msgid "All Finished!"
-#~ msgstr "Все завершено!"
-
-#~ msgid "Test config value"
-#~ msgstr "Тестировать значение"
-
 #~ msgid "State"
 #~ msgstr "Состояние"
 
@@ -4523,9 +4505,6 @@ msgstr ""
 
 #~ msgid "Rate Limit IP Overhead"
 #~ msgstr "Ограничивать скорость с учётом издержек протокола IP"
-
-#~ msgid "Stats"
-#~ msgstr "Статистика"
 
 #~ msgid "Cancel"
 #~ msgstr "Отменить"
@@ -4586,9 +4565,6 @@ msgstr ""
 #~ msgid "Upload Slot Limit"
 #~ msgstr "Ограничение слотов раздачи"
 
-#~ msgid "Seeds/Peers"
-#~ msgstr "Раздающих/Участников"
-
 #~ msgid "Https"
 #~ msgstr "Https"
 
@@ -4597,9 +4573,6 @@ msgstr ""
 
 #~ msgid "Force Recheck"
 #~ msgstr "Быстрая перепроверка"
-
-#~ msgid "Test config value:"
-#~ msgstr "Проверка конфигурации:"
 
 #~ msgid "HTTP"
 #~ msgstr "HTTP"
@@ -4631,9 +4604,6 @@ msgstr ""
 
 #~ msgid "Auto refresh (seconds)"
 #~ msgstr "Авто-обновление (сек)"
-
-#~ msgid "Force Download"
-#~ msgstr "Быстрая загрузка"
 
 #~ msgid "HTTP W/ Auth"
 #~ msgstr "HTTP с авторизацией"
@@ -4763,36 +4733,3 @@ msgstr ""
 #~ "tracker1.org\n"
 #~ "tracker2.com\n"
 #~ "сейчас свободен...\n"
-
-#~ msgid "<b>Free Space Checking</b>"
-#~ msgstr "<b>Проверка свободного места</b>"
-
-#~ msgid "Low Free Space"
-#~ msgstr "Мало свободного места"
-
-#~ msgid "Low Disk Space Warning"
-#~ msgstr "Предупреждение: недостаточно места на диске"
-
-#~ msgid "You're running low on disk space:\n"
-#~ msgstr "Вы работаете на диске с нехваткой места:\n"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1 MiB\n"
-#~ "2 MiB\n"
-#~ "4 MiB\n"
-#~ "8 MiB\n"
-#~ msgstr ""
-#~ "32 КБ\n"
-#~ "64 КБ\n"
-#~ "128 КБ\n"
-#~ "256 КБ\n"
-#~ "512 КБ\n"
-#~ "1 МБ\n"
-#~ "2 МБ\n"
-#~ "4 МБ\n"
-#~ "8 МБ\n"

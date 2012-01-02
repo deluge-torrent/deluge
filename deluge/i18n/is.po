@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-25 23:09+0000\n"
-"X-Generator: Launchpad (build 13503)\n"
+"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
+"X-Generator: Launchpad (build 14560)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -4615,27 +4615,3 @@ msgstr ""
 
 #~ msgid "apply_queue"
 #~ msgstr "virkja_biðröð"
-
-#~ msgid "Stats"
-#~ msgstr "Tölfræði"
-
-#~ msgid "All Finished!"
-#~ msgstr "Allt tilbúið!"
-
-#~ msgid "Force Download"
-#~ msgstr "Neyða niðurhal"
-
-#~ msgid "Graph"
-#~ msgstr "Línurit"
-
-#~ msgid "Graphs"
-#~ msgstr "Línurit"
-
-#~ msgid "Seeds/Peers"
-#~ msgstr "Deilendur/Jafningjar"
-
-#~ msgid "Test config value"
-#~ msgstr "Reyna gildi stillingar"
-
-#~ msgid "Test config value:"
-#~ msgstr "Reyna gildi stillingar:"
