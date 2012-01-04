@@ -127,7 +127,9 @@ class Core(CorePluginBase):
         pass
 
     def init_filter_dict(self):
-        return dict( [(label, 0) for label in self.labels.keys()])
+        filter_dict = dict([(label, 0) for label in self.labels.keys()])
+        filter_dict['All'] = len(self.torrents.keys())
+        return filter_dict
 
     ## Plugin hooks ##
     def post_torrent_add(self, torrent_id):

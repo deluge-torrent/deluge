@@ -426,7 +426,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
 		var lbltpl = '<div class="x-deluge-filter">' +
 						'<tpl if="filter">{filter}</tpl>' +
-						'<tpl if="!filter">no label</tpl>' +
+						'<tpl if="!filter">No Label</tpl>' +
 						' ({count})' +
 					'</div>';
 
