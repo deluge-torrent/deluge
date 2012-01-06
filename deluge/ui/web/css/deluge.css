@@ -125,6 +125,20 @@ dl.singleline dd {
 	width: auto;
 }
 
+.detailsPanel .x-panel-header {
+    height: 0;
+    padding: 0;
+    border: 0;
+}
+
+.detailsPanel .x-tool {
+    height: 15px;
+    z-index: 1;
+    position: fixed;
+    right: 0;
+    margin: 5px 10px;
+}
+
 /* Login Window */
 .x-deluge-login-window-icon {
 	background: url('../icons/login.png') no-repeat 2px;
