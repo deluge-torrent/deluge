@@ -11,6 +11,11 @@ input {
 	color: Black;
 }
 
+/* remove dotted line on buttons in Firefox */
+button::-moz-focus-inner {
+  border: 0;
+}
+
 .x-deluge-main-panel {
 	background-image: url('../icons/deluge.png') !important;
 }
