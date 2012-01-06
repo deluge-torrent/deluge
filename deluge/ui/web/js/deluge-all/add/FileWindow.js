@@ -62,6 +62,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 				xtype: 'fileuploadfield',
 				id: 'torrentFile',
 				width: 280,
+				height: 24,
 				emptyText: _('Select a torrent'),
 				fieldLabel: _('File'),
 				name: 'file',
