@@ -56,6 +56,22 @@ deluge.ui = {
 		deluge.sidebar = new Deluge.Sidebar();
 		deluge.statusbar = new Deluge.Statusbar();
 
+		this.detailsPanel = new Ext.Panel({
+			id: 'detailsPanel',
+			cls: 'detailsPanel',
+			region: 'south',
+			split: true,
+			height: 215,
+			minSize: 100,
+			collapsible: true,
+			margins: '0 5 5 5',
+			cmargins: '0 5 5 5',
+			layout: 'fit',
+			items: [
+				deluge.details
+			],
+		});
+
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
 			iconCls: 'x-deluge-main-panel',
@@ -63,7 +79,7 @@ deluge.ui = {
 			tbar: deluge.toolbar,
 			items: [
 				deluge.sidebar,
-				deluge.details,
+				this.detailsPanel,
 				deluge.torrents
 			],
 			bbar: deluge.statusbar

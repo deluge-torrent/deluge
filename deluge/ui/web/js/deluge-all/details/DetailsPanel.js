@@ -36,15 +36,9 @@ Ext.namespace('Deluge.details');
  */
 Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
 
-	region: 'south',
 	id: 'torrentDetails',
-	split: true,
-	height: 210,
-	minSize: 100,
-	collapsible: true,
-	margins: '0 5 5 5',
 	activeTab: 0,
-	
+
 	initComponent: function() {
 		Deluge.details.DetailsPanel.superclass.initComponent.call(this);
 		this.add(new Deluge.details.StatusTab());
