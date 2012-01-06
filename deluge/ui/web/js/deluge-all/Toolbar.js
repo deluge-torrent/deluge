@@ -40,6 +40,12 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
         config = Ext.apply({
             items: [
                 {
+                    id: 'tbar-deluge-text',
+                    disabled: true,
+                    text: _('Deluge'),
+                    iconCls: 'x-deluge-main-panel',
+                }, new Ext.Toolbar.Separator(),
+                {
                     id: 'create',
                     disabled: true,
                     hidden: true,
@@ -58,7 +64,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                     text: _('Remove'),
                     iconCls: 'icon-remove',
                     handler: this.onTorrentAction
-                },'|',{
+                }, new Ext.Toolbar.Separator(),{
                     id: 'pause',
                     disabled: true,
                     text: _('Pause'),
@@ -70,7 +76,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                     text: _('Resume'),
                     iconCls: 'icon-resume',
                     handler: this.onTorrentAction
-                },'|',{
+                }, new Ext.Toolbar.Separator(),{
                     id: 'up',
                     cls: 'x-btn-text-icon',
                     disabled: true,
@@ -83,7 +89,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                     text: _('Down'),
                     iconCls: 'icon-down',
                     handler: this.onTorrentAction
-                },'|',{
+                }, new Ext.Toolbar.Separator(),{
                     id: 'preferences',
                     text: _('Preferences'),
                     iconCls: 'x-deluge-preferences',
