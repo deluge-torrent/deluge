@@ -42,6 +42,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 				{
 					id: 'create',
 					disabled: true,
+					hidden: true,
 					text: _('Create'),
 					iconCls: 'icon-create',
 					handler: this.onTorrentAction
