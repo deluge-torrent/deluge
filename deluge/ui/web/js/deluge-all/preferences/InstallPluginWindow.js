@@ -74,7 +74,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
 
 	onInstall: function(field, e) {
 		this.form.getForm().submit({
-			url: '/upload',
+			url: deluge.config.base + 'upload',
 			waitMsg: _('Uploading your plugin...'),
 			success: this.onUploadSuccess,
 			scope: this
