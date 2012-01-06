@@ -59,7 +59,6 @@ deluge.ui = {
 		this.MainPanel = new Ext.Panel({
 			id: 'mainPanel',
 			iconCls: 'x-deluge-main-panel',
-			title: 'Deluge',
 			layout: 'border',
 			tbar: deluge.toolbar,
 			items: [
