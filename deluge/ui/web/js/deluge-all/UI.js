@@ -76,6 +76,7 @@ deluge.ui = {
 			id: 'mainPanel',
 			iconCls: 'x-deluge-main-panel',
 			layout: 'border',
+			border: false,
 			tbar: deluge.toolbar,
 			items: [
 				deluge.sidebar,

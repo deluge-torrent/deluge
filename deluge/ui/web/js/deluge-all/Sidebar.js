@@ -56,7 +56,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 			layout: 'accordion',
 			split: true,
 			width: 200,
-			minSize: 175,
+			minSize: 100,
 			collapsible: true,
 			margins: '5 0 0 5',
 			cmargins: '5 0 0 5'
