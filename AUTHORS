@@ -36,27 +36,27 @@ Plugin Developers:
 
 Images Authors:
 
-    * files: deluge/data/pixmaps/*.svg, *.png
+    * files: deluge/ui/data/pixmaps/*.svg, *.png
       copyright: Andrew Resch
       license: GPLv3
 
-    * files: deluge/data/pixmaps/deluge.svg and derivatives
+    * files: deluge/ui/data/pixmaps/deluge.svg and derivatives
       copyright: Andrew Wedderburn
       license: GPLv3
 
-    * files: deluge/plugins/blocklist/blocklist/data/*.png
+    * files: deluge/plugins/Blocklist/deluge/plugins/blocklist/data/*.png
          deluge/data/pixmaps/tracker_warning16.png, tracker_all16.png, lock48.png
       copyright: Gnome Icon Theme
       license: GPLv2
       url: http://ftp.acc.umu.se/pub/GNOME/sources/gnome-icon-theme  
 
-    * files: deluge/data/pixmaps/magnet.png
+    * files: deluge/ui/data/pixmaps/magnet.png
       copyright: Woothemes
       license: Freeware
       icon pack: WP Woothemes Ultimate
       url: http://www.woothemes.com/
 
-    * files: deluge/data/pixmaps/flags/*.png
+    * files: deluge/ui/data/pixmaps/flags/*.png
       copyright: Mark James <mjames@gmail.com>
       license: Public Domain
       url: http://famfamfam.com/lab/icons/flags/
