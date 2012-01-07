@@ -1,4 +1,4 @@
-=== Deluge 1.3.0 (In Development) ===
+=== Deluge 1.4.0 (In Development) ===
 	* Improved Logging
 	* Removed the AutoAdd feature on the core. It's now handled with the AutoAdd
 	plugin, which is also shipped with Deluge, and it does a better job and
@@ -9,13 +9,6 @@
 	names clashing beetween regular packages and deluge plugins.
 
 ==== Core ====
-	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
-	* Implement #457 progress bars for folders
-	* Implement #1012 httpdownloader supports gzip decoding
-	* #496: Remove deprecated functions in favour of get_session_status()
-	* #1112: Fix renaming files in add torrent dialog
-	* #1247: Fix deluge-gtk from hanging on shutdown
-	* #995: Rewrote tracker_icons
 	* Make the distinction between adding to the session new unmanaged torrents
 	and torrents loaded from state. This will break backwards compatability.
 	* Pass a copy of an event instead of passing the event arguments to the
@@ -40,14 +33,228 @@
 	* #378: Allow showing a pieces bar instead of a regular progress bar in a
 	torrent's status tab.
 
+=== Deluge 1.3.4 (In Development) ===
+==== Core ====
+	* #1921: Free disk space reporting incorrectly in FreeBSD
+	* #1964: Fix unhandled UnpicklingErrors
+	* #1967: Fix unhandled IndexError when trying to open a non-json conf file
+	
+==== GtkUI ====
+	* #1918: Fix Drag'n'Drop not working in Windows
+	* #1941: Increase maximum Cache Size to 999999 (15GiB)
+	* #1940: File & folder renaming issue when using Add Torrent dialog in Windows
+	* LP#821577: Fix UnpicklingError when external selection dragged onto Files Tab
+	* #1934: Fix Unicode error in AddTorrent Dialog
+	* #1957: Fix keyerror when adding columns for non-latin languages
+	* #1969: Fix menu item 'Quit & Shutdown' still available when not connected to daemon
+	
 ==== WebUI ====
-	* Migrate to ExtJS 3.1
-	* Add gzip compression of HTTP data to the server
-	* Improve the efficiency of the TorrentGrid
+	* Fix Webui files-tab menu setting wrong priority
+	* #1960: Fix statustab showing total_payload_download for upload as well
+	
+==== Console ====
+	* #1953: Fix flickering on every update
+
+==== Label ====
+	* #1961: Add missing 'All' filter option
+
+==== Notification ====
+	* #1905: Fix no email sent to second email address
+	* #1898: Fix email notifications not including date/time they were sent 
+
+=== Deluge 1.3.3 (22 July 2011) ===
+==== Core ====
+	* Properly show the 'Checking Resume Data' state instead of just 7
+	* #1788: Added ability to use XDG_DOWNLOAD_DIR as default download folder
+	* Fix path error with torrent files prefixed with 'file://' from Firefox
+	* #1869: Fix setting the disk io read/write to bypass OS cache in Windows
+	* #1504: Fix win32 running deluged as not logged in user via runas or service
+	* #890: If added torrent already exists, append extra trackers to it
+	* #1338: Fix Seeds and Peers totals not updating
+	* #1239: Fix translated Tracker Error text not counted in sidebar Error status
+	* Fix httpdownloader error with existing filename
+	* #1505: Add libtorrent info to version output
+	* #1637 Fix UnicodeDecodeError from 'deluge-* --help' with non-english languages
+	* #1714 Fix handling of backslashes when renaming files/folders
+
+==== GtkUI ====
+	* Show the checking icon for torrents in the 'Checking Resume Data' state
+	* #1195: Fix right-click selecting issue when switching between folders and files
+	* Add F2 key shortcut for renaming filenames in the Files Tab
+	* Increase max piece size to 16 MiB in create torrent dialog
+	* #1475: Fix save and restore Preferences dialog size from config
+	* Add search as you type to the torrent view
+	* #1456: Fix no ETA showing with multiple files
+	* #1560: Fix FilesTab Progress value sorting by int instead of float
+	* #1263: Fix not remembering column widths
+	* #948: New Release Dialog now shows the server version
+	* Fix peers in PeersTab showing non-zero download rate when seeding
+
+==== AutoAdd ====
+	* #1861: Fix AutoAdd Warning (column number is a boolean)
+
+==== Label ====
+	* #1246: Fix losing Labels upon restart
+
+==== Execute ====
+	* #1477: Fix ignore Added events from state file on startup
+
+==== ConsoleUI ====
+	* #1258: Add support for urls and magnet uris in add command
+	* #1801: Fix unhandled defered error and missing error message upon failed connect
+
+=== Deluge 1.3.2 (24 May 2011) ===
+==== Core ====
+	* #1527: Fix Converting unicode to unicode error in move_storage
+	* #1373: Fix creating and moving non-ascii folder names in MS Windows
+	* #1507: Fix temporary file race condition in core/core.py:add_torrent_url
+	* Fix a bug that can occur when upgrading 1.1 config files
+	* #1517: Fix isohunt urls not loading
+	* Handle redirection when adding a torrent by url
+	* #1614: Fix autoadd matching a directory called "torrent"
+	* #1742: Fix failure in Event handler prevents further emissions
+
+==== GtkUI ====
+	* #1514: Added Indicator Applet
+	* #1494: Add torrent columns Downloaded and Uploaded
+	* #1308: Add torrent column Seeds/Peers ratio
+	* #1646: Add torrent columns for per torrent upload and download speed limits
+	* Add missing icons for Trackers filter
+	* Fix inconsistancies in the text for translation
+	* #1510: Fix cannot create a torrent with only non-zero tier trackers
+	* #1513: Fix unhandled Twisted Error in test_listen_port
+	* #690:  Fix renaming folders does not remove old empty folders
+	* #1336: Fix uneeded horizontal scrollbar showing in Files & Peers Tab
+	* #1508: Fix TypeError in cell_data_queue() could not convert argument to correct param type
+	* #1498: Fix double slashes appearing when renaming
+	* #1283: Fix consistent icons for Files tab
+	* #1282: Text for AutoManaged changed to 'On/Off' and localized
+	* Fix Up/Down buttons in Edit Trackers Dialog
+	* Add Key Shortcuts for main menu functions
+
+==== WebUI ====
+	* #1194: Fix infinite login prompt in web ui through reverse proxy
+	* #1355: Fix slow changing states in webUI
+	* #1536: Fix Edit Trackers window not scrolling and not being resizable
+	* #1799: Fix Missing textbox for "Move completed" in torrent options
+	* #1562: Fix Javascript error in Web UI when re-opening preferences
+	* #1567: Fix js from plugins does not work with different 'base' setting
+	* #1268: Fix torrent errors not displayed in webui
+	* #1323: Fix filter panels not scrollable
+	* Fix file uploads from behind a reverse proxy.
+	* #1333: Fix peer list doesn't update automatically
+	* #1537: Fix editing trackers list, trackers have to be reselected
+
+==== ConsoleUI ====
+	* #755:  Fix can't set listen_ports through console UI
+	* #1500: Fix Console crashes on command longer than terminal width
+	* #1248: Fix deluge-console unicode support on redirected stdout
+	* Fix for deluge-console not adding torrent files on MS Windows
+	* #1450: Fix trailing white space in paths
+	* Misc: Updated help text for deluge-console on MS Windows
+	* #1484: Fix trying to access the screen object when not using interactive mode
+	* #1548: Fix cli argument processing
+	* #1856: Add --sort option to info command
+	* #1857: Add seeding_time, active_time and tracker_status to info command
+
+==== Scheduler ====
+	* #1506: Fix max speed not restored on a yellow->green transition
+
+=== Deluge 1.3.1 (31 October 2010) ===
+==== Core ====
+	* #1369: Fix non-ascii config folders not working in windows
+
+==== GtkUI ====
+	* #1365: Fix sidebar not updating show/hide trackers
+	* #1247: Fix hang on quit
+
+==== WebUI ====
+	* #1364: Fix preferences not saving when the web ui plugin is enabled in classic mode
+	* #1377: Fix bug when enabling plugins
+	* #1370: Fix issues with preferences
+	* #1312: Fix deluge-web using 100% CPU
+
+=== Deluge 1.3.0 (18 September 2010) ===
+==== Core ====
+	* Fix issue where the save_timer is cancelled when it's not active
+	* Fix unhandled exception when adding a torrent to the session
+	* Moved xdg import so it is not called on Windows, where it is unused. fixes #1343
+	* Fix key error after enabling a plugin that introduces a new status key
+	* Ignore global stop ratio related settings in logic, so per torrent ones are used.
+	* Ensure preferencesmanager only changes intended libtorrent session settings.
+	* Fix issue when adding torrents without a 'session'. This can happen when a plugin adds a torrent, like how the AutoAdd plugin works. The user that adds this torrent will be an empty string.
+	* Add TorrentFileCompleted event
+
+==== GtkUI ====
+	* Increase max piece size to 8 MiB in create torrent dialog (closes #1358)
+
+==== Scheduler ====
+	* Add max active downloading and seeding options to scheduler.
+	* Fix scheduler so that it keeps current state, even after global settings change.
+
+==== AutoAdd ====
+	* AutoAdd plugin can now recover when one of the watchfolders has an unhandled exception.
+	* Fix bug in AutoAdd plugin where watchdirs would not display in gtkui when first enabled.
+	* Fix bugs with unicode torrents in AutoAdd plugin.
+
+=== Deluge 1.3.0-rc2 (20 August 2010) ===
+==== Core ====
+	* Fix tracker_icons failing on windows
+	* Fix #1302 an uncaught exception in an state_changed event handler in SessionProxy was preventing the TorrentManager's stop method from properly saving all the resume data
+	* Fix issue with SessionProxy not updating the torrent status correctly when get_torrent_status calls take place within the cache_expiry time
+
+==== ConsoleUI ====
+	* #1307: Fix not being able to add torrents
+	* #1293: Fix not being able to add paths that contain backslashes
+
+==== GtkUI ====
+	* Fix uncaught exception when closing deluge in classic mode
+
+==== Execute ====
+	* #1306: Fix always executing last event
+
+==== Label ====
+	* Fix being able to remove labels in web ui
+
+==== WebUI ====
+	* #1319: Fix shift selecting in file trees
+
+=== Deluge 1.3.0-rc1 (08 May 2010) ===
+==== Core ====
+	* Implement #1063 option to delete torrent file copy on torrent removal - patch from Ghent
+	* Implement #457 progress bars for folders
+	* Implement #1012 httpdownloader supports gzip decoding
+	* #496: Remove deprecated functions in favour of get_session_status()
+	* #1112: Fix renaming files in add torrent dialog
+	* #1247: Fix deluge-gtk from hanging on shutdown
+	* #995: Rewrote tracker_icons
+	* Add AutoAdd plugin
+	* Add Notifications plugin
+
+==== GtkUI ====
+	* Use new SessionProxy class for caching torrent status client-side
+	* Use torrent status diffs to reduce RPC traffic
 
 ==== Blocklist ====
 	* Implement local blocklist support
 	* #861: Pause transfers until blocklist is imported
+	* Fix redirection not working with relative paths
+
+==== Execute ====
+	* Fix running commands with the TorrentAdded event
+	* Fix the web interface
+
+==== Label ====
+	* Fix the web interface  (#733)
+
+==== Web ====
+	* Migrate to ExtJS 3.1
+	* Add gzip compression of HTTP data to the server
+	* Improve the efficiency of the TorrentGrid with lots of torrents (#1026)
+	* Add a base parameter to allow reverse proxying (#1076)
+	* Fix showing all the peers in the details tab (#1054)
+	* Fix uploading torrent files in Opera or IE (#1087)
+	* Complete IE support
 
 === Deluge 1.2.0 - "Bursting like an infected kidney" (10 January 2010) ===
 ==== Core ====
