@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -285,10 +285,10 @@ class AboutDialog:
             if not client.is_classicmode():
                 self.about.set_comments(
                     self.about.get_comments() + _("Server:") + " %coreversion%\n")
-            
+
             self.about.set_comments(
                 self.about.get_comments() + "\n" + _("libtorrent:")  + " %ltversion%\n")
-                
+
             def on_lt_version(result):
                 c = self.about.get_comments()
                 c = c.replace("%ltversion%", result)
