@@ -185,9 +185,9 @@ deluge.ui = {
         }
 
         if (deluge.config.show_session_speed) {
-            document.title = this.originalTitle +
-                ' (Down: ' + fspeed(data['stats'].download_rate, true) +
-                ' Up: ' + fspeed(data['stats'].upload_rate, true) + ')';
+            document.title = 'D: ' + fsize_short(data['stats'].download_rate, true) +
+                ' U: ' + fsize_short(data['stats'].upload_rate, true) + ' - ' +
+                this.originalTitle;
         }
         if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
             deluge.torrents.update(data['torrents']);

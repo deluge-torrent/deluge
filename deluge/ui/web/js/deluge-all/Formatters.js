@@ -1,6 +1,6 @@
 /*!
  * Deluge.Formatters.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -60,7 +60,7 @@ Deluge.Formatters = {
             zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear(),
             zeroPad(date.getHours(), 2), zeroPad(date.getMinutes(), 2), zeroPad(date.getSeconds(), 2));
     },
-    
+
     /**
      * Formats the bytes value into a string with KiB, MiB or GiB units.
      *
@@ -71,16 +71,36 @@ Deluge.Formatters = {
     size: function(bytes, showZero) {
         if (!bytes && !showZero) return '';
         bytes = bytes / 1024.0;
-    
+
         if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
         else { bytes = bytes / 1024; }
-    
+
         if (bytes < 1024) { return bytes.toFixed(1)  + ' MiB'; }
         else { bytes = bytes / 1024; }
-    
+
         return bytes.toFixed(1) + ' GiB'
     },
-    
+
+    /**
+     * Formats the bytes value into a string with K, M or G units.
+     *
+     * @param {Number} bytes the filesize in bytes
+     * @param {Boolean} showZero pass in true to displays 0 values
+     * @return {String} formatted string with K, M or G units.
+     */
+    sizeShort: function(bytes, showZero) {
+        if (!bytes && !showZero) return '';
+        bytes = bytes / 1024.0;
+
+        if (bytes < 1024) { return bytes.toFixed(1)  + ' K'; }
+        else { bytes = bytes / 1024; }
+
+        if (bytes < 1024) { return bytes.toFixed(1)  + ' M'; }
+        else { bytes = bytes / 1024; }
+
+        return bytes.toFixed(1) + ' G'
+    },
+
     /**
      * Formats a string to display a transfer speed utilizing {@link #size}
      *
@@ -91,7 +111,7 @@ Deluge.Formatters = {
     speed: function(bytes, showZero) {
         return (!bytes && !showZero) ? '' : fsize(bytes, showZero) + '/s';
     },
-    
+
     /**
      * Formats a string to show time in a human readable form.
      *
@@ -103,7 +123,7 @@ Deluge.Formatters = {
         time = time.toFixed(0);
         if (time < 60) { return time + 's'; }
         else { time = time / 60; }
-    
+
         if (time < 60) {
             var minutes = Math.floor(time)
             var seconds = Math.round(60 * (time - minutes))
@@ -113,18 +133,18 @@ Deluge.Formatters = {
                 return minutes + 'm'; }
             }
         else { time = time / 60; }
-    
-        if (time < 24) { 
+
+        if (time < 24) {
             var hours = Math.floor(time)
             var minutes = Math.round(60 * (time - hours))
             if (minutes > 0) {
                 return hours + 'h ' + minutes + 'm';
             } else {
                 return hours + 'h';
-            }            
+            }
         }
         else { time = time / 24; }
-    
+
         var days = Math.floor(time)
         var hours = Math.round(24 * (time - days))
         if (hours > 0) {
@@ -133,7 +153,7 @@ Deluge.Formatters = {
             return days + 'd';
         }
     },
-    
+
     /**
      * Simply returns the value untouched, for when no formatting is required.
      *
@@ -149,6 +169,7 @@ Deluge.Formatters = {
     }
 }
 var fsize = Deluge.Formatters.size;
+var fsize_short = Deluge.Formatters.sizeShort;
 var fspeed = Deluge.Formatters.speed;
 var ftime = Deluge.Formatters.timeRemaining;
 var fdate = Deluge.Formatters.date;

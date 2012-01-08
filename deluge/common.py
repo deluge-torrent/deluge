@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA  02110-1301, USA.
 #
 #    In addition, as a special exception, the copyright holders give
 #    permission to link the code of portions of this program with the OpenSSL
@@ -268,6 +268,30 @@ def fsize(fsize_b):
         return "%.1f %s" % (fsize_mb, _("MiB"))
     fsize_gb = fsize_mb / 1024.0
     return "%.1f %s" % (fsize_gb, _("GiB"))
+
+def fsize_short(fsize_b):
+    """
+    Formats the bytes value into a string with K, M or G units
+
+    :param fsize_b: the filesize in bytes
+    :type fsize_b: int
+    :returns: formatted string in K, M or G units
+    :rtype: string
+
+    **Usage**
+
+    >>> fsize(112245)
+    '109.6 K'
+
+    """
+    fsize_kb = fsize_b / 1024.0
+    if fsize_kb < 1024:
+        return "%.1f %s" % (fsize_kb, _("K"))
+    fsize_mb = fsize_kb / 1024.0
+    if fsize_mb < 1024:
+        return "%.1f %s" % (fsize_mb, _("M"))
+    fsize_gb = fsize_mb / 1024.0
+    return "%.1f %s" % (fsize_gb, _("G"))
 
 def fpcnt(dec):
     """
