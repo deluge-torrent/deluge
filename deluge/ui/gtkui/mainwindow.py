@@ -232,11 +232,11 @@ class MainWindow(component.Component):
     def update(self):
         # Update the window title
         def _on_get_session_status(status):
-            download_rate = deluge.common.fspeed(status["download_rate"])
-            upload_rate = deluge.common.fspeed(status["upload_rate"])
-            self.window.set_title("Deluge - %s %s %s %s" % (_("Down:"), download_rate, _("Up:"), upload_rate))
+            download_rate = deluge.common.fsize_short(status["payload_download_rate"])
+            upload_rate = deluge.common.fsize_short(status["payload_upload_rate"])
+            self.window.set_title("%s%s %s%s - Deluge" % (_("D:"), download_rate, _("U:"), upload_rate))
         if self.config["show_rate_in_title"]:
-            client.core.get_session_status(["download_rate", "upload_rate"]).addCallback(_on_get_session_status)
+            client.core.get_session_status(["payload_download_rate", "payload_upload_rate"]).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
         if value:

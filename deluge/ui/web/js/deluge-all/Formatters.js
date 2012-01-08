@@ -80,7 +80,27 @@ Deluge.Formatters = {
 	
 		return bytes.toFixed(1) + ' GiB'
 	},
+
+	/**
+	 * Formats the bytes value into a string with K, M or G units.
+	 *
+	 * @param {Number} bytes the filesize in bytes
+	 * @param {Boolean} showZero pass in true to displays 0 values
+	 * @return {String} formatted string with K, M or G units.
+	 */
+	sizeShort: function(bytes, showZero) {
+		if (!bytes && !showZero) return '';
+		bytes = bytes / 1024.0;
 	
+		if (bytes < 1024) { return bytes.toFixed(1)  + ' K'; }
+		else { bytes = bytes / 1024; }
+	
+		if (bytes < 1024) { return bytes.toFixed(1)  + ' M'; }
+		else { bytes = bytes / 1024; }
+	
+		return bytes.toFixed(1) + ' G'
+	},
+
 	/**
 	 * Formats a string to display a transfer speed utilizing {@link #size}
 	 *
@@ -149,6 +169,7 @@ Deluge.Formatters = {
 	}
 }
 var fsize = Deluge.Formatters.size;
+var fsize_short = Deluge.Formatters.sizeShort;
 var fspeed = Deluge.Formatters.speed;
 var ftime = Deluge.Formatters.timeRemaining;
 var fdate = Deluge.Formatters.date;
