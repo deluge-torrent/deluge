@@ -354,7 +354,7 @@ class EventQueue(object):
         :type listener_id: string
         :param event: The event name
         :type event: string
-	    """
+        """
         if event not in self.__events:
 
             def on_event(*args):
@@ -375,7 +375,7 @@ class EventQueue(object):
 
         :param listener_id: A unique id for the listener
         :type listener_id: string
-	    """
+        """
 
         # Check to see if we have anything to return immediately
         if listener_id in self.__queue:
@@ -409,7 +409,7 @@ class EventQueue(object):
         :type listener_id: string
         :param event: The event name
         :type event: string
-	    """
+        """
         self.__events[event].remove(listener_id)
         if not self.__events[event]:
             client.deregister_event_handler(event, self.__handlers[event])
@@ -735,11 +735,11 @@ class WebApi(JSONComponent):
     @export
     def get_host_status(self, host_id):
         """
-    	Returns the current status for the specified host.
+        Returns the current status for the specified host.
 
         :param host_id: the hash id of the host
         :type host_id: string
-    	"""
+        """
 
         def response(status, info=None):
             return host_id, host, port, status, info
@@ -747,6 +747,8 @@ class WebApi(JSONComponent):
         try:
             host_id, host, port, user, password = self.get_host(host_id)
         except TypeError, e:
+            host = None
+            port = None
             return response(_("Offline"))
 
         def on_connect(connected, c, host_id):
@@ -784,8 +786,8 @@ class WebApi(JSONComponent):
     @export
     def start_daemon(self, port):
         """
-	Starts a local daemon.
-	"""
+    Starts a local daemon.
+    """
         client.start_daemon(port, get_config_dir())
 
     @export
@@ -947,7 +949,7 @@ class WebApi(JSONComponent):
 
         :param event: The event name
         :type event: string
-    	"""
+        """
         self.event_queue.add_listener(__request__.session_id, event)
 
     @export
@@ -957,12 +959,12 @@ class WebApi(JSONComponent):
 
         :param event: The event name
         :type event: string
-	    """
+        """
         self.event_queue.remove_listener(__request__.session_id, event)
 
     @export
     def get_events(self):
         """
         Retrieve the pending events for the session.
-    	"""
+        """
         return self.event_queue.get_events(__request__.session_id)
