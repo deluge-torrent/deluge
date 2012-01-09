@@ -41,14 +41,21 @@ function _(string) {
 
 """
 
-files = glob.glob('js/Deluge*.js')
-for filename in files:
-    for line_num, line in enumerate(open(filename)):
-        for match in string_re.finditer(line):
-            string = match.group(1)
-            locations = strings.get(string, [])
-            locations.append((os.path.basename(filename), line_num + 1))
-            strings[string] = locations
+for root, dnames, files in os.walk('js/deluge-all'):
+    for filename in files:
+        if filename.startswith('.'):
+            continue
+        if not filename.endswith('.js'):
+            continue
+
+        for lineno, line in enumerate(open(os.path.join(root, filename))):
+            for match in string_re.finditer(line):
+                string = match.group(1)
+                locations = strings.get(string, [])
+                locations.append((os.path.basename(filename), lineno + 1))
+                strings[string] = locations
+
+
 keys = strings.keys()
 keys.sort()
 
