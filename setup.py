@@ -17,9 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.    If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA    02110-1301, USA.
+#   The Free Software Foundation, Inc.,
+#   51 Franklin Street, Fifth Floor
+#   Boston, MA    02110-1301, USA.
 #
 
 try:
@@ -456,6 +456,14 @@ class clean_plugins(cmd.Command):
                 for fpath in os.listdir(path):
                     os.remove(os.path.join(path, fpath))
                 os.removedirs(path)
+
+        ROOT_EGG_INFO_DIR_PATH = "deluge*.egg-info"
+
+        for path in glob.glob(ROOT_EGG_INFO_DIR_PATH):
+            print("Deleting %s" % path)
+            for fpath in os.listdir(path):
+                os.remove(os.path.join(path, fpath))
+            os.removedirs(path)
 
 class clean(_clean):
     sub_commands = _clean.sub_commands + [('clean_plugins', None)]
