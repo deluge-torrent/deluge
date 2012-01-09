@@ -1,6 +1,6 @@
 /*!
  * Deluge.Statusbar.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,14 +40,14 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		}, config);
 		Deluge.Statusbar.superclass.constructor.call(this, config);
 	},
-	
+
 	initComponent: function() {
 		Deluge.Statusbar.superclass.initComponent.call(this);
-		
+
 		deluge.events.on('connect', this.onConnect, this);
 		deluge.events.on('disconnect', this.onDisconnect, this);
 	},
-	
+
 	createButtons: function() {
 		this.buttons = this.add({
 			id: 'statusbar-connections',
@@ -221,7 +221,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		});
 		this.created = true;
 	},
-	
+
 	onConnect: function() {
 		this.setStatus({
 			iconCls: 'x-connected',
@@ -246,12 +246,12 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		});
 		this.doLayout();
 	},
-	
+
 	update: function(stats) {
 		if (!stats) return;
-		
+
 		function addSpeed(val) {return val + ' KiB/s'}
-		
+
 		var updateStat = function(name, config) {
 			var item = this.items.get('statusbar-' + name);
 			if (config.limit.value > 0) {
@@ -266,7 +266,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 			if (!item.menu) return;
 			item.menu.setValue(config.limit.value);
 		}.createDelegate(this);
-		
+
 		updateStat('connections', {
 			value: {value: stats.num_connections},
 			limit: {value: stats.max_num_connections},

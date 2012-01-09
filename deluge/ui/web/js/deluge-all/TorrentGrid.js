@@ -1,6 +1,6 @@
 /*!
  * Deluge.TorrentGrid.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -47,7 +47,7 @@
 		value = new Number(value);
 		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
-		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
+		var width = new Number(p.style.match(/\w+:\s*(\d+)\w+/)[1]);
 		return Deluge.progressBar(value, width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
@@ -70,7 +70,7 @@
 	function trackerRenderer(value, p, r) {
 		return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
 	}
-	
+
 	function etaSorter(eta) {
 		return eta * -1;
 	}
@@ -93,9 +93,9 @@
 
 		columns: [{
 			id:'queue',
-			header: _('#'), 
-			width: 30, 
-			sortable: true, 
+			header: _('#'),
+			width: 30,
+			sortable: true,
 			renderer: queueRenderer,
 			dataIndex: 'queue'
 		}, {
@@ -113,8 +113,8 @@
 			dataIndex: 'total_size'
 		}, {
 			header: _('Progress'),
-			width: 150, 
-			sortable: true, 
+			width: 150,
+			sortable: true,
 			renderer: torrentProgressRenderer,
 			dataIndex: 'progress'
 		}, {

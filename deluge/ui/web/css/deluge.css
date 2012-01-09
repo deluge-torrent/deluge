@@ -201,7 +201,7 @@ dl.singleline dd {
 }
 
 .x-connected {
-	background-image: transparent !important;
+	background-image: none !important;
 }
 
 /* Styles for renderered progress bars */
