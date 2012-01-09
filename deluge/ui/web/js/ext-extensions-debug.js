@@ -2284,10 +2284,10 @@ Ext.ux.Spinner = Ext.extend(Ext.util.Observable, {
 //backwards compat
 Ext.form.Spinner = Ext.ux.Spinner;
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 /**
  * @class Ext.ux.StatusBar
@@ -2493,18 +2493,7 @@ sb.setStatus({
             this.insert(0, this.statusEl);
             this.insert(1, '->');
         }
-
-//         this.statusEl = td.createChild({
-//             cls: 'x-status-text ' + (this.iconCls || this.defaultIconCls || ''),
-//             html: this.text || this.defaultText || ''
-//         });
-//         this.statusEl.unselectable();
-
-//         this.spacerEl = td.insertSibling({
-//             tag: 'td',
-//             style: 'width:100%',
-//             cn: [{cls:'ytb-spacer'}]
-//         }, right ? 'before' : 'after');
+        this.doLayout();
     },
 
     /**
