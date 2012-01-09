@@ -3,7 +3,7 @@
 	* #1921: Free disk space reporting incorrectly in FreeBSD
 	* #1964: Fix unhandled UnpicklingErrors
 	* #1967: Fix unhandled IndexError when trying to open a non-json conf file
-	
+
 ==== GtkUI ====
 	* #1918: Fix Drag'n'Drop not working in Windows
 	* #1941: Increase maximum Cache Size to 999999 (15GiB)
@@ -12,11 +12,12 @@
 	* #1934: Fix Unicode error in AddTorrent Dialog
 	* #1957: Fix keyerror when adding columns for non-latin languages
 	* #1969: Fix menu item 'Quit & Shutdown' still available when not connected to daemon
-	
+
 ==== WebUI ====
 	* Fix Webui files-tab menu setting wrong priority
+	* Update to ExtJS 3.4.0
 	* #1960: Fix statustab showing total_payload_download for upload as well
-	
+
 ==== Console ====
 	* #1953: Fix flickering on every update
 
@@ -25,7 +26,7 @@
 
 ==== Notification ====
 	* #1905: Fix no email sent to second email address
-	* #1898: Fix email notifications not including date/time they were sent 
+	* #1898: Fix email notifications not including date/time they were sent
 
 === Deluge 1.3.3 (22 July 2011) ===
 ==== Core ====
