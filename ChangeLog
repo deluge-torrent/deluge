@@ -47,11 +47,20 @@
 	* #1934: Fix Unicode error in AddTorrent Dialog
 	* #1957: Fix keyerror when adding columns for non-latin languages
 	* #1969: Fix menu item 'Quit & Shutdown' still available when not connected to daemon
+	* #1895: Fix Files Tab showing wrong files due to torrent_info race condition
+	* #2010: Move speed text in titlebar to the beginning
 
 ==== WebUI ====
 	* Fix Webui files-tab menu setting wrong priority
 	* Update to ExtJS 3.4.0
 	* #1960: Fix statustab showing total_payload_download for upload as well
+	* Remove uneeded Titlebar to save space
+	* Fix clipped Browse button in WebUI
+	* #1915: Fix being unable to stop the status bar from autohiding
+	* Fix password box focus issue in Firefox
+	* Fix plugin uploads from behind a reverse proxy
+	* #2010: Move speed text in titlebar to the beginning
+	* #1936: Fix Referenced before assignment error in json_api
 
 ==== Console ====
 	* #1953: Fix flickering on every update
