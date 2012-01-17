@@ -104,7 +104,9 @@ class _UI(object):
         if self.__options.rotate_logs:
             logfile_mode = 'a'
 
-        # Setup the logger
+        if self.__options.loglevel:
+            self.__options.loglevel = self.__options.loglevel.lower()
+
         # Setup the logger
         deluge.log.setupLogger(level=self.__options.loglevel,
                                filename=self.__options.logfile,
