@@ -96,7 +96,7 @@ class _UI(object):
             self.__options.loglevel = "none"
 
         # Setup the logger
-        deluge.log.setupLogger(level=self.__options.loglevel, filename=self.__options.logfile)
+        deluge.log.setupLogger(level=self.__options.loglevel.lower(), filename=self.__options.logfile)
         log = deluge.log.LOG
 
         if self.__options.config:
