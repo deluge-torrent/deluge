@@ -317,7 +317,7 @@ class Torrent(object):
                     break
 
         self.options["file_priorities"] = self.handle.file_priorities()
-        if self.options["file_priorities"] != file_priorities:
+        if self.options["file_priorities"] != list(file_priorities):
             log.warning("File priorities were not set for this torrent")
 
         # Set the first/last priorities if needed
