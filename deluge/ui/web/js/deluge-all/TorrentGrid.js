@@ -43,6 +43,10 @@
 		if (!value) return;
 		return fspeed(value);
 	}
+	function torrentLimitRenderer(value) {
+		if (value == -1) return '';
+		return fspeed(value * 1024.0);
+	}
 	function torrentProgressRenderer(value, p, r) {
 		value = new Number(value);
 		var progress = value;
@@ -65,7 +69,7 @@
 		}
 	}
 	function availRenderer(value, p, r)	{
-		return (value < 0) ? '&infin;' : new Number(value).toFixed(3);
+		return (value < 0) ? '&infin;' : parseFloat(new Number(value).toFixed(3));
 	}
 	function trackerRenderer(value, p, r) {
 		return String.format('<div style="background: url(' + deluge.config.base + 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>', value);
@@ -118,18 +122,6 @@
 			renderer: torrentProgressRenderer,
 			dataIndex: 'progress'
 		}, {
-			header: _('Seeders'),
-			width: 60,
-			sortable: true,
-			renderer: seedsRenderer,
-			dataIndex: 'num_seeds'
-		}, {
-			header: _('Peers'),
-			width: 60,
-			sortable: true,
-			renderer: peersRenderer,
-			dataIndex: 'num_peers'
-		}, {
 			header: _('Down Speed'),
 			width: 80,
 			sortable: true,
@@ -148,35 +140,89 @@
 			renderer: ftime,
 			dataIndex: 'eta'
 		}, {
+			header: _('Seeders'),
+			hidden: true,
+			width: 60,
+			sortable: true,
+			renderer: seedsRenderer,
+			dataIndex: 'num_seeds'
+		}, {
+			header: _('Peers'),
+			hidden: true,
+			width: 60,
+			sortable: true,
+			renderer: peersRenderer,
+			dataIndex: 'num_peers'
+		}, {
 			header: _('Ratio'),
+			hidden: true,
 			width: 60,
 			sortable: true,
 			renderer: availRenderer,
 			dataIndex: 'ratio'
 		}, {
 			header: _('Avail'),
+			hidden: true,
 			width: 60,
 			sortable: true,
 			renderer: availRenderer,
 			dataIndex: 'distributed_copies'
 		}, {
 			header: _('Added'),
+			hidden: true,
 			width: 80,
 			sortable: true,
 			renderer: fdate,
 			dataIndex: 'time_added'
 		}, {
 			header: _('Tracker'),
+			hidden: true,
 			width: 120,
 			sortable: true,
 			renderer: trackerRenderer,
 			dataIndex: 'tracker_host'
 		}, {
 			header: _('Save Path'),
+			hidden: true,
 			width: 120,
 			sortable: true,
 			renderer: fplain,
 			dataIndex: 'save_path'
+		}, {
+			header: _('Downloaded'),
+			hidden: true,
+			width: 75,
+			sortable: true,
+			renderer: fsize,
+			dataIndex: 'total_done'
+		}, {
+			header: _('Uploaded'),
+			hidden: true,
+			width: 75,
+			sortable: true,
+			renderer: fsize,
+			dataIndex: 'total_uploaded'
+		}, {
+			header: _('Down Limit'),
+			hidden: true,
+			width: 75,
+			sortable: true,
+			renderer: torrentLimitRenderer,
+			dataIndex: 'max_download_speed'
+		}, {
+			header: _('Up Limit'),
+			hidden: true,
+			width: 75,
+			sortable: true,
+			renderer: torrentLimitRenderer,
+			dataIndex: 'max_upload_speed'
+		}, {
+			header: _('Seeders') + '/' + _('Peers'),
+			hidden: true,
+			width: 75,
+			sortable: true,
+			renderer: availRenderer,
+			dataIndex: 'seeds_peers_ratio'
 		}],
 
 		meta: {
@@ -199,7 +245,12 @@
 				{name: 'distributed_copies', type: 'float'},
 				{name: 'time_added', type: 'int'},
 				{name: 'tracker_host'},
-				{name: 'save_path'}
+				{name: 'save_path'},
+				{name: 'total_done', type: 'int'},
+				{name: 'total_uploaded', type: 'int'},
+				{name: 'max_download_speed', type: 'int'},
+				{name: 'max_upload_speed', type: 'int'},
+				{name: 'seeds_peers_ratio', type: 'float'}
 			]
 		},
 
@@ -212,6 +263,7 @@
 				cls: 'deluge-torrents',
 				stripeRows: true,
 				autoExpandColumn: 'name',
+				autoExpandMin: 150,
 				deferredRender:false,
 				autoScroll:true,
 				margins: '5 5 0 0',
