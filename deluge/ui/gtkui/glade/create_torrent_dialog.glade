@@ -72,6 +72,7 @@
                     <property name="spacing">5</property>
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolledwindow1">
+                        <property name="height_request">30</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
@@ -87,8 +88,8 @@
                         </child>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                       </packing>
                     </child>
                     <child>
