@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.PreferencesWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -106,7 +106,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.addButton(_('Close'), this.onClose, this);
 		this.addButton(_('Apply'), this.onApply, this);
 		this.addButton(_('Ok'), this.onOk, this);
-		
+
 		this.optionsManager = new Deluge.OptionsManager();
 		this.on('afterrender', this.onAfterRender, this);
 		this.on('show', this.onShow, this);
@@ -128,7 +128,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.addPage(new Deluge.preferences.Cache());
 		this.addPage(new Deluge.preferences.Plugins());
 	},
-	
+
 	onApply: function(e) {
 		var changed = this.optionsManager.getDirty();
 		if (!Ext.isObjectEmpty(changed)) {
@@ -137,13 +137,13 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 				scope: this
 			});
 		}
-		
+
 		for (var page in this.pages) {
 			if (this.pages[page].onApply) this.pages[page].onApply();
 		}
 	},
-	
-	
+
+
 	/**
 	 * Return the options manager for the preferences window.
 	 * @returns {Deluge.OptionsManager} the options manager
@@ -151,7 +151,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	getOptionsManager: function() {
 		return this.optionsManager;
 	},
-	
+
 	/**
 	 * Adds a page to the preferences window.
 	 * @param {Mixed} page
@@ -166,7 +166,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		this.pages[name].index = -1;
 		return this.pages[name];
 	},
-	
+
 	/**
 	 * Removes a preferences page from the window.
 	 * @param {mixed} name
@@ -179,12 +179,12 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 	    delete this.pages[page.title];
 	},
 
-	/** 
+	/**
 	 * Select which preferences page is displayed.
 	 * @param {String} page The page name to change to
 	 */
 	selectPage: function(page) {
-		if (this.pages[page].index < 0) { 
+		if (this.pages[page].index < 0) {
 			this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
 		}
 		this.list.select(this.pages[page].index);
@@ -192,24 +192,24 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	// private
 	doSelectPage: function(page) {
-		if (this.pages[page].index < 0) { 
+		if (this.pages[page].index < 0) {
 			this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
 		}
 		this.configPanel.getLayout().setActiveItem(this.pages[page].index);
 		this.currentPage = page;
 	},
-	
+
 	// private
 	onGotConfig: function(config) {
 		this.getOptionsManager().set(config);
 	},
-	
+
 	// private
 	onPageSelect: function(list, selections) {
 		var r = list.getRecord(selections[0]);
 		this.doSelectPage(r.get('name'));
 	},
-	
+
 	// private
 	onSetConfig: function() {
 		this.getOptionsManager().commit();
@@ -222,7 +222,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 		}
 		this.configPanel.getLayout().setActiveItem(0);
 	},
-	
+
 	// private
 	onShow: function() {
 		if (!deluge.client.core) return;
@@ -239,7 +239,18 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
 	// private
 	onOk: function() {
-		deluge.client.core.set_config(this.optionsManager.getDirty());
+		var changed = this.optionsManager.getDirty();
+		if (!Ext.isObjectEmpty(changed)) {
+			deluge.client.core.set_config(changed, {
+				success: this.onSetConfig,
+				scope: this
+			});
+		}
+
+		for (var page in this.pages) {
+			if (this.pages[page].onOk) this.pages[page].onOk();
+		}
+
 		this.hide();
 	}
 });
