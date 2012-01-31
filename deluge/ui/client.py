@@ -665,7 +665,12 @@ class Client(object):
             else:
                 subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
         except OSError, e:
-            log.exception(e)
+            from errno import ENOENT
+            if e.errno == ENOENT:
+                log.error(_("Deluge cannot find the 'deluged' executable, it is likely \
+that you forgot to install the deluged package or it's not in your PATH."))
+            else:
+                log.exception(e)
             raise e
         except Exception, e:
             log.error("Unable to start daemon!")
