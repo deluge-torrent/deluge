@@ -65,7 +65,10 @@ def atom(next, token):
             else:
                 return int(token[1], 0)
         except ValueError:
-            return float(token[-1])
+            try:
+                return float(token[-1])
+            except ValueError:
+                return str(token[-1])
     elif token[1].lower() == 'true':
         return True
     elif token[1].lower() == 'false':
