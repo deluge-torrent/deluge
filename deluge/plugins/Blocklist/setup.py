@@ -51,6 +51,7 @@ setup(
     author_email=__author_email__,
     url=__url__,
     license=__license__,
+    zip_safe=False,
     long_description=__long_description__,
 
     packages=find_packages(),

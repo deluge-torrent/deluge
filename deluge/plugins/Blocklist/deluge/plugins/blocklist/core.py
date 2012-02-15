@@ -46,13 +46,13 @@ from twisted.internet.task import LoopingCall
 from twisted.internet import threads, defer
 from twisted.web import error
 
-
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.common import is_url
 from deluge.core.rpcserver import export
 from deluge.httpdownloader import download_file
+from common import IP, BadIP
 from detect import detect_compression, detect_format, create_reader, UnknownFormatError
 from readers import ReaderParseError
 
@@ -71,14 +71,16 @@ DEFAULT_PREFS = {
     "list_size": 0,
     "timeout": 180,
     "try_times": 3,
+    "whitelisted": [],
 }
 
 # Constants
+ALLOW_RANGE = 0
 BLOCK_RANGE = 1
 
 class Core(CorePluginBase):
     def enable(self):
-        log.debug('Blocklist: Plugin enabled..')
+        log.debug('Blocklist: Plugin enabled...')
 
         self.is_url = True
         self.is_downloading = False
@@ -86,11 +88,14 @@ class Core(CorePluginBase):
         self.has_imported = False
         self.up_to_date = False
         self.need_to_resume_session = False
+        self.num_whited = 0
         self.num_blocked = 0
         self.file_progress = 0.0
 
         self.core = component.get("Core")
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
+        if "whitelisted" not in self.config:
+            self.config["whitelisted"] = []
 
         self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
 
@@ -114,10 +119,17 @@ class Core(CorePluginBase):
         # This function is called every 'check_after_days' days, to download
         # and import a new list if needed.
         self.update_timer = LoopingCall(self.check_import)
-        self.update_timer.start(self.config["check_after_days"] * 24 * 60 * 60, update_now)
+        if self.config["check_after_days"] > 0:
+            self.update_timer.start(
+                self.config["check_after_days"] * 24 * 60 * 60, update_now
+            )
 
     def disable(self):
         self.config.save()
+        log.debug("Reset IP filter")
+        self.core.session.get_ip_filter().add_rule(
+            "0.0.0.0", "255.255.255.255", ALLOW_RANGE
+        )
         log.debug('Blocklist: Plugin disabled')
 
     def update(self):
@@ -135,7 +147,6 @@ class Core(CorePluginBase):
         :returns: a Deferred which fires when the blocklist has been imported
         :rtype: Deferred
         """
-
 
         # Reset variables
         self.filename = None
@@ -178,8 +189,66 @@ class Core(CorePluginBase):
         :param config: config to set
         :type config: dictionary
         """
+        needs_blocklist_import = False
         for key in config.keys():
+            if key == 'whitelisted':
+                saved = set(self.config[key])
+                update = set(config[key])
+                diff = saved.symmetric_difference(update)
+                if diff:
+                    log.debug("Whitelist changed. Updating...")
+                    added = update.intersection(diff)
+                    removed = saved.intersection(diff)
+                    if added:
+                        for ip in added:
+                            try:
+                                ip = IP.parse(ip)
+                                self.blocklist.add_rule(
+                                    ip.address, ip.address, ALLOW_RANGE
+                                )
+                                saved.add(ip.address)
+                                log.debug("Added %s to whitelisted", ip)
+                                self.num_whited += 1
+                            except BadIP, e:
+                                log.error("Bad IP: %s", e)
+                                continue
+                    if removed:
+                        needs_blocklist_import = True
+                        for ip in removed:
+                            try:
+                                ip = IP.parse(ip)
+                                saved.remove(ip.address)
+                                log.debug("Removed %s from whitelisted", ip)
+                            except BadIP, e:
+                                log.error("Bad IP: %s", e)
+                                continue
+
+                self.config[key] = list(saved)
+                continue
+            elif key == "check_after_days":
+                if self.config[key] != config[key]:
+                    self.config[key] = config[key]
+                    update_now = False
+                    if self.config["last_update"]:
+                        last_update = datetime.fromtimestamp(self.config["last_update"])
+                        check_period = timedelta(days=self.config["check_after_days"])
+                    if not self.config["last_update"] or last_update + check_period < datetime.now():
+                        update_now = True
+                    self.update_timer.running and self.update_timer.stop()
+                    if self.config["check_after_days"] > 0:
+                        self.update_timer.start(
+                            self.config["check_after_days"] * 24 * 60 * 60, update_now
+                        )
+                continue
             self.config[key] = config[key]
+
+        if needs_blocklist_import:
+            log.debug("IP addresses were removed from the whitelist. Since we "
+                      "don't know if they were blocked before. Re-import "
+                      "current blocklist and re-add whitelisted.")
+            self.has_imported = False
+            d = self.import_list(deluge.configmanager.get_config_dir("blocklist.cache"))
+            d.addCallbacks(self.on_import_complete, self.on_import_error)
 
     @export
     def get_status(self):
@@ -198,15 +267,16 @@ class Core(CorePluginBase):
             status["state"] = "Idle"
 
         status["up_to_date"] = self.up_to_date
+        status["num_whited"] = self.num_whited
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
         status["file_url"] = self.config["url"]
         status["file_size"] = self.config["list_size"]
         status["file_date"] = self.config["last_update"]
         status["file_type"] = self.config["list_type"]
+        status["whitelisted"] = self.config["whitelisted"]
         if self.config["list_compression"]:
             status["file_type"] += " (%s)" % self.config["list_compression"]
-
         return status
 
     ####
@@ -258,7 +328,10 @@ class Core(CorePluginBase):
         log.debug("Attempting to download blocklist %s", url)
         log.debug("Sending headers: %s", headers)
         self.is_downloading = True
-        return download_file(url, deluge.configmanager.get_config_dir("blocklist.download"), on_retrieve_data, headers)
+        return download_file(
+            url, deluge.configmanager.get_config_dir("blocklist.download"),
+            on_retrieve_data, headers
+        )
 
     def on_download_complete(self, blocklist):
         """
@@ -318,13 +391,24 @@ class Core(CorePluginBase):
         :returns: a Deferred that fires when the blocklist has been imported
         :rtype: Deferred
         """
+        log.trace("on import_list")
         def on_read_ip_range(start, end):
             """Add ip range to blocklist"""
-            self.blocklist.add_rule(start, end, BLOCK_RANGE)
+#            log.trace("Adding ip range %s - %s to ipfilter as blocked", start, end)
+            self.blocklist.add_rule(start.address, end.address, BLOCK_RANGE)
             self.num_blocked += 1
 
         def on_finish_read(result):
-            """Add blocklist to session"""
+            """Add any whitelisted IP's and add the blocklist to session"""
+            # White listing happens last because the last rules added have
+            # priority
+            log.info("Added %d ranges to ipfilter as blocked", self.num_blocked)
+            for ip in self.config["whitelisted"]:
+                ip = IP.parse(ip)
+                self.blocklist.add_rule(ip.address, ip.address, ALLOW_RANGE)
+                self.num_whited += 1
+                log.trace("Added %s to the ipfiler as white-listed", ip.address)
+            log.info("Added %d ranges to ipfilter as white-listed", self.num_whited)
             self.core.session.set_ip_filter(self.blocklist)
             return result
 
@@ -335,6 +419,7 @@ class Core(CorePluginBase):
 
         self.is_importing = True
         self.num_blocked = 0
+        self.num_whited = 0
         self.blocklist = self.core.session.get_ip_filter()
 
         if not blocklist:
@@ -344,10 +429,16 @@ class Core(CorePluginBase):
             self.auto_detect(blocklist)
             self.auto_detected = True
 
+        def on_reader_failure(failure):
+            log.error("Failed to read!!!!!!")
+            log.exception(failure)
+
         log.debug("Importing using reader: %s", self.reader)
         log.debug("Reader type: %s compression: %s", self.config["list_type"], self.config["list_compression"])
+        log.debug("Clearing current ip filtering")
+#        self.blocklist.add_rule("0.0.0.0", "255.255.255.255", ALLOW_RANGE)
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
-        d.addCallback(on_finish_read)
+        d.addCallback(on_finish_read).addErrback(on_reader_failure)
 
         return d
 
@@ -360,6 +451,7 @@ class Core(CorePluginBase):
         :returns: a Deferred that fires when clean up is done
         :rtype: Deferred
         """
+        log.trace("on_import_list_complete")
         d = blocklist
         self.is_importing = False
         self.has_imported = True
@@ -384,6 +476,7 @@ class Core(CorePluginBase):
                   else the original failure
         :rtype: Deferred or Failure
         """
+        log.trace("on_import_error: %s", f)
         d = f
         self.is_importing = False
         try_again = False
@@ -423,6 +516,7 @@ class Core(CorePluginBase):
             raise UnknownFormatError
         else:
             self.reader = create_reader(self.config["list_type"], self.config["list_compression"])
+
 
     def pause_session(self):
         if not self.core.session.is_paused():

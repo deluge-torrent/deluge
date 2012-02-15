@@ -85,3 +85,103 @@ def remove_zeros(ip):
 
     """
     return ".".join([part.lstrip("0").zfill(1) for part in ip.split(".")])
+
+class BadIP(Exception):
+    _message = None
+    def __init__(self, message):
+        self.message = message
+
+    def __set_message(self, message):
+        self._message = message
+
+    def __get_message(self):
+        return self._message
+
+    message = property(__get_message, __set_message)
+    del __get_message, __set_message
+
+class IP(object):
+    __slots__ = ('q1', 'q2', 'q3', 'q4', '_long')
+    def __init__(self, q1, q2, q3, q4):
+        self.q1 = q1
+        self.q2 = q2
+        self.q3 = q3
+        self.q4 = q4
+        self._long = 0
+        for q in self.quadrants():
+            self._long = (self._long << 8) | int(q)
+
+    @property
+    def address(self):
+        return '.'.join([str(q) for q in [self.q1, self.q2, self.q3, self.q4]])
+
+    @property
+    def long(self):
+        return self._long
+
+    @classmethod
+    def parse(cls, ip):
+        try:
+            q1, q2, q3, q4 = [int(q) for q in ip.split('.')]
+        except ValueError:
+            raise BadIP(_("The IP address \"%s\" is badly formed" % ip))
+        if q1<0 or q2<0 or q3<0 or q4<0:
+            raise BadIP(_("The IP address \"%s\" is badly formed" % ip))
+        elif q1>255 or q2>255 or q3>255 or q4>255:
+            raise BadIP(_("The IP address \"%s\" is badly formed" % ip))
+        return cls(q1, q2, q3, q4)
+
+    def quadrants(self):
+        return (self.q1, self.q2, self.q3, self.q4)
+
+#    def next_ip(self):
+#        (q1, q2, q3, q4) = self.quadrants()
+#        if q4 >= 255:
+#            if q3 >= 255:
+#                if q2 >= 255:
+#                    if q1 >= 255:
+#                        raise BadIP(_("There ain't a next IP address"))
+#                    q1 += 1
+#                else:
+#                    q2 += 1
+#            else:
+#                q3 += 1
+#        else:
+#            q4 += 1
+#        return IP(q1, q2, q3, q4)
+#
+#    def previous_ip(self):
+#        (q1, q2, q3, q4) = self.quadrants()
+#        if q4 <= 1:
+#            if q3 <= 1:
+#                if q2 <= 1:
+#                    if q1 <= 1:
+#                        raise BadIP(_("There ain't a previous IP address"))
+#                    q1 -= 1
+#                else:
+#                    q2 -= 1
+#            else:
+#                q3 -= 1
+#        else:
+#            q4 -= 1
+#        return IP(q1, q2, q3, q4)
+
+    def __lt__(self, other):
+        if isinstance(other, basestring):
+            other = IP.parse(other)
+        return self.long < other.long
+
+    def __gt__(self, other):
+        if isinstance(other, basestring):
+            other = IP.parse(other)
+        return self.long > other.long
+
+    def __eq__(self, other):
+        if isinstance(other, basestring):
+            other = IP.parse(other)
+        return self.long == other.long
+
+    def __repr__(self):
+        return '<%s long=%s address="%s">' % (
+            self.__class__.__name__, self.long, self.address
+        )

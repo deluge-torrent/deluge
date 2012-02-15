@@ -51,13 +51,18 @@ class GtkUI(GtkPluginBase):
         log.debug("Blocklist GtkUI enable..")
         self.plugin = component.get("PluginManager")
 
-        self.load_preferences_page()
+        try:
+            self.load_preferences_page()
+        except Exception, err:
+            log.exception(err)
+            raise
 
         self.status_item = component.get("StatusBar").add_item(
             image=common.get_resource("blocklist16.png"),
             text="",
             callback=self._on_status_item_clicked,
-            tooltip="Blocked IP Ranges")
+            tooltip=_("Blocked IP Ranges /Whitelisted IP Ranges")
+        )
 
         # Register some hooks
         self.plugin.register_hook("on_apply_prefs", self._on_apply_prefs)
@@ -115,7 +120,8 @@ class GtkUI(GtkPluginBase):
                     self.glade.get_widget("image_up_to_date").hide()
 
                 self.table_info.show()
-                self.status_item.set_text(str(status["num_blocked"]))
+                self.status_item.set_text("%(num_blocked)s/%(num_whited)s" % status)
+
                 self.glade.get_widget("label_filesize").set_text(
                     deluge.common.fsize(status["file_size"]))
                 self.glade.get_widget("label_modified").set_text(
@@ -128,14 +134,11 @@ class GtkUI(GtkPluginBase):
 
     def _on_show_prefs(self):
         def _on_get_config(config):
-            self.glade.get_widget("entry_url").set_text(
-                config["url"])
-
-            self.glade.get_widget("spin_check_days").set_value(
-                config["check_after_days"])
-
-            self.glade.get_widget("chk_import_on_start").set_active(
-                config["load_on_start"])
+            log.trace("Loaded config: %s", config)
+            self.glade.get_widget("entry_url").set_text(config["url"])
+            self.glade.get_widget("spin_check_days").set_value(config["check_after_days"])
+            self.glade.get_widget("chk_import_on_start").set_active(config["load_on_start"])
+            self.populate_whitelist(config["whitelisted"])
 
         client.blocklist.get_config().addCallback(_on_get_config)
 
@@ -144,6 +147,7 @@ class GtkUI(GtkPluginBase):
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
+        config["whitelisted"] = [ip[0] for ip in self.whitelist_model if ip[0]!='IP HERE']
         client.blocklist.set_config(config)
 
     def _on_button_check_download_clicked(self, widget):
@@ -162,6 +166,7 @@ class GtkUI(GtkPluginBase):
         # Load the preferences page
         self.glade = gtk.glade.XML(common.get_resource("blocklist_pref.glade"))
 
+        self.whitelist_frame = self.glade.get_widget("whitelist_frame")
         self.progress_bar = self.glade.get_widget("progressbar")
         self.table_info = self.glade.get_widget("table_info")
 
@@ -169,9 +174,16 @@ class GtkUI(GtkPluginBase):
         self.progress_bar.hide()
         self.table_info.show()
 
+        # Create the whitelisted model
+        self.build_whitelist_model_treeview()
+
         self.glade.signal_autoconnect({
             "on_button_check_download_clicked": self._on_button_check_download_clicked,
-            "on_button_force_download_clicked": self._on_button_force_download_clicked
+            "on_button_force_download_clicked": self._on_button_force_download_clicked,
+            'on_whitelist_add_clicked': (self.on_add_button_clicked,
+                                         self.whitelist_treeview),
+            'on_whitelist_remove_clicked': (self.on_delete_button_clicked,
+                                            self.whitelist_treeview),
         })
 
         # Set button icons
@@ -188,3 +200,59 @@ class GtkUI(GtkPluginBase):
         self.plugin.add_preferences_page(
             _("Blocklist"),
             self.glade.get_widget("blocklist_prefs_box"))
+
+    def build_whitelist_model_treeview(self):
+        self.whitelist_treeview = self.glade.get_widget("whitelist_treeview")
+        treeview_selection = self.whitelist_treeview.get_selection()
+        treeview_selection.connect(
+            "changed", self.on_whitelist_treeview_selection_changed
+        )
+        self.whitelist_model = gtk.ListStore(str, bool)
+        renderer = gtk.CellRendererText()
+        renderer.connect("edited", self.on_cell_edited, self.whitelist_model)
+        renderer.set_data("ip", 0)
+
+        column = gtk.TreeViewColumn("IPs", renderer, text=0, editable=1)
+        column.set_expand(True)
+        self.whitelist_treeview.append_column(column)
+        self.whitelist_treeview.set_model(self.whitelist_model)
+
+    def on_cell_edited(self, cell, path_string, new_text, model):
+#        iter = model.get_iter_from_string(path_string)
+#        path = model.get_path(iter)[0]
+        try:
+            ip = common.IP.parse(new_text)
+            model.set(model.get_iter_from_string(path_string), 0, ip.address)
+        except common.BadIP, e:
+            model.remove(model.get_iter_from_string(path_string))
+            from deluge.ui.gtkui import dialogs
+            d = dialogs.ErrorDialog(_("Bad IP address"), e.message)
+            d.run()
+
+
+    def on_whitelist_treeview_selection_changed(self, selection):
+        model, selected_connection_iter = selection.get_selected()
+        if selected_connection_iter:
+            self.glade.get_widget("whitelist_delete").set_property('sensitive',
+                                                                   True)
+        else:
+            self.glade.get_widget("whitelist_delete").set_property('sensitive',
+                                                                   False)
+
+    def on_add_button_clicked(self, widget, treeview):
+        model = treeview.get_model()
+        model.set(model.append(), 0, "IP HERE", 1, True)
+
+    def on_delete_button_clicked(self, widget, treeview):
+        selection = treeview.get_selection()
+        model, iter = selection.get_selected()
+        if iter:
+#            path = model.get_path(iter)[0]
+            model.remove(iter)
+
+    def populate_whitelist(self, whitelist):
+        self.whitelist_model.clear()
+        for ip in whitelist:
+            self.whitelist_model.set(
+                self.whitelist_model.append(),0, ip, 1, True
+            )

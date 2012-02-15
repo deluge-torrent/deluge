@@ -33,8 +33,11 @@
 #
 #
 
-from common import raisesErrorsAs, remove_zeros
+import logging
+from common import raisesErrorsAs, IP, BadIP
 import re
+
+log = logging.getLogger(__name__)
 
 class ReaderParseError(Exception):
     pass
@@ -51,12 +54,16 @@ class BaseReader(object):
 
     def parse(self, line):
         """Extracts ip range from given line"""
-        raise NotYetImplemented
+        raise NotImplementedError
 
     def read(self, callback):
         """Calls callback on each ip range in the file"""
         for start, end in self.readranges():
-            callback(remove_zeros(start), remove_zeros(end))
+            try:
+                callback(IP.parse(start), IP.parse(end))
+            except BadIP, e:
+                log.error("Failed to parse IP: %s", e)
+#                log.exception(e)
         return self.file
 
     def is_ignored(self, line):
