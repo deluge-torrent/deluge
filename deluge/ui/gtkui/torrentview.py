@@ -78,11 +78,16 @@ def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     try:
         icon = ICON_STATE[model.get_value(row, data)]
-        #Suppress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+
+        #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        original_filters = warnings.filters[:]
+        warnings.simplefilter("ignore")
+        try:
             if cell.get_property("pixbuf") != icon:
                 cell.set_property("pixbuf", icon)
+        finally:
+            warnings.filters = original_filters
+
     except KeyError:
         pass
 

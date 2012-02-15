@@ -37,7 +37,6 @@
 import os
 import gtk
 import logging
-import glib
 import warnings
 
 import deluge.component as component
@@ -262,9 +261,12 @@ class FilterTreeView(component.Component):
         count = model.get_value(row, 3)
 
         #Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+        original_filters = warnings.filters[:]
+        warnings.simplefilter("ignore")
+        try:
             pix = model.get_value(row, 4)
+        finally:
+            warnings.filters = original_filters
 
         if pix:
             self.renderpix.set_property("visible", True)
@@ -292,7 +294,7 @@ class FilterTreeView(component.Component):
         if pix:
             try:
                 return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
-            except glib.GError as e:
+            except Exception, e:
                 log.warning(e)
         return self.get_transparent_pix(16, 16)
 
