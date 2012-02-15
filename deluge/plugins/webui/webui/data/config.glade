@@ -6,7 +6,6 @@
     <child>
       <widget class="GtkVBox" id="prefs_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkFrame" id="settings_frame">
             <property name="visible">True</property>
@@ -20,7 +19,6 @@
                 <child>
                   <widget class="GtkVBox" id="settings_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
                       <widget class="GtkCheckButton" id="enabled_checkbutton">

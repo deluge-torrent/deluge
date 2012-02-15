@@ -83,11 +83,9 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <widget class="GtkNotebook" id="notebook1">
                 <property name="visible">True</property>
@@ -96,7 +94,6 @@
                   <widget class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="border_width">6</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
@@ -109,7 +106,6 @@
                             <child>
                               <widget class="GtkVBox" id="vbox6">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox3">
                                     <property name="visible">True</property>
@@ -189,7 +185,6 @@
                                 <child>
                                   <widget class="GtkVBox" id="vbox7">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkRadioButton" id="isnt_append_extension">
                                         <property name="label" translatable="yes">Delete .torrent after adding</property>
@@ -269,7 +264,6 @@
                             <child>
                               <widget class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="download_location_toggle">
                                     <property name="label" translatable="yes">Set download location</property>
@@ -347,7 +341,6 @@
                             <child>
                               <widget class="GtkVBox" id="vbox4">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="move_completed_toggle">
                                     <property name="label" translatable="yes">Set move completed location</property>
@@ -500,7 +493,6 @@
                   <widget class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
                     <property name="border_width">6</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
                     </child>
@@ -1050,7 +1042,6 @@
             <child>
               <widget class="GtkHButtonBox" id="hbuttonbox2">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
               </widget>
               <packing>
                 <property name="position">1</property>

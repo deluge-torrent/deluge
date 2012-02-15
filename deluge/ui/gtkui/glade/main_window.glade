@@ -11,7 +11,6 @@
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
@@ -476,7 +475,6 @@
             <child>
               <widget class="GtkVPaned" id="vpaned">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkHPaned" id="hpaned">
                     <property name="visible">True</property>
@@ -680,7 +678,6 @@
                       <widget class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
                           <widget class="GtkProgressBar" id="progressbar">
@@ -1924,7 +1921,6 @@
                             <child>
                               <widget class="GtkVBox" id="vbox5">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chk_auto_managed">
                                     <property name="label" translatable="yes">Auto Managed</property>
@@ -1942,7 +1938,6 @@
                                 <child>
                                   <widget class="GtkVBox" id="vbox6">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkHBox" id="hbox2">
                                         <property name="visible">True</property>
@@ -2083,7 +2078,6 @@
                     <child>
                       <widget class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <child>
                           <widget class="GtkFrame" id="frame2">
                             <property name="visible">True</property>
@@ -2099,7 +2093,6 @@
                                 <child>
                                   <widget class="GtkVBox" id="vbox1">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <widget class="GtkCheckButton" id="chk_private">
                                         <property name="label" translatable="yes">Private</property>
@@ -2291,13 +2284,11 @@
       <widget class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <widget class="GtkHBox" id="hbox1">
@@ -2489,13 +2480,11 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkVBox" id="vbox7">
             <property name="visible">True</property>
             <property name="border_width">10</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <widget class="GtkHBox" id="hbox3">

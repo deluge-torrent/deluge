@@ -6,7 +6,6 @@
     <child>
       <widget class="GtkVBox" id="execute_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkFrame" id="add_frame">
             <property name="visible">True</property>
@@ -137,7 +136,6 @@
                   <widget class="GtkVBox" id="commands_vbox">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
                     </child>

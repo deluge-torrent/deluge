@@ -6,7 +6,6 @@
     <child>
       <widget class="GtkVBox" id="prefs_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkViewport" id="viewport1">
             <property name="visible">True</property>
@@ -14,11 +13,9 @@
             <child>
               <widget class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkLabel" id="label22">
                         <property name="visible">True</property>
@@ -62,7 +59,6 @@
                         <child>
                           <widget class="GtkVBox" id="vbox2">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkFrame" id="frame2">
                                 <property name="visible">True</property>
@@ -75,7 +71,6 @@
                                     <child>
                                       <widget class="GtkVBox" id="vbox1">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="blink_enabled">
                                             <property name="label" translatable="yes">Tray icon blinks enabled</property>
@@ -309,7 +304,6 @@
                                                     <child>
                                                       <widget class="GtkVButtonBox" id="vbuttonbox1">
                                                         <property name="visible">True</property>
-                                                        <property name="orientation">vertical</property>
                                                         <property name="spacing">5</property>
                                                         <property name="layout_style">start</property>
                                                         <child>
@@ -467,7 +461,6 @@
                         <child>
                           <widget class="GtkVBox" id="vbox5">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <placeholder/>
                             </child>
@@ -521,7 +514,6 @@
                         <child>
                           <widget class="GtkVBox" id="sounds_page">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow3">
                                 <property name="visible">True</property>
