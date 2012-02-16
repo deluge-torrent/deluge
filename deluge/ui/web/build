@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 BASE_DIR="${PWD}/`dirname ${0}`"
 BASE_DIR=`readlink -f "$BASE_DIR"`
@@ -32,7 +32,7 @@ check_file()
 
     FILE=$1
     LAST_BUILD=`grep $FILE $BUILD_DATA`
-    if [ $? == 1 ]; then return 1; fi; 
+    if [ $? = 1 ]; then return 1; fi;
 
     CURRENT=`grep $FILE $BUILD_DATA.tmp`
 
