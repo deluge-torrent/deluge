@@ -289,11 +289,28 @@
             ]
         },
 
+        keys: [{
+            key: 'a',
+            ctrl: true,
+            stopEvent: true,
+            handler: function() {
+                deluge.torrents.getSelectionModel().selectAll();
+            }
+        }, {
+            key: [46],
+            stopEvent: true,
+            handler: function() {
+                ids = deluge.torrents.getSelectedIds();
+                deluge.removeWindow.show(ids);
+            }
+        }],
+
         constructor: function(config) {
             config = Ext.apply({
                 id: 'torrentGrid',
                 store: new Ext.data.JsonStore(this.meta),
                 columns: this.columns,
+                keys: this.keys,
                 region: 'center',
                 cls: 'deluge-torrents',
                 stripeRows: true,
