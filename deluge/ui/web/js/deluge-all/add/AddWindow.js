@@ -1,6 +1,6 @@
 /*!
  * Deluge.add.AddWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 
 		this.addButton(_('Cancel'), this.onCancelClick, this);
 		this.addButton(_('Add'), this.onAddClick, this);
-	
+
 		function torrentRenderer(value, p, r) {
 			if (r.data['info_hash']) {
 				return String.format('<div class="x-deluge-add-torrent-name">{0}</div>', value);
@@ -73,7 +73,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				sortable: true,
 				renderer: torrentRenderer,
 				dataIndex: 'text'
-			}],	
+			}],
 			stripeRows: true,
 			singleSelect: true,
 			listeners: {
@@ -114,7 +114,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				}]
 			})
 		});
-	
+
 		this.optionsPanel = this.add(new Deluge.add.OptionsPanel());
 		this.on('hide', this.onHide, this);
 		this.on('show', this.onShow, this);
@@ -165,16 +165,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 		var torrent = this.list.getSelectedRecords()[0];
 		this.list.getStore().remove(torrent);
 		this.optionsPanel.clear();
-		
+
 		if (this.torrents && this.torrents[torrent.id]) delete this.torrents[torrent.id];
 	},
 
 	onSelect: function(list, selections) {
-		if (selections.length) {	
+		if (selections.length) {
 			var record = this.list.getRecord(selections[0]);
 			this.optionsPanel.setTorrent(record.get('info_hash'));
-			this.optionsPanel.files.setDisabled(false);
-			this.optionsPanel.form.setDisabled(false);
 		} else {
 			this.optionsPanel.files.setDisabled(true);
 			this.optionsPanel.form.setDisabled(true);
@@ -193,7 +191,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.file.on('add', this.onTorrentAdd, this);
 		}
-	
+
 		this.optionsPanel.form.getDefaults();
 	},
 
@@ -219,6 +217,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			r.set('text', info['name']);
 			this.list.getStore().commitChanges();
 			this.optionsPanel.addTorrent(info);
+			this.list.select(r);
 		}
 	},
 

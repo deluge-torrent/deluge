@@ -1,6 +1,6 @@
 /*!
  * Deluge.add.OptionsPanel.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -61,7 +61,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 		Ext.each(Ext.keys(fileIndexes), function(index) {
 			priorities[index] = fileIndexes[index];
 		});
-		
+
 		var oldId = this.form.optionsManager.changeId(torrent['info_hash'], true);
 		this.form.optionsManager.setDefault('file_priorities', priorities);
 		this.form.optionsManager.changeId(oldId, true);
@@ -91,23 +91,34 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 
 		this.torrentId = torrentId;
 		this.form.optionsManager.changeId(torrentId);
-	
+
 		this.files.clearFiles();
 		var root = this.files.getRootNode();
 		var priorities = this.form.optionsManager.get('file_priorities');
 
-		this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
-			var node = new Ext.tree.TreeNode({
-				download:  (entry.index) ? priorities[entry.index] : true,
-				filename:  filename,
-				fileindex: entry.index,
-				leaf:      type != 'dir',
-				size:      entry.length
-			});
-			parentNode.appendChild(node);
-			if (type == 'dir') return node;
-		}, this, root);
-		root.firstChild.expand();
+		this.form.setDisabled(false);
+
+		if (this.torrents[torrentId]['files_tree']) {
+			this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
+				var node = new Ext.tree.TreeNode({
+					download:  (entry.index) ? priorities[entry.index] : true,
+					filename:  filename,
+					fileindex: entry.index,
+					leaf:      type != 'dir',
+					size:      entry.length
+				});
+				parentNode.appendChild(node);
+				if (type == 'dir') return node;
+			}, this, root);
+			root.firstChild.expand();
+			this.files.setDisabled(false);
+			this.files.show();
+		} else {
+			// Files tab is empty so show options tab
+			this.form.show();
+			this.files.setDisabled(true);
+		}
+
 	},
 
 	walkFileTree: function(files, callback, scope, parentNode) {
@@ -120,7 +131,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 			} else {
 				var ret = callback(filename, type, entry, parentNode);
 			}
-		
+
 			if (type == 'dir') this.walkFileTree(entry, callback, scope, ret);
 		}
 	},
@@ -142,7 +153,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 						}, this);
 					} else {
 						this.files.setDownload(nodes[0], oldValue, true);
-					}	
+					}
 				},
 				scope: this,
 				icon: Ext.MessageBox.QUESTION
