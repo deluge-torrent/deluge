@@ -8824,7 +8824,12 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 		value = new Number(value);
 		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
-		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
+		if ( this.style ) {
+			var style = this.style
+		} else {
+			var style = p.style
+		}
+		var width = new Number(style.match(/\w+:\s*(\d+)\w+/)[1]);
 		return Deluge.progressBar(value, width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
