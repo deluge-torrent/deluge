@@ -33,7 +33,7 @@
 	* Added Download,Uploaded,Down Limit, Up Limit & Seeder/Peeds columns
 	* Add magnet uri support to Add Url
 	* Add keymaps for torrents - Ctrl-A (select all) and Delete
-
+	* #2037: Fix 'Add Torrents' torrents list not scrolling
 
 ==== Console ====
 	* #1953: Fix flickering on every update

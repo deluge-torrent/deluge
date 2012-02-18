@@ -84,6 +84,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			},
 			hideHeaders: true,
 			autoExpandColumn: 'torrent',
+			height: '100%',
 			autoScroll: true
 		});
 
