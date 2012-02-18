@@ -1,8 +1,8 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 /**
  * @class Ext.ux.tree.TreeGridNodeUI
@@ -10,7 +10,7 @@
  */
 Ext.ux.tree.TreeGridNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     isTreeGridNodeUI: true,
-    
+
     renderElements : function(n, a, targetNode, bulkRender){
         var t = n.getOwnerTree(),
             cols = t.columns,
@@ -21,11 +21,11 @@ Ext.ux.tree.TreeGridNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 
         buf = [
              '<tbody class="x-tree-node">',
-                '<tr ext:tree-node-id="', n.id ,'" class="x-tree-node-el ', a.cls, '">',
+                '<tr ext:tree-node-id="', n.id ,'" class="x-tree-node-el x-tree-node-leaf ', a.cls, '">',
                     '<td class="x-treegrid-col">',
                         '<span class="x-tree-node-indent">', this.indentMarkup, "</span>",
-                        '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow">',
-                        '<img src="', a.icon || this.emptyIcon, '" class="x-tree-node-icon', (a.icon ? " x-tree-node-inline-icon" : ""), (a.iconCls ? " "+a.iconCls : ""), '" unselectable="on">',
+                        '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow" />',
+                        '<img src="', a.icon || this.emptyIcon, '" class="x-tree-node-icon', (a.icon ? " x-tree-node-inline-icon" : ""), (a.iconCls ? " "+a.iconCls : ""), '" unselectable="on" />',
                         '<a hidefocus="on" class="x-tree-node-anchor" href="', a.href ? a.href : '#', '" tabIndex="1" ',
                             a.hrefTarget ? ' target="'+a.hrefTarget+'"' : '', '>',
                         '<span unselectable="on">', (c.tpl ? c.tpl.apply(a) : a[c.dataIndex] || c.text), '</span></a>',
@@ -77,14 +77,14 @@ Ext.ux.tree.TreeGridNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 
 Ext.ux.tree.TreeGridRootNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     isTreeGridNodeUI: true,
-    
+
     // private
     render : function(){
         if(!this.rendered){
             this.wrap = this.ctNode = this.node.ownerTree.innerCt.dom;
             this.node.expanded = true;
         }
-        
+
         if(Ext.isWebKit) {
             // weird table-layout: fixed issue in webkit
             var ct = this.ctNode;
@@ -101,7 +101,7 @@ Ext.ux.tree.TreeGridRootNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         }
         delete this.node;
     },
-    
+
     collapse : Ext.emptyFn,
     expand : Ext.emptyFn
 });

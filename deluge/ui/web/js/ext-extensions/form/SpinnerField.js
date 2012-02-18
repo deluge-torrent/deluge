@@ -1,8 +1,8 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 Ext.ns('Ext.ux.form');
 
@@ -20,17 +20,17 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
     adjustSize: Ext.BoxComponent.prototype.adjustSize,
 
     constructor: function(config) {
-        var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
+            var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
 
-        var spl = this.spinner = new Ext.ux.Spinner(spinnerConfig);
+            var spl = this.spinner = new Ext.ux.Spinner(spinnerConfig);
 
-        var plugins = config.plugins
-            ? (Ext.isArray(config.plugins)
-                ? config.plugins.push(spl)
-                : [config.plugins, spl])
-            : spl;
+            var plugins = config.plugins
+                    ? (Ext.isArray(config.plugins)
+                            ? config.plugins.push(spl)
+                            : [config.plugins, spl])
+                    : spl;
 
-        Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
+            Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
     },
 
     // private

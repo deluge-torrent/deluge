@@ -1,34 +1,28 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
-(function() {    
+(function() {
     Ext.override(Ext.list.Column, {
-        init : function() {            
-            if(!this.type){
-                this.type = "auto";
-            }
+        init : function() {
+            var types = Ext.data.Types,
+                st = this.sortType;
 
-            var st = Ext.data.SortTypes;
-            // named sortTypes are supported, here we look them up
-            if(typeof this.sortType == "string"){
-                this.sortType = st[this.sortType];
-            }
-
-            // set default sortType for strings and dates
-            if(!this.sortType){
-                switch(this.type){
-                    case "string":
-                        this.sortType = st.asUCString;
-                        break;
-                    case "date":
-                        this.sortType = st.asDate;
-                        break;
-                    default:
-                        this.sortType = st.none;
+            if(this.type){
+                if(Ext.isString(this.type)){
+                    this.type = Ext.data.Types[this.type.toUpperCase()] || types.AUTO;
                 }
+            }else{
+                this.type = types.AUTO;
+            }
+
+            // named sortTypes are supported, here we look them up
+            if(Ext.isString(st)){
+                this.sortType = Ext.data.SortTypes[st];
+            }else if(Ext.isEmpty(st)){
+                this.sortType = this.type.sortType;
             }
         }
     });

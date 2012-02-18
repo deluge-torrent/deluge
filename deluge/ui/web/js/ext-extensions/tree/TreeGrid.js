@@ -1,15 +1,15 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 Ext.ns('Ext.ux.tree');
 
 /**
  * @class Ext.ux.tree.TreeGrid
  * @extends Ext.tree.TreePanel
- * 
+ *
  * @xtype treegrid
  */
 Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
@@ -23,14 +23,14 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     enableSort : true,
     reserveScrollOffset : true,
     enableHdMenu : true,
-    
+
     columnsText : 'Columns',
 
     initComponent : function() {
         if(!this.root) {
             this.root = new Ext.tree.AsyncTreeNode({text: 'Root'});
         }
-        
+
         // initialize the loader
         var l = this.loader;
         if(!l){
@@ -42,36 +42,28 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }else if(Ext.isObject(l) && !l.load){
             l = new Ext.ux.tree.TreeGridLoader(l);
         }
-        else if(l) {
-            l.createNode = function(attr) {
-                if (!attr.uiProvider) {
-                    attr.uiProvider = Ext.ux.tree.TreeGridNodeUI;
-                }
-                return Ext.tree.TreeLoader.prototype.createNode.call(this, attr);
-            }
-        }
         this.loader = l;
-                            
-        Ext.ux.tree.TreeGrid.superclass.initComponent.call(this);                    
-        
+
+        Ext.ux.tree.TreeGrid.superclass.initComponent.call(this);
+
         this.initColumns();
-        
+
         if(this.enableSort) {
             this.treeGridSorter = new Ext.ux.tree.TreeGridSorter(this, this.enableSort);
         }
-        
+
         if(this.columnResize){
             this.colResizer = new Ext.tree.ColumnResizer(this.columnResize);
             this.colResizer.init(this);
         }
-        
+
         var c = this.columns;
-        if(!this.internalTpl){                                
+        if(!this.internalTpl){
             this.internalTpl = new Ext.XTemplate(
                 '<div class="x-grid3-header">',
                     '<div class="x-treegrid-header-inner">',
                         '<div class="x-grid3-header-offset">',
-                            '<table cellspacing="0" cellpadding="0" border="0"><colgroup><tpl for="columns"><col /></tpl></colgroup>',
+                            '<table style="table-layout: fixed;" cellspacing="0" cellpadding="0" border="0"><colgroup><tpl for="columns"><col /></tpl></colgroup>',
                             '<thead><tr class="x-grid3-hd-row">',
                             '<tpl for="columns">',
                             '<td class="x-grid3-hd x-grid3-cell x-treegrid-hd" style="text-align: {align};" id="', this.id, '-xlhd-{#}">',
@@ -81,7 +73,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                                  '</div>',
                             '</td></tpl>',
                             '</tr></thead>',
-                        '</div></table>',
+                        '</table>',
                     '</div></div>',
                 '</div>',
                 '<div class="x-treegrid-root-node">',
@@ -89,7 +81,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                 '</div>'
             );
         }
-        
+
         if(!this.colgroupTpl) {
             this.colgroupTpl = new Ext.XTemplate(
                 '<colgroup><tpl for="columns"><col style="width: {width}px"/></tpl></colgroup>'
@@ -99,7 +91,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
 
     initColumns : function() {
         var cs = this.columns,
-            len = cs.length, 
+            len = cs.length,
             columns = [],
             i, c;
 
@@ -111,7 +103,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             }
             c.init(this);
             columns.push(c);
-            
+
             if(this.enableSort !== false && c.sortable !== false) {
                 c.sortable = true;
                 this.enableSort = true;
@@ -125,22 +117,22 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         Ext.tree.TreePanel.superclass.onRender.apply(this, arguments);
 
         this.el.addClass('x-treegrid');
-        
+
         this.outerCt = this.body.createChild({
             cls:'x-tree-root-ct x-treegrid-ct ' + (this.useArrows ? 'x-tree-arrows' : this.lines ? 'x-tree-lines' : 'x-tree-no-lines')
         });
-        
+
         this.internalTpl.overwrite(this.outerCt, {columns: this.columns});
-        
+
         this.mainHd = Ext.get(this.outerCt.dom.firstChild);
         this.innerHd = Ext.get(this.mainHd.dom.firstChild);
         this.innerBody = Ext.get(this.outerCt.dom.lastChild);
         this.innerCt = Ext.get(this.innerBody.dom.firstChild);
-        
+
         this.colgroupTpl.insertFirst(this.innerCt, {columns: this.columns});
-        
+
         if(this.hideHeaders){
-            this.header.dom.style.display = 'none';
+            this.el.child('.x-grid3-header').setDisplayed('none');
         }
         else if(this.enableHdMenu !== false){
             this.hmenu = new Ext.menu.Menu({id: this.id + '-hctx'});
@@ -164,14 +156,25 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     setRootNode : function(node){
-        node.attributes.uiProvider = Ext.ux.tree.TreeGridRootNodeUI;        
+        node.attributes.uiProvider = Ext.ux.tree.TreeGridRootNodeUI;
         node = Ext.ux.tree.TreeGrid.superclass.setRootNode.call(this, node);
         if(this.innerCt) {
             this.colgroupTpl.insertFirst(this.innerCt, {columns: this.columns});
         }
         return node;
     },
-    
+
+    clearInnerCt : function(){
+        if(Ext.isIE){
+            var dom = this.innerCt.dom;
+            while(dom.firstChild){
+                dom.removeChild(dom.firstChild);
+            }
+        }else{
+            Ext.ux.tree.TreeGrid.superclass.clearInnerCt.call(this);
+        }
+    },
+
     initEvents : function() {
         Ext.ux.tree.TreeGrid.superclass.initEvents.apply(this, arguments);
 
@@ -183,10 +186,10 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             mouseout: this.handleHdOut
         });
     },
-    
+
     onResize : function(w, h) {
         Ext.ux.tree.TreeGrid.superclass.onResize.apply(this, arguments);
-        
+
         var bd = this.innerBody.dom;
         var hd = this.innerHd.dom;
 
@@ -198,7 +201,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             bd.style.height = this.body.getHeight(true) - hd.offsetHeight + 'px';
         }
 
-        if(Ext.isNumber(w)){                        
+        if(Ext.isNumber(w)){
             var sw = Ext.num(this.scrollOffset, Ext.getScrollBarWidth());
             if(this.reserveScrollOffset || ((bd.offsetWidth - bd.clientWidth) > 10)){
                 this.setScrollOffset(sw);
@@ -225,7 +228,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                 g.childNodes[i].style.width = (c.hidden ? 0 : c.width) + 'px';
             }
         }
-        
+
         for(i = 0, groups = this.innerHd.query('td'), len = groups.length; i<len; i++) {
             c = Ext.fly(groups[i]);
             if(cols[i] && cols[i].hidden) {
@@ -236,23 +239,23 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             }
         }
 
-        var tcw = this.getTotalColumnWidth();                        
+        var tcw = this.getTotalColumnWidth();
         Ext.fly(this.innerHd.dom.firstChild).setWidth(tcw + (this.scrollOffset || 0));
         this.outerCt.select('table').setWidth(tcw);
-        this.syncHeaderScroll();    
+        this.syncHeaderScroll();
     },
-                    
+
     getVisibleColumns : function() {
         var columns = [],
             cs = this.columns,
             len = cs.length,
             i;
-            
+
         for(i = 0; i<len; i++) {
             if(!cs[i].hidden) {
                 columns.push(cs[i]);
             }
-        }        
+        }
         return columns;
     },
 
@@ -265,7 +268,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     setScrollOffset : function(scrollOffset) {
-        this.scrollOffset = scrollOffset;                        
+        this.scrollOffset = scrollOffset;
         this.updateColumnWidths();
     },
 
@@ -279,17 +282,17 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                 index = this.findHeaderIndex(hd),
                 c = cs[index],
                 sort = c.sortable;
-                
+
             e.stopEvent();
             Ext.fly(hd).addClass('x-grid3-hd-menu-open');
             this.hdCtxIndex = index;
-            
+
             this.fireEvent('headerbuttonclick', ms, c, hd, index);
-            
+
             this.hmenu.on('hide', function(){
                 Ext.fly(hd).removeClass('x-grid3-hd-menu-open');
             }, this, {single:true});
-            
+
             this.hmenu.show(t, 'tl-bl?');
         }
         else if(hd) {
@@ -299,8 +302,8 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     // private
-    handleHdOver : function(e, t){                    
-        var hd = e.getTarget('.x-treegrid-hd');                        
+    handleHdOver : function(e, t){
+        var hd = e.getTarget('.x-treegrid-hd');
         if(hd && !this.headersDisabled){
             index = this.findHeaderIndex(hd);
             this.activeHdRef = t;
@@ -314,7 +317,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             }
         }
     },
-    
+
     // private
     handleHdOut : function(e, t){
         var hd = e.getTarget('.x-treegrid-hd');
@@ -324,7 +327,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             hd.style.cursor = '';
         }
     },
-                    
+
     findHeaderIndex : function(hd){
         hd = hd.dom || hd;
         var cs = hd.parentNode.childNodes;
@@ -335,13 +338,13 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
         return -1;
     },
-    
+
     // private
     beforeColMenuShow : function(){
-        var cols = this.columns,  
+        var cols = this.columns,
             colCount = cols.length,
-            i, c;                        
-        this.colMenu.removeAll();                    
+            i, c;
+        this.colMenu.removeAll();
         for(i = 1; i < colCount; i++){
             c = cols[i];
             if(c.hideable !== false){
@@ -355,24 +358,24 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
             }
         }
     },
-                    
+
     // private
     handleHdMenuClick : function(item){
         var index = this.hdCtxIndex,
             id = item.getItemId();
-        
+
         if(this.fireEvent('headermenuclick', this.columns[index], id, index) !== false) {
             index = id.substr(4);
             if(index > 0 && this.columns[index]) {
                 this.setColumnVisible(index, !item.checked);
-            }     
+            }
         }
-        
+
         return true;
     },
-    
+
     setColumnVisible : function(index, visible) {
-        this.columns[index].hidden = !visible;        
+        this.columns[index].hidden = !visible;
         this.updateColumnWidths();
     },
 
@@ -397,7 +400,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         this.innerHd.dom.scrollLeft = mb.scrollLeft;
         this.innerHd.dom.scrollLeft = mb.scrollLeft; // second time for IE (1/2 time first fails, other browsers ignore)
     },
-    
+
     registerNode : function(n) {
         Ext.ux.tree.TreeGrid.superclass.registerNode.call(this, n);
         if(!n.uiProvider && !n.isRoot && !n.ui.isTreeGridNodeUI) {

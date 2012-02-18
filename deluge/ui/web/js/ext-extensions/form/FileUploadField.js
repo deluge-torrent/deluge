@@ -1,8 +1,8 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 Ext.ns('Ext.ux.form');
 
@@ -119,9 +119,11 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
     },
     
     reset : function(){
-        this.fileInput.remove();
-        this.createFileInput();
-        this.bindListeners();
+        if (this.rendered) {
+            this.fileInput.remove();
+            this.createFileInput();
+            this.bindListeners();
+        }
         Ext.ux.form.FileUploadField.superclass.reset.call(this);
     },
 
