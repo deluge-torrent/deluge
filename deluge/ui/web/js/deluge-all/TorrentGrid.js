@@ -51,7 +51,7 @@
 		value = new Number(value);
 		var progress = value;
 		var text = r.data['state'] + ' ' + value.toFixed(2) + '%';
-		var width = new Number(p.style.match(/\w+:\s*(\d+)\w+/)[1]);
+		var width = new Number(this.style.match(/\w+:\s*(\d+)\w+/)[1]);
 		return Deluge.progressBar(value, width - 8, text);
 	}
 	function seedsRenderer(value, p, r) {
