@@ -254,7 +254,7 @@ class MainWindow(component.Component):
             if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
                 log.debug("pos: %s", self.window.get_position())
                 self.config["window_maximized"] = True
-            else:
+            elif not event.new_window_state & gtk.gdk.WINDOW_STATE_WITHDRAWN:
                 self.config["window_maximized"] = False
         if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
