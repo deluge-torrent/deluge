@@ -31,6 +31,9 @@
 	* #1936: Fix Referenced before assignment error in json_api
 	* Changes are now applied when clicking OK in Preferences
 	* Added Download,Uploaded,Down Limit, Up Limit & Seeder/Peeds columns
+	* Add magnet uri support to Add Url
+	* Add keymaps for torrents - Ctrl-A (select all) and Delete
+
 
 ==== Console ====
 	* #1953: Fix flickering on every update
