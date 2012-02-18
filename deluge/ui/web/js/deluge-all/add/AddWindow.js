@@ -174,8 +174,6 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         if (selections.length) {
             var record = this.list.getRecord(selections[0]);
             this.optionsPanel.setTorrent(record.get('info_hash'));
-            this.optionsPanel.files.setDisabled(false);
-            this.optionsPanel.form.setDisabled(false);
         } else {
             this.optionsPanel.files.setDisabled(true);
             this.optionsPanel.form.setDisabled(true);
@@ -220,6 +218,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             r.set('text', info['name']);
             this.list.getStore().commitChanges();
             this.optionsPanel.addTorrent(info);
+            this.list.select(r);
         }
     },
 

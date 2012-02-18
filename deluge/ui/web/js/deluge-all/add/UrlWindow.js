@@ -81,17 +81,27 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
         var cookies = this.cookieField.getValue();
         var torrentId = this.createTorrentId();
 
-        deluge.client.web.download_torrent_from_url(url, cookies, {
-            success: this.onDownload,
-            scope: this,
-            torrentId: torrentId
-        });
+        if (url.substring(0,20) == 'magnet:?xt=urn:btih:') {
+            deluge.client.web.get_magnet_info(url, {
+                success: this.onGotInfo,
+                scope: this,
+                filename: url,
+                torrentId: torrentId
+            });
+        } else {
+            deluge.client.web.download_torrent_from_url(url, cookies, {
+                success: this.onDownload,
+                scope: this,
+                torrentId: torrentId
+            });
+        }
+
         this.hide();
+        this.urlField.setValue('');
         this.fireEvent('beforeadd', torrentId, url);
     },
 
     onDownload: function(filename, obj, resp, req) {
-        this.urlField.setValue('');
         deluge.client.web.get_torrent_info(filename, {
             success: this.onGotInfo,
             scope: this,

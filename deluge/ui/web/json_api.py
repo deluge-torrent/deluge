@@ -41,6 +41,7 @@ import logging
 import hashlib
 import tempfile
 from urlparse import urljoin
+from urllib import unquote_plus
 
 from types import FunctionType
 from twisted.internet import reactor
@@ -683,10 +684,8 @@ class WebApi(JSONComponent):
         ::
 
             {
-                "filename": the torrent file,
                 "name": the torrent name,
-                "size": the total size of the torrent,
-                "files": the files the torrent contains,
+                "files_tree": the files the torrent contains,
                 "info_hash" the torrents info_hash
             }
 
@@ -695,6 +694,45 @@ class WebApi(JSONComponent):
         try:
             torrent_info = uicommon.TorrentInfo(filename.strip(), 2)
             return torrent_info.as_dict("name", "info_hash", "files_tree")
+        except Exception, e:
+            log.exception(e)
+            return False
+
+    @export
+    def get_magnet_info(self, uri):
+        """
+        Return information about a magnet link.
+
+        :param uri: the magnet link
+        :type uri: string
+
+        :returns: information about the magnet link:
+
+        ::
+
+            {
+                "name": the torrent name,
+                "info_hash": the torrents info_hash,
+                "files_tree": empty value for magnet links
+            }
+
+        :rtype: dictionary
+        """
+        try:
+            s = uri.split("&")[0][20:]
+            if len(s) == 32:
+                info_hash = base64.b32decode(s).encode("hex")
+            elif len(s) == 40:
+                info_hash = s
+            else:
+                return False
+            name = None
+            for i in uri.split("&")[1:]:
+                if i[:3] == "dn=":
+                    name = unquote_plus(i.split("=")[1])
+            if not name:
+                name = info_hash
+            return {"name":name, "info_hash":info_hash, "files_tree":''}
         except Exception, e:
             log.exception(e)
             return False
@@ -717,11 +755,16 @@ class WebApi(JSONComponent):
 
         """
         for torrent in torrents:
-            filename = os.path.basename(torrent["path"])
-            fdump = base64.encodestring(open(torrent["path"], "rb").read())
-            log.info("Adding torrent from file `%s` with options `%r`",
-                     filename, torrent["options"])
-            client.core.add_torrent_file(filename, fdump, torrent["options"])
+            if common.is_magnet(torrent["path"]):
+                log.info("Adding torrent from magnet uri `%s` with options `%r`",
+                         torrent["path"], torrent["options"])
+                client.core.add_torrent_magnet(torrent["path"], torrent["options"])
+            else:
+                filename = os.path.basename(torrent["path"])
+                fdump = base64.encodestring(open(torrent["path"], "rb").read())
+                log.info("Adding torrent from file `%s` with options `%r`",
+                         filename, torrent["options"])
+                client.core.add_torrent_file(filename, fdump, torrent["options"])
         return True
 
     @export
