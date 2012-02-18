@@ -1,8 +1,8 @@
 /*!
- * Ext JS Library 3.1.0
- * Copyright(c) 2006-2009 Ext JS, LLC
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
 Ext.ns('Ext.ux.form');
 
@@ -13,11 +13,11 @@ Ext.ns('Ext.ux.form');
  * @xtype spinnerfield
  */
 Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
-	actionMode: 'wrap',
-	deferHeight: true,
-	autoSize: Ext.emptyFn,
-	onBlur: Ext.emptyFn,
-	adjustSize: Ext.BoxComponent.prototype.adjustSize,
+    actionMode: 'wrap',
+    deferHeight: true,
+    autoSize: Ext.emptyFn,
+    onBlur: Ext.emptyFn,
+    adjustSize: Ext.BoxComponent.prototype.adjustSize,
 
 	constructor: function(config) {
 		var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
@@ -33,26 +33,26 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
 		Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
 	},
 
-	// private
-	getResizeEl: function(){
-		return this.wrap;
-	},
+    // private
+    getResizeEl: function(){
+        return this.wrap;
+    },
 
-	// private
-	getPositionEl: function(){
-		return this.wrap;
-	},
+    // private
+    getPositionEl: function(){
+        return this.wrap;
+    },
 
-	// private
-	alignErrorIcon: function(){
-		if (this.wrap) {
-			this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
-		}
-	},
+    // private
+    alignErrorIcon: function(){
+        if (this.wrap) {
+            this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
+        }
+    },
 
-	validateBlur: function(){
-		return true;
-	}
+    validateBlur: function(){
+        return true;
+    }
 });
 
 Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);
