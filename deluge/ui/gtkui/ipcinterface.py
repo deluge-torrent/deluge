@@ -44,7 +44,7 @@ try:
     import rencode
 except ImportError:
     import deluge.rencode as rencode
-    
+
 import deluge.component as component
 from deluge.ui.client import client
 import deluge.common
@@ -64,11 +64,11 @@ class IPCProtocolClient(Protocol):
     def connectionMade(self):
         self.transport.write(rencode.dumps(self.factory.args))
         self.transport.loseConnection()
-        
+
     def connectionLost(self, reason):
         reactor.stop()
         self.factory.stop = True
-        
+
 class IPCClientFactory(ClientFactory):
     protocol = IPCProtocolClient
 
@@ -76,11 +76,11 @@ class IPCClientFactory(ClientFactory):
         self.stop = False
         self.args = args
         self.connect_failed = connect_failed
-        
+
     def clientConnectionFailed(self, connector, reason):
         log.info("Connection to running instance failed.  Starting new one..")
         reactor.stop()
-    
+
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
@@ -151,14 +151,14 @@ class IPCInterface(component.Component):
     def connect_failed(self, args):
         # This gets called when we're unable to do a connectUNIX to the ipc
         # socket.  We'll delete the lock and socket files and start up Deluge.
-        #reactor.stop()
+
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
         if os.path.exists(socket):
             try:
                 os.remove(socket)
             except Exception, e:
                 log.error("Unable to remove socket file: %s", e)
-                
+
         lock = socket + ".lock"
         if os.path.lexists(lock):
             try:
@@ -173,7 +173,7 @@ class IPCInterface(component.Component):
             log.error("Unable to start IPC listening socket: %s", e)
         finally:
             process_args(args)
-        
+
     def shutdown(self):
         if deluge.common.windows_check():
             import win32api

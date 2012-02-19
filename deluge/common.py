@@ -277,7 +277,7 @@ def fsize(fsize_b):
         return "%.1f %s" % (fsize_mb, _("MiB"))
     fsize_gb = fsize_mb / 1024.0
     return "%.1f %s" % (fsize_gb, _("GiB"))
-    
+
 def fsize_short(fsize_b):
     """
     Formats the bytes value into a string with K, M or G units
