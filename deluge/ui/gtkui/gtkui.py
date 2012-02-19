@@ -274,7 +274,7 @@ class GtkUI(object):
             def on_dialog_response(response):
                 if response != gtk.RESPONSE_YES:
                     # The user does not want to turn Classic Mode off, so just quit
-                    reactor.stop()
+                    self.mainwindow.quit()
                     return
                 # Turning off classic_mode
                 self.config["classic_mode"] = False

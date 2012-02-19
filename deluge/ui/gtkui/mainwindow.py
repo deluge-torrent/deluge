@@ -47,6 +47,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
 from twisted.internet import reactor
+from twisted.internet.error import ReactorNotRunning
 
 import deluge.common
 import common
@@ -218,7 +219,10 @@ class MainWindow(component.Component):
         """
         if shutdown:
             def on_daemon_shutdown(result):
-                reactor.stop()
+                try:
+                    reactor.stop()
+                except ReactorNotRunning:
+                    log.debug("Attempted to stop the reactor but it is not running...")
             client.daemon.shutdown().addCallback(on_daemon_shutdown)
             return
         if client.is_classicmode():

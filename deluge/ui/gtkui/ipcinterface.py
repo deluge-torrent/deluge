@@ -153,7 +153,7 @@ class IPCInterface(component.Component):
     def connect_failed(self, args):
         # This gets called when we're unable to do a connectUNIX to the ipc
         # socket.  We'll delete the lock and socket files and start up Deluge.
-        #reactor.stop()
+
         socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
         if os.path.exists(socket):
             try:
