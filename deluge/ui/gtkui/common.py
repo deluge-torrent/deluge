@@ -50,15 +50,15 @@ import deluge.common
 
 def get_logo(size):
     """Returns a deluge logo pixbuf based on the size parameter."""
-    if deluge.common.windows_check() or deluge.common.osx_check():
-        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.png"), \
-            size, size)
-    else:
-        try:
+    try:
+        if deluge.common.windows_check() or deluge.common.osx_check():
+            return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.png"), \
+                size, size)
+        else:
             return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), \
-            size, size)
-        except Exception, e:
-            log.warning(e)
+                size, size)
+    except Exception, e:
+        log.warning(e)
 
 def build_menu_radio_list(value_list, callback, pref_value=None,
     suffix=None, show_notset=False, notset_label=None, notset_lessthan=0,
