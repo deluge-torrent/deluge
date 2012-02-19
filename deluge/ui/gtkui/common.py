@@ -53,8 +53,11 @@ def get_logo(size):
         return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.png"), \
             size, size)
     else:
-        return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), \
+        try:
+            return gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap("deluge.svg"), \
             size, size)
+        except Exception, e:
+            log.warning(e)
 
 def build_menu_radio_list(value_list, callback, pref_value=None,
     suffix=None, show_notset=False, notset_label=None, notset_lessthan=0,
