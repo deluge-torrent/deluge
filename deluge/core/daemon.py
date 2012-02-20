@@ -133,9 +133,14 @@ class Daemon(object):
         if options and options.config:
             deluge.configmanager.set_config_dir(options.config)
 
+        if options and options.listen_interface:
+            listen_interface = options.listen_interface
+        else:
+            listen_interface = ""
+
         from deluge.core.core import Core
         # Start the core as a thread and join it until it's done
-        self.core = Core()
+        self.core = Core(listen_interface=listen_interface)
 
         port = self.core.config["daemon_port"]
         if options and options.port:
