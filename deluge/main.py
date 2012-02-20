@@ -148,7 +148,7 @@ def start_daemon():
                   version= "%prog: " + deluge.common.get_version() + lt_version)
     parser.add_option("-p", "--port", dest="port",
         help="Port daemon will listen on", action="store", type="int")
-    parser.add_option("-i", "--interface", dest="interface",
+    parser.add_option("-i", "--interface", dest="listen_interface",
         help="Interface daemon will listen for bittorrent connections on, \
 this should be an IP address", metavar="IFACE",
         action="store", type="str")
