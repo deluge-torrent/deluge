@@ -238,6 +238,8 @@ if build_libtorrent:
 
         _ext_modules = [libtorrent]
 
+desktop_data = 'deluge/data/share/applications/deluge.desktop'
+
 class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files & create .desktop file'
 
@@ -259,7 +261,6 @@ class build_trans(cmd.Command):
             INTLTOOL_MERGE='intltool-merge'
             INTLTOOL_MERGE_OPTS='--utf8 --quiet --desktop-style'
             desktop_in='deluge/data/share/applications/deluge.desktop.in'
-            desktop_data='deluge/data/share/applications/deluge.desktop'
             print('Creating desktop file: %s' % desktop_data)
             os.system('C_ALL=C ' + '%s '*5 % (INTLTOOL_MERGE, INTLTOOL_MERGE_OPTS, \
                         po_dir, desktop_in, desktop_data))
@@ -467,7 +468,6 @@ class clean(_clean):
             self.run_command(cmd_name)
         _clean.run(self)
 
-        desktop_data='deluge/data/share/applications/deluge.desktop'
         if os.path.exists(desktop_data):
             print("Deleting %s" % desktop_data)
             os.remove(desktop_data)
@@ -509,8 +509,8 @@ _data_files = [
         'docs/man/deluge-console.1'])
 ]
 
-if not windows_check():
-    _data_files.append(('share/applications', ['deluge/data/share/applications/deluge.desktop']))
+if not windows_check() and os.path.exists(desktop_data):
+    _data_files.append(('share/applications', [desktop_data]))
 
 entry_points = {
     "console_scripts": [
