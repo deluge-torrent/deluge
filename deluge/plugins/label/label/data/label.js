@@ -330,9 +330,9 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
     onOkClick: function() {
         var values = this.form.getForm().getFieldValues();
-		if (values['auto_add_trackers']) {
-			values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
-		}
+        if (values['auto_add_trackers']) {
+            values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
+        }
         deluge.client.label.set_options(this.label, values);
         this.hide();
     },
@@ -388,14 +388,14 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     updateTorrentMenu: function(states) {
-		this.torrentMenu.removeAll(true);
-		this.torrentMenu.addMenuItem({
-			text: _('No Label'),
-			label: '',
-			handler: this.onTorrentMenuClick,
-			scope: this
-		});
-		for (var state in states) {
+        this.torrentMenu.removeAll(true);
+        this.torrentMenu.addMenuItem({
+            text: _('No Label'),
+            label: '',
+            handler: this.onTorrentMenuClick,
+            scope: this
+        });
+        for (var state in states) {
             if (!state || state == 'All' ) continue;
             this.torrentMenu.addMenuItem({
                 text: state,
@@ -471,8 +471,8 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         var statesArray = [];
 
         for (state in states) {
-			if (!state || state == 'All') continue;
-			statesArray.push(state);
+            if (!state || state == 'All') continue;
+            statesArray.push(state);
         }
 
         statesArray.push(label.toLowerCase());
