@@ -1,6 +1,6 @@
 /*!
  * label.js
- * 
+ *
  * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ Ext.ns('Deluge.ux');
  * @extends Ext.Window
  */
 Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
-	
+
 	title: _('Add Label'),
 	width: 300,
 	height: 100,
@@ -107,7 +107,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 	title: _('Label Options'),
 	width:  325,
 	height: 240,
-	
+
 	initComponent: function() {
 		Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
 		this.addButton(_('Cancel'), this.onCancelClick, this);
@@ -319,7 +319,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 	show: function(label) {
 		Deluge.ux.LabelOptionsWindow.superclass.show.call(this);
 		this.label = label;
-		this.setTitle(_('Label Options') + ': ' + this.label); 
+		this.setTitle(_('Label Options') + ': ' + this.label);
 		this.tabs.setActiveTab(0);
 		this.getLabelOptions();
 	},
@@ -330,7 +330,9 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
 	onOkClick: function() {
 		var values = this.form.getForm().getFieldValues();
-		values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
+		if (values['auto_add_trackers']) {
+			values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
+		}
 		deluge.client.label.set_options(this.label, values);
 		this.hide();
 	},
@@ -395,7 +397,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 			});
 		}
 	},
-	
+
 	onDisable: function() {
 		deluge.sidebar.un('filtercreate', this.onFilterCreate);
 		deluge.sidebar.un('afterfiltercreate', this.onAfterFilterCreate);
@@ -404,7 +406,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 		deluge.menus.torrent.remove(this.tmSep);
 		deluge.menus.torrent.remove(this.tm);
 	},
-	
+
 	onEnable: function() {
 		this.torrentMenu = new Ext.menu.Menu({
 			items: [{
