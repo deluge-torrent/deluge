@@ -161,10 +161,13 @@ class Core(CorePluginBase):
         self.config.save()
         component.get("EventManager").emit(AutoaddOptionsChangedEvent())
 
-    def load_torrent(self, filename):
+    def load_torrent(self, filename, magnet):
         try:
             log.debug("Attempting to open %s for add.", filename)
-            _file = open(filename, "rb")
+            if magnet == False:
+                _file = open(filename, "rb")
+            elif magnet == True:
+                _file = open(filename, "r")
             filedump = _file.read()
             if not filedump:
                 raise RuntimeError, "Torrent is 0 bytes!"
@@ -174,7 +177,8 @@ class Core(CorePluginBase):
             raise e
 
         # Get the info to see if any exceptions are raised
-        lt.torrent_info(lt.bdecode(filedump))
+        if magnet == False:
+            lt.torrent_info(lt.bdecode(filedump))
 
         return filedump
 
@@ -215,9 +219,16 @@ class Core(CorePluginBase):
             if os.path.isdir(filepath):
                 # Skip directories
                 continue
-            elif os.path.splitext(filename)[1] == ".torrent":
+            else:
+                ext = os.path.splitext(filename)[1]
+                if ext == ".torrent":
+                    magnet = False
+                elif ext == ".magnet":
+                    magnet = True
+                else:
+                    continue
                 try:
-                    filedump = self.load_torrent(filepath)
+                    filedump = self.load_torrent(filepath, magnet)
                 except (RuntimeError, Exception), e:
                     # If the torrent is invalid, we keep track of it so that we
                     # can try again on the next pass.  This is because some
@@ -237,10 +248,16 @@ class Core(CorePluginBase):
                     continue
 
                 # The torrent looks good, so lets add it to the session.
-                torrent_id = component.get("TorrentManager").add(
-                    filedump=filedump, filename=filename, options=opts,
-                    owner=watchdir.get("owner", "localclient")
-                )
+                if magnet == False:
+                    torrent_id = component.get("TorrentManager").add(
+                        filedump=filedump, filename=filename, options=opts,
+                        owner=watchdir.get("owner", "localclient")
+                    )
+                elif magnet == True:
+                    torrent_id = component.get("TorrentManager").add(
+                        magnet=filedump, options=opts,
+                        owner=watchdir.get("owner", "localclient")
+                    )
                 # If the torrent added successfully, set the extra options.
                 if torrent_id:
                     if 'Label' in component.get("CorePluginManager").get_enabled_plugins():
@@ -254,6 +271,12 @@ class Core(CorePluginBase):
                             component.get("TorrentManager").queue_top(torrent_id)
                         else:
                             component.get("TorrentManager").queue_bottom(torrent_id)
+                else:
+                    # torrent handle is invalid and so is the magnet link
+                    if magnet == True:
+                        log.debug("invalid magnet link")
+                        os.rename(filepath, filepath + ".invalid")
+                        continue
 
                 # Rename, copy or delete the torrent once added to deluge.
                 if watchdir.get('append_extension_toggle'):
