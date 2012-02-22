@@ -182,6 +182,37 @@ class Core(CorePluginBase):
 
         return filedump
 
+    def split_magnets(self, filename):
+        log.debug("Attempting to open %s for splitting magnets.", filename)
+        try:
+            _file = open(filename, "r")
+        except IOError, e:
+            log.warning("Unable to open %s: %s", filename, e)
+            raise e
+        else:
+            magnets = list(filter(len, _file.readlines()))
+            _file.close()
+            if len(magnets) < 2:
+                return
+            n = 0
+            path = filename.rsplit(os.sep, 1)[0]
+            for magnet in magnets:
+                for part in magnet.split('&'):
+                    if part.startswith("dn="):
+                        mname = os.sep.join([path, part[3:] + ".magnet"])
+                        break
+                else:
+                    mname = '.'.join([filename, str(n), "magnet"])
+                    n += 1
+                try:
+                    _mfile = open(mname, "w")
+                except IOError, e:
+                    log.warning("Unable to open %s: %s", mname, e)
+                else:
+                    _mfile.write(magnet)
+                    _mfile.close()
+            return magnets
+
     def update_watchdir(self, watchdir_id):
         """Check the watch folder for new torrents to add."""
         log.trace("Updating watchdir id: %s", watchdir_id)
@@ -209,6 +240,23 @@ class Core(CorePluginBase):
             if OPTIONS_AVAILABLE.get(option):
                 if watchdir.get(option+'_toggle', True):
                     opts[option] = value
+
+        # Check for .magnet files containing multiple magnet links and
+        # create a new .magnet file for each of them.
+        for filename in os.listdir(watchdir["abspath"]):
+            try:
+                filepath = os.path.join(watchdir["abspath"], filename)
+            except UnicodeDecodeError, e:
+                log.error("Unable to auto add torrent due to improper "
+                          "filename encoding: %s", e)
+                continue
+            if os.path.isdir(filepath):
+                # Skip directories
+                continue
+            elif os.path.splitext(filename)[1] == ".magnet" and \
+                    self.split_magnets(filepath):
+                os.remove(filepath)
+
         for filename in os.listdir(watchdir["abspath"]):
             try:
                 filepath = os.path.join(watchdir["abspath"], filename)
