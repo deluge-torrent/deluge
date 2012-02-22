@@ -357,13 +357,6 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
     name: 'Label',
 
-    noLabelItem: {
-        text: _('No Label'),
-        label: '',
-        handler: this.onTorrentMenuClick,
-        scope: this
-    },
-
     createMenu: function() {
         this.labelMenu = new Ext.menu.Menu({
             items: [{
@@ -388,14 +381,22 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
 
     setFilter: function(filter) {
         filter.show_zero = true;
+
         filter.list.on('contextmenu', this.onLabelContextMenu, this);
         filter.header.on('contextmenu', this.onLabelHeaderContextMenu, this);
         this.filter = filter;
     },
 
     updateTorrentMenu: function(states) {
+        this.torrentMenu.removeAll(true);
+        this.torrentMenu.addMenuItem({
+            text: _('No Label'),
+            label: '',
+            handler: this.onTorrentMenuClick,
+            scope: this
+        });
         for (var state in states) {
-            if (!state) continue;
+            if (!state || state == 'All' ) continue;
             this.torrentMenu.addMenuItem({
                 text: state,
                 label: state,
@@ -415,9 +416,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.torrentMenu = new Ext.menu.Menu({
-            items: [ this.noLabelItem ]
-        });
+        this.torrentMenu = new Ext.menu.Menu();
 
         this.tmSep = deluge.menus.torrent.add({
             xtype: 'menuseparator'
@@ -472,21 +471,15 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         var statesArray = [];
 
         for (state in states) {
+            if (!state || state == 'All') continue;
             statesArray.push(state);
         }
 
-        var none = statesArray.shift();
-        var all = statesArray.shift();
-
-        this.torrentMenu.removeAll(true);
-        this.torrentMenu.addMenuItem(this.noLabelItem);
-
         statesArray.push(label.toLowerCase());
         statesArray.sort();
-        statesArray.unshift(all);
 
-        console.log(states);
-        console.log(statesArray);
+        //console.log(states);
+        //console.log(statesArray);
 
         states = {}
 
@@ -500,12 +493,14 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     onLabelContextMenu: function(dv, i, node, e) {
         e.preventDefault();
         if (!this.labelMenu) this.createMenu();
-        var r = dv.getRecord(node);
-        if (dv.getRecord(node).get('filter')) {
+        var r = dv.getRecord(node).get('filter');
+        if ( !r || r == 'All') {
+            this.labelMenu.items.get(1).setDisabled(true);
+            this.labelMenu.items.get(2).setDisabled(true);
+        } else {
             this.labelMenu.items.get(1).setDisabled(false);
             this.labelMenu.items.get(2).setDisabled(false);
         }
-
         dv.select(i);
         this.labelMenu.showAt(e.getXY());
     },
