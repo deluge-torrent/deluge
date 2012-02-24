@@ -221,16 +221,17 @@ this should be an IP address", metavar="IFACE",
     # Write pid file before chuid
     write_pidfile()
 
-    if options.user:
-        if not options.user.isdigit():
-            import pwd
-            options.user = pwd.getpwnam(options.user)[2]
-        os.setuid(options.user)
-    if options.group:
-        if not options.group.isdigit():
-            import grp
-            options.group = grp.getgrnam(options.group)[2]
-        os.setuid(options.group)
+    if not deluge.common.windows_check():
+        if options.user:
+            if not options.user.isdigit():
+                import pwd
+                options.user = pwd.getpwnam(options.user)[2]
+            os.setuid(options.user)
+        if options.group:
+            if not options.group.isdigit():
+                import grp
+                options.group = grp.getgrnam(options.group)[2]
+            os.setuid(options.group)
 
     open_logfile()
 
