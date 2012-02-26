@@ -67,8 +67,14 @@ setup(
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
     [deluge.plugin.gtkui]
+<<<<<<< HEAD:deluge/plugins/Extractor/setup.py
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
+=======
+    %s = %s:GtkUIPlugin
+    [deluge.plugin.web]
+    %s = %s:WebUIPlugin
+>>>>>>> fa7edd0... Fix plugins not showing enabled in webui:deluge/plugins/extractor/setup.py
     """ % ((__plugin_name__, __plugin_name__.lower())*3)
 )
