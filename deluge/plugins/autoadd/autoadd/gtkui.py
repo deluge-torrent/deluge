@@ -256,7 +256,6 @@ class GtkUI(GtkPluginBase):
         component.get("Preferences").add_page("AutoAdd", self.glade.get_widget("prefs_box"))
         self.on_show_prefs()
 
-
     def disable(self):
         component.get("Preferences").remove_page("AutoAdd")
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
@@ -341,7 +340,8 @@ class GtkUI(GtkPluginBase):
         self.store.clear()
         for watchdir_id, watchdir in self.watchdirs.iteritems():
             self.store.append([watchdir_id, watchdir['enabled'], watchdir['path']])
-        # Disable the remove and edit buttons, because nothing in the store is selected
-        self.glade.get_widget('remove_button').set_sensitive(False)
-        self.glade.get_widget('edit_button').set_sensitive(False)
-
+        # Workaround for cached glade signal appearing when re-enabling plugin in same session
+        if self.glade.get_widget('edit_button'):
+            # Disable the remove and edit buttons, because nothing in the store is selected
+            self.glade.get_widget('edit_button').set_sensitive(False)
+            self.glade.get_widget('remove_button').set_sensitive(False)
