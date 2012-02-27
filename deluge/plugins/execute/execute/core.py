@@ -120,6 +120,9 @@ class Core(CorePluginBase):
                 if p.wait() != 0:
                     log.warn("Execute command failed with exit code %d", p.returncode)
 
+    def update(self):
+        pass
+
     def disable(self):
         self.config.save()
         event_manager = component.get("EventManager")
