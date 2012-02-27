@@ -933,9 +933,9 @@ class TorrentManager(component.Component):
                 if torrent.options["download_location"] != move_path:
                     torrent.move_storage(move_path)
 
-            torrent.is_finished = True
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
+        torrent.is_finished = True
         torrent.update_state()
 
         # Only save resume data if it was actually downloaded something. Helps
