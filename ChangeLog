@@ -4,6 +4,7 @@
 	* #1964: Fix unhandled UnpicklingErrors
 	* #1967: Fix unhandled IndexError when trying to open a non-json conf file
 	* Fix setting daemon listen interface from command line
+	* #2021: Fix share ratio limit not obeyed for seeded torrents added to session
 
 ==== GtkUI ====
 	* #1918: Fix Drag'n'Drop not working in Windows
@@ -36,6 +37,7 @@
 	* Add magnet uri support to Add Url
 	* Add keymaps for torrents - Ctrl-A (select all) and Delete
 	* #2037: Fix 'Add Torrents' torrents list not scrolling
+	* #2038: Fix Chrome 17 disconnecting from webui
 
 ==== Console ====
 	* #1953: Fix flickering on every update
@@ -54,7 +56,9 @@
 	* Add plugin page for WebUi
 
 ==== AutoAdd ====
-	Added watch folder support for '.magnet' text file containing single or multiple magnet uris
+	* Added watch folder support for '.magnet' text file containing single or multiple magnet uris
+	* Fix glade object issue when re-enabling plugin in same session
+	* Fix plugin not showing as enabled in webui
 
 === Deluge 1.3.3 (22 July 2011) ===
 ==== Core ====
