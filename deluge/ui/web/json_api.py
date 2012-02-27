@@ -397,7 +397,7 @@ class EventQueue(object):
         else:
             # Prevent this loop going on indefinitely incase a client leaves
             # the page or disconnects uncleanly.
-            if count >= 3000:
+            if count >= 50:
                 d.callback(None)
             else:
                 reactor.callLater(0.1, self._get_events, listener_id, count + 1, d)
