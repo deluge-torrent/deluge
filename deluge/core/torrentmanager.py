@@ -924,6 +924,7 @@ class TorrentManager(component.Component):
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
 
+        torrent.is_finished = torrent.handle.is_seed()
         # Set the torrent state
         torrent.update_state()
 
