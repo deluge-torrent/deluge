@@ -1,21 +1,21 @@
 # Japanese translation for deluge
-# Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-01-26 16:37+0000\n"
-"Last-Translator: Toshiharu Kudoh <toshi.kd2@gmail.com>\n"
+"POT-Creation-Date: 2012-01-02 19:16+0000\n"
+"PO-Revision-Date: 2012-01-02 22:50+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
-"X-Generator: Launchpad (build 14560)\n"
+"X-Launchpad-Export-Date: 2012-02-27 19:21+0000\n"
+"X-Generator: Launchpad (build 14868)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -34,17 +34,17 @@ msgstr "GiB"
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
+#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 #: deluge/ui/gtkui/systemtray.py:251 deluge/ui/gtkui/systemtray.py:255
 #: deluge/ui/gtkui/systemtray.py:271 deluge/ui/gtkui/systemtray.py:277
 #: deluge/ui/gtkui/systemtray.py:422 deluge/ui/gtkui/systemtray.py:427
-#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
-#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
-#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
-#: deluge/ui/gtkui/statusbar.py:429 deluge/ui/gtkui/status_tab.py:62
 #: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
+#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/glade/main_window.glade:1834
 #: deluge/ui/gtkui/glade/main_window.glade:1846
-#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
 msgstr "KiB/s"
 
@@ -54,6 +54,60 @@ msgstr ""
 
 #: deluge/common.py:320
 msgid "GiB/s"
+msgstr ""
+
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
+#: deluge/ui/gtkui/filtertreeview.py:78
+msgid "Error"
+msgstr "エラー"
+
+#: deluge/core/torrentmanager.py:939
+msgid "Announce OK"
+msgstr "アナウンス OK"
+
+#: deluge/core/torrentmanager.py:955
+msgid "Announce Sent"
+msgstr "アナウンス済み"
+
+#: deluge/core/torrentmanager.py:963
+msgid "Warning"
+msgstr "警戒"
+
+#: deluge/plugins/notifications/notifications/core.py:142
+#: deluge/plugins/notifications/notifications/core.py:175
+#, python-format
+msgid "There was an error sending the notification email: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:161
+#, python-format
+msgid "The server didn't reply properly to the helo greeting: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:166
+#, python-format
+msgid "The server didn't accept the username/password combination: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:190
+msgid "Notification email sent."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:198
+#, python-format
+msgid "Finished Torrent \"%(name)s\""
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:200
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading "
+"\"%(name)s\", which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
@@ -107,43 +161,6 @@ msgstr ""
 msgid "Choose Sound File"
 msgstr ""
 
-#: deluge/plugins/notifications/notifications/core.py:138
-#: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
-msgid "There was an error sending the notification email: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
-msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
-msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:186
-msgid "Notification email sent."
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
-msgid "Finished Torrent \"%(name)s\""
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge."
-msgstr ""
-
 #: deluge/plugins/notifications/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr ""
@@ -170,30 +187,30 @@ msgid "Hostname:"
 msgstr "ホスト名:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:199
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#: deluge/ui/gtkui/glade/connection_manager.glade:56
 msgid "Port:"
 msgstr "ポート:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3439
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+#: deluge/ui/gtkui/glade/connection_manager.glade:143
 msgid "Username:"
 msgstr "ユーザ名:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2129
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3306
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3490
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3674
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3858
+#: deluge/ui/gtkui/glade/connection_manager.glade:132
 msgid "Password:"
 msgstr "パスワード:"
 
@@ -238,6 +255,191 @@ msgstr ""
 msgid "Sound Customization"
 msgstr ""
 
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+msgid "Extract to:"
+msgstr "展開先:"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#: deluge/ui/gtkui/glade/main_window.glade:2031
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+msgid "Select A Folder"
+msgstr "フォルダの選択"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+msgid "Create torrent name sub-folder"
+msgstr "トレント名のサブフォルダを作成する"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+msgid ""
+"This option will create a sub-folder using the torrent's name within the "
+"selected extract folder and put the extracted files there."
+msgstr "このオプションは選択された展開先フォルダ内にトレント名のサブフォルダを作成し、展開したファイルをそこに格納します。"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+#: deluge/ui/gtkui/glade/main_window.glade:2183
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+msgid "<b>General</b>"
+msgstr "<b>全般</b>"
+
+#: deluge/plugins/execute/execute/gtkui.py:51
+msgid "Torrent Complete"
+msgstr "トレント完了時"
+
+#: deluge/plugins/execute/execute/gtkui.py:52
+msgid "Torrent Added"
+msgstr "トレント追加時"
+
+#: deluge/plugins/execute/execute/gtkui.py:77
+#: deluge/plugins/execute/execute/gtkui.py:88
+msgid "Execute"
+msgstr "コマンド実行"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+msgid "Event"
+msgstr "イベント"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+msgid "Command"
+msgstr "コマンド"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+msgid "<b>Add Command</b>"
+msgstr "<b>コマンドの追加</b>"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+msgid "<b>Commands</b>"
+msgstr "<b>コマンド</b>"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:49
+msgid "Emule IP list (GZip)"
+msgstr "Emule IP list (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:50
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer Text (Zipped)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:51
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian Text (非圧縮)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:52
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "無効なリーダー"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "無効なマジックコード"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "無効なバージョン"
+
+#: deluge/plugins/blocklist/blocklist/gtkui.py:67
+#: deluge/plugins/blocklist/blocklist/gtkui.py:155
+#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+msgid "Blocklist"
+msgstr "ブロックリスト"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+msgid "URL:"
+msgstr "URL:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+msgid "Days"
+msgstr "日"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+msgid "Check for new list every:"
+msgstr "新しいリストのチェック間隔:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+msgid "Import blocklist on startup"
+msgstr "起動時にブロックリストをインポートする"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
+#: deluge/plugins/webui/webui/data/config.glade:94
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+msgid "<b>Settings</b>"
+msgstr "<b>設定</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+msgid "Download the blocklist file if necessary and import the file."
+msgstr "必要ならブロックリストファイルをダウンロードし、ファイルをインポートします"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+msgid "Check Download and Import"
+msgstr "ダウンロードのチェックとインポート"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+msgid "Download a new blocklist file and import it."
+msgstr "新しいブロックリストファイルをダウンロードおよびインポートします"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+msgid "Force Download and Import"
+msgstr "強制ダウンロードとインポート"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+msgid "Blocklist is up to date"
+msgstr "ブロックリストは最新です"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+msgid "<b>Options</b>"
+msgstr "<b>オプション</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+msgid "Type:"
+msgstr "タイプ:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+msgid "Date:"
+msgstr "日付："
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+msgid "File Size:"
+msgstr "ファイルサイズ:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+msgid "<b>Info</b>"
+msgstr "<b>情報</b>"
+
+#: deluge/plugins/webui/webui/gtkui.py:97
+msgid ""
+"The Deluge web interface is not installed, please install the\n"
+"interface and try again"
+msgstr ""
+
+#: deluge/plugins/webui/webui/data/config.glade:27
+msgid "Enable web interface"
+msgstr "Web インターフェイスを有効にする"
+
+#: deluge/plugins/webui/webui/data/config.glade:41
+msgid "Enable SSL"
+msgstr "SSL を有効にする"
+
+#: deluge/plugins/webui/webui/data/config.glade:60
+msgid "Listening port:"
+msgstr "待ち受けポート:"
+
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
 msgstr ""
@@ -247,6 +449,10 @@ msgstr ""
 msgid "Path does not exist."
 msgstr ""
 
+#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+msgid "<b>Watch Folders:</b>"
+msgstr ""
+
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
 msgstr ""
@@ -254,18 +460,6 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
 msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-#: deluge/ui/gtkui/glade/main_window.glade:2031
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
-msgid "Select A Folder"
-msgstr "フォルダの選択"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
 msgid "Enable this watch folder"
@@ -391,10 +585,6 @@ msgstr "<b>キュー</b>"
 msgid "Options"
 msgstr "オプション"
 
-#: deluge/plugins/autoadd/autoadd/data/config.glade:41
-msgid "<b>Watch Folders:</b>"
-msgstr ""
-
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
 msgstr "ダウンロード制限:"
@@ -440,26 +630,6 @@ msgstr "未知のラベルです"
 #: deluge/plugins/label/label/core.py:315
 msgid "Unknown Torrent"
 msgstr "未知のトレントです"
-
-#: deluge/plugins/label/label/gtkui/submenu.py:48
-#: deluge/plugins/label/label/gtkui/__init__.py:77
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
-msgid "Label"
-msgstr "ラベル"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
-msgid "Label _Options"
-msgstr "ラベルオプション(_O)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
-msgid "_Remove Label"
-msgstr "ラベルの削除(_R)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
-msgid "_Add Label"
-msgstr "ラベルの追加(_A)"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -554,195 +724,25 @@ msgstr "<i>ラベルの追加、編集、および削除はサイドバーで行
 msgid "<b>Labels</b>"
 msgstr "<b>ラベル</b>"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
-msgid "Extract to:"
-msgstr "展開先:"
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:111
+#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:59
+#: deluge/plugins/label/label/gtkui/label_config.py:66
+msgid "Label"
+msgstr "ラベル"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
-msgid "Create torrent name sub-folder"
-msgstr "トレント名のサブフォルダを作成する"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+msgid "Label _Options"
+msgstr "ラベルオプション(_O)"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
-msgid ""
-"This option will create a sub-folder using the torrent's name within the "
-"selected extract folder and put the extracted files there."
-msgstr "このオプションは選択された展開先フォルダ内にトレント名のサブフォルダを作成し、展開したファイルをそこに格納します。"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+msgid "_Remove Label"
+msgstr "ラベルの削除(_R)"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
-#: deluge/ui/gtkui/glade/main_window.glade:2183
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
-msgid "<b>General</b>"
-msgstr "<b>全般</b>"
-
-#: deluge/plugins/webui/webui/gtkui.py:97
-msgid ""
-"The Deluge web interface is not installed, please install the\n"
-"interface and try again"
-msgstr ""
-
-#: deluge/plugins/webui/webui/data/config.glade:27
-msgid "Enable web interface"
-msgstr "Web インターフェイスを有効にする"
-
-#: deluge/plugins/webui/webui/data/config.glade:41
-msgid "Enable SSL"
-msgstr "SSL を有効にする"
-
-#: deluge/plugins/webui/webui/data/config.glade:60
-msgid "Listening port:"
-msgstr "待ち受けポート:"
-
-#: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
-msgid "<b>Settings</b>"
-msgstr "<b>設定</b>"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:49
-msgid "Emule IP list (GZip)"
-msgstr "Emule IP list (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:50
-msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer Text (Zipped)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:51
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian Text (非圧縮)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:52
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "無効なリーダー"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "無効なマジックコード"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "無効なバージョン"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:67
-#: deluge/plugins/blocklist/blocklist/gtkui.py:155
-#: deluge/plugins/blocklist/blocklist/gtkui.py:186
-msgid "Blocklist"
-msgstr "ブロックリスト"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
-msgid "URL:"
-msgstr "URL:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
-msgid "Days"
-msgstr "日"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
-msgid "Check for new list every:"
-msgstr "新しいリストのチェック間隔:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
-msgid "Import blocklist on startup"
-msgstr "起動時にブロックリストをインポートする"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
-msgid "Download the blocklist file if necessary and import the file."
-msgstr "必要ならブロックリストファイルをダウンロードし、ファイルをインポートします"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
-msgid "Check Download and Import"
-msgstr "ダウンロードのチェックとインポート"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
-msgid "Download a new blocklist file and import it."
-msgstr "新しいブロックリストファイルをダウンロードおよびインポートします"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
-msgid "Force Download and Import"
-msgstr "強制ダウンロードとインポート"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
-msgid "Blocklist is up to date"
-msgstr "ブロックリストは最新です"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
-msgid "<b>Options</b>"
-msgstr "<b>オプション</b>"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
-msgid "Type:"
-msgstr "タイプ:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
-msgid "Date:"
-msgstr "日付："
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
-msgid "File Size:"
-msgstr "ファイルサイズ:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
-msgid "<b>Info</b>"
-msgstr "<b>情報</b>"
-
-#: deluge/plugins/execute/execute/gtkui.py:51
-msgid "Torrent Complete"
-msgstr "トレント完了時"
-
-#: deluge/plugins/execute/execute/gtkui.py:52
-msgid "Torrent Added"
-msgstr "トレント追加時"
-
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
-msgid "Execute"
-msgstr "コマンド実行"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
-msgid "Event"
-msgstr "イベント"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
-msgid "Command"
-msgstr "コマンド"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
-msgid "<b>Add Command</b>"
-msgstr "<b>コマンドの追加</b>"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
-msgid "<b>Commands</b>"
-msgstr "<b>コマンド</b>"
-
-#: deluge/core/torrentmanager.py:937
-msgid "Announce OK"
-msgstr "アナウンス OK"
-
-#: deluge/core/torrentmanager.py:953
-msgid "Announce Sent"
-msgstr "アナウンス済み"
-
-#: deluge/core/torrentmanager.py:961
-msgid "Warning"
-msgstr "警戒"
-
-#: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
-#: deluge/ui/gtkui/filtertreeview.py:78
-msgid "Error"
-msgstr "エラー"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+msgid "_Add Label"
+msgstr "ラベルの追加(_A)"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
@@ -1728,6 +1728,10 @@ msgstr "ザンビア"
 msgid "Zimbabwe"
 msgstr "ジンバブエ"
 
+#: deluge/ui/web/server.py:661
+msgid "Starting server in PID"
+msgstr ""
+
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
 #: deluge/ui/web/json_api.py:769 deluge/ui/gtkui/connectionmanager.py:75
@@ -1737,15 +1741,15 @@ msgstr "ジンバブエ"
 #: deluge/ui/gtkui/connectionmanager.py:296
 #: deluge/ui/gtkui/connectionmanager.py:378
 #: deluge/ui/gtkui/connectionmanager.py:389
-#: deluge/ui/gtkui/connectionmanager.py:452
-#: deluge/ui/gtkui/connectionmanager.py:569
+#: deluge/ui/gtkui/connectionmanager.py:453
+#: deluge/ui/gtkui/connectionmanager.py:570
 msgid "Offline"
 msgstr "オフライン"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Online"
 msgstr "オンライン"
 
@@ -1753,8 +1757,8 @@ msgstr "オンライン"
 #: deluge/ui/gtkui/connectionmanager.py:313
 #: deluge/ui/gtkui/connectionmanager.py:372
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:440
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:441
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Connected"
 msgstr "接続中"
 
@@ -1766,104 +1770,10 @@ msgstr "デーモンが存在しません"
 msgid "Daemon not running"
 msgstr "デーモンが起動していません"
 
-#: deluge/ui/web/server.py:661
-msgid "Starting server in PID"
-msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:100
-msgid "Address"
-msgstr "アドレス"
-
-#: deluge/ui/gtkui/peers_tab.py:116
-msgid "Client"
-msgstr "クライアント"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
-#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
-msgid "Progress"
-msgstr "進捗"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
-msgid "Down Speed"
-msgstr "下り速度"
-
-#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
-msgid "Up Speed"
-msgstr "上り速度"
-
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
-msgid "Torrent"
-msgstr "トレント"
-
-#: deluge/ui/gtkui/queuedtorrents.py:135
-msgid " Torrents Queued"
-msgstr " トレントキュー済み"
-
-#: deluge/ui/gtkui/queuedtorrents.py:137
-msgid " Torrent Queued"
-msgstr " トレントキュー済み"
-
-#: deluge/ui/gtkui/common.py:67 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
-#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
-#: deluge/ui/gtkui/statusbar.py:452
-msgid "Unlimited"
-msgstr "無制限"
-
-#: deluge/ui/gtkui/common.py:70
-msgid "Activated"
-msgstr "活性化"
-
-#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
-#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
-#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other..."
-msgstr "その他..."
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Down:"
-msgstr "ダウン:"
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Up:"
-msgstr "アップ:"
-
-#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
-#: deluge/data/share/applications/deluge.desktop.in.h:2
-msgid "Deluge"
-msgstr "Deluge"
-
-#: deluge/ui/gtkui/systemtray.py:201
-msgid "Not Connected..."
-msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:258
-msgid "Down"
-msgstr "下"
-
-#: deluge/ui/gtkui/systemtray.py:259
-msgid "Up"
-msgstr "上"
-
-#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/menubar.py:436
-msgid "Set Maximum Download Speed"
-msgstr "最大ダウンロード速度の設定"
-
-#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/menubar.py:437
-msgid "Set Maximum Upload Speed"
-msgstr "最大アップロード速度の設定"
-
-#: deluge/ui/gtkui/systemtray.py:470
-msgid "Deluge is password protected!"
-msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:476
-msgid "Enter your password to continue"
-msgstr ""
+#: deluge/ui/console/statusbars.py:104
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
+msgid "DHT"
+msgstr "DHT"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -1896,9 +1806,255 @@ msgstr ""
 "Thank you,\n"
 "Deluge"
 
+#: deluge/ui/gtkui/torrentview.py:213
+msgid "Name"
+msgstr "名前"
+
+#: deluge/ui/gtkui/torrentview.py:216
+#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
+#: deluge/ui/gtkui/addtorrentdialog.py:124
+msgid "Size"
+msgstr "サイズ"
+
+#: deluge/ui/gtkui/torrentview.py:219
+msgid "Downloaded"
+msgstr "ダウンロード済み"
+
+#: deluge/ui/gtkui/torrentview.py:222
+msgid "Uploaded"
+msgstr "アップロード済み"
+
+#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
+msgid "Progress"
+msgstr "進捗"
+
+#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
+msgid "Seeders"
+msgstr "シーダ"
+
+#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
+msgid "Peers"
+msgstr "ピア"
+
+#: deluge/ui/gtkui/torrentview.py:237 deluge/ui/gtkui/peers_tab.py:142
+msgid "Down Speed"
+msgstr "下り速度"
+
+#: deluge/ui/gtkui/torrentview.py:239 deluge/ui/gtkui/peers_tab.py:155
+msgid "Up Speed"
+msgstr "上り速度"
+
+#: deluge/ui/gtkui/torrentview.py:241
+msgid "Down Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:243
+msgid "Up Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:245
+msgid "ETA"
+msgstr "残り時間"
+
+#: deluge/ui/gtkui/torrentview.py:247
+msgid "Ratio"
+msgstr "共有比"
+
+#: deluge/ui/gtkui/torrentview.py:249
+msgid "Avail"
+msgstr "可用性"
+
+#: deluge/ui/gtkui/torrentview.py:251
+msgid "Added"
+msgstr "追加"
+
+#: deluge/ui/gtkui/torrentview.py:253
+#: deluge/ui/gtkui/createtorrentdialog.py:105
+#: deluge/ui/gtkui/edittrackersdialog.py:86
+msgid "Tracker"
+msgstr "トラッカー"
+
+#: deluge/ui/gtkui/torrentview.py:257
+msgid "Save Path"
+msgstr ""
+
+#: deluge/ui/gtkui/peers_tab.py:100
+msgid "Address"
+msgstr "アドレス"
+
+#: deluge/ui/gtkui/peers_tab.py:116
+msgid "Client"
+msgstr "クライアント"
+
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
 msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
+#: deluge/ui/gtkui/aboutdialog.py:55
+#: deluge/data/share/applications/deluge.desktop.in.h:2
+msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtkui/systemtray.py:201
+msgid "Not Connected..."
+msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:249 deluge/ui/gtkui/systemtray.py:253
+#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:67
+#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
+#: deluge/ui/gtkui/statusbar.py:452
+msgid "Unlimited"
+msgstr "無制限"
+
+#: deluge/ui/gtkui/systemtray.py:258
+msgid "Down"
+msgstr "下"
+
+#: deluge/ui/gtkui/systemtray.py:259
+msgid "Up"
+msgstr "上"
+
+#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/menubar.py:436
+#: deluge/ui/gtkui/statusbar.py:401
+msgid "Set Maximum Download Speed"
+msgstr "最大ダウンロード速度の設定"
+
+#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/statusbar.py:429
+msgid "Set Maximum Upload Speed"
+msgstr "最大アップロード速度の設定"
+
+#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:124
+#: deluge/ui/gtkui/common.py:125 deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/gtkui/statusbar.py:399 deluge/ui/gtkui/statusbar.py:427
+#: deluge/ui/gtkui/statusbar.py:454
+msgid "Other..."
+msgstr "その他..."
+
+#: deluge/ui/gtkui/systemtray.py:470
+msgid "Deluge is password protected!"
+msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:476
+msgid "Enter your password to continue"
+msgstr ""
+
+#: deluge/ui/gtkui/common.py:70
+msgid "Activated"
+msgstr "活性化"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
+#: deluge/ui/gtkui/addtorrentdialog.py:111
+msgid "Filename"
+msgstr "ファイル名"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:103
+#: deluge/ui/gtkui/edittrackersdialog.py:84
+msgid "Tier"
+msgstr "列"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:143
+msgid "Choose a file"
+msgstr "ファイルを選択してください"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:172
+msgid "Choose a folder"
+msgstr "フォルダを選択してください"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:241
+msgid "Save .torrent file"
+msgstr "トレントファイルの保存"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:253
+#: deluge/ui/gtkui/addtorrentdialog.py:563
+msgid "Torrent files"
+msgstr "トレントファイル"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:257
+#: deluge/ui/gtkui/addtorrentdialog.py:567
+msgid "All files"
+msgstr "全てのファイル"
+
+#: deluge/ui/gtkui/files_tab.py:56
+msgid "Do Not Download"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:57
+msgid "Normal Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:58
+msgid "High Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:59
+msgid "Highest Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:169
+msgid "Priority"
+msgstr "優先度"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:76
+msgid "Torrent"
+msgstr "トレント"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:215
+msgid "Invalid File"
+msgstr "無効なファイル"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "Duplicate Torrent"
+msgstr "トレントの重複"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "You cannot add the same torrent twice."
+msgstr "同じトレントを2回追加はできません。"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid "Unable to set file priority!"
+msgstr "ファイルの優先度を設定できません!"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid ""
+"File prioritization is unavailable when using Compact allocation.  Would you "
+"like to switch to Full allocation?"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:550
+msgid "Choose a .torrent file"
+msgstr "トレントファイルの選択"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "Invalid URL"
+msgstr "無効な URL"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "is not a valid URL."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:636
+msgid "Downloading..."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Download Failed"
+msgstr "ダウンロード失敗"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Failed to download:"
+msgstr ""
+
+#: deluge/ui/gtkui/queuedtorrents.py:136
+msgid " Torrents Queued"
+msgstr " トレントキュー済み"
+
+#: deluge/ui/gtkui/queuedtorrents.py:138
+msgid " Torrent Queued"
+msgstr " トレントキュー済み"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -1944,252 +2100,37 @@ msgstr "プラグイン"
 msgid "Plugin"
 msgstr "プラグイン"
 
-#: deluge/ui/gtkui/preferences.py:891
+#: deluge/ui/gtkui/preferences.py:894
 msgid "Select the Plugin"
 msgstr "プラグインの選択"
 
-#: deluge/ui/gtkui/preferences.py:902
+#: deluge/ui/gtkui/preferences.py:905
 msgid "Plugin Eggs"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:111
-#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
-msgid "Filename"
-msgstr "ファイル名"
+#: deluge/ui/gtkui/menubar.py:77
+msgid "Set Unlimited"
+msgstr "無制限"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:124
-#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
-#: deluge/ui/gtkui/torrentview.py:216
-msgid "Size"
-msgstr "サイズ"
+#: deluge/ui/gtkui/menubar.py:89 deluge/ui/gtkui/status_tab.py:128
+msgid "On"
+msgstr "オン"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:206
-msgid "Invalid File"
-msgstr "無効なファイル"
+#: deluge/ui/gtkui/menubar.py:92 deluge/ui/gtkui/status_tab.py:130
+msgid "Off"
+msgstr "オフ"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "Duplicate Torrent"
-msgstr "トレントの重複"
+#: deluge/ui/gtkui/menubar.py:319
+msgid "Choose a directory to move files to"
+msgstr "ファイルの移動先ディレクトリの選択"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "You cannot add the same torrent twice."
-msgstr "同じトレントを2回追加はできません。"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
-msgid "Unable to set file priority!"
-msgstr "ファイルの優先度を設定できません!"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
-msgid ""
-"File prioritization is unavailable when using Compact allocation.  Would you "
-"like to switch to Full allocation?"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:541
-msgid "Choose a .torrent file"
-msgstr "トレントファイルの選択"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:553
-#: deluge/ui/gtkui/createtorrentdialog.py:253
-msgid "Torrent files"
-msgstr "トレントファイル"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:557
-#: deluge/ui/gtkui/createtorrentdialog.py:257
-msgid "All files"
-msgstr "全てのファイル"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "Invalid URL"
-msgstr "無効な URL"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "is not a valid URL."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:626
-msgid "Downloading..."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Download Failed"
-msgstr "ダウンロード失敗"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Failed to download:"
-msgstr ""
-
-#: deluge/ui/gtkui/createtorrentdialog.py:103
-#: deluge/ui/gtkui/edittrackersdialog.py:84
-msgid "Tier"
-msgstr "列"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:105
-#: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
-msgid "Tracker"
-msgstr "トラッカー"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:143
-msgid "Choose a file"
-msgstr "ファイルを選択してください"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:172
-msgid "Choose a folder"
-msgstr "フォルダを選択してください"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:241
-msgid "Save .torrent file"
-msgstr "トレントファイルの保存"
-
-#: deluge/ui/gtkui/statusbar.py:146
-msgid "Not Connected"
-msgstr "接続していません"
-
-#: deluge/ui/gtkui/statusbar.py:163
-msgid "Connections"
-msgstr "接続数"
-
-#: deluge/ui/gtkui/statusbar.py:168
-msgid "Download Speed"
-msgstr "下り速度"
-
-#: deluge/ui/gtkui/statusbar.py:173
-msgid "Upload Speed"
-msgstr "上り速度"
-
-#: deluge/ui/gtkui/statusbar.py:178
-msgid "Protocol Traffic Download/Upload"
-msgstr "ダウンロード/アップロードプロトコルのトラフィック"
-
-#: deluge/ui/gtkui/statusbar.py:181
-msgid "DHT Nodes"
-msgstr "DHT ノード"
-
-#: deluge/ui/gtkui/statusbar.py:186
-msgid "Free Disk Space"
-msgstr ""
-
-#: deluge/ui/gtkui/statusbar.py:190
-msgid "No Incoming Connections!"
-msgstr "外部からの接続はありません!"
-
-#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#: deluge/ui/gtkui/menubar.py:438 deluge/ui/gtkui/statusbar.py:456
 msgid "Set Maximum Connections"
 msgstr "最大接続数の設定"
 
-#: deluge/ui/gtkui/removetorrentdialog.py:78
-msgid "Torrents"
-msgstr "トレント"
-
-#: deluge/ui/gtkui/filtertreeview.py:69
-msgid "States"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:71
-msgid "Labels"
-msgstr "ラベル"
-
-#: deluge/ui/gtkui/filtertreeview.py:72
-msgid "All"
-msgstr "全て"
-
-#: deluge/ui/gtkui/filtertreeview.py:73
-msgid "Downloading"
-msgstr "ダウンロード中"
-
-#: deluge/ui/gtkui/filtertreeview.py:74
-msgid "Seeding"
-msgstr "シーディング"
-
-#: deluge/ui/gtkui/filtertreeview.py:75
-msgid "Paused"
-msgstr "休止中"
-
-#: deluge/ui/gtkui/filtertreeview.py:76
-msgid "Checking"
-msgstr "チェック中"
-
-#: deluge/ui/gtkui/filtertreeview.py:77
-msgid "Queued"
-msgstr "キュー済み"
-
-#: deluge/ui/gtkui/filtertreeview.py:79
-msgid "Active"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:80
-msgid "None"
-msgstr "なし"
-
-#: deluge/ui/gtkui/filtertreeview.py:81
-msgid "No Label"
-msgstr "ラベルなし"
-
-#: deluge/ui/gtkui/aboutdialog.py:253
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
-"\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"this program; if not, see <http://www.gnu.org/licenses>. \n"
-"\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
-"\n"
-"If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:149
-msgid "Status"
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:153
-msgid "Host"
-msgstr "ホスト"
-
-#: deluge/ui/gtkui/connectionmanager.py:158
-msgid "Version"
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:386
-msgid "_Stop Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:394
-msgid "_Start Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:414
-#: deluge/ui/gtkui/connectionmanager.py:424
-msgid "Unable to start daemon!"
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:415
-msgid ""
-"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
-"install the deluged package or it's not in your PATH."
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:425
-msgid "Please examine the details for more information."
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:509
-msgid "Error Adding Host"
-msgstr "ホストの追加エラー"
+#: deluge/ui/gtkui/menubar.py:439
+msgid "Set Maximum Upload Slots"
+msgstr "最大アップロードスロット数の設定"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
 msgid "Turn off Classic Mode?"
@@ -2236,469 +2177,279 @@ msgid ""
 "console to see if there is an error."
 msgstr "デーモンプロセスの起動中にエラーが発生しました。コンソールから起動しエラーを確認してください。"
 
-#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "オン"
-
-#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "オフ"
-
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "無制限"
-
-#: deluge/ui/gtkui/menubar.py:319
-msgid "Choose a directory to move files to"
-msgstr "ファイルの移動先ディレクトリの選択"
-
-#: deluge/ui/gtkui/menubar.py:439
-msgid "Set Maximum Upload Slots"
-msgstr "最大アップロードスロット数の設定"
-
-#: deluge/ui/gtkui/files_tab.py:56
-msgid "Do Not Download"
+#: deluge/ui/gtkui/connectionmanager.py:149
+msgid "Status"
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:57
-msgid "Normal Priority"
+#: deluge/ui/gtkui/connectionmanager.py:153
+msgid "Host"
+msgstr "ホスト"
+
+#: deluge/ui/gtkui/connectionmanager.py:158
+msgid "Version"
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:58
-msgid "High Priority"
+#: deluge/ui/gtkui/connectionmanager.py:386
+msgid "_Stop Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:59
-msgid "Highest Priority"
+#: deluge/ui/gtkui/connectionmanager.py:394
+msgid "_Start Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/files_tab.py:169
-msgid "Priority"
-msgstr "優先度"
+#: deluge/ui/gtkui/connectionmanager.py:415
+#: deluge/ui/gtkui/connectionmanager.py:425
+msgid "Unable to start daemon!"
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:416
+msgid ""
+"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
+"install the deluged package or it's not in your PATH."
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:426
+msgid "Please examine the details for more information."
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:510
+msgid "Error Adding Host"
+msgstr "ホストの追加エラー"
+
+#: deluge/ui/gtkui/removetorrentdialog.py:78
+msgid "Torrents"
+msgstr "トレント"
 
 #: deluge/ui/gtkui/dialogs.py:174
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
 msgid "Details:"
 msgstr "詳細:"
 
-#: deluge/ui/gtkui/torrentview.py:213
-msgid "Name"
-msgstr "名前"
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Down:"
+msgstr "ダウン:"
 
-#: deluge/ui/gtkui/torrentview.py:219
-msgid "Downloaded"
-msgstr "ダウンロード済み"
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Up:"
+msgstr "アップ:"
 
-#: deluge/ui/gtkui/torrentview.py:222
-msgid "Uploaded"
-msgstr "アップロード済み"
-
-#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
-msgid "Seeders"
-msgstr "シーダ"
-
-#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
-msgid "Peers"
-msgstr "ピア"
-
-#: deluge/ui/gtkui/torrentview.py:241
-msgid "Down Limit"
+#: deluge/ui/gtkui/aboutdialog.py:59
+msgid "Copyright 2007-2011 Deluge Team"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:243
-msgid "Up Limit"
+#: deluge/ui/gtkui/aboutdialog.py:61
+msgid ""
+"A peer-to-peer file sharing program\n"
+"utilizing the BitTorrent protocol."
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:245
-msgid "ETA"
-msgstr "残り時間"
-
-#: deluge/ui/gtkui/torrentview.py:247
-msgid "Ratio"
-msgstr "共有比"
-
-#: deluge/ui/gtkui/torrentview.py:249
-msgid "Avail"
-msgstr "可用性"
-
-#: deluge/ui/gtkui/torrentview.py:251
-msgid "Added"
-msgstr "追加"
-
-#: deluge/ui/gtkui/torrentview.py:257
-msgid "Save Path"
+#: deluge/ui/gtkui/aboutdialog.py:62
+msgid "Client:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:21
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-msgid "_File"
-msgstr "ファイル(_F)"
+#: deluge/ui/gtkui/aboutdialog.py:65
+msgid "Current Developers:"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:27
+#: deluge/ui/gtkui/aboutdialog.py:67
+msgid "Past Developers or Contributors:"
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:252
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. \n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details. \n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program; if not, see <http://www.gnu.org/licenses>. \n"
+"\n"
+"In addition, as a special exception, the copyright holders give permission "
+"to link the code of portions of this program with the OpenSSL library. You "
+"must obey the GNU General Public License in all respects for all of the code "
+"used other than OpenSSL. \n"
+"\n"
+"If you modify file(s) with this exception, you may extend this exception to "
+"your version of the file(s), but you are not obligated to do so. If you do "
+"not wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then "
+"also delete it here."
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:287
+msgid "Server:"
+msgstr "サーバ:"
+
+#: deluge/ui/gtkui/aboutdialog.py:290
+msgid "libtorrent:"
+msgstr ""
+
+#: deluge/ui/gtkui/statusbar.py:146
+msgid "Not Connected"
+msgstr "接続していません"
+
+#: deluge/ui/gtkui/statusbar.py:163
+msgid "Connections"
+msgstr "接続数"
+
+#: deluge/ui/gtkui/statusbar.py:168
+msgid "Download Speed"
+msgstr "下り速度"
+
+#: deluge/ui/gtkui/statusbar.py:173
+msgid "Upload Speed"
+msgstr "上り速度"
+
+#: deluge/ui/gtkui/statusbar.py:178
+msgid "Protocol Traffic Download/Upload"
+msgstr "ダウンロード/アップロードプロトコルのトラフィック"
+
+#: deluge/ui/gtkui/statusbar.py:181
+msgid "DHT Nodes"
+msgstr "DHT ノード"
+
+#: deluge/ui/gtkui/statusbar.py:186
+msgid "Free Disk Space"
+msgstr ""
+
+#: deluge/ui/gtkui/statusbar.py:190
+msgid "No Incoming Connections!"
+msgstr "外部からの接続はありません!"
+
+#: deluge/ui/gtkui/filtertreeview.py:69
+msgid "States"
+msgstr ""
+
+#: deluge/ui/gtkui/filtertreeview.py:71
+msgid "Labels"
+msgstr "ラベル"
+
+#: deluge/ui/gtkui/filtertreeview.py:72
+msgid "All"
+msgstr "全て"
+
+#: deluge/ui/gtkui/filtertreeview.py:73
+msgid "Downloading"
+msgstr "ダウンロード中"
+
+#: deluge/ui/gtkui/filtertreeview.py:74
+msgid "Seeding"
+msgstr "シーディング"
+
+#: deluge/ui/gtkui/filtertreeview.py:75
+msgid "Paused"
+msgstr "休止中"
+
+#: deluge/ui/gtkui/filtertreeview.py:76
+msgid "Checking"
+msgstr "チェック中"
+
+#: deluge/ui/gtkui/filtertreeview.py:77
+msgid "Queued"
+msgstr "キュー済み"
+
+#: deluge/ui/gtkui/filtertreeview.py:79
+msgid "Active"
+msgstr ""
+
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "None"
+msgstr "なし"
+
+#: deluge/ui/gtkui/filtertreeview.py:81
+msgid "No Label"
+msgstr "ラベルなし"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr "<big><b>選択したトレントを削除しますか?</b></big>"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr "データを削除した場合、データは完全に失われるでしょう。"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr "データも共に削除(_D)"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr "トレントを削除(_T)"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+msgid "Edit Trackers"
+msgstr "トラッカーの編集"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
+msgid "<big><b>Edit Trackers</b></big>"
+msgstr "<big><b>トラッカーの編集</b></big>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+msgid "Add Tracker"
+msgstr "トラッカーの追加"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
+msgstr "<b>トラッカーの追加</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+msgid "Trackers:"
+msgstr "トラッカー:"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+msgid "Edit Tracker"
+msgstr "トラッカーの編集"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>トラッカーの編集</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
+msgstr "トラッカー:"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "Delugeの表示(_S)"
+
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:27
 msgid "_Add Torrent"
 msgstr "トレントの追加(_A)"
 
-#: deluge/ui/gtkui/glade/main_window.glade:45
-msgid "_Create Torrent"
-msgstr "トレントの作成(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:65
-msgid "Quit & _Shutdown Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:101
-msgid "_Edit"
-msgstr "編集(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:118
-msgid "_Connection Manager"
-msgstr "接続マネージャ(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:140
-msgid "_Torrent"
-msgstr "トレント(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:147
-msgid "_View"
-msgstr "表示(_V)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:155
-msgid "_Toolbar"
-msgstr "ツールバー(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:165
-msgid "_Sidebar"
-msgstr "サイドバー(_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:174
-msgid "Status_bar"
-msgstr "ステータスバー(_B)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:188
-msgid "T_abs"
-msgstr "タブ(_A)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:195
-msgid "_Columns"
-msgstr "カラム(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:203
-msgid "S_idebar"
-msgstr "サイドバー(_I)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:212
-msgid "Show _Zero Hits"
-msgstr "ヒットしないものも表示(_Z)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:221
-msgid "Show _Trackers"
-msgstr "トラッカーを表示(_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:238
-msgid "_Help"
-msgstr "ヘルプ(_H)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:244
-msgid "_Homepage"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:261
-msgid "_FAQ"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:264
-msgid "Frequently Asked Questions"
-msgstr "よくある質問と回答(FAQ)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:280
-msgid "_Community"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-msgid "Add torrent"
-msgstr "トレントを追加します"
-
-#: deluge/ui/gtkui/glade/main_window.glade:328
-msgid "Add Torrent"
-msgstr "トレントの追加"
-
-#: deluge/ui/gtkui/glade/main_window.glade:342
-msgid "Remove torrent"
-msgstr "トレントを削除"
-
-#: deluge/ui/gtkui/glade/main_window.glade:343
-msgid "Remove Torrent"
-msgstr "トレントの削除"
-
-#: deluge/ui/gtkui/glade/main_window.glade:364
-msgid "Pause the selected torrents"
-msgstr "選択したトレントを休止します"
-
-#: deluge/ui/gtkui/glade/main_window.glade:365
-msgid "Pause"
-msgstr "休止"
-
-#: deluge/ui/gtkui/glade/main_window.glade:380
-msgid "Resume the selected torrents"
-msgstr "選択したトレントを再開します"
-
-#: deluge/ui/gtkui/glade/main_window.glade:381
-msgid "Resume"
-msgstr "再開"
-
-#: deluge/ui/gtkui/glade/main_window.glade:403
-msgid "Queue Torrent Up"
-msgstr "トレントのキューを上げます"
-
-#: deluge/ui/gtkui/glade/main_window.glade:404
-msgid "Queue Up"
-msgstr "キューを上げる"
-
-#: deluge/ui/gtkui/glade/main_window.glade:418
-msgid "Queue Torrent Down"
-msgstr "トレントのキューを下げます"
-
-#: deluge/ui/gtkui/glade/main_window.glade:419
-msgid "Queue Down"
-msgstr "キューを下げる"
-
-#: deluge/ui/gtkui/glade/main_window.glade:440
-#: deluge/ui/gtkui/glade/main_window.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-msgid "Preferences"
-msgstr "設定"
-
-#: deluge/ui/gtkui/glade/main_window.glade:455
-#: deluge/ui/gtkui/glade/main_window.glade:456
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Connection Manager"
-msgstr "接続マネージャ"
-
-#: deluge/ui/gtkui/glade/main_window.glade:570
-msgid "_Expand All"
-msgstr "全て展開(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:591
-msgid "_Do Not Download"
-msgstr "ダウンロードしない(_D)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:607
-msgid "_Normal Priority"
-msgstr "優先度 通常(_N)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:623
-msgid "_High Priority"
-msgstr "優先度 高(_H)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:639
-msgid "Hi_ghest Priority"
-msgstr "優先度 最高(_G)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:721
-msgid "<b>Auto Managed:</b>"
-msgstr "<b>自動管理:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:762
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>シードランク:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:777
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>シード時間:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:803
-msgid "<b>Active Time:</b>"
-msgstr "<b>アクティブ時間:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:860
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>トラッカー状態:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:890
-msgid "<b>Availability:</b>"
-msgstr "<b>可用性:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:944
-msgid "<b>Peers:</b>"
-msgstr "<b>ピア:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:970
-msgid "<b>Seeders:</b>"
-msgstr "<b>シーダ:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:988
-msgid "<b>Pieces:</b>"
-msgstr "<b>ピース:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1010
-msgid "<b>ETA:</b>"
-msgstr "<b>残り時間:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1032
-msgid "<b>Up Speed:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1054
-msgid "<b>Down Speed:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1073
-msgid "<b>Next Announce:</b>"
-msgstr "<b>次のアナウンス:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1092
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>共有比:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1111
-msgid "<b>Uploaded:</b>"
-msgstr "<b>アップロード済み:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1130
-msgid "<b>Downloaded:</b>"
-msgstr "<b>ダウンロード済み:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1191
-msgid "<b>Date Added:</b>"
-msgstr "<b>追加日:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1249
-msgid "_Status"
-msgstr "状態(_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1310
-msgid "<b>Comments:</b>"
-msgstr "<b>コメント:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1339
-msgid "<b># of files:</b>"
-msgstr "<b>ファイル数:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1371
-msgid "<b>Hash:</b>"
-msgstr "<b>ハッシュ:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1401
-msgid "<b>Tracker:</b>"
-msgstr "<b>トラッカー:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1421
-msgid "<b>Total Size:</b>"
-msgstr "<b>合計サイズ:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1459
-msgid "<b>Name:</b>"
-msgstr "<b>名前:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1479
-msgid "<b>Path:</b>"
-msgstr "<b>パス:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1513
-msgid "<b>Status:</b>"
-msgstr "<b>状態:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1594
-msgid "_Details"
-msgstr "詳細(_D)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1646
-msgid "_Files"
-msgstr "ファイル(_F)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1698
-msgid "_Peers"
-msgstr "ピア(_P)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2009
-msgid "Move completed:"
-msgstr "完了後移動:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2105
-msgid "Private"
-msgstr "プライベート"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2120
-msgid "Prioritize First/Last"
-msgstr "最初と最後を優先"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2158
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-msgid "_Edit Trackers"
-msgstr "トラッカーの編集(_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2265
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
-msgid "_Options"
-msgstr "オプション(_O)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2285
-msgid "Remove Torrent?"
-msgstr "トレントを削除しますか?"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr "<big><b>選択したトレントを削除しますがよろしいですか?</b></big>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2376
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>関連するトレントファイルは削除されます!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2416
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>ダウンロードしたデータは削除されます!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2460
-msgid "Remove Selected Torrent"
-msgstr "選択したトレントを削除する"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2484
-msgid "New Release"
-msgstr "最新版"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2518
-msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>最新版が利用できます!</big></b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2570
-msgid "<i>Available Version:</i>"
-msgstr "<i>利用可能なバージョン:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2593
-msgid "<i>Current Version:</i>"
-msgstr "<i>現在のバージョン:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2604
-msgid "<i>Server Version</i>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2637
-msgid "Do not show this dialog in the future"
-msgstr "このダイアログを今後表示しない"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2676
-msgid "_Goto Website"
-msgstr "ウェブサイトへ(_G)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2704
-msgid "_Add Peer"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2706
-msgid "Add a peer by its IP"
-msgstr "ピアを IP アドレスで追加します"
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
+msgid "_Pause All"
+msgstr "全て休止(_P)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "全て再開(_R)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+msgid "_Download Speed Limit"
+msgstr "ダウンロード速度制限(_D)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+msgid "_Upload Speed Limit"
+msgstr "アップロード速度制限(_U)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:124
+msgid "Quit & Shutdown Daemon"
+msgstr "デーモンをシャットダウンして終了"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
 msgstr "全て選択(_S)"
-
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "全て休止(_P)"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
@@ -2709,231 +2460,11 @@ msgstr "選択したトレントを再開します。"
 msgid "Resu_me All"
 msgstr "全て再開(_M)"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
-msgid "Add Torrents"
-msgstr "トレントの追加"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
-msgid "_URL"
-msgstr "URL(_U)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
-msgid "Info_hash"
-msgstr "ハッシュ情報(_H)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
-msgid "_Remove"
-msgstr "削除(_R)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
-msgid "<b>Torrents</b>"
-msgstr "<b>トレント</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
-msgid "Fi_les"
-msgstr "ファイル(_L)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "Full"
-msgstr "フル"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
-msgid "Compact"
-msgstr "コンパクト"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
-msgid "<b>Allocation</b>"
-msgstr "<b>割り当て</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
-msgid "Max Down Speed:"
-msgstr "最大下り速度:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
-msgid "Max Up Speed:"
-msgstr "最大上り速度:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-msgid "Add In _Paused State"
-msgstr "休止状態で追加する(_P)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
-msgid "Prioritize First/Last Pieces"
-msgstr "最初/最後のピースを優先する"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
-msgid "Revert To Defaults"
-msgstr "デフォルトに戻す"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
-msgid "Apply To All"
-msgstr "全てに適用"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
-msgid "Add URL"
-msgstr "URLの追加"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
-msgid "<b>From URL</b>"
-msgstr "<b>URLから</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
-msgid "Add Infohash"
-msgstr "ハッシュ情報の追加"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
-msgid "<b>From Infohash</b>"
-msgstr "<b>ハッシュ情報から</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
-msgid "Infohash:"
-msgstr "ハッシュ情報:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-msgid "Trackers:"
-msgstr "トラッカー:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "トレントの作成"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>トレントの作成</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "フォルダ(_D)"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "リモートパス(_R)"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>ファイル</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
-msgid "Author:"
-msgstr "作者:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "コメント:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "情報"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "Web シード"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "ピースサイズ:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
-msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB\n"
-"1 MiB\n"
-"2 MiB\n"
-"4 MiB\n"
-"8 MiB\n"
-"16 MiB\n"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
-msgid "Set Private Flag"
-msgstr "プライベートフラグを設定する"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
-msgid "Add this torrent to the session"
-msgstr "このトレントをこのセッションに追加する"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
-msgid "Enter Remote Path"
-msgstr "リモートパスを入力してください"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
-msgid "<b>Remote Path</b>"
-msgstr "<b>リモートパス</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
-msgid "Path:"
-msgstr "パス:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
-msgid "Creating Torrent"
-msgstr "トレントを作成しています"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
-msgid "Save .torrent as"
-msgstr "トレントファイルを名前をつけて保存"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>トレントファイルの保存</b>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
-msgid "Queued Torrents"
-msgstr "キュー済みトレント"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>キュー済みトレントを追加</b></big>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
-msgid "Automatically add torrents on connect"
-msgstr "接続しているトレントを自動的に追加"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
-msgid "label"
-msgstr "ラベル"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
-msgid "Add Peer"
-msgstr "ピアの追加"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
-msgid "<b>Add Peer</b>"
-msgstr "<b>ピアの追加</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr "ホスト名:ポート"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
-msgid "Add Host"
-msgstr "ホストの追加"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>接続マネージャ</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
-msgid "_Start local daemon"
-msgstr "ローカルデーモンを起動(_S)"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
-msgid "Automatically connect to selected host on start-up"
-msgstr "起動時に選択したホストに自動接続する"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
-msgid "Automatically start localhost if needed"
-msgstr "必要であれば localhost を自動起動する"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
-msgid "Do not show this dialog on start-up"
-msgstr "起動時にこのダイアログを表示しない"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+#: deluge/ui/gtkui/glade/main_window.glade:440
+#: deluge/ui/gtkui/glade/main_window.glade:441
+msgid "Preferences"
+msgstr "設定"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -2981,6 +2512,11 @@ msgstr "コンパクト割り当てを使用する"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
 msgid "Compact allocation only allocates space as needed"
 msgstr "コンパクト割り当ては最低限必要なスペースだけを確保します"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+msgid "<b>Allocation</b>"
+msgstr "<b>割り当て</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
 msgid "Prioritize first and last pieces of torrent"
@@ -3082,11 +2618,6 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
 msgstr "Local Service Discovery はローカルネットワーク上のピアを検出します。"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
-#: deluge/ui/console/statusbars.py:104
-msgid "DHT"
-msgstr "DHT"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
@@ -3590,6 +3121,11 @@ msgstr "<i><b><big>プラグイン</big></b></i>"
 msgid "Version:"
 msgstr "バージョン:"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+msgid "Author:"
+msgstr "作者:"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Homepage:"
 msgstr "ホームページ:"
@@ -3610,27 +3146,475 @@ msgstr "プラグインを再スキャン(_R)"
 msgid "_Find More Plugins"
 msgstr "もっとプラグインを探す(_F)"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "Delugeの表示(_S)"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+msgid "Queued Torrents"
+msgstr "キュー済みトレント"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "全て再開(_R)"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>キュー済みトレントを追加</b></big>"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-msgid "_Download Speed Limit"
-msgstr "ダウンロード速度制限(_D)"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+msgid "Automatically add torrents on connect"
+msgstr "接続しているトレントを自動的に追加"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-msgid "_Upload Speed Limit"
-msgstr "アップロード速度制限(_U)"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "トレントの作成"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
-msgid "Quit & Shutdown Daemon"
-msgstr "デーモンをシャットダウンして終了"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>トレントの作成</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:21
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+msgid "_File"
+msgstr "ファイル(_F)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "フォルダ(_D)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "リモートパス(_R)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>ファイル</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "コメント:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "情報"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "Web シード"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "ピースサイズ:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+msgid "Set Private Flag"
+msgstr "プライベートフラグを設定する"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+msgid "Add this torrent to the session"
+msgstr "このトレントをこのセッションに追加する"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+msgid "Enter Remote Path"
+msgstr "リモートパスを入力してください"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+msgid "<b>Remote Path</b>"
+msgstr "<b>リモートパス</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+msgid "Path:"
+msgstr "パス:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+msgid "Creating Torrent"
+msgstr "トレントを作成しています"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+msgid "Save .torrent as"
+msgstr "トレントファイルを名前をつけて保存"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>トレントファイルの保存</b>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:8
+msgid "Add Host"
+msgstr "ホストの追加"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+#: deluge/ui/gtkui/glade/main_window.glade:455
+#: deluge/ui/gtkui/glade/main_window.glade:456
+msgid "Connection Manager"
+msgstr "接続マネージャ"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:237
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>接続マネージャ</b></big>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:363
+msgid "_Start local daemon"
+msgstr "ローカルデーモンを起動(_S)"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:415
+msgid "Automatically connect to selected host on start-up"
+msgstr "起動時に選択したホストに自動接続する"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:426
+msgid "Automatically start localhost if needed"
+msgstr "必要であれば localhost を自動起動する"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:440
+msgid "Do not show this dialog on start-up"
+msgstr "起動時にこのダイアログを表示しない"
+
+#: deluge/ui/gtkui/glade/main_window.glade:45
+msgid "_Create Torrent"
+msgstr "トレントの作成(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:65
+msgid "Quit & _Shutdown Daemon"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:101
+msgid "_Edit"
+msgstr "編集(_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:118
+msgid "_Connection Manager"
+msgstr "接続マネージャ(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:140
+msgid "_Torrent"
+msgstr "トレント(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:147
+msgid "_View"
+msgstr "表示(_V)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:155
+msgid "_Toolbar"
+msgstr "ツールバー(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:165
+msgid "_Sidebar"
+msgstr "サイドバー(_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:174
+msgid "Status_bar"
+msgstr "ステータスバー(_B)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:188
+msgid "T_abs"
+msgstr "タブ(_A)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:195
+msgid "_Columns"
+msgstr "カラム(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:203
+msgid "S_idebar"
+msgstr "サイドバー(_I)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:212
+msgid "Show _Zero Hits"
+msgstr "ヒットしないものも表示(_Z)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:221
+msgid "Show _Trackers"
+msgstr "トラッカーを表示(_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:238
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:244
+msgid "_Homepage"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:261
+msgid "_FAQ"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:264
+msgid "Frequently Asked Questions"
+msgstr "よくある質問と回答(FAQ)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:280
+msgid "_Community"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+msgid "Add torrent"
+msgstr "トレントを追加します"
+
+#: deluge/ui/gtkui/glade/main_window.glade:328
+msgid "Add Torrent"
+msgstr "トレントの追加"
+
+#: deluge/ui/gtkui/glade/main_window.glade:342
+msgid "Remove torrent"
+msgstr "トレントを削除"
+
+#: deluge/ui/gtkui/glade/main_window.glade:343
+msgid "Remove Torrent"
+msgstr "トレントの削除"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+msgid "Pause the selected torrents"
+msgstr "選択したトレントを休止します"
+
+#: deluge/ui/gtkui/glade/main_window.glade:365
+msgid "Pause"
+msgstr "休止"
+
+#: deluge/ui/gtkui/glade/main_window.glade:380
+msgid "Resume the selected torrents"
+msgstr "選択したトレントを再開します"
+
+#: deluge/ui/gtkui/glade/main_window.glade:381
+msgid "Resume"
+msgstr "再開"
+
+#: deluge/ui/gtkui/glade/main_window.glade:403
+msgid "Queue Torrent Up"
+msgstr "トレントのキューを上げます"
+
+#: deluge/ui/gtkui/glade/main_window.glade:404
+msgid "Queue Up"
+msgstr "キューを上げる"
+
+#: deluge/ui/gtkui/glade/main_window.glade:418
+msgid "Queue Torrent Down"
+msgstr "トレントのキューを下げます"
+
+#: deluge/ui/gtkui/glade/main_window.glade:419
+msgid "Queue Down"
+msgstr "キューを下げる"
+
+#: deluge/ui/gtkui/glade/main_window.glade:570
+msgid "_Expand All"
+msgstr "全て展開(_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:591
+msgid "_Do Not Download"
+msgstr "ダウンロードしない(_D)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:607
+msgid "_Normal Priority"
+msgstr "優先度 通常(_N)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:623
+msgid "_High Priority"
+msgstr "優先度 高(_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:639
+msgid "Hi_ghest Priority"
+msgstr "優先度 最高(_G)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:721
+msgid "<b>Auto Managed:</b>"
+msgstr "<b>自動管理:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:762
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>シードランク:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:777
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>シード時間:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:803
+msgid "<b>Active Time:</b>"
+msgstr "<b>アクティブ時間:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:860
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>トラッカー状態:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:890
+msgid "<b>Availability:</b>"
+msgstr "<b>可用性:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:944
+msgid "<b>Peers:</b>"
+msgstr "<b>ピア:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:970
+msgid "<b>Seeders:</b>"
+msgstr "<b>シーダ:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:988
+msgid "<b>Pieces:</b>"
+msgstr "<b>ピース:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1010
+msgid "<b>ETA:</b>"
+msgstr "<b>残り時間:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1032
+msgid "<b>Up Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1054
+msgid "<b>Down Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1073
+msgid "<b>Next Announce:</b>"
+msgstr "<b>次のアナウンス:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1092
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>共有比:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1111
+msgid "<b>Uploaded:</b>"
+msgstr "<b>アップロード済み:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1130
+msgid "<b>Downloaded:</b>"
+msgstr "<b>ダウンロード済み:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1191
+msgid "<b>Date Added:</b>"
+msgstr "<b>追加日:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1249
+msgid "_Status"
+msgstr "状態(_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1310
+msgid "<b>Comments:</b>"
+msgstr "<b>コメント:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1339
+msgid "<b># of files:</b>"
+msgstr "<b>ファイル数:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Hash:</b>"
+msgstr "<b>ハッシュ:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1401
+msgid "<b>Tracker:</b>"
+msgstr "<b>トラッカー:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1421
+msgid "<b>Total Size:</b>"
+msgstr "<b>合計サイズ:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1459
+msgid "<b>Name:</b>"
+msgstr "<b>名前:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1479
+msgid "<b>Path:</b>"
+msgstr "<b>パス:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1513
+msgid "<b>Status:</b>"
+msgstr "<b>状態:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1594
+msgid "_Details"
+msgstr "詳細(_D)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1646
+msgid "_Files"
+msgstr "ファイル(_F)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1698
+msgid "_Peers"
+msgstr "ピア(_P)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2009
+msgid "Move completed:"
+msgstr "完了後移動:"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2105
+msgid "Private"
+msgstr "プライベート"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2120
+msgid "Prioritize First/Last"
+msgstr "最初と最後を優先"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+msgid "_Edit Trackers"
+msgstr "トラッカーの編集(_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2265
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+msgid "_Options"
+msgstr "オプション(_O)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2285
+msgid "Remove Torrent?"
+msgstr "トレントを削除しますか?"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2324
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>選択したトレントを削除しますがよろしいですか?</b></big>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2376
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>関連するトレントファイルは削除されます!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2416
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>ダウンロードしたデータは削除されます!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2460
+msgid "Remove Selected Torrent"
+msgstr "選択したトレントを削除する"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2484
+msgid "New Release"
+msgstr "最新版"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2518
+msgid "<b><big>New Release Available!</big></b>"
+msgstr "<b><big>最新版が利用できます!</big></b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2570
+msgid "<i>Available Version:</i>"
+msgstr "<i>利用可能なバージョン:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2593
+msgid "<i>Current Version:</i>"
+msgstr "<i>現在のバージョン:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2604
+msgid "<i>Server Version</i>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2637
+msgid "Do not show this dialog in the future"
+msgstr "このダイアログを今後表示しない"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2676
+msgid "_Goto Website"
+msgstr "ウェブサイトへ(_G)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2704
+msgid "_Add Peer"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2706
+msgid "Add a peer by its IP"
+msgstr "ピアを IP アドレスで追加します"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
@@ -3676,50 +3660,6 @@ msgstr "アップロードスロット数制限(_S)"
 msgid "_Auto Managed"
 msgstr "自動管理(_A)"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-msgid "Edit Trackers"
-msgstr "トラッカーの編集"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:47
-msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>トラッカーの編集</b></big>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
-msgid "Add Tracker"
-msgstr "トラッカーの追加"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:260
-msgid "<b>Add Trackers</b>"
-msgstr "<b>トラッカーの追加</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
-msgid "Edit Tracker"
-msgstr "トラッカーの編集"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:416
-msgid "<b>Edit Tracker</b>"
-msgstr "<b>トラッカーの編集</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
-msgid "Tracker:"
-msgstr "トラッカー:"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>選択したトレントを削除しますか?</b></big>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr "データを削除した場合、データは完全に失われるでしょう。"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr "データも共に削除(_D)"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr "トレントを削除(_T)"
-
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
 msgstr "ストレージの移動"
@@ -3732,6 +3672,98 @@ msgstr "<b>ストレージの移動</b>"
 msgid "Destination:"
 msgstr "移動先:"
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+msgid "Add Torrents"
+msgstr "トレントの追加"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
+msgid "_URL"
+msgstr "URL(_U)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
+msgid "Info_hash"
+msgstr "ハッシュ情報(_H)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+msgid "_Remove"
+msgstr "削除(_R)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+msgid "<b>Torrents</b>"
+msgstr "<b>トレント</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
+msgid "Fi_les"
+msgstr "ファイル(_L)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "Full"
+msgstr "フル"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
+msgid "Compact"
+msgstr "コンパクト"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+msgid "Max Down Speed:"
+msgstr "最大下り速度:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+msgid "Max Up Speed:"
+msgstr "最大上り速度:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+msgid "Add In _Paused State"
+msgstr "休止状態で追加する(_P)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+msgid "Prioritize First/Last Pieces"
+msgstr "最初/最後のピースを優先する"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+msgid "Revert To Defaults"
+msgstr "デフォルトに戻す"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+msgid "Apply To All"
+msgstr "全てに適用"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+msgid "Add URL"
+msgstr "URLの追加"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+msgid "<b>From URL</b>"
+msgstr "<b>URLから</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+msgid "Add Infohash"
+msgstr "ハッシュ情報の追加"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+msgid "<b>From Infohash</b>"
+msgstr "<b>ハッシュ情報から</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
+msgid "Infohash:"
+msgstr "ハッシュ情報:"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+msgid "label"
+msgstr "ラベル"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+msgid "Add Peer"
+msgstr "ピアの追加"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+msgid "<b>Add Peer</b>"
+msgstr "<b>ピアの追加</b>"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr "ホスト名:ポート"
+
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
 msgstr ""
@@ -3743,894 +3775,3 @@ msgstr ""
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
 msgstr ""
-
-#~ msgid "Details"
-#~ msgstr "詳細"
-
-#~ msgid "Download"
-#~ msgstr "ダウンロード"
-
-#~ msgid "Upload"
-#~ msgstr "アップロード"
-
-#~ msgid "Files"
-#~ msgstr "ファイル"
-
-#~ msgid "General"
-#~ msgstr "一般"
-
-#~ msgid "0000"
-#~ msgstr "0000"
-
-#~ msgid "Unknown"
-#~ msgstr "不明"
-
-#~ msgid "Remove"
-#~ msgstr "削除"
-
-#~ msgid "Clear"
-#~ msgstr "クリア"
-
-#~ msgid "Add"
-#~ msgstr "追加"
-
-#~ msgid "Availability"
-#~ msgstr "可用性"
-
-#~ msgid "Share Ratio"
-#~ msgstr "共有比"
-
-#~ msgid "_Quit"
-#~ msgstr "終了(_Q)"
-
-#~ msgid "Select All"
-#~ msgstr "全て選択"
-
-#~ msgid "Delete .torrent file"
-#~ msgstr "トレントファイルを削除"
-
-#~ msgid "Username"
-#~ msgstr "Username"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Password"
-#~ msgstr "Password"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "New Password"
-#~ msgstr "新しいパスワード"
-
-#~ msgid "Template"
-#~ msgstr "テンプレート"
-
-#~ msgid "Text Only"
-#~ msgstr "テキストのみ"
-
-#~ msgid "Image Only"
-#~ msgstr "画像のみ"
-
-#~ msgid "Text and image"
-#~ msgstr "テキストと画像"
-
-#~ msgid "About"
-#~ msgstr "アバウト"
-
-#~ msgid "Auto refresh:"
-#~ msgstr "オートリフレッシュ:"
-
-#~ msgid "Config"
-#~ msgstr "コンフィグ"
-
-#~ msgid "Disable"
-#~ msgstr "無効"
-
-#~ msgid "Pieces"
-#~ msgstr "ピース"
-
-#~ msgid "Password is invalid,try again"
-#~ msgstr "無効なパスワードです。もう一度試してください"
-
-#~ msgid "Logout"
-#~ msgstr "ログアウト"
-
-#~ msgid "Login"
-#~ msgstr "ログイン"
-
-#~ msgid "Set"
-#~ msgstr "セット"
-
-#~ msgid "Resume all"
-#~ msgstr "全て再開"
-
-#~ msgid "Set Timeout"
-#~ msgstr "タイムアウトを設定"
-
-#~ msgid "Queue Position"
-#~ msgstr "キューの位置"
-
-#~ msgid "Start"
-#~ msgstr "開始"
-
-#~ msgid "Submit"
-#~ msgstr "送信"
-
-#~ msgid "Total Size"
-#~ msgstr "合計サイズ"
-
-#~ msgid "Torrent list"
-#~ msgstr "トレントリスト"
-
-#~ msgid "seconds"
-#~ msgstr "秒"
-
-#~ msgid "Disabled"
-#~ msgstr "無効"
-
-#~ msgid "Type"
-#~ msgstr "タイプ"
-
-#~ msgid "Choose an url or a torrent, not both."
-#~ msgstr "トレントかURLを片方のみ選択"
-
-#~ msgid "Eta"
-#~ msgstr "残り時間"
-
-#~ msgid "Upload torrent"
-#~ msgstr "トレントをアップロード"
-
-#~ msgid "From"
-#~ msgstr "From"
-
-#~ msgid "# Of Files"
-#~ msgstr "ファイル数"
-
-#~ msgid "Ava"
-#~ msgstr "可用性"
-
-#~ msgid "Delete downloaded files."
-#~ msgstr "ダウンロード済みファイルを削除"
-
-#~ msgid "Next Announce"
-#~ msgstr "次のアナウンス"
-
-#~ msgid "Pause all"
-#~ msgstr "全て休止"
-
-#~ msgid "Speed"
-#~ msgstr "速度"
-
-#~ msgid "Refresh page every:"
-#~ msgstr "毎回ページリフレッシュする:"
-
-#~ msgid "Reannounce"
-#~ msgstr "再アナウンス"
-
-#~ msgid "File"
-#~ msgstr "ファイル"
-
-#~ msgid "Save"
-#~ msgstr "保存"
-
-#~ msgid "Add In Paused State"
-#~ msgstr "休止状態を追加"
-
-#~ msgid "Prioritize first and last pieces"
-#~ msgstr "最初と最後のピースを優先"
-
-#~ msgid "Maximum Up Speed"
-#~ msgstr "最大上り速度"
-
-#~ msgid "Maximum Down Speed"
-#~ msgstr "最大下り速度"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "最大接続数"
-
-#~ msgid "no uri"
-#~ msgstr "URI無し"
-
-#~ msgid "Error in torrent options."
-#~ msgstr "トレントオプションのエラー"
-
-#~ msgid "Ports"
-#~ msgstr "ポート"
-
-#~ msgid "Random"
-#~ msgstr "ランダム"
-
-#~ msgid "To"
-#~ msgstr "To"
-
-#~ msgid "Encryption"
-#~ msgstr "暗号化"
-
-#~ msgid "UpNP"
-#~ msgstr "UpNP"
-
-#~ msgid "Forced"
-#~ msgstr "強制"
-
-#~ msgid "Mainline DHT"
-#~ msgstr "Mainline DHT"
-
-#~ msgid "Maximum Half-Open Connections"
-#~ msgstr "最大半開接続数"
-
-#~ msgid "Maximum Download Speed (Kib/s)"
-#~ msgstr "最大ダウンロード速度 (Kib/s)"
-
-#~ msgid "Maximum Upload Speed (Kib/s)"
-#~ msgstr "最大アップロード速度 (Kib/s)"
-
-#~ msgid "Inbound"
-#~ msgstr "インバウンド"
-
-#~ msgid "Level"
-#~ msgstr "レベル"
-
-#~ msgid "Outbound"
-#~ msgstr "アウトバウンド"
-
-#~ msgid "-1 = Unlimited"
-#~ msgstr "-1 = 無制限"
-
-#~ msgid "Global"
-#~ msgstr "全般"
-
-#~ msgid "Save .torrent files to"
-#~ msgstr "トレントファイルを保存"
-
-#~ msgid "Store all downoads in"
-#~ msgstr "保存先を固定"
-
-#~ msgid "Auto Add folder"
-#~ msgstr "自動的にフォルダを追加"
-
-#~ msgid "Total active torrents"
-#~ msgstr "合計アクティブトレント数"
-
-#~ msgid "-1 = unlimited"
-#~ msgstr "-1 = 無制限"
-
-#~ msgid "Total active seeding"
-#~ msgstr "合計アクティブシーディング"
-
-#~ msgid "Total active downloading"
-#~ msgstr "合計アクティブダウンロード"
-
-#~ msgid "Remove torrent when ratio reached"
-#~ msgstr "共有比に達したらトレントを削除"
-
-#~ msgid "Enabled Plugins"
-#~ msgstr "プラグインを有効"
-
-#~ msgid "Stop seeding when ratio reaches"
-#~ msgstr "共有比に達したらシーディングを停止"
-
-#~ msgid "Button style"
-#~ msgstr "ボタンスタイル"
-
-#~ msgid "Cache templates"
-#~ msgstr "キャッシュテンプレート"
-
-#~ msgid "Current Password"
-#~ msgstr "現在のパスワード"
-
-#~ msgid "Old password is invalid"
-#~ msgstr "古いパスワードは無効"
-
-#~ msgid "Move To"
-#~ msgstr "移動先"
-
-#~ msgid "These changes were saved"
-#~ msgstr "変更を保存しました"
-
-#~ msgid "Stop seed at ratio"
-#~ msgstr "比率でシードを停止"
-
-#~ msgid "Correct the errors above and try again"
-#~ msgstr "上記の誤りを訂正してもう一度試してください"
-
-#~ msgid "No"
-#~ msgstr "いいえ"
-
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
-#~ msgstr "有効な選択を選んでください。その選択は利用可能な選択肢ではありません"
-
-#, python-format
-#~ msgid "Select a valid choice. %s is not one of the available choices."
-#~ msgstr "有効な選択を選んでください。 %s は利用可能な選択肢ではありません"
-
-#~ msgid "Enter a list of values."
-#~ msgstr "値のリストを入力"
-
-#~ msgid "Enter a valid value."
-#~ msgstr "有効な値を入力"
-
-#~ msgid "This field is required."
-#~ msgstr "この欄は必須です"
-
-#~ msgid "Community"
-#~ msgstr "コミュニティ"
-
-#~ msgid "FAQ"
-#~ msgstr "FAQ"
-
-#~ msgid "Homepage"
-#~ msgstr "ホームページ"
-
-#~ msgid "Connect to Daemon"
-#~ msgstr "デーモンに接続"
-
-#~ msgid "Connect"
-#~ msgstr "接続"
-
-#~ msgid "Deluge : Torrent List"
-#~ msgstr "Deluge : Torrent リスト"
-
-#~ msgid "Deluge Login"
-#~ msgstr "Deluge ログイン"
-
-#~ msgid "Move"
-#~ msgstr "移動"
-
-#~ msgid "Keyword"
-#~ msgstr "キーワード"
-
-#~ msgid "Move torrent"
-#~ msgstr "torrent を移動"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid "Either"
-#~ msgstr "どちらか"
-
-#~ msgid "∞"
-#~ msgstr "∞"
-
-#~ msgid "Statistics"
-#~ msgstr "統計"
-
-#~ msgid "Delete"
-#~ msgstr "削除"
-
-#~ msgid "Stop"
-#~ msgstr "停止"
-
-#~ msgid "Recheck"
-#~ msgstr "再チェック"
-
-#~ msgid "BlockList"
-#~ msgstr "ブロックリスト"
-
-#~ msgid "gtk-connect"
-#~ msgstr "gtk-connect"
-
-#~ msgid "Import on daemon startup"
-#~ msgstr "デーモン・スタートアップのインポート"
-
-#~ msgid "Timeout (seconds)"
-#~ msgstr "タイムアウト (秒)"
-
-#, python-format
-#~ msgid "Blocked Ranges: %s"
-#~ msgstr "ブロック範囲: %s"
-
-#~ msgid "Queue Top"
-#~ msgstr "キューを最上部へ"
-
-#~ msgid "Queue Bottom"
-#~ msgstr "キューを最下部へ"
-
-#~ msgid "Enter a valid URL."
-#~ msgstr "正当なURLを入力"
-
-#~ msgid "From Session"
-#~ msgstr "セッションから"
-
-#~ msgid "gtk-edit"
-#~ msgstr "gtk-edit"
-
-#~ msgid "page 8"
-#~ msgstr "page 8"
-
-#~ msgid "page 6"
-#~ msgstr "page 6"
-
-#~ msgid "page 7"
-#~ msgstr "page 7"
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-#~ msgstr ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-
-#~ msgid "Check for every (days)"
-#~ msgstr "毎回チェック(日)"
-
-#, python-format
-#~ msgid "Downloading %.2f%%"
-#~ msgstr "ダウンロード中 %.2f%%"
-
-#~ msgid "0x00"
-#~ msgstr "0x00"
-
-#~ msgid "page 10"
-#~ msgstr "page 10"
-
-#~ msgid "page 11"
-#~ msgstr "page 11"
-
-#~ msgid "page 12"
-#~ msgstr "page 12"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-
-#~ msgid "Error setting label options"
-#~ msgstr "ラベルオプションの設定でエラーです"
-
-#, python-format
-#~ msgid "Including %i files"
-#~ msgstr "全 %i ファイル"
-
-#, python-format
-#~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
-#~ "To stop receiving these alerts, simply turn off             email "
-#~ "notification in Deluge's preferences.\n"
-#~ "\n"
-#~ "Thank you,\n"
-#~ "Deluge"
-#~ msgstr ""
-#~ "この電子メールは Deluge が %s (%i 個のファイル) のダウンロードを終了したことをお知らせするものです。\n"
-#~ "この通知を停止したい場合は、Deluge の設定で、電子メールでの通知をオフにしてください。\n"
-#~ "\n"
-#~ "Thank you,\n"
-#~ "Deluge"
-
-#~ msgid "State"
-#~ msgstr "状態"
-
-#~ msgid "no label"
-#~ msgstr "ラベルなし"
-
-#, python-format
-#~ msgid "%.2f%%"
-#~ msgstr "%.2f%%"
-
-#~ msgid "apply_max"
-#~ msgstr "最大値を適用する"
-
-#~ msgid "max_download_speed"
-#~ msgstr "最大ダウンロード速度"
-
-#~ msgid "max_upload_speed"
-#~ msgstr "最大アップロード速度"
-
-#~ msgid "max_upload_slots"
-#~ msgstr "最大アップロードスロット数"
-
-#~ msgid "max_connections"
-#~ msgstr "最大接続数"
-
-#~ msgid "apply_queue"
-#~ msgstr "キュー設定を適用する"
-
-#~ msgid "is_auto_managed"
-#~ msgstr "自動管理する"
-
-#~ msgid "stop_at_ratio"
-#~ msgstr "共有比で停止する"
-
-#~ msgid "remove_at_ratio"
-#~ msgstr "共有比で削除する"
-
-#~ msgid "apply_move_completed"
-#~ msgstr "完了後移動を適用する"
-
-#~ msgid "move_completed"
-#~ msgstr "完了後に移動する"
-
-#~ msgid "move_completed_path"
-#~ msgstr "移動先パス"
-
-#~ msgid "auto_add"
-#~ msgstr "自動追加する"
-
-#~ msgid "auto_add_trackers"
-#~ msgstr "自動追加トラッカー"
-
-#~ msgid "Work in progress.."
-#~ msgstr "処理中..."
-
-#~ msgid "Socksv4"
-#~ msgstr "Socksv4"
-
-#~ msgid "Socksv5"
-#~ msgstr "Socksv5"
-
-#~ msgid "Socksv5 W/ Auth"
-#~ msgstr "Socksv5 W/ Auth"
-
-#~ msgid "HTTP"
-#~ msgstr "HTTP"
-
-#~ msgid "HTTP W/ Auth"
-#~ msgstr "HTTP W/ Auth"
-
-#~ msgid "Rate Limit IP Overhead"
-#~ msgstr "IP オーバーヘッドをレート制限に含めない"
-
-#, python-format
-#~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-#~ msgstr "この値は最大で %(max)d 文字までです (入力値: %(length)d)。"
-
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
-#~ msgstr "この値は %(min)d 文字以上でなくてはなりません (入力値: %(length)d)。"
-
-#~ msgid "refresh must be > 0"
-#~ msgstr "リフレッシュは 0 より大きくなければなりません"
-
-#~ msgid "Auto refresh (seconds)"
-#~ msgstr "自動リフレッシュ (秒)"
-
-#~ msgid "Manually restart webui to apply changes."
-#~ msgstr "変更を適用するには手動で WebUI を再起動してください。"
-
-#~ msgid "Https"
-#~ msgstr "Https"
-
-#, python-format
-#~ msgid "Certificate not found at '%s'"
-#~ msgstr "'%s' の証明書が見つかりませんでした"
-
-#, python-format
-#~ msgid "Key not found at '%s'"
-#~ msgstr "'%s' のキーが見つかりませんでした"
-
-#~ msgid "Sidebar"
-#~ msgstr "サイドバー"
-
-#~ msgid "Show sidebar"
-#~ msgstr "サイドバーを表示する"
-
-#~ msgid "Show zero hits"
-#~ msgstr "ヒットしないものも表示する"
-
-#~ msgid "Show trackers"
-#~ msgstr "トラッカーを表示する"
-
-#~ msgid "Show keyword search"
-#~ msgstr "キーワード検索を表示する"
-
-#~ msgid "... and delete All files"
-#~ msgstr "... すべてのファイルを削除する"
-
-#~ msgid "... and delete Downloaded files"
-#~ msgstr "... ダウンロードファイルを削除する"
-
-#~ msgid "... and delete Torrent file"
-#~ msgstr "... トレントファイルを削除する"
-
-#~ msgid "Active time"
-#~ msgstr "アクティブ時間"
-
-#~ msgid "Admin"
-#~ msgstr "管理"
-
-#~ msgid "Cancel"
-#~ msgstr "キャンセル"
-
-#~ msgid "Connected to"
-#~ msgstr "接続先"
-
-#~ msgid "Connection Limit"
-#~ msgstr "接続制限"
-
-#~ msgid "D/L Speed Limit"
-#~ msgstr "DL 速度制限"
-
-#~ msgid "Disk Space"
-#~ msgstr "ディスク領域"
-
-#~ msgid "Do not download"
-#~ msgstr "ダウンロードしない"
-
-#~ msgid "Force Recheck"
-#~ msgstr "強制再チェック"
-
-#~ msgid "High priority"
-#~ msgstr "優先度 高"
-
-#~ msgid "Highest priority"
-#~ msgstr "優先度 最高"
-
-#~ msgid "No Incoming Connections"
-#~ msgstr "外部からの接続はありません"
-
-#~ msgid "Normal priority"
-#~ msgstr "優先度 通常"
-
-#~ msgid "Ok"
-#~ msgstr "OK"
-
-#~ msgid "Restart"
-#~ msgstr "再起動"
-
-#~ msgid "Search"
-#~ msgstr "検索"
-
-#~ msgid "Seeding time"
-#~ msgstr "シード時間"
-
-#~ msgid "U/L Speed Limit"
-#~ msgstr "UL 速度制限"
-
-#~ msgid "Update"
-#~ msgstr "更新"
-
-#~ msgid "Update Tracker"
-#~ msgstr "トラッカーの更新"
-
-#~ msgid "Upload Slot Limit"
-#~ msgstr "アップロードスロット数制限"
-
-#~ msgid "From Url"
-#~ msgstr "URLから"
-
-#~ msgid "True"
-#~ msgstr "True"
-
-#~ msgid "False"
-#~ msgstr "False"
-
-#, python-format
-#~ msgid "Failed to download : %s"
-#~ msgstr "ダウンロードに失敗しました : %s"
-
-#~ msgid "Deluge is locked"
-#~ msgstr "Deluge はロックされています"
-
-#~ msgid ""
-#~ "Deluge is password protected.\n"
-#~ "To show the Deluge window, please enter your password"
-#~ msgstr ""
-#~ "Deluge はパスワードによってロックされています\n"
-#~ "Deluge を表示するためにパスワードを入力して下さい"
-
-#~ msgid "Filters"
-#~ msgstr "フィルタ"
-
-#~ msgid "Other.."
-#~ msgstr "その他..."
-
-#~ msgid "<b>Speed:</b>"
-#~ msgstr "<b>速度:</b>"
-
-#~ msgid "<big><b>Add Torrents</b></big>"
-#~ msgstr "<big><b>トレントの追加</b></big>"
-
-#~ msgid "Times to attempt download"
-#~ msgstr "ダウンロード試行回数"
-
-#~ msgid "Import Now"
-#~ msgstr "いますぐインポートする"
-
-#, python-format
-#~ msgid "Importing %s"
-#~ msgstr "%s をインポートしています"
-
-#~ msgid "Inactive"
-#~ msgstr "動作していません"
-
-#~ msgid "Refresh status"
-#~ msgstr "状態をリフレッシュ"
-
-#~ msgid "Torrent is past stop ratio."
-#~ msgstr "トレントは停止共有比を越えました。"
-
-#~ msgid "Extra's"
-#~ msgstr "詳細"
-
-#~ msgid "Peer-Exchange"
-#~ msgstr "ピア交換"
-
-#~ msgid "Handshake"
-#~ msgstr "ハンドシェイク"
-
-#~ msgid "Maximum Upload Slots"
-#~ msgstr "最大アップロードスロット数"
-
-#~ msgid "Maximum Connection Attempts per Second"
-#~ msgstr "最大接続数 (毎秒)"
-
-#~ msgid "Per Torrent"
-#~ msgstr "各トレント"
-
-#~ msgid "Auto Add enabled"
-#~ msgstr "自動追加を有効にする"
-
-#~ msgid "Restart daemon and webui after changing these settings"
-#~ msgstr "設定を変更後にデーモンと WebUI を再起動してください"
-
-#~ msgid "This folder does not exist."
-#~ msgstr "このフォルダは存在しません。"
-
-#~ msgid "Enter a whole number."
-#~ msgstr "数字でなければなりません。"
-
-#, python-format
-#~ msgid "Ensure this value is less than or equal to %s."
-#~ msgstr "この値は %s 以下でなければなりません。"
-
-#, python-format
-#~ msgid "Ensure this value is greater than or equal to %s."
-#~ msgstr "この値は %s 以上でなくてはなりません。"
-
-#~ msgid "Enter a number."
-#~ msgstr "数値を入力してください。"
-
-#~ msgid "Enter a valid date."
-#~ msgstr "正しい日付を入力してください。"
-
-#~ msgid "Enter a valid time."
-#~ msgstr "正しい時刻を入力してください。"
-
-#~ msgid "Enter a valid date/time."
-#~ msgstr "正しい日付/時刻を入力してください。"
-
-#~ msgid "Enter a valid e-mail address."
-#~ msgstr "正しい Eメールアドレスを入力してください。"
-
-#~ msgid "No file was submitted. Check the encoding type on the form."
-#~ msgstr "実行されたファイルはありません。フォームのエンコーディングタイプをチェックしてください。"
-
-#~ msgid "No file was submitted."
-#~ msgstr "実行されたファイルはありません。"
-
-#~ msgid "The submitted file is empty."
-#~ msgstr "実行されたファイルは空です。"
-
-#~ msgid ""
-#~ "Upload a valid image. The file you uploaded was either not an image or a "
-#~ "corrupted image."
-#~ msgstr "正常なイメージをアップロードしてください。アップロードしようとしたファイルはイメージではないか、破損しています。"
-
-#~ msgid "This URL appears to be a broken link."
-#~ msgstr "この URL は壊れたリンクのようです。"
-
-#, python-format
-#~ msgid "Select a valid choice. %(value)s is not one of the available choices."
-#~ msgstr "正しい選択肢を選択してください。%(value)s は有効な選択肢ではありません。"
-
-#~ msgid "Enter a valid IPv4 address."
-#~ msgstr "正しい IPv4 アドレスを入力してください。"
-
-#~ msgid "Error in Path."
-#~ msgstr "パスにエラーがあります。"
-
-#~ msgid "New Password (Confirm)"
-#~ msgstr "新しいパスワード (確認)"
-
-#~ msgid "New Password is not equal to New Password(confirm)"
-#~ msgstr "新しいパスワードが一致しません"
-
-#~ msgid "No data"
-#~ msgstr "データなし"
-
-#~ msgid "Not Connected to a daemon"
-#~ msgstr "デーモンに接続していません"
-
-#~ msgid "Seed rank"
-#~ msgstr "シードランク"
-
-#~ msgid "Tracker Status"
-#~ msgstr "トラッカー状態"
-
-#~ msgid "Download Location"
-#~ msgstr "ダウンロード場所"
-
-#~ msgid "Compact Allocation"
-#~ msgstr "最小限割り当て"
-
-#, python-format
-#~ msgid "%s is not a valid URL."
-#~ msgstr "%s は正しい URL ではありません。"
-
-#~ msgid "Downloading.."
-#~ msgstr "ダウンロードしています..."
-
-#~ msgid ""
-#~ "Deluge\n"
-#~ "Not Connected.."
-#~ msgstr ""
-#~ "Deluge\n"
-#~ "接続していません..."
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
-#~ msgstr ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
-
-#~ msgid ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "this doesn't do anything yet..\n"
-#~ msgstr ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "これはまだ何もしません...\n"
-
-#~ msgid "<b><big>Deluge is password protected!</big></b>"
-#~ msgstr "<b><big>Deluge はパスワード保護されています!</big></b>"
-
-#~ msgid "<i>Enter your password to continue</i>"
-#~ msgstr "<i>続行するためにはパスワードを入力してください</i>"

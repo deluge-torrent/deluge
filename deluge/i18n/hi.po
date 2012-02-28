@@ -1,21 +1,21 @@
 # Hindi translation for deluge
-# Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2010-06-22 13:19+0000\n"
-"Last-Translator: abhishek <Unknown>\n"
+"POT-Creation-Date: 2012-01-02 19:16+0000\n"
+"PO-Revision-Date: 2012-01-02 22:50+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-02 22:53+0000\n"
-"X-Generator: Launchpad (build 14560)\n"
+"X-Launchpad-Export-Date: 2012-02-27 19:21+0000\n"
+"X-Generator: Launchpad (build 14868)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -34,17 +34,17 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
+#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 #: deluge/ui/gtkui/systemtray.py:251 deluge/ui/gtkui/systemtray.py:255
 #: deluge/ui/gtkui/systemtray.py:271 deluge/ui/gtkui/systemtray.py:277
 #: deluge/ui/gtkui/systemtray.py:422 deluge/ui/gtkui/systemtray.py:427
-#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
-#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
-#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
-#: deluge/ui/gtkui/statusbar.py:429 deluge/ui/gtkui/status_tab.py:62
 #: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
+#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/glade/main_window.glade:1834
 #: deluge/ui/gtkui/glade/main_window.glade:1846
-#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
 msgstr "KiB/s"
 
@@ -54,6 +54,60 @@ msgstr ""
 
 #: deluge/common.py:320
 msgid "GiB/s"
+msgstr ""
+
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
+#: deluge/ui/gtkui/filtertreeview.py:78
+msgid "Error"
+msgstr "त्रुटि"
+
+#: deluge/core/torrentmanager.py:939
+msgid "Announce OK"
+msgstr "घोषणा ठीक है"
+
+#: deluge/core/torrentmanager.py:955
+msgid "Announce Sent"
+msgstr "घोषणा भेजा"
+
+#: deluge/core/torrentmanager.py:963
+msgid "Warning"
+msgstr "चेतावनी"
+
+#: deluge/plugins/notifications/notifications/core.py:142
+#: deluge/plugins/notifications/notifications/core.py:175
+#, python-format
+msgid "There was an error sending the notification email: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:161
+#, python-format
+msgid "The server didn't reply properly to the helo greeting: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:166
+#, python-format
+msgid "The server didn't accept the username/password combination: %s"
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:190
+msgid "Notification email sent."
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:198
+#, python-format
+msgid "Finished Torrent \"%(name)s\""
+msgstr ""
+
+#: deluge/plugins/notifications/notifications/core.py:200
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading "
+"\"%(name)s\", which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge."
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
@@ -107,43 +161,6 @@ msgstr ""
 msgid "Choose Sound File"
 msgstr ""
 
-#: deluge/plugins/notifications/notifications/core.py:138
-#: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
-msgid "There was an error sending the notification email: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
-msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
-msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:186
-msgid "Notification email sent."
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
-msgid "Finished Torrent \"%(name)s\""
-msgstr ""
-
-#: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge."
-msgstr ""
-
 #: deluge/plugins/notifications/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr ""
@@ -170,30 +187,30 @@ msgid "Hostname:"
 msgstr "होस्टनेम:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:199
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#: deluge/ui/gtkui/glade/connection_manager.glade:56
 msgid "Port:"
 msgstr "पोर्टः"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3439
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+#: deluge/ui/gtkui/glade/connection_manager.glade:143
 msgid "Username:"
 msgstr "उपयोगकर्ता का नाम:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2129
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3306
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3490
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3674
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3858
+#: deluge/ui/gtkui/glade/connection_manager.glade:132
 msgid "Password:"
 msgstr "पासवर्ड:"
 
@@ -238,6 +255,193 @@ msgstr ""
 msgid "Sound Customization"
 msgstr ""
 
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+msgid "Extract to:"
+msgstr "यहाँ निकालें:"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#: deluge/ui/gtkui/glade/main_window.glade:2031
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+msgid "Select A Folder"
+msgstr "एक फ़ोल्डर चुनें"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+msgid "Create torrent name sub-folder"
+msgstr "टॉरेंट के नाम का उप फोल्डर बनायें"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+msgid ""
+"This option will create a sub-folder using the torrent's name within the "
+"selected extract folder and put the extracted files there."
+msgstr ""
+"यह विकल्प चुने गये फोल्डर के भीतर टॉरेंट के नाम का एक उप फोल्डर बनाकर फिर "
+"उसके अंदर निकाली गयी फिलों को रख देगा|"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+#: deluge/ui/gtkui/glade/main_window.glade:2183
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+msgid "<b>General</b>"
+msgstr "<b>सामान्य</b>"
+
+#: deluge/plugins/execute/execute/gtkui.py:51
+msgid "Torrent Complete"
+msgstr "टोरेंट पुरा हुआ"
+
+#: deluge/plugins/execute/execute/gtkui.py:52
+msgid "Torrent Added"
+msgstr "टॉरेंट जुड़ गया"
+
+#: deluge/plugins/execute/execute/gtkui.py:77
+#: deluge/plugins/execute/execute/gtkui.py:88
+msgid "Execute"
+msgstr "चालू करें"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+msgid "Event"
+msgstr "घटना"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+msgid "Command"
+msgstr "आदेश"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+msgid "<b>Add Command</b>"
+msgstr "<b>आदेश जोड़ें</b>"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+msgid "<b>Commands</b>"
+msgstr "<b>आदेश</b>"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:49
+msgid "Emule IP list (GZip)"
+msgstr "Emule IP सूची (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:50
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer Text (Zipped)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:51
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian Text (Uncompressed)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:52
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "अवैध नेता"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "अवैध जादू कोड"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "अमान्य संस्करण"
+
+#: deluge/plugins/blocklist/blocklist/gtkui.py:67
+#: deluge/plugins/blocklist/blocklist/gtkui.py:155
+#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+msgid "Blocklist"
+msgstr "ब्लॉकलिस्ट"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+msgid "URL:"
+msgstr "यू आर एल (URL):"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+msgid "Days"
+msgstr "दिन"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+msgid "Check for new list every:"
+msgstr "नए लिस्ट के लिए जांचें प्रत्येक:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+msgid "Import blocklist on startup"
+msgstr "चालु होने पर ब्लॉकलिस्ट आयात करें"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
+#: deluge/plugins/webui/webui/data/config.glade:94
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+msgid "<b>Settings</b>"
+msgstr "<b>सेटिंग</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+msgid "Download the blocklist file if necessary and import the file."
+msgstr "आवश्यक हो तो ब्लॉकलिस्ट फ़ाइल डाउनलोड करें और फ़ाइल आयात करें."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+msgid "Check Download and Import"
+msgstr "डाउनलोड और आयात जांचें"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+msgid "Download a new blocklist file and import it."
+msgstr "नया ब्लॉकलिस्ट फ़ाइल डाउनलोड करें और आयात करें."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+msgid "Force Download and Import"
+msgstr "बलपूर्वक डाउनलोड और आयात"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+msgid "Blocklist is up to date"
+msgstr ""
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+msgid "<b>Options</b>"
+msgstr "<b>विकल्प</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+msgid "Type:"
+msgstr "प्रकार:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+msgid "Date:"
+msgstr "तिथि:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+msgid "File Size:"
+msgstr "निश्चित आकार:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+msgid "<b>Info</b>"
+msgstr "<b>जानकारी</b>"
+
+#: deluge/plugins/webui/webui/gtkui.py:97
+msgid ""
+"The Deluge web interface is not installed, please install the\n"
+"interface and try again"
+msgstr ""
+
+#: deluge/plugins/webui/webui/data/config.glade:27
+msgid "Enable web interface"
+msgstr ""
+
+#: deluge/plugins/webui/webui/data/config.glade:41
+msgid "Enable SSL"
+msgstr ""
+
+#: deluge/plugins/webui/webui/data/config.glade:60
+msgid "Listening port:"
+msgstr ""
+
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
 msgstr ""
@@ -247,6 +451,10 @@ msgstr ""
 msgid "Path does not exist."
 msgstr ""
 
+#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+msgid "<b>Watch Folders:</b>"
+msgstr ""
+
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
 msgstr ""
@@ -254,18 +462,6 @@ msgstr ""
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
 msgstr ""
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-#: deluge/ui/gtkui/glade/main_window.glade:2031
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
-msgid "Select A Folder"
-msgstr "एक फ़ोल्डर चुनें"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
 msgid "Enable this watch folder"
@@ -391,10 +587,6 @@ msgstr "<b>कतार</b>"
 msgid "Options"
 msgstr "विकल्प"
 
-#: deluge/plugins/autoadd/autoadd/data/config.glade:41
-msgid "<b>Watch Folders:</b>"
-msgstr ""
-
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
 msgstr ""
@@ -440,26 +632,6 @@ msgstr "अज्ञात लेबल"
 #: deluge/plugins/label/label/core.py:315
 msgid "Unknown Torrent"
 msgstr "अज्ञात टॉरेंट"
-
-#: deluge/plugins/label/label/gtkui/submenu.py:48
-#: deluge/plugins/label/label/gtkui/__init__.py:77
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
-msgid "Label"
-msgstr "लेबल"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
-msgid "Label _Options"
-msgstr "लेबल विकल्प (_O)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
-msgid "_Remove Label"
-msgstr "लेबल हटायें (_R)"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
-msgid "_Add Label"
-msgstr "लेबल जोड़ें (_A)"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
@@ -554,197 +726,25 @@ msgstr "<i>साइडबार का उपयोग जोड़ने, सं�
 msgid "<b>Labels</b>"
 msgstr "<b>लेबल</b>"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
-msgid "Extract to:"
-msgstr "यहाँ निकालें:"
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:111
+#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:59
+#: deluge/plugins/label/label/gtkui/label_config.py:66
+msgid "Label"
+msgstr "लेबल"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
-msgid "Create torrent name sub-folder"
-msgstr "टॉरेंट के नाम का उप फोल्डर बनायें"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+msgid "Label _Options"
+msgstr "लेबल विकल्प (_O)"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
-msgid ""
-"This option will create a sub-folder using the torrent's name within the "
-"selected extract folder and put the extracted files there."
-msgstr ""
-"यह विकल्प चुने गये फोल्डर के भीतर टॉरेंट के नाम का एक उप फोल्डर बनाकर फिर "
-"उसके अंदर निकाली गयी फिलों को रख देगा|"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+msgid "_Remove Label"
+msgstr "लेबल हटायें (_R)"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
-#: deluge/ui/gtkui/glade/main_window.glade:2183
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
-msgid "<b>General</b>"
-msgstr "<b>सामान्य</b>"
-
-#: deluge/plugins/webui/webui/gtkui.py:97
-msgid ""
-"The Deluge web interface is not installed, please install the\n"
-"interface and try again"
-msgstr ""
-
-#: deluge/plugins/webui/webui/data/config.glade:27
-msgid "Enable web interface"
-msgstr ""
-
-#: deluge/plugins/webui/webui/data/config.glade:41
-msgid "Enable SSL"
-msgstr ""
-
-#: deluge/plugins/webui/webui/data/config.glade:60
-msgid "Listening port:"
-msgstr ""
-
-#: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
-msgid "<b>Settings</b>"
-msgstr "<b>सेटिंग</b>"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:49
-msgid "Emule IP list (GZip)"
-msgstr "Emule IP सूची (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:50
-msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer Text (Zipped)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:51
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian Text (Uncompressed)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:52
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "अवैध नेता"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "अवैध जादू कोड"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "अमान्य संस्करण"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:67
-#: deluge/plugins/blocklist/blocklist/gtkui.py:155
-#: deluge/plugins/blocklist/blocklist/gtkui.py:186
-msgid "Blocklist"
-msgstr "ब्लॉकलिस्ट"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
-msgid "URL:"
-msgstr "यू आर एल (URL):"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
-msgid "Days"
-msgstr "दिन"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
-msgid "Check for new list every:"
-msgstr "नए लिस्ट के लिए जांचें प्रत्येक:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
-msgid "Import blocklist on startup"
-msgstr "चालु होने पर ब्लॉकलिस्ट आयात करें"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
-msgid "Download the blocklist file if necessary and import the file."
-msgstr "आवश्यक हो तो ब्लॉकलिस्ट फ़ाइल डाउनलोड करें और फ़ाइल आयात करें."
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
-msgid "Check Download and Import"
-msgstr "डाउनलोड और आयात जांचें"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
-msgid "Download a new blocklist file and import it."
-msgstr "नया ब्लॉकलिस्ट फ़ाइल डाउनलोड करें और आयात करें."
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
-msgid "Force Download and Import"
-msgstr "बलपूर्वक डाउनलोड और आयात"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
-msgid "Blocklist is up to date"
-msgstr ""
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
-msgid "<b>Options</b>"
-msgstr "<b>विकल्प</b>"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
-msgid "Type:"
-msgstr "प्रकार:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
-msgid "Date:"
-msgstr "तिथि:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
-msgid "File Size:"
-msgstr "निश्चित आकार:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
-msgid "<b>Info</b>"
-msgstr "<b>जानकारी</b>"
-
-#: deluge/plugins/execute/execute/gtkui.py:51
-msgid "Torrent Complete"
-msgstr "टोरेंट पुरा हुआ"
-
-#: deluge/plugins/execute/execute/gtkui.py:52
-msgid "Torrent Added"
-msgstr "टॉरेंट जुड़ गया"
-
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
-msgid "Execute"
-msgstr "चालू करें"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
-msgid "Event"
-msgstr "घटना"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
-msgid "Command"
-msgstr "आदेश"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
-msgid "<b>Add Command</b>"
-msgstr "<b>आदेश जोड़ें</b>"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
-msgid "<b>Commands</b>"
-msgstr "<b>आदेश</b>"
-
-#: deluge/core/torrentmanager.py:937
-msgid "Announce OK"
-msgstr "घोषणा ठीक है"
-
-#: deluge/core/torrentmanager.py:953
-msgid "Announce Sent"
-msgstr "घोषणा भेजा"
-
-#: deluge/core/torrentmanager.py:961
-msgid "Warning"
-msgstr "चेतावनी"
-
-#: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
-#: deluge/ui/gtkui/filtertreeview.py:78
-msgid "Error"
-msgstr "त्रुटि"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+msgid "_Add Label"
+msgstr "लेबल जोड़ें (_A)"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
@@ -1730,6 +1730,10 @@ msgstr ""
 msgid "Zimbabwe"
 msgstr ""
 
+#: deluge/ui/web/server.py:661
+msgid "Starting server in PID"
+msgstr ""
+
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
 #: deluge/ui/web/json_api.py:769 deluge/ui/gtkui/connectionmanager.py:75
@@ -1739,15 +1743,15 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:296
 #: deluge/ui/gtkui/connectionmanager.py:378
 #: deluge/ui/gtkui/connectionmanager.py:389
-#: deluge/ui/gtkui/connectionmanager.py:452
-#: deluge/ui/gtkui/connectionmanager.py:569
+#: deluge/ui/gtkui/connectionmanager.py:453
+#: deluge/ui/gtkui/connectionmanager.py:570
 msgid "Offline"
 msgstr ""
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Online"
 msgstr ""
 
@@ -1755,8 +1759,8 @@ msgstr ""
 #: deluge/ui/gtkui/connectionmanager.py:313
 #: deluge/ui/gtkui/connectionmanager.py:372
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:440
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:441
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Connected"
 msgstr ""
 
@@ -1768,104 +1772,10 @@ msgstr ""
 msgid "Daemon not running"
 msgstr ""
 
-#: deluge/ui/web/server.py:661
-msgid "Starting server in PID"
-msgstr ""
-
-#: deluge/ui/gtkui/peers_tab.py:100
-msgid "Address"
-msgstr "पता"
-
-#: deluge/ui/gtkui/peers_tab.py:116
-msgid "Client"
-msgstr "क्लाएंट"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
-#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
-msgid "Progress"
-msgstr "प्रगति"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
-msgid "Down Speed"
-msgstr "अधो गति"
-
-#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
-msgid "Up Speed"
-msgstr "उर्ध्व गति"
-
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
-msgid "Torrent"
-msgstr "टॉरेंट"
-
-#: deluge/ui/gtkui/queuedtorrents.py:135
-msgid " Torrents Queued"
-msgstr " टॉरेन्ट्स कतार में"
-
-#: deluge/ui/gtkui/queuedtorrents.py:137
-msgid " Torrent Queued"
-msgstr " टॉरेन्ट कतार में"
-
-#: deluge/ui/gtkui/common.py:67 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
-#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
-#: deluge/ui/gtkui/statusbar.py:452
-msgid "Unlimited"
-msgstr "असीमित"
-
-#: deluge/ui/gtkui/common.py:70
-msgid "Activated"
-msgstr "सक्रिय किया"
-
-#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
-#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
-#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other..."
-msgstr "अन्य..."
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Down:"
-msgstr "नीचे"
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Up:"
-msgstr "ऊपर"
-
-#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
-#: deluge/data/share/applications/deluge.desktop.in.h:2
-msgid "Deluge"
-msgstr "डिल्यूज"
-
-#: deluge/ui/gtkui/systemtray.py:201
-msgid "Not Connected..."
-msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:258
-msgid "Down"
-msgstr "नीचे"
-
-#: deluge/ui/gtkui/systemtray.py:259
-msgid "Up"
-msgstr "ऊपर"
-
-#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/menubar.py:436
-msgid "Set Maximum Download Speed"
-msgstr "अधिकतम डाउनलोड गति निर्धारित करें"
-
-#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/menubar.py:437
-msgid "Set Maximum Upload Speed"
-msgstr "अधिकतम अपलोड गति निर्धारित करें"
-
-#: deluge/ui/gtkui/systemtray.py:470
-msgid "Deluge is password protected!"
-msgstr ""
-
-#: deluge/ui/gtkui/systemtray.py:476
-msgid "Enter your password to continue"
-msgstr ""
+#: deluge/ui/console/statusbars.py:104
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
+msgid "DHT"
+msgstr "डी एच टी"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -1891,9 +1801,255 @@ msgid ""
 "Deluge"
 msgstr ""
 
+#: deluge/ui/gtkui/torrentview.py:213
+msgid "Name"
+msgstr "नाम"
+
+#: deluge/ui/gtkui/torrentview.py:216
+#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
+#: deluge/ui/gtkui/addtorrentdialog.py:124
+msgid "Size"
+msgstr "आकार"
+
+#: deluge/ui/gtkui/torrentview.py:219
+msgid "Downloaded"
+msgstr "डाउनलोड की गयी"
+
+#: deluge/ui/gtkui/torrentview.py:222
+msgid "Uploaded"
+msgstr "अपलोडेड"
+
+#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
+msgid "Progress"
+msgstr "प्रगति"
+
+#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
+msgid "Seeders"
+msgstr "सीडर्स"
+
+#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
+msgid "Peers"
+msgstr "पीयर्स"
+
+#: deluge/ui/gtkui/torrentview.py:237 deluge/ui/gtkui/peers_tab.py:142
+msgid "Down Speed"
+msgstr "अधो गति"
+
+#: deluge/ui/gtkui/torrentview.py:239 deluge/ui/gtkui/peers_tab.py:155
+msgid "Up Speed"
+msgstr "उर्ध्व गति"
+
+#: deluge/ui/gtkui/torrentview.py:241
+msgid "Down Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:243
+msgid "Up Limit"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:245
+msgid "ETA"
+msgstr "इ टी ए (E T A)"
+
+#: deluge/ui/gtkui/torrentview.py:247
+msgid "Ratio"
+msgstr "अनुपात"
+
+#: deluge/ui/gtkui/torrentview.py:249
+msgid "Avail"
+msgstr "Avail"
+
+#: deluge/ui/gtkui/torrentview.py:251
+msgid "Added"
+msgstr "जोड़ा गया"
+
+#: deluge/ui/gtkui/torrentview.py:253
+#: deluge/ui/gtkui/createtorrentdialog.py:105
+#: deluge/ui/gtkui/edittrackersdialog.py:86
+msgid "Tracker"
+msgstr "ट्रैकर"
+
+#: deluge/ui/gtkui/torrentview.py:257
+msgid "Save Path"
+msgstr ""
+
+#: deluge/ui/gtkui/peers_tab.py:100
+msgid "Address"
+msgstr "पता"
+
+#: deluge/ui/gtkui/peers_tab.py:116
+msgid "Client"
+msgstr "क्लाएंट"
+
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
 msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
+#: deluge/ui/gtkui/aboutdialog.py:55
+#: deluge/data/share/applications/deluge.desktop.in.h:2
+msgid "Deluge"
+msgstr "डिल्यूज"
+
+#: deluge/ui/gtkui/systemtray.py:201
+msgid "Not Connected..."
+msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:249 deluge/ui/gtkui/systemtray.py:253
+#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:67
+#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
+#: deluge/ui/gtkui/statusbar.py:452
+msgid "Unlimited"
+msgstr "असीमित"
+
+#: deluge/ui/gtkui/systemtray.py:258
+msgid "Down"
+msgstr "नीचे"
+
+#: deluge/ui/gtkui/systemtray.py:259
+msgid "Up"
+msgstr "ऊपर"
+
+#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/menubar.py:436
+#: deluge/ui/gtkui/statusbar.py:401
+msgid "Set Maximum Download Speed"
+msgstr "अधिकतम डाउनलोड गति निर्धारित करें"
+
+#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/statusbar.py:429
+msgid "Set Maximum Upload Speed"
+msgstr "अधिकतम अपलोड गति निर्धारित करें"
+
+#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:124
+#: deluge/ui/gtkui/common.py:125 deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/gtkui/statusbar.py:399 deluge/ui/gtkui/statusbar.py:427
+#: deluge/ui/gtkui/statusbar.py:454
+msgid "Other..."
+msgstr "अन्य..."
+
+#: deluge/ui/gtkui/systemtray.py:470
+msgid "Deluge is password protected!"
+msgstr ""
+
+#: deluge/ui/gtkui/systemtray.py:476
+msgid "Enter your password to continue"
+msgstr ""
+
+#: deluge/ui/gtkui/common.py:70
+msgid "Activated"
+msgstr "सक्रिय किया"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
+#: deluge/ui/gtkui/addtorrentdialog.py:111
+msgid "Filename"
+msgstr "फ़ाइलनाम"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:103
+#: deluge/ui/gtkui/edittrackersdialog.py:84
+msgid "Tier"
+msgstr "Tier"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:143
+msgid "Choose a file"
+msgstr "एक फ़ाइल चुनें"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:172
+msgid "Choose a folder"
+msgstr "एक फ़ोल्डर चुनें"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:241
+msgid "Save .torrent file"
+msgstr ".टॉरेन्ट फ़ाइल सुरक्षित करें"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:253
+#: deluge/ui/gtkui/addtorrentdialog.py:563
+msgid "Torrent files"
+msgstr "टॉरेंट फाइलें"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:257
+#: deluge/ui/gtkui/addtorrentdialog.py:567
+msgid "All files"
+msgstr "सभी फ़ाइलें"
+
+#: deluge/ui/gtkui/files_tab.py:56
+msgid "Do Not Download"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:57
+msgid "Normal Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:58
+msgid "High Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:59
+msgid "Highest Priority"
+msgstr ""
+
+#: deluge/ui/gtkui/files_tab.py:169
+msgid "Priority"
+msgstr "प्राथमिकता"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:76
+msgid "Torrent"
+msgstr "टॉरेंट"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:215
+msgid "Invalid File"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "Duplicate Torrent"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "You cannot add the same torrent twice."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid "Unable to set file priority!"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid ""
+"File prioritization is unavailable when using Compact allocation.  Would you "
+"like to switch to Full allocation?"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:550
+msgid "Choose a .torrent file"
+msgstr "एक .torrent फाइल चुनें"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "Invalid URL"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "is not a valid URL."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:636
+msgid "Downloading..."
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Download Failed"
+msgstr ""
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Failed to download:"
+msgstr ""
+
+#: deluge/ui/gtkui/queuedtorrents.py:136
+msgid " Torrents Queued"
+msgstr " टॉरेन्ट्स कतार में"
+
+#: deluge/ui/gtkui/queuedtorrents.py:138
+msgid " Torrent Queued"
+msgstr " टॉरेन्ट कतार में"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -1939,102 +2095,189 @@ msgstr "प्लग-इन्स"
 msgid "Plugin"
 msgstr "प्लगिन"
 
-#: deluge/ui/gtkui/preferences.py:891
+#: deluge/ui/gtkui/preferences.py:894
 msgid "Select the Plugin"
 msgstr "प्लगिन चुने"
 
-#: deluge/ui/gtkui/preferences.py:902
+#: deluge/ui/gtkui/preferences.py:905
 msgid "Plugin Eggs"
 msgstr "प्लगिन एग्स (Eggs)"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:111
-#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
-msgid "Filename"
-msgstr "फ़ाइलनाम"
+#: deluge/ui/gtkui/menubar.py:77
+msgid "Set Unlimited"
+msgstr "असीमित करें"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:124
-#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
-#: deluge/ui/gtkui/torrentview.py:216
-msgid "Size"
-msgstr "आकार"
+#: deluge/ui/gtkui/menubar.py:89 deluge/ui/gtkui/status_tab.py:128
+msgid "On"
+msgstr "चालू"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:206
-msgid "Invalid File"
+#: deluge/ui/gtkui/menubar.py:92 deluge/ui/gtkui/status_tab.py:130
+msgid "Off"
+msgstr "बंद"
+
+#: deluge/ui/gtkui/menubar.py:319
+msgid "Choose a directory to move files to"
+msgstr "फ़ाइलें स्थानांतरित करने के लिए एक निर्देशिका चुनें"
+
+#: deluge/ui/gtkui/menubar.py:438 deluge/ui/gtkui/statusbar.py:456
+msgid "Set Maximum Connections"
+msgstr "अधिकतम सम्बन्ध निर्धारित करें"
+
+#: deluge/ui/gtkui/menubar.py:439
+msgid "Set Maximum Upload Slots"
+msgstr "अधिकतम अपलोड स्लॉट तय करें"
+
+#: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+msgid "Turn off Classic Mode?"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "Duplicate Torrent"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "You cannot add the same torrent twice."
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
-msgid "Unable to set file priority!"
-msgstr ""
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
+#: deluge/ui/gtkui/gtkui.py:303
 msgid ""
-"File prioritization is unavailable when using Compact allocation.  Would you "
-"like to switch to Full allocation?"
+"It appears that a Deluge daemon process (deluged) is already running.\n"
+"\n"
+"You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:541
-msgid "Choose a .torrent file"
-msgstr "एक .torrent फाइल चुनें"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:553
-#: deluge/ui/gtkui/createtorrentdialog.py:253
-msgid "Torrent files"
-msgstr "टॉरेंट फाइलें"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:557
-#: deluge/ui/gtkui/createtorrentdialog.py:257
-msgid "All files"
-msgstr "सभी फ़ाइलें"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "Invalid URL"
+#: deluge/ui/gtkui/gtkui.py:312
+msgid "Error Starting Core"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "is not a valid URL."
+#: deluge/ui/gtkui/gtkui.py:313
+msgid ""
+"There was an error starting the core component which is required to run "
+"Deluge in Classic Mode.\n"
+"\n"
+"Please see the details below for more information."
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:626
-msgid "Downloading..."
+#: deluge/ui/gtkui/gtkui.py:318
+msgid ""
+"Since there was an error starting in Classic Mode would you like to continue "
+"by turning it off?"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Download Failed"
+#: deluge/ui/gtkui/gtkui.py:342
+msgid "Error Starting Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Failed to download:"
+#: deluge/ui/gtkui/gtkui.py:343
+msgid ""
+"There was an error starting the daemon process.  Try running it from a "
+"console to see if there is an error."
 msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:103
-#: deluge/ui/gtkui/edittrackersdialog.py:84
-msgid "Tier"
-msgstr "Tier"
+#: deluge/ui/gtkui/connectionmanager.py:149
+msgid "Status"
+msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:105
-#: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
-msgid "Tracker"
-msgstr "ट्रैकर"
+#: deluge/ui/gtkui/connectionmanager.py:153
+msgid "Host"
+msgstr "होस्ट"
 
-#: deluge/ui/gtkui/createtorrentdialog.py:143
-msgid "Choose a file"
-msgstr "एक फ़ाइल चुनें"
+#: deluge/ui/gtkui/connectionmanager.py:158
+msgid "Version"
+msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:172
-msgid "Choose a folder"
-msgstr "एक फ़ोल्डर चुनें"
+#: deluge/ui/gtkui/connectionmanager.py:386
+msgid "_Stop Daemon"
+msgstr ""
 
-#: deluge/ui/gtkui/createtorrentdialog.py:241
-msgid "Save .torrent file"
-msgstr ".टॉरेन्ट फ़ाइल सुरक्षित करें"
+#: deluge/ui/gtkui/connectionmanager.py:394
+msgid "_Start Daemon"
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:415
+#: deluge/ui/gtkui/connectionmanager.py:425
+msgid "Unable to start daemon!"
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:416
+msgid ""
+"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
+"install the deluged package or it's not in your PATH."
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:426
+msgid "Please examine the details for more information."
+msgstr ""
+
+#: deluge/ui/gtkui/connectionmanager.py:510
+msgid "Error Adding Host"
+msgstr ""
+
+#: deluge/ui/gtkui/removetorrentdialog.py:78
+msgid "Torrents"
+msgstr "टॉरेन्ट्स"
+
+#: deluge/ui/gtkui/dialogs.py:174
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+msgid "Details:"
+msgstr "विवरण:"
+
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Down:"
+msgstr "नीचे"
+
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Up:"
+msgstr "ऊपर"
+
+#: deluge/ui/gtkui/aboutdialog.py:59
+msgid "Copyright 2007-2011 Deluge Team"
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:61
+msgid ""
+"A peer-to-peer file sharing program\n"
+"utilizing the BitTorrent protocol."
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:62
+msgid "Client:"
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:65
+msgid "Current Developers:"
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:67
+msgid "Past Developers or Contributors:"
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:252
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. \n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details. \n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program; if not, see <http://www.gnu.org/licenses>. \n"
+"\n"
+"In addition, as a special exception, the copyright holders give permission "
+"to link the code of portions of this program with the OpenSSL library. You "
+"must obey the GNU General Public License in all respects for all of the code "
+"used other than OpenSSL. \n"
+"\n"
+"If you modify file(s) with this exception, you may extend this exception to "
+"your version of the file(s), but you are not obligated to do so. If you do "
+"not wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then "
+"also delete it here."
+msgstr ""
+
+#: deluge/ui/gtkui/aboutdialog.py:287
+msgid "Server:"
+msgstr "सर्वरः"
+
+#: deluge/ui/gtkui/aboutdialog.py:290
+msgid "libtorrent:"
+msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:146
 msgid "Not Connected"
@@ -2067,14 +2310,6 @@ msgstr ""
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
 msgstr "आने वाले कोई जोड़ नहीं!"
-
-#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
-msgid "Set Maximum Connections"
-msgstr "अधिकतम सम्बन्ध निर्धारित करें"
-
-#: deluge/ui/gtkui/removetorrentdialog.py:78
-msgid "Torrents"
-msgstr "टॉरेन्ट्स"
 
 #: deluge/ui/gtkui/filtertreeview.py:69
 msgid "States"
@@ -2120,576 +2355,90 @@ msgstr "कोई नहीं"
 msgid "No Label"
 msgstr "कोई लेबल नहीं"
 
-#: deluge/ui/gtkui/aboutdialog.py:253
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
-"\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"this program; if not, see <http://www.gnu.org/licenses>. \n"
-"\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
-"\n"
-"If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
-msgstr ""
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr "<big><b>चुने हुए टॉरेन्ट को हटायें? </b></big>"
 
-#: deluge/ui/gtkui/connectionmanager.py:149
-msgid "Status"
-msgstr ""
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr "यदि आप डाटा हटाओगे तों वह पूरी तरह खो जायगा"
 
-#: deluge/ui/gtkui/connectionmanager.py:153
-msgid "Host"
-msgstr "होस्ट"
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr "_डाटा के साथ हटायें"
 
-#: deluge/ui/gtkui/connectionmanager.py:158
-msgid "Version"
-msgstr ""
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr "_टॉरेन्ट हटायें"
 
-#: deluge/ui/gtkui/connectionmanager.py:386
-msgid "_Stop Daemon"
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+msgid "Edit Trackers"
+msgstr "ट्रैकर्स संशोधन"
 
-#: deluge/ui/gtkui/connectionmanager.py:394
-msgid "_Start Daemon"
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
+msgid "<big><b>Edit Trackers</b></big>"
+msgstr "<big><b>ट्रैकर्स संशोधन</b></big>"
 
-#: deluge/ui/gtkui/connectionmanager.py:414
-#: deluge/ui/gtkui/connectionmanager.py:424
-msgid "Unable to start daemon!"
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+msgid "Add Tracker"
+msgstr "ट्रैकर जोड़ें"
 
-#: deluge/ui/gtkui/connectionmanager.py:415
-msgid ""
-"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
-"install the deluged package or it's not in your PATH."
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
+msgstr "<b>ट्रैकर जोड़ें</b>"
 
-#: deluge/ui/gtkui/connectionmanager.py:425
-msgid "Please examine the details for more information."
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+msgid "Trackers:"
+msgstr "ट्रैकर्स:"
 
-#: deluge/ui/gtkui/connectionmanager.py:509
-msgid "Error Adding Host"
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+msgid "Edit Tracker"
+msgstr "ट्रैकर संशोधन"
 
-#: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
-msgid "Turn off Classic Mode?"
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>ट्रैकर संशोधन</b>"
 
-#: deluge/ui/gtkui/gtkui.py:303
-msgid ""
-"It appears that a Deluge daemon process (deluged) is already running.\n"
-"\n"
-"You will either need to stop the daemon or turn off Classic Mode to continue."
-msgstr ""
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
+msgstr "ट्रैकर:"
 
-#: deluge/ui/gtkui/gtkui.py:312
-msgid "Error Starting Core"
-msgstr ""
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "डिल्युज दिखाएँ (_S)"
 
-#: deluge/ui/gtkui/gtkui.py:313
-msgid ""
-"There was an error starting the core component which is required to run "
-"Deluge in Classic Mode.\n"
-"\n"
-"Please see the details below for more information."
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:318
-msgid ""
-"Since there was an error starting in Classic Mode would you like to continue "
-"by turning it off?"
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:342
-msgid "Error Starting Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/gtkui.py:343
-msgid ""
-"There was an error starting the daemon process.  Try running it from a "
-"console to see if there is an error."
-msgstr ""
-
-#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "चालू"
-
-#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "बंद"
-
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "असीमित करें"
-
-#: deluge/ui/gtkui/menubar.py:319
-msgid "Choose a directory to move files to"
-msgstr "फ़ाइलें स्थानांतरित करने के लिए एक निर्देशिका चुनें"
-
-#: deluge/ui/gtkui/menubar.py:439
-msgid "Set Maximum Upload Slots"
-msgstr "अधिकतम अपलोड स्लॉट तय करें"
-
-#: deluge/ui/gtkui/files_tab.py:56
-msgid "Do Not Download"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:57
-msgid "Normal Priority"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:58
-msgid "High Priority"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:59
-msgid "Highest Priority"
-msgstr ""
-
-#: deluge/ui/gtkui/files_tab.py:169
-msgid "Priority"
-msgstr "प्राथमिकता"
-
-#: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
-msgid "Details:"
-msgstr "विवरण:"
-
-#: deluge/ui/gtkui/torrentview.py:213
-msgid "Name"
-msgstr "नाम"
-
-#: deluge/ui/gtkui/torrentview.py:219
-msgid "Downloaded"
-msgstr "डाउनलोड की गयी"
-
-#: deluge/ui/gtkui/torrentview.py:222
-msgid "Uploaded"
-msgstr "अपलोडेड"
-
-#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
-msgid "Seeders"
-msgstr "सीडर्स"
-
-#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
-msgid "Peers"
-msgstr "पीयर्स"
-
-#: deluge/ui/gtkui/torrentview.py:241
-msgid "Down Limit"
-msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:243
-msgid "Up Limit"
-msgstr ""
-
-#: deluge/ui/gtkui/torrentview.py:245
-msgid "ETA"
-msgstr "इ टी ए (E T A)"
-
-#: deluge/ui/gtkui/torrentview.py:247
-msgid "Ratio"
-msgstr "अनुपात"
-
-#: deluge/ui/gtkui/torrentview.py:249
-msgid "Avail"
-msgstr "Avail"
-
-#: deluge/ui/gtkui/torrentview.py:251
-msgid "Added"
-msgstr "जोड़ा गया"
-
-#: deluge/ui/gtkui/torrentview.py:257
-msgid "Save Path"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:21
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-msgid "_File"
-msgstr "फ़ाइल (_F)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:27
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:27
 msgid "_Add Torrent"
 msgstr "टॉरेन्ट जोडें"
 
-#: deluge/ui/gtkui/glade/main_window.glade:45
-msgid "_Create Torrent"
-msgstr "टॉरेन्ट बनाएं(_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:65
-msgid "Quit & _Shutdown Daemon"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:101
-msgid "_Edit"
-msgstr "संशोधन (_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:118
-msgid "_Connection Manager"
-msgstr "कनेक्सन मैनेजर (_C)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:140
-msgid "_Torrent"
-msgstr "टॉरेन्ट (_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:147
-msgid "_View"
-msgstr "देखें (_V)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:155
-msgid "_Toolbar"
-msgstr "उपकरण-पट्टी (_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:165
-msgid "_Sidebar"
-msgstr "किनारे की पट्टी (_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:174
-msgid "Status_bar"
-msgstr "Status_bar"
-
-#: deluge/ui/gtkui/glade/main_window.glade:188
-msgid "T_abs"
-msgstr "T_abs"
-
-#: deluge/ui/gtkui/glade/main_window.glade:195
-msgid "_Columns"
-msgstr "_Columns"
-
-#: deluge/ui/gtkui/glade/main_window.glade:203
-msgid "S_idebar"
-msgstr "बाजूपट्टी (_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:212
-msgid "Show _Zero Hits"
-msgstr "Show _Zero Hits"
-
-#: deluge/ui/gtkui/glade/main_window.glade:221
-msgid "Show _Trackers"
-msgstr "ट्रैकर्स दिखाएँ (_T)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:238
-msgid "_Help"
-msgstr "_सहायता"
-
-#: deluge/ui/gtkui/glade/main_window.glade:244
-msgid "_Homepage"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:261
-msgid "_FAQ"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:264
-msgid "Frequently Asked Questions"
-msgstr "बारम्बार पूछने वाले प्रश्न"
-
-#: deluge/ui/gtkui/glade/main_window.glade:280
-msgid "_Community"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-msgid "Add torrent"
-msgstr "टॉरेन्ट जोड़ें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:328
-msgid "Add Torrent"
-msgstr "टॉरेन्ट जोड़ें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:342
-msgid "Remove torrent"
-msgstr "टॉरेन्ट हटाएँ"
-
-#: deluge/ui/gtkui/glade/main_window.glade:343
-msgid "Remove Torrent"
-msgstr "टॉरेन्ट हटाइये"
-
-#: deluge/ui/gtkui/glade/main_window.glade:364
-msgid "Pause the selected torrents"
-msgstr "चुने हुए टॉरेन्ट्स को विराम करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:365
-msgid "Pause"
-msgstr "ठहरें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:380
-msgid "Resume the selected torrents"
-msgstr "चुने हुए टॉरेन्ट्स को रिज्यूम विराम करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:381
-msgid "Resume"
-msgstr "पुनः आरम्भ करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:403
-msgid "Queue Torrent Up"
-msgstr "टॉरेन्ट कतार में ऊपर करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:404
-msgid "Queue Up"
-msgstr "कतार में ऊपर"
-
-#: deluge/ui/gtkui/glade/main_window.glade:418
-msgid "Queue Torrent Down"
-msgstr "टॉरेन्ट कतार में नीचे करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:419
-msgid "Queue Down"
-msgstr "कतार में नीचे"
-
-#: deluge/ui/gtkui/glade/main_window.glade:440
-#: deluge/ui/gtkui/glade/main_window.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-msgid "Preferences"
-msgstr "वरीयता"
-
-#: deluge/ui/gtkui/glade/main_window.glade:455
-#: deluge/ui/gtkui/glade/main_window.glade:456
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Connection Manager"
-msgstr "कनेक्शन प्रबंधक"
-
-#: deluge/ui/gtkui/glade/main_window.glade:570
-msgid "_Expand All"
-msgstr "सभी का विस्तार करें (_E)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:591
-msgid "_Do Not Download"
-msgstr "_डाउनलोड नहीं करें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:607
-msgid "_Normal Priority"
-msgstr "सामान्य प्राथमिकता (_N)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:623
-msgid "_High Priority"
-msgstr "उच्च प्राथमिकता (_H)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:639
-msgid "Hi_ghest Priority"
-msgstr "उच्चतम प्राथमिकता (_H)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:721
-msgid "<b>Auto Managed:</b>"
-msgstr "<b>स्व निर्धारण:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:762
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>सीड क्रम:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:777
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>सीडिंग समय:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:803
-msgid "<b>Active Time:</b>"
-msgstr "<b>सक्रिय समय:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:860
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>ट्रैकर अवस्था:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:890
-msgid "<b>Availability:</b>"
-msgstr "<b>उपलब्धता:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:944
-msgid "<b>Peers:</b>"
-msgstr "<b>पीयर्स:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:970
-msgid "<b>Seeders:</b>"
-msgstr "<b>सीडर्स:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:988
-msgid "<b>Pieces:</b>"
-msgstr "<b>Pieces:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1010
-msgid "<b>ETA:</b>"
-msgstr "<b>ETA:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1032
-msgid "<b>Up Speed:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1054
-msgid "<b>Down Speed:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1073
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Next Announce:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1092
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Share अनुपात:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1111
-msgid "<b>Uploaded:</b>"
-msgstr "<b>अपलोड किया :</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1130
-msgid "<b>Downloaded:</b>"
-msgstr "<b>डाउनलोड किया :</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1191
-msgid "<b>Date Added:</b>"
-msgstr "<b>Date Added:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1249
-msgid "_Status"
-msgstr "अवस्था (_S)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1310
-msgid "<b>Comments:</b>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:1339
-msgid "<b># of files:</b>"
-msgstr "<b># of files:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1371
-msgid "<b>Hash:</b>"
-msgstr "<b>Hash:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1401
-msgid "<b>Tracker:</b>"
-msgstr "<b>ट्रैकर :</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1421
-msgid "<b>Total Size:</b>"
-msgstr "<b>कुल आकार:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1459
-msgid "<b>Name:</b>"
-msgstr "<b>नाम:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1479
-msgid "<b>Path:</b>"
-msgstr "<b> पथ</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1513
-msgid "<b>Status:</b>"
-msgstr "<b>अवस्था:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1594
-msgid "_Details"
-msgstr "विवरण (_D)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1646
-msgid "_Files"
-msgstr "फ़ाइलें (_F)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1698
-msgid "_Peers"
-msgstr "पीयर्स (_P)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2009
-msgid "Move completed:"
-msgstr "पूर्ण होने पर यहाँ ले जाएँ:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2105
-msgid "Private"
-msgstr "निजी"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2120
-msgid "Prioritize First/Last"
-msgstr "Prioritize First/Last"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2158
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-msgid "_Edit Trackers"
-msgstr "_संशोधन ट्रैकर"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2265
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
-msgid "_Options"
-msgstr "विकल्प (_O)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2285
-msgid "Remove Torrent?"
-msgstr "टॉरेन्ट हटायें?"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
-"<big><b>क्या आप निश्चिन्त हैं की आप चुने हुए टॉरेन्ट को मिटाना चाहते "
-"हैं?</b></big>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2376
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>संयुक्त टॉरेन्ट मिटा दिया जायगा !</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2416
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>डाउनलोड किया हुया डाटा मिटा दिया जायगा !</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2460
-msgid "Remove Selected Torrent"
-msgstr "चुना हुआ टॉरेन्ट हटायें"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2484
-msgid "New Release"
-msgstr "नया रिलीज़"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2518
-msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>नया संस्करण उपलब्ध!</big></b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2570
-msgid "<i>Available Version:</i>"
-msgstr "<i>उपलब्ध संस्करण:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2593
-msgid "<i>Current Version:</i>"
-msgstr "<i>वर्तमान संस्करण:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2604
-msgid "<i>Server Version</i>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2637
-msgid "Do not show this dialog in the future"
-msgstr "यह डायलोग भविष्य में न दिखाएँ"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2676
-msgid "_Goto Website"
-msgstr "वेबसाईट में जाएँ (_G)"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2704
-msgid "_Add Peer"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/main_window.glade:2706
-msgid "Add a peer by its IP"
-msgstr "कोई पीयर उसकी IP की सहायता से जोड़ें"
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
+msgid "_Pause All"
+msgstr "सभी विराम (_P)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "सभी रिज्यूम (_R)"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+msgid "_Download Speed Limit"
+msgstr "_डाउनलोड"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+msgid "_Upload Speed Limit"
+msgstr "_अपलोड की गति सीमा"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:124
+msgid "Quit & Shutdown Daemon"
+msgstr "Quit & Shutdown Daemon"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
 msgstr "सभी चुनें(_S)"
-
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "सभी विराम (_P)"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
@@ -2700,231 +2449,11 @@ msgstr "Resume selected torrents."
 msgid "Resu_me All"
 msgstr "Resu_me All"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
-msgid "Add Torrents"
-msgstr "टॉरेन्ट जोड़ें"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
-msgid "_URL"
-msgstr "यूआरएल(_U)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
-msgid "Info_hash"
-msgstr "Info_hash"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
-msgid "_Remove"
-msgstr "हटाएँ (_R)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
-msgid "<b>Torrents</b>"
-msgstr "<b>टॉरेन्ट </b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
-msgid "Fi_les"
-msgstr "फ़ाइलें (_l)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "Full"
-msgstr "पूर्ण"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
-msgid "Compact"
-msgstr "सघन"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
-msgid "<b>Allocation</b>"
-msgstr "<b>साझा</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
-msgid "Max Down Speed:"
-msgstr "अधिकतम डाउनलोड गति"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
-msgid "Max Up Speed:"
-msgstr "अधिकतम उपरी गति:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-msgid "Add In _Paused State"
-msgstr "विराम अवस्था में जोड़ें"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
-msgid "Prioritize First/Last Pieces"
-msgstr "Prioritize First/Last Pieces"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
-msgid "Revert To Defaults"
-msgstr "Revert To Defaults"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
-msgid "Apply To All"
-msgstr "सभी में लागू करें"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
-msgid "Add URL"
-msgstr "यु आर एल जोड़ें"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
-msgid "<b>From URL</b>"
-msgstr "<b>यु आर एल से</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
-msgid "Add Infohash"
-msgstr "Infohash जोड़ें"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
-msgid "<b>From Infohash</b>"
-msgstr "<b>Infohash से</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
-msgid "Infohash:"
-msgstr "Infohash:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-msgid "Trackers:"
-msgstr "ट्रैकर्स:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "टॉरेन्ट बनाएं"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>टॉरेन्ट बनाएं</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "फोल्_डर"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "_Remote पथ"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>फाइलें</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
-msgid "Author:"
-msgstr "लेखकः"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "टिप्पणियाँ:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "जानकारी"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "वेबसीड्स"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "Piece Size:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
-msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB\n"
-"1 MiB\n"
-"2 MiB\n"
-"4 MiB\n"
-"8 MiB\n"
-"16 MiB\n"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
-msgid "Set Private Flag"
-msgstr "सेट प्राइवेट फ्लैग"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
-msgid "Add this torrent to the session"
-msgstr "यह टॉरेन्ट सेशन में जोड़ें"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
-msgid "Enter Remote Path"
-msgstr "रिमोट पथ डालें"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
-msgid "<b>Remote Path</b>"
-msgstr "<b>रिमोट पथ</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
-msgid "Path:"
-msgstr "पथ:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
-msgid "Creating Torrent"
-msgstr "टॉरेन्ट निर्माण कर रहा है"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
-msgid "Save .torrent as"
-msgstr "Save .torrent as"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>.torrent फ़ाइल सुरक्षित</b>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
-msgid "Queued Torrents"
-msgstr "टॉरेन्ट्स कतार में"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>कतार वाले टॉरेन्ट्स जोड़ें</b></big>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
-msgid "Automatically add torrents on connect"
-msgstr "कनेक्ट होने पर स्वतः ही टॉरेन्ट्स जोड़ें"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
-msgid "label"
-msgstr "लेबल"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
-msgid "Add Peer"
-msgstr "पीयर जोड़ें"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
-msgid "<b>Add Peer</b>"
-msgstr "<b>पीयर जोड़ें</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr "होस्टनाम:पोर्ट"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
-msgid "Add Host"
-msgstr "होस्ट जोड़ें"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>कनेक्सन मैनेजर</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
-msgid "_Start local daemon"
-msgstr "लोकल डीमान शुरू करें (_Start)"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
-msgid "Automatically connect to selected host on start-up"
-msgstr "Automatically connect to selected host on start-up"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
-msgid "Automatically start localhost if needed"
-msgstr "आवश्यकता पड़ने पर लोकलहोस्ट अपने आप शुरू करें"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
-msgid "Do not show this dialog on start-up"
-msgstr "Do not show this dialog on start-up"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+#: deluge/ui/gtkui/glade/main_window.glade:440
+#: deluge/ui/gtkui/glade/main_window.glade:441
+msgid "Preferences"
+msgstr "वरीयता"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -2974,6 +2503,11 @@ msgstr "सघन साझा उपयोग करें"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:392
 msgid "Compact allocation only allocates space as needed"
 msgstr "Compact allocation only allocates space as needed"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+msgid "<b>Allocation</b>"
+msgstr "<b>साझा</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
 msgid "Prioritize first and last pieces of torrent"
@@ -3075,11 +2609,6 @@ msgstr "एल एस डी(LSD)"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
 msgstr "Local Service Discovery finds local peers on your network."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
-#: deluge/ui/console/statusbars.py:104
-msgid "DHT"
-msgstr "डी एच टी"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
@@ -3587,6 +3116,11 @@ msgstr "<i><b><big>प्लगिन्स</big></b></i>"
 msgid "Version:"
 msgstr "संस्करण:"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+msgid "Author:"
+msgstr "लेखकः"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Homepage:"
 msgstr "मुख पृष्ठः"
@@ -3607,27 +3141,477 @@ msgstr "_Rescan Plugins"
 msgid "_Find More Plugins"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "डिल्युज दिखाएँ (_S)"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+msgid "Queued Torrents"
+msgstr "टॉरेन्ट्स कतार में"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "सभी रिज्यूम (_R)"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>कतार वाले टॉरेन्ट्स जोड़ें</b></big>"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-msgid "_Download Speed Limit"
-msgstr "_डाउनलोड"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+msgid "Automatically add torrents on connect"
+msgstr "कनेक्ट होने पर स्वतः ही टॉरेन्ट्स जोड़ें"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-msgid "_Upload Speed Limit"
-msgstr "_अपलोड की गति सीमा"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "टॉरेन्ट बनाएं"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
-msgid "Quit & Shutdown Daemon"
-msgstr "Quit & Shutdown Daemon"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>टॉरेन्ट बनाएं</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:21
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+msgid "_File"
+msgstr "फ़ाइल (_F)"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "फोल्_डर"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "_Remote पथ"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>फाइलें</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "टिप्पणियाँ:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "जानकारी"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "वेबसीड्स"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "Piece Size:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+msgid "Set Private Flag"
+msgstr "सेट प्राइवेट फ्लैग"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+msgid "Add this torrent to the session"
+msgstr "यह टॉरेन्ट सेशन में जोड़ें"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+msgid "Enter Remote Path"
+msgstr "रिमोट पथ डालें"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+msgid "<b>Remote Path</b>"
+msgstr "<b>रिमोट पथ</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+msgid "Path:"
+msgstr "पथ:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+msgid "Creating Torrent"
+msgstr "टॉरेन्ट निर्माण कर रहा है"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+msgid "Save .torrent as"
+msgstr "Save .torrent as"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>.torrent फ़ाइल सुरक्षित</b>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:8
+msgid "Add Host"
+msgstr "होस्ट जोड़ें"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+#: deluge/ui/gtkui/glade/main_window.glade:455
+#: deluge/ui/gtkui/glade/main_window.glade:456
+msgid "Connection Manager"
+msgstr "कनेक्शन प्रबंधक"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:237
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>कनेक्सन मैनेजर</b></big>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:363
+msgid "_Start local daemon"
+msgstr "लोकल डीमान शुरू करें (_Start)"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:415
+msgid "Automatically connect to selected host on start-up"
+msgstr "Automatically connect to selected host on start-up"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:426
+msgid "Automatically start localhost if needed"
+msgstr "आवश्यकता पड़ने पर लोकलहोस्ट अपने आप शुरू करें"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:440
+msgid "Do not show this dialog on start-up"
+msgstr "Do not show this dialog on start-up"
+
+#: deluge/ui/gtkui/glade/main_window.glade:45
+msgid "_Create Torrent"
+msgstr "टॉरेन्ट बनाएं(_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:65
+msgid "Quit & _Shutdown Daemon"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:101
+msgid "_Edit"
+msgstr "संशोधन (_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:118
+msgid "_Connection Manager"
+msgstr "कनेक्सन मैनेजर (_C)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:140
+msgid "_Torrent"
+msgstr "टॉरेन्ट (_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:147
+msgid "_View"
+msgstr "देखें (_V)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:155
+msgid "_Toolbar"
+msgstr "उपकरण-पट्टी (_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:165
+msgid "_Sidebar"
+msgstr "किनारे की पट्टी (_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:174
+msgid "Status_bar"
+msgstr "Status_bar"
+
+#: deluge/ui/gtkui/glade/main_window.glade:188
+msgid "T_abs"
+msgstr "T_abs"
+
+#: deluge/ui/gtkui/glade/main_window.glade:195
+msgid "_Columns"
+msgstr "_Columns"
+
+#: deluge/ui/gtkui/glade/main_window.glade:203
+msgid "S_idebar"
+msgstr "बाजूपट्टी (_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:212
+msgid "Show _Zero Hits"
+msgstr "Show _Zero Hits"
+
+#: deluge/ui/gtkui/glade/main_window.glade:221
+msgid "Show _Trackers"
+msgstr "ट्रैकर्स दिखाएँ (_T)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:238
+msgid "_Help"
+msgstr "_सहायता"
+
+#: deluge/ui/gtkui/glade/main_window.glade:244
+msgid "_Homepage"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:261
+msgid "_FAQ"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:264
+msgid "Frequently Asked Questions"
+msgstr "बारम्बार पूछने वाले प्रश्न"
+
+#: deluge/ui/gtkui/glade/main_window.glade:280
+msgid "_Community"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+msgid "Add torrent"
+msgstr "टॉरेन्ट जोड़ें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:328
+msgid "Add Torrent"
+msgstr "टॉरेन्ट जोड़ें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:342
+msgid "Remove torrent"
+msgstr "टॉरेन्ट हटाएँ"
+
+#: deluge/ui/gtkui/glade/main_window.glade:343
+msgid "Remove Torrent"
+msgstr "टॉरेन्ट हटाइये"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+msgid "Pause the selected torrents"
+msgstr "चुने हुए टॉरेन्ट्स को विराम करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:365
+msgid "Pause"
+msgstr "ठहरें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:380
+msgid "Resume the selected torrents"
+msgstr "चुने हुए टॉरेन्ट्स को रिज्यूम विराम करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:381
+msgid "Resume"
+msgstr "पुनः आरम्भ करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:403
+msgid "Queue Torrent Up"
+msgstr "टॉरेन्ट कतार में ऊपर करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:404
+msgid "Queue Up"
+msgstr "कतार में ऊपर"
+
+#: deluge/ui/gtkui/glade/main_window.glade:418
+msgid "Queue Torrent Down"
+msgstr "टॉरेन्ट कतार में नीचे करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:419
+msgid "Queue Down"
+msgstr "कतार में नीचे"
+
+#: deluge/ui/gtkui/glade/main_window.glade:570
+msgid "_Expand All"
+msgstr "सभी का विस्तार करें (_E)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:591
+msgid "_Do Not Download"
+msgstr "_डाउनलोड नहीं करें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:607
+msgid "_Normal Priority"
+msgstr "सामान्य प्राथमिकता (_N)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:623
+msgid "_High Priority"
+msgstr "उच्च प्राथमिकता (_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:639
+msgid "Hi_ghest Priority"
+msgstr "उच्चतम प्राथमिकता (_H)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:721
+msgid "<b>Auto Managed:</b>"
+msgstr "<b>स्व निर्धारण:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:762
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>सीड क्रम:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:777
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>सीडिंग समय:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:803
+msgid "<b>Active Time:</b>"
+msgstr "<b>सक्रिय समय:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:860
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>ट्रैकर अवस्था:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:890
+msgid "<b>Availability:</b>"
+msgstr "<b>उपलब्धता:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:944
+msgid "<b>Peers:</b>"
+msgstr "<b>पीयर्स:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:970
+msgid "<b>Seeders:</b>"
+msgstr "<b>सीडर्स:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:988
+msgid "<b>Pieces:</b>"
+msgstr "<b>Pieces:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1010
+msgid "<b>ETA:</b>"
+msgstr "<b>ETA:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1032
+msgid "<b>Up Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1054
+msgid "<b>Down Speed:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1073
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Next Announce:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1092
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Share अनुपात:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1111
+msgid "<b>Uploaded:</b>"
+msgstr "<b>अपलोड किया :</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1130
+msgid "<b>Downloaded:</b>"
+msgstr "<b>डाउनलोड किया :</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1191
+msgid "<b>Date Added:</b>"
+msgstr "<b>Date Added:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1249
+msgid "_Status"
+msgstr "अवस्था (_S)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1310
+msgid "<b>Comments:</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:1339
+msgid "<b># of files:</b>"
+msgstr "<b># of files:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Hash:</b>"
+msgstr "<b>Hash:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1401
+msgid "<b>Tracker:</b>"
+msgstr "<b>ट्रैकर :</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1421
+msgid "<b>Total Size:</b>"
+msgstr "<b>कुल आकार:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1459
+msgid "<b>Name:</b>"
+msgstr "<b>नाम:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1479
+msgid "<b>Path:</b>"
+msgstr "<b> पथ</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1513
+msgid "<b>Status:</b>"
+msgstr "<b>अवस्था:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1594
+msgid "_Details"
+msgstr "विवरण (_D)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1646
+msgid "_Files"
+msgstr "फ़ाइलें (_F)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1698
+msgid "_Peers"
+msgstr "पीयर्स (_P)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2009
+msgid "Move completed:"
+msgstr "पूर्ण होने पर यहाँ ले जाएँ:"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2105
+msgid "Private"
+msgstr "निजी"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2120
+msgid "Prioritize First/Last"
+msgstr "Prioritize First/Last"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+msgid "_Edit Trackers"
+msgstr "_संशोधन ट्रैकर"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2265
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+msgid "_Options"
+msgstr "विकल्प (_O)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2285
+msgid "Remove Torrent?"
+msgstr "टॉरेन्ट हटायें?"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2324
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr ""
+"<big><b>क्या आप निश्चिन्त हैं की आप चुने हुए टॉरेन्ट को मिटाना चाहते "
+"हैं?</b></big>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2376
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>संयुक्त टॉरेन्ट मिटा दिया जायगा !</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2416
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>डाउनलोड किया हुया डाटा मिटा दिया जायगा !</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2460
+msgid "Remove Selected Torrent"
+msgstr "चुना हुआ टॉरेन्ट हटायें"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2484
+msgid "New Release"
+msgstr "नया रिलीज़"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2518
+msgid "<b><big>New Release Available!</big></b>"
+msgstr "<b><big>नया संस्करण उपलब्ध!</big></b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2570
+msgid "<i>Available Version:</i>"
+msgstr "<i>उपलब्ध संस्करण:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2593
+msgid "<i>Current Version:</i>"
+msgstr "<i>वर्तमान संस्करण:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2604
+msgid "<i>Server Version</i>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2637
+msgid "Do not show this dialog in the future"
+msgstr "यह डायलोग भविष्य में न दिखाएँ"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2676
+msgid "_Goto Website"
+msgstr "वेबसाईट में जाएँ (_G)"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2704
+msgid "_Add Peer"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/main_window.glade:2706
+msgid "Add a peer by its IP"
+msgstr "कोई पीयर उसकी IP की सहायता से जोड़ें"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
@@ -3673,50 +3657,6 @@ msgstr "अपलोड _Slot सीमा"
 msgid "_Auto Managed"
 msgstr "स्व निर्धारित"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-msgid "Edit Trackers"
-msgstr "ट्रैकर्स संशोधन"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:47
-msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>ट्रैकर्स संशोधन</b></big>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
-msgid "Add Tracker"
-msgstr "ट्रैकर जोड़ें"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:260
-msgid "<b>Add Trackers</b>"
-msgstr "<b>ट्रैकर जोड़ें</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
-msgid "Edit Tracker"
-msgstr "ट्रैकर संशोधन"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:416
-msgid "<b>Edit Tracker</b>"
-msgstr "<b>ट्रैकर संशोधन</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
-msgid "Tracker:"
-msgstr "ट्रैकर:"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>चुने हुए टॉरेन्ट को हटायें? </b></big>"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr "यदि आप डाटा हटाओगे तों वह पूरी तरह खो जायगा"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr "_डाटा के साथ हटायें"
-
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr "_टॉरेन्ट हटायें"
-
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
 msgstr "Move Storage"
@@ -3729,6 +3669,98 @@ msgstr "<b>Move Storage</b>"
 msgid "Destination:"
 msgstr "लक्ष्य:"
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+msgid "Add Torrents"
+msgstr "टॉरेन्ट जोड़ें"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
+msgid "_URL"
+msgstr "यूआरएल(_U)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
+msgid "Info_hash"
+msgstr "Info_hash"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+msgid "_Remove"
+msgstr "हटाएँ (_R)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+msgid "<b>Torrents</b>"
+msgstr "<b>टॉरेन्ट </b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
+msgid "Fi_les"
+msgstr "फ़ाइलें (_l)"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "Full"
+msgstr "पूर्ण"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
+msgid "Compact"
+msgstr "सघन"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+msgid "Max Down Speed:"
+msgstr "अधिकतम डाउनलोड गति"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+msgid "Max Up Speed:"
+msgstr "अधिकतम उपरी गति:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+msgid "Add In _Paused State"
+msgstr "विराम अवस्था में जोड़ें"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+msgid "Prioritize First/Last Pieces"
+msgstr "Prioritize First/Last Pieces"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+msgid "Revert To Defaults"
+msgstr "Revert To Defaults"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+msgid "Apply To All"
+msgstr "सभी में लागू करें"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+msgid "Add URL"
+msgstr "यु आर एल जोड़ें"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+msgid "<b>From URL</b>"
+msgstr "<b>यु आर एल से</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+msgid "Add Infohash"
+msgstr "Infohash जोड़ें"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+msgid "<b>From Infohash</b>"
+msgstr "<b>Infohash से</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
+msgid "Infohash:"
+msgstr "Infohash:"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+msgid "label"
+msgstr "लेबल"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+msgid "Add Peer"
+msgstr "पीयर जोड़ें"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+msgid "<b>Add Peer</b>"
+msgstr "<b>पीयर जोड़ें</b>"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr "होस्टनाम:पोर्ट"
+
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
 msgstr ""
@@ -3740,866 +3772,3 @@ msgstr ""
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
 msgstr ""
-
-#~ msgid "Clear"
-#~ msgstr "खाली करें"
-
-#~ msgid "Add"
-#~ msgstr "जोड़ें"
-
-#~ msgid "Details"
-#~ msgstr "विवरण"
-
-#~ msgid "Select All"
-#~ msgstr "सभी चुनें"
-
-#~ msgid "0000"
-#~ msgstr "0000"
-
-#~ msgid "Password"
-#~ msgstr "पासवर्ड"
-
-#~ msgid "Server"
-#~ msgstr "सर्वर"
-
-#~ msgid "Port"
-#~ msgstr "पोर्ट"
-
-#~ msgid "_Quit"
-#~ msgstr "बाहर (_Q)"
-
-#~ msgid "Unknown"
-#~ msgstr "अज्ञात"
-
-#~ msgid "Download"
-#~ msgstr "डाउनलोड"
-
-#~ msgid "Upload"
-#~ msgstr "अपलोड"
-
-#~ msgid "Files"
-#~ msgstr "फ़ाइलें"
-
-#~ msgid "Text Only"
-#~ msgstr "सिर्फ पाठ"
-
-#~ msgid "About"
-#~ msgstr "के बारे में"
-
-#~ msgid "Disable"
-#~ msgstr "निष्क्रिय करें"
-
-#~ msgid "Logout"
-#~ msgstr "लॉग आउट"
-
-#~ msgid "Set"
-#~ msgstr "सेट"
-
-#~ msgid "Speed"
-#~ msgstr "गति"
-
-#~ msgid "Url"
-#~ msgstr "यूआरएल"
-
-#~ msgid "Submit"
-#~ msgstr "जमा करें"
-
-#~ msgid "Total Size"
-#~ msgstr "कुल आकार"
-
-#~ msgid "Start"
-#~ msgstr "प्रारंभ"
-
-#~ msgid "Type"
-#~ msgstr "प्रकार"
-
-#~ msgid "seconds"
-#~ msgstr "सेकण्ड"
-
-#~ msgid "From"
-#~ msgstr "से"
-
-#~ msgid "Filters"
-#~ msgstr "फ़िल्टर्स"
-
-#~ msgid "Delete"
-#~ msgstr "मिटाएँ"
-
-#~ msgid "General"
-#~ msgstr "सामान्य"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "अधिकतम कनेक्शन"
-
-#~ msgid "Maximum Upload Slots"
-#~ msgstr "अधिकतम अपलोड स्लॉट्स"
-
-#~ msgid "Check for every (days)"
-#~ msgstr "प्रत्येक के लिए जाँच (दिन)"
-
-#, python-format
-#~ msgid "Downloading %.2f%%"
-#~ msgstr "%.2f%% डाउनलोड किया जा राहा है"
-
-#~ msgid "Import Now"
-#~ msgstr "आयात अब"
-
-#~ msgid "Times to attempt download"
-#~ msgstr "डाउनलोड करने का प्रयास इतनी बार करें"
-
-#~ msgid "Import on daemon startup"
-#~ msgstr "डीमन के शुरू होने पर आयात"
-
-#~ msgid "Timeout (seconds)"
-#~ msgstr "समय की सीमा (सेकन्ड्स)"
-
-#, python-format
-#~ msgid "Importing %s"
-#~ msgstr "%s का आयात किया जा रहा है"
-
-#~ msgid "Inactive"
-#~ msgstr "निष्क्रिय"
-
-#~ msgid "Refresh status"
-#~ msgstr "ताज़ा स्थिति"
-
-#, python-format
-#~ msgid "Blocked Ranges: %s"
-#~ msgstr "अवरुद्ध सीमायें:%s"
-
-#~ msgid "Deluge is locked"
-#~ msgstr "डिल्यूज बंद है"
-
-#~ msgid ""
-#~ "Deluge is password protected.\n"
-#~ "To show the Deluge window, please enter your password"
-#~ msgstr ""
-#~ "डिल्यूज पासवर्ड से सुरक्षित है.\n"
-#~ "डिल्यूज विंडो दिखाने के लिए कृपया अपना पासवर्ड दर्ज करें"
-
-#~ msgid "Other.."
-#~ msgstr "अन्य.."
-
-#~ msgid "<big><b>Add Torrents</b></big>"
-#~ msgstr "<big><b>टोरेंट जोड़ें</b></big>"
-
-#~ msgid "page 11"
-#~ msgstr "पृष्ठ 11"
-
-#~ msgid "page 12"
-#~ msgstr "पृष्ठ 12"
-
-#~ msgid "Homepage"
-#~ msgstr "मुख्य पृष्ठ"
-
-#~ msgid "Community"
-#~ msgstr "समुदाय"
-
-#~ msgid "<b>Speed:</b>"
-#~ msgstr "<b>गति :</b>"
-
-#~ msgid "Connect"
-#~ msgstr "जोड़ें"
-
-#~ msgid "Statistics"
-#~ msgstr "आंकड़े"
-
-#~ msgid "∞"
-#~ msgstr "∞"
-
-#~ msgid "Move"
-#~ msgstr "स्थानान्तर"
-
-#~ msgid "Recheck"
-#~ msgstr "पुनः जांच"
-
-#~ msgid "Stop"
-#~ msgstr "बंद करें"
-
-#~ msgid "UpNP"
-#~ msgstr "यु पी एन पी"
-
-#~ msgid "Mainline DHT"
-#~ msgstr "डि एच टी मेनलाइन"
-
-#~ msgid "Extra's"
-#~ msgstr "अतिरिक्त"
-
-#~ msgid "Random"
-#~ msgstr "क्रमहीन"
-
-#~ msgid "Ports"
-#~ msgstr "पोर्ट्स"
-
-#~ msgid "To"
-#~ msgstr "प्रति"
-
-#~ msgid "Either"
-#~ msgstr "अथवा"
-
-#~ msgid "Handshake"
-#~ msgstr "हैंडशेक"
-
-#~ msgid "Disabled"
-#~ msgstr "निष्क्रिय"
-
-#~ msgid "Level"
-#~ msgstr "स्तर"
-
-#~ msgid "Global"
-#~ msgstr "वैश्विक"
-
-#~ msgid "-1 = Unlimited"
-#~ msgstr "-1 = सीमारहित"
-
-#~ msgid "Username"
-#~ msgstr "उपयोगकर्ता का नाम"
-
-#~ msgid "HTTP"
-#~ msgstr "एचटीटीपी"
-
-#~ msgid "Maximum Upload Speed (Kib/s)"
-#~ msgstr "अधिकतम अपलोड गति (Kib/s)"
-
-#~ msgid "Maximum Download Speed (Kib/s)"
-#~ msgstr "अधिकतम डाउनलोड गति (Kib/s)"
-
-#~ msgid "Maximum Half-Open Connections"
-#~ msgstr "अधिकतम आधे-खुले सम्बन्ध"
-
-#~ msgid "Per Torrent"
-#~ msgstr "प्रति टॉरेन्ट्"
-
-#~ msgid "Remove torrent when ratio reached"
-#~ msgstr "टॉरेन्ट हटायें जब अनुपात हो जाए"
-
-#~ msgid "-1 = unlimited"
-#~ msgstr "-1 = सीमारहित"
-
-#~ msgid "Total active torrents"
-#~ msgstr "कुल सक्रिय टॉरेन्ट"
-
-#~ msgid "Total active downloading"
-#~ msgstr "कुल सक्रिय डाउनलोड"
-
-#~ msgid "Total active seeding"
-#~ msgstr "कुल देने वाले लोग"
-
-#~ msgid "Stop seeding when ratio reaches"
-#~ msgstr "देना बंद करें जब अनुपात हो जाए"
-
-#~ msgid "Auto Add enabled"
-#~ msgstr "अपनेआप जोड़ना सक्रिय हुआ"
-
-#~ msgid "Auto Add folder"
-#~ msgstr "अपनेआप फोल्डर जोड़ें"
-
-#~ msgid "translate something"
-#~ msgstr "कुछ अनुवाद करो"
-
-#~ msgid "Enabled Plugins"
-#~ msgstr "प्लगिन सक्रिय करें"
-
-#~ msgid "This folder does not exist."
-#~ msgstr "इस फोल्डर का अस्तित्व नहीं है."
-
-#~ msgid "This field is required."
-#~ msgstr "यह क्षेत्र आवश्यक है"
-
-#~ msgid "No"
-#~ msgstr "नहीं"
-
-#~ msgid "Yes"
-#~ msgstr "हाँ"
-
-#~ msgid "Enter a number."
-#~ msgstr "कोई अंक डालें"
-
-#~ msgid "Enter a valid e-mail address."
-#~ msgstr "मान्य ई-मेल एड्रेस डालें"
-
-#~ msgid "Move To"
-#~ msgstr "खिसकाएँ"
-
-#~ msgid "Enter a valid IPv4 address."
-#~ msgstr "मान्य IPv4 एड्रेस डालें"
-
-#~ msgid "Button style"
-#~ msgstr "बटन शैली"
-
-#~ msgid "Current Password"
-#~ msgstr "वर्त्तमान पासवर्ड"
-
-#~ msgid "New Password"
-#~ msgstr "नया पासवर्ड"
-
-#~ msgid "Show trackers"
-#~ msgstr "ट्रैकर्स दिखाएँ"
-
-#~ msgid "Show sidebar"
-#~ msgstr "साइडबार दिखाएँ"
-
-#~ msgid "Sidebar"
-#~ msgstr "साइडबार"
-
-#~ msgid "Stop seed at ratio"
-#~ msgstr "सीड इस अनुपात पर रोके"
-
-#~ msgid "Download Location"
-#~ msgstr "डाउनलोड स्थान"
-
-#~ msgid "No data"
-#~ msgstr "कोई आँकड़ा नहीं"
-
-#~ msgid "page 6"
-#~ msgstr "पृष्ठ 6"
-
-#~ msgid "Auto refresh:"
-#~ msgstr "स्वतः ताज़ा करें:"
-
-#~ msgid "Availability"
-#~ msgstr "उपलब्धता"
-
-#~ msgid "Active time"
-#~ msgstr "सक्रिय समय"
-
-#~ msgid "Cancel"
-#~ msgstr "निरस्त करें"
-
-#~ msgid "page 8"
-#~ msgstr "पृष्ठ 8"
-
-#~ msgid "page 7"
-#~ msgstr "पृष्ठ 7"
-
-#~ msgid "page 10"
-#~ msgstr "पृष्ठ 10"
-
-#~ msgid "Connected to"
-#~ msgstr "सम्बन्ध हुआ"
-
-#~ msgid "Connection Limit"
-#~ msgstr "सम्बन्ध सीमा"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-
-#~ msgid "Do not download"
-#~ msgstr "डाउनलोड नहीं करें"
-
-#~ msgid "File"
-#~ msgstr "फाइल"
-
-#~ msgid "False"
-#~ msgstr "असत्य"
-
-#~ msgid "Template"
-#~ msgstr "टैम्प्लेट"
-
-#~ msgid "Forced"
-#~ msgstr "बलपूर्वक किया"
-
-#~ msgid "Queue Top"
-#~ msgstr "कतार में ऊपर"
-
-#~ msgid "Queue Bottom"
-#~ msgstr "कतार में नीचे"
-
-#, python-format
-#~ msgid "%.2f%%"
-#~ msgstr "%.2f%%"
-
-#~ msgid "Login"
-#~ msgstr "लॉगिन"
-
-#~ msgid "High priority"
-#~ msgstr "उच्च प्राथमिकता"
-
-#~ msgid "Keyword"
-#~ msgstr "कीवर्ड"
-
-#~ msgid "Ok"
-#~ msgstr "ओके"
-
-#~ msgid "Password is invalid,try again"
-#~ msgstr "पासवर्ड अमान्य है, पुनः प्रयास करें"
-
-#~ msgid "Normal priority"
-#~ msgstr "सामान्य प्राथमिकता"
-
-#~ msgid "Remove"
-#~ msgstr "हटाएँ"
-
-#~ msgid "Seed rank"
-#~ msgstr "सीड स्थान"
-
-#~ msgid "Seeding time"
-#~ msgstr "सीडिंग समय"
-
-#~ msgid "Search"
-#~ msgstr "ढूंढें"
-
-#~ msgid "Save"
-#~ msgstr "सुरक्षित करें"
-
-#~ msgid "Restart"
-#~ msgstr "पुनः आरंभ करें"
-
-#~ msgid "True"
-#~ msgstr "सत्य"
-
-#~ msgid "Upload Slot Limit"
-#~ msgstr "अपलोड स्लॉट सीमा"
-
-#~ msgid ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "this doesn't do anything yet..\n"
-#~ msgstr ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "this doesn't do anything yet..\n"
-
-#~ msgid "0x00"
-#~ msgstr "0x00"
-
-#~ msgid "gtk-edit"
-#~ msgstr "gtk-संशोधन"
-
-#~ msgid "gtk-connect"
-#~ msgstr "gtk-connect"
-
-#~ msgid "FAQ"
-#~ msgstr "FAQ"
-
-#~ msgid "max_upload_slots"
-#~ msgstr "अधिकतम_अपलोड_स्लॉट्स"
-
-#~ msgid "max_connections"
-#~ msgstr "अधिकतम_सम्बन्ध"
-
-#~ msgid "apply_queue"
-#~ msgstr "apply_queue"
-
-#~ msgid "is_auto_managed"
-#~ msgstr "is_auto_managed"
-
-#~ msgid "max_upload_speed"
-#~ msgstr "अधिकतम_अपलोड_गति"
-
-#~ msgid "max_download_speed"
-#~ msgstr "अधिकतम_डाउनलोड_गति"
-
-#~ msgid "apply_max"
-#~ msgstr "apply_max"
-
-#~ msgid "Error setting label options"
-#~ msgstr "Error setting label options"
-
-#~ msgid "stop_at_ratio"
-#~ msgstr "stop_at_ratio"
-
-#~ msgid "stop_ratio"
-#~ msgstr "stop_ratio"
-
-#~ msgid "remove_at_ratio"
-#~ msgstr "remove_at_ratio"
-
-#~ msgid "apply_move_completed"
-#~ msgstr "apply_move_completed"
-
-#~ msgid "move_completed"
-#~ msgstr "move_completed"
-
-#~ msgid "auto_add"
-#~ msgstr "auto_add"
-
-#~ msgid "Work in progress.."
-#~ msgstr "कार्य प्रगति पर.."
-
-#~ msgid "move_completed_path"
-#~ msgstr "move_completed_path"
-
-#~ msgid "BlockList"
-#~ msgstr "ब्लॉकलिस्ट (BlockList)"
-
-#, python-format
-#~ msgid "Including %i files"
-#~ msgstr "Including %i files"
-
-#~ msgid "State"
-#~ msgstr "स्थिति"
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-#~ msgstr ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-
-#, python-format
-#~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
-#~ "To stop receiving these alerts, simply turn off             email "
-#~ "notification in Deluge's preferences.\n"
-#~ "\n"
-#~ "Thank you,\n"
-#~ "Deluge"
-#~ msgstr ""
-#~ "यह ई-मेल आपको बताने के लिए है की डिल्युज ने %s डाउनलोडिंग समाप्त कर डाली है "
-#~ ". जिसमे %i फ़ाइल शामिल हैं.\n"
-#~ "यह सूचनाएं पाना बंद करने के लिए डिल्युज के ई-मेल सूचनाओं को डिल्युज के "
-#~ "प्रिफरेंसेस से बंद कर दीजिये."
-
-#~ msgid "Correct the errors above and try again"
-#~ msgstr "उपरोक्त त्रुटियों को सुधारें और पुनः प्रयास करें"
-
-#~ msgid "no label"
-#~ msgstr "कोई लेबल नहीं"
-
-#~ msgid "Config"
-#~ msgstr "कॉन्फ़िग"
-
-#~ msgid "Reannounce"
-#~ msgstr "Reannounce"
-
-#~ msgid "Torrent is past stop ratio."
-#~ msgstr "Torrent is past stop ratio."
-
-#~ msgid "These changes were saved"
-#~ msgstr "ये बदलाव सुरक्षित हो गए"
-
-#~ msgid "Encryption"
-#~ msgstr "एनक्रिप्शन"
-
-#~ msgid "Peer-Exchange"
-#~ msgstr "पीयर-विनिमय"
-
-#~ msgid "HTTP W/ Auth"
-#~ msgstr "HTTP W/ Auth"
-
-#~ msgid "Socksv5"
-#~ msgstr "Socksv5"
-
-#~ msgid "Socksv5 W/ Auth"
-#~ msgstr "Socksv5 W/ Auth"
-
-#~ msgid "Socksv4"
-#~ msgstr "Socksv4"
-
-#~ msgid "Inbound"
-#~ msgstr "Inbound"
-
-#~ msgid "Outbound"
-#~ msgstr "Outbound"
-
-#~ msgid "Rate Limit IP Overhead"
-#~ msgstr "Rate Limit IP Overhead"
-
-#~ msgid "Maximum Connection Attempts per Second"
-#~ msgstr "प्रति सेकण्ड संबंधों के लिए अधिकतम प्रयास"
-
-#~ msgid "Enter a list of values."
-#~ msgstr "Enter a list of values."
-
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
-#~ msgstr "मान्य चुनाव करें. यह चुनाव उपलब्ध चुनावों में से एक नहीं है."
-
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
-#~ msgstr ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
-
-#~ msgid "Save .torrent files to"
-#~ msgstr ".torrent फ़ाइल यहाँ सुरक्षित करें"
-
-#~ msgid "Store all downoads in"
-#~ msgstr "सभी डाउनलोड यहाँ सुरक्षित करें"
-
-#, python-format
-#~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-#~ msgstr ""
-#~ "Ensure this value has at most %(max)d characters (it has %(length)d)."
-
-#~ msgid "Enter a valid value."
-#~ msgstr "कोई मान्य वैल्यू डालें"
-
-#, python-format
-#~ msgid "Select a valid choice. %s is not one of the available choices."
-#~ msgstr "मान्य चुनाव करें. %s उपलब्ध चुनावों में नहीं है."
-
-#~ msgid "Restart daemon and webui after changing these settings"
-#~ msgstr "Restart daemon and webui after changing these settings"
-
-#~ msgid "Prioritize first and last pieces"
-#~ msgstr "Prioritize first and last pieces"
-
-#~ msgid "Enter a valid date."
-#~ msgstr "मान्य दिनांक डालें."
-
-#~ msgid "Enter a valid time."
-#~ msgstr "मान्य समय डालें."
-
-#, python-format
-#~ msgid "Ensure that there are no more than %s decimal places."
-#~ msgstr "Ensure that there are no more than %s decimal places."
-
-#, python-format
-#~ msgid ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
-#~ msgstr ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
-
-#, python-format
-#~ msgid "Ensure that there are no more than %s digits in total."
-#~ msgstr "Ensure that there are no more than %s digits in total."
-
-#, python-format
-#~ msgid "Ensure this value is less than or equal to %s."
-#~ msgstr "निश्चित करें की यह वैल्यू %s से छोटा या बराबर है."
-
-#, python-format
-#~ msgid "Ensure this value is greater than or equal to %s."
-#~ msgstr "निश्चित करें की यह वैल्यू %s से बड़ा या बराबर है."
-
-#~ msgid "No file was submitted. Check the encoding type on the form."
-#~ msgstr "No file was submitted. Check the encoding type on the form."
-
-#~ msgid "Enter a whole number."
-#~ msgstr "एक पूर्ण अंक डालें"
-
-#~ msgid "Enter a valid date/time."
-#~ msgstr "मान्य दिनांक/समय डालें."
-
-#~ msgid "Text and image"
-#~ msgstr "Text and image"
-
-#~ msgid "Error in Path."
-#~ msgstr "पथ में त्रुटी"
-
-#~ msgid "no uri"
-#~ msgstr "no uri"
-
-#~ msgid "refresh must be > 0"
-#~ msgstr "refresh must be > 0"
-
-#~ msgid ""
-#~ "Upload a valid image. The file you uploaded was either not an image or a "
-#~ "corrupted image."
-#~ msgstr ""
-#~ "कोई मान्य छवि अपलोड करें. जो फ़ाइल आपने जमा किया वो या तो छवि नहीं है या "
-#~ "दूषित हो गयी ई."
-
-#~ msgid "The submitted file is empty."
-#~ msgstr "जमा किया फ़ाइल रिक्त है."
-
-#~ msgid "No file was submitted."
-#~ msgstr "कोई फ़ाइल जमा नहीं किया गया."
-
-#, python-format
-#~ msgid "Select a valid choice. %(value)s is not one of the available choices."
-#~ msgstr ""
-#~ "Select a valid choice. %(value)s is not one of the available choices."
-
-#~ msgid "This URL appears to be a broken link."
-#~ msgstr "यह URL नष्ट (broken link) लगता है."
-
-#~ msgid "Enter a valid URL."
-#~ msgstr "मान्य URL डालें."
-
-#~ msgid "Cache templates"
-#~ msgstr "Cache templates"
-
-#~ msgid "Image Only"
-#~ msgstr "केवल छवि"
-
-#~ msgid "Auto refresh (seconds)"
-#~ msgstr "स्वतः ताजा (सेकण्ड)"
-
-#~ msgid "Https"
-#~ msgstr "Https"
-
-#~ msgid "Manually restart webui to apply changes."
-#~ msgstr "Manually restart webui to apply changes."
-
-#, python-format
-#~ msgid "Key not found at '%s'"
-#~ msgstr "'%s' में की (key) नहीं पायी गयी."
-
-#, python-format
-#~ msgid "Certificate not found at '%s'"
-#~ msgstr "'%s' में प्रमाणपात्र नहीं पाया गया"
-
-#~ msgid "Old password is invalid"
-#~ msgstr "पुराना पासवर्ड मान्य नहीं."
-
-#~ msgid "New Password (Confirm)"
-#~ msgstr "नया पासवर्ड (Confirm)"
-
-#~ msgid "New Password is not equal to New Password(confirm)"
-#~ msgstr "नया पासवर्ड नए पासवर्ड (Confirm) के बराबर नहीं."
-
-#~ msgid "Show keyword search"
-#~ msgstr "Show keyword search"
-
-#~ msgid "Show zero hits"
-#~ msgstr "Show zero hits"
-
-#~ msgid "Maximum Down Speed"
-#~ msgstr "अधिकतम अधो गति"
-
-#~ msgid "Maximum Up Speed"
-#~ msgstr "अधिकतम उर्ध्व गति"
-
-#~ msgid "Compact Allocation"
-#~ msgstr "Compact Allocation"
-
-#~ msgid "# Of Files"
-#~ msgstr "# Of Files"
-
-#~ msgid "Choose an url or a torrent, not both."
-#~ msgstr "url या टॉरेन्ट चुनें, दोनों नहीं"
-
-#~ msgid "Upload torrent"
-#~ msgstr "अपलोड टॉरेन्ट"
-
-#~ msgid "Add In Paused State"
-#~ msgstr "विराम (Paused) अवस्था में जोड़ें"
-
-#~ msgid "Error in torrent options."
-#~ msgstr "टॉरेन्ट विकल्प में त्रुटी"
-
-#~ msgid "Ava"
-#~ msgstr "Ava"
-
-#~ msgid "Connect to Daemon"
-#~ msgstr "Connect to Daemon"
-
-#~ msgid "D/L Speed Limit"
-#~ msgstr "D/L गति सीमा"
-
-#~ msgid "Delete downloaded files."
-#~ msgstr "डाउनलोड किये फाइलों को इताएं"
-
-#~ msgid "Admin"
-#~ msgstr "प्रशासक"
-
-#~ msgid "... and delete Torrent file"
-#~ msgstr "... और टॉरेन्ट फ़ाइल मिटायें"
-
-#~ msgid "... and delete Downloaded files"
-#~ msgstr "... और डाउनलोडेड फाइलों को मिटायें"
-
-#~ msgid "... and delete All files"
-#~ msgstr "... और सभी फाइलों को मिटायें"
-
-#~ msgid "Delete .torrent file"
-#~ msgstr ".torrent फ़ाइल मिटायें"
-
-#~ msgid "Eta"
-#~ msgstr "Eta"
-
-#~ msgid "Deluge : Torrent List"
-#~ msgstr "डिल्युज: टॉरेन्ट लिस्ट"
-
-#~ msgid "Deluge Login"
-#~ msgstr "डिल्युज लॉगिन"
-
-#~ msgid "Disk Space"
-#~ msgstr "डिस्क स्थान"
-
-#~ msgid "Label torrent"
-#~ msgstr "लेबल टॉरेन्ट"
-
-#~ msgid "From Url"
-#~ msgstr "Url से"
-
-#~ msgid "From Session"
-#~ msgstr "सेशन से"
-
-#~ msgid "Force Recheck"
-#~ msgstr "बलपूर्वक पुनः जांच"
-
-#~ msgid "Filter on a keyword"
-#~ msgstr "Filter on a keyword"
-
-#~ msgid "Highest priority"
-#~ msgstr "उच्चतम प्राथमिकता"
-
-#~ msgid "Set Timeout"
-#~ msgstr "Set Timeout"
-
-#~ msgid "Not Connected to a daemon"
-#~ msgstr "Not Connected to a daemon"
-
-#~ msgid "No Incoming Connections"
-#~ msgstr "कोई आने वाले सम्बन्ध नहीं"
-
-#~ msgid "Move torrent"
-#~ msgstr "टॉरेन्ट सरकाएं"
-
-#~ msgid "Next Announce"
-#~ msgstr "अगली घोसणा"
-
-#~ msgid "Resume all"
-#~ msgstr "Resume all"
-
-#~ msgid "Pieces"
-#~ msgstr "टुकड़े"
-
-#~ msgid "Pause all"
-#~ msgstr "Pause all"
-
-#~ msgid "Refresh page every:"
-#~ msgstr "पृष्ठ ताजा करें प्रत्येक:"
-
-#~ msgid "Queue Position"
-#~ msgstr "कतार स्थान"
-
-#~ msgid "Torrent list"
-#~ msgstr "टॉरेन्ट लिस्ट"
-
-#~ msgid "Share Ratio"
-#~ msgstr "Share अनुपात"
-
-#~ msgid "U/L Speed Limit"
-#~ msgstr "U/L गति सीमा"
-
-#~ msgid "Tracker Status"
-#~ msgstr "ट्रैकर अवस्था"
-
-#~ msgid "Update Tracker"
-#~ msgstr "ट्रैकर अपडेट"
-
-#~ msgid "Update"
-#~ msgstr "अपडेट"
-
-#~ msgid "auto_add_trackers"
-#~ msgstr "auto_add_trackers"

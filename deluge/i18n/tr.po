@@ -1,296 +1,21 @@
 # Turkish translation for deluge
-# Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-13 21:23+0100\n"
-"PO-Revision-Date: 2011-08-30 06:43+0000\n"
-"Last-Translator: Muhammet Aklan <Unknown>\n"
+"POT-Creation-Date: 2012-01-02 19:16+0000\n"
+"PO-Revision-Date: 2012-01-02 22:50+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-02 22:52+0000\n"
-"X-Generator: Launchpad (build 14560)\n"
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-#: deluge/ui/gtkui/glade/main_window.glade:2031
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
-msgid "Select A Folder"
-msgstr "Bir Dizin Seç"
-
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
-#: deluge/plugins/label/label/data/label_options.glade:349
-#: deluge/ui/gtkui/glade/main_window.glade:1952
-msgid "Stop seed at ratio:"
-msgstr "Şu orana ulaşıldığında yayınlamayı durdur:"
-
-#: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1930
-msgid "Auto Managed"
-msgstr "Otomatik"
-
-#: deluge/plugins/label/label/data/label_options.glade:593
-#: deluge/ui/gtkui/filtertreeview.py:70
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
-msgid "Trackers"
-msgstr "İzleyiciler"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
-msgid "URL:"
-msgstr "URL:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
-msgid "Import blocklist on startup"
-msgstr "Engellenmişler listesini başlangıçta içe aktar"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
-msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
-"Engellenmişler listesinin dosyasını gerekliyse indir ve dosyayı içe aktar"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
-msgid "Download a new blocklist file and import it."
-msgstr "Yeni bir engellenmişler listesi dosyası indir ve içe aktar."
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
-msgid "Force Download and Import"
-msgstr "İndirmeye zorla ve İçe aktar"
-
-#: deluge/ui/gtkui/queuedtorrents.py:135
-msgid " Torrents Queued"
-msgstr " Adet Torrent Kuyruğa Eklendi"
-
-#: deluge/ui/gtkui/queuedtorrents.py:137
-msgid " Torrent Queued"
-msgstr " Torrent Kuyruğa Eklendi"
-
-#: deluge/ui/gtkui/glade/main_window.glade:364
-msgid "Pause the selected torrents"
-msgstr "Seçili torrentleri duraklat"
-
-#: deluge/ui/gtkui/glade/main_window.glade:380
-msgid "Resume the selected torrents"
-msgstr "Seçili torrentleri devam ettir"
-
-#: deluge/ui/gtkui/glade/main_window.glade:570
-msgid "_Expand All"
-msgstr "Tümünü _Genişlet"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2120
-msgid "Prioritize First/Last"
-msgstr "Birinci/Sonuncu Öncelik Sırası"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2285
-msgid "Remove Torrent?"
-msgstr "Torenti kaldır?"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2324
-msgid ""
-"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr ""
-"<big><b>Seçilmiş torrenti kaldırmak istediğinize emin misiniz?</b></big>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2484
-msgid "New Release"
-msgstr "Yeni Sürüm"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2518
-msgid "<b><big>New Release Available!</big></b>"
-msgstr "<b><big>Yeni Sürüm Var!</big></b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2637
-msgid "Do not show this dialog in the future"
-msgstr "Bu iletişim kutusunu bir daha gösterme"
-
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
-#: deluge/ui/gtkui/glade/torrent_menu.glade:48
-msgid "Resume selected torrents."
-msgstr "Seçili torentlere devam et."
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
-msgid "_Remove"
-msgstr "Ka_ldır"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-msgid "Add In _Paused State"
-msgstr "D_uraklatılmış Durumda Ekle"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
-msgid "<b>From URL</b>"
-msgstr "<b>URL den ekle</b>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
-msgid "Queued Torrents"
-msgstr "Kuyruktaki Torrentler"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
-msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr "<big><b>Kuyruktaki Torrentleri Ekle</b></big>"
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
-msgid "Automatically add torrents on connect"
-msgstr "Bağlanıldığında torrentleri otomatik ekle"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:8
-msgid "Add Host"
-msgstr "Konakçı Ekle"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
-msgid "Automatically connect to selected host on start-up"
-msgstr "Açılışta seçilen konakçıya otomatik olarak bağlan"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:375
-msgid ""
-"Full allocation preallocates all of the space that is needed for the torrent "
-"and prevents disk fragmentation"
-msgstr ""
-"Tam alan tahsisi(torrentin diske yazılacak bölümünü önceden hazırlama) "
-"torrent için gerekli disk alanının tamamını önceden ayırır ve disk "
-"parçalanmasını engeller"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:387
-msgid "Use Compact Allocation"
-msgstr "Basit alan tahsisi"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:392
-msgid "Compact allocation only allocates space as needed"
-msgstr ""
-"Basit alan tahsisi sadece ihtiyaç kadar disk alanı ayırır (indirildikleri "
-"kadar yer kaplama )"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:592
-msgid "Active Port:"
-msgstr "Etkin port:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:690
-msgid "Test Active Port"
-msgstr "Etkin Portu Dene"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
-msgid "Distributed hash table may improve the amount of active connections."
-msgstr "Dağıtılmış doğrulama tablosu etkin bağlantı sayısını arttırabilir."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
-msgid ""
-"Handshake\n"
-"Full Stream\n"
-"Either"
-msgstr ""
-"Anlaşma\n"
-"Tam akış\n"
-"İkisinden biri"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
-msgid "Encrypt entire stream"
-msgstr "Bütün akışı şifrele"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "Tüm torrentler için azami gönderim hızı. Sınırsız için -1 yazınız."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "İzin verilen azami bağlantı sayısı. Sınırsız için -1 yazınız."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "Bütün torrentler için azami indirme hızı. Sınırsız için -1 yazınız."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
-msgid ""
-"Classic Mode will hide most of the daemon functionality and will make Deluge "
-"appear to be a single application.  Use this if you do not want to take "
-"advantage of running Deluge as a daemon. You need to restart Deluge for this "
-"setting to take effect."
-msgstr ""
-"Klasik Kip çoğu süreç işlevselliğini gizleyecek ve Deluge tek uygulama gibi "
-"görülecek. Deluge'un artişlem olma avantajını istemiyorsanız bunu kullanın. "
-"Bu ayarın etkili olabilmesi için Deluge yeniden başlatılmalı."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
-msgid "Bring the dialog to focus"
-msgstr "Pencereyi aktif yap"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
-msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Torrent Ekleme Penceresi</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
-msgid "Daemon port:"
-msgstr "Süreç kapısı:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
-msgid "Periodically check the website for new releases"
-msgstr "Yeni sürümler için siteyi belli aralıklarla denetle"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
-msgid "Seed Time Ratio:"
-msgstr "Yayın süresi Oranı:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
-msgid "Seed Time (m):"
-msgstr "Yayın Süresi (dk):"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
-msgid "Remove torrent when share ratio reached"
-msgstr "Paylaşım oranına ulaşınca torrenti sil"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:11
-msgid "_Open Folder"
-msgstr "Dizin _Aç"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:49
-msgid "Resu_me"
-msgstr "Devam et."
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:174
-msgid "_Force Re-check"
-msgstr "Yeniden Denetimi _Zorla"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:273
-msgid "_Auto Managed"
-msgstr "_Otomatik Ayarla"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:47
-msgid "<big><b>Edit Trackers</b></big>"
-msgstr "<big><b>Takipçileri Düzenle</b></big>"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
-msgid "Move Storage"
-msgstr "Depoyu Taşı"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
-msgid "<b>Move Storage</b>"
-msgstr "<b>Depoyu Taşı</b>"
-
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
-msgid "Destination:"
-msgstr "Hedef:"
-
-#~ msgid "Pause all"
-#~ msgstr "Tümünü duraklat"
-
-#~ msgid "Homepage"
-#~ msgstr "Ana Sayfa"
-
-#~ msgid "Torrent is past stop ratio."
-#~ msgstr "Torrent durma oranını geçmiş."
+"X-Launchpad-Export-Date: 2012-02-27 19:20+0000\n"
+"X-Generator: Launchpad (build 14868)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -309,17 +34,17 @@ msgstr "GB"
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
+#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 #: deluge/ui/gtkui/systemtray.py:251 deluge/ui/gtkui/systemtray.py:255
 #: deluge/ui/gtkui/systemtray.py:271 deluge/ui/gtkui/systemtray.py:277
 #: deluge/ui/gtkui/systemtray.py:422 deluge/ui/gtkui/systemtray.py:427
-#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
-#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
-#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
-#: deluge/ui/gtkui/statusbar.py:429 deluge/ui/gtkui/status_tab.py:62
 #: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
+#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
+#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/glade/main_window.glade:1834
 #: deluge/ui/gtkui/glade/main_window.glade:1846
-#: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
 msgid "KiB/s"
 msgstr "KB/sn"
 
@@ -330,6 +55,60 @@ msgstr "MB/sn"
 #: deluge/common.py:320
 msgid "GiB/s"
 msgstr "GB/sn"
+
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
+#: deluge/ui/gtkui/filtertreeview.py:78
+msgid "Error"
+msgstr "Hata"
+
+#: deluge/core/torrentmanager.py:939
+msgid "Announce OK"
+msgstr "Duyuru Tamam"
+
+#: deluge/core/torrentmanager.py:955
+msgid "Announce Sent"
+msgstr "Duyuru Gönderildi"
+
+#: deluge/core/torrentmanager.py:963
+msgid "Warning"
+msgstr "Uyarı"
+
+#: deluge/plugins/notifications/notifications/core.py:142
+#: deluge/plugins/notifications/notifications/core.py:175
+#, python-format
+msgid "There was an error sending the notification email: %s"
+msgstr "Bildirim e-postası gönderilirken bir hata oluştu: %s"
+
+#: deluge/plugins/notifications/notifications/core.py:161
+#, python-format
+msgid "The server didn't reply properly to the helo greeting: %s"
+msgstr "Sunucu helo selamlamasına düzgün cevap vermedi: %s"
+
+#: deluge/plugins/notifications/notifications/core.py:166
+#, python-format
+msgid "The server didn't accept the username/password combination: %s"
+msgstr "Sunucu, kullanıcı adı ve şifre birleşimini kabul etmedi: %s"
+
+#: deluge/plugins/notifications/notifications/core.py:190
+msgid "Notification email sent."
+msgstr "Bildirim e-postası gönderildi."
+
+#: deluge/plugins/notifications/notifications/core.py:198
+#, python-format
+msgid "Finished Torrent \"%(name)s\""
+msgstr "\"%(name)s\" adlı torrent tamamlandı"
+
+#: deluge/plugins/notifications/notifications/core.py:200
+#, python-format
+msgid ""
+"This email is to inform you that Deluge has finished downloading "
+"\"%(name)s\", which includes %(num_files)i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
+"\n"
+"Thank you,\n"
+"Deluge."
+msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -384,43 +163,6 @@ msgstr ""
 msgid "Choose Sound File"
 msgstr "Ses Dosyası Seç"
 
-#: deluge/plugins/notifications/notifications/core.py:138
-#: deluge/plugins/notifications/notifications/core.py:171
-#, python-format
-msgid "There was an error sending the notification email: %s"
-msgstr "Bildirim e-postası gönderilirken bir hata oluştu: %s"
-
-#: deluge/plugins/notifications/notifications/core.py:157
-#, python-format
-msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr "Sunucu helo selamlamasına düzgün cevap vermedi: %s"
-
-#: deluge/plugins/notifications/notifications/core.py:162
-#, python-format
-msgid "The server didn't accept the username/password combination: %s"
-msgstr "Sunucu, kullanıcı adı ve şifre birleşimini kabul etmedi: %s"
-
-#: deluge/plugins/notifications/notifications/core.py:186
-msgid "Notification email sent."
-msgstr "Bildirim e-postası gönderildi."
-
-#: deluge/plugins/notifications/notifications/core.py:194
-#, python-format
-msgid "Finished Torrent \"%(name)s\""
-msgstr "\"%(name)s\" adlı torrent tamamlandı"
-
-#: deluge/plugins/notifications/notifications/core.py:196
-#, python-format
-msgid ""
-"This email is to inform you that Deluge has finished downloading "
-"\"%(name)s\", which includes %(num_files)i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge."
-msgstr ""
-
 #: deluge/plugins/notifications/notifications/data/config.glade:29
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr "<b><i><big>Bildirimler</big></i></b>"
@@ -447,30 +189,30 @@ msgid "Hostname:"
 msgstr "Makine adı:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:199
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
+#: deluge/ui/gtkui/glade/connection_manager.glade:56
 msgid "Port:"
 msgstr "Bağlantı noktası:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:231
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3439
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
+#: deluge/ui/gtkui/glade/connection_manager.glade:143
 msgid "Username:"
 msgstr "Kullanıcı adı:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:255
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2129
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3306
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3490
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3674
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3858
+#: deluge/ui/gtkui/glade/connection_manager.glade:132
 msgid "Password:"
 msgstr "Parola:"
 
@@ -517,6 +259,195 @@ msgstr "Abonelikler"
 msgid "Sound Customization"
 msgstr "Ses Özelleştirme"
 
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
+msgid "Extract to:"
+msgstr "Dışarı aktar:"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:228
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
+#: deluge/ui/gtkui/glade/main_window.glade:2031
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+msgid "Select A Folder"
+msgstr "Bir Klasör Seç"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
+msgid "Create torrent name sub-folder"
+msgstr "Torrent adı alt dizni oluştur"
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
+msgid ""
+"This option will create a sub-folder using the torrent's name within the "
+"selected extract folder and put the extracted files there."
+msgstr ""
+"Bu seçenek, seçilen çıkarma diznindeki torrentin ismini kullanarak bir alt-"
+"dizin oluşturacak ve çıkarılan dosyaları oraya yerleştirecektir."
+
+#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
+#: deluge/ui/gtkui/glade/main_window.glade:2183
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+msgid "<b>General</b>"
+msgstr "<b>Genel</b>"
+
+#: deluge/plugins/execute/execute/gtkui.py:51
+msgid "Torrent Complete"
+msgstr "Torrent Tamamlandı"
+
+#: deluge/plugins/execute/execute/gtkui.py:52
+msgid "Torrent Added"
+msgstr "Torrent Eklendi"
+
+#: deluge/plugins/execute/execute/gtkui.py:77
+#: deluge/plugins/execute/execute/gtkui.py:88
+msgid "Execute"
+msgstr "Çalıştır"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+msgid "Event"
+msgstr "Olay"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+msgid "Command"
+msgstr "Komut"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+msgid "<b>Add Command</b>"
+msgstr "<b>Komut Ekle</b>"
+
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+msgid "<b>Commands</b>"
+msgstr "<b>Komutlar</b>"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:49
+msgid "Emule IP list (GZip)"
+msgstr "Emule IP Listesi (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:50
+msgid "SafePeer Text (Zipped)"
+msgstr "SafePeer Yazı (Sıkıştırılmış)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:51
+msgid "PeerGuardian Text (Uncompressed)"
+msgstr "PeerGuardian Yazı (Sıkıştırılmamış)"
+
+#: deluge/plugins/blocklist/blocklist/webui.py:52
+msgid "PeerGuardian P2B (GZip)"
+msgstr "PeerGuardian P2B (GZip)"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
+msgid "Invalid leader"
+msgstr "Yanlış yönlendirici"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
+msgid "Invalid magic code"
+msgstr "Yanlış sihirli kod"
+
+#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
+msgid "Invalid version"
+msgstr "Geçersiz sürüm"
+
+#: deluge/plugins/blocklist/blocklist/gtkui.py:67
+#: deluge/plugins/blocklist/blocklist/gtkui.py:155
+#: deluge/plugins/blocklist/blocklist/gtkui.py:186
+msgid "Blocklist"
+msgstr "Karaliste"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+msgid "URL:"
+msgstr "Adres:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+msgid "Days"
+msgstr "Gün"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+msgid "Check for new list every:"
+msgstr "Yeni liste denetimi (her):"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+msgid "Import blocklist on startup"
+msgstr "Engellenenler listesini başlangıçta içe aktar"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
+#: deluge/plugins/webui/webui/data/config.glade:94
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+msgid "<b>Settings</b>"
+msgstr "<b>Ayarlar</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+msgid "Download the blocklist file if necessary and import the file."
+msgstr "Engelli listesi dosyasını gerekliyse indir ve dosyayı içe aktar."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+msgid "Check Download and Import"
+msgstr "İndirmeyi Denetle ve İçe Aktar"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+msgid "Download a new blocklist file and import it."
+msgstr "Yeni bir engelli listesi dosyası indir ve içe aktar."
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+msgid "Force Download and Import"
+msgstr "İndirmeyi Güçlendir ve İçe Aktar"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+msgid "Blocklist is up to date"
+msgstr "Engelleme listesi güncel"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+msgid "<b>Options</b>"
+msgstr "<b>Seçenekler</b>"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+msgid "Type:"
+msgstr "Tür:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+msgid "Date:"
+msgstr "Tarih:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+msgid "File Size:"
+msgstr "Dosya Boyutu:"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+msgid "<b>Info</b>"
+msgstr "<b>Bilgi</b>"
+
+#: deluge/plugins/webui/webui/gtkui.py:97
+msgid ""
+"The Deluge web interface is not installed, please install the\n"
+"interface and try again"
+msgstr ""
+"Deluge web arayüzü yüklenmemiş, lütfen arayüzü yükleyip\n"
+"tekrar deneyin"
+
+#: deluge/plugins/webui/webui/data/config.glade:27
+msgid "Enable web interface"
+msgstr "Web arabirimini etkinleştir"
+
+#: deluge/plugins/webui/webui/data/config.glade:41
+msgid "Enable SSL"
+msgstr "SSL Etkin"
+
+#: deluge/plugins/webui/webui/data/config.glade:60
+msgid "Listening port:"
+msgstr "Dinlenecek port:"
+
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
 msgstr "İzleme dizini mevcut değil."
@@ -525,6 +456,10 @@ msgstr "İzleme dizini mevcut değil."
 #: deluge/plugins/autoadd/autoadd/core.py:308
 msgid "Path does not exist."
 msgstr "Yol mevcut değil."
+
+#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+msgid "<b>Watch Folders:</b>"
+msgstr "<b>İzleme Dizinleri:</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
@@ -615,6 +550,12 @@ msgstr "Azami İndirme Hızı:"
 msgid "<b>Bandwidth</b>"
 msgstr "<b>Bant Genişliği</b>"
 
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
+#: deluge/plugins/label/label/data/label_options.glade:349
+#: deluge/ui/gtkui/glade/main_window.glade:1952
+msgid "Stop seed at ratio:"
+msgstr "Orana ulaşınca gönderimi durdur:"
+
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1993
@@ -651,10 +592,6 @@ msgstr "<b>Kuyruk</b>"
 #: deluge/ui/gtkui/glade/connection_manager.glade:457
 msgid "Options"
 msgstr "Ayarlar"
-
-#: deluge/plugins/autoadd/autoadd/data/config.glade:41
-msgid "<b>Watch Folders:</b>"
-msgstr "<b>İzleme Dizinleri:</b>"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
@@ -702,26 +639,6 @@ msgstr "Bilinmeyen Etiket"
 msgid "Unknown Torrent"
 msgstr "Tanımlanamayan torrent"
 
-#: deluge/plugins/label/label/gtkui/submenu.py:48
-#: deluge/plugins/label/label/gtkui/__init__.py:77
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/label_config.py:59
-#: deluge/plugins/label/label/gtkui/label_config.py:66
-msgid "Label"
-msgstr "Etiket"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
-msgid "Label _Options"
-msgstr "Etiket _Seçenekleri"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
-msgid "_Remove Label"
-msgstr "Etiketi _Kaldır"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
-msgid "_Add Label"
-msgstr "Etiket _Ekle"
-
 #: deluge/plugins/label/label/data/label_options.glade:7
 msgid "Label Options"
 msgstr "Etiket seçenekleri"
@@ -754,6 +671,11 @@ msgstr "Torrent başına azami ayarları uygula:"
 msgid "Maximum"
 msgstr "En Yüksek"
 
+#: deluge/plugins/label/label/data/label_options.glade:336
+#: deluge/ui/gtkui/glade/main_window.glade:1930
+msgid "Auto Managed"
+msgstr "Otomatik Yönetilen"
+
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
 msgstr "Kuyruk ayarlarını uygula:"
@@ -784,6 +706,12 @@ msgstr "<i>(izleyici başına 1 satır)</i>"
 msgid "Automatically apply label:"
 msgstr "Otomatik etiket uygula"
 
+#: deluge/plugins/label/label/data/label_options.glade:593
+#: deluge/ui/gtkui/filtertreeview.py:70
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+msgid "Trackers"
+msgstr "İzleyiciler"
+
 #: deluge/plugins/label/label/data/label_options.glade:646
 msgid "Add Label"
 msgstr "Etiket Ekle"
@@ -806,177 +734,25 @@ msgstr ""
 msgid "<b>Labels</b>"
 msgstr "<b>Etiketler</b>"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
-msgid "Extract to:"
-msgstr "Dışarı aktar:"
+#: deluge/plugins/label/label/gtkui/__init__.py:77
+#: deluge/plugins/label/label/gtkui/__init__.py:111
+#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/label_config.py:59
+#: deluge/plugins/label/label/gtkui/label_config.py:66
+msgid "Label"
+msgstr "Etiket"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:69
-msgid "Create torrent name sub-folder"
-msgstr "Torrent adı alt dizni oluştur"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
+msgid "Label _Options"
+msgstr "Etiket _Seçenekleri"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:73
-msgid ""
-"This option will create a sub-folder using the torrent's name within the "
-"selected extract folder and put the extracted files there."
-msgstr ""
-"Bu seçenek, seçilen çıkarma diznindeki torrentin ismini kullanarak bir alt-"
-"dizin oluşturacak ve çıkarılan dosyaları oraya yerleştirecektir."
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
+msgid "_Remove Label"
+msgstr "Etiketi _Kaldır"
 
-#: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
-#: deluge/ui/gtkui/glade/main_window.glade:2183
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
-msgid "<b>General</b>"
-msgstr "<b>Genel</b>"
-
-#: deluge/plugins/webui/webui/gtkui.py:97
-msgid ""
-"The Deluge web interface is not installed, please install the\n"
-"interface and try again"
-msgstr ""
-"Deluge web arayüzü yüklenmemiş, lütfen arayüzü yükleyip\n"
-"tekrar deneyin"
-
-#: deluge/plugins/webui/webui/data/config.glade:27
-msgid "Enable web interface"
-msgstr "Web arabirimini etkinleştir"
-
-#: deluge/plugins/webui/webui/data/config.glade:41
-msgid "Enable SSL"
-msgstr "SSL Etkin"
-
-#: deluge/plugins/webui/webui/data/config.glade:60
-msgid "Listening port:"
-msgstr "Dinlenecek port:"
-
-#: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
-msgid "<b>Settings</b>"
-msgstr "<b>Ayarlar</b>"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:49
-msgid "Emule IP list (GZip)"
-msgstr "Emule IP Listesi (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:50
-msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer Yazı (Sıkıştırılmış)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:51
-msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian Yazı (Sıkıştırılmamış)"
-
-#: deluge/plugins/blocklist/blocklist/webui.py:52
-msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (GZip)"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:31
-msgid "Invalid leader"
-msgstr "Yanlış yönlendirici"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:35
-msgid "Invalid magic code"
-msgstr "Yanlış sihirli kod"
-
-#: deluge/plugins/blocklist/blocklist/peerguardian.py:40
-msgid "Invalid version"
-msgstr "Geçersiz sürüm"
-
-#: deluge/plugins/blocklist/blocklist/gtkui.py:67
-#: deluge/plugins/blocklist/blocklist/gtkui.py:155
-#: deluge/plugins/blocklist/blocklist/gtkui.py:186
-msgid "Blocklist"
-msgstr "Karaliste"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
-msgid "Days"
-msgstr "Gün"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
-msgid "Check for new list every:"
-msgstr "Yeni liste denetimi (her):"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
-msgid "Check Download and Import"
-msgstr "İndirmeyi Denetle ve İçe Aktar"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
-msgid "Blocklist is up to date"
-msgstr "Engelleme listesi güncel"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
-msgid "<b>Options</b>"
-msgstr "<b>Seçenekler</b>"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
-msgid "Type:"
-msgstr "Tür:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
-msgid "Date:"
-msgstr "Tarih:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
-msgid "File Size:"
-msgstr "Dosya Boyutu:"
-
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
-msgid "<b>Info</b>"
-msgstr "<b>Bilgi</b>"
-
-#: deluge/plugins/execute/execute/gtkui.py:51
-msgid "Torrent Complete"
-msgstr "Torrent Tamamlandı"
-
-#: deluge/plugins/execute/execute/gtkui.py:52
-msgid "Torrent Added"
-msgstr "Torrent Eklendi"
-
-#: deluge/plugins/execute/execute/gtkui.py:77
-#: deluge/plugins/execute/execute/gtkui.py:88
-msgid "Execute"
-msgstr "Çalıştır"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
-msgid "Event"
-msgstr "Olay"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
-msgid "Command"
-msgstr "Komut"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
-msgid "<b>Add Command</b>"
-msgstr "<b>Komut Ekle</b>"
-
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
-msgid "<b>Commands</b>"
-msgstr "<b>Komutlar</b>"
-
-#: deluge/core/torrentmanager.py:937
-msgid "Announce OK"
-msgstr "Duyuru Tamam"
-
-#: deluge/core/torrentmanager.py:953
-msgid "Announce Sent"
-msgstr "Duyuru Gönderildi"
-
-#: deluge/core/torrentmanager.py:961
-msgid "Warning"
-msgstr "Uyarı"
-
-#: deluge/core/torrentmanager.py:971 deluge/core/filtermanager.py:94
-#: deluge/ui/gtkui/filtertreeview.py:78
-msgid "Error"
-msgstr "Hata"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
+msgid "_Add Label"
+msgstr "Etiket _Ekle"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
@@ -1962,6 +1738,10 @@ msgstr "Zambiya"
 msgid "Zimbabwe"
 msgstr "Zimbabve"
 
+#: deluge/ui/web/server.py:661
+msgid "Starting server in PID"
+msgstr "PID'deki sunucu başlatılıyor"
+
 #: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
 #: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
 #: deluge/ui/web/json_api.py:769 deluge/ui/gtkui/connectionmanager.py:75
@@ -1971,15 +1751,15 @@ msgstr "Zimbabve"
 #: deluge/ui/gtkui/connectionmanager.py:296
 #: deluge/ui/gtkui/connectionmanager.py:378
 #: deluge/ui/gtkui/connectionmanager.py:389
-#: deluge/ui/gtkui/connectionmanager.py:452
-#: deluge/ui/gtkui/connectionmanager.py:569
+#: deluge/ui/gtkui/connectionmanager.py:453
+#: deluge/ui/gtkui/connectionmanager.py:570
 msgid "Offline"
 msgstr "Çevrimdışı"
 
 #: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Online"
 msgstr "Çevrimiçi"
 
@@ -1987,8 +1767,8 @@ msgstr "Çevrimiçi"
 #: deluge/ui/gtkui/connectionmanager.py:313
 #: deluge/ui/gtkui/connectionmanager.py:372
 #: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:440
-#: deluge/ui/gtkui/connectionmanager.py:552
+#: deluge/ui/gtkui/connectionmanager.py:441
+#: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Connected"
 msgstr "Bağlı"
 
@@ -2000,96 +1780,10 @@ msgstr "Hizmet bulunamadı"
 msgid "Daemon not running"
 msgstr "Art hizmet çalışmıyor"
 
-#: deluge/ui/web/server.py:661
-msgid "Starting server in PID"
-msgstr "PID'deki sunucu başlatılıyor"
-
-#: deluge/ui/gtkui/peers_tab.py:100
-msgid "Address"
-msgstr "Adres"
-
-#: deluge/ui/gtkui/peers_tab.py:116
-msgid "Client"
-msgstr "İstemci"
-
-#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
-#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
-msgid "Progress"
-msgstr "İlerleme"
-
-#: deluge/ui/gtkui/peers_tab.py:142 deluge/ui/gtkui/torrentview.py:237
-msgid "Down Speed"
-msgstr "İndirme Hızı"
-
-#: deluge/ui/gtkui/peers_tab.py:155 deluge/ui/gtkui/torrentview.py:239
-msgid "Up Speed"
-msgstr "Gönderme Hızı"
-
-#: deluge/ui/gtkui/queuedtorrents.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:103
-msgid "Torrent"
-msgstr "Torrent"
-
-#: deluge/ui/gtkui/common.py:67 deluge/ui/gtkui/systemtray.py:249
-#: deluge/ui/gtkui/systemtray.py:253 deluge/ui/gtkui/systemtray.py:423
-#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
-#: deluge/ui/gtkui/statusbar.py:452
-msgid "Unlimited"
-msgstr "Sınırsız"
-
-#: deluge/ui/gtkui/common.py:70
-msgid "Activated"
-msgstr "Etkinleştirildi"
-
-#: deluge/ui/gtkui/common.py:124 deluge/ui/gtkui/common.py:125
-#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/statusbar.py:399
-#: deluge/ui/gtkui/statusbar.py:427 deluge/ui/gtkui/statusbar.py:454
-#: deluge/ui/gtkui/menubar.py:81
-msgid "Other..."
-msgstr "Diğer..."
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Down:"
-msgstr "İndirilen:"
-
-#: deluge/ui/gtkui/mainwindow.py:235
-msgid "Up:"
-msgstr "Gönderilen:"
-
-#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
-#: deluge/data/share/applications/deluge.desktop.in.h:2
-msgid "Deluge"
-msgstr "Deluge"
-
-#: deluge/ui/gtkui/systemtray.py:201
-msgid "Not Connected..."
-msgstr "Bağlı Değil..."
-
-#: deluge/ui/gtkui/systemtray.py:258
-msgid "Down"
-msgstr "İndirilen"
-
-#: deluge/ui/gtkui/systemtray.py:259
-msgid "Up"
-msgstr "Gönderilen"
-
-#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/menubar.py:436
-msgid "Set Maximum Download Speed"
-msgstr "Azami İndirme Sınırını Ayarla"
-
-#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/menubar.py:437
-msgid "Set Maximum Upload Speed"
-msgstr "Azami Gönderme Hızını Ayarla"
-
-#: deluge/ui/gtkui/systemtray.py:470
-msgid "Deluge is password protected!"
-msgstr "Deluge parola korumalı!"
-
-#: deluge/ui/gtkui/systemtray.py:476
-msgid "Enter your password to continue"
-msgstr "Devam etmek için parolanızı girin"
+#: deluge/ui/console/statusbars.py:104
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
+msgid "DHT"
+msgstr "DHT"
 
 #: deluge/ui/gtkui/notification.py:79
 msgid "Torrent complete"
@@ -2122,9 +1816,257 @@ msgstr ""
 "Teşekkürler,\n"
 "Deluge"
 
+#: deluge/ui/gtkui/torrentview.py:213
+msgid "Name"
+msgstr "İsim"
+
+#: deluge/ui/gtkui/torrentview.py:216
+#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
+#: deluge/ui/gtkui/addtorrentdialog.py:124
+msgid "Size"
+msgstr "Boyut"
+
+#: deluge/ui/gtkui/torrentview.py:219
+msgid "Downloaded"
+msgstr "İndirilenler"
+
+#: deluge/ui/gtkui/torrentview.py:222
+msgid "Uploaded"
+msgstr "Gönderilenler"
+
+#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+#: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
+msgid "Progress"
+msgstr "İlerleme"
+
+#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
+msgid "Seeders"
+msgstr "Dağıtıcılar"
+
+#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
+msgid "Peers"
+msgstr "Eşler"
+
+#: deluge/ui/gtkui/torrentview.py:237 deluge/ui/gtkui/peers_tab.py:142
+msgid "Down Speed"
+msgstr "İndirme Hızı"
+
+#: deluge/ui/gtkui/torrentview.py:239 deluge/ui/gtkui/peers_tab.py:155
+msgid "Up Speed"
+msgstr "Gönderme Hızı"
+
+#: deluge/ui/gtkui/torrentview.py:241
+msgid "Down Limit"
+msgstr "İndirme Sınırı"
+
+#: deluge/ui/gtkui/torrentview.py:243
+msgid "Up Limit"
+msgstr "Gönderme Sınırı"
+
+#: deluge/ui/gtkui/torrentview.py:245
+msgid "ETA"
+msgstr "Kalan Süre"
+
+#: deluge/ui/gtkui/torrentview.py:247
+msgid "Ratio"
+msgstr "Oran"
+
+#: deluge/ui/gtkui/torrentview.py:249
+msgid "Avail"
+msgstr "Fayda"
+
+#: deluge/ui/gtkui/torrentview.py:251
+msgid "Added"
+msgstr "Eklendi"
+
+#: deluge/ui/gtkui/torrentview.py:253
+#: deluge/ui/gtkui/createtorrentdialog.py:105
+#: deluge/ui/gtkui/edittrackersdialog.py:86
+msgid "Tracker"
+msgstr "İzleyici"
+
+#: deluge/ui/gtkui/torrentview.py:257
+msgid "Save Path"
+msgstr "Kaydedilecek Konum"
+
+#: deluge/ui/gtkui/peers_tab.py:100
+msgid "Address"
+msgstr "Adres"
+
+#: deluge/ui/gtkui/peers_tab.py:116
+msgid "Client"
+msgstr "İstemci"
+
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
 msgstr "<i>İstemci Sürümü</i>"
+
+#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
+#: deluge/ui/gtkui/aboutdialog.py:55
+#: deluge/data/share/applications/deluge.desktop.in.h:2
+msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtkui/systemtray.py:201
+msgid "Not Connected..."
+msgstr "Bağlı Değil..."
+
+#: deluge/ui/gtkui/systemtray.py:249 deluge/ui/gtkui/systemtray.py:253
+#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:67
+#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
+#: deluge/ui/gtkui/statusbar.py:452
+msgid "Unlimited"
+msgstr "Sınırsız"
+
+#: deluge/ui/gtkui/systemtray.py:258
+msgid "Down"
+msgstr "İndirilen"
+
+#: deluge/ui/gtkui/systemtray.py:259
+msgid "Up"
+msgstr "Gönderilen"
+
+#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/menubar.py:436
+#: deluge/ui/gtkui/statusbar.py:401
+msgid "Set Maximum Download Speed"
+msgstr "Azami İndirme Sınırını Ayarla"
+
+#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/statusbar.py:429
+msgid "Set Maximum Upload Speed"
+msgstr "Azami Gönderme Hızını Ayarla"
+
+#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:124
+#: deluge/ui/gtkui/common.py:125 deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/gtkui/statusbar.py:399 deluge/ui/gtkui/statusbar.py:427
+#: deluge/ui/gtkui/statusbar.py:454
+msgid "Other..."
+msgstr "Diğer..."
+
+#: deluge/ui/gtkui/systemtray.py:470
+msgid "Deluge is password protected!"
+msgstr "Deluge parola korumalı!"
+
+#: deluge/ui/gtkui/systemtray.py:476
+msgid "Enter your password to continue"
+msgstr "Devam etmek için parolanızı girin"
+
+#: deluge/ui/gtkui/common.py:70
+msgid "Activated"
+msgstr "Etkinleştirildi"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
+#: deluge/ui/gtkui/addtorrentdialog.py:111
+msgid "Filename"
+msgstr "Dosya Adı"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:103
+#: deluge/ui/gtkui/edittrackersdialog.py:84
+msgid "Tier"
+msgstr "Bağlayıcı"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:143
+msgid "Choose a file"
+msgstr "Bir dosya seçin"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:172
+msgid "Choose a folder"
+msgstr "Bir dizin seçin"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:241
+msgid "Save .torrent file"
+msgstr ".torrent dosyasını kaydet"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:253
+#: deluge/ui/gtkui/addtorrentdialog.py:563
+msgid "Torrent files"
+msgstr "Torrent Dosyaları"
+
+#: deluge/ui/gtkui/createtorrentdialog.py:257
+#: deluge/ui/gtkui/addtorrentdialog.py:567
+msgid "All files"
+msgstr "Tüm Dosyalar"
+
+#: deluge/ui/gtkui/files_tab.py:56
+msgid "Do Not Download"
+msgstr "İndirmekten Vazgeç"
+
+#: deluge/ui/gtkui/files_tab.py:57
+msgid "Normal Priority"
+msgstr "Normal Öncelik"
+
+#: deluge/ui/gtkui/files_tab.py:58
+msgid "High Priority"
+msgstr "Yüksek Öncelik"
+
+#: deluge/ui/gtkui/files_tab.py:59
+msgid "Highest Priority"
+msgstr "En Yüksek Öncelik"
+
+#: deluge/ui/gtkui/files_tab.py:169
+msgid "Priority"
+msgstr "Öncelik"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/queuedtorrents.py:76
+msgid "Torrent"
+msgstr "Torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:215
+msgid "Invalid File"
+msgstr "Geçersiz Dosya"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "Duplicate Torrent"
+msgstr "Tekrarlanan Torrent"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:220
+msgid "You cannot add the same torrent twice."
+msgstr "Aynı torrent dosyasını iki kez ekleyemezsin."
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid "Unable to set file priority!"
+msgstr "Dosya önceliği ayarlanamadı!"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:501
+msgid ""
+"File prioritization is unavailable when using Compact allocation.  Would you "
+"like to switch to Full allocation?"
+msgstr ""
+"Yoğun alan tahsisi kullanılırken dosyalara öncelik verme özelliği "
+"kullanılamıyor. Tam alan tahsisine geçmek ister misiniz?"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:550
+msgid "Choose a .torrent file"
+msgstr "Bir .torrent dosyası seçin"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "Invalid URL"
+msgstr "Geçersiz URL"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:632
+msgid "is not a valid URL."
+msgstr "geçerli bir URL değil"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:636
+msgid "Downloading..."
+msgstr "İndiriliyor..."
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Download Failed"
+msgstr "İndirme Başarısız"
+
+#: deluge/ui/gtkui/addtorrentdialog.py:678
+msgid "Failed to download:"
+msgstr "İndirme başarısız:"
+
+#: deluge/ui/gtkui/queuedtorrents.py:136
+msgid " Torrents Queued"
+msgstr " Torrentler Sıralandı"
+
+#: deluge/ui/gtkui/queuedtorrents.py:138
+msgid " Torrent Queued"
+msgstr " Torent Sıralandı"
 
 #: deluge/ui/gtkui/preferences.py:72
 msgid "Categories"
@@ -2170,256 +2112,37 @@ msgstr "Eklentiler"
 msgid "Plugin"
 msgstr "Eklenti"
 
-#: deluge/ui/gtkui/preferences.py:891
+#: deluge/ui/gtkui/preferences.py:894
 msgid "Select the Plugin"
 msgstr "Eklentiyi Seç"
 
-#: deluge/ui/gtkui/preferences.py:902
+#: deluge/ui/gtkui/preferences.py:905
 msgid "Plugin Eggs"
 msgstr "Eggs Eklentisi"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:111
-#: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
-msgid "Filename"
-msgstr "Dosya Adı"
+#: deluge/ui/gtkui/menubar.py:77
+msgid "Set Unlimited"
+msgstr "Sınırsız Ayarla"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:124
-#: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
-#: deluge/ui/gtkui/torrentview.py:216
-msgid "Size"
-msgstr "Boyut"
+#: deluge/ui/gtkui/menubar.py:89 deluge/ui/gtkui/status_tab.py:128
+msgid "On"
+msgstr "Açık"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:206
-msgid "Invalid File"
-msgstr "Geçersiz Dosya"
+#: deluge/ui/gtkui/menubar.py:92 deluge/ui/gtkui/status_tab.py:130
+msgid "Off"
+msgstr "Kapalı"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "Duplicate Torrent"
-msgstr "Tekrarlanan Torrent"
+#: deluge/ui/gtkui/menubar.py:319
+msgid "Choose a directory to move files to"
+msgstr "Taşınacak dosyalar için dizin belirtin"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:211
-msgid "You cannot add the same torrent twice."
-msgstr "Aynı torrent dosyasını iki kez ekleyemezsin."
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
-msgid "Unable to set file priority!"
-msgstr "Dosya önceliği ayarlanamadı!"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:492
-msgid ""
-"File prioritization is unavailable when using Compact allocation.  Would you "
-"like to switch to Full allocation?"
-msgstr ""
-"Yoğun alan tahsisi kullanılırken dosyalara öncelik verme özelliği "
-"kullanılamıyor. Tam alan tahsisine geçmek ister misiniz?"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:541
-msgid "Choose a .torrent file"
-msgstr "Bir .torrent dosyası seçin"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:553
-#: deluge/ui/gtkui/createtorrentdialog.py:253
-msgid "Torrent files"
-msgstr "Torrent Dosyaları"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:557
-#: deluge/ui/gtkui/createtorrentdialog.py:257
-msgid "All files"
-msgstr "Tüm Dosyalar"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "Invalid URL"
-msgstr "Geçersiz URL"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:622
-msgid "is not a valid URL."
-msgstr "geçerli bir URL değil"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:626
-msgid "Downloading..."
-msgstr "İndiriliyor..."
-
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Download Failed"
-msgstr "İndirme Başarısız"
-
-#: deluge/ui/gtkui/addtorrentdialog.py:668
-msgid "Failed to download:"
-msgstr "İndirme başarısız:"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:103
-#: deluge/ui/gtkui/edittrackersdialog.py:84
-msgid "Tier"
-msgstr "Bağlayıcı"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:105
-#: deluge/ui/gtkui/edittrackersdialog.py:86 deluge/ui/gtkui/torrentview.py:253
-msgid "Tracker"
-msgstr "İzleyici"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:143
-msgid "Choose a file"
-msgstr "Bir dosya seçin"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:172
-msgid "Choose a folder"
-msgstr "Bir dizin seçin"
-
-#: deluge/ui/gtkui/createtorrentdialog.py:241
-msgid "Save .torrent file"
-msgstr ".torrent dosyasını kaydet"
-
-#: deluge/ui/gtkui/statusbar.py:146
-msgid "Not Connected"
-msgstr "Bağlı değil"
-
-#: deluge/ui/gtkui/statusbar.py:163
-msgid "Connections"
-msgstr "Bağlantılar"
-
-#: deluge/ui/gtkui/statusbar.py:168
-msgid "Download Speed"
-msgstr "İndirme Hızı"
-
-#: deluge/ui/gtkui/statusbar.py:173
-msgid "Upload Speed"
-msgstr "Gönderme Hızı"
-
-#: deluge/ui/gtkui/statusbar.py:178
-msgid "Protocol Traffic Download/Upload"
-msgstr "İndirme/Gönderme Aktarım Protokolü"
-
-#: deluge/ui/gtkui/statusbar.py:181
-msgid "DHT Nodes"
-msgstr "DHT Yuvası"
-
-#: deluge/ui/gtkui/statusbar.py:186
-msgid "Free Disk Space"
-msgstr "Boş Disk Alanı"
-
-#: deluge/ui/gtkui/statusbar.py:190
-msgid "No Incoming Connections!"
-msgstr "Gelen Bağlantı Yok!"
-
-#: deluge/ui/gtkui/statusbar.py:456 deluge/ui/gtkui/menubar.py:438
+#: deluge/ui/gtkui/menubar.py:438 deluge/ui/gtkui/statusbar.py:456
 msgid "Set Maximum Connections"
 msgstr "Azami Bağlantıyı Ayarla"
 
-#: deluge/ui/gtkui/removetorrentdialog.py:78
-msgid "Torrents"
-msgstr "Torentler"
-
-#: deluge/ui/gtkui/filtertreeview.py:69
-msgid "States"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:71
-msgid "Labels"
-msgstr "Etiketler"
-
-#: deluge/ui/gtkui/filtertreeview.py:72
-msgid "All"
-msgstr "Tam"
-
-#: deluge/ui/gtkui/filtertreeview.py:73
-msgid "Downloading"
-msgstr "İndriyor"
-
-#: deluge/ui/gtkui/filtertreeview.py:74
-msgid "Seeding"
-msgstr "Kaynak/Gönderiliyor"
-
-#: deluge/ui/gtkui/filtertreeview.py:75
-msgid "Paused"
-msgstr "Duraklatıldı"
-
-#: deluge/ui/gtkui/filtertreeview.py:76
-msgid "Checking"
-msgstr "Denetleniyor"
-
-#: deluge/ui/gtkui/filtertreeview.py:77
-msgid "Queued"
-msgstr "Sırada"
-
-#: deluge/ui/gtkui/filtertreeview.py:79
-msgid "Active"
-msgstr "Etkin"
-
-#: deluge/ui/gtkui/filtertreeview.py:80
-msgid "None"
-msgstr "Hiçbiri"
-
-#: deluge/ui/gtkui/filtertreeview.py:81
-msgid "No Label"
-msgstr "Etiket Yok"
-
-#: deluge/ui/gtkui/aboutdialog.py:253
-msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 3 of the License, or (at your option) "
-"any later version. \n"
-"\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"this program; if not, see <http://www.gnu.org/licenses>. \n"
-"\n"
-"In addition, as a special exception, the copyright holders give permission "
-"to link the code of portions of this program with the OpenSSL library. You "
-"must obey the GNU General Public License in all respects for all of the code "
-"used other than OpenSSL. \n"
-"\n"
-"If you modify file(s) with this exception, you may extend this exception to "
-"your version of the file(s), but you are not obligated to do so. If you do "
-"not wish to do so, delete this exception statement from your version. If you "
-"delete this exception statement from all source files in the program, then "
-"also delete it here."
-msgstr ""
-
-#: deluge/ui/gtkui/connectionmanager.py:149
-msgid "Status"
-msgstr "Durum"
-
-#: deluge/ui/gtkui/connectionmanager.py:153
-msgid "Host"
-msgstr "Sunucu"
-
-#: deluge/ui/gtkui/connectionmanager.py:158
-msgid "Version"
-msgstr "Sürüm"
-
-#: deluge/ui/gtkui/connectionmanager.py:386
-msgid "_Stop Daemon"
-msgstr "_Hizmeti Durdur"
-
-#: deluge/ui/gtkui/connectionmanager.py:394
-msgid "_Start Daemon"
-msgstr "_Hizmeti Başlat"
-
-#: deluge/ui/gtkui/connectionmanager.py:414
-#: deluge/ui/gtkui/connectionmanager.py:424
-msgid "Unable to start daemon!"
-msgstr "Himet başlatılamadı!"
-
-#: deluge/ui/gtkui/connectionmanager.py:415
-msgid ""
-"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
-"install the deluged package or it's not in your PATH."
-msgstr ""
-"Deluge, 'deluged' çalıştırılabilir uygulamasını bulamıyor, deluged paketini "
-"kurmayı unuttunuz ya da bu uygulama PATH konumunuzda değil gibi görünüyor."
-
-#: deluge/ui/gtkui/connectionmanager.py:425
-msgid "Please examine the details for more information."
-msgstr "Lütfen daha fazla bilgi için ayrıntıları inceleyiniz."
-
-#: deluge/ui/gtkui/connectionmanager.py:509
-msgid "Error Adding Host"
-msgstr "Bağlantı Noktası Ekleme Hatası"
+#: deluge/ui/gtkui/menubar.py:439
+msgid "Set Maximum Upload Slots"
+msgstr "Azami Gönderme Yuva Sayısını Ayarla"
 
 #: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
 msgid "Turn off Classic Mode?"
@@ -2472,640 +2195,296 @@ msgstr ""
 "Daemon sürecini başlatırken bir sorun oldu. Bir hata olup, olmadığını "
 "kontrol etmek için bir uçbirimden çalıştırmayı deneyin."
 
-#: deluge/ui/gtkui/status_tab.py:128 deluge/ui/gtkui/menubar.py:89
-msgid "On"
-msgstr "Açık"
+#: deluge/ui/gtkui/connectionmanager.py:149
+msgid "Status"
+msgstr "Durum"
 
-#: deluge/ui/gtkui/status_tab.py:130 deluge/ui/gtkui/menubar.py:92
-msgid "Off"
-msgstr "Kapalı"
+#: deluge/ui/gtkui/connectionmanager.py:153
+msgid "Host"
+msgstr "Sunucu"
 
-#: deluge/ui/gtkui/menubar.py:77
-msgid "Set Unlimited"
-msgstr "Sınırsız Ayarla"
+#: deluge/ui/gtkui/connectionmanager.py:158
+msgid "Version"
+msgstr "Sürüm"
 
-#: deluge/ui/gtkui/menubar.py:319
-msgid "Choose a directory to move files to"
-msgstr "Taşınacak dosyalar için dizin belirtin"
+#: deluge/ui/gtkui/connectionmanager.py:386
+msgid "_Stop Daemon"
+msgstr "_Hizmeti Durdur"
 
-#: deluge/ui/gtkui/menubar.py:439
-msgid "Set Maximum Upload Slots"
-msgstr "Azami Gönderme Yuva Sayısını Ayarla"
+#: deluge/ui/gtkui/connectionmanager.py:394
+msgid "_Start Daemon"
+msgstr "_Hizmeti Başlat"
 
-#: deluge/ui/gtkui/files_tab.py:56
-msgid "Do Not Download"
-msgstr "İndirmekten Vazgeç"
+#: deluge/ui/gtkui/connectionmanager.py:415
+#: deluge/ui/gtkui/connectionmanager.py:425
+msgid "Unable to start daemon!"
+msgstr "Himet başlatılamadı!"
 
-#: deluge/ui/gtkui/files_tab.py:57
-msgid "Normal Priority"
-msgstr "Normal Öncelik"
+#: deluge/ui/gtkui/connectionmanager.py:416
+msgid ""
+"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
+"install the deluged package or it's not in your PATH."
+msgstr ""
+"Deluge, 'deluged' çalıştırılabilir uygulamasını bulamıyor, deluged paketini "
+"kurmayı unuttunuz ya da bu uygulama PATH konumunuzda değil gibi görünüyor."
 
-#: deluge/ui/gtkui/files_tab.py:58
-msgid "High Priority"
-msgstr "Yüksek Öncelik"
+#: deluge/ui/gtkui/connectionmanager.py:426
+msgid "Please examine the details for more information."
+msgstr "Lütfen daha fazla bilgi için ayrıntıları inceleyiniz."
 
-#: deluge/ui/gtkui/files_tab.py:59
-msgid "Highest Priority"
-msgstr "En Yüksek Öncelik"
+#: deluge/ui/gtkui/connectionmanager.py:510
+msgid "Error Adding Host"
+msgstr "Bağlantı Noktası Ekleme Hatası"
 
-#: deluge/ui/gtkui/files_tab.py:169
-msgid "Priority"
-msgstr "Öncelik"
+#: deluge/ui/gtkui/removetorrentdialog.py:78
+msgid "Torrents"
+msgstr "Torentler"
 
 #: deluge/ui/gtkui/dialogs.py:174
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
 msgid "Details:"
 msgstr "Ayrıntılar:"
 
-#: deluge/ui/gtkui/torrentview.py:213
-msgid "Name"
-msgstr "İsim"
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Down:"
+msgstr "İndirilen:"
 
-#: deluge/ui/gtkui/torrentview.py:219
-msgid "Downloaded"
-msgstr "İndirilenler"
+#: deluge/ui/gtkui/mainwindow.py:237
+msgid "Up:"
+msgstr "Gönderilen:"
 
-#: deluge/ui/gtkui/torrentview.py:222
-msgid "Uploaded"
-msgstr "Gönderilenler"
+#: deluge/ui/gtkui/aboutdialog.py:59
+msgid "Copyright 2007-2011 Deluge Team"
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
-msgid "Seeders"
-msgstr "Dağıtıcılar"
+#: deluge/ui/gtkui/aboutdialog.py:61
+msgid ""
+"A peer-to-peer file sharing program\n"
+"utilizing the BitTorrent protocol."
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
-msgid "Peers"
-msgstr "Eşler"
+#: deluge/ui/gtkui/aboutdialog.py:62
+msgid "Client:"
+msgstr "İstemci:"
 
-#: deluge/ui/gtkui/torrentview.py:241
-msgid "Down Limit"
-msgstr "İndirme Sınırı"
+#: deluge/ui/gtkui/aboutdialog.py:65
+msgid "Current Developers:"
+msgstr "Geliştiriciler:"
 
-#: deluge/ui/gtkui/torrentview.py:243
-msgid "Up Limit"
-msgstr "Gönderme Sınırı"
+#: deluge/ui/gtkui/aboutdialog.py:67
+msgid "Past Developers or Contributors:"
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:245
-msgid "ETA"
-msgstr "Kalan Süre"
+#: deluge/ui/gtkui/aboutdialog.py:252
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 3 of the License, or (at your option) "
+"any later version. \n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details. \n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program; if not, see <http://www.gnu.org/licenses>. \n"
+"\n"
+"In addition, as a special exception, the copyright holders give permission "
+"to link the code of portions of this program with the OpenSSL library. You "
+"must obey the GNU General Public License in all respects for all of the code "
+"used other than OpenSSL. \n"
+"\n"
+"If you modify file(s) with this exception, you may extend this exception to "
+"your version of the file(s), but you are not obligated to do so. If you do "
+"not wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then "
+"also delete it here."
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:247
-msgid "Ratio"
-msgstr "Oran"
+#: deluge/ui/gtkui/aboutdialog.py:287
+msgid "Server:"
+msgstr "Sunucu:"
 
-#: deluge/ui/gtkui/torrentview.py:249
-msgid "Avail"
-msgstr "Fayda"
+#: deluge/ui/gtkui/aboutdialog.py:290
+msgid "libtorrent:"
+msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:251
-msgid "Added"
-msgstr "Eklendi"
+#: deluge/ui/gtkui/statusbar.py:146
+msgid "Not Connected"
+msgstr "Bağlı değil"
 
-#: deluge/ui/gtkui/torrentview.py:257
-msgid "Save Path"
-msgstr "Kaydedilecek Konum"
+#: deluge/ui/gtkui/statusbar.py:163
+msgid "Connections"
+msgstr "Bağlantılar"
 
-#: deluge/ui/gtkui/glade/main_window.glade:21
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-msgid "_File"
-msgstr "_Dosya"
+#: deluge/ui/gtkui/statusbar.py:168
+msgid "Download Speed"
+msgstr "İndirme Hızı"
 
-#: deluge/ui/gtkui/glade/main_window.glade:27
+#: deluge/ui/gtkui/statusbar.py:173
+msgid "Upload Speed"
+msgstr "Gönderme Hızı"
+
+#: deluge/ui/gtkui/statusbar.py:178
+msgid "Protocol Traffic Download/Upload"
+msgstr "İndirme/Gönderme Aktarım Protokolü"
+
+#: deluge/ui/gtkui/statusbar.py:181
+msgid "DHT Nodes"
+msgstr "DHT Yuvası"
+
+#: deluge/ui/gtkui/statusbar.py:186
+msgid "Free Disk Space"
+msgstr "Boş Disk Alanı"
+
+#: deluge/ui/gtkui/statusbar.py:190
+msgid "No Incoming Connections!"
+msgstr "Gelen Bağlantı Yok!"
+
+#: deluge/ui/gtkui/filtertreeview.py:69
+msgid "States"
+msgstr "Eyaletler"
+
+#: deluge/ui/gtkui/filtertreeview.py:71
+msgid "Labels"
+msgstr "Etiketler"
+
+#: deluge/ui/gtkui/filtertreeview.py:72
+msgid "All"
+msgstr "Tam"
+
+#: deluge/ui/gtkui/filtertreeview.py:73
+msgid "Downloading"
+msgstr "İndriyor"
+
+#: deluge/ui/gtkui/filtertreeview.py:74
+msgid "Seeding"
+msgstr "Kaynak/Gönderiliyor"
+
+#: deluge/ui/gtkui/filtertreeview.py:75
+msgid "Paused"
+msgstr "Duraklatıldı"
+
+#: deluge/ui/gtkui/filtertreeview.py:76
+msgid "Checking"
+msgstr "Denetleniyor"
+
+#: deluge/ui/gtkui/filtertreeview.py:77
+msgid "Queued"
+msgstr "Sırada"
+
+#: deluge/ui/gtkui/filtertreeview.py:79
+msgid "Active"
+msgstr "Etkin"
+
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "None"
+msgstr "Hiçbiri"
+
+#: deluge/ui/gtkui/filtertreeview.py:81
+msgid "No Label"
+msgstr "Etiket Yok"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
+msgid "<big><b>Remove the selected torrent?</b></big>"
+msgstr "<big><b>Seçilen torrent kaldırılsın mı?</b></big>"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
+msgid "If you remove the data, it will be lost permanently."
+msgstr "Eğer veriyi kaldırırsanız, kalıcı olarak silinir."
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
+msgid "Remove With _Data"
+msgstr "_Veriyle Birlikte Kaldır"
+
+#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
+msgid "Remove _Torrent"
+msgstr "Torrenti _Kaldır"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
+msgid "Edit Trackers"
+msgstr "İzleyicileri Düzenle"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
+msgid "<big><b>Edit Trackers</b></big>"
+msgstr "<big><b>İzleyicileri Düzenle</b></big>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
+msgid "Add Tracker"
+msgstr "İzleyici Ekle"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
+msgstr "<b>Takipçileri Ekle</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+msgid "Trackers:"
+msgstr "İzleyiciler"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
+msgid "Edit Tracker"
+msgstr "İzleyiciyi Düzenle"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>İzleyiciyi Düzenle</b>"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
+msgstr "İzleyici:"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr "_Deluge Göster"
+
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
+#: deluge/ui/gtkui/glade/main_window.glade:27
 msgid "_Add Torrent"
 msgstr "Torrent _Ekle"
 
-#: deluge/ui/gtkui/glade/main_window.glade:45
-msgid "_Create Torrent"
-msgstr "Torrent _Yarat"
-
-#: deluge/ui/gtkui/glade/main_window.glade:65
-msgid "Quit & _Shutdown Daemon"
-msgstr "Çık ve Hizmeti _Kapat"
-
-#: deluge/ui/gtkui/glade/main_window.glade:101
-msgid "_Edit"
-msgstr "_Düzenle"
-
-#: deluge/ui/gtkui/glade/main_window.glade:118
-msgid "_Connection Manager"
-msgstr "_Bağlantı Yöneticisi"
-
-#: deluge/ui/gtkui/glade/main_window.glade:140
-msgid "_Torrent"
-msgstr "_Torent"
-
-#: deluge/ui/gtkui/glade/main_window.glade:147
-msgid "_View"
-msgstr "_Görünüm"
-
-#: deluge/ui/gtkui/glade/main_window.glade:155
-msgid "_Toolbar"
-msgstr "Araç _Çubuğu"
-
-#: deluge/ui/gtkui/glade/main_window.glade:165
-msgid "_Sidebar"
-msgstr "_Yan Çubuk"
-
-#: deluge/ui/gtkui/glade/main_window.glade:174
-msgid "Status_bar"
-msgstr "Durum _Çubuğu"
-
-#: deluge/ui/gtkui/glade/main_window.glade:188
-msgid "T_abs"
-msgstr "S_ekmeler"
-
-#: deluge/ui/gtkui/glade/main_window.glade:195
-msgid "_Columns"
-msgstr "_Sütunlar"
-
-#: deluge/ui/gtkui/glade/main_window.glade:203
-msgid "S_idebar"
-msgstr "_Kenar Çubuğu"
-
-#: deluge/ui/gtkui/glade/main_window.glade:212
-msgid "Show _Zero Hits"
-msgstr "_İsabetsizleri Göster"
-
-#: deluge/ui/gtkui/glade/main_window.glade:221
-msgid "Show _Trackers"
-msgstr "_Takipçileri Göster"
-
-#: deluge/ui/gtkui/glade/main_window.glade:238
-msgid "_Help"
-msgstr "_Yardım"
-
-#: deluge/ui/gtkui/glade/main_window.glade:244
-msgid "_Homepage"
-msgstr "_Anasayfa"
-
-#: deluge/ui/gtkui/glade/main_window.glade:261
-msgid "_FAQ"
-msgstr "_SSS"
-
-#: deluge/ui/gtkui/glade/main_window.glade:264
-msgid "Frequently Asked Questions"
-msgstr "Sık Sorulan Sorular"
-
-#: deluge/ui/gtkui/glade/main_window.glade:280
-msgid "_Community"
-msgstr "_Topluluk"
-
-#: deluge/ui/gtkui/glade/main_window.glade:327
-msgid "Add torrent"
-msgstr "Torrent ekle"
-
-#: deluge/ui/gtkui/glade/main_window.glade:328
-msgid "Add Torrent"
-msgstr "Torrent Ekle"
-
-#: deluge/ui/gtkui/glade/main_window.glade:342
-msgid "Remove torrent"
-msgstr "Torenti kaldır"
-
-#: deluge/ui/gtkui/glade/main_window.glade:343
-msgid "Remove Torrent"
-msgstr "Torrent Kaldır"
-
-#: deluge/ui/gtkui/glade/main_window.glade:365
-msgid "Pause"
-msgstr "Duraklat"
-
-#: deluge/ui/gtkui/glade/main_window.glade:381
-msgid "Resume"
-msgstr "Devam Et"
-
-#: deluge/ui/gtkui/glade/main_window.glade:403
-msgid "Queue Torrent Up"
-msgstr "Sıradaki Torrent Yukarı"
-
-#: deluge/ui/gtkui/glade/main_window.glade:404
-msgid "Queue Up"
-msgstr "Yukarı Taşı"
-
-#: deluge/ui/gtkui/glade/main_window.glade:418
-msgid "Queue Torrent Down"
-msgstr "Sıradaki Torrent Aşağı"
-
-#: deluge/ui/gtkui/glade/main_window.glade:419
-msgid "Queue Down"
-msgstr "Aşağı Taşı"
-
-#: deluge/ui/gtkui/glade/main_window.glade:440
-#: deluge/ui/gtkui/glade/main_window.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-msgid "Preferences"
-msgstr "Tercihler"
-
-#: deluge/ui/gtkui/glade/main_window.glade:455
-#: deluge/ui/gtkui/glade/main_window.glade:456
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
-msgid "Connection Manager"
-msgstr "Bağlantı Yöneticisi"
-
-#: deluge/ui/gtkui/glade/main_window.glade:591
-msgid "_Do Not Download"
-msgstr "_İndirme"
-
-#: deluge/ui/gtkui/glade/main_window.glade:607
-msgid "_Normal Priority"
-msgstr "_Normal Öncelik"
-
-#: deluge/ui/gtkui/glade/main_window.glade:623
-msgid "_High Priority"
-msgstr "_Yüksek Öncelik"
-
-#: deluge/ui/gtkui/glade/main_window.glade:639
-msgid "Hi_ghest Priority"
-msgstr "_En Yüksek Öncelik"
-
-#: deluge/ui/gtkui/glade/main_window.glade:721
-msgid "<b>Auto Managed:</b>"
-msgstr "<b>Otomatik Düzenle:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:762
-msgid "<b>Seed Rank:</b>"
-msgstr "<b>Gönderim Sırası:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:777
-msgid "<b>Seeding Time:</b>"
-msgstr "<b>Gönderim Süresi:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:803
-msgid "<b>Active Time:</b>"
-msgstr "<b>Etkin Süre:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:860
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>İzleyici Durumu:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:890
-msgid "<b>Availability:</b>"
-msgstr "<b>Erişilebilirlik:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:944
-msgid "<b>Peers:</b>"
-msgstr "<b>Eşler:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:970
-msgid "<b>Seeders:</b>"
-msgstr "<b>Kaynaklar:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:988
-msgid "<b>Pieces:</b>"
-msgstr "<b>Parçalar:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1010
-msgid "<b>ETA:</b>"
-msgstr "<b>Tahmini Kalan Süre</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1032
-msgid "<b>Up Speed:</b>"
-msgstr "<b>Gönderme Hızı:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1054
-msgid "<b>Down Speed:</b>"
-msgstr "<b>İndirme Hızı:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1073
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Sonraki Duyuru:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1092
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Paylaşım Oranı:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1111
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Gönderilen:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1130
-msgid "<b>Downloaded:</b>"
-msgstr "<b>İndirilen:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1191
-msgid "<b>Date Added:</b>"
-msgstr "<b>Eklendiği Tarih:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1249
-msgid "_Status"
-msgstr "_Durum"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1310
-msgid "<b>Comments:</b>"
-msgstr "<b>Yorumlar:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1339
-msgid "<b># of files:</b>"
-msgstr "<b>Dosya sayısı:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1371
-msgid "<b>Hash:</b>"
-msgstr "<b>Adresleme:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1401
-msgid "<b>Tracker:</b>"
-msgstr "<b>İzleyici:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1421
-msgid "<b>Total Size:</b>"
-msgstr "<b>Toplam Boyut:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1459
-msgid "<b>Name:</b>"
-msgstr "<b>Ad:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1479
-msgid "<b>Path:</b>"
-msgstr "<b>Yol:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1513
-msgid "<b>Status:</b>"
-msgstr "<b>Durum:</b>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1594
-msgid "_Details"
-msgstr "_Ayrıntılar"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1646
-msgid "_Files"
-msgstr "_Dosyalar"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1698
-msgid "_Peers"
-msgstr "Eşle_r"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2009
-msgid "Move completed:"
-msgstr "Bitirilene taşı:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2105
-msgid "Private"
-msgstr "Özel"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2158
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-msgid "_Edit Trackers"
-msgstr "_İzleyicileri Düzenle"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2265
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
-msgid "_Options"
-msgstr "_Seçenekler"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2376
-msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr "<i>İlgili .torrent silinecek!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2416
-msgid "<i>The downloaded data will be deleted!</i>"
-msgstr "<i>İndirilmiş veri silinecek!</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2460
-msgid "Remove Selected Torrent"
-msgstr "Seçili Torrenti Kaldır"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2570
-msgid "<i>Available Version:</i>"
-msgstr "<i>Kullanılabilir Sürüm:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2593
-msgid "<i>Current Version:</i>"
-msgstr "<i>Şimdiki Sürüm:</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2604
-msgid "<i>Server Version</i>"
-msgstr "<i>Sunucu Sürümü</i>"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2676
-msgid "_Goto Website"
-msgstr "Siteye _Git"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2704
-msgid "_Add Peer"
-msgstr "_Eş Ekle"
-
-#: deluge/ui/gtkui/glade/main_window.glade:2706
-msgid "Add a peer by its IP"
-msgstr "IP bilgisi ile eş ekle"
+#: deluge/ui/gtkui/glade/tray_menu.glade:48
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
+msgid "_Pause All"
+msgstr "_Tümünü Duraksat"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:65
+msgid "_Resume All"
+msgstr "_Tümüne Devam Et"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:87
+#: deluge/ui/gtkui/glade/torrent_menu.glade:212
+msgid "_Download Speed Limit"
+msgstr "_İndirme Hızı Sınırı"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:103
+#: deluge/ui/gtkui/glade/torrent_menu.glade:227
+msgid "_Upload Speed Limit"
+msgstr "_Gönderme Hızı Sınırı"
+
+#: deluge/ui/gtkui/glade/tray_menu.glade:124
+msgid "Quit & Shutdown Daemon"
+msgstr "Çık & Artişlemi Kapat"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
 msgstr "_Hepsini Seç"
 
-#: deluge/ui/gtkui/glade/filtertree_menu.glade:26
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
-msgid "_Pause All"
-msgstr "_Tümünü Duraksat"
+#: deluge/ui/gtkui/glade/filtertree_menu.glade:41
+#: deluge/ui/gtkui/glade/torrent_menu.glade:48
+msgid "Resume selected torrents."
+msgstr "Seçili torentleri sürdür."
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
 msgstr "Tümüne devam et"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
-msgid "Add Torrents"
-msgstr "Torentleri Ekle"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
-msgid "_URL"
-msgstr "_Adres"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
-msgid "Info_hash"
-msgstr "Doğrulama dosyası bilgisi"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
-msgid "<b>Torrents</b>"
-msgstr "<b>Torentler</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
-msgid "Fi_les"
-msgstr "_Dosyalar"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
-msgid "Full"
-msgstr "Tam"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
-msgid "Compact"
-msgstr "Yoğun"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
-msgid "<b>Allocation</b>"
-msgstr "<b>Alan Tahsisi</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
-msgid "Max Down Speed:"
-msgstr "Azami İndirme Hızı:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
-msgid "Max Up Speed:"
-msgstr "Azami Gönderme Hızı:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
-msgid "Prioritize First/Last Pieces"
-msgstr "İlk/Son Parçaları Önceliklendir"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
-msgid "Revert To Defaults"
-msgstr "Varsayılana döndür"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
-msgid "Apply To All"
-msgstr "Tümü İçin Uygula"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
-msgid "Add URL"
-msgstr "URL ekle"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
-msgid "Add Infohash"
-msgstr "Doğrulama dosyası ekle"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
-msgid "<b>From Infohash</b>"
-msgstr "<b>Doğrulama bilgisinden</b>"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
-msgid "Infohash:"
-msgstr "Doğrulama Bilgisi:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
-#: deluge/ui/gtkui/glade/edit_trackers.glade:296
-msgid "Trackers:"
-msgstr "İzleyiciler"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
-msgid "Create Torrent"
-msgstr "Torrent Oluştur"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>Torrent Oluştur</b></big>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
-msgid "Fol_der"
-msgstr "Kl_asör"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
-msgid "_Remote Path"
-msgstr "_Uzak Patika"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
-msgid "<b>Files</b>"
-msgstr "<b>Dosyalar</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
-msgid "Author:"
-msgstr "Yazan:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
-msgid "Comments:"
-msgstr "Yorumlar:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
-msgid "Info"
-msgstr "Bilgi"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
-msgid "Webseeds"
-msgstr "Web üzerinden gönderme"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
-msgid "Piece Size:"
-msgstr "Parça Boyutu:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
-msgid ""
-"32 KiB\n"
-"64 KiB\n"
-"128 KiB\n"
-"256 KiB\n"
-"512 KiB\n"
-"1 MiB\n"
-"2 MiB\n"
-"4 MiB\n"
-"8 MiB\n"
-"16 MiB\n"
-msgstr ""
-"32 KB\n"
-"64 KB\n"
-"128 KB\n"
-"256 KB\n"
-"512 KB\n"
-"1 MB\n"
-"2 MB\n"
-"4 MB\n"
-"8 MB\n"
-"16 MB\n"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
-msgid "Set Private Flag"
-msgstr "Özel Bayrak Ver"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
-msgid "Add this torrent to the session"
-msgstr "Bu torrenti oturuma ekle"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
-msgid "Enter Remote Path"
-msgstr "Uzak Patikayı Girin"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
-msgid "<b>Remote Path</b>"
-msgstr "<b>Uzak Patika</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
-msgid "Path:"
-msgstr "Patika:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
-msgid "Creating Torrent"
-msgstr "Torrent Yaratma"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
-msgid "Save .torrent as"
-msgstr ".torrent Farklı kaydet"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
-msgid "<b>Save .torrent file</b>"
-msgstr "<b>.torrent dosyasını sakla</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
-msgid "label"
-msgstr "etiket"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
-msgid "Add Peer"
-msgstr "Eş Ekle"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
-msgid "<b>Add Peer</b>"
-msgstr "<b>Eş Ekle</b>"
-
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
-msgid "hostname:port"
-msgstr "bilgisayar adı:port"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>Bağlantı Yöneticisi</b></big>"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
-msgid "_Start local daemon"
-msgstr "Yerel artişlemi _başlat"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
-msgid "Automatically start localhost if needed"
-msgstr "Yerel sunucuyu gerekliyse otomatik başlat"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
-msgid "Do not show this dialog on start-up"
-msgstr "Bu iletişim kutusunu başlangıçta gösterme"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+#: deluge/ui/gtkui/glade/main_window.glade:440
+#: deluge/ui/gtkui/glade/main_window.glade:441
+msgid "Preferences"
+msgstr "Tercihler"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:78
 msgid "<b><i><big>Downloads</big></i></b>"
@@ -3141,6 +2520,27 @@ msgstr "<b>Klasörler</b>"
 msgid "Use Full Allocation"
 msgstr "Tam Alan Tahsisi Yap"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:375
+msgid ""
+"Full allocation preallocates all of the space that is needed for the torrent "
+"and prevents disk fragmentation"
+msgstr ""
+"Tam alan tahsisi torrent için gerekli disk alanının tamamını önceden ayırır "
+"ve disk parçalanmasını engeller"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:387
+msgid "Use Compact Allocation"
+msgstr "Yoğun Alan Tahsisi Kullan"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:392
+msgid "Compact allocation only allocates space as needed"
+msgstr "Yoğun alan tahsisi sadece ihtiyaç kadar disk alanı ayırır"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+msgid "<b>Allocation</b>"
+msgstr "<b>Alan Tahsisi</b>"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:440
 msgid "Prioritize first and last pieces of torrent"
 msgstr "Torentin ilk ve son parçalarına öncelik ver"
@@ -3166,10 +2566,18 @@ msgstr "Rastgele Port Kullan"
 msgid "Deluge will automatically choose a different port to use every time."
 msgstr "Deluge her zaman otomatik olarak farklı bir port kullansın."
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:592
+msgid "Active Port:"
+msgstr "Etkin Kapı:"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:662
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:812
 msgid "To:"
 msgstr "Alıcı:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:690
+msgid "Test Active Port"
+msgstr "Etkin Kapıyı Dene"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:732
 msgid "<b>Incoming Ports</b>"
@@ -3236,10 +2644,9 @@ msgstr "LSD"
 msgid "Local Service Discovery finds local peers on your network."
 msgstr "Yerel Hizmet Bulucu ağınızda yerel eşler buldu."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
-#: deluge/ui/console/statusbars.py:104
-msgid "DHT"
-msgstr "DHT"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
+msgid "Distributed hash table may improve the amount of active connections."
+msgstr "Dağıtılmış adresleme tablosu etkin bağlantı sayısını geliştirebilir."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
 msgid "<b>Network Extras</b>"
@@ -3264,9 +2671,23 @@ msgstr ""
 "Seçili\n"
 "Seçilmemiş"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
+msgid ""
+"Handshake\n"
+"Full Stream\n"
+"Either"
+msgstr ""
+"Anlaşma\n"
+"Tam akış\n"
+"İkisinden biri"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
 msgid "Outbound:"
 msgstr "Giden:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+msgid "Encrypt entire stream"
+msgstr "Bütün akımı şifrele"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
 msgid "<b>Encryption</b>"
@@ -3284,10 +2705,20 @@ msgstr "Saniye Başı Azami Bağlantı Denemesi:"
 msgid "Maximum Half-Open Connections:"
 msgstr "Azami Yarım-Açık Bağlantı:"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr "Tüm torentler için azami gönderim hızı. Sınırsız için -1 yazınız."
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Azami Gönderme Hızı (KiB/sn)"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "İzin verilen  azami bağlantı sayısı. Sınırsız için -1 yazınız."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
@@ -3304,6 +2735,11 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
 msgid "Maximum Upload Slots:"
 msgstr "Azami Gönderme Yuvası:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr "Bütün torentler için azami indirme hızı. Sınırsız için -1 yazınız."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
@@ -3353,6 +2789,17 @@ msgstr "<i><b><big>Arabirim</big></b></i>"
 msgid "Enable"
 msgstr "Etkinleştir"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
+msgid ""
+"Classic Mode will hide most of the daemon functionality and will make Deluge "
+"appear to be a single application.  Use this if you do not want to take "
+"advantage of running Deluge as a daemon. You need to restart Deluge for this "
+"setting to take effect."
+msgstr ""
+"Klasik Kip çoğu artişlem işlevselliğini gizleyecek ve Deluge tek uygulama "
+"gibi görülecek. Deluge'un artişlem olma avantajını istemiyorsanız bunu "
+"kullanın. Bu ayarın etkili olabilmesi için Deluge yeniden başlatılmalı."
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
 msgid "<b>Classic Mode</b>"
 msgstr "<b>Klasik Mod</b>"
@@ -3368,6 +2815,14 @@ msgstr "<b>Ana Pencere</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
 msgid "Always show"
 msgstr "Daima Göster"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+msgid "Bring the dialog to focus"
+msgstr "İletişimi odaklanmış getir"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+msgid "<b>Add Torrents Dialog</b>"
+msgstr "<b>Torent İletişimi Ekle</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
 msgid "Enable system tray icon"
@@ -3453,6 +2908,10 @@ msgstr "Magnet linklerini Deluge ile ilişkilendir"
 msgid "<i><b><big>Daemon</big></b></i>"
 msgstr "<i><b><big>Artişlem</big></b></i>"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+msgid "Daemon port:"
+msgstr "Art hizmet bağlantı noktası:"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
 msgid "<b>Port</b>"
 msgstr "<b>Port</b>"
@@ -3464,6 +2923,10 @@ msgstr "Uzak Bağlantılara İzin Ver"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
 msgid "<b>Connections</b>"
 msgstr "<b>Bağlantılar</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+msgid "Periodically check the website for new releases"
+msgstr "Yeni yayımlar için siteyi belli aralıklarla denetle"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
 msgid "<b>Other</b>"
@@ -3501,9 +2964,21 @@ msgstr "Aktif Torrentler"
 msgid "Share Ratio Limit:"
 msgstr "Paylaşım Oranı Sınırı:"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+msgid "Seed Time Ratio:"
+msgstr "Dağıtım Süresi Oranı:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+msgid "Seed Time (m):"
+msgstr "Gönderim Süresi (dk):"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
 msgid "Stop seeding when share ratio reaches:"
 msgstr "Paylaşım oranına ulaşınca gönderimi durdur:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+msgid "Remove torrent when share ratio reached"
+msgstr "Paylaşım oranına ulaşınca torenti sil"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
 msgid "<b>Seeding</b>"
@@ -3687,6 +3162,11 @@ msgstr "<i><b><big>Eklentiler</big></b></i>"
 msgid "Version:"
 msgstr "Sürüm:"
 
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+msgid "Author:"
+msgstr "Yazan:"
+
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Homepage:"
 msgstr "Anasayfa:"
@@ -3707,27 +3187,493 @@ msgstr "Eklentileri _Tekrar Tara"
 msgid "_Find More Plugins"
 msgstr "Daha Fazla Eklenti Bul"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:12
-msgid "_Show Deluge"
-msgstr "_Deluge Göster"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:8
+msgid "Queued Torrents"
+msgstr "Kuyruktaki Torentler"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
-msgid "_Resume All"
-msgstr "_Tümüne Devam Et"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:47
+msgid "<big><b>Add Queued Torrents</b></big>"
+msgstr "<big><b>Kuyruktaki Torentleri Ekle</b></big>"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
-#: deluge/ui/gtkui/glade/torrent_menu.glade:212
-msgid "_Download Speed Limit"
-msgstr "_İndirme Hızı Sınırı"
+#: deluge/ui/gtkui/glade/queuedtorrents.glade:127
+msgid "Automatically add torrents on connect"
+msgstr "Bağlanıldığında torentleri otomatik ekle"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
-#: deluge/ui/gtkui/glade/torrent_menu.glade:227
-msgid "_Upload Speed Limit"
-msgstr "_Gönderme Hızı Sınırı"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
+msgid "Create Torrent"
+msgstr "Torrent Oluştur"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
-msgid "Quit & Shutdown Daemon"
-msgstr "Çık & Artişlemi Kapat"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
+msgid "<big><b>Create Torrent</b></big>"
+msgstr "<big><b>Torrent Oluştur</b></big>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/main_window.glade:21
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+msgid "_File"
+msgstr "_Dosya"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+msgid "Fol_der"
+msgstr "Kl_asör"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+msgid "_Remote Path"
+msgstr "_Uzak Patika"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+msgid "<b>Files</b>"
+msgstr "<b>Dosyalar</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+msgid "Comments:"
+msgstr "Yorumlar:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+msgid "Info"
+msgstr "Bilgi"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+msgid "Webseeds"
+msgstr "Web üzerinden gönderme"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+msgid "Piece Size:"
+msgstr "Parça Boyutu:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1 MiB\n"
+"2 MiB\n"
+"4 MiB\n"
+"8 MiB\n"
+"16 MiB\n"
+msgstr ""
+"32 KB\n"
+"64 KB\n"
+"128 KB\n"
+"256 KB\n"
+"512 KB\n"
+"1 MB\n"
+"2 MB\n"
+"4 MB\n"
+"8 MB\n"
+"16 MB\n"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+msgid "Set Private Flag"
+msgstr "Özel Bayrak Ver"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+msgid "Add this torrent to the session"
+msgstr "Bu torrenti oturuma ekle"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+msgid "Enter Remote Path"
+msgstr "Uzak Patikayı Girin"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+msgid "<b>Remote Path</b>"
+msgstr "<b>Uzak Patika</b>"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+msgid "Path:"
+msgstr "Patika:"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+msgid "Creating Torrent"
+msgstr "Torrent Yaratma"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+msgid "Save .torrent as"
+msgstr ".torrent Farklı kaydet"
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+msgid "<b>Save .torrent file</b>"
+msgstr "<b>.torrent dosyasını sakla</b>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:8
+msgid "Add Host"
+msgstr "Makine Ekle"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:204
+#: deluge/ui/gtkui/glade/main_window.glade:455
+#: deluge/ui/gtkui/glade/main_window.glade:456
+msgid "Connection Manager"
+msgstr "Bağlantı Yöneticisi"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:237
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>Bağlantı Yöneticisi</b></big>"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:363
+msgid "_Start local daemon"
+msgstr "Yerel artişlemi _başlat"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:415
+msgid "Automatically connect to selected host on start-up"
+msgstr "Seçili barındırana başlangıçta otomatik bağlan"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:426
+msgid "Automatically start localhost if needed"
+msgstr "Yerel sunucuyu gerekliyse otomatik başlat"
+
+#: deluge/ui/gtkui/glade/connection_manager.glade:440
+msgid "Do not show this dialog on start-up"
+msgstr "Bu iletişim kutusunu başlangıçta gösterme"
+
+#: deluge/ui/gtkui/glade/main_window.glade:45
+msgid "_Create Torrent"
+msgstr "Torrent _Yarat"
+
+#: deluge/ui/gtkui/glade/main_window.glade:65
+msgid "Quit & _Shutdown Daemon"
+msgstr "Çık ve Hizmeti _Kapat"
+
+#: deluge/ui/gtkui/glade/main_window.glade:101
+msgid "_Edit"
+msgstr "_Düzenle"
+
+#: deluge/ui/gtkui/glade/main_window.glade:118
+msgid "_Connection Manager"
+msgstr "_Bağlantı Yöneticisi"
+
+#: deluge/ui/gtkui/glade/main_window.glade:140
+msgid "_Torrent"
+msgstr "_Torent"
+
+#: deluge/ui/gtkui/glade/main_window.glade:147
+msgid "_View"
+msgstr "_Görünüm"
+
+#: deluge/ui/gtkui/glade/main_window.glade:155
+msgid "_Toolbar"
+msgstr "Araç _Çubuğu"
+
+#: deluge/ui/gtkui/glade/main_window.glade:165
+msgid "_Sidebar"
+msgstr "_Yan Çubuk"
+
+#: deluge/ui/gtkui/glade/main_window.glade:174
+msgid "Status_bar"
+msgstr "Durum _Çubuğu"
+
+#: deluge/ui/gtkui/glade/main_window.glade:188
+msgid "T_abs"
+msgstr "S_ekmeler"
+
+#: deluge/ui/gtkui/glade/main_window.glade:195
+msgid "_Columns"
+msgstr "_Sütunlar"
+
+#: deluge/ui/gtkui/glade/main_window.glade:203
+msgid "S_idebar"
+msgstr "_Kenar Çubuğu"
+
+#: deluge/ui/gtkui/glade/main_window.glade:212
+msgid "Show _Zero Hits"
+msgstr "_İsabetsizleri Göster"
+
+#: deluge/ui/gtkui/glade/main_window.glade:221
+msgid "Show _Trackers"
+msgstr "_Takipçileri Göster"
+
+#: deluge/ui/gtkui/glade/main_window.glade:238
+msgid "_Help"
+msgstr "_Yardım"
+
+#: deluge/ui/gtkui/glade/main_window.glade:244
+msgid "_Homepage"
+msgstr "_Anasayfa"
+
+#: deluge/ui/gtkui/glade/main_window.glade:261
+msgid "_FAQ"
+msgstr "_SSS"
+
+#: deluge/ui/gtkui/glade/main_window.glade:264
+msgid "Frequently Asked Questions"
+msgstr "Sık Sorulan Sorular"
+
+#: deluge/ui/gtkui/glade/main_window.glade:280
+msgid "_Community"
+msgstr "_Topluluk"
+
+#: deluge/ui/gtkui/glade/main_window.glade:327
+msgid "Add torrent"
+msgstr "Torrent ekle"
+
+#: deluge/ui/gtkui/glade/main_window.glade:328
+msgid "Add Torrent"
+msgstr "Torrent Ekle"
+
+#: deluge/ui/gtkui/glade/main_window.glade:342
+msgid "Remove torrent"
+msgstr "Torenti kaldır"
+
+#: deluge/ui/gtkui/glade/main_window.glade:343
+msgid "Remove Torrent"
+msgstr "Torrent Kaldır"
+
+#: deluge/ui/gtkui/glade/main_window.glade:364
+msgid "Pause the selected torrents"
+msgstr "Seçili torentleri duraklat"
+
+#: deluge/ui/gtkui/glade/main_window.glade:365
+msgid "Pause"
+msgstr "Duraklat"
+
+#: deluge/ui/gtkui/glade/main_window.glade:380
+msgid "Resume the selected torrents"
+msgstr "Seçili torentleri sürdür"
+
+#: deluge/ui/gtkui/glade/main_window.glade:381
+msgid "Resume"
+msgstr "Devam Et"
+
+#: deluge/ui/gtkui/glade/main_window.glade:403
+msgid "Queue Torrent Up"
+msgstr "Sıradaki Torrent Yukarı"
+
+#: deluge/ui/gtkui/glade/main_window.glade:404
+msgid "Queue Up"
+msgstr "Yukarı Taşı"
+
+#: deluge/ui/gtkui/glade/main_window.glade:418
+msgid "Queue Torrent Down"
+msgstr "Sıradaki Torrent Aşağı"
+
+#: deluge/ui/gtkui/glade/main_window.glade:419
+msgid "Queue Down"
+msgstr "Aşağı Taşı"
+
+#: deluge/ui/gtkui/glade/main_window.glade:570
+msgid "_Expand All"
+msgstr "_Hepsini Genişlet"
+
+#: deluge/ui/gtkui/glade/main_window.glade:591
+msgid "_Do Not Download"
+msgstr "_İndirme"
+
+#: deluge/ui/gtkui/glade/main_window.glade:607
+msgid "_Normal Priority"
+msgstr "_Normal Öncelik"
+
+#: deluge/ui/gtkui/glade/main_window.glade:623
+msgid "_High Priority"
+msgstr "_Yüksek Öncelik"
+
+#: deluge/ui/gtkui/glade/main_window.glade:639
+msgid "Hi_ghest Priority"
+msgstr "_En Yüksek Öncelik"
+
+#: deluge/ui/gtkui/glade/main_window.glade:721
+msgid "<b>Auto Managed:</b>"
+msgstr "<b>Otomatik Düzenle:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:762
+msgid "<b>Seed Rank:</b>"
+msgstr "<b>Gönderim Sırası:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:777
+msgid "<b>Seeding Time:</b>"
+msgstr "<b>Gönderim Süresi:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:803
+msgid "<b>Active Time:</b>"
+msgstr "<b>Etkin Süre:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:860
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>İzleyici Durumu:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:890
+msgid "<b>Availability:</b>"
+msgstr "<b>Erişilebilirlik:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:944
+msgid "<b>Peers:</b>"
+msgstr "<b>Eşler:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:970
+msgid "<b>Seeders:</b>"
+msgstr "<b>Kaynaklar:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:988
+msgid "<b>Pieces:</b>"
+msgstr "<b>Parçalar:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1010
+msgid "<b>ETA:</b>"
+msgstr "<b>Tahmini Kalan Süre</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1032
+msgid "<b>Up Speed:</b>"
+msgstr "<b>Gönderme Hızı:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1054
+msgid "<b>Down Speed:</b>"
+msgstr "<b>İndirme Hızı:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1073
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Sonraki Duyuru:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1092
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Paylaşım Oranı:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1111
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Gönderilen:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1130
+msgid "<b>Downloaded:</b>"
+msgstr "<b>İndirilen:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1191
+msgid "<b>Date Added:</b>"
+msgstr "<b>Eklendiği Tarih:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1249
+msgid "_Status"
+msgstr "_Durum"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1310
+msgid "<b>Comments:</b>"
+msgstr "<b>Yorumlar:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1339
+msgid "<b># of files:</b>"
+msgstr "<b>Dosya sayısı:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1371
+msgid "<b>Hash:</b>"
+msgstr "<b>Adresleme:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1401
+msgid "<b>Tracker:</b>"
+msgstr "<b>İzleyici:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1421
+msgid "<b>Total Size:</b>"
+msgstr "<b>Toplam Boyut:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1459
+msgid "<b>Name:</b>"
+msgstr "<b>Ad:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1479
+msgid "<b>Path:</b>"
+msgstr "<b>Yol:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1513
+msgid "<b>Status:</b>"
+msgstr "<b>Durum:</b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1594
+msgid "_Details"
+msgstr "_Ayrıntılar"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1646
+msgid "_Files"
+msgstr "_Dosyalar"
+
+#: deluge/ui/gtkui/glade/main_window.glade:1698
+msgid "_Peers"
+msgstr "Eşle_r"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2009
+msgid "Move completed:"
+msgstr "Bitirilene taşı:"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2105
+msgid "Private"
+msgstr "Özel"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2120
+msgid "Prioritize First/Last"
+msgstr "İlk/Son Öncelik"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+msgid "_Edit Trackers"
+msgstr "_İzleyicileri Düzenle"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2265
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+msgid "_Options"
+msgstr "_Seçenekler"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2285
+msgid "Remove Torrent?"
+msgstr "Torenti Sil?"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2324
+msgid ""
+"<big><b>Are you sure you want to remove the selected torrent?</b></big>"
+msgstr "<big><b>Seçilmiş torenti silmek istediğinize emin misiniz?</b></big>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2376
+msgid "<i>The associated .torrent will be deleted!</i>"
+msgstr "<i>İlgili .torrent silinecek!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2416
+msgid "<i>The downloaded data will be deleted!</i>"
+msgstr "<i>İndirilmiş veri silinecek!</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2460
+msgid "Remove Selected Torrent"
+msgstr "Seçili Torrenti Kaldır"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2484
+msgid "New Release"
+msgstr "Yeni Yayım"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2518
+msgid "<b><big>New Release Available!</big></b>"
+msgstr "<b><big>Yeni Yayım Kullanılabilir!</big></b>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2570
+msgid "<i>Available Version:</i>"
+msgstr "<i>Kullanılabilir Sürüm:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2593
+msgid "<i>Current Version:</i>"
+msgstr "<i>Şimdiki Sürüm:</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2604
+msgid "<i>Server Version</i>"
+msgstr "<i>Sunucu Sürümü</i>"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2637
+msgid "Do not show this dialog in the future"
+msgstr "Bu iletişim kutusunu bir daha gösterme"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2676
+msgid "_Goto Website"
+msgstr "Siteye _Git"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2704
+msgid "_Add Peer"
+msgstr "_Eş Ekle"
+
+#: deluge/ui/gtkui/glade/main_window.glade:2706
+msgid "Add a peer by its IP"
+msgstr "IP bilgisi ile eş ekle"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:11
+msgid "_Open Folder"
+msgstr "_Klasör Aç"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:49
+msgid "Resu_me"
+msgstr "Devam et."
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
@@ -3745,6 +3691,10 @@ msgstr "_İzleyiciyi Güncelle"
 msgid "_Remove Torrent"
 msgstr "_Torrenti Kaldır"
 
+#: deluge/ui/gtkui/glade/torrent_menu.glade:174
+msgid "_Force Re-check"
+msgstr "Yeniden Denetimi _Güçlendir"
+
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
 msgstr "_Depolamayı Taşı"
@@ -3757,45 +3707,113 @@ msgstr "_Bağlantı Sınırı"
 msgid "Upload _Slot Limit"
 msgstr "Gönderme _Yuvası Sınırı"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:9
-msgid "Edit Trackers"
-msgstr "İzleyicileri Düzenle"
+#: deluge/ui/gtkui/glade/torrent_menu.glade:273
+msgid "_Auto Managed"
+msgstr "_Otomatik Düzenle"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:224
-msgid "Add Tracker"
-msgstr "İzleyici Ekle"
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
+msgid "Move Storage"
+msgstr "Depolamayı Taşı"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:260
-msgid "<b>Add Trackers</b>"
-msgstr "<b>Takipçileri Ekle</b>"
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:44
+msgid "<b>Move Storage</b>"
+msgstr "<b>Depolamayı Taşı</b>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:380
-msgid "Edit Tracker"
-msgstr "İzleyiciyi Düzenle"
+#: deluge/ui/gtkui/glade/move_storage_dialog.glade:78
+msgid "Destination:"
+msgstr "Hedef:"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:416
-msgid "<b>Edit Tracker</b>"
-msgstr "<b>İzleyiciyi Düzenle</b>"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
+msgid "Add Torrents"
+msgstr "Torentleri Ekle"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:450
-msgid "Tracker:"
-msgstr "İzleyici:"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
+msgid "_URL"
+msgstr "_Adres"
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
-msgid "<big><b>Remove the selected torrent?</b></big>"
-msgstr "<big><b>Seçilen torrent kaldırılsın mı?</b></big>"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
+msgid "Info_hash"
+msgstr "Doğrulama dosyası bilgisi"
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:57
-msgid "If you remove the data, it will be lost permanently."
-msgstr "Eğer veriyi kaldırırsanız, kalıcı olarak silinir."
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+msgid "_Remove"
+msgstr "_Kaldır"
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
-msgid "Remove With _Data"
-msgstr "_Veriyle Birlikte Kaldır"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+msgid "<b>Torrents</b>"
+msgstr "<b>Torentler</b>"
 
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
-msgid "Remove _Torrent"
-msgstr "Torrenti _Kaldır"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
+msgid "Fi_les"
+msgstr "_Dosyalar"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+msgid "Full"
+msgstr "Tam"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
+msgid "Compact"
+msgstr "Yoğun"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+msgid "Max Down Speed:"
+msgstr "Azami İndirme Hızı:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+msgid "Max Up Speed:"
+msgstr "Azami Gönderme Hızı:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+msgid "Add In _Paused State"
+msgstr "D_uraklatılmış Duruma Ekle"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+msgid "Prioritize First/Last Pieces"
+msgstr "İlk/Son Parçaları Önceliklendir"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+msgid "Revert To Defaults"
+msgstr "Varsayılana döndür"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+msgid "Apply To All"
+msgstr "Tümü İçin Uygula"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+msgid "Add URL"
+msgstr "URL ekle"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+msgid "<b>From URL</b>"
+msgstr "<b>Adresten</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+msgid "Add Infohash"
+msgstr "Doğrulama dosyası ekle"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+msgid "<b>From Infohash</b>"
+msgstr "<b>Doğrulama bilgisinden</b>"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
+msgid "Infohash:"
+msgstr "Doğrulama Bilgisi:"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:98
+msgid "label"
+msgstr "etiket"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:154
+msgid "Add Peer"
+msgstr "Eş Ekle"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:187
+msgid "<b>Add Peer</b>"
+msgstr "<b>Eş Ekle</b>"
+
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+msgid "hostname:port"
+msgstr "bilgisayar adı:port"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "BitTorrent Client"
@@ -3808,921 +3826,3 @@ msgstr "Deluge BitTorrent İstemcisi"
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
 msgstr "BitTorrent üzerinden dosya indirin ve paylaşın"
-
-#~ msgid "seconds"
-#~ msgstr "saniye"
-
-#~ msgid "Unknown"
-#~ msgstr "Bilinmeyen"
-
-#~ msgid "Download"
-#~ msgstr "İndir"
-
-#~ msgid "Upload"
-#~ msgstr "Gönder"
-
-#~ msgid "Share Ratio"
-#~ msgstr "Paylaşım Oranı"
-
-#~ msgid "Details"
-#~ msgstr "Detaylar"
-
-#~ msgid "Files"
-#~ msgstr "Dosyalar"
-
-#~ msgid "General"
-#~ msgstr "Genel"
-
-#~ msgid "0000"
-#~ msgstr "0000"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "En Çok Bağlantı Sayısı"
-
-#~ msgid "<b>Speed:</b>"
-#~ msgstr "<b>Hız:</b>"
-
-#~ msgid "Speed"
-#~ msgstr "Hız"
-
-#~ msgid "Delete .torrent file"
-#~ msgstr ".torrent dosyasını sil"
-
-#~ msgid "Remove"
-#~ msgstr "Kaldır"
-
-#~ msgid "Clear"
-#~ msgstr "Temizle"
-
-#~ msgid "Add"
-#~ msgstr "Ekle"
-
-#~ msgid "Username"
-#~ msgstr "Kullanıcı Adı"
-
-#~ msgid "Password"
-#~ msgstr "Şifre"
-
-#~ msgid "Server"
-#~ msgstr "Sunucu"
-
-#~ msgid "New Password"
-#~ msgstr "Yeni Parola"
-
-#~ msgid "About"
-#~ msgstr "Hakkında"
-
-#~ msgid "Auto refresh:"
-#~ msgstr "Otomatik tazeleme:"
-
-#~ msgid "Logout"
-#~ msgstr "Çıkış"
-
-#~ msgid "Delete downloaded files."
-#~ msgstr "İndirilmiş dosyaları sil."
-
-#~ msgid "Login"
-#~ msgstr "Giriş"
-
-#~ msgid "Set"
-#~ msgstr "Ayarla"
-
-#~ msgid "Total Size"
-#~ msgstr "Toplam Boyut"
-
-#~ msgid "Torrent list"
-#~ msgstr "Torrent listesi"
-
-#~ msgid "Tracker Status"
-#~ msgstr "İzleyici Durumu"
-
-#~ msgid "Url"
-#~ msgstr "Adres"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "_Quit"
-#~ msgstr "Çık"
-
-#~ msgid "Deluge is locked"
-#~ msgstr "Deluge Kilitli"
-
-#~ msgid "Template"
-#~ msgstr "Şablon"
-
-#~ msgid "Disable"
-#~ msgstr "Devre dışı bırak"
-
-#~ msgid "Config"
-#~ msgstr "Yapılandırma"
-
-#~ msgid "Pieces"
-#~ msgstr "Parçalar"
-
-#~ msgid "Resume all"
-#~ msgstr "Hepsine Devam Et"
-
-#~ msgid "Set Timeout"
-#~ msgstr "Zamanaşımı belirle"
-
-#~ msgid "From"
-#~ msgstr "Gönderen"
-
-#~ msgid "Choose an url or a torrent, not both."
-#~ msgstr "URL adresi yada torrent belirtin, biri yeterli."
-
-#~ msgid "Image Only"
-#~ msgstr "Sadece Resim"
-
-#~ msgid "Text Only"
-#~ msgstr "Sadece Yazı"
-
-#~ msgid "Text and image"
-#~ msgstr "Yazı ve resim"
-
-#~ msgid "Upload torrent"
-#~ msgstr "Torrent Yayımla"
-
-#~ msgid "Submit"
-#~ msgstr "Gönder"
-
-#~ msgid "Disabled"
-#~ msgstr "Kapalı"
-
-#~ msgid "Type"
-#~ msgstr "Tür"
-
-#~ msgid "Filters"
-#~ msgstr "Filtreler"
-
-#~ msgid "Availability"
-#~ msgstr "Erişilebilirlik"
-
-#~ msgid "Select All"
-#~ msgstr "Tümünü Seç"
-
-#~ msgid "Refresh page every:"
-#~ msgstr "Sayfayı yenile:"
-
-#~ msgid "Start"
-#~ msgstr "Başlat"
-
-#~ msgid "Password is invalid,try again"
-#~ msgstr "Geçersiz şifre, tekrar deneyin"
-
-#~ msgid "refresh must be > 0"
-#~ msgstr "Tazeleme süresi > 0 olmalıdır"
-
-#~ msgid "# Of Files"
-#~ msgstr "Dosya Sayısı"
-
-#~ msgid "Reannounce"
-#~ msgstr "Yeniden beyan ediliyor"
-
-#~ msgid "File"
-#~ msgstr "Dosya"
-
-#~ msgid "Keyword"
-#~ msgstr "Anahtar kelime"
-
-#~ msgid "False"
-#~ msgstr "Yanlış"
-
-#~ msgid "Restart"
-#~ msgstr "Tekrar Başlat"
-
-#~ msgid "Move"
-#~ msgstr "Taşı"
-
-#~ msgid "Queue Position"
-#~ msgstr "Sıra pozisyonu"
-
-#~ msgid "True"
-#~ msgstr "Doğru"
-
-#~ msgid "Stop"
-#~ msgstr "Durdur"
-
-#~ msgid "Download Location"
-#~ msgstr "İndirme Konumu"
-
-#~ msgid "Save"
-#~ msgstr "Kaydet"
-
-#~ msgid "Update"
-#~ msgstr "Güncelle"
-
-#~ msgid "Ports"
-#~ msgstr "Portlar"
-
-#~ msgid "No data"
-#~ msgstr "Veri yok"
-
-#~ msgid "Add In Paused State"
-#~ msgstr "Duraklatılanlara Ekle"
-
-#~ msgid "Maximum Upload Slots"
-#~ msgstr "Azami Gönderme"
-
-#~ msgid "Maximum Up Speed"
-#~ msgstr "Azami Gönderme Hızı"
-
-#~ msgid "Maximum Down Speed"
-#~ msgstr "Azami İndirme Hızı"
-
-#~ msgid "To"
-#~ msgstr "Buraya"
-
-#~ msgid "Random"
-#~ msgstr "Rastgele"
-
-#~ msgid "Encryption"
-#~ msgstr "Şifreleme"
-
-#~ msgid "Handshake"
-#~ msgstr "Anlaşma"
-
-#~ msgid "Inbound"
-#~ msgstr "Gelen"
-
-#~ msgid "Maximum Half-Open Connections"
-#~ msgstr "Azami Yarı-Açık Bağlantı"
-
-#~ msgid "Maximum Download Speed (Kib/s)"
-#~ msgstr "Azami İndirme Hızı (Kib/s)"
-
-#~ msgid "Level"
-#~ msgstr "Seviye"
-
-#~ msgid "Either"
-#~ msgstr "İkisi de"
-
-#~ msgid "Outbound"
-#~ msgstr "Giden"
-
-#~ msgid "-1 = Unlimited"
-#~ msgstr "-1 = Sınırsız"
-
-#~ msgid "Global"
-#~ msgstr "Genel"
-
-#~ msgid "Save .torrent files to"
-#~ msgstr ".torrent dosyalarını buraya kaydet"
-
-#~ msgid "Auto Add folder"
-#~ msgstr "Dizinleri Otomatik ekle"
-
-#~ msgid "Per Torrent"
-#~ msgstr "Her Bir Torrent'in"
-
-#~ msgid "Store all downoads in"
-#~ msgstr "Bütün indirilenleri buraya kaydet"
-
-#~ msgid "-1 = unlimited"
-#~ msgstr "-1 = sınırsız"
-
-#~ msgid "Total active torrents"
-#~ msgstr "Toplam aktif torrent"
-
-#~ msgid "Remove torrent when ratio reached"
-#~ msgstr "Orana ulaşınca torrenti sil"
-
-#~ msgid "Stop seeding when ratio reaches"
-#~ msgstr "Orana ulaşınca torrenti gönderme"
-
-#~ msgid "Total active seeding"
-#~ msgstr "Toplam aktif"
-
-#~ msgid "Total active downloading"
-#~ msgstr "Toplam aktif indirilenler"
-
-#~ msgid "Button style"
-#~ msgstr "Düğme türü"
-
-#~ msgid "Enabled Plugins"
-#~ msgstr "Etkin Eklentiler"
-
-#~ msgid "Current Password"
-#~ msgstr "Geçerli Parola"
-
-#~ msgid "New Password (Confirm)"
-#~ msgstr "Yeni Parola (Doğrulama)"
-
-#~ msgid "New Password is not equal to New Password(confirm)"
-#~ msgstr "\"Yeni Parola\" ile \"Yeni Parola(doğrulama)\" birbirinden farklı"
-
-#~ msgid "Move To"
-#~ msgstr "Taşı"
-
-#~ msgid "Old password is invalid"
-#~ msgstr "Eski parola yanlış"
-
-#~ msgid "Yes"
-#~ msgstr "Evet"
-
-#~ msgid "No"
-#~ msgstr "Hayır"
-
-#~ msgid "Enter a valid value."
-#~ msgstr "Geçerli bir değer girin."
-
-#~ msgid "This field is required."
-#~ msgstr "Gerekli Alan"
-
-#~ msgid "translate something"
-#~ msgstr "birşey tercüme et"
-
-#~ msgid "Enter a number."
-#~ msgstr "Bir sayı girin."
-
-#~ msgid "This URL appears to be a broken link."
-#~ msgstr "URL kırık link görünüyor."
-
-#~ msgid "Enter a valid URL."
-#~ msgstr "Geçerli bir URL girin."
-
-#~ msgid ""
-#~ "Upload a valid image. The file you uploaded was either not an image or a "
-#~ "corrupted image."
-#~ msgstr ""
-#~ "Geçerli bir resim gönderin. The file you uploaded was either not an image or "
-#~ "a corrupted image."
-
-#~ msgid "The submitted file is empty."
-#~ msgstr "Sunulan dosya boş."
-
-#~ msgid "Enter a valid e-mail address."
-#~ msgstr "Geçerli bir e-posta adresi girin."
-
-#~ msgid "Enter a valid IPv4 address."
-#~ msgstr "Geçerli bir IPv4 adresi girin."
-
-#~ msgid "Enter a valid date."
-#~ msgstr "Geçerli bir tarih girin."
-
-#~ msgid "Enter a valid time."
-#~ msgstr "Geçerli bir saat girin."
-
-#~ msgid "Enter a valid date/time."
-#~ msgstr "Geçerli bir tarih/saat girin."
-
-#~ msgid "Active time"
-#~ msgstr "Aktiflik zamanı"
-
-#~ msgid "Admin"
-#~ msgstr "Yönetici"
-
-#~ msgid "Connect"
-#~ msgstr "Bağlan"
-
-#~ msgid "Deluge : Torrent List"
-#~ msgstr "Deluge : Torrent Listesi"
-
-#~ msgid "Deluge Login"
-#~ msgstr "Deluge Giriş"
-
-#~ msgid "Filter on a keyword"
-#~ msgstr "Sözcük Filtrele"
-
-#~ msgid "Next Announce"
-#~ msgstr "Sonraki Duyuru"
-
-#~ msgid "Seeding time"
-#~ msgstr "Gönderme zamanı"
-
-#~ msgid "Seed rank"
-#~ msgstr "Gönderme değeri"
-
-#~ msgid "Peer-Exchange"
-#~ msgstr "eş değiştir"
-
-#~ msgid "Prioritize first and last pieces"
-#~ msgstr "İlk ve son parçalara öncelik ver"
-
-#~ msgid "Forced"
-#~ msgstr "Zorunlu"
-
-#~ msgid "Enter a whole number."
-#~ msgstr "Tam sayı giriniz"
-
-#~ msgid "Move torrent"
-#~ msgstr "Torrenti taşı"
-
-#~ msgid "Extra's"
-#~ msgstr "Ekstra"
-
-#~ msgid "Stop seed at ratio"
-#~ msgstr "Orana ulaşınca torrenti göndermeyi kes"
-
-#~ msgid "Statistics"
-#~ msgstr "İstatistikler"
-
-#~ msgid "This folder does not exist."
-#~ msgstr "Dosya bulunamadı"
-
-#~ msgid "Recheck"
-#~ msgstr "Tekrar denetle"
-
-#~ msgid "Delete"
-#~ msgstr "Sil"
-
-#~ msgid "Other.."
-#~ msgstr "Diğer.."
-
-#, python-format
-#~ msgid "Downloading %.2f%%"
-#~ msgstr "İndiriliyor %.2f%%"
-
-#~ msgid "BlockList"
-#~ msgstr "Engellenenler"
-
-#~ msgid "Timeout (seconds)"
-#~ msgstr "Zaman aşımı (saniye)"
-
-#~ msgid "Check for every (days)"
-#~ msgstr "Her gün denetle"
-
-#~ msgid "Inactive"
-#~ msgstr "Aktif değil"
-
-#~ msgid "page 8"
-#~ msgstr "Sayfa 8"
-
-#~ msgid "page 10"
-#~ msgstr "Sayfa 10"
-
-#~ msgid "page 11"
-#~ msgstr "Sayfa 11"
-
-#~ msgid "no uri"
-#~ msgstr "adres yok"
-
-#~ msgid "Eta"
-#~ msgstr "Kalan süre"
-
-#~ msgid "Ava"
-#~ msgstr "Uyg"
-
-#~ msgid "Mainline DHT"
-#~ msgstr "DHT Anahat"
-
-#~ msgid "UpNP"
-#~ msgstr "UpNP"
-
-#~ msgid "Maximum Connection Attempts per Second"
-#~ msgstr "Saniye Başı Azami Bağlantı Denemesi"
-
-#~ msgid "Cache templates"
-#~ msgstr "Önbellek şablonları"
-
-#~ msgid "These changes were saved"
-#~ msgstr "Bu değişiklikler kaydedildi"
-
-#~ msgid "Correct the errors above and try again"
-#~ msgstr "Yukarıdaki hataları giderin ve tekrar deneyin"
-
-#~ msgid "Error in Path."
-#~ msgstr "Yolda Hata."
-
-#~ msgid "∞"
-#~ msgstr "∞"
-
-#~ msgid ""
-#~ "Select a valid choice. That choice is not one of the available choices."
-#~ msgstr ""
-#~ "Geçerli bir seçim yapın. Bu seçim kullanılabilir seçimlerden biri değil."
-
-#, python-format
-#~ msgid "Ensure this value is greater than or equal to %s."
-#~ msgstr "Bu değerin %s 'den büyük ya da eşit olmasını sağlayın."
-
-#, python-format
-#~ msgid "Ensure this value is less than or equal to %s."
-#~ msgstr "Bu değerin %s 'den küçük ya da eşit olmasını sağlayın."
-
-#, python-format
-#~ msgid "Select a valid choice. %s is not one of the available choices."
-#~ msgstr "Geçerli bir seçim yapın. %s kullanılır seçimlerden biri değil."
-
-#~ msgid "Enter a list of values."
-#~ msgstr "Değerlerin bir listesini girin."
-
-#, python-format
-#~ msgid "Ensure that there are no more than %s decimal places."
-#~ msgstr "Burada toplam %s ondalık basamaktan fazla olmamasını sağlayın."
-
-#, python-format
-#~ msgid "Ensure that there are no more than %s digits in total."
-#~ msgstr "Burada toplam %s rakamdan fazla olmamasını sağlayın."
-
-#, python-format
-#~ msgid ""
-#~ "Ensure that there are no more than %s digits before the decimal point."
-#~ msgstr ""
-#~ "Ondalık ayırıcıdan önce burada toplam %s basamaktan fazla olmamasını "
-#~ "sağlayın."
-
-#~ msgid "No file was submitted. Check the encoding type on the form."
-#~ msgstr "Sunulmuş dosya yok. Formdaki kodlama tipini denetleyin."
-
-#~ msgid "No file was submitted."
-#~ msgstr "Sunulmuş dosya yok."
-
-#, python-format
-#~ msgid "Select a valid choice. %(value)s is not one of the available choices."
-#~ msgstr ""
-#~ "Geçerli bir seçim yapın. %(value)s kullanılır seçimlerden biri değil."
-
-#~ msgid ""
-#~ "Deluge is password protected.\n"
-#~ "To show the Deluge window, please enter your password"
-#~ msgstr ""
-#~ "Deluge şifre ile korunmakta.\n"
-#~ "Deluge penceresini görmek için, lütfen parolanızı girin"
-
-#~ msgid "Import Now"
-#~ msgstr "Şimdi İçe Aktar"
-
-#~ msgid "Times to attempt download"
-#~ msgstr "İndirme girişimi sayısı"
-
-#, python-format
-#~ msgid "Importing %s"
-#~ msgstr "İçe aktarılıyor %s"
-
-#~ msgid "Refresh status"
-#~ msgstr "Tazeleme durumu"
-
-#~ msgid "gtk-connect"
-#~ msgstr "gtk-bağlan"
-
-#~ msgid "page 6"
-#~ msgstr "sayfa 6"
-
-#~ msgid "page 7"
-#~ msgstr "sayfa 7"
-
-#~ msgid "gtk-edit"
-#~ msgstr "gtk-düzenle"
-
-#~ msgid "<big><b>Add Torrents</b></big>"
-#~ msgstr "<big><b>Torentleri Ekle</b></big>"
-
-#~ msgid "From Session"
-#~ msgstr "Oturumdan"
-
-#~ msgid "FAQ"
-#~ msgstr "SSS"
-
-#~ msgid "Community"
-#~ msgstr "Topluluk"
-
-#~ msgid "Error in torrent options."
-#~ msgstr "Torent seçeneklerinde hata."
-
-#~ msgid "Restart daemon and webui after changing these settings"
-#~ msgstr "Webui ve artişlemi ayarları değiştirdikten sonra yeniden başlat"
-
-#, python-format
-#~ msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-#~ msgstr ""
-#~ "Bu değerin en fazla %(max)d karakteri olmasını sağlayın (%(length)d)."
-
-#, python-format
-#~ msgid ""
-#~ "Ensure this value has at least %(min)d characters (it has %(length)d)."
-#~ msgstr "Bu değerin en az %(min)d karakter olmasını sağlayın (%(length)d)."
-
-#~ msgid "Queue Bottom"
-#~ msgstr "Kuyruğun Altına"
-
-#~ msgid "Queue Top"
-#~ msgstr "Kuyruğun En Üstüne"
-
-#~ msgid "Import on daemon startup"
-#~ msgstr "Artişlem başlangıcında içe aktar"
-
-#, python-format
-#~ msgid "Blocked Ranges: %s"
-#~ msgstr "Engellenen Aralık: %s"
-
-#~ msgid "Compact Allocation"
-#~ msgstr "Yoğun Alan Tahsisi"
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>."
-#~ msgstr ""
-#~ "Bu program özgür bir yazılımdır, Özgür Yazılım Vakfı'nın yayınladığı GNU "
-#~ "Genel Kamu Lisansı'nın 2. veya daha sonraki sürümlerindeki şartlar altında "
-#~ "dağıtılabilir ve/veya değiştirilebilir. Bu program faydalı olacağı umut "
-#~ "edilerek dağıtılmaktadır, fakat HİÇBİR GARANTİSİ YOKTUR; hatta ÜRÜN DEĞERİ "
-#~ "ya da BİR AMACA UYGUNLUK gibi garantiler de vermez. Lütfen daha fazla detay "
-#~ "için GNU Genel Kamu Lisansı'nı inceleyin. Bu programla beraber GNU Genel "
-#~ "Kamu Lisansını da almış olmalısınız; eğer almadıysanız, "
-#~ "<http://www.gnu.org/licenses> ziyaret edin."
-
-#~ msgid "Auto Add enabled"
-#~ msgstr "Kendiliğinden Ekleme etkinleştirildi"
-
-#~ msgid ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "this doesn't do anything yet..\n"
-#~ msgstr ""
-#~ "tracker1.org\n"
-#~ "tracker2.com\n"
-#~ "bu henüz birşey yapmıyor..\n"
-
-#~ msgid "page 12"
-#~ msgstr "sayfa 12"
-
-#~ msgid "0x00"
-#~ msgstr "0x00"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB"
-
-#, python-format
-#~ msgid "Including %i files"
-#~ msgstr "%i dosya içerir"
-
-#~ msgid "State"
-#~ msgstr "Durum"
-
-#~ msgid "Auto refresh (seconds)"
-#~ msgstr "Otomatik yenileme (saniye)"
-
-#~ msgid "no label"
-#~ msgstr "etiket yok"
-
-#~ msgid "Show sidebar"
-#~ msgstr "Kenar çubuğunu göster"
-
-#~ msgid "Manually restart webui to apply changes."
-#~ msgstr "Değişiklikler onaylandığında webui'yi elle yeniden başlat"
-
-#~ msgid "Sidebar"
-#~ msgstr "Kenar Çubuğu"
-
-#~ msgid "Cancel"
-#~ msgstr "İptal"
-
-#~ msgid "Show trackers"
-#~ msgstr "İzleyicileri göster"
-
-#~ msgid "max_connections"
-#~ msgstr "azami_bağlantı"
-
-#~ msgid "is_auto_managed"
-#~ msgstr "otomatik_ayarlandı"
-
-#~ msgid "apply_queue"
-#~ msgstr "sıra_uygula"
-
-#~ msgid "max_download_speed"
-#~ msgstr "azami_indirme_hızı"
-
-#~ msgid "apply_max"
-#~ msgstr "uygula_azami"
-
-#~ msgid "HTTP"
-#~ msgstr "HTTP"
-
-#~ msgid "Socksv5"
-#~ msgstr "Socksv5"
-
-#~ msgid "Socksv5 W/ Auth"
-#~ msgstr "Socksv5 W/ Auth"
-
-#~ msgid "Socksv4"
-#~ msgstr "Socksv4"
-
-#, python-format
-#~ msgid "%.2f%%"
-#~ msgstr "%.2f%%"
-
-#~ msgid "HTTP W/ Auth"
-#~ msgstr "HTTP W/ Auth"
-
-#~ msgid "Https"
-#~ msgstr "Https"
-
-#~ msgid "Connected to"
-#~ msgstr "Bağlanılan:"
-
-#~ msgid "Connection Limit"
-#~ msgstr "Bağlantı Sınırı"
-
-#~ msgid "Disk Space"
-#~ msgstr "Disk Alanı"
-
-#~ msgid "... and delete Torrent file"
-#~ msgstr "...ve Torrent dosyasını sil"
-
-#~ msgid "... and delete Downloaded files"
-#~ msgstr "...ve İndirilen dosyaları sil"
-
-#~ msgid "... and delete All files"
-#~ msgstr "...ve Tüm dosyaları sil"
-
-#~ msgid "Normal priority"
-#~ msgstr "Normal öncelik"
-
-#~ msgid "No Incoming Connections"
-#~ msgstr "Gelen Bağlantı Yok"
-
-#~ msgid "Label torrent"
-#~ msgstr "Torrent etiketi"
-
-#~ msgid "Do not download"
-#~ msgstr "İndirme yapma"
-
-#~ msgid "High priority"
-#~ msgstr "Yüksek öncelik"
-
-#~ msgid "Force Recheck"
-#~ msgstr "Yeniden Denetime Zorla"
-
-#~ msgid "Highest priority"
-#~ msgstr "En yüksek öncelik"
-
-#~ msgid "Ok"
-#~ msgstr "Tamam"
-
-#~ msgid "U/L Speed Limit"
-#~ msgstr "Gönderme Hız Sınırı"
-
-#~ msgid "Upload Slot Limit"
-#~ msgstr "Gönderme Yuvası Sınırı"
-
-#~ msgid "Update Tracker"
-#~ msgstr "İzleyiciyi Güncelle"
-
-#~ msgid "Search"
-#~ msgstr "Ara"
-
-#~ msgid "Work in progress.."
-#~ msgstr "Çalışılıyor..."
-
-#~ msgid "D/L Speed Limit"
-#~ msgstr "İndirme Hız Sınırı"
-
-#~ msgid "From Url"
-#~ msgstr "URL Adresinden"
-
-#~ msgid "max_upload_speed"
-#~ msgstr "azami_gönderme_sınırı"
-
-#~ msgid "stop_at_ratio"
-#~ msgstr "orana_ulaşınca_dur"
-
-#~ msgid "stop_ratio"
-#~ msgstr "oranı_durdur"
-
-#~ msgid "remove_at_ratio"
-#~ msgstr "orana_ulaşınca_kaldır"
-
-#~ msgid "auto_add"
-#~ msgstr "oto_ekleme"
-
-#, python-format
-#~ msgid "Key not found at '%s'"
-#~ msgstr "'%s' konumunda anahtar bulunamadı"
-
-#, python-format
-#~ msgid "Certificate not found at '%s'"
-#~ msgstr "'%s' konumunda sertifika bulunamadı"
-
-#~ msgid "Show keyword search"
-#~ msgstr "Arama sözcüklerini göster"
-
-#~ msgid "Show zero hits"
-#~ msgstr "İsabetsizleri göster"
-
-#~ msgid "Connect to Daemon"
-#~ msgstr "Artişleme Bağlan"
-
-#~ msgid "Not Connected to a daemon"
-#~ msgstr "Bir artişleme Bağlı Değil"
-
-#~ msgid "auto_add_trackers"
-#~ msgstr "oto_izleyici_ekleme"
-
-#~ msgid "max_upload_slots"
-#~ msgstr "azami_gönderme_yuvası"
-
-#~ msgid "Error setting label options"
-#~ msgstr "Etiket seçenekleri ayarlama hatası"
-
-#, python-format
-#~ msgid ""
-#~ "This email is to inform you that Deluge has finished downloading %s ,        "
-#~ "     which includes %i files.\n"
-#~ "To stop receiving these alerts, simply turn off             email "
-#~ "notification in Deluge's preferences.\n"
-#~ "\n"
-#~ "Thank you,\n"
-#~ "Deluge"
-#~ msgstr ""
-#~ "Bu eposta %s 'in %i dosyaları ile birlikte indirilmesinin bittiğini "
-#~ "belirtir.\n"
-#~ "Bu uyarıları almak istemiyorsanız, Deluge 'nin Ayarlar kısmında eposta "
-#~ "bilgilendirme seneçeniğini kapatınız.\n"
-#~ "\n"
-#~ "Teşekkürler,\n"
-#~ "Deluge"
-
-#~ msgid "Rate Limit IP Overhead"
-#~ msgstr "Hız limiti IP Ek Yükü"
-
-#~ msgid ""
-#~ "Deluge\n"
-#~ "Not Connected.."
-#~ msgstr ""
-#~ "Deluge\n"
-#~ "Bağlı değil.."
-
-#~ msgid "Downloading.."
-#~ msgstr "İndiriliyor.."
-
-#, python-format
-#~ msgid "%s is not a valid URL."
-#~ msgstr "%s geçerli bir URL değil."
-
-#, python-format
-#~ msgid "Failed to download : %s"
-#~ msgstr "Başarısız indirme : %s"
-
-#~ msgid "Maximum Upload Speed (Kib/s)"
-#~ msgstr "Maksimum Gönderme Hızı (Kib/s)"
-
-#~ msgid "<i>Enter your password to continue</i>"
-#~ msgstr "<i>Devam etmek için şifrenizi giriniz</i>"
-
-#~ msgid "<b><big>Deluge is password protected!</big></b>"
-#~ msgstr "<b><big>Deluge şifre korumalı!</big></b>"
-
-#~ msgid "move_completed"
-#~ msgstr "tamamlananı_taşı"
-
-#~ msgid "move_completed_path"
-#~ msgstr "tamamlananların_taşınacağı_yer"
-
-#~ msgid "apply_move_completed"
-#~ msgstr "tamamlananı_taşımayı_uygula"
-
-#~ msgid ""
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the Free "
-#~ "Software Foundation; either version 3 of the License, or (at your option) "
-#~ "any later version. This program is distributed in the hope that it will be "
-#~ "useful, but WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General "
-#~ "Public License for more details. You should have received a copy of the GNU "
-#~ "General Public License along with this program; if not, see "
-#~ "<http://www.gnu.org/licenses>. In addition, as a special exception, the "
-#~ "copyright holders give permission to link the code of portions of this "
-#~ "program with the OpenSSL library. You must obey the GNU General Public "
-#~ "License in all respects for all of the code used other than OpenSSL. If you "
-#~ "modify file(s) with this exception, you may extend this exception to your "
-#~ "version of the file(s), but you are not obligated to do so. If you do not "
-#~ "wish to do so, delete this exception statement from your version. If you "
-#~ "delete this exception statement from all source files in the program, then "
-#~ "also delete it here."
-#~ msgstr ""
-#~ "Bu uygulama özgür yazılımdır; Özgür Yazılım vakfı tarafından yayımlanan GNU "
-#~ "Genel Kamu Lisansı'nın 3 numaralı veya daha sonraki herhangi bir sürümünün "
-#~ "şartları çerçevesinde bu uygulamayı tekrar dağıtabilir ve/veya "
-#~ "değiştirebilirsiniz. Bu uygulama faydalı olabilmesi umuduyla, ancak HİÇBİR "
-#~ "GARANTİ KAPSAMINDA OLMADAN dağıtılmaktadır; ORTALAMA KALİTE GARANTİSİ veya "
-#~ "BELLİ BİR AMACA UYGUN İŞ GÖRME GARANTİSİ dahi yoktur. Daha fazla ayrıntı "
-#~ "için GNU Genel Kamu Lisansına bakınız. Bu uygulamayla birlikte Genel Kamu "
-#~ "Lisansı metninin bir kopyasını almış olmalısınız; eğer almadıysanız, "
-#~ "<http://www.gnu.org/licenses> adresine bakınız. Ayrıca, özel bir istisna "
-#~ "olarak, telif hakkı sahipleri bu uygulamanın kod parçalarına OpenSSL "
-#~ "kütüphanesiyle bağlantı verilmesine izin verir. OpenSSL haricinde bütün "
-#~ "kodların kullanımı için GNU Genel Kamu Lisansına her yönüyle uymak "
-#~ "zorundasınız. Eğer dosyayı/dosyaları bu istisna dahilinde değiştirirseniz bu "
-#~ "istisnayı kendi dosya sürümlerinize de uygulayabilirsiniz fakat böyle bir "
-#~ "zorunluluğunuz yok. Eğer bunu yapmazsanız istisnayı belirten bölümü kendi "
-#~ "sürümünüzden çıkarınız. Eğer bu istisna bölümünü bütün kaynak dosyalarından "
-#~ "silerseniz buradan da siliniz."
