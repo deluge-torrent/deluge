@@ -208,6 +208,7 @@
                 <property name="can_focus">True</property>
                 <property name="activates_default">True</property>
                 <property name="width_chars">39</property>
+                <property name="truncate_multiline">True</property>
                 <property name="text" translatable="yes">hostname:port</property>
               </widget>
               <packing>
