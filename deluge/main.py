@@ -47,11 +47,14 @@ from optparse import OptionParser
 import deluge.log
 import deluge.error
 
-try:
-    from deluge._libtorrent import lt
-    lt_version = "\nlibtorrent: %s" % lt.version
-except ImportError:
-    lt_version = ""
+def version_callback(option, opt_str, value, parser):
+    print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
+    try:
+        from deluge._libtorrent import lt
+        print "libtorrent: %s" % lt.version
+    except ImportError:
+        pass
+    raise SystemExit
 
 def start_ui():
     """Entry point for ui script"""
@@ -59,34 +62,37 @@ def start_ui():
     deluge.common.setup_translations()
 
     # Setup the argument parser
-    parser = OptionParser(usage="%prog [options] [actions]",
-                  version= "%prog: " + deluge.common.get_version() + lt_version)
-
+    parser = OptionParser(usage="%prog [options] [actions]")
+    parser.add_option("-v", "--version", action="callback", callback=version_callback,
+        help="Show program's version number and exit")
     parser.add_option("-u", "--ui", dest="ui",
         help="""The UI that you wish to launch.  The UI choices are:\n
         \t gtk -- A GTK-based graphical user interface (default)\n
         \t web -- A web-based interface (http://localhost:8112)\n
         \t console -- A console or command-line interface""", action="store", type="str")
+    parser.add_option("-s", "--set-default-ui", dest="default_ui",
+        help="Sets the default UI to be run when no UI is specified", action="store", type="str")
+    parser.add_option("-a", "--args", dest="args",
+        help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
     parser.add_option("-c", "--config", dest="config",
         help="Set the config folder location", action="store", type="str")
     parser.add_option("-l", "--logfile", dest="logfile",
         help="Output to designated logfile instead of stdout", action="store", type="str")
-    parser.add_option("-a", "--args", dest="args",
-        help="Arguments to pass to UI, -a '--option args'", action="store", type="str")
     parser.add_option("-L", "--loglevel", dest="loglevel",
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
         help="Sets the log level to 'none', this is the same as `-L none`", action="store_true", default=False)
     parser.add_option("-r", "--rotate-logs",
         help="Rotate logfiles.", action="store_true", default=False)
-    parser.add_option("-s", "--set-default-ui", dest="default_ui",
-        help="Sets the default UI to be run when no UI is specified", action="store", type="str")
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
     if options.quiet:
         options.loglevel = "none"
+
+    if options.loglevel:
+        options.loglevel = options.loglevel.lower()
 
     logfile_mode = 'w'
     if options.rotate_logs:
@@ -144,8 +150,9 @@ def start_daemon():
         warnings.filterwarnings('ignore', category=DeprecationWarning, module='twisted')
 
     # Setup the argument parser
-    parser = OptionParser(usage="%prog [options] [actions]",
-                  version= "%prog: " + deluge.common.get_version() + lt_version)
+    parser = OptionParser(usage="%prog [options] [actions]")
+    parser.add_option("-v", "--version", action="callback", callback=version_callback,
+            help="Show program's version number and exit")
     parser.add_option("-p", "--port", dest="port",
         help="Port daemon will listen on", action="store", type="int")
     parser.add_option("-i", "--interface", dest="listen_interface",
@@ -160,8 +167,6 @@ this should be an IP address", metavar="IFACE",
             help="Do not daemonize", action="store_true", default=False)
     parser.add_option("-c", "--config", dest="config",
         help="Set the config location", action="store", type="str")
-    parser.add_option("-l", "--logfile", dest="logfile",
-        help="Set the logfile location", action="store", type="str")
     parser.add_option("-P", "--pidfile", dest="pidfile",
         help="Use pidfile to store process id", action="store", type="str")
     if not deluge.common.windows_check():
@@ -169,6 +174,8 @@ this should be an IP address", metavar="IFACE",
             help="User to switch to. Only use it when starting as root", action="store", type="str")
         parser.add_option("-g", "--group", dest="group",
             help="Group to switch to. Only use it when starting as root", action="store", type="str")
+    parser.add_option("-l", "--logfile", dest="logfile",
+        help="Set the logfile location", action="store", type="str")
     parser.add_option("-L", "--loglevel", dest="loglevel",
         help="Set the log level: none, info, warning, error, critical, debug", action="store", type="str")
     parser.add_option("-q", "--quiet", dest="quiet",
