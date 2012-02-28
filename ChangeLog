@@ -5,6 +5,7 @@
 	* #1967: Fix unhandled IndexError when trying to open a non-json conf file
 	* Fix setting daemon listen interface from command line
 	* #2021: Fix share ratio limit not obeyed for seeded torrents added to session
+	* Add optparse custom version to prevent unnecessary loading of libtorrent
 
 ==== GtkUI ====
 	* #1918: Fix Drag'n'Drop not working in Windows
@@ -20,6 +21,7 @@
 	* Fix compatibility with Python 2.5
 	* Fix collapsed treeview in Create Torrent dialog
 	* Ignore unmaximise event when window isn't visible
+	* #1976: Fixed text entry with trailing newline characters causing issues for Move Storage
 
 ==== WebUI ====
 	* Fix Webui files-tab menu setting wrong priority
