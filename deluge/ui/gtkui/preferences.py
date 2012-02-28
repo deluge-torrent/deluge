@@ -68,6 +68,7 @@ class Preferences(component.Component):
             "deluge.ui.gtkui", os.path.join("glade", "preferences_dialog.ui")
         ))
         self.pref_dialog = self.builder.get_object("pref_dialog")
+        self.pref_dialog.set_transient_for(component.get("MainWindow").window)
         self.pref_dialog.set_icon(common.get_deluge_icon())
         self.treeview = self.builder.get_object("treeview")
         self.notebook = self.builder.get_object("notebook")
