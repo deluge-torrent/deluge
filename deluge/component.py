@@ -99,7 +99,7 @@ class Component(object):
     def __del__(self):
         if _ComponentRegistry:
             _ComponentRegistry.deregister(self._component_name)
-        
+
     def _component_start_timer(self):
         if hasattr(self, "update"):
             self._component_timer = LoopingCall(self.update)
@@ -148,7 +148,7 @@ class Component(object):
             self._component_stopping_deferred = None
             log.error(result)
             return result
-            
+
         if self._component_state != "Stopped" and self._component_state != "Stopping":
             if hasattr(self, "stop"):
                 self._component_state = "Stopping"
@@ -202,6 +202,18 @@ class Component(object):
         d = self._component_stop()
         d.addCallback(on_stop)
         return d
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def update(self):
+        pass
+
+    def shutdown(self):
+        pass
 
 class ComponentRegistry(object):
     """
