@@ -877,7 +877,7 @@ class TorrentManager(component.Component):
 
             component.get("EventManager").emit(TorrentFinishedEvent(torrent_id))
 
-        torrent.is_finished = torrent.handle.is_seed()
+        torrent.is_finished = True
         torrent.update_state()
 
         # Only save resume data if it was actually downloaded something. Helps
@@ -924,7 +924,6 @@ class TorrentManager(component.Component):
             if torrent.forcing_recheck_paused:
                 torrent.handle.pause()
 
-        torrent.is_finished = torrent.handle.is_seed()
         # Set the torrent state
         torrent.update_state()
 
@@ -1008,6 +1007,11 @@ class TorrentManager(component.Component):
 
         old_state = torrent.state
         torrent.update_state()
+
+        # Torrent may need to download data after checking.
+        if torrent.state == 'Checking':
+            torrent.is_finished = False
+
         # Only emit a state changed event if the state has actually changed
         if torrent.state != old_state:
             component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
