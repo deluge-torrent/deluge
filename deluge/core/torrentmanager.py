@@ -1047,7 +1047,6 @@ class TorrentManager(component.Component):
             torrent_id = str(alert.handle.info_hash())
         except:
             return
-        torrent.is_finished = torrent.handle.is_seed()
         old_state = torrent.state
         torrent.update_state()
         if torrent.state != old_state:
