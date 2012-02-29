@@ -89,7 +89,9 @@ download priority of selected files.
 """
 
 class TorrentDetail(BaseMode, component.Component):
-    def __init__(self, alltorrentmode, torrentid, stdscr, encoding=None):
+    def __init__(self, alltorrentmode, torrentid, stdscr, console_config, encoding=None):
+
+        self.console_config = console_config
         self.alltorrentmode = alltorrentmode
         self.torrentid = torrentid
         self.torrent_state = None
@@ -98,7 +100,7 @@ class TorrentDetail(BaseMode, component.Component):
         self._status_keys = ["files", "name","state","download_payload_rate","upload_payload_rate",
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
-                             "seeding_time","time_added","distributed_copies", "num_pieces", 
+                             "seeding_time","time_added","distributed_copies", "num_pieces",
                              "piece_length","save_path","file_progress","file_priorities","message"]
         self._info_fields = [
             ("Name",None,("name",)),
@@ -181,7 +183,7 @@ class TorrentDetail(BaseMode, component.Component):
     # particular directory are returned together.  it won't work otherwise.
     # returned list is a list of lists of the form:
     # [file/dir_name,index,size,children,expanded,progress,priority]
-    # for directories index values count down from maxint (for marking usage), 
+    # for directories index values count down from maxint (for marking usage),
     # for files the index is the value returned in the
     # state object for use with other libtorrent calls (i.e. setting prio)
     #
@@ -280,11 +282,11 @@ class TorrentDetail(BaseMode, component.Component):
         self.popup = pu
         self.refresh()
 
-            
+
     def draw_files(self,files,depth,off,idx):
         for fl in files:
             # kick out if we're going to draw too low on the screen
-            if (off >= self.rows-1): 
+            if (off >= self.rows-1):
                 self.more_to_draw = True
                 return -1,-1
 
@@ -321,8 +323,8 @@ class TorrentDetail(BaseMode, component.Component):
                 r = format_utils.format_row(["%s%s %s"%(" "*depth,xchar,fl[0]),
                                              deluge.common.fsize(fl[2]),fl[5],
                                              format_utils.format_priority(fl[6])],
-                                            self.column_widths)
-                
+                                            self.column_widths, self.console_config)
+
                 self.add_string(off,"%s%s"%(color_string,r),trim=False)
                 off += 1
 
@@ -373,7 +375,7 @@ class TorrentDetail(BaseMode, component.Component):
                     info = f[1](*args)
                 else:
                     info = self.torrent_state[f[2][0]]
-                
+
                 self.add_string(off,"{!info!}%s: {!input!}%s"%(f[0],info))
                 off += 1
         else:
@@ -488,7 +490,7 @@ class TorrentDetail(BaseMode, component.Component):
                         reactor.stop()
                     client.disconnect().addCallback(on_disconnect)
                 else:
-                    reactor.stop()            
+                    reactor.stop()
                 return
             elif chr(c) == 'q':
                 self.back_to_overview()

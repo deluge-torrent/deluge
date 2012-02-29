@@ -92,10 +92,10 @@ class BasePane:
         self.width = width
         self.inputs = []
         self.active_input = -1
-        
+
         # have we scrolled down in the list
         self.input_offset = 0
-        
+
     def move(self,r,c):
         self._cursor_row = r
         self._cursor_col = c
@@ -109,7 +109,7 @@ class BasePane:
                     if ipt.name == "listen_ports_to":
                         conf_dict["listen_ports"] = (self.infrom.get_value(),self.into.get_value())
                     if ipt.name == "out_ports_to":
-                        conf_dict["outgoing_ports"] = (self.outfrom.get_value(),self.outto.get_value())        
+                        conf_dict["outgoing_ports"] = (self.outfrom.get_value(),self.outto.get_value())
                 else:
                     conf_dict[ipt.name] = ipt.get_value()
                 if hasattr(ipt,"get_child"):
@@ -182,7 +182,7 @@ class BasePane:
             nc = min(self.active_input+1,ilen-1)
             while isinstance(self.inputs[nc], NoInput) or self.inputs[nc].depend_skip():
                 nc+=1
-                if nc >= ilen: 
+                if nc >= ilen:
                     nc-=1
                     break
             if not isinstance(self.inputs[nc], NoInput) or self.inputs[nc].depend_skip():
@@ -287,7 +287,7 @@ class NetworkPane(BasePane):
         self.add_select_input("enc_out_policy","Outbound:",["Forced","Enabled","Disabled"],[0,1,2],parent.core_config["enc_out_policy"])
         self.add_select_input("enc_level","Level:",["Handshake","Full Stream","Either"],[0,1,2],parent.core_config["enc_level"])
         self.add_checked_input("enc_prefer_rc4","Encrypt Entire Stream",parent.core_config["enc_prefer_rc4"])
-        
+
 
 class BandwidthPane(BasePane):
     def __init__(self, offset, parent, width):
@@ -310,6 +310,8 @@ class BandwidthPane(BasePane):
 class InterfacePane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self,offset,parent,width)
+        self.add_header("General")
+        self.add_checked_input("disable_three_dots","Do not append three dots symbol when trimming columns",parent.console_config["disable_three_dots"])
         self.add_header("Columns To Display")
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
             pn = "show_%s"%cpn
@@ -379,7 +381,7 @@ class CachePane(BasePane):
         self.add_info_field("  Blocks Written:",self.parent.status["blocks_written"],"blocks_written")
         self.add_info_field("  Writes:",self.parent.status["writes"],"writes")
         self.add_info_field("  Write Cache Hit Ratio:","%.2f"%self.parent.status["write_hit_ratio"],"write_hit_ratio")
-        self.add_header(" Read")        
+        self.add_header(" Read")
         self.add_info_field("  Blocks Read:",self.parent.status["blocks_read"],"blocks_read")
         self.add_info_field("  Blocks Read hit:",self.parent.status["blocks_read_hit"],"blocks_read_hit")
         self.add_info_field("  Reads:",self.parent.status["reads"],"reads")

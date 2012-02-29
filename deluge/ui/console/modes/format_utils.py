@@ -80,11 +80,14 @@ def format_priority(prio):
     else:
         return pstring
 
-def trim_string(string, w, have_dbls):
+def trim_string(string, w, have_dbls, console_config):
     if w <= 0:
         return ""
     elif w == 1:
-        return u"…"
+        if console_config["disable_three_dots"]:
+            return u" "
+        else:
+            return u"…"
     elif have_dbls:
         # have to do this the slow way
         chrs = []
@@ -100,11 +103,17 @@ def trim_string(string, w, have_dbls):
         if width != w:
             chrs.pop()
             chrs.append('.')
-        return u"%s… "%("".join(chrs))
+        if console_config["disable_three_dots"]:
+            return u"%s "%("".join(chrs))
+        else:
+            return u"%s… "%("".join(chrs))
     else:
-        return u"%s… "%(string[0:w-2])
+        if console_config["disable_three_dots"]:
+            return u"%s "%(string[0:w-1])
+        else:
+            return u"%s… "%(string[0:w-2])
 
-def format_column(col, lim):
+def format_column(col, lim, console_config):
     dbls = 0
     if haveud and isinstance(col,unicode):
         # might have some double width chars
@@ -115,12 +124,12 @@ def format_column(col, lim):
                 dbls += 1
     size = len(col)+dbls
     if (size >= lim - 1):
-        return trim_string(col,lim,dbls>0)
+        return trim_string(col,lim,dbls>0, console_config)
     else:
         return "%s%s"%(col," "*(lim-size))
 
-def format_row(row,column_widths):
-    return "".join([format_column(row[i],column_widths[i]) for i in range(0,len(row))])
+def format_row(row,column_widths, console_config):
+    return "".join([format_column(row[i],column_widths[i], console_config) for i in range(0,len(row))])
 
 import re
 from collections import deque
@@ -132,7 +141,7 @@ def wrap_string(string,width,min_lines=0,strip_colors=True):
     :param string: str, the string to wrap
     :param width: int, the maximum width of a line of text
     :param min_lines: int, extra lines will be added so the output tuple contains at least min_lines lines
-    :param strip_colors: boolean, if True, text in {!!} blocks will not be considered as adding to the 
+    :param strip_colors: boolean, if True, text in {!!} blocks will not be considered as adding to the
                               width of the line.  They will still be present in the output.
     """
     ret = []

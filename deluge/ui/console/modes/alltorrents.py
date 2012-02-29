@@ -115,7 +115,7 @@ files in the torrent and the ability to set file priorities.
 {!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
 pause/resume, remove, recheck and so on.  These actions \
 apply to all currently marked torrents.  The currently \
-selected torrent is automatically marked when you press enter. 
+selected torrent is automatically marked when you press enter.
 
 {!info!}'q'/Esc{!normal!} - Close a popup (Note that Esc can take a moment to register \
 as having been pressed.
@@ -168,6 +168,7 @@ DEFAULT_PREFS = {
     "downloaded_width":13,
     "uploaded_width":13,
     "owner_width":10,
+    "disable_three_dots": False
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -178,7 +179,7 @@ column_pref_names = ["queue","name","size","state",
                      "owner"]
 
 prefs_to_names = {
-    "queue":"#", 
+    "queue":"#",
     "name":"Name",
     "size":"Size",
     "state":"State",
@@ -257,7 +258,7 @@ class AllTorrents(BaseMode, component.Component):
         self.__status_keys = ["name","state","download_payload_rate","upload_payload_rate",
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
-                             "seeding_time","time_added","distributed_copies", "num_pieces", 
+                             "seeding_time","time_added","distributed_copies", "num_pieces",
                              "piece_length","save_path"]
 
     # component start/update
@@ -285,7 +286,7 @@ class AllTorrents(BaseMode, component.Component):
         self._go_top = True
         component.start(["AllTorrents"])
         self.refresh()
-        
+
     def __update_columns(self):
         self.column_widths = [self.config["%s_width"%c] for c in self.__cols_to_show]
         req = sum(filter(lambda x:x >= 0,self.column_widths))
@@ -313,7 +314,7 @@ class AllTorrents(BaseMode, component.Component):
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
             newnames.append(ts["name"])
-            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths),ts["state"]))
+            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths, self.config),ts["state"]))
 
         self.numtorrents = len(state)
         self.formatted_rows = newrows
@@ -371,7 +372,7 @@ class AllTorrents(BaseMode, component.Component):
                     info = f[1](*args)
                 else:
                     info = state[f[2][0]]
-                
+
                 nl = len(f[0])+4
                 if (nl+len(info))>self.popup.width:
                     self.popup.add_line("{!info!}%s: {!input!}%s"%(f[0],info[:(self.popup.width - nl)]))
@@ -385,7 +386,7 @@ class AllTorrents(BaseMode, component.Component):
             self.refresh()
         else:
             self.__torrent_info_id = None
-            
+
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
@@ -422,7 +423,7 @@ class AllTorrents(BaseMode, component.Component):
         def dodeets(arg):
             if arg and True in arg[0]:
                 self.stdscr.clear()
-                component.get("ConsoleUI").set_mode(TorrentDetail(self,tid,self.stdscr,self.encoding))
+                component.get("ConsoleUI").set_mode(TorrentDetail(self,tid,self.stdscr, self.config, self.encoding))
             else:
                 self.messages.append(("Error","An error occured trying to display torrent details"))
         component.stop(["AllTorrents"]).addCallback(dodeets)
@@ -444,7 +445,7 @@ class AllTorrents(BaseMode, component.Component):
             component.stop(["AllTorrents"]).addCallback(doprefs)
 
         client.core.get_config().addCallback(_on_get_config)
-        
+
 
     def __show_events(self):
         def doevents(arg):
@@ -642,13 +643,13 @@ class AllTorrents(BaseMode, component.Component):
                     fg = "green"
                 elif row[1] == "Seeding":
                     fg = "cyan"
-                elif row[1] == "Error":              
+                elif row[1] == "Error":
                     fg = "red"
                 elif row[1] == "Queued":
                     fg = "yellow"
                 elif row[1] == "Checking":
                     fg = "blue"
-                    
+
                 if attr:
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
                 else:
@@ -656,7 +657,7 @@ class AllTorrents(BaseMode, component.Component):
 
                 self.add_string(currow,"%s%s"%(colorstr,row[0]),trim=False)
                 tidx += 1
-                currow += 1 
+                currow += 1
                 if (currow > (self.rows - 2)):
                     break
         else:
@@ -757,7 +758,7 @@ class AllTorrents(BaseMode, component.Component):
                         reactor.stop()
                     client.disconnect().addCallback(on_disconnect)
                 else:
-                    reactor.stop()            
+                    reactor.stop()
                 return
 
         if self.formatted_rows==None or self.popup:
@@ -771,7 +772,7 @@ class AllTorrents(BaseMode, component.Component):
         #log.error("pressed key: %d\n",c)
         #if c == 27: # handle escape
         #    log.error("CANCEL")
-        
+
         # Navigate the torrent list
         if c == curses.KEY_UP:
             if self.cursel == 1: return
