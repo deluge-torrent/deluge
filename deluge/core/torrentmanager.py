@@ -1064,6 +1064,11 @@ class TorrentManager(component.Component):
 
         old_state = torrent.state
         torrent.update_state()
+
+        # Torrent may need to download data after checking.
+        if torrent.state in ('Checking', 'Checking Resume Data', 'Downloading'):
+            torrent.is_finished = False
+
         # Only emit a state changed event if the state has actually changed
         if torrent.state != old_state:
             component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
