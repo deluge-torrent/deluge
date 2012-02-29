@@ -59,7 +59,7 @@ from readers import ReaderParseError
 # TODO: review class attributes for redundancy
 
 DEFAULT_PREFS = {
-    "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
+    "url": "",
     "load_on_start": False,
     "check_after_days": 4,
     "list_compression": "",
