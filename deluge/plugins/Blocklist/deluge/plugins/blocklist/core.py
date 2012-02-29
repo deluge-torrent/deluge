@@ -62,7 +62,7 @@ from readers import ReaderParseError
 log = logging.getLogger(__name__)
 
 DEFAULT_PREFS = {
-    "url": "http://deluge-torrent.org/blocklist/nipfilter.dat.gz",
+    "url": "",
     "load_on_start": False,
     "check_after_days": 4,
     "list_compression": "",
