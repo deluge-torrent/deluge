@@ -168,7 +168,8 @@ DEFAULT_PREFS = {
     "downloaded_width":13,
     "uploaded_width":13,
     "owner_width":10,
-    "disable_three_dots": False
+    "disable_three_dots": False,
+    "ignore_duplicate_lines": False
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -461,7 +462,7 @@ class AllTorrents(BaseMode, component.Component):
             if arg and True in arg[0]:
                 self.stdscr.clear()
                 if not self.legacy_mode:
-                    self.legacy_mode = Legacy(self.stdscr,self.encoding)
+                    self.legacy_mode = Legacy(self.stdscr,self.config,self.encoding)
                 component.get("ConsoleUI").set_mode(self.legacy_mode)
                 self.legacy_mode.refresh()
                 curses.curs_set(2)

@@ -54,7 +54,7 @@ LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
 class Legacy(BaseMode):
-    def __init__(self, stdscr, encoding=None):
+    def __init__(self, stdscr, console_config, encoding=None):
 
         self.batch_write = False
         self.lines = []
@@ -78,6 +78,8 @@ class Legacy(BaseMode):
 
         # Get a handle to the main console
         self.console = component.get("ConsoleUI")
+
+        self.console_config = console_config
 
         # show the cursor
         curses.curs_set(2)
@@ -118,7 +120,14 @@ class Legacy(BaseMode):
                     # Remove the oldest input history if the max history size
                     # is reached.
                     del self.input_history[0]
-                self.input_history.append(self.input)
+                if self.console_config["ignore_duplicate_lines"]:
+                    if len(self.input_history) > 0:
+                        if self.input_history[-1] != self.input:
+                            self.input_history.append(self.input)
+                    else:
+                        self.input_history.append(self.input)
+                else:
+                    self.input_history.append(self.input)
                 self.input_history_index = len(self.input_history)
                 self.input = ""
                 self.input_incomplete = ""
