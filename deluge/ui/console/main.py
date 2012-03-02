@@ -441,6 +441,7 @@ Please use commands from the command line, eg:\n
 
         """
         ret = []
+        string = string.decode(self.encoding)
         for tid, name in self.torrents:
             if tid.startswith(string) or name.startswith(string):
                 ret.append(tid)

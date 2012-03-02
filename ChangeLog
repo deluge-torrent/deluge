@@ -6,6 +6,7 @@
 	* Fix setting daemon listen interface from command line
 	* #2021: Fix share ratio limit not obeyed for seeded torrents added to session
 	* Add optparse custom version to prevent unnecessary loading of libtorrent
+	* #1554: Fix seeding on share ratio failing for partially selected torrents
 
 ==== GtkUI ====
 	* #1918: Fix Drag'n'Drop not working in Windows
@@ -44,6 +45,7 @@
 ==== Console ====
 	* #1953: Fix flickering on every update
 	* #1954: Fix 'invalid literal for float' when setting listen interface
+	* #1945: Fix UnicodeDecodeError when using non-ascii chars in info
 
 ==== Label ====
 	* #1961: Add missing 'All' filter option
@@ -56,6 +58,9 @@
 
 ==== Scheduler ====
 	* Add plugin page for WebUi
+
+==== Execute ====
+	* Commands now run scripts asynchronous to prevent Deluge from hanging
 
 ==== AutoAdd ====
 	* Added watch folder support for '.magnet' text file containing single or multiple magnet uris
