@@ -307,6 +307,7 @@ Please use commands from the command line, eg:\n
         if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.match_torrent(string)
         ret = []
+        string = string.decode(self.encoding)
         for tid, name in self.torrents:
             if tid.startswith(string) or name.startswith(string):
                 ret.append(tid)
