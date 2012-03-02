@@ -36,7 +36,7 @@
 import os
 import time
 import hashlib
-from twisted.internet.utils import getProcessValue
+from twisted.internet.utils import getProcessOutputAndValue
 
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
@@ -110,9 +110,14 @@ class Core(CorePluginBase):
 
         log.debug("[execute] Running commands for %s", event)
 
-        def log_error(exit_code, command):
+        def log_error(result, command):
+            (stdout, stderr, exit_code) = result
             if exit_code:
                 log.warn("[execute] command '%s' failed with exit code %d", command, exit_code)
+                if stdout:
+                    log.warn("[execute] stdout: %s", stdout)
+                if stderr:
+                    log.warn("[execute] stderr: %s", stderr)
 
         # Go through and execute all the commands
         for command in self.config["commands"]:
@@ -120,7 +125,7 @@ class Core(CorePluginBase):
                 command = os.path.expandvars(command[EXECUTE_COMMAND])
                 command = os.path.expanduser(command)
                 log.debug("[execute] running %s", command)
-                d = getProcessValue(command, (torrent_id, torrent_name, save_path), env=os.environ)
+                d = getProcessOutputAndValue(command, (torrent_id, torrent_name, save_path), env=os.environ)
                 d.addCallback(log_error, command)
 
     def disable(self):
