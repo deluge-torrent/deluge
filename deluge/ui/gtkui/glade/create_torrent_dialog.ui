@@ -307,6 +307,7 @@
                           <object class="GtkEntry" id="entry_author">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="truncate_multiline">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">True</property>
