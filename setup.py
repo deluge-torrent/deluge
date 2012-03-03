@@ -69,6 +69,7 @@ _extra_compile_args = [
     "-DNDEBUG",
     "-DTORRENT_USE_OPENSSL=1",
     "-DBOOST_FILESYSTEM_VERSION=2",
+    "-DBOOST_ASIO_ENABLE_CANCELIO",
     "-O2",
     ]
 
