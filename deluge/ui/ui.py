@@ -41,6 +41,11 @@ import deluge.common
 import deluge.configmanager
 import deluge.log
 
+try:
+    from setproctitle import setproctitle
+except ImportError:
+    setproctitle = lambda t: None
+
 def version_callback(option, opt_str, value, parser):
     print os.path.basename(sys.argv[0]) + ": " + deluge.common.get_version()
     try:
@@ -111,10 +116,12 @@ class _UI(object):
                 log.error("There was an error setting the config dir! Exiting..")
                 sys.exit(1)
 
+        setproctitle("deluge-%s" % self.__name)
+
         log.info("Deluge ui %s", deluge.common.get_version())
         log.debug("options: %s", self.__options)
         log.debug("args: %s", self.__args)
-        log.info("Starting ui..")
+        log.info("Starting %s ui..", self.__name)
 
 class UI:
     def __init__(self, options, args, ui_args):
@@ -130,6 +137,8 @@ class UI:
             selected_ui = config["default_ui"]
         else:
             selected_ui = options.ui
+
+        setproctitle("deluge")
 
         config.save()
         del config

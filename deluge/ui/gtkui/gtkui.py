@@ -47,6 +47,12 @@ import pkg_resources
 import gtk, gtk.glade
 import sys
 
+try:
+    from setproctitle import setproctitle, getproctitle
+except ImportError:
+    setproctitle = lambda t: None
+    getproctitle = lambda: None
+
 # Initialize gettext
 try:
     locale.setlocale(locale.LC_ALL, '')
@@ -189,6 +195,9 @@ class GtkUI(object):
                     reactor.stop()
                     return 1
             SetConsoleCtrlHandler(win_handler)
+
+        # Set process name again to fix gtk issue
+        setproctitle(getproctitle())
 
         # Attempt to register a magnet URI handler with gconf, but do not overwrite
         # if already set by another program.
