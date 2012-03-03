@@ -1,4 +1,4 @@
-=== Deluge 1.3.4 (In Development) ===
+=== Deluge 1.3.4 (03 March 2012) ===
 ==== Core ====
 	* #1921: Free disk space reporting incorrectly in FreeBSD
 	* #1964: Fix unhandled UnpicklingErrors
