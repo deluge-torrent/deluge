@@ -50,6 +50,7 @@
 	* #2021: Fix share ratio limit not obeyed for seeded torrents added to session
 	* Add optparse custom version to prevent unnecessary loading of libtorrent
 	* #1554: Fix seeding on share ratio failing for partially selected torrents
+	* Add proper process title naming in ps, top etc. (Depends: setproctitle)
 
 ==== GtkUI ====
 	* #1918: Fix Drag'n'Drop not working in Windows

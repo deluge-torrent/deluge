@@ -46,6 +46,12 @@ import logging
 
 log = logging.getLogger(__name__)
 
+try:
+    from setproctitle import setproctitle, getproctitle
+except ImportError:
+    setproctitle = lambda t: None
+    getproctitle = lambda: None
+
 import deluge.component as component
 from deluge.ui.client import client
 from mainwindow import MainWindow
@@ -171,6 +177,9 @@ class GtkUI(object):
                     reactor.stop()
                     return 1
             SetConsoleCtrlHandler(win_handler)
+
+        # Set process name again to fix gtk issue
+        setproctitle(getproctitle())
 
         # Attempt to register a magnet URI handler with gconf, but do not overwrite
         # if already set by another program.

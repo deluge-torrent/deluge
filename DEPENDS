@@ -10,6 +10,7 @@
  * pyxdg
  * chardet
  * geoip-database (optional)
+ * setproctitle (optional)
 
  * libtorrent >= 0.14, or build the included version
 
