@@ -46,12 +46,18 @@ from twisted.internet import defer, reactor
 from deluge.ui.client import client
 import deluge.component as component
 
+from deluge.ui.console.modes import format_utils
+
 import logging,os
 log = logging.getLogger(__name__)
 
+import re
 
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
+
+AUTOCOMPLETE_MAX_TORRENTS = 20
+AUTOCOMPLETE_MAX_TORRENTS_WITH_PATTERN = 10
 
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
@@ -509,6 +515,11 @@ class Legacy(BaseMode):
         """
         # First check to see if there is no space, this will mean that it's a
         # command that needs to be completed.
+
+        #We don't want to split by escaped spaces
+        def split(string):
+            return re.split(r"(?<!\\) ", string)
+
         if " " not in line:
             possible_matches = []
             # Iterate through the commands looking for ones that startwith the
@@ -519,11 +530,11 @@ class Legacy(BaseMode):
 
             line_prefix = ""
         else:
-            cmd = line.split(" ")[0]
+            cmd = split(line)[0]
             if cmd in self.console._commands:
                 # Call the command's complete method to get 'er done
-                possible_matches = self.console._commands[cmd].complete(line.split(" ")[-1])
-                line_prefix = " ".join(line.split(" ")[:-1]) + " "
+                possible_matches = self.console._commands[cmd].complete(split(line)[-1])
+                line_prefix = " ".join(split(line)[:-1]) + " "
             else:
                 # This is a bogus command
                 return (line, cursor)
@@ -535,20 +546,36 @@ class Legacy(BaseMode):
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
+            #We only want to print eventual colors or other control characters, not return them
             new_line = line_prefix + possible_matches[0] + " "
+            new_line = format_utils.remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
             if second_hit:
                 # Only print these out if it's a second_hit
                 self.write(" ")
-                for match in possible_matches:
-                    self.write(match)
+
+                if len(possible_matches) >= 4:
+                    self.write("{!green!}Autocompletion matches:")
+                #Only list some of the matching torrents as there can be hundreds of them
+                if len(possible_matches) > AUTOCOMPLETE_MAX_TORRENTS:
+                    for i in range(0, AUTOCOMPLETE_MAX_TORRENTS):
+                        match = possible_matches[i]
+                        self.write(match.replace(r"\ ", " "))
+                    diff = len(possible_matches) - AUTOCOMPLETE_MAX_TORRENTS
+                    self.write("{!error!}And %i more, use the 'info <pattern>' command to view more" % diff )
+                else:
+                    for match in possible_matches:
+                        self.write(match.replace(r"\ ", " "))
             else:
                 p = " ".join(line.split(" ")[:-1])
                 new_line = " ".join([p, os.path.commonprefix(possible_matches)]).lstrip()
                 if len(new_line) > len(line):
                     line = new_line
                     cursor = len(line)
+            #We only want to print eventual colors or other control characters, not return them
+            line = format_utils.remove_formatting(line)
+            cursor = len(line)
             return (line, cursor)
 
 
@@ -561,14 +588,49 @@ class Legacy(BaseMode):
         :returns: list of matches
 
         """
+
+        if len(line) == 0:
+            empty = True
+        else:
+            empty = False
+
+        raw_line = line
+        line = line.replace("\\ ", " ")
+
         possible_matches = []
 
-        # Find all possible matches
+        match_count = 0
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
-                possible_matches.append(torrent_id)
+                match_count += 1
             if torrent_name.startswith(line):
-                possible_matches.append(torrent_name)
+                match_count += 1
+        # Find all possible matches
+        for torrent_id, torrent_name in self.torrents:
+            #Escape spaces to avoid, for example, expanding "Doc" into "Doctor Who" and removing everything containing one of these words
+            escaped_name = torrent_name.replace(" ","\\ ")
+            #If we only matched one torrent, don't add the full name or it'll also get autocompleted
+            if match_count == 1:
+                if torrent_id.startswith(line):
+                    possible_matches.append(torrent_id + " ")
+                    break
+                if torrent_name.startswith(line):
+                    self.write(escaped_name)
+                    possible_matches.append(escaped_name + " ")
+                    break
+            else:
+                l = len(raw_line)
+
+                #Let's avoid listing all torrents twice if there's no pattern
+                if not empty and torrent_id.startswith(line):
+                    #Highlight the matching part
+                    text = "{!info!}%s{!input!}%s - '%s'" % (torrent_id[:l], torrent_id[l:], torrent_name)
+                    possible_matches.append(text)
+                if torrent_name.startswith(line):
+                    #TODO - Fix this and stuff above
+                    text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (escaped_name[:l], escaped_name[l:], torrent_id)
+                    #text = "%s (%s) " % (escaped_name, torrent_id)
+                    possible_matches.append(text)
 
         return possible_matches
 
