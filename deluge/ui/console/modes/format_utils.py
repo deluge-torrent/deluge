@@ -132,8 +132,12 @@ def format_row(row,column_widths, console_config):
     return "".join([format_column(row[i],column_widths[i], console_config) for i in range(0,len(row))])
 
 import re
-from collections import deque
 _strip_re = re.compile("\{!.*?!\}")
+
+def remove_formatting(string):
+    return re.sub(_strip_re, "", string)
+
+from collections import deque
 def wrap_string(string,width,min_lines=0,strip_colors=True):
     """
     Wrap a string to fit in a particular width.  Returns a list of output lines.
