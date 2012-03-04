@@ -118,7 +118,7 @@ class Command(BaseCommand):
              "           | hitting <tab> a second time, will print 15 more matches; \n"\
              "           | and a third press will print all remaining matches.\n"\
              "           | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)"
-             
+
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         # Compile a list of torrent_ids to request the status of
