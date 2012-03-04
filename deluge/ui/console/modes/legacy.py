@@ -57,6 +57,9 @@ import re
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
+AUTOCOMPLETE_MAX_TORRENTS = 20
+AUTOCOMPLETE_MAX_TORRENTS_WITH_PATTERN = 10
+
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
 
@@ -631,10 +634,11 @@ class Legacy(BaseMode):
             #If we only matched one torrent, don't add the full name or it'll also get autocompleted
             if match_count == 1:
                 if torrent_id.startswith(line):
-                    possible_matches.append(torrent_id + " ")
+                    possible_matches.append(torrent_id)
                     break
                 if torrent_name.startswith(line):
-                    possible_matches.append(escaped_name + " ")
+                    self.write(escaped_name)
+                    possible_matches.append(escaped_name)
                     break
             else:
                 l = len(raw_line)
