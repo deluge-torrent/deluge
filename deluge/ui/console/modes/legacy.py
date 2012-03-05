@@ -637,7 +637,6 @@ class Legacy(BaseMode):
                     possible_matches.append(torrent_id)
                     break
                 if torrent_name.startswith(line):
-                    self.write(escaped_name)
                     possible_matches.append(escaped_name)
                     break
             else:
