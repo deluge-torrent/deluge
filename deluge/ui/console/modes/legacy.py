@@ -568,7 +568,7 @@ class Legacy(BaseMode):
                     for match in possible_matches:
                         self.write(match.replace(r"\ ", " "))
             else:
-                p = " ".join(line.split(" ")[:-1])
+                p = " ".join(split(line)[:-1])
                 new_line = " ".join([p, os.path.commonprefix(possible_matches)]).lstrip()
                 if len(new_line) > len(line):
                     line = new_line
@@ -615,7 +615,6 @@ class Legacy(BaseMode):
                     possible_matches.append(torrent_id + " ")
                     break
                 if torrent_name.startswith(line):
-                    self.write(escaped_name)
                     possible_matches.append(escaped_name + " ")
                     break
             else:
@@ -627,9 +626,7 @@ class Legacy(BaseMode):
                     text = "{!info!}%s{!input!}%s - '%s'" % (torrent_id[:l], torrent_id[l:], torrent_name)
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
-                    #TODO - Fix this and stuff above
                     text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (escaped_name[:l], escaped_name[l:], torrent_id)
-                    #text = "%s (%s) " % (escaped_name, torrent_id)
                     possible_matches.append(text)
 
         return possible_matches
