@@ -33,7 +33,7 @@ SetCompressor lzma
 ###
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "0.4"
+!define DELUGE_INSTALLER_VERSION "0.5"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
@@ -42,10 +42,6 @@ SetCompressor lzma
 
 # Python files generated with bbfreeze (without DLLs from GTK+ runtime)
 !define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
-
-# Installer for GTK+ 2.12 runtime; will be downloaded from deluge-torrent.org
-!define DELUGE_GTK_DEPENDENCY "gtk2-runtime-2.16.6-2010-05-12-ash.exe"
-
 
 # --- Interface settings ---
 
@@ -182,44 +178,15 @@ Section "Create magnet uri link association for Deluge" Section3
     WriteRegStr HKCR "magnet\shell\open\command" "" '"$INSTDIR\deluge.exe" "%1"'
 SectionEnd
 
-# Install GTK+ 2.16
-Section "GTK+ 2.16 runtime" Section4
-  GTK_install_start:
-  MessageBox MB_OK "You will now download and run the installer for the GTK+ 2.16 runtime. \
-    You must be connected to the internet before you press the OK button. \
-    The GTK+ runtime can be installed in any location, \
-    because the GTK+ installer adds the location to the global PATH variable. \
-    Please note that the GTK+ 2.16 runtime is not removed by the Deluge uninstaller. \
-    You must use the GTK+ 2.16 uninstaller if you want to remove it together with Deluge."
-
-  # Download GTK+ installer to TEMP dir
-  NSISdl::download http://download.deluge-torrent.org/windows/deps/${DELUGE_GTK_DEPENDENCY} "$TEMP\${DELUGE_GTK_DEPENDENCY}"
-
-  # Get return value (success, cancel, or string describing the network error)
-  Pop $2
-  StrCmp $2 "success" 0 GTK_download_error
-
-  ExecWait '"$TEMP\${DELUGE_GTK_DEPENDENCY}" /compatdlls=yes'
-  Goto GTK_install_exit
-
-  GTK_download_error:
-  MessageBox MB_ICONEXCLAMATION|MB_OK "Download of GTK+ 2.16 installer failed (return code: $2). \
-      You must install the GTK+ 2.16 runtime manually, or Deluge will fail to run on your system."
-
-  GTK_install_exit:
-SectionEnd
 
 LangString DESC_Section1 ${LANG_ENGLISH} "Install Deluge Bittorrent client."
 LangString DESC_Section2 ${LANG_ENGLISH} "Select this option unless you have another torrent client which you want to use for opening .torrent files."
 LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to have Deluge handle magnet links."
-LangString DESC_Section4 ${LANG_ENGLISH} "Download and install the GTK+ 2.16 runtime. \
-  This is skipped automatically if GTK+ is already installed."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Section1} $(DESC_Section1)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section2} $(DESC_Section2)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section3} $(DESC_Section3)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Section4} $(DESC_Section4)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 

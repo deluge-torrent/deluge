@@ -18,25 +18,11 @@ The GTK+ runtime libraries are installed separately (anywhere, in the Windows PA
     
         C:\Python26\Lib\site-packages\bbfreeze-0.96.5-py2.6-win32.egg\bbfreeze\recipes.py
 
-    Right after the 'prefixes' part of the Python function 'recipe_gtk_and_friends':
-
-        # Exclude DLL files in the GTK+ runtime bin dir.
-        # The GTK+ runtime must be in the PATH or copied to the application dir,
-        # so there is no point in including these DLLs with the bbfreeze output.
-        #
-        prefixes2 = ["iconv", "intl", "zlib1", "libpng12", "libatk", "libcairo", "libfont", "libfree", "libtiff", "libgio"]
-
-        for p in prefixes2:        
-            if x.identifier.startswith(p):
-                print "SKIPPING:", x
-                x.__class__ = ExcludedModule
-                retval = True                
-                break
-
-    The purpose is to avoid that bbfreeze copies DLLs from the GTK+ runtime bin directory.
-    Bbfreeze only copies a subset of the necessary DLLs (for some reason?). The cleanest 
-    solution is to have the GTK+ runtime in a separate dir. 
-
+    Right at the top of the Python function 'recipe_gtk_and_friends':
+        return True
+        
+    We want to include all the gtk libraries in the installer so that users don't
+    require a separate GTK+ installation.
 
 3)  Edit the 'build_version' variable in the Python script:
 
