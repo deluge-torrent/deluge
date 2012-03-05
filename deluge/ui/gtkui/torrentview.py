@@ -713,7 +713,10 @@ class TorrentView(listview.ListView, component.Component):
         log.debug("keypress_Delete")
         torrents = self.get_selected_torrents()
         if torrents:
-            RemoveTorrentDialog(torrents).run()
+            if event.state & gtk.gdk.SHIFT_MASK:
+                RemoveTorrentDialog(torrents, delete_files=True).run()
+            else:
+                RemoveTorrentDialog(torrents).run()
 
     def keypress_Menu(self, event):
         log.debug("keypress_Menu")
