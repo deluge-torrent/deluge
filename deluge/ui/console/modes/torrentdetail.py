@@ -337,6 +337,20 @@ class TorrentDetail(BaseMode, component.Component):
 
         return (off,idx)
 
+    def _get_file_list_length(self, file_list=None):
+        """
+        Returns amount of elements in file list, including files in (expanded) folders.
+        """
+        if file_list == None:
+            file_list = self.file_list
+        length = 0
+        if file_list:
+            for element in file_list:
+                length += 1
+                if element[3] and element[4]:
+                    length += self._get_file_list_length(element[3])
+        return length
+
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
         self.__update_columns()
@@ -388,7 +402,6 @@ class TorrentDetail(BaseMode, component.Component):
             self.more_to_draw = False
             self.draw_files(self.file_list,0,off,0)
 
-        #self.stdscr.redrawwin()
         self.stdscr.noutrefresh()
 
         if self.popup:
@@ -396,25 +409,29 @@ class TorrentDetail(BaseMode, component.Component):
 
         curses.doupdate()
 
-    # expand or collapse the current file
     def expcol_cur_file(self):
+        """
+        Expand or collapse current file
+        """
         self.current_file[4] = not self.current_file[4]
         self.refresh()
 
-    def file_list_down(self):
-        if (self.current_file_idx + 1) > self.file_limit:
-            if self.more_to_draw:
-                self.current_file_idx += 1
-                self.file_off += 1
-            else:
-                return
-        else:
-            self.current_file_idx += 1
+    def file_list_down(self, rows=1):
+        maxlen = self._get_file_list_length() - 1
+
+        self.current_file_idx += rows
+
+        if self.current_file_idx > maxlen:
+            self.current_file_idx = maxlen
+
+        #Don't ask me where the 3 comes from. Probably file header row as well as top and bottom ones
+        if self.current_file_idx > self.file_off  + (self.rows//2 - 3):
+            self.file_off = self.current_file_idx - (self.rows//2 - 3)
 
         self.refresh()
 
-    def file_list_up(self):
-        self.current_file_idx = max(0,self.current_file_idx-1)
+    def file_list_up(self, rows=1):
+        self.current_file_idx = max(0,self.current_file_idx-rows)
         self.file_off = min(self.file_off,self.current_file_idx)
         self.refresh()
 
@@ -508,12 +525,17 @@ class TorrentDetail(BaseMode, component.Component):
         if c == curses.KEY_UP:
             self.file_list_up()
         elif c == curses.KEY_PPAGE:
-            pass
+            self.file_list_up(self.rows/2-2)
+        elif c == curses.KEY_HOME:
+            self.file_off = 0
+            self.current_file_idx = 0
         elif c == curses.KEY_DOWN:
             self.file_list_down()
         elif c == curses.KEY_NPAGE:
-            pass
-
+            self.file_list_down(self.rows/2-2)
+        elif c == curses.KEY_END:
+            self.current_file_idx = self._get_file_list_length() - 1
+            self.file_off = self.current_file_idx - (self.rows//2 - 3)
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
             self.marked[self.current_file[1]] = True
