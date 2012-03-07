@@ -47,6 +47,7 @@ from deluge.ui.client import client
 import deluge.component as component
 
 from deluge.ui.console.modes import format_utils
+strwidth = format_utils.strwidth
 
 import logging,os
 log = logging.getLogger(__name__)
@@ -353,7 +354,7 @@ class Legacy(BaseMode):
         for line in text.splitlines():
             # We need to check for line lengths here and split as necessary
             try:
-                line_length = colors.get_line_length(line)
+                line_length = colors.get_line_width(line)
             except colors.BadColorString:
                 log.error("Passed a bad colored line: %s", line)
                 continue
@@ -364,11 +365,11 @@ class Legacy(BaseMode):
                 s_len = 0
                 # We need to split this over multiple lines
                 for chunk in get_line_chunks(line):
-                    if (len(chunk[1]) + s_len) < (self.cols - 1):
+                    if (strwidth(chunk[1]) + s_len) < (self.cols - 1):
                         # This chunk plus the current string in 's' isn't over
                         # the maximum width, so just append the color tag and text
                         s += chunk[0] + chunk[1]
-                        s_len += len(chunk[1])
+                        s_len += strwidth(chunk[1])
                     else:
                         # The chunk plus the current string in 's' is too long.
                         # We need to take as much of the chunk and put it into 's'
@@ -379,7 +380,7 @@ class Legacy(BaseMode):
                         self.lines.append(s)
                         # Start a new 's' with the remainder chunk
                         s = chunk[0] + chunk[1][remain:]
-                        s_len = len(chunk[1][remain:])
+                        s_len = strwidth(chunk[1][remain:])
                 # Append the final string which may or may not be the full width
                 if s:
                     self.lines.append(s)
@@ -411,13 +412,13 @@ class Legacy(BaseMode):
         for index, (color, s) in enumerate(parsed):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
-                s += " " * (self.cols - (col + len(s)) - 1)
+                s += " " * (self.cols - (col + strwidth(s)) - 1)
             try:
                 self.stdscr.addstr(row, col, s, color)
             except curses.error:
                 pass
 
-            col += len(s)
+            col += strwidth(s)
 
 
     def do_command(self, cmd):

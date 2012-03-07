@@ -33,6 +33,8 @@
 #
 #
 
+from deluge.ui.console.modes import format_utils
+
 try:
     import curses
 except ImportError:
@@ -149,6 +151,24 @@ def get_line_length(line, encoding="UTF-8"):
     # Replace tabs with the appropriate amount of spaces
     line = replace_tabs(line)
     return len(line)
+
+def get_line_width(line, encoding="UTF-8"):
+    """
+    Get width of string considering double width characters
+
+    """
+    if line.count("{!") != line.count("!}"):
+        raise BadColorString("Number of {! is not equal to number of !}")
+
+    if isinstance(line, unicode):
+        line = line.encode(encoding, "replace")
+
+    # Remove all the color tags
+    line = strip_colors(line)
+
+    # Replace tabs with the appropriate amount of spaces
+    line = replace_tabs(line)
+    return format_utils.strwidth(line)
 
 def parse_color_string(s, encoding="UTF-8"):
     """

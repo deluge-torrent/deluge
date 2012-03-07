@@ -201,3 +201,33 @@ def wrap_string(string,width,min_lines=0,strip_colors=True):
             ret.append(" ")
 
     return ret
+
+from unicodedata import east_asian_width
+
+def strwidth(string):
+    """
+    Measure width of a string considering asian double width characters
+    """
+    if not isinstance(string, unicode):
+        string = unicode(string, 'utf-8')
+    eaw = east_asian_width
+    length = sum( [1 + (eaw(c) in ['W','F']) for c in string] )
+    #Using list comprehenstion for improved performance
+    #The code above is equal to:
+    #length = 0
+    #for char in string:
+        #length += 1
+        #if east_asian_width(char) in ['W','F']:
+            #length += 1
+    return length
+
+def pad_string(string, length, character=" ", side="right"):
+    """
+    Pad string with specified character to desired length, considering double width characters.
+    """
+    w = strwidth(string)
+    diff = length - w
+    if   side == "left":
+        return "%s%s" % (character * diff, string)
+    elif side == "right":
+        return "%s%s" % (string, character * diff)
