@@ -35,13 +35,17 @@
 #
 
 from optparse import make_option
-import sys
 
 from deluge.ui.console.main import BaseCommand
 import deluge.ui.console.colors as colors
 from deluge.ui.client import client
 import deluge.common as common
 import deluge.component as component
+
+from deluge.ui.console.modes import format_utils
+strwidth = format_utils.strwidth
+
+from os.path import sep as dirsep
 
 status_keys = ["state",
         "save_path",
@@ -145,6 +149,120 @@ class Command(BaseCommand):
         d.addErrback(on_torrents_status_fail)
         return d
 
+    def show_file_info(self, torrent_id, status):
+        SPACES_PER_LEVEL = 2
+
+        if hasattr(self.console, "screen"):
+            cols = self.console.screen.cols
+        else:
+            cols = 80
+
+        dirs = []
+        prevpath = []
+        for i, file in enumerate(status["files"]):
+            filename = file["path"].split(dirsep)[-1]
+            filepath = file["path"].split(dirsep)[:-1]
+
+            for depth, subdir in enumerate(filepath):
+                indent = " "*depth*SPACES_PER_LEVEL
+                if   depth >= len(prevpath):
+                    self.console.write("%s{!cyan!}%s" % (indent, subdir))
+                elif subdir != prevpath[depth]:
+                    self.console.write("%s{!cyan!}%s" % (indent, subdir))
+
+            depth = len(filepath)
+
+            indent = " " * depth * SPACES_PER_LEVEL
+
+            col_filename = indent + filename
+            col_size = " ({!cyan!}%s{!input!})" % common.fsize(file["size"])
+            col_progress = " {!input!}%.2f%%" % (status["file_progress"][i] * 100)
+
+            col_priority = " {!info!}Priority: "
+
+            fp = common.FILE_PRIORITY[status["file_priorities"][i]].replace("Priority", "")
+            if status["file_progress"][i] != 1.0:
+                if fp == "Do Not Download":
+                    col_priority += "{!error!}"
+                else:
+                    col_priority += "{!success!}"
+            else:
+                col_priority += "{!input!}"
+            col_priority+= fp
+
+            rf = format_utils.remove_formatting
+            tlen = lambda s: strwidth(rf(s))
+
+            if not isinstance(col_filename, unicode):
+                col_filename = unicode(col_filename, 'utf-8')
+
+            col_all_info = col_size + col_progress + col_priority
+            #Check how much space we've got left after writing all the info
+            space_left = cols - tlen(col_all_info)
+            #And how much we will potentially have with the longest possible column
+            maxlen_space_left = cols - tlen(" (1000.0 MiB) 100.00% Priority: Do Not Download")
+            if   maxlen_space_left > tlen(col_filename) + 1:
+                #If there is enough space, pad it all nicely
+                col_all_info = ""
+                col_all_info += " ("
+                spaces_to_add = tlen(" (1000.0 MiB)") - tlen(col_size)
+                col_all_info += " " * spaces_to_add
+                col_all_info += col_size[2:]
+                spaces_to_add = tlen(" 100.00%") - tlen(col_progress)
+                col_all_info += " " * spaces_to_add
+                col_all_info += col_progress
+                spaces_to_add = tlen(" Priority: Do Not Download") - tlen(col_priority)
+                col_all_info += col_priority
+                col_all_info += " " * spaces_to_add
+                #And remember to put it to the left!
+                col_filename = format_utils.pad_string(col_filename, maxlen_space_left - 2, side = "right")
+            elif space_left > tlen(col_filename) + 1:
+                #If there is enough space, put the info to the right
+                col_filename = format_utils.pad_string(col_filename, space_left - 2, side = "right")
+            else:
+                #And if there is not, shorten the name
+                col_filename = format_utils.trim_string( col_filename, space_left, True)
+            self.console.write(col_filename + col_all_info)
+
+
+            prevpath = filepath
+
+    def show_peer_info(self, torrent_id, status):
+        if len(status["peers"]) == 0:
+            self.console.write("    None")
+        else:
+            s = ""
+            for peer in status["peers"]:
+                if peer["seed"]:
+                    s += "%sSeed\t{!input!}" % colors.state_color["Seeding"]
+                else:
+                    s += "%sPeer\t{!input!}" % colors.state_color["Downloading"]
+
+                s += peer["country"] + "\t"
+
+                if peer["ip"].count(":") == 1:
+                    # IPv4
+                    s += peer["ip"]
+                else:
+                    # IPv6
+                    s += "[%s]:%s" % (":".join(peer["ip"].split(":")[:-1]), peer["ip"].split(":")[-1])
+
+                c = peer["client"]
+                s += "\t" + c
+
+                if len(c) < 16:
+                    s += "\t\t"
+                else:
+                    s += "\t"
+                s += "%s%s\t%s%s" % (
+                    colors.state_color["Seeding"],
+                    common.fspeed(peer["up_speed"]),
+                    colors.state_color["Downloading"],
+                    common.fspeed(peer["down_speed"]))
+                s += "\n"
+
+            self.console.write(s[:-1])
+
     def show_info(self, torrent_id, status, verbose=False, detailed=False):
         """
         Writes out the torrents information to the screen.
@@ -203,62 +321,10 @@ class Command(BaseCommand):
             self.console.write(s)
 
             if detailed:
-                self.console.write("  {!info!}::Files")
-                for i, f in enumerate(status["files"]):
-                    s = "    {!input!}%s (%s)" % (f["path"], common.fsize(f["size"]))
-                    s += " {!info!}Progress: {!input!}%.2f%%" % (status["file_progress"][i] * 100)
-                    s += " {!info!}Priority:"
-                    fp = common.FILE_PRIORITY[status["file_priorities"][i]].replace("Priority", "")
-                    if fp == "Do Not Download":
-                        s += "{!error!}"
-                    else:
-                        s += "{!success!}"
-
-                    s += " %s" % (fp)
-                    # Check if this is too long for the screen and reduce the path
-                    # if necessary
-                    if hasattr(self.console, "screen"):
-                        cols = self.console.screen.cols
-                        slen = colors.get_line_length(s, self.console.screen.encoding)
-                        if slen > cols:
-                            s = s.replace(f["path"], f["path"][slen - cols + 1:])
-                    self.console.write(s)
-
-                self.console.write("  {!info!}::Peers")
-                if len(status["peers"]) == 0:
-                    self.console.write("    None")
-                else:
-                    s = ""
-                    for peer in status["peers"]:
-                        if peer["seed"]:
-                            s += "%sSeed\t{!input!}" % colors.state_color["Seeding"]
-                        else:
-                            s += "%sPeer\t{!input!}" % colors.state_color["Downloading"]
-
-                        s += peer["country"] + "\t"
-
-                        if peer["ip"].count(":") == 1:
-                            # IPv4
-                            s += peer["ip"]
-                        else:
-                            # IPv6
-                            s += "[%s]:%s" % (":".join(peer["ip"].split(":")[:-1]), peer["ip"].split(":")[-1])
-
-                        c = peer["client"]
-                        s += "\t" + c
-
-                        if len(c) < 16:
-                            s += "\t\t"
-                        else:
-                            s += "\t"
-                        s += "%s%s\t%s%s" % (
-                            colors.state_color["Seeding"],
-                            common.fspeed(peer["up_speed"]),
-                            colors.state_color["Downloading"],
-                            common.fspeed(peer["down_speed"]))
-                        s += "\n"
-
-                    self.console.write(s[:-1])
+                self.console.write("{!info!}Files in torrent")
+                self.show_file_info(torrent_id, status)
+                self.console.write("{!info!}Connected peers")
+                self.show_peer_info(torrent_id, status)
         else:
             self.console.write(" ")
             up_color = colors.state_color["Seeding"]
@@ -271,8 +337,8 @@ class Command(BaseCommand):
 
             #Shorten the ID if it's necessary. Pretty hacky
             #I _REALLY_ should make a nice function for it that can partition and shorten stuff
-            space_left = cols - len("[s] 100.00% " + status["name"] + " "*3) - 2
-            if space_left >= len(torrent_id):
+            space_left = cols - strwidth("[s] 100.00% " + status["name"] + " "*3) - 2
+            if space_left - 8 >= len(torrent_id):
                 #There's enough space, print it
                 s += " {!cyan!}%s" % torrent_id
             else:
@@ -285,7 +351,7 @@ class Command(BaseCommand):
                     if b < 0:
                         a+= b
                         b = 0
-                if a > 0:
+                if a > 8:
                     #Print the shortened ID
                     s += " {!cyan!}%s" % (torrent_id[0:a] + ".." + torrent_id[-b-1:-1])
                 else:
