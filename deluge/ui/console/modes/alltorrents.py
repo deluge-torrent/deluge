@@ -168,7 +168,6 @@ DEFAULT_PREFS = {
     "downloaded_width":13,
     "uploaded_width":13,
     "owner_width":10,
-    "disable_three_dots": False,
     "ignore_duplicate_lines": False
 }
 
@@ -315,7 +314,7 @@ class AllTorrents(BaseMode, component.Component):
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
             newnames.append(ts["name"])
-            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths, self.config),ts["state"]))
+            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths),ts["state"]))
 
         self.numtorrents = len(state)
         self.formatted_rows = newrows

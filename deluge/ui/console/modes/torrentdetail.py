@@ -323,7 +323,7 @@ class TorrentDetail(BaseMode, component.Component):
                 r = format_utils.format_row(["%s%s %s"%(" "*depth,xchar,fl[0]),
                                              deluge.common.fsize(fl[2]),fl[5],
                                              format_utils.format_priority(fl[6])],
-                                            self.column_widths, self.console_config)
+                                            self.column_widths)
 
                 self.add_string(off,"%s%s"%(color_string,r),trim=False)
                 off += 1
