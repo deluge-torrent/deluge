@@ -614,7 +614,10 @@ class AllTorrents(BaseMode, component.Component):
             if lines:
                 todraw = []
                 for l in lines:
-                    todraw.append(self.formatted_rows[l])
+                    try:
+                        todraw.append(self.formatted_rows[l])
+                    except:
+                        pass #A quick and ugly fix for crash caused by doing shift-m on last torrent
                 lines.reverse()
             else:
                 todraw = self.formatted_rows[tidx-1:]
@@ -656,7 +659,11 @@ class AllTorrents(BaseMode, component.Component):
                 else:
                     colorstr = "{!%s,%s!}"%(fg,bg)
 
-                self.add_string(currow,"%s%s"%(colorstr,row[0]),trim=False)
+                try:
+                    self.add_string(currow,"%s%s"%(colorstr,row[0]),trim=False)
+                except:
+                    #Yeah, this should be fixed in some better way
+                    pass
                 tidx += 1
                 currow += 1
                 if (currow > (self.rows - 2)):
