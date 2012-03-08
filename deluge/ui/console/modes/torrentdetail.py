@@ -347,10 +347,9 @@ class TorrentDetail(BaseMode, component.Component):
 
         return (off,idx)
 
-
-    def _get_file_list_length(self, file_list=None):
+    def __get_file_list_length(self, file_list=None):
         """
-        Returns amount of elements in file list, including files in (expanded) folders.
+        Counts length of the displayed file list.
         """
         if file_list == None:
             file_list = self.file_list
