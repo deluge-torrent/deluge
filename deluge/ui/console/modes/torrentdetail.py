@@ -284,6 +284,10 @@ class TorrentDetail(BaseMode, component.Component):
 
 
     def draw_files(self,files,depth,off,idx):
+
+        color_selected = "blue"
+        color_partially_selected = "magenta"
+        color_highlighted = "white"
         for fl in files:
             # kick out if we're going to draw too low on the screen
             if (off >= self.rows-1):
@@ -300,13 +304,19 @@ class TorrentDetail(BaseMode, component.Component):
                 bg = "black"
 
                 if fl[1] in self.marked:
-                    bg = "blue"
+                    bg = color_selected
+                    if fl[3]:
+                        if self.marked[fl[1]] < self.__get_contained_files_count(file_list=fl[3]):
+                            bg = color_partially_selected
 
                 if idx == self.current_file_idx:
                     self.current_file = fl
-                    bg = "white"
+                    bg = color_highlighted
                     if fl[1] in self.marked:
-                        fg = "blue"
+                        fg = color_selected
+                        if fl[3]:
+                            if self.marked[fl[1]] < self.__get_contained_files_count(file_list = fl[3]):
+                                fg = color_partially_selected
                     else:
                         fg = "black"
 
@@ -337,9 +347,9 @@ class TorrentDetail(BaseMode, component.Component):
 
         return (off,idx)
 
-    def _get_file_list_length(self, file_list=None):
+    def __get_file_list_length(self, file_list=None):
         """
-        Returns amount of elements in file list, including files in (expanded) folders.
+        Counts length of the displayed file list.
         """
         if file_list == None:
             file_list = self.file_list
@@ -348,7 +358,27 @@ class TorrentDetail(BaseMode, component.Component):
             for element in file_list:
                 length += 1
                 if element[3] and element[4]:
-                    length += self._get_file_list_length(element[3])
+                    length += self.__get_file_list_length(element[3])
+        return length
+
+    def __get_contained_files_count(self, file_list=None, idx = None):
+        length = 0
+        if file_list == None:
+            file_list = self.file_list
+        if idx != None:
+            for element in file_list:
+                if   element[1] == idx:
+                    return self.__get_contained_files_count(file_list = element[3])
+                elif element[3]:
+                    c = self.__get_contained_files_count(file_list = element[3], idx=element[1])
+                    if c > 0:
+                        return c
+        else:
+            for element in file_list:
+                length += 1
+                if element[3]:
+                    length -= 1
+                    length += self.__get_contained_files_count(element[3])
         return length
 
     def on_resize(self, *args):
@@ -417,7 +447,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.refresh()
 
     def file_list_down(self, rows=1):
-        maxlen = self._get_file_list_length() - 1
+        maxlen = self.__get_file_list_length() - 1
 
         self.current_file_idx += rows
 
@@ -447,13 +477,9 @@ class TorrentDetail(BaseMode, component.Component):
     def build_prio_list(self, files, ret_list, parent_prio, selected_prio):
         # has a priority been set on my parent (if so, I inherit it)
         for f in files:
-            if f[3]: # dir, check if i'm setting on whole dir, then recurse
-                if f[1] in self.marked: # marked, recurse and update all children with new prio
-                    parent_prio = selected_prio
-                    self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
-                    parent_prio = -1
-                else: # not marked, just recurse
-                    self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
+            #Do not set priorities for the whole dir, just selected contents
+            if f[3]:
+                self.build_prio_list(f[3],ret_list,parent_prio,selected_prio)
             else: # file, need to add to list
                 if f[1] in self.marked or parent_prio >= 0:
                     # selected (or parent selected), use requested priority
@@ -462,7 +488,7 @@ class TorrentDetail(BaseMode, component.Component):
                     # not selected, just keep old priority
                     ret_list.append((f[1],f[6]))
 
-    def do_priority(self, idx, data):
+    def do_priority(self, idx, data, was_empty):
         plist = []
         self.build_prio_list(self.file_list,plist,-1,data)
         plist.sort()
@@ -471,24 +497,106 @@ class TorrentDetail(BaseMode, component.Component):
 
         client.core.set_torrent_file_priorities(self.torrentid, priorities)
 
-        if len(self.marked) == 1:
+        if was_empty:
             self.marked = {}
         return True
 
     # show popup for priority selections
-    def show_priority_popup(self):
+    def show_priority_popup(self, was_empty):
+        func = lambda idx, data, we=was_empty: self.do_priority(idx, data, we)
         if self.marked:
-            self.popup = SelectablePopup(self,"Set File Priority",self.do_priority)
+            self.popup = SelectablePopup(self,"Set File Priority", func)
             self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"])
             self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
             self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"])
             self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"])
 
     def __mark_unmark(self,idx):
-        if idx in self.marked:
-            del self.marked[idx]
+        """
+        Selects or unselects file or a catalog(along with contained files)
+        """
+        fc = self.__get_contained_files_count(idx=idx)
+        if idx not in self.marked:
+            #Not selected, select it
+            self.__mark_tree(self.file_list, idx)
+        elif self.marked[idx] < fc:
+            #Partially selected, select all contents
+            self.__mark_tree(self.file_list, idx)
         else:
-            self.marked[idx] = True
+            #Selected, unselect it
+            self.__unmark_tree(self.file_list, idx)
+
+    def __mark_tree(self, file_list, idx, mark_all = False):
+        """
+        Given file_list of TorrentDetail and index of file or folder,
+        recursively selects all files contained
+        as well as marks folders higher in hierarchy as partially selected
+        """
+        total_marked = 0
+        for element in file_list:
+            marked = 0
+            #Select the file if it's the one we want or
+            # if it's inside a directory that got selected
+            if (element[1] == idx) or mark_all:
+                #If it's a folder then select everything inside
+                if element[3]:
+                    marked = self.__mark_tree(element[3], idx, True)
+                    self.marked[element[1]] = marked
+                else:
+                    marked = 1
+                    self.marked[element[1]] = 1
+            else:
+                #Does not match but the item to be selected might be inside, recurse
+                if element[3]:
+                    marked = self.__mark_tree(element[3], idx, False)
+                    #Partially select the folder if it contains files that were selected
+                    if marked > 0:
+                        self.marked[element[1]] = marked
+                else:
+                    if element[1] in self.marked:
+                        #It's not the element we want but it's marked so count it
+                        marked = 1
+            #Count and then return total amount of files selected in all subdirectories
+            total_marked += marked
+
+        return total_marked
+
+    def __unmark_tree(self, file_list, idx, unmark_all = False):
+        """
+        Given file_list of TorrentDetail and index of file or folder,
+        recursively deselects all files contained
+        as well as marks folders higher in hierarchy as unselected or partially selected
+        """
+        total_marked = 0
+        for element in file_list:
+            marked = 0
+            #It's either the item we want to select or
+            # a contained item, deselect it
+            if (element[1] == idx) or unmark_all:
+                if element[1] in self.marked:
+                    del self.marked[element[1]]
+                    #Deselect all contents if it's a catalog
+                    if element[3]:
+                        self.__unmark_tree(element[3], idx, True)
+            else:
+                #Not file we wanted but it might be inside this folder, recurse inside
+                if element[3]:
+                    marked = self.__unmark_tree(element[3], idx, False)
+                    #If none of the contents remain selected, unselect this folder as well
+                    if marked == 0:
+                        if element[1] in self.marked:
+                            del self.marked[element[1]]
+                    #Otherwise update selection count
+                    else:
+                        self.marked[element[1]] = marked
+                else:
+                    if element[1] in self.marked:
+                        marked = 1
+
+            #Count and then return selection count so we can update
+            # directories higher up in the hierarchy
+            total_marked += marked
+        return total_marked
 
     def _doRead(self):
         c = self.stdscr.getch()
@@ -534,12 +642,13 @@ class TorrentDetail(BaseMode, component.Component):
         elif c == curses.KEY_NPAGE:
             self.file_list_down(self.rows/2-2)
         elif c == curses.KEY_END:
-            self.current_file_idx = self._get_file_list_length() - 1
+            self.current_file_idx = self.__get_file_list_length() - 1
             self.file_off = self.current_file_idx - (self.rows//2 - 3)
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
-            self.marked[self.current_file[1]] = True
-            self.show_priority_popup()
+            was_empty = (self.marked == {})
+            self.__mark_tree(self.file_list, self.current_file[1])
+            self.show_priority_popup(was_empty)
 
         # space
         elif c == 32:
