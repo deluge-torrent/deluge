@@ -370,7 +370,7 @@ class TorrentDetail(BaseMode, component.Component):
                 if   element[1] == idx:
                     return self.__get_contained_files_count(file_list = element[3])
                 elif element[3]:
-                    c = self.__get_contained_files_count(file_list = element[3], idx=element[1])
+                    c = self.__get_contained_files_count(file_list = element[3], idx=idx)
                     if c > 0:
                         return c
         else:
@@ -520,8 +520,8 @@ class TorrentDetail(BaseMode, component.Component):
             #Not selected, select it
             self.__mark_tree(self.file_list, idx)
         elif self.marked[idx] < fc:
-            #Partially selected, select all contents
-            self.__mark_tree(self.file_list, idx)
+            #Partially selected, unselect all contents
+            self.__unmark_tree(self.file_list, idx)
         else:
             #Selected, unselect it
             self.__unmark_tree(self.file_list, idx)
