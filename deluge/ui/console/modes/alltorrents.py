@@ -168,7 +168,8 @@ DEFAULT_PREFS = {
     "downloaded_width":13,
     "uploaded_width":13,
     "owner_width":10,
-    "ignore_duplicate_lines": False
+    "ignore_duplicate_lines": False,
+    "move_selection": True
 }
 
 column_pref_names = ["queue","name","size","state",

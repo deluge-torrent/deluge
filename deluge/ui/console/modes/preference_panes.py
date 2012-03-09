@@ -312,6 +312,7 @@ class InterfacePane(BasePane):
         BasePane.__init__(self,offset,parent,width)
         self.add_header("General")
         self.add_checked_input("ignore_duplicate_lines","Do not store duplicate input in history",parent.console_config["ignore_duplicate_lines"])
+        self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
         self.add_header("Columns To Display")
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
             pn = "show_%s"%cpn

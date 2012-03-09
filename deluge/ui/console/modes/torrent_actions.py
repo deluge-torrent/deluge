@@ -83,6 +83,33 @@ def torrent_action(idx, data, mode, ids):
                 elif qact == ACTION.QUEUE_BOTTOM:
                     log.debug("Queuing torrents bottom")
                     client.core.queue_bottom(ids)
+
+                if mode.config["move_selection"]:
+                    queue_length = 0
+                    selected_num = 0
+                    for tid in mode.curstate:
+                        tq = mode.curstate.get(tid)["queue"]
+                        if tq != -1:
+                            queue_length += 1
+                            if tq in mode.marked:
+                                selected_num += 1
+                    if qact == ACTION.QUEUE_TOP:
+                        #mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
+                        mode.cursel = selected_num - sorted(mode.marked).index(mode.cursel)
+                        mode.marked = range(1, selected_num + 1)
+                    elif qact == ACTION.QUEUE_UP:
+                        mode.cursel = max(1, mode.cursel - 1)
+                        mode.marked = map(lambda v: v-1, mode.marked)
+                        mode.marked = filter(lambda v: v>0, mode.marked)
+                    elif qact == ACTION.QUEUE_DOWN:
+                        mode.cursel = min(queue_length, mode.cursel + 1)
+                        mode.marked = map(lambda v: v+1, mode.marked)
+                        mode.marked = filter(lambda v: v<=queue_length, mode.marked)
+                    elif qact == ACTION.QUEUE_BOTTOM:
+                        mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
+                        mode.marked = range(queue_length - selected_num + 1, queue_length+1)
+
+
                 if len(ids) == 1:
                     mode.clear_marks()
                 return True
@@ -100,8 +127,7 @@ def torrent_action(idx, data, mode, ids):
                     for tid in ids:
                         log.debug("Removing torrent: %s,%d",tid,wd)
                         client.core.remove_torrent(tid,wd).addErrback(action_error,mode)
-                if len(ids) == 1:
-                    mode.clear_marks()
+                mode.clear_marks()
                 return True
             popup = SelectablePopup(mode,"Confirm Remove",do_remove,mode,ids)
             popup.add_line("Are you sure you want to remove the marked torrents?",selectable=False)
@@ -157,5 +183,5 @@ def torrent_actions_popup(mode,tids,details=False):
     popup.add_line("_Move Storage",data=ACTION.MOVE_STORAGE)
     if details:
         popup.add_divider()
-        popup.add_line("Torrent _Details",data=ACTION.DETAILS)            
+        popup.add_line("Torrent _Details",data=ACTION.DETAILS)
     mode.set_popup(popup)
