@@ -52,20 +52,20 @@ class Popup:
         NB: The parent mode is responsible for calling refresh on any popups it wants to show.
             This should be called as the last thing in the parents refresh method.
 
-            The parent *must* also call _doRead on the popup instead of/in addition to 
+            The parent *must* also call _doRead on the popup instead of/in addition to
             running its own _doRead code if it wants to have the popup handle user input.
 
         :param parent_mode: must be a basemode (or subclass) which the popup will be drawn over
         :parem title: string, the title of the popup window
 
         Popups have two methods that must be implemented:
-        
+
         refresh(self) - draw the popup window to screen.  this default mode simply draws a bordered window
                         with the supplied title to the screen
 
         add_string(self, row, string) - add string at row.  handles triming/ignoring if the string won't fit in the popup
 
-        _doRead(self) - handle user input to the popup.  
+        _doRead(self) - handle user input to the popup.
         """
         self.parent = parent_mode
 
@@ -99,7 +99,7 @@ class Popup:
         log.debug("Resizing popup window (actually, just creating a new one)")
         self.screen = curses.newwin((self.parent.rows/2),(self.parent.cols/2),(self.parent.rows/4),(self.parent.cols/4))
         self.height,self.width = self.screen.getmaxyx()
-        
+
 
     def refresh(self):
         self.screen.clear()
@@ -132,7 +132,7 @@ class Popup:
         elif c == curses.KEY_ENTER or c == 10 or c == 27: # close on enter/esc
             if self.close_cb:
                 self.close_cb()
-            return True # close the popup        
+            return True # close the popup
 
         if c > 31 and c < 256 and chr(c) == 'q':
             if self.close_cb:
@@ -154,7 +154,7 @@ class Popup:
             self.divider = "-"*(self.width-2)
         self._lines.append(self.divider)
 
-    
+
 class SelectablePopup(Popup):
     """
     A popup which will let the user select from some of the lines that
