@@ -244,7 +244,7 @@
 				{name: 'num_peers', type: 'int'},
 				{name: 'total_peers', type: 'int'},
 				{name: 'download_payload_rate', type: 'int'},
-				{name: 'upload_payload_speed', type: 'int'},
+				{name: 'upload_payload_rate', type: 'int'},
 				{name: 'eta', type: 'int', sortType: etaSorter},
 				{name: 'ratio', type: 'float'},
 				{name: 'distributed_copies', type: 'float'},
