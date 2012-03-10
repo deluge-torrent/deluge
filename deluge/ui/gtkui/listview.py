@@ -333,10 +333,13 @@ class ListView:
     def on_menuitem_toggled(self, widget):
         """Callback for the generated column menuitems."""
         # Get the column name from the widget
-        name = unicode(widget.get_child().get_text())
+        name = widget.get_child().get_text()
 
         # Set the column's visibility based on the widgets active state
-        self.columns[name].column.set_visible(widget.get_active())
+        try:
+            self.columns[name].column.set_visible(widget.get_active())
+        except KeyError:
+            self.columns[unicode(name)].column.set_visible(widget.get_active())
         return
 
     def on_treeview_header_right_clicked(self, column, event):
