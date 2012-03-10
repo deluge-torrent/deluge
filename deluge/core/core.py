@@ -706,7 +706,8 @@ class Core(component.Component):
     @export
     def queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)
-        for torrent_id in torrent_ids:
+        # torrent_ids must be sorted in reverse before moving to preserve order
+        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position, reverse=True):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_top(torrent_id):
@@ -717,31 +718,48 @@ class Core(component.Component):
     @export
     def queue_up(self, torrent_ids):
         log.debug("Attempting to queue %s to up", torrent_ids)
+        torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
+        torrent_moved = True
+        prev_queue_position = None
         #torrent_ids must be sorted before moving.
-        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position):
-            try:
-                # If the queue method returns True, then we should emit a signal
-                if self.torrentmanager.queue_up(torrent_id):
-                    component.get("EventManager").emit(TorrentQueueChangedEvent())
-            except KeyError:
-                log.warning("torrent_id: %s does not exist in the queue", torrent_id)
+        for queue_position, torrent_id in sorted(torrents):
+            # Move the torrent if and only if there is space (by not moving it we preserve the order)
+            if torrent_moved or queue_position - prev_queue_position > 1:
+                try:
+                    torrent_moved = self.torrentmanager.queue_up(torrent_id)
+                except KeyError:
+                    log.warning("torrent_id: %s does not exist in the queue", torrent_id)
+            # If the torrent moved, then we should emit a signal
+            if torrent_moved:
+                component.get("EventManager").emit(TorrentQueueChangedEvent())
+            else:
+                prev_queue_position = queue_position
 
     @export
     def queue_down(self, torrent_ids):
         log.debug("Attempting to queue %s to down", torrent_ids)
+        torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
+        torrent_moved = True
+        prev_queue_position = None
         #torrent_ids must be sorted before moving.
-        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position, reverse=True):
-            try:
-                # If the queue method returns True, then we should emit a signal
-                if self.torrentmanager.queue_down(torrent_id):
-                    component.get("EventManager").emit(TorrentQueueChangedEvent())
-            except KeyError:
-                log.warning("torrent_id: %s does not exist in the queue", torrent_id)
+        for queue_position, torrent_id in sorted(torrents, reverse=True):
+            # Move the torrent if and only if there is space (by not moving it we preserve the order)
+            if torrent_moved or prev_queue_position - queue_position > 1:
+                try:
+                    torrent_moved = self.torrentmanager.queue_down(torrent_id)
+                except KeyError:
+                    log.warning("torrent_id: %s does not exist in the queue", torrent_id)
+            # If the torrent moved, then we should emit a signal
+            if torrent_moved:
+                component.get("EventManager").emit(TorrentQueueChangedEvent())
+            else:
+                prev_queue_position = queue_position
 
     @export
     def queue_bottom(self, torrent_ids):
         log.debug("Attempting to queue %s to bottom", torrent_ids)
-        for torrent_id in torrent_ids:
+        # torrent_ids must be sorted before moving to preserve order
+        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_bottom(torrent_id):
