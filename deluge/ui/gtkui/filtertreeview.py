@@ -162,7 +162,7 @@ class FilterTreeView(component.Component):
         self.filters = {}
 
         #initial order of state filter:
-        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _t("State"), 0, None, False])
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _t("state"), 0, None, False])
         self.update_row("state", "All" , 0)
         self.update_row("state", "Downloading" , 0)
         self.update_row("state", "Seeding" , 0)
@@ -170,7 +170,7 @@ class FilterTreeView(component.Component):
         self.update_row("state", "Paused" , 0)
         self.update_row("state", "Queued" , 0)
 
-        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _t("Trackers"), 0, None, False])
+        self.cat_nodes["tracker_host"] = self.treestore.append(None, ["cat", "tracker_host", _t("tracker_host"), 0, None, False])
         self.update_row("tracker_host", "All" , 0)
         self.update_row("tracker_host", "Error" , 0)
         self.update_row("tracker_host", "" , 0)
