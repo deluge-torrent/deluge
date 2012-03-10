@@ -864,6 +864,10 @@ class TorrentManager(component.Component):
         except OSError as (errno, strerror):
             log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
+    def get_queue_position(self, torrent_id):
+        """Get queue position of torrent"""
+        return self.torrents[torrent_id].get_queue_position()
+
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
         if self.torrents[torrent_id].get_queue_position() == 0:
