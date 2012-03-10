@@ -718,9 +718,7 @@ class Core(component.Component):
     def queue_up(self, torrent_ids):
         log.debug("Attempting to queue %s to up", torrent_ids)
         #torrent_ids must be sorted before moving.
-        torrent_ids = list(torrent_ids)
-        torrent_ids.sort(key = lambda id: self.torrentmanager.torrents[id].get_queue_position())
-        for torrent_id in torrent_ids:
+        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_up(torrent_id):
@@ -732,9 +730,7 @@ class Core(component.Component):
     def queue_down(self, torrent_ids):
         log.debug("Attempting to queue %s to down", torrent_ids)
         #torrent_ids must be sorted before moving.
-        torrent_ids = list(torrent_ids)
-        torrent_ids.sort(key = lambda id: -self.torrentmanager.torrents[id].get_queue_position())
-        for torrent_id in torrent_ids:
+        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position, reverse=True):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_down(torrent_id):
