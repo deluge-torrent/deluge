@@ -323,7 +323,7 @@ class FilesTab(Tab):
             # We only want to do this if the torrent_id has changed
             self.treestore.clear()
             self.torrent_id = torrent_id
-            status_keys += ["compact"]
+            status_keys += ["compact", "is_seed"]
 
             if self.torrent_id in self.files_list:
                 # We already have the files list stored, so just update the view
@@ -473,6 +473,9 @@ class FilesTab(Tab):
         if "compact" in status:
             self.__compact = status["compact"]
 
+        if "is_seed" in status:
+            self.__is_seed = status["is_seed"]
+
         if "files" in status:
             self.files_list[self.torrent_id] = status["files"]
             self.update_files()
@@ -519,7 +522,7 @@ class FilesTab(Tab):
                     self.listview.get_selection().select_iter(row)
 
             for widget in self.file_menu_priority_items:
-                widget.set_sensitive(not self.__compact)
+                widget.set_sensitive(not (self.__compact or self.__is_seed))
 
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
