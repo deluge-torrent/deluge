@@ -43,7 +43,10 @@ from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
 
-NO_LABEL = "No Label"
+# Deferred Translation
+def _(message): return message
+NO_LABEL = _("No Label")
+del _
 
 class LabelMenu(gtk.MenuItem):
     def __init__(self):
@@ -68,7 +71,10 @@ class LabelMenu(gtk.MenuItem):
         for child in self.sub_menu.get_children():
             self.sub_menu.remove(child)
         for label in [NO_LABEL] + list(labels):
-            item = gtk.MenuItem(label.replace("_","__"))
+            if label == NO_LABEL:
+                item = gtk.MenuItem(_(NO_LABEL))
+            else:
+                item = gtk.MenuItem(label.replace("_","__"))
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()
