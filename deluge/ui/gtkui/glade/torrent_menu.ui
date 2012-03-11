@@ -85,7 +85,7 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_pause">
-        <property name="label">_Pause</property>
+        <property name="label" translatable="yes">_Pause</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_action_appearance">False</property>
