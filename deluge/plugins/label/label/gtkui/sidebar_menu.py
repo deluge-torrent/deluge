@@ -185,7 +185,7 @@ class OptionsDialog(object):
         })
 
         # Show the label name in the header label
-        self.glade.get_widget("label_header").set_markup("<b>Label Options:</b> %s" % self.label)
+        self.glade.get_widget("label_header").set_markup("<b>%s:</b> %s" % (_("Label Options"), self.label))
 
         for chk_id, group in  self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
