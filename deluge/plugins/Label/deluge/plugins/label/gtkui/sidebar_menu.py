@@ -112,7 +112,7 @@ class LabelSidebarMenu(object):
             for item in self.items:
                 item.show()
             #default items
-            sensitive = ((label not in (NO_LABEL, None, "")) and (cat != "cat"))
+            sensitive = ((label not in (NO_LABEL, None, "", "All")) and (cat != "cat"))
             for item  in self.items:
                 item.set_sensitive(sensitive)
 
