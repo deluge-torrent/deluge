@@ -237,7 +237,7 @@ class FilterTreeView(component.Component):
                     label = _t("none")
                 elif cat == "label":
                     label = _t("no_label")
-            elif cat == "state" or cat == "tracker_host":
+            elif cat in ["state", "tracker_host", "label"]:
                 label = _t(value)
 
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
