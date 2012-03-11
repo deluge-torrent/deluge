@@ -807,6 +807,17 @@ class InputPopup(Popup):
         self.parent.add_string(row, string, scr, col, pad, trim)
         return True
 
+    def getmaxyx(self):
+        return self.screen.getmaxyx()
+
+    def add_string(self, row, string, scr=None, col = 0, pad=True, trim=True):
+        if row <= 0:
+            return False
+        elif row >= self.height -1:
+            return False
+        self.parent.add_string(row, string, scr, col, pad, trim)
+        return True
+
     def add_spaces(self, num):
         for i in range(num):
             self.lines.append((len(self.inputs), ""))
