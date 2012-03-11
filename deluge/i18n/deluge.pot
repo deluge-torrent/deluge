@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Deluge 1.3.3\n"
+"Project-Id-Version: Deluge 1.3.4\n"
 "Report-Msgid-Bugs-To: http://deluge-torrent.org\n"
-"POT-Creation-Date: 2012-02-28 19:34+0000\n"
+"POT-Creation-Date: 2012-03-11 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,7 +69,7 @@ msgid "GiB/s"
 msgstr ""
 
 #: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
-#: deluge/ui/gtkui/filtertreeview.py:77
+#: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
 msgid "Error"
 msgstr ""
 
@@ -241,7 +241,7 @@ msgid "From:"
 msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:415
-#: deluge/ui/gtkui/preferences.py:91
+#: deluge/ui/gtkui/preferences.py:92
 msgid "Enabled"
 msgstr ""
 
@@ -644,6 +644,7 @@ msgid "Unknown Torrent"
 msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:7
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:188
 msgid "Label Options"
 msgstr ""
 
@@ -685,7 +686,7 @@ msgid "Apply Queue settings:"
 msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Queue"
 msgstr ""
 
@@ -738,7 +739,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/gtkui/__init__.py:77
 #: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/submenu.py:51
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
 msgid "Label"
@@ -754,6 +755,11 @@ msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/submenu.py:46
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "No Label"
 msgstr ""
 
 #: deluge/ui/countries.py:9
@@ -1817,76 +1823,96 @@ msgid ""
 "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:218
+#: deluge/ui/gtkui/torrentview.py:85 deluge/ui/gtkui/filtertreeview.py:72
+msgid "Downloading"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:86 deluge/ui/gtkui/filtertreeview.py:73
+msgid "Seeding"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:87 deluge/ui/gtkui/filtertreeview.py:74
+msgid "Paused"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:88 deluge/ui/gtkui/filtertreeview.py:75
+msgid "Checking"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:89 deluge/ui/gtkui/filtertreeview.py:76
+msgid "Queued"
+msgstr ""
+
+#: deluge/ui/gtkui/torrentview.py:236
 msgid "Name"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:221
+#: deluge/ui/gtkui/torrentview.py:239
 #: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
 #: deluge/ui/gtkui/addtorrentdialog.py:124
 msgid "Size"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:224
+#: deluge/ui/gtkui/torrentview.py:242
 msgid "Downloaded"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:227
+#: deluge/ui/gtkui/torrentview.py:245
 msgid "Uploaded"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:230 deluge/ui/gtkui/torrentview.py:560
+#: deluge/ui/gtkui/torrentview.py:248 deluge/ui/gtkui/torrentview.py:578
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
 msgid "Progress"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:234 deluge/ui/gtkui/torrentview.py:240
+#: deluge/ui/gtkui/torrentview.py:252 deluge/ui/gtkui/torrentview.py:258
 msgid "Seeders"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:237 deluge/ui/gtkui/torrentview.py:240
+#: deluge/ui/gtkui/torrentview.py:255 deluge/ui/gtkui/torrentview.py:258
 msgid "Peers"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:242 deluge/ui/gtkui/peers_tab.py:142
+#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/peers_tab.py:142
 msgid "Down Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:244 deluge/ui/gtkui/peers_tab.py:155
+#: deluge/ui/gtkui/torrentview.py:262 deluge/ui/gtkui/peers_tab.py:155
 msgid "Up Speed"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:246
+#: deluge/ui/gtkui/torrentview.py:264
 msgid "Down Limit"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:248
+#: deluge/ui/gtkui/torrentview.py:266
 msgid "Up Limit"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:250
+#: deluge/ui/gtkui/torrentview.py:268
 msgid "ETA"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:252
+#: deluge/ui/gtkui/torrentview.py:270
 msgid "Ratio"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:254
+#: deluge/ui/gtkui/torrentview.py:272
 msgid "Avail"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:256
+#: deluge/ui/gtkui/torrentview.py:274
 msgid "Added"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:258
+#: deluge/ui/gtkui/torrentview.py:276
 #: deluge/ui/gtkui/createtorrentdialog.py:105
 #: deluge/ui/gtkui/edittrackersdialog.py:86
 msgid "Tracker"
 msgstr ""
 
-#: deluge/ui/gtkui/torrentview.py:262
+#: deluge/ui/gtkui/torrentview.py:280
 msgid "Save Path"
 msgstr ""
 
@@ -2067,55 +2093,55 @@ msgstr ""
 msgid " Torrent Queued"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:72
+#: deluge/ui/gtkui/preferences.py:73
 msgid "Categories"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Downloads"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Network"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Bandwidth"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Interface"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Other"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Proxy"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/gtkui/preferences.py:79
 msgid "Cache"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/gtkui/preferences.py:79
 msgid "Plugins"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:93
+#: deluge/ui/gtkui/preferences.py:94
 msgid "Plugin"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:894
+#: deluge/ui/gtkui/preferences.py:895
 msgid "Select the Plugin"
 msgstr ""
 
-#: deluge/ui/gtkui/preferences.py:905
+#: deluge/ui/gtkui/preferences.py:906
 msgid "Plugin Eggs"
 msgstr ""
 
@@ -2143,22 +2169,22 @@ msgstr ""
 msgid "Set Maximum Upload Slots"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+#: deluge/ui/gtkui/gtkui.py:311 deluge/ui/gtkui/gtkui.py:326
 msgid "Turn off Classic Mode?"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:303
+#: deluge/ui/gtkui/gtkui.py:312
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:312
+#: deluge/ui/gtkui/gtkui.py:321
 msgid "Error Starting Core"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:313
+#: deluge/ui/gtkui/gtkui.py:322
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
@@ -2166,17 +2192,17 @@ msgid ""
 "Please see the details below for more information."
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:318
+#: deluge/ui/gtkui/gtkui.py:327
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:342
+#: deluge/ui/gtkui/gtkui.py:351
 msgid "Error Starting Daemon"
 msgstr ""
 
-#: deluge/ui/gtkui/gtkui.py:343
+#: deluge/ui/gtkui/gtkui.py:352
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
@@ -2333,36 +2359,12 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: deluge/ui/gtkui/filtertreeview.py:72
-msgid "Downloading"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:73
-msgid "Seeding"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:74
-msgid "Paused"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:75
-msgid "Checking"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:76
-msgid "Queued"
-msgstr ""
-
 #: deluge/ui/gtkui/filtertreeview.py:78
 msgid "Active"
 msgstr ""
 
 #: deluge/ui/gtkui/filtertreeview.py:79
 msgid "None"
-msgstr ""
-
-#: deluge/ui/gtkui/filtertreeview.py:80
-msgid "No Label"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
@@ -3594,6 +3596,10 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:33
+msgid "_Pause"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49

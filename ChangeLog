@@ -1,3 +1,16 @@
+=== Deluge 1.3.5 (In Development) ===
+==== GtkUI ====
+	* Modified fix for #1957, keyerror with non-acsii columns
+	* Fix translation of items in Sidebar and Torrent Menu
+	* #2052: Fix translation of Progress bar text
+
+==== WebUI ====
+	* #2050: Fix 'Up Speed' column not sorting
+
+==== Label ====
+	* Disable items for 'All' in sidebar menu
+	* Fix items for translation
+
 === Deluge 1.3.4 (03 March 2012) ===
 ==== Core ====
 	* #1921: Free disk space reporting incorrectly in FreeBSD
