@@ -202,6 +202,12 @@ class IntSpinInput(InputField):
     def get_height(self):
         return 1
 
+    def __limit_value(self):
+        if (self.min_val != None) and self.value < self.min_val:
+            self.value = self.min_val
+        if (self.max_val != None) and self.value > self.max_val:
+            self.value = self.max_val
+
     def render(self, screen, row, width, active, col=1, cursor_offset=0):
         if not active and self.need_update:
             if not self.valstr or self.valstr == '-':
@@ -213,13 +219,20 @@ class IntSpinInput(InputField):
                     self.real_value = False
             else:
                 self.value = int(self.valstr)
-                if (self.min_val != None) and self.value < self.min_val:
-                    self.value = self.min_val
-                if (self.max_val != None) and self.value > self.max_val:
-                    self.value = self.max_val
+                self.__limit_value()
                 self.valstr = "%d"%self.value
             self.cursor = colors.get_line_width(self.valstr)
             self.need_update = False
+        elif self.need_update:
+            self.real_value = True
+            try:
+                self.value = int(self.valstr)
+            except:
+                self.value = self.default_value
+                try:
+                    int(self.value)
+                except:
+                    self.real_value = False
         if not self.valstr:
             self.parent.add_string(row,"%s {!input!}[  ]"%self.message,screen,col,False,True)
         elif active:
@@ -367,6 +380,16 @@ class FloatSpinInput(InputField):
                 self.__limit_value()
             self.cursor = colors.get_line_width(self.valstr)
             self.need_update = False
+        elif self.need_update:
+            self.real_value = True
+            try:
+                self.value = round(float(self.valstr), self.precision)
+            except:
+                self.value = self.default_value
+                try:
+                    float(self.value)
+                except:
+                    self.real_value = False
 
         if not self.valstr:
             self.parent.add_string(row,"%s {!input!}[  ]"%self.message,screen,col,False,True)
