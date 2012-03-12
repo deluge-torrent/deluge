@@ -221,9 +221,10 @@ class IntSpinInput(InputField):
                 self.value = int(self.valstr)
                 self.__limit_value()
                 self.valstr = "%d"%self.value
+                self.cursor = len(self.valstr)
             self.cursor = colors.get_line_width(self.valstr)
             self.need_update = False
-        elif self.need_update:
+        elif self.need_update and self.valstr != '-':
             self.real_value = True
             try:
                 self.value = int(self.valstr)
@@ -293,7 +294,13 @@ class IntSpinInput(InputField):
             if self.valstr and self.cursor < len(self.valstr):
                 self.valstr = self.valstr[:self.cursor] + self.valstr[self.cursor+1:]
                 self.need_update = True
-        elif c == 45 and self.cursor == 0 and self.min_val < 0:
+        elif c == 45 and self.min_val < 0:
+            if not self.real_value:
+                self.valstr = "-"
+                self.cursor = 1
+                self.real_value = True
+                self.need_update = True
+            if self.cursor != 0: return
             minus_place = self.valstr.find('-')
             if minus_place >= 0: return
             self.valstr = chr(c)+self.valstr
@@ -320,6 +327,7 @@ class IntSpinInput(InputField):
 
     def get_value(self):
         if self.real_value:
+            self.__limit_value()
             return self.value
         else:
             return None
@@ -365,6 +373,7 @@ class FloatSpinInput(InputField):
             self.value = self.min_val
         if (self.max_val != None) and self.value > self.max_val:
             self.value = self.max_val
+        self.valstr = self.fmt % self.value
 
     def render(self, screen, row, width, active, col=1, cursor_offset=0):
         if not active and self.need_update:
@@ -378,9 +387,11 @@ class FloatSpinInput(InputField):
             else:
                 self.set_value(self.valstr)
                 self.__limit_value()
+                self.valstr = self.fmt % self.value
+                self.cursor = len(self.valstr)
             self.cursor = colors.get_line_width(self.valstr)
             self.need_update = False
-        elif self.need_update:
+        elif self.need_update and self.valstr != '-':
             self.real_value = True
             try:
                 self.value = round(float(self.valstr), self.precision)
@@ -452,7 +463,13 @@ class FloatSpinInput(InputField):
             if self.valstr and self.cursor < len(self.valstr):
                 self.valstr = self.valstr[:self.cursor] + self.valstr[self.cursor+1:]
                 self.need_update = True
-        elif c == 45 and self.cursor == 0 and self.min_val < 0:
+        elif c == 45 and self.min_val < 0:
+            if not self.real_value:
+                self.valstr = "-"
+                self.cursor = 1
+                self.need_update = True
+                self.real_value = True
+            if self.cursor != 0: return
             minus_place = self.valstr.find('-')
             if minus_place >= 0: return
             self.valstr = chr(c)+self.valstr
@@ -497,6 +514,7 @@ class FloatSpinInput(InputField):
 
     def get_value(self):
         if self.real_value:
+            self.__limit_value()
             return self.value
         else:
             return None
