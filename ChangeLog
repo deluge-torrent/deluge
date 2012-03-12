@@ -1,4 +1,8 @@
 === Deluge 1.3.5 (In Development) ===
+==== Core ====
+	* Fix not properly detecting when torrent is at end of queue
+	* #2049: Preserve order when moving multiple torrents in the queue
+
 ==== GtkUI ====
 	* Modified fix for #1957, keyerror with non-acsii columns
 	* Fix translation of items in Sidebar and Torrent Menu
