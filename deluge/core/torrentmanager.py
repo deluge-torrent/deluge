@@ -149,6 +149,7 @@ class TorrentManager(component.Component):
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
         self.last_seen_complete_loop = None
+        self.queued_torrents = set()
 
         # This is a list of torrent_id when we shutdown the torrentmanager.
         # We use this list to determine if all active torrents have been paused
@@ -514,6 +515,9 @@ class TorrentManager(component.Component):
         if not options["add_paused"]:
             torrent.resume()
 
+        # Add to queued torrents set
+        self.queued_torrents.add(torrent.torrent_id)
+
         # Write the .torrent file to the state directory
         if filedump:
             try:
@@ -626,6 +630,10 @@ class TorrentManager(component.Component):
 
         # Stop the looping call
         self.torrents[torrent_id].prev_status_cleanup_loop.stop()
+
+        # Remove from set if it wasn't finished
+        if not self.torrents[torrent_id].is_finished:
+            self.queued_torrents.remove(torrent_id)
 
         # Remove the torrent from deluge's session
         try:
@@ -874,7 +882,7 @@ class TorrentManager(component.Component):
 
     def queue_down(self, torrent_id):
         """Queue torrent down one position"""
-        if self.torrents[torrent_id].get_queue_position() == (len(self.torrents) - 1):
+        if self.torrents[torrent_id].get_queue_position() == (len(self.queued_torrents) - 1):
             return False
 
         self.torrents[torrent_id].handle.queue_position_down()
@@ -882,7 +890,7 @@ class TorrentManager(component.Component):
 
     def queue_bottom(self, torrent_id):
         """Queue torrent to bottom"""
-        if self.torrents[torrent_id].get_queue_position() == (len(self.torrents) - 1):
+        if self.torrents[torrent_id].get_queue_position() == (len(self.queued_torrents) - 1):
             return False
 
         self.torrents[torrent_id].handle.queue_position_bottom()
@@ -937,6 +945,9 @@ class TorrentManager(component.Component):
 
         torrent.is_finished = True
         torrent.update_state()
+
+        # Torrent is no longer part of the queue
+        self.queued_torrents.remove(torrent_id)
 
         # Only save resume data if it was actually downloaded something. Helps
         # on startup with big queues with lots of seeding torrents. Libtorrent
@@ -1068,6 +1079,7 @@ class TorrentManager(component.Component):
         # Torrent may need to download data after checking.
         if torrent.state in ('Checking', 'Checking Resume Data', 'Downloading'):
             torrent.is_finished = False
+            self.queued_torrents.add(torrent_id)
 
         # Only emit a state changed event if the state has actually changed
         if torrent.state != old_state:
