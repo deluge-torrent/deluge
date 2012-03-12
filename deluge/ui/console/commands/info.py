@@ -338,7 +338,7 @@ class Command(BaseCommand):
             #Shorten the ID if it's necessary. Pretty hacky
             #I _REALLY_ should make a nice function for it that can partition and shorten stuff
             space_left = cols - strwidth("[s] 100.00% " + status["name"] + " "*3) - 2
-            if space_left >= len(torrent_id):
+            if space_left >= len(torrent_id) - 2:
                 #There's enough space, print it
                 s += " {!cyan!}%s" % torrent_id
             else:
