@@ -207,8 +207,8 @@ torrent_options = [
     ("max_upload_speed", float),
     ("max_connections", int),
     ("max_upload_slots", int),
-    ("private", bool),
     ("prioritize_first_last", bool),
+    ("sequential_download", bool),
     ("is_auto_managed", bool),
     ("stop_at_ratio", bool),
     ("stop_ratio", float),
@@ -222,8 +222,8 @@ torrent_options_to_names = {
     "max_upload_speed": "Max UL speed",
     "max_connections": "Max connections",
     "max_upload_slots": "Max upload slots",
-    "private": "Private",
     "prioritize_first_last": "Prioritize first/last pieces",
+    "sequential_download": "Sequential download",
     "is_auto_managed": "Is auto managed?",
     "stop_at_ratio": "Stop at ratio",
     "stop_ratio": "Seeding ratio limit",
@@ -660,6 +660,15 @@ class AllTorrents(BaseMode, component.Component):
             if result[opt] not in ["multiple", None]:
                 options[opt] = result[opt]
         client.core.set_torrent_options( ids, options )
+        for tid in ids:
+            if "move_on_completed_path" in options:
+                client.core.set_torrent_move_completed_path(tid, options["move_on_completed_path"])
+            if "is_auto_managed" in options:
+                client.core.set_torrent_auto_managed(tid, options["is_auto_managed"])
+            if "remove_at_ratio" in options:
+                client.core.set_torrent_remove_at_ratio(tid, options["remove_at_ratio"])
+            if "prioritize_first_last" in options:
+                client.core.set_torrent_prioritize_first_last(tid, options["prioritize_first_last"])
 
     def report_message(self,title,message):
         self.messages.append((title,message))
