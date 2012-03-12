@@ -99,6 +99,7 @@ class Command(BaseCommand):
         return defer.DeferredList(deferreds)
 
     def complete(self, line):
+        line = line.replace("\ ", " ")
         line = os.path.abspath(os.path.expanduser(line))
         ret = []
         if os.path.exists(line):
@@ -132,5 +133,6 @@ class Command(BaseCommand):
                         if os.path.isdir(p):
                             p += "/"
                         ret.append(p)
-
+        for i in range(0, len(ret)):
+            ret[i] = ret[i].replace(" ", r"\ ")
         return ret
