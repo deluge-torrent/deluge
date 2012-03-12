@@ -71,43 +71,43 @@ def torrent_action(idx, data, mode, ids):
             client.core.resume_torrent(ids).addErrback(action_error,mode)
         elif data==ACTION.QUEUE:
             def do_queue(idx,qact,mode,ids):
+                def move_selection(r):
+                    if mode.config["move_selection"]:
+                        queue_length = 0
+                        selected_num = 0
+                        for tid in mode.curstate:
+                            tq = mode.curstate.get(tid)["queue"]
+                            if tq != -1:
+                                queue_length += 1
+                                if tq in mode.marked:
+                                    selected_num += 1
+                        if qact == ACTION.QUEUE_TOP:
+                            mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
+                            mode.marked = range(1, selected_num + 1)
+                        elif qact == ACTION.QUEUE_UP:
+                            mode.cursel = max(1, mode.cursel - 1)
+                            mode.marked = map(lambda v: v-1, mode.marked)
+                            mode.marked = filter(lambda v: v>0, mode.marked)
+                        elif qact == ACTION.QUEUE_DOWN:
+                            mode.cursel = min(queue_length, mode.cursel + 1)
+                            mode.marked = map(lambda v: v+1, mode.marked)
+                            mode.marked = filter(lambda v: v<=queue_length, mode.marked)
+                        elif qact == ACTION.QUEUE_BOTTOM:
+                            mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
+                            mode.marked = range(queue_length - selected_num + 1, queue_length+1)
+
                 if qact == ACTION.QUEUE_TOP:
                     log.debug("Queuing torrents top")
-                    client.core.queue_top(ids)
+                    client.core.queue_top(ids).addCallback(move_selection)
                 elif qact == ACTION.QUEUE_UP:
                     log.debug("Queuing torrents up")
-                    client.core.queue_up(ids)
+                    client.core.queue_up(ids).addCallback(move_selection)
                 elif qact == ACTION.QUEUE_DOWN:
                     log.debug("Queuing torrents down")
-                    client.core.queue_down(ids)
+                    client.core.queue_down(ids).addCallback(move_selection)
                 elif qact == ACTION.QUEUE_BOTTOM:
                     log.debug("Queuing torrents bottom")
-                    client.core.queue_bottom(ids)
-
-                if mode.config["move_selection"]:
-                    queue_length = 0
-                    selected_num = 0
-                    for tid in mode.curstate:
-                        tq = mode.curstate.get(tid)["queue"]
-                        if tq != -1:
-                            queue_length += 1
-                            if tq in mode.marked:
-                                selected_num += 1
-                    if qact == ACTION.QUEUE_TOP:
-                        mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
-                        mode.marked = range(1, selected_num + 1)
-                    elif qact == ACTION.QUEUE_UP:
-                        mode.cursel = max(1, mode.cursel - 1)
-                        mode.marked = map(lambda v: v-1, mode.marked)
-                        mode.marked = filter(lambda v: v>0, mode.marked)
-                    elif qact == ACTION.QUEUE_DOWN:
-                        mode.cursel = min(queue_length, mode.cursel + 1)
-                        mode.marked = map(lambda v: v+1, mode.marked)
-                        mode.marked = filter(lambda v: v<=queue_length, mode.marked)
-                    elif qact == ACTION.QUEUE_BOTTOM:
-                        mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
-                        mode.marked = range(queue_length - selected_num + 1, queue_length+1)
-
+                    client.core.queue_bottom(ids).addCallback(move_selection)
 
                 if len(ids) == 1:
                     mode.clear_marks()
