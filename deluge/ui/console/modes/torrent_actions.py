@@ -94,8 +94,7 @@ def torrent_action(idx, data, mode, ids):
                             if tq in mode.marked:
                                 selected_num += 1
                     if qact == ACTION.QUEUE_TOP:
-                        #mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
-                        mode.cursel = selected_num - sorted(mode.marked).index(mode.cursel)
+                        mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
                         mode.marked = range(1, selected_num + 1)
                     elif qact == ACTION.QUEUE_UP:
                         mode.cursel = max(1, mode.cursel - 1)
