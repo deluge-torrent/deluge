@@ -83,8 +83,9 @@ class InputField:
             return not self.depend.checked
 
 class CheckedInput(InputField):
-    def __init__(self, parent, message, name, checked=False):
+    def __init__(self, parent, message, name, checked=False, additional_formatting=False):
         self.parent = parent
+        self.additional_formatting = additional_formatting
         self.chkd_inact = "[X] %s"%message
         self.unchkd_inact = "[ ] %s"%message
         self.chkd_act = "[{!black,white,bold!}X{!white,black!}] %s"%message
@@ -117,8 +118,9 @@ class CheckedInput(InputField):
         self.checked = c
 
 class CheckedPlusInput(InputField):
-    def __init__(self, parent, message, name, child,checked=False):
+    def __init__(self, parent, message, name, child, checked=False, additional_formatting=False):
         self.parent = parent
+        self.additional_formatting = additional_formatting
         self.chkd_inact = "[X] %s"%message
         self.unchkd_inact = "[ ] %s"%message
         self.chkd_act = "[{!black,white,bold!}X{!white,black!}] %s"%message
@@ -183,10 +185,12 @@ class CheckedPlusInput(InputField):
 
 
 class IntSpinInput(InputField):
-    def __init__(self, parent, message, name, move_func, value, min_val=None, max_val=None):
+    def __init__(self, parent, message, name, move_func, value, min_val=None, max_val=None, additional_formatting=False):
         self.parent = parent
         self.message = message
         self.name = name
+
+        self.additional_formatting = additional_formatting
 
         self.default_str = str(value)
         self.set_value( value)
@@ -238,7 +242,7 @@ class IntSpinInput(InputField):
             self.parent.add_string(row,"%s {!input!}[  ]"%self.message,screen,col,False,True)
         elif active:
             self.parent.add_string(row,"%s {!input!}[ {!black,white,bold!}%s{!input!} ]"%(self.message,self.valstr),screen,col,False,True)
-        elif self.valstr == self.default_str:
+        elif self.additional_formatting and self.valstr == self.default_str:
             self.parent.add_string(row,"%s {!input!}[ {!magenta,black!}%s{!input!} ]"%(self.message,self.valstr),screen,col,False,True)
         else:
             self.parent.add_string(row,"%s {!input!}[ %s ]"%(self.message,self.valstr),screen,col,False,True)
@@ -345,12 +349,14 @@ class IntSpinInput(InputField):
 
 #TODO: This vvvvv
 class FloatSpinInput(InputField):
-    def __init__(self, parent, message, name, move_func, value, inc_amt, precision, min_val=None, max_val=None):
+    def __init__(self, parent, message, name, move_func, value, inc_amt, precision, min_val=None, max_val=None, additional_formatting = False):
         self.parent = parent
         self.message = message
         self.name = name
         self.precision = precision
         self.inc_amt = inc_amt
+
+        self.additional_formatting = additional_formatting
 
         self.fmt = "%%.%df"%precision
 
@@ -406,7 +412,7 @@ class FloatSpinInput(InputField):
             self.parent.add_string(row,"%s {!input!}[  ]"%self.message,screen,col,False,True)
         elif active:
             self.parent.add_string(row,"%s {!input!}[ {!black,white,bold!}%s{!white,black!} ]"%(self.message,self.valstr),screen,col,False,True)
-        elif self.valstr == self.default_str:
+        elif self.additional_formatting and self.valstr == self.default_str:
             self.parent.add_string(row,"%s {!input!}[ {!magenta,black!}%s{!input!} ]"%(self.message,self.valstr),screen,col,False,True)
         else:
             self.parent.add_string(row,"%s {!input!}[ %s ]"%(self.message,self.valstr),screen,col,False,True)
@@ -531,9 +537,10 @@ class FloatSpinInput(InputField):
         self.cursor = len(self.valstr)
 
 class SelectInput(InputField):
-    def __init__(self, parent, message, name, opts, vals, selidx):
+    def __init__(self, parent, message, name, opts, vals, selidx, additional_formatting = False):
         self.parent = parent
         self.message = message
+        self.additional_formatting = additional_formatting
         self.name = name
         self.opts = opts
         self.vals = vals
@@ -552,10 +559,12 @@ class SelectInput(InputField):
             if selected and i == self.selidx:
                 self.parent.add_string(row,"{!black,white,bold!}[%s]"%opt,screen,off,False,True)
             elif i == self.selidx:
-                if i == self.default_option:
+                if self.additional_formatting and i == self.default_option:
                     self.parent.add_string(row,"[{!magenta,black!}%s{!white,black!}]"%opt,screen,off,False,True)
-                else:
+                elif self.additional_formatting:
                     self.parent.add_string(row,"[{!white,blue!}%s{!white,black!}]"%opt,screen,off,False,True)
+                else:
+                    self.parent.add_string(row,"[{!white,black!}%s{!white,black!}]"%opt,screen,off,False,True)
             else:
                 self.parent.add_string(row,"[%s]"%opt,screen,off,False,True)
             off += len(opt)+3
@@ -581,10 +590,12 @@ class SelectInput(InputField):
         raise Exception("Invalid value for SelectInput")
 
 class TextInput(InputField):
-    def __init__(self, parent, move_func, width, message, name, value, docmp):
+    def __init__(self, parent, move_func, width, message, name, value, docmp, additional_formatting=False):
         self.parent = parent
         self.move_func = move_func
         self.width  = width
+
+        self.additional_formatting = additional_formatting
 
         self.message = message
         self.name = name
@@ -621,7 +632,7 @@ class TextInput(InputField):
         else:
             vstr = self.value.ljust(width-2)
 
-        if len(self.value) != 0 and self.value == self.default_value:
+        if self.additional_formatting and len(self.value) != 0 and self.value == self.default_value:
             self.parent.add_string(row,"{!magenta,white!}%s"%vstr,screen,col,False,False)
         else:
             self.parent.add_string(row,"{!black,white,bold!}%s"%vstr,screen,col,False,False)
@@ -757,11 +768,13 @@ class TextInput(InputField):
 
 
 class InputPopup(Popup):
-    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None):
+    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None, additional_formatting=True):
         Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
         self.inputs = []
         self.spaces = []
         self.current_input = 0
+
+        self.additional_formatting = additional_formatting
 
         #We need to replicate some things in order to wrap our inputs
         self.encoding = parent_mode.encoding
@@ -780,7 +793,8 @@ class InputPopup(Popup):
         :param complete: should completion be run when tab is hit and this field is active
         """
         self.inputs.append(TextInput(self, self.move, self.width, message,
-                                     name, value, complete))
+                                     name, value, complete,
+                                     additional_formatting = self.additional_formatting))
 
     def getmaxyx(self):
         return self.screen.getmaxyx()
@@ -797,19 +811,23 @@ class InputPopup(Popup):
         self.spaces.append((len(self.inputs)-1,num))
 
     def add_select_input(self, message, name, opts, vals, default_index=0):
-        self.inputs.append(SelectInput(self, message, name, opts, vals, default_index))
+        self.inputs.append(SelectInput(self, message, name, opts, vals, default_index,
+                           additional_formatting = self.additional_formatting))
 
     def add_checked_input(self, message, name, checked=False):
-        self.inputs.append(CheckedInput(self,message,name,checked))
+        self.inputs.append(CheckedInput(self,message,name,checked,
+                           additional_formatting = self.additional_formatting))
 
     #def add_checked_plus_input(self, message, name, child)
 
     def add_float_spin_input(self, message, name, value=0.0, inc_amt = 1.0, precision = 1, min_val = None, max_val = None):
-        i = FloatSpinInput(self, message, name, self.move, value, inc_amt, precision, min_val, max_val)
+        i = FloatSpinInput(self, message, name, self.move, value, inc_amt, precision, min_val, max_val,
+                           additional_formatting = self.additional_formatting)
         self.inputs.append(i)
 
     def add_int_spin_input(self, message, name, value = 0, min_val = None, max_val = None):
-        i = IntSpinInput(self, message, name, self.move, value, min_val, max_val)
+        i = IntSpinInput(self, message, name, self.move, value, min_val, max_val,
+                         additional_formatting = self.additional_formatting)
         self.inputs.append(i)
 
     def _refresh_lines(self):
