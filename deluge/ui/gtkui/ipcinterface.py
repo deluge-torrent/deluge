@@ -58,6 +58,7 @@ import twisted.internet.error
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
         data = rencode.loads(data)
+        component.get("MainWindow").present()
         process_args(data)
 
 class IPCProtocolClient(Protocol):
