@@ -57,8 +57,6 @@ import re
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
-AUTOCOMPLETE_MAX_TORRENTS = 15
-
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
 
@@ -556,7 +554,7 @@ class Legacy(BaseMode):
                     line = new_line
                     cursor = len(line)
             elif hits >= 2:
-                max_list = AUTOCOMPLETE_MAX_TORRENTS
+                max_list = self.console_config["torrents_per_tab_press"]
                 match_count = len(possible_matches)
                 listed = (hits-2) * max_list
                 pages = (match_count-1) // max_list + 1

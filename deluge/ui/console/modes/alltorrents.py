@@ -172,7 +172,8 @@ DEFAULT_PREFS = {
     "owner_width":10,
     "ignore_duplicate_lines": False,
     "move_selection": True,
-    "third_tab_lists_all": False
+    "third_tab_lists_all": False,
+    "torrents_per_tab_press": 15
 }
 
 column_pref_names = ["queue","name","size","state",

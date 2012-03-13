@@ -314,6 +314,7 @@ class InterfacePane(BasePane):
         self.add_checked_input("ignore_duplicate_lines","Do not store duplicate input in history",parent.console_config["ignore_duplicate_lines"])
         self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
         self.add_checked_input("third_tab_lists_all","Third tab lists all remaining torrents in legacy mode",parent.console_config["third_tab_lists_all"])
+        self.add_int_spin_input("torrents_per_tab_press","Torrents per tab press",parent.console_config["torrents_per_tab_press"], 5, 100)
 
         self.add_header("Columns To Display", True)
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
