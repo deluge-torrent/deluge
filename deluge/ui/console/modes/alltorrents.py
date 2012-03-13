@@ -171,7 +171,8 @@ DEFAULT_PREFS = {
     "uploaded_width":13,
     "owner_width":10,
     "ignore_duplicate_lines": False,
-    "move_selection": True
+    "move_selection": True,
+    "third_tab_lists_all": False
 }
 
 column_pref_names = ["queue","name","size","state",

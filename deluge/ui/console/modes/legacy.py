@@ -57,8 +57,7 @@ import re
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
-AUTOCOMPLETE_MAX_TORRENTS = 20
-AUTOCOMPLETE_MAX_TORRENTS_WITH_PATTERN = 10
+AUTOCOMPLETE_MAX_TORRENTS = 15
 
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
@@ -80,7 +79,7 @@ class Legacy(BaseMode):
         self.input_history = []
         self.input_history_index = 0
 
-        # Keep track of double-tabs
+        # Keep track of double- and multi-tabs
         self.tab_count = 0
 
         # Get a handle to the main console
@@ -148,17 +147,12 @@ class Legacy(BaseMode):
         elif c == 9:
             # Keep track of tab hit count to know when it's double-hit
             self.tab_count += 1
-            if self.tab_count > 1:
-                second_hit = True
-                self.tab_count = 0
-            else:
-                second_hit = False
 
             if self.tab_completer:
                 # We only call the tab completer function if we're at the end of
                 # the input string on the cursor is on a space
                 if self.input_cursor == len(self.input) or self.input[self.input_cursor] == " ":
-                    self.input, self.input_cursor = self.tab_completer(self.input, self.input_cursor, second_hit)
+                    self.input, self.input_cursor = self.tab_completer(self.input, self.input_cursor, self.tab_count)
 
         # We use the UP and DOWN keys to cycle through input history
         elif c == curses.KEY_UP:
@@ -503,7 +497,7 @@ class Legacy(BaseMode):
         self.add_line(line, not self.batch_write)
 
 
-    def tab_completer(self, line, cursor, second_hit):
+    def tab_completer(self, line, cursor, hits):
         """
         Called when the user hits 'tab' and will autocomplete or show options.
         If a command is already supplied in the line, this function will call the
@@ -555,28 +549,47 @@ class Legacy(BaseMode):
             new_line = format_utils.remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
-            if second_hit:
-                # Only print these out if it's a second_hit
-                self.write(" ")
-
-                if len(possible_matches) >= 4:
-                    self.write("{!green!}Autocompletion matches:")
-                #Only list some of the matching torrents as there can be hundreds of them
-                if len(possible_matches) > AUTOCOMPLETE_MAX_TORRENTS:
-                    for i in range(0, AUTOCOMPLETE_MAX_TORRENTS):
-                        match = possible_matches[i]
-                        self.write(match.replace(r"\ ", " "))
-                    diff = len(possible_matches) - AUTOCOMPLETE_MAX_TORRENTS
-                    self.write("{!error!}And %i more, use the 'info <pattern>' command to view more" % diff )
-                else:
-                    for match in possible_matches:
-                        self.write(match.replace(r"\ ", " "))
-            else:
+            if   hits == 1:
                 p = " ".join(split(line)[:-1])
                 new_line = " ".join([p, os.path.commonprefix(possible_matches)]).lstrip()
                 if len(new_line) > len(line):
                     line = new_line
                     cursor = len(line)
+            elif hits >= 2:
+                max_list = AUTOCOMPLETE_MAX_TORRENTS
+                match_count = len(possible_matches)
+                listed = (hits-2) * max_list
+                pages = (match_count-1) // max_list + 1
+                left = match_count - listed
+                if hits == 2:
+                    self.write(" ")
+
+                    if match_count >= 4:
+                        self.write("{!green!}Autocompletion matches:")
+                #Only list some of the matching torrents as there can be hundreds of them
+                if self.console_config["third_tab_lists_all"]:
+                    if hits == 2 and left > max_list:
+                        for i in range(listed, listed + max_list):
+                            match = possible_matches[i]
+                            self.write(match.replace(r"\ ", " "))
+                        self.write("{!error!}And %i more. Press <tab> to list them" % (left - max_list) )
+                    else:
+                        self.tab_count = 0
+                        for match in possible_matches[listed:]:
+                            self.write(match.replace(r"\ ", " "))
+                else:
+                    if left > max_list:
+                        for i in range(listed, listed + max_list):
+                            match = possible_matches[i]
+                            self.write(match.replace(r"\ ", " "))
+                        self.write("{!error!}And %i more (%i/%i). Press <tab> to view more" % (left - max_list, hits-1, pages) )
+                    else:
+                        self.tab_count = 0
+                        for match in possible_matches[listed:]:
+                            self.write(match.replace(r"\ ", " "))
+                        if hits > 2:
+                            self.write("{!green!}Finished listing %i torrents (%i/%i)" % (match_count, hits-1, pages) )
+
             #We only want to print eventual colors or other control characters, not return them
             line = format_utils.remove_formatting(line)
             cursor = len(line)
