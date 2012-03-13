@@ -564,7 +564,7 @@ class SelectInput(InputField):
                 elif self.additional_formatting:
                     self.parent.add_string(row,"[{!white,blue!}%s{!white,black!}]"%opt,screen,off,False,True)
                 else:
-                    self.parent.add_string(row,"[{!white,black!}%s{!white,black!}]"%opt,screen,off,False,True)
+                    self.parent.add_string(row,"[{!white,black,underline!}%s{!white,black!}]"%opt,screen,off,False,True)
             else:
                 self.parent.add_string(row,"[%s]"%opt,screen,off,False,True)
             off += len(opt)+3
