@@ -2,8 +2,8 @@
 # basemode.py
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
-# 
-# Most code in this file taken from screen.py: 
+#
+# Most code in this file taken from screen.py:
 #  Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
 # Deluge is free software.
@@ -81,7 +81,7 @@ class BaseMode(CursesStdIO):
 
         _doRead(self) - Handle user input
         refresh(self) - draw the mode to the screen
-        add_string(self, row, string) - add a string of text to be displayed.  
+        add_string(self, row, string) - add a string of text to be displayed.
                                         see method for detailed info
 
         The init method of a subclass *must* call BaseMode.__init__
@@ -185,7 +185,7 @@ class BaseMode(CursesStdIO):
 
     def draw_statusbars(self):
         self.add_string(0, self.statusbars.topbar)
-        self.add_string(self.rows - 1, self.statusbars.bottombar)        
+        self.add_string(self.rows - 1, self.statusbars.bottombar)
 
     # This mode doesn't report errors
     def report_message(self):
