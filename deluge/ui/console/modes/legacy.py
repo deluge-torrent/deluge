@@ -57,8 +57,7 @@ import re
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
 
-AUTOCOMPLETE_MAX_TORRENTS = 20
-AUTOCOMPLETE_MAX_TORRENTS_WITH_PATTERN = 10
+AUTOCOMPLETE_MAX_TORRENTS = 15
 
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
