@@ -172,7 +172,7 @@ class ConnectionManager(BaseMode):
         self.messages.append((title,message))
 
     def refresh(self):
-        self.stdscr.clear()
+        self.stdscr.erase()
         self.draw_statusbars()
         self.stdscr.noutrefresh()
 

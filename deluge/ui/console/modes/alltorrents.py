@@ -473,7 +473,7 @@ class AllTorrents(BaseMode, component.Component):
         def _on_get_cache_status(status,port,config):
             def doprefs(arg):
                 if arg and True in arg[0]:
-                    self.stdscr.clear()
+                    self.stdscr.erase()
                     component.get("ConsoleUI").set_mode(Preferences(self,config,self.config,port,status,self.stdscr,self.encoding))
                 else:
                     self.messages.append(("Error","An error occured trying to display preferences"))
@@ -485,7 +485,7 @@ class AllTorrents(BaseMode, component.Component):
     def __show_events(self):
         def doevents(arg):
             if arg and True in arg[0]:
-                self.stdscr.clear()
+                self.stdscr.erase()
                 component.get("ConsoleUI").set_mode(EventView(self,self.stdscr,self.encoding))
             else:
                 self.messages.append(("Error","An error occured trying to display events"))
@@ -699,7 +699,7 @@ class AllTorrents(BaseMode, component.Component):
             self.popup = MessagePopup(self,title,msg)
 
         if not lines:
-            self.stdscr.clear()
+            self.stdscr.erase()
 
         # Update the status bars
         if self._curr_filter == None:

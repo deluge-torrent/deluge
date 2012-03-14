@@ -205,7 +205,7 @@ class BaseMode(CursesStdIO):
         Updates the lines based on the`:attr:lines` based on the `:attr:display_lines_offset`
         attribute and the status bars.
         """
-        self.stdscr.clear()
+        self.stdscr.erase()
         self.draw_statusbars()
         # Update the status bars
 

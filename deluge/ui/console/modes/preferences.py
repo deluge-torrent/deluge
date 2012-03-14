@@ -168,7 +168,7 @@ class Preferences(BaseMode):
             title,msg = self.messages.popleft()
             self.popup = MessagePopup(self,title,msg)
 
-        self.stdscr.clear()
+        self.stdscr.erase()
         self.add_string(0,self.statusbars.topbar)
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
         self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))

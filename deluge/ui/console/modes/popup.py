@@ -102,7 +102,7 @@ class Popup:
 
 
     def refresh(self):
-        self.screen.clear()
+        self.screen.erase()
         self.screen.border(0,0,0,0)
         toff = max(1,int((self.parent.cols/4)-(len(self.title)/2)))
         self.parent.add_string(0,"{!white,black,bold!}%s"%self.title,self.screen,toff,False,True)

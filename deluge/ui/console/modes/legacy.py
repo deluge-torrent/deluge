@@ -254,7 +254,7 @@ class Legacy(BaseMode):
         Updates the lines based on the`:attr:lines` based on the `:attr:display_lines_offset`
         attribute and the status bars.
         """
-        self.stdscr.clear()
+        self.stdscr.erase()
 
         # Update the status bars
         self.add_string(0, self.statusbars.topbar)
