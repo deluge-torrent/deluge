@@ -152,7 +152,7 @@ class ConnectionManager(BaseMode):
 
     def __add_popup(self):
         self.inlist = False
-        self.popup = InputPopup(self,"Add Host (esc to cancel)",close_cb=self.__do_add)
+        self.popup = InputPopup(self,"Add Host (up & down arrows to navigate, esc to cancel)",close_cb=self.__do_add)
         self.popup.add_text_input("Hostname:","hostname")
         self.popup.add_text_input("Port:","port")
         self.popup.add_text_input("Username:","username")
