@@ -1544,6 +1544,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 				}, {
 					text: _('Infohash'),
 					iconCls: 'icon-add-magnet',
+					hidden: true,
 					disabled: true
 				}, '->', {
 					text: _('Remove'),
