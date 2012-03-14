@@ -111,11 +111,14 @@ class Command(BaseCommand):
     )
 
     usage =  "Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
-             "       use -v to view more info and -d to view detailed information"\
-             "       about files and peers."\
-             "       info -s <state> will show only torrents in state <state>\n"\
-             "       You can give the first few characters of a torrent-id to identify the torrent."
-
+             "       You can give the first few characters of a torrent-id to identify the torrent.\n"\
+             "       info * will list all torrents.\n\n"\
+             "       Tab Completion (info *pattern*<tab>):\n"\
+             "           | First press of <tab> will output up to 15 matches;\n"\
+             "           | hitting <tab> a second time, will print 15 more matches; \n"\
+             "           | and a third press will print all remaining matches.\n"\
+             "           | (To modify behaviour of third <tab>, set `third_tab_lists_all` to False)"
+             
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
         # Compile a list of torrent_ids to request the status of
