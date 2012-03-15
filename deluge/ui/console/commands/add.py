@@ -113,7 +113,10 @@ class Command(BaseCommand):
                         continue
                     f = os.path.join(line, f)
                     if os.path.isdir(f):
-                        f += "/"
+                    	if os.sep == '\\': # Windows path support :|
+                    		f += "\\"
+                    	else:	# \o/ Unix
+                        	f += "/"
                     ret.append(f)
             else:
                 # This is a file, but we could be looking for another file that
@@ -131,7 +134,10 @@ class Command(BaseCommand):
                         p = os.path.join(os.path.dirname(line), f)
 
                         if os.path.isdir(p):
-                            p += "/"
+                        	if os.sep == '\\': # Windows path support :|
+                    			p += "\\"
+                    		else:	# \o/ Unix
+                        		p += "/"
                         ret.append(p)
         for i in range(0, len(ret)):
             ret[i] = ret[i].replace(" ", r"\ ")
