@@ -771,7 +771,7 @@ class InputPopup(Popup):
     def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None, additional_formatting=True):
         Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
         self.inputs = []
-        self.spaces = []
+        self.lines = []
         self.current_input = 0
 
         self.additional_formatting = additional_formatting
@@ -808,7 +808,13 @@ class InputPopup(Popup):
         return True
 
     def add_spaces(self, num):
-        self.spaces.append((len(self.inputs)-1,num))
+        for i in range(num):
+            self.lines.append((len(self.inputs), ""))
+
+    def add_text(self, string):
+        lines = string.split("\n")
+        for line in lines:
+            self.lines.append( (len(self.inputs), line) )
 
     def add_select_input(self, message, name, opts, vals, default_index=0):
         self.inputs.append(SelectInput(self, message, name, opts, vals, default_index,
@@ -839,9 +845,9 @@ class InputPopup(Popup):
         end_row = 0
         spos = 0
         for i, ipt in enumerate(self.inputs):
-            if self.spaces and (spos < len(self.spaces)) and (i == self.spaces[spos][0]):
-                end_row += self.spaces[spos][1]
-                spos += 1
+            for line in self.lines:
+                if line[0] == i:
+                    end_row += 1
             start_row = end_row
             end_row += ipt.get_height()
             active = (i == self.current_input)
@@ -856,10 +862,11 @@ class InputPopup(Popup):
         crow = 1 - self.lineoff
         spos = 0
         for i,ipt in enumerate(self.inputs):
+            for line in self.lines:
+                if line[0] == i:
+                    self.add_string(crow, line[1], self.screen, 1, pad=False)
+                    crow += 1
             crow += ipt.render(self.screen,crow,self.width,i==self.current_input)
-            if self.spaces and (spos < len(self.spaces)) and (i == self.spaces[spos][0]):
-                crow += self.spaces[spos][1]
-                spos += 1
 
         if (self.content_height > (self.height-2)):
             lts = self.content_height-(self.height-3)
