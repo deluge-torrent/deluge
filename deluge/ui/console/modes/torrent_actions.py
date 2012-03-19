@@ -36,6 +36,10 @@ from deluge.ui.client import client
 from popup import SelectablePopup
 from input_popup import InputPopup
 
+
+from deluge.ui.console import colors, modes
+from twisted.internet import defer
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -120,20 +124,49 @@ def torrent_action(idx, data, mode, ids):
             mode.set_popup(popup)
             return False
         elif data==ACTION.REMOVE:
-            def do_remove(idx,data,mode,ids):
-                if data:
-                    wd = data==ACTION.REMOVE_DATA
-                    for tid in ids:
-                        log.debug("Removing torrent: %s,%d",tid,wd)
-                        client.core.remove_torrent(tid,wd).addErrback(action_error,mode)
+            def do_remove(data):
+                if not data: return
                 mode.clear_marks()
-                return True
-            popup = SelectablePopup(mode,"Confirm Remove",do_remove,mode,ids)
-            popup.add_line("Are you sure you want to remove the marked torrents?",selectable=False)
-            popup.add_line("Remove with _data",data=ACTION.REMOVE_DATA)
-            popup.add_line("Remove _torrent",data=ACTION.REMOVE_NODATA)
-            popup.add_line("_Cancel",data=0)
-            mode.set_popup(popup)
+
+                wd = data["remove_files"]
+                for tid in ids:
+                    log.debug("Removing torrent: %s, %d", tid, wd)
+                    client.core.remove_torrent(tid,wd).addErrback(action_error,mode)
+
+            rem_msg = ""
+
+
+            def got_status(status):
+                return (status["name"], status["state"])
+
+            callbacks = []
+            for tid in ids:
+                d = client.core.get_torrent_status(tid, ["name", "state"])
+                callbacks.append( d.addCallback(got_status) )
+
+
+            def finish_up(status):
+                status = map(lambda x: x[1], status)
+
+                if len(ids) == 1:
+                    rem_msg = "{!info!}Removing the following torrent:{!input!}"
+                else:
+                    rem_msg = "{!info!}Removing the following torrents:{!input!}"
+
+                for i, (name, state) in enumerate(status):
+                    color = colors.state_color[state]
+                    rem_msg += "\n %s* {!input!}%s" % (color, name)
+                    if i == 5:
+                        if i < len(status):
+                            rem_msg += "\n  {!red!}And %i more" % (len(status) - 5)
+                        break
+
+                popup = InputPopup(mode, "(Esc to cancel, Enter to remove)", close_cb=do_remove)
+                popup.add_text(rem_msg)
+                popup.add_spaces(1)
+                popup.add_select_input("{!info!}Torrent files:", 'remove_files', ["Keep", "Remove"], [False, True], False)
+                mode.set_popup(popup)
+            defer.DeferredList(callbacks).addCallback(finish_up)
             return False
         elif data==ACTION.MOVE_STORAGE:
             def do_move(res):
