@@ -201,7 +201,10 @@ def torrent_action(idx, data, mode, ids):
     return True
 
 # Creates the popup.  mode is the calling mode, tids is a list of torrents to take action upon
-def torrent_actions_popup(mode,tids,details=False):
+def torrent_actions_popup(mode,tids,details=False, action = None):
+    if action != None:
+        torrent_action(-1, action, mode, tids)
+        return
     popup = SelectablePopup(mode,"Torrent Actions",torrent_action,mode,tids)
     popup.add_line("_Pause",data=ACTION.PAUSE)
     popup.add_line("_Resume",data=ACTION.RESUME)
