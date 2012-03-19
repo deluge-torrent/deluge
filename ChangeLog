@@ -34,6 +34,9 @@
 	torrent's status tab.
 	* #2093: Make torrent opening compatible with all unicode paths.
 
+==== WebUI ====
+	* Server (deluge-web) now daemonizes by default, use -d or --do-not-daemonize to disable.
+
 ==== Blocklist Plugin ====
 	* #1382: Implemented whitelist support to both core and GTK UI.
 	* Implemented ip filter cleaning before each update. Restarting the deluge

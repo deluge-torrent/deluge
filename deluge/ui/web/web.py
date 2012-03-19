@@ -58,9 +58,8 @@ class Web(_UI):
             help="Set the base path that the ui is running on (proxying)",
             action="store", default=None)
         if not (deluge.common.windows_check() or deluge.common.osx_check()):
-            group.add_option("-f", "--fork", dest="fork",
-                help="Fork the web interface process into the background",
-                action="store_true", default=False)
+            group.add_option("-d", "--do-not-daemonize", dest="donotdaemonize",
+            help="Do not daemonize the web interface", action="store_true", default=False)
         group.add_option("-P", "--pidfile", dest="pidfile", type="str",
             help="Use pidfile to store process id",
             action="store", default=None)
@@ -97,7 +96,7 @@ class Web(_UI):
 
         # Steps taken from http://www.faqs.org/faqs/unix-faq/programmer/faq/
         # Section 1.7
-        if self.options.ensure_value("fork", None):
+        if not self.options.ensure_value("donotdaemonize", True):
             # fork() so the parent can exit, returns control to the command line
             # or shell invoking the program.
             if os.fork():
