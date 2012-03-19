@@ -49,7 +49,7 @@ from add_util import add_torrent
 from input_popup import InputPopup
 from torrentdetail import TorrentDetail
 from preferences import Preferences
-from torrent_actions import torrent_actions_popup
+from torrent_actions import torrent_actions_popup, ACTION
 from eventview import EventView
 from legacy import Legacy
 
@@ -909,6 +909,11 @@ class AllTorrents(BaseMode, component.Component):
             self._scroll_up(self.cursel)
         elif c == curses.KEY_END:
             self._scroll_down(self.numtorrents-self.cursel)
+        elif c == curses.KEY_DC:
+            if self.cursel not in self.marked:
+                self.marked.append(self.cursel)
+            self.last_mark = self.cursel
+            torrent_actions_popup(self,self._selected_torrent_ids(), action=ACTION.REMOVE)
 
         elif c == curses.KEY_RIGHT:
             # We enter a new mode for the selected torrent here
