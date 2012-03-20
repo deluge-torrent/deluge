@@ -1,5 +1,5 @@
 #
-# config.py
+# manage.py
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -61,14 +61,14 @@ torrent_options = {
 
 
 class Command(BaseCommand):
-    """Show and set per-torrent options"""
+    """Show and manage per-torrent options"""
 
     option_list = BaseCommand.option_list + (
             make_option('-s', '--set', action='store', nargs=2, dest='set',
                         help='set value for key'),
     )
-    usage = "Usage: torrent_option <torrent-id> [<key1> [<key2> ...]]\n"\
-            "       torrent_option <torrent-id> --set <key> <value>"
+    usage = "Usage: manage <torrent-id> [<key1> [<key2> ...]]\n"\
+            "       manage <torrent-id> --set <key> <value>"
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
