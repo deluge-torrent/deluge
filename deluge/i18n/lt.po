@@ -1,37 +1,51 @@
 # Lithuanian translation for deluge
-# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+# Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-01-02 19:16+0000\n"
-"PO-Revision-Date: 2012-02-03 18:34+0000\n"
-"Last-Translator: Naglis Jonaitis <Unknown>\n"
-"Language-Team: Lithuanian <lt@li.org>\n"
+"POT-Creation-Date: 2012-03-11 19:23+0000\n"
+"PO-Revision-Date: 2012-03-12 09:53+0000\n"
+"Last-Translator: Algimantas Margevičius <Unknown>\n"
+"Language-Team: Lietuvių <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-02-27 19:20+0000\n"
-"X-Generator: Launchpad (build 14868)\n"
+"X-Launchpad-Export-Date: 2012-03-21 21:26+0000\n"
+"X-Generator: Launchpad (build 14981)\n"
+"Language: \n"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr "KiB"
+msgstr "KB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr "MiB"
+msgstr "MB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr "GiB"
+msgstr "GB"
 
-#: deluge/common.py:315
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:638
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:652
+#: deluge/common.py:298
+msgid "K"
+msgstr "K"
+
+#: deluge/common.py:301
+msgid "M"
+msgstr "M"
+
+#: deluge/common.py:303
+msgid "G"
+msgstr "G"
+
+#: deluge/common.py:339
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:644
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
@@ -43,21 +57,21 @@ msgstr "GiB"
 #: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
 #: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
 #: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
-#: deluge/ui/gtkui/glade/main_window.glade:1834
-#: deluge/ui/gtkui/glade/main_window.glade:1846
+#: deluge/ui/gtkui/glade/main_window.glade:1831
+#: deluge/ui/gtkui/glade/main_window.glade:1843
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr "KB/s"
 
-#: deluge/common.py:318
+#: deluge/common.py:342
 msgid "MiB/s"
-msgstr "MiB/s"
+msgstr "MB/s"
 
-#: deluge/common.py:320
+#: deluge/common.py:344
 msgid "GiB/s"
-msgstr "GiB/s"
+msgstr "GB/s"
 
 #: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
-#: deluge/ui/gtkui/filtertreeview.py:78
+#: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
 msgid "Error"
 msgstr "Klaida"
 
@@ -77,7 +91,7 @@ msgstr "Dėmesio!"
 #: deluge/plugins/notifications/notifications/core.py:175
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr "Klaida siunčiant pranešimo elektroninį laišką: %s"
+msgstr "Siunčiant pranešimo el. laišką įvyko klaida: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:161
 #, python-format
@@ -87,7 +101,7 @@ msgstr "Serveris tinkamai neatsakė į pasisveikinimą: %s"
 #: deluge/plugins/notifications/notifications/core.py:166
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr "Serveris atmetė vartotojo_vardo/slaptažodžio kombinaciją: %s"
+msgstr "Serveris nepriėmė naudotojo vardo/slaptažodžio derinio: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:190
 msgid "Notification email sent."
@@ -96,7 +110,7 @@ msgstr "Pranešimo el. laiškas išsiųstas."
 #: deluge/plugins/notifications/notifications/core.py:198
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr "Baigtas torrent \"%(name)s\""
+msgstr "Torrentas „%(name)s“ parsiųstas"
 
 #: deluge/plugins/notifications/notifications/core.py:200
 #, python-format
@@ -109,12 +123,12 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
-"Šis el. laiškas skirtas pranešti Jums, jog Deluge baigė siųsti \"%(name)s\", "
-"kuriame yra %(num_files)i failai.\n"
-"Jei nebenorite gauti šių pranešimų, Deluge nustatymuose išjunkite el. laiško "
-"pranešimus.\n"
+"Šis laiškas skirtas pranešti jums jog Deluge parsiuntė „%(name)s“, kuriame "
+"yra %(num_files)i failai.\n"
+"Norėdamik atsisakyti šių pranešimų, paprasčiausiai išjunkite pranešimus el. "
+"paštu, Deluge nustatymuose.\n"
 "\n"
-"Dėkojame,\n"
+"Dėkui,\n"
 "Deluge."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
@@ -127,11 +141,11 @@ msgstr "Iššokantis pranešimas išjungtas."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
-msgstr "pynotify neįdiegtas"
+msgstr "„pynotify“ neįdiegtas"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
 msgid "pynotify failed to show notification"
-msgstr "pynotify nepavyko parodyti pranešimo"
+msgstr "„pynotify“ nepavyko parodyti pranešimo"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
@@ -152,115 +166,115 @@ msgstr "Garsinis pranešimas nepavyko %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
 msgid "Sound notification Success"
-msgstr "Garsinis pranešimas pavyko"
+msgstr "Garsinis pranešimas sėkmingas"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
-msgstr "Torrent parsiųstas"
+msgstr "Torrentas parsiųstas"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
-msgstr "Torrent \"%(name)s\" įskaitant  %(num_files)i parsiųsti."
+msgstr "Torrentas „%(name)s“ įskaitant %(num_files)i parsiųstas."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
 msgstr "Pasirinkite garso failą"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:29
+#: deluge/plugins/notifications/notifications/data/config.glade:26
 msgid "<b><i><big>Notifications</big></i></b>"
 msgstr "<b><i><big>Pranešimai</big></i></b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:81
+#: deluge/plugins/notifications/notifications/data/config.glade:76
 msgid "Tray icon blinks enabled"
-msgstr "Sistemos dėklo piktogramos mirksėjimas įjungtas"
+msgstr "Mirksinti programų dėklo piktograma įgalinta"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:93
+#: deluge/plugins/notifications/notifications/data/config.glade:88
 msgid "Popups enabled"
 msgstr "Iššokantys langai įjungti"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:108
+#: deluge/plugins/notifications/notifications/data/config.glade:103
 msgid "Sound enabled"
-msgstr "Garsas įjungtas"
+msgstr "Garsai įjungti"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:144
+#: deluge/plugins/notifications/notifications/data/config.glade:139
 msgid "<b>UI Notifications</b>"
-msgstr "<b>UI Pranešimai</b>"
+msgstr "<b>UI pranešimai</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:175
+#: deluge/plugins/notifications/notifications/data/config.glade:170
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
 msgid "Hostname:"
 msgstr "Serverio pavadinimas:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:199
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3358
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3542
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3726
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3912
-#: deluge/ui/gtkui/glade/connection_manager.glade:56
+#: deluge/plugins/notifications/notifications/data/config.glade:194
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3340
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3527
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3714
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3903
+#: deluge/ui/gtkui/glade/connection_manager.glade:57
 msgid "Port:"
 msgstr "Prievadas:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:231
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3439
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3623
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3807
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3994
-#: deluge/ui/gtkui/glade/connection_manager.glade:143
+#: deluge/plugins/notifications/notifications/data/config.glade:226
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3422
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3609
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3796
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3986
+#: deluge/ui/gtkui/glade/connection_manager.glade:146
 msgid "Username:"
-msgstr "Vartotojo vardas:"
+msgstr "Naudotojo vardas:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:255
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2129
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3306
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3490
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3674
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3858
-#: deluge/ui/gtkui/glade/connection_manager.glade:132
+#: deluge/plugins/notifications/notifications/data/config.glade:250
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2120
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3286
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3473
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3660
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3847
+#: deluge/ui/gtkui/glade/connection_manager.glade:135
 msgid "Password:"
 msgstr "Slaptažodis:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:360
+#: deluge/plugins/notifications/notifications/data/config.glade:354
 msgid "<b>Recipients</b>"
 msgstr "<b>Gavėjai</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:383
+#: deluge/plugins/notifications/notifications/data/config.glade:377
 msgid "Server requires TLS/SSL"
 msgstr "Serveris reikalauja TLS/SSL"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:398
+#: deluge/plugins/notifications/notifications/data/config.glade:392
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:633
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:783
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:782
 msgid "From:"
 msgstr "Nuo:"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:421
-#: deluge/ui/gtkui/preferences.py:91
+#: deluge/plugins/notifications/notifications/data/config.glade:415
+#: deluge/ui/gtkui/preferences.py:92
 msgid "Enabled"
 msgstr "Įjungtas"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:443
+#: deluge/plugins/notifications/notifications/data/config.glade:437
 msgid "<b>Email Notifications</b>"
-msgstr "<b>El. pašto pranešimai</b>"
+msgstr "<b>Pranešimai el. paštu</b>"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:460
+#: deluge/plugins/notifications/notifications/data/config.glade:454
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:495
+#: deluge/plugins/notifications/notifications/data/config.glade:488
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
-"Ši konfigūracija dar nereiškia, jog Jūs iš tikro gausite pranešimus visiem "
-"šiems įvykiams."
+"Šis nustatymas nereiškia jog jūs tikrai gausite pranešimus apie kiekvieną "
+"įvykį."
 
-#: deluge/plugins/notifications/notifications/data/config.glade:513
+#: deluge/plugins/notifications/notifications/data/config.glade:506
 msgid "Subscriptions"
 msgstr "Prenumeratos"
 
-#: deluge/plugins/notifications/notifications/data/config.glade:594
+#: deluge/plugins/notifications/notifications/data/config.glade:586
 msgid "Sound Customization"
 msgstr "Garso derinimas"
 
@@ -269,14 +283,14 @@ msgid "Extract to:"
 msgstr "Išskleisti į:"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:41
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:130
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:306
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:384
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:162
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:126
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:300
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:377
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:161
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:228
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:288
-#: deluge/ui/gtkui/glade/main_window.glade:2031
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:289
+#: deluge/ui/gtkui/glade/main_window.glade:2026
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:369
 msgid "Select A Folder"
 msgstr "Pasirinkite aplanką"
 
@@ -293,10 +307,10 @@ msgstr ""
 "išskleidimo aplanke ir sudėti išskleistus failus ten."
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:53
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2847
-#: deluge/ui/gtkui/glade/main_window.glade:2183
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2831
+#: deluge/ui/gtkui/glade/main_window.glade:2177
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:700
 msgid "<b>General</b>"
 msgstr "<b>Bendra</b>"
 
@@ -313,19 +327,19 @@ msgstr "Torentas pridėtas"
 msgid "Execute"
 msgstr "Vykdyti"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:29
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:28
 msgid "Event"
 msgstr "Įvykis"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:41
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:40
 msgid "Command"
 msgstr "Komanda"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:112
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:111
 msgid "<b>Add Command</b>"
 msgstr "<b>Pridėti komandą</b>"
 
-#: deluge/plugins/execute/execute/data/execute_prefs.glade:151
+#: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
 msgstr "<b>Komandos</b>"
 
@@ -363,73 +377,73 @@ msgstr "Neteisinga versija"
 msgid "Blocklist"
 msgstr "Blokuotų sąrašas"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:27
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:385
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1018
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:26
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:381
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1011
 msgid "URL:"
-msgstr "URL adresas:"
+msgstr "URL:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "Days"
 msgstr "Dienas (-ą)"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:117
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:115
 msgid "Check for new list every:"
 msgstr "Ieškoti naujo sąrašo kas:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:133
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:131
 msgid "Import blocklist on startup"
-msgstr "Įkelti blokavimo sąrašą startuojant"
+msgstr "Paleidžiant įkelti blokavimo sąrašą"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:153
-#: deluge/plugins/webui/webui/data/config.glade:94
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4173
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
+#: deluge/plugins/webui/webui/data/config.glade:92
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4163
 msgid "<b>Settings</b>"
 msgstr "<b>Nustatymai</b>"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:190
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:187
 msgid "Download the blocklist file if necessary and import the file."
 msgstr "Jei reikia, parsiųsti blokavimo sąrašą ir importuoti failą."
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:210
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:207
 msgid "Check Download and Import"
 msgstr "Patikrinti parsiuntimą ir importuoti"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:232
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:229
 msgid "Download a new blocklist file and import it."
-msgstr "Parsiųsti naują blokavimo sąrašą ir jį importuoti"
+msgstr "Parsiųsti naują blokavimo sąrašą ir jį importuoti."
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:252
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:249
 msgid "Force Download and Import"
-msgstr "Privalomai siųsti ir importuoti"
+msgstr "Priverstinai parsiųsti ir importuoti"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:276
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:273
 msgid "Blocklist is up to date"
-msgstr "Blokavimo sąrašas atnaujintas"
+msgstr "Blokavimo sąrašas yra naujausias"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:293
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:472
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:290
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:474
 msgid "<b>Options</b>"
 msgstr "<b>Parinktys</b>"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:397
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3427
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3611
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3795
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3982
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:393
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3410
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3597
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3784
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3974
 msgid "Type:"
 msgstr "Tipas:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:409
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:405
 msgid "Date:"
 msgstr "Data:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:421
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:417
 msgid "File Size:"
 msgstr "Failo dydis:"
 
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:441
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:437
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4809
 msgid "<b>Info</b>"
 msgstr "<b>Informacija</b>"
 
@@ -438,177 +452,177 @@ msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
-"Deluge web sąsaja neįdiegta, prašom įdiegti\n"
-"sąsają ir bandyti dar kartą"
+"Deluge naudotojo sąsają neįdiegta, įdiekite ją\n"
+"ir bandykite dar kartą"
 
-#: deluge/plugins/webui/webui/data/config.glade:27
+#: deluge/plugins/webui/webui/data/config.glade:25
 msgid "Enable web interface"
 msgstr "Įjungti web sąsają"
 
-#: deluge/plugins/webui/webui/data/config.glade:41
+#: deluge/plugins/webui/webui/data/config.glade:39
 msgid "Enable SSL"
 msgstr "Įjungti SSL"
 
-#: deluge/plugins/webui/webui/data/config.glade:60
+#: deluge/plugins/webui/webui/data/config.glade:58
 msgid "Listening port:"
 msgstr "Klausomas prievadas:"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr "Sekimo aplankai neegzistuoja."
+msgstr "Stebimas aplankas neegzistuoja."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
-#: deluge/plugins/autoadd/autoadd/core.py:308
+#: deluge/plugins/autoadd/autoadd/core.py:383
 msgid "Path does not exist."
-msgstr "Kelio nėra."
+msgstr "Tokio kelio nėra."
 
-#: deluge/plugins/autoadd/autoadd/data/config.glade:41
+#: deluge/plugins/autoadd/autoadd/data/config.glade:39
 msgid "<b>Watch Folders:</b>"
-msgstr "<b>Sekimo aplankai:</b>"
+msgstr "<b>Stebimi aplankai:</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
-msgstr "AutoAdd klaida"
+msgstr "Automatinio pridėjimo klaida"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr "Sekimo aplankų nustatymai"
+msgstr "Stebimo aplanko savybės"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:143
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:139
 msgid "Enable this watch folder"
-msgstr "Įjungti šį sekimo aplanką"
+msgstr "Įjungti šį stebimą aplanką"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:164
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:160
 msgid "<b>Watch Folder</b>"
-msgstr "<b>Sekimo aplankas</b>"
+msgstr "<b>Stebimas aplankas</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:195
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:190
 msgid "Delete .torrent after adding"
-msgstr "Po pridėjimo ištrinti .torrent"
+msgstr "Pridėjus ištrinti .torrent"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:211
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:206
 msgid "Append extension after adding:"
-msgstr "Pridėjus pridėti plėtinį:"
+msgstr "Pridėjus, pridėti plėtinį:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:228
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:223
 msgid ".added"
-msgstr ".pridėtas"
+msgstr ".pridėta"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:248
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:243
 msgid "<b>Torrent File Action</b>"
-msgstr "<b>Torrent failų veiksmai</b>"
+msgstr "<b>Torrent failo veiksmas</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:275
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr "Nustatyti parsiuntimo vietą"
+msgstr "Nustatyti parsiuntimo aplanką"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:325
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:396
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
 msgid "<b>Download Location</b>"
 msgstr "<b>Parsiuntimo vieta</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:353
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:346
 msgid "Set move completed location"
-msgstr "Nustatyti perkėlimo parsiuntus vietą"
+msgstr "Nustatyti „perkelti baigtą“ vietą"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:418
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:411
 msgid "<b>Move Completed</b>"
-msgstr "<b>Perkelti baigtus</b>"
+msgstr "<b>Perkelti baigtą</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:444
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:437
 msgid "Label: "
 msgstr "Žymė: "
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:475
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:468
 msgid "<b>Label</b>"
 msgstr "<b>Žymė</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:492
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:485
 msgid "Main"
 msgstr "Pagrindinis"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:524
-#: deluge/ui/gtkui/glade/main_window.glade:1811
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:516
+#: deluge/ui/gtkui/glade/main_window.glade:1808
 msgid "Max Upload Speed:"
 msgstr "Maks. išsiuntimo greitis:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:541
-#: deluge/ui/gtkui/glade/main_window.glade:1798
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:551
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:533
+#: deluge/ui/gtkui/glade/main_window.glade:1795
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:547
 msgid "Max Connections:"
 msgstr "Maks. susijungimų kiekis:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:558
-#: deluge/ui/gtkui/glade/main_window.glade:1861
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:565
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:550
+#: deluge/ui/gtkui/glade/main_window.glade:1858
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:561
 msgid "Max Upload Slots:"
 msgstr "Maks. išsiuntimo kanalų kiekis:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:665
-#: deluge/ui/gtkui/glade/main_window.glade:1824
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:657
+#: deluge/ui/gtkui/glade/main_window.glade:1821
 msgid "Max Download Speed:"
 msgstr "Maks. parsiuntimo greitis:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:691
-#: deluge/ui/gtkui/glade/main_window.glade:1900
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:634
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:683
+#: deluge/ui/gtkui/glade/main_window.glade:1897
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:630
 msgid "<b>Bandwidth</b>"
-msgstr "<b>Srautas</b>"
+msgstr "<b>Duomenų srautas</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:722
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:714
 #: deluge/plugins/label/label/data/label_options.glade:349
-#: deluge/ui/gtkui/glade/main_window.glade:1952
+#: deluge/ui/gtkui/glade/main_window.glade:1947
 msgid "Stop seed at ratio:"
 msgstr "Baigti skleisti pasiekus santykį:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:746
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:738
 #: deluge/plugins/label/label/data/label_options.glade:364
-#: deluge/ui/gtkui/glade/main_window.glade:1993
+#: deluge/ui/gtkui/glade/main_window.glade:1988
 msgid "Remove at ratio"
 msgstr "Pašalinti pasiekus santykį"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:762
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:754
 msgid "Auto Managed:"
 msgstr "Automatiškai prižiūrimi:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:890
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:882
 msgid "Add Paused:"
-msgstr "Pridėti sustabdytą:"
+msgstr "Pridėti pristabdytą:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:936
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:928
 msgid "Queue to:"
 msgstr "Įdėti į eilę:"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:954
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:946
 msgid "Top"
 msgstr "Viršus"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:967
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:959
 msgid "Bottom"
 msgstr "Apačia"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1017
-#: deluge/ui/gtkui/glade/main_window.glade:2069
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1009
+#: deluge/ui/gtkui/glade/main_window.glade:2065
 msgid "<b>Queue</b>"
 msgstr "<b>Eilė</b>"
 
-#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1037
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:624
-#: deluge/ui/gtkui/glade/connection_manager.glade:457
+#: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:1029
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:626
+#: deluge/ui/gtkui/glade/connection_manager.glade:460
 msgid "Options"
 msgstr "Parinktys"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
-msgstr "Atsiuntimo apribojimai:"
+msgstr "Parsisiuntimo riba:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
 msgid "Upload Limit:"
-msgstr "Siuntimo limitas"
+msgstr "Išsiuntimo riba:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
 msgid "Active Torrents:"
-msgstr "Aktyvūs torentai"
+msgstr "Aktyvūs torentai:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
@@ -622,35 +636,36 @@ msgstr "Skleidžiami:"
 msgid "<b>Slow Settings</b>"
 msgstr "<b>Lėtinantys nustatymai</b>"
 
-#: deluge/plugins/label/label/core.py:189
+#: deluge/plugins/label/label/core.py:191
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Neteisinga žymė, teisingi simboliai: [a-z0-9_-]"
+msgstr "Neteisinga žymė, tinkami simboliai: [a-z0-9_-]"
 
-#: deluge/plugins/label/label/core.py:190
+#: deluge/plugins/label/label/core.py:192
 msgid "Empty Label"
 msgstr "Išvalyti žymę"
 
-#: deluge/plugins/label/label/core.py:191
+#: deluge/plugins/label/label/core.py:193
 msgid "Label already exists"
 msgstr "Žymė jau yra"
 
-#: deluge/plugins/label/label/core.py:199
-#: deluge/plugins/label/label/core.py:279
-#: deluge/plugins/label/label/core.py:314
+#: deluge/plugins/label/label/core.py:201
+#: deluge/plugins/label/label/core.py:281
+#: deluge/plugins/label/label/core.py:316
 msgid "Unknown Label"
 msgstr "Nežinoma žymė"
 
-#: deluge/plugins/label/label/core.py:315
+#: deluge/plugins/label/label/core.py:317
 msgid "Unknown Torrent"
 msgstr "Nežinomas torentas"
 
 #: deluge/plugins/label/label/data/label_options.glade:7
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:188
 msgid "Label Options"
 msgstr "Žymių parinktys"
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr "Žymės nustatymai"
+msgstr "<b>Žymės nustatymai</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -677,7 +692,7 @@ msgid "Maximum"
 msgstr "Maksimumas"
 
 #: deluge/plugins/label/label/data/label_options.glade:336
-#: deluge/ui/gtkui/glade/main_window.glade:1930
+#: deluge/ui/gtkui/glade/main_window.glade:1926
 msgid "Auto Managed"
 msgstr "Valdoma automatiškai"
 
@@ -686,14 +701,14 @@ msgid "Apply Queue settings:"
 msgstr "Pritaikyti eilės parinktis:"
 
 #: deluge/plugins/label/label/data/label_options.glade:426
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Queue"
 msgstr "Eilė"
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
 msgid "Move completed to:"
-msgstr "Perkelti parsiųstus failus į:"
+msgstr "Parsiųstus failus perkelti į:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -712,8 +727,8 @@ msgid "Automatically apply label:"
 msgstr "Nustatyti žymę automatiškai:"
 
 #: deluge/plugins/label/label/data/label_options.glade:593
-#: deluge/ui/gtkui/filtertreeview.py:70
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
+#: deluge/ui/gtkui/filtertreeview.py:69
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:464
 msgid "Trackers"
 msgstr "Sekimo serveriai"
 
@@ -723,7 +738,7 @@ msgstr "Pridėti žymę"
 
 #: deluge/plugins/label/label/data/label_options.glade:680
 msgid "<b>Add Label</b>"
-msgstr "<b>Pridėti Žymą</b>"
+msgstr "<b>Pridėti žymę</b>"
 
 #: deluge/plugins/label/label/data/label_options.glade:711
 msgid "Name:"
@@ -741,7 +756,7 @@ msgstr "<b>Žymės</b>"
 
 #: deluge/plugins/label/label/gtkui/__init__.py:77
 #: deluge/plugins/label/label/gtkui/__init__.py:111
-#: deluge/plugins/label/label/gtkui/submenu.py:48
+#: deluge/plugins/label/label/gtkui/submenu.py:51
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
 msgid "Label"
@@ -757,7 +772,12 @@ msgstr "P_ašalinti žymę"
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr "Įkelt_i žymę"
+msgstr "_Pridėti žymę"
+
+#: deluge/plugins/label/label/gtkui/submenu.py:46
+#: deluge/ui/gtkui/filtertreeview.py:80
+msgid "No Label"
+msgstr "Nėra žymos"
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
@@ -1743,13 +1763,21 @@ msgstr "Zambija"
 msgid "Zimbabwe"
 msgstr "Zimbabvė"
 
+#: deluge/ui/client.py:590 deluge/ui/gtkui/connectionmanager.py:416
+msgid ""
+"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
+"install the deluged package or it's not in your PATH."
+msgstr ""
+"Deluge nerado „deluged“ vykdomojo failo, turbūt pamiršote įdiegti „deluged“ "
+"paketą ar jis nėra jūsų „PATH“ kintamąjame."
+
 #: deluge/ui/web/server.py:661
 msgid "Starting server in PID"
-msgstr "Serveris jungiamas PID rėžimu"
+msgstr "Serveris jungiamas PID režimu"
 
-#: deluge/ui/web/json_api.py:733 deluge/ui/web/json_api.py:750
-#: deluge/ui/web/json_api.py:759 deluge/ui/web/json_api.py:762
-#: deluge/ui/web/json_api.py:769 deluge/ui/gtkui/connectionmanager.py:75
+#: deluge/ui/web/json_api.py:776 deluge/ui/web/json_api.py:795
+#: deluge/ui/web/json_api.py:804 deluge/ui/web/json_api.py:807
+#: deluge/ui/web/json_api.py:814 deluge/ui/gtkui/connectionmanager.py:75
 #: deluge/ui/gtkui/connectionmanager.py:215
 #: deluge/ui/gtkui/connectionmanager.py:246
 #: deluge/ui/gtkui/connectionmanager.py:283
@@ -1761,14 +1789,14 @@ msgstr "Serveris jungiamas PID rėžimu"
 msgid "Offline"
 msgstr "Atsijungęs"
 
-#: deluge/ui/web/json_api.py:755 deluge/ui/gtkui/connectionmanager.py:76
+#: deluge/ui/web/json_api.py:800 deluge/ui/gtkui/connectionmanager.py:76
 #: deluge/ui/gtkui/connectionmanager.py:274
 #: deluge/ui/gtkui/connectionmanager.py:382
 #: deluge/ui/gtkui/connectionmanager.py:553
 msgid "Online"
 msgstr "Prisijungęs"
 
-#: deluge/ui/web/json_api.py:775 deluge/ui/gtkui/connectionmanager.py:77
+#: deluge/ui/web/json_api.py:820 deluge/ui/gtkui/connectionmanager.py:77
 #: deluge/ui/gtkui/connectionmanager.py:313
 #: deluge/ui/gtkui/connectionmanager.py:372
 #: deluge/ui/gtkui/connectionmanager.py:382
@@ -1777,13 +1805,13 @@ msgstr "Prisijungęs"
 msgid "Connected"
 msgstr "Prisijungta"
 
-#: deluge/ui/web/json_api.py:802
+#: deluge/ui/web/json_api.py:847
 msgid "Daemon doesn't exist"
-msgstr "Procesas neegzistuoja"
+msgstr "Tarnyba neegzistuoja"
 
-#: deluge/ui/web/json_api.py:808
+#: deluge/ui/web/json_api.py:853
 msgid "Daemon not running"
-msgstr "Procesas nepaleistas"
+msgstr "Tarnyba nepaleista"
 
 #: deluge/ui/console/statusbars.py:104
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1071
@@ -1800,7 +1828,7 @@ msgstr "Įskaitant"
 
 #: deluge/ui/gtkui/notification.py:80
 msgid "files"
-msgstr "failai"
+msgstr "failus"
 
 #: deluge/ui/gtkui/notification.py:109
 #, python-format
@@ -1818,76 +1846,96 @@ msgstr ""
 "Norėdami nebegauti šių pranešimų tiesiog išjunkite pranešimus el. paštu "
 "Deluge nustatymuose."
 
-#: deluge/ui/gtkui/torrentview.py:213
+#: deluge/ui/gtkui/torrentview.py:85 deluge/ui/gtkui/filtertreeview.py:72
+msgid "Downloading"
+msgstr "Parsiunčiama"
+
+#: deluge/ui/gtkui/torrentview.py:86 deluge/ui/gtkui/filtertreeview.py:73
+msgid "Seeding"
+msgstr "Skleidžiama"
+
+#: deluge/ui/gtkui/torrentview.py:87 deluge/ui/gtkui/filtertreeview.py:74
+msgid "Paused"
+msgstr "Pristabdyta"
+
+#: deluge/ui/gtkui/torrentview.py:88 deluge/ui/gtkui/filtertreeview.py:75
+msgid "Checking"
+msgstr "Tikrinama"
+
+#: deluge/ui/gtkui/torrentview.py:89 deluge/ui/gtkui/filtertreeview.py:76
+msgid "Queued"
+msgstr "Eilėje"
+
+#: deluge/ui/gtkui/torrentview.py:236
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: deluge/ui/gtkui/torrentview.py:216
+#: deluge/ui/gtkui/torrentview.py:239
 #: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
 #: deluge/ui/gtkui/addtorrentdialog.py:124
 msgid "Size"
 msgstr "Dydis"
 
-#: deluge/ui/gtkui/torrentview.py:219
+#: deluge/ui/gtkui/torrentview.py:242
 msgid "Downloaded"
 msgstr "Parsiųsta"
 
-#: deluge/ui/gtkui/torrentview.py:222
+#: deluge/ui/gtkui/torrentview.py:245
 msgid "Uploaded"
 msgstr "Išsiųsta"
 
-#: deluge/ui/gtkui/torrentview.py:225 deluge/ui/gtkui/torrentview.py:555
+#: deluge/ui/gtkui/torrentview.py:248 deluge/ui/gtkui/torrentview.py:578
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
 msgid "Progress"
 msgstr "Eiga"
 
-#: deluge/ui/gtkui/torrentview.py:229 deluge/ui/gtkui/torrentview.py:235
+#: deluge/ui/gtkui/torrentview.py:252 deluge/ui/gtkui/torrentview.py:258
 msgid "Seeders"
 msgstr "Skleidėjai"
 
-#: deluge/ui/gtkui/torrentview.py:232 deluge/ui/gtkui/torrentview.py:235
+#: deluge/ui/gtkui/torrentview.py:255 deluge/ui/gtkui/torrentview.py:258
 msgid "Peers"
-msgstr "Siuntėjai ir skleidėjai"
+msgstr "Siuntėjai"
 
-#: deluge/ui/gtkui/torrentview.py:237 deluge/ui/gtkui/peers_tab.py:142
+#: deluge/ui/gtkui/torrentview.py:260 deluge/ui/gtkui/peers_tab.py:142
 msgid "Down Speed"
 msgstr "Atsiuntimo greitis"
 
-#: deluge/ui/gtkui/torrentview.py:239 deluge/ui/gtkui/peers_tab.py:155
+#: deluge/ui/gtkui/torrentview.py:262 deluge/ui/gtkui/peers_tab.py:155
 msgid "Up Speed"
 msgstr "Išsiuntimo greitis"
 
-#: deluge/ui/gtkui/torrentview.py:241
+#: deluge/ui/gtkui/torrentview.py:264
 msgid "Down Limit"
 msgstr "Parsiuntimo riba"
 
-#: deluge/ui/gtkui/torrentview.py:243
+#: deluge/ui/gtkui/torrentview.py:266
 msgid "Up Limit"
 msgstr "Išsiuntimo riba"
 
-#: deluge/ui/gtkui/torrentview.py:245
+#: deluge/ui/gtkui/torrentview.py:268
 msgid "ETA"
 msgstr "Likęs laikas"
 
-#: deluge/ui/gtkui/torrentview.py:247
+#: deluge/ui/gtkui/torrentview.py:270
 msgid "Ratio"
 msgstr "Santykis"
 
-#: deluge/ui/gtkui/torrentview.py:249
+#: deluge/ui/gtkui/torrentview.py:272
 msgid "Avail"
 msgstr "Pasiekiamumas"
 
-#: deluge/ui/gtkui/torrentview.py:251
+#: deluge/ui/gtkui/torrentview.py:274
 msgid "Added"
-msgstr "Įdėtas"
+msgstr "Pridėta"
 
-#: deluge/ui/gtkui/torrentview.py:253
+#: deluge/ui/gtkui/torrentview.py:276
 #: deluge/ui/gtkui/createtorrentdialog.py:105
 #: deluge/ui/gtkui/edittrackersdialog.py:86
 msgid "Tracker"
 msgstr "Sekimo serveris"
 
-#: deluge/ui/gtkui/torrentview.py:257
+#: deluge/ui/gtkui/torrentview.py:280
 msgid "Save Path"
 msgstr "Išsaugojimo kelias"
 
@@ -1914,7 +1962,7 @@ msgid "Not Connected..."
 msgstr "Neprisijungta..."
 
 #: deluge/ui/gtkui/systemtray.py:249 deluge/ui/gtkui/systemtray.py:253
-#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:67
+#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:70
 #: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
 #: deluge/ui/gtkui/statusbar.py:452
 msgid "Unlimited"
@@ -1922,28 +1970,28 @@ msgstr "Neribojama"
 
 #: deluge/ui/gtkui/systemtray.py:258
 msgid "Down"
-msgstr "Žemyn"
+msgstr "Parsiuntimas"
 
 #: deluge/ui/gtkui/systemtray.py:259
 msgid "Up"
-msgstr "Aukštyn"
+msgstr "Išsiuntimas"
 
 #: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/menubar.py:436
 #: deluge/ui/gtkui/statusbar.py:401
 msgid "Set Maximum Download Speed"
-msgstr "Nustatyti Maksimalų Atsiuntimo Greitį"
+msgstr "Nustatyti didžiausią atsiuntimo greitį"
 
 #: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/menubar.py:437
 #: deluge/ui/gtkui/statusbar.py:429
 msgid "Set Maximum Upload Speed"
-msgstr "Nustatyti Maksimalų Išsiuntimo Greitį"
+msgstr "Nustatyti didžiausią išsiuntimo greitį"
 
-#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:124
-#: deluge/ui/gtkui/common.py:125 deluge/ui/gtkui/menubar.py:81
+#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:127
+#: deluge/ui/gtkui/common.py:128 deluge/ui/gtkui/menubar.py:81
 #: deluge/ui/gtkui/statusbar.py:399 deluge/ui/gtkui/statusbar.py:427
 #: deluge/ui/gtkui/statusbar.py:454
 msgid "Other..."
-msgstr "Kita.."
+msgstr "Kita..."
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
@@ -1951,21 +1999,21 @@ msgstr "Deluge apsaugota slaptažodžiu!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr "Norint tęsti įveskite slaptažodį"
+msgstr "Norėdami tęsti įveskite slaptažodį"
 
-#: deluge/ui/gtkui/common.py:70
+#: deluge/ui/gtkui/common.py:73
 msgid "Activated"
 msgstr "Aktyvuotas"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
 #: deluge/ui/gtkui/addtorrentdialog.py:111
 msgid "Filename"
-msgstr "Failo pavadinimas"
+msgstr "Failo vardas"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:103
 #: deluge/ui/gtkui/edittrackersdialog.py:84
 msgid "Tier"
-msgstr "Grupė"
+msgstr "Sujungėjas"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:143
 msgid "Choose a file"
@@ -1982,7 +2030,7 @@ msgstr "Išsaugoti .torrent failą"
 #: deluge/ui/gtkui/createtorrentdialog.py:253
 #: deluge/ui/gtkui/addtorrentdialog.py:563
 msgid "Torrent files"
-msgstr "Torrent failai"
+msgstr "Torentų failai"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:257
 #: deluge/ui/gtkui/addtorrentdialog.py:567
@@ -2016,7 +2064,7 @@ msgstr "Torentas"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:215
 msgid "Invalid File"
-msgstr "Netinkama byla"
+msgstr "Netinkamas failas"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:220
 msgid "Duplicate Torrent"
@@ -2028,15 +2076,15 @@ msgstr "Negalima dukart pridėti to paties torento."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:501
 msgid "Unable to set file priority!"
-msgstr "Nepavyksta nustatyti bylos svarbos!"
+msgstr "Nepavyksta nustatyti failo prioriteto!"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:501
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
-"Failų prioritetai neveikia naudojant Compact allocation.  Ar norite "
-"perjungti į Full allocation?"
+"Naudojant Kompaktišką disko vietos paskirstymą neįmanoma siųsti pagal "
+"prioritetą.  Ar norite persijungti į Pilną disko vietos paskirstymą?"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:550
 msgid "Choose a .torrent file"
@@ -2044,11 +2092,11 @@ msgstr "Pasirinkite .torrent failą"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:632
 msgid "Invalid URL"
-msgstr "Netinkamas adresas"
+msgstr "Netinkamas URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:632
 msgid "is not a valid URL."
-msgstr "neteisingas URL."
+msgstr "netinkamas URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:636
 msgid "Downloading..."
@@ -2056,11 +2104,11 @@ msgstr "Parsiunčiama..."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:678
 msgid "Download Failed"
-msgstr "Siuntimas nepavyko"
+msgstr "Parsiųsti nepavyko"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:678
 msgid "Failed to download:"
-msgstr "Nepavyko parsiųsti:"
+msgstr "Parsiųsti nepavyko:"
 
 #: deluge/ui/gtkui/queuedtorrents.py:136
 msgid " Torrents Queued"
@@ -2070,57 +2118,57 @@ msgstr " Torentai eilėje"
 msgid " Torrent Queued"
 msgstr " Torentas eilėje"
 
-#: deluge/ui/gtkui/preferences.py:72
+#: deluge/ui/gtkui/preferences.py:73
 msgid "Categories"
 msgstr "Kategorijos"
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Downloads"
-msgstr "Siuntiniai"
+msgstr "Atsiuntimai"
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Network"
 msgstr "Tinklas"
 
-#: deluge/ui/gtkui/preferences.py:76
+#: deluge/ui/gtkui/preferences.py:77
 msgid "Bandwidth"
-msgstr "Duom. srautas"
+msgstr "Duomenų srautas"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Interface"
-msgstr "Sąsaja"
+msgstr "Išvaizda"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Other"
 msgstr "Kita"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Daemon"
-msgstr "Foninis servisas"
+msgstr "Tarnyba"
 
-#: deluge/ui/gtkui/preferences.py:77
+#: deluge/ui/gtkui/preferences.py:78
 msgid "Proxy"
-msgstr "Tarpinis serveris (proxy)"
+msgstr "Tarpinis serveris"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/gtkui/preferences.py:79
 msgid "Cache"
-msgstr "Saugykla"
+msgstr "Podėlis"
 
-#: deluge/ui/gtkui/preferences.py:78
+#: deluge/ui/gtkui/preferences.py:79
 msgid "Plugins"
 msgstr "Įskiepiai"
 
-#: deluge/ui/gtkui/preferences.py:93
+#: deluge/ui/gtkui/preferences.py:94
 msgid "Plugin"
-msgstr "Papildinys"
+msgstr "Įskiepis"
 
-#: deluge/ui/gtkui/preferences.py:894
+#: deluge/ui/gtkui/preferences.py:895
 msgid "Select the Plugin"
-msgstr "Pasirinkite papildinį"
+msgstr "Pasirinkite įskiepį"
 
-#: deluge/ui/gtkui/preferences.py:905
+#: deluge/ui/gtkui/preferences.py:906
 msgid "Plugin Eggs"
-msgstr "Papildinio priedai"
+msgstr "Įskiepio priedai"
 
 #: deluge/ui/gtkui/menubar.py:77
 msgid "Set Unlimited"
@@ -2140,30 +2188,30 @@ msgstr "Pasirinkite aplanką, į kurį perkelsite failus"
 
 #: deluge/ui/gtkui/menubar.py:438 deluge/ui/gtkui/statusbar.py:456
 msgid "Set Maximum Connections"
-msgstr "Nustatyti Maksimalų Prisijungimų Skaičių"
+msgstr "Nustatyti maksimalų prisijungimų skaičių"
 
 #: deluge/ui/gtkui/menubar.py:439
 msgid "Set Maximum Upload Slots"
-msgstr "Nustatyti Maksimalų Išsiuntimo Vietų Skaičių"
+msgstr "Nustatyti maksimalų išsiuntimo vietų skaičių"
 
-#: deluge/ui/gtkui/gtkui.py:302 deluge/ui/gtkui/gtkui.py:317
+#: deluge/ui/gtkui/gtkui.py:311 deluge/ui/gtkui/gtkui.py:326
 msgid "Turn off Classic Mode?"
-msgstr "Išjungti klasikinį rėžimą?"
+msgstr "Išjungti klasikinį režimą?"
 
-#: deluge/ui/gtkui/gtkui.py:303
+#: deluge/ui/gtkui/gtkui.py:312
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr ""
-"Atrodo, kad Deluge procesas (deluged) jau veikia.\n"
-"Jums reiktų arba jį sustabdyti, arba išjungti klasikinį rėžimą."
+"Atrodo, kad Deluge tarnyba (deluged) jau veikia.\n"
+"Jums reiktų arba jį sustabdyti, arba išjungti klasikinį režimą."
 
-#: deluge/ui/gtkui/gtkui.py:312
+#: deluge/ui/gtkui/gtkui.py:321
 msgid "Error Starting Core"
 msgstr "Nepavyko paleisti branduolio"
 
-#: deluge/ui/gtkui/gtkui.py:313
+#: deluge/ui/gtkui/gtkui.py:322
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
@@ -2171,27 +2219,27 @@ msgid ""
 "Please see the details below for more information."
 msgstr ""
 "Nepavyko paleisti branduolio dalies, reikalingos klasikiniam Deluge "
-"rėžimui.\n"
+"režimui.\n"
 "Prašome peržiūrėti detalesnę informaciją, pateiktą žemiau:"
 
-#: deluge/ui/gtkui/gtkui.py:318
+#: deluge/ui/gtkui/gtkui.py:327
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
 msgstr ""
-"Kadangi paleidžiant klasikiniu rėžimu įvyko klaida, ar norėtumėte tęsti jį "
+"Kadangi paleidžiant klasikiniu režimu įvyko klaida, ar norėtumėte tęsti jį "
 "išjungdami?"
 
-#: deluge/ui/gtkui/gtkui.py:342
+#: deluge/ui/gtkui/gtkui.py:351
 msgid "Error Starting Daemon"
-msgstr "Klaida paleidžiant procesą"
+msgstr "Klaida paleidžiant tarnybą"
 
-#: deluge/ui/gtkui/gtkui.py:343
+#: deluge/ui/gtkui/gtkui.py:352
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
 msgstr ""
-"Paleidžiant procesą įvyko klaida. Pamėginkite paleisti jį iš terminalo, "
+"Paleidžiant tarnybą įvyko klaida. Pamėginkite paleisti jį iš terminalo, "
 "norėdami pamatyti, kokia tai klaida."
 
 #: deluge/ui/gtkui/connectionmanager.py:149
@@ -2200,7 +2248,7 @@ msgstr "Būsena"
 
 #: deluge/ui/gtkui/connectionmanager.py:153
 msgid "Host"
-msgstr "Prisijungimo adresas"
+msgstr "Mazgas"
 
 #: deluge/ui/gtkui/connectionmanager.py:158
 msgid "Version"
@@ -2208,28 +2256,20 @@ msgstr "Versija"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
-msgstr "_Sustabdyti Demoną"
+msgstr "_Sustabdyti tarnybą"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
 msgid "_Start Daemon"
-msgstr "_Paleisti Demoną"
+msgstr "_Paleisti tarnybą"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 #: deluge/ui/gtkui/connectionmanager.py:425
 msgid "Unable to start daemon!"
-msgstr "Nepavyko paleisti demono!"
-
-#: deluge/ui/gtkui/connectionmanager.py:416
-msgid ""
-"Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
-"install the deluged package or it's not in your PATH."
-msgstr ""
-"Deluge nerado vykdomojo 'deluged', matyt neįdiegiai deluged paketo arba jo "
-"nėra tavo PATH."
+msgstr "Tarnybos paleisti nepavyko!"
 
 #: deluge/ui/gtkui/connectionmanager.py:426
 msgid "Please examine the details for more information."
-msgstr "Peržiūrėkit detales platesnei informacijai."
+msgstr "Peržiūrėkite detales platesnei informacijai."
 
 #: deluge/ui/gtkui/connectionmanager.py:510
 msgid "Error Adding Host"
@@ -2240,21 +2280,21 @@ msgid "Torrents"
 msgstr "Torentai"
 
 #: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4717
 msgid "Details:"
 msgstr "Išsamiau:"
 
-#: deluge/ui/gtkui/mainwindow.py:237
-msgid "Down:"
-msgstr "Parsiuntimas:"
+#: deluge/ui/gtkui/mainwindow.py:257
+msgid "D:"
+msgstr "P:"
 
-#: deluge/ui/gtkui/mainwindow.py:237
-msgid "Up:"
-msgstr "Išsiuntimas:"
+#: deluge/ui/gtkui/mainwindow.py:257
+msgid "U:"
+msgstr "I:"
 
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid "Copyright 2007-2011 Deluge Team"
-msgstr "Autorinės teisės 2007-2011 Deluge Team"
+msgstr "Autorinės teisės 2007-2011 Deluge komanda"
 
 #: deluge/ui/gtkui/aboutdialog.py:61
 msgid ""
@@ -2262,7 +2302,7 @@ msgid ""
 "utilizing the BitTorrent protocol."
 msgstr ""
 "„Peer-to-peer“ failų dalinimosi programa\n"
-"naudojanti BitTorrent protokolą"
+"naudojanti BitTorrent protokolą."
 
 #: deluge/ui/gtkui/aboutdialog.py:62
 msgid "Client:"
@@ -2352,11 +2392,11 @@ msgstr "Išsiuntimo greitis"
 
 #: deluge/ui/gtkui/statusbar.py:178
 msgid "Protocol Traffic Download/Upload"
-msgstr "Protokolo Judėjimo Parsiuntimas/Išsiuntimas"
+msgstr "Protokolo judėjimas Parsiuntimas/Išsiuntimas"
 
 #: deluge/ui/gtkui/statusbar.py:181
 msgid "DHT Nodes"
-msgstr "DHT klientai"
+msgstr "DHT mazgai"
 
 #: deluge/ui/gtkui/statusbar.py:186
 msgid "Free Disk Space"
@@ -2366,49 +2406,25 @@ msgstr "Laisva disko vieta"
 msgid "No Incoming Connections!"
 msgstr "Nėra įeinančių prisijungimų!"
 
-#: deluge/ui/gtkui/filtertreeview.py:69
+#: deluge/ui/gtkui/filtertreeview.py:68
 msgid "States"
 msgstr "Būsenos"
 
-#: deluge/ui/gtkui/filtertreeview.py:71
+#: deluge/ui/gtkui/filtertreeview.py:70
 msgid "Labels"
 msgstr "Žymės"
 
-#: deluge/ui/gtkui/filtertreeview.py:72
+#: deluge/ui/gtkui/filtertreeview.py:71
 msgid "All"
 msgstr "Visi"
 
-#: deluge/ui/gtkui/filtertreeview.py:73
-msgid "Downloading"
-msgstr "Parsiunčiama"
-
-#: deluge/ui/gtkui/filtertreeview.py:74
-msgid "Seeding"
-msgstr "Skleidžiama"
-
-#: deluge/ui/gtkui/filtertreeview.py:75
-msgid "Paused"
-msgstr "Pristabdyta"
-
-#: deluge/ui/gtkui/filtertreeview.py:76
-msgid "Checking"
-msgstr "Tikrinama"
-
-#: deluge/ui/gtkui/filtertreeview.py:77
-msgid "Queued"
-msgstr "Eilėje"
-
-#: deluge/ui/gtkui/filtertreeview.py:79
+#: deluge/ui/gtkui/filtertreeview.py:78
 msgid "Active"
 msgstr "Aktyvus"
 
-#: deluge/ui/gtkui/filtertreeview.py:80
+#: deluge/ui/gtkui/filtertreeview.py:79
 msgid "None"
 msgstr "Joks"
-
-#: deluge/ui/gtkui/filtertreeview.py:81
-msgid "No Label"
-msgstr "Nėra Žymos"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:45
 msgid "<big><b>Remove the selected torrent?</b></big>"
@@ -2420,7 +2436,7 @@ msgstr "Jei pašalinsite duomenis, jie bus prarasti negrąžinamai."
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:117
 msgid "Remove With _Data"
-msgstr "Pašalinti su _Duomenimis"
+msgstr "Pašalinti su _duomenimis"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
@@ -2436,14 +2452,14 @@ msgstr "<big><b>Keisti sekimo serverius</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
-msgstr "Įkelti sekimo serverį"
+msgstr "Pridėti sekimo serverį"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:260
 msgid "<b>Add Trackers</b>"
-msgstr "<b>Įkelti sekimo serverius</b>"
+msgstr "<b>Pridėti sekimo serverius</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1214
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1207
 msgid "Trackers:"
 msgstr "Sekimo serveriai:"
 
@@ -2464,9 +2480,9 @@ msgid "_Show Deluge"
 msgstr "Rodyti _Deluge"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:26
-#: deluge/ui/gtkui/glade/main_window.glade:27
+#: deluge/ui/gtkui/glade/main_window.glade:26
 msgid "_Add Torrent"
-msgstr "Į_kelti torentą"
+msgstr "_Pridėti torentą"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:48
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
@@ -2489,100 +2505,101 @@ msgstr "_Išsiuntimo greičio riba"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
 msgid "Quit & Shutdown Daemon"
-msgstr "Išeiti ir sustabdyti serverį"
+msgstr "Išeiti ir sustabdyti tarnybą"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:10
 msgid "_Select All"
-msgstr "Pažymėti _viską"
+msgstr "_Pasirinkti visus"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:41
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
-msgstr "Pratęsti pažymėtus torentus"
+msgstr "Pratęsti pasirinktus torentus"
 
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:42
 msgid "Resu_me All"
 msgstr "Pra_tęsti visus"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
+#: deluge/ui/gtkui/glade/main_window.glade:439
 #: deluge/ui/gtkui/glade/main_window.glade:440
-#: deluge/ui/gtkui/glade/main_window.glade:441
 msgid "Preferences"
 msgstr "Nustatymai"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:78
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:76
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr "<b><i><big>Atsiuntimai</big></i></b>"
+msgstr "<b><i><big>Parsiuntimai</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:188
 msgid "Auto add .torrents from:"
 msgstr "Automatiškai įkelti .torrent failus iš:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:253
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:254
 msgid "Download to:"
 msgstr "Parsiųsti į:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:261
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:262
 msgid "Copy of .torrent files to:"
 msgstr "Kopijuoti .torrent failus į:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:316
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:318
 msgid "Delete copy of torrent file on remove"
-msgstr "Ištrinti torrent failo kopiją šalinant"
+msgstr "Šalinant pašalinti ir torrent failo kopiją"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:320
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:322
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr "Ištrinti torrent failo kopiją sukurtą kai torrent ištrintas"
+msgstr ""
+"Pašalinti „torrent“ failo kopiją, kuri buvo sukurta pašalinus torrentą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
 msgstr "<b>Aplankai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:370
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
 msgid "Use Full Allocation"
 msgstr "Pilnas disko vietos paskyrimas"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:375
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:377
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
 "Pilnas paskyrimas rezervuoja visą reikiamą vietą torento išsaugojimui, taip "
-"užkirsdamas kelią disko fragmentavimuisi."
+"užkirsdamas kelią disko fragmentavimuisi"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:387
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:389
 msgid "Use Compact Allocation"
-msgstr "Kompaktiškas"
+msgstr "Naudoti kompaktišką vietos paskyrimą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:392
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:394
 msgid "Compact allocation only allocates space as needed"
 msgstr ""
-"Kompaktiškas paskyrimas rezervuoja disko vietą tik tuomet, kai to reikia"
+"Kompaktiškas paskirstymas rezervuoja disko vietą tik tuomet, kai to reikia"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:411
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:468
 msgid "<b>Allocation</b>"
 msgstr "<b>Vietos paskyrimas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:440
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:442
 msgid "Prioritize first and last pieces of torrent"
 msgstr "Padidinti pirmų ir paskutinių torento dalių prioritetą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:445
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:447
 msgid "Prioritize first and last pieces of files in torrent"
 msgstr "Padidinti pirmų ir paskutinių torento failo dalių prioritetą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:455
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:457
 msgid "Add torrents in Paused state"
-msgstr "Torentus pridėti, bet jų kol kas nesiųsti"
+msgstr "Torentus pridėti pristabdytoje būsenoje"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:529
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:530
 msgid "<b><i><big>Network</big></i></b>"
 msgstr "<b><i><big>Tinklas</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:569
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:763
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:762
 msgid "Use Random Ports"
 msgstr "Naudoti atsitiktinius prievadus"
 
@@ -2595,7 +2612,7 @@ msgid "Active Port:"
 msgstr "Aktyvus prievadas:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:662
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:812
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:811
 msgid "To:"
 msgstr "Iki:"
 
@@ -2607,7 +2624,7 @@ msgstr "Patikrinti aktyvų prievadą"
 msgid "<b>Incoming Ports</b>"
 msgstr "<b>Įeinantys prievadai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:850
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:849
 msgid "<b>Outgoing Ports</b>"
 msgstr "<b>Išeinantys prievadai</b>"
 
@@ -2623,17 +2640,17 @@ msgstr ""
 msgid "<b>Interface</b>"
 msgstr "<b>Sąsaja</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:938
 msgid ""
 "The TOS byte set in the IP header of every packet sent to peers (including "
 "web seeds).  Expects a Hex value."
 msgstr ""
-"Serviso tipo (TOS) baitas kiekvieno kitiems (\"peers\" ir \"web seeds\") "
-"siunčiamo paketo IP antraštėje. Turi būti Hex tipo."
+"TOS baitas nustatytas kiekvieno paketo, nusiųsto siuntėjams(įskaitant web "
+"sėklas), IP antraštėje. Turi būti šešioliktaine išraiška."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:940
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:939
 msgid "Peer TOS Byte:"
-msgstr "Dalyvio (peer) TOS baitas:"
+msgstr "Siuntėjo TOS baitas:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:973
 msgid "<b>TOS</b>"
@@ -2658,7 +2675,7 @@ msgstr "NAT prievadų peradresavimas"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1038
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1042
 msgid "Peer Exchange"
-msgstr "Peer Exchange"
+msgstr "Keitimasis siuntėjais"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1055
 msgid "LSD"
@@ -2667,7 +2684,7 @@ msgstr "LSD"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1060
 msgid "Local Service Discovery finds local peers on your network."
 msgstr ""
-"Lokalių Servisų Paieška randa siuntėjus ir skleidėjus vietiniame tinkle."
+"Vietinių tarnybų paieška randa siuntėjus ir skleidėjus vietiniame tinkle."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1075
 msgid "Distributed hash table may improve the amount of active connections."
@@ -2675,18 +2692,18 @@ msgstr "DHT gali padidinti susijungimų ir šaltinių skaičių."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1097
 msgid "<b>Network Extras</b>"
-msgstr "<b>Papildomi Tinklo Nustatymai</b>"
+msgstr "<b>Papildomi tinklo nustatymai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1136
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1135
 msgid "Inbound:"
 msgstr "Įeinantis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1146
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1145
 msgid "Level:"
 msgstr "Lygis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1167
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1217
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1165
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1214
 msgid ""
 "Forced\n"
 "Enabled\n"
@@ -2696,7 +2713,7 @@ msgstr ""
 "Įjungtas\n"
 "Išjungtas"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1178
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1176
 msgid ""
 "Handshake\n"
 "Full Stream\n"
@@ -2706,79 +2723,79 @@ msgstr ""
 "Visas srautas\n"
 "Abu"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1206
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1203
 msgid "Outbound:"
 msgstr "Išeinantis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1233
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1230
 msgid "Encrypt entire stream"
 msgstr "Šifruoti visą duomenų srautą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1258
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1255
 msgid "<b>Encryption</b>"
 msgstr "<b>Šifravimas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1319
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1315
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr "<b><i><big>Srautas</big></i></b>"
+msgstr "<b><i><big>Duomenų srautas</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1396
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1391
 msgid "Maximum Connection Attempts per Second:"
-msgstr "Maks. bandymų susijungti skaičius per sekundę:"
+msgstr "Maks. bandymų susijungti kiekis per sekundę:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1408
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1403
 msgid "Maximum Half-Open Connections:"
-msgstr "Maks. pusiau atvirų susijungimų skaičius:"
+msgstr "Maks. dalinų susijungimų kiekis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1419
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1509
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1414
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1504
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "Maksimalus išsiuntimo greitis visiems torentams. -1 yra neribotas."
+msgstr "Maksimalus išsiuntimo greitis visiems torentams. „-1“ yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1421
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1706
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1416
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1701
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Maks. išsiuntimo greitis (KiB/s)"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1432
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1457
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1427
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1452
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Maksimalus prisijungimų kiekis. -1 yra neribotas."
+msgstr "Maksimalus susijungimų kiekis. „-1“ yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1434
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1429
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1664
 msgid "Maximum Connections:"
 msgstr "Maks. prisijungimų kiekis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1443
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1528
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1438
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1523
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr "Maks. išsiuntimo kanalų kiekis visiems torentams. -1 yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1445
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1680
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1440
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1675
 msgid "Maximum Upload Slots:"
 msgstr "Maks. išsiuntimo kanalų kiekis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1475
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1490
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1470
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1485
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr "Maks. parsiuntimo greitis visiems torentams. -1 yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1477
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1693
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1472
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1688
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "Maks. parsiuntimo greitis (KiB/s):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1554
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1549
 msgid "Ignore limits on local network"
-msgstr "Ignoruoti apribojimus vietiniame tinkle"
+msgstr "Nepaisyti vietinio tinklo apribojimų"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1573
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1568
 msgid "Rate limit IP overhead"
 msgstr "Greičio limito IP išlaidos"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1577
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1572
 msgid ""
 "If checked, the estimated TCP/IP overhead is drained from the rate limiters, "
 "to avoid exceeding the limits with the total traffic"
@@ -2786,33 +2803,33 @@ msgstr ""
 "Jei pažymėta, numatomos TCP/IP išlaidos yra atimamos iš greičio limitų, kad "
 "būtų išvengta visuotinių srauto limitų."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1594
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1589
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>Globalus srauto naudojimas</b>"
+msgstr "<b>Bendras srauto naudojimas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1633
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1628
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr "Maks. išsiuntimo kanalų kiekis vienam torentui. -1 yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1652
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1718
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1736
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1647
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1713
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1731
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "Maks. prisijungimų kiekis vienam torentui. -1 yra neribotas."
+msgstr "Maks. susijungimų kiekis vienam torentui. -1 yra neribotas."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1758
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
 msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr "<b>Srauto naudojimas torentui</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1818
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1812
 msgid "<i><b><big>Interface</big></b></i>"
 msgstr "<i><b><big>Sąsaja</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1851
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1845
 msgid "Enable"
 msgstr "Įjungti"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1856
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1850
 msgid ""
 "Classic Mode will hide most of the daemon functionality and will make Deluge "
 "appear to be a single application.  Use this if you do not want to take "
@@ -2821,97 +2838,97 @@ msgid ""
 msgstr ""
 "Klasikinis veikimas paslėps daugumą serviso funkcionalumo ir elgsis tarsi "
 "Deluge būtų vientisa programa. Naudokite šį nustatymą, jei nenorite Deluge "
-"serviso suteikiamų papildomų galimybių. Reikės perkrauti Deluge kad ši "
-"parinktis įsigaliotų."
+"serviso suteikiamų papildomų galimybių. Kad ši parinktis įsigaliotų, reikės "
+"perkrauti Deluge."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1866
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1860
 msgid "<b>Classic Mode</b>"
 msgstr "<b>Klasikinis veikimas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1899
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1892
 msgid "Show session speed in titlebar"
 msgstr "Rodyti sesijos greitį lango pavadinime"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1917
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1910
 msgid "<b>Main Window</b>"
 msgstr "<b>Pagrindinis langas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1950
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1942
 msgid "Always show"
 msgstr "Visada rodyti"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1968
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1960
 msgid "Bring the dialog to focus"
 msgstr "Parodyti virš kitų langų"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1988
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1980
 msgid "<b>Add Torrents Dialog</b>"
-msgstr "<b>Torentų įkėlimo langas</b>"
+msgstr "<b>Torentų pridėjimo langas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2020
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2011
 msgid "Enable system tray icon"
-msgstr "Įjungti sistemos dėklo ženkliuką"
+msgstr "Įjungti sistemos dėklo piktogramą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2038
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2029
 msgid "Minimize to tray on close"
 msgstr "Užveriant nukelti į sistemos dėklą"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2058
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2049
 msgid "Start in tray"
 msgstr "Paleisti sistemos dėkle"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2069
 msgid "Enable Application Indicator"
-msgstr "Įjungti Application Indicator"
+msgstr "Įjungti indikatoriaus programėlę"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2099
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2090
 msgid "Password protect system tray"
 msgstr "Apsaugoti sistemos dėklą slaptažodžiu"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2157
 msgid "<b>System Tray</b>"
 msgstr "<b>Sistemos dėklas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2224
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2215
 msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>Kita</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2265
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2255
 msgid "Be alerted about new releases"
 msgstr "Perspėti apie atnaujinimus"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2270
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2260
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr "Deluge patikrins mūsų serverius ir praneš apie atnaujinimus"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2289
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2279
 msgid "<b>Updates</b>"
 msgstr "<b>Atnaujinimai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2326
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2315
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
 "Padėkite mums dar labiau patobulinti Deluge informuodami apie jūsų naudojamą "
-"Python versiją, PyGTK versiją, Operacinės sistemos ir procesoriaus tipus. "
+"Python versiją, PyGTK versiją, operacinės sistemos ir procesoriaus tipus. "
 "Jokia kita informacija nebus siunčiama."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2343
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2332
 msgid "Yes, please send anonymous statistics"
 msgstr "Taip, siųsti anoniminę statistiką"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2365
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2354
 msgid "<b>System Information</b>"
 msgstr "<b>Sistemos informacija</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2408
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2396
 msgid "Location:"
 msgstr "Vieta:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2420
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2409
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
@@ -2919,109 +2936,109 @@ msgstr ""
 "Jei Deluge nepavyks rasti duomenų bazės bylos šioje vietoje, ji naudosis DNS "
 "paslauga vartotojo šaliai nustatyti."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2444
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2433
 msgid "<b>GeoIP Database</b>"
 msgstr "<b>GeoIP duombazė</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2489
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2478
 msgid "Associate Magnet links with Deluge"
 msgstr "Atverti Magnet nuorodas su Deluge"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2546
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr "<i><b><big>Servisas</big></b></i>"
+msgstr "<i><b><big>Tarnyba</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2589
 msgid "Daemon port:"
-msgstr "Serviso prievadas:"
+msgstr "Tarnybos prievadas:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2626
 msgid "<b>Port</b>"
 msgstr "<b>Prievadas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2655
 msgid "Allow Remote Connections"
 msgstr "Leisti nuotolinius prisijungimus"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2669
 msgid "<b>Connections</b>"
-msgstr "<b>Susijungimai</b>"
+msgstr "<b>Prisijungimai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2698
 msgid "Periodically check the website for new releases"
 msgstr "Periodiškai ieškoti atnaujinimų interneto puslapyje"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2712
 msgid "<b>Other</b>"
 msgstr "<b>Kita</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2785
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr "<i><b><big>Eilė</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2828
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2812
 msgid "Queue new torrents to top"
 msgstr "Naujus torrentus perkelti į eilės viršų"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2923
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2906
 msgid "Total active seeding:"
 msgstr "Visi aktyvūs skleidžiami:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2936
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2919
 msgid "Total active:"
 msgstr "Visi aktyvūs:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2965
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2948
 msgid "Total active downloading:"
-msgstr "Visi aktyvūs siunčiami:"
+msgstr "Visi aktyvūs parsiunčiami:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2980
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2963
 msgid "Do not count slow torrents"
 msgstr "Neįskaičiuoti lėtų torentų"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2998
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2981
 msgid "<b>Active Torrents</b>"
 msgstr "<b>Aktyvūs torentai</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3040
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3022
 msgid "Share Ratio Limit:"
 msgstr "Dalinimosi santykio riba:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3050
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3032
 msgid "Seed Time Ratio:"
 msgstr "Skleidimo laiko santykis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3062
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3044
 msgid "Seed Time (m):"
 msgstr "Skleidimo laikas (m):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3130
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3112
 msgid "Stop seeding when share ratio reaches:"
 msgstr "Baigti skleidimą, kai santykis pasieks:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3175
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3157
 msgid "Remove torrent when share ratio reached"
 msgstr "Pašalinti torentą, kai santykis pasiektas"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3197
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
 msgid "<b>Seeding</b>"
 msgstr "<b>Skleidimas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3262
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3243
 msgid "<i><b><big>Proxy</big></b></i>"
-msgstr "<i><b><big>Tarpinis serveris (proxy)</big></b></i>"
+msgstr "<i><b><big>Tarpinis serveris</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3333
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3517
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3886
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3314
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3501
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3688
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3876
 msgid "Host:"
-msgstr "Serveris:"
+msgstr "Mazgas:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3407
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3591
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3775
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3962
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3390
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3577
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3764
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3954
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -3037,31 +3054,31 @@ msgstr ""
 "HTTP\n"
 "HTTP su autentikacija"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3437
 msgid "<b>Peer</b>"
-msgstr "<b>Taškas</b>"
+msgstr "<b>Siuntėjas</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3638
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3624
 msgid "<b>Web Seed</b>"
 msgstr "<b>Web sėkla</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3822
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3811
 msgid "<b>Tracker</b>"
-msgstr "<b>Trakeris</b>"
+msgstr "<b>Sekimo serveris</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4010
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4002
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4067
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4058
 msgid "<b><i><big>Cache</big></i></b>"
-msgstr "<b><i><big>Atmintis</big></i></b>"
+msgstr "<b><i><big>Podėlis</big></i></b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4102
+msgid "Cache Size (16 KiB blocks):"
+msgstr "Podėlio dydis (16 KiB dydžio atkarpomis)"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
-msgid "Cache Size (16 KiB blocks):"
-msgstr "Atminties dydis (16 KiB dydžio atkarpomis)"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4122
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
@@ -3069,51 +3086,51 @@ msgstr ""
 "Sekundžių skaičius, rodantis, kiek laiko praeis nuo paskutinės dalies rašymo "
 "į atmintį iki tol, kol ji bus įrašyta į diską. Pagal nutylėjimą 60 sekundžių."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4124
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4114
 msgid "Cache Expiry (seconds):"
-msgstr "Atminties galiojimo laikas (sekundėmis):"
+msgstr "Podėlio galiojimo laikas (sekundėmis):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4209
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
-"Skaičius 16KiB dydžio atkarpų, įrašytų į diską nuo tada, kada š sesija "
-"prasidėjo."
+"Bendras 16KiB dydžio atkarpų skaičius, įrašytų į diską nuo tada, kai ši "
+"sesija prasidėjo."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4211
 msgid "Blocks Written:"
 msgstr "Įrašyta atkarpų:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4231
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr "Skaičius  nuo sesijos pradžios padarytų rašymo veiksmų."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid "Writes:"
 msgstr "Rašymo veiksmų:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4244
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
-"Reitingas (blocks_written - writes) / blocks_written parodo išsaugotų rašymo "
-"veiksmų santykį su visais išsaugotais rašymo veiksmais iš visų rašymo "
+"Santykis „(įrašyta atkarpų - rašymų) / įrašyta atkarpų“ parodo išsaugotų "
+"rašymo veiksmų santykį su visais išsaugotais rašymo veiksmais iš visų rašymo "
 "operacijų."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4235
 msgid "Write Cache Hit Ratio:"
-msgstr "Rašymo podėlio užklausų reitingas:"
+msgstr "Rašymo podėlio užklausų santykis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4298
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4287
 msgid "<b>Write</b>"
 msgstr "<b>Rašymo</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4317
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
@@ -3121,40 +3138,40 @@ msgstr ""
 "Užklaustų iš torent variklio blokų kiekis (iš siuntėjų), kurie buvo "
 "aptarnauti iš disko ar podėlio."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4319
 msgid "Blocks Read:"
 msgstr "Perskaityta atkarpų:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4339
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
 msgid "The number of blocks that were served from cache."
 msgstr "Blokų, aptarnautų iš podėlio, kiekis."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid "Blocks Read Hit:"
 msgstr "Blokų skaitymo užklausos:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4352
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
 msgid "The cache hit ratio for the read cache."
 msgstr "Podėlio užklausų reitingas skaitymo podėliui."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4343
 msgid "Read Cache Hit Ratio:"
 msgstr "Skaitymo podėlio užklausų reitingas:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4403
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4392
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr "Bendras atliktų skaitymo operacijų skaičius nuo seanso pradžios."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4394
 msgid "Reads:"
 msgstr "Skaitymo veiksmų:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4432
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4421
 msgid "<b>Read</b>"
 msgstr "<b>Skaitymo</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4462
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4451
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
@@ -3162,52 +3179,52 @@ msgstr ""
 "Šiuo metu podėlyje esančių 16 KB blokų skaičius, įskaitant ir skaitymo, "
 "rašymo podėlį."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4453
 msgid "Cache Size:"
-msgstr "Atminties dydis:"
+msgstr "Podėlio dydis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4474
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4463
 msgid "Read Cache Size:"
-msgstr "Skaitymo atminties dydis:"
+msgstr "Skaitymo podėlio dydis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4513
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4502
 msgid "<b>Size</b>"
 msgstr "<b>Dydis</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4556
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4545
 msgid "<b>Status</b>"
 msgstr "<b>Būsena</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4618
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4606
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>Papildiniai</big></b></i>"
+msgstr "<i><b><big>Įskiepiai</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
 msgid "Version:"
 msgstr "Versija:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:264
 msgid "Author:"
 msgstr "Autorius:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4754
 msgid "Homepage:"
 msgstr "Namų puslapis:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Author Email:"
-msgstr "Autoriaus e-paštas:"
+msgstr "Autoriaus el. paštas:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4859
 msgid "_Install Plugin"
-msgstr "Į_diegti papildinį"
+msgstr "Į_diegti įskiepį"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4902
 msgid "_Rescan Plugins"
-msgstr "P_eržiūrėti papildinius"
+msgstr "P_eržiūrėti įskiepius"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4955
 msgid "_Find More Plugins"
 msgstr "Surasti daugiau įskiepių"
 
@@ -3231,41 +3248,41 @@ msgstr "Sukurti Torentą"
 msgid "<big><b>Create Torrent</b></big>"
 msgstr "<big><b>Sukurti torentą</b></big>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
-#: deluge/ui/gtkui/glade/main_window.glade:21
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:99
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:123
+#: deluge/ui/gtkui/glade/main_window.glade:20
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:96
 msgid "_File"
 msgstr "_Failas"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:160
 msgid "Fol_der"
 msgstr "_Aplankas"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:200
 msgid "_Remote Path"
 msgstr "_Nutolęs adresas"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:230
 msgid "<b>Files</b>"
 msgstr "<b>Failai</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:294
 msgid "Comments:"
 msgstr "Komentarai:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:333
 msgid "Info"
 msgstr "Informacija"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:514
 msgid "Webseeds"
 msgstr "Žiniatinkliu platinami failai"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:544
 msgid "Piece Size:"
 msgstr "Dalies dydis:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:554
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -3289,411 +3306,415 @@ msgstr ""
 "8 MiB\n"
 "16 MiB\n"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:580
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:582
 msgid "Set Private Flag"
-msgstr "Nustatyti \"privačiu\""
+msgstr "Nustatyti „privačiu“"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:594
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:596
 msgid "Add this torrent to the session"
 msgstr "Įkelti šį torentą į siuntimus"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:692
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:694
 msgid "Enter Remote Path"
 msgstr "Įveskite nutolusį adresą"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:728
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:730
 msgid "<b>Remote Path</b>"
 msgstr "<b>Nutolęs adresas</b>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:762
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:944
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:764
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:947
 msgid "Path:"
-msgstr "Adresas:"
+msgstr "Kelias:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:837
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:840
 msgid "Creating Torrent"
 msgstr "Torento kūrimas"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:874
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:877
 msgid "Save .torrent as"
 msgstr "Išsaugoti .torrent kaip"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:910
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:913
 msgid "<b>Save .torrent file</b>"
 msgstr "<b>Išsaugoti .torrent failą</b>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:8
 msgid "Add Host"
-msgstr "Įkelti serverį"
+msgstr "Pridėti serverį"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:204
+#: deluge/ui/gtkui/glade/connection_manager.glade:207
+#: deluge/ui/gtkui/glade/main_window.glade:454
 #: deluge/ui/gtkui/glade/main_window.glade:455
-#: deluge/ui/gtkui/glade/main_window.glade:456
 msgid "Connection Manager"
-msgstr "Prisijungimų valdymas"
+msgstr "Susijungimų valdymas"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:237
+#: deluge/ui/gtkui/glade/connection_manager.glade:240
 msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>Prisijungimų valdymas</b></big>"
+msgstr "<big><b>Susijungimų valdymas</b></big>"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:363
+#: deluge/ui/gtkui/glade/connection_manager.glade:366
 msgid "_Start local daemon"
-msgstr "_Paleisti lokalų servisą"
+msgstr "_Paleisti vietinę tarnybą"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:415
+#: deluge/ui/gtkui/glade/connection_manager.glade:418
 msgid "Automatically connect to selected host on start-up"
 msgstr "Automatiškai prisijungti prie pasirinkto serverio startuojant"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:426
+#: deluge/ui/gtkui/glade/connection_manager.glade:429
 msgid "Automatically start localhost if needed"
 msgstr "Jei reikia, automatiškai paleisti lokaliai"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:440
+#: deluge/ui/gtkui/glade/connection_manager.glade:443
 msgid "Do not show this dialog on start-up"
 msgstr "Nerodyti šio dialogo paleidimo metu"
 
-#: deluge/ui/gtkui/glade/main_window.glade:45
+#: deluge/ui/gtkui/glade/main_window.glade:44
 msgid "_Create Torrent"
 msgstr "Su_kurti torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:65
+#: deluge/ui/gtkui/glade/main_window.glade:64
 msgid "Quit & _Shutdown Daemon"
-msgstr "Baigti ir _Išjungti demoną"
+msgstr "Baigti ir _išjungti tarnybą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:101
+#: deluge/ui/gtkui/glade/main_window.glade:100
 msgid "_Edit"
 msgstr "_Keisti"
 
-#: deluge/ui/gtkui/glade/main_window.glade:118
+#: deluge/ui/gtkui/glade/main_window.glade:117
 msgid "_Connection Manager"
 msgstr "_Susijungimų valdymas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:140
+#: deluge/ui/gtkui/glade/main_window.glade:139
 msgid "_Torrent"
 msgstr "_Torentas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:147
+#: deluge/ui/gtkui/glade/main_window.glade:146
 msgid "_View"
-msgstr "_Vaizdas"
+msgstr "_Rodymas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:155
+#: deluge/ui/gtkui/glade/main_window.glade:154
 msgid "_Toolbar"
-msgstr "Į_rankinė"
+msgstr "Įrankių _juosta"
 
-#: deluge/ui/gtkui/glade/main_window.glade:165
+#: deluge/ui/gtkui/glade/main_window.glade:164
 msgid "_Sidebar"
 msgstr "Šoninė _juosta"
 
-#: deluge/ui/gtkui/glade/main_window.glade:174
+#: deluge/ui/gtkui/glade/main_window.glade:173
 msgid "Status_bar"
 msgstr "Būsenos _juosta"
 
-#: deluge/ui/gtkui/glade/main_window.glade:188
+#: deluge/ui/gtkui/glade/main_window.glade:187
 msgid "T_abs"
 msgstr "_Kortelės"
 
-#: deluge/ui/gtkui/glade/main_window.glade:195
+#: deluge/ui/gtkui/glade/main_window.glade:194
 msgid "_Columns"
 msgstr "_Stulpeliai"
 
-#: deluge/ui/gtkui/glade/main_window.glade:203
+#: deluge/ui/gtkui/glade/main_window.glade:202
 msgid "S_idebar"
 msgstr "Šoninė _juosta"
 
-#: deluge/ui/gtkui/glade/main_window.glade:212
+#: deluge/ui/gtkui/glade/main_window.glade:211
 msgid "Show _Zero Hits"
 msgstr "Rodyti _tuščias kategorijas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:221
+#: deluge/ui/gtkui/glade/main_window.glade:220
 msgid "Show _Trackers"
 msgstr "Rodyti _sekimo serverius"
 
-#: deluge/ui/gtkui/glade/main_window.glade:238
+#: deluge/ui/gtkui/glade/main_window.glade:237
 msgid "_Help"
 msgstr "_Žinynas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:244
+#: deluge/ui/gtkui/glade/main_window.glade:243
 msgid "_Homepage"
 msgstr "_Namų puslapis"
 
-#: deluge/ui/gtkui/glade/main_window.glade:261
+#: deluge/ui/gtkui/glade/main_window.glade:260
 msgid "_FAQ"
 msgstr "_DUK"
 
-#: deluge/ui/gtkui/glade/main_window.glade:264
+#: deluge/ui/gtkui/glade/main_window.glade:263
 msgid "Frequently Asked Questions"
 msgstr "Dažniausiai užduodami klausimai"
 
-#: deluge/ui/gtkui/glade/main_window.glade:280
+#: deluge/ui/gtkui/glade/main_window.glade:279
 msgid "_Community"
 msgstr "_Bendruomenė"
 
-#: deluge/ui/gtkui/glade/main_window.glade:327
+#: deluge/ui/gtkui/glade/main_window.glade:326
 msgid "Add torrent"
-msgstr "Įkelti torentą"
+msgstr "Pridėti torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:328
+#: deluge/ui/gtkui/glade/main_window.glade:327
 msgid "Add Torrent"
-msgstr "Įkelti torentą"
+msgstr "Pridėti torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:342
+#: deluge/ui/gtkui/glade/main_window.glade:341
 msgid "Remove torrent"
 msgstr "Pašalinti torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:343
+#: deluge/ui/gtkui/glade/main_window.glade:342
 msgid "Remove Torrent"
 msgstr "Pašalinti torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:364
+#: deluge/ui/gtkui/glade/main_window.glade:363
 msgid "Pause the selected torrents"
 msgstr "Sustabdyti pasirinktus torentus"
 
-#: deluge/ui/gtkui/glade/main_window.glade:365
+#: deluge/ui/gtkui/glade/main_window.glade:364
 msgid "Pause"
-msgstr "Pauzė"
+msgstr "Pristabdyti"
 
-#: deluge/ui/gtkui/glade/main_window.glade:380
+#: deluge/ui/gtkui/glade/main_window.glade:379
 msgid "Resume the selected torrents"
 msgstr "Pratęsti pasirinktus torentus"
 
-#: deluge/ui/gtkui/glade/main_window.glade:381
+#: deluge/ui/gtkui/glade/main_window.glade:380
 msgid "Resume"
 msgstr "Pratęsti"
 
-#: deluge/ui/gtkui/glade/main_window.glade:403
+#: deluge/ui/gtkui/glade/main_window.glade:402
 msgid "Queue Torrent Up"
 msgstr "Perkelti torentą eilėje aukštyn"
 
-#: deluge/ui/gtkui/glade/main_window.glade:404
+#: deluge/ui/gtkui/glade/main_window.glade:403
 msgid "Queue Up"
 msgstr "Eilėje aukštyn"
 
-#: deluge/ui/gtkui/glade/main_window.glade:418
+#: deluge/ui/gtkui/glade/main_window.glade:417
 msgid "Queue Torrent Down"
 msgstr "Perkelti torentą eilėje žemyn"
 
-#: deluge/ui/gtkui/glade/main_window.glade:419
+#: deluge/ui/gtkui/glade/main_window.glade:418
 msgid "Queue Down"
 msgstr "Eilėje žemyn"
 
-#: deluge/ui/gtkui/glade/main_window.glade:570
+#: deluge/ui/gtkui/glade/main_window.glade:568
 msgid "_Expand All"
 msgstr "_Išskleisti visus"
 
-#: deluge/ui/gtkui/glade/main_window.glade:591
+#: deluge/ui/gtkui/glade/main_window.glade:589
 msgid "_Do Not Download"
 msgstr "N_esiųsti"
 
-#: deluge/ui/gtkui/glade/main_window.glade:607
+#: deluge/ui/gtkui/glade/main_window.glade:605
 msgid "_Normal Priority"
 msgstr "_Normalus prioritetas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:623
+#: deluge/ui/gtkui/glade/main_window.glade:621
 msgid "_High Priority"
 msgstr "_Aukštas prioritetas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:639
+#: deluge/ui/gtkui/glade/main_window.glade:637
 msgid "Hi_ghest Priority"
 msgstr "Aukščiau_sias prioritetas"
 
-#: deluge/ui/gtkui/glade/main_window.glade:721
+#: deluge/ui/gtkui/glade/main_window.glade:718
 msgid "<b>Auto Managed:</b>"
 msgstr "<b>Valdoma automatiškai:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:762
+#: deluge/ui/gtkui/glade/main_window.glade:759
 msgid "<b>Seed Rank:</b>"
 msgstr "<b>Skleidimo laipsnis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:777
+#: deluge/ui/gtkui/glade/main_window.glade:774
 msgid "<b>Seeding Time:</b>"
 msgstr "<b>Skleidimo laikas:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:803
+#: deluge/ui/gtkui/glade/main_window.glade:800
 msgid "<b>Active Time:</b>"
 msgstr "<b>Aktyvus laikas:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:860
+#: deluge/ui/gtkui/glade/main_window.glade:857
 msgid "<b>Tracker Status:</b>"
 msgstr "<b>Sekimo serverio būsena:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:890
+#: deluge/ui/gtkui/glade/main_window.glade:887
 msgid "<b>Availability:</b>"
 msgstr "<b>Prieinamumas:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:944
+#: deluge/ui/gtkui/glade/main_window.glade:941
 msgid "<b>Peers:</b>"
-msgstr "<b>Dalyviai:</b>"
+msgstr "<b>Siuntėjai:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:970
+#: deluge/ui/gtkui/glade/main_window.glade:967
 msgid "<b>Seeders:</b>"
 msgstr "<b>Skleidėjai:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:988
+#: deluge/ui/gtkui/glade/main_window.glade:985
 msgid "<b>Pieces:</b>"
 msgstr "<b>Dalys:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1010
+#: deluge/ui/gtkui/glade/main_window.glade:1007
 msgid "<b>ETA:</b>"
 msgstr "<b>Liko:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1032
+#: deluge/ui/gtkui/glade/main_window.glade:1029
 msgid "<b>Up Speed:</b>"
 msgstr "<b>Išsiuntimo greitis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1054
+#: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Down Speed:</b>"
 msgstr "<b>Parsiuntimo greitis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1073
+#: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Next Announce:</b>"
 msgstr "<b>Kitas atnaujinimas:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1092
+#: deluge/ui/gtkui/glade/main_window.glade:1089
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Dalinimosi santykis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1111
+#: deluge/ui/gtkui/glade/main_window.glade:1108
 msgid "<b>Uploaded:</b>"
 msgstr "<b>Išsiųsta:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1130
+#: deluge/ui/gtkui/glade/main_window.glade:1127
 msgid "<b>Downloaded:</b>"
 msgstr "<b>Parsiųsta:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1191
+#: deluge/ui/gtkui/glade/main_window.glade:1188
 msgid "<b>Date Added:</b>"
 msgstr "<b>Įdėjimo data:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1249
+#: deluge/ui/gtkui/glade/main_window.glade:1246
 msgid "_Status"
-msgstr "Būsena"
+msgstr "_Būsena"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1310
+#: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b>Comments:</b>"
 msgstr "<b>Atsiliepimai:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1339
+#: deluge/ui/gtkui/glade/main_window.glade:1336
 msgid "<b># of files:</b>"
 msgstr "<b>Failų kiekis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1371
+#: deluge/ui/gtkui/glade/main_window.glade:1368
 msgid "<b>Hash:</b>"
 msgstr "<b>Maišos kodas (hash):</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1401
+#: deluge/ui/gtkui/glade/main_window.glade:1398
 msgid "<b>Tracker:</b>"
 msgstr "<b>Sekimo serveris:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1421
+#: deluge/ui/gtkui/glade/main_window.glade:1418
 msgid "<b>Total Size:</b>"
 msgstr "<b>Bendras dydis:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1459
+#: deluge/ui/gtkui/glade/main_window.glade:1456
 msgid "<b>Name:</b>"
 msgstr "<b>Pavadinimas:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1479
+#: deluge/ui/gtkui/glade/main_window.glade:1476
 msgid "<b>Path:</b>"
 msgstr "<b>Kelias:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1513
+#: deluge/ui/gtkui/glade/main_window.glade:1510
 msgid "<b>Status:</b>"
 msgstr "<b>Būsena:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1594
+#: deluge/ui/gtkui/glade/main_window.glade:1591
 msgid "_Details"
 msgstr "_Išsamiau"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1646
+#: deluge/ui/gtkui/glade/main_window.glade:1643
 msgid "_Files"
 msgstr "_Failai"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1698
+#: deluge/ui/gtkui/glade/main_window.glade:1695
 msgid "_Peers"
-msgstr "Siuntėjai ir skleidėjai"
+msgstr "Siuntėjai"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2009
+#: deluge/ui/gtkui/glade/main_window.glade:2004
 msgid "Move completed:"
 msgstr "Perkelti baigtus:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2105
+#: deluge/ui/gtkui/glade/main_window.glade:2099
 msgid "Private"
 msgstr "Privatus"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2120
+#: deluge/ui/gtkui/glade/main_window.glade:2114
 msgid "Prioritize First/Last"
-msgstr "Pirmenybė pirmam/paskutiniui"
+msgstr "Pirmenybė pirmai/paskutiniai daliai"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/main_window.glade:2152
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
 msgid "_Edit Trackers"
 msgstr "_Keisti sekimo serverius"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2265
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+#: deluge/ui/gtkui/glade/main_window.glade:2259
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:862
 msgid "_Options"
 msgstr "_Parinktys"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2285
+#: deluge/ui/gtkui/glade/main_window.glade:2279
 msgid "Remove Torrent?"
 msgstr "Pašalinti torentą?"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2324
+#: deluge/ui/gtkui/glade/main_window.glade:2316
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
-msgstr "<big><b>Ar tikrai norite pašalinti pažymėtą torentą?</b></big>"
+msgstr "<big><b>Ar tikrai norite pašalinti pasirinktą torentą?</b></big>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2376
+#: deluge/ui/gtkui/glade/main_window.glade:2368
 msgid "<i>The associated .torrent will be deleted!</i>"
 msgstr "<i>Susietas .torrent failas bus ištrintas!</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2416
+#: deluge/ui/gtkui/glade/main_window.glade:2408
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>Parsiųsti duomenys bus ištrinti!</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2460
+#: deluge/ui/gtkui/glade/main_window.glade:2452
 msgid "Remove Selected Torrent"
-msgstr "Pašalinti pažymėtą torentą"
+msgstr "Pašalinti pasirinktą torentą"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2484
+#: deluge/ui/gtkui/glade/main_window.glade:2476
 msgid "New Release"
-msgstr "Atnaujinimas"
+msgstr "Nauja versija"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2518
+#: deluge/ui/gtkui/glade/main_window.glade:2508
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>Nauja versija jau išleista!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2570
+#: deluge/ui/gtkui/glade/main_window.glade:2560
 msgid "<i>Available Version:</i>"
-msgstr "<i>Nauja versija:</i>"
+msgstr "<i>Prieinama versija:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2593
+#: deluge/ui/gtkui/glade/main_window.glade:2583
 msgid "<i>Current Version:</i>"
 msgstr "<i>Dabar naudojama versija:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2604
+#: deluge/ui/gtkui/glade/main_window.glade:2594
 msgid "<i>Server Version</i>"
-msgstr "<i>Serverio Versija</i>"
+msgstr "<i>Versija serveryje:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2637
+#: deluge/ui/gtkui/glade/main_window.glade:2627
 msgid "Do not show this dialog in the future"
 msgstr "Ateityje neberodyti šio lango"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2676
+#: deluge/ui/gtkui/glade/main_window.glade:2666
 msgid "_Goto Website"
-msgstr "_Atverti puslapį"
+msgstr "_Eiti į puslapį"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2704
+#: deluge/ui/gtkui/glade/main_window.glade:2694
 msgid "_Add Peer"
 msgstr "_Pridėti siuntėją"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2706
+#: deluge/ui/gtkui/glade/main_window.glade:2696
 msgid "Add a peer by its IP"
 msgstr "Įkelti dalyvį pagal jo IP"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr "_Atverti katalogą"
+msgstr "_Atverti aplanką"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:33
+msgid "_Pause"
+msgstr "_Pristabdyti"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
@@ -3717,7 +3738,7 @@ msgstr "Pašalinti to_rentą"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:174
 msgid "_Force Re-check"
-msgstr "Priverstinai _patikrinti"
+msgstr "_Priverstinai patikrinti"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:191
 msgid "Move _Storage"
@@ -3725,7 +3746,7 @@ msgstr "Keisti duomenų _vietą"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:242
 msgid "_Connection Limit"
-msgstr "_Prisijungimų kiekio riba"
+msgstr "_Susijungimų kiekio riba"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:258
 msgid "Upload _Slot Limit"
@@ -3749,79 +3770,79 @@ msgstr "Paskirties vieta:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:8
 msgid "Add Torrents"
-msgstr "Įkelti torentus"
+msgstr "Pridėti torentus"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:147
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:144
 msgid "_URL"
 msgstr "_URL"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:195
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
 msgid "Info_hash"
-msgstr "Informacijos maiša (Info_hash)"
+msgstr "_Informacijos maiša"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:241
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:238
 msgid "_Remove"
 msgstr "_Pašalinti"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:274
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:271
 msgid "<b>Torrents</b>"
 msgstr "<b>Torentai</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:331
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:328
 msgid "Fi_les"
 msgstr "Fai_lai"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:430
 msgid "Full"
 msgstr "Pilnas"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:450
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:446
 msgid "Compact"
 msgstr "Kompaktiškas"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:525
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:521
 msgid "Max Down Speed:"
 msgstr "Maks. parsiuntimo greitis:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:537
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:533
 msgid "Max Up Speed:"
 msgstr "Maks. išsiuntimo greitis:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:663
 msgid "Add In _Paused State"
 msgstr "Įkelti susta_bdytoje būsenoje"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:684
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:679
 msgid "Prioritize First/Last Pieces"
 msgstr "Prioritetas pirmoms/paskutinėms dalims"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:762
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:757
 msgid "Revert To Defaults"
 msgstr "Atstatyti pradines parinktis"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:816
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:811
 msgid "Apply To All"
 msgstr "Pritaikyti visiems"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:944
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:939
 msgid "Add URL"
 msgstr "Pridėti URL"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:983
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:976
 msgid "<b>From URL</b>"
-msgstr "<b>Iš URL adreso</b>"
+msgstr "<b>Iš URL</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1104
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1098
 msgid "Add Infohash"
-msgstr "Įkelti maišos kodą (infohash)"
+msgstr "Pridėti maišos kodą"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1143
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1135
 msgid "<b>From Infohash</b>"
-msgstr "<b>Iš \"Infohash\"</b>"
+msgstr "<b>Iš maišos kodo</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1178
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
 msgid "Infohash:"
-msgstr "Informacijos maiša (infohash):"
+msgstr "Informacijos maiša:"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:98
 msgid "label"
@@ -3829,13 +3850,13 @@ msgstr "žyma"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:154
 msgid "Add Peer"
-msgstr "Įkelti dalyvį"
+msgstr "Pridėti dalyvį"
 
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:187
 msgid "<b>Add Peer</b>"
-msgstr "<b>Įkelti dalyvį</b>"
+msgstr "<b>Pridėti dalyvį</b>"
 
-#: deluge/ui/gtkui/glade/dgtkpopups.glade:211
+#: deluge/ui/gtkui/glade/dgtkpopups.glade:212
 msgid "hostname:port"
 msgstr "serveris:prievadas"
 
@@ -3850,3 +3871,9 @@ msgstr "Deluge BitTorrent klientas"
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
 msgstr "Parsiųsti ir dalintis failais per BitTorrent"
+
+#~ msgid "Up:"
+#~ msgstr "Išsiuntimas:"
+
+#~ msgid "Down:"
+#~ msgstr "Parsiuntimas:"
