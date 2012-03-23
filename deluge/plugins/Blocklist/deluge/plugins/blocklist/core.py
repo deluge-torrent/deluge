@@ -38,7 +38,7 @@ import os
 import time
 import logging
 from datetime import datetime, timedelta
-from wsgiref.handlers import format_date_time
+from email.utils import formatdate
 from urlparse import urljoin
 import shutil
 
@@ -323,7 +323,7 @@ class Core(CorePluginBase):
 
         headers = {}
         if self.config["last_update"] and not self.force_download:
-            headers['If-Modified-Since'] = format_date_time(self.config["last_update"])
+            headers['If-Modified-Since'] = formatdate(self.config["last_update"], usegmt=True)
 
         log.debug("Attempting to download blocklist %s", url)
         log.debug("Sending headers: %s", headers)
