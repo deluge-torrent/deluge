@@ -357,7 +357,7 @@ Please use commands from the command line, eg:\n
             # line.
             for cmd in self._commands:
                 if cmd.startswith(line):
-                    possible_matches.append(cmd + " ")
+                    possible_matches.append(cmd)
 
             line_prefix = ""
         else:
@@ -377,7 +377,7 @@ Please use commands from the command line, eg:\n
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
-            new_line = line_prefix + possible_matches[0]
+            new_line = line_prefix + possible_matches[0] + " "
             return (new_line, len(new_line))
         else:
             if second_hit:
@@ -408,9 +408,9 @@ Please use commands from the command line, eg:\n
         # Find all possible matches
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
-                possible_matches.append(torrent_id + " ")
+                possible_matches.append(torrent_id)
             if torrent_name.startswith(line):
-                possible_matches.append(torrent_name + " ")
+                possible_matches.append(torrent_name)
 
         return possible_matches
 
