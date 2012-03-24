@@ -72,9 +72,9 @@ HOSTLIST_PIXBUFS = [
 ]
 
 HOSTLIST_STATUS = [
-    _("Offline"),
-    _("Online"),
-    _("Connected")
+    "Offline",
+    "Online",
+    "Connected"
 ]
 
 def cell_render_host(column, cell, model, row, data):
@@ -212,7 +212,7 @@ class ConnectionManager(component.Component):
         self.liststore[row][HOSTLIST_COL_PORT] = port
         self.liststore[row][HOSTLIST_COL_USER] = username
         self.liststore[row][HOSTLIST_COL_PASS] = password
-        self.liststore[row][HOSTLIST_COL_STATUS] = _("Offline")
+        self.liststore[row][HOSTLIST_COL_STATUS] = "Offline"
 
         # Save the host list to file
         self.__save_hostlist()
@@ -243,7 +243,7 @@ class ConnectionManager(component.Component):
             self.liststore[new_row][HOSTLIST_COL_PORT] = host[2]
             self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
             self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
-            self.liststore[new_row][HOSTLIST_COL_STATUS] = _("Offline")
+            self.liststore[new_row][HOSTLIST_COL_STATUS] = "Offline"
 
     def __get_host_row(self, host_id):
         """
@@ -271,7 +271,7 @@ class ConnectionManager(component.Component):
                 if not self.running:
                     return
                 if row:
-                    row[HOSTLIST_COL_STATUS] = _("Online")
+                    row[HOSTLIST_COL_STATUS] = "Online"
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
                 c.disconnect()
@@ -280,7 +280,7 @@ class ConnectionManager(component.Component):
                 if not self.running:
                     return
                 if row:
-                    row[HOSTLIST_COL_STATUS] = _("Offline")
+                    row[HOSTLIST_COL_STATUS] = "Offline"
                     self.__update_buttons()
                 c.disconnect()
 
@@ -293,7 +293,7 @@ class ConnectionManager(component.Component):
                 return
             row = self.__get_host_row(host_id)
             if row:
-                row[HOSTLIST_COL_STATUS] = _("Offline")
+                row[HOSTLIST_COL_STATUS] = "Offline"
                 self.__update_buttons()
 
         for row in self.liststore:
@@ -310,7 +310,7 @@ class ConnectionManager(component.Component):
                         return
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
-                row[HOSTLIST_COL_STATUS] = _("Connected")
+                row[HOSTLIST_COL_STATUS] = "Connected"
                 client.daemon.info().addCallback(on_info)
                 continue
 
@@ -369,24 +369,24 @@ class ConnectionManager(component.Component):
         self.glade.get_widget("button_removehost").set_sensitive(True)
 
         # See if this is the currently connected host
-        if status == _("Connected"):
+        if status == "Connected":
             # Display a disconnect button if we're connected to this host
             self.glade.get_widget("button_connect").set_label("gtk-disconnect")
             self.glade.get_widget("button_removehost").set_sensitive(False)
         else:
             self.glade.get_widget("button_connect").set_label("gtk-connect")
-            if status == _("Offline") and not localhost:
+            if status == "Offline" and not localhost:
                 self.glade.get_widget("button_connect").set_sensitive(False)
 
         # Check to see if the host is online
-        if status == _("Connected") or status == _("Online"):
+        if status == "Connected" or status == "Online":
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
             self.glade.get_widget("label_startdaemon").set_text(
                 _("_Stop Daemon"))
 
         # Update the start daemon button if the selected host is localhost
-        if localhost and status == _("Offline"):
+        if localhost and status == "Offline":
             # The localhost is not online
             self.glade.get_widget("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
@@ -438,7 +438,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         if not row:
             return
         status = model[row][HOSTLIST_COL_STATUS]
-        if status == _("Connected"):
+        if status == "Connected":
             def on_disconnect(reason):
                 self.__update_list()
             client.disconnect().addCallback(on_disconnect)
@@ -450,7 +450,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
-        if status == _("Offline") and self.glade.get_widget("chk_autostart").get_active() and\
+        if status == "Offline" and self.glade.get_widget("chk_autostart").get_active() and\
             host in ("127.0.0.1", "localhost"):
             # We need to start this localhost
             self.start_daemon(port, deluge.configmanager.get_config_dir())
@@ -550,7 +550,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
         if host not in ("127.0.0.1", "localhost"):
             return
 
-        if status in (_("Online"), _("Connected")):
+        if status in ("Online", "Connected"):
             # We need to stop this daemon
             # Call the shutdown method on the daemon
             def on_daemon_shutdown(d):
@@ -567,7 +567,7 @@ that you forgot to install the deluged package or it's not in your PATH.")).run(
 
                 c.connect(host, port, user, password).addCallback(on_connect, c)
 
-        elif status == _("Offline"):
+        elif status == "Offline":
             self.start_daemon(port, deluge.configmanager.get_config_dir())
             reactor.callLater(2.0, self.__update_list)
 
