@@ -70,9 +70,9 @@ HOSTLIST_PIXBUFS = [
 ]
 
 HOSTLIST_STATUS = [
-    _("Offline"),
-    _("Online"),
-    _("Connected")
+    "Offline",
+    "Online",
+    "Connected"
 ]
 
 def cell_render_host(column, cell, model, row, data):
@@ -253,7 +253,7 @@ class ConnectionManager(component.Component):
         self.liststore[row][HOSTLIST_COL_PORT] = port
         self.liststore[row][HOSTLIST_COL_USER] = username
         self.liststore[row][HOSTLIST_COL_PASS] = password
-        self.liststore[row][HOSTLIST_COL_STATUS] = _("Offline")
+        self.liststore[row][HOSTLIST_COL_STATUS] = "Offline"
 
         # Save the host list to file
         self.__save_hostlist()
@@ -288,7 +288,7 @@ class ConnectionManager(component.Component):
             self.liststore[new_row][HOSTLIST_COL_PORT] = host[2]
             self.liststore[new_row][HOSTLIST_COL_USER] = host[3]
             self.liststore[new_row][HOSTLIST_COL_PASS] = host[4]
-            self.liststore[new_row][HOSTLIST_COL_STATUS] = _("Offline")
+            self.liststore[new_row][HOSTLIST_COL_STATUS] = "Offline"
             self.liststore[new_row][HOSTLIST_COL_VERSION] = ""
 
     def __get_host_row(self, host_id):
@@ -317,7 +317,7 @@ class ConnectionManager(component.Component):
                 if not self.running:
                     return
                 if row:
-                    row[HOSTLIST_COL_STATUS] = _("Online")
+                    row[HOSTLIST_COL_STATUS] = "Online"
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
                 c.disconnect()
@@ -326,7 +326,7 @@ class ConnectionManager(component.Component):
                 if not self.running:
                     return
                 if row:
-                    row[HOSTLIST_COL_STATUS] = _("Offline")
+                    row[HOSTLIST_COL_STATUS] = "Offline"
                     self.__update_buttons()
                 c.disconnect()
 
@@ -339,7 +339,7 @@ class ConnectionManager(component.Component):
                 return
             row = self.__get_host_row(host_id)
             if row:
-                row[HOSTLIST_COL_STATUS] = _("Offline")
+                row[HOSTLIST_COL_STATUS] = "Offline"
                 row[HOSTLIST_COL_VERSION] = ""
                 self.__update_buttons()
 
@@ -358,7 +358,7 @@ class ConnectionManager(component.Component):
                     row[HOSTLIST_COL_VERSION] = info
                     self.__update_buttons()
 
-                row[HOSTLIST_COL_STATUS] = _("Connected")
+                row[HOSTLIST_COL_STATUS] = "Connected"
                 log.debug("Query daemon's info")
                 client.daemon.info().addCallback(on_info)
                 continue
@@ -430,24 +430,24 @@ class ConnectionManager(component.Component):
         self.builder.get_object("button_removehost").set_sensitive(True)
 
         # See if this is the currently connected host
-        if status == _("Connected"):
+        if status == "Connected":
             # Display a disconnect button if we're connected to this host
             self.builder.get_object("button_connect").set_label("gtk-disconnect")
             self.builder.get_object("button_removehost").set_sensitive(False)
         else:
             self.builder.get_object("button_connect").set_label("gtk-connect")
-            if status == _("Offline") and not localhost:
+            if status == "Offline" and not localhost:
                 self.builder.get_object("button_connect").set_sensitive(False)
 
         # Check to see if the host is online
-        if status == _("Connected") or status == _("Online"):
+        if status == "Connected" or status == "Online":
             self.builder.get_object("image_startdaemon").set_from_stock(
                 gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
             self.builder.get_object("label_startdaemon").set_text(
                 _("_Stop Daemon"))
 
         # Update the start daemon button if the selected host is localhost
-        if localhost and status == _("Offline"):
+        if localhost and status == "Offline":
             # The localhost is not online
             self.builder.get_object("image_startdaemon").set_from_stock(
                 gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
@@ -562,7 +562,7 @@ class ConnectionManager(component.Component):
         if not row:
             return
         status = model[row][HOSTLIST_COL_STATUS]
-        if status == _("Connected"):
+        if status == "Connected":
             def on_disconnect(reason):
                 self.__update_list()
             client.disconnect().addCallback(on_disconnect)
@@ -574,7 +574,7 @@ class ConnectionManager(component.Component):
         user = model[row][HOSTLIST_COL_USER]
         password = model[row][HOSTLIST_COL_PASS]
 
-        if status == _("Offline") and \
+        if status == "Offline" and \
                     self.builder.get_object("chk_autostart").get_active() and \
                     host in ("127.0.0.1", "localhost"):
             if not self.start_daemon(port, deluge.configmanager.get_config_dir()):
@@ -625,7 +625,7 @@ class ConnectionManager(component.Component):
         log.debug("on_button_edithost_clicked")
         model, row = self.hostlist.get_selection().get_selected()
         status = model[row][HOSTLIST_COL_STATUS]
-        if status == _("Connected"):
+        if status == "Connected":
             def on_disconnect(reason):
                 self.__update_list()
             client.disconnect().addCallback(on_disconnect)
@@ -655,7 +655,7 @@ class ConnectionManager(component.Component):
             self.liststore[row][HOSTLIST_COL_PORT] = port_spinbutton.get_value_as_int()
             self.liststore[row][HOSTLIST_COL_USER] = username_entry.get_text()
             self.liststore[row][HOSTLIST_COL_PASS] = password_entry.get_text()
-            self.liststore[row][HOSTLIST_COL_STATUS] = _("Offline")
+            self.liststore[row][HOSTLIST_COL_STATUS] = "Offline"
 
         # Save the host list to file
         self.__save_hostlist()
@@ -706,7 +706,7 @@ class ConnectionManager(component.Component):
         if host not in ("127.0.0.1", "localhost"):
             return
 
-        if status in (_("Online"), _("Connected")):
+        if status in ("Online", "Connected"):
             # We need to stop this daemon
             # Call the shutdown method on the daemon
             def on_daemon_shutdown(d):
@@ -724,7 +724,7 @@ class ConnectionManager(component.Component):
 
                 c.connect(host, port, user, password).addCallback(on_connect, c)
 
-        elif status == _("Offline"):
+        elif status == "Offline":
             self.start_daemon(port, deluge.configmanager.get_config_dir())
             reactor.callLater(2.0, self.__update_list)
 
