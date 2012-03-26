@@ -532,7 +532,7 @@ class Legacy(BaseMode):
                     self.write(match)
             else:
                 p = " ".join(line.split(" ")[:-1])
-                new_line = " ".join([p, os.path.commonprefix(possible_matches)])
+                new_line = " ".join([p, os.path.commonprefix(possible_matches)]).lstrip()
                 if len(new_line) > len(line):
                     line = new_line
                     cursor = len(line)
