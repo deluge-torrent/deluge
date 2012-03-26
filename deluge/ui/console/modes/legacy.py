@@ -472,7 +472,7 @@ class Legacy(BaseMode):
 
     def write(self, line):
         """
-        Writes a line out 
+        Writes a line out
 
         :param line: str, the line to print
 
@@ -502,7 +502,7 @@ class Legacy(BaseMode):
             # line.
             for cmd in self.console._commands:
                 if cmd.startswith(line):
-                    possible_matches.append(cmd + " ")
+                    possible_matches.append(cmd)
 
             line_prefix = ""
         else:
@@ -522,7 +522,7 @@ class Legacy(BaseMode):
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
-            new_line = line_prefix + possible_matches[0]
+            new_line = line_prefix + possible_matches[0] + " "
             return (new_line, len(new_line))
         else:
             if second_hit:
@@ -553,9 +553,9 @@ class Legacy(BaseMode):
         # Find all possible matches
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
-                possible_matches.append(torrent_id + " ")
+                possible_matches.append(torrent_id)
             if torrent_name.startswith(line):
-                possible_matches.append(torrent_name + " ")
+                possible_matches.append(torrent_name)
 
         return possible_matches
 
