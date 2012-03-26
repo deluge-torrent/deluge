@@ -260,11 +260,11 @@ class Torrent(object):
         self.handle.set_download_limit(v)
 
     def set_prioritize_first_last(self, prioritize):
-        self.options["prioritize_first_last_pieces"] = prioritize
         if prioritize:
             if self.handle.has_metadata():
                 if self.handle.get_torrent_info().num_files() == 1:
                     # We only do this if one file is in the torrent
+                    self.options["prioritize_first_last_pieces"] = prioritize
                     priorities = [1] * self.handle.get_torrent_info().num_pieces()
                     priorities[0] = 7
                     priorities[-1] = 7
