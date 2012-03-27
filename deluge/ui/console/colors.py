@@ -165,7 +165,7 @@ def parse_color_string(s, encoding="UTF-8"):
         # Get a list of attributes in the bracketed section
         attrs = s[begin+2:end].split(",")
 
-        if len(attrs) == 1 and not attrs:
+        if len(attrs) == 1 and not attrs[0].strip(' '):
             raise BadColorString("No description in {! !}")
 
         def apply_attrs(cp, a):
