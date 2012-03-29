@@ -72,7 +72,6 @@
                     <property name="spacing">5</property>
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolledwindow1">
-                        <property name="height_request">30</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
@@ -80,6 +79,7 @@
                         <property name="shadow_type">GTK_SHADOW_IN</property>
                         <child>
                           <widget class="GtkTreeView" id="treeview_files">
+                            <property name="height_request">30</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
