@@ -9,6 +9,6 @@ Exec=deluge-gtk %U
 Icon=deluge
 Terminal=false
 Type=Application
-Categories=Network;FileTransfer;P2P;GTK
+Categories=Network;FileTransfer;P2P;GTK;
 StartupNotify=true
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
