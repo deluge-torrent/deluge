@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-03-11 19:23+0000\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-04-09 08:10+0000\n"
+"Last-Translator: karma <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-21 21:25+0000\n"
-"X-Generator: Launchpad (build 14981)\n"
+"X-Launchpad-Export-Date: 2012-04-09 12:21+0000\n"
+"X-Generator: Launchpad (build 15060)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -31,15 +31,15 @@ msgstr "ГиБ"
 
 #: deluge/common.py:298
 msgid "K"
-msgstr ""
+msgstr "К"
 
 #: deluge/common.py:301
 msgid "M"
-msgstr ""
+msgstr "М"
 
 #: deluge/common.py:303
 msgid "G"
-msgstr ""
+msgstr "Г"
 
 #: deluge/common.py:339
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
@@ -2292,11 +2292,11 @@ msgstr "Дополнительные сведения:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "D:"
-msgstr ""
+msgstr "D:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "U:"
-msgstr ""
+msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid "Copyright 2007-2011 Deluge Team"
@@ -3730,7 +3730,7 @@ msgstr "_Открыть папку"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:33
 msgid "_Pause"
-msgstr ""
+msgstr "_Пауза"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"

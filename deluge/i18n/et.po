@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-03-11 19:23+0000\n"
-"PO-Revision-Date: 2012-03-19 21:08+0000\n"
+"PO-Revision-Date: 2012-04-06 17:27+0000\n"
 "Last-Translator: lyyser <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-21 21:24+0000\n"
-"X-Generator: Launchpad (build 14981)\n"
+"X-Launchpad-Export-Date: 2012-04-09 12:20+0000\n"
+"X-Generator: Launchpad (build 15060)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
-msgstr ""
+msgstr "KB"
 
 #: deluge/common.py:277
 msgid "MiB"
-msgstr ""
+msgstr "MB"
 
 #: deluge/common.py:279
 msgid "GiB"
-msgstr ""
+msgstr "GB"
 
 #: deluge/common.py:298
 msgid "K"
@@ -62,11 +62,11 @@ msgstr "KiB/s"
 
 #: deluge/common.py:342
 msgid "MiB/s"
-msgstr ""
+msgstr "MB/s"
 
 #: deluge/common.py:344
 msgid "GiB/s"
-msgstr ""
+msgstr "GB/s"
 
 #: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
 #: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
@@ -501,7 +501,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr ""
+msgstr "Määra allalaadimse asukoht"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393

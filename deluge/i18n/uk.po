@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-03-11 19:23+0000\n"
-"PO-Revision-Date: 2012-02-05 21:49+0000\n"
-"Last-Translator: Dima Kyrychuk <Unknown>\n"
+"PO-Revision-Date: 2012-03-28 18:26+0000\n"
+"Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-21 21:26+0000\n"
-"X-Generator: Launchpad (build 14981)\n"
+"X-Launchpad-Export-Date: 2012-04-09 12:21+0000\n"
+"X-Generator: Launchpad (build 15060)\n"
 
 #: deluge/common.py:274
 msgid "KiB"
@@ -31,15 +31,15 @@ msgstr "Гб"
 
 #: deluge/common.py:298
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: deluge/common.py:301
 msgid "M"
-msgstr ""
+msgstr "М"
 
 #: deluge/common.py:303
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: deluge/common.py:339
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
@@ -75,7 +75,7 @@ msgstr "Помилка"
 
 #: deluge/core/torrentmanager.py:939
 msgid "Announce OK"
-msgstr "Анонс вірний"
+msgstr "Анонс виконано"
 
 #: deluge/core/torrentmanager.py:955
 msgid "Announce Sent"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Показати Мерехтіння Повідомлення"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
 msgid "Popup notification is not enabled."
@@ -148,7 +148,7 @@ msgstr "pynotify не вдалося показати сповіщення"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Показувати спливаюче вікно"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
@@ -187,7 +187,7 @@ msgstr "<b><i><big>Повідомлення</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:76
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Увімкнути мерехтіння іконки в системному лотку"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:88
 msgid "Popups enabled"
@@ -274,7 +274,7 @@ msgstr "Підписки"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:586
 msgid "Sound Customization"
-msgstr ""
+msgstr "Налаштування звуку"
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:27
 msgid "Extract to:"
@@ -469,7 +469,7 @@ msgstr "Порт для з'єднань:"
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Папка в котрій ви зараз не існуе."
 
 #: deluge/plugins/autoadd/autoadd/core.py:139
 #: deluge/plugins/autoadd/autoadd/core.py:383
@@ -478,7 +478,7 @@ msgstr "Шлях не існує."
 
 #: deluge/plugins/autoadd/autoadd/data/config.glade:39
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Дивитися папки:</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
@@ -486,7 +486,7 @@ msgstr "Помилка Авто-додавання"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Дивитися властивості папки"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:139
 msgid "Enable this watch folder"
@@ -494,7 +494,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:160
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Дивитися папку</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:190
 msgid "Delete .torrent after adding"
@@ -502,7 +502,7 @@ msgstr "Після додання видалити .torrent"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:206
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Додати розширення після добавки:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:223
 msgid ".added"
@@ -510,11 +510,11 @@ msgstr ".додано"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:243
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Дія торрент файла</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr ""
+msgstr "Визначити місце завантаження"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
@@ -523,7 +523,7 @@ msgstr "<b>Шлях для збереження файлів</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:346
 msgid "Set move completed location"
-msgstr ""
+msgstr "Перемістити після завантаження"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:411
 msgid "<b>Move Completed</b>"
@@ -583,15 +583,15 @@ msgstr "Видалити при коефіцієнті"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:754
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Автоматично:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:882
 msgid "Add Paused:"
-msgstr ""
+msgstr "Додати призупинені:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:928
 msgid "Queue to:"
-msgstr ""
+msgstr "Черга до:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:946
 msgid "Top"
@@ -618,7 +618,7 @@ msgstr "Ліміт завантаження:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
 msgid "Upload Limit:"
-msgstr "Ліміт відвантаження:"
+msgstr "Ліміт віддачі:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
 msgid "Active Torrents:"
@@ -626,11 +626,11 @@ msgstr "Активні торенти:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Активне Завантаження:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Активне сідування:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:288
 msgid "<b>Slow Settings</b>"
@@ -708,7 +708,7 @@ msgstr "Черга"
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
 msgid "Move completed to:"
-msgstr "Перемістити закачані до:"
+msgstr "Перемістити завантажені до:"
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -1768,6 +1768,8 @@ msgid ""
 "Deluge cannot find the 'deluged' executable, it is likely that you forgot to "
 "install the deluged package or it's not in your PATH."
 msgstr ""
+"Deluge не може знайти виконуваний \"deluged \" файл, цілком ймовірно, що ви "
+"забули встановити deluged пакети або його немає в вашому шляху."
 
 #: deluge/ui/web/server.py:661
 msgid "Starting server in PID"
@@ -1884,7 +1886,7 @@ msgstr "Завантажено"
 
 #: deluge/ui/gtkui/torrentview.py:245
 msgid "Uploaded"
-msgstr "Відвантажено"
+msgstr "Віддано"
 
 #: deluge/ui/gtkui/torrentview.py:248 deluge/ui/gtkui/torrentview.py:578
 #: deluge/ui/gtkui/peers_tab.py:129 deluge/ui/gtkui/files_tab.py:156
@@ -1951,7 +1953,7 @@ msgstr "Клієнт"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Версія клієнта</i>"
 
 #: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
 #: deluge/ui/gtkui/aboutdialog.py:55
@@ -1997,11 +1999,11 @@ msgstr "Інше…"
 
 #: deluge/ui/gtkui/systemtray.py:470
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge захищено паролем!"
 
 #: deluge/ui/gtkui/systemtray.py:476
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Введіть ваш пароль для продовження"
 
 #: deluge/ui/gtkui/common.py:73
 msgid "Activated"
@@ -2098,7 +2100,7 @@ msgstr "Невірний URL"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:632
 msgid "is not a valid URL."
-msgstr ""
+msgstr "не коректний URL."
 
 #: deluge/ui/gtkui/addtorrentdialog.py:636
 msgid "Downloading..."
@@ -2290,21 +2292,23 @@ msgstr "Подробиці:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "D:"
-msgstr ""
+msgstr "D:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "U:"
-msgstr ""
+msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid "Copyright 2007-2011 Deluge Team"
-msgstr ""
+msgstr "Копірайт 2007-2011 Deluge Team"
 
 #: deluge/ui/gtkui/aboutdialog.py:61
 msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
+"Точка-обміну файлами програма\n"
+"з використанням BitTorrent протокол."
 
 #: deluge/ui/gtkui/aboutdialog.py:62
 msgid "Client:"
@@ -2316,7 +2320,7 @@ msgstr "Поточні розробники:"
 
 #: deluge/ui/gtkui/aboutdialog.py:67
 msgid "Past Developers or Contributors:"
-msgstr ""
+msgstr "Минуле розробників або Автори:"
 
 #: deluge/ui/gtkui/aboutdialog.py:252
 msgid ""
@@ -2344,6 +2348,28 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Ця програма є вільним програмним забезпеченням, ви можете розповсюджувати та "
+"/ або модифікувати його на умовах GNU General Public License, опублікованій "
+"Free Software Foundation, версії 3, або (за вашим вибором) будь-якої "
+"пізнішої версії.\n"
+"\n"
+"Ця програма поширюється в надії, що вона буде корисною, але БЕЗ БУДЬ-ЯКИХ "
+"ГАРАНТІЙ, навіть без гарантій КОМЕРЦІЙНОЇ ЦІННОСТІ чи ПРИДАТНОСТІ ДЛЯ "
+"КОНКРЕТНИХ ЦІЛЕЙ. Див громадської ліцензії GNU General ліцензії для більш "
+"докладної інформації.\n"
+"\n"
+"Ви повинні були отримати копію Public License GNU General разом з цією "
+"програмою, якщо ні, див <http://www.gnu.org/licenses>.\n"
+"\n"
+"Крім того, в якості особливого винятку, власників авторських прав дати "
+"дозвіл, щоб зв'язати код частини цієї програми з бібліотекою OpenSSL. Ви "
+"повинні коритися GNU General Public License у всіх відношеннях для всіх код, "
+"що використовується, крім OpenSSL.\n"
+"\n"
+"Якщо ви зміните файл (и) з виключенням цього, ви можете розширити це виняток "
+"для вашої версії файлу (ів), але ви не зобов'язані це робити. Якщо ви не "
+"хочете зробити це, видаліть це виняток заява від вашої версії. Якщо ви "
+"видалите це виняток заява всі вихідні файли в програму, то і видаляти її тут."
 
 #: deluge/ui/gtkui/aboutdialog.py:287
 msgid "Server:"
@@ -2351,7 +2377,7 @@ msgstr "Сервер:"
 
 #: deluge/ui/gtkui/aboutdialog.py:290
 msgid "libtorrent:"
-msgstr ""
+msgstr "libtorrent:"
 
 #: deluge/ui/gtkui/statusbar.py:146
 msgid "Not Connected"
@@ -2419,7 +2445,7 @@ msgstr "Видалити з даними"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:155
 msgid "Remove _Torrent"
-msgstr "Видалити Торрент."
+msgstr "Видалити _торрент"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -2523,12 +2549,12 @@ msgstr "Копіювати .torrent файл до:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:318
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Видалити копію торрент-файла"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:322
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+msgstr "Видалити копію торрент-файла, створеного, коли торрент був видалений"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
@@ -2864,7 +2890,7 @@ msgstr "Згортати в трей при запуску"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2069
 msgid "Enable Application Indicator"
-msgstr ""
+msgstr "Включити індикатор програми"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2090
 msgid "Password protect system tray"
@@ -3184,7 +3210,7 @@ msgstr "<b>Статус</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4606
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr "<i><b><big>Плагіни</big></b></i>"
+msgstr "<i><b><big>Плагінів</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
 msgid "Version:"
@@ -3542,11 +3568,11 @@ msgstr "<b>ETA:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1029
 msgid "<b>Up Speed:</b>"
-msgstr ""
+msgstr "<b>Швидкість віддачі:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Швидкість завантаження:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Next Announce:</b>"
@@ -3689,7 +3715,7 @@ msgstr "_Відвідати веб-сайт"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2694
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Додати Пір"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2696
 msgid "Add a peer by its IP"
@@ -3701,7 +3727,7 @@ msgstr "Відкрити теку"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:33
 msgid "_Pause"
-msgstr ""
+msgstr "_Пауза"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
@@ -3853,11 +3879,11 @@ msgstr "Клієнт BitTorrent"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent клієнт Deluge"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Завантаження та обмін файлами через BitTorrent"
 
 #~ msgid "Up:"
 #~ msgstr "Роздача:"
