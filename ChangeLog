@@ -7,13 +7,26 @@
 	* Modified fix for #1957, keyerror with non-acsii columns
 	* Fix translation of items in Sidebar and Torrent Menu
 	* #2052: Fix translation of Progress bar text
+	* #2071: Fix KeyError in gtkui when file priority set to value '3'
+	* #2064: Fix files treeview height in Create Dialog
+	* Fix missing semi-colon in deluge.desktop
+	* Disable setting file priorities for seeding torrents
+	* Bring MainWindow to front when opening another instance
 
 ==== WebUI ====
 	* #2050: Fix 'Up Speed' column not sorting
+	* Hide unused Infohash button in WebUI
 
 ==== Label ====
-	* Disable items for 'All' in sidebar menu
+	* Disable unusable items for 'All' in sidebar menu
 	* Fix items for translation
+
+=== Console ====
+	* Fix prefixed space for tab completing commands
+	* Fix missing trailing space for command options with tab complete
+
+=== Blocklist ====
+	* Use (documented) formatdate over format_date_time
 
 === Deluge 1.3.4 (03 March 2012) ===
 ==== Core ====
