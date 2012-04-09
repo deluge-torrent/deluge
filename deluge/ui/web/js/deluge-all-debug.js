@@ -7033,7 +7033,7 @@ Ext.each(Deluge.Keys.Grid, function(key) {
 });
 /*!
  * Deluge.LoginWindow.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -7064,7 +7064,7 @@ Ext.each(Deluge.Keys.Grid, function(key) {
  */
 
 Deluge.LoginWindow = Ext.extend(Ext.Window, {
-	
+
 	firstShow:   true,
 	bodyStyle:   'padding: 10px 5px;',
 	buttonAlign: 'center',
@@ -7078,17 +7078,17 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 	title:       _('Login'),
 	width:       300,
 	height:      120,
-	
+
 	initComponent: function() {
 		Deluge.LoginWindow.superclass.initComponent.call(this);
 		this.on('show', this.onShow, this);
-		
+
 		this.addButton({
 			text: _('Login'),
 			handler: this.onLogin,
 			scope: this
 		});
-		
+
 		this.form = this.add({
 			xtype: 'form',
 			baseCls: 'x-plain',
@@ -7107,7 +7107,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 		});
 		this.passwordField.on('specialkey', this.onSpecialKey, this);
 	},
-	
+
 	logout: function() {
 		deluge.events.fire('logout');
 		deluge.client.auth.delete_session({
@@ -7117,17 +7117,17 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 			scope: this
 		});
 	},
-	
+
 	show: function(skipCheck) {
 		if (this.firstShow) {
 			deluge.client.on('error', this.onClientError, this);
 			this.firstShow = false;
 		}
-		
+
 		if (skipCheck) {
 			return Deluge.LoginWindow.superclass.show.call(this);
 		}
-		
+
 		deluge.client.auth.check_session({
 			success: function(result) {
 				if (result) {
@@ -7142,11 +7142,11 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 			scope: this
 		});
 	},
-	
+
 	onSpecialKey: function(field, e) {
 		if (e.getKey() == 13) this.onLogin();
 	},
-	
+
 	onLogin: function() {
 		var passwordField = this.passwordField;
 		deluge.client.auth.login(passwordField.getValue(), {
@@ -7172,16 +7172,16 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 			scope: this
 		});
 	},
-	
+
 	onClientError: function(errorObj, response, requestOptions) {
 		if (errorObj.error.code == 1) {
 			deluge.events.fire('logout');
 			this.show(true);
 		}
 	},
-	
+
 	onShow: function() {
-		this.passwordField.focus(true, 100);
+		this.passwordField.focus(true, 300);
 	}
 });
 /*!
