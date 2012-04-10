@@ -1,4 +1,4 @@
-build_version = "1.3.4"
+build_version = "1.3.5"
 python_path = "C:\\Python26\\"
 
 import os, glob
@@ -10,7 +10,7 @@ shutil.copy(python_path + "Scripts\deluge-web-script.py", python_path + "Scripts
 shutil.copy(python_path + "Scripts\deluge-gtk-script.pyw", python_path + "Scripts\deluge-gtk.py")
 shutil.copy(python_path + "Scripts\deluge-console-script.py", python_path + "Scripts\deluge-console.py")
 
-includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils", "gio", "gtk.glade")
+includes=("libtorrent", "gzip", "zipfile", "re", "socket", "struct", "cairo", "pangocairo", "atk", "pango", "twisted.internet.utils", "gio", "gtk.glade", "email.mime")
 excludes=("numpy", "OpenGL", "psyco", "win32ui")
 
 dst = "..\\build-win32\\deluge-bbfreeze-" + build_version + "\\"
