@@ -38,7 +38,7 @@ icon.CopyIcons(dst+"deluge-gtk.exe", icon_path)
 icon.CopyIcons(dst+"deluge-console.exe", icon_path)  
 
 # exclude files which are already included in GTK or Windows
-excludeFiles = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll")
+excludeFiles = ("MSIMG32.dll", "MSVCR90.dll", "MSVCP90.dll", "POWRPROF.dll", "DNSAPI.dll", "USP10.dll")
 for file in excludeFiles:
     for filename in glob.glob(dst + file):
         print "removing file:", filename
