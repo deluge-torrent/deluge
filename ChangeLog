@@ -21,11 +21,11 @@
 	* Disable unusable items for 'All' in sidebar menu
 	* Fix items for translation
 
-=== Console ====
+==== Console ====
 	* Fix prefixed space for tab completing commands
 	* Fix missing trailing space for command options with tab complete
 
-=== Blocklist ====
+==== Blocklist ====
 	* Use (documented) formatdate over format_date_time
 
 === Deluge 1.3.4 (03 March 2012) ===
