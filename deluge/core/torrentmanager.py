@@ -590,7 +590,10 @@ class TorrentManager(component.Component):
 
         # Remove from set if it wasn't finished
         if not self.torrents[torrent_id].is_finished:
-            self.queued_torrents.remove(torrent_id)
+            try:
+                self.queued_torrents.remove(torrent_id)
+            except KeyError:
+                log.debug("%s isn't in queued torrents set?", torrent_id)
 
         # Remove the torrent from deluge's session
         try:
@@ -893,7 +896,11 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
         # Torrent is no longer part of the queue
-        self.queued_torrents.remove(torrent_id)
+        try:
+            self.queued_torrents.remove(torrent_id)
+        except KeyError:
+            # Sometimes libtorrent fires a TorrentFinishedEvent twice
+            log.debug("%s isn't in queued torrents set?", torrent_id)
 
         # Only save resume data if it was actually downloaded something. Helps
         # on startup with big queues with lots of seeding torrents. Libtorrent
