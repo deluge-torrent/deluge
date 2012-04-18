@@ -13,39 +13,25 @@ The GTK+ runtime libraries are installed separately (anywhere, in the Windows PA
 1)  Build Deluge on Windows
 
 2)  Use a slightly hacked bbfreeze to create a standalone "executable" which does not need the the Python libs
-    
+
     The modification is to add these lines to:
-    
+
         C:\Python26\Lib\site-packages\bbfreeze-0.96.5-py2.6-win32.egg\bbfreeze\recipes.py
 
-    Right after the 'prefixes' part of the Python function 'recipe_gtk_and_friends':
+    Right at the top of the Python function 'recipe_gtk_and_friends':
+        return True
 
-        # Exclude DLL files in the GTK+ runtime bin dir.
-        # The GTK+ runtime must be in the PATH or copied to the application dir,
-        # so there is no point in including these DLLs with the bbfreeze output.
-        #
-        prefixes2 = ["iconv", "intl", "zlib1", "libpng12", "libatk", "libcairo", "libfont", "libfree", "libtiff", "libgio"]
-
-        for p in prefixes2:        
-            if x.identifier.startswith(p):
-                print "SKIPPING:", x
-                x.__class__ = ExcludedModule
-                retval = True                
-                break
-
-    The purpose is to avoid that bbfreeze copies DLLs from the GTK+ runtime bin directory.
-    Bbfreeze only copies a subset of the necessary DLLs (for some reason?). The cleanest 
-    solution is to have the GTK+ runtime in a separate dir. 
-
+    We want to include all the gtk libraries in the installer so that users don't
+    require a separate GTK+ installation.
 
 3)  Edit the 'build_version' variable in the Python script:
 
         win32/build-bbfreeze.py
 
     and run the script from the win32 directory:
-  
+
         python build-bbfreeze.py
-  
+
     The script places the bbfreeze'd version of deluge in
 
         build-win32/deluge-bbfreeze-build_version
@@ -60,13 +46,13 @@ The GTK+ runtime libraries are installed separately (anywhere, in the Windows PA
 
     and run the NSIS script.
 
-    The result is a standalone installer. The only dependency for the installer is the GTK+ runtime, 
+    The result is a standalone installer. The only dependency for the installer is the GTK+ runtime,
     which is downloaded by the Deluge installer if it isn't installed in the system.
 
     The GTK+ installer is downloaded from http://download.deluge-torrent.org/windows/deps/
     and placed in the user temp directory (not deleted after installation).
 
-    The post install script creates the deluge.cmd file using startX.exe with the correct path 
+    The post install script creates the deluge.cmd file using startX.exe with the correct path
     and sets up the file association for .torrent.
 
 
