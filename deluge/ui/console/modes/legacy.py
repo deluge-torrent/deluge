@@ -418,7 +418,12 @@ class Legacy(BaseMode):
         except KeyError:
             self.write("{!error!}Unknown command: %s" % cmd)
             return
-        args = self.console._commands[cmd].split(line)
+
+        try:
+            args = self._commands[cmd].split(line)
+        except ValueError, e:
+            self.write("{!error!}Error parsing command: %s" % e)
+            return
 
         # Do a little hack here to print 'command --help' properly
         parser._print_help = parser.print_help
