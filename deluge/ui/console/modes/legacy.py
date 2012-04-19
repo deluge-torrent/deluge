@@ -420,7 +420,7 @@ class Legacy(BaseMode):
             return
 
         try:
-            args = self._commands[cmd].split(line)
+            args = self.console._commands[cmd].split(line)
         except ValueError, e:
             self.write("{!error!}Error parsing command: %s" % e)
             return
