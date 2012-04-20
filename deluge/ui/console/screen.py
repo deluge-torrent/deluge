@@ -165,26 +165,25 @@ class Screen(CursesStdIO):
             Returns a list of 2-tuples (color string, text)
 
             """
+            if not line or line.count("{!") != line.count("!}"):
+                return []
+
             chunks = []
-            num_chunks = line.count("{!")
-            for i in range(num_chunks):
-                # Find the beginning and end of the color tag
-                beg = line.find("{!")
-                end = line.find("!}") + 2
-                color = line[beg:end]
-                line = line[end:]
+            if not line.startswith('{!'):
+                begin = line.find('{!')
+                if begin == -1:
+                    begin = len(line)
+                chunks.append( ('', line[:begin]) )
+                line = line[begin:]
 
-                # Check to see if this is the last chunk
-                if i + 1 == num_chunks:
-                    text = line
-                else:
-                    # Not the last chunk so get the text up to the next tag
-                    # and remove the text from line
-                    text = line[:line.find("{!")]
-                    line = line[line.find("{!"):]
-
-                chunks.append((color, text))
-
+            while line:
+                # We know the line starts with '{!' here
+                end_color = line.find('!}')
+                next_color = line.find('{!', end_color)
+                if next_color == -1:
+                    next_color = len(line)
+                chunks.append( (line[:end_color+2], line[end_color+2:next_color]) )
+                line = line[next_color:]
             return chunks
 
         for line in text.splitlines():
@@ -192,8 +191,8 @@ class Screen(CursesStdIO):
             try:
                 line_length = colors.get_line_length(line)
             except colors.BadColorString:
-                log.error("Passed a bad colored string..")
-                line_length = len(line)
+                log.error("Passed a bad colored line: %s", line)
+                continue
 
             if line_length >= (self.cols - 1):
                 s = ""
