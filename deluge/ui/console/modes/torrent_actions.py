@@ -86,7 +86,10 @@ def torrent_action(idx, data, mode, ids):
                                 if tq in mode.marked:
                                     selected_num += 1
                         if qact == ACTION.QUEUE_TOP:
-                            mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
+                            if mode.marked:
+                                mode.cursel = 1 + sorted(mode.marked).index(mode.cursel)
+                            else:
+                                mode.cursel = 1
                             mode.marked = range(1, selected_num + 1)
                         elif qact == ACTION.QUEUE_UP:
                             mode.cursel = max(1, mode.cursel - 1)
@@ -97,7 +100,10 @@ def torrent_action(idx, data, mode, ids):
                             mode.marked = map(lambda v: v+1, mode.marked)
                             mode.marked = filter(lambda v: v<=queue_length, mode.marked)
                         elif qact == ACTION.QUEUE_BOTTOM:
-                            mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
+                            if mode.marked:
+                                mode.cursel = queue_length - selected_num + 1 + sorted(mode.marked).index(mode.cursel)
+                            else:
+                                mode.cursel = queue_length
                             mode.marked = range(queue_length - selected_num + 1, queue_length+1)
 
                 if qact == ACTION.QUEUE_TOP:
