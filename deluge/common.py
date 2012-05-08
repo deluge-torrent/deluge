@@ -232,6 +232,8 @@ def open_file(path):
     """
     if windows_check():
         os.startfile("%s" % path)
+    elif osx_check():
+        subprocess.Popen(["open", "%s" % path])
     else:
         subprocess.Popen(["xdg-open", "%s" % path])
 
