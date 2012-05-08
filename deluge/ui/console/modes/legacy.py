@@ -543,7 +543,7 @@ class Legacy(BaseMode):
         # the line.
         elif len(possible_matches) == 1:
             #We only want to print eventual colors or other control characters, not return them
-            new_line = line_prefix + possible_matches[0] + " "
+            new_line = line_prefix + possible_matches[0]
             new_line = format_utils.remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
