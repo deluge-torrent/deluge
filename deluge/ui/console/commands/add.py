@@ -139,6 +139,9 @@ class Command(BaseCommand):
                     		else:	# \o/ Unix
                         		p += "/"
                         ret.append(p)
+
+        ret = sorted(ret, key=lambda p: os.stat(p).st_mtime, reverse=True)
+
         for i in range(0, len(ret)):
             ret[i] = ret[i].replace(" ", r"\ ")
         return ret
