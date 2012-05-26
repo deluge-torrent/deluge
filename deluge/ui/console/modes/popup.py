@@ -123,11 +123,20 @@ class Popup:
         self._lines = []
 
     def handle_read(self, c):
+        p_off = self.height - 3
         if c == curses.KEY_UP:
             self.lineoff = max(0,self.lineoff -1)
+        elif c == curses.KEY_PPAGE:
+            self.lineoff = max(0,self.lineoff - p_off)
+        elif c == curses.KEY_HOME:
+            self.lineoff = 0
         elif c == curses.KEY_DOWN:
             if len(self._lines)-self.lineoff > (self.height-2):
                 self.lineoff += 1
+        elif c == curses.KEY_NPAGE:
+            self.lineoff = min(len(self._lines) - self.height+2, self.lineoff + p_off)
+        elif c == curses.KEY_END:
+            self.lineoff = len(self._lines) - self.height+2
 
         elif c == curses.KEY_ENTER or c == 10 or c == 27: # close on enter/esc
             if self.close_cb:
