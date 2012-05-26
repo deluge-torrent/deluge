@@ -65,9 +65,12 @@ class Command(BaseCommand):
             t_options["download_location"] = os.path.expanduser(options["path"])
 
         def on_success(result):
-            self.console.write("{!success!}Torrent added!")
+            if not result:
+                self.console.write("{!error!}Torrent was not added: Already in session")
+            else:
+                self.console.write("{!success!}Torrent added!")
         def on_fail(result):
-            self.console.write("{!error!}Torrent was not added! %s" % result)
+            self.console.write("{!error!}Torrent was not added: %s" % result)
 
         # Keep a list of deferreds to make a DeferredList
         deferreds = []
