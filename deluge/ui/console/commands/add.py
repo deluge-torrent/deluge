@@ -40,6 +40,7 @@ import deluge.ui.console.colors as colors
 from deluge.ui.client import client
 import deluge.component as component
 import deluge.common
+from deluge.ui.common import TorrentInfo
 
 from optparse import make_option
 import os
@@ -102,6 +103,8 @@ class Command(BaseCommand):
         return defer.DeferredList(deferreds)
 
     def complete(self, line):
+        self.console = component.get("ConsoleUI")
+
         line = line.replace("\ ", " ")
         line = os.path.abspath(os.path.expanduser(line))
         ret = []
@@ -110,40 +113,59 @@ class Command(BaseCommand):
             if os.path.isdir(line):
                 # Directory, so we need to show contents of directory
                 #ret.extend(os.listdir(line))
-                for f in os.listdir(line):
-                    # Skip hidden
-                    if f.startswith("."):
-                        continue
-                    f = os.path.join(line, f)
-                    if os.path.isdir(f):
-                    	if os.sep == '\\': # Windows path support :|
-                    		f += "\\"
-                    	else:	# \o/ Unix
-                        	f += "/"
-                    ret.append(f)
+                try:
+                    for f in os.listdir(line):
+                        # Skip hidden
+                        if f.startswith("."):
+                            continue
+                        f = os.path.join(line, f)
+                        if os.path.isdir(f):
+                            if os.sep == '\\': # Windows path support :|
+                                f += "\\"
+                            else:	# \o/ Unix
+                                f += "/"
+                        elif not f.endswith(".torrent"):
+                            continue
+                        ret.append(f)
+                except OSError:
+                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
             else:
-                # This is a file, but we could be looking for another file that
-                # shares a common prefix.
-                for f in os.listdir(os.path.dirname(line)):
-                    if f.startswith(os.path.split(line)[1]):
-                        ret.append(os.path.join( os.path.dirname(line), f))
+                try:
+                    # This is a file, but we could be looking for another file that
+                    # shares a common prefix.
+                    for f in os.listdir(os.path.dirname(line)):
+                        if f.startswith(os.path.split(line)[1]):
+                            ret.append(os.path.join( os.path.dirname(line), f))
+                except OSError:
+                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
         else:
             # This path does not exist, so lets do a listdir on it's parent
             # and find any matches.
-            ret = []
-            if os.path.isdir(os.path.dirname(line)):
-                for f in os.listdir(os.path.dirname(line)):
-                    if f.startswith(os.path.split(line)[1]):
-                        p = os.path.join(os.path.dirname(line), f)
+            try:
+                ret = []
+                if os.path.isdir(os.path.dirname(line)):
+                    for f in os.listdir(os.path.dirname(line)):
+                        if f.startswith(os.path.split(line)[1]):
+                            p = os.path.join(os.path.dirname(line), f)
 
-                        if os.path.isdir(p):
-                        	if os.sep == '\\': # Windows path support :|
-                    			p += "\\"
-                    		else:	# \o/ Unix
-                        		p += "/"
-                        ret.append(p)
+                            if os.path.isdir(p):
+                                if os.sep == '\\': # Windows path support :|
+                                    p += "\\"
+                                else:	# \o/ Unix
+                                    p += "/"
+                            ret.append(p)
+            except OSError:
+                self.console.write("{!error!}Permission denied: {!info!}%s" % line)
 
+        #Sort by date instead of whatever we might get from os.listdir
         ret = sorted(ret, key=lambda p: os.stat(p).st_mtime, reverse=True)
+        #Directories first
+        ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=True)
+
+        #Highlight directory names
+        for i, filename in enumerate(ret):
+            if os.path.isdir(filename):
+                ret[i] = "{!cyan!}%s" % filename
 
         for i in range(0, len(ret)):
             ret[i] = ret[i].replace(" ", r"\ ")
