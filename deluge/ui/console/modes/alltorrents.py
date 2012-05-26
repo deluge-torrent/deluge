@@ -781,6 +781,20 @@ class AllTorrents(BaseMode, component.Component):
                 elif row[1] == "Checking":
                     fg = "blue"
 
+                if self.entering_search and len(self.search_string) > 1:
+                    lcase_name = self.torrent_names[tidx-1].lower()
+                    sstring_lower = self.search_string.lower()
+                    if lcase_name.find(sstring_lower) != -1:
+                        if tidx == self.cursel:
+                            pass
+                        elif tidx in self.marked:
+                            bg = "magenta"
+                        else:
+                            bg = "green"
+                            if fg == "green":
+                                fg = "black"
+                            attr = "bold"
+
                 if attr:
                     colorstr = "{!%s,%s,%s!}"%(fg,bg,attr)
                 else:
