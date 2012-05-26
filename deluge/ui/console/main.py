@@ -163,7 +163,10 @@ class BaseCommand(object):
     def split(self, text):
         if deluge.common.windows_check():
             text = text.replace('\\', '\\\\')
-        return re.split(r"(?<!\\) ", text)
+        result = re.split(r"(?<!\\) ", text)
+        for i, s in enumerate(result):
+            result[i] = s.replace(r'\ ', ' ')
+        return result
 
     def create_parser(self):
         return OptionParser(prog = self.name,
