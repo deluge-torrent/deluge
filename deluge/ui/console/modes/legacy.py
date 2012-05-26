@@ -87,7 +87,11 @@ def complete_line(line, possible_matches):
 
     for match in possible_matches[1:]:
         for i, c in enumerate(match):
-            if c.lower() != possible_matches[0][i].lower():
+            try:
+                if c.lower() != possible_matches[0][i].lower():
+                    maxlen = min(maxlen, i)
+                    break
+            except IndexError:
                 maxlen = min(maxlen, i)
                 break
 
@@ -597,7 +601,11 @@ class Legacy(BaseMode):
             if   hits == 1:
                 p = " ".join(split(line)[:-1])
 
-                l_arg = shlex.split(line)[-1]
+                try:
+                    l_arg = shlex.split(line)[-1]
+                except IndexError:
+                    l_arg = ""
+
                 new_line = " ".join( [p, complete_line(l_arg, possible_matches)] ).lstrip()
 
                 if len(format_utils.remove_formatting(new_line)) > len(line):
