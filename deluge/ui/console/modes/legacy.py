@@ -52,7 +52,6 @@ strwidth = format_utils.strwidth
 import logging,os
 log = logging.getLogger(__name__)
 
-import shlex
 import re
 
 LINES_BUFFER_SIZE = 5000
@@ -602,7 +601,7 @@ class Legacy(BaseMode):
                 p = " ".join(split(line)[:-1])
 
                 try:
-                    l_arg = shlex.split(line)[-1]
+                    l_arg = split(line)[-1]
                 except IndexError:
                     l_arg = ""
 

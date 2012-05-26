@@ -38,7 +38,7 @@ import os
 import sys
 import logging
 import optparse
-import shlex
+import re
 import locale
 
 from twisted.internet import defer, reactor
@@ -163,7 +163,7 @@ class BaseCommand(object):
     def split(self, text):
         if deluge.common.windows_check():
             text = text.replace('\\', '\\\\')
-        return shlex.split(text)
+        return re.split(r"(?<!\\) ", text)
 
     def create_parser(self):
         return OptionParser(prog = self.name,
