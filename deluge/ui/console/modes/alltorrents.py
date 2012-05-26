@@ -829,6 +829,8 @@ class AllTorrents(BaseMode, component.Component):
                 self.cursel = (i+1)
                 if ((self.curoff + self.rows - 5) < self.cursel):
                     self.curoff = self.cursel - self.rows + 5
+                elif ((self.curoff - 4) > self.cursel):
+                    self.curoff = max(1, self.cursel - 4)
                 self.search_state = SEARCH_SUCCESS
                 return
         self.search_state = SEARCH_FAILING
@@ -896,6 +898,7 @@ class AllTorrents(BaseMode, component.Component):
             self.search_string = ""
             self.search_state = SEARCH_EMPTY
         elif c > 31 and c < 256:
+            old_search_string = self.search_string
             stroke = chr(c)
             uchar = ""
             while not uchar:
@@ -912,8 +915,17 @@ class AllTorrents(BaseMode, component.Component):
                     self.search_string = self.search_string[:self.cursor] + uchar + self.search_string[self.cursor:]
                 # Move the cursor forward
                 self.cursor+=1
-            if self.search_string and cname.lower().find(self.search_string.lower()) == -1:
+            still_matching = (
+                cname.lower().find(self.search_string.lower())
+                ==
+                cname.lower().find(old_search_string.lower())
+                and
+                cname.lower().find(self.search_string.lower()) != -1
+            )
+            if self.search_string and not still_matching:
                 self.__do_search()
+            elif self.search_string:
+                self.search_state = SEARCH_SUCCESS
 
         if not self.search_string:
             self.search_state = SEARCH_EMPTY
