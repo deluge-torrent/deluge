@@ -890,7 +890,6 @@ class AllTorrents(BaseMode, component.Component):
         elif c == curses.KEY_END:
             self.cursor = len(self.search_string)
         elif c in [10, curses.KEY_ENTER]:
-            self.search_string = None
             self.entering_search = False
             self.search_state = SEARCH_EMPTY
         elif c == 27:
