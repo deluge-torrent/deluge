@@ -862,21 +862,21 @@ class AllTorrents(BaseMode, component.Component):
         self.search_state = SEARCH_END_REACHED
 
     def __update_search(self, c):
+        cname = self.torrent_names[self.cursel-1]
         if c == curses.KEY_BACKSPACE or c == 127:
             if self.search_string and  self.cursor > 0:
                 self.search_string = self.search_string[:self.cursor - 1] + self.search_string[self.cursor:]
                 self.cursor-=1
-                if self.search_state in [SEARCH_START_REACHED, SEARCH_END_REACHED]:
+                if cname.lower().find(self.search_string.lower()) != -1:
                     self.search_state = SEARCH_SUCCESS
         elif c == curses.KEY_DC:
             if self.search_string and self.cursor < len(self.search_string):
                 self.search_string = self.search_string[:self.cursor] + self.search_string[self.cursor+1:]
 
-            if self.search_state in [SEARCH_START_REACHED, SEARCH_END_REACHED]:
-                self.search_state = SEARCH_SUCCESS
-
             if self.cursor < len(self.search_string):
                 self.__do_search()
+            if cname.lower().find(self.search_string.lower()) != -1:
+                self.search_state = SEARCH_SUCCESS
         elif c == curses.KEY_UP:
             self.__do_search_backward()
         elif c == curses.KEY_DOWN:
@@ -912,7 +912,7 @@ class AllTorrents(BaseMode, component.Component):
                     self.search_string = self.search_string[:self.cursor] + uchar + self.search_string[self.cursor:]
                 # Move the cursor forward
                 self.cursor+=1
-            if self.search_string:
+            if self.search_string and cname.lower().find(self.search_string.lower()) == -1:
                 self.__do_search()
 
         if not self.search_string:
