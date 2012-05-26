@@ -822,8 +822,10 @@ class AllTorrents(BaseMode, component.Component):
 
     def __do_search(self):
         # search forward for first torrent matching self.search_string
+        search_string = self.search_string.lower()
         for i,n in enumerate(self.torrent_names):
-            if n.find(self.search_string) >= 0:
+            n = n.lower()
+            if n.find(search_string) >= 0:
                 self.cursel = (i+1)
                 if ((self.curoff + self.rows - 5) < self.cursel):
                     self.curoff = self.cursel - self.rows + 5
@@ -835,8 +837,10 @@ class AllTorrents(BaseMode, component.Component):
         # search backward for the next torrent matching self.search_string
         search_list = list(enumerate(self.torrent_names[:self.cursel-1]))
         search_list = list(reversed(search_list))
+        search_string = self.search_string.lower()
         for i,n in search_list:
-            if n.find(self.search_string) >= 0:
+            n = n.lower()
+            if n.find(search_string) >= 0:
                 self.cursel = (i+1)
                 if ((self.curoff - 4) > self.cursel):
                     self.curoff = self.cursel - 4
@@ -846,8 +850,10 @@ class AllTorrents(BaseMode, component.Component):
 
     def __do_search_forward(self):
         # search forward for the next torrent matching self.search_string
+        search_string = self.search_string.lower()
         for i,n in enumerate(self.torrent_names[self.cursel:]):
-            if n.find(self.search_string) >= 0:
+            n = n.lower()
+            if n.find(search_string) >= 0:
                 self.cursel += (i+1)
                 if ((self.curoff + self.rows - 5) < self.cursel):
                     self.curoff = self.cursel - self.rows + 5
