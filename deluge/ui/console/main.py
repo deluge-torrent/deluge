@@ -230,7 +230,7 @@ class ConsoleUI(component.Component):
                     cmdr.exec_args(args,*daemon)
                 else:
                     cmdr.exec_args(args,None,None,None,None)
-                
+
 
         self.coreconfig = CoreConfig()
         if self.interactive and not deluge.common.windows_check():
@@ -292,7 +292,7 @@ Please use commands from the command line, eg:\n
                 client.core.get_torrents_status({"id": result}, ["name"]).addCallback(on_torrents_status)
             client.core.get_session_state().addCallback(on_session_state)
 
-            
+
     def match_torrent(self, string):
         """
         Returns a list of torrent_id matches for the string.  It will search both
@@ -306,13 +306,14 @@ Please use commands from the command line, eg:\n
         """
         if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.match_torrent(string)
-        ret = []
+        matches  = []
+
         string = string.decode(self.encoding)
         for tid, name in self.torrents:
             if tid.startswith(string) or name.startswith(string):
-                ret.append(tid)
+                matches.append(tid)
 
-        return ret
+        return matches
 
 
     def get_torrent_name(self, torrent_id):
@@ -322,7 +323,7 @@ Please use commands from the command line, eg:\n
         for tid, name in self.torrents:
             if torrent_id == tid:
                 return name
-        
+
         return None
 
 

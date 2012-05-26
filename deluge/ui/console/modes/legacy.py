@@ -52,10 +52,57 @@ strwidth = format_utils.strwidth
 import logging,os
 log = logging.getLogger(__name__)
 
+import shlex
 import re
 
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
+
+def complete_line(line, possible_matches):
+    "Find the common prefix of possible matches, proritizing matching-case elements"
+
+    if not possible_matches: return line
+
+    line = line.replace(r"\ ", " ")
+
+    matches1 = []
+    matches2 = []
+
+    for match in possible_matches:
+        match = format_utils.remove_formatting(match)
+        match = match.replace(r"\ ", " ")
+        m1, m2 = "", ""
+        for i, c in enumerate(line):
+            if m1 and m2: break
+            if not m1 and c != line[i]:
+                m1 = line[:i]
+            if not m2 and c.lower() != line[i].lower():
+                m2 = line[:i]
+        if   not m1: matches1.append(match)
+        elif not m2: matches2.append(match)
+
+    possible_matches = matches1 + matches2
+
+    maxlen = 9001
+
+    for match in possible_matches[1:]:
+        for i, c in enumerate(match):
+            if c.lower() != possible_matches[0][i].lower():
+                maxlen = min(maxlen, i)
+                break
+
+    return possible_matches[0][:maxlen].replace(" ", r"\ ")
+
+def commonprefix(m):
+    "Given a list of pathnames, returns the longest common leading component"
+    if not m: return ''
+    s1 = min(m)
+    s2 = max(m)
+    for i, c in enumerate(s1):
+        if c != s2[i]:
+            return s1[:i]
+    return s
+
 
 class Legacy(BaseMode):
     def __init__(self, stdscr, console_config, encoding=None):
@@ -549,8 +596,11 @@ class Legacy(BaseMode):
         else:
             if   hits == 1:
                 p = " ".join(split(line)[:-1])
-                new_line = " ".join([p, os.path.commonprefix(possible_matches)]).lstrip()
-                if len(new_line) > len(line):
+
+                l_arg = shlex.split(line)[-1]
+                new_line = " ".join( [p, complete_line(l_arg, possible_matches)] ).lstrip()
+
+                if len(format_utils.remove_formatting(new_line)) > len(line):
                     line = new_line
                     cursor = len(line)
             elif hits >= 2:
@@ -617,13 +667,18 @@ class Legacy(BaseMode):
         line = line.replace("\\ ", " ")
 
         possible_matches = []
+        possible_matches2 = []
 
-        match_count = 0
+        match_count  = 0
+        match_count2 = 0
         for torrent_id, torrent_name in self.torrents:
             if torrent_id.startswith(line):
                 match_count += 1
             if torrent_name.startswith(line):
                 match_count += 1
+            elif torrent_name.lower().startswith(line.lower()):
+                match_count2 += 1
+
         # Find all possible matches
         for torrent_id, torrent_name in self.torrents:
             #Escape spaces to avoid, for example, expanding "Doc" into "Doctor Who" and removing everything containing one of these words
@@ -634,6 +689,10 @@ class Legacy(BaseMode):
                     possible_matches.append(torrent_id)
                     break
                 if torrent_name.startswith(line):
+                    possible_matches.append(escaped_name)
+                    break
+            elif match_count == 0 and match_count2 == 1:
+                if torrent_name.lower().startswith(line.lower()):
                     possible_matches.append(escaped_name)
                     break
             else:
@@ -647,7 +706,11 @@ class Legacy(BaseMode):
                 if torrent_name.startswith(line):
                     text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (escaped_name[:l], escaped_name[l:], torrent_id)
                     possible_matches.append(text)
-        return possible_matches
+                elif torrent_name.lower().startswith(line.lower()):
+                    text = "{!info!}%s{!input!}%s ({!cyan!}%s{!input!})" % (escaped_name[:l], escaped_name[l:], torrent_id)
+                    possible_matches2.append(text)
+
+        return possible_matches + possible_matches2
 
     def get_torrent_name(self, torrent_id):
         """
