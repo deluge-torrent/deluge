@@ -866,9 +866,15 @@ class AllTorrents(BaseMode, component.Component):
             if self.search_string and  self.cursor > 0:
                 self.search_string = self.search_string[:self.cursor - 1] + self.search_string[self.cursor:]
                 self.cursor-=1
+                if self.search_state in [SEARCH_START_REACHED, SEARCH_END_REACHED]:
+                    self.search_state = SEARCH_SUCCESS
         elif c == curses.KEY_DC:
             if self.search_string and self.cursor < len(self.search_string):
                 self.search_string = self.search_string[:self.cursor] + self.search_string[self.cursor+1:]
+
+            if self.search_state in [SEARCH_START_REACHED, SEARCH_END_REACHED]:
+                self.search_state = SEARCH_SUCCESS
+
             if self.cursor < len(self.search_string):
                 self.__do_search()
         elif c == curses.KEY_UP:
