@@ -165,6 +165,10 @@ class Legacy(BaseMode):
         # Read the character
         c = self.stdscr.getch()
 
+        # We remove the tab count if the key wasn't a tab
+        if c != 9:
+            self.tab_count = 0
+
         # We clear the input string and send it to the command parser on ENTER
         if c == curses.KEY_ENTER or c == 10:
             if self.input:
@@ -251,15 +255,29 @@ class Legacy(BaseMode):
                 self.display_lines_offset = 0
             self.refresh()
 
-        # We remove the tab count if the key wasn't a tab
-        if c != 9:
-            self.tab_count = 0
-
         # Delete a character in the input string based on cursor position
-        if c == curses.KEY_BACKSPACE or c == 127:
+        elif c == curses.KEY_BACKSPACE or c == 127:
             if self.input and self.input_cursor > 0:
                 self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
                 self.input_cursor -= 1
+
+        # Delete a word when alt+backspace is pressed
+        elif c == 27:
+            sep_chars = " *?!._~-#$^;'\""
+            deleted = 0
+            seg_start = self.input[:self.input_cursor]
+            seg_end = self.input[self.input_cursor:]
+
+            while seg_start and self.input_cursor > 0:
+                if (not seg_start) or (self.input_cursor == 0):
+                    break
+                if deleted and seg_start[-1] in sep_chars:
+                    break
+
+                seg_start = seg_start[:-1]
+                deleted += 1
+                self.input_cursor -= 1
+            self.input = seg_start + seg_end
 
         elif c == curses.KEY_DC:
             if self.input and self.input_cursor < len(self.input):
