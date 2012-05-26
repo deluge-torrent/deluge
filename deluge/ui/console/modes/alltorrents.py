@@ -560,6 +560,8 @@ class AllTorrents(BaseMode, component.Component):
             self.report_message("Torrent Add Report",msg)
 
     def _do_add(self, result):
+        if not result["file"]:
+            return
         log.debug("Adding Torrent(s): %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
         ress = {"succ":0,
                 "fail":0,
