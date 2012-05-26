@@ -48,4 +48,5 @@ class Command(BaseCommand):
         except KeyError:
             at = AllTorrents(console.stdscr,console.encoding)
         console.set_mode(at)
+        at._go_top = True
         at.resume()

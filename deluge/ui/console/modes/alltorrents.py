@@ -325,7 +325,6 @@ class AllTorrents(BaseMode, component.Component):
         self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     def resume(self):
-        self._go_top = True
         component.start(["AllTorrents"])
         self.refresh()
 

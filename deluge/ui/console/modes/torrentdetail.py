@@ -470,6 +470,7 @@ class TorrentDetail(BaseMode, component.Component):
         component.deregister(self)
         self.stdscr.clear()
         component.get("ConsoleUI").set_mode(self.alltorrentmode)
+        self.alltorrentmode._go_top = False
         self.alltorrentmode.resume()
 
     # build list of priorities for all files in the torrent
