@@ -235,6 +235,34 @@ torrent_options_to_names = {
     "move_on_completed_path": "Path to move the torrent to"
 }
 
+column_names_to_state_keys = {
+    "size": "total_wanted",
+    "downspeed": "download_payload_rate",
+    "upspeed": "upload_payload_rate",
+    "seeders": "num_seeds",
+    "peers": "num_peers",
+    "avail": "distributed_copies",
+    "added": "time_added",
+    "tracker": "tracker_host",
+    "savepath": "save_path",
+    "uploaded": "total_uploaded",
+    "downloaded": "all_time_download"
+}
+
+reverse_sort_fields = [
+    "total_wanted",
+    "download_payload_rate",
+    "upload_payload_rate",
+    "num_seeds",
+    "num_peers",
+    "distributed_copies",
+    "time_added",
+    "total_uploaded",
+    "all_time_download",
+    "progress",
+    "ratio"
+]
+
 SEARCH_EMPTY = 0
 SEARCH_FAILING = 1
 SEARCH_SUCCESS = 2
@@ -337,7 +365,6 @@ class AllTorrents(BaseMode, component.Component):
             self.__status_fields.append(s_primary)
         if s_secondary and (s_secondary not in self.__status_fields):
             self.__status_fields.append(s_secondary)
-
 
         self.__update_columns()
 
@@ -495,6 +522,7 @@ class AllTorrents(BaseMode, component.Component):
 
     def _sort_torrents(self, state):
         "sorts by primary and secondary sort fields"
+
         s_primary   = self.config["sort_primary"]
         s_secondary = self.config["sort_secondary"]
 
@@ -503,22 +531,31 @@ class AllTorrents(BaseMode, component.Component):
         #Sort first by secondary sort field and then primary sort field
         # so it all works out
 
-        cmp_func = self._queue_sort
 
         def sort_by_field(state, result, field):
+            if field in column_names_to_state_keys:
+                field = column_names_to_state_keys[field]
+
+            reverse = field in reverse_sort_fields
+
+            cmp_func = self._queue_sort
+
             #Get first element so we can check if it has given field
             # and if it's a string
             first_element = state[state.keys()[0]]
             if field in first_element:
                 is_string = isinstance( first_element[field], basestring)
+
                 sort_key  = lambda s:state.get(s)[field]
                 sort_key2 = lambda s:state.get(s)[field].lower()
+
                 #If it's a string, sort case-insensitively but preserve A>a order
                 if is_string:
-                    result = sorted(result, cmp_func, sort_key)
-                    result = sorted(result, cmp_func, sort_key2)
+                    result = sorted(result, cmp_func, sort_key, reverse)
+                    result = sorted(result, cmp_func, sort_key2, reverse)
                 else:
-                    result = sorted(result, cmp_func, sort_key)
+                    result = sorted(result, cmp_func, sort_key, reverse)
+
             return result
 
         #Just in case primary and secondary fields are empty and/or
