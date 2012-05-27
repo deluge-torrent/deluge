@@ -40,6 +40,8 @@ import deluge.common
 import colors
 from deluge.ui.client import client
 
+import time
+
 log = logging.getLogger(__name__)
 
 class EventLog(component.Component):
@@ -49,7 +51,8 @@ class EventLog(component.Component):
     def __init__(self):
         component.Component.__init__(self, "EventLog")
         self.console = component.get("ConsoleUI")
-        self.prefix = "{!event!}* "
+        self.prefix = "{!event!}* [%H:%M:%S] "
+        self.date_change_format = "On {!yellow!}%a, %d %b %Y{!info!} %Z:"
 
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
         client.register_event_handler("PreTorrentRemovedEvent", self.on_torrent_removed_event)
@@ -62,53 +65,78 @@ class EventLog(component.Component):
         client.register_event_handler("PluginEnabledEvent", self.on_plugin_enabled_event)
         client.register_event_handler("PluginDisabledEvent", self.on_plugin_disabled_event)
 
+        self.previous_time = time.localtime(0)
+
     def on_torrent_added_event(self, torrent_id, from_state):
         def on_torrent_status(status):
-            self.console.write(self.prefix + "TorrentAdded(from_state=%s): {!info!}%s (%s)" % (
+            self.write("{!green!}Torrent Added{!input!}(from_state=%s): {!info!}%s (%s)" % (
                 from_state, status["name"], torrent_id)
             )
+            #Write out what state the added torrent took
+            self.on_torrent_state_changed_event(torrent_id, status["state"])
+
         client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
-        self.console.write(self.prefix + "TorrentRemoved: {!info!}%s (%s)" %
+        self.write("{!red!}Torrent Removed: {!info!}%s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
+        #It's probably a new torrent, ignore it
+        if not state:
+            return
         # Modify the state string color
         if state in colors.state_color:
             state = colors.state_color[state] + state
 
-        self.console.write(self.prefix + "TorrentStateChanged: %s {!info!}%s (%s)" %
+        #self.write("State change: %s {!info!}%s (%s)" %
+        self.write("%s: {!info!}%s ({!cyan!}%s{!info!})" %
             (state, self.console.get_torrent_name(torrent_id), torrent_id))
 
-    def on_torrent_paused_event(self, torrent_id):
-        self.console.write(self.prefix + "TorrentPaused: {!info!}%s (%s)" %
-            (self.console.get_torrent_name(torrent_id), torrent_id))
-
     def on_torrent_finished_event(self, torrent_id):
-        self.console.write(self.prefix + "TorrentFinished: {!info!}%s (%s)" %
+        self.write("{!info!}Torrent Finished: %s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_new_version_available_event(self, version):
-        self.console.write(self.prefix + "NewVersionAvailable: {!info!}%s" %
+        self.write("{!input!}New Deluge version available: {!info!}%s" %
             (version))
 
     def on_session_paused_event(self):
-        self.console.write(self.prefix + "SessionPaused")
+        self.write("{!input!}Session Paused")
 
     def on_session_resumed_event(self):
-        self.console.write(self.prefix + "SessionResumed")
+        self.write("{!green!}Session Resumed")
 
     def on_config_value_changed_event(self, key, value):
         color = "{!white,black,bold!}"
         if type(value) in colors.type_color:
             color = colors.type_color[type(value)]
 
-        self.console.write(self.prefix + "ConfigValueChanged: {!input!}%s: %s%s" %
+        self.write("ConfigValueChanged: {!input!}%s: %s%s" %
             (key, color, value))
 
+    def write(self, s):
+        current_time = time.localtime()
+
+        date_different = False
+        for field in [ "tm_mday", "tm_mon", "tm_year" ]:
+            c = getattr(current_time, field)
+            p = getattr(self.previous_time, field)
+            if c != p:
+                date_different = True
+
+        if date_different:
+            string = time.strftime(self.date_change_format)
+            self.console.write_event(" ")
+            self.console.write_event(string)
+
+        p = time.strftime(self.prefix)
+
+        self.console.write_event(p + s)
+        self.previous_time = current_time
+
     def on_plugin_enabled_event(self, name):
-        self.console.write(self.prefix + "PluginEnabled: {!info!}%s" % name)
+        self.write("PluginEnabled: {!info!}%s" % name)
 
     def on_plugin_disabled_event(self, name):
-        self.console.write(self.prefix + "PluginDisabled: {!info!}%s" % name)
+        self.write("PluginDisabled: {!info!}%s" % name)

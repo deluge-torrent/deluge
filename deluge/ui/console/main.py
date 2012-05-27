@@ -356,3 +356,14 @@ Please use commands from the command line, eg:\n
                 self.events.append(s)
         else:
             print colors.strip_colors(s.encode(self.encoding))
+
+    def write_event(self, s):
+        if self.interactive:
+            if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+                self.events.append(s)
+                self.screen.write(s)
+            else:
+                component.get("LegacyUI").add_line(s, False)
+                self.events.append(s)
+        else:
+            print colors.strip_colors(s.encode(self.encoding))
