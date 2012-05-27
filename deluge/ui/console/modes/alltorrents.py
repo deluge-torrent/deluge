@@ -174,7 +174,8 @@ DEFAULT_PREFS = {
     "third_tab_lists_all": False,
     "torrents_per_tab_press": 15,
     "sort_primary": "queue",
-    "sort_secondary": "name"
+    "sort_secondary": "name",
+    "separate_complete": True
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -531,14 +532,13 @@ class AllTorrents(BaseMode, component.Component):
         #Sort first by secondary sort field and then primary sort field
         # so it all works out
 
+        cmp_func = self._queue_sort
 
         def sort_by_field(state, result, field):
             if field in column_names_to_state_keys:
                 field = column_names_to_state_keys[field]
 
             reverse = field in reverse_sort_fields
-
-            cmp_func = self._queue_sort
 
             #Get first element so we can check if it has given field
             # and if it's a string
@@ -565,6 +565,9 @@ class AllTorrents(BaseMode, component.Component):
         if s_secondary != s_primary:
             result = sort_by_field(state, result, s_secondary)
         result = sort_by_field(state, result, s_primary)
+
+        if self.config["separate_complete"]:
+            result = sorted(result, cmp_func, lambda s: state.get(s)["progress"] == 100.0)
 
         return result
 

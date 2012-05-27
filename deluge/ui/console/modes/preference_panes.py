@@ -311,6 +311,8 @@ class InterfacePane(BasePane):
     def __init__(self, offset, parent, width):
         BasePane.__init__(self,offset,parent,width)
         self.add_header("General")
+        self.add_checked_input("separate_complete","List complete torrents after incomplete regardless of sorting order",parent.console_config["separate_complete"])
+
         self.add_checked_input("ignore_duplicate_lines","Do not store duplicate input in history",parent.console_config["ignore_duplicate_lines"])
         self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
         self.add_checked_input("third_tab_lists_all","Third tab lists all remaining torrents in legacy mode",parent.console_config["third_tab_lists_all"])
