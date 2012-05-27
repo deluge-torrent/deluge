@@ -920,8 +920,8 @@ class AllTorrents(BaseMode, component.Component):
             n = n.lower()
             if n.find(search_string) >= 0:
                 self.cursel = (i+1)
-                if ((self.curoff - 4) > self.cursel):
-                    self.curoff = max(1, self.cursel - 4)
+                if ((self.curoff + 1) > self.cursel):
+                    self.curoff = max(1, self.cursel - 1)
                 self.search_state = SEARCH_SUCCESS
                 return
         self.search_state = SEARCH_START_REACHED
