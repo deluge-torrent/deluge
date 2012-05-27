@@ -168,16 +168,16 @@ class ConsoleUI(component.Component):
             def on_started(result):
                 if not self.interactive:
                     def on_started(result):
-                        deferreds = []
+                        def do_command(result, cmd):
+                            return self.do_command(cmd)
+
+                        d = defer.succeed(None)
                         # If we have args, lets process them and quit
                         # allow multiple commands split by ";"
                         for arg in args.split(";"):
-                            deferreds.append(defer.maybeDeferred(self.do_command, arg.strip()))
+                            d.addCallback(do_command, arg.strip())
 
-                        def on_complete(result):
-                            self.do_command("quit")
-
-                        dl = defer.DeferredList(deferreds).addCallback(on_complete)
+                        d.addCallback(do_command, "quit")
 
                     # We need to wait for the rpcs in start() to finish before processing
                     # any of the commands.
