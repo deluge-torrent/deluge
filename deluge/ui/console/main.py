@@ -352,6 +352,7 @@ Please use commands from the command line, eg:\n
             if isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
                 self.screen.write(s)
             else:
+                component.get("LegacyUI").add_line(s, False)
                 self.events.append(s)
         else:
             print colors.strip_colors(s.encode(self.encoding))

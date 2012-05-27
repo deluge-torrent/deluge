@@ -304,6 +304,8 @@ class AllTorrents(BaseMode, component.Component):
                              "seeding_time","time_added","distributed_copies", "num_pieces",
                              "piece_length","save_path"]
 
+        self.legacy_mode = Legacy(self.stdscr,self.config,self.encoding)
+
     # component start/update
     def start(self):
         component.get("SessionProxy").get_torrents_status(self.__status_dict, self.__status_fields).addCallback(self.set_state,False)
@@ -552,8 +554,6 @@ class AllTorrents(BaseMode, component.Component):
         def dolegacy(arg):
             if arg and True in arg[0]:
                 self.stdscr.clear()
-                if not self.legacy_mode:
-                    self.legacy_mode = Legacy(self.stdscr,self.config,self.encoding)
                 component.get("ConsoleUI").set_mode(self.legacy_mode)
                 self.legacy_mode.refresh()
                 curses.curs_set(2)

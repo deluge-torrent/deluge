@@ -107,8 +107,10 @@ def commonprefix(m):
     return s
 
 
-class Legacy(BaseMode):
+class Legacy(BaseMode, component.Component):
     def __init__(self, stdscr, console_config, encoding=None):
+
+        component.Component.__init__(self, "LegacyUI")
 
         self.batch_write = False
         self.lines = []
