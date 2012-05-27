@@ -73,7 +73,7 @@ you can navigate the various settings with the up/down
 arrows.  Special keys for each input type are described
 below.
 
-The final section is at the bottom right, the: 
+The final section is at the bottom right, the:
 [Cancel] [Apply] [OK] buttons.  When this section
 is active, simply select the option you want using
 the arrow keys and press Enter to confim.
@@ -162,7 +162,7 @@ class Preferences(BaseMode):
         selected = self.active_zone == ZONE.ACTIONS
         self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
         self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
-    
+
     def refresh(self):
         if self.popup == None and self.messages:
             title,msg = self.messages.popleft()
@@ -178,7 +178,7 @@ class Preferences(BaseMode):
 
         # do this last since it moves the cursor
         self.__draw_preferences()
-        
+
         self.stdscr.noutrefresh()
 
         if self.popup:
@@ -253,7 +253,7 @@ class Preferences(BaseMode):
             elif self.action_input.selidx == 2: #  OK
                 self.__apply_prefs()
                 self.back_to_parent()
-                
+
 
     def back_to_parent(self):
         self.stdscr.clear()
@@ -277,7 +277,7 @@ class Preferences(BaseMode):
                         reactor.stop()
                     client.disconnect().addCallback(on_disconnect)
                 else:
-                    reactor.stop()            
+                    reactor.stop()
                 return
             elif chr(c) == 'h':
                 self.popup = Popup(self,"Preferences Help")
