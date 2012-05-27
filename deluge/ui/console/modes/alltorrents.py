@@ -135,7 +135,6 @@ class FILTER:
 
 DEFAULT_PREFS = {
     "show_queue":True,
-    "show_name":True,
     "show_size":True,
     "show_state":True,
     "show_progress":True,
@@ -314,7 +313,11 @@ class AllTorrents(BaseMode, component.Component):
 
     def update_config(self):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
-        self.__cols_to_show = [pref for pref in column_pref_names if self.config["show_%s"%pref]]
+        self.__cols_to_show = [
+            pref for pref in column_pref_names
+                if ("show_%s" % pref) not in self.config
+                or self.config["show_%s"%pref]
+        ]
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
         self.__status_fields = column.get_required_fields(self.__columns)
         for rf in ["state","name","queue"]: # we always need these, even if we're not displaying them
@@ -348,6 +351,7 @@ class AllTorrents(BaseMode, component.Component):
 
 
     def set_state(self, state, refresh):
+        #TODO - Sorting and secondary sorting
         self.curstate = state # cache in case we change sort order
         newnames = []
         newrows = []

@@ -317,14 +317,23 @@ class InterfacePane(BasePane):
         self.add_int_spin_input("torrents_per_tab_press","Torrents per tab press",parent.console_config["torrents_per_tab_press"], 5, 100)
 
         self.add_header("Columns To Display", True)
+
+        default_prefs = deluge.ui.console.modes.alltorrents.DEFAULT_PREFS
+
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
             pn = "show_%s"%cpn
+            #If there is no option for it, it's not togglable
+            # We check in default_prefs because it might still exist in config files
+            if pn not in default_prefs:
+                continue
             self.add_checked_input(pn,
                                    deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
                                    parent.console_config[pn])
         self.add_header("Column Widths (-1 = expand)",True)
         for cpn in deluge.ui.console.modes.alltorrents.column_pref_names:
             pn = "%s_width"%cpn
+            if pn not in default_prefs:
+                continue
             self.add_int_spin_input(pn,
                                     deluge.ui.console.modes.alltorrents.prefs_to_names[cpn],
                                     parent.console_config[pn],-1,100)
