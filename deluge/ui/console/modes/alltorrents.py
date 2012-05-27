@@ -384,10 +384,12 @@ class AllTorrents(BaseMode, component.Component):
 
             # Highlight the primary sort column
             if column == primary_sort_col_name:
-                ccol = "{!black,green,bold!}%s{!header!}" % ccol
+                if i != len(self.__columns) - 1:
+                    ccol = "{!black,green,bold!}%s{!header!}" % ccol
+                else:
+                    ccol = ("{!black,green,bold!}%s" % ccol)[:-1]
 
             self.column_string += ccol
-
 
     def set_state(self, state, refresh):
         self.curstate = state # cache in case we change sort order
@@ -521,8 +523,10 @@ class AllTorrents(BaseMode, component.Component):
 
         #Just in case primary and secondary fields are empty and/or
         # both are too ambiguous, also sort by queue position first
-        result = sort_by_field(state, result, "queue")
-        result = sort_by_field(state, result, s_secondary)
+        if "queue" not in [s_secondary, s_primary]:
+            result = sort_by_field(state, result, "queue")
+        if s_secondary != s_primary:
+            result = sort_by_field(state, result, s_secondary)
         result = sort_by_field(state, result, s_primary)
 
         return result
@@ -1172,6 +1176,37 @@ class AllTorrents(BaseMode, component.Component):
                     self.popup = Popup(self, "Torrent options")
                     self.popup.add_line("Querying core, please wait...")
                     self._show_torrent_options_popup()
+
+                elif chr(c) == '<':
+                    i = len(self.__cols_to_show)
+                    try:
+                        i = self.__cols_to_show.index(self.config["sort_primary"]) - 1
+                    except:
+                        pass
+
+                    i = max(0, i)
+
+                    self.config["sort_primary"] = self.__cols_to_show[i]
+                    self.config.save()
+                    self.update_config()
+                    self.__update_columns()
+                    self.refresh([])
+
+                elif chr(c) == '>':
+                    i = 0
+                    try:
+                        i = self.__cols_to_show.index(self.config["sort_primary"]) + 1
+                    except:
+                        pass
+
+                    i = min(len(self.__cols_to_show) - 1, i)
+
+                    self.config["sort_primary"] = self.__cols_to_show[i]
+                    self.config.save()
+                    self.update_config()
+                    self.__update_columns()
+                    self.refresh([])
+
                 elif chr(c) == 'f':
                     self._show_torrent_filter_popup()
                 elif chr(c) == 'h':
