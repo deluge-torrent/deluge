@@ -364,7 +364,29 @@ class AllTorrents(BaseMode, component.Component):
                     if (self.column_widths[i] < 0):
                         self.column_widths[i] = vw
 
-        self.column_string = "{!header!}%s"%("".join(["%s%s"%(self.__columns[i]," "*(self.column_widths[i]-len(self.__columns[i]))) for i in range(0,len(self.__columns))]))
+        self.column_string = "{!header!}"
+
+        try:
+            primary_sort_col_name = prefs_to_names[self.config["sort_primary"]]
+        except:
+            primary_sort_col_name = ""
+
+        for i, column in enumerate(self.__columns):
+            ccol = column
+            width = self.column_widths[i]
+
+            #Trim the column if it's too long to fit
+            if len(ccol) > width:
+                ccol = ccol[:width - 1]
+
+            # Padding
+            ccol += " " * (width - len(ccol))
+
+            # Highlight the primary sort column
+            if column == primary_sort_col_name:
+                ccol = "{!black,green,bold!}%s{!header!}" % ccol
+
+            self.column_string += ccol
 
 
     def set_state(self, state, refresh):
