@@ -259,7 +259,6 @@ class AllTorrents(BaseMode, component.Component):
         self.entering_search = False
         self.search_string = None
         self.search_state = SEARCH_EMPTY
-        self.cursor = 0
 
         self.coreconfig = component.get("ConsoleUI").coreconfig
 
@@ -876,7 +875,7 @@ class AllTorrents(BaseMode, component.Component):
         #self.stdscr.redrawwin()
         if self.entering_search:
             curses.curs_set(2)
-            self.stdscr.move(self.rows-1,self.cursor+17)
+            self.stdscr.move(self.rows-1, len(self.search_string)+17)
         else:
             curses.curs_set(0)
 
@@ -896,83 +895,115 @@ class AllTorrents(BaseMode, component.Component):
             self.marked.append(idx)
             self.last_mark = idx
 
-    def __do_search(self):
-        # search forward for first torrent matching self.search_string
+    def __search_match_count(self):
+        match_count = 0
+
         search_string = self.search_string.lower()
-        for i,n in enumerate(self.torrent_names):
+
+        for n in self.torrent_names:
             n = n.lower()
-            if n.find(search_string) >= 0:
+            if n.find(search_string) != -1:
+                match_count += 1
+
+        return match_count
+
+    def __do_search(self, direction="first", skip=0):
+        """
+        Performs a search on visible torrent and sets cursor to the match
+
+        :param string: direction, the direction of search, can be first, last, next or previous
+
+        :returns: Nothing
+        """
+
+        if   direction == "first":
+            search_space = enumerate(self.torrent_names)
+        elif direction == "last":
+            search_space = enumerate(self.torrent_names)
+            search_space = list(search_space)
+            search_space = reversed(search_space)
+        elif direction == "next":
+            search_space = enumerate(self.torrent_names)
+            search_space = list(search_space)
+            search_space = search_space[self.cursel:]
+        elif direction == "previous":
+            search_space = enumerate(self.torrent_names)
+            search_space = list(search_space)[:self.cursel-1]
+            search_space = reversed(search_space)
+
+        search_string = self.search_string.lower()
+        for i,n in search_space:
+            n = n.lower()
+            if n.find(search_string) != -1:
+                if skip > 0:
+                    skip -= 1
+                    continue
                 self.cursel = (i+1)
                 if ((self.curoff + self.rows - 5) < self.cursel):
                     self.curoff = self.cursel - self.rows + 5
-                elif ((self.curoff - 4) > self.cursel):
-                    self.curoff = max(1, self.cursel - 4)
-                self.search_state = SEARCH_SUCCESS
-                return
-        self.search_state = SEARCH_FAILING
-
-    def __do_search_backward(self):
-        # search backward for the next torrent matching self.search_string
-        search_list = list(enumerate(self.torrent_names[:self.cursel-1]))
-        search_list = list(reversed(search_list))
-        search_string = self.search_string.lower()
-        for i,n in search_list:
-            n = n.lower()
-            if n.find(search_string) >= 0:
-                self.cursel = (i+1)
-                if ((self.curoff + 1) > self.cursel):
+                elif ((self.curoff +1) > self.cursel):
                     self.curoff = max(1, self.cursel - 1)
                 self.search_state = SEARCH_SUCCESS
                 return
-        self.search_state = SEARCH_START_REACHED
-
-    def __do_search_forward(self):
-        # search forward for the next torrent matching self.search_string
-        search_string = self.search_string.lower()
-        for i,n in enumerate(self.torrent_names[self.cursel:]):
-            n = n.lower()
-            if n.find(search_string) >= 0:
-                self.cursel += (i+1)
-                if ((self.curoff + self.rows - 5) < self.cursel):
-                    self.curoff = self.cursel - self.rows + 5
-                self.search_state = SEARCH_SUCCESS
-                return
-        self.search_state = SEARCH_END_REACHED
+        if direction in ["first", "last"]:
+            self.search_state = SEARCH_FAILING
+        elif direction == "next":
+            self.search_state = SEARCH_END_REACHED
+        elif direction == "previous":
+            self.search_state = SEARCH_START_REACHED
 
     def __update_search(self, c):
         cname = self.torrent_names[self.cursel-1]
         if c == curses.KEY_BACKSPACE or c == 127:
-            if self.search_string and  self.cursor > 0:
-                self.search_string = self.search_string[:self.cursor - 1] + self.search_string[self.cursor:]
-                self.cursor-=1
+            if self.search_string:
+                self.search_string = self.search_string[:-1]
                 if cname.lower().find(self.search_string.lower()) != -1:
                     self.search_state = SEARCH_SUCCESS
-        elif c == curses.KEY_DC:
-            if self.search_string and self.cursor < len(self.search_string):
-                self.search_string = self.search_string[:self.cursor] + self.search_string[self.cursor+1:]
+            else:
+                self.entering_search = False
+                self.search_state = SEARCH_EMPTY
 
-            if self.cursor < len(self.search_string):
-                self.__do_search()
-            if cname.lower().find(self.search_string.lower()) != -1:
-                self.search_state = SEARCH_SUCCESS
+            self.refresh([])
+
+        elif c == curses.KEY_DC:
+            self.search_string = ""
+            self.search_state = SEARCH_SUCCESS
+            self.refresh([])
+
         elif c == curses.KEY_UP:
-            self.__do_search_backward()
+            self.__do_search("previous")
+            self.refresh([])
+
         elif c == curses.KEY_DOWN:
-            self.__do_search_forward()
+            self.__do_search("next")
+            self.refresh([])
+
         elif c == curses.KEY_LEFT:
-            self.cursor = max(0,self.cursor-1)
-        elif c == curses.KEY_RIGHT:
-            self.cursor = min(len(self.search_string),self.cursor+1)
-        elif c == curses.KEY_HOME:
-            self.cursor = 0
-        elif c == curses.KEY_END:
-            self.cursor = len(self.search_string)
-        elif c in [10, curses.KEY_ENTER]:
             self.entering_search = False
             self.search_state = SEARCH_EMPTY
+            self.refresh([])
+
+        elif c == curses.KEY_RIGHT:
+            tid = self.current_torrent_id()
+            self.show_torrent_details(tid)
+
+        elif c == curses.KEY_HOME:
+            self.__do_search("first")
+            self.refresh([])
+
+        elif c == curses.KEY_END:
+            self.__do_search("last")
+            self.refresh([])
+
+        elif c in [10, curses.KEY_ENTER]:
+            self.entering_search = False
+            self.refresh([])
+
         elif c == 27:
             self.search_string = ""
             self.search_state = SEARCH_EMPTY
+            self.refresh([])
+
         elif c > 31 and c < 256:
             old_search_string = self.search_string
             stroke = chr(c)
@@ -983,14 +1014,10 @@ class AllTorrents(BaseMode, component.Component):
                 except UnicodeDecodeError:
                     c = self.stdscr.getch()
                     stroke += chr(c)
+
             if uchar:
-                if self.cursor == len(self.search_string):
-                    self.search_string += uchar
-                else:
-                    # Insert into string
-                    self.search_string = self.search_string[:self.cursor] + uchar + self.search_string[self.cursor:]
-                # Move the cursor forward
-                self.cursor+=1
+                self.search_string += uchar
+
             still_matching = (
                 cname.lower().find(self.search_string.lower())
                 ==
@@ -998,13 +1025,16 @@ class AllTorrents(BaseMode, component.Component):
                 and
                 cname.lower().find(self.search_string.lower()) != -1
             )
+
             if self.search_string and not still_matching:
                 self.__do_search()
             elif self.search_string:
                 self.search_state = SEARCH_SUCCESS
+            self.refresh([])
 
         if not self.search_string:
             self.search_state = SEARCH_EMPTY
+            self.refresh([])
 
     def _doRead(self):
         # Read the character
@@ -1034,7 +1064,6 @@ class AllTorrents(BaseMode, component.Component):
 
         elif self.entering_search:
             self.__update_search(c)
-            self.refresh([])
             return
 
         #log.error("pressed key: %d\n",c)
@@ -1082,10 +1111,9 @@ class AllTorrents(BaseMode, component.Component):
             if c > 31 and c < 256:
                 if chr(c) == '/':
                     self.search_string = ""
-                    self.cursor = 0
                     self.entering_search = True
                 elif chr(c) == 'n' and self.search_string:
-                    self.__do_search_forward()
+                    self.__do_search("next")
                 elif chr(c) == 'j':
                     if not self._scroll_up(1):
                         effected_lines = [self.cursel-1,self.cursel]
