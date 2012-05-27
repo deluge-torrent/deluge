@@ -172,7 +172,9 @@ DEFAULT_PREFS = {
     "ignore_duplicate_lines": False,
     "move_selection": True,
     "third_tab_lists_all": False,
-    "torrents_per_tab_press": 15
+    "torrents_per_tab_press": 15,
+    "sort_primary": "queue",
+    "sort_secondary": "name"
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -313,15 +315,29 @@ class AllTorrents(BaseMode, component.Component):
 
     def update_config(self):
         self.config = ConfigManager("console.conf",DEFAULT_PREFS)
+        s_primary = self.config["sort_primary"]
+        s_secondary = self.config["sort_secondary"]
         self.__cols_to_show = [
             pref for pref in column_pref_names
                 if ("show_%s" % pref) not in self.config
                 or self.config["show_%s"%pref]
         ]
+
         self.__columns = [prefs_to_names[col] for col in self.__cols_to_show]
         self.__status_fields = column.get_required_fields(self.__columns)
-        for rf in ["state","name","queue"]: # we always need these, even if we're not displaying them
-            if not rf in self.__status_fields: self.__status_fields.append(rf)
+
+        # we always need these, even if we're not displaying them
+        for rf in ["state", "name", "queue"]:
+            if not rf in self.__status_fields:
+                self.__status_fields.append(rf)
+
+        # same with sort keys
+        if s_primary and (s_primary not in self.__status_fields):
+            self.__status_fields.append(s_primary)
+        if s_secondary and (s_secondary not in self.__status_fields):
+            self.__status_fields.append(s_secondary)
+
+
         self.__update_columns()
 
     def __split_help(self):
@@ -351,7 +367,6 @@ class AllTorrents(BaseMode, component.Component):
 
 
     def set_state(self, state, refresh):
-        #TODO - Sorting and secondary sorting
         self.curstate = state # cache in case we change sort order
         newnames = []
         newrows = []
@@ -454,8 +469,40 @@ class AllTorrents(BaseMode, component.Component):
             return -1
 
     def _sort_torrents(self, state):
-        "sorts by queue #"
-        return sorted(state,cmp=self._queue_sort,key=lambda s:state.get(s)["queue"])
+        "sorts by primary and secondary sort fields"
+        s_primary   = self.config["sort_primary"]
+        s_secondary = self.config["sort_secondary"]
+
+        result = state
+
+        #Sort first by secondary sort field and then primary sort field
+        # so it all works out
+
+        cmp_func = self._queue_sort
+
+        def sort_by_field(state, result, field):
+            #Get first element so we can check if it has given field
+            # and if it's a string
+            first_element = state[state.keys()[0]]
+            if field in first_element:
+                is_string = isinstance( first_element[field], basestring)
+                sort_key  = lambda s:state.get(s)[field]
+                sort_key2 = lambda s:state.get(s)[field].lower()
+                #If it's a string, sort case-insensitively but preserve A>a order
+                if is_string:
+                    result = sorted(result, cmp_func, sort_key)
+                    result = sorted(result, cmp_func, sort_key2)
+                else:
+                    result = sorted(result, cmp_func, sort_key)
+            return result
+
+        #Just in case primary and secondary fields are empty and/or
+        # both are too ambiguous, also sort by queue position first
+        result = sort_by_field(state, result, "queue")
+        result = sort_by_field(state, result, s_secondary)
+        result = sort_by_field(state, result, s_primary)
+
+        return result
 
     def _format_queue(self, qnum):
         if (qnum >= 0):
