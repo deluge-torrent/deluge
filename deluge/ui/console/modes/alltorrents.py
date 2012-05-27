@@ -731,8 +731,18 @@ class AllTorrents(BaseMode, component.Component):
 
             self.add_string(self.rows - 1, string)
         else:
-            hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
-            self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
+            #This will quite likely fail when switching modes because
+            # of an arcane problem with twisted
+            try:
+                rf = format_utils.remove_formatting
+                string = self.statusbars.bottombar
+                hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
+
+                string += " " * ( self.cols - len(rf(string)) - len(rf(hstr))) + hstr
+
+                self.add_string(self.rows - 1, string)
+            except:
+                pass
 
         # add all the torrents
         if self.formatted_rows == []:

@@ -33,6 +33,8 @@
 #
 #
 
+from deluge.core.preferencesmanager import DEFAULT_PREFS
+
 import deluge.component as component
 import deluge.common
 from deluge.ui.client import client
@@ -81,27 +83,58 @@ class StatusBars(component.Component):
     def update_statusbars(self):
         # Update the topbar string
         self.topbar = "{!status!}Deluge %s Console - " % deluge.common.get_version()
+
         if client.connected():
             info = client.connection_info()
-            self.topbar += "%s@%s:%s" % (info[2], info[0], info[1])
+            connection_info = ""
+
+            #Client name
+            if info[2] == "localclient":
+                connection_info += "{!white,blue!}%s"
+            else:
+                connection_info += "{!green,blue,bold!}%s"
+
+            #Hostname
+            if info[0] == "127.0.0.1":
+                connection_info += "{!white,blue,bold!}@{!white,blue!}%s"
+            else:
+                connection_info += "{!white,blue,bold!}@{!red,blue,bold!}%s"
+
+            #Port
+            if info[1] == DEFAULT_PREFS["daemon_port"]:
+                connection_info += "{!white,blue!}:%s"
+            else:
+                connection_info += "{!status!}:%s"
+
+            #Change color back to normal, just in case
+            connection_info += "{!status!}"
+
+            self.topbar += connection_info % (info[2], info[0], info[1])
         else:
             self.topbar += "Not Connected"
 
         # Update the bottombar string
-        self.bottombar = "{!status!}C: %s" % self.connections
+        self.bottombar = "{!status!}C: {!white,blue!}%s{!status!}" % self.connections
 
         if self.config["max_connections_global"] > -1:
             self.bottombar += " (%s)" % self.config["max_connections_global"]
 
-        self.bottombar += " D: %s" % self.download
+        if self.download != "0.0 KiB":
+            self.bottombar += " D: {!green,blue,bold!}%s{!status!}" % self.download
+        else:
+            self.bottombar += " D: {!white,blue!}%s{!status!}" % self.download
 
         if self.config["max_download_speed"] > -1:
-            self.bottombar += " (%s " % self.config["max_download_speed"] + _("KiB/s") + ")" 
+            self.bottombar += " (%s " % self.config["max_download_speed"] + _("KiB/s") + ")"
 
-        self.bottombar += " U: %s" % self.upload
+        if self.upload != "0.0 KiB":
+            self.bottombar += " U: {!red,blue,bold!}%s{!status!}" % self.upload
+        else:
+            self.bottombar += " U: {!white,blue!}%s{!status!}" % self.upload
+
 
         if self.config["max_upload_speed"] > -1:
             self.bottombar += " (%s " % self.config["max_upload_speed"] + _("KiB/s") + ")"
 
         if self.config["dht"]:
-            self.bottombar += " " + _("DHT") + ": %s" % self.dht
+            self.bottombar += " " + _("DHT") + ": {!white,blue!}%s{!status!}" % self.dht
