@@ -108,7 +108,7 @@ def commonprefix(m):
 
 
 class Legacy(BaseMode, component.Component):
-    def __init__(self, stdscr, console_config, encoding=None):
+    def __init__(self, stdscr, encoding=None):
 
         component.Component.__init__(self, "LegacyUI")
 
@@ -135,7 +135,7 @@ class Legacy(BaseMode, component.Component):
         # Get a handle to the main console
         self.console = component.get("ConsoleUI")
 
-        self.console_config = console_config
+        self.console_config = component.get("AllTorrents").config
 
         # show the cursor
         curses.curs_set(2)

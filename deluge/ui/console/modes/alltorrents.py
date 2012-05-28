@@ -332,7 +332,7 @@ class AllTorrents(BaseMode, component.Component):
                              "seeding_time","time_added","distributed_copies", "num_pieces",
                              "piece_length","save_path"]
 
-        self.legacy_mode = Legacy(self.stdscr,self.config,self.encoding)
+        self.legacy_mode = Legacy(self.stdscr, self.encoding)
 
     # component start/update
     def start(self):
