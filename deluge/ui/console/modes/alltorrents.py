@@ -837,6 +837,9 @@ class AllTorrents(BaseMode, component.Component):
         else:
             curses.curs_set(0)
 
+        if component.get("ConsoleUI").screen != self:
+            return
+
         self.stdscr.noutrefresh()
 
         if self.popup:

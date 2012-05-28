@@ -442,6 +442,9 @@ class TorrentDetail(BaseMode, component.Component):
             self.more_to_draw = False
             self.draw_files(self.file_list,0,off,0)
 
+        if component.get("ConsoleUI").screen != self:
+            return
+
         self.stdscr.noutrefresh()
 
         if self.popup:

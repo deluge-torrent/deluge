@@ -179,6 +179,9 @@ class Preferences(BaseMode):
         # do this last since it moves the cursor
         self.__draw_preferences()
 
+        if component.get("ConsoleUI").screen != self:
+            return
+
         self.stdscr.noutrefresh()
 
         if self.popup:

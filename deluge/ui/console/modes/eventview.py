@@ -89,6 +89,9 @@ class EventView(BaseMode):
         else:
             self.add_string(1,"{!white,black,bold!}No events to show yet")
 
+        if component.get("ConsoleUI").screen != self:
+            return
+
         self.stdscr.noutrefresh()
         curses.doupdate()
 

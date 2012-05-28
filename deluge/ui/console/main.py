@@ -345,6 +345,7 @@ Please use commands from the command line, eg:\n
         self.screen = mode
         self.statusbars.screen = self.screen
         reactor.addReader(self.screen)
+        mode.refresh()
 
     def on_client_disconnect(self):
         component.stop()

@@ -351,6 +351,9 @@ class Legacy(BaseMode, component.Component):
         # Add the input string
         self.add_string(self.rows - 1, self.input)
 
+        if component.get("ConsoleUI").screen != self:
+            return
+
         # Move the cursor
         try:
             self.stdscr.move(self.rows - 1, self.input_cursor)
