@@ -33,15 +33,45 @@
 #
 
 from deluge.ui.client import client
-from popup import SelectablePopup
+from popup import SelectablePopup, Popup
 from input_popup import InputPopup
-
+import deluge.component as component
 
 from deluge.ui.console import colors, modes
 from twisted.internet import defer
 
 import logging
 log = logging.getLogger(__name__)
+
+torrent_options = [
+    ("max_download_speed", float),
+    ("max_upload_speed", float),
+    ("max_connections", int),
+    ("max_upload_slots", int),
+    ("prioritize_first_last", bool),
+    ("sequential_download", bool),
+    ("is_auto_managed", bool),
+    ("stop_at_ratio", bool),
+    ("stop_ratio", float),
+    ("remove_at_ratio", bool),
+    ("move_on_completed", bool),
+    ("move_on_completed_path", str)
+]
+
+torrent_options_to_names = {
+    "max_download_speed": "Max DL speed",
+    "max_upload_speed": "Max UL speed",
+    "max_connections": "Max connections",
+    "max_upload_slots": "Max upload slots",
+    "prioritize_first_last": "Prioritize first/last pieces",
+    "sequential_download": "Sequential download",
+    "is_auto_managed": "Is auto managed?",
+    "stop_at_ratio": "Stop at ratio",
+    "stop_ratio": "Seeding ratio limit",
+    "remove_at_ratio": "Remove after reaching ratio",
+    "move_on_completed": "Move torrent after completion",
+    "move_on_completed_path": "Path to move the torrent to"
+}
 
 class ACTION:
     PAUSE=0
@@ -59,6 +89,7 @@ class ACTION:
     QUEUE_UP=12
     QUEUE_DOWN=13
     QUEUE_BOTTOM=14
+    TORRENT_OPTIONS=15
 
 def action_error(error,mode):
     rerr = error.value
@@ -202,6 +233,82 @@ def torrent_action(idx, data, mode, ids):
                 mode.show_torrent_details(tid)
             else:
                 log.error("No current torrent in _torrent_action, this is a bug")
+        elif data==ACTION.TORRENT_OPTIONS:
+            mode.popup = Popup(mode, "Torrent options")
+            mode.popup.add_line("Querying core, please wait...")
+
+            torrents = ids
+
+            options = {}
+
+            def _do_set_torrent_options(ids, result):
+                options = {}
+                for opt in result:
+                    if result[opt] not in ["multiple", None]:
+                        options[opt] = result[opt]
+                client.core.set_torrent_options( ids, options )
+                for tid in ids:
+                    if "move_on_completed_path" in options:
+                        client.core.set_torrent_move_completed_path(tid, options["move_on_completed_path"])
+                    if "is_auto_managed" in options:
+                        client.core.set_torrent_auto_managed(tid, options["is_auto_managed"])
+                    if "remove_at_ratio" in options:
+                        client.core.set_torrent_remove_at_ratio(tid, options["remove_at_ratio"])
+                    if "prioritize_first_last" in options:
+                        client.core.set_torrent_prioritize_first_last(tid, options["prioritize_first_last"])
+
+            def on_torrent_status(status):
+                for key in status:
+                    if   key not in options:
+                        options[key] = status[key]
+                    elif options[key] != status[key]:
+                        options[key] = "multiple"
+
+            def create_popup(status):
+                cb = lambda result, ids=ids: _do_set_torrent_options(ids, result)
+                try:
+                    option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb, height_req=22)
+                except:
+                    option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb)
+
+                for (field, field_type) in torrent_options:
+                    caption = "{!info!}" + torrent_options_to_names[field]
+                    value = options[field]
+                    if   field_type == str:
+                        option_popup.add_text_input(caption, field, str(value))
+                    elif field_type == bool:
+                        if options[field] == "multiple":
+                            choices = (
+                                ["Yes", "No", "Mixed"],
+                                [True, False, None],
+                                2
+                            )
+                        else:
+                            choices = (
+                                ["Yes", "No"],
+                                [True, False],
+                                [True, False].index(options[field])
+                            )
+                        option_popup.add_select_input(caption, field, choices[0], choices[1], choices[2])
+                    elif field_type == float:
+                        option_popup.add_float_spin_input(caption, field, value, min_val = -1)
+                    elif field_type == int:
+                        option_popup.add_int_spin_input(caption, field, value, min_val = -1)
+
+                mode.set_popup(option_popup)
+                mode.refresh()
+
+            callbacks = []
+
+            field_list = map(lambda t: t[0], torrent_options)
+
+            for tid in torrents:
+                deferred = component.get("SessionProxy").get_torrent_status(tid, field_list)
+                callbacks.append( deferred.addCallback(on_torrent_status) )
+
+            callbacks = defer.DeferredList(callbacks)
+            callbacks.addCallback(create_popup)
+
     if len(ids) == 1:
         mode.clear_marks()
     return True
@@ -214,15 +321,17 @@ def torrent_actions_popup(mode,tids,details=False, action = None):
     popup = SelectablePopup(mode,"Torrent Actions",torrent_action,mode,tids)
     popup.add_line("_Pause",data=ACTION.PAUSE)
     popup.add_line("_Resume",data=ACTION.RESUME)
-    popup.add_divider()
-    popup.add_line("Queue",data=ACTION.QUEUE)
+    if not details:
+        popup.add_divider()
+        popup.add_line("Queue",data=ACTION.QUEUE)
     popup.add_divider()
     popup.add_line("_Update Tracker",data=ACTION.REANNOUNCE)
     popup.add_divider()
     popup.add_line("Remo_ve Torrent",data=ACTION.REMOVE)
     popup.add_line("_Force Recheck",data=ACTION.RECHECK)
     popup.add_line("_Move Storage",data=ACTION.MOVE_STORAGE)
+    popup.add_divider()
     if details:
-        popup.add_divider()
         popup.add_line("Torrent _Details",data=ACTION.DETAILS)
+    popup.add_line("Torrent _Options",data=ACTION.TORRENT_OPTIONS)
     mode.set_popup(popup)
