@@ -121,7 +121,7 @@ class ConnectionManager(BaseMode):
 
     def __on_connected(self,result):
         component.start()
-        self.stdscr.clear()
+        self.stdscr.erase()
         at = AllTorrents(self.stdscr, self.encoding)
         component.get("ConsoleUI").set_mode(at)
         at.resume()
@@ -144,7 +144,7 @@ class ConnectionManager(BaseMode):
         for host in self.config["hosts"]:
             if (host[1],host[2],host[3]) == (hostname, port, username):
                 self.report_message("Can't add host","Host already in list")
-                return 
+                return
         newid = hashlib.sha1(str(time.time())).hexdigest()
         self.config["hosts"].append((newid, hostname, port, username, password))
         self.config.save()
@@ -186,7 +186,7 @@ class ConnectionManager(BaseMode):
         self.popup.refresh()
         curses.doupdate()
 
-    
+
     def _doRead(self):
         # Read the character
         c = self.stdscr.getch()
@@ -200,7 +200,7 @@ class ConnectionManager(BaseMode):
                         reactor.stop()
                     client.disconnect().addCallback(on_disconnect)
                 else:
-                    reactor.stop()            
+                    reactor.stop()
                 return
             if chr(c) == 'D' and self.inlist:
                 self.__delete_current_host()

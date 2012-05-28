@@ -551,7 +551,7 @@ class AllTorrents(BaseMode, component.Component):
     def show_torrent_details(self,tid):
         def dodeets(arg):
             if arg and True in arg[0]:
-                self.stdscr.clear()
+                self.stdscr.erase()
                 component.get("ConsoleUI").set_mode(TorrentDetail(self,tid,self.stdscr, self.config, self.encoding))
             else:
                 self.messages.append(("Error","An error occured trying to display torrent details"))
@@ -588,7 +588,7 @@ class AllTorrents(BaseMode, component.Component):
     def __legacy_mode(self):
         def dolegacy(arg):
             if arg and True in arg[0]:
-                self.stdscr.clear()
+                self.stdscr.erase()
                 component.get("ConsoleUI").set_mode(self.legacy_mode)
                 self.legacy_mode.refresh()
                 curses.curs_set(2)

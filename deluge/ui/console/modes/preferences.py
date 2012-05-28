@@ -256,7 +256,7 @@ class Preferences(BaseMode):
 
 
     def back_to_parent(self):
-        self.stdscr.clear()
+        self.stdscr.erase()
         component.get("ConsoleUI").set_mode(self.parent_mode)
         self.parent_mode.resume()
 
