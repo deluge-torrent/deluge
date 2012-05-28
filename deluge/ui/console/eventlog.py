@@ -52,7 +52,7 @@ class EventLog(component.Component):
         component.Component.__init__(self, "EventLog")
         self.console = component.get("ConsoleUI")
         self.prefix = "{!event!}* [%H:%M:%S] "
-        self.date_change_format = "On {!yellow!}%a, %d %b %Y{!info!} %Z:"
+        self.date_change_format = "On {!yellow!}%a, %d %b %Y{!input!} %Z:"
 
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added_event)
         client.register_event_handler("PreTorrentRemovedEvent", self.on_torrent_removed_event)
