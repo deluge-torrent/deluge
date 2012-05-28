@@ -736,8 +736,7 @@ class AllTorrents(BaseMode, component.Component):
 
             self.add_string(self.rows - 1, string)
         else:
-            #This will quite likely fail when switching modes because
-            # of an arcane problem with twisted
+            #This will quite likely fail when switching modes
             try:
                 rf = format_utils.remove_formatting
                 string = self.statusbars.bottombar

@@ -36,6 +36,7 @@
 
 import deluge.component as component
 from basemode import BaseMode
+
 try:
     import curses
 except ImportError:
@@ -43,6 +44,8 @@ except ImportError:
 
 import logging
 log = logging.getLogger(__name__)
+
+import format_utils
 
 class EventView(BaseMode):
     def __init__(self, parent_mode, stdscr, encoding=None):
@@ -55,7 +58,17 @@ class EventView(BaseMode):
 
         self.add_string(0,self.statusbars.topbar)
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
-        self.add_string(self.rows - 1, "%s%s"%(self.statusbars.bottombar,hstr))
+        #This will quite likely fail when switching modes
+        try:
+            rf = format_utils.remove_formatting
+            string = self.statusbars.bottombar
+            hstr = "Press {!magenta,blue,bold!}[h]{!status!} for help"
+
+            string += " " * ( self.cols - len(rf(string)) - len(rf(hstr))) + hstr
+
+            self.add_string(self.rows - 1, string)
+        except:
+            pass
 
         if events:
             for i,event in enumerate(events):
@@ -82,7 +95,7 @@ class EventView(BaseMode):
                         reactor.stop()
                     client.disconnect().addCallback(on_disconnect)
                 else:
-                    reactor.stop()            
+                    reactor.stop()
                 return
             elif chr(c) == 'q':
                 self.back_to_overview()
