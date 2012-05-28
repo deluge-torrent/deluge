@@ -166,6 +166,8 @@ class BaseCommand(object):
         result = re.split(r"(?<!\\) ", text)
         for i, s in enumerate(result):
             result[i] = s.replace(r'\ ', ' ')
+        if result == ['']:
+            result = []
         return result
 
     def create_parser(self):
