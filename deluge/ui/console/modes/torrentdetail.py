@@ -49,7 +49,7 @@ from add_util import add_torrent
 from input_popup import InputPopup
 import format_utils
 
-from torrent_actions import torrent_actions_popup
+from torrent_actions import torrent_actions_popup, ACTION
 
 try:
     import curses
@@ -673,6 +673,9 @@ class TorrentDetail(BaseMode, component.Component):
                     self.marked = {}
                 elif chr(c) == 'a':
                     torrent_actions_popup(self,[self.torrentid],details=False)
+                    return
+                elif chr(c) == 'o':
+                    torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
                     return
                 elif chr(c) == 'h':
                     self.popup = Popup(self,"Help",init_lines=self.__help_lines)
