@@ -37,6 +37,8 @@
 import deluge.component as component
 from basemode import BaseMode
 
+from deluge.ui.client import client
+
 try:
     import curses
 except ImportError:
@@ -50,11 +52,14 @@ import format_utils
 class EventView(BaseMode):
     def __init__(self, parent_mode, stdscr, encoding=None):
         self.parent_mode = parent_mode
+        self.offset = 0
         BaseMode.__init__(self, stdscr, encoding)
 
     def refresh(self):
         "This method just shows each line of the event log"
         events = component.get("ConsoleUI").events
+
+        self.stdscr.erase()
 
         self.add_string(0,self.statusbars.topbar)
         hstr =  "%sPress [h] for help"%(" "*(self.cols - len(self.statusbars.bottombar) - 10))
@@ -72,7 +77,15 @@ class EventView(BaseMode):
 
         if events:
             for i,event in enumerate(events):
-                self.add_string(i+1,event)
+                if i - self.offset >= self.rows - 2:
+                    more = len(events) - self.offset - self.rows + 2
+                    if more > 0:
+                        self.add_string(i-self.offset, "  (And %i more)" % more)
+                    break
+
+                elif i - self.offset < 0:
+                    continue
+                self.add_string(i+1-self.offset,event)
         else:
             self.add_string(1,"{!white,black,bold!}No events to show yet")
 
@@ -106,13 +119,28 @@ class EventView(BaseMode):
             return
 
         # TODO: Scroll event list
-        if c == curses.KEY_UP:
-            pass
-        elif c == curses.KEY_PPAGE:
-            pass
-        elif c == curses.KEY_DOWN:
-            pass
-        elif c == curses.KEY_NPAGE:
-            pass
+        jumplen = self.rows - 3
+        num_events = len( component.get("ConsoleUI").events )
 
-        #self.refresh()
+        if c == curses.KEY_UP:
+            self.offset -= 1
+        elif c == curses.KEY_PPAGE:
+            self.offset -= jumplen
+        elif c == curses.KEY_HOME:
+            self.offset = 0
+        elif c == curses.KEY_DOWN:
+            self.offset += 1
+        elif c == curses.KEY_NPAGE:
+            self.offset += jumplen
+        elif c == curses.KEY_END:
+            self.offset += num_events
+
+        if self.offset <= 0:
+            self.offset = 0
+        elif num_events > self.rows - 3:
+            if self.offset > num_events - self.rows + 3:
+                self.offset = num_events - self.rows + 3
+        else:
+            self.offset = 0
+
+        self.refresh()
