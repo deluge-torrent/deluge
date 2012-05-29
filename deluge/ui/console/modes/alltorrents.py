@@ -49,7 +49,7 @@ from add_util import add_torrent
 from input_popup import InputPopup, ALIGN
 from torrentdetail import TorrentDetail
 from preferences import Preferences
-from torrent_actions import torrent_actions_popup
+from torrent_actions import torrent_actions_popup, ACTION
 from eventview import EventView
 from legacy import Legacy
 
