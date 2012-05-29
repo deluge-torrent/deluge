@@ -37,6 +37,7 @@
 import deluge.component as component
 from basemode import BaseMode
 import deluge.common
+import deluge.common as common
 from deluge.ui.client import client
 
 from sys import maxint
@@ -47,6 +48,7 @@ from deluge.ui.sessionproxy import SessionProxy
 from popup import Popup,SelectablePopup,MessagePopup
 from add_util import add_torrent
 from input_popup import InputPopup
+import deluge.ui.console.colors as colors
 import format_utils
 
 from torrent_actions import torrent_actions_popup, ACTION
@@ -101,33 +103,16 @@ class TorrentDetail(BaseMode, component.Component):
                              "progress","eta","all_time_download","total_uploaded", "ratio",
                              "num_seeds","total_seeds","num_peers","total_peers", "active_time",
                              "seeding_time","time_added","distributed_copies", "num_pieces",
-                             "piece_length","save_path","file_progress","file_priorities","message"]
-        self._info_fields = [
-            ("Name",None,("name",)),
-            ("State", None, ("state",)),
-            ("Status",None,("message",)),
-            ("Down Speed", format_utils.format_speed, ("download_payload_rate",)),
-            ("Up Speed", format_utils.format_speed, ("upload_payload_rate",)),
-            ("Progress", format_utils.format_progress, ("progress",)),
-            ("ETA", deluge.common.ftime, ("eta",)),
-            ("Path", None, ("save_path",)),
-            ("Downloaded",deluge.common.fsize,("all_time_download",)),
-            ("Uploaded", deluge.common.fsize,("total_uploaded",)),
-            ("Share Ratio", lambda x:x < 0 and "∞" or "%.3f"%x, ("ratio",)),
-            ("Seeders",format_utils.format_seeds_peers,("num_seeds","total_seeds")),
-            ("Peers",format_utils.format_seeds_peers,("num_peers","total_peers")),
-            ("Active Time",deluge.common.ftime,("active_time",)),
-            ("Seeding Time",deluge.common.ftime,("seeding_time",)),
-            ("Date Added",deluge.common.fdate,("time_added",)),
-            ("Availability", lambda x:x < 0 and "∞" or "%.3f"%x, ("distributed_copies",)),
-            ("Pieces", format_utils.format_pieces, ("num_pieces","piece_length")),
-            ]
+                             "piece_length","save_path","file_progress","file_priorities","message",
+                             "total_wanted", "tracker_host", "owner"]
+
         self.file_list = None
         self.current_file = None
         self.current_file_idx = 0
         self.file_limit = maxint
         self.file_off = 0
         self.more_to_draw = False
+
 
         self.column_string = ""
         self.files_sep = None
@@ -143,6 +128,9 @@ class TorrentDetail(BaseMode, component.Component):
         self.__update_columns()
 
         component.start(["TorrentDetail"])
+
+        self._listing_start = self.rows / 2
+
         curses.curs_set(0)
         self.stdscr.notimeout(0)
 
@@ -387,7 +375,83 @@ class TorrentDetail(BaseMode, component.Component):
         self.__split_help()
         if self.popup:
             self.popup.handle_resize()
+
+        self._listing_start = self.rows / 2
         self.refresh()
+
+    def render_header(self, off):
+        status = self.torrent_state
+
+        up_color = colors.state_color["Seeding"]
+        down_color = colors.state_color["Downloading"]
+
+        #Name
+        s = "{!info!}Name: {!input!}%s" % status["name"]
+        self.add_string(off, s); off += 1
+
+        #Print DL info and ETA
+        if status["download_payload_rate"] > 0:
+            s = "%sDownloading: {!input!}" % down_color
+        else:
+            s = "{!info!}Downloaded: {!input!}"
+        s+= common.fsize(status["all_time_download"])
+        if status["progress"] != 100.0:
+            s+= "/%s" % common.fsize(status["total_wanted"])
+        if status["download_payload_rate"] > 0:
+            s+= " {!yellow!}@ %s%s" % (down_color, common.fsize(status["download_payload_rate"]))
+            s+= "{!info!} ETA: {!input!}%s" % format_utils.format_time(status["eta"])
+        self.add_string(off, s); off += 1
+
+        #Print UL info and ratio
+        if status["upload_payload_rate"] > 0:
+            s = "%sUploading: {!input!}" % up_color
+        else:
+            s = "{!info!}Uploaded: {!input!}"
+        s+= common.fsize(status["total_uploaded"])
+        if status["upload_payload_rate"] > 0:
+            s+= " {!yellow!}@ %s%s" % (up_color, common.fsize(status["upload_payload_rate"]))
+        s+= " {!info!}Ratio: {!input!}%s" % format_utils.format_float(status["ratio"])
+        self.add_string(off, s); off += 1
+
+        #Seeder/leecher info
+        s = "{!info!}Seeders:{!green!} %s {!input!}(%s)" % (status["num_seeds"], status["total_seeds"])
+        self.add_string(off, s); off += 1
+        s = "{!info!}Leechers:{!red!} %s {!input!}(%s)" % (status["num_peers"], status["total_peers"])
+        self.add_string(off, s); off += 1
+
+        #Tracker
+        if status["message"] == "OK":
+            color = "{!green!}"
+        else:
+            color = "{!red!}"
+        s = "{!info!}Tracker: {!magenta!}%s{!input!} says \"%s%s{!input!}\"" % (status["tracker_host"], color, status["message"])
+        self.add_string(off, s); off += 1
+
+        #Pieces and availability
+        s = "{!info!}Pieces: {!yellow!}%s {!input!}x {!yellow!}%s" % (status["num_pieces"], common.fsize(status["piece_length"]))
+        if status["distributed_copies"]:
+            s+= " {!info!}Availability: {!input!}%s" % format_utils.format_float(status["distributed_copies"])
+        self.add_string(off, s); off += 1
+
+        #Time added
+        s = "{!info!}Added: {!input!}%s" % common.fdate(status["time_added"])
+        self.add_string(off, s); off += 1
+
+        #Time active
+        s = "{!info!}Time active: {!input!}%s" % ( common.ftime(status["active_time"]) )
+        if status["seeding_time"]:
+            s+= ", {!cyan!}%s{!input!} seeding" % ( common.ftime(status["seeding_time"]) )
+        self.add_string(off, s); off += 1
+
+        #Save Path
+        s = "{!info!}Save path: {!input!}%s" % status["save_path"]
+        self.add_string(off, s); off += 1
+
+        #Owner
+        if status["owner"]:
+            s = "{!info!}Owner: {!input!}%s" % status["owner"]
+
+        return off
 
     def refresh(self,lines=None):
         # show a message popup if there's anything queued
@@ -411,31 +475,18 @@ class TorrentDetail(BaseMode, component.Component):
         except:
             pass
 
-        if self.files_sep:
-            self.add_string((self.rows/2)-1,self.files_sep)
-
         off = 1
         if self.torrent_state:
-            for f in self._info_fields:
-                if off >= (self.rows/2): break
-                if f[1] != None:
-                    args = []
-                    try:
-                        for key in f[2]:
-                            args.append(self.torrent_state[key])
-                    except:
-                        log.debug("Could not get info field: %s",e)
-                        continue
-                    info = f[1](*args)
-                else:
-                    info = self.torrent_state[f[2][0]]
-
-                self.add_string(off,"{!info!}%s: {!input!}%s"%(f[0],info))
-                off += 1
+            off = self.render_header(off)
         else:
             self.add_string(1, "Waiting for torrent state")
 
-        off = self.rows/2
+        off += 1
+
+        if self.files_sep:
+            self.add_string(off, self.files_sep)
+            off += 1
+
         self.add_string(off,self.column_string)
         if self.file_list:
             off += 1
