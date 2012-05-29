@@ -716,6 +716,8 @@ class AllTorrents(BaseMode, component.Component):
             self.popup = MessagePopup(self,title,msg)
 
         if not lines:
+            if component.get("ConsoleUI").screen != self:
+                return
             self.stdscr.erase()
 
         # Update the status bars
