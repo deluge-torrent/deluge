@@ -595,7 +595,7 @@ class Legacy(BaseMode, component.Component):
             # line.
             for cmd in self.console._commands:
                 if cmd.startswith(line):
-                    possible_matches.append(cmd + " ")
+                    possible_matches.append(cmd)
 
             line_prefix = ""
         else:
