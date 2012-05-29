@@ -1114,7 +1114,7 @@ class AllTorrents(BaseMode, component.Component):
                     cid = self.current_torrent_id()
                     if cid:
                         def cb(): self.__torrent_info_id = None
-                        self.popup = Popup(self,"Info",close_cb=cb)
+                        self.popup = Popup(self,"Info",close_cb=cb, height_req=20)
                         self.popup.add_line("Getting torrent info...")
                         self.__torrent_info_id = cid
                 elif chr(c) == 'm':
