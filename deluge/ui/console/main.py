@@ -178,7 +178,7 @@ class ConsoleUI(component.Component):
                         for command in commands:
                             d.addCallback(do_command, command)
 
-                        if "quit" not in commands:
+                        if "quit" not in commands and "exit" not in commands:
                             d.addCallback(do_command, "quit")
 
                     # We need to wait for the rpcs in start() to finish before processing
