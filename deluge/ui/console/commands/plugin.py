@@ -38,6 +38,9 @@ from deluge.ui.console.main import BaseCommand
 from deluge.ui.client import client
 import deluge.ui.console.colors as colors
 import deluge.component as component
+import deluge.configmanager
+
+import re
 
 class Command(BaseCommand):
     """Manage plugins with this command"""
@@ -50,17 +53,28 @@ class Command(BaseCommand):
                         help='enables a plugin'),
             make_option('-d', '--disable', dest='disable',
                         help='disables a plugin'),
+            make_option('-r', '--reload', action='store_true', default=False, dest='reload',
+                        help='reload list of available plugins'),
+            make_option('-i', '--install', dest='plugin_file',
+                        help='install a plugin from an .egg file'),
     )
     usage = "Usage: plugin [ -l | --list ]\n"\
             "       plugin [ -s | --show ]\n"\
-            "       plugin [ -e | --enable ] <plugin_name>\n"\
-            "       plugin [ -d | --disable ] <plugin_name>"
+            "       plugin [ -e | --enable ] <plugin-name>\n"\
+            "       plugin [ -d | --disable ] <plugin-name>\n"\
+            "       plugin [ -i | --install ] <plugin-file>\n"\
+            "       plugin [ -r | --reload]"
 
     def handle(self, *args, **options):
         self.console = component.get("ConsoleUI")
 
         if len(args) == 0 and not any(options.values()):
             self.console.write(self.usage)
+            return
+
+        if options["reload"]:
+            client.core.pluginmanager.rescan_plugins()
+            self.console.write("{!green!}Plugin list successfully reloaded")
             return
 
         if options["list"]:
@@ -104,3 +118,41 @@ class Command(BaseCommand):
                         client.core.disable_plugin(plugins[arg.lower()])
 
             return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
+
+        if options["plugin_file"]:
+
+            filepath = options["plugin_file"]
+
+            import os.path
+            import base64
+            import shutil
+
+            if not os.path.exists(filepath):
+                self.console.write("{!error!}Invalid path: %s" % filepath)
+                return
+
+
+            config_dir = deluge.configmanager.get_config_dir()
+            filename = os.path.split(filepath)[1]
+
+            shutil.copyfile(
+                filepath,
+                os.path.join(config_dir, "plugins", filename))
+
+            client.core.rescan_plugins()
+
+            if not client.is_localhost():
+                # We need to send this plugin to the daemon
+                filedump = base64.encodestring(open(filepath, "rb").read())
+                try:
+                    client.core.upload_plugin(filename, filedump)
+
+                    client.core.rescan_plugins()
+                except:
+                    self.console.write("{!error!}An error occured, plugin was not installed")
+
+            self.console.write("{!green!}Plugin was successfully installed: %s" % filename)
+
+
+    def complete(self, line):
+        return component.get("ConsoleUI").tab_complete_path(line, ext=".egg", sort="name", dirs_first=-1)
