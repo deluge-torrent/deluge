@@ -123,8 +123,81 @@ class Console(_UI):
 def start():
     Console().start()
 
+class DelugeHelpFormatter (optparse.IndentedHelpFormatter):
+    """
+    Format help in a way suited to deluge Legacy mode - colors, format, indentation...
+    """
+
+    replace_dict = {
+        "<torrent-id>": "{!green!}%s{!input!}",
+        "<state>": "{!yellow!}%s{!input!}",
+        "\.\.\.": "{!yellow!}%s{!input!}",
+        "\s\*\s": "{!blue!}%s{!input!}",
+        "(?<![\-a-z])(-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        #"(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
+        "--[_\-a-zA-Z0-9]+": "{!green!}%s{!input!}",
+        "(\[|\])": "{!info!}%s{!input!}",
+
+        "<tab>": "{!white!}%s{!input!}",
+        "[_A-Z]{3,}": "{!cyan!}%s{!input!}",
+
+        "<save-location>": "{!yellow!}%s{!input!}",
+        "<torrent-file>": "{!green!}%s{!input!}"
+
+    }
+
+    def __init__(self,
+                 indent_increment=2,
+                 max_help_position=24,
+                 width=None,
+                 short_first=1):
+        optparse.IndentedHelpFormatter.__init__(
+            self, indent_increment, max_help_position, width, short_first)
+
+    def _format_colors(self, string):
+        def r(repl):
+            return lambda s: repl % s.group()
+
+        for key, replacement in self.replace_dict.items():
+            string = re.sub(key, r(replacement), string)
+
+        return string
+
+    def format_usage(self, usage):
+
+        return _("{!info!}Usage{!input!}: %s\n") % self._format_colors(usage)
+
+    def format_option(self, option):
+        result = []
+        opts = self.option_strings[option]
+        opt_width = self.help_position - self.current_indent - 2
+        if len(opts) > opt_width:
+            opts = "%*s%s\n" % (self.current_indent, "", opts)
+            opts = self._format_colors(opts)
+            indent_first = self.help_position
+        else:                       # start help on same line as opts
+            opts = "%*s%-*s  " % (self.current_indent, "", opt_width, opts)
+            opts = self._format_colors(opts)
+            indent_first = 0
+        result.append(opts)
+        if option.help:
+            help_text = self.expand_default(option)
+            help_text = self._format_colors(help_text)
+            help_lines = optparse.textwrap.wrap(help_text, self.help_width)
+            result.append("%*s%s\n" % (indent_first, "", help_lines[0]))
+            result.extend(["%*s%s\n" % (self.help_position, "", line)
+                           for line in help_lines[1:]])
+        elif opts[-1] != "\n":
+            result.append("\n")
+        return "".join(result)
+
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
+    def __init__(self, **kwargs):
+        optparse.OptionParser.__init__(self, **kwargs)
+
+        self.formatter = DelugeHelpFormatter()
+
     def exit(self, status=0, msg=None):
         self.values._exit = True
         if msg:
@@ -138,6 +211,36 @@ class OptionParser(optparse.OptionParser):
            should either exit or raise an exception.
         """
         raise Exception(msg)
+
+    def print_usage(self, file = None):
+        console = component.get("ConsoleUI")
+        if self.usage:
+            for line in self.get_usage().splitlines():
+                console.write(line)
+
+    def print_help(self, file = None):
+        console = component.get("ConsoleUI")
+        console.set_batch_write(True)
+        for line in self.format_help().splitlines():
+            console.write(line)
+        console.set_batch_write(False)
+
+    def format_option_help(self, formatter=None):
+        if formatter is None:
+            formatter = self.formatter
+        formatter.store_option_strings(self)
+        result = []
+        result.append(formatter.format_heading(_("{!info!}Options{!input!}")))
+        formatter.indent()
+        if self.option_list:
+            result.append(optparse.OptionContainer.format_option_help(self, formatter))
+            result.append("\\n")
+        for group in self.option_groups:
+            result.append(group.format_help(formatter))
+            result.append("\\n")
+        formatter.dedent()
+        # Drop the last "\\n", or the header if no options or option groups:
+        return "".join(result[:-1])
 
 
 class BaseCommand(object):
