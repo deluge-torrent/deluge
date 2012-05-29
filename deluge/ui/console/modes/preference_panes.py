@@ -317,6 +317,7 @@ class InterfacePane(BasePane):
         self.add_checked_input("move_selection","Move selection when moving torrents in the queue",parent.console_config["move_selection"])
         self.add_checked_input("third_tab_lists_all","Third tab lists all remaining torrents in legacy mode",parent.console_config["third_tab_lists_all"])
         self.add_int_spin_input("torrents_per_tab_press","Torrents per tab press",parent.console_config["torrents_per_tab_press"], 5, 100)
+        self.add_checked_input("ring_bell","Ring system bell when a download finishes",parent.console_config["ring_bell"])
 
         self.add_header("Columns To Display", True)
 

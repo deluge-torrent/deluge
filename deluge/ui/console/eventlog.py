@@ -40,6 +40,7 @@ import deluge.common
 import colors
 from deluge.ui.client import client
 
+import curses
 import time
 
 log = logging.getLogger(__name__)
@@ -68,6 +69,7 @@ class EventLog(component.Component):
         self.previous_time = time.localtime(0)
 
     def on_torrent_added_event(self, torrent_id, from_state):
+        if from_state: return
         def on_torrent_status(status):
             self.write("{!green!}Torrent Added{!input!}(from_state=%s): {!info!}%s (%s)" % (
                 from_state, status["name"], torrent_id)
@@ -89,11 +91,12 @@ class EventLog(component.Component):
         if state in colors.state_color:
             state = colors.state_color[state] + state
 
-        #self.write("State change: %s {!info!}%s (%s)" %
         self.write("%s: {!info!}%s ({!cyan!}%s{!info!})" %
             (state, self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
+        if component.get("AllTorrents").config["ring_bell"]:
+            curses.beep()
         self.write("{!info!}Torrent Finished: %s (%s)" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 

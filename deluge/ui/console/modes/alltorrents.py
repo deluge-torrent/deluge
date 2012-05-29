@@ -175,7 +175,8 @@ DEFAULT_PREFS = {
     "torrents_per_tab_press": 15,
     "sort_primary": "queue",
     "sort_secondary": "name",
-    "separate_complete": True
+    "separate_complete": True,
+    "ring_bell": False
 }
 
 column_pref_names = ["queue","name","size","state",
