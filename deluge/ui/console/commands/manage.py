@@ -44,6 +44,8 @@ from deluge.log import LOG as log
 
 from optparse import make_option
 
+import re
+
 torrent_options = {
     "max_download_speed": float,
     "max_upload_speed": float,
@@ -132,3 +134,7 @@ class Command(BaseCommand):
         self.console.write("Setting %s to %s for torrents %s.." % (key, val, torrent_ids))
         client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(on_set_config)
         return deferred
+
+    def complete(self, line):
+        # We use the ConsoleUI torrent tab complete method
+        return component.get("ConsoleUI").tab_complete_torrent(line)
