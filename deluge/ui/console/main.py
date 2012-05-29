@@ -442,6 +442,10 @@ Please use commands from the command line, eg:\n
         if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
             return self.screen.tab_complete_torrent(line)
 
+    def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=True):
+        if self.interactive and isinstance(self.screen,deluge.ui.console.modes.legacy.Legacy):
+            return self.screen.tab_complete_path(line, type=type, ext=ext, sort=sort, dirs_first=dirs_first)
+
     def set_mode(self, mode):
         reactor.removeReader(self.screen)
         self.screen = mode

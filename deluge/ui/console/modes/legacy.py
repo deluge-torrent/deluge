@@ -676,6 +676,77 @@ class Legacy(BaseMode, component.Component):
             cursor = len(line)
             return (line, cursor)
 
+    def tab_complete_path(self, line, type="file", ext="", sort="name", dirs_first=1):
+        self.console = component.get("ConsoleUI")
+
+        line = line.replace("\ ", " ")
+        line = os.path.abspath(os.path.expanduser(line))
+        ret = []
+        if os.path.exists(line):
+            # This is a correct path, check to see if it's a directory
+            if os.path.isdir(line):
+                # Directory, so we need to show contents of directory
+                #ret.extend(os.listdir(line))
+                try:
+                    for f in os.listdir(line):
+                        # Skip hidden
+                        if f.startswith("."):
+                            continue
+                        f = os.path.join(line, f)
+                        if os.path.isdir(f):
+                            if os.sep == '\\': # Windows path support :|
+                                f += "\\"
+                            else:	# \o/ Unix
+                                f += "/"
+                        elif not f.endswith(ext):
+                            continue
+                        ret.append(f)
+                except OSError:
+                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+            else:
+                try:
+                    # This is a file, but we could be looking for another file that
+                    # shares a common prefix.
+                    for f in os.listdir(os.path.dirname(line)):
+                        if f.startswith(os.path.split(line)[1]):
+                            ret.append(os.path.join( os.path.dirname(line), f))
+                except OSError:
+                    self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+        else:
+            # This path does not exist, so lets do a listdir on it's parent
+            # and find any matches.
+            try:
+                ret = []
+                if os.path.isdir(os.path.dirname(line)):
+                    for f in os.listdir(os.path.dirname(line)):
+                        if f.startswith(os.path.split(line)[1]):
+                            p = os.path.join(os.path.dirname(line), f)
+
+                            if os.path.isdir(p):
+                                if os.sep == '\\': # Windows path support :|
+                                    p += "\\"
+                                else:	# \o/ Unix
+                                    p += "/"
+                            ret.append(p)
+            except OSError:
+                self.console.write("{!error!}Permission denied: {!info!}%s" % line)
+
+        if sort == "date":
+            ret = sorted(ret, key=lambda p: os.stat(p).st_mtime, reverse=True)
+
+        if dirs_first == 1:
+            ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=True)
+        elif dirs_first == -1:
+            ret = sorted(ret, key=lambda p: os.path.isdir(p), reverse=False)
+
+        #Highlight directory names
+        for i, filename in enumerate(ret):
+            if os.path.isdir(filename):
+                ret[i] = "{!cyan!}%s" % filename
+
+        for i in range(0, len(ret)):
+            ret[i] = ret[i].replace(" ", r"\ ")
+        return ret
 
     def tab_complete_torrent(self, line):
         """
