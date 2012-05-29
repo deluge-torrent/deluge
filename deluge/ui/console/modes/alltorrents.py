@@ -473,11 +473,14 @@ class AllTorrents(BaseMode, component.Component):
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
-        self.__update_columns()
-        self.__split_help()
         if self.popup:
             self.popup.handle_resize()
-        self.refresh()
+
+        self.update()
+        self.__update_columns()
+        self.__split_help()
+
+        self.refresh([])
 
     def _queue_sort(self, v1, v2):
         if v1 == v2:

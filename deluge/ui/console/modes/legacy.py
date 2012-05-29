@@ -316,7 +316,15 @@ class Legacy(BaseMode, component.Component):
             pass
         self.stdscr.refresh()
 
+    def on_resize(self, *args):
+        BaseMode.on_resize_norefresh(self, *args)
 
+        #We need to also refresh AllTorrents because otherwise it will
+        # be only us that get properly resized
+        all_torrents = component.get("AllTorrents")
+        all_torrents.on_resize(*args)
+        self.stdscr.erase()
+        self.refresh()
 
     def refresh(self):
         """
