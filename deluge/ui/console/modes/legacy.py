@@ -177,7 +177,7 @@ class Legacy(BaseMode, component.Component):
                 if self.input.endswith('\\'):
                     self.input = self.input[:-1]
                     self.input_cursor -= 1
-                self.add_line(">>> " + self.input)
+                self.add_line("{!yellow,black,bold!}>>>{!input!} %s" % self.input)
                 self.do_command(self.input.encode(self.encoding))
                 if len(self.input_history) == INPUT_HISTORY_SIZE:
                     # Remove the oldest input history if the max history size
