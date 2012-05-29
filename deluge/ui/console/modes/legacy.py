@@ -615,8 +615,11 @@ class Legacy(BaseMode, component.Component):
         # return it, else we need to print out the matches without modifying
         # the line.
         elif len(possible_matches) == 1:
+            #Do not append space after directory names
+            new_line = line_prefix + possible_matches[0]
+            if not new_line.endswith("/") and not new_line.endswith(r"\\"):
+                new_line += " "
             #We only want to print eventual colors or other control characters, not return them
-            new_line = line_prefix + possible_matches[0] + " "
             new_line = format_utils.remove_formatting(new_line)
             return (new_line, len(new_line))
         else:
