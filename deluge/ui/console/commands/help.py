@@ -49,21 +49,19 @@ class Command(BaseCommand):
         self._commands = self.console._commands
         deferred = defer.succeed(True)
         if args:
-            if len(args) > 1:
-                self.console.write(usage)
-                return deferred
-            try:
-                cmd = self._commands[args[0]]
-            except KeyError:
-                self.console.write("{!error!}Unknown command %r" % args[0])
-                return deferred
-            try:
-                parser = cmd.create_parser()
-                self.console.write(parser.format_help())
-            except AttributeError, e:
-                self.console.write(cmd.__doc__ or 'No help for this command')
+            for arg in args:
+                try:
+                    cmd = self._commands[arg]
+                except KeyError:
+                    self.console.write("{!error!}Unknown command %r" % args[0])
+                    continue
+                try:
+                    parser = cmd.create_parser()
+                    self.console.write(parser.format_help())
+                except AttributeError, e:
+                    self.console.write(cmd.__doc__ or 'No help for this command')
+                self.console.write(" ")
         else:
-            max_length = max( len(k) for k in self._commands)
             self.console.set_batch_write(True)
             for cmd in sorted(self._commands):
                 self.console.write("{!info!}" + cmd + "{!input!} - " + self._commands[cmd].__doc__ or '')
