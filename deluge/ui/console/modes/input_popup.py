@@ -874,8 +874,7 @@ class InputPopup(Popup):
             sb_pos = int((self.height-2)*perc_sc)+1
             if (sb_pos == 1) and (self.lineoff != 0):
                 sb_pos += 1
-            self.add_string(sb_pos, "{!white,black,bold!}|",self.screen,col=(self.width-1),pad=False,trim=False)
-
+            self.add_string(sb_pos, "{!red,black,bold!}#",self.screen,col=(self.width-1),pad=False,trim=False)
         if self._cursor_row >= 0:
             curses.curs_set(2)
             self.screen.move(self._cursor_row,self._cursor_col)

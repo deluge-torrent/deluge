@@ -114,7 +114,7 @@ class Popup:
             sb_pos = int((self.height-2)*perc_sc)+1
             if (sb_pos == 1) and (self.lineoff != 0):
                 sb_pos += 1
-            self.parent.add_string(sb_pos, "{!white,black,bold!}|",self.screen,col=(self.width-1),pad=False,trim=False)
+            self.parent.add_string(sb_pos, "{!red,black,bold!}#",self.screen,col=(self.width-1),pad=False,trim=False)
 
         self.screen.redrawwin()
         self.screen.noutrefresh()
