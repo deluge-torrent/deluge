@@ -44,12 +44,12 @@ from collections import deque
 
 from deluge.ui.sessionproxy import SessionProxy
 
-from popup import Popup,SelectablePopup,MessagePopup
+from popup import Popup, SelectablePopup, MessagePopup, ALIGN
 from add_util import add_torrent
-from input_popup import InputPopup
+from input_popup import InputPopup, ALIGN
 from torrentdetail import TorrentDetail
 from preferences import Preferences
-from torrent_actions import torrent_actions_popup, ACTION
+from torrent_actions import torrent_actions_popup
 from eventview import EventView
 from legacy import Legacy
 
@@ -625,7 +625,7 @@ class AllTorrents(BaseMode, component.Component):
         return True
 
     def _show_torrent_filter_popup(self):
-        self.popup = SelectablePopup(self,"Filter Torrents",self._torrent_filter)
+        self.popup = SelectablePopup(self,"Filter Torrents", self._torrent_filter)
         self.popup.add_line("_All",data=FILTER.ALL)
         self.popup.add_line("Ac_tive",data=FILTER.ACTIVE)
         self.popup.add_line("_Downloading",data=FILTER.DOWNLOADING,foreground="green")
@@ -688,6 +688,33 @@ class AllTorrents(BaseMode, component.Component):
         self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
         self.popup.add_spaces(1)
         self.popup.add_select_input("Path is:","path_type",["Auto","File","URL"],[0,1,2],0)
+
+    def _do_set_column_visibility(self, data):
+        for key, value in data.items():
+            self.config[key] = value
+        self.config.save()
+        self.update_config()
+        self.__update_columns()
+        self.refresh([])
+
+    def _show_visible_columns_popup(self):
+        title = "Visible columns (Enter to exit)"
+        self.popup = InputPopup(self,
+            title,
+            close_cb=self._do_set_column_visibility,
+            immediate_action=True,
+            height_req= len(column_pref_names) + 1,
+            width_req= max([len(col) for col in column_pref_names + [title]]) + 8
+        )
+
+        for col in column_pref_names:
+            name = prefs_to_names[col]
+            prop = "show_%s" % col
+            if prop not in self.config:
+                continue
+            state = self.config[prop]
+
+            self.popup.add_checked_input(name, prop, state)
 
     def report_message(self,title,message):
         self.messages.append((title,message))
@@ -1109,6 +1136,10 @@ class AllTorrents(BaseMode, component.Component):
                     self.last_mark = -1
                 elif chr(c) == 'a':
                     self._show_torrent_add_popup()
+
+                elif chr(c) == 'v':
+                    self._show_visible_columns_popup()
+
                 elif chr(c) == 'o':
                     if not self.marked:
                         self.marked = [self.cursel]
