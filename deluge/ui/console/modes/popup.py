@@ -44,8 +44,20 @@ import format_utils
 import logging
 log = logging.getLogger(__name__)
 
+class ALIGN:
+    TOP_LEFT     = 1
+    TOP_CENTER   = 2
+    TOP_RIGHT    = 3
+    MIDDLE_LEFT  = 4
+    MIDDLE_CENTER= 5
+    MIDDLE_RIGHT = 6
+    BOTTOM_LEFT  = 7
+    BOTTOM_CENTER= 8
+    BOTTOM_RIGHT = 9
+    DEFAULT      = MIDDLE_CENTER
+
 class Popup:
-    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None,init_lines=None):
+    def __init__(self,parent_mode,title,width_req=0,height_req=0,align=ALIGN.DEFAULT, close_cb=None,init_lines=None):
         """
         Init a new popup.  The default constructor will handle sizing and borders and the like.
 
@@ -69,17 +81,15 @@ class Popup:
         """
         self.parent = parent_mode
 
-        if (height_req <= 0):
-            height_req = int(self.parent.rows/2)
-        if (width_req <= 0):
-            width_req = int(self.parent.cols/2)
-        by = (self.parent.rows/2)-(height_req/2)
-        bx = (self.parent.cols/2)-(width_req/2)
-        self.screen = curses.newwin(height_req,width_req,by,bx)
+        self.height_req = height_req
+        self.width_req  = width_req
+        self.align = align
+
+        self.handle_resize()
 
         self.title = title
         self.close_cb = close_cb
-        self.height,self.width = self.screen.getmaxyx()
+
         self.divider = None
         self.lineoff = 0
         if init_lines:
@@ -96,15 +106,51 @@ class Popup:
             crow+=1
 
     def handle_resize(self):
-        log.debug("Resizing popup window (actually, just creating a new one)")
-        self.screen = curses.newwin((self.parent.rows/2),(self.parent.cols/2),(self.parent.rows/4),(self.parent.cols/4))
+        hr = self.height_req
+        wr = self.width_req
+
+        log.debug("Resizing(or creating) popup window")
+
+        #Height
+        if hr == 0:
+            hr = int(self.parent.rows/2)
+        elif hr == -1:
+            hr = self.parent.rows - 2
+        elif hr > self.parent.rows - 2:
+            hr = self.parent.rows - 2
+
+        #Width
+        if   wr == 0:
+            wr = int(self.parent.cols/2)
+        elif wr == -1:
+            wr = self.parent.cols
+        elif wr >= self.parent.cols:
+            wr = self.parent.cols
+
+        if   self.align in [ALIGN.TOP_CENTER, ALIGN.TOP_LEFT, ALIGN.TOP_RIGHT]:
+            by = 1
+        elif self.align in [ALIGN.MIDDLE_CENTER, ALIGN.MIDDLE_LEFT, ALIGN.MIDDLE_RIGHT]:
+            by = (self.parent.rows/2)-(hr/2)
+        elif self.align in [ALIGN.BOTTOM_CENTER, ALIGN.BOTTOM_LEFT, ALIGN.BOTTOM_RIGHT]:
+            by = self.parent.rows - hr - 1
+
+        if   self.align in [ALIGN.TOP_LEFT, ALIGN.MIDDLE_LEFT, ALIGN.BOTTOM_LEFT]:
+            bx = 0
+        elif self.align in [ALIGN.TOP_CENTER, ALIGN.MIDDLE_CENTER, ALIGN.BOTTOM_CENTER]:
+            bx = (self.parent.cols/2)-(wr/2)
+        elif self.align in [ALIGN.TOP_RIGHT, ALIGN.MIDDLE_RIGHT, ALIGN.BOTTOM_RIGHT]:
+            bx = self.parent.cols - wr - 1
+
+        self.screen = curses.newwin(hr,wr,by,bx)
+
+        self.x, self.y = bx, by
         self.height,self.width = self.screen.getmaxyx()
 
 
     def refresh(self):
         self.screen.erase()
         self.screen.border(0,0,0,0)
-        toff = max(1,int((self.parent.cols/4)-(len(self.title)/2)))
+        toff = max(1, (self.width//2) - (len(self.title)//2))
         self.parent.add_string(0,"{!white,black,bold!}%s"%self.title,self.screen,toff,False,True)
 
         self._refresh_lines()
@@ -169,11 +215,14 @@ class SelectablePopup(Popup):
     A popup which will let the user select from some of the lines that
     are added.
     """
-    def __init__(self,parent_mode,title,selection_callback,*args):
-        Popup.__init__(self,parent_mode,title)
+    def __init__(self,parent_mode,title, selection_callback, args=(), align=ALIGN.DEFAULT, immediate_action=False):
+        Popup.__init__(self,parent_mode, title, align=align)
         self._selection_callback = selection_callback
         self._selection_args = args
         self._selectable_lines = []
+
+        self._immediate_action = immediate_action
+
         self._select_data = []
         self._line_foregrounds = []
         self._udxs = {}
@@ -242,17 +291,22 @@ class SelectablePopup(Popup):
                 len(self._selectable_lines) > 1):
                 idx = self._selectable_lines.index(self._selected)
                 self._selected = self._selectable_lines[idx-1]
+            if self._immediate_action:
+                self._selection_callback(idx, self._select_data[idx], *self._selection_args)
         elif c == curses.KEY_DOWN:
             #if len(self._lines)-self.lineoff > (self.height-2):
             #    self.lineoff += 1
             idx = self._selectable_lines.index(self._selected)
             if (idx < len(self._selectable_lines)-1):
                 self._selected = self._selectable_lines[idx+1]
+
+            if self._immediate_action:
+                self._selection_callback(idx, self._select_data[idx], *self._selection_args)
         elif c == 27: # close on esc, no action
             return True
         elif c == curses.KEY_ENTER or c == 10:
             idx = self._selectable_lines.index(self._selected)
-            return self._selection_callback(idx,self._select_data[idx],*self._selection_args)
+            return self._selection_callback(idx, self._select_data[idx], *self._selection_args)
         if c > 31 and c < 256:
             if chr(c) == 'q':
                 return True # close the popup
@@ -270,12 +324,12 @@ class MessagePopup(Popup):
     """
     Popup that just displays a message
     """
-    def __init__(self, parent_mode, title, message):
+    def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT):
         self.message = message
         self.width= int(parent_mode.cols/2)
         lns = format_utils.wrap_string(self.message,self.width-2,3,True)
         hr = min(len(lns)+2,int(parent_mode.rows/2))
-        Popup.__init__(self,parent_mode,title,height_req=hr)
+        Popup.__init__(self,parent_mode, title, align=align, height_req=hr)
         self._lines = lns
 
     def handle_resize(self):

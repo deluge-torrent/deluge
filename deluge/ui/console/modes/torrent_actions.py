@@ -153,7 +153,7 @@ def torrent_action(idx, data, mode, ids):
                 if len(ids) == 1:
                     mode.clear_marks()
                 return True
-            popup = SelectablePopup(mode,"Queue Action",do_queue,mode,ids)
+            popup = SelectablePopup(mode,"Queue Action", do_queue, (mode, ids))
             popup.add_line("_Top",data=ACTION.QUEUE_TOP)
             popup.add_line("_Up",data=ACTION.QUEUE_UP)
             popup.add_line("_Down",data=ACTION.QUEUE_DOWN)
@@ -266,10 +266,7 @@ def torrent_action(idx, data, mode, ids):
 
             def create_popup(status):
                 cb = lambda result, ids=ids: _do_set_torrent_options(ids, result)
-                try:
-                    option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb, height_req=22)
-                except:
-                    option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb)
+                option_popup = InputPopup(mode,"Set torrent options (Esc to cancel)",close_cb=cb, height_req=22)
 
                 for (field, field_type) in torrent_options:
                     caption = "{!info!}" + torrent_options_to_names[field]
@@ -318,7 +315,7 @@ def torrent_actions_popup(mode,tids,details=False, action = None):
     if action != None:
         torrent_action(-1, action, mode, tids)
         return
-    popup = SelectablePopup(mode,"Torrent Actions",torrent_action,mode,tids)
+    popup = SelectablePopup(mode,"Torrent Actions",torrent_action, (mode, tids))
     popup.add_line("_Pause",data=ACTION.PAUSE)
     popup.add_line("_Resume",data=ACTION.RESUME)
     if not details:

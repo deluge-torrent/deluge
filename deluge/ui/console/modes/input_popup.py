@@ -44,7 +44,7 @@ except ImportError:
 
 import logging,os,os.path
 
-from popup import Popup
+from popup import Popup, ALIGN
 
 from deluge.ui.console import colors
 
@@ -768,13 +768,18 @@ class TextInput(InputField):
 
 
 class InputPopup(Popup):
-    def __init__(self,parent_mode,title,width_req=-1,height_req=-1,close_cb=None, additional_formatting=True):
-        Popup.__init__(self,parent_mode,title,width_req,height_req,close_cb)
+    def __init__(self,parent_mode,title,width_req=0,height_req=0,
+            align=ALIGN.DEFAULT,
+            close_cb=None,
+            additional_formatting=True,
+            immediate_action=False):
+        Popup.__init__(self,parent_mode,title, width_req=width_req, height_req=height_req, align=align, close_cb=close_cb)
         self.inputs = []
         self.lines = []
         self.current_input = 0
 
         self.additional_formatting = additional_formatting
+        self.immediate_action = immediate_action
 
         #We need to replicate some things in order to wrap our inputs
         self.encoding = parent_mode.encoding
@@ -896,6 +901,11 @@ class InputPopup(Popup):
             return True
         elif self.inputs:
             self.inputs[self.current_input].handle_read(c)
+            if self.immediate_action:
+                vals = {}
+                for ipt in self.inputs:
+                    vals[ipt.name] = ipt.get_value()
+                self.close_cb(vals)
 
         self.refresh()
         return False
