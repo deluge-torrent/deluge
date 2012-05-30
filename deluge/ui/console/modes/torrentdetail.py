@@ -129,7 +129,8 @@ class TorrentDetail(BaseMode, component.Component):
 
         component.start(["TorrentDetail"])
 
-        self._listing_start = self.rows / 2
+        self._listing_start = self.rows // 2
+        self._listing_space = self._listing_start - self._listing_start
 
         curses.curs_set(0)
         self.stdscr.notimeout(0)
@@ -492,6 +493,9 @@ class TorrentDetail(BaseMode, component.Component):
             self.add_string(off, self.files_sep)
             off += 1
 
+        self._listing_start = off
+        self._listing_space = self.rows - self._listing_start
+
         self.add_string(off,self.column_string)
         if self.file_list:
             off += 1
@@ -523,9 +527,8 @@ class TorrentDetail(BaseMode, component.Component):
         if self.current_file_idx > maxlen:
             self.current_file_idx = maxlen
 
-        #Don't ask me where the 3 comes from. Probably file header row as well as top and bottom ones
-        if self.current_file_idx > self.file_off  + (self.rows//2 - 3):
-            self.file_off = self.current_file_idx - (self.rows//2 - 3)
+        if self.current_file_idx > self.file_off  + (self._listing_space - 3):
+            self.file_off = self.current_file_idx - (self._listing_space - 3)
 
         self.refresh()
 
@@ -703,17 +706,17 @@ class TorrentDetail(BaseMode, component.Component):
         if c == curses.KEY_UP:
             self.file_list_up()
         elif c == curses.KEY_PPAGE:
-            self.file_list_up(self.rows/2-2)
+            self.file_list_up(self._listing_space-2)
         elif c == curses.KEY_HOME:
             self.file_off = 0
             self.current_file_idx = 0
         elif c == curses.KEY_DOWN:
             self.file_list_down()
         elif c == curses.KEY_NPAGE:
-            self.file_list_down(self.rows/2-2)
+            self.file_list_down(self._listing_space-2)
         elif c == curses.KEY_END:
             self.current_file_idx = self.__get_file_list_length() - 1
-            self.file_off = self.current_file_idx - (self.rows//2 - 3)
+            self.file_off = self.current_file_idx - (self._listing_space - 3)
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
             was_empty = (self.marked == {})
