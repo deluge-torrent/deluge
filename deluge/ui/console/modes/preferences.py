@@ -306,7 +306,8 @@ class Preferences(BaseMode):
             self.active_zone += 1
             if self.active_zone > ZONE.ACTIONS:
                 self.active_zone = ZONE.CATEGORIES
-
+        elif c == 27 and self.active_zone == ZONE.CATEGORIES:
+            self.back_to_parent()
         elif c == curses.KEY_BTAB:
             self.active_zone -= 1
             if self.active_zone < ZONE.CATEGORIES:
