@@ -323,7 +323,7 @@ class Legacy(BaseMode, component.Component):
 
         # Delete a word when alt+backspace is pressed
         elif c == 27:
-            sep_chars = " *?!._~-#$^;'\""
+            sep_chars = " *?!._~-#$^;'\"/"
             deleted = 0
             seg_start = self.input[:self.input_cursor]
             seg_end = self.input[self.input_cursor:]
