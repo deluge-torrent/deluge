@@ -179,7 +179,13 @@ class Legacy(BaseMode, component.Component):
             for line in self.lines:
                 line = format_utils.remove_formatting(line)
                 if line.startswith(">>> "):
-                    self.input_history.append( line[4:] )
+                    input = line[4:]
+                    if self.console_config["ignore_duplicate_lines"]:
+                        if len(self.input_history) > 0:
+                            if self.input_history[-1] != input:
+                                self.input_history.append(input)
+                        else:
+                            self.input_history.append(input)
 
             self.input_history_index = len(self.input_history)
 
