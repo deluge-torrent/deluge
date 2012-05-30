@@ -129,6 +129,12 @@ class Preferences(BaseMode):
         BaseMode.__init__(self, stdscr, encoding, False)
 
         # create the panes
+        self.__calc_sizes()
+
+        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],[0,1,2],0)
+        self.refresh()
+
+    def __calc_sizes(self):
         self.prefs_width = self.cols-self.div_off-1
         self.prefs_height = self.rows-4
         self.panes = [
@@ -142,10 +148,7 @@ class Preferences(BaseMode):
             QueuePane(self.div_off+2, self, self.prefs_width),
             ProxyPane(self.div_off+2, self, self.prefs_width),
             CachePane(self.div_off+2, self, self.prefs_width)
-            ]
-
-        self.action_input = SelectInput(self,None,None,["Cancel","Apply","OK"],[0,1,2],0)
-        self.refresh()
+        ]
 
     def __draw_catetories(self):
         for i,category in enumerate(self.categories):
@@ -164,6 +167,16 @@ class Preferences(BaseMode):
         selected = self.active_zone == ZONE.ACTIONS
         self.stdscr.hline(self.rows-3,self.div_off+1,"_",self.cols)
         self.action_input.render(self.stdscr,self.rows-2,self.cols,selected,self.cols-22)
+
+    def on_resize(self, *args):
+        BaseMode.on_resize_norefresh(self, *args)
+        self.__calc_sizes()
+
+        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        legacy = component.get("LegacyUI")
+        legacy.on_resize(*args)
+        self.stdscr.erase()
+        self.refresh()
 
     def refresh(self):
         if self.popup == None and self.messages:

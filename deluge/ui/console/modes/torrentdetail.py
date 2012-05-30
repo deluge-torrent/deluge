@@ -371,6 +371,11 @@ class TorrentDetail(BaseMode, component.Component):
 
     def on_resize(self, *args):
         BaseMode.on_resize_norefresh(self, *args)
+
+        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        legacy = component.get("LegacyUI")
+        legacy.on_resize(*args)
+
         self.__update_columns()
         self.__split_help()
         if self.popup:

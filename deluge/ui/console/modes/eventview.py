@@ -95,6 +95,15 @@ class EventView(BaseMode):
         self.stdscr.noutrefresh()
         curses.doupdate()
 
+    def on_resize(self, *args):
+        BaseMode.on_resize_norefresh(self, *args)
+
+        #Always refresh Legacy(it will also refresh AllTorrents), otherwise it will bug deluge out
+        legacy = component.get("LegacyUI")
+        legacy.on_resize(*args)
+        self.stdscr.erase()
+        self.refresh()
+
     def back_to_overview(self):
         self.stdscr.erase()
         component.get("ConsoleUI").set_mode(self.parent_mode)
