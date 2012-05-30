@@ -186,6 +186,14 @@ class ConnectionManager(BaseMode):
         self.popup.refresh()
         curses.doupdate()
 
+    def on_resize(self, *args):
+        BaseMode.on_resize_norefresh(self, *args)
+
+        if self.popup:
+            self.popup.handle_resize()
+
+        self.stdscr.erase()
+        self.refresh()
 
     def _doRead(self):
         # Read the character
