@@ -176,7 +176,8 @@ DEFAULT_PREFS = {
     "sort_primary": "queue",
     "sort_secondary": "name",
     "separate_complete": True,
-    "ring_bell": False
+    "ring_bell": False,
+    "save_legacy_history": True
 }
 
 column_pref_names = ["queue","name","size","state",

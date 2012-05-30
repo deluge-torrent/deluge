@@ -45,6 +45,7 @@ import deluge.ui.console.colors as colors
 from twisted.internet import defer, reactor
 from deluge.ui.client import client
 import deluge.component as component
+import deluge.configmanager
 
 from deluge.ui.console.modes import format_utils
 strwidth = format_utils.strwidth
@@ -56,6 +57,8 @@ import re
 
 LINES_BUFFER_SIZE = 5000
 INPUT_HISTORY_SIZE = 500
+
+MAX_HISTFILE_SIZE = 2000
 
 def complete_line(line, possible_matches):
     "Find the common prefix of possible matches, proritizing matching-case elements"
@@ -113,7 +116,6 @@ class Legacy(BaseMode, component.Component):
         component.Component.__init__(self, "LegacyUI")
 
         self.batch_write = False
-        self.lines = []
 
         # A list of strings to be displayed based on the offset (scroll)
         self.lines = []
@@ -136,6 +138,56 @@ class Legacy(BaseMode, component.Component):
         self.console = component.get("ConsoleUI")
 
         self.console_config = component.get("AllTorrents").config
+
+        #To avoid having to truncate the file every time we're writing
+        # or doing it on exit(and therefore relying on an error-less
+        # or in other words clean exit, we're going to have two files
+        # that we swap around based on length
+        config_dir = deluge.configmanager.get_config_dir()
+        self.history_file = [
+            os.path.join(config_dir, "legacy.hist1"),
+            os.path.join(config_dir, "legacy.hist2")
+        ]
+        self._hf_lines = [0, 0]
+
+        if self.console_config["save_legacy_history"]:
+            try:
+                lines1 = open(self.history_file[0], 'r').read().splitlines()
+                self._hf_lines[0] = len(lines1)
+            except:
+                lines1 = []
+                self._hf_lines[0] = 0
+
+            try:
+                lines2 = open(self.history_file[1], 'r').read().splitlines()
+                self._hf_lines[1] = len(lines2)
+            except:
+                lines2 = []
+                self._hf_lines[1] = 0
+
+            #The non-full file is the active one
+            if self._hf_lines[0] > self._hf_lines[1]:
+                self.lines = lines1 + lines2
+            else:
+                self.lines = lines2 + lines1
+
+            if len(self.lines) > MAX_HISTFILE_SIZE:
+                self.lines = self.lines[-MAX_HISTFILE_SIZE:]
+
+            #Instead of having additional input history file, we can
+            # simply scan for lines beginning with ">>> "
+            for line in self.lines:
+                line = format_utils.remove_formatting(line)
+                if line.startswith(">>> "):
+                    self.input_history.append( line[4:] )
+
+            self.input_history_index = len(self.input_history)
+
+            #if len(self.lines) >= 5:
+                #if any(self.lines[-5:]):
+                    #for i in range(5):
+                        #self.add_line(" ", False)
+
 
         # show the cursor
         curses.curs_set(2)
@@ -398,6 +450,30 @@ class Legacy(BaseMode, component.Component):
 
         """
 
+        if self.console_config["save_legacy_history"]:
+            #Determine which file is the active one
+            #If both are under maximum, it's first, otherwise it's the one not full
+            if self._hf_lines[0] < MAX_HISTFILE_SIZE and self._hf_lines[1] < MAX_HISTFILE_SIZE:
+                active_file = 0
+            if   self._hf_lines[0] > self._hf_lines[1]:
+                active_file = 1
+            else:
+                active_file = 0
+
+            #Write the line
+            f = open(self.history_file[active_file], 'a')
+            f.write( text + os.linesep )
+
+            #And increment line counter
+            self._hf_lines[active_file] += 1
+
+            #If the active file reaches max size, we truncate it
+            # therefore swapping the currently active file
+            if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
+                self._hf_lines[1 - active_file] = 0
+                f = open(self.history_file[1 - active_file], 'w')
+                f.truncate(0)
+
         def get_line_chunks(line):
             """
             Returns a list of 2-tuples (color string, text)
@@ -573,6 +649,7 @@ class Legacy(BaseMode, component.Component):
         :param line: str, the line to print
 
         """
+
         self.add_line(line, not self.batch_write)
 
 
