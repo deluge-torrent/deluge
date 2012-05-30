@@ -39,7 +39,8 @@ from deluge.ui.client import client
 from basemode import BaseMode
 from input_popup import Popup,SelectInput
 
-from preference_panes import DownloadsPane,NetworkPane,BandwidthPane,InterfacePane
+from preference_panes import DownloadsPane,NetworkPane,BandwidthPane
+from preference_panes import InterfacePane, ColumnsPane
 from preference_panes import OtherPane,DaemonPane,QueuePane,ProxyPane,CachePane
 
 from collections import deque
@@ -108,7 +109,7 @@ class Preferences(BaseMode):
     def __init__(self, parent_mode, core_config, console_config, active_port, status, stdscr, encoding=None):
         self.parent_mode = parent_mode
         self.categories = [_("Downloads"), _("Network"), _("Bandwidth"),
-                           _("Interface"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
+                           _("Interface"), _("Columns"), _("Other"), _("Daemon"), _("Queue"), _("Proxy"),
                            _("Cache")] # , _("Plugins")]
         self.cur_cat = 0
         self.popup = None
@@ -135,6 +136,7 @@ class Preferences(BaseMode):
             NetworkPane(self.div_off+2, self, self.prefs_width),
             BandwidthPane(self.div_off+2, self, self.prefs_width),
             InterfacePane(self.div_off+2, self, self.prefs_width),
+            ColumnsPane(self.div_off+2, self, self.prefs_width),
             OtherPane(self.div_off+2, self, self.prefs_width),
             DaemonPane(self.div_off+2, self, self.prefs_width),
             QueuePane(self.div_off+2, self, self.prefs_width),
@@ -202,7 +204,7 @@ class Preferences(BaseMode):
     def __apply_prefs(self):
         new_core_config = {}
         for pane in self.panes:
-            if not isinstance(pane,InterfacePane):
+            if not isinstance(pane,InterfacePane) and not isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_core_config)
         # Apply Core Prefs
         if client.connected():
@@ -226,7 +228,7 @@ class Preferences(BaseMode):
         for pane in self.panes:
             # could just access panes by index, but that would break if panes
             # are ever reordered, so do it the slightly slower but safer way
-            if isinstance(pane,InterfacePane):
+            if isinstance(pane,InterfacePane) or isinstance(pane, ColumnsPane):
                 pane.add_config_values(new_console_config)
         for key in new_console_config.keys():
             # The values do not match so this needs to be updated
