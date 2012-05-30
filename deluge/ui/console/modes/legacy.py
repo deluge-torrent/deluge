@@ -125,6 +125,7 @@ class Legacy(BaseMode, component.Component):
         # Holds the user input and is cleared on 'enter'
         self.input = ""
         self.input_incomplete = ""
+        self._last_char = 0
         # Keep track of where the cursor is
         self.input_cursor = 0
         # Keep a history of inputs
@@ -225,6 +226,8 @@ class Legacy(BaseMode, component.Component):
         # Read the character
         c = self.stdscr.getch()
 
+        self._last_char = c
+
         # We remove the tab count if the key wasn't a tab
         if c != 9:
             self.tab_count = 0
@@ -317,6 +320,9 @@ class Legacy(BaseMode, component.Component):
 
         # Delete a character in the input string based on cursor position
         elif c == curses.KEY_BACKSPACE or c == 127:
+            #It's alt+backspace, bail out
+            if self._last_char:
+                return
             if self.input and self.input_cursor > 0:
                 self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
                 self.input_cursor -= 1
