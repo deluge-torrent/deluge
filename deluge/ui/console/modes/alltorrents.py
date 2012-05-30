@@ -981,6 +981,11 @@ class AllTorrents(BaseMode, component.Component):
             self.search_state = SEARCH_EMPTY
             self.refresh([])
 
+        elif c == ord('/'):
+            self.entering_search = False
+            self.search_state = SEARCH_EMPTY
+            self.refresh([])
+
         elif c == curses.KEY_RIGHT:
             tid = self.current_torrent_id()
             self.show_torrent_details(tid)
@@ -994,8 +999,9 @@ class AllTorrents(BaseMode, component.Component):
             self.refresh([])
 
         elif c in [10, curses.KEY_ENTER]:
-            self.entering_search = False
-            self.refresh([])
+            self.last_mark = -1
+            tid = self.current_torrent_id()
+            torrent_actions_popup(self, [tid] ,details=True)
 
         elif c == 27:
             self.search_string = ""
