@@ -455,14 +455,17 @@ class Legacy(BaseMode, component.Component):
             #If both are under maximum, it's first, otherwise it's the one not full
             if self._hf_lines[0] < MAX_HISTFILE_SIZE and self._hf_lines[1] < MAX_HISTFILE_SIZE:
                 active_file = 0
-            if   self._hf_lines[0] > self._hf_lines[1]:
+            elif self._hf_lines[0] == MAX_HISTFILE_SIZE:
                 active_file = 1
             else:
                 active_file = 0
 
             #Write the line
             f = open(self.history_file[active_file], 'a')
-            f.write( text + os.linesep )
+
+            f.write( text.encode('utf-8') )
+
+            f.write( os.linesep )
 
             #And increment line counter
             self._hf_lines[active_file] += 1
