@@ -499,6 +499,9 @@ class AllTorrents(BaseMode, component.Component):
     def _sort_torrents(self, state):
         "sorts by primary and secondary sort fields"
 
+        if not state:
+            return {}
+
         s_primary   = self.config["sort_primary"]
         s_secondary = self.config["sort_secondary"]
 
