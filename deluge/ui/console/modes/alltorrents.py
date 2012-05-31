@@ -1195,7 +1195,7 @@ class AllTorrents(BaseMode, component.Component):
                 elif chr(c) == 'f':
                     self._show_torrent_filter_popup()
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines)
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req = 0.75)
                 elif chr(c) == 'p':
                     self.show_preferences()
                     return

@@ -740,6 +740,6 @@ class TorrentDetail(BaseMode, component.Component):
                     torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
                     return
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines)
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75)
 
         self.refresh()

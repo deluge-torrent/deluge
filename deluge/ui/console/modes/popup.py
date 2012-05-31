@@ -106,8 +106,15 @@ class Popup:
             crow+=1
 
     def handle_resize(self):
-        hr = self.height_req
-        wr = self.width_req
+        if isinstance(self.height_req, float) and 0.0 < self.height_req <= 1.0:
+            hr = int( (self.parent.rows - 2) * self.height_req )
+        else:
+            hr = self.height_req
+
+        if isinstance(self.width_req, float) and 0.0 < self.width_req <= 1.0:
+            wr = int( (self.parent.cols - 2) * self.width_req )
+        else:
+            wr = self.width_req
 
         log.debug("Resizing(or creating) popup window")
 
