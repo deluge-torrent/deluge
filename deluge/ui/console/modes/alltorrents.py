@@ -188,7 +188,8 @@ DEFAULT_PREFS = {
     "sort_secondary": "name",
     "separate_complete": True,
     "ring_bell": False,
-    "save_legacy_history": True
+    "save_legacy_history": True,
+    "first_run": True
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -316,6 +317,11 @@ class AllTorrents(BaseMode, component.Component):
                              "piece_length","save_path"]
 
         self.legacy_mode = Legacy(self.stdscr, self.encoding)
+
+        if self.config["first_run"]:
+            self.popup = Popup(self,"Welcome to Deluge" ,init_lines=self.__help_lines, height_req=0.75, width_req=65)
+            self.config["first_run"] = False
+            self.config.save()
 
     # component start/update
     def start(self):
