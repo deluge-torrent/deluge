@@ -318,7 +318,7 @@ def torrent_actions_popup(mode,tids,details=False, action = None):
     popup = SelectablePopup(mode,"Torrent Actions",torrent_action, (mode, tids))
     popup.add_line("_Pause",data=ACTION.PAUSE)
     popup.add_line("_Resume",data=ACTION.RESUME)
-    if not details:
+    if details:
         popup.add_divider()
         popup.add_line("Queue",data=ACTION.QUEUE)
     popup.add_divider()
