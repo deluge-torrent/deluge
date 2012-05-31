@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # legacy.py
 #
@@ -177,7 +178,10 @@ class Legacy(BaseMode, component.Component):
 
             #Instead of having additional input history file, we can
             # simply scan for lines beginning with ">>> "
-            for line in self.lines:
+            for i, line in enumerate(self.lines):
+                #if not isinstance(line, unicode):
+                    #line = line.encode(self.encoding)
+                    #self.lines[i] = line
                 line = format_utils.remove_formatting(line)
                 if line.startswith(">>> "):
                     input = line[4:]
@@ -235,11 +239,13 @@ class Legacy(BaseMode, component.Component):
         # We clear the input string and send it to the command parser on ENTER
         if c == curses.KEY_ENTER or c == 10:
             if self.input:
+                self.input = self.input.encode(self.encoding)
+
                 if self.input.endswith('\\'):
                     self.input = self.input[:-1]
                     self.input_cursor -= 1
                 self.add_line("{!yellow,black,bold!}>>>{!input!} %s" % self.input)
-                self.do_command(self.input.encode(self.encoding))
+                self.do_command(self.input)
                 if len(self.input_history) == INPUT_HISTORY_SIZE:
                     # Remove the oldest input history if the max history size
                     # is reached.
@@ -475,7 +481,9 @@ class Legacy(BaseMode, component.Component):
             #Write the line
             f = open(self.history_file[active_file], 'a')
 
-            f.write( text.encode('utf-8') )
+            if isinstance(text, unicode):
+                text = text.encode(self.encoding)
+            f.write(text)
 
             f.write( os.linesep )
 
@@ -942,8 +950,14 @@ class Legacy(BaseMode, component.Component):
             no matches are found.
 
         """
+
+        if not isinstance(string, unicode):
+            string = unicode(string, self.encoding)
+
         ret = []
         for tid, name in self.torrents:
+            if not isinstance(name, unicode):
+                name = unicode(name, self.encoding)
             if tid.startswith(string) or name.startswith(string):
                 ret.append(tid)
 
