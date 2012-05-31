@@ -77,15 +77,15 @@ The actions you can perform and the keys to perform them are as follows:
 {!info!}'h'{!normal!} - Show this help
 
 {!info!}'a'{!normal!} - Show torrent actions popup.  Here you can do things like \
-pause/resume, remove, recheck and so on.
+pause/resume, recheck, set torrent options and so on.
 
-{!info!}'m'{!normal!} - Mark a file
+{!info!}'m'{!normal!} - Mark or unmark a file or a folder
 {!info!}'c'{!normal!} - Un-mark all files
 
 {!info!}Space{!normal!} - Expand/Collapse currently selected folder
 
 {!info!}Enter{!normal!} - Show priority popup in which you can set the \
-download priority of selected files.
+download priority of selected files and folders.
 
 {!info!}Left Arrow{!normal!} - Go back to torrent overview.
 """
@@ -740,6 +740,6 @@ class TorrentDetail(BaseMode, component.Component):
                     torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
                     return
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75)
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75, width_req=65)
 
         self.refresh()

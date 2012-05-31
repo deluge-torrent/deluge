@@ -69,58 +69,69 @@ log = logging.getLogger(__name__)
 # Big help string that gets displayed when the user hits 'h'
 HELP_STR = """\
 This screen shows an overview of the current torrents Deluge is managing. \
-The currently selected torrent is indicated by having a white background. \
+The currently selected torrent is indicated with a white background. \
 You can change the selected torrent using the up/down arrows or the \
-PgUp/Pg keys.  Home and End keys go to the first and last torrent \
+PgUp/PgDown keys.  Home and End keys go to the first and last torrent \
 respectively.
 
 Operations can be performed on multiple torrents by marking them and \
 then hitting Enter.  See below for the keys used to mark torrents.
 
 You can scroll a popup window that doesn't fit its content (like \
-this one) using the up/down arrows.
+this one) using the up/down arrows, PgUp/PgDown and Home/End keys.
 
 All popup windows can be closed/canceled by hitting the Esc key \
-(you might need to wait a second for an Esc to register)
+(you might need to wait a second for an Esc to register) \
+or the 'q' key (does not work for dialogs like the add torrent dialog)
 
 The actions you can perform and the keys to perform them are as follows:
 
 {!info!}'h'{!normal!} - Show this help
 
-{!info!}'a'{!normal!} - Add a torrent
-
 {!info!}'p'{!normal!} - View/Set preferences
+{!info!}'l'{!normal!} - Enter Legacy mode(command line mode)
+{!info!}'e'{!normal!} - Show the event log view ({!info!}'q'{!normal!} to go back to overview)
 
-{!info!}'/'{!normal!} - Search torrent names.  Enter to exectue search, ESC to cancel
+{!info!}'a'{!normal!} - Add a torrent
+{!info!}Delete{!normal!} - Delete a torrent
 
-{!info!}'n'{!normal!} - Next matching torrent for last search
+{!info!}'/'{!normal!} - Search torrent names.\
+  Searching starts immediately - matching torrents are highlighted in\
+  green, you can cycle through them with Up/Down arrows and Home/End keys\
+  You can view torrent details with right arrow, open action popup with\
+  Enter key and exit search mode with '/' key, left arrow or\
+  backspace with empty search field
 
 {!info!}'f'{!normal!} - Show only torrents in a certain state
       (Will open a popup where you can select the state you want to see)
 
-{!info!}'i'{!normal!} - Show more detailed information about the current selected torrent
+{!info!}'i'{!normal!} - Show more detailed information about the currently selected torrent
 
-{!info!}'e'{!normal!} - Show the event log view ({!info!}'q'{!normal!} to get out of event log)
+{!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
+  pause/resume, remove, recheck and so on.  These actions \
+  apply to all currently marked torrents.  The currently \
+  selected torrent is automatically marked when you press enter.
 
-{!info!}'l'{!normal!} - Go into 'legacy' mode (the way deluge-console used to work)
+{!info!}'o'{!normal!} - Show and set torrent options - this will either apply\
+  to all selected torrents(but not the highlighted one) or currently\
+  selected torrent if nothing is selected
 
-{!info!}'Q'{!normal!} - quit
+{!info!}'Q'{!normal!} - quit deluge-console
 
 {!info!}'m'{!normal!} - Mark a torrent
 {!info!}'M'{!normal!} - Mark all torrents between currently selected torrent and last marked torrent
-{!info!}'c'{!normal!} - Un-mark all torrents
+{!info!}'c'{!normal!} - Clear selection
+
+{!info!}'v'{!normal!} - Show a dialog which allows you to choose columns to display
+{!info!}'<'/'>'{!normal!} - Change column by which to sort torrents
 
 {!info!}Right Arrow{!normal!} - Torrent Detail Mode.  This includes more detailed information \
 about the currently selected torrent, as well as a view of the \
 files in the torrent and the ability to set file priorities.
 
-{!info!}Enter{!normal!} - Show torrent actions popup.  Here you can do things like \
-pause/resume, remove, recheck and so on.  These actions \
-apply to all currently marked torrents.  The currently \
-selected torrent is automatically marked when you press enter.
-
 {!info!}'q'/Esc{!normal!} - Close a popup (Note that Esc can take a moment to register \
-as having been pressed.
+  as having been pressed and 'q' does not work for dialogs where you\
+  input something
 """
 
 class FILTER:
@@ -1195,7 +1206,7 @@ class AllTorrents(BaseMode, component.Component):
                 elif chr(c) == 'f':
                     self._show_torrent_filter_popup()
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req = 0.75)
+                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req = 0.75, width_req=65)
                 elif chr(c) == 'p':
                     self.show_preferences()
                     return
