@@ -126,7 +126,10 @@ class Legacy(BaseMode, component.Component):
         # Holds the user input and is cleared on 'enter'
         self.input = ""
         self.input_incomplete = ""
+        self._old_char = 0
         self._last_char = 0
+        self._last_del_char = ''
+
         # Keep track of where the cursor is
         self.input_cursor = 0
         # Keep a history of inputs
@@ -230,6 +233,14 @@ class Legacy(BaseMode, component.Component):
         # Read the character
         c = self.stdscr.getch()
 
+        #An ugly, ugly, UGLY UGLY way to handle alt+backspace
+        # deleting more characters than it should, but without a more
+        # complex input handling system, a more elegant solution
+        # is not viable
+        if self._old_char == 27 and self._last_char == 127:
+            self.input += self._last_del_char
+            self.input_cursor += 1
+        self._old_char = self._last_char
         self._last_char = c
 
         # We remove the tab count if the key wasn't a tab
@@ -326,10 +337,8 @@ class Legacy(BaseMode, component.Component):
 
         # Delete a character in the input string based on cursor position
         elif c == curses.KEY_BACKSPACE or c == 127:
-            #It's alt+backspace, bail out
-            if self._last_char:
-                return
             if self.input and self.input_cursor > 0:
+                self._last_del_char = self.input[self.input_cursor - 1]
                 self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
                 self.input_cursor -= 1
 
@@ -349,6 +358,7 @@ class Legacy(BaseMode, component.Component):
                 seg_start = seg_start[:-1]
                 deleted += 1
                 self.input_cursor -= 1
+
             self.input = seg_start + seg_end
 
         elif c == curses.KEY_DC:
