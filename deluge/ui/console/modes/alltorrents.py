@@ -551,6 +551,9 @@ class AllTorrents(BaseMode, component.Component):
                 else:
                     result = sorted(result, cmp_func, sort_key, reverse)
 
+            if field == "eta":
+                result = sorted(result, key=lambda s: state.get(s)["eta"] == 0)
+
             return result
 
         #Just in case primary and secondary fields are empty and/or
