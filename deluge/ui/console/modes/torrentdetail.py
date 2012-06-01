@@ -579,10 +579,11 @@ class TorrentDetail(BaseMode, component.Component):
         func = lambda idx, data, we=was_empty: self.do_priority(idx, data, we)
         if self.marked:
             self.popup = SelectablePopup(self,"Set File Priority", func)
-            self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"])
+            self.popup.add_line("_Do Not Download",data=deluge.common.FILE_PRIORITY["Do Not Download"], foreground="red")
             self.popup.add_line("_Normal Priority",data=deluge.common.FILE_PRIORITY["Normal Priority"])
-            self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"])
-            self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"])
+            self.popup.add_line("_High Priority",data=deluge.common.FILE_PRIORITY["High Priority"], foreground="yellow")
+            self.popup.add_line("H_ighest Priority",data=deluge.common.FILE_PRIORITY["Highest Priority"], foreground="green")
+            self.popup._selected = 1
 
     def __mark_unmark(self,idx):
         """
