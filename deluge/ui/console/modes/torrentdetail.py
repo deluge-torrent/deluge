@@ -741,5 +741,9 @@ class TorrentDetail(BaseMode, component.Component):
                     return
                 elif chr(c) == 'h':
                     self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75, width_req=65)
+                elif chr(c) == 'j':
+                    self.file_list_up()
+                if chr(c) == 'k':
+                    self.file_list_down()
 
         self.refresh()
