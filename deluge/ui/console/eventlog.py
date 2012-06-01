@@ -71,13 +71,13 @@ class EventLog(component.Component):
     def on_torrent_added_event(self, torrent_id, from_state):
         if from_state: return
         def on_torrent_status(status):
-            self.write("{!green!}Torrent Added{!input!}(from_state=%s): {!info!}%s (%s)" % (
-                from_state, status["name"], torrent_id)
+            self.write("{!green!}Torrent Added: {!info!}%s (%s)" % (
+                status["name"], torrent_id)
             )
             #Write out what state the added torrent took
             self.on_torrent_state_changed_event(torrent_id, status["state"])
 
-        client.core.get_torrent_status(torrent_id, ["name"]).addCallback(on_torrent_status)
+        client.core.get_torrent_status(torrent_id, ["name", "state"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
         self.write("{!red!}Torrent Removed: {!info!}%s (%s)" %
