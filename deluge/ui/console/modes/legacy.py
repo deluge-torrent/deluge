@@ -973,12 +973,12 @@ class Legacy(BaseMode, component.Component):
 
         return ret
 
-    def on_torrent_added_event(self, event):
+    def on_torrent_added_event(self, event, from_state=False):
         def on_torrent_status(status):
-            self.torrents.append((event.torrent_id, status["name"]))
-        client.core.get_torrent_status(event.torrent_id, ["name"]).addCallback(on_torrent_status)
+            self.torrents.append((event, status["name"]))
+        client.core.get_torrent_status(event, ["name"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, event):
         for index, (tid, name) in enumerate(self.torrents):
-            if event.torrent_id == tid:
+            if event == tid:
                 del self.torrents[index]
