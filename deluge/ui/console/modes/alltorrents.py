@@ -256,8 +256,9 @@ SEARCH_END_REACHED = 4
 
 class AllTorrents(BaseMode, component.Component):
     def __init__(self, stdscr, encoding=None):
-        self.formatted_rows = None
         self.torrent_names = None
+        self.numtorrents = -1
+        self._cached_rows = {}
         self.cursel = 1
         self.curoff = 1 # TODO: this should really be 0 indexed
         self.column_string = ""
@@ -411,15 +412,13 @@ class AllTorrents(BaseMode, component.Component):
     def set_state(self, state, refresh):
         self.curstate = state # cache in case we change sort order
         newnames = []
-        newrows = []
+        self._cached_rows = {}
         self._sorted_ids = self._sort_torrents(self.curstate)
         for torrent_id in self._sorted_ids:
             ts = self.curstate[torrent_id]
             newnames.append(ts["name"])
-            newrows.append((format_utils.format_row([column.get_column_value(name,ts) for name in self.__columns],self.column_widths),ts["state"]))
 
         self.numtorrents = len(state)
-        self.formatted_rows = newrows
         self.torrent_names = newnames
         if refresh:
             self.refresh()
@@ -529,6 +528,7 @@ class AllTorrents(BaseMode, component.Component):
 
         cmp_func = self._queue_sort
 
+        sg = state.get
         def sort_by_field(state, result, field):
             if field in column_names_to_state_keys:
                 field = column_names_to_state_keys[field]
@@ -541,8 +541,8 @@ class AllTorrents(BaseMode, component.Component):
             if field in first_element:
                 is_string = isinstance( first_element[field], basestring)
 
-                sort_key  = lambda s:state.get(s)[field]
-                sort_key2 = lambda s:state.get(s)[field].lower()
+                sort_key  = lambda s:sg(s)[field]
+                sort_key2 = lambda s:sg(s)[field].lower()
 
                 #If it's a string, sort case-insensitively but preserve A>a order
                 if is_string:
@@ -806,23 +806,40 @@ class AllTorrents(BaseMode, component.Component):
                 pass
 
         # add all the torrents
-        if self.formatted_rows == []:
+        if self.numtorrents == 0:
             msg = "No torrents match filter".center(self.cols)
             self.add_string(3, "{!info!}%s"%msg)
-        elif self.formatted_rows:
+        elif self.numtorrents > 0:
             tidx = self.curoff
             currow = 2
+
+            #Because dots are slow
+            sorted_ids = self._sorted_ids
+            curstate = self.curstate
+            gcv  = column.get_column_value
+            fr   = format_utils.format_row
+            cols = self.__columns
+            colw = self.column_widths
+            cr   = self._cached_rows
+            def draw_row(index):
+                if index not in cr:
+                    ts = curstate[sorted_ids[index]]
+                    cr[index] = (fr([gcv(name,ts) for name in cols],colw),ts["state"])
+                return cr[index]
 
             if lines:
                 todraw = []
                 for l in lines:
-                    try:
-                        todraw.append(self.formatted_rows[l])
-                    except:
-                        pass #A quick and ugly fix for crash caused by doing shift-m on last torrent
+                    if l < tidx - 1: continue
+                    if l >= tidx - 1 + self.rows - 3: break
+                    if l >= self.numtorrents: break
+                    todraw.append(draw_row(l))
                 lines.reverse()
             else:
-                todraw = self.formatted_rows[tidx-1:]
+                todraw = []
+                for i in range(tidx-1, tidx-1 + self.rows - 3):
+                    if i >= self.numtorrents: break
+                    todraw += [draw_row(i)]
 
             for row in todraw:
                 # default style
@@ -1083,7 +1100,7 @@ class AllTorrents(BaseMode, component.Component):
                     reactor.stop()
                 return
 
-        if self.formatted_rows==None or self.popup:
+        if self.numtorrents == 0 or self.popup:
             return
 
         elif self.entering_search:

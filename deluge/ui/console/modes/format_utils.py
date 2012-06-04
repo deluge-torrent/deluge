@@ -104,15 +104,18 @@ def trim_string(string, w, have_dbls):
     else:
         return u"%s "%(string[0:w-1])
 
+#Dots are slow
+eaw = unicodedata.east_asian_width
+ud_normalize = unicodedata.normalize
 def format_column(col, lim):
     dbls = 0
-    if haveud and isinstance(col,unicode):
+    #Chosen over isinstance(col, unicode) and col.__class__ == unicode
+    # for speed - it's ~3 times faster for non-unicode strings and ~1.5
+    # for unicode strings.
+    if haveud and col.__class__ is unicode:
         # might have some double width chars
-        col = unicodedata.normalize("NFC",col)
-        for c in col:
-            if unicodedata.east_asian_width(c) in ['W','F']:
-                # found a wide/full char
-                dbls += 1
+        col = ud_normalize("NFC",col)
+        dbls = sum(eaw(c) in 'WF' for c in col)
     size = len(col)+dbls
     if (size >= lim - 1):
         return trim_string(col,lim,dbls>0)

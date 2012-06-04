@@ -75,18 +75,15 @@ def get_column_value(name,state):
         log.error("No such column: %s",name)
         return None
 
-    if col[1] != None:
-        args = []
+    if col[1]:
         try:
-            for key in col[0]:
-                args.append(state[key])
+            args = [ state[key] for key in col[0] ]
         except:
             log.error("Could not get column field: %s",col[0])
             return None
-        colval = col[1](*args)
+        return col[1](*args)
     else:
-        colval = state[col[0][0]]
-    return colval
+        return state[col[0][0]]
 
 
 def get_required_fields(cols):
@@ -96,4 +93,4 @@ def get_required_fields(cols):
     return fields
 
 
-    
+
