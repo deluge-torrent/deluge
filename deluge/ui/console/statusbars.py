@@ -120,7 +120,7 @@ class StatusBars(component.Component):
             self.bottombar += " (%s)" % self.config["max_connections_global"]
 
         if self.download != "0.0 KiB":
-            self.bottombar += " D: {!green,blue,bold!}%s{!status!}" % self.download
+            self.bottombar += " D: {!magenta,blue,bold!}%s{!status!}" % self.download
         else:
             self.bottombar += " D: {!white,blue!}%s{!status!}" % self.download
 
@@ -128,7 +128,7 @@ class StatusBars(component.Component):
             self.bottombar += " (%s " % self.config["max_download_speed"] + _("KiB/s") + ")"
 
         if self.upload != "0.0 KiB":
-            self.bottombar += " U: {!red,blue,bold!}%s{!status!}" % self.upload
+            self.bottombar += " U: {!green,blue,bold!}%s{!status!}" % self.upload
         else:
             self.bottombar += " U: {!white,blue!}%s{!status!}" % self.upload
 
