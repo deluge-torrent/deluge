@@ -718,7 +718,7 @@ class TextInput(InputField):
                 try:
                     uchar = stroke.decode(self.parent.encoding)
                 except UnicodeDecodeError:
-                    c = self.parent.stdscr.getch()
+                    c = self.parent.parent.stdscr.getch()
                     stroke += chr(c)
             if uchar:
                 if self.cursor == len(self.value):
