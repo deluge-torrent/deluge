@@ -272,7 +272,9 @@ def torrent_action(idx, data, mode, ids):
                     caption = "{!info!}" + torrent_options_to_names[field]
                     value = options[field]
                     if   field_type == str:
-                        option_popup.add_text_input(caption, field, str(value))
+                        if not isinstance(value, basestring):
+                            value = str(value)
+                        option_popup.add_text_input(caption, field, value)
                     elif field_type == bool:
                         if options[field] == "multiple":
                             choices = (
