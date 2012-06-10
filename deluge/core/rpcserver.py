@@ -492,7 +492,7 @@ class RPCServer(component.Component):
         :returns: the auth level
         :rtype: int
         """
-        if not self.listen:
+        if not self.listen or not self.is_session_valid(self.get_session_id()):
             return AUTH_LEVEL_ADMIN
         return self.factory.authorized_sessions[self.get_session_id()][0]
 
