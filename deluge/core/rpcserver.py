@@ -60,6 +60,8 @@ from deluge.core.authmanager import (AUTH_LEVEL_NONE, AUTH_LEVEL_DEFAULT,
 from deluge.error import (DelugeError, NotAuthorizedError, WrappedException,
                           _ClientSideRecreateError, IncompatibleClient)
 
+from deluge.transfer import DelugeTransferProtocol
+
 RPC_RESPONSE = 1
 RPC_ERROR = 2
 RPC_EVENT = 3
@@ -134,54 +136,34 @@ class ServerContextFactory(object):
         ctx.use_privatekey_file(os.path.join(ssl_dir, "daemon.pkey"))
         return ctx
 
-class DelugeRPCProtocol(Protocol):
-    __buffer = None
+class DelugeRPCProtocol(DelugeTransferProtocol):
 
-    def dataReceived(self, data):
+    def message_received(self, request):
         """
-        This method is called whenever data is received from a client.  The
+        This method is called whenever a message is received from a client.  The
         only message that a client sends to the server is a RPC Request message.
         If the RPC Request message is valid, then the method is called in
         :meth:`dispatch`.
-
-        :param data: the data from the client. It should be a zlib compressed
-            rencoded string.
-        :type data: str
+        
+        :param request: the request from the client.
+        :type data: tuple
 
         """
-        if self.__buffer:
-            # We have some data from the last dataReceived() so lets prepend it
-            data = self.__buffer + data
-            self.__buffer = None
+        if type(request) is not tuple:
+            log.debug("Received invalid message: type is not tuple")
+            return
 
-        while data:
-            dobj = zlib.decompressobj()
-            try:
-                request = rencode.loads(dobj.decompress(data))
-            except Exception, e:
-                #log.debug("Received possible invalid message (%r): %s", data, e)
-                # This could be cut-off data, so we'll save this in the buffer
-                # and try to prepend it on the next dataReceived()
-                self.__buffer = data
-                return
-            else:
-                data = dobj.unused_data
+        if len(request) < 1:
+            log.debug("Received invalid message: there are no items")
+            return
 
-            if type(request) is not tuple:
-                log.debug("Received invalid message: type is not tuple")
-                return
-
-            if len(request) < 1:
-                log.debug("Received invalid message: there are no items")
-                return
-
-            for call in request:
-                if len(call) != 4:
-                    log.debug("Received invalid rpc request: number of items "
-                              "in request is %s", len(call))
-                    continue
-                #log.debug("RPCRequest: %s", format_request(call))
-                reactor.callLater(0, self.dispatch, *call)
+        for call in request:
+            if len(call) != 4:
+                log.debug("Received invalid rpc request: number of items "
+                          "in request is %s", len(call))
+                continue
+            #log.debug("RPCRequest: %s", format_request(call))
+            reactor.callLater(0, self.dispatch, *call)
 
     def sendData(self, data):
         """
@@ -192,7 +174,7 @@ class DelugeRPCProtocol(Protocol):
         :type data: object
 
         """
-        self.transport.write(zlib.compress(rencode.dumps(data)))
+        self.transfer_message(data)
 
     def connectionMade(self):
         """
