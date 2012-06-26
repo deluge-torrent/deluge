@@ -1,61 +1,54 @@
-Instructions for building the Win32 installer
----------------------------------------------
+=  Deluge Installer for Windows =
 
-Dependencies:
-- Deluge build: http://dev.deluge-torrent.org/wiki/Installing/Source
-- Bbfreeze: http://pypi.python.org/pypi/bbfreeze
-- StartX: http://www.naughter.com/startx.html
-- NSIS: http://nsis.sourceforge.net/Main_Page
+Instructions for building the Deluge NSIS Installer for Windows XP/Vista/7.
 
-The assumption in the following is that Python 2.6 is installed in C:\Python26.
-The GTK+ runtime libraries are installed separately (anywhere, in the Windows PATH).
+== Dependencies ==
+ * Deluge build: http://dev.deluge-torrent.org/wiki/Installing/Source#WindowsDependencies
+ * Bbfreeze: http://pypi.python.org/pypi/bbfreeze
+ * NSIS: http://nsis.sourceforge.net/Download
 
-1)  Build Deluge on Windows
+== Build Steps ==
 
-2)  Use a slightly hacked bbfreeze to create a standalone "executable" which does not need the the Python libs
+ 1.  Build Deluge on Windows.
 
-    The modification is to add these lines to:
+ 2.  Verify/update the Deluge version in the win32 packaging scripts.
 
-        C:\Python26\Lib\site-packages\bbfreeze-0.96.5-py2.6-win32.egg\bbfreeze\recipes.py
+    bbfreeze script - Edit 'build_version' variable in:
 
-    Right at the top of the Python function 'recipe_gtk_and_friends':
-        return True
+        win32/deluge-bbfreeze.py
 
-    We want to include all the gtk libraries in the installer so that users don't
-    require a separate GTK+ installation.
-
-3)  Edit the 'build_version' variable in the Python script:
-
-        win32/build-bbfreeze.py
-
-    and run the script from the win32 directory:
-
-        python build-bbfreeze.py
-
-    The script places the bbfreeze'd version of deluge in
-
-        build-win32/deluge-bbfreeze-build_version
-
-    Note: the build-bbfreeze.py script assumes that Python 2.6 is installed in C:\Python26,
-    otherwise the 'python_path' variable should be changed.
-
-
-4)  Edit the variable 'PROGRAM_VERSION' in the NSIS script
+    NSIS script - Edit 'PROGRAM_VERSION' variable in:
 
         win32/deluge-win32-installer.nsi
 
-    and run the NSIS script.
+ 3.  Modify bbfreeze program.
 
-    The result is a standalone installer. The only dependency for the installer is the GTK+ runtime,
-    which is downloaded by the Deluge installer if it isn't installed in the system.
+    We want to include all the gtk libraries in the installer so that users don't
+    require a separate GTK+ installation so we need to slightly modify bbfreeze.
 
-    The GTK+ installer is downloaded from http://download.deluge-torrent.org/windows/deps/
-    and placed in the user temp directory (not deleted after installation).
+    The modification is to add a line to bbfreeze\recipes.py, usually located here:
 
-    The post install script creates the deluge.cmd file using startX.exe with the correct path
-    and sets up the file association for .torrent.
+        C:\Python26\Lib\site-packages\bbfreeze-*-py2.6-win32.egg\bbfreeze\recipes.py
 
+    Find the line containing 'def recipe_gtk_and_friends' and after it add:
 
-5)  The Uninstaller will remove everything from the installation directory. Also the file
-    association for '.torrent' will be removed but only if it's associated with Deluge
+        return True
+
+ 4.  Run the bbfreeze script from the win32 directory:
+
+        python deluge-bbfreeze.py
+
+    The script places the bbfreeze'd version of Deluge in
+
+        build-win32/deluge-bbfreeze-build_version
+
+    Note: The assumption for this script is that Python 2.6 is installed
+    in 'C:\Python26' otherwise the 'python_path' variable should be changed.
+
+ 5.  Run the NSIS script (right-click and choose `Compile with NSIS`)
+
+    The result is a standalone installer in the `build-win32` directory.
+
+The Uninstaller will remove everything from the installation directory. The file
+association for '.torrent' will also be removed but only if it's associated with Deluge
 
