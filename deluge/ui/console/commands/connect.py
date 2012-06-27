@@ -55,8 +55,9 @@ class Command(BaseCommand):
         def do_connect():
             d = client.connect(host, port, username, password)
             def on_connect(result):
-                self.console.write("{!success!}Connected to %s:%s!" % (host, port))
-                component.start()
+                if self.console.interactive:
+                    self.console.write("{!success!}Connected to %s:%s" % (host, port))
+                return component.start()
 
             def on_connect_fail(result):
                 try:
@@ -64,6 +65,7 @@ class Command(BaseCommand):
                 except:
                     msg = result.value.args[0]
                 self.console.write("{!error!}Failed to connect to %s:%s with reason: %s" % (host, port, msg))
+                return result
 
             d.addCallback(on_connect)
             d.addErrback(on_connect_fail)
@@ -71,7 +73,8 @@ class Command(BaseCommand):
 
         if client.connected():
             def on_disconnect(result):
-                do_connect()
-            client.disconnect().addCallback(on_disconnect)
+                self.console.statusbars.update_statusbars()
+                return do_connect()
+            return client.disconnect().addCallback(on_disconnect)
         else:
-            do_connect()
+            return do_connect()

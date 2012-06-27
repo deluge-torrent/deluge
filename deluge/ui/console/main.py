@@ -160,10 +160,11 @@ class ConsoleUI(component.Component):
         # Set the interactive flag to indicate where we should print the output
         self.interactive = True
         if args:
-            args = ' '.join(args)
+            # Multiple commands split by ";"
+            commands = [arg.strip() for arg in ' '.join(args).split(';')]
             self.interactive = False
 
-        # Try to connect to the localhost daemon
+        # Try to connect to the daemon (localhost by default)
         def on_connect(result):
             def on_started(result):
                 if not self.interactive:
@@ -172,9 +173,7 @@ class ConsoleUI(component.Component):
                             return self.do_command(cmd)
 
                         d = defer.succeed(None)
-                        # If we have args, lets process them and quit
-                        # allow multiple commands split by ";"
-                        commands = [arg.strip() for arg in args.split(';')]
+                        # If we have commands, lets process them, then quit.
                         for command in commands:
                             d.addCallback(do_command, command)
 
@@ -187,8 +186,17 @@ class ConsoleUI(component.Component):
             component.start().addCallback(on_started)
 
         def on_connect_fail(result):
-            pass
-        d = client.connect()
+            if not self.interactive:
+                self.do_command('quit')
+
+        connect_cmd = 'connect'
+        if not self.interactive:
+            if commands[0].startswith(connect_cmd):
+                connect_cmd = commands.pop(0)
+            elif 'help' in commands:
+                self.do_command('help')
+                return
+        d = self.do_command(connect_cmd)
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
 
