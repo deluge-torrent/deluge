@@ -342,4 +342,4 @@ class MessagePopup(Popup):
     def handle_resize(self):
         Popup.handle_resize(self)
         self.clear()
-        self._lines = self._split_message()
+        self._lines = format_utils.wrap_string(self.message,self.width-2,3,True)
