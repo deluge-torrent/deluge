@@ -102,10 +102,16 @@ class SessionProxy(component.Component):
         """
         sd = {}
         for torrent_id in torrent_ids:
-            if keys:
-                sd[torrent_id] = dict([(x, y) for x, y in self.torrents[torrent_id][1].iteritems() if x in keys])
-            else:
-                sd[torrent_id] = dict(self.torrents[torrent_id][1])
+            try:
+                if keys:
+                    sd[torrent_id] = dict([
+                        (x, y) for x, y in self.torrents[torrent_id][1].iteritems()
+                        if x in keys
+                    ])
+                else:
+                    sd[torrent_id] = dict(self.torrents[torrent_id][1])
+            except KeyError:
+                continue
 
         return sd
 
@@ -179,10 +185,14 @@ class SessionProxy(component.Component):
             # Update the internal torrent status dict with the update values
             t = time.time()
             for key, value in result.items():
-                self.torrents[key][0] = t
-                self.torrents[key][1].update(value)
-                for k in value:
-                    self.cache_times[key][k] = t
+                try:
+                    self.torrents[key][0] = t
+                    self.torrents[key][1].update(value)
+                    for k in value:
+                        self.cache_times[key][k] = t
+                except KeyError:
+                    #The torrent was removed
+                    continue
 
             # Create the status dict
             if not torrent_ids:
