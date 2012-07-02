@@ -79,6 +79,10 @@ The actions you can perform and the keys to perform them are as follows:
 {!info!}'a'{!normal!} - Show torrent actions popup.  Here you can do things like \
 pause/resume, recheck, set torrent options and so on.
 
+{!info!}'r'{!normal!} - Rename currently highlighted folder or a file. You can't \
+rename multiple files at once so you need to first clear your selection \
+with {!info!}'c'{!normal!}
+
 {!info!}'m'{!normal!} - Mark or unmark a file or a folder
 {!info!}'c'{!normal!} - Un-mark all files
 
@@ -112,7 +116,7 @@ class TorrentDetail(BaseMode, component.Component):
         self.file_limit = maxint
         self.file_off = 0
         self.more_to_draw = False
-
+        self.full_names = None
 
         self.column_string = ""
         self.files_sep = None
@@ -132,6 +136,10 @@ class TorrentDetail(BaseMode, component.Component):
         self._listing_start = self.rows // 2
         self._listing_space = self._listing_start - self._listing_start
 
+        client.register_event_handler("TorrentFileRenamedEvent", self._on_torrentfilerenamed_event)
+        client.register_event_handler("TorrentFolderRenamedEvent", self._on_torrentfolderrenamed_event)
+        client.register_event_handler("TorrentRemovedEvent", self._on_torrentremoved_event)
+
         curses.curs_set(0)
         self.stdscr.notimeout(0)
 
@@ -143,6 +151,10 @@ class TorrentDetail(BaseMode, component.Component):
 
     def set_state(self, state):
         log.debug("got state")
+
+        if state.get("files"):
+            self.full_names = {x['index']:x['path'] for x in state["files"]}
+
         need_prio_update = False
         if not self.file_list:
             # don't keep getting the files once we've got them once
@@ -271,6 +283,31 @@ class TorrentDetail(BaseMode, component.Component):
         self.popup = pu
         self.refresh()
 
+    def _on_torrentremoved_event(self, torrent_id):
+        if torrent_id == self.torrentid:
+            self.back_to_overview()
+
+    def _on_torrentfilerenamed_event(self, torrent_id, index, new_name):
+        if torrent_id == self.torrentid:
+            self.file_dict[index][0] = new_name.split("/")[-1]
+            component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
+
+    def _on_torrentfolderrenamed_event(self, torrent_id, old_folder, new_folder):
+        if torrent_id == self.torrentid:
+            fe = None
+            fl = None
+            for i in old_folder.strip("/").split("/"):
+                if not fl:
+                    fe = fl = self.file_list
+
+                s = filter(lambda x: x[0].strip("/") == i, fl)[0]
+
+                fe = s
+                fl = s[3]
+            fe[0] = new_folder.strip("/").rpartition("/")[-1]
+
+            #self.__get_file_by_name(old_folder, self.file_list)[0] = new_folder.strip("/")
+            component.get("SessionProxy").get_torrent_status(self.torrentid, self._status_keys).addCallback(self.set_state)
 
     def draw_files(self,files,depth,off,idx):
 
@@ -635,6 +672,38 @@ class TorrentDetail(BaseMode, component.Component):
 
         return total_marked
 
+    def __get_file_by_num(self, num, file_list, idx = 0):
+        for element in file_list:
+            if idx == num:
+                return element
+
+            if element[3] and element[4]:
+                i = self.__get_file_by_num(num, element[3], idx + 1)
+                if not isinstance(i, int):
+                    return i
+                else:
+                    idx = i
+            else:
+                idx += 1
+
+        return idx
+
+    def __get_file_by_name(self, name, file_list, idx = 0):
+        for element in file_list:
+            if element[0].strip("/") == name.strip("/"):
+                return element
+
+            if element[3] and element[4]:
+                i = self.__get_file_by_name(name, element[3], idx + 1)
+                if not isinstance(i, int):
+                    return i
+                else:
+                    idx = i
+            else:
+                idx += 1
+
+        return idx
+
     def __unmark_tree(self, file_list, idx, unmark_all = False):
         """
         Given file_list of TorrentDetail and index of file or folder,
@@ -672,6 +741,99 @@ class TorrentDetail(BaseMode, component.Component):
             total_marked += marked
         return total_marked
 
+    def _selection_to_file_idx(self, file_list = None, idx = 0, true_idx = 0, closed=False):
+        if not file_list: file_list = self.file_list
+
+        for element in file_list:
+            if idx == self.current_file_idx:
+                return true_idx
+
+            #It's a folder
+            if element[3]:
+                i = self._selection_to_file_idx(element[3], idx + 1, true_idx, closed or not element[4])
+                if isinstance(i, tuple):
+                    idx, true_idx = i
+                    if element[4]:
+                        idx, true_idx = i
+                    else:
+                        idx += 1
+                        _, true_idx = i
+                else:
+                    return i
+            else:
+                if not closed:
+                    idx += 1
+                true_idx += 1
+
+        return (idx, true_idx)
+
+    def _get_full_folder_path(self, num, file_list = None, path = "", idx = 0):
+        if not file_list: file_list = self.file_list
+
+        for element in file_list:
+            if not element[3]:
+                idx += 1
+                continue
+
+            if num == idx:
+                return "%s%s/" % (path, element[0])
+
+            if element[4]:
+                i = self._get_full_folder_path(num, element[3], path + element[0] + "/", idx + 1 )
+                if not isinstance(i, int):
+                    return i
+                else:
+                    idx = i
+            else:
+                idx += 1
+
+        return idx
+
+    def _do_rename_folder(self, torrent_id, folder, new_folder):
+        client.core.rename_folder(torrent_id, folder, new_folder)
+
+    def _do_rename_file(self, torrent_id, file_idx, new_filename):
+        client.core.rename_files(torrent_id, [(file_idx, new_filename)])
+
+    def _show_rename_popup(self):
+        #Perhaps in the future: Renaming multiple files
+        if self.marked:
+            title = "Error (Enter to close)"
+            text = "Sorry, you can't rename multiple files, please clear selection with {!info!}'c'{!normal!} key"
+            self.popup = MessagePopup(self, title, text)
+        else:
+            _file = self.__get_file_by_num(self.current_file_idx, self.file_list)
+            old_filename = _file[0]
+
+            idx = self._selection_to_file_idx()
+            tid = self.torrentid
+
+            if _file[3]:
+
+                def do_rename(result):
+                    old_fname = self._get_full_folder_path(self.current_file_idx)
+                    new_fname = "%s/%s/" % (old_fname.strip("/").rpartition("/")[0], result["new_foldername"])
+                    self._do_rename_folder(tid, old_fname, new_fname)
+
+                popup = InputPopup(self,"Rename folder (Esc to cancel)",close_cb=do_rename)
+                popup.add_text("{!info!}Renaming folder:{!input!}")
+                popup.add_text(" * %s\n" % old_filename)
+                popup.add_text_input("Enter new folder name:", "new_foldername", old_filename.strip("/"))
+
+                self.popup = popup
+            else:
+
+                def do_rename(result):
+                    fname = "%s/%s" % (self.full_names[idx].rpartition("/")[0], result["new_filename"])
+                    self._do_rename_file(tid, idx, fname)
+
+                popup = InputPopup(self,"Rename file (Esc to cancel)",close_cb=do_rename)
+                popup.add_text("{!info!}Renaming file:{!input!}")
+                popup.add_text(" * %s\n" % old_filename)
+                popup.add_text_input("Enter new filename:", "new_filename", old_filename)
+
+                self.popup = popup
+
     def _doRead(self):
         c = self.stdscr.getch()
 
@@ -700,7 +862,7 @@ class TorrentDetail(BaseMode, component.Component):
             return
 
         if not self.torrent_state:
-            # actions below only makes sense if there is a torrent state
+            # actions below only make sense if there is a torrent state
             return
 
         # Navigate the torrent list
@@ -732,6 +894,8 @@ class TorrentDetail(BaseMode, component.Component):
                 if chr(c) == 'm':
                     if self.current_file:
                         self.__mark_unmark(self.current_file[1])
+                elif chr(c) == 'r':
+                    self._show_rename_popup()
                 elif chr(c) == 'c':
                     self.marked = {}
                 elif chr(c) == 'a':
