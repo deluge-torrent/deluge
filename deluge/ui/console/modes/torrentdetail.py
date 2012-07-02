@@ -793,6 +793,8 @@ class TorrentDetail(BaseMode, component.Component):
         client.core.rename_folder(torrent_id, folder, new_folder)
 
     def _do_rename_file(self, torrent_id, file_idx, new_filename):
+        if not new_filename:
+            return
         client.core.rename_files(torrent_id, [(file_idx, new_filename)])
 
     def _show_rename_popup(self):
@@ -811,6 +813,8 @@ class TorrentDetail(BaseMode, component.Component):
             if _file[3]:
 
                 def do_rename(result):
+                    if not result["new_foldername"]:
+                        return
                     old_fname = self._get_full_folder_path(self.current_file_idx)
                     new_fname = "%s/%s/" % (old_fname.strip("/").rpartition("/")[0], result["new_foldername"])
                     self._do_rename_folder(tid, old_fname, new_fname)
