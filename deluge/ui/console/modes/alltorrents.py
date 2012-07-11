@@ -48,6 +48,7 @@ from popup import Popup, SelectablePopup, MessagePopup, ALIGN
 from add_util import add_torrent
 from input_popup import InputPopup, ALIGN
 from torrentdetail import TorrentDetail
+from addtorrents import AddTorrents
 from preferences import Preferences
 from torrent_actions import torrent_actions_popup, ACTION
 from eventview import EventView
@@ -189,7 +190,9 @@ DEFAULT_PREFS = {
     "separate_complete": True,
     "ring_bell": False,
     "save_legacy_history": True,
-    "first_run": True
+    "first_run": True,
+    "addtorrents_show_misc_files": False,
+    "addtorrents_show_hidden_folders": False
 }
 
 column_pref_names = ["queue","name","size","state",
@@ -575,6 +578,14 @@ class AllTorrents(BaseMode, component.Component):
         else:
             return ""
 
+    def show_addtorrents_screen(self):
+        def dodeets(arg):
+            if arg and True in arg[0]:
+                self.stdscr.erase()
+                component.get("ConsoleUI").set_mode(AddTorrents(self,self.stdscr, self.config, self.encoding))
+            else:
+                self.messages.append(("Error","An error occured trying to display add torrents screen"))
+        component.stop(["AllTorrents"]).addCallback(dodeets)
 
     def show_torrent_details(self,tid):
         def dodeets(arg):
@@ -663,11 +674,11 @@ class AllTorrents(BaseMode, component.Component):
         self.popup.add_line("_Checking",data=FILTER.CHECKING,foreground="blue")
         self.popup.add_line("Q_ueued",data=FILTER.QUEUED,foreground="yellow")
 
-    def __report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
+    def _report_add_status(self, succ_cnt, fail_cnt, fail_msgs):
         if fail_cnt == 0:
             self.report_message("Torrents Added","{!success!}Successfully added %d torrent(s)"%succ_cnt)
         else:
-            msg = ("{!error!}Failed to add the following %d torrent(s):\n {!error!}"%fail_cnt)+"\n {!error!}".join(fail_msgs)
+            msg = ("{!error!}Failed to add the following %d torrent(s):\n {!input!}"%fail_cnt)+"\n {!error!}".join(fail_msgs)
             if succ_cnt != 0:
                 msg += "\n \n{!success!}Successfully added %d torrent(s)"%succ_cnt
             self.report_message("Torrent Add Report",msg)
@@ -685,13 +696,13 @@ class AllTorrents(BaseMode, component.Component):
             ress["fail"]+=1
             ress["fmsg"].append("%s: %s"%(t_file,msg))
             if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                self.__report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+                self._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
         def suc_cb(tid,t_file,ress):
             if tid:
                 log.debug("added torrent: %s (%s)"%(t_file,tid))
                 ress["succ"]+=1
                 if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                    self.__report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
+                    self._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
             else:
                 fail_cb("Already in session (probably)",t_file,ress)
 
@@ -1187,6 +1198,8 @@ class AllTorrents(BaseMode, component.Component):
                     self.last_mark = -1
                 elif chr(c) == 'a':
                     self._show_torrent_add_popup()
+                elif chr(c) == 'A':
+                    self.show_addtorrents_screen()
 
                 elif chr(c) == 'v':
                     self._show_visible_columns_popup()
