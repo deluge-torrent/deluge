@@ -203,6 +203,16 @@ def wrap_string(string,width,min_lines=0,strip_colors=True):
         for i in range(len(ret),min_lines):
             ret.append(" ")
 
+    #Carry colors over to the next line
+    last_color_string = ""
+    for i, line in enumerate(ret):
+        if i != 0:
+            ret[i] = "%s%s" % (last_color_string, ret[i])
+
+        colors = re.findall("\\{![^!]+!\\}", line)
+        if colors:
+            last_color_string = colors[-1]
+
     return ret
 
 from unicodedata import east_asian_width
