@@ -678,7 +678,7 @@ class AllTorrents(BaseMode, component.Component):
         if fail_cnt == 0:
             self.report_message("Torrents Added","{!success!}Successfully added %d torrent(s)"%succ_cnt)
         else:
-            msg = ("{!error!}Failed to add the following %d torrent(s):\n {!input!}"%fail_cnt)+"\n {!error!}".join(fail_msgs)
+            msg = ("{!error!}Failed to add the following %d torrent(s):\n {!input!}"%fail_cnt)+"\n ".join(fail_msgs)
             if succ_cnt != 0:
                 msg += "\n \n{!success!}Successfully added %d torrent(s)"%succ_cnt
             self.report_message("Torrent Add Report",msg)
@@ -694,7 +694,8 @@ class AllTorrents(BaseMode, component.Component):
         def fail_cb(msg,t_file,ress):
             log.debug("failed to add torrent: %s: %s"%(t_file,msg))
             ress["fail"]+=1
-            ress["fmsg"].append("%s: %s"%(t_file,msg))
+            filename = t_file.split("/")[-1]
+            ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(filename,msg))
             if (ress["succ"]+ress["fail"]) >= ress["total"]:
                 self._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
         def suc_cb(tid,t_file,ress):
@@ -779,7 +780,7 @@ class AllTorrents(BaseMode, component.Component):
         # show a message popup if there's anything queued
         if self.popup == None and self.messages:
             title,msg = self.messages.popleft()
-            self.popup = MessagePopup(self,title,msg)
+            self.popup = MessagePopup(self,title,msg, width_req=1.0)
 
         if not lines:
             if component.get("ConsoleUI").screen != self:

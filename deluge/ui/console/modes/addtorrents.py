@@ -46,6 +46,7 @@ import base64
 from deluge.ui.sessionproxy import SessionProxy
 
 from input_popup import InputPopup
+from popup import Popup
 import deluge.ui.console.colors as colors
 import format_utils
 
@@ -380,7 +381,7 @@ class AddTorrents(BaseMode, component.Component):
             def fail_cb(msg,t_file,ress):
                 log.debug("failed to add torrent: %s: %s"%(t_file,msg))
                 ress["fail"]+=1
-                ress["fmsg"].append("%s: %s"%(t_file,msg))
+                ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(t_file,msg))
                 if (ress["succ"]+ress["fail"]) >= ress["total"]:
                     self.alltorrentmode._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
 
@@ -404,8 +405,8 @@ class AddTorrents(BaseMode, component.Component):
                 t_options["add_paused"] = result["add_paused"]
 
                 d = client.core.add_torrent_file(filename, filedump, t_options)
-                d.addCallback(success_cb, path, ress)
-                d.addErrback(fail_cb, path, ress)
+                d.addCallback(success_cb, filename, ress)
+                d.addErrback(fail_cb, filename, ress)
 
             self.back_to_overview()
 
@@ -483,14 +484,12 @@ class AddTorrents(BaseMode, component.Component):
         elif c == curses.KEY_END:
             self.scroll_list_down(len(self.formatted_rows))
         elif c == curses.KEY_RIGHT:
-            self._perform_action()
+            if self.cursel < len(self.listing_dirs):
+                self._enter_dir()
         elif c == curses.KEY_LEFT:
             self._go_up()
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
-            self._perform_action()
-        # space
-        elif c == 32:
             self._perform_action()
         else:
             if c > 31 and c < 256:
