@@ -60,7 +60,30 @@ log = logging.getLogger(__name__)
 
 # Big help string that gets displayed when the user hits 'h'
 HELP_STR = """\
-To be written
+This screen allows you to browse and add torrent files located on your \
+hard disk. Currently selected file is highlighted with a white background.
+You can change the selected file using the up/down arrows or the \
+PgUp/PgDown keys.  Home and End keys go to the first and last file \
+in current directory respectively.
+
+Select files with the 'm' key. Use 'M' for multi-selection. Press \
+enter key to add them to session.
+
+{!info!}'h'{!normal!} - Show this help
+
+{!info!}'<'{!normal!} and {!info!}'>'{!normal!} - Change sort column and/or order
+
+{!info!}'m'{!normal!} - Mark or unmark currently highlighted file
+{!info!}'M'{!normal!} - Mark all files between current file and last selection.
+{!info!}'c'{!normal!} - Clear selection.
+
+{!info!}Left Arrow{!normal!} - Go up in directory hierarchy.
+{!info!}Right Arrow{!normal!} - Enter currently highlighted folder.
+
+{!info!}Enter{!normal!} - Enter currently highlighted folder or add torrents \
+if a file is highlighted
+
+{!info!}'q'{!normal!} - Go back to torrent overview
 """
 
 class AddTorrents(BaseMode, component.Component):
