@@ -683,51 +683,75 @@ class AllTorrents(BaseMode, component.Component):
                 msg += "\n \n{!success!}Successfully added %d torrent(s)"%succ_cnt
             self.report_message("Torrent Add Report",msg)
 
-    def _do_add(self, result):
-        if not result["file"]:
-            return
-        log.debug("Adding Torrent(s): %s (dl path: %s) (paused: %d)",result["file"],result["path"],result["add_paused"])
-        ress = {"succ":0,
-                "fail":0,
-                "fmsg":[]}
-
-        def fail_cb(msg,t_file,ress):
-            log.debug("failed to add torrent: %s: %s"%(t_file,msg))
-            ress["fail"]+=1
-            filename = t_file.split("/")[-1]
-            ress["fmsg"].append("{!input!} * %s: {!error!}%s"%(filename,msg))
-            if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                self._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
-        def suc_cb(tid,t_file,ress):
-            if tid:
-                log.debug("added torrent: %s (%s)"%(t_file,tid))
-                ress["succ"]+=1
-                if (ress["succ"]+ress["fail"]) >= ress["total"]:
-                    self._report_add_status(ress["succ"],ress["fail"],ress["fmsg"])
-            else:
-                fail_cb("Already in session (probably)",t_file,ress)
-
-        add_torrent(result["file"],result,suc_cb,fail_cb,ress)
-
     def _show_torrent_add_popup(self):
-        dl = ""
-        ap = 1
-        try:
-            dl = self.coreconfig["download_location"]
-        except KeyError:
-            pass
-        try:
-            if self.coreconfig["add_paused"]:
-                ap = 0
-        except KeyError:
-            pass
 
-        self.popup = InputPopup(self,"Add Torrent (Esc to cancel)",close_cb=self._do_add)
-        self.popup.add_text_input("Enter path to torrent file:","file")
-        self.popup.add_text_input("Enter save path:","path",dl)
-        self.popup.add_select_input("Add Paused:","add_paused",["Yes","No"],[True,False],ap)
-        self.popup.add_spaces(1)
-        self.popup.add_select_input("Path is:","path_type",["Auto","File","URL"],[0,1,2],0)
+        def do_add_from_url(result):
+            def fail_cb(msg, url):
+                log.debug("failed to add torrent: %s: %s" % (url, msg))
+                error_msg = "{!input!} * %s: {!error!}%s" % (url, msg)
+                self._report_add_status(0, 1, [error_msg] )
+
+            def success_cb(tid, url):
+                if tid:
+                    log.debug("added torrent: %s (%s)"%(url, tid))
+                    self._report_add_status(1, 0, [])
+                else:
+                    fail_cb("Already in session (probably)", url)
+
+            url = result["url"]
+
+            if not url:
+                return
+
+            t_options = {
+                "download_location": result["path"],
+                "add_paused": result["add_paused"]
+            }
+
+            if deluge.common.is_magnet(url):
+                client.core.add_torrent_magnet(url, t_options).addCallback(success_cb, url).addErrback(fail_cb, url)
+            elif deluge.common.is_url(url):
+                client.core.add_torrent_url(url, t_options).addCallback(success_cb, url).addErrback(fail_cb, url)
+            else:
+                self.messages.append(("Error","{!error!}Invalid URL or magnet link: %s" % url))
+                return
+
+            log.debug("Adding Torrent(s): %s (dl path: %s) (paused: %d)", url, result["path"], result["add_paused"])
+
+        def show_add_url_popup():
+            try:
+                dl = self.coreconfig["download_location"]
+            except KeyError:
+                dl = ""
+
+            ap = 1
+
+            try:
+                if self.coreconfig["add_paused"]:
+                    ap = 0
+            except KeyError:
+                pass
+
+            self.popup = InputPopup(self,"Add Torrent (Esc to cancel)", close_cb=do_add_from_url)
+            self.popup.add_text_input("Enter torrent URL or Magnet link:", "url")
+            self.popup.add_text_input("Enter save path:", "path", dl)
+            self.popup.add_select_input("Add Paused:", "add_paused", ["Yes", "No"], [True, False], ap)
+
+        def option_chosen(index, data):
+            self.popup = None
+
+            if not data:
+                return
+            if   data == 1:
+                self.show_addtorrents_screen()
+            elif data == 2:
+                show_add_url_popup()
+
+        self.popup = SelectablePopup(self,"Add torrent", option_chosen)
+        self.popup.add_line("From _File(s)", data=1)
+        self.popup.add_line("From _URL or Magnet", data=2)
+        self.popup.add_line("_Cancel", data=0)
+
 
     def _do_set_column_visibility(self, data):
         for key, value in data.items():
@@ -1119,11 +1143,6 @@ class AllTorrents(BaseMode, component.Component):
             self.__update_search(c)
             return
 
-        #log.error("pressed key: %d\n",c)
-        #if c == 27: # handle escape
-        #    log.error("CANCEL")
-
-        # Navigate the torrent list
         if c == curses.KEY_UP:
             if self.cursel == 1: return
             if not self._scroll_up(1):
@@ -1199,12 +1218,8 @@ class AllTorrents(BaseMode, component.Component):
                     self.last_mark = -1
                 elif chr(c) == 'a':
                     self._show_torrent_add_popup()
-                elif chr(c) == 'A':
-                    self.show_addtorrents_screen()
-
                 elif chr(c) == 'v':
                     self._show_visible_columns_popup()
-
                 elif chr(c) == 'o':
                     if not self.marked:
                         self.marked = [self.cursel]
