@@ -331,12 +331,13 @@ class MessagePopup(Popup):
     """
     Popup that just displays a message
     """
-    def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT):
+    def __init__(self, parent_mode, title, message, align=ALIGN.DEFAULT, width_req=0.5):
         self.message = message
-        self.width= int(parent_mode.cols/2)
+        #self.width= int(parent_mode.cols/2)
+        Popup.__init__(self,parent_mode, title, align=align, width_req=width_req)
         lns = format_utils.wrap_string(self.message,self.width-2,3,True)
-        hr = min(len(lns)+2,int(parent_mode.rows/2))
-        Popup.__init__(self,parent_mode, title, align=align, height_req=hr)
+        self.height_req = min(len(lns)+2,int(parent_mode.rows/2))
+        self.handle_resize()
         self._lines = lns
 
     def handle_resize(self):
