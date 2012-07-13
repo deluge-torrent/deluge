@@ -46,7 +46,7 @@ import base64
 from deluge.ui.sessionproxy import SessionProxy
 
 from input_popup import InputPopup
-from popup import Popup
+from popup import Popup, MessagePopup
 import deluge.ui.console.colors as colors
 import format_utils
 
@@ -138,6 +138,10 @@ class AddTorrents(BaseMode, component.Component):
         pass
 
     def __refresh_listing(self):
+        path = os.path.join(*self.path_stack[:self.path_stack_pos])
+
+        listing = os.listdir(path)
+
         self.listing_files = []
         self.listing_dirs = []
 
@@ -146,9 +150,6 @@ class AddTorrents(BaseMode, component.Component):
         self.raw_rows_dirs = []
         self.formatted_rows = []
 
-        path = os.path.join(*self.path_stack[:self.path_stack_pos])
-
-        listing = os.listdir(path)
         for f in listing:
             if os.path.isdir(os.path.join(path, f)):
                 if self.console_config["addtorrents_show_hidden_folders"]:
@@ -167,7 +168,7 @@ class AddTorrents(BaseMode, component.Component):
             try:
                 size = len(os.listdir(full_path))
             except:
-                size = 0
+                size = -1
             time = os.stat(full_path).st_mtime
 
             row = [dirname, size, time, full_path, 1]
@@ -222,7 +223,11 @@ class AddTorrents(BaseMode, component.Component):
             time = row[2]
 
             if row[4]:
-                cols = [filename.decode("utf8"), "%i items" % size, common.fdate(time)]
+                if size != -1:
+                    size_str = "%i items" % size
+                else:
+                    size_str = " unknown"
+                cols = [filename.decode("utf8"), size_str, common.fdate(time)]
                 widths = [self.cols - 35, 12, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
             else:
@@ -344,10 +349,17 @@ class AddTorrents(BaseMode, component.Component):
             #It's a folder
             color_string = ""
             if self.raw_rows[i][4]:
-                if i == self.cursel:
-                    color_string = "{!black,cyan,bold!}"
+                if self.raw_rows[i][1] == -1:
+                    if i == self.cursel:
+                        color_string = "{!black,red,bold!}"
+                    else:
+                        color_string = "{!red,black!}"
                 else:
-                    color_string = "{!cyan,black!}"
+                    if i == self.cursel:
+                        color_string = "{!black,cyan,bold!}"
+                    else:
+                        color_string = "{!cyan,black!}"
+
             elif i == self.cursel:
                 if self.raw_rows[i][0] in self.marked:
                     color_string = "{!blue,white,bold!}"
@@ -396,6 +408,14 @@ class AddTorrents(BaseMode, component.Component):
         if new_dir:
             self.path_stack = self.path_stack[:self.path_stack_pos]
             self.path_stack.append(dirname)
+
+        path = os.path.join(*self.path_stack[:self.path_stack_pos+1])
+
+        if not os.access(path, os.R_OK):
+            self.path_stack = self.path_stack[:self.path_stack_pos]
+            self.popup = MessagePopup(self, "Error", "{!error!}Access denied: %s" % path)
+            self.__refresh_listing()
+            return
 
         self.path_stack_pos += 1
 
