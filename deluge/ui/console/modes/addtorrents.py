@@ -397,6 +397,8 @@ class AddTorrents(BaseMode, component.Component):
             self._enter_dir()
         else:
             s = self.raw_rows[self.cursel][0]
+            if s not in self.marked:
+                self.last_mark = self.cursel
             self.marked.add(s)
             self._show_add_dialog()
 
