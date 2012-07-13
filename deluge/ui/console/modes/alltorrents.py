@@ -191,8 +191,11 @@ DEFAULT_PREFS = {
     "ring_bell": False,
     "save_legacy_history": True,
     "first_run": True,
-    "addtorrents_show_misc_files": False,
-    "addtorrents_show_hidden_folders": False
+    "addtorrents_show_misc_files": False, #TODO: Showing/hiding this
+    "addtorrents_show_hidden_folders": False, #TODO: Showing/hiding this
+    "addtorrents_sort_column": "date",
+    "addtorrents_reverse_sort": True,
+    "addtorrents_last_path": "~"
 }
 
 column_pref_names = ["queue","name","size","state",

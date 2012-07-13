@@ -100,7 +100,9 @@ class AddTorrents(BaseMode, component.Component):
         self.marked = set()
         self.last_mark = -1
 
-        self.path_stack = ["/"] + "/home/asmageddon/Downloads/torrents/".split("/")[1:-1]
+        path = os.path.expanduser(self.console_config["addtorrents_last_path"])
+
+        self.path_stack = ["/"] + path.strip("/").split("/")
         self.path_stack_pos = len(self.path_stack)
         self.listing_files = []
         self.listing_dirs = []
@@ -110,8 +112,8 @@ class AddTorrents(BaseMode, component.Component):
         self.raw_rows_dirs = []
         self.formatted_rows = []
 
-        self.sort_column = 2
-        self.reverse_sort = True
+        self.sort_column = self.console_config["addtorrents_sort_column"]
+        self.reverse_sort = self.console_config["addtorrents_reverse_sort"]
 
         BaseMode.__init__(self, stdscr, encoding)
 
@@ -197,12 +199,15 @@ class AddTorrents(BaseMode, component.Component):
         self.__sort_rows()
 
     def __sort_rows(self):
+        self.console_config["addtorrents_sort_column"] = self.sort_column
+        self.console_config["addtorrents_reverse_sort"] = self.reverse_sort
+        self.console_config.save()
 
         self.raw_rows_dirs.sort(key=lambda r: r[0].lower())
 
-        if self.sort_column == 0:
+        if   self.sort_column == "name":
             self.raw_rows_files.sort(key=lambda r: r[0].lower(), reverse=self.reverse_sort)
-        else:
+        elif self.sort_column == "date":
             self.raw_rows_files.sort(key=lambda r: r[2], reverse=self.reverse_sort)
         self.raw_rows = self.raw_rows_dirs + self.raw_rows_files
 
@@ -222,7 +227,11 @@ class AddTorrents(BaseMode, component.Component):
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
             else:
                 #Size of .torrent file itself couldn't matter less so we'll leave it out
-                cols = [filename.decode("utf8"), common.fdate(time)]
+                try:
+                    filename = filename.decode("utf8")
+                except:
+                    pass
+                cols = [filename, common.fdate(time)]
                 widths = [self.cols - 23, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
 
@@ -314,7 +323,11 @@ class AddTorrents(BaseMode, component.Component):
         widths = [self.cols - 35, 12, 23]
         s = ""
         for i, (c, w) in enumerate(zip(cols, widths)):
-            if i == self.sort_column:
+            cn = ""
+            if   i == 0: cn = "name"
+            elif i == 2: cn = "date"
+
+            if cn == self.sort_column:
                 s += "{!black,green,bold!}" + c.ljust(w - 2)
                 if self.reverse_sort:
                     s += "^ "
@@ -389,7 +402,7 @@ class AddTorrents(BaseMode, component.Component):
         self.view_offset = 0
         self.cursel = 0
         self.last_mark = -1
-        self.marked = []
+        self.marked = set()
 
         self.__refresh_listing()
 
@@ -430,6 +443,9 @@ class AddTorrents(BaseMode, component.Component):
                 d = client.core.add_torrent_file(filename, filedump, t_options)
                 d.addCallback(success_cb, filename, ress)
                 d.addErrback(fail_cb, filename, ress)
+
+            self.console_config["addtorrents_last_path"] = os.path.join(*self.path_stack[:self.path_stack_pos])
+            self.console_config.save()
 
             self.back_to_overview()
 
@@ -519,17 +535,17 @@ class AddTorrents(BaseMode, component.Component):
                 if chr(c) == 'h':
                     self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75, width_req=65)
                 elif chr(c) == '>':
-                    if self.sort_column == 2:
+                    if self.sort_column == "date":
                         self.reverse_sort = not self.reverse_sort
                     else:
-                        self.sort_column = 2
+                        self.sort_column = "date"
                         self.reverse_sort = True
                     self.__sort_rows()
                 elif chr(c) == '<':
-                    if self.sort_column == 0:
+                    if self.sort_column == "name":
                         self.reverse_sort = not self.reverse_sort
                     else:
-                        self.sort_column = 0
+                        self.sort_column = "name"
                         self.reverse_sort = False
                     self.__sort_rows()
                 elif chr(c) == 'm':
