@@ -291,29 +291,49 @@ class SelectablePopup(Popup):
         self._lines.append(self.divider)
         self._line_foregrounds.append(color)
 
+    def _move_cursor_up(self, amount):
+        if self._selectable_lines.index(self._selected) > amount:
+            idx = self._selectable_lines.index(self._selected)
+            self._selected = self._selectable_lines[idx-amount]
+        else:
+            self._selected = self._selectable_lines[0]
+
+        if self._immediate_action:
+            self._selection_callback(idx, self._select_data[idx], *self._selection_args)
+
+    def _move_cursor_down(self, amount):
+        idx = self._selectable_lines.index(self._selected)
+        if (idx < len(self._selectable_lines) - amount):
+            self._selected = self._selectable_lines[idx+amount]
+        else:
+            self._selected = self._selectable_lines[-1]
+
+        if self._immediate_action:
+            self._selection_callback(idx, self._select_data[idx], *self._selection_args)
+
     def handle_read(self, c):
         if c == curses.KEY_UP:
-            #self.lineoff = max(0,self.lineoff -1)
-            if (self._selected != self._selectable_lines[0] and
-                len(self._selectable_lines) > 1):
-                idx = self._selectable_lines.index(self._selected)
-                self._selected = self._selectable_lines[idx-1]
-            if self._immediate_action:
-                self._selection_callback(idx, self._select_data[idx], *self._selection_args)
+            self._move_cursor_up(1)
         elif c == curses.KEY_DOWN:
-            #if len(self._lines)-self.lineoff > (self.height-2):
-            #    self.lineoff += 1
-            idx = self._selectable_lines.index(self._selected)
-            if (idx < len(self._selectable_lines)-1):
-                self._selected = self._selectable_lines[idx+1]
+            self._move_cursor_down(1)
 
-            if self._immediate_action:
-                self._selection_callback(idx, self._select_data[idx], *self._selection_args)
+        elif c == curses.KEY_PPAGE:
+            self._move_cursor_up(4)
+        elif c == curses.KEY_NPAGE:
+            self._move_cursor_down(4)
+
+        elif c == curses.KEY_HOME:
+            self._move_cursor_up(len(self._selectable_lines))
+        elif c == curses.KEY_END:
+            self._move_cursor_down(len(self._selectable_lines))
+
         elif c == 27: # close on esc, no action
             return True
+
         elif c == curses.KEY_ENTER or c == 10:
             idx = self._selectable_lines.index(self._selected)
             return self._selection_callback(idx, self._select_data[idx], *self._selection_args)
+
         if c > 31 and c < 256:
             if chr(c) == 'q':
                 return True # close the popup
