@@ -252,8 +252,6 @@ class AddTorrents(BaseMode, component.Component):
         if self.cursel < self.view_offset + 1:
             self.view_offset = max(self.cursel - 1, 0)
 
-        self.path_stack = self.path_stack[:self.path_stack_pos]
-
     def scroll_list_down(self, distance):
         self.cursel += distance
         if self.cursel >= len(self.formatted_rows):
@@ -261,8 +259,6 @@ class AddTorrents(BaseMode, component.Component):
 
         if (self.view_offset + self._listing_space) <= self.cursel + 1:
             self.view_offset = self.cursel - self._listing_space + 1
-
-        self.path_stack = self.path_stack[:self.path_stack_pos]
 
     def set_popup(self,pu):
         self.popup = pu
