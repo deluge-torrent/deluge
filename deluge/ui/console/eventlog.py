@@ -71,7 +71,7 @@ class EventLog(component.Component):
     def on_torrent_added_event(self, torrent_id, from_state):
         if from_state: return
         def on_torrent_status(status):
-            self.write("{!green!}Torrent Added: {!info!}%s (%s)" % (
+            self.write("{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})" % (
                 status["name"], torrent_id)
             )
             #Write out what state the added torrent took
@@ -80,7 +80,7 @@ class EventLog(component.Component):
         client.core.get_torrent_status(torrent_id, ["name", "state"]).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, torrent_id):
-        self.write("{!red!}Torrent Removed: {!info!}%s (%s)" %
+        self.write("{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_torrent_state_changed_event(self, torrent_id, state):
@@ -103,7 +103,7 @@ class EventLog(component.Component):
     def on_torrent_finished_event(self, torrent_id):
         if component.get("AllTorrents").config["ring_bell"]:
             curses.beep()
-        self.write("{!info!}Torrent Finished: %s (%s)" %
+        self.write("{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})" %
             (self.console.get_torrent_name(torrent_id), torrent_id))
 
     def on_new_version_available_event(self, version):
