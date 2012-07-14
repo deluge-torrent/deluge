@@ -72,15 +72,13 @@ def get_column_value(name,state):
     try:
         col = columns[name]
     except KeyError:
-        log.error("No such column: %s",name)
-        return None
+        return "Please Wait"
 
     if col[1]:
         try:
             args = [ state[key] for key in col[0] ]
         except:
-            log.error("Could not get column field: %s",col[0])
-            return None
+            return "Please Wait"
         return col[1](*args)
     else:
         try:
