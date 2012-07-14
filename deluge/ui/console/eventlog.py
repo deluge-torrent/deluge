@@ -91,8 +91,14 @@ class EventLog(component.Component):
         if state in colors.state_color:
             state = colors.state_color[state] + state
 
+        t_name = self.console.get_torrent_name(torrent_id)
+
+        #Again, it's most likely a new torrent
+        if not t_name:
+            return
+
         self.write("%s: {!info!}%s ({!cyan!}%s{!info!})" %
-            (state, self.console.get_torrent_name(torrent_id), torrent_id))
+            (state, t_name, torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
         if component.get("AllTorrents").config["ring_bell"]:
