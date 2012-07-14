@@ -453,7 +453,9 @@ class TorrentDetail(BaseMode, component.Component):
         s+= common.fsize(status["total_uploaded"])
         if status["upload_payload_rate"] > 0:
             s+= " {!yellow!}@ %s%s" % (up_color, common.fsize(status["upload_payload_rate"]))
-        s+= " {!info!}Ratio: {!input!}%s" % format_utils.format_float(status["ratio"])
+        ratio_str = format_utils.format_float(status["ratio"])
+        if ratio_str == "-": ratio_str = "inf"
+        s+= " {!info!}Ratio: {!input!}%s" % ratio_str
         self.add_string(off, s); off += 1
 
         #Seeder/leecher info

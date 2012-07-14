@@ -55,7 +55,7 @@ def format_time(time):
 
 def format_float(x):
     if x < 0:
-        return "inf"
+        return "-"
     else:
         return "%.3f"%x
 
