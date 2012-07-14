@@ -1239,6 +1239,7 @@ class AllTorrents(BaseMode, component.Component):
                         pass
 
                     i = max(0, i)
+                    i = min(len(self.__cols_to_show) - 1, i)
 
                     self.config["sort_primary"] = self.__cols_to_show[i]
                     self.config.save()
@@ -1254,6 +1255,7 @@ class AllTorrents(BaseMode, component.Component):
                         pass
 
                     i = min(len(self.__cols_to_show) - 1, i)
+                    i = max(0, i)
 
                     self.config["sort_primary"] = self.__cols_to_show[i]
                     self.config.save()
