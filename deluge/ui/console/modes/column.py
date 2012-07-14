@@ -83,8 +83,10 @@ def get_column_value(name,state):
             return None
         return col[1](*args)
     else:
-        return state[col[0][0]]
-
+        try:
+            return state[col[0][0]]
+        except:
+            return "Please Wait"
 
 def get_required_fields(cols):
     fields = []
