@@ -353,8 +353,8 @@ class AllTorrents(BaseMode, component.Component):
         self.__status_fields = column.get_required_fields(self.__columns)
 
         # we always need these, even if we're not displaying them
-        for rf in ["state", "name", "queue"]:
-            if not rf in self.__status_fields:
+        for rf in ["state", "name", "queue", "progress"]:
+            if rf not in self.__status_fields:
                 self.__status_fields.append(rf)
 
         # same with sort keys
