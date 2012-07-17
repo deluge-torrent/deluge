@@ -1139,7 +1139,7 @@ class AllTorrents(BaseMode, component.Component):
                     reactor.stop()
                 return
 
-        if self.numtorrents == 0 or self.popup:
+        if self.numtorrents < 0:
             return
 
         elif self.entering_search:
