@@ -162,7 +162,10 @@ class JSON(resource.Resource, component.Component):
             # Sort out getting the default daemon here
             default = component.get("DelugeWeb").config["default_daemon"]
             host = component.get("Web").get_host(default)
-            self.connect()
+            if host:
+                self.connect(*host[1:])
+            else:
+                self.connect()
 
     def _on_client_disconnect(self, *args):
         component.get("Web.PluginManager").stop()
