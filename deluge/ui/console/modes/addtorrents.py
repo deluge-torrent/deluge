@@ -271,7 +271,6 @@ class AddTorrents(BaseMode, component.Component):
         legacy = component.get("LegacyUI")
         legacy.on_resize(*args)
 
-        self.__split_help()
         if self.popup:
             self.popup.handle_resize()
 

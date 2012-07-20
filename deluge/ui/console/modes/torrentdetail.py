@@ -410,7 +410,6 @@ class TorrentDetail(BaseMode, component.Component):
         legacy.on_resize(*args)
 
         self.__update_columns()
-        self.__split_help()
         if self.popup:
             self.popup.handle_resize()
 

@@ -498,7 +498,6 @@ class AllTorrents(BaseMode, component.Component):
 
         self.update()
         self.__update_columns()
-        self.__split_help()
 
         self.refresh([])
 
