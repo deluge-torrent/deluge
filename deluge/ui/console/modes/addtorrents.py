@@ -554,6 +554,9 @@ class AddTorrents(BaseMode, component.Component):
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
             self._perform_action()
+        #Escape
+        elif c == 27:
+            self.back_to_overview()
         else:
             if c > 31 and c < 256:
                 if chr(c) == 'h':
@@ -580,6 +583,10 @@ class AddTorrents(BaseMode, component.Component):
                         self.marked.add(s)
 
                     self.last_mark = self.cursel
+                elif chr(c) == 'j':
+                    self.scroll_list_up(1)
+                elif chr(c) == 'k':
+                    self.scroll_list_down(1)
                 elif chr(c) == 'M':
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:
