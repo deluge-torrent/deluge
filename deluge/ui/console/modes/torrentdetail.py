@@ -886,6 +886,8 @@ class TorrentDetail(BaseMode, component.Component):
         elif c == curses.KEY_END:
             self.current_file_idx = self.__get_file_list_length() - 1
             self.file_off = self.current_file_idx - (self._listing_space - 3)
+        elif c == curses.KEY_DC:
+            torrent_actions_popup(self, [self.torrentid], action=ACTION.REMOVE)
         # Enter Key
         elif c == curses.KEY_ENTER or c == 10:
             was_empty = (self.marked == {})
