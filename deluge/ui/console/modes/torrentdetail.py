@@ -153,7 +153,7 @@ class TorrentDetail(BaseMode, component.Component):
         log.debug("got state")
 
         if state.get("files"):
-            self.full_names = {x['index']:x['path'] for x in state["files"]}
+            self.full_names = dict([ (x['index'], x['path']) for x in state["files"]])
 
         need_prio_update = False
         if not self.file_list:
