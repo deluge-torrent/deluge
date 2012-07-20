@@ -227,7 +227,13 @@ class AddTorrents(BaseMode, component.Component):
                     size_str = "%i items" % size
                 else:
                     size_str = " unknown"
-                cols = [filename.decode("utf8"), size_str, common.fdate(time)]
+
+                try:
+                    filename = filename.decode("utf8")
+                except:
+                    pass
+
+                cols = [filename, size_str, common.fdate(time)]
                 widths = [self.cols - 35, 12, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
             else:
