@@ -292,7 +292,6 @@ class AllTorrents(BaseMode, component.Component):
         curses.curs_set(0)
         self.stdscr.notimeout(0)
 
-        self.__split_help()
         self.update_config()
 
         component.start(["AllTorrents"])
@@ -364,9 +363,6 @@ class AllTorrents(BaseMode, component.Component):
             self.__status_fields.append(s_secondary)
 
         self.__update_columns()
-
-    def __split_help(self):
-        self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     def resume(self):
         component.start(["AllTorrents"])
@@ -1266,7 +1262,7 @@ class AllTorrents(BaseMode, component.Component):
                 elif chr(c) == 'f':
                     self._show_torrent_filter_popup()
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req = 0.75, width_req=65)
+                    self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
                 elif chr(c) == 'p':
                     self.show_preferences()
                     return

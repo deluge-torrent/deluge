@@ -124,8 +124,6 @@ class AddTorrents(BaseMode, component.Component):
 
         component.Component.__init__(self, "AddTorrents", 1, depend=["SessionProxy"])
 
-        self.__split_help()
-
         component.start(["AddTorrents"])
 
         curses.curs_set(0)
@@ -245,10 +243,6 @@ class AddTorrents(BaseMode, component.Component):
                 cols = [filename, common.fdate(time)]
                 widths = [self.cols - 23, 23]
                 self.formatted_rows.append(format_utils.format_row(cols, widths))
-
-
-    def __split_help(self):
-        self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     def scroll_list_up(self, distance):
         self.cursel -= distance
@@ -560,7 +554,7 @@ class AddTorrents(BaseMode, component.Component):
         else:
             if c > 31 and c < 256:
                 if chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75, width_req=65)
+                    self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
                 elif chr(c) == '>':
                     if self.sort_column == "date":
                         self.reverse_sort = not self.reverse_sort

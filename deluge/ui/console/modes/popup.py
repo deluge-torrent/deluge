@@ -356,7 +356,7 @@ class MessagePopup(Popup):
         #self.width= int(parent_mode.cols/2)
         Popup.__init__(self,parent_mode, title, align=align, width_req=width_req)
         lns = format_utils.wrap_string(self.message,self.width-2,3,True)
-        self.height_req = min(len(lns)+2,int(parent_mode.rows/2))
+        self.height_req = min(len(lns)+2,int(parent_mode.rows*2/3))
         self.handle_resize()
         self._lines = lns
 

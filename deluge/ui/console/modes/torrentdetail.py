@@ -126,8 +126,6 @@ class TorrentDetail(BaseMode, component.Component):
         BaseMode.__init__(self, stdscr, encoding)
         component.Component.__init__(self, "TorrentDetail", 1, depend=["SessionProxy"])
 
-        self.__split_help()
-
         self.column_names = ["Filename", "Size", "Progress", "Priority"]
         self.__update_columns()
 
@@ -176,9 +174,6 @@ class TorrentDetail(BaseMode, component.Component):
         del state["file_priorities"]
         self.torrent_state = state
         self.refresh()
-
-    def __split_help(self):
-        self.__help_lines = format_utils.wrap_string(HELP_STR,(self.cols/2)-2)
 
     # split file list into directory tree. this function assumes all files in a
     # particular directory are returned together.  it won't work otherwise.
@@ -913,7 +908,7 @@ class TorrentDetail(BaseMode, component.Component):
                     torrent_actions_popup(self,[self.torrentid],action=ACTION.TORRENT_OPTIONS)
                     return
                 elif chr(c) == 'h':
-                    self.popup = Popup(self,"Help",init_lines=self.__help_lines, height_req=0.75, width_req=65)
+                    self.popup = MessagePopup(self, "Help", HELP_STR, width_req=0.75)
                 elif chr(c) == 'j':
                     self.file_list_up()
                 if chr(c) == 'k':
