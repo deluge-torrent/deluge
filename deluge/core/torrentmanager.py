@@ -598,7 +598,7 @@ class TorrentManager(component.Component):
         # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]
-        except KeyError, ValueError:
+        except (KeyError, ValueError):
             return False
 
         # Save the session state

@@ -516,7 +516,7 @@ class TorrentView(listview.ListView, component.Component):
                 return []
 
             return torrent_ids
-        except ValueError, TypeError:
+        except (ValueError, TypeError):
             return []
 
     def get_torrent_status(self, torrent_id):
