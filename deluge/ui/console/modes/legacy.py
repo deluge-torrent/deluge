@@ -114,7 +114,7 @@ def commonprefix(m):
 class Legacy(BaseMode, component.Component):
     def __init__(self, stdscr, encoding=None):
 
-        component.Component.__init__(self, "LegacyUI")
+        component.Component.__init__(self, "LegacyUI", 1, depend=["SessionProxy"])
 
         self.batch_write = False
 
@@ -197,10 +197,7 @@ class Legacy(BaseMode, component.Component):
 
             self.input_history_index = len(self.input_history)
 
-            #if len(self.lines) >= 5:
-                #if any(self.lines[-5:]):
-                    #for i in range(5):
-                        #self.add_line(" ", False)
+            component.start("LegacyUI")
 
 
         # show the cursor
@@ -227,7 +224,13 @@ class Legacy(BaseMode, component.Component):
         client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed_event)
 
     def update(self):
-        pass
+        if component.get("ConsoleUI").screen != self:
+            return
+
+        # Update just the status bars
+        self.add_string(0, self.statusbars.topbar)
+        self.add_string(self.rows - 2, self.statusbars.bottombar)
+        self.stdscr.refresh()
 
     def _doRead(self):
         # Read the character
