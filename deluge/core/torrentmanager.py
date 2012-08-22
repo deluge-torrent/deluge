@@ -451,10 +451,10 @@ class TorrentManager(component.Component):
             # Check for renamed files and if so, rename them in the torrent_info
             # before adding to the session.
             if options["mapped_files"]:
-                for index, filename in options["mapped_files"].items():
-                    filename = deluge.core.torrent.sanitize_filepath(filename)
-                    log.debug("renaming file index %s to %s", index, filename)
-                    torrent_info.rename_file(index, utf8_encoded(filename))
+                for index, fname in options["mapped_files"].items():
+                    fname = deluge.core.torrent.sanitize_filepath(fname)
+                    log.debug("renaming file index %s to %s", index, fname)
+                    torrent_info.rename_file(index, utf8_encoded(fname))
 
             add_torrent_params["ti"] = torrent_info
 
