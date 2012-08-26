@@ -65,7 +65,9 @@ columns = {
     "Save Path":(("save_path",), None),
     "Downloaded":(("all_time_download",), deluge.common.fsize),
     "Uploaded":(("total_uploaded",), deluge.common.fsize),
-    "Owner":(("owner",),None)
+    "Owner":(("owner",),None),
+    "Active Time":(("active_time",), deluge.common.ftime),
+    "Seeding Time":(("seeding_time",), deluge.common.ftime)
     }
 
 def get_column_value(name,state):

@@ -163,6 +163,8 @@ DEFAULT_PREFS = {
     "show_downloaded":False,
     "show_uploaded":False,
     "show_owner":False,
+    "show_downloading_time":False,
+    "show_seeding_time":False,
     "queue_width":4,
     "name_width":-1,
     "size_width":8,
@@ -181,6 +183,8 @@ DEFAULT_PREFS = {
     "downloaded_width":13,
     "uploaded_width":13,
     "owner_width":10,
+    "downloading_time_width":10,
+    "seeding_time_width":10,
     "ignore_duplicate_lines": False,
     "move_selection": True,
     "third_tab_lists_all": False,
@@ -203,7 +207,7 @@ column_pref_names = ["queue","name","size","state",
                      "downspeed","upspeed","eta",
                      "ratio","avail","added","tracker",
                      "savepath","downloaded","uploaded",
-                     "owner"]
+                     "owner","downloading_time","seeding_time"]
 
 prefs_to_names = {
     "queue":"#",
@@ -224,6 +228,8 @@ prefs_to_names = {
     "downloaded":"Downloaded",
     "uploaded":"Uploaded",
     "owner":"Owner",
+    "seeding_time":"Seeding Time",
+    "downloading_time":"Active Time"
 }
 
 column_names_to_state_keys = {
@@ -237,7 +243,9 @@ column_names_to_state_keys = {
     "tracker": "tracker_host",
     "savepath": "save_path",
     "uploaded": "total_uploaded",
-    "downloaded": "all_time_download"
+    "downloaded": "all_time_download",
+    "seeding_time":"seeding_time",
+    "downloading_time":"active_time"
 }
 
 reverse_sort_fields = [
@@ -251,7 +259,9 @@ reverse_sort_fields = [
     "total_uploaded",
     "all_time_download",
     "progress",
-    "ratio"
+    "ratio",
+    "seeding_time",
+    "active_time"
 ]
 
 SEARCH_EMPTY = 0
