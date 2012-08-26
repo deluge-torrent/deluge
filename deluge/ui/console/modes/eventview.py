@@ -85,7 +85,10 @@ class EventView(BaseMode):
 
                 elif i - self.offset < 0:
                     continue
-                self.add_string(i+1-self.offset,event)
+                try:
+                    self.add_string(i+1-self.offset,event)
+                except curses.error:
+                    pass #This'll just cut the line. Note: This seriously should be fixed in a better way
         else:
             self.add_string(1,"{!white,black,bold!}No events to show yet")
 
