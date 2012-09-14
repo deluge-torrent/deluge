@@ -886,13 +886,14 @@ class Torrent(object):
     def move_storage(self, dest):
         """Move a torrent's storage location"""
 
-        # Attempt to convert utf8 path to unicode
-        # Note: Inconsistent encoding for 'dest', needs future investigation
-        try:
-            dest_u = unicode(dest, "utf-8")
-        except TypeError:
-            # String is already unicode
-            dest_u = dest
+        if deluge.common.is_windows():
+            # Attempt to convert utf8 path to unicode
+            # Note: Inconsistent encoding for 'dest', needs future investigation
+            try:
+                dest_u = unicode(dest, "utf-8")
+            except TypeError:
+                # String is already unicode
+                dest_u = dest
 
         if not os.path.exists(dest_u):
             try:
