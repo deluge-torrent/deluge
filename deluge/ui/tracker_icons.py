@@ -39,7 +39,12 @@ from urlparse import urljoin, urlparse
 from tempfile import mkstemp
 
 from twisted.internet import defer, threads
-from twisted.web import error
+from twisted.web.error import PageRedirect
+try:
+    from twisted.web.resource import NoResource, ForbiddenResource
+except ImportError:
+    # twisted 8
+    from twisted.web.error import NoResource, ForbiddenResource
 
 from deluge.component import Component
 from deluge.configmanager import get_config_dir
@@ -235,7 +240,7 @@ class TrackerIcons(Component):
         error_msg = f.getErrorMessage()
         log.debug("Error downloading page: %s", error_msg)
         d = f
-        if f.check(error.PageRedirect):
+        if f.check(PageRedirect):
             # Handle redirect errors
             location = urljoin(self.host_to_url(host), error_msg.split(" to ")[1])
             self.redirects[host] = url_to_host(location)
@@ -375,14 +380,14 @@ class TrackerIcons(Component):
         error_msg = f.getErrorMessage()
         log.debug("Error downloading icon: %s", error_msg)
         d = f
-        if f.check(error.PageRedirect):
+        if f.check(PageRedirect):
             # Handle redirect errors
             location = urljoin(self.host_to_url(host), error_msg.split(" to ")[1])
             d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
             if not icons:
                 d.addCallbacks(self.on_download_icon_complete, self.on_download_icon_fail,
                                callbackArgs=(host,), errbackArgs=(host,))
-        elif f.check(error.NoResource, error.ForbiddenResource) and icons:
+        elif f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError, HTMLParseError):
             # No icons, try favicon.ico as an act of desperation
