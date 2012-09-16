@@ -373,7 +373,11 @@ Please see the details below for more information."), details=traceback.format_e
 
             if self.config["show_connection_manager_on_start"]:
                 # XXX: We need to call a simulate() here, but this could be a bug in twisted
-                reactor.simulate()
+                try:
+                    reactor._simulate()
+                except AttributeError:
+                    # twisted < 12
+                    reactor.simulate()
                 self.connectionmanager.show()
 
 
