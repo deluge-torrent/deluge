@@ -108,6 +108,14 @@ class Core(CorePluginBase):
         else:
             save_path = info["save_path"]
 
+        # getProcessOutputAndValue requires args to be str
+        if isinstance(torrent_name, unicode):
+            torrent_id = torrent_id.encode("utf-8", "ignore")
+        if isinstance(torrent_name, unicode):
+            torrent_name = torrent_name.encode("utf-8", "ignore")
+        if isinstance(save_path, unicode):
+            save_path = save_path.encode("utf-8", "ignore")
+
         log.debug("[execute] Running commands for %s", event)
 
         def log_error(result, command):
