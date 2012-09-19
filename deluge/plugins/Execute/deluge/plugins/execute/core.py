@@ -111,7 +111,7 @@ class Core(CorePluginBase):
             save_path = info["save_path"]
 
         # getProcessOutputAndValue requires args to be str
-        if isinstance(torrent_name, unicode):
+        if isinstance(torrent_id, unicode):
             torrent_id = torrent_id.encode("utf-8", "ignore")
         if isinstance(torrent_name, unicode):
             torrent_name = torrent_name.encode("utf-8", "ignore")
