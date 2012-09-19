@@ -5,7 +5,11 @@ from twisted.trial import unittest
 from twisted.internet import reactor
 from twisted.python.failure import Failure
 from twisted.web.http import FORBIDDEN, NOT_MODIFIED
-from twisted.web.resource import Resource, ForbiddenResource
+try:
+    from twisted.web.resource import Resource, ForbiddenResource
+except ImportError:
+    # twisted 8
+    from twisted.web.error import Resource, ForbiddenResource
 from twisted.web.server import Site
 
 from deluge.httpdownloader import download_file

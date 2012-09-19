@@ -70,6 +70,7 @@ _extra_compile_args = [
     "-DTORRENT_USE_OPENSSL=1",
     "-DBOOST_FILESYSTEM_VERSION=2",
     "-DBOOST_ASIO_ENABLE_CANCELIO",
+    "-DBOOST_ASIO_SEPARATE_COMPILATION",
     "-O2",
     ]
 
