@@ -149,6 +149,7 @@ DEFAULT_PREFS = {
     "pieces_color_waiting": [4874, 56494, 0],
     "pieces_color_downloading": [65535, 55255, 0],
     "pieces_color_completed": [4883, 26985, 56540],
+    "focus_main_window_on_add": True,
 }
 
 class GtkUI(object):

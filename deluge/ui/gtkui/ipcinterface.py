@@ -60,7 +60,8 @@ log = logging.getLogger(__name__)
 class IPCProtocolServer(Protocol):
     def dataReceived(self, data):
         data = rencode.loads(data)
-        component.get("MainWindow").present()
+        if not data or config["focus_main_window_on_add"]:
+            component.get("MainWindow").present()
         process_args(data)
 
 class IPCProtocolClient(Protocol):

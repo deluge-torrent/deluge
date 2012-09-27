@@ -552,6 +552,8 @@ class Preferences(component.Component):
             self.gtkui_config["classic_mode"])
         self.builder.get_object("chk_show_rate_in_title").set_active(
             self.gtkui_config["show_rate_in_title"])
+        self.builder.get_object("chk_focus_main_window_on_add").set_active(
+            self.gtkui_config["focus_main_window_on_add"])
         self.builder.get_object("piecesbar_toggle").set_active(
             self.gtkui_config["show_piecesbar"]
         )
@@ -739,6 +741,8 @@ class Preferences(component.Component):
 
         new_gtkui_config["show_rate_in_title"] = \
             self.builder.get_object("chk_show_rate_in_title").get_active()
+        new_gtkui_config["focus_main_window_on_add"] = \
+            self.builder.get_object("chk_focus_main_window_on_add").get_active()
 
         ## Other tab ##
         new_gtkui_config["show_new_releases"] = \
