@@ -75,11 +75,13 @@ class TorrentInfo(object):
         self.__m_info_hash = sha(bencode.bencode(self.__m_metadata["info"])).hexdigest()
 
         # Get encoding from torrent file if available
-        self.encoding = "UTF-8"
+        self.encoding = None
         if "encoding" in self.__m_metadata:
             self.encoding = self.__m_metadata["encoding"]
         elif "codepage" in self.__m_metadata:
             self.encoding = str(self.__m_metadata["codepage"])
+        if not self.encoding:
+            self.encoding = "UTF-8"
 
         # Check if 'name.utf-8' is in the torrent and if not try to decode the string
         # using the encoding found.
