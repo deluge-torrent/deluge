@@ -163,7 +163,7 @@ def decode_string(x, f):
         t = s.decode("utf8")
         if len(t) != len(s):
             s = t
-    except UnicodeEncodeError:
+    except UnicodeDecodeError:
         pass
     return (s, colon+n)
 
@@ -222,7 +222,7 @@ def make_fixed_length_string_decoders():
                 t = s.decode("utf8")
                 if len(t) != len(s):
                     s = t
-            except UnicodeEncodeError:
+            except UnicodeDecodeError:
                 pass
             return (s, f+1+slen)
         return f
