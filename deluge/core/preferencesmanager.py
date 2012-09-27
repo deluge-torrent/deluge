@@ -338,7 +338,10 @@ class PreferencesManager(component.Component):
     def _on_set_utpex(self, key, value):
         log.debug("utpex value set to %s", value)
         if value:
-            self.session.add_extension(lt.create_ut_pex_plugin)
+            # Note: All libtorrent python bindings to set plugins/extensions need to be disabled
+            # due to  GIL issue. https://code.google.com/p/libtorrent/issues/detail?id=369
+            #self.session.add_extension(lt.create_ut_pex_plugin)
+            pass
 
     def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
