@@ -166,6 +166,7 @@ DEFAULT_PREFS = {
     "sidebar_show_trackers": True,
     "sidebar_position": 170,
     "show_rate_in_title": False,
+    "focus_main_window_on_add": True,
     "createtorrent.trackers": []
 }
 

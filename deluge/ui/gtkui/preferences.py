@@ -479,6 +479,8 @@ class Preferences(component.Component):
             self.gtkui_config["classic_mode"])
         self.glade.get_widget("chk_show_rate_in_title").set_active(
             self.gtkui_config["show_rate_in_title"])
+        self.glade.get_widget("chk_focus_main_window_on_add").set_active(
+            self.gtkui_config["focus_main_window_on_add"])
 
         ## Other tab ##
         self.glade.get_widget("chk_show_new_releases").set_active(
@@ -651,6 +653,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_classic_mode").get_active()
         new_gtkui_config["show_rate_in_title"] = \
             self.glade.get_widget("chk_show_rate_in_title").get_active()
+        new_gtkui_config["focus_main_window_on_add"] = \
+            self.glade.get_widget("chk_focus_main_window_on_add").get_active()
 
         ## Other tab ##
         new_gtkui_config["show_new_releases"] = \
