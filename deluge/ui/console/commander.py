@@ -119,10 +119,12 @@ class Commander:
                     d = defer.succeed(None)
                     # If we have args, lets process them and quit
                     # allow multiple commands split by ";"
-                    for arg in args.split(";"):
-                        d.addCallback(do_command, arg.strip())
+                    commands = [arg.strip() for arg in args.split(';')]
+                    for command in commands:
+                        d.addCallback(do_command, command)
 
-                    d.addCallback(do_command, "quit")
+                    if "quit" not in commands and "exit" not in commands:
+                        d.addCallback(do_command, "quit")
 
                 # We need to wait for the rpcs in start() to finish before processing
                 # any of the commands.
