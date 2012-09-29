@@ -105,6 +105,11 @@ class SystemTray(component.Component):
             log.debug("Enabling the Application Indicator..")
             self.indicator = appindicator.Indicator (
                 "deluge", "deluge", appindicator.CATEGORY_APPLICATION_STATUS)
+            try:
+                self.indicator.set_property ("title", _("Deluge"))
+            except TypeError:
+                # Catch 'title' property error for previous appindicator versions
+                pass
             # Pass the menu to the Application Indicator
             self.indicator.set_menu(self.tray_menu)
 
