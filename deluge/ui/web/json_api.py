@@ -664,7 +664,8 @@ class WebApi(JSONComponent):
                 log.error("Reason: %s", result.getErrorMessage())
             return result
 
-        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
+        tempdir = tempfile.mkdtemp(prefix="delugeweb-")
+        tmp_file = os.path.join(tempdir, url.split("/")[-1])
         log.debug("filename: %s", tmp_file)
         headers = {}
         if cookie:
