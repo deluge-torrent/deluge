@@ -250,7 +250,7 @@ class OptionsTab(Tab):
             )
         if self.chk_move_completed.get_active():
             if client.is_localhost():
-                path = self.filechooser_move_completed.get_current_folder()
+                path = self.filechooser_move_completed.get_filename()
             else:
                 path = self.entry_move_completed.get_text()
             client.core.set_torrent_move_completed_path(self.prev_torrent_id, path)

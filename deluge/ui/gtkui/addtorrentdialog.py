@@ -418,7 +418,7 @@ class AddTorrentDialog(component.Component):
 
         if client.is_localhost():
             options["download_location"] = \
-                self.builder.get_object("button_location").get_current_folder()
+                self.builder.get_object("button_location").get_filename()
         else:
             options["download_location"] = \
                 self.builder.get_object("entry_download_path").get_text()

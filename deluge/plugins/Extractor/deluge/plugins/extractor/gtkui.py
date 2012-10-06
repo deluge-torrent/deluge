@@ -68,7 +68,7 @@ class GtkUI(GtkPluginBase):
     def on_apply_prefs(self):
         log.debug("applying prefs for Extractor")
         if client.is_localhost():
-            path = self.glade.get_widget("folderchooser_path").get_current_folder()
+            path = self.glade.get_widget("folderchooser_path").get_filename()
         else:
             path = self.glade.get_widget("entry_path").get_text()
 
