@@ -405,7 +405,7 @@ class AddTorrentDialog(component.Component):
 
         if client.is_localhost():
             options["download_location"] = \
-                self.glade.get_widget("button_location").get_current_folder()
+                self.glade.get_widget("button_location").get_filename()
         else:
             options["download_location"] = \
                 self.glade.get_widget("entry_download_path").get_text()
