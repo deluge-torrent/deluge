@@ -223,15 +223,16 @@ class ListView:
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
-        sort_info = None
-        if self.model_filter:
-            sort_info = self.model_filter.get_sort_column_id()
-
         self.model_filter = gtk.TreeModelSort(model_filter)
-        if sort_info and sort_info[0] and sort_info[1] > -1:
-            self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
-        self.set_sort_functions()
         self.treeview.set_model(self.model_filter)
+        self.set_sort_functions()
+        self.set_model_sort()
+
+    def set_model_sort(self):
+        for column_state in self.state:
+            if column_state.sort is not None and column_state.sort > -1:
+                self.treeview.get_model().set_sort_column_id(column_state.sort, column_state.sort_order)
+                break
 
     def stabilize_sort_func(self, sort_func):
         def stabilized(model, iter1, iter2, data):
@@ -261,10 +262,10 @@ class ListView:
                     position = index
                     break
         sort = None
-        sort_id, order = self.model_filter.get_sort_column_id()
-        if self.get_column_name(sort_id) == column.get_title():
-            sort = sort_id
-
+        if self.model_filter: # Will be None if no list was ever loaded (never connected to server)
+            sort_id, order = self.model_filter.get_sort_column_id()
+            if self.get_column_name(sort_id) == column.get_title():
+                sort = sort_id
         return ListViewColumnState(column.get_title(), position,
             column.get_width(), column.get_visible(),
             sort, int(column.get_sort_order()))
@@ -411,11 +412,7 @@ class ListView:
         # Do the actual row copy
         if self.liststore is not None:
             self.liststore.foreach(copy_row, (new_list, self.columns))
-
         self.liststore = new_list
-        # Create the model
-        self.create_model_filter()
-
         return
 
     def remove_column(self, header):
@@ -540,9 +537,6 @@ class ListView:
                     if column_state.width > 0:
                         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                         column.set_fixed_width(column_state.width)
-
-                    if column_state.sort is not None and column_state.sort > -1:
-                        self.model_filter.set_sort_column_id(column_state.sort, column_state.sort_order)
                     column.set_visible(column_state.visible)
                     position = column_state.position
                     break
