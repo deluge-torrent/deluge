@@ -74,6 +74,7 @@ class TrackerIcon(object):
         self.filename = os.path.abspath(filename)
         self.mimetype = extension_to_mimetype(self.filename.rpartition('.')[2])
         self.data = None
+        self.icon_cache = None
 
     def __eq__(self, other):
         """
@@ -121,6 +122,20 @@ class TrackerIcon(object):
         :rtype: string
         """
         return self.filename if full else os.path.basename(self.filename)
+
+    def set_cached_icon(self, data):
+        """
+        Set the cached icon data.
+
+        """
+        self.icon_cache = data
+
+    def get_cached_icon(self):
+        """
+        Returns the cached icon data.
+
+        """
+        return self.icon_cache
 
 class TrackerIcons(Component):
     """
