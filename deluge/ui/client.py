@@ -716,7 +716,7 @@ that you forgot to install the deluged package or it's not in your PATH."))
         if event in self.__event_handlers and handler in self.__event_handlers[event]:
             self.__event_handlers[event].remove(handler)
         if self._daemon_proxy:
-            self._daemon_proxy.register_event_handler(event, handler)
+            self._daemon_proxy.deregister_event_handler(event, handler)
 
     def force_call(self, block=False):
         # no-op for now.. we'll see if we need this in the future
