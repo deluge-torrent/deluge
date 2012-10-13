@@ -47,7 +47,7 @@ strwidth = format_utils.strwidth
 
 from os.path import sep as dirsep
 
-status_keys = ["state",
+STATUS_KEYS = ["state",
         "save_path",
         "tracker",
         "next_announce",
@@ -74,8 +74,8 @@ status_keys = ["state",
         "is_finished"
         ]
 
-states = ["Active", "Downloading", "Seeding", "Paused", "Checking", "Error", "Queued"]
-
+# Add filter specific state to torrent states
+STATES = ["Active"] + common.TORRENT_STATE
 
 def format_progressbar(progress, width):
     """
@@ -95,7 +95,6 @@ def format_progressbar(progress, width):
     s += "]"
     return s
 
-
 class Command(BaseCommand):
     """Show information about the torrents"""
 
@@ -106,8 +105,8 @@ class Command(BaseCommand):
                         help='shows detailed information about files and peers. '
                         "Implies -v"),
             make_option('-s', '--state', action='store', dest='state',
-                        help="Only retrieve torrents in state STATE. "
-                        "Allowable values are: %s "%(", ".join(states))),
+                        help="show torrents with state STATE. "
+                        "Possible values are:              %s"%(", ".join(STATES))),
     )
 
     usage =  "Usage: info [-v | -d | -s <state>] [<torrent-id> [<torrent-id> ...]]\n"\
@@ -140,14 +139,15 @@ class Command(BaseCommand):
         status_dict = {"id": torrent_ids}
 
         if options["state"]:
-            if options["state"] not in states:
-                self.console.write("Invalid state: %s"%options["state"])
-                self.console.write("Allowble values are: %s."%(", ".join(states)))
-                return
-            else:
+            options["state"] = options["state"].capitalize()
+            if options["state"] in STATES:
                 status_dict["state"] = options["state"]
+            else:
+                self.console.write("Invalid state: %s"%options["state"])
+                self.console.write("Possible values are: %s."%(", ".join(STATES)))
+                return
 
-        d = client.core.get_torrents_status(status_dict, status_keys)
+        d = client.core.get_torrents_status(status_dict, STATUS_KEYS)
         d.addCallback(on_torrents_status)
         d.addErrback(on_torrents_status_fail)
         return d
