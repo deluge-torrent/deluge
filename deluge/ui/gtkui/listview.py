@@ -213,6 +213,9 @@ class ListView:
         # their columns prior to having the state list saved on shutdown.
         self.removed_columns_state = []
 
+        # Since gtk TreeModelSort doesn't do stable sort, remember last sort order so we can
+        self.last_sort_order = {}
+
         # Create the model filter and column
         self.add_bool_column("filter", hidden=True)
 
@@ -231,15 +234,45 @@ class ListView:
         if sort_info and sort_info[0] and sort_info[1] > -1:
             self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
         self.set_sort_functions()
+        self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
+        self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
 
+    def on_model_sort_changed(self, model):
+        self.last_sort_order = {}
+        def record_position(model, path, iter, data):
+            self.last_sort_order[model[iter][1]] = path[0]
+        model.foreach(record_position, None)
+
+    def on_model_row_inserted(self, model, path, iter):
+        self.last_sort_order.setdefault(model[iter][1], len(model) - 1)
+
+    def stabilize_sort_func(self, sort_func):
+        def stabilized(model, iter1, iter2, data):
+            result = sort_func(model, iter1, iter2, data)
+            if result == 0:
+                hash1 = model[iter1][1]
+                hash2 = model[iter2][1]
+                if hash1 not in self.last_sort_order:
+                    return 1
+                elif hash2 not in self.last_sort_order:
+                    return -1
+                result = cmp(self.last_sort_order[hash1],
+                             self.last_sort_order[hash2])
+            return result
+        return stabilized
+
+    def generic_sort_func(self, model, iter1, iter2, data):
+        return cmp(model[iter1][data], model[iter2][data])
+
     def set_sort_functions(self):
+        self.model_filter.set_default_sort_func(None)
         for column in self.columns.values():
-            if column.sort_func:
-                self.model_filter.set_sort_func(
-                    column.sort_id,
-                    column.sort_func,
-                    column.sort_id)
+            sort_func = column.sort_func or self.generic_sort_func
+            self.model_filter.set_sort_func(
+                column.sort_id,
+                self.stabilize_sort_func(sort_func),
+                column.sort_id)
 
     def create_column_state(self, column, position=None):
         if not position:
