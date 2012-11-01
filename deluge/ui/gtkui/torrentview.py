@@ -228,14 +228,15 @@ class TorrentView(listview.ListView, component.Component):
                             self.window.main_glade.get_widget("menu_columns"))
 
         # Add the columns to the listview
-        self.add_text_column("torrent_id", hidden=True)
+        self.add_text_column("torrent_id", hidden=True, unique=True)
         self.add_bool_column("dirty", hidden=True)
         self.add_func_column("#", cell_data_queue, [int],
                              status_field=["queue"],
                              sort_func=queue_column_sort)
         self.add_texticon_column(_("Name"),
                                  status_field=["state", "name"],
-                                 function=cell_data_statusicon)
+                                 function=cell_data_statusicon,
+                                 default_sort=True)
         self.add_func_column(_("Size"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
@@ -406,6 +407,7 @@ class TorrentView(listview.ListView, component.Component):
         if first_run:
             # Disable sort if it's the first run.
             sort_settings =  model.get_sort_column_id()
+            model.set_default_sort_func(lambda *unused: 0)
             model.set_sort_column_id(-1, gtk.SORT_ASCENDING)
 
         # Create a list of tuples with the index of the column, and the column name
@@ -450,7 +452,6 @@ class TorrentView(listview.ListView, component.Component):
                             to_update.append(row_value)
                     except KeyError, e:
                         # if status_field in status[torrent_id] -> False
-                        field_value_key_error_count += 1
                         pass
                     except Exception, e:
                         log.debug("%s", e)
@@ -461,6 +462,7 @@ class TorrentView(listview.ListView, component.Component):
         if sort_settings[0] is not None:
             # Reenable sorting
             model.set_sort_column_id(*sort_settings)
+            model.set_default_sort_func(None)
 
         self.treeview.thaw_child_notify()
         component.get("MenuBar").update_menu()
