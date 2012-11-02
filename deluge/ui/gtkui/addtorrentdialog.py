@@ -169,8 +169,6 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("button_move_completed_location").hide()
             self.glade.get_widget("entry_move_completed_path").show()
 
-        self._on_chk_move_completed_toggled(self.glade.get_widget("chk_move_completed"))
-
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.present()
         if focus:
@@ -401,6 +399,7 @@ class AddTorrentDialog(component.Component):
             options["prioritize_first_last_pieces"])
         self.glade.get_widget("chk_move_completed").set_active(
             options["move_completed"])
+        self._on_chk_move_completed_toggled(self.glade.get_widget("chk_move_completed"))
 
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
