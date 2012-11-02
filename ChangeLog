@@ -6,6 +6,7 @@
 ==== Core ====
 	* Fix not properly detecting when torrent is at end of queue
 	* #2049: Preserve order when moving multiple torrents in the queue
+	* Add move completed option to add torrent dialog
 
 ==== GtkUI ====
 	* Modified fix for #1957, keyerror with non-acsii columns
