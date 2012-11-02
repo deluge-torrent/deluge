@@ -78,7 +78,8 @@ class AddTorrentDialog(component.Component):
             "on_button_cancel_clicked": self._on_button_cancel_clicked,
             "on_button_add_clicked": self._on_button_add_clicked,
             "on_button_apply_clicked": self._on_button_apply_clicked,
-            "on_button_revert_clicked": self._on_button_revert_clicked
+            "on_button_revert_clicked": self._on_button_revert_clicked,
+            "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
@@ -167,6 +168,8 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("entry_download_path").show()
             self.glade.get_widget("button_move_completed_location").hide()
             self.glade.get_widget("entry_move_completed_path").show()
+
+        self._on_chk_move_completed_toggled(self.glade.get_widget("chk_move_completed"))
 
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.present()
@@ -818,6 +821,11 @@ class AddTorrentDialog(component.Component):
 
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
+
+    def _on_chk_move_completed_toggled(self, widget):
+        value = widget.get_active()
+        self.glade.get_widget("button_move_completed_location").set_sensitive(value)
+        self.glade.get_widget("entry_move_completed_path").set_sensitive(value)
 
     def _on_delete_event(self, widget, event):
         self.hide()
