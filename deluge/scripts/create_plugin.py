@@ -9,6 +9,7 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 
 from optparse import OptionParser
 import os
+import sys
 import deluge.common
 parser = OptionParser()
 parser.add_option("-n", "--name", dest="name",help="plugin name")
@@ -51,6 +52,7 @@ def create_plugin():
     plugin_base = os.path.realpath(os.path.join(options.path, safe_name))
     src = os.path.join(plugin_base, safe_name)
     data_dir = os.path.join(src, "data")
+    python_path = sys.executable
 
     if os.path.exists(plugin_base):
         print "the directory %s already exists, delete it first" % plugin_base
@@ -63,6 +65,7 @@ def create_plugin():
             "safe_name":safe_name,
             "filename":filename,
             "plugin_base":plugin_base,
+            "python_path":python_path,
             "url": options.url,
             "configdir": options.configdir
         }
@@ -380,7 +383,7 @@ CREATE_DEV_LINK = """#!/bin/bash
 cd %(plugin_base)s
 mkdir temp
 export PYTHONPATH=./temp
-python setup.py build develop --install-dir ./temp
+%(python_path)s setup.py build develop --install-dir ./temp
 cp ./temp/%(name)s.egg-link %(configdir)s/plugins
 rm -fr ./temp
 """
