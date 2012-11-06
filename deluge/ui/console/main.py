@@ -40,6 +40,7 @@ import logging
 import optparse
 import re
 import locale
+import shlex
 
 from twisted.internet import defer, reactor
 
@@ -266,7 +267,7 @@ class BaseCommand(object):
     def split(self, text):
         if deluge.common.windows_check():
             text = text.replace('\\', '\\\\')
-        result = re.split(r"(?<!\\) ", text)
+        result = shlex.split(text)
         for i, s in enumerate(result):
             result[i] = s.replace(r'\ ', ' ')
         result = filter(lambda s: s != '', result)
