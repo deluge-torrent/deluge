@@ -213,11 +213,6 @@ class ListView:
         # their columns prior to having the state list saved on shutdown.
         self.removed_columns_state = []
 
-        # Since gtk TreeModelSort doesn't do stable sort, remember last sort order so we can
-        self.last_sort_order = {}
-        self.unique_column_id = None
-        self.default_sort_column_id = None
-
         # Create the model filter and column
         self.add_bool_column("filter", hidden=True)
 
@@ -236,49 +231,15 @@ class ListView:
         if sort_info and sort_info[0] and sort_info[1] > -1:
             self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
         self.set_sort_functions()
-        self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
-        self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
 
-    def on_model_sort_changed(self, model):
-        if self.unique_column_id:
-            self.last_sort_order = {}
-            def record_position(model, path, iter, data):
-                self.last_sort_order[model[iter][self.unique_column_id]] = path[0]
-            model.foreach(record_position, None)
-
-    def on_model_row_inserted(self, model, path, iter):
-        if self.unique_column_id:
-            self.last_sort_order.setdefault(
-                model[iter][self.unique_column_id], len(model) - 1)
-
-    def stabilize_sort_func(self, sort_func):
-        def stabilized(model, iter1, iter2, data):
-            result = sort_func(model, iter1, iter2, data)
-            if result == 0 and self.unique_column_id:
-                hash1 = model[iter1][self.unique_column_id]
-                hash2 = model[iter2][self.unique_column_id]
-                if hash1 in self.last_sort_order and hash2 in self.last_sort_order:
-                    result = cmp(self.last_sort_order[hash1],
-                                 self.last_sort_order[hash2])
-            if result == 0 and self.default_sort_column_id:
-                result = cmp(model[iter1][self.default_sort_column_id],
-                             model[iter2][self.default_sort_column_id])
-
-            return result
-        return stabilized
-
-    def generic_sort_func(self, model, iter1, iter2, data):
-        return cmp(model[iter1][data], model[iter2][data])
-
     def set_sort_functions(self):
-        self.model_filter.set_default_sort_func(None)
         for column in self.columns.values():
-            sort_func = column.sort_func or self.generic_sort_func
-            self.model_filter.set_sort_func(
-                column.sort_id,
-                self.stabilize_sort_func(sort_func),
-                column.sort_id)
+            if column.sort_func:
+                self.model_filter.set_sort_func(
+                    column.sort_id,
+                    column.sort_func,
+                    column.sort_id)
 
     def create_column_state(self, column, position=None):
         if not position:
@@ -480,8 +441,7 @@ class ListView:
 
     def add_column(self, header, render, col_types, hidden, position,
             status_field, sortid, text=0, value=0, pixbuf=0, function=None,
-            column_type=None, sort_func=None, default=True, unique=False,
-            default_sort=False):
+            column_type=None, sort_func=None, default=True):
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
@@ -505,11 +465,6 @@ class ListView:
         self.columns[header].status_field = status_field
         self.columns[header].sort_func = sort_func
         self.columns[header].sort_id = column_indices[sortid]
-
-        if unique:
-            self.unique_column_id = column_indices[sortid]
-        if default_sort:
-            self.default_sort_column_id = column_indices[sortid]
 
         # Create a new list with the added column
         self.create_new_liststore()
@@ -563,10 +518,6 @@ class ListView:
         column.connect('button-press-event',
                        self.on_treeview_header_right_clicked)
 
-        if default_sort:
-            if self.model_filter.get_sort_column_id()[0] is None:
-                self.model_filter.set_sort_column_id(column_indices[sortid],
-                                                     gtk.SORT_ASCENDING)
         # Check for loaded state and apply
         column_in_state = False
         if self.state != None:
@@ -604,15 +555,13 @@ class ListView:
 
     def add_text_column(self, header, col_type=str, hidden=False, position=None,
                         status_field=None, sortid=0, column_type="text",
-                        sort_func=None, default=True, unique=False,
-                        default_sort=False):
+                        sort_func=None, default=True):
         """Add a text column to the listview.  Only the header name is required.
         """
         render = gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        sort_func=sort_func, default=default, unique=unique,
-                        default_sort=default_sort)
+                        sort_func=sort_func, default=default)
 
         return True
 
@@ -655,15 +604,14 @@ class ListView:
     def add_texticon_column(self, header, col_types=[str, str], sortid=1,
                             hidden=False, position=None, status_field=None,
                             column_type="texticon", function=None,
-                            default=True, default_sort=False):
+                            default=True):
         """Adds a texticon column to the listview."""
         render1 = gtk.CellRendererPixbuf()
         render2 = gtk.CellRendererText()
 
         self.add_column(header, (render1, render2), col_types, hidden, position,
                         status_field, sortid, column_type=column_type,
-                        function=function, pixbuf=0, text=1, default=default,
-                        default_sort=default_sort)
+                        function=function, pixbuf=0, text=1, default=default)
 
         return True
 
