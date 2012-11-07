@@ -233,13 +233,25 @@ class ListView:
         self.set_sort_functions()
         self.treeview.set_model(self.model_filter)
 
+    def stabilize_sort_func(self, sort_func):
+        def stabilized(model, iter1, iter2, data):
+            result = sort_func(model, iter1, iter2, data)
+            if result == 0:
+                # Compare by hash if main column values are equal
+                return cmp(model[iter1][1], model[iter2][1])
+            return result
+        return stabilized
+
+    def generic_sort_func(self, model, iter1, iter2, data):
+        return cmp(model[iter1][data], model[iter2][data])
+
     def set_sort_functions(self):
         for column in self.columns.values():
-            if column.sort_func:
-                self.model_filter.set_sort_func(
-                    column.sort_id,
-                    column.sort_func,
-                    column.sort_id)
+            sort_func = column.sort_func or self.generic_sort_func
+            self.model_filter.set_sort_func(
+                column.sort_id,
+                self.stabilize_sort_func(sort_func),
+                column.sort_id)
 
     def create_column_state(self, column, position=None):
         if not position:
