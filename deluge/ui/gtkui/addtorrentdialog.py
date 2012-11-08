@@ -88,7 +88,8 @@ class AddTorrentDialog(component.Component):
             "on_button_add_clicked": self._on_button_add_clicked,
             "on_button_apply_clicked": self._on_button_apply_clicked,
             "on_button_revert_clicked": self._on_button_revert_clicked,
-            "on_alocation_toggled": self._on_alocation_toggled
+            "on_alocation_toggled": self._on_alocation_toggled,
+            "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
@@ -153,7 +154,9 @@ class AddTorrentDialog(component.Component):
             "prioritize_first_last_pieces",
             "sequential_download",
             "download_location",
-            "add_paused"
+            "add_paused",
+            "move_completed",
+            "move_completed_path"
         ]
         self.core_config = {}
 
@@ -169,9 +172,13 @@ class AddTorrentDialog(component.Component):
         if client.is_localhost():
             self.builder.get_object("button_location").show()
             self.builder.get_object("entry_download_path").hide()
+            self.builder.get_object("button_move_completed_location").show()
+            self.builder.get_object("entry_move_completed_path").hide()
         else:
             self.builder.get_object("button_location").hide()
             self.builder.get_object("entry_download_path").show()
+            self.builder.get_object("button_move_completed_location").hide()
+            self.builder.get_object("entry_move_completed_path").show()
 
         self.dialog.set_transient_for(component.get("MainWindow").window)
         self.dialog.present()
@@ -376,9 +383,13 @@ class AddTorrentDialog(component.Component):
         if client.is_localhost():
             self.builder.get_object("button_location").set_current_folder(
                 options["download_location"])
+            self.builder.get_object("button_move_completed_location").set_current_folder(
+                options["move_completed_path"])
         else:
             self.builder.get_object("entry_download_path").set_text(
                 options["download_location"])
+            self.builder.get_object("entry_move_completed_path").set_text(
+                options["move_completed_path"])
 
         self.builder.get_object("radio_full").set_active(
             not options["compact_allocation"])
@@ -419,9 +430,13 @@ class AddTorrentDialog(component.Component):
         if client.is_localhost():
             options["download_location"] = \
                 self.builder.get_object("button_location").get_filename()
+            options["move_completed_path"] = \
+                self.builder.get_object("button_move_completed_location").get_filename()
         else:
             options["download_location"] = \
                 self.builder.get_object("entry_download_path").get_text()
+            options["move_completed_path"] = \
+                self.builder.get_object("entry_move_completed_path").get_text()
         options["compact_allocation"] = \
             self.builder.get_object("radio_compact").get_active()
 
@@ -447,6 +462,8 @@ class AddTorrentDialog(component.Component):
         options["sequential_download"] = \
             self.builder.get_object("radio_full").get_active() and \
             self.builder.get_object("chk_sequential_download").get_active() or False
+        options["move_completed"] = \
+            self.builder.get_object("chk_move_completed").get_active()
 
         self.options[torrent_id] = options
 
@@ -474,9 +491,13 @@ class AddTorrentDialog(component.Component):
         if client.is_localhost():
             self.builder.get_object("button_location").set_current_folder(
                 self.core_config["download_location"])
+            self.builder.get_object("button_move_completed_location").set_current_folder(
+                self.core_config["move_completed_path"])
         else:
             self.builder.get_object("entry_download_path").set_text(
                 self.core_config["download_location"])
+            self.builder.get_object("entry_move_completed_path").set_text(
+                self.core_config["move_completed_path"])
 
         self.builder.get_object("radio_compact").set_active(
             self.core_config["compact_allocation"])
@@ -496,6 +517,8 @@ class AddTorrentDialog(component.Component):
             self.core_config["prioritize_first_last_pieces"])
         self.builder.get_object("chk_sequential_download").set_active(
             self.core_config["sequential_download"])
+        self.builder.get_object("chk_move_completed").set_active(
+            self.core_config["move_completed"])
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities
@@ -825,6 +848,11 @@ class AddTorrentDialog(component.Component):
 
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
+
+    def _on_chk_move_completed_toggled(self, widget):
+        value = widget.get_active()
+        self.builder.get_object("button_move_completed_location").set_sensitive(value)
+        self.builder.get_object("entry_move_completed_path").set_sensitive(value)
 
     def _on_delete_event(self, widget, event):
         self.hide()
