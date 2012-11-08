@@ -348,14 +348,15 @@ class TorrentView(listview.ListView, component.Component):
         self.register_checklist_menu(self.window.main_builder.get_object("menu_columns"))
 
         # Add the columns to the listview
-        self.add_text_column("torrent_id", hidden=True)
+        self.add_text_column("torrent_id", hidden=True, unique=True)
         self.add_bool_column("dirty", hidden=True)
         self.add_func_column("#", cell_data_queue, [int],
                              status_field=["queue"],
                              sort_func=queue_column_sort)
         self.add_texticon_column(_("Name"),
                                  status_field=["state", "name"],
-                                 function=cell_data_statusicon)
+                                 function=cell_data_statusicon,
+                                 default_sort=True)
         self.add_func_column(_("Size"), listview.cell_data_size,
                              [gobject.TYPE_UINT64],
                              status_field=["total_wanted"])
