@@ -409,6 +409,9 @@ class AddTorrentDialog(component.Component):
             options["prioritize_first_last_pieces"])
         self.builder.get_object("chk_sequential_download").set_active(
             options["sequential_download"])
+        self.builder.get_object("chk_move_completed").set_active(
+            options["move_completed"])
+        self._on_chk_move_completed_toggled(self.builder.get_object("chk_move_completed"))
 
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
@@ -519,6 +522,7 @@ class AddTorrentDialog(component.Component):
             self.core_config["sequential_download"])
         self.builder.get_object("chk_move_completed").set_active(
             self.core_config["move_completed"])
+        self._on_chk_move_completed_toggled(self.builder.get_object("chk_move_completed"))
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities
