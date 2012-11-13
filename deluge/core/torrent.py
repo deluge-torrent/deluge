@@ -478,7 +478,8 @@ class Torrent(object):
         for index, file in enumerate(files):
             ret.append({
                 'index': index,
-                'path': file.path.decode("utf8", "ignore"),
+                # Make path separators consistent across platforms
+                'path': file.path.decode("utf8").replace('\\', '/'),
                 'size': file.size,
                 'offset': file.offset
             })
