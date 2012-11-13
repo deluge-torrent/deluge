@@ -315,14 +315,14 @@ class Torrent(object):
             for n in range(ti.num_pieces()):
                 slices = ti.map_block(n, 0, ti.piece_size(n))
                 for slice in slices:
-                    fe = ti.file_at(slice.file_index)
-                    paths.setdefault(fe.path, []).append(n)
+                    if self.handle.file_priority(slice.file_index):
+                        paths.setdefault(slice.file_index, []).append(n)
 
             priorities = self.handle.piece_priorities()
             for pieces in paths.itervalues():
-                two_percent = 2*100/len(pieces)
+                two_percent = int(0.02*len(pieces)) or 1
                 for piece in pieces[:two_percent]+pieces[-two_percent:]:
-                    priorities[piece] = prioritize and 7 or 1
+                    priorities[piece] = 7 if prioritize else 1
             self.handle.prioritize_pieces(priorities)
 
     def set_sequential_download(self, set_sequencial):
