@@ -12,7 +12,7 @@
  * geoip-database (optional)
  * setproctitle (optional)
 
- * libtorrent >= 0.14, or build the included version
+ * libtorrent >= 0.16.1, or build the included version
 
  * If building included libtorrent::
    * boost >= 1.34.1

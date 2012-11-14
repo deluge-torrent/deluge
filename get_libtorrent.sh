@@ -5,7 +5,7 @@
 
 SVN=$(which svn)
 LT_URL=https://libtorrent.svn.sourceforge.net/svnroot/libtorrent
-VERSION=15
+VERSION=16
 [ "$1" != "" ] && VERSION=$1
 BRANCH=branches/RC_0_$VERSION
 
