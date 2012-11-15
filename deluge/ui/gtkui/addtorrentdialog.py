@@ -647,15 +647,8 @@ class AddTorrentDialog(component.Component):
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
 
-        if deluge.common.windows_check():
-            import win32clipboard as clip
-            import win32con
-            clip.OpenClipboard()
-            text = clip.GetClipboardData(win32con.CF_UNICODETEXT)
-            clip.CloseClipboard()
-        else:
-            clip = gtk.clipboard_get(selection='PRIMARY')
-            text = clip.wait_for_text()
+        text = (gtk.clipboard_get(selection='PRIMARY').wait_for_text() or
+                gtk.clipboard_get().wait_for_text())
         if text:
             text = text.strip()
             if deluge.common.is_url(text) or deluge.common.is_magnet(text):
