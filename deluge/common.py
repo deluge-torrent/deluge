@@ -68,6 +68,7 @@ if not hasattr(json, "dumps"):
 import pkg_resources
 import gettext
 import locale
+import sys
 
 from deluge.error import *
 
@@ -751,3 +752,39 @@ def setup_translations(setup_pygtk=False):
         log.exception(e)
         import __builtin__
         __builtin__.__dict__["_"] = lambda x: x
+
+def unicode_argv():
+    """ Gets sys.argv as list of unicode objects on any platform."""
+    if windows_check():
+        # Versions 2.x of Python don't support Unicode in sys.argv on
+        # Windows, with the underlying Windows API instead replacing multi-byte
+        # characters with '?'.
+        from ctypes import POINTER, byref, cdll, c_int, windll
+        from ctypes.wintypes import LPCWSTR, LPWSTR
+
+        GetCommandLineW = cdll.kernel32.GetCommandLineW
+        GetCommandLineW.argtypes = []
+        GetCommandLineW.restype = LPCWSTR
+
+        CommandLineToArgvW = windll.shell32.CommandLineToArgvW
+        CommandLineToArgvW.argtypes = [LPCWSTR, POINTER(c_int)]
+        CommandLineToArgvW.restype = POINTER(LPWSTR)
+
+        cmd = GetCommandLineW()
+        argc = c_int(0)
+        argv = CommandLineToArgvW(cmd, byref(argc))
+        if argc.value > 0:
+            # Remove Python executable and commands if present
+            start = argc.value - len(sys.argv)
+            return [argv[i] for i in
+                    xrange(start, argc.value)]
+    else:
+        # On other platforms, we have to find the likely encoding of the args and decode
+        # First check if sys.stdout or stdin have encoding set
+        encoding = getattr(sys.stdout, "encoding") or getattr(sys.stdin, "encoding")
+        # If that fails, check what the locale is set to
+        encoding = encoding or locale.getpreferredencoding()
+        # As a last resort, just default to utf-8
+        encoding = encoding or "utf-8"
+
+        return [arg.decode(encoding) for arg in sys.argv]
