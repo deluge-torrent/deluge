@@ -213,9 +213,6 @@ class AddTorrentDialog(component.Component):
         new_row = None
 
         for filename in filenames:
-            # Convert the path to unicode
-            filename = unicode(filename)
-
             # Get the torrent data from the torrent file
             try:
                 info = deluge.ui.common.TorrentInfo(filename)

@@ -37,6 +37,7 @@
 import logging
 from twisted.internet.protocol import ClientFactory
 from twisted.internet import reactor, ssl, defer
+import sys
 import subprocess
 
 import deluge.common
@@ -624,6 +625,8 @@ class Client(object):
         :raises OSError: received from subprocess.call()
 
         """
+        # subprocess.popen does not work with unicode args (with non-ascii characters) on windows
+        config = config.encode(sys.getfilesystemencoding())
         try:
             subprocess.Popen(["deluged", "--port=%s" % port, "--config=%s" % config])
         except OSError, e:
