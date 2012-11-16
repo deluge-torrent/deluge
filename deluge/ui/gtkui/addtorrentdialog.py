@@ -626,7 +626,11 @@ class AddTorrentDialog(component.Component):
             import win32clipboard as clip
             import win32con
             clip.OpenClipboard()
-            text = clip.GetClipboardData(win32con.CF_UNICODETEXT)
+            try:
+                text = clip.GetClipboardData(win32con.CF_UNICODETEXT)
+            except TypeError:
+                # Catch empty clipboard error
+                text = ''
             clip.CloseClipboard()
         else:
             clip = gtk.clipboard_get(selection='PRIMARY')
