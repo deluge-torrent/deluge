@@ -488,19 +488,10 @@ class MenuBar(component.Component):
         component.get("FilterTreeView").update()
 
     def _on_classic_mode(self, key, value):
-        items = [
-            "menuitem_quitdaemon",
-            "separatormenuitem",
-            "menuitem_connectionmanager"
-        ]
-
         if value:
-            attr = "hide"
+            self.main_builder.get_object("menuitem_connectionmanager").hide()
         else:
-            attr = "show"
-
-        for item in items:
-            getattr(self.main_builder.get_object(item), attr)()
+            self.main_builder.get_object("menuitem_connectionmanager").show()
 
     def _on_known_accounts(self, known_accounts):
         known_accounts_to_log = []
