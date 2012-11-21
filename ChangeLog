@@ -2,6 +2,7 @@
 ==== Core ====
 	* Catch & log KeyError when removing a torrent from the queued torrents set
 	* Fix moving/renaming torrents with non-ascii characters in libtorrent 0.16
+	* Make sure queue order is preserved when restarting
 
 ==== GtkUI ====
 	* Add move completed option to add torrent dialog
