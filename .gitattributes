@@ -9,6 +9,9 @@ check_glade.sh export-ignore
 createicons.sh export-ignore
 create_potfiles_in.py export-ignore
 gettextize.sh export-ignore
+deluge/ui/web/css/*-debug.css export-ignore
+deluge/ui/web/js/*-debug.js export-ignore
+
 .gitattributes export-ignore
 .gitmodules export-ignore
 .gitignore export-ignore
