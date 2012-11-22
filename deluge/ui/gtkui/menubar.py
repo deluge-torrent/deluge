@@ -169,8 +169,6 @@ class MenuBar(component.Component):
             "menuitem_addtorrent"
         ]
 
-        self.config.register_set_function("classic_mode", self._on_classic_mode, True)
-
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrentstatechanged_event)
         client.register_event_handler("TorrentResumedEvent", self.on_torrentresumed_event)
         client.register_event_handler("SessionPausedEvent", self.on_sessionpaused_event)
@@ -194,9 +192,10 @@ class MenuBar(component.Component):
             for widget in non_remote_items:
                 self.torrentmenu_glade.get_widget(widget).set_no_show_all(False)
 
-        if not self.config["classic_mode"]:
-            self.window.main_glade.get_widget("separatormenuitem").show()
-            self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+        self.window.main_glade.get_widget("separatormenuitem").set_visible(not self.config["classic_mode"])
+        self.window.main_glade.get_widget("menuitem_quitdaemon").set_visible(not self.config["classic_mode"])
+        self.window.main_glade.get_widget("menuitem_connectionmanager").set_visible(not self.config["classic_mode"])
+
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
@@ -460,20 +459,3 @@ class MenuBar(component.Component):
     def on_menuitem_sidebar_trackers_toggled(self, widget):
         self.config["sidebar_show_trackers"] = widget.get_active()
         component.get("FilterTreeView").update()
-
-    def _on_classic_mode(self, key, value):
-        items = [
-            "menuitem_quitdaemon",
-            "separatormenuitem",
-            "menuitem_connectionmanager"
-        ]
-
-        for item in items:
-            w = self.window.main_glade.get_widget(item)
-            if value:
-                w.hide()
-            else:
-                if client.connected() or item is "menuitem_connectionmanager":
-                    w.show()
-                else:
-                    w.hide()

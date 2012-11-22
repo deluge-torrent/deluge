@@ -751,6 +751,22 @@ class Preferences(component.Component):
             # Re-show the dialog to make sure everything has been updated
             self.show()
 
+        if client.is_classicmode() != new_gtkui_config["classic_mode"]:
+            dialog = gtk.MessageDialog(
+                flags=gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,
+                type=gtk.MESSAGE_QUESTION,
+                buttons=gtk.BUTTONS_YES_NO,
+                message_format=_("You must restart the deluge UI to change classic mode. Quit now?")
+            )
+            result = dialog.run()
+            if result == gtk.RESPONSE_YES:
+                shutdown_daemon = (not client.is_classicmode() and
+                                   client.connected() and
+                                   client.is_localhost())
+                component.get("MainWindow").quit(shutdown=shutdown_daemon)
+            dialog.destroy()
+
+
     def hide(self):
         self.glade.get_widget("port_img").hide()
         self.pref_dialog.hide()

@@ -74,14 +74,11 @@ class ToolBar(component.Component):
             "toolbutton_queue_down"
         ]
 
-        self.config.register_set_function("classic_mode", self._on_classic_mode, True)
-
         # Hide if necessary
         self.visible(self.config["show_toolbar"])
 
     def start(self):
-        if not self.config["classic_mode"]:
-            self.window.main_glade.get_widget("toolbutton_connectionmanager").show()
+        self.window.main_glade.get_widget("toolbutton_connectionmanager").set_visible(not self.config["classic_mode"])
 
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
@@ -178,10 +175,3 @@ class ToolBar(component.Component):
     def on_toolbutton_queue_down_clicked(self, data):
         log.debug("on_toolbutton_queue_down_clicked")
         component.get("MenuBar").on_menuitem_queue_down_activate(data)
-
-    def _on_classic_mode(self, key, value):
-        w = self.window.main_glade.get_widget("toolbutton_connectionmanager")
-        if value:
-            w.hide()
-        else:
-            w.show()
