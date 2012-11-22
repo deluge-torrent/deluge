@@ -1,5 +1,5 @@
 # Deluge Windows installer script
-# Version 0.4 28-Apr-2009
+# Version 0.6 22-Nov-2012
 
 # Copyright (C) 2009 by
 #   Jesper Lund <mail@jesperlund.com>
@@ -26,21 +26,26 @@
 #
 
 # Set default compressor
-SetCompressor lzma
+SetCompressor  /FINAL /SOLID lzma
+SetCompressorDictSize 64
 
 ###
 ### --- The PROGRAM_VERSION !define need to be updated with new Deluge versions ---
 ###
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "0.5"
+!define DELUGE_INSTALLER_VERSION "0.6"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
-!define PROGRAM_VERSION "1.3.5"
+# Deluge program information
+!searchparse /file VERSION.tmp `build_version = "` PROGRAM_VERSION `"`
+!ifndef PROGRAM_VERSION
+   !error "Program Version Undefined"
+!endif
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 
-# Python files generated with bbfreeze (without DLLs from GTK+ runtime)
+# Python files generated with bbfreeze
 !define DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR "..\build-win32\deluge-bbfreeze-${PROGRAM_VERSION}"
 
 # --- Interface settings ---
@@ -93,6 +98,15 @@ SetCompressor lzma
 
 # --- Functions ---
 
+Function .onInit
+	System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "deluge") i .R0'
+	IntCmp $R0 0 notRunning
+		System::Call 'kernel32::CloseHandle(i $R0)'
+		MessageBox MB_OK|MB_ICONEXCLAMATION "Deluge is running. Please close it first" /SD IDOK
+		Abort
+	notRunning:
+FunctionEnd
+
 Function un.onUninstSuccess
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
@@ -126,7 +140,7 @@ ShowUnInstDetails show
 # Install main application
 Section "Deluge Bittorrent Client" Section1
   SectionIn RO
-  
+
   SetOutPath $INSTDIR
   File /r "${DELUGE_PYTHON_BBFREEZE_OUTPUT_DIR}\*.*"
 
@@ -140,8 +154,6 @@ Section -StartMenu_Desktop_Links
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\Deluge"
   CreateShortCut "$SMPROGRAMS\Deluge\Deluge.lnk" "$INSTDIR\deluge.exe"
-  CreateShortCut "$SMPROGRAMS\Deluge\Deluge daemon.lnk" "$INSTDIR\deluged.exe"
-  CreateShortCut "$SMPROGRAMS\Deluge\Deluge webUI.lnk" "$INSTDIR\deluge-web.exe"
   CreateShortCut "$SMPROGRAMS\Deluge\Project homepage.lnk" "$INSTDIR\Homepage.url"
   CreateShortCut "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk" "$INSTDIR\Deluge-uninst.exe"
   CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.exe"
@@ -194,11 +206,9 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to have Deluge hand
 
 Section Uninstall
   RmDir /r "$INSTDIR"
-  
+
   SetShellVarContext all
   Delete "$SMPROGRAMS\Deluge\Deluge.lnk"
-  Delete "$SMPROGRAMS\Deluge\Deluge daemon.lnk"
-  Delete "$SMPROGRAMS\Deluge\Deluge webUI.lnk"
   Delete "$SMPROGRAMS\Deluge\Uninstall Deluge.lnk"
   Delete "$SMPROGRAMS\Deluge\Project homepage.lnk"
   Delete "$DESKTOP\Deluge.lnk"
