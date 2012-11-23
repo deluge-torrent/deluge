@@ -293,7 +293,7 @@ GetText.add('Encrypt entire stream', '${escape(_("Encrypt entire stream"))}')
 // EncryptionPage.js:41
 GetText.add('Encryption', '${escape(_("Encryption"))}')
 
-// ConnectionManager.js:308, ConnectionManager.js:364, AddConnectionWindow.js:103, AddWindow.js:208
+// ConnectionManager.js:308, ConnectionManager.js:364, AddConnectionWindow.js:103, AddWindow.js:209
 GetText.add('Error', '${escape(_("Error"))}')
 
 // Menus.js:247
@@ -506,7 +506,7 @@ GetText.add('Normal Priority', '${escape(_("Normal Priority"))}')
 // Statusbar.js:39
 GetText.add('Not Connected', '${escape(_("Not Connected"))}')
 
-// AddWindow.js:209
+// AddWindow.js:210
 GetText.add('Not a valid torrent', '${escape(_("Not a valid torrent"))}')
 
 // ConnectionManager.js:180, ConnectionManager.js:188
@@ -611,7 +611,7 @@ GetText.add('Rate limit IP overhead', '${escape(_("Rate limit IP overhead"))}')
 // TorrentGrid.js:162
 GetText.add('Ratio', '${escape(_("Ratio"))}')
 
-// EditTrackersWindow.js:122, ConnectionManager.js:107, Toolbar.js:64, AddWindow.js:111
+// EditTrackersWindow.js:122, ConnectionManager.js:107, Toolbar.js:64, AddWindow.js:112
 GetText.add('Remove', '${escape(_("Remove"))}')
 
 // Menus.js:224, RemoveWindow.js:39, RemoveWindow.js:57
@@ -826,5 +826,4 @@ GetText.add('Your password was successfully changed!', '${escape(_("Your passwor
 
 // InterfacePage.js:200
 GetText.add('Your passwords don\'t match!', '${escape(_("Your passwords don\'t match!"))}')
-
 
