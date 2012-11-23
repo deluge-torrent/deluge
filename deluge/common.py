@@ -240,7 +240,7 @@ def open_file(path):
 
     """
     if windows_check():
-        os.startfile("%s" % path)
+        os.startfile(path.decode("utf8"))
     elif osx_check():
         subprocess.Popen(["open", "%s" % path])
     else:
