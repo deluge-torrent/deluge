@@ -1,6 +1,6 @@
 /*!
  * Deluge.details.FilesTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,12 +29,11 @@
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-	
+
 Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 
 	title: _('Files'),
 
-	autoScroll: true,
 	rootVisible: false,
 
 	columns: [{
@@ -74,7 +73,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			}
 		})
 	}],
-	
+
 	selModel: new Ext.tree.MultiSelectionModel(),
 
 	initComponent: function() {
@@ -130,7 +129,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			this.clear();
 			this.torrentId = torrentId;
 		}
-		
+
 		deluge.client.web.get_torrent_files(torrentId, {
 			success: this.onRequestComplete,
 			scope: this,
@@ -163,7 +162,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			folderSort: true
 		});
 	},
-	
+
 	onContextMenu: function(node, e) {
 		e.stopEvent();
 		var selModel = this.getSelectionModel();
@@ -173,7 +172,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		}
 		deluge.menus.filePriorities.showAt(e.getPoint());
 	},
-	
+
 	onItemClick: function(baseItem, e) {
 		switch (baseItem.id) {
 			case 'expandAll':
@@ -200,7 +199,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 						return;
 					}
 				});
-				
+
 				var priorities = new Array(Ext.keys(indexes).length);
 				for (var index in indexes) {
 					priorities[index] = indexes[index];
@@ -217,7 +216,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 				break;
 		}
 	},
-	
+
 	onRequestComplete: function(files, options) {
 		if (!this.getRootNode().hasChildNodes()) {
 			this.createFileTree(files);

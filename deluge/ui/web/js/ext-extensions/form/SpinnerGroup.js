@@ -38,6 +38,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
 
     // private
     defaultType: 'spinnerfield',
+    anchor: '98%',
 
     // private
     groupCls: 'x-form-spinner-group',

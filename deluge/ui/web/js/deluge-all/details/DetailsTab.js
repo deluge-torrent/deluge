@@ -36,7 +36,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	title: _('Details'),
 
 	fields: {},
-
+	autoScroll: true,
 	queuedItems: {},
 
 	oldData: {},
