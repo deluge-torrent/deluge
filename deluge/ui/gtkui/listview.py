@@ -237,17 +237,28 @@ class ListView:
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
-        sort_info = None
-        if self.model_filter:
-            sort_info = self.model_filter.get_sort_column_id()
-
         self.model_filter = gtk.TreeModelSort(model_filter)
-        if sort_info and sort_info[0] and sort_info[1] > -1:
-            self.model_filter.set_sort_column_id(sort_info[0], sort_info[1])
-        self.set_sort_functions()
-        self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
-        self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
+        self.set_sort_functions()
+        self.set_model_sort()
+
+    def set_model_sort(self):
+        column_state = self.get_sort_column_from_state()
+        if column_state:
+            self.treeview.get_model().set_sort_column_id(column_state.sort, column_state.sort_order)
+        # Using the default sort column
+        elif self.default_sort_column_id:
+            self.model_filter.set_sort_column_id(self.default_sort_column_id, gtk.SORT_ASCENDING)
+        self.model_filter.set_default_sort_func(None)
+
+    def get_sort_column_from_state(self):
+        """Find the first (should only be one) state with sort enabled"""
+        if self.state is None:
+            return None
+        for column_state in self.state:
+            if column_state.sort is not None and column_state.sort > -1:
+                return column_state
+        return None
 
     def on_model_sort_changed(self, model):
         if self.unique_column_id:
@@ -281,7 +292,6 @@ class ListView:
         return cmp(model[iter1][data], model[iter2][data])
 
     def set_sort_functions(self):
-        self.model_filter.set_default_sort_func(None)
         for column in self.columns.values():
             sort_func = column.sort_func or self.generic_sort_func
             self.model_filter.set_sort_func(
@@ -449,10 +459,6 @@ class ListView:
             self.liststore.foreach(copy_row, (new_list, self.columns))
 
         self.liststore = new_list
-        # Create the model
-        self.create_model_filter()
-
-        return
 
     def remove_column(self, header):
         """Removes the column with the name 'header' from the listview"""
@@ -575,11 +581,6 @@ class ListView:
         if tooltip:
             column.get_widget().set_tooltip_markup(tooltip)
 
-        if default_sort:
-            if self.model_filter.get_sort_column_id()[0] is None:
-                self.model_filter.set_sort_column_id(column_indices[sortid],
-                                                     gtk.SORT_ASCENDING)
-
         # Check for loaded state and apply
         column_in_state = False
         if self.state != None:
@@ -591,10 +592,6 @@ class ListView:
                         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                         column.set_fixed_width(column_state.width)
 
-                    if column_state.sort is not None and column_state.sort > -1:
-                        self.model_filter.set_sort_column_id(
-                            column_state.sort, column_state.sort_order
-                        )
                     column.set_visible(column_state.visible)
                     position = column_state.position
                     break
