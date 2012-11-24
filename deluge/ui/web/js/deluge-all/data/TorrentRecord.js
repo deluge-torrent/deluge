@@ -1,6 +1,6 @@
 /*!
  * Deluge.data.TorrentRecord.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -47,7 +47,8 @@ Deluge.data.Torrent = Ext.data.Record.create([{
         type: 'int'
     }, {
         name: 'name',
-        type: 'string'
+        type: 'string',
+        sortType: Deluge.data.SortTypes.asName
     }, {
         name: 'total_size',
         type: 'int'
