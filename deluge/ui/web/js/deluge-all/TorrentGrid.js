@@ -235,7 +235,7 @@
 			idProperty: 'id',
 			fields: [
 				{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
-				{name: 'name'},
+				{name: 'name', sortType: Deluge.data.SortTypes.asName},
 				{name: 'total_size', type: 'int'},
 				{name: 'state'},
 				{name: 'progress', type: 'float'},

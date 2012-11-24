@@ -1,6 +1,6 @@
 /*!
  * Deluge.data.SortTypes.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ Ext.namespace('Deluge.data');
  *
  * @class Deluge.data.SortTypes
  * @singleton
- */ 
+ */
 Deluge.data.SortTypes = {
 	asIPAddress: function(value) {
 		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
@@ -48,5 +48,9 @@ Deluge.data.SortTypes = {
 
 	asQueuePosition: function(value) {
 		return (value > -1) ? value : Number.MAX_VALUE;
+	},
+
+	asName: function(value) {
+		return String(value).toLowerCase();
 	}
 }
