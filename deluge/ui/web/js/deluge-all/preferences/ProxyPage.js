@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.ProxyPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,11 +40,12 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		config = Ext.apply({
 			border: false,
 			title: _('Proxy'),
-			layout: 'form'
+			layout: 'form',
+			autoScroll: true
 		}, config);
 		Deluge.preferences.Proxy.superclass.constructor.call(this, config);
 	},
-	
+
 	initComponent: function() {
 		Deluge.preferences.Proxy.superclass.initComponent.call(this);
 		this.peer = this.add(new Deluge.preferences.ProxyField({
@@ -52,28 +53,28 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 			name: 'peer'
 		}));
 		this.peer.on('change', this.onProxyChange, this);
-		
+
 		this.web_seed = this.add(new Deluge.preferences.ProxyField({
 			title: _('Web Seed'),
 			name: 'web_seed'
 		}));
 		this.web_seed.on('change', this.onProxyChange, this);
-		
+
 		this.tracker = this.add(new Deluge.preferences.ProxyField({
 			title: _('Tracker'),
 			name: 'tracker'
 		}));
 		this.tracker.on('change', this.onProxyChange, this);
-		
+
 		this.dht = this.add(new Deluge.preferences.ProxyField({
 			title: _('DHT'),
 			name: 'dht'
 		}));
 		this.dht.on('change', this.onProxyChange, this);
-		
+
 		deluge.preferences.getOptionsManager().bind('proxies', this);
 	},
-	
+
 	getValue: function() {
 		return {
 			'dht': this.dht.getValue(),
@@ -82,18 +83,18 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 			'web_seed': this.web_seed.getValue()
 		}
 	},
-	
+
 	setValue: function(value) {
 		for (var proxy in value) {
 			this[proxy].setValue(value[proxy]);
 		}
 	},
-	
+
 	onProxyChange: function(field, newValue, oldValue) {
 		var newValues = this.getValue();
 		var oldValues = Ext.apply({}, newValues);
 		oldValues[field.getName()] = oldValue;
-		
+
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
