@@ -121,10 +121,10 @@ class AuthManager(component.Component):
             f = open(auth_file, "r").readlines()
 
         for line in f:
-            if line.startswith("#"):
-                # This is a comment line
-                continue
             line = line.strip()
+            if line.startswith("#") or not line:
+                # This line is a comment or empty
+                continue
             try:
                 lsplit = line.split(":")
             except Exception, e:
