@@ -112,7 +112,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
 
     if show_notset:
         menuitem = gtk.RadioMenuItem(group, notset_label)
-        menuitem.set_name(notset_label)
+        menuitem.set_name("unlimited")
         if pref_value < notset_lessthan and pref_value != None:
             menuitem.set_active(True)
         if show_activated and pref_value == 1:
@@ -125,7 +125,7 @@ def build_menu_radio_list(value_list, callback, pref_value=None,
         menuitem = gtk.SeparatorMenuItem()
         menu.append(menuitem)
         menuitem = gtk.MenuItem(_("Other..."))
-        menuitem.set_name(_("Other..."))
+        menuitem.set_name("other")
         menuitem.connect("activate", callback)
         menu.append(menuitem)
 

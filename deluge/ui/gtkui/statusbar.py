@@ -394,9 +394,9 @@ class StatusBar(component.Component):
     def _on_set_download_speed(self, widget):
         log.debug("_on_set_download_speed")
 
-        if widget.get_name() == _("Unlimited"):
+        if widget.get_name() == "unlimited":
             value = -1
-        elif widget.get_name() == _("Other..."):
+        elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Download Speed"), _("KiB/s"), None, "downloading.svg", self.max_download_speed)
             if value == None:
@@ -422,9 +422,9 @@ class StatusBar(component.Component):
     def _on_set_upload_speed(self, widget):
         log.debug("_on_set_upload_speed")
 
-        if widget.get_name() == _("Unlimited"):
+        if widget.get_name() == "unlimited":
             value = -1
-        elif widget.get_name() == _("Other..."):
+        elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Upload Speed"), _("KiB/s"), None, "seeding.svg", self.max_upload_speed)
             if value == None:
@@ -449,9 +449,9 @@ class StatusBar(component.Component):
     def _on_set_connection_limit(self, widget):
         log.debug("_on_set_connection_limit")
 
-        if widget.get_name() == _("Unlimited"):
+        if widget.get_name() == "unlimited":
             value = -1
-        elif widget.get_name() == _("Other..."):
+        elif widget.get_name() == "other":
             value = common.show_other_dialog(
                 _("Set Maximum Connections"), "", gtk.STOCK_NETWORK, None, self.max_connections)
             if value == None:
