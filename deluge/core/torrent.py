@@ -232,8 +232,13 @@ class Torrent(object):
             "max_upload_speed": self.set_max_upload_speed,
             "prioritize_first_last_pieces": self.set_prioritize_first_last,
             "sequential_download": self.set_sequential_download
-
         }
+
+        # set_prioritize_first_last is called by set_file_priorities,
+        # so remove if file_priorities is set in options.
+        if "file_priorities" in options:
+            del OPTIONS_FUNCS["prioritize_first_last_pieces"]
+
         for (key, value) in options.items():
             if OPTIONS_FUNCS.has_key(key):
                 OPTIONS_FUNCS[key](value)
@@ -296,26 +301,44 @@ class Torrent(object):
 
     def set_prioritize_first_last(self, prioritize):
         self.options["prioritize_first_last_pieces"] = prioritize
-        if self.handle.has_metadata():
-            if self.options["compact_allocation"]:
-                log.debug("Setting first/last priority with compact "
-                          "allocation does not work!")
-                return
+        if not prioritize:
+            # If we are turning off this option, call set_file_priorities to
+            # reset all the piece priorities
+            self.set_file_priorities(self.options["file_priorities"])
+            return
+        if not self.handle.has_metadata():
+            return
+        if self.options["compact_allocation"]:
+            log.debug("Setting first/last priority with compact "
+                      "allocation does not work!")
+            return
+        # A list of priorities for each piece in the torrent
+        priorities = self.handle.piece_priorities()
+        prioritized_pieces = []
+        ti = self.handle.get_torrent_info()
+        for i in range(ti.num_files()):
+            f = ti.file_at(i)
+            two_percent_bytes = int(0.02 * f.size)
+            # Get the pieces for the byte offsets
+            first_start = ti.map_file(i, 0, 0).piece
+            first_end = ti.map_file(i, two_percent_bytes, 0).piece
+            last_start = ti.map_file(i, f.size - two_percent_bytes, 0).piece
+            last_end = ti.map_file(i, max(f.size - 1, 0), 0).piece
 
-            paths = {}
-            ti = self.handle.get_torrent_info()
-            for n in range(ti.num_pieces()):
-                slices = ti.map_block(n, 0, ti.piece_size(n))
-                for slice in slices:
-                    if self.handle.file_priority(slice.file_index):
-                        paths.setdefault(slice.file_index, []).append(n)
+            first_end += 1
+            last_end += 1
+            prioritized_pieces.append((first_start, first_end))
+            prioritized_pieces.append((last_start, last_end))
 
-            priorities = self.handle.piece_priorities()
-            for pieces in paths.itervalues():
-                two_percent = int(0.02*len(pieces)) or 1
-                for piece in pieces[:two_percent]+pieces[-two_percent:]:
-                    priorities[piece] = 7 if prioritize else 1
-            self.handle.prioritize_pieces(priorities)
+            # Creating two lists with priorites for the first/last pieces
+            # of this file, and insert the priorities into the list
+            first_list = [7] * (first_end - first_start)
+            last_list = [7] * (last_end - last_start)
+            priorities[first_start:first_end] = first_list
+            priorities[last_start:last_end] = last_list
+        # Setting the priorites for all the pieces of this torrent
+        self.handle.prioritize_pieces(priorities)
+        return prioritized_pieces, priorities
 
     def set_sequential_download(self, set_sequencial):
         self.options["sequential_download"] = set_sequencial
@@ -372,7 +395,8 @@ class Torrent(object):
             log.warning("File priorities were not set for this torrent")
 
         # Set the first/last priorities if needed
-        self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
+        if self.options["prioritize_first_last_pieces"]:
+            self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
 
     def set_trackers(self, trackers):
         """Sets trackers"""
