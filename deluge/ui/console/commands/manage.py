@@ -133,7 +133,22 @@ class Command(BaseCommand):
             deferred.callback(True)
 
         self.console.write("Setting %s to %s for torrents %s.." % (key, val, torrent_ids))
-        client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(on_set_config)
+
+
+        for tid in torrent_ids:
+            if key == "move_on_completed_path":
+                client.core.set_torrent_move_completed_path(tid, val).addCallback(on_set_config)
+            elif key == "move_on_completed":
+                client.core.set_torrent_move_completed(tid, val).addCallback(on_set_config)
+            elif key == "is_auto_managed":
+                client.core.set_torrent_auto_managed(tid, val).addCallback(on_set_config)
+            elif key == "remove_at_ratio":
+                client.core.set_torrent_remove_at_ratio(tid, val).addCallback(on_set_config)
+            elif key == "prioritize_first_last":
+                client.core.set_torrent_prioritize_first_last(tid, val).addCallback(on_set_config)
+            else:
+                client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(on_set_config)
+                break
         return deferred
 
     def complete(self, line):
