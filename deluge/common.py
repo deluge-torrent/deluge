@@ -608,22 +608,34 @@ def xml_encode(string):
 
 def decode_string(s, encoding="utf8"):
     """
-    Decodes a string and re-encodes it in utf8.  If it cannot decode using
-    `:param:encoding` then it will try to detect the string encoding and
-    decode it.
+    Decodes a string and return unicode. If it cannot decode using
+    `:param:encoding` then it will try latin1, and if that fails,
+    try to detect the string encoding. If that fails, decode with
+    ignore.
 
     :param s: string to decode
     :type s: string
     :keyword encoding: the encoding to use in the decoding
     :type encoding: string
+    :returns: s converted to unicode
+    :rtype: unicode
 
     """
+    if not s:
+        return u''
+    elif isinstance(s, unicode):
+        return s
 
-    try:
-        s = s.decode(encoding).encode("utf8", "ignore")
-    except UnicodeDecodeError:
-        s = s.decode(chardet.detect(s)["encoding"], "ignore").encode("utf8", "ignore")
-    return s
+    encodings = [(encoding, 'strict'), ("utf8", 'strict'),
+                 ("iso-8859-1", 'strict'),
+                 (chardet.detect(s)["encoding"], 'strict'),
+                 (chardet.detect(s)["encoding"], 'ignore')]
+    for i in range(len(encodings)):
+        try:
+            return s.decode(encodings[i][0], encodings[i][1])
+        except UnicodeDecodeError:
+            pass
+    return u''
 
 def utf8_encoded(s):
     """
@@ -636,7 +648,10 @@ def utf8_encoded(s):
 
     """
     if isinstance(s, str):
-        s = decode_string(s)
+        try:
+            s = decode_string(s).encode("utf8")
+        except UnicodeEncodeError:
+            log.warn("Error when encoding to utf8: %s" % s)
     elif isinstance(s, unicode):
         s = s.encode("utf8", "ignore")
     return s
