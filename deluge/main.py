@@ -247,27 +247,32 @@ this should be an IP address", metavar="IFACE",
 
     open_logfile()
 
+    def run_daemon(options, args):
+        try:
+            from deluge.core.daemon import Daemon
+            Daemon(options, args)
+        except deluge.error.DaemonRunningError, e:
+            log.error(e)
+            log.error("You cannot run multiple daemons with the same config directory set.")
+            log.error("If you believe this is an error, you can force a start by deleting %s.", deluge.configmanager.get_config_dir("deluged.pid"))
+            sys.exit(1)
+        except Exception, e:
+            log.exception(e)
+            sys.exit(1)
+
     if options.profile:
-        import hotshot
-        hsp = hotshot.Profile(deluge.configmanager.get_config_dir("deluged.profile"))
-        hsp.start()
-    try:
-        from deluge.core.daemon import Daemon
-        Daemon(options, args)
-    except deluge.error.DaemonRunningError, e:
-        log.error(e)
-        log.error("You cannot run multiple daemons with the same config directory set.")
-        log.error("If you believe this is an error, you can force a start by deleting %s.", deluge.configmanager.get_config_dir("deluged.pid"))
-        sys.exit(1)
-    except Exception, e:
-        log.exception(e)
-        sys.exit(1)
-    finally:
-        if options.profile:
-            hsp.stop()
-            hsp.close()
-            import hotshot.stats
-            stats = hotshot.stats.load(deluge.configmanager.get_config_dir("deluged.profile"))
-            stats.strip_dirs()
-            stats.sort_stats("time", "calls")
-            stats.print_stats(400)
+        import cProfile
+        profiler = cProfile.Profile()
+        profile_output = deluge.configmanager.get_config_dir("deluged.profile")
+
+        # Twisted catches signals to terminate
+        def save_profile_stats():
+            profiler.dump_stats(profile_output)
+            print "Profile stats saved to %s" % profile_output
+
+        from twisted.internet import reactor
+        reactor.addSystemEventTrigger("before", "shutdown", save_profile_stats)
+        print "Running with profiler..."
+        profiler.runcall(run_daemon, options, args)
+    else:
+        run_daemon(options, args)
