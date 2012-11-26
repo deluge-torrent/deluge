@@ -471,15 +471,14 @@ class PreferencesManager(component.Component):
 
     def _on_set_proxies(self, key, value):
         for k, v in value.items():
-            if v["type"]:
-                proxy_settings = lt.proxy_settings()
-                proxy_settings.type = lt.proxy_type(v["type"])
-                proxy_settings.username = str(v["username"])
-                proxy_settings.password = str(v["password"])
-                proxy_settings.hostname = str(v["hostname"])
-                proxy_settings.port = v["port"]
-                log.debug("setting %s proxy settings", k)
-                getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
+            proxy_settings = lt.proxy_settings()
+            proxy_settings.type = lt.proxy_type(v["type"])
+            proxy_settings.username = str(v["username"])
+            proxy_settings.password = str(v["password"])
+            proxy_settings.hostname = str(v["hostname"])
+            proxy_settings.port = v["port"]
+            log.debug("setting %s proxy settings", k)
+            getattr(self.session, "set_%s_proxy" % k)(proxy_settings)
 
     def _on_rate_limit_ip_overhead(self, key, value):
         log.debug("%s: %s", key, value)
