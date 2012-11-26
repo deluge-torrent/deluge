@@ -349,6 +349,7 @@ class SystemTray(component.Component):
         popup_function = gtk.status_icon_position_menu
         if deluge.common.windows_check():
             popup_function = None
+            button = 0
         self.tray_menu.popup(None, None, popup_function,
             button, activate_time, status_icon)
 
