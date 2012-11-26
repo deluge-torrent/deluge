@@ -212,7 +212,7 @@ GetText.add('Create', '${escape(_("Create"))}')
 // Menus.js:103
 GetText.add('D/L Speed Limit', '${escape(_("D/L Speed Limit"))}')
 
-// NetworkPage.js:225, ProxyPage.js:69
+// NetworkPage.js:225, ProxyPage.js:70
 GetText.add('DHT', '${escape(_("DHT"))}')
 
 // Statusbar.js:210
@@ -308,7 +308,7 @@ GetText.add('File Browser', '${escape(_("File Browser"))}')
 // OptionsPanel.js:143
 GetText.add('File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?', '${escape(_("File prioritization is unavailable when using Compact allocation. Would you like to switch to Full allocation?"))}')
 
-// FilesTab.js:41, FilesTab.js:50
+// FilesTab.js:40, FilesTab.js:50
 GetText.add('Filename', '${escape(_("Filename"))}')
 
 // FilesTab.js:35, FilesTab.js:41
@@ -428,7 +428,7 @@ GetText.add('Location', '${escape(_("Location"))}')
 // LoginWindow.js:45, LoginWindow.js:54
 GetText.add('Login', '${escape(_("Login"))}')
 
-// LoginWindow.js:127
+// LoginWindow.js:130
 GetText.add('Login Failed', '${escape(_("Login Failed"))}')
 
 // Toolbar.js:114
@@ -545,7 +545,7 @@ GetText.add('Path', '${escape(_("Path"))}')
 // Menus.js:88, Toolbar.js:70
 GetText.add('Pause', '${escape(_("Pause"))}')
 
-// ProxyPage.js:51
+// ProxyPage.js:52
 GetText.add('Peer', '${escape(_("Peer"))}')
 
 // NetworkPage.js:212
@@ -590,7 +590,7 @@ GetText.add('Prioritize First/Last Pieces', '${escape(_("Prioritize First/Last P
 // DownloadsPage.js:140
 GetText.add('Prioritize first and last pieces of torrent', '${escape(_("Prioritize first and last pieces of torrent"))}')
 
-// FilesTab.js:61
+// FilesTab.js:60
 GetText.add('Priority', '${escape(_("Priority"))}')
 
 // OptionsTab.js:300
@@ -599,7 +599,7 @@ GetText.add('Private', '${escape(_("Private"))}')
 // InterfacePage.js:166
 GetText.add('Private Key', '${escape(_("Private Key"))}')
 
-// TorrentGrid.js:128, FilesTab.js:53
+// TorrentGrid.js:128, FilesTab.js:52
 GetText.add('Progress', '${escape(_("Progress"))}')
 
 // Statusbar.js:200
@@ -695,7 +695,7 @@ GetText.add('Show filters with zero torrents', '${escape(_("Show filters with ze
 // InterfacePage.js:64
 GetText.add('Show session speed in titlebar', '${escape(_("Show session speed in titlebar"))}')
 
-// TorrentGrid.js:122, FilesTab.js:45, FilesTab.js:54
+// TorrentGrid.js:122, FilesTab.js:44, FilesTab.js:54
 GetText.add('Size', '${escape(_("Size"))}')
 
 // ProxyField.js:56
@@ -749,7 +749,7 @@ GetText.add('Total Active Seeding', '${escape(_("Total Active Seeding"))}')
 // DetailsTab.js:49
 GetText.add('Total Size', '${escape(_("Total Size"))}')
 
-// EditTrackersWindow.js:80, TorrentGrid.js:193, EditTrackerWindow.js:66, DetailsTab.js:53, ProxyPage.js:63
+// EditTrackersWindow.js:80, TorrentGrid.js:193, EditTrackerWindow.js:66, DetailsTab.js:53, ProxyPage.js:64
 GetText.add('Tracker', '${escape(_("Tracker"))}')
 
 // Sidebar.js:35
@@ -824,13 +824,13 @@ GetText.add('Username', '${escape(_("Username"))}')
 // ConnectionManager.js:80
 GetText.add('Version', '${escape(_("Version"))}')
 
-// ProxyPage.js:57
+// ProxyPage.js:58
 GetText.add('Web Seed', '${escape(_("Web Seed"))}')
 
 // OtherPage.js:90
 GetText.add('Yes, please send anonymous statistics', '${escape(_("Yes, please send anonymous statistics"))}')
 
-// LoginWindow.js:128
+// LoginWindow.js:131
 GetText.add('You entered an incorrect password', '${escape(_("You entered an incorrect password"))}')
 
 // InterfacePage.js:215
