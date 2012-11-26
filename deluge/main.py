@@ -175,7 +175,7 @@ this should be an IP address", metavar="IFACE",
 
     if options.config:
         if not deluge.configmanager.set_config_dir(options.config):
-            print("There was an error setting the config dir! Exiting..")
+            print "There was an error setting the config dir! Exiting.."
             sys.exit(1)
 
     # Sets the options.logfile to point to the default location

@@ -262,11 +262,11 @@ class build_trans(cmd.Command):
             INTLTOOL_MERGE='intltool-merge'
             INTLTOOL_MERGE_OPTS='--utf8 --quiet --desktop-style'
             desktop_in='deluge/data/share/applications/deluge.desktop.in'
-            print('Creating desktop file: %s' % desktop_data)
+            print 'Creating desktop file: %s' % desktop_data
             os.system('C_ALL=C ' + '%s '*5 % (INTLTOOL_MERGE, INTLTOOL_MERGE_OPTS, \
                         po_dir, desktop_in, desktop_data))
 
-        print('Compiling po files from %s...' % po_dir),
+        print 'Compiling po files from %s...' % po_dir,
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
                 uptoDate = False
@@ -426,7 +426,7 @@ class clean_plugins(cmd.Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        print("Cleaning the plugin's folders..")
+        print "Cleaning the plugin's folders.."
 
         PLUGIN_PATH = "deluge/plugins/*"
 
@@ -439,7 +439,7 @@ class clean_plugins(cmd.Command):
 
             # Delete the .eggs
             if path[-4:] == ".egg":
-                print("Deleting %s" % path)
+                print "Deleting %s" % path
                 os.remove(path)
 
         EGG_INFO_DIR_PATH = "deluge/plugins/*/*.egg-info"
@@ -447,7 +447,7 @@ class clean_plugins(cmd.Command):
         for path in glob.glob(EGG_INFO_DIR_PATH):
             # Delete the .egg-info's directories
             if path[-9:] == ".egg-info":
-                print("Deleting %s" % path)
+                print "Deleting %s" % path
                 for fpath in os.listdir(path):
                     os.remove(os.path.join(path, fpath))
                 os.removedirs(path)
@@ -455,7 +455,7 @@ class clean_plugins(cmd.Command):
         ROOT_EGG_INFO_DIR_PATH = "deluge*.egg-info"
 
         for path in glob.glob(ROOT_EGG_INFO_DIR_PATH):
-            print("Deleting %s" % path)
+            print "Deleting %s" % path
             for fpath in os.listdir(path):
                 os.remove(os.path.join(path, fpath))
             os.removedirs(path)
@@ -470,7 +470,7 @@ class clean(_clean):
         _clean.run(self)
 
         if os.path.exists(desktop_data):
-            print("Deleting %s" % desktop_data)
+            print "Deleting %s" % desktop_data
             os.remove(desktop_data)
 
 cmdclass = {
