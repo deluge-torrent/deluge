@@ -138,10 +138,9 @@ class SystemTray(component.Component):
             self.tray.connect("activate", self.on_tray_clicked)
             self.tray.connect("popup-menu", self.on_tray_popup)
 
-            # For some reason these icons do not display in appindicator
-            self.builder.get_object("download-limit-image").set_from_file(
+        self.builder.get_object("download-limit-image").set_from_file(
                 deluge.common.get_pixmap("downloading16.png"))
-            self.builder.get_object("upload-limit-image").set_from_file(
+        self.builder.get_object("upload-limit-image").set_from_file(
                 deluge.common.get_pixmap("seeding16.png"))
 
         client.register_event_handler("ConfigValueChangedEvent", self.config_value_changed)
@@ -161,16 +160,6 @@ class SystemTray(component.Component):
                 self.hide_widget_list.remove("separatormenuitem4")
                 self.builder.get_object("menuitem_quitdaemon").hide()
                 self.builder.get_object("separatormenuitem4").hide()
-
-            # These do not work with appindicator currently and can crash Deluge.
-            # Related to Launchpad bug #608219
-            if appindicator and self.config["enable_appindicator"]:
-                self.hide_widget_list.remove("menuitem_download_limit")
-                self.hide_widget_list.remove("menuitem_upload_limit")
-                self.hide_widget_list.remove("separatormenuitem3")
-                self.builder.get_object("menuitem_download_limit").hide()
-                self.builder.get_object("menuitem_upload_limit").hide()
-                self.builder.get_object("separatormenuitem3").hide()
 
             # Show widgets in the hide list because we've connected to a host
             for widget in self.hide_widget_list:
@@ -266,16 +255,15 @@ class SystemTray(component.Component):
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
         submenu_bwdownset = common.build_menu_radio_list(
-                self.config["tray_download_speed_list"], self.tray_setbwdown,
+                self.config["tray_download_speed_list"], self.on_tray_setbwdown,
                 self.max_download_speed,
                      _("KiB/s"), show_notset=True, show_other=True)
 
         # Create the Upload speed list sub-menu
         submenu_bwupset = common.build_menu_radio_list(
-                self.config["tray_upload_speed_list"], self.tray_setbwup,
+                self.config["tray_upload_speed_list"], self.on_tray_setbwup,
                 self.max_upload_speed,
                 _("KiB/s"), show_notset=True, show_other=True)
-
         # Add the sub-menus to the tray menu
         self.builder.get_object("menuitem_download_limit").set_submenu(
             submenu_bwdownset)
@@ -285,10 +273,6 @@ class SystemTray(component.Component):
         # Show the sub-menus for all to see
         submenu_bwdownset.show_all()
         submenu_bwupset.show_all()
-
-        # Re-set the menu to partly work around Launchpad bug #608219
-        if appindicator and self.config["enable_appindicator"]:
-            self.indicator.set_menu(self.tray_menu)
 
     def disable(self,invert_app_ind_conf=False):
         """Disables the system tray icon or appindicator."""
@@ -399,9 +383,21 @@ class SystemTray(component.Component):
 
         self.window.quit(shutdown=True)
 
-    def tray_setbwdown(self, widget, data=None):
+    def on_tray_setbwdown(self, widget, data=None):
+        if isinstance(widget, gtk.RadioMenuItem):
+            #ignore previous radiomenuitem value
+            if not widget.get_active():
+                return
         self.setbwlimit(widget, _("Set Maximum Download Speed"), "max_download_speed",
             "tray_download_speed_list", self.max_download_speed, "downloading.svg")
+
+    def on_tray_setbwup(self, widget, data=None):
+        if isinstance(widget, gtk.RadioMenuItem):
+            #ignore previous radiomenuitem value
+            if not widget.get_active():
+                return
+        self.setbwlimit(widget, _("Set Maximum Upload Speed"), "max_upload_speed",
+            "tray_upload_speed_list", self.max_upload_speed, "seeding.svg")
 
     def _on_window_hide(self, widget, data=None):
         """_on_window_hide - update the menuitem's status"""
@@ -413,25 +409,20 @@ class SystemTray(component.Component):
         log.debug("_on_window_show")
         self.builder.get_object("menuitem_show_deluge").set_active(True)
 
-    def tray_setbwup(self, widget, data=None):
-        self.setbwlimit(widget, _("Set Maximum Upload Speed"), "max_upload_speed",
-            "tray_upload_speed_list", self.max_upload_speed, "seeding.svg")
-
     def setbwlimit(self, widget, string, core_key, ui_key, default, image):
         """Sets the bandwidth limit based on the user selection."""
-        value = widget.get_children()[0].get_text().rstrip(" " + _("KiB/s"))
-        if value == _("Unlimited"):
+        value = widget.get_children()[0].get_text().split(" ")[0]
+        log.debug('setbwlimit: %s', value)
+        if widget.get_name() == "unlimited":
             value = -1
-
-        if value == _("Other..."):
+        if widget.get_name() == "other":
             value = common.show_other_dialog(string, _("KiB/s"), None, image, default)
             if value == None:
                 return
-
+            elif value == 0:
+                value = -1
         # Set the config in the core
         client.core.set_config({core_key: value})
-
-        self.build_tray_bwsetsubmenu()
 
     def unlock_tray(self, is_showing_dlg=[False]):
         try:
