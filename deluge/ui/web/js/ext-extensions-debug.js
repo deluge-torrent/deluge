@@ -1543,7 +1543,7 @@ Ext.override(Ext.ux.form.SpinnerField, {
 });
 /*!
  * Ext.ux.form.SpinnerGroup.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1581,6 +1581,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
 
     // private
     defaultType: 'spinnerfield',
+    anchor: '98%',
 
     // private
     groupCls: 'x-form-spinner-group',
@@ -1697,6 +1698,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
 
             this.items.each(function(field) {
                 field.on('spin', this.onFieldChange, this);
+                field.on('change', this.onFieldChange, this);
             }, this);
 
 			if (this.lazyValueSet) {

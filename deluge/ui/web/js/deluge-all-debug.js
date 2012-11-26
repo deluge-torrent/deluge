@@ -1,6 +1,6 @@
 /*!
  * Deluge.data.SortTypes.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ Ext.namespace('Deluge.data');
  *
  * @class Deluge.data.SortTypes
  * @singleton
- */ 
+ */
 Deluge.data.SortTypes = {
 	asIPAddress: function(value) {
 		var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
@@ -48,6 +48,10 @@ Deluge.data.SortTypes = {
 
 	asQueuePosition: function(value) {
 		return (value > -1) ? value : Number.MAX_VALUE;
+	},
+
+	asName: function(value) {
+		return String(value).toLowerCase();
 	}
 }
 /*!
@@ -168,7 +172,8 @@ Deluge.data.Torrent = Ext.data.Record.create([{
 		type: 'int'
 	}, {
 		name: 'name',
-		type: 'string'
+		type: 'string',
+		sortType: Deluge.data.SortTypes.asName
 	}, {
 		name: 'total_size',
 		type: 'int'
@@ -349,7 +354,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 	title: _('Details'),
 
 	fields: {},
-
+	autoScroll: true,
 	queuedItems: {},
 
 	oldData: {},
@@ -428,7 +433,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 });
 /*!
  * Deluge.details.FilesTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -457,12 +462,11 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
  * this exception statement from your version. If you delete this exception
  * statement from all source files in the program, then also delete it here.
  */
-	
+
 Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 
 	title: _('Files'),
 
-	autoScroll: true,
 	rootVisible: false,
 
 	columns: [{
@@ -502,7 +506,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			}
 		})
 	}],
-	
+
 	selModel: new Ext.tree.MultiSelectionModel(),
 
 	initComponent: function() {
@@ -558,7 +562,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			this.clear();
 			this.torrentId = torrentId;
 		}
-		
+
 		deluge.client.web.get_torrent_files(torrentId, {
 			success: this.onRequestComplete,
 			scope: this,
@@ -591,7 +595,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 			folderSort: true
 		});
 	},
-	
+
 	onContextMenu: function(node, e) {
 		e.stopEvent();
 		var selModel = this.getSelectionModel();
@@ -601,7 +605,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 		}
 		deluge.menus.filePriorities.showAt(e.getPoint());
 	},
-	
+
 	onItemClick: function(baseItem, e) {
 		switch (baseItem.id) {
 			case 'expandAll':
@@ -628,7 +632,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 						return;
 					}
 				});
-				
+
 				var priorities = new Array(Ext.keys(indexes).length);
 				for (var index in indexes) {
 					priorities[index] = indexes[index];
@@ -645,7 +649,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 				break;
 		}
 	},
-	
+
 	onRequestComplete: function(files, options) {
 		if (!this.getRootNode().hasChildNodes()) {
 			this.createFileTree(files);
@@ -4393,7 +4397,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 });
 /*!
  * Deluge.preferences.ProxyPage.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -4433,11 +4437,12 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 		config = Ext.apply({
 			border: false,
 			title: _('Proxy'),
-			layout: 'form'
+			layout: 'form',
+			autoScroll: true
 		}, config);
 		Deluge.preferences.Proxy.superclass.constructor.call(this, config);
 	},
-	
+
 	initComponent: function() {
 		Deluge.preferences.Proxy.superclass.initComponent.call(this);
 		this.peer = this.add(new Deluge.preferences.ProxyField({
@@ -4445,28 +4450,28 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 			name: 'peer'
 		}));
 		this.peer.on('change', this.onProxyChange, this);
-		
+
 		this.web_seed = this.add(new Deluge.preferences.ProxyField({
 			title: _('Web Seed'),
 			name: 'web_seed'
 		}));
 		this.web_seed.on('change', this.onProxyChange, this);
-		
+
 		this.tracker = this.add(new Deluge.preferences.ProxyField({
 			title: _('Tracker'),
 			name: 'tracker'
 		}));
 		this.tracker.on('change', this.onProxyChange, this);
-		
+
 		this.dht = this.add(new Deluge.preferences.ProxyField({
 			title: _('DHT'),
 			name: 'dht'
 		}));
 		this.dht.on('change', this.onProxyChange, this);
-		
+
 		deluge.preferences.getOptionsManager().bind('proxies', this);
 	},
-	
+
 	getValue: function() {
 		return {
 			'dht': this.dht.getValue(),
@@ -4475,18 +4480,18 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
 			'web_seed': this.web_seed.getValue()
 		}
 	},
-	
+
 	setValue: function(value) {
 		for (var proxy in value) {
 			this[proxy].setValue(value[proxy]);
 		}
 	},
-	
+
 	onProxyChange: function(field, newValue, oldValue) {
 		var newValues = this.getValue();
 		var oldValues = Ext.apply({}, newValues);
 		oldValues[field.getName()] = oldValue;
-		
+
 		this.fireEvent('change', this, newValues, oldValues);
 	}
 });
@@ -7092,15 +7097,18 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 		this.form = this.add({
 			xtype: 'form',
 			baseCls: 'x-plain',
-			labelWidth: 55,
-			width: 300,
-			defaults: {width: 200},
+			labelWidth: 120,
+			labelAlign: 'right',
+			defaults: {width: 110},
 			defaultType: 'textfield'
 		});
 
 		this.passwordField = this.form.add({
 			xtype: 'textfield',
 			fieldLabel: _('Password'),
+			grow: true,
+			growMin: '110',
+			growMax: '145',
 			id: '_password',
 			name: 'password',
 			inputType: 'password'
@@ -9010,7 +9018,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 			idProperty: 'id',
 			fields: [
 				{name: 'queue', sortType: Deluge.data.SortTypes.asQueuePosition},
-				{name: 'name'},
+				{name: 'name', sortType: Deluge.data.SortTypes.asName},
 				{name: 'total_size', type: 'int'},
 				{name: 'state'},
 				{name: 'progress', type: 'float'},

@@ -3,11 +3,49 @@
 	* Catch & log KeyError when removing a torrent from the queued torrents set
 	* Fix moving/renaming torrents with non-ascii characters in libtorrent 0.16
 	* Make sure queue order is preserved when restarting
+	* #2160: Disable use of python bindings for libtorrent extensions and replace with session flag
+	* #2163: Fix unable add torrent file with empty (0:) encoding tag
+	* #2201: Fix error in authmanager if auth file has extra newlines
 
 ==== GtkUI ====
 	* Add move completed option to add torrent dialog
 	* Prevent jitter in torrent view
 	* Fix torrent creation with non-ascii characters
+	* Fix #2100 : Add option not to bring main window to front when adding torrents through ipcinterface
+	* Add Quit Dialog when toggling classic mode in preferences and only show connection manager when not in classic mode.
+	* #2169: Fix 'Download Location' in the Add Torrent Dialog not set correctly when folder typed into Other->Location field
+	* #2171: Fix the Add Peer dialog not responding if empty or invalid values entered
+	* #2104: Fix no title set for the appindicator
+	* #2086: Fix submenus and icons for appindicator
+
+==== Console ====
+	* LP#1004793: Enable use of connect command in non-interactive mode
+	* Ensure console commands are executed in order
+	* #2065: Fix crash with missing closing quote
+	* #1397: Add support for -s STATE in info command
+
+==== WebUI ====
+	* #2112: Fix world readable tmp directory in json_api
+	* #2069: Fix login window layout problem when using larger than default font size
+	* #1890: Fix columns in files and peers view could use some spacing
+	* #2103: Fix sorting by name is case-sensitive [sedulous]
+	* #2120: Fix manually entered values not being saved in spinners
+	* #2212: Fix unable to scroll in proxy preferences page
+	* Fix autoconnecting to the default host
+
+==== Windows OS ====
+	* Hide the cmd windows when running deluged.exe or deluge-web.exe
+	* Add deluged-debug.exe and deluge-web-debug.exe that still show the cmd window
+	* Add gtk locale files to fix untranslated text
+	* Fix the Open Folder option not working with non-ascii paths
+	* Fix the daemon starting with config dir containing spaces
+	* Fix Windows tray submenu items requiring right-click instead of left-click
+
+==== OS X ====
+	* Fix Open File/Folder option
+
+==== Execute ====
+	* Fix execute plugin not working with unicode torrent names
 
 === Deluge 1.3.5 (09 April 2012) ===
 ==== Core ====
