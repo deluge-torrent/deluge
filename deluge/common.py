@@ -626,13 +626,17 @@ def decode_string(s, encoding="utf8"):
     elif isinstance(s, unicode):
         return s
 
-    encodings = [(encoding, 'strict'), ("utf8", 'strict'),
-                 ("iso-8859-1", 'strict'),
-                 (chardet.detect(s)["encoding"], 'strict'),
-                 (chardet.detect(s)["encoding"], 'ignore')]
-    for i in range(len(encodings)):
+    encodings = [lambda: ("utf8", 'strict'),
+                 lambda: ("iso-8859-1", 'strict'),
+                 lambda: (chardet.detect(s)["encoding"], 'strict'),
+                 lambda: (chardet.detect(s)["encoding"], 'ignore')]
+
+    if not encoding is "utf8":
+        encodings.insert(0, lambda: (encoding, 'strict'))
+
+    for l in encodings:
         try:
-            return s.decode(encodings[i][0], encodings[i][1])
+            return s.decode(*l())
         except UnicodeDecodeError:
             pass
     return u''
@@ -648,10 +652,7 @@ def utf8_encoded(s):
 
     """
     if isinstance(s, str):
-        try:
-            s = decode_string(s).encode("utf8")
-        except UnicodeEncodeError:
-            log.warn("Error when encoding to utf8: %s" % s)
+        s = decode_string(s).encode("utf8")
     elif isinstance(s, unicode):
         s = s.encode("utf8", "ignore")
     return s
