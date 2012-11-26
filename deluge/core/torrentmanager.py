@@ -685,7 +685,7 @@ class TorrentManager(component.Component):
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
-        state.torrents.sort(key=operator.attrgetter("queue"))
+        state.torrents.sort(key=operator.attrgetter("queue"), reverse=self.config["queue_new_to_top"])
 
         resume_data = self.load_resume_data_file()
 
