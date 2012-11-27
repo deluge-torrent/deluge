@@ -50,14 +50,14 @@ class GtkUI(GtkPluginBase):
     def enable(self):
         self.glade = gtk.glade.XML(get_resource("config.glade"))
 
-        component.get("Preferences").add_page("WebUi", self.glade.get_widget("prefs_box"))
+        component.get("Preferences").add_page(_("WebUi"), self.glade.get_widget("prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         client.webui.get_config().addCallback(self.cb_get_config)
         client.webui.got_deluge_web().addCallback(self.cb_chk_deluge_web)
 
     def disable(self):
-        component.get("Preferences").remove_page("WebUi")
+        component.get("Preferences").remove_page(_("WebUi"))
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
 
@@ -80,7 +80,7 @@ class GtkUI(GtkPluginBase):
         self.glade.get_widget("enabled_checkbutton").set_active(config["enabled"])
         self.glade.get_widget("ssl_checkbutton").set_active(config["ssl"])
         self.glade.get_widget("port_spinbutton").set_value(config["port"])
-    
+
     def cb_chk_deluge_web(self, have_web):
         self.have_web = have_web
         if have_web:

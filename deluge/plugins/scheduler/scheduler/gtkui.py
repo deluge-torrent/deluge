@@ -169,7 +169,7 @@ class GtkUI(GtkPluginBase):
         client.register_event_handler("SchedulerEvent", self.on_scheduler_event)
 
     def disable(self):
-        component.get("Preferences").remove_page("Scheduler")
+        component.get("Preferences").remove_page(_("Scheduler"))
         # Remove status item
         component.get("StatusBar").remove_item(self.status_item)
         del self.status_item
@@ -293,4 +293,4 @@ class GtkUI(GtkPluginBase):
         vbox.pack_start(frame, False, False)
 
         vbox.show_all()
-        component.get("Preferences").add_page("Scheduler", vbox)
+        component.get("Preferences").add_page(_("Scheduler"), vbox)

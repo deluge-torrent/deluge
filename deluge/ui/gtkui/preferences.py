@@ -81,7 +81,8 @@ class Preferences(component.Component):
             i += 1
 
         # Setup plugin tab listview
-        self.plugin_liststore = gtk.ListStore(str, bool)
+        # The third entry is for holding translated plugin names
+        self.plugin_liststore = gtk.ListStore(str, bool, str)
         self.plugin_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
         self.plugin_listview = self.glade.get_widget("plugin_listview")
         self.plugin_listview.set_model(self.plugin_liststore)
@@ -91,7 +92,7 @@ class Preferences(component.Component):
         self.plugin_listview.append_column(
             gtk.TreeViewColumn(_("Enabled"), render, active=1))
         self.plugin_listview.append_column(
-            gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=0))
+            gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=2))
 
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
@@ -505,6 +506,7 @@ class Preferences(component.Component):
             row = self.plugin_liststore.append()
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)
+            self.plugin_liststore.set_value(row, 2, _(plugin))
 
         # Now show the dialog
         self.pref_dialog.show()
