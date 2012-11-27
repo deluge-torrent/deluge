@@ -112,6 +112,15 @@ class TorrentDetails(component.Component):
             ("Options", True)
         ]
 
+        self.translate_tabs = {
+            "All"     : _("_All"),
+            "Status"  : _("_Status"),
+            "Details" : _("_Details"),
+            "Files"   : _("_Files"),
+            "Peers"   : _("_Peers"),
+            "Options" : _("_Options")
+          }
+
         # Get the state from saved file
         state = self.load_state()
 
@@ -241,8 +250,8 @@ class TorrentDetails(component.Component):
 
     def hide_tab(self, tab_name):
         """Hides tab by name"""
-        self.notebook.remove_page(self.tabs[tab_name].position)
         self.tabs[tab_name].is_visible = False
+        self.notebook.remove_page(self.tabs[tab_name].position)
         self.regenerate_positions()
         self.generate_menu()
 
@@ -274,7 +283,8 @@ class TorrentDetails(component.Component):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = gtk.Menu()
         # Create 'All' menuitem and a separator
-        menuitem = gtk.CheckMenuItem("All")
+        menuitem = gtk.CheckMenuItem(self.translate_tabs["All"], True)
+        menuitem.set_name("All")
 
         all_tabs = True
         for key in self.tabs:
@@ -296,7 +306,8 @@ class TorrentDetails(component.Component):
         menuitem_list.sort()
 
         for pos, name in menuitem_list:
-            menuitem = gtk.CheckMenuItem(name)
+            menuitem = gtk.CheckMenuItem(self.translate_tabs[name], True)
+            menuitem.set_name(name)
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect("toggled", self._on_menuitem_toggled)
             menu.append(menuitem)
@@ -385,7 +396,7 @@ class TorrentDetails(component.Component):
 
     def _on_menuitem_toggled(self, widget):
         # Get the tab name
-        name = widget.get_child().get_text()
+        name = widget.get_name()
         if name == "All":
             if widget.get_active():
                 self.show_all_tabs()
