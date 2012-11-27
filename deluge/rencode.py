@@ -159,12 +159,6 @@ def decode_string(x, f):
         raise ValueError
     colon += 1
     s = x[colon:colon+n]
-    try:
-        t = s.decode("utf8")
-        if len(t) != len(s):
-            s = t
-    except UnicodeDecodeError:
-        pass
     return (s, colon+n)
 
 def decode_list(x, f):
