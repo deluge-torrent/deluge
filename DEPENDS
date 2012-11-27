@@ -11,6 +11,7 @@
  * chardet
  * geoip-database (optional)
  * setproctitle (optional)
+ * rencode >= 1.0.2 (optional), a pure python version is included
 
  * libtorrent >= 0.16.1, or build the included version
 

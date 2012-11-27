@@ -107,6 +107,9 @@ STR_FIXED_COUNT = 64
 LIST_FIXED_START = STR_FIXED_START+STR_FIXED_COUNT
 LIST_FIXED_COUNT = 64
 
+# Whether strings should be decoded when loading
+_decode_utf8 = False
+
 def decode_int(x, f):
     f += 1
     newf = x.index(CHR_TERM, f)
@@ -159,6 +162,8 @@ def decode_string(x, f):
         raise ValueError
     colon += 1
     s = x[colon:colon+n]
+    if _decode_utf8:
+        s = s.decode('utf8')
     return (s, colon+n)
 
 def decode_list(x, f):
@@ -212,12 +217,8 @@ def make_fixed_length_string_decoders():
     def make_decoder(slen):
         def f(x, f):
             s = x[f+1:f+1+slen]
-            try:
-                t = s.decode("utf8")
-                if len(t) != len(s):
-                    s = t
-            except UnicodeDecodeError:
-                pass
+            if _decode_utf8:
+                s = s.decode("utf8")
             return (s, f+1+slen)
         return f
     for i in range(STR_FIXED_COUNT):
@@ -273,7 +274,9 @@ def encode_dict(x,r):
     r.append(CHR_TERM)
 
 
-def loads(x):
+def loads(x, decode_utf8=False):
+    global _decode_utf8
+    _decode_utf8 = decode_utf8
     try:
         r, l = decode_func[x[0]](x, 0)
     except (IndexError, KeyError):
