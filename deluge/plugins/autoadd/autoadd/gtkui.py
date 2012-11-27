@@ -254,7 +254,6 @@ class GtkUI(GtkPluginBase):
         sw.add(self.treeView)
         sw.show_all()
         component.get("Preferences").add_page(_("AutoAdd"), self.glade.get_widget("prefs_box"))
-        self.on_show_prefs()
 
     def disable(self):
         component.get("Preferences").remove_page(_("AutoAdd"))

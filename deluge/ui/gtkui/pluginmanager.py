@@ -91,6 +91,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
 
     def _on_plugin_enabled_event(self, name):
         self.enable_plugin(name)
+        self.run_on_show_prefs()
 
     def _on_plugin_disabled_event(self, name):
         self.disable_plugin(name)
