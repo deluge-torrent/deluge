@@ -457,7 +457,9 @@ def is_magnet(uri):
     True
 
     """
-    if uri[:20] == "magnet:?xt=urn:btih:":
+    magnet_scheme = 'magnet:?'
+    xt_param = 'xt=urn:btih:'
+    if uri.startswith(magnet_scheme) and xt_param in uri:
         return True
     return False
 
