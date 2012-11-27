@@ -81,7 +81,7 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
         var cookies = this.cookieField.getValue();
         var torrentId = this.createTorrentId();
 
-        if (url.substring(0,20) == 'magnet:?xt=urn:btih:') {
+        if (url.indexOf('magnet:?') == 0 && url.indexOf('xt=urn:btih') > -1) {
             deluge.client.web.get_magnet_info(url, {
                 success: this.onGotInfo,
                 scope: this,

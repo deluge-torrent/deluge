@@ -722,24 +722,29 @@ class WebApi(JSONComponent):
 
         :rtype: dictionary
         """
-        try:
-            s = uri.split("&")[0][20:]
-            if len(s) == 32:
-                info_hash = base64.b32decode(s).encode("hex")
-            elif len(s) == 40:
-                info_hash = s
-            else:
-                return False
+        magnet_scheme = 'magnet:?'
+        xt_param = 'xt=urn:btih:'
+        dn_param = 'dn='
+        if uri.startswith(magnet_scheme):
             name = None
-            for i in uri.split("&")[1:]:
-                if i[:3] == "dn=":
-                    name = unquote_plus(i.split("=")[1])
-            if not name:
-                name = info_hash
-            return {"name":name, "info_hash":info_hash, "files_tree":''}
-        except Exception, e:
-            log.exception(e)
-            return False
+            info_hash = None
+            for param in uri[len(magnet_scheme):].split('&'):
+                if param.startswith(xt_param):
+                    xt_hash = param[len(xt_param):]
+                    if len(xt_hash) == 32:
+                        info_hash = base64.b32decode(xt_hash).encode("hex")
+                    elif len(xt_hash) == 40:
+                        info_hash = xt_hash
+                    else:
+                        break
+                elif param.startswith(dn_param):
+                    name = unquote_plus(param[len(dn_param):])
+
+            if info_hash:
+                if not name:
+                    name = info_hash
+                return {"name":name, "info_hash":info_hash, "files_tree":''}
+        return False
 
     @export
     def add_torrents(self, torrents):
