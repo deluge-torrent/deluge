@@ -151,11 +151,12 @@ else:
     for include in os.environ.get("INCLUDEDIR", "").split(":"):
         _include_dirs.append(include)
 
-    _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
+    _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib', '/usr/local/lib']
     if osx_check():
         _include_dirs += [
             '/opt/local/include/boost-1_35',
             '/opt/local/include/boost-1_36',
+            '/usr/local/include'
             '/sw/include/boost-1_35',
             '/sw/include/boost'
         ]
