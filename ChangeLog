@@ -49,6 +49,8 @@
 	* #2160: Disable use of python bindings for libtorrent extensions and replace with session flag
 	* #2163: Fix unable add torrent file with empty (0:) encoding tag
 	* #2201: Fix error in authmanager if auth file has extra newlines
+	* #2109: Fix the Proxy settings not being cleared by setting None
+	* #2110: Fix accepting magnet uris with xt param anywhere within them
 
 ==== GtkUI ====
 	* Add move completed option to add torrent dialog
@@ -60,6 +62,10 @@
 	* #2171: Fix the Add Peer dialog not responding if empty or invalid values entered
 	* #2104: Fix no title set for the appindicator
 	* #2086: Fix submenus and icons for appindicator
+	* #2146: Fix missing translations in View|Tabs submenu
+	* Fix torrent names on libtorrent 0.16 on windows
+	* #2147: Fix missing translations for plugin preferences page
+	* #1474: Fix the on_show_prefs hook not being executed immediatly after enabling a plugin
 
 ==== Console ====
 	* LP#1004793: Enable use of connect command in non-interactive mode
