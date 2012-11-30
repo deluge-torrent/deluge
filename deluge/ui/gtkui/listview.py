@@ -307,9 +307,10 @@ class ListView:
                     position = index
                     break
         sort = None
-        sort_id, order = self.model_filter.get_sort_column_id()
-        if self.get_column_name(sort_id) == column.get_title():
-            sort = sort_id
+        if self.model_filter:
+            sort_id, order = self.model_filter.get_sort_column_id()
+            if self.get_column_name(sort_id) == column.get_title():
+                sort = sort_id
 
         return ListViewColumnState(column.get_title(), position,
             column.get_width(), column.get_visible(),
