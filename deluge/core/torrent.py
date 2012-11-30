@@ -252,7 +252,7 @@ class Torrent(object):
 
     def get_name(self):
         if self.handle.has_metadata():
-            name = self.torrent_info.file_at(0).path.split("/", 1)[0]
+            name = self.torrent_info.file_at(0).path.replace("\\", "/", 1).split("/", 1)[0]
             if not name:
                 name = self.torrent_info.name()
             try:
