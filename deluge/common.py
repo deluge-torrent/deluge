@@ -544,15 +544,23 @@ def is_ip(ip):
     import socket
     #first we test ipv4
     try:
-        if socket.inet_pton(socket.AF_INET, "%s" % (ip)):
-            return True
+        if windows_check():
+            if socket.inet_aton("%s" % (ip)):
+                return True
+        else:
+            if socket.inet_pton(socket.AF_INET, "%s" % (ip)):
+                return True
     except socket.error:
         if not socket.has_ipv6:
             return False
     #now test ipv6
     try:
-        if socket.inet_pton(socket.AF_INET6, "%s" % (ip)):
+        if windows_check():
+            log.warning("ipv6 check unavailable on windows")
             return True
+        else:
+            if socket.inet_pton(socket.AF_INET6, "%s" % (ip)):
+                return True
     except socket.error:
         return False
 
