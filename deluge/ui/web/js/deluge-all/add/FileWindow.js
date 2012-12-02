@@ -99,6 +99,15 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 	// private
 	onUploadFailure: function(form, action) {
 		this.hide();
+		Ext.MessageBox.show({
+			title: _('Error'),
+			msg: _('Failed to upload torrent'),
+			buttons: Ext.MessageBox.OK,
+			modal: false,
+			icon: Ext.MessageBox.ERROR,
+			iconCls: 'x-deluge-icon-error'
+		});
+		this.fireEvent('addfailed', this.torrentId);
 	},
 
 	// private

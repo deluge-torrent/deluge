@@ -186,12 +186,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			this.url = new Deluge.add.UrlWindow();
 			this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.url.on('add', this.onTorrentAdd, this);
+			this.url.on('addfailed', this.onTorrentAddFailed, this);
 		}
 
 		if (!this.file) {
 			this.file = new Deluge.add.FileWindow();
 			this.file.on('beforeadd', this.onTorrentBeforeAdd, this);
 			this.file.on('add', this.onTorrentAdd, this);
+			this.file.on('addfailed', this.onTorrentAddFailed, this);
 		}
 
 		this.optionsPanel.form.getDefaults();
@@ -220,6 +222,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
 			this.list.getStore().commitChanges();
 			this.optionsPanel.addTorrent(info);
 			this.list.select(r);
+		}
+	},
+
+	onTorrentAddFailed: function(torrentId) {
+		var store = this.list.getStore();
+		var torrentRecord = store.getById(torrentId);
+		if (torrentRecord) {
+			store.remove(torrentRecord);
 		}
 	},
 

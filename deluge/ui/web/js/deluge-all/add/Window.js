@@ -41,7 +41,8 @@ Deluge.add.Window = Ext.extend(Ext.Window, {
         Deluge.add.Window.superclass.initComponent.call(this);
         this.addEvents(
             'beforeadd',
-            'add'
+            'add',
+            'addfailed'
         );
     },
 
