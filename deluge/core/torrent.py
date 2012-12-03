@@ -177,13 +177,7 @@ class Torrent(object):
             # Tracker list
             self.trackers = []
             # Create a list of trackers
-            for value in self.handle.trackers():
-                if lt.version_minor < 15:
-                    tracker = {}
-                    tracker["url"] = value.url
-                    tracker["tier"] = value.tier
-                else:
-                    tracker = value
+            for tracker in self.handle.trackers():
                 self.trackers.append(tracker)
 
         # Various torrent options
