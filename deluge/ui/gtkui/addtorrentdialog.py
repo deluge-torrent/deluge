@@ -805,14 +805,15 @@ class AddTorrentDialog(component.Component):
 
         self.save_torrent_options(row)
 
-        # The options we want all the torrents to have
-        options = self.options[model.get_value(row, 0)]
+        # The options, except file renames, we want all the torrents to have
+        options = self.options[model.get_value(row, 0)].copy()
+        del options["mapped_files"]
 
         # Set all the torrent options
         row = model.get_iter_first()
         while row != None:
             torrent_id = model.get_value(row, 0)
-            self.options[torrent_id] = options
+            self.options[torrent_id].update(options)
             row = model.iter_next(row)
 
     def _on_button_revert_clicked(self, widget):
