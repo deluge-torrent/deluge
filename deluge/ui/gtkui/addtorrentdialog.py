@@ -844,7 +844,7 @@ class AddTorrentDialog(component.Component):
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.files_treestore[path][3]
 
-        new_text = new_text.strip(os.path.sep)
+        new_text = new_text.strip(os.path.sep).strip()
 
         # Return if the text hasn't changed
         if new_text == self.files_treestore[path][1]:
@@ -862,6 +862,8 @@ class AddTorrentDialog(component.Component):
 
         if index > -1:
             # We're renaming a file! Yay! That's easy!
+            if not new_text:
+                return
             parent = self.files_treestore.iter_parent(itr)
             file_path = os.path.join(self.get_file_path(parent), new_text)
 
