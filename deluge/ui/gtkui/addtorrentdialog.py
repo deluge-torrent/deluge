@@ -868,7 +868,7 @@ class AddTorrentDialog(component.Component):
             file_path = os.path.join(self.get_file_path(parent), new_text)
             # Don't rename if filename exists
             for row in self.files_treestore[parent].iterchildren():
-                if new_text == row[1] and row[3] > -1:
+                if new_text == row[1]:
                     return
             if os.path.sep in new_text:
                 # There are folders in this path, so we need to create them
