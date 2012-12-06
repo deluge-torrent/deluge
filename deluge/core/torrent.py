@@ -125,9 +125,6 @@ class Torrent(object):
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
 
-        # Let's us know if we're waiting on a lt alert
-        self.waiting_on_resume_data = False
-
         # Keep a list of file indexes we're waiting for file_rename alerts on
         # This also includes the old_folder and new_folder to know what signal to send
         # This is so we can send one folder_renamed signal instead of multiple
@@ -913,7 +910,6 @@ class Torrent(object):
         """Signals libtorrent to build resume data for this torrent, it gets
         returned in a libtorrent alert"""
         self.handle.save_resume_data()
-        self.waiting_on_resume_data = True
 
     def write_torrentfile(self):
         """Writes the torrent file"""
