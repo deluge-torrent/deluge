@@ -94,6 +94,8 @@ class Core(component.Component):
         self.settings.user_agent = "Deluge/%(deluge_version)s Libtorrent/%(lt_version)s" % \
                         { 'deluge_version': deluge.common.get_version(),
                           'lt_version': self.get_libtorrent_version().rpartition(".")[0] }
+        # Increase the alert queue size so that alerts don't get lost
+        self.settings.alert_queue_size = 10000
 
         # Set session settings
         self.settings.send_redundant_have = True
