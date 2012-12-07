@@ -41,7 +41,6 @@ import os
 import shutil
 import operator
 import logging
-import re
 from collections import defaultdict
 
 from twisted.internet.task import LoopingCall
@@ -812,39 +811,6 @@ class TorrentManager(component.Component):
         except IOError:
             log.warning("Error trying to save fastresume file")
 
-    def remove_empty_folders(self, torrent_id, folder):
-        """
-        Recursively removes folders but only if they are empty.
-        Cleans up after libtorrent folder renames.
-
-        """
-        if torrent_id not in self.torrents:
-            raise InvalidTorrentError("torrent_id is not in session")
-
-        info = self.torrents[torrent_id].get_status(['save_path'])
-        # Regex removes leading slashes that causes join function to ignore save_path
-        folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
-        folder_full_path = os.path.normpath(folder_full_path)
-
-        try:
-            if not os.listdir(folder_full_path):
-                os.removedirs(folder_full_path)
-                log.debug("Removed Empty Folder %s", folder_full_path)
-            else:
-                for root, dirs, files in os.walk(folder_full_path, topdown=False):
-                    for name in dirs:
-                        try:
-                            os.removedirs(os.path.join(root, name))
-                            log.debug("Removed Empty Folder %s", os.path.join(root, name))
-                        except OSError as (errno, strerror):
-                            from errno import ENOTEMPTY
-                            if errno == ENOTEMPTY:
-                                # Error raised if folder is not empty
-                                log.debug("%s", strerror)
-
-        except OSError as (errno, strerror):
-            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
-
     def get_queue_position(self, torrent_id):
         """Get queue position of torrent"""
         return self.torrents[torrent_id].get_queue_position()
@@ -1097,24 +1063,12 @@ class TorrentManager(component.Component):
         except:
             return
 
-        # We need to see if this file index is in a waiting_on_folder list
-        folder_rename = False
-        for i, wait_on_folder in enumerate(torrent.waiting_on_folder_rename):
-            if alert.index in wait_on_folder[2]:
-                folder_rename = True
-                if len(wait_on_folder[2]) == 1:
-                    # This is the last alert we were waiting for, time to send signal
-                    component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent_id, wait_on_folder[0], wait_on_folder[1]))
-                    # Empty folders are removed after libtorrent folder renames
-                    self.remove_empty_folders(torrent_id, wait_on_folder[0])
-                    del torrent.waiting_on_folder_rename[i]
-                    self.save_resume_data((torrent_id,))
-                    break
-                # This isn't the last file to be renamed in this folder, so just
-                # remove the index and continue
-                torrent.waiting_on_folder_rename[i][2].remove(alert.index)
-
-        if not folder_rename:
+        # We need to see if this file index is in a waiting_on_folder dict
+        for wait_on_folder in torrent.waiting_on_folder_rename:
+            if alert.index in wait_on_folder:
+                wait_on_folder[alert.index].callback(None)
+                break
+        else:
             # This is just a regular file rename so send the signal
             component.get("EventManager").emit(TorrentFileRenamedEvent(torrent_id, alert.index, alert.name))
             self.save_resume_data((torrent_id,))

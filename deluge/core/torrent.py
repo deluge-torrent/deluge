@@ -37,9 +37,12 @@
 import os
 import time
 import logging
+import re
 from urllib import unquote
 from urlparse import urlparse
 
+from twisted.internet.defer import Deferred, DeferredList
+from twisted.internet.task import LoopingCall
 from deluge._libtorrent import lt
 
 import deluge.common
@@ -116,7 +119,6 @@ class Torrent(object):
         # We use this to return dicts that only contain changes from the previous
         # {session_id: status_dict, ...}
         self.prev_status = {}
-        from twisted.internet.task import LoopingCall
         self.prev_status_cleanup_loop = LoopingCall(self.cleanup_prev_status)
         self.prev_status_cleanup_loop.start(10)
 
@@ -125,11 +127,10 @@ class Torrent(object):
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
 
-        # Keep a list of file indexes we're waiting for file_rename alerts on
-        # This also includes the old_folder and new_folder to know what signal to send
+        # Keep a list of Deferreds for file indexes we're waiting for file_rename alerts on
         # This is so we can send one folder_renamed signal instead of multiple
         # file_renamed signals.
-        # [(old_folder, new_folder, [*indexes]), ...]
+        # [{index: Deferred, ...}, ...]
         self.waiting_on_folder_rename = []
 
         # We store the filename just in case we need to make a copy of the torrentfile
@@ -989,8 +990,13 @@ class Torrent(object):
                 self.handle.rename_file(index, filename.encode("utf-8"))
 
     def rename_folder(self, folder, new_folder):
-        """Renames a folder within a torrent.  This basically does a file rename
-        on all of the folders children."""
+        """
+        Renames a folder within a torrent.  This basically does a file rename
+        on all of the folders children.
+
+        :returns: A deferred which fires when the rename is complete
+        :rtype: twisted.internet.defer.Deferred
+        """
         log.debug("attempting to rename folder: %s to %s", folder, new_folder)
         if len(new_folder) < 1:
             log.error("Attempting to rename a folder with an invalid folder name: %s", new_folder)
@@ -998,13 +1004,57 @@ class Torrent(object):
 
         new_folder = sanitize_filepath(new_folder, folder=True)
 
-        wait_on_folder = (folder, new_folder, [])
+        def on_file_rename_complete(result, wait_dict, index):
+            wait_dict.pop(index, None)
+
+        wait_on_folder = {}
+        self.waiting_on_folder_rename.append(wait_on_folder)
         for f in self.get_files():
             if f["path"].startswith(folder):
-                # Keep a list of filerenames we're waiting on
-                wait_on_folder[2].append(f["index"])
+                # Keep track of filerenames we're waiting on
+                wait_on_folder[f["index"]] = Deferred().addBoth(on_file_rename_complete, wait_on_folder, f["index"])
                 self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1).encode("utf-8"))
-        self.waiting_on_folder_rename.append(wait_on_folder)
+
+        def on_folder_rename_complete(result, torrent, folder, new_folder):
+            component.get("EventManager").emit(TorrentFolderRenamedEvent(torrent.torrent_id, folder, new_folder))
+            # Empty folders are removed after libtorrent folder renames
+            self.remove_empty_folders(folder)
+            torrent.waiting_on_folder_rename = filter(None, torrent.waiting_on_folder_rename)
+            component.get("TorrentManager").save_resume_data((self.torrent_id,))
+
+        d = DeferredList(wait_on_folder.values())
+        d.addBoth(on_folder_rename_complete, self, folder, new_folder)
+        return d
+
+    def remove_empty_folders(self, folder):
+        """
+        Recursively removes folders but only if they are empty.
+        Cleans up after libtorrent folder renames.
+
+        """
+        info = self.get_status(['save_path'])
+        # Regex removes leading slashes that causes join function to ignore save_path
+        folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
+        folder_full_path = os.path.normpath(folder_full_path)
+
+        try:
+            if not os.listdir(folder_full_path):
+                os.removedirs(folder_full_path)
+                log.debug("Removed Empty Folder %s", folder_full_path)
+            else:
+                for root, dirs, files in os.walk(folder_full_path, topdown=False):
+                    for name in dirs:
+                        try:
+                            os.removedirs(os.path.join(root, name))
+                            log.debug("Removed Empty Folder %s", os.path.join(root, name))
+                        except OSError as (errno, strerror):
+                            from errno import ENOTEMPTY
+                            if errno == ENOTEMPTY:
+                                # Error raised if folder is not empty
+                                log.debug("%s", strerror)
+
+        except OSError as (errno, strerror):
+            log.debug("Cannot Remove Folder: %s (ErrNo %s)", strerror, errno)
 
     def cleanup_prev_status(self):
         """
