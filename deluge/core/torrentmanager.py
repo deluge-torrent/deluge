@@ -553,11 +553,10 @@ class TorrentManager(component.Component):
         :raises InvalidTorrentError: if the torrent_id is not in the session
 
         """
-
-        if torrent_id not in self.torrents:
+        try:
+            torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
+        except KeyError:
             raise InvalidTorrentError("torrent_id not in session")
-
-        torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
 
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
@@ -789,10 +788,10 @@ class TorrentManager(component.Component):
         Cleans up after libtorrent folder renames.
 
         """
-        if torrent_id not in self.torrents:
-            raise InvalidTorrentError("torrent_id is not in session")
-
-        info = self.torrents[torrent_id].get_status(['save_path'])
+        try:
+            info = self.torrents[torrent_id].get_status(['save_path'])
+        except KeyError:
+            raise InvalidTorrentError("torrent_id not in session")
         # Regex removes leading slashes that causes join function to ignore save_path
         folder_full_path = os.path.join(info['save_path'], re.sub("^/*", "", folder))
         folder_full_path = os.path.normpath(folder_full_path)
