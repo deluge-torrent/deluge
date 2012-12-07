@@ -571,11 +571,10 @@ class TorrentManager(component.Component):
         :raises InvalidTorrentError: if the torrent_id is not in the session
 
         """
-
-        if torrent_id not in self.torrents:
+        try:
+            torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
+        except KeyError:
             raise InvalidTorrentError("torrent_id not in session")
-
-        torrent_name = self.torrents[torrent_id].get_status(["name"])["name"]
 
         # Emit the signal to the clients
         component.get("EventManager").emit(PreTorrentRemovedEvent(torrent_id))
