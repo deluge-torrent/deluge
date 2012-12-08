@@ -38,7 +38,6 @@
 
 import cPickle
 import os
-import time
 import shutil
 import operator
 import logging
