@@ -8,6 +8,7 @@
 	* #2201: Fix error in authmanager if auth file has extra newlines
 	* #2109: Fix the Proxy settings not being cleared by setting None
 	* #2110: Fix accepting magnet uris with xt param anywhere within them
+	* #2204: Fix daemon shutdown hang
 
 ==== GtkUI ====
 	* Add move completed option to add torrent dialog
