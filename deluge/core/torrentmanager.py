@@ -43,6 +43,7 @@ import shutil
 import operator
 import logging
 import re
+from collections import defaultdict
 
 from twisted.internet.task import LoopingCall
 from twisted.internet.defer import Deferred, DeferredList
@@ -134,7 +135,7 @@ class TorrentManager(component.Component):
 
     def __init__(self):
         component.Component.__init__(self, "TorrentManager", interval=5,
-                                     depend=["CorePluginManager"])
+                                     depend=["CorePluginManager", "AlertManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = component.get("Core").session
@@ -154,7 +155,7 @@ class TorrentManager(component.Component):
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
-        self.waiting_on_resume_data = {}
+        self.waiting_on_resume_data = defaultdict(list)
 
         # Keeps track of resume data
         self.resume_data = {}
@@ -247,14 +248,7 @@ class TorrentManager(component.Component):
             # Stop the status cleanup LoopingCall here
             self.torrents[key].prev_status_cleanup_loop.stop()
 
-        # Save all resume data and wait until alerts have finished
-        lc = LoopingCall(lambda: self.alerts.handle_alerts(True))
-
-        def on_save_resume_finished(result, lc):
-            lc.stop()
-
-        self.save_resume_data(self.torrents.keys()).addBoth(on_save_resume_finished, lc)
-        return lc.start(0.01)
+        return self.save_resume_data(self.torrents.keys())
 
     def update(self):
         for torrent_id, torrent in self.torrents.items():
@@ -768,24 +762,22 @@ class TorrentManager(component.Component):
         if torrent_ids is None:
             torrent_ids = (t[0] for t in self.torrents.iteritems() if t[1].handle.need_save_resume_data())
 
-        if self.waiting_on_resume_data:
-            # If we are still waiting on resume data from last call, force write and clear the queue
-            self.save_resume_data_file()
-            self.waiting_on_resume_data = {}
+        deferreds = []
 
         def on_torrent_resume_save(result, torrent_id):
             self.waiting_on_resume_data.pop(torrent_id, None)
 
         for torrent_id in torrent_ids:
-            self.waiting_on_resume_data[torrent_id] = Deferred()
-            self.waiting_on_resume_data[torrent_id].addBoth(on_torrent_resume_save, torrent_id)
+            d = Deferred().addBoth(on_torrent_resume_save, torrent_id)
+            self.waiting_on_resume_data[torrent_id].append(d)
+            deferreds.append(d)
             self.torrents[torrent_id].save_resume_data()
 
         def on_all_resume_data_finished(result):
             if result:
                 self.save_resume_data_file()
 
-        return DeferredList(self.waiting_on_resume_data.values()).addBoth(on_all_resume_data_finished)
+        return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
     def load_resume_data_file(self):
         resume_data = {}
@@ -1087,7 +1079,8 @@ class TorrentManager(component.Component):
             self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
 
         if torrent_id in self.waiting_on_resume_data:
-            self.waiting_on_resume_data[torrent_id].callback(None)
+            for d in self.waiting_on_resume_data[torrent_id]:
+                d.callback(None)
 
     def on_alert_save_resume_data_failed(self, alert):
         log.debug("on_alert_save_resume_data_failed: %s", alert.message())
