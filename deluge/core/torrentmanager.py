@@ -926,8 +926,8 @@ class TorrentManager(component.Component):
             component.get("EventManager").emit(TorrentStateChangedEvent(torrent_id, torrent.state))
 
         # Write the fastresume file if we are not waiting on a bulk write
-        if not self.waiting_on_resume_data:
-            self.save_resume_data((torrent_id, ))
+        if torrent_id not in self.waiting_on_resume_data:
+            self.save_resume_data((torrent_id,))
 
     def on_alert_torrent_checked(self, alert):
         log.debug("on_alert_torrent_checked")
