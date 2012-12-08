@@ -57,6 +57,7 @@ class ComponentTestClass(unittest.TestCase):
         def on_start(result, c):
             self.assertEquals(c._component_state, "Started")
             self.assertEquals(c.start_count, 1)
+            c._component_timer.stop()
 
         c = testcomponent("test_start_c1")
         d = component.start(["test_start_c1"])
@@ -69,6 +70,8 @@ class ComponentTestClass(unittest.TestCase):
             self.assertEquals(c2._component_state, "Started")
             self.assertEquals(c1.start_count, 1)
             self.assertEquals(c2.start_count, 1)
+            c1._component_timer.stop()
+            c2._component_timer.stop()
 
         c1 = testcomponent("test_start_depends_c1")
         c2 = testcomponent("test_start_depends_c2")
