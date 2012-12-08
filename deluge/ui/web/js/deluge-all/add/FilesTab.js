@@ -1,6 +1,6 @@
 /*!
  * Deluge.add.FilesTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
 	layout: 'fit',
 	title:  _('Files'),
 
-	autoScroll:  true,
+	autoScroll:  false,
 	animate:     false,
 	border:      false,
 	disabled:    true,

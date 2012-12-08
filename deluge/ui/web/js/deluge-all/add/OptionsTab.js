@@ -1,6 +1,6 @@
 /*!
  * Deluge.add.OptionsPanel.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -67,7 +67,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			width: 400,
 			labelSeparator: ''
 		}));
-	
+
 		var panel = this.add({
 			border: false,
 			layout: 'column',
@@ -78,7 +78,6 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			border: false,
 			autoHeight: true,
 			defaultType: 'radio',
-			width: 100
 		});
 
 		this.optionsManager.bind('compact_allocation', fieldset.add({
@@ -86,6 +85,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			columns: 1,
 			vertical: true,
 			labelSeparator: '',
+			width: 80,
 			items: [{
 				name: 'compact_allocation',
 				value: false,
@@ -107,35 +107,32 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
 			title: _('Bandwidth'),
 			border: false,
 			autoHeight: true,
-			labelWidth: 100,
+			bodyStyle: 'margin-left: 7px',
+			labelWidth: 105,
 			width: 200,
 			defaultType: 'spinnerfield'
 		});
 		this.optionsManager.bind('max_download_speed', fieldset.add({
 			fieldLabel: _('Max Down Speed'),
-			labelStyle: 'margin-left: 10px',
 			name: 'max_download_speed',
 			width: 60
 		}));
 		this.optionsManager.bind('max_upload_speed', fieldset.add({
 			fieldLabel: _('Max Up Speed'),
-			labelStyle: 'margin-left: 10px',
 			name: 'max_upload_speed',
 			width: 60
 		}));
 		this.optionsManager.bind('max_connections', fieldset.add({
 			fieldLabel: _('Max Connections'),
-			labelStyle: 'margin-left: 10px',
 			name: 'max_connections',
 			width: 60
 		}));
 		this.optionsManager.bind('max_upload_slots', fieldset.add({
 			fieldLabel: _('Max Upload Slots'),
-			labelStyle: 'margin-left: 10px',
 			name: 'max_upload_slots',
 			width: 60
 		}));
-	
+
 		fieldset = panel.add({
 			title: _('General'),
 			border: false,
