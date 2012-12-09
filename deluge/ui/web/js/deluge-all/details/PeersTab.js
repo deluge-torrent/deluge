@@ -35,7 +35,7 @@
 		if (!value.replace(' ', '').replace(' ', '')){
             return '';
         }
-		return String.format('<img src="flag/{0}" />', value);
+		return String.format('<img src="{0}flag/{1}" />', deluge.config.base, value);
 	}
 	function peerAddressRenderer(value, p, record) {
 		var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer';
