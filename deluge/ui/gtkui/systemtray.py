@@ -445,13 +445,13 @@ class SystemTray(component.Component):
         entered_pass.set_width_chars(25)
         entered_pass.set_visibility(False)
 
-        tray_lock = gtk.Dialog(title="", parent=self.window.window,
+        self.tray_lock = gtk.Dialog(title="", parent=self.window.window,
             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK,
             gtk.RESPONSE_OK))
-        tray_lock.set_default_response(gtk.RESPONSE_OK)
-        tray_lock.set_has_separator(False)
+        self.tray_lock.set_default_response(gtk.RESPONSE_OK)
+        self.tray_lock.set_has_separator(False)
 
-        tray_lock.set_border_width(5)
+        self.tray_lock.set_border_width(5)
 
         hbox = gtk.HBox(spacing=5)
 
@@ -476,15 +476,15 @@ class SystemTray(component.Component):
 
         vbox.pack_start(entered_pass)
 
-        tray_lock.vbox.pack_start(hbox)
+        self.tray_lock.vbox.pack_start(hbox)
 
         def on_response(dialog, response_id):
             if response_id == gtk.RESPONSE_OK:
                 if self.config["tray_password"] == sha_hash(entered_pass.get_text()).hexdigest():
                     self.window.present()
 
-            tray_lock.destroy()
+            self.tray_lock.destroy()
             is_showing_dlg[0] = False
 
-        tray_lock.connect("response", on_response)
-        tray_lock.show_all()
+        self.tray_lock.connect("response", on_response)
+        self.tray_lock.show_all()
