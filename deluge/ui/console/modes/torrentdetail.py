@@ -310,6 +310,8 @@ class TorrentDetail(BaseMode, component.Component):
         color_partially_selected = "magenta"
         color_highlighted = "white"
         for fl in files:
+            #from sys import stderr
+            #print >> stderr, fl[6]
             # kick out if we're going to draw too low on the screen
             if (off >= self.rows-1):
                 self.more_to_draw = True
@@ -317,18 +319,34 @@ class TorrentDetail(BaseMode, component.Component):
 
             self.file_limit = idx
 
-            if idx >= self.file_off:
-                # set fg/bg colors based on if we are selected/marked or not
 
-                # default values
-                fg = "white"
-                bg = "black"
+            # default color values
+            fg = "white"
+            bg = "black"
+            attr = ""
+
+            if   fl[6] == -2: priority = -1 #Mixed
+            elif fl[6] == 0:
+                priority = 0 #Do Not Download
+                fg = "red"
+            elif fl[6] == 1:
+                priority = 1 #Normal
+            elif fl[6] <= 6:
+                priority = 2 #High
+                fg = "yellow"
+            elif fl[6] == 7:
+                priority = 3 #Highest
+                fg = "green"
+
+            if idx >= self.file_off:
+                # set fg/bg colors based on whether the file is selected/marked or not
 
                 if fl[1] in self.marked:
                     bg = color_selected
                     if fl[3]:
                         if self.marked[fl[1]] < self.__get_contained_files_count(file_list=fl[3]):
                             bg = color_partially_selected
+                    attr = "bold"
 
                 if idx == self.current_file_idx:
                     self.current_file = fl
@@ -339,9 +357,14 @@ class TorrentDetail(BaseMode, component.Component):
                             if self.marked[fl[1]] < self.__get_contained_files_count(file_list = fl[3]):
                                 fg = color_partially_selected
                     else:
-                        fg = "black"
+                        if fg == "white":
+                            fg = "black"
+                        attr = "bold"
 
-                color_string = "{!%s,%s!}"%(fg,bg)
+                if attr:
+                    color_string = "{!%s,%s,%s!}"%(fg, bg, attr)
+                else:
+                    color_string = "{!%s,%s!}"%(fg, bg)
 
                 #actually draw the dir/file string
                 if fl[3] and fl[4]: # this is an expanded directory
