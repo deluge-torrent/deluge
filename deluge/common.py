@@ -37,16 +37,22 @@
 """Common functions for various parts of Deluge to use."""
 
 import os
+import sys
 import time
 import subprocess
 import platform
 import chardet
 import logging
+import pkg_resources
+import gettext
+import locale
 
 try:
     import json
 except ImportError:
     import simplejson as json
+
+from deluge.error import *
 
 log = logging.getLogger(__name__)
 
@@ -64,13 +70,6 @@ if not hasattr(json, "dumps"):
 
     json.dump = dump
     json.load = load
-
-import pkg_resources
-import gettext
-import locale
-import sys
-
-from deluge.error import *
 
 LT_TORRENT_STATE = {
     "Queued": 0,
@@ -90,7 +89,6 @@ LT_TORRENT_STATE = {
     6: "Allocating",
     7: "Checking Resume Data"
 }
-
 
 TORRENT_STATE = [
     "Allocating",
@@ -135,24 +133,26 @@ def get_default_config_dir(filename=None):
     :rtype: string
 
     """
+
     if windows_check():
-        appDataPath = os.environ.get("APPDATA")
-        if not appDataPath:
-            import _winreg
-            hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
-            appDataReg = _winreg.QueryValueEx(hkey, "AppData")
-            appDataPath = appDataReg[0]
-            _winreg.CloseKey(hkey)
-        if filename:
-            return os.path.join(appDataPath, "deluge", filename)
-        else:
-            return os.path.join(appDataPath, "deluge")
+        def save_config_path(resource):
+            appDataPath = os.environ.get("APPDATA")
+            if not appDataPath:
+                import _winreg
+                hkey = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders")
+                appDataReg = _winreg.QueryValueEx(hkey, "AppData")
+                appDataPath = appDataReg[0]
+                _winreg.CloseKey(hkey)
+            return os.path.join(appDataPath, resource)
     else:
-        import xdg.BaseDirectory
-        if filename:
-            return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
-        else:
-            return xdg.BaseDirectory.save_config_path("deluge")
+        from xdg.BaseDirectory import save_config_path
+    if not filename:
+        filename = ''
+    try:
+        return os.path.join(save_config_path("deluge"), filename)
+    except OSError, e:
+        log.error("Unable to use default config directory, exiting... (%s)", e)
+        sys.exit(1)
 
 def get_default_download_dir():
     """
