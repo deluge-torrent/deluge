@@ -161,8 +161,11 @@ class SystemTray(component.Component):
         if self.config["enable_system_tray"]:
 
             if self.config["classic_mode"]:
-                self.hide_widget_list.remove("menuitem_quitdaemon")
-                self.hide_widget_list.remove("separatormenuitem4")
+                try:
+                    self.hide_widget_list.remove("menuitem_quitdaemon")
+                    self.hide_widget_list.remove("separatormenuitem4")
+                except ValueError:
+                    pass
                 self.tray_glade.get_widget("menuitem_quitdaemon").hide()
                 self.tray_glade.get_widget("separatormenuitem4").hide()
 
