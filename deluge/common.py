@@ -42,11 +42,17 @@ import subprocess
 import platform
 import sys
 import chardet
+import pkg_resources
+import gettext
+import locale
 
 try:
     import json
 except ImportError:
     import simplejson as json
+
+from deluge.error import *
+from deluge.log import LOG as log
 
 # Do a little hack here just in case the user has json-py installed since it
 # has a different api
@@ -63,10 +69,6 @@ if not hasattr(json, "dumps"):
     json.dump = dump
     json.load = load
 
-import pkg_resources
-import gettext
-import locale
-
 # Initialize gettext
 try:
     if hasattr(locale, "bindtextdomain"):
@@ -75,13 +77,10 @@ try:
         locale.textdomain("deluge")
     gettext.install("deluge", pkg_resources.resource_filename("deluge", "i18n"), unicode=True)
 except Exception, e:
-    from deluge.log import LOG as log
     log.error("Unable to initialize gettext/locale!")
     log.exception(e)
     import __builtin__
     __builtin__.__dict__["_"] = lambda x: x
-
-from deluge.error import *
 
 LT_TORRENT_STATE = {
     "Queued": 0,
@@ -101,7 +100,6 @@ LT_TORRENT_STATE = {
     6: "Allocating",
     7: "Checking Resume Data"
 }
-
 
 TORRENT_STATE = [
     "Allocating",
@@ -159,11 +157,15 @@ def get_default_config_dir(filename=None):
         else:
             return os.path.join(appDataPath, "deluge")
     else:
-        import xdg.BaseDirectory
-        if filename:
-            return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
-        else:
-            return xdg.BaseDirectory.save_config_path("deluge")
+        from xdg.BaseDirectory import save_config_path
+        try:
+            if filename:
+                return os.path.join(save_config_path("deluge"), filename)
+            else:
+                return save_config_path("deluge")
+        except OSError, e:
+            log.error("Unable to use default config directory, exiting... (%s)", e)
+            sys.exit(1)
 
 def get_default_download_dir():
     """

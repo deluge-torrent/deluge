@@ -42,6 +42,8 @@
 import os
 import sys
 from optparse import OptionParser
+from logging import FileHandler
+from errno import EEXIST
 
 import deluge.log
 import deluge.common
@@ -86,6 +88,14 @@ def start_ui():
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    # Setup the logger
+    if options.quiet:
+        options.loglevel = "none"
+    if options.loglevel:
+        options.loglevel = options.loglevel.lower()
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
+    from deluge.log import LOG as log
+
     if options.config:
         if not os.path.exists(options.config):
             # Try to create the config folder if it doesn't exist
@@ -94,7 +104,7 @@ def start_ui():
             except Exception, e:
                 pass
         elif not os.path.isdir(options.config):
-            print "Config option needs to be a directory!"
+            log.error("Config option needs to be a directory!")
             sys.exit(1)
     else:
         if not os.path.exists(deluge.common.get_default_config_dir()):
@@ -110,18 +120,8 @@ def start_ui():
         print "The default UI has been changed to", options.default_ui
         sys.exit(0)
 
-    if options.quiet:
-        options.loglevel = "none"
-
-    if options.loglevel:
-        options.loglevel = options.loglevel.lower()
-
-    # Setup the logger
-    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-
     version = deluge.common.get_version()
 
-    from deluge.log import LOG as log
     log.info("Deluge ui %s", version)
     log.debug("options: %s", options)
     log.debug("args: %s", args)
@@ -170,18 +170,31 @@ this should be an IP address", metavar="IFACE",
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    # Setup the logger
     if options.quiet:
         options.loglevel = "none"
+    if options.logfile:
+        # Try to create the logfile's directory if it doesn't exist
+        try:
+            os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
+        except OSError, e:
+            if e.errno != EEXIST:
+                print "There was an error creating the log directory, exiting... (%s)" % e
+                sys.exit(1)
+    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
+    from deluge.log import LOG as log
 
     if options.config:
         if not deluge.configmanager.set_config_dir(options.config):
-            print "There was an error setting the config dir! Exiting.."
+            log.error("There was an error setting the config directory! Exiting...")
             sys.exit(1)
 
     # Sets the options.logfile to point to the default location
     def open_logfile():
         if not options.logfile:
             options.logfile = deluge.configmanager.get_config_dir("deluged.log")
+            file_handler = FileHandler(options.logfile)
+            log.addHandler(file_handler)
 
     # Writes out a pidfile if necessary
     def write_pidfile():
@@ -207,15 +220,6 @@ this should be an IP address", metavar="IFACE",
     else:
         # Do not daemonize
         write_pidfile()
-
-    # Setup the logger
-    try:
-        # Try to make the logfile's directory if it doesn't exist
-        os.makedirs(os.path.abspath(os.path.dirname(options.logfile)))
-    except:
-        pass
-    deluge.log.setupLogger(level=options.loglevel, filename=options.logfile)
-    from deluge.log import LOG as log
 
     if options.profile:
         import hotshot
