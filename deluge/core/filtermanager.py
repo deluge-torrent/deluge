@@ -126,7 +126,7 @@ class FilterManager(component.Component):
 
         #sanitize input: filter-value must be a list of strings
         for key, value in filter_dict.items():
-            if not isinstance(value, list):
+            if isinstance(value, basestring):
                 filter_dict[key] = [value]
 
         if "id" in filter_dict: #optimized filter for id:
