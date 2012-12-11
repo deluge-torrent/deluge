@@ -41,7 +41,6 @@ import os
 import shutil
 import operator
 import logging
-from collections import defaultdict
 
 from twisted.internet.task import LoopingCall
 from twisted.internet.defer import Deferred, DeferredList
@@ -153,7 +152,7 @@ class TorrentManager(component.Component):
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
-        self.waiting_on_resume_data = defaultdict(list)
+        self.waiting_on_resume_data = {}
 
         # Keeps track of resume data
         self.resume_data = {}
@@ -765,8 +764,10 @@ class TorrentManager(component.Component):
             self.waiting_on_resume_data.pop(torrent_id, None)
 
         for torrent_id in torrent_ids:
-            d = Deferred().addBoth(on_torrent_resume_save, torrent_id)
-            self.waiting_on_resume_data[torrent_id].append(d)
+            d = self.waiting_on_resume_data.get(torrent_id)
+            if not d:
+                d = Deferred().addBoth(on_torrent_resume_save, torrent_id)
+                self.waiting_on_resume_data[torrent_id] = d
             deferreds.append(d)
             self.torrents[torrent_id].save_resume_data()
 
@@ -1043,12 +1044,11 @@ class TorrentManager(component.Component):
             self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
 
         if torrent_id in self.waiting_on_resume_data:
-            for d in self.waiting_on_resume_data[torrent_id]:
-                d.callback(None)
+            self.waiting_on_resume_data[torrent_id].callback(None)
 
     def on_alert_save_resume_data_failed(self, alert):
         log.debug("on_alert_save_resume_data_failed: %s", alert.message())
-        torrent_id = alert.handle.info_hash()
+        torrent_id = str(alert.handle.info_hash())
 
         if torrent_id in self.waiting_on_resume_data:
             self.waiting_on_resume_data[torrent_id].errback(Exception(alert.message()))
