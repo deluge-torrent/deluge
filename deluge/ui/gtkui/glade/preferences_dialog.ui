@@ -2466,6 +2466,19 @@ used sparingly.</property>
                                           </packing>
                                         </child>
                                         <child>
+                                          <object class="GtkCheckButton" id="chk_focus_main_window_on_add">
+                                            <property name="label" translatable="yes">Focus window when adding torrent</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
                                           <object class="GtkCheckButton" id="piecesbar_toggle">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
@@ -2491,7 +2504,7 @@ status tab (&lt;b&gt;EXPERIMENTAL!!!&lt;/b&gt;)</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">1</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>

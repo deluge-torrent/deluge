@@ -174,7 +174,7 @@ class CreateTorrentDialog:
             chooser.destroy()
             return
 
-        path = result.decode('utf-8').encode(sys.getfilesystemencoding())
+        path = result.decode('utf-8')
 
         self.files_treestore.clear()
         self.files_treestore.append(None, [result, gtk.STOCK_FILE, deluge.common.get_path_size(path)])
@@ -202,7 +202,7 @@ class CreateTorrentDialog:
             chooser.destroy()
             return
 
-        path = result.decode('utf-8').encode(sys.getfilesystemencoding())
+        path = result.decode('utf-8')
 
         self.files_treestore.clear()
         self.files_treestore.append(None, [result, gtk.STOCK_OPEN, deluge.common.get_path_size(path)])

@@ -86,7 +86,7 @@ def start_ui():
         help="Rotate logfiles.", action="store_true", default=False)
 
     # Get the options and args from the OptionParser
-    (options, args) = parser.parse_args()
+    (options, args) = parser.parse_args(deluge.common.unicode_argv()[1:])
 
     if options.quiet:
         options.loglevel = "none"

@@ -121,7 +121,8 @@ class Preferences(component.Component):
         self.accounts_frame = self.builder.get_object("AccountsFrame")
 
         # Setup plugin tab listview
-        self.plugin_liststore = gtk.ListStore(str, bool)
+        # The third entry is for holding translated plugin names
+        self.plugin_liststore = gtk.ListStore(str, bool, str)
         self.plugin_liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
         self.plugin_listview = self.builder.get_object("plugin_listview")
         self.plugin_listview.set_model(self.plugin_liststore)
@@ -131,7 +132,7 @@ class Preferences(component.Component):
         self.plugin_listview.append_column(
             gtk.TreeViewColumn(_("Enabled"), render, active=1))
         self.plugin_listview.append_column(
-            gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=0))
+            gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=2))
 
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
@@ -552,6 +553,8 @@ class Preferences(component.Component):
             self.gtkui_config["classic_mode"])
         self.builder.get_object("chk_show_rate_in_title").set_active(
             self.gtkui_config["show_rate_in_title"])
+        self.builder.get_object("chk_focus_main_window_on_add").set_active(
+            self.gtkui_config["focus_main_window_on_add"])
         self.builder.get_object("piecesbar_toggle").set_active(
             self.gtkui_config["show_piecesbar"]
         )
@@ -583,6 +586,7 @@ class Preferences(component.Component):
             row = self.plugin_liststore.append()
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)
+            self.plugin_liststore.set_value(row, 2, _(plugin))
 
         # Now show the dialog
         self.pref_dialog.show()
@@ -739,6 +743,8 @@ class Preferences(component.Component):
 
         new_gtkui_config["show_rate_in_title"] = \
             self.builder.get_object("chk_show_rate_in_title").get_active()
+        new_gtkui_config["focus_main_window_on_add"] = \
+            self.builder.get_object("chk_focus_main_window_on_add").get_active()
 
         ## Other tab ##
         new_gtkui_config["show_new_releases"] = \

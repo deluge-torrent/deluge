@@ -34,6 +34,7 @@
 #
 
 import logging
+from collections import defaultdict
 from twisted.internet.defer import maybeDeferred, succeed, DeferredList, fail
 from twisted.internet.task import LoopingCall
 
@@ -225,6 +226,8 @@ class ComponentRegistry(object):
     """
     def __init__(self):
         self.components = {}
+        # Stores all of the components that are dependent on a particular component
+        self.dependents = defaultdict(list)
 
     def register(self, obj):
         """
@@ -243,6 +246,9 @@ class ComponentRegistry(object):
                 "Component already registered with name %s" % name)
 
         self.components[obj._component_name] = obj
+        if obj._component_depend:
+            for depend in obj._component_depend:
+                self.dependents[depend].append(name)
 
     def deregister(self, obj):
         """
@@ -317,11 +323,23 @@ class ComponentRegistry(object):
         elif isinstance(names, str):
             names = [names]
 
+        def on_dependents_stopped(result, name):
+            return self.components[name]._component_stop()
+
+        stopped_in_deferred = set()
         deferreds = []
 
         for name in names:
+            if name in stopped_in_deferred:
+                continue
             if name in self.components:
-                deferreds.append(self.components[name]._component_stop())
+                if name in self.dependents:
+                    # If other components depend on this component, stop them first
+                    d = self.stop(self.dependents[name]).addCallback(on_dependents_stopped, name)
+                    deferreds.append(d)
+                    stopped_in_deferred.update(self.dependents[name])
+                else:
+                    deferreds.append(self.components[name]._component_stop())
 
         return DeferredList(deferreds)
 
@@ -360,7 +378,7 @@ class ComponentRegistry(object):
         :param names: a list of Components to resume
         :type names: list
 
-        :returns: a Deferred object that will fire once all Components have been sucessfully resumed
+        :returns: a Deferred object that will fire once all Components have been successfully resumed
         :rtype: twisted.internet.defer.Deferred
 
         """
@@ -384,16 +402,14 @@ class ComponentRegistry(object):
         be called when the program is exiting to ensure all Components have a
         chance to properly shutdown.
 
-        :returns: a Deferred object that will fire once all Components have been sucessfully resumed
+        :returns: a Deferred object that will fire once all Components have been successfully shut down
         :rtype: twisted.internet.defer.Deferred
 
         """
-        deferreds = []
+        def on_stopped(result):
+            return DeferredList(map(lambda c: c._component_shutdown(), self.components.values()))
 
-        for component in self.components.values():
-            deferreds.append(component._component_shutdown())
-
-        return DeferredList(deferreds)
+        return self.stop(self.components.keys()).addCallback(on_stopped)
 
     def update(self):
         """

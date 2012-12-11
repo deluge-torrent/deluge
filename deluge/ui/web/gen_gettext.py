@@ -2,14 +2,13 @@
 """
 Script to go through the javascript files and dynamically generate gettext.js
 """
-
 import os
 import re
-import glob
-import cStringIO as StringIO
 
+output_file = "gettext.js"
 string_re = re.compile('_\\(\'(.*?)\'\\)')
 strings = {}
+
 
 gettext_tpl = """## -*- coding: utf-8 -*-
 /*
@@ -59,10 +58,10 @@ for root, dnames, files in os.walk('js/deluge-all'):
 keys = strings.keys()
 keys.sort()
 
-fp = StringIO.StringIO()
+fp = open(output_file, 'w')
 fp.write(gettext_tpl)
 for key in keys:
     fp.write('// %s\n' % ', '.join(map(lambda x: '%s:%s' % x, strings[key])))
     fp.write("GetText.add('%(key)s', '${escape(_(\"%(key)s\"))}')\n\n" % locals())
-fp.seek(0)
-print fp.read()
+fp.close()
+

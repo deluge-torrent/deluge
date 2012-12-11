@@ -287,7 +287,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         if parent:
             parent.remove(self.prefs)
         index = prefs.notebook.append_page(self.prefs)
-        prefs.liststore.append([index, "Notifications"])
+        prefs.liststore.append([index, _("Notifications")])
 
         component.get("PluginManager").register_hook("on_apply_prefs",
                                                      self.on_apply_prefs)
@@ -320,7 +320,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def disable(self):
         GtkUiNotifications.disable(self)
-        component.get("Preferences").remove_page("Notifications")
+        component.get("Preferences").remove_page(_("Notifications"))
         component.get("PluginManager").deregister_hook("on_apply_prefs",
                                                        self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs",

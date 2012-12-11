@@ -140,7 +140,7 @@ class DelugeTransferProtocol(Protocol):
 
         """
         try:
-            self.message_received(rencode.loads(zlib.decompress(data)))
+            self.message_received(rencode.loads(zlib.decompress(data), decode_utf8=True))
         except Exception, e:
             log.warn("Failed to decompress (%d bytes) and load serialized data "\
                      "with rencode: %s" % (len(data), str(e)))

@@ -54,13 +54,13 @@ class GtkUI(GtkPluginBase):
     def enable(self):
         self.glade = gtk.glade.XML(get_resource("extractor_prefs.glade"))
 
-        component.get("Preferences").add_page("Extractor", self.glade.get_widget("extractor_prefs_box"))
+        component.get("Preferences").add_page(_("Extractor"), self.glade.get_widget("extractor_prefs_box"))
         component.get("PluginManager").register_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").register_hook("on_show_prefs", self.on_show_prefs)
         self.on_show_prefs()
 
     def disable(self):
-        component.get("Preferences").remove_page("Extractor")
+        component.get("Preferences").remove_page(_("Extractor"))
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
         del self.glade

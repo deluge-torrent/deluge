@@ -213,9 +213,6 @@ class AddTorrentDialog(component.Component):
         new_row = None
 
         for filename in filenames:
-            # Convert the path to unicode
-            filename = unicode(filename)
-
             # Get the torrent data from the torrent file
             try:
                 info = deluge.ui.common.TorrentInfo(filename)
@@ -825,14 +822,15 @@ class AddTorrentDialog(component.Component):
 
         self.save_torrent_options(row)
 
-        # The options we want all the torrents to have
-        options = self.options[model.get_value(row, 0)]
+        # The options, except file renames, we want all the torrents to have
+        options = self.options[model.get_value(row, 0)].copy()
+        del options["mapped_files"]
 
         # Set all the torrent options
         row = model.get_iter_first()
         while row != None:
             torrent_id = model.get_value(row, 0)
-            self.options[torrent_id] = options
+            self.options[torrent_id].update(options)
             row = model.iter_next(row)
 
     def _on_button_revert_clicked(self, widget):
@@ -863,7 +861,7 @@ class AddTorrentDialog(component.Component):
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.files_treestore[path][3]
 
-        new_text = new_text.strip(os.path.sep)
+        new_text = new_text.strip(os.path.sep).strip()
 
         # Return if the text hasn't changed
         if new_text == self.files_treestore[path][1]:
@@ -881,9 +879,14 @@ class AddTorrentDialog(component.Component):
 
         if index > -1:
             # We're renaming a file! Yay! That's easy!
+            if not new_text:
+                return
             parent = self.files_treestore.iter_parent(itr)
             file_path = os.path.join(self.get_file_path(parent), new_text)
-
+            # Don't rename if filename exists
+            for row in self.files_treestore[parent].iterchildren():
+                if new_text == row[1]:
+                    return
             if os.path.sep in new_text:
                 # There are folders in this path, so we need to create them
                 # and then move the file iter to top

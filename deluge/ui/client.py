@@ -37,16 +37,13 @@
 import logging
 from twisted.internet.protocol import ClientFactory
 from twisted.internet import reactor, ssl, defer
+import sys
+import subprocess
 
 import deluge.common
 from deluge import error
 from deluge.event import known_events
 from deluge.transfer import DelugeTransferProtocol
-
-if deluge.common.windows_check():
-    import win32api
-else:
-    import subprocess
 
 RPC_RESPONSE = 1
 RPC_ERROR = 2
@@ -628,13 +625,10 @@ class Client(object):
         :raises OSError: received from subprocess.call()
 
         """
+        # subprocess.popen does not work with unicode args (with non-ascii characters) on windows
+        config = config.encode(sys.getfilesystemencoding())
         try:
-            if deluge.common.windows_check():
-                win32api.WinExec("deluged --port=%s --config=\"%s\"" % (port, config))
-            elif deluge.common.osx_check():
-                subprocess.call(["nohup", "deluged", "--port=%s" % port, "--config=%s" % config])
-            else:
-                subprocess.call(["deluged", "--port=%s" % port, "--config=%s" % config])
+            subprocess.Popen(["deluged", "--port=%s" % port, "--config=%s" % config])
         except OSError, e:
             from errno import ENOENT
             if e.errno == ENOENT:

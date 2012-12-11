@@ -3,8 +3,8 @@ from twisted.internet import threads
 import deluge.component as component
 
 class testcomponent(component.Component):
-    def __init__(self, name):
-        component.Component.__init__(self, name)
+    def __init__(self, name, depend=None):
+        component.Component.__init__(self, name, depend=depend)
         self.start_count = 0
         self.stop_count = 0
 
@@ -51,6 +51,7 @@ class testcomponent_shutdown(component.Component):
 
 class ComponentTestClass(unittest.TestCase):
     def tearDown(self):
+        component.stop()
         component._ComponentRegistry.components = {}
 
     def test_start_component(self):
@@ -63,16 +64,22 @@ class ComponentTestClass(unittest.TestCase):
         d.addCallback(on_start, c)
         return d
 
-    def test_start_depends(self):
+    def test_start_stop_depends(self):
+        def on_stop(result, c1, c2):
+            self.assertEquals(c1._component_state, "Stopped")
+            self.assertEquals(c2._component_state, "Stopped")
+            self.assertEquals(c1.stop_count, 1)
+            self.assertEquals(c2.stop_count, 1)
+
         def on_start(result, c1, c2):
             self.assertEquals(c1._component_state, "Started")
             self.assertEquals(c2._component_state, "Started")
             self.assertEquals(c1.start_count, 1)
             self.assertEquals(c2.start_count, 1)
+            return component.stop(["test_start_depends_c1"]).addCallback(on_stop, c1, c2)
 
         c1 = testcomponent("test_start_depends_c1")
-        c2 = testcomponent("test_start_depends_c2")
-        c2._component_depend = ["test_start_depends_c1"]
+        c2 = testcomponent("test_start_depends_c2", depend=["test_start_depends_c1"])
 
         d = component.start(["test_start_depends_c2"])
         d.addCallback(on_start, c1, c2)
@@ -80,14 +87,11 @@ class ComponentTestClass(unittest.TestCase):
 
     def start_with_depends(self):
         c1 = testcomponent_delaystart("test_start_all_c1")
-        c2 = testcomponent("test_start_all_c2")
-        c3 = testcomponent_delaystart("test_start_all_c3")
-        c4 = testcomponent("test_start_all_c4")
+        c2 = testcomponent("test_start_all_c2", depend=["test_start_all_c4"])
+        c3 = testcomponent_delaystart("test_start_all_c3",
+            depend=["test_start_all_c5", "test_start_all_c1"])
+        c4 = testcomponent("test_start_all_c4", depend=["test_start_all_c3"])
         c5 = testcomponent("test_start_all_c5")
-
-        c3._component_depend = ["test_start_all_c5", "test_start_all_c1"]
-        c4._component_depend = ["test_start_all_c3"]
-        c2._component_depend = ["test_start_all_c4"]
 
         d = component.start()
         return (d, c1, c2, c3, c4, c5)
@@ -130,15 +134,15 @@ class ComponentTestClass(unittest.TestCase):
         return d
 
     def test_stop_all(self):
-        def on_stop(*args):
-            for c in args[1:]:
+        def on_stop(result, *args):
+            for c in args:
                 self.assertEquals(c._component_state, "Stopped")
                 self.assertEquals(c.stop_count, 1)
 
-        def on_start(*args):
-            for c in args[1:]:
+        def on_start(result, *args):
+            for c in args:
                 self.assertEquals(c._component_state, "Started")
-            return component.stop().addCallback(on_stop, *args[1:])
+            return component.stop().addCallback(on_stop, *args)
 
         ret = self.start_with_depends()
         ret[0].addCallback(on_start, *ret[1:])

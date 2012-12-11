@@ -250,6 +250,8 @@ def torrent_action(idx, data, mode, ids):
                 for tid in ids:
                     if "move_on_completed_path" in options:
                         client.core.set_torrent_move_completed_path(tid, options["move_on_completed_path"])
+                    if "move_on_completed" in options:
+                        client.core.set_torrent_move_completed(tid, options["move_on_completed"])
                     if "is_auto_managed" in options:
                         client.core.set_torrent_auto_managed(tid, options["is_auto_managed"])
                     if "remove_at_ratio" in options:

@@ -107,7 +107,9 @@ class _UI(object):
         return self.__args
 
     def start(self):
-        (self.__options, self.__args) = self.__parser.parse_args()
+        # Make sure all arguments are unicode
+        argv = deluge.common.unicode_argv()[1:]
+        (self.__options, self.__args) = self.__parser.parse_args(argv)
 
         if self.__options.quiet:
             self.__options.loglevel = "none"

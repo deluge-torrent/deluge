@@ -149,6 +149,7 @@ DEFAULT_PREFS = {
     "pieces_color_waiting": [4874, 56494, 0],
     "pieces_color_downloading": [65535, 55255, 0],
     "pieces_color_completed": [4883, 26985, 56540],
+    "focus_main_window_on_add": True,
 }
 
 class GtkUI(object):
@@ -245,9 +246,8 @@ class GtkUI(object):
         component.stop()
 
         # Process any pending gtk events since the mainloop has been quit
-        if not deluge.common.windows_check():
-            while gtk.events_pending() and reactor.running:
-                reactor.doIteration(0)
+        while gtk.events_pending():
+            gtk.main_iteration(0)
 
         # Shutdown all components
         component.shutdown()
