@@ -40,6 +40,8 @@ import base64
 import logging
 from urllib import url2pathname
 from urlparse import urlparse
+from glob import glob
+from tempfile import mkstemp
 
 try:
     import rencode
@@ -77,23 +79,20 @@ class IPCProtocolClient(Protocol):
 class IPCClientFactory(ClientFactory):
     protocol = IPCProtocolClient
 
-    def __init__(self, args, connect_failed):
+    def __init__(self):
         self.stop = False
-        self.args = args
-        self.connect_failed = connect_failed
 
     def clientConnectionFailed(self, connector, reason):
-        log.info("Connection to running instance failed.  Starting new one..")
+        log.warning("Connection to running instance failed.")
         reactor.stop()
 
 class IPCInterface(component.Component):
     def __init__(self, args):
         component.Component.__init__(self, "IPCInterface")
-        if not os.path.exists(deluge.configmanager.get_config_dir("ipc")):
-            os.makedirs(deluge.configmanager.get_config_dir("ipc"))
-
-        socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
-
+        ipc_dir = deluge.configmanager.get_config_dir("ipc")
+        if not os.path.exists(ipc_dir):
+            os.makedirs(ipc_dir)
+        socket = os.path.join(ipc_dir, "deluge-gtk")
         if deluge.common.windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
@@ -122,6 +121,10 @@ class IPCInterface(component.Component):
                 reactor.run()
                 sys.exit(0)
         else:
+            # Find and remove any restart tempfiles
+            old_tempfile = glob(os.path.join(ipc_dir, 'tmp*deluge'))
+            for f in old_tempfile:
+                os.remove(f)
             lockfile = socket + ".lock"
             log.debug("Checking if lockfile exists: %s", lockfile)
             if os.path.lexists(lockfile):
@@ -140,44 +143,26 @@ class IPCInterface(component.Component):
                 self.factory.protocol = IPCProtocolServer
                 reactor.listenUNIX(socket, self.factory, wantPID=True)
             except twisted.internet.error.CannotListenError, e:
-                log.info("Deluge is already running! Sending arguments to running instance..")
-                self.factory = IPCClientFactory(args, self.connect_failed)
+                log.info("Deluge is already running! Sending arguments to running instance...")
+                self.factory = IPCClientFactory()
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
                 reactor.run()
                 if self.factory.stop:
+                    log.info("Success sending arguments to running Deluge.")
                     import gtk
                     gtk.gdk.notify_startup_complete()
                     sys.exit(0)
                 else:
-                    self.connect_failed(args)
+                    if old_tempfile:
+                        log.error("Deluge restart failed: %s", e)
+                        sys.exit(1)
+                    else:
+                        log.warning('Restarting Deluge... (%s)', e)
+                        # Create a tempfile to keep track of restart
+                        mkstemp('deluge', dir=ipc_dir)
+                        os.execv(sys.argv[0], sys.argv)
             else:
                 process_args(args)
-
-    def connect_failed(self, args):
-        # This gets called when we're unable to do a connectUNIX to the ipc
-        # socket.  We'll delete the lock and socket files and start up Deluge.
-
-        socket = os.path.join(deluge.configmanager.get_config_dir("ipc"), "deluge-gtk")
-        if os.path.exists(socket):
-            try:
-                os.remove(socket)
-            except Exception, e:
-                log.error("Unable to remove socket file: %s", e)
-
-        lock = socket + ".lock"
-        if os.path.lexists(lock):
-            try:
-                os.remove(lock)
-            except Exception, e:
-                log.error("Unable to remove lock file: %s", e)
-        try:
-            self.factory = Factory()
-            self.factory.protocol = IPCProtocolServer
-            reactor.listenUNIX(socket, self.factory, wantPID=True)
-        except Exception, e:
-            log.error("Unable to start IPC listening socket: %s", e)
-        finally:
-            process_args(args)
 
     def shutdown(self):
         if deluge.common.windows_check():
