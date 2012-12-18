@@ -256,7 +256,7 @@ deluge.ui = {
 	},
 
 	onPluginDisabled: function(pluginName) {
-		deluge.plugins[pluginName].disable();
+		if (deluge.plugins[pluginName]) deluge.plugins[pluginName].disable();
 	},
 
 	onPluginLoaded: function(options) {
