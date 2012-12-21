@@ -1,5 +1,5 @@
 === Core ===
- * python >= 2.5
+ * python >= 2.6
  * twisted >= 8.1
  * twisted-web >= 8.1
  * pyopenssl
