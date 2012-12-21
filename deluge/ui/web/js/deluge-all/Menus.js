@@ -1,6 +1,6 @@
 /*!
  * Deluge.Menus.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@ deluge.menus = {
 	onTorrentAction: function(item, e) {
 		var ids = deluge.torrents.getSelectedIds();
 		var action = item.initialConfig.torrentAction;
-		
+
 		switch (action) {
 			case 'pause':
 			case 'resume':
@@ -69,7 +69,7 @@ deluge.menus = {
 				break;
 			case 'recheck':
 				deluge.client.core.force_recheck(ids, {
-					success: function() {	
+					success: function() {
 						deluge.ui.update();
 					}
 				});
@@ -98,10 +98,12 @@ deluge.menus.torrent = new Ext.menu.Menu({
 	}, '-', {
 		text: _('Options'),
 		iconCls: 'icon-options',
+		hideOnClick: false,
 		menu: new Ext.menu.Menu({
 			items: [{
 				text: _('D/L Speed Limit'),
 				iconCls: 'x-deluge-downloading',
+				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('5 KiB/s')
@@ -120,6 +122,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
 			}, {
 				text: _('U/L Speed Limit'),
 				iconCls: 'x-deluge-seeding',
+				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('5 KiB/s')
@@ -138,6 +141,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
 			}, {
 				text: _('Connection Limit'),
 				iconCls: 'x-deluge-connections',
+				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('50')
@@ -156,6 +160,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
 			}, {
 				text: _('Upload Slot Limit'),
 				iconCls: 'icon-upload-slots',
+				hideOnClick: false,
 				menu: new Ext.menu.Menu({
 					items: [{
 						text: _('0')
@@ -180,6 +185,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
 	}, '-', {
 		text: _('Queue'),
 		iconCls: 'icon-queue',
+		hideOnClick: false,
 		menu: new Ext.menu.Menu({
 			items: [{
 				torrentAction: 'top',
