@@ -91,13 +91,15 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
 	},
 
 	onGetEventsSuccess: function(events) {
-		if (!events) return;
-		Ext.each(events, function(event) {
-			var name = event[0], args = event[1];
-			args.splice(0, 0, name);
-			this.fireEvent.apply(this, args);
-		}, this);
-		if (this.running) this.getEvents();
+        if (!this.running) return;
+		if (events) {
+            Ext.each(events, function(event) {
+                var name = event[0], args = event[1];
+                args.splice(0, 0, name);
+                this.fireEvent.apply(this, args);
+            }, this);
+        }
+		this.getEvents();
 	},
 
 	// private

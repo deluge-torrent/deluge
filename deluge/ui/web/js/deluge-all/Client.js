@@ -69,9 +69,6 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 	},
 	
 	reloadMethods: function() {
-		Ext.each(this._components, function(component) {
-			delete this[component];
-		}, this);
 		this._execute('system.listMethods', {
 			success: this._setMethods,
 			scope: this
@@ -180,7 +177,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 			var fn = function() {
 				var options = self._parseArgs(arguments);
 				return self._execute(method, options);
-			}
+			};
 			component[parts[1]] = fn;
 			components[parts[0]] = component;
 		});
@@ -188,7 +185,11 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 		for (var name in components) {
 			self[name] = components[name];
 		}
-		
+        Ext.each(this._components, function(component) {
+            if (!component in components) {
+                delete this[component];
+            }
+        }, this);
 		this._components = Ext.keys(components);
 		this.fireEvent('connected', this);
 	}

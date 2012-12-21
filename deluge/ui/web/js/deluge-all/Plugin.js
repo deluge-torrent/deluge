@@ -76,6 +76,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 	 * then executes the plugins setup method, onEnabled.
 	 */
 	enable: function() {
+        deluge.client.reloadMethods();
 		this.fireEvent("enable", this);
 		if (this.onEnable) this.onEnable();
 	},
