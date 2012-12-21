@@ -115,49 +115,47 @@ class JSON(resource.Resource, component.Component):
         self._remote_methods = []
         self._local_methods = {}
         if client.is_classicmode():
-            def on_got_methods(methods):
-                """
-                Handles receiving the method names
-                """
-                self._remote_methods = methods
-
-            client.daemon.get_method_list().addCallback(on_got_methods)
+            self.get_remote_methods()
         else:
             client.disconnect_callback = self._on_client_disconnect
+
+    def on_get_methods(self, methods):
+        """
+        Handles receiving the method names.
+        """
+        self._remote_methods = methods
+
+    def get_remote_methods(self, result=None):
+        """
+        Updates remote methods from the daemon.
+        """
+        return client.daemon.get_method_list().addCallback(self.on_get_methods)
 
     def connect(self, host="localhost", port=58846, username="", password=""):
         """
         Connects the client to a daemon
         """
-        d = Deferred()
-        _d = client.connect(host, port, username, password)
-
-        def on_get_methods(methods):
-            """
-            Handles receiving the method names
-            """
-            self._remote_methods = methods
-            methods = list(self._remote_methods)
-            methods.extend(self._local_methods)
-            d.callback(methods)
+        d = client.connect(host, port, username, password)
 
         def on_client_connected(connection_id):
             """
             Handles the client successfully connecting to the daemon and
             invokes retrieving the method names.
             """
-            d = client.daemon.get_method_list()
-            d.addCallback(on_get_methods)
+            d = self.get_remote_methods()
             component.get("Web.PluginManager").start()
             component.get("Web").start()
-        _d.addCallback(on_client_connected)
-        return d
+            return d
+
+        return d.addCallback(on_client_connected)
 
     def disable(self):
         if not client.is_classicmode():
             client.disconnect()
 
     def enable(self):
+        client.register_event_handler("PluginEnabledEvent", self.get_remote_methods)
+        client.register_event_handler("PluginDisabledEvent", self.get_remote_methods)
         if component.get("DelugeWeb").config["default_daemon"]:
             # Sort out getting the default daemon here
             default = component.get("DelugeWeb").config["default_daemon"]
