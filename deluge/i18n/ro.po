@@ -7,81 +7,81 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-11 19:23+0000\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-11-26 16:33+0000\n"
+"PO-Revision-Date: 2012-07-17 07:29+0000\n"
+"Last-Translator: QUIX <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-09 12:21+0000\n"
-"X-Generator: Launchpad (build 15060)\n"
+"X-Launchpad-Export-Date: 2012-12-22 00:32+0000\n"
+"X-Generator: Launchpad (build 16378)\n"
 
-#: deluge/common.py:274
+#: deluge/common.py:279
 msgid "KiB"
 msgstr ""
 
-#: deluge/common.py:277
+#: deluge/common.py:282
 msgid "MiB"
 msgstr ""
 
-#: deluge/common.py:279
+#: deluge/common.py:284
 msgid "GiB"
 msgstr ""
 
-#: deluge/common.py:298
+#: deluge/common.py:303
 msgid "K"
 msgstr ""
 
-#: deluge/common.py:301
+#: deluge/common.py:306
 msgid "M"
 msgstr ""
 
-#: deluge/common.py:303
+#: deluge/common.py:308
 msgid "G"
 msgstr ""
 
-#: deluge/common.py:339
+#: deluge/common.py:344
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:630
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:644
 #: deluge/plugins/label/label/data/label_options.glade:132
 #: deluge/plugins/label/label/data/label_options.glade:195
 #: deluge/ui/console/statusbars.py:96 deluge/ui/console/statusbars.py:101
-#: deluge/ui/gtkui/systemtray.py:251 deluge/ui/gtkui/systemtray.py:255
-#: deluge/ui/gtkui/systemtray.py:271 deluge/ui/gtkui/systemtray.py:277
-#: deluge/ui/gtkui/systemtray.py:422 deluge/ui/gtkui/systemtray.py:427
-#: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/menubar.py:437
-#: deluge/ui/gtkui/status_tab.py:62 deluge/ui/gtkui/statusbar.py:363
-#: deluge/ui/gtkui/statusbar.py:373 deluge/ui/gtkui/statusbar.py:378
-#: deluge/ui/gtkui/statusbar.py:390 deluge/ui/gtkui/statusbar.py:401
-#: deluge/ui/gtkui/statusbar.py:418 deluge/ui/gtkui/statusbar.py:429
+#: deluge/ui/gtkui/systemtray.py:245 deluge/ui/gtkui/systemtray.py:249
+#: deluge/ui/gtkui/systemtray.py:265 deluge/ui/gtkui/systemtray.py:271
+#: deluge/ui/gtkui/systemtray.py:425 deluge/ui/gtkui/menubar.py:435
+#: deluge/ui/gtkui/menubar.py:436 deluge/ui/gtkui/status_tab.py:62
+#: deluge/ui/gtkui/statusbar.py:363 deluge/ui/gtkui/statusbar.py:373
+#: deluge/ui/gtkui/statusbar.py:378 deluge/ui/gtkui/statusbar.py:390
+#: deluge/ui/gtkui/statusbar.py:401 deluge/ui/gtkui/statusbar.py:418
+#: deluge/ui/gtkui/statusbar.py:429
 #: deluge/ui/gtkui/glade/main_window.glade:1831
 #: deluge/ui/gtkui/glade/main_window.glade:1843
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/common.py:342
+#: deluge/common.py:347
 msgid "MiB/s"
-msgstr ""
+msgstr "MiB/s"
 
-#: deluge/common.py:344
+#: deluge/common.py:349
 msgid "GiB/s"
-msgstr ""
+msgstr "GiB/s"
 
-#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:973
+#: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1002
 #: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
 msgid "Error"
 msgstr "Eroare"
 
-#: deluge/core/torrentmanager.py:939
+#: deluge/core/torrentmanager.py:968
 msgid "Announce OK"
 msgstr "Anunţ OK"
 
-#: deluge/core/torrentmanager.py:955
+#: deluge/core/torrentmanager.py:984
 msgid "Announce Sent"
 msgstr "Anunţ trimis"
 
-#: deluge/core/torrentmanager.py:963
+#: deluge/core/torrentmanager.py:992
 msgid "Warning"
 msgstr "Avertisment"
 
@@ -89,26 +89,26 @@ msgstr "Avertisment"
 #: deluge/plugins/notifications/notifications/core.py:175
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Eroare la trimiterea emailului de notificare: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:161
 #, python-format
 msgid "The server didn't reply properly to the helo greeting: %s"
-msgstr ""
+msgstr "Serverul nu a răspuns corespunzător la salut: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:166
 #, python-format
 msgid "The server didn't accept the username/password combination: %s"
-msgstr ""
+msgstr "Serverul nu acceptă combinația utilizator/parolă: %s"
 
 #: deluge/plugins/notifications/notifications/core.py:190
 msgid "Notification email sent."
-msgstr ""
+msgstr "Email de notificare trimis."
 
 #: deluge/plugins/notifications/notifications/core.py:198
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Torent finalizat \"%(name)s\""
 
 #: deluge/plugins/notifications/notifications/core.py:200
 #, python-format
@@ -121,6 +121,13 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Acest email este pentru a vă informa că Deluge a finalizat descărcarea "
+"\"%(name)s\", care include %(num_files)i fișiere.\n"
+"Pentru a opri aceste notificări, opriți notificările prin email în "
+"preferințele Deluge.\n"
+"\n"
+"Mulțumesc,\n"
+"Deluge."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:178
 msgid "Notification Blink shown"
@@ -128,54 +135,54 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/gtkui.py:183
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Notificare popup nu este activată."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:185
 msgid "pynotify is not installed"
-msgstr ""
+msgstr "pynotify nu este instalat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:193
 msgid "pynotify failed to show notification"
-msgstr ""
+msgstr "pynotify a eșuat afișarea notificării"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:196
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Notificare popup afișată"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:200
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Notificare sunet dezactivată"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:202
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame nu este instalat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:214
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Notificare sunet eșuată %s"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:218
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Notificare sunet Succes"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:241
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Torent finalizat"
 
 #: deluge/plugins/notifications/notifications/gtkui.py:242
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i has finished downloading."
-msgstr ""
+msgstr "Torentul \"%(name)s\" ce include %(num_files)i a fost descărcat."
 
 #: deluge/plugins/notifications/notifications/gtkui.py:646
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Alegere fişier de sunet"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:26
 msgid "<b><i><big>Notifications</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Notificări</big></i></b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:76
 msgid "Tray icon blinks enabled"
@@ -187,11 +194,11 @@ msgstr ""
 
 #: deluge/plugins/notifications/notifications/data/config.glade:103
 msgid "Sound enabled"
-msgstr ""
+msgstr "Sunet activat"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:139
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Notificări IU</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:170
 #: deluge/ui/gtkui/glade/connection_manager.glade:28
@@ -199,29 +206,29 @@ msgid "Hostname:"
 msgstr "Nume gazdă:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:194
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3340
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3527
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3714
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3903
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3353
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3540
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3727
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3916
 #: deluge/ui/gtkui/glade/connection_manager.glade:57
 msgid "Port:"
 msgstr "Port:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:226
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3422
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3609
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3796
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3986
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3435
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3622
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3809
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3999
 #: deluge/ui/gtkui/glade/connection_manager.glade:146
 msgid "Username:"
 msgstr "Nume utilizator:"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:250
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2120
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3286
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3473
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3660
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3847
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2133
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3299
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3486
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3673
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3860
 #: deluge/ui/gtkui/glade/connection_manager.glade:135
 msgid "Password:"
 msgstr "Parolă:"
@@ -247,7 +254,7 @@ msgstr "Activat"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:437
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Notificări email</b>"
 
 #: deluge/plugins/notifications/notifications/data/config.glade:454
 msgid "Settings"
@@ -258,6 +265,8 @@ msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Această configurație nu înseamnă ca vei primi notificări pentru toate "
+"evenimentele."
 
 #: deluge/plugins/notifications/notifications/data/config.glade:506
 msgid "Subscriptions"
@@ -280,6 +289,7 @@ msgstr "Extage în:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:289
 #: deluge/ui/gtkui/glade/main_window.glade:2026
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:369
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:443
 msgid "Select A Folder"
 msgstr "Selectează un dosar"
 
@@ -297,9 +307,9 @@ msgstr ""
 
 #: deluge/plugins/extractor/extractor/data/extractor_prefs.glade:87
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:52
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2831
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2844
 #: deluge/ui/gtkui/glade/main_window.glade:2177
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:700
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:776
 msgid "<b>General</b>"
 msgstr "<b>Setări generale</b>"
 
@@ -368,7 +378,7 @@ msgstr "Blocklist"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:26
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:381
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1011
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1087
 msgid "URL:"
 msgstr "URL:"
 
@@ -386,7 +396,7 @@ msgstr "Importă lista neagră la pornire"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:151
 #: deluge/plugins/webui/webui/data/config.glade:92
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4163
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4176
 msgid "<b>Settings</b>"
 msgstr "<b>Setări</b>"
 
@@ -416,10 +426,10 @@ msgid "<b>Options</b>"
 msgstr "<b>Opțiuni</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:393
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3410
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3597
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3784
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3974
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3423
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3610
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3797
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3987
 msgid "Type:"
 msgstr "Tip:"
 
@@ -432,7 +442,7 @@ msgid "File Size:"
 msgstr "Dimensiune fișier:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:437
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4809
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
 msgid "<b>Info</b>"
 msgstr "<b>Informații</b>"
 
@@ -441,6 +451,8 @@ msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Interfața web Deluge nu este instalată, te rog instalează \n"
+"interfața și încearcă din nou"
 
 #: deluge/plugins/webui/webui/data/config.glade:25
 msgid "Enable web interface"
@@ -469,7 +481,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:7
 msgid "AutoAdd Error"
-msgstr ""
+msgstr "Eroare AutoAdd"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:78
 msgid "Watch Folder Properties"
@@ -481,7 +493,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:160
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Urmărește dosar</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:190
 msgid "Delete .torrent after adding"
@@ -489,7 +501,7 @@ msgstr "Șterge .torrent după adăugare"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:206
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Adaugă extensie după adăugare:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:223
 msgid ".added"
@@ -497,11 +509,11 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:243
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Acțiune fișier torent</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:269
 msgid "Set download location"
-msgstr ""
+msgstr "Definește locația descărcării"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:319
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:393
@@ -514,7 +526,7 @@ msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:411
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Mutare completă</b>"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:437
 msgid "Label: "
@@ -535,13 +547,13 @@ msgstr "Viteza maximă de încărcare:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:533
 #: deluge/ui/gtkui/glade/main_window.glade:1795
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:547
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:623
 msgid "Max Connections:"
 msgstr "Maxim de conexiuni:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:550
 #: deluge/ui/gtkui/glade/main_window.glade:1858
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:561
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:637
 msgid "Max Upload Slots:"
 msgstr "Sloturi maxime pentru încărcare:"
 
@@ -552,7 +564,7 @@ msgstr "Viteză maximă de descărcare:"
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:683
 #: deluge/ui/gtkui/glade/main_window.glade:1897
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:630
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:706
 msgid "<b>Bandwidth</b>"
 msgstr "<b>Lățime de bandă</b>"
 
@@ -613,7 +625,7 @@ msgstr "Torente active:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Descărcări active:"
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:274
 msgid "Active Seeding:"
@@ -1759,41 +1771,25 @@ msgstr ""
 msgid "Starting server in PID"
 msgstr "Pornește serverul în PID"
 
-#: deluge/ui/web/json_api.py:776 deluge/ui/web/json_api.py:795
-#: deluge/ui/web/json_api.py:804 deluge/ui/web/json_api.py:807
-#: deluge/ui/web/json_api.py:814 deluge/ui/gtkui/connectionmanager.py:75
-#: deluge/ui/gtkui/connectionmanager.py:215
-#: deluge/ui/gtkui/connectionmanager.py:246
-#: deluge/ui/gtkui/connectionmanager.py:283
-#: deluge/ui/gtkui/connectionmanager.py:296
-#: deluge/ui/gtkui/connectionmanager.py:378
-#: deluge/ui/gtkui/connectionmanager.py:389
-#: deluge/ui/gtkui/connectionmanager.py:453
-#: deluge/ui/gtkui/connectionmanager.py:570
+#: deluge/ui/web/json_api.py:780 deluge/ui/web/json_api.py:799
+#: deluge/ui/web/json_api.py:808 deluge/ui/web/json_api.py:811
+#: deluge/ui/web/json_api.py:818
 msgid "Offline"
 msgstr "Deconectat"
 
-#: deluge/ui/web/json_api.py:800 deluge/ui/gtkui/connectionmanager.py:76
-#: deluge/ui/gtkui/connectionmanager.py:274
-#: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:553
+#: deluge/ui/web/json_api.py:804
 msgid "Online"
 msgstr "Conectat"
 
-#: deluge/ui/web/json_api.py:820 deluge/ui/gtkui/connectionmanager.py:77
-#: deluge/ui/gtkui/connectionmanager.py:313
-#: deluge/ui/gtkui/connectionmanager.py:372
-#: deluge/ui/gtkui/connectionmanager.py:382
-#: deluge/ui/gtkui/connectionmanager.py:441
-#: deluge/ui/gtkui/connectionmanager.py:553
+#: deluge/ui/web/json_api.py:824
 msgid "Connected"
 msgstr "Conectat"
 
-#: deluge/ui/web/json_api.py:847
+#: deluge/ui/web/json_api.py:851
 msgid "Daemon doesn't exist"
 msgstr "Serviciul nu există"
 
-#: deluge/ui/web/json_api.py:853
+#: deluge/ui/web/json_api.py:857
 msgid "Daemon not running"
 msgstr "Serviciul nu rulează"
 
@@ -1859,7 +1855,7 @@ msgstr "Nume"
 
 #: deluge/ui/gtkui/torrentview.py:239
 #: deluge/ui/gtkui/createtorrentdialog.py:90 deluge/ui/gtkui/files_tab.py:143
-#: deluge/ui/gtkui/addtorrentdialog.py:124
+#: deluge/ui/gtkui/addtorrentdialog.py:125
 msgid "Size"
 msgstr "Dimensiune"
 
@@ -1894,7 +1890,7 @@ msgstr "Viteză încărcare"
 
 #: deluge/ui/gtkui/torrentview.py:264
 msgid "Down Limit"
-msgstr ""
+msgstr "Limită descărcare"
 
 #: deluge/ui/gtkui/torrentview.py:266
 msgid "Up Limit"
@@ -1924,7 +1920,7 @@ msgstr "Tracker"
 
 #: deluge/ui/gtkui/torrentview.py:280
 msgid "Save Path"
-msgstr ""
+msgstr "Cale salvare"
 
 #: deluge/ui/gtkui/peers_tab.py:100
 msgid "Address"
@@ -1936,64 +1932,59 @@ msgstr "Client"
 
 #: deluge/ui/gtkui/new_release_dialog.py:72
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Versiune client</i>"
 
-#: deluge/ui/gtkui/systemtray.py:201 deluge/ui/gtkui/systemtray.py:258
-#: deluge/ui/gtkui/aboutdialog.py:55
-#: deluge/data/share/applications/deluge.desktop.in.h:2
+#: deluge/ui/gtkui/systemtray.py:113 deluge/ui/gtkui/systemtray.py:195
+#: deluge/ui/gtkui/systemtray.py:252 deluge/ui/gtkui/aboutdialog.py:55
+#: deluge/data/share/applications/deluge.desktop.in.h:1
 msgid "Deluge"
 msgstr "Deluge"
 
-#: deluge/ui/gtkui/systemtray.py:201
+#: deluge/ui/gtkui/systemtray.py:195
 msgid "Not Connected..."
 msgstr "Neconectat..."
 
-#: deluge/ui/gtkui/systemtray.py:249 deluge/ui/gtkui/systemtray.py:253
-#: deluge/ui/gtkui/systemtray.py:423 deluge/ui/gtkui/common.py:70
-#: deluge/ui/gtkui/statusbar.py:397 deluge/ui/gtkui/statusbar.py:425
-#: deluge/ui/gtkui/statusbar.py:452
+#: deluge/ui/gtkui/systemtray.py:243 deluge/ui/gtkui/systemtray.py:247
+#: deluge/ui/gtkui/common.py:70
 msgid "Unlimited"
 msgstr "Nelimitat"
 
-#: deluge/ui/gtkui/systemtray.py:258
+#: deluge/ui/gtkui/systemtray.py:252
 msgid "Down"
 msgstr "Desc"
 
-#: deluge/ui/gtkui/systemtray.py:259
+#: deluge/ui/gtkui/systemtray.py:253
 msgid "Up"
 msgstr "Înc"
 
-#: deluge/ui/gtkui/systemtray.py:403 deluge/ui/gtkui/menubar.py:436
+#: deluge/ui/gtkui/systemtray.py:397 deluge/ui/gtkui/menubar.py:435
 #: deluge/ui/gtkui/statusbar.py:401
 msgid "Set Maximum Download Speed"
 msgstr "Setează viteza maximă de descărcare"
 
-#: deluge/ui/gtkui/systemtray.py:417 deluge/ui/gtkui/menubar.py:437
+#: deluge/ui/gtkui/systemtray.py:405 deluge/ui/gtkui/menubar.py:436
 #: deluge/ui/gtkui/statusbar.py:429
 msgid "Set Maximum Upload Speed"
 msgstr "Setează viteza maximă de încărcare"
 
-#: deluge/ui/gtkui/systemtray.py:426 deluge/ui/gtkui/common.py:127
-#: deluge/ui/gtkui/common.py:128 deluge/ui/gtkui/menubar.py:81
-#: deluge/ui/gtkui/statusbar.py:399 deluge/ui/gtkui/statusbar.py:427
-#: deluge/ui/gtkui/statusbar.py:454
-msgid "Other..."
-msgstr "Alta..."
-
-#: deluge/ui/gtkui/systemtray.py:470
+#: deluge/ui/gtkui/systemtray.py:467
 msgid "Deluge is password protected!"
-msgstr ""
+msgstr "Deluge este protejat prin parolă!"
 
-#: deluge/ui/gtkui/systemtray.py:476
+#: deluge/ui/gtkui/systemtray.py:473
 msgid "Enter your password to continue"
-msgstr ""
+msgstr "Introduceți parola pentru a continua"
 
 #: deluge/ui/gtkui/common.py:73
 msgid "Activated"
 msgstr "Activat"
 
+#: deluge/ui/gtkui/common.py:127 deluge/ui/gtkui/menubar.py:81
+msgid "Other..."
+msgstr "Alta..."
+
 #: deluge/ui/gtkui/createtorrentdialog.py:80 deluge/ui/gtkui/files_tab.py:122
-#: deluge/ui/gtkui/addtorrentdialog.py:111
+#: deluge/ui/gtkui/addtorrentdialog.py:112
 msgid "Filename"
 msgstr "Nume fişier"
 
@@ -2015,12 +2006,12 @@ msgid "Save .torrent file"
 msgstr "Salvare fişier .torrent"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:253
-#: deluge/ui/gtkui/addtorrentdialog.py:563
+#: deluge/ui/gtkui/addtorrentdialog.py:590
 msgid "Torrent files"
 msgstr "Fişiere torrent"
 
 #: deluge/ui/gtkui/createtorrentdialog.py:257
-#: deluge/ui/gtkui/addtorrentdialog.py:567
+#: deluge/ui/gtkui/addtorrentdialog.py:594
 msgid "All files"
 msgstr "Toate fişierele"
 
@@ -2038,62 +2029,64 @@ msgstr "Prioritate ridicată"
 
 #: deluge/ui/gtkui/files_tab.py:59
 msgid "Highest Priority"
-msgstr ""
+msgstr "Prioritate maximă"
 
 #: deluge/ui/gtkui/files_tab.py:169
 msgid "Priority"
 msgstr "Prioritate"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:103
+#: deluge/ui/gtkui/addtorrentdialog.py:104
 #: deluge/ui/gtkui/queuedtorrents.py:76
 msgid "Torrent"
 msgstr "Torent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:215
+#: deluge/ui/gtkui/addtorrentdialog.py:222
 msgid "Invalid File"
 msgstr "Fișier invalid"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:220
+#: deluge/ui/gtkui/addtorrentdialog.py:227
 msgid "Duplicate Torrent"
 msgstr "Torent duplicat"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:220
+#: deluge/ui/gtkui/addtorrentdialog.py:227
 msgid "You cannot add the same torrent twice."
 msgstr "Nu puteți adăuga același torent de două ori."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:501
+#: deluge/ui/gtkui/addtorrentdialog.py:528
 msgid "Unable to set file priority!"
 msgstr "Nu se poate stabili prioriatea fișierului!"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:501
+#: deluge/ui/gtkui/addtorrentdialog.py:528
 msgid ""
 "File prioritization is unavailable when using Compact allocation.  Would you "
 "like to switch to Full allocation?"
 msgstr ""
+"Prioritatea fișierelor este indisponibilă folosind alocarea compactă. Ați "
+"dori schimbarea la alocarea completa?"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:550
+#: deluge/ui/gtkui/addtorrentdialog.py:577
 msgid "Choose a .torrent file"
 msgstr "Alege un fişier .torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:632
+#: deluge/ui/gtkui/addtorrentdialog.py:663
 msgid "Invalid URL"
 msgstr "URL incorect"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:632
+#: deluge/ui/gtkui/addtorrentdialog.py:663
 msgid "is not a valid URL."
-msgstr ""
+msgstr "nu este un URL valid."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:636
+#: deluge/ui/gtkui/addtorrentdialog.py:667
 msgid "Downloading..."
-msgstr ""
+msgstr "Descarc..."
 
-#: deluge/ui/gtkui/addtorrentdialog.py:678
+#: deluge/ui/gtkui/addtorrentdialog.py:709
 msgid "Download Failed"
 msgstr "Descărcarea a eșuat"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:678
+#: deluge/ui/gtkui/addtorrentdialog.py:709
 msgid "Failed to download:"
-msgstr ""
+msgstr "Descărcare eșuată"
 
 #: deluge/ui/gtkui/queuedtorrents.py:136
 msgid " Torrents Queued"
@@ -2147,11 +2140,15 @@ msgstr "Module"
 msgid "Plugin"
 msgstr "Modul"
 
-#: deluge/ui/gtkui/preferences.py:895
+#: deluge/ui/gtkui/preferences.py:759
+msgid "You must restart the deluge UI to change classic mode. Quit now?"
+msgstr ""
+
+#: deluge/ui/gtkui/preferences.py:915
 msgid "Select the Plugin"
 msgstr "Selectați modulul"
 
-#: deluge/ui/gtkui/preferences.py:906
+#: deluge/ui/gtkui/preferences.py:926
 msgid "Plugin Eggs"
 msgstr "Ouă modul"
 
@@ -2167,34 +2164,34 @@ msgstr "Activat"
 msgid "Off"
 msgstr "Dezactivat"
 
-#: deluge/ui/gtkui/menubar.py:319
+#: deluge/ui/gtkui/menubar.py:318
 msgid "Choose a directory to move files to"
 msgstr "Alege un director pentru a muta fișierele"
 
-#: deluge/ui/gtkui/menubar.py:438 deluge/ui/gtkui/statusbar.py:456
+#: deluge/ui/gtkui/menubar.py:437 deluge/ui/gtkui/statusbar.py:456
 msgid "Set Maximum Connections"
 msgstr "Setează numărul maxim de conexiuni"
 
-#: deluge/ui/gtkui/menubar.py:439
+#: deluge/ui/gtkui/menubar.py:438
 msgid "Set Maximum Upload Slots"
 msgstr "Setează numărul maxim de sloturi pentru încărcare"
 
-#: deluge/ui/gtkui/gtkui.py:311 deluge/ui/gtkui/gtkui.py:326
+#: deluge/ui/gtkui/gtkui.py:312 deluge/ui/gtkui/gtkui.py:327
 msgid "Turn off Classic Mode?"
 msgstr "Dezactivați modul clasic?"
 
-#: deluge/ui/gtkui/gtkui.py:312
+#: deluge/ui/gtkui/gtkui.py:313
 msgid ""
 "It appears that a Deluge daemon process (deluged) is already running.\n"
 "\n"
 "You will either need to stop the daemon or turn off Classic Mode to continue."
 msgstr "Se pare că procesul de serviciu Deluge (deluged) rulează deja."
 
-#: deluge/ui/gtkui/gtkui.py:321
+#: deluge/ui/gtkui/gtkui.py:322
 msgid "Error Starting Core"
 msgstr "Eroare la pornirea nucleului"
 
-#: deluge/ui/gtkui/gtkui.py:322
+#: deluge/ui/gtkui/gtkui.py:323
 msgid ""
 "There was an error starting the core component which is required to run "
 "Deluge in Classic Mode.\n"
@@ -2206,7 +2203,7 @@ msgstr ""
 "\n"
 "Pentru mai multe informații vedeți detaliile de mai jos."
 
-#: deluge/ui/gtkui/gtkui.py:327
+#: deluge/ui/gtkui/gtkui.py:328
 msgid ""
 "Since there was an error starting in Classic Mode would you like to continue "
 "by turning it off?"
@@ -2214,11 +2211,11 @@ msgstr ""
 "De vreme ce a intervenit o eroare la pornirea modului clasic doriți să "
 "continuați prin a-l dezactiva?"
 
-#: deluge/ui/gtkui/gtkui.py:351
+#: deluge/ui/gtkui/gtkui.py:352
 msgid "Error Starting Daemon"
 msgstr "Eroare la pornirea serviciului"
 
-#: deluge/ui/gtkui/gtkui.py:352
+#: deluge/ui/gtkui/gtkui.py:353
 msgid ""
 "There was an error starting the daemon process.  Try running it from a "
 "console to see if there is an error."
@@ -2240,11 +2237,11 @@ msgstr "Versiune"
 
 #: deluge/ui/gtkui/connectionmanager.py:386
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Oprește demon"
 
 #: deluge/ui/gtkui/connectionmanager.py:394
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Pornește demon"
 
 #: deluge/ui/gtkui/connectionmanager.py:415
 #: deluge/ui/gtkui/connectionmanager.py:425
@@ -2264,17 +2261,17 @@ msgid "Torrents"
 msgstr "Torente"
 
 #: deluge/ui/gtkui/dialogs.py:174
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4717
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
 msgid "Details:"
 msgstr "Detalii:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "D:"
-msgstr ""
+msgstr "D:"
 
 #: deluge/ui/gtkui/mainwindow.py:257
 msgid "U:"
-msgstr ""
+msgstr "U:"
 
 #: deluge/ui/gtkui/aboutdialog.py:59
 msgid "Copyright 2007-2011 Deluge Team"
@@ -2288,15 +2285,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/aboutdialog.py:62
 msgid "Client:"
-msgstr ""
+msgstr "Client:"
 
 #: deluge/ui/gtkui/aboutdialog.py:65
 msgid "Current Developers:"
-msgstr ""
+msgstr "Dezvlotatori actuali:"
 
 #: deluge/ui/gtkui/aboutdialog.py:67
 msgid "Past Developers or Contributors:"
-msgstr ""
+msgstr "Dezvoltatori anteriori sau contribuitori:"
 
 #: deluge/ui/gtkui/aboutdialog.py:252
 msgid ""
@@ -2331,7 +2328,7 @@ msgstr "Server:"
 
 #: deluge/ui/gtkui/aboutdialog.py:290
 msgid "libtorrent:"
-msgstr ""
+msgstr "libtorrent:"
 
 #: deluge/ui/gtkui/statusbar.py:146
 msgid "Not Connected"
@@ -2359,7 +2356,7 @@ msgstr "Noduri DHT"
 
 #: deluge/ui/gtkui/statusbar.py:186
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Spațiu liber pe disc"
 
 #: deluge/ui/gtkui/statusbar.py:190
 msgid "No Incoming Connections!"
@@ -2379,7 +2376,7 @@ msgstr "Toate"
 
 #: deluge/ui/gtkui/filtertreeview.py:78
 msgid "Active"
-msgstr ""
+msgstr "Activ"
 
 #: deluge/ui/gtkui/filtertreeview.py:79
 msgid "None"
@@ -2418,7 +2415,7 @@ msgid "<b>Add Trackers</b>"
 msgstr "<b>Adăugare tracker-e</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:296
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1207
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1283
 msgid "Trackers:"
 msgstr "Trackere:"
 
@@ -2443,26 +2440,26 @@ msgstr "A_fișează Deluge"
 msgid "_Add Torrent"
 msgstr "_Adaugă torrent"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:48
+#: deluge/ui/gtkui/glade/tray_menu.glade:49
 #: deluge/ui/gtkui/glade/filtertree_menu.glade:26
 msgid "_Pause All"
 msgstr "În_trerupe toate"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:65
+#: deluge/ui/gtkui/glade/tray_menu.glade:66
 msgid "_Resume All"
 msgstr "_Repornește toate"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:87
+#: deluge/ui/gtkui/glade/tray_menu.glade:88
 #: deluge/ui/gtkui/glade/torrent_menu.glade:212
 msgid "_Download Speed Limit"
 msgstr "Limita de _descărcare"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:103
+#: deluge/ui/gtkui/glade/tray_menu.glade:105
 #: deluge/ui/gtkui/glade/torrent_menu.glade:227
 msgid "_Upload Speed Limit"
 msgstr "Limita de î_ncărcare"
 
-#: deluge/ui/gtkui/glade/tray_menu.glade:124
+#: deluge/ui/gtkui/glade/tray_menu.glade:127
 msgid "Quit & Shutdown Daemon"
 msgstr "Ieși și închide demonul"
 
@@ -2503,12 +2500,12 @@ msgstr "Copiază fişiere .torrent în:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:318
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Șterge copia fișierului torent la eliminare"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:322
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+msgstr "Șterge copia fișierului torent creat când torentul este eliminat"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:339
 msgid "<b>Folders</b>"
@@ -2535,7 +2532,7 @@ msgid "Compact allocation only allocates space as needed"
 msgstr "Alocarea compacta aloca spatiu dupa cum este necesar"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:411
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:468
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:544
 msgid "<b>Allocation</b>"
 msgstr "<b>Alocare</b>"
 
@@ -2816,55 +2813,59 @@ msgstr "<b>Modul clasic</b>"
 msgid "Show session speed in titlebar"
 msgstr "Afișează viteza sesiunii în bara de titlu"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1910
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1905
+msgid "Focus window when adding torrent"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1923
 msgid "<b>Main Window</b>"
 msgstr "<b>Fereastra principală</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1942
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1955
 msgid "Always show"
 msgstr "Afișează întotdeauna"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1960
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1973
 msgid "Bring the dialog to focus"
 msgstr "Adaugă dialogul în prim plan"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1980
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1993
 msgid "<b>Add Torrents Dialog</b>"
 msgstr "<b>Dialog de adăugare de torrente</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2011
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2024
 msgid "Enable system tray icon"
 msgstr "Activează iconiţa din zona de notificare"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2029
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2042
 msgid "Minimize to tray on close"
 msgstr "Minimizează în zona de notificare la închidere"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2049
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2062
 msgid "Start in tray"
 msgstr "Pornește în zona de notificare"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2069
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2082
 msgid "Enable Application Indicator"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2090
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2103
 msgid "Password protect system tray"
 msgstr "Protejează cu parolă zona de notificare"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2157
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2170
 msgid "<b>System Tray</b>"
 msgstr "<b>Zona de notificare</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2215
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2228
 msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>Altele</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2255
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2268
 msgid "Be alerted about new releases"
 msgstr "Avertizează-mă când apar noi versiuni"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2260
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2273
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
@@ -2872,11 +2873,11 @@ msgstr ""
 "Deluge va verifica serverele și vă va informa dacă a fost lansată o nouă "
 "versiune"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2279
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2292
 msgid "<b>Updates</b>"
 msgstr "<b>Actualizări</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2315
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
@@ -2885,19 +2886,19 @@ msgstr ""
 "PyGTK-ulu, sistemului de operare și procesorului pe care îl folosiți. "
 "Absolut nici o informație suplimentară nu va fi trimisă."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2332
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2345
 msgid "Yes, please send anonymous statistics"
 msgstr "Da, vreau să trimit statistici anonime"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2354
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2367
 msgid "<b>System Information</b>"
 msgstr "<b>Informații despre sistem</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2396
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2409
 msgid "Location:"
 msgstr "Locație:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2409
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2422
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
@@ -2905,109 +2906,109 @@ msgstr ""
 "Dacă Deluge nu poate găsi fișierul bazei de date la această locație va "
 "reveni la utilizarea DNS pentru a rezolva partenerii de conexiune ai țării."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2433
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2446
 msgid "<b>GeoIP Database</b>"
 msgstr "<b>Baza de Date GeoIP</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2478
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2491
 msgid "Associate Magnet links with Deluge"
 msgstr "Asociază legăturile de tip Magnet cu programul Deluge"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2546
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2559
 msgid "<i><b><big>Daemon</big></b></i>"
 msgstr "<i><b><big>Demon</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2589
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2602
 msgid "Daemon port:"
 msgstr "Portul demonului:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2626
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
 msgid "<b>Port</b>"
 msgstr "<b>Port</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2655
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2668
 msgid "Allow Remote Connections"
 msgstr "Permite conexiuni din altă locaţie"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2669
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2682
 msgid "<b>Connections</b>"
 msgstr "<b>Conexiuni</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2698
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2711
 msgid "Periodically check the website for new releases"
 msgstr "Verifică periodic dacă au apărut noi versiuni"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2712
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2725
 msgid "<b>Other</b>"
 msgstr "<b>Altele</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2771
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2784
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr "<i><b><big>Coadă</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2812
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2825
 msgid "Queue new torrents to top"
 msgstr "Aşază noile torrente în fruntea cozii"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2906
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2919
 msgid "Total active seeding:"
 msgstr "Număr de torente la care se contribuie:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2919
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2932
 msgid "Total active:"
 msgstr "Număr torrente active"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2948
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2961
 msgid "Total active downloading:"
 msgstr "Număr total de torente care se descarcă:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2963
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2976
 msgid "Do not count slow torrents"
 msgstr "Nu lua în considerare și torrentele cu viteze mici"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2981
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2994
 msgid "<b>Active Torrents</b>"
 msgstr "<b>Torrente active</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3022
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3035
 msgid "Share Ratio Limit:"
 msgstr "Limită de rație"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3032
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3045
 msgid "Seed Time Ratio:"
 msgstr "Timp de stat la seed"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3044
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3057
 msgid "Seed Time (m):"
 msgstr "Timp de contribuire (m):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3112
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3125
 msgid "Stop seeding when share ratio reaches:"
 msgstr "Oprește contribuirea când rația ajunge la:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3157
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3170
 msgid "Remove torrent when share ratio reached"
 msgstr "Șterge torentul când rația ajunge la"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3192
 msgid "<b>Seeding</b>"
 msgstr "<b>Contribuire</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3243
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3256
 msgid "<i><b><big>Proxy</big></b></i>"
 msgstr "<i><b><big>Proxy</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3314
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3501
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3688
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3876
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3327
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3514
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3701
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3889
 msgid "Host:"
 msgstr "Gazdă:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3390
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3577
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3764
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3954
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3403
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3590
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3777
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3967
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -3023,31 +3024,31 @@ msgstr ""
 "HTTP\n"
 "HTTP cu autentificare"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3437
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3450
 msgid "<b>Peer</b>"
 msgstr "<b>Partener</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3624
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3637
 msgid "<b>Web Seed</b>"
 msgstr "<b>Însămânţare web</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3811
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:3824
 msgid "<b>Tracker</b>"
 msgstr "<b>Tracker</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4002
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4015
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4058
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4071
 msgid "<b><i><big>Cache</big></i></b>"
 msgstr "<b><i><big>Prestocare</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4102
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4115
 msgid "Cache Size (16 KiB blocks):"
 msgstr "Mărimea de prestocare (blocuri de 16 KiB):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4112
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4125
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
@@ -3056,32 +3057,32 @@ msgstr ""
 "în momentul în care este forțat curățată de pe disk. Valoarea implicită este "
 "60 de secunde."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4114
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4127
 msgid "Cache Expiry (seconds):"
 msgstr "Prestocarea expiră în (secunde):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4209
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
 msgid ""
 "The total number of 16 KiB blocks written to disk since this session was "
 "started."
 msgstr ""
 "Numărul total de blocuri de 16 KiB scrise pe disk de la începutul sesiunii."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4211
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4224
 msgid "Blocks Written:"
 msgstr "Blocuri scrise:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4220
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
 msgid ""
 "The total number of write operations performed since this session was "
 "started."
 msgstr "Numărul total de operațiuni de scriere de când a început sesiunea."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4222
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4235
 msgid "Writes:"
 msgstr "Scrieri:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4233
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4246
 msgid ""
 "The ratio (blocks_written - writes) / blocks_written represents the number "
 "of saved write operations per total write operations, i.e. a kind of cache "
@@ -3091,15 +3092,15 @@ msgstr ""
 "operațiuni de scriere salvate din totalul operațiunilor de scriere, ex: un "
 "fel de raport al folosirii spațiului de prestocare pentru scriere."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4235
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4248
 msgid "Write Cache Hit Ratio:"
 msgstr "Rația spațiului de prestocare pentru scriere:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4287
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4300
 msgid "<b>Write</b>"
 msgstr "<b>Scrie</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4317
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
 msgid ""
 "The number of blocks that were requested from the bittorrent engine (from "
 "peers), that were served from disk or cache."
@@ -3107,41 +3108,41 @@ msgstr ""
 "Numărul de blocuri ce au fost cerute de către motorul bittorent (de la "
 "parteneri), care au fost servite de disk sau de spațiul de prestocare."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4319
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4332
 msgid "Blocks Read:"
 msgstr "Blocuri citite:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4328
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
 msgid "The number of blocks that were served from cache."
 msgstr ""
 "Numărul de blocuri care au fost servite de către spațiul de prestocare."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4330
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4343
 msgid "Blocks Read Hit:"
 msgstr "Rezultatul blocurilo citite:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4341
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4354
 msgid "The cache hit ratio for the read cache."
 msgstr "Rația spațiului de prestocare pentru citire."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4343
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4356
 msgid "Read Cache Hit Ratio:"
 msgstr "Rația spațiului de prestocare pentru citire:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4392
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4405
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr "Numărul total de operațiuni de citire de când a început sesiunea."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4394
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4407
 msgid "Reads:"
 msgstr "Citiri:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4421
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4434
 msgid "<b>Read</b>"
 msgstr "<b>Citește</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4451
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4464
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
@@ -3149,52 +3150,52 @@ msgstr ""
 "Numărul de blocuri de 16 KiB care se află momentan în spațiul de prestocare. "
 "Acestea includ și blocurile alocate pentru scris și cele pentru citit."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4453
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4466
 msgid "Cache Size:"
 msgstr "Mărime spațiu de prestocare:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4463
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4476
 msgid "Read Cache Size:"
 msgstr "Dimensiunea spațiului de prestocare pentru citit:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4502
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4515
 msgid "<b>Size</b>"
 msgstr "<b>Dimensiune</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4545
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4558
 msgid "<b>Status</b>"
 msgstr "<b>Statut</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4606
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4619
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>Module</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4730
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
 msgid "Version:"
 msgstr "Versiune:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4743
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4756
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:264
 msgid "Author:"
 msgstr "Autor:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4754
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
 msgid "Homepage:"
 msgstr "Pagină web:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4767
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4780
 msgid "Author Email:"
 msgstr "Email-ul autorului:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4859
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4872
 msgid "_Install Plugin"
 msgstr "_Instalează module"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4902
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4915
 msgid "_Rescan Plugins"
 msgstr "_Rescanează modulele"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:4955
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:4968
 msgid "_Find More Plugins"
 msgstr "_Caută mai multe module"
 
@@ -3403,7 +3404,7 @@ msgstr "Întrebări frecvente"
 
 #: deluge/ui/gtkui/glade/main_window.glade:279
 msgid "_Community"
-msgstr ""
+msgstr "_Comunitate"
 
 #: deluge/ui/gtkui/glade/main_window.glade:326
 msgid "Add torrent"
@@ -3519,7 +3520,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Down Speed:</b>"
-msgstr ""
+msgstr "<b>Viteză descărcare:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Next Announce:</b>"
@@ -3607,7 +3608,7 @@ msgid "_Edit Trackers"
 msgstr "Modifica Track_ere"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2259
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:862
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:938
 msgid "_Options"
 msgstr "_Opțiuni"
 
@@ -3650,7 +3651,7 @@ msgstr "<i>Versiune curentă:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2594
 msgid "<i>Server Version</i>"
-msgstr ""
+msgstr "<i>Versiune server</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2627
 msgid "Do not show this dialog in the future"
@@ -3674,7 +3675,7 @@ msgstr "Deschide direct_or"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:33
 msgid "_Pause"
-msgstr ""
+msgstr "_Pauză"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:49
 msgid "Resu_me"
@@ -3752,55 +3753,59 @@ msgstr "<b>Torente</b>"
 msgid "Fi_les"
 msgstr "F_ișiere"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:430
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:469
+msgid "<b>Move Completed Location</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:506
 msgid "Full"
 msgstr "Complet"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:446
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:522
 msgid "Compact"
 msgstr "Compact"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:521
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:597
 msgid "Max Down Speed:"
 msgstr "Viteza maximă de descărcare:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:533
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:609
 msgid "Max Up Speed:"
 msgstr "Viteză maximă de încărcare:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:663
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:739
 msgid "Add In _Paused State"
 msgstr "Adaugă în stare de pauză"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:679
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:755
 msgid "Prioritize First/Last Pieces"
 msgstr "Primele/ultimele bucăți au prioritate"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:757
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:833
 msgid "Revert To Defaults"
 msgstr "Revenire la setările prestabilite"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:811
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:887
 msgid "Apply To All"
 msgstr "Aplică pentru toate"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:939
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1015
 msgid "Add URL"
 msgstr "Adăugare URL"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:976
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1052
 msgid "<b>From URL</b>"
 msgstr "<b>Din URL</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1098
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1174
 msgid "Add Infohash"
 msgstr "Adăugare Infohash"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1135
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1211
 msgid "<b>From Infohash</b>"
 msgstr "<b>Din Infohash</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1246
 msgid "Infohash:"
 msgstr "Infohash:"
 
@@ -3820,17 +3825,17 @@ msgstr "<b>Adăugare partener</b>"
 msgid "hostname:port"
 msgstr "gazdă:port"
 
-#: deluge/data/share/applications/deluge.desktop.in.h:1
+#: deluge/data/share/applications/deluge.desktop.in.h:2
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "Client BitTorrent"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "Client BitTorrent Deluge"
 
 #: deluge/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Descarcă și partajează fișiere prin BitTorrent"
 
 #~ msgid "Up:"
 #~ msgstr "Înc:"

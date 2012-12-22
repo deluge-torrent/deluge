@@ -1,4 +1,4 @@
-# Faroese translation for deluge
+# Kirghiz translation for deluge
 # Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the deluge package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-11-26 16:33+0000\n"
-"PO-Revision-Date: 2012-01-02 22:50+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Faroese <fo@li.org>\n"
+"PO-Revision-Date: 2012-10-29 21:33+0000\n"
+"Last-Translator: Chynggyz Jumaliev <translatorky@lavabit.com>\n"
+"Language-Team: Kirghiz <ky@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,7 +58,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:1831
 #: deluge/ui/gtkui/glade/main_window.glade:1843
 msgid "KiB/s"
-msgstr "KiB/s"
+msgstr ""
 
 #: deluge/common.py:347
 msgid "MiB/s"
@@ -71,7 +71,7 @@ msgstr ""
 #: deluge/core/filtermanager.py:94 deluge/core/torrentmanager.py:1002
 #: deluge/ui/gtkui/torrentview.py:90 deluge/ui/gtkui/filtertreeview.py:77
 msgid "Error"
-msgstr ""
+msgstr "Ката"
 
 #: deluge/core/torrentmanager.py:968
 msgid "Announce OK"
@@ -83,7 +83,7 @@ msgstr ""
 
 #: deluge/core/torrentmanager.py:992
 msgid "Warning"
-msgstr ""
+msgstr "Эскертүү"
 
 #: deluge/plugins/notifications/notifications/core.py:142
 #: deluge/plugins/notifications/notifications/core.py:175
@@ -300,40 +300,40 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:2177
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:776
 msgid "<b>General</b>"
-msgstr "<b>Alment</b>"
+msgstr ""
 
 #: deluge/plugins/execute/execute/gtkui.py:51
 msgid "Torrent Complete"
-msgstr "Torrentur er fullgjørdur"
+msgstr ""
 
 #: deluge/plugins/execute/execute/gtkui.py:52
 msgid "Torrent Added"
-msgstr "Torrentur lagdur til"
+msgstr ""
 
 #: deluge/plugins/execute/execute/gtkui.py:77
 #: deluge/plugins/execute/execute/gtkui.py:88
 msgid "Execute"
-msgstr "Inna"
+msgstr ""
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:28
 msgid "Event"
-msgstr "Hending"
+msgstr ""
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:40
 msgid "Command"
-msgstr "Boð"
+msgstr ""
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:111
 msgid "<b>Add Command</b>"
-msgstr "<b>Legg stýriboð til</b>"
+msgstr ""
 
 #: deluge/plugins/execute/execute/data/execute_prefs.glade:149
 msgid "<b>Commands</b>"
-msgstr "<b>Stýriboð</b>"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:49
 msgid "Emule IP list (GZip)"
-msgstr "Emule IP-listi (GZip)"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:50
 msgid "SafePeer Text (Zipped)"
@@ -357,7 +357,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:40
 msgid "Invalid version"
-msgstr "Ógyldug útgáva"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/gtkui.py:67
 #: deluge/plugins/blocklist/blocklist/gtkui.py:155
@@ -369,15 +369,15 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:381
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1087
 msgid "URL:"
-msgstr "URL:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "Days"
-msgstr "Dagar"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:115
 msgid "Check for new list every:"
-msgstr "Kanna eftir nýggjum lista hvønn:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:131
 msgid "Import blocklist on startup"
@@ -387,7 +387,7 @@ msgstr ""
 #: deluge/plugins/webui/webui/data/config.glade:92
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4176
 msgid "<b>Settings</b>"
-msgstr "<b>Innstillingar</b>"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:187
 msgid "Download the blocklist file if necessary and import the file."
@@ -412,7 +412,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:290
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:474
 msgid "<b>Options</b>"
-msgstr "<b>Kostir</b>"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:393
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3423
@@ -420,15 +420,15 @@ msgstr "<b>Kostir</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3797
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3987
 msgid "Type:"
-msgstr "Slag:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:405
 msgid "Date:"
-msgstr "Dato:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:417
 msgid "File Size:"
-msgstr "Fílustødd:"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:437
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:4822
@@ -443,15 +443,15 @@ msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:25
 msgid "Enable web interface"
-msgstr "Gilda vev-mrkamót"
+msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:39
 msgid "Enable SSL"
-msgstr "Gilda SSL"
+msgstr ""
 
 #: deluge/plugins/webui/webui/data/config.glade:58
 msgid "Listening port:"
-msgstr "Lrti portur:"
+msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/core.py:136
 msgid "Watch folder does not exist."
@@ -559,13 +559,13 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:349
 #: deluge/ui/gtkui/glade/main_window.glade:1947
 msgid "Stop seed at ratio:"
-msgstr "Steðga fræan við lutfallinum:"
+msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:738
 #: deluge/plugins/label/label/data/label_options.glade:364
 #: deluge/ui/gtkui/glade/main_window.glade:1988
 msgid "Remove at ratio"
-msgstr "Tak burtur við lutfall"
+msgstr ""
 
 #: deluge/plugins/autoadd/autoadd/data/autoadd_options.glade:754
 msgid "Auto Managed:"
@@ -600,15 +600,15 @@ msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:238
 msgid "Download Limit:"
-msgstr "Niðurtøkumark:"
+msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:247
 msgid "Upload Limit:"
-msgstr "Uppsendingarmark:"
+msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:256
 msgid "Active Torrents:"
-msgstr "Virknir torrentar"
+msgstr ""
 
 #: deluge/plugins/scheduler/scheduler/gtkui.py:265
 msgid "Active Downloading:"
@@ -628,30 +628,30 @@ msgstr ""
 
 #: deluge/plugins/label/label/core.py:192
 msgid "Empty Label"
-msgstr "Tómt spjaldur"
+msgstr ""
 
 #: deluge/plugins/label/label/core.py:193
 msgid "Label already exists"
-msgstr "Spjaldrið finnst longu"
+msgstr ""
 
 #: deluge/plugins/label/label/core.py:201
 #: deluge/plugins/label/label/core.py:281
 #: deluge/plugins/label/label/core.py:316
 msgid "Unknown Label"
-msgstr "Ókent spjaldur"
+msgstr ""
 
 #: deluge/plugins/label/label/core.py:317
 msgid "Unknown Torrent"
-msgstr "Ókendur torrentur"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:7
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:188
 msgid "Label Options"
-msgstr "Spjaldra kostir"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:36
 msgid "<b>Label Options</b>"
-msgstr "<b>Spjaldra kostir</b>"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:158
 msgid "Upload Slots:\t"
@@ -659,15 +659,15 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:171
 msgid "Upload Speed:"
-msgstr "Uppsendingarferð:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:184
 msgid "Download Speed:"
-msgstr "Niðurtøkuferð:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:226
 msgid "Connections:"
-msgstr "Sambindingar:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:270
 msgid "Apply per torrent max settings:"
@@ -675,12 +675,12 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:283
 msgid "Maximum"
-msgstr "Mest"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:336
 #: deluge/ui/gtkui/glade/main_window.glade:1926
 msgid "Auto Managed"
-msgstr "Sjálvfyrisitið"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:410
 msgid "Apply Queue settings:"
@@ -689,12 +689,12 @@ msgstr ""
 #: deluge/plugins/label/label/data/label_options.glade:426
 #: deluge/ui/gtkui/preferences.py:78
 msgid "Queue"
-msgstr "Kø"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:453
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:204
 msgid "Move completed to:"
-msgstr "Flyt fullgjørd til:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:504
 msgid "Apply location settings:"
@@ -702,7 +702,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:520
 msgid "Location"
-msgstr "Staður"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:560
 msgid "<i>(1 line per tracker)</i>"
@@ -710,25 +710,25 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:576
 msgid "Automatically apply label:"
-msgstr "Nýt sjálvvirkandi spjaldur:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:593
 #: deluge/ui/gtkui/filtertreeview.py:69
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:464
 msgid "Trackers"
-msgstr "Leitarar"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:646
 msgid "Add Label"
-msgstr "Leg til spjaldur"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:680
 msgid "<b>Add Label</b>"
-msgstr "<b>Leg til spjaldur</b>"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_options.glade:711
 msgid "Name:"
-msgstr "Navn:"
+msgstr ""
 
 #: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
@@ -736,7 +736,7 @@ msgstr ""
 
 #: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
-msgstr "<b>spjøldur</b>"
+msgstr ""
 
 #: deluge/plugins/label/label/gtkui/__init__.py:77
 #: deluge/plugins/label/label/gtkui/__init__.py:111
@@ -744,19 +744,19 @@ msgstr "<b>spjøldur</b>"
 #: deluge/plugins/label/label/gtkui/label_config.py:59
 #: deluge/plugins/label/label/gtkui/label_config.py:66
 msgid "Label"
-msgstr "Spjaldur"
+msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:66
 msgid "Label _Options"
-msgstr "Spjaldra k_ostir"
+msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:67
 msgid "_Remove Label"
-msgstr "Tak spjalu_r burtur"
+msgstr ""
 
 #: deluge/plugins/label/label/gtkui/sidebar_menu.py:68
 msgid "_Add Label"
-msgstr "Legg spj_aldir til"
+msgstr ""
 
 #: deluge/plugins/label/label/gtkui/submenu.py:46
 #: deluge/ui/gtkui/filtertreeview.py:80
@@ -765,35 +765,35 @@ msgstr ""
 
 #: deluge/ui/countries.py:9
 msgid "Afghanistan"
-msgstr "Afganistan"
+msgstr ""
 
 #: deluge/ui/countries.py:10
 msgid "Aland Islands"
-msgstr "Áland"
+msgstr ""
 
 #: deluge/ui/countries.py:11
 msgid "Albania"
-msgstr "Albania"
+msgstr ""
 
 #: deluge/ui/countries.py:12
 msgid "Algeria"
-msgstr "Algeria"
+msgstr ""
 
 #: deluge/ui/countries.py:13
 msgid "American Samoa"
-msgstr "Amerikanskt Samoa"
+msgstr ""
 
 #: deluge/ui/countries.py:14
 msgid "Andorra"
-msgstr "Andorra"
+msgstr ""
 
 #: deluge/ui/countries.py:15
 msgid "Angola"
-msgstr "Angola"
+msgstr ""
 
 #: deluge/ui/countries.py:16
 msgid "Anguilla"
-msgstr "Anguilla"
+msgstr ""
 
 #: deluge/ui/countries.py:17
 msgid "Antarctica"
@@ -801,167 +801,167 @@ msgstr ""
 
 #: deluge/ui/countries.py:18
 msgid "Antigua and Barbuda"
-msgstr "Antigua og Barbuda"
+msgstr ""
 
 #: deluge/ui/countries.py:19
 msgid "Argentina"
-msgstr "Argentina"
+msgstr ""
 
 #: deluge/ui/countries.py:20
 msgid "Armenia"
-msgstr "Armenia"
+msgstr ""
 
 #: deluge/ui/countries.py:21
 msgid "Aruba"
-msgstr "Aruba"
+msgstr ""
 
 #: deluge/ui/countries.py:22
 msgid "Australia"
-msgstr "Avstralia"
+msgstr ""
 
 #: deluge/ui/countries.py:23
 msgid "Austria"
-msgstr "Eysturríki"
+msgstr ""
 
 #: deluge/ui/countries.py:24
 msgid "Azerbaijan"
-msgstr "Aserbajdsjan"
+msgstr ""
 
 #: deluge/ui/countries.py:25
 msgid "Bahamas"
-msgstr "Bahamaoyggjar"
+msgstr ""
 
 #: deluge/ui/countries.py:26
 msgid "Bahrain"
-msgstr "Barain"
+msgstr ""
 
 #: deluge/ui/countries.py:27
 msgid "Bangladesh"
-msgstr "Bangladesj"
+msgstr ""
 
 #: deluge/ui/countries.py:28
 msgid "Barbados"
-msgstr "Barbados"
+msgstr ""
 
 #: deluge/ui/countries.py:29
 msgid "Belarus"
-msgstr "Hvítarussland"
+msgstr ""
 
 #: deluge/ui/countries.py:30
 msgid "Belgium"
-msgstr "Belgia"
+msgstr ""
 
 #: deluge/ui/countries.py:31
 msgid "Belize"
-msgstr "Belis"
+msgstr ""
 
 #: deluge/ui/countries.py:32
 msgid "Benin"
-msgstr "Benin"
+msgstr ""
 
 #: deluge/ui/countries.py:33
 msgid "Bermuda"
-msgstr "Bermuda"
+msgstr ""
 
 #: deluge/ui/countries.py:34
 msgid "Bhutan"
-msgstr "Butan"
+msgstr ""
 
 #: deluge/ui/countries.py:35
 msgid "Bolivia"
-msgstr "Bolivia"
+msgstr ""
 
 #: deluge/ui/countries.py:36
 msgid "Bosnia and Herzegovina"
-msgstr "Bosnia-Hersegovina"
+msgstr ""
 
 #: deluge/ui/countries.py:37
 msgid "Botswana"
-msgstr "Botsvana"
+msgstr ""
 
 #: deluge/ui/countries.py:38
 msgid "Bouvet Island"
-msgstr "Bouvet oyggjin"
+msgstr ""
 
 #: deluge/ui/countries.py:39
 msgid "Brazil"
-msgstr "Brasilia"
+msgstr ""
 
 #: deluge/ui/countries.py:40
 msgid "British Indian Ocean Territory"
-msgstr "Bretskt-indiska sjóøki"
+msgstr ""
 
 #: deluge/ui/countries.py:41
 msgid "Brunei Darussalam"
-msgstr "Brunei Darussalam"
+msgstr ""
 
 #: deluge/ui/countries.py:42
 msgid "Bulgaria"
-msgstr "Bulgaria"
+msgstr ""
 
 #: deluge/ui/countries.py:43
 msgid "Burkina Faso"
-msgstr "Burkina Faso"
+msgstr ""
 
 #: deluge/ui/countries.py:44
 msgid "Burundi"
-msgstr "Burundi"
+msgstr ""
 
 #: deluge/ui/countries.py:45
 msgid "Cambodia"
-msgstr "Kambodja"
+msgstr ""
 
 #: deluge/ui/countries.py:46
 msgid "Cameroon"
-msgstr "Kamerun"
+msgstr ""
 
 #: deluge/ui/countries.py:47
 msgid "Canada"
-msgstr "Kanada"
+msgstr ""
 
 #: deluge/ui/countries.py:48
 msgid "Cape Verde"
-msgstr "Grønhøvdaoyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:49
 msgid "Cayman Islands"
-msgstr "Cayman oyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:50
 msgid "Central African Republic"
-msgstr "Miðafrikalýðveldið"
+msgstr ""
 
 #: deluge/ui/countries.py:51
 msgid "Chad"
-msgstr "Kjad"
+msgstr ""
 
 #: deluge/ui/countries.py:52
 msgid "Chile"
-msgstr "Kili"
+msgstr ""
 
 #: deluge/ui/countries.py:53
 msgid "China"
-msgstr "Kina"
+msgstr ""
 
 #: deluge/ui/countries.py:54
 msgid "Christmas Island"
-msgstr "Jólaoyggjin"
+msgstr ""
 
 #: deluge/ui/countries.py:55
 msgid "Cocos (Keeling) Islands"
-msgstr "Kokosøyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:56
 msgid "Colombia"
-msgstr "Kolombia"
+msgstr ""
 
 #: deluge/ui/countries.py:57
 msgid "Comoros"
-msgstr "Komorooyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:58
 msgid "Congo"
-msgstr "Kongo"
+msgstr ""
 
 #: deluge/ui/countries.py:59
 msgid "Congo, The Democratic Republic of the"
@@ -969,299 +969,299 @@ msgstr ""
 
 #: deluge/ui/countries.py:60
 msgid "Cook Islands"
-msgstr "Cookoyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:61
 msgid "Costa Rica"
-msgstr "Kosta Rika"
+msgstr ""
 
 #: deluge/ui/countries.py:62
 msgid "Cote d'Ivoire"
-msgstr "Fílabeinsstrondin"
+msgstr ""
 
 #: deluge/ui/countries.py:63
 msgid "Croatia"
-msgstr "Kroatia"
+msgstr ""
 
 #: deluge/ui/countries.py:64
 msgid "Cuba"
-msgstr "Kuba"
+msgstr ""
 
 #: deluge/ui/countries.py:65
 msgid "Cyprus"
-msgstr "Kýpros"
+msgstr ""
 
 #: deluge/ui/countries.py:66
 msgid "Czech Republic"
-msgstr "Kekkia"
+msgstr ""
 
 #: deluge/ui/countries.py:67
 msgid "Denmark"
-msgstr "Danmørk"
+msgstr ""
 
 #: deluge/ui/countries.py:68
 msgid "Djibouti"
-msgstr "Djibouti"
+msgstr ""
 
 #: deluge/ui/countries.py:69
 msgid "Dominica"
-msgstr "Dominika"
+msgstr ""
 
 #: deluge/ui/countries.py:70
 msgid "Dominican Republic"
-msgstr "Domingo lýðveldið"
+msgstr ""
 
 #: deluge/ui/countries.py:71
 msgid "Ecuador"
-msgstr "Ekvador"
+msgstr ""
 
 #: deluge/ui/countries.py:72
 msgid "Egypt"
-msgstr "Egyptaland"
+msgstr ""
 
 #: deluge/ui/countries.py:73
 msgid "El Salvador"
-msgstr "El Salvador"
+msgstr ""
 
 #: deluge/ui/countries.py:74
 msgid "Equatorial Guinea"
-msgstr "Ekvator Guinea"
+msgstr ""
 
 #: deluge/ui/countries.py:75
 msgid "Eritrea"
-msgstr "Eritrea"
+msgstr ""
 
 #: deluge/ui/countries.py:76
 msgid "Estonia"
-msgstr "Estland"
+msgstr ""
 
 #: deluge/ui/countries.py:77
 msgid "Ethiopia"
-msgstr "Etiopia"
+msgstr ""
 
 #: deluge/ui/countries.py:78
 msgid "Falkland Islands (Malvinas)"
-msgstr "Falklandsoyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:79
 msgid "Faroe Islands"
-msgstr "Føroyar"
+msgstr ""
 
 #: deluge/ui/countries.py:80
 msgid "Fiji"
-msgstr "Fiji"
+msgstr ""
 
 #: deluge/ui/countries.py:81
 msgid "Finland"
-msgstr "Finnland"
+msgstr ""
 
 #: deluge/ui/countries.py:82
 msgid "France"
-msgstr "Frakland"
+msgstr ""
 
 #: deluge/ui/countries.py:83
 msgid "French Guiana"
-msgstr "Fransk Guinea"
+msgstr ""
 
 #: deluge/ui/countries.py:84
 msgid "French Polynesia"
-msgstr "Fransk Polynesien"
+msgstr ""
 
 #: deluge/ui/countries.py:85
 msgid "French Southern Territories"
-msgstr "Fraklands suður øki"
+msgstr ""
 
 #: deluge/ui/countries.py:86
 msgid "Gabon"
-msgstr "Gabon"
+msgstr ""
 
 #: deluge/ui/countries.py:87
 msgid "Gambia"
-msgstr "Gambia"
+msgstr ""
 
 #: deluge/ui/countries.py:88
 msgid "Georgia"
-msgstr "Georgia"
+msgstr ""
 
 #: deluge/ui/countries.py:89
 msgid "Germany"
-msgstr "Týskland"
+msgstr ""
 
 #: deluge/ui/countries.py:90 deluge/ui/countries.py:241
 msgid "United Kingdom"
-msgstr "Stórabretland"
+msgstr ""
 
 #: deluge/ui/countries.py:91
 msgid "Ghana"
-msgstr "Ghana"
+msgstr ""
 
 #: deluge/ui/countries.py:92
 msgid "Gibraltar"
-msgstr "Gibraltar"
+msgstr ""
 
 #: deluge/ui/countries.py:93
 msgid "Greece"
-msgstr "Grikkaland"
+msgstr ""
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr "Grønland"
+msgstr ""
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
-msgstr "Grenada"
+msgstr ""
 
 #: deluge/ui/countries.py:96
 msgid "Guadeloupe"
-msgstr "Guadeloupe"
+msgstr ""
 
 #: deluge/ui/countries.py:97
 msgid "Guam"
-msgstr "Guam"
+msgstr ""
 
 #: deluge/ui/countries.py:98
 msgid "Guatemala"
-msgstr "Guatemala"
+msgstr ""
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
-msgstr "Guernsey"
+msgstr ""
 
 #: deluge/ui/countries.py:100
 msgid "Guinea"
-msgstr "Guinea"
+msgstr ""
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr "Guinea Bissau"
+msgstr ""
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr "Gujana"
+msgstr ""
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
-msgstr "Haiti"
+msgstr ""
 
 #: deluge/ui/countries.py:104
 msgid "Heard Island and McDonald Islands"
-msgstr "Heard- og McDonald-oyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
-msgstr "Vatikanríkið"
+msgstr ""
 
 #: deluge/ui/countries.py:106
 msgid "Honduras"
-msgstr "Honduras"
+msgstr ""
 
 #: deluge/ui/countries.py:107
 msgid "Hong Kong"
-msgstr "Hong Kong"
+msgstr ""
 
 #: deluge/ui/countries.py:108
 msgid "Hungary"
-msgstr "Ungarn"
+msgstr ""
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
-msgstr "Ísland"
+msgstr ""
 
 #: deluge/ui/countries.py:110
 msgid "India"
-msgstr "India"
+msgstr ""
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr "Indonesia"
+msgstr ""
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr "Iran, Islamiska lýveldi av"
+msgstr ""
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
-msgstr "Irak"
+msgstr ""
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
-msgstr "Írland"
+msgstr ""
 
 #: deluge/ui/countries.py:115
 msgid "Isle of Man"
-msgstr "Isle of Man"
+msgstr ""
 
 #: deluge/ui/countries.py:116
 msgid "Israel"
-msgstr "Ísrael"
+msgstr ""
 
 #: deluge/ui/countries.py:117
 msgid "Italy"
-msgstr "Italia"
+msgstr ""
 
 #: deluge/ui/countries.py:118
 msgid "Jamaica"
-msgstr "Jameika"
+msgstr ""
 
 #: deluge/ui/countries.py:119
 msgid "Japan"
-msgstr "Japan"
+msgstr ""
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr "Jersey"
+msgstr ""
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
-msgstr "Jordan"
+msgstr ""
 
 #: deluge/ui/countries.py:122
 msgid "Kazakhstan"
-msgstr "Kasakstan"
+msgstr ""
 
 #: deluge/ui/countries.py:123
 msgid "Kenya"
-msgstr "Kenja"
+msgstr ""
 
 #: deluge/ui/countries.py:124
 msgid "Kiribati"
-msgstr "Kiribati"
+msgstr ""
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
-msgstr "Korea, Tað Demokratiska Folkalýveldi"
+msgstr ""
 
 #: deluge/ui/countries.py:126
 msgid "Korea, Republic of"
-msgstr "Korea, Lýveldi"
+msgstr ""
 
 #: deluge/ui/countries.py:127
 msgid "Kuwait"
-msgstr "Kuvait"
+msgstr ""
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr "Kirgisia"
+msgstr ""
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr "Laos"
+msgstr ""
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr "Lettland"
+msgstr ""
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
-msgstr "Libanon"
+msgstr ""
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr "Lesoto"
+msgstr ""
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
-msgstr "Liberia"
+msgstr ""
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
@@ -1269,19 +1269,19 @@ msgstr ""
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
-msgstr "Liktenstein"
+msgstr ""
 
 #: deluge/ui/countries.py:136
 msgid "Lithuania"
-msgstr "Litava"
+msgstr ""
 
 #: deluge/ui/countries.py:137
 msgid "Luxembourg"
-msgstr "Luksemborg"
+msgstr ""
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
-msgstr "Macao"
+msgstr ""
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
@@ -1289,63 +1289,63 @@ msgstr ""
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
-msgstr "Madagaskar"
+msgstr ""
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
-msgstr "Malavi"
+msgstr ""
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
-msgstr "Maleisia"
+msgstr ""
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
-msgstr "Maldivuoyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:144
 msgid "Mali"
-msgstr "Mali"
+msgstr ""
 
 #: deluge/ui/countries.py:145
 msgid "Malta"
-msgstr "Malta"
+msgstr ""
 
 #: deluge/ui/countries.py:146
 msgid "Marshall Islands"
-msgstr "Marshalloyggjarnar"
+msgstr ""
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
-msgstr "Martinique"
+msgstr ""
 
 #: deluge/ui/countries.py:148
 msgid "Mauritania"
-msgstr "Móritania"
+msgstr ""
 
 #: deluge/ui/countries.py:149
 msgid "Mauritius"
-msgstr "Móritius"
+msgstr ""
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
-msgstr "Mayotta"
+msgstr ""
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
-msgstr "Meksiko"
+msgstr ""
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr "Mikronesia, tær sameindu statirnir av"
+msgstr ""
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
-msgstr "Moldova"
+msgstr ""
 
 #: deluge/ui/countries.py:154
 msgid "Monaco"
-msgstr "Monako"
+msgstr ""
 
 #: deluge/ui/countries.py:155
 msgid "Mongolia"
@@ -1353,27 +1353,27 @@ msgstr ""
 
 #: deluge/ui/countries.py:156
 msgid "Montenegro"
-msgstr "Montenegro"
+msgstr ""
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr "Montserrat"
+msgstr ""
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
-msgstr "Marokko"
+msgstr ""
 
 #: deluge/ui/countries.py:159
 msgid "Mozambique"
-msgstr "Mosambik"
+msgstr ""
 
 #: deluge/ui/countries.py:160
 msgid "Myanmar"
-msgstr "Myanmar (Burma)"
+msgstr ""
 
 #: deluge/ui/countries.py:161
 msgid "Namibia"
-msgstr "Namibia"
+msgstr ""
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
