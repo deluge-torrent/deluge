@@ -1131,7 +1131,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         if (!value.replace(' ', '').replace(' ', '')){
             return '';
         }
-        return String.format('<img src="flag/{0}" />', value);
+        return String.format('<img src="{0}flag/{1}" />', deluge.config.base, value);
     }
     function peerAddressRenderer(value, p, record) {
         var seed = (record.data['seed'] == 1024) ? 'x-deluge-seed' : 'x-deluge-peer';
@@ -1788,7 +1788,7 @@ Deluge.add.FileWindow = Ext.extend(Deluge.add.Window, {
 });
 /*!
  * Deluge.add.FilesTab.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1828,7 +1828,7 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
     layout: 'fit',
     title:  _('Files'),
 
-    autoScroll:  true,
+    autoScroll:  false,
     animate:     false,
     border:      false,
     disabled:    true,
@@ -2104,7 +2104,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
 });
 /*!
  * Deluge.add.OptionsPanel.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -2171,7 +2171,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             width: 400,
             labelSeparator: ''
         }));
-    
+
         var panel = this.add({
             border: false,
             layout: 'column',
@@ -2182,7 +2182,6 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             border: false,
             autoHeight: true,
             defaultType: 'radio',
-            width: 100
         });
 
         this.optionsManager.bind('compact_allocation', fieldset.add({
@@ -2190,6 +2189,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             columns: 1,
             vertical: true,
             labelSeparator: '',
+            width: 80,
             items: [{
                 name: 'compact_allocation',
                 value: false,
@@ -2211,35 +2211,32 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             title: _('Bandwidth'),
             border: false,
             autoHeight: true,
-            labelWidth: 100,
+            bodyStyle: 'margin-left: 7px',
+            labelWidth: 105,
             width: 200,
             defaultType: 'spinnerfield'
         });
         this.optionsManager.bind('max_download_speed', fieldset.add({
             fieldLabel: _('Max Down Speed'),
-            labelStyle: 'margin-left: 10px',
             name: 'max_download_speed',
             width: 60
         }));
         this.optionsManager.bind('max_upload_speed', fieldset.add({
             fieldLabel: _('Max Up Speed'),
-            labelStyle: 'margin-left: 10px',
             name: 'max_upload_speed',
             width: 60
         }));
         this.optionsManager.bind('max_connections', fieldset.add({
             fieldLabel: _('Max Connections'),
-            labelStyle: 'margin-left: 10px',
             name: 'max_connections',
             width: 60
         }));
         this.optionsManager.bind('max_upload_slots', fieldset.add({
             fieldLabel: _('Max Upload Slots'),
-            labelStyle: 'margin-left: 10px',
             name: 'max_upload_slots',
             width: 60
         }));
-    
+
         fieldset = panel.add({
             title: _('General'),
             border: false,
@@ -2369,7 +2366,7 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
         var cookies = this.cookieField.getValue();
         var torrentId = this.createTorrentId();
 
-        if (url.substring(0,20) == 'magnet:?xt=urn:btih:') {
+        if (url.indexOf('magnet:?') == 0 && url.indexOf('xt=urn:btih') > -1) {
             deluge.client.web.get_magnet_info(url, {
                 success: this.onGotInfo,
                 scope: this,
@@ -5349,20 +5346,20 @@ Ext.namespace('Ext.ux.util');
 Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
     _components: [],
-    
+
     _methods: [],
-    
+
     _requests: {},
-    
+
     _url: null,
-    
+
     _optionKeys: ['scope', 'success', 'failure'],
-    
+
     constructor: function(config) {
         Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
         this._url = config.url || null;
         this._id = 0;
-        
+
         this.addEvents(
             // raw events
             /**
@@ -5371,16 +5368,13 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
              * @param {Ext.ux.util.RpcClient} this
              */
              'connected',
-             
+
              'error'
         );
         this.reloadMethods();
     },
-    
+
     reloadMethods: function() {
-        Ext.each(this._components, function(component) {
-            delete this[component];
-        }, this);
         this._execute('system.listMethods', {
             success: this._setMethods,
             scope: this
@@ -5391,14 +5385,14 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         options = options || {};
         options.params = options.params || [];
         options.id = this._id;
-        
+
         var request = Ext.encode({
             method: method,
             params: options.params,
             id: options.id
         });
         this._id++;
-        
+
         return Ext.Ajax.request({
             url: this._url,
             method: 'POST',
@@ -5409,7 +5403,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             options: options
         });
     },
-    
+
     _onFailure: function(response, requestOptions) {
         var options = requestOptions.options;
         errorObj = {
@@ -5420,23 +5414,23 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
                 code: 255
             }
         }
-        
+
         this.fireEvent('error', errorObj, response, requestOptions)
-        
+
         if (Ext.type(options.failure) != 'function') return;
         if (options.scope) {
             options.failure.call(options.scope, errorObj, response, requestOptions);
         } else {
             options.failure(errorObj, response, requestOptions);
-        }            
+        }
     },
-    
+
     _onSuccess: function(response, requestOptions) {
         var responseObj = Ext.decode(response.responseText);
         var options = requestOptions.options;
         if (responseObj.error) {
             this.fireEvent('error', responseObj, response, requestOptions);
-            
+
             if (Ext.type(options.failure) != 'function') return;
             if (options.scope) {
                 options.failure.call(options.scope, responseObj, response, requestOptions);
@@ -5452,21 +5446,21 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             }
         }
     },
-    
+
     _parseArgs: function(args) {
         var params = [];
         Ext.each(args, function(arg) {
             params.push(arg);
         });
-        
+
         var options = params[params.length - 1];
         if (Ext.type(options) == 'object') {
             var keys = Ext.keys(options), isOption = false;
-            
+
             Ext.each(this._optionKeys, function(key) {
                 if (keys.indexOf(key) > -1) isOption = true;
             });
-            
+
             if (isOption) {
                 params.remove(options)
             } else {
@@ -5481,11 +5475,11 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
     _setMethods: function(methods) {
         var components = {}, self = this;
-        
+
         Ext.each(methods, function(method) {
             var parts = method.split('.');
             var component = components[parts[0]] || {};
-            
+
             var fn = function() {
                 var options = self._parseArgs(arguments);
                 return self._execute(method, options);
@@ -5493,11 +5487,15 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             component[parts[1]] = fn;
             components[parts[0]] = component;
         });
-        
+
         for (var name in components) {
             self[name] = components[name];
         }
-        
+        Ext.each(this._components, function(component) {
+            if (!component in components) {
+                delete this[component];
+            }
+        }, this);
         this._components = Ext.keys(components);
         this.fireEvent('connected', this);
     }
@@ -6485,13 +6483,15 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     },
 
     onGetEventsSuccess: function(events) {
-        if (!events) return;
-        Ext.each(events, function(event) {
-            var name = event[0], args = event[1];
-            args.splice(0, 0, name);
-            this.fireEvent.apply(this, args);
-        }, this);
-        if (this.running) this.getEvents();
+        if (!this.running) return;
+        if (events) {
+            Ext.each(events, function(event) {
+                var name = event[0], args = event[1];
+                args.splice(0, 0, name);
+                this.fireEvent.apply(this, args);
+            }, this);
+        }
+        this.getEvents();
     },
 
     // private
@@ -7299,10 +7299,12 @@ deluge.menus.torrent = new Ext.menu.Menu({
     }, '-', {
         text: _('Options'),
         iconCls: 'icon-options',
+        hideOnClick: false,
         menu: new Ext.menu.Menu({
             items: [{
                 text: _('D/L Speed Limit'),
                 iconCls: 'x-deluge-downloading',
+                hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
                         text: _('5 KiB/s')
@@ -7321,6 +7323,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
             }, {
                 text: _('U/L Speed Limit'),
                 iconCls: 'x-deluge-seeding',
+                hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
                         text: _('5 KiB/s')
@@ -7339,6 +7342,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
             }, {
                 text: _('Connection Limit'),
                 iconCls: 'x-deluge-connections',
+                hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
                         text: _('50')
@@ -7357,6 +7361,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
             }, {
                 text: _('Upload Slot Limit'),
                 iconCls: 'icon-upload-slots',
+                hideOnClick: false,
                 menu: new Ext.menu.Menu({
                     items: [{
                         text: _('0')
@@ -7381,6 +7386,7 @@ deluge.menus.torrent = new Ext.menu.Menu({
     }, '-', {
         text: _('Queue'),
         iconCls: 'icon-queue',
+        hideOnClick: false,
         menu: new Ext.menu.Menu({
             items: [{
                 torrentAction: 'top',
@@ -7965,6 +7971,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
      * then executes the plugins setup method, onEnabled.
      */
     enable: function() {
+        deluge.client.reloadMethods();
         this.fireEvent("enable", this);
         if (this.onEnable) this.onEnable();
     },
@@ -9504,7 +9511,7 @@ deluge.ui = {
     },
 
     onPluginDisabled: function(pluginName) {
-        deluge.plugins[pluginName].disable();
+        if (deluge.plugins[pluginName]) deluge.plugins[pluginName].disable();
     },
 
     onPluginLoaded: function(options) {
