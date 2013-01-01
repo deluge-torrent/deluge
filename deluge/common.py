@@ -529,9 +529,8 @@ def free_space(path):
         raise InvalidPathError("%s is not a valid path" % path)
 
     if windows_check():
-        import win32file
-        sectors, bytes, free, total = map(long, win32file.GetDiskFreeSpace(path))
-        return (free * sectors * bytes)
+        from win32file import GetDiskFreeSpaceEx
+        return GetDiskFreeSpaceEx(path)[0]
     else:
         disk_data = os.statvfs(path.encode("utf8"))
         block_size = disk_data.f_frsize
