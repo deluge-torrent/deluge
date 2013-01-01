@@ -659,20 +659,22 @@ def decode_string(s, encoding="utf8"):
             pass
     return u''
 
-def utf8_encoded(s):
+def utf8_encoded(s, encoding="utf8"):
     """
     Returns a utf8 encoded string of s
 
     :param s: (unicode) string to (re-)encode
     :type s: basestring
+    :keyword encoding: the encoding to use in the decoding
+    :type encoding: string
     :returns: a utf8 encoded string of s
     :rtype: str
 
     """
     if isinstance(s, str):
-        s = decode_string(s).encode("utf8")
+        s = decode_string(s, encoding).encode("utf8")
     elif isinstance(s, unicode):
-        s = s.encode("utf8", "ignore")
+        s = s.encode("utf8")
     return s
 
 class VersionSplit(object):
