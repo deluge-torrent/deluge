@@ -143,6 +143,7 @@ class IPCInterface(component.Component):
             except twisted.internet.error.CannotListenError, e:
                 log.info("Deluge is already running! Sending arguments to running instance...")
                 self.factory = IPCClientFactory()
+                self.factory.args = args
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
                 reactor.run()
                 if self.factory.stop:
