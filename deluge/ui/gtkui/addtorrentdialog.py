@@ -807,7 +807,7 @@ class AddTorrentDialog(component.Component):
 
         # The options, except file renames, we want all the torrents to have
         options = self.options[model.get_value(row, 0)].copy()
-        del options["mapped_files"]
+        options.pop("mapped_files", None)
 
         # Set all the torrent options
         row = model.get_iter_first()
