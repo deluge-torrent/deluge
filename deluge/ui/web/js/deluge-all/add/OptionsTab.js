@@ -60,13 +60,29 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             fieldLabel: '',
             style: 'padding-bottom: 5px; margin-bottom: 0px;'
         });
-
         this.optionsManager.bind('download_location', fieldset.add({
             fieldLabel: '',
             name: 'download_location',
             width: 400,
             labelSeparator: ''
         }));
+        var fieldset = this.add({
+            xtype: 'fieldset',
+            title: _('Move Completed Location'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'togglefield',
+            labelWidth: 1,
+            fieldLabel: '',
+            style: 'padding-bottom: 5px; margin-bottom: 0px;'
+        });
+        var field = fieldset.add({
+            fieldLabel: '',
+            name: 'move_completed_path',
+            width: 425
+        });
+        this.optionsManager.bind('move_completed', field.toggle)
+        this.optionsManager.bind('move_completed_path', field.input)
 
         var panel = this.add({
             border: false,
@@ -77,7 +93,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             title: _('Allocation'),
             border: false,
             autoHeight: true,
-            defaultType: 'radio',
+            defaultType: 'radio'
         });
 
         this.optionsManager.bind('compact_allocation', fieldset.add({
@@ -156,6 +172,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     getDefaults: function() {
         var keys = ['add_paused','compact_allocation','download_location',
         'max_connections_per_torrent','max_download_speed_per_torrent',
+        'move_completed', 'move_completed_path',
         'max_upload_slots_per_torrent','max_upload_speed_per_torrent',
         'prioritize_first_last_pieces'];
 
@@ -166,6 +183,8 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                     'add_paused': config.add_paused,
                     'compact_allocation': config.compact_allocation,
                     'download_location': config.download_location,
+                    'move_completed': config.move_completed,
+                    'move_completed_path': config.move_completed_path,
                     'max_connections': config.max_connections_per_torrent,
                     'max_download_speed': config.max_download_speed_per_torrent,
                     'max_upload_slots': config.max_upload_slots_per_torrent,
