@@ -39,6 +39,7 @@
 	* #1397: Add support for -s STATE in info command
 
 ==== WebUI ====
+	* Add move completed option to add torrent dialog
 	* #2112: Fix world readable tmp directory in json_api
 	* #2069: Fix login window layout problem when using larger than default font size
 	* #1890: Fix columns in files and peers view could use some spacing
