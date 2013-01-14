@@ -176,8 +176,6 @@ class SystemTray(component.Component):
                 self._on_max_download_speed(configs["max_download_speed"])
                 self._on_max_upload_speed(configs["max_upload_speed"])
             client.core.get_config_values(["max_download_speed", "max_upload_speed"]).addCallback(update_config_values)
-            # This is called from update a few milliseconds later, so this line can be deleted
-            #self.send_status_request()
 
     def start(self):
         self.__start()

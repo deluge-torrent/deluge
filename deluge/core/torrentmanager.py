@@ -161,7 +161,7 @@ class TorrentManager(component.Component):
 
         self.torrents_status_requests = []
         self.status_dict = {}
-        self.state_update_alert_start = None
+        self.last_state_update_alert_ts = 0
 
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -207,7 +207,7 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("file_completed_alert",
             self.on_alert_file_completed)
         self.alerts.register_handler("state_update_alert",
-            self.state_update_alert)
+            self.on_alert_state_update)
 
     def start(self):
         # Get the pluginmanager reference
@@ -666,9 +666,7 @@ class TorrentManager(component.Component):
                         for s in state.torrents:
                             setattr(s, attr, getattr(state_tmp, attr, None))
         except Exception, e:
-            log.warning("Unable to update state file to a compatible version: %s", e)
-            import traceback
-            print traceback.format_exc()
+            log.exception("Unable to update state file to a compatible version: %s", e)
 
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
@@ -1138,9 +1136,9 @@ class TorrentManager(component.Component):
                 torrent_keys = list(set(keys) - set(leftover_keys))
                 return torrent_keys, leftover_keys
 
-    def state_update_alert(self, alert):
-        self.state_update_alert_start = time.time()
+    def on_alert_state_update(self, alert):
         log.debug("on_status_notification: %s", alert.message())
+        self.last_state_update_alert_ts = time.time()
 
         for s in alert.status:
             torrent_id = str(s.info_hash)
@@ -1150,6 +1148,9 @@ class TorrentManager(component.Component):
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
     def handle_torrents_status_callback(self, status_request):
+        """
+        Builds the status dictionary with the values from the Torrent.
+        """
         d, torrent_ids, keys, diff = status_request
         status_dict = {}.fromkeys(torrent_ids)
         torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
@@ -1162,21 +1163,32 @@ class TorrentManager(component.Component):
                 print "Missing torrent id:", torrent_id
                 del status_dict[torrent_id]
             else:
-                status_dict[torrent_id] = self.torrents[torrent_id].create_status_dict(torrent_keys, diff)
+                status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff)
         self.status_dict = status_dict
         d.callback((status_dict, plugin_keys))
 
     def torrents_status_update(self, torrent_ids, keys, diff=False):
         """
-        returns all torrents , optionally filtered by filter_dict.
-        If the torrent states were updated recently (less than two seconds ago,
+        returns status dict for the supplied torrent_ids async
+        If the torrent states were updated recently (less than 1.5 seconds ago,
         post_torrent_updates is not called. Instead the cached state is used.
+
+        :param torrent_ids: the torrent IDs to get the status on
+        :type torrent_ids: list of str
+        :param keys: the keys to get the status on
+        :type keys: list of str
+        :param diff: if True, will return a diff of the changes since the last
+        call to get_status based on the session_id
+        :type diff: bool
+
+        :returns: a status dictionary for the equested torrents.
+        :rtype: dict
+
         """
         d = Deferred()
         now = time.time()
-        # Less than two seconds since last time the torrent states were updated
-        if self.state_update_alert_start and \
-                (now - self.state_update_alert_start) < 2:
+        # If last update was recent, use cached data instead of request updates from libtorrent
+        if (now - self.last_state_update_alert_ts) < 1.5:
             reactor.callLater(0, self.handle_torrents_status_callback, (d, torrent_ids, keys, diff))
         else:
             # Ask libtorrent for status update

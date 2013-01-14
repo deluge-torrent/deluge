@@ -224,6 +224,9 @@ class Torrent(object):
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
 
+        self.update_status(self.handle.status())
+        self._create_status_funcs()
+
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Torrent object created.")
 
@@ -407,10 +410,9 @@ class Torrent(object):
                     self.update_state()
                     break
 
-        # Do we really need this?
-        #self.options["file_priorities"] = self.handle.file_priorities()
-        #if self.options["file_priorities"] != list(file_priorities):
-        #    log.warning("File priorities were not set for this torrent")
+        # In case values in file_priorities were faulty (old state?)
+        # we make sure the stored options are in sync
+        self.options["file_priorities"] = self.handle.file_priorities()
 
         # Set the first/last priorities if needed
         if self.options["prioritize_first_last_pieces"]:
@@ -489,12 +491,12 @@ class Torrent(object):
             # This is an error'd torrent
             self.state = "Error"
             self.set_status_message(status.error)
-            if self.handle_is_paused:
+            if handle_is_paused:
                 self.handle.auto_managed(False)
             return
 
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            if self.handle_is_paused:
+            if handle_is_paused:
                 self.state = "Paused"
             else:
                 self.state = "Checking"
@@ -668,7 +670,7 @@ class Torrent(object):
         self.calculate_last_seen_complete()
         return self._last_seen_complete
 
-    def get_status(self, keys, diff=False):
+    def get_status(self, keys, diff=False, update=False):
         """
         Returns the status of the torrent based on the keys provided
 
@@ -677,104 +679,27 @@ class Torrent(object):
         :param diff: if True, will return a diff of the changes since the last
         call to get_status based on the session_id
         :type diff: bool
+        :param update: if True, the status will be updated from libtorrent
+        if False, the cached values will be returned
+        :type update: bool
 
         :returns: a dictionary of the status keys and their values
         :rtype: dict
 
         """
-        status = self.handle.status()
-        self.update_status(status)
-        return self.create_status_dict(keys)
-
-    def update_status(self, status):
-        self.status = status
-
-        if self.torrent_info is None and self.has_metadata():
-            self.torrent_info = self.handle.get_torrent_info()
-
-        if not self.status_funcs:
-            #if you add a key here->add it to core.py STATUS_KEYS too.
-            self.status_funcs = {
-                "active_time":            lambda: self.status.active_time,
-                "all_time_download":      lambda: self.status.all_time_download,
-                "compact":                lambda: self.options["compact_allocation"],
-                "distributed_copies":     lambda: 0.0 if self.status.distributed_copies < 0 else \
-                    self.status.distributed_copies, # Adjust status.distributed_copies to return a non-negative value
-                "download_payload_rate":  lambda: self.status.download_payload_rate,
-                "file_priorities":        lambda: self.options["file_priorities"],
-                "hash":                   lambda: self.torrent_id,
-                "is_auto_managed":        lambda: self.options["auto_managed"],
-                "is_finished":            lambda: self.is_finished,
-                "max_connections":        lambda: self.options["max_connections"],
-                "max_download_speed":     lambda: self.options["max_download_speed"],
-                "max_upload_slots":       lambda: self.options["max_upload_slots"],
-                "max_upload_speed":       lambda: self.options["max_upload_speed"],
-                "message":                lambda: self.statusmsg,
-                "move_on_completed_path": lambda: self.options["move_completed_path"],
-                "move_on_completed":      lambda: self.options["move_completed"],
-                "move_completed_path":    lambda: self.options["move_completed_path"],
-                "move_completed":         lambda: self.options["move_completed"],
-                "next_announce":          lambda: self.status.next_announce.seconds,
-                "num_peers":              lambda: self.status.num_peers - self.status.num_seeds,
-                "num_seeds":              lambda: self.status.num_seeds,
-                "owner":                  lambda: self.owner,
-                "paused":                 lambda: self.status.paused,
-                "prioritize_first_last":  lambda: self.options["prioritize_first_last_pieces"],
-                "sequential_download":    lambda: self.options["sequential_download"],
-                "progress":               lambda: self.status.progress * 100,
-                "shared":                 lambda: self.options["shared"],
-                "remove_at_ratio":        lambda: self.options["remove_at_ratio"],
-                "save_path":              lambda: self.options["download_location"],
-                "seeding_time":           lambda: self.status.seeding_time,
-                "seeds_peers_ratio":      lambda: -1.0 if self.status.num_incomplete == 0 else \
-                    self.status.num_complete / float(self.status.num_incomplete), # Use -1.0 to signify infinity
-                "seed_rank":              lambda: self.status.seed_rank,
-                "state":                  lambda: self.state,
-                "stop_at_ratio":          lambda: self.options["stop_at_ratio"],
-                "stop_ratio":             lambda: self.options["stop_ratio"],
-                "time_added":             lambda: self.time_added,
-                "total_done":             lambda: self.status.total_done,
-                "total_payload_download": lambda: self.status.total_payload_download,
-                "total_payload_upload":   lambda: self.status.total_payload_upload,
-                "total_peers":            lambda: self.status.num_incomplete,
-                "total_seeds":            lambda: self.status.num_complete,
-                "total_uploaded":         lambda: self.status.all_time_upload,
-                "total_wanted":           lambda: self.status.total_wanted,
-                "tracker":                lambda: self.status.current_tracker,
-                "trackers":               lambda: self.trackers,
-                "tracker_status":         lambda: self.tracker_status,
-                "upload_payload_rate":    lambda: self.status.upload_payload_rate,
-                "eta":                    self.get_eta,
-                "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
-                "files":                  self.get_files,
-                "is_seed":                self.handle.is_seed,
-                "peers":                  self.get_peers,
-                "queue":                  self.handle.queue_position,
-                "ratio":                  self.get_ratio,
-                "tracker_host":           self.get_tracker_host,
-                "last_seen_complete":     self.get_last_seen_complete,
-                "comment":                self.ti_comment,
-                "name":                   self.ti_name,
-                "num_files":              self.ti_num_files,
-                "num_pieces":             self.ti_num_pieces,
-                "pieces":                 self.ti_pieces_info,
-                "piece_length":           self.ti_piece_length,
-                "private":                self.ti_priv,
-                "total_size":             self.ti_total_size,
-                }
-
-    def create_status_dict(self, keys, diff=False):
-        # Create the desired status dictionary and return it
-        status_dict = {}
+        if update:
+            self.update_status(self.handle.status())
 
         if not keys:
             keys = self.status_funcs.keys()
 
+        status_dict = {}
+
         for key in keys:
             status_dict[key] = self.status_funcs[key]()
 
-        session_id = self.rpcserver.get_session_id()
         if diff:
+            session_id = self.rpcserver.get_session_id()
             if session_id in self.prev_status:
                 # We have a previous status dict, so lets make a diff
                 status_diff = {}
@@ -792,6 +717,93 @@ class Torrent(object):
             return status_dict
 
         return status_dict
+
+    def update_status(self, status):
+        """
+        Updates the cached status.
+
+        :param status: a libtorrent status
+        :type status: libtorrent.torrent_status
+
+        """
+        #import datetime
+        #print datetime.datetime.now().strftime("%H:%M:%S.%f"),
+        #print " update_status"
+        self.status = status
+
+        if self.torrent_info is None and self.has_metadata():
+            self.torrent_info = self.handle.get_torrent_info()
+
+    def _create_status_funcs(self):
+        #if you add a key here->add it to core.py STATUS_KEYS too.
+        self.status_funcs = {
+            "active_time":            lambda: self.status.active_time,
+            "all_time_download":      lambda: self.status.all_time_download,
+            "compact":                lambda: self.options["compact_allocation"],
+            "distributed_copies":     lambda: 0.0 if self.status.distributed_copies < 0 else \
+                self.status.distributed_copies, # Adjust status.distributed_copies to return a non-negative value
+            "download_payload_rate":  lambda: self.status.download_payload_rate,
+            "file_priorities":        lambda: self.options["file_priorities"],
+            "hash":                   lambda: self.torrent_id,
+            "is_auto_managed":        lambda: self.options["auto_managed"],
+            "is_finished":            lambda: self.is_finished,
+            "max_connections":        lambda: self.options["max_connections"],
+            "max_download_speed":     lambda: self.options["max_download_speed"],
+            "max_upload_slots":       lambda: self.options["max_upload_slots"],
+            "max_upload_speed":       lambda: self.options["max_upload_speed"],
+            "message":                lambda: self.statusmsg,
+            "move_on_completed_path": lambda: self.options["move_completed_path"],
+            "move_on_completed":      lambda: self.options["move_completed"],
+            "move_completed_path":    lambda: self.options["move_completed_path"],
+            "move_completed":         lambda: self.options["move_completed"],
+            "next_announce":          lambda: self.status.next_announce.seconds,
+            "num_peers":              lambda: self.status.num_peers - self.status.num_seeds,
+            "num_seeds":              lambda: self.status.num_seeds,
+            "owner":                  lambda: self.owner,
+            "paused":                 lambda: self.status.paused,
+            "prioritize_first_last":  lambda: self.options["prioritize_first_last_pieces"],
+            "sequential_download":    lambda: self.options["sequential_download"],
+            "progress":               lambda: self.status.progress * 100,
+            "shared":                 lambda: self.options["shared"],
+            "remove_at_ratio":        lambda: self.options["remove_at_ratio"],
+            "save_path":              lambda: self.options["download_location"],
+            "seeding_time":           lambda: self.status.seeding_time,
+            "seeds_peers_ratio":      lambda: -1.0 if self.status.num_incomplete == 0 else \
+                self.status.num_complete / float(self.status.num_incomplete), # Use -1.0 to signify infinity
+            "seed_rank":              lambda: self.status.seed_rank,
+            "state":                  lambda: self.state,
+            "stop_at_ratio":          lambda: self.options["stop_at_ratio"],
+            "stop_ratio":             lambda: self.options["stop_ratio"],
+            "time_added":             lambda: self.time_added,
+            "total_done":             lambda: self.status.total_done,
+            "total_payload_download": lambda: self.status.total_payload_download,
+            "total_payload_upload":   lambda: self.status.total_payload_upload,
+            "total_peers":            lambda: self.status.num_incomplete,
+            "total_seeds":            lambda: self.status.num_complete,
+            "total_uploaded":         lambda: self.status.all_time_upload,
+            "total_wanted":           lambda: self.status.total_wanted,
+            "tracker":                lambda: self.status.current_tracker,
+            "trackers":               lambda: self.trackers,
+            "tracker_status":         lambda: self.tracker_status,
+            "upload_payload_rate":    lambda: self.status.upload_payload_rate,
+            "eta":                    self.get_eta,
+            "file_progress":          self.get_file_progress, # Adjust progress to be 0-100 value
+            "files":                  self.get_files,
+            "is_seed":                self.handle.is_seed,
+            "peers":                  self.get_peers,
+            "queue":                  self.handle.queue_position,
+            "ratio":                  self.get_ratio,
+            "tracker_host":           self.get_tracker_host,
+            "last_seen_complete":     self.get_last_seen_complete,
+            "comment":                self.ti_comment,
+            "name":                   self.ti_name,
+            "num_files":              self.ti_num_files,
+            "num_pieces":             self.ti_num_pieces,
+            "pieces":                 self.ti_pieces_info,
+            "piece_length":           self.ti_piece_length,
+            "private":                self.ti_priv,
+            "total_size":             self.ti_total_size,
+            }
 
     def ti_comment(self):
         if self.has_metadata():

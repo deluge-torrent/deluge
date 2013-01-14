@@ -47,10 +47,8 @@ class SessionProxy(component.Component):
     The SessionProxy component is used to cache session information client-side
     to reduce the number of RPCs needed to provide a rich user interface.
 
-    On start-up it will query the Core for a full status of all the torrents in
-    the session.  After that point, it will query the Core for only changes in
-    the status of the torrents and will try to satisfy client requests from the
-    cache.
+    It will query the Core for only changes in the status of the torrents
+    and will try to satisfy client requests from the cache.
 
     """
     def __init__(self):
@@ -78,21 +76,6 @@ class SessionProxy(component.Component):
                 # so that upcoming queries or status updates don't throw errors.
                 self.torrents.setdefault(torrent_id, [time.time(), {}])
                 self.cache_times.setdefault(torrent_id, {})
-            # These initial keys are the ones used for the visible columns(by
-            # default) on the GTK UI torrent view. If either the console-ui
-            # or the web-ui needs additional keys, add them here;
-            # There's NO need to fetch every bit of status information from
-            # core if it's not going to be used. Additional status fields
-            # will be queried later, for example, when viewing the status tab
-            # of a torrent.
-            #inital_keys = [
-            #    'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
-            #    'download_payload_rate', 'upload_payload_rate', 'eta', 'owner'
-            #]
-
-            #The the torrents status will be requested by torrentview, so this
-            #only causes a second request for the same data withing a few miliseconds
-            #self.get_torrents_status({'id': torrent_ids}, inital_keys)
         return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):

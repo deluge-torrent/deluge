@@ -106,14 +106,14 @@ def tracker_error_filter(torrent_ids, values):
     # If this is a tracker_host, then we need to filter on it
     if values[0] != "Error":
         for torrent_id in torrent_ids:
-            if values[0] == tm[torrent_id].create_status_dict(["tracker_host"])["tracker_host"]:
+            if values[0] == tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
                 filtered_torrent_ids.append(torrent_id)
         return filtered_torrent_ids
 
     # Check all the torrent's tracker_status for 'Error:' and only return torrent_ids
     # that have this substring in their tracker_status
     for torrent_id in torrent_ids:
-        if _("Error") + ":" in tm[torrent_id].create_status_dict(["tracker_host"])["tracker_host"]:
+        if _("Error") + ":" in tm[torrent_id].get_status(["tracker_host"])["tracker_host"]:
             filtered_torrent_ids.append(torrent_id)
     return filtered_torrent_ids
 
@@ -192,7 +192,7 @@ class FilterManager(component.Component):
         #leftover filter arguments:
         #default filter on status fields.
         for torrent_id in list(torrent_ids):
-            status = self.torrents[torrent_id].create_status_dict(filter_dict.keys()) #status={key:value}
+            status = self.torrents[torrent_id].get_status(filter_dict.keys()) #status={key:value}
             for field, values in filter_dict.iteritems():
                 if (not status[field] in values) and torrent_id in torrent_ids:
                     torrent_ids.remove(torrent_id)
@@ -213,7 +213,7 @@ class FilterManager(component.Component):
         items = dict((field, self.tree_fields[field]()) for field in tree_keys)
 
         for torrent_id in list(torrent_ids):
-            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys, update=False) #status={key:value}
+            status = self.core.create_torrent_status(torrent_id, torrent_keys, plugin_keys) #status={key:value}
             for field in tree_keys:
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
@@ -261,7 +261,7 @@ class FilterManager(component.Component):
 
     def filter_state_active(self, torrent_ids):
         for torrent_id in list(torrent_ids):
-            status = self.torrents[torrent_id].create_status_dict(["download_payload_rate", "upload_payload_rate"])
+            status = self.torrents[torrent_id].get_status(["download_payload_rate", "upload_payload_rate"])
             if status["download_payload_rate"] or status["upload_payload_rate"]:
                 pass #ok
             else:
