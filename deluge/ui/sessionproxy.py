@@ -85,11 +85,14 @@ class SessionProxy(component.Component):
             # core if it's not going to be used. Additional status fields
             # will be queried later, for example, when viewing the status tab
             # of a torrent.
-            inital_keys = [
-                'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
-                'download_payload_rate', 'upload_payload_rate', 'eta', 'owner'
-            ]
-            self.get_torrents_status({'id': torrent_ids}, inital_keys)
+            #inital_keys = [
+            #    'queue', 'state', 'name', 'total_wanted', 'progress', 'state',
+            #    'download_payload_rate', 'upload_payload_rate', 'eta', 'owner'
+            #]
+
+            #The the torrents status will be requested by torrentview, so this
+            #only causes a second request for the same data withing a few miliseconds
+            #self.get_torrents_status({'id': torrent_ids}, inital_keys)
         return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):

@@ -66,12 +66,12 @@ class AlertManager(component.Component):
 
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
-
         self.delayed_calls = []
+        self.wait_on_handler = False
 
     def update(self):
         self.delayed_calls = [dc for dc in self.delayed_calls if dc.active()]
-        self.handle_alerts()
+        self.handle_alerts(wait=self.wait_on_handler)
 
     def stop(self):
         for dc in self.delayed_calls:
@@ -122,7 +122,8 @@ class AlertManager(component.Component):
         while alert is not None:
             alert_type = type(alert).__name__
             # Display the alert message
-            log.debug("%s: %s", alert_type, alert.message())
+            if log.isEnabledFor(logging.DEBUG):
+                log.debug("%s: %s", alert_type, alert.message())
             # Call any handlers for this alert type
             if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
