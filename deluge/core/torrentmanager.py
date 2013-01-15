@@ -1158,9 +1158,8 @@ class TorrentManager(component.Component):
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
             if not torrent_id in self.torrents:
-                # This happens sometimes, but why? Unfixed bug?
-                # Without this test it gives a KeyError.
-                print "Missing torrent id:", torrent_id
+                # The torrent_id does not exist in the dict.
+                # Could be the clients cache (sessionproxy) isn't up to speed.
                 del status_dict[torrent_id]
             else:
                 status_dict[torrent_id] = self.torrents[torrent_id].get_status(torrent_keys, diff)
