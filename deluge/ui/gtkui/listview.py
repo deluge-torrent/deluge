@@ -238,6 +238,8 @@ class ListView:
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
         self.model_filter = gtk.TreeModelSort(model_filter)
+        self.model_filter.connect("sort-column-changed", self.on_model_sort_changed)
+        self.model_filter.connect("row-inserted", self.on_model_row_inserted)
         self.treeview.set_model(self.model_filter)
         self.set_sort_functions()
         self.set_model_sort()
@@ -488,10 +490,11 @@ class ListView:
 
         # Create a new liststore
         self.create_new_liststore()
+        # Create new model for the treeview
+        self.create_model_filter()
 
         # Re-create the menu
         self.create_checklist_menu()
-
         return
 
     def add_column(self, header, render, col_types, hidden, position,
@@ -529,6 +532,10 @@ class ListView:
 
         # Create a new list with the added column
         self.create_new_liststore()
+
+        # Happens only on columns added after the torrent list has been loaded
+        if self.model_filter:
+            self.create_model_filter()
 
         column = self.TreeviewColumn(header)
 
