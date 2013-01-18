@@ -65,11 +65,11 @@ class SessionProxy(component.Component):
         # Holds the time of the last key update.. {torrent_id: {key1, time, ...}, ...}
         self.cache_times = {}
 
+    def start(self):
         client.register_event_handler("TorrentStateChangedEvent", self.on_torrent_state_changed)
         client.register_event_handler("TorrentRemovedEvent", self.on_torrent_removed)
         client.register_event_handler("TorrentAddedEvent", self.on_torrent_added)
 
-    def start(self):
         def on_torrent_status(status):
             # Save the time we got the torrent status
             t = time.time()
