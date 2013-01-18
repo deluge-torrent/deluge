@@ -55,7 +55,7 @@ from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent
 from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
-from deluge.common import utf8_encoded
+from deluge.common import utf8_encoded, decode_string
 
 log = logging.getLogger(__name__)
 
@@ -948,15 +948,14 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_tracker_reply(self, alert):
-        log.debug("on_alert_tracker_reply: %s", alert.message().decode("utf8"))
+        log.debug("on_alert_tracker_reply: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
 
         # Set the tracker status for the torrent
-        if alert.message() != "Got peers from DHT":
-            torrent.set_tracker_status(_("Announce OK"))
+        torrent.set_tracker_status(_("Announce OK"))
 
         # Check to see if we got any peer information from the tracker
         if alert.handle.status().num_complete == -1 or \
@@ -980,7 +979,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        tracker_status = '%s: %s' % (_("Warning"), str(alert.message()))
+        tracker_status = '%s: %s' % (_("Warning"), decode_string(alert.message()))
         # Set the tracker status for the torrent
         torrent.set_tracker_status(tracker_status)
 
@@ -990,7 +989,7 @@ class TorrentManager(component.Component):
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
             return
-        tracker_status = "%s: %s" % (_("Error"), alert.msg)
+        tracker_status = "%s: %s" % (_("Error"), decode_string(alert.msg))
         torrent.set_tracker_status(tracker_status)
 
     def on_alert_storage_moved(self, alert):
@@ -1048,11 +1047,11 @@ class TorrentManager(component.Component):
             self.waiting_on_resume_data[torrent_id].callback(None)
 
     def on_alert_save_resume_data_failed(self, alert):
-        log.debug("on_alert_save_resume_data_failed: %s", alert.message())
+        log.debug("on_alert_save_resume_data_failed: %s", decode_string(alert.message()))
         torrent_id = str(alert.handle.info_hash())
 
         if torrent_id in self.waiting_on_resume_data:
-            self.waiting_on_resume_data[torrent_id].errback(Exception(alert.message()))
+            self.waiting_on_resume_data[torrent_id].errback(Exception(decode_string(alert.message())))
 
     def on_alert_file_renamed(self, alert):
         log.debug("on_alert_file_renamed")
@@ -1082,7 +1081,7 @@ class TorrentManager(component.Component):
         torrent.write_torrentfile()
 
     def on_alert_file_error(self, alert):
-        log.debug("on_alert_file_error: %s", alert.message())
+        log.debug("on_alert_file_error: %s", decode_string(alert.message()))
         try:
             torrent = self.torrents[str(alert.handle.info_hash())]
         except:
@@ -1090,7 +1089,7 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def on_alert_file_completed(self, alert):
-        log.debug("file_completed_alert: %s", alert.message())
+        log.debug("file_completed_alert: %s", decode_string(alert.message()))
         try:
             torrent_id = str(alert.handle.info_hash())
         except:

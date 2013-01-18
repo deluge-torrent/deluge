@@ -46,6 +46,7 @@ from twisted.internet import reactor
 
 import deluge.component as component
 from deluge._libtorrent import lt
+from deluge.common import decode_string
 
 log = logging.getLogger(__name__)
 
@@ -122,7 +123,7 @@ class AlertManager(component.Component):
         while alert is not None:
             alert_type = type(alert).__name__
             # Display the alert message
-            log.debug("%s: %s", alert_type, alert.message())
+            log.debug("%s: %s", alert_type, decode_string(alert.message()))
             # Call any handlers for this alert type
             if alert_type in self.handlers:
                 for handler in self.handlers[alert_type]:
