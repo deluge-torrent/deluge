@@ -376,7 +376,8 @@ class TorrentManager(component.Component):
                 resume_data = self.legacy_get_resume_data_from_file(state.torrent_id)
                 self.legacy_delete_resume_data(state.torrent_id)
 
-            add_torrent_params["resume_data"] = resume_data
+            if resume_data:
+                add_torrent_params["resume_data"] = resume_data
         else:
             # We have a torrent_info object or magnet uri so we're not loading from state.
             if torrent_info:
@@ -431,7 +432,6 @@ class TorrentManager(component.Component):
                         torrent_info.rename_file(index, fname.encode("utf-8"))
 
             add_torrent_params["ti"] = torrent_info
-            add_torrent_params["resume_data"] = ""
 
         #log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
