@@ -690,8 +690,7 @@ class AddTorrentDialog(component.Component):
 
         # Create a tmp file path
         import tempfile
-        import os.path
-        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
+        (tmp_handle, tmp_file) = tempfile.mkstemp()
 
         def on_part(data, current_length, total_length):
             if total_length:

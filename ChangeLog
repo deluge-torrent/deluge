@@ -104,6 +104,7 @@
 	* Fix the Open Folder option not working with non-ascii paths
 	* Fix the daemon starting with config dir containing spaces
 	* Fix Windows tray submenu items requiring right-click instead of left-click
+	* Fix issue with adding some torrents with illegal characters via url in gtk client
 
 ==== OS X ====
 	* Fix Open File/Folder option
