@@ -101,8 +101,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">•</property>
-                    <property name="truncate_multiline">True</property>
                     <property name="activates_default">True</property>
+                    <property name="truncate_multiline">True</property>
                     <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
@@ -138,10 +138,12 @@
                 <property name="width_chars">5</property>
                 <property name="xalign">1</property>
                 <property name="invisible_char_set">True</property>
+                <property name="progress_pulse_step">1</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
+                <property name="adjustment">adjustment_port</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
               </object>
@@ -254,5 +256,11 @@
       <action-widget response="1">button_addhost_add</action-widget>
       <action-widget response="2">button_addhost_save</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_port">
+    <property name="upper">65535</property>
+    <property name="value">58846</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
 </interface>
