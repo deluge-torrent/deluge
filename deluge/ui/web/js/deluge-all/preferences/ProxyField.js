@@ -1,6 +1,6 @@
 /*!
  * Deluge.preferences.ProxyField.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -58,19 +58,23 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
                     [3, _('Socksv5 with Auth')],
                     [4, _('HTTP')],
                     [5, _('HTTP with Auth')]
-                ]       
-            }),    
+                ]
+            }),
             editable: false,
             triggerAction: 'all',
             valueField: 'id',
             displayField: 'text'
         });
+        this.proxyType.on('change', this.onFieldChange, this);
+        this.proxyType.on('select', this.onTypeSelect, this);
+
         this.hostname = this.add({
             xtype: 'textfield',
             name: 'hostname',
             fieldLabel: _('Host'),
             width: 220
         });
+        this.hostname.on('change', this.onFieldChange, this);
 
         this.port = this.add({
             xtype: 'spinnerfield',
@@ -81,6 +85,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             minValue: -1,
             maxValue: 99999
         });
+        this.port.on('change', this.onFieldChange, this);
 
        this.username = this.add({
             xtype: 'textfield',
@@ -88,6 +93,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             fieldLabel: _('Username'),
             width: 220
         });
+        this.username.on('change', this.onFieldChange, this);
 
         this.password = this.add({
             xtype: 'textfield',
@@ -96,9 +102,8 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             inputType: 'password',
             width: 220
         });
+        this.password.on('change', this.onFieldChange, this);
 
-        this.proxyType.on('change', this.onFieldChange, this);
-        this.proxyType.on('select', this.onTypeSelect, this);
         this.setting = false;
     },
 
