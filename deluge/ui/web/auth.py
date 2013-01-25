@@ -322,4 +322,5 @@ class Auth(JSONComponent):
         if self.check_password(password):
             return self._create_session(__request__)
         else:
+            log.error('Login failed (ClientIP %s)', __request__.getClientIP())
             return False
