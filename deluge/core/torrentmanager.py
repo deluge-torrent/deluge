@@ -1127,14 +1127,14 @@ class TorrentManager(component.Component):
         """Separates the input keys into keys for the Torrent class
         and keys for plugins.
         """
-        if not self.torrents:
-            return [], []
-        for torrent_id in torrent_ids:
-            if torrent_id in self.torrents:
-                status_keys = self.torrents[torrent_id].status_funcs.keys()
-                leftover_keys = list(set(keys) - set(status_keys))
-                torrent_keys = list(set(keys) - set(leftover_keys))
-                return torrent_keys, leftover_keys
+        if self.torrents:
+            for torrent_id in torrent_ids:
+                if torrent_id in self.torrents:
+                    status_keys = self.torrents[torrent_id].status_funcs.keys()
+                    leftover_keys = list(set(keys) - set(status_keys))
+                    torrent_keys = list(set(keys) - set(leftover_keys))
+                    return torrent_keys, leftover_keys
+        return [], []
 
     def on_alert_state_update(self, alert):
         log.debug("on_status_notification: %s", alert.message())
