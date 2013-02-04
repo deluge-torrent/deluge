@@ -42,6 +42,11 @@ import gtk
 import logging
 import urllib
 
+try:
+    import wnck
+except ImportError:
+    wnck = None
+
 from deluge.ui.client import client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -76,6 +81,8 @@ class _GtkBuilderSignalsHolder(object):
 
 class MainWindow(component.Component):
     def __init__(self):
+        if wnck:
+            self.screen = wnck.screen_get_default()
         component.Component.__init__(self, "MainWindow", interval=2)
         self.config = ConfigManager("gtkui.conf")
         self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
@@ -167,7 +174,6 @@ class MainWindow(component.Component):
             component.resume("TorrentDetails")
         except:
             pass
-
         self.window.show()
 
 
@@ -324,3 +330,11 @@ class MainWindow(component.Component):
     def on_torrentfinished_event(self, torrent_id):
         from deluge.ui.gtkui.notification import Notification
         Notification().notify(torrent_id)
+
+    def is_on_active_workspace(self):
+        # Returns True if mainwindow is on active workspace or wnck module not available
+        if not wnck:
+            return True
+        for win in self.screen.get_windows():
+            if win.get_xid() == self.window.window.xid:
+                return win.is_on_workspace(win.get_screen().get_active_workspace())

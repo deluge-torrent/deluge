@@ -180,7 +180,11 @@ class AddTorrentDialog(component.Component):
             self.builder.get_object("button_move_completed_location").hide()
             self.builder.get_object("entry_move_completed_path").show()
 
-        self.dialog.set_transient_for(component.get("MainWindow").window)
+        if component.get("MainWindow").is_on_active_workspace():
+            self.dialog.set_transient_for(component.get("MainWindow").window)
+        else:
+            self.dialog.set_transient_for(None)
+
         self.dialog.present()
         if focus:
             self.dialog.window.focus()
