@@ -239,7 +239,7 @@ class GtkUiNotifications(CustomNotifications):
         log.debug("Handler for TorrentFinishedEvent GTKUI called. "
                   "Got Torrent Status")
         title = _("Finished Torrent")
-        message = _("The torrent \"%(name)s\" including %(num_files)i "
+        message = _("The torrent \"%(name)s\" including %(num_files)i file(s) "
                     "has finished downloading.") % torrent_status
         return title, message
 
