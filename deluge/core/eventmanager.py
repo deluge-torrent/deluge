@@ -55,8 +55,8 @@ class EventManager(component.Component):
                 #log.debug("Running handler %s for event %s with args: %s", event.name, handler, event.args)
                 try:
                     handler(*event.args)
-                except:
-                    log.error("Event handler %s failed in %s", event.name, handler)
+                except Exception, e:
+                    log.error("Event handler %s failed in %s with exception %s", event.name, handler, e)
 
     def register_event_handler(self, event, handler):
         """
