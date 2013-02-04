@@ -169,7 +169,11 @@ class AddTorrentDialog(component.Component):
             self.glade.get_widget("button_move_completed_location").hide()
             self.glade.get_widget("entry_move_completed_path").show()
 
-        self.dialog.set_transient_for(component.get("MainWindow").window)
+        if component.get("MainWindow").is_on_active_workspace():
+            self.dialog.set_transient_for(component.get("MainWindow").window)
+        else:
+            self.dialog.set_transient_for(None)
+
         self.dialog.present()
         if focus:
             self.dialog.window.focus()
