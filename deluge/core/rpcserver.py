@@ -465,7 +465,7 @@ class RPCServer(component.Component):
         """
         log.debug("intevents: %s", self.factory.interested_events)
         # Find sessions interested in this event
-        for session_id, interest in self.factory.interested_events.iteritems():
+        for session_id, interest in self.factory.interested_events.items():
             if event.name in interest:
                 log.debug("Emit Event: %s %s", event.name, event.args)
                 # This session is interested so send a RPC_EVENT
